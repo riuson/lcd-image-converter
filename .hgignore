@@ -1,0 +1,14 @@
+_linux/
+_windows/
+.moc/
+.uic/
+.obj/
+Makefile.*
+Makefile
+.user
+qrc_*
+moc_*
+.user/
+.Debug
+.Release
+
