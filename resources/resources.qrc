@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/images">
+        <file alias="winter">winter.jpg</file>
+        <file alias="template">template.png</file>
+    </qresource>
+</RCC>
