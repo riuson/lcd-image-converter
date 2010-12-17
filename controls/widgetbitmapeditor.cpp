@@ -90,6 +90,8 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
                 QPainter painterOriginal(this->mImageOriginal);
                 painterOriginal.setPen(color);
                 painterOriginal.drawPoint(xreal, yreal);
+
+                emit this->dataChanged();
             }
         }
         event->accept();

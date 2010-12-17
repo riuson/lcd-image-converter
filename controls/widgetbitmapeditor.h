@@ -36,6 +36,8 @@ private slots:
     void on_spinBoxScale_valueChanged(int value);
     void on_pushButtonColor1_clicked();
     void on_pushButtonColor2_clicked();
+signals:
+    void dataChanged();
 };
 //-----------------------------------------------------------------------------
 #endif // WIDGETBITMAPEDITOR_H

@@ -18,7 +18,10 @@ protected:
 
 private:
     Ui::MainWindow *ui;
+    QString findAvailableName(const QString &prefix);
+
 private slots:
+    void on_tabWidget_tabCloseRequested(int index);
     void on_actionNew_Image_triggered();
 };
 //-----------------------------------------------------------------------------

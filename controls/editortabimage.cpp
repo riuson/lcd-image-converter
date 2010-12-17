@@ -18,8 +18,14 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
     this->mEditor = new WidgetBitmapEditor(this);
     layout->addWidget(this->mEditor);
 
-    BitmapContainer *b = new BitmapContainer(this);
-    this->mEditor->assignImage(b->image());
+    this->mContainer = new BitmapContainer(this);
+    this->mEditor->assignImage(this->mContainer->image());
+
+    this->connect(this->mEditor, SIGNAL(dataChanged()), SLOT(onDataChanged()));
+
+    this->mDocumentName = tr("Image", "new image name");
+    this->mFileName = "";
+    this->mDataChanged = false;
 }
 //-----------------------------------------------------------------------------
 EditorTabImage::~EditorTabImage()
@@ -37,5 +43,38 @@ void EditorTabImage::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::onDataChanged()
+{
+    this->mDataChanged = true;
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::load(const QString &fileName)
+{
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::save(const QString &fileName)
+{
+}
+//-----------------------------------------------------------------------------
+bool EditorTabImage::changed()
+{
+    return this->mDataChanged;
+}
+//-----------------------------------------------------------------------------
+QString EditorTabImage::fileName()
+{
+    return this->mFileName;
+}
+//-----------------------------------------------------------------------------
+QString EditorTabImage::documentName()
+{
+    return this->mDocumentName;
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::setDocumentName(const QString &value)
+{
+    this->mDocumentName = value;
 }
 //-----------------------------------------------------------------------------

@@ -28,11 +28,11 @@ SOURCES += main.cpp \
     controls/editortabfont.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
-    interfaces/iedit.h \
     controls/mainwindow.h \
     controls/widgetbitmapeditor.h \
     controls/editortabimage.h \
-    controls/editortabfont.h
+    controls/editortabfont.h \
+    interfaces/idocument.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
