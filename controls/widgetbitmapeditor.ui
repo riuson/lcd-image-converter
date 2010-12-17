@@ -58,12 +58,16 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="labelCoordinates">
+      <widget class="QPushButton" name="pushButtonColor1">
        <property name="text">
-        <string>x, y</string>
+        <string>Color 1</string>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonColor2">
+       <property name="text">
+        <string>Color 2</string>
        </property>
       </widget>
      </item>
@@ -79,6 +83,16 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelCoordinates">
+       <property name="text">
+        <string>x, y</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

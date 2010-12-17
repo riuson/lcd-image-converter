@@ -25,11 +25,17 @@ private:
     QImage *mImageOriginal;
     QPixmap mPixmapScaled;
     quint32 mScale;
+    QColor mColor1;
+    QColor mColor2;
+    QPixmap mPixmapColor1;
+    QPixmap mPixmapColor2;
 
     void createImageScaled(quint32 scale);
     void updateState();
 private slots:
     void on_spinBoxScale_valueChanged(int value);
+    void on_pushButtonColor1_clicked();
+    void on_pushButtonColor2_clicked();
 };
 //-----------------------------------------------------------------------------
 #endif // WIDGETBITMAPEDITOR_H

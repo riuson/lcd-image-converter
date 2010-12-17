@@ -2,6 +2,7 @@
 #include "ui_widgetbitmapeditor.h"
 
 #include <QMouseEvent>
+#include <QColorDialog>
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
     QWidget(parent),
@@ -12,6 +13,16 @@ WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
     this->mScale = 10;
     this->ui->spinBoxScale->setValue(this->mScale);
     this->ui->label->installEventFilter(this);
+
+    this->mColor1 = QColor("black");
+    this->mColor2 = QColor("white");
+
+    this->mPixmapColor1 = QPixmap(16, 16);
+    this->mPixmapColor2 = QPixmap(16, 16);
+    this->mPixmapColor1.fill(this->mColor1);
+    this->mPixmapColor2.fill(this->mColor2);
+    this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
+    this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
 }
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::~WidgetBitmapEditor()
@@ -75,5 +86,27 @@ void WidgetBitmapEditor::on_spinBoxScale_valueChanged(int value)
 {
     this->mScale = value;
     this->createImageScaled(this->mScale);
+}
+//-----------------------------------------------------------------------------
+void WidgetBitmapEditor::on_pushButtonColor1_clicked()
+{
+    QColorDialog dialog(this->mColor1, this);
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        this->mColor1 = dialog.selectedColor();
+        this->mPixmapColor1.fill(this->mColor1);
+        this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
+    }
+}
+//-----------------------------------------------------------------------------
+void WidgetBitmapEditor::on_pushButtonColor2_clicked()
+{
+    QColorDialog dialog(this->mColor2, this);
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        this->mColor2 = dialog.selectedColor();
+        this->mPixmapColor2.fill(this->mColor2);
+        this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
+    }
 }
 //-----------------------------------------------------------------------------
