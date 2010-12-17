@@ -1,5 +1,7 @@
 #include "widgetbitmapeditor.h"
 #include "ui_widgetbitmapeditor.h"
+
+#include <QMouseEvent>
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
     QWidget(parent),
@@ -9,6 +11,7 @@ WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
     this->mImageOriginal = NULL;
     this->mScale = 10;
     this->ui->spinBoxScale->setValue(this->mScale);
+    this->ui->label->installEventFilter(this);
 }
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::~WidgetBitmapEditor()
@@ -26,6 +29,26 @@ void WidgetBitmapEditor::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+//-----------------------------------------------------------------------------
+bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
+{
+    bool result = false;
+    if (event->type() == QEvent::MouseMove)
+    {
+        QMouseEvent *me = dynamic_cast<QMouseEvent *>(event);
+        quint32 xscaled = me->pos().x();
+        quint32 yscaled = me->pos().y();
+        quint32 xreal = xscaled / this->mScale;
+        quint32 yreal = yscaled / this->mScale;
+        this->ui->labelCoordinates->setText(QString("%1,%2").arg(xreal).arg(yreal));
+        event->accept();
+    }
+    else
+    {
+        result = QObject::eventFilter(obj, event);
+    }
+    return result;
 }
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::assignImage(QImage *image)

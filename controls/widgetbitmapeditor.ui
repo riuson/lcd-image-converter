@@ -22,6 +22,9 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
      <property name="text">
       <string>TextLabel</string>
      </property>
@@ -51,6 +54,16 @@
        </property>
        <property name="maximum">
         <number>20</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelCoordinates">
+       <property name="text">
+        <string>x, y</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
