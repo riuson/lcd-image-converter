@@ -1,5 +1,8 @@
 #include "widgetbitmapeditor.h"
 #include "ui_widgetbitmapeditor.h"
+
+#define MIN_SCALE 1
+#define MAX_SCALE 20
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
     QWidget(parent),
@@ -8,6 +11,7 @@ WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
     ui->setupUi(this);
     this->mImageOriginal = NULL;
     this->mScale = 10;
+    this->updateState();
 }
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::~WidgetBitmapEditor()
@@ -32,6 +36,7 @@ void WidgetBitmapEditor::assignImage(QImage *image)
     this->ui->label->setPixmap(NULL);
     this->mImageOriginal = image;
     this->createImageScaled(this->mScale);
+    this->updateState();
 }
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::createImageScaled(quint32 scale)
@@ -45,5 +50,28 @@ void WidgetBitmapEditor::createImageScaled(quint32 scale)
         this->mPixmapScaled = QPixmap::fromImage(scaled);
         this->ui->label->setPixmap(this->mPixmapScaled);
     }
+}
+//-----------------------------------------------------------------------------
+void WidgetBitmapEditor::updateState()
+{
+    this->ui->pushButtonMinus->setEnabled(this->mScale > MIN_SCALE);
+    this->ui->pushButtonPlus->setEnabled(this->mScale < MAX_SCALE);
+    this->ui->labelScale->setText(tr("Scale: %1").arg(this->mScale));
+}
+//-----------------------------------------------------------------------------
+void WidgetBitmapEditor::on_pushButtonPlus_clicked()
+{
+    if (this->mScale < MAX_SCALE)
+        this->mScale++;
+    this->createImageScaled(this->mScale);
+    this->updateState();
+}
+//-----------------------------------------------------------------------------
+void WidgetBitmapEditor::on_pushButtonMinus_clicked()
+{
+    if (this->mScale > MIN_SCALE)
+        this->mScale--;
+    this->createImageScaled(this->mScale);
+    this->updateState();
 }
 //-----------------------------------------------------------------------------

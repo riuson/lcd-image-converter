@@ -26,6 +26,10 @@ private:
     quint32 mScale;
 
     void createImageScaled(quint32 scale);
+    void updateState();
+private slots:
+    void on_pushButtonPlus_clicked();
+    void on_pushButtonMinus_clicked();
 };
 //-----------------------------------------------------------------------------
 #endif // WIDGETBITMAPEDITOR_H

@@ -43,6 +43,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="labelScale">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="pushButtonMinus">
        <property name="text">
         <string>-</string>
