@@ -28,8 +28,7 @@ private:
     void createImageScaled(quint32 scale);
     void updateState();
 private slots:
-    void on_pushButtonPlus_clicked();
-    void on_pushButtonMinus_clicked();
+    void on_spinBoxScale_valueChanged(int value);
 };
 //-----------------------------------------------------------------------------
 #endif // WIDGETBITMAPEDITOR_H
