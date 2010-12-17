@@ -3,6 +3,7 @@
 
 #include <QMouseEvent>
 #include <QColorDialog>
+#include <QPainter>
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
     QWidget(parent),
@@ -48,11 +49,47 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::MouseMove)
     {
         QMouseEvent *me = dynamic_cast<QMouseEvent *>(event);
+        // get coordinates
         quint32 xscaled = me->pos().x();
         quint32 yscaled = me->pos().y();
         quint32 xreal = xscaled / this->mScale;
         quint32 yreal = yscaled / this->mScale;
+        // show coordinates
         this->ui->labelCoordinates->setText(QString("%1,%2").arg(xreal).arg(yreal));
+        // get buttons
+        bool buttonLeft = (me->buttons() & Qt::LeftButton) == Qt::LeftButton;
+        bool buttonRight = (me->buttons() & Qt::RightButton) == Qt::RightButton;
+        // draw on pixmap
+        if (buttonLeft || buttonRight)
+        {
+            QPainter painterScaled(&this->mPixmapScaled);
+            QColor color;
+            if (buttonLeft)
+                color = this->mColor1;
+            if (buttonRight)
+                color = this->mColor2;
+
+            if (this->mScale == 1)
+            {
+                painterScaled.setPen(color);
+                painterScaled.drawPoint(xscaled, yscaled);
+            }
+            else
+            {
+                painterScaled.fillRect(xreal * this->mScale,
+                                 yreal * this->mScale,
+                                 this->mScale,
+                                 this->mScale,
+                                 color);
+            }
+
+            this->ui->label->setPixmap(this->mPixmapScaled);
+
+            QPainter painterOriginal(this->mImageOriginal);
+            painterOriginal.setPen(color);
+            painterOriginal.drawPoint(xreal, yreal);
+        }
+
         event->accept();
     }
     else
