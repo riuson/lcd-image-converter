@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>LCD Image Converter</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -61,11 +61,15 @@
     <addaction name="actionSave_As"/>
     <addaction name="actionClose"/>
     <addaction name="separator"/>
+    <addaction name="actionConvert"/>
+    <addaction name="separator"/>
+    <addaction name="actionPreferences"/>
+    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
-   <widget class="QMenu" name="menuEdit">
+   <widget class="QMenu" name="menuImage">
     <property name="title">
-     <string>Edit</string>
+     <string>Image</string>
     </property>
     <addaction name="actionFlip_Horizontal"/>
     <addaction name="actionFlip_Vertical"/>
@@ -74,13 +78,31 @@
     <addaction name="actionRotate_180"/>
     <addaction name="actionRotate_90_Counter_Clockwise"/>
     <addaction name="separator"/>
-    <addaction name="actionInverse"/>
-    <addaction name="actionConvert"/>
+    <addaction name="actionResizeImage"/>
+    <addaction name="actionInverseImage"/>
     <addaction name="separator"/>
-    <addaction name="actionOptions"/>
+    <addaction name="actionImport"/>
+    <addaction name="actionExport"/>
+   </widget>
+   <widget class="QMenu" name="menuFont">
+    <property name="title">
+     <string>Font</string>
+    </property>
+    <addaction name="actionAdd_Remove_characters"/>
+    <addaction name="separator"/>
+    <addaction name="actionResizeFont"/>
+    <addaction name="actionInverseFont"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuHello"/>
-   <addaction name="menuEdit"/>
+   <addaction name="menuImage"/>
+   <addaction name="menuFont"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew_Image">
@@ -143,7 +165,7 @@
     <string>Rotate 90° Counter-Clockwise</string>
    </property>
   </action>
-  <action name="actionInverse">
+  <action name="actionInverseImage">
    <property name="text">
     <string>Inverse</string>
    </property>
@@ -153,9 +175,44 @@
     <string>Convert...</string>
    </property>
   </action>
-  <action name="actionOptions">
+  <action name="actionPreferences">
    <property name="text">
-    <string>Options...</string>
+    <string>Preferences...</string>
+   </property>
+  </action>
+  <action name="actionImport">
+   <property name="text">
+    <string>Import</string>
+   </property>
+  </action>
+  <action name="actionExport">
+   <property name="text">
+    <string>Export</string>
+   </property>
+  </action>
+  <action name="actionResizeImage">
+   <property name="text">
+    <string>Resize</string>
+   </property>
+  </action>
+  <action name="actionAdd_Remove_characters">
+   <property name="text">
+    <string>Add/Remove characters...</string>
+   </property>
+  </action>
+  <action name="actionResizeFont">
+   <property name="text">
+    <string>Resize</string>
+   </property>
+  </action>
+  <action name="actionInverseFont">
+   <property name="text">
+    <string>Inverse</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>

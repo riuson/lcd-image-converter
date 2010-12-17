@@ -54,42 +54,44 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
         quint32 yscaled = me->pos().y();
         quint32 xreal = xscaled / this->mScale;
         quint32 yreal = yscaled / this->mScale;
-        // show coordinates
-        this->ui->labelCoordinates->setText(QString("%1,%2").arg(xreal).arg(yreal));
-        // get buttons
-        bool buttonLeft = (me->buttons() & Qt::LeftButton) == Qt::LeftButton;
-        bool buttonRight = (me->buttons() & Qt::RightButton) == Qt::RightButton;
-        // draw on pixmap
-        if (buttonLeft || buttonRight)
+        if(xreal < this->mImageOriginal->width() && yreal < this->mImageOriginal->height())
         {
-            QPainter painterScaled(&this->mPixmapScaled);
-            QColor color;
-            if (buttonLeft)
-                color = this->mColor1;
-            if (buttonRight)
-                color = this->mColor2;
-
-            if (this->mScale == 1)
+            // show coordinates
+            this->ui->labelCoordinates->setText(QString("%1,%2").arg(xreal).arg(yreal));
+            // get buttons
+            bool buttonLeft = (me->buttons() & Qt::LeftButton) == Qt::LeftButton;
+            bool buttonRight = (me->buttons() & Qt::RightButton) == Qt::RightButton;
+            // draw on pixmap
+            if (buttonLeft || buttonRight)
             {
-                painterScaled.setPen(color);
-                painterScaled.drawPoint(xscaled, yscaled);
-            }
-            else
-            {
-                painterScaled.fillRect(xreal * this->mScale,
-                                 yreal * this->mScale,
-                                 this->mScale,
-                                 this->mScale,
-                                 color);
-            }
+                QPainter painterScaled(&this->mPixmapScaled);
+                QColor color;
+                if (buttonLeft)
+                    color = this->mColor1;
+                if (buttonRight)
+                    color = this->mColor2;
 
-            this->ui->label->setPixmap(this->mPixmapScaled);
+                if (this->mScale == 1)
+                {
+                    painterScaled.setPen(color);
+                    painterScaled.drawPoint(xscaled, yscaled);
+                }
+                else
+                {
+                    painterScaled.fillRect(xreal * this->mScale,
+                                           yreal * this->mScale,
+                                           this->mScale,
+                                           this->mScale,
+                                           color);
+                }
 
-            QPainter painterOriginal(this->mImageOriginal);
-            painterOriginal.setPen(color);
-            painterOriginal.drawPoint(xreal, yreal);
+                this->ui->label->setPixmap(this->mPixmapScaled);
+
+                QPainter painterOriginal(this->mImageOriginal);
+                painterOriginal.setPen(color);
+                painterOriginal.drawPoint(xreal, yreal);
+            }
         }
-
         event->accept();
     }
     else
