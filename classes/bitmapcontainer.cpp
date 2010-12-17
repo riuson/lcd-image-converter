@@ -23,3 +23,8 @@ void BitmapContainer::inverse()
     this->mImage->invertPixels();
 }
 //-----------------------------------------------------------------------------
+QImage *BitmapContainer::image()
+{
+    return this->mImage;
+}
+//-----------------------------------------------------------------------------

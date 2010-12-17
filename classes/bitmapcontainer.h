@@ -16,6 +16,7 @@ private:
     void createNew(quint32 width, quint32 height);
 public:
     void inverse();
+    QImage *image();
 signals:
 
 public slots:

@@ -22,7 +22,10 @@ protected:
 private:
     Ui::WidgetBitmapEditor *ui;
     QImage *mImageOriginal;
-    QImage *mImageScaled;
+    QPixmap mPixmapScaled;
+    quint32 mScale;
+
+    void createImageScaled(quint32 scale);
 };
 //-----------------------------------------------------------------------------
 #endif // WIDGETBITMAPEDITOR_H

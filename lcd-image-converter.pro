@@ -5,7 +5,7 @@ OBJECTS_DIR         = .obj
 MOC_DIR             = .moc
 UI_DIR              = .uic
 QT += xml xmlpatterns
-TARGET = lcd-bitmap-converter
+TARGET = lcd-image-converter
 TEMPLATE = app
 
 unix:DESTDIR        = ./_linux
