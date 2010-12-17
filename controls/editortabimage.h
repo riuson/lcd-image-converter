@@ -1,25 +1,28 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef EDITORTABIMAGE_H
+#define EDITORTABIMAGE_H
 //-----------------------------------------------------------------------------
-#include <QMainWindow>
+#include <QWidget>
 //-----------------------------------------------------------------------------
 namespace Ui {
-    class MainWindow;
+    class EditorTabImage;
 }
 //-----------------------------------------------------------------------------
-class MainWindow : public QMainWindow {
+class WidgetBitmapEditor;
+//-----------------------------------------------------------------------------
+class EditorTabImage : public QWidget
+{
     Q_OBJECT
+
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit EditorTabImage(QWidget *parent = 0);
+    ~EditorTabImage();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::MainWindow *ui;
-private slots:
-    void on_actionNew_Image_triggered();
+    Ui::EditorTabImage *ui;
+    WidgetBitmapEditor *mEditor;
 };
 //-----------------------------------------------------------------------------
-#endif // MAINWINDOW_H
+#endif // EDITORTABIMAGE_H

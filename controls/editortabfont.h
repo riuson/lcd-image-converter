@@ -1,25 +1,25 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef EDITORTABFONT_H
+#define EDITORTABFONT_H
 //-----------------------------------------------------------------------------
-#include <QMainWindow>
+#include <QWidget>
 //-----------------------------------------------------------------------------
 namespace Ui {
-    class MainWindow;
+    class EditorTabFont;
 }
 //-----------------------------------------------------------------------------
-class MainWindow : public QMainWindow {
+class EditorTabFont : public QWidget
+{
     Q_OBJECT
+
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit EditorTabFont(QWidget *parent = 0);
+    ~EditorTabFont();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::MainWindow *ui;
-private slots:
-    void on_actionNew_Image_triggered();
+    Ui::EditorTabFont *ui;
 };
 //-----------------------------------------------------------------------------
-#endif // MAINWINDOW_H
+#endif // EDITORTABFONT_H

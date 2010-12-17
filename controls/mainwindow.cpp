@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "widgetbitmapeditor.h"
+#include "editortabimage.h"
 #include "bitmapcontainer.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
@@ -13,9 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //QImage im2 = im.scaled(im.width() * 4, im.height() * 4, Qt::KeepAspectRatio, Qt::FastTransformation);
     //QPixmap pix = QPixmap::fromImage(im2);
     //this->ui->label->setPixmap(pix);
-    WidgetBitmapEditor *w = new WidgetBitmapEditor(this->ui->tab);
-    BitmapContainer *b = new BitmapContainer(this);
-    w->assignImage(b->image());
+    EditorTabImage *e = new EditorTabImage(this);
+    this->ui->tabWidget->addTab(e, "test");
 }
 //-----------------------------------------------------------------------------
 MainWindow::~MainWindow()
@@ -33,5 +32,9 @@ void MainWindow::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionNew_Image_triggered()
+{
 }
 //-----------------------------------------------------------------------------

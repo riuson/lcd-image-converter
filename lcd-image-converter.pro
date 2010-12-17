@@ -23,15 +23,21 @@ CONFIG(debug, debug|release) {
 SOURCES += main.cpp \
     classes/bitmapcontainer.cpp \
     controls/mainwindow.cpp \
-    controls/widgetbitmapeditor.cpp
+    controls/widgetbitmapeditor.cpp \
+    controls/editortabimage.cpp \
+    controls/editortabfont.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     interfaces/iedit.h \
     controls/mainwindow.h \
-    controls/widgetbitmapeditor.h
+    controls/widgetbitmapeditor.h \
+    controls/editortabimage.h \
+    controls/editortabfont.h
 FORMS += \
     controls/mainwindow.ui \
-    controls/widgetbitmapeditor.ui
+    controls/widgetbitmapeditor.ui \
+    controls/editortabimage.ui \
+    controls/editortabfont.ui
 INCLUDEPATH += . \
     ./classes \
     ./controls \
