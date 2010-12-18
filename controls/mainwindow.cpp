@@ -4,6 +4,7 @@
 #include <QList>
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QTextStream>
 
 #include "editortabimage.h"
 #include "bitmapcontainer.h"
@@ -117,8 +118,40 @@ void MainWindow::on_actionOpen_triggered()
     dialog.setFileMode(QFileDialog::ExistingFile);
     dialog.setFilter(tr("XML Files (*.xml)"));
     dialog.setWindowTitle(tr("Open file"));
+
     if (dialog.exec() == QDialog::Accepted)
     {
+        bool isImage = false;
+        bool isFont = false;
+
+        QString filename = dialog.selectedFiles().at(0);
+        QFile file(filename);
+        if (file.open(QIODevice::ReadWrite))
+        {
+            QTextStream stream(&file);
+            while (!stream.atEnd())
+            {
+                QString readedLine = stream.readLine();
+                if (readedLine.contains("<data type=\"image\""))
+                {
+                    isImage = true;
+                    break;
+                }
+                if (readedLine.contains("<data type=\"font\""))
+                {
+                    isImage = true;
+                    break;
+                }
+            }
+            file.close();
+        }
+        if (isImage)
+        {
+            EditorTabImage *ed = new EditorTabImage(this);
+            int index = this->ui->tabWidget->addTab(ed, "");
+            ed->load(filename);
+            this->ui->tabWidget->setTabText(index, ed->documentName());
+        }
     }
 }
 //-----------------------------------------------------------------------------
