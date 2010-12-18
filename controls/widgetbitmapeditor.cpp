@@ -91,10 +91,21 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
                 painterOriginal.setPen(color);
                 painterOriginal.drawPoint(xreal, yreal);
 
-                emit this->dataChanged();
+                this->mFlagChanged = true;
             }
         }
         event->accept();
+    }
+    else if (event->type() == QEvent::MouseButtonPress)
+    {
+        this->mFlagChanged = false;
+    }
+    else if (event->type() == QEvent::MouseButtonRelease)
+    {
+        if (this->mFlagChanged)
+        {
+            emit this->dataChanged();
+        }
     }
     else
     {

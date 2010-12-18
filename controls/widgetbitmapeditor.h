@@ -29,6 +29,7 @@ private:
     QColor mColor2;
     QPixmap mPixmapColor1;
     QPixmap mPixmapColor2;
+    bool mFlagChanged;
 
     void createImageScaled(quint32 scale);
     void updateState();
