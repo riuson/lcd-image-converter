@@ -87,12 +87,19 @@ void MainWindow::updateMenuState()
         this->ui->menuFont->setEnabled(true);
         //editorSelected = true;
     }
+    else
+    {
+        this->ui->menuFont->setEnabled(false);
+    }
     this->ui->menuImage->setEnabled(editorSelected);
 
     this->ui->actionSave->setEnabled(editorSelected);
     this->ui->actionSave_As->setEnabled(editorSelected);
     this->ui->actionClose->setEnabled(editorSelected);
     this->ui->actionConvert->setEnabled(editorSelected);
+
+    if (!editorSelected)
+        this->mEditor = NULL;
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
@@ -245,6 +252,11 @@ void MainWindow::on_actionSave_As_triggered()
 void MainWindow::on_actionClose_triggered()
 {
     this->on_tabWidget_tabCloseRequested(this->ui->tabWidget->currentIndex());
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionQuit_triggered()
+{
+    this->close();
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionImageFlip_Horizontal_triggered()
