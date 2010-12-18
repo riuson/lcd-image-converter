@@ -23,6 +23,9 @@ private:
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
     void on_actionNew_Image_triggered();
+    void on_actionOpen_triggered();
+    void on_actionSave_triggered();
+    void on_actionSave_As_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // MAINWINDOW_H

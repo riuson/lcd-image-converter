@@ -25,19 +25,22 @@ SOURCES += main.cpp \
     controls/mainwindow.cpp \
     controls/widgetbitmapeditor.cpp \
     controls/editortabimage.cpp \
-    controls/editortabfont.cpp
+    controls/editortabfont.cpp \
+    controls/dialogsavechanges.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
     controls/widgetbitmapeditor.h \
     controls/editortabimage.h \
     controls/editortabfont.h \
-    interfaces/idocument.h
+    interfaces/idocument.h \
+    controls/dialogsavechanges.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
     controls/editortabimage.ui \
-    controls/editortabfont.ui
+    controls/editortabfont.ui \
+    controls/dialogsavechanges.ui
 INCLUDEPATH += . \
     ./classes \
     ./controls \

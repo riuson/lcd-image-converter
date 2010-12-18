@@ -2,9 +2,11 @@
 #include "ui_mainwindow.h"
 //-----------------------------------------------------------------------------
 #include <QList>
+#include <QFileDialog>
 
 #include "editortabimage.h"
 #include "bitmapcontainer.h"
+#include "dialogsavechanges.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -61,12 +63,31 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     QWidget *w = this->ui->tabWidget->widget(index);
     IDocument *doc = dynamic_cast<IDocument *> (w);
+    bool cancel = false;
     if (doc->changed())
     {
-        doc->save("");
+        DialogSaveChanges dialog(this);
+        dialog.exec();
+        switch (dialog.answer())
+        {
+        case DialogSaveChanges::Save:
+            doc->save(doc->fileName());
+            break;
+        case DialogSaveChanges::SaveAs:
+            doc->save(doc->fileName());
+            break;
+        case DialogSaveChanges::DontSave:
+            break;
+        case DialogSaveChanges::Cancel:
+            cancel = true;
+            break;
+        }
     }
-    this->ui->tabWidget->removeTab(index);
-    delete w;
+    if (!cancel)
+    {
+        this->ui->tabWidget->removeTab(index);
+        delete w;
+    }
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionNew_Image_triggered()
@@ -76,5 +97,44 @@ void MainWindow::on_actionNew_Image_triggered()
     name = this->findAvailableName(name);
     e->setDocumentName(name);
     this->ui->tabWidget->addTab(e, name);
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionOpen_triggered()
+{
+    QFileDialog dialog(this);
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setFilter(tr("XML Files (*.xml)"));
+    dialog.setWindowTitle(tr("Open file"));
+    if (dialog.exec() == QDialog::Accepted)
+    {
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionSave_triggered()
+{
+    QWidget *w = this->ui->tabWidget->currentWidget();
+    IDocument *doc = dynamic_cast<IDocument *> (w);
+    if (QFile::exists(doc->fileName()))
+        doc->save(doc->fileName());
+    else
+        this->on_actionSave_As_triggered();
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionSave_As_triggered()
+{
+    QWidget *w = this->ui->tabWidget->currentWidget();
+    IDocument *doc = dynamic_cast<IDocument *> (w);
+
+    QFileDialog dialog(this);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setFilter(tr("XML Files (*.xml)"));
+    dialog.setWindowTitle(tr("Save file as"));
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        QString filename = dialog.selectedFiles().at(0);
+        doc->save(filename);
+    }
 }
 //-----------------------------------------------------------------------------
