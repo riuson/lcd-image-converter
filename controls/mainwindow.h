@@ -6,6 +6,8 @@
 namespace Ui {
     class MainWindow;
 }
+
+class WidgetBitmapEditor;
 //-----------------------------------------------------------------------------
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -19,6 +21,7 @@ protected:
 private:
     Ui::MainWindow *ui;
     QString findAvailableName(const QString &prefix);
+    WidgetBitmapEditor *mEditor;
 
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
@@ -27,6 +30,7 @@ private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
     void on_actionSave_As_triggered();
+    void on_actionImageInverse_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // MAINWINDOW_H

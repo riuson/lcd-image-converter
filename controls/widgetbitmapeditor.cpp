@@ -162,3 +162,14 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
     }
 }
 //-----------------------------------------------------------------------------
+void WidgetBitmapEditor::inverse()
+{
+    this->mImageOriginal->invertPixels();
+    QImage image = this->mPixmapScaled.toImage();
+    image.invertPixels();
+    this->mPixmapScaled = QPixmap::fromImage(image);
+    this->ui->label->setPixmap(this->mPixmapScaled);
+
+    emit this->dataChanged();
+}
+//-----------------------------------------------------------------------------

@@ -16,6 +16,8 @@ public:
     ~WidgetBitmapEditor();
     void assignImage(QImage *image);
 
+    void inverse();
+
 protected:
     void changeEvent(QEvent *e);
     bool eventFilter(QObject *obj, QEvent *event);

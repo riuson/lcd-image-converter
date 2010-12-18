@@ -28,6 +28,8 @@ public:
     QString documentName();
     void setDocumentName(const QString &value);
 
+    WidgetBitmapEditor *editor();
+
 protected:
     void changeEvent(QEvent *e);
 

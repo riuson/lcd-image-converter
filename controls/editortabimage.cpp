@@ -150,6 +150,11 @@ void EditorTabImage::setDocumentName(const QString &value)
     this->mDocumentName = value;
 }
 //-----------------------------------------------------------------------------
+WidgetBitmapEditor *EditorTabImage::editor()
+{
+    return this->mEditor;
+}
+//-----------------------------------------------------------------------------
 /*
  Storage data format:
 <?xml version="1.0" encoding="utf-8"?>

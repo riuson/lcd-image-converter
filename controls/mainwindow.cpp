@@ -10,6 +10,7 @@
 #include "editortabfont.h"
 #include "bitmapcontainer.h"
 #include "dialogsavechanges.h"
+#include "widgetbitmapeditor.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -20,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //QImage im2 = im.scaled(im.width() * 4, im.height() * 4, Qt::KeepAspectRatio, Qt::FastTransformation);
     //QPixmap pix = QPixmap::fromImage(im2);
     //this->ui->label->setPixmap(pix);
+    this->mEditor = NULL;
 }
 //-----------------------------------------------------------------------------
 MainWindow::~MainWindow()
@@ -91,6 +93,10 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
     }
     if (!cancel)
     {
+        if (this->ui->tabWidget->currentIndex() == index)
+        {
+            this->mEditor = NULL;
+        }
         this->ui->tabWidget->removeTab(index);
         delete w;
     }
@@ -99,12 +105,13 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
     QWidget *w = this->ui->tabWidget->widget(index);
-    if (qobject_cast<EditorTabImage *>(w))
+    if (EditorTabImage *eti = qobject_cast<EditorTabImage *>(w))
     {
         this->ui->menuImage->setEnabled(true);
         this->ui->menuFont->setEnabled(false);
+        this->mEditor = eti->editor();
     }
-    if (qobject_cast<EditorTabFont *>(w))
+    if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
     {
         this->ui->menuImage->setEnabled(true);
         this->ui->menuFont->setEnabled(true);
@@ -155,7 +162,7 @@ void MainWindow::on_actionOpen_triggered()
                 }
                 if (readedLine.contains("<data type=\"font\""))
                 {
-                    isImage = true;
+                    isFont = true;
                     break;
                 }
             }
@@ -195,6 +202,14 @@ void MainWindow::on_actionSave_As_triggered()
     {
         QString filename = dialog.selectedFiles().at(0);
         doc->save(filename);
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionImageInverse_triggered()
+{
+    if (this->mEditor != NULL)
+    {
+        this->mEditor->inverse();
     }
 }
 //-----------------------------------------------------------------------------

@@ -60,18 +60,18 @@
     <property name="title">
      <string>Image</string>
     </property>
-    <addaction name="actionFlip_Horizontal"/>
-    <addaction name="actionFlip_Vertical"/>
+    <addaction name="actionImageFlip_Horizontal"/>
+    <addaction name="actionImageFlip_Vertical"/>
     <addaction name="separator"/>
-    <addaction name="actionRotate_90_Clockwise"/>
-    <addaction name="actionRotate_180"/>
-    <addaction name="actionRotate_90_Counter_Clockwise"/>
+    <addaction name="actionImageRotate_90_Clockwise"/>
+    <addaction name="actionImageRotate_180"/>
+    <addaction name="actionImageRotate_90_Counter_Clockwise"/>
     <addaction name="separator"/>
-    <addaction name="actionResizeImage"/>
-    <addaction name="actionInverseImage"/>
+    <addaction name="actionImageResize"/>
+    <addaction name="actionImageInverse"/>
     <addaction name="separator"/>
-    <addaction name="actionImport"/>
-    <addaction name="actionExport"/>
+    <addaction name="actionImageImport"/>
+    <addaction name="actionImageExport"/>
    </widget>
    <widget class="QMenu" name="menuFont">
     <property name="title">
@@ -79,8 +79,8 @@
     </property>
     <addaction name="actionAdd_Remove_characters"/>
     <addaction name="separator"/>
-    <addaction name="actionResizeFont"/>
-    <addaction name="actionInverseFont"/>
+    <addaction name="actionFontResize"/>
+    <addaction name="actionFontInverse"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -129,32 +129,32 @@
     <string>Quit</string>
    </property>
   </action>
-  <action name="actionFlip_Horizontal">
+  <action name="actionImageFlip_Horizontal">
    <property name="text">
     <string>Flip Horizontal</string>
    </property>
   </action>
-  <action name="actionFlip_Vertical">
+  <action name="actionImageFlip_Vertical">
    <property name="text">
     <string>Flip Vertical</string>
    </property>
   </action>
-  <action name="actionRotate_90_Clockwise">
+  <action name="actionImageRotate_90_Clockwise">
    <property name="text">
     <string>Rotate 90° Clockwise</string>
    </property>
   </action>
-  <action name="actionRotate_180">
+  <action name="actionImageRotate_180">
    <property name="text">
     <string>Rotate 180°</string>
    </property>
   </action>
-  <action name="actionRotate_90_Counter_Clockwise">
+  <action name="actionImageRotate_90_Counter_Clockwise">
    <property name="text">
     <string>Rotate 90° Counter-Clockwise</string>
    </property>
   </action>
-  <action name="actionInverseImage">
+  <action name="actionImageInverse">
    <property name="text">
     <string>Inverse</string>
    </property>
@@ -169,17 +169,17 @@
     <string>Preferences...</string>
    </property>
   </action>
-  <action name="actionImport">
+  <action name="actionImageImport">
    <property name="text">
     <string>Import</string>
    </property>
   </action>
-  <action name="actionExport">
+  <action name="actionImageExport">
    <property name="text">
     <string>Export</string>
    </property>
   </action>
-  <action name="actionResizeImage">
+  <action name="actionImageResize">
    <property name="text">
     <string>Resize</string>
    </property>
@@ -189,12 +189,12 @@
     <string>Add/Remove characters...</string>
    </property>
   </action>
-  <action name="actionResizeFont">
+  <action name="actionFontResize">
    <property name="text">
     <string>Resize</string>
    </property>
   </action>
-  <action name="actionInverseFont">
+  <action name="actionFontInverse">
    <property name="text">
     <string>Inverse</string>
    </property>
