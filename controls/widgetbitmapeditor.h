@@ -21,6 +21,9 @@ public:
     void selectImage(int index);
     int currentImageIndex();
 
+    QColor color1();
+    QColor color2();
+
 protected:
     void changeEvent(QEvent *e);
     bool eventFilter(QObject *obj, QEvent *event);

@@ -12,6 +12,7 @@
 #include "dialogsavechanges.h"
 #include "widgetbitmapeditor.h"
 #include "bitmaphelper.h"
+#include "dialogresize.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -270,6 +271,24 @@ void MainWindow::on_actionImageInverse_triggered()
         QImage result(*original);
         result.invertPixels();
         this->mEditor->dataContainer()->setImage(index, &result);
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionImageResize_triggered()
+{
+    if (this->mEditor != NULL)
+    {
+        int index = this->mEditor->currentImageIndex();
+        QImage *original = this->mEditor->dataContainer()->image(index);
+        DialogResize dialog(original->width(), original->height(), 0, 0, false, this);
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            int width, height, offsetX, offsetY;
+            bool center;
+            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center);
+            QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, this->mEditor->color2());
+            this->mEditor->dataContainer()->setImage(index, &result);
+        }
     }
 }
 //-----------------------------------------------------------------------------

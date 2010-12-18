@@ -3,6 +3,15 @@
 //-----------------------------------------------------------------------------
 #include <QImage>
 //-----------------------------------------------------------------------------
+typedef struct
+{
+    int width;
+    int height;
+    int offsetX;
+    int offsetY;
+    bool center;
+} tResizeInfo;
+//-----------------------------------------------------------------------------
 class BitmapHelper
 {
 public:
@@ -21,6 +30,7 @@ public:
     static QImage rotate270(QImage *source);
     static QImage flipHorizontal(QImage *source);
     static QImage flipVertical(QImage *source);
+    static QImage resize(QImage *source, int width, int height, int offsetX, int offsetY, bool center, const QColor &backColor);
 };
 //-----------------------------------------------------------------------------
 #endif // BITMAPHELPER_H

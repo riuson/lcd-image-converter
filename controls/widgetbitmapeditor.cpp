@@ -140,6 +140,16 @@ int WidgetBitmapEditor::currentImageIndex()
     return this->mImageIndex;
 }
 //-----------------------------------------------------------------------------
+QColor WidgetBitmapEditor::color1()
+{
+    return this->mColor1;
+}
+//-----------------------------------------------------------------------------
+QColor WidgetBitmapEditor::color2()
+{
+    return this->mColor2;
+}
+//-----------------------------------------------------------------------------
 void WidgetBitmapEditor::createImageScaled(int scale)
 {
     QImage *original = this->mDataContainer->image(this->mImageIndex);
