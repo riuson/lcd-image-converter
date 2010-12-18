@@ -26,7 +26,8 @@ SOURCES += main.cpp \
     controls/widgetbitmapeditor.cpp \
     controls/editortabimage.cpp \
     controls/editortabfont.cpp \
-    controls/dialogsavechanges.cpp
+    controls/dialogsavechanges.cpp \
+    classes/bitmaphelper.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -34,7 +35,9 @@ HEADERS += \
     controls/editortabimage.h \
     controls/editortabfont.h \
     interfaces/idocument.h \
-    controls/dialogsavechanges.h
+    controls/dialogsavechanges.h \
+    classes/bitmaphelper.h \
+    interfaces/idatacontainer.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \

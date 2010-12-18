@@ -20,13 +20,13 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
     QHBoxLayout *layout = new QHBoxLayout(this);
     this->setLayout(layout);
 
-    this->mEditor = new WidgetBitmapEditor(this);
+    this->mContainer = new BitmapContainer(this);
+
+    this->mEditor = new WidgetBitmapEditor(this->mContainer, this);
     layout->addWidget(this->mEditor);
 
-    this->mContainer = new BitmapContainer(this);
-    this->mEditor->assignImage(this->mContainer->image());
 
-    this->connect(this->mEditor, SIGNAL(dataChanged()), SLOT(onDataChanged()));
+    this->connect(this->mEditor, SIGNAL(dataChanged()), SLOT(on_editor_dataChanged()));
 
     this->mDocumentName = tr("Image", "new image name");
     this->mFileName = "";
@@ -50,7 +50,7 @@ void EditorTabImage::changeEvent(QEvent *e)
     }
 }
 //-----------------------------------------------------------------------------
-void EditorTabImage::onDataChanged()
+void EditorTabImage::on_editor_dataChanged()
 {
     this->mDataChanged = true;
 }
@@ -80,8 +80,9 @@ void EditorTabImage::load(const QString &fileName)
                       QString str = e.text();
                       QByteArray ba = QByteArray::fromBase64(str.toAscii());
                       QBuffer buffer(&ba);
-                      this->mContainer->image()->load(&buffer, "PNG");
-                      this->mEditor->assignImage(this->mContainer->image());
+                      QImage image;
+                      image.load(&buffer, "PNG");
+                      this->mContainer->setImage(0, &image);
                     }
                   }
 
@@ -115,7 +116,7 @@ void EditorTabImage::save(const QString &fileName)
     QByteArray ba;
     QBuffer buffer(&ba);
     buffer.open(QIODevice::WriteOnly);
-    this->mContainer->image()->save(&buffer, "PNG");
+    this->mContainer->image(0)->save(&buffer, "PNG");
     QString data = ba.toBase64();
 
     QDomText nodeData = doc.createTextNode(data);

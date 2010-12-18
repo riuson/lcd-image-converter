@@ -30,6 +30,11 @@ private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
     void on_actionSave_As_triggered();
+    void on_actionImageFlip_Horizontal_triggered();
+    void on_actionImageFlip_Vertical_triggered();
+    void on_actionImageRotate_90_Clockwise_triggered();
+    void on_actionImageRotate_180_triggered();
+    void on_actionImageRotate_90_Counter_Clockwise_triggered();
     void on_actionImageInverse_triggered();
 };
 //-----------------------------------------------------------------------------

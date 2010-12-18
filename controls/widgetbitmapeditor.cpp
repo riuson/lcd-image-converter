@@ -1,18 +1,19 @@
 #include "widgetbitmapeditor.h"
 #include "ui_widgetbitmapeditor.h"
-
+//-----------------------------------------------------------------------------
 #include <QMouseEvent>
 #include <QColorDialog>
 #include <QPainter>
+
+#include "bitmaphelper.h"
+#include "idatacontainer.h"
 //-----------------------------------------------------------------------------
-WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
+WidgetBitmapEditor::WidgetBitmapEditor(IDataContainer *dataContainer, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetBitmapEditor)
 {
     ui->setupUi(this);
-    this->mImageOriginal = NULL;
     this->mScale = 10;
-    this->ui->spinBoxScale->setValue(this->mScale);
     this->ui->label->installEventFilter(this);
 
     this->mColor1 = QColor("black");
@@ -24,6 +25,14 @@ WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
     this->mPixmapColor2.fill(this->mColor2);
     this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
     this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
+
+    this->mDataContainer = dataContainer;
+    this->mImageIndex = 0;
+    this->createImageScaled(this->mScale);
+
+    this->ui->spinBoxScale->setValue(this->mScale);
+    QObject *d = dynamic_cast<QObject *>(this->mDataContainer);
+    this->connect(d, SIGNAL(imageChanged(int)), SLOT(on_dataContainer_imageChanged(int)));
 }
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::~WidgetBitmapEditor()
@@ -50,11 +59,12 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
     {
         QMouseEvent *me = dynamic_cast<QMouseEvent *>(event);
         // get coordinates
-        quint32 xscaled = me->pos().x();
-        quint32 yscaled = me->pos().y();
-        quint32 xreal = xscaled / this->mScale;
-        quint32 yreal = yscaled / this->mScale;
-        if(xreal < this->mImageOriginal->width() && yreal < this->mImageOriginal->height())
+        int xscaled = me->pos().x();
+        int yscaled = me->pos().y();
+        int xreal = xscaled / this->mScale;
+        int yreal = yscaled / this->mScale;
+        QImage *original = this->mDataContainer->image(this->mImageIndex);
+        if (xreal < original->width() && yreal < original ->height())
         {
             // show coordinates
             this->ui->labelCoordinates->setText(QString("%1,%2").arg(xreal).arg(yreal));
@@ -87,7 +97,7 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
 
                 this->ui->label->setPixmap(this->mPixmapScaled);
 
-                QPainter painterOriginal(this->mImageOriginal);
+                QPainter painterOriginal(original);
                 painterOriginal.setPen(color);
                 painterOriginal.drawPoint(xreal, yreal);
 
@@ -114,21 +124,31 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
     return result;
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::assignImage(QImage *image)
+IDataContainer *WidgetBitmapEditor::dataContainer()
 {
-    this->ui->label->setPixmap(NULL);
-    this->mImageOriginal = image;
+    return this->mDataContainer;
+}
+//-----------------------------------------------------------------------------
+void WidgetBitmapEditor::selectImage(int index)
+{
+    this->mImageIndex = index;
     this->createImageScaled(this->mScale);
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::createImageScaled(quint32 scale)
+int WidgetBitmapEditor::currentImageIndex()
 {
-    if (this->mImageOriginal != NULL)
+    return this->mImageIndex;
+}
+//-----------------------------------------------------------------------------
+void WidgetBitmapEditor::createImageScaled(int scale)
+{
+    QImage *original = this->mDataContainer->image(this->mImageIndex);
+    if (original != NULL)
     {
-        quint32 width = this->mImageOriginal->width();
-        quint32 height = this->mImageOriginal->height();
+        int width = original->width();
+        int height = original->height();
         //this->mImageScaled = new QImage(width * scale, height * scale, QImage::Format_RGB32);
-        QImage scaled = this->mImageOriginal->scaled(width * scale, height * scale, Qt::KeepAspectRatio, Qt::FastTransformation);
+        QImage scaled = original->scaled(width * scale, height * scale, Qt::KeepAspectRatio, Qt::FastTransformation);
         this->mPixmapScaled = QPixmap::fromImage(scaled);
         this->ui->label->setPixmap(this->mPixmapScaled);
     }
@@ -162,11 +182,12 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
     }
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::inverse()
+void WidgetBitmapEditor::on_dataContainer_imageChanged(int index)
 {
-    this->mImageOriginal->invertPixels();
-    this->createImageScaled(this->mScale);
-
-    emit this->dataChanged();
+    if (this->mImageIndex == index)
+    {
+        this->createImageScaled(this->mScale);
+        emit this->dataChanged();;
+    }
 }
 //-----------------------------------------------------------------------------

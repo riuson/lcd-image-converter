@@ -2,23 +2,28 @@
 #define BITMAPCONTAINER_H
 
 #include <QObject>
+
+#include "idatacontainer.h"
 //-----------------------------------------------------------------------------
 class QImage;
 //-----------------------------------------------------------------------------
-
-class BitmapContainer : public QObject
+class BitmapContainer : public QObject, public IDataContainer
 {
-Q_OBJECT
+    Q_OBJECT
+    Q_INTERFACES(IDataContainer)
 public:
     explicit BitmapContainer(QObject *parent = 0);
+    ~BitmapContainer();
 private:
     QImage *mImage;
-    void createNew(quint32 width, quint32 height);
+    void createNew(int width, int height);
 public:
-    void inverse();
-    QImage *image();
+    QImage *image(int index);
+    void setImage(int index, QImage *image);
+    void transform(int index, int code);
+    int count();
 signals:
-
+    void imageChanged(int index);
 public slots:
 
 };

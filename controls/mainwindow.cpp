@@ -11,6 +11,7 @@
 #include "bitmapcontainer.h"
 #include "dialogsavechanges.h"
 #include "widgetbitmapeditor.h"
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -205,11 +206,70 @@ void MainWindow::on_actionSave_As_triggered()
     }
 }
 //-----------------------------------------------------------------------------
+void MainWindow::on_actionImageFlip_Horizontal_triggered()
+{
+    if (this->mEditor != NULL)
+    {
+        int index = this->mEditor->currentImageIndex();
+        QImage *original = this->mEditor->dataContainer()->image(index);
+        QImage result = BitmapHelper::flipHorizontal(original);
+        this->mEditor->dataContainer()->setImage(index, &result);
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionImageFlip_Vertical_triggered()
+{
+    if (this->mEditor != NULL)
+    {
+        int index = this->mEditor->currentImageIndex();
+        QImage *original = this->mEditor->dataContainer()->image(index);
+        QImage result = BitmapHelper::flipVertical(original);
+        this->mEditor->dataContainer()->setImage(index, &result);
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionImageRotate_90_Clockwise_triggered()
+{
+    if (this->mEditor != NULL)
+    {
+        int index = this->mEditor->currentImageIndex();
+        QImage *original = this->mEditor->dataContainer()->image(index);
+        QImage result = BitmapHelper::rotate90(original);
+        this->mEditor->dataContainer()->setImage(index, &result);
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionImageRotate_180_triggered()
+{
+    if (this->mEditor != NULL)
+    {
+        int index = this->mEditor->currentImageIndex();
+        QImage *original = this->mEditor->dataContainer()->image(index);
+        QImage result = BitmapHelper::rotate180(original);
+        this->mEditor->dataContainer()->setImage(index, &result);
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionImageRotate_90_Counter_Clockwise_triggered()
+{
+    if (this->mEditor != NULL)
+    {
+        int index = this->mEditor->currentImageIndex();
+        QImage *original = this->mEditor->dataContainer()->image(index);
+        QImage result = BitmapHelper::rotate270(original);
+        this->mEditor->dataContainer()->setImage(index, &result);
+    }
+}
+//-----------------------------------------------------------------------------
 void MainWindow::on_actionImageInverse_triggered()
 {
     if (this->mEditor != NULL)
     {
-        this->mEditor->inverse();
+        int index = this->mEditor->currentImageIndex();
+        QImage *original = this->mEditor->dataContainer()->image(index);
+        QImage result(*original);
+        result.invertPixels();
+        this->mEditor->dataContainer()->setImage(index, &result);
     }
 }
 //-----------------------------------------------------------------------------
