@@ -7,6 +7,7 @@
 #include <QTextStream>
 
 #include "editortabimage.h"
+#include "editortabfont.h"
 #include "bitmapcontainer.h"
 #include "dialogsavechanges.h"
 //-----------------------------------------------------------------------------
@@ -92,6 +93,21 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
     {
         this->ui->tabWidget->removeTab(index);
         delete w;
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    QWidget *w = this->ui->tabWidget->widget(index);
+    if (qobject_cast<EditorTabImage *>(w))
+    {
+        this->ui->menuImage->setEnabled(true);
+        this->ui->menuFont->setEnabled(false);
+    }
+    if (qobject_cast<EditorTabFont *>(w))
+    {
+        this->ui->menuImage->setEnabled(true);
+        this->ui->menuFont->setEnabled(true);
     }
 }
 //-----------------------------------------------------------------------------
