@@ -3,6 +3,7 @@
 //-----------------------------------------------------------------------------
 #include <QList>
 #include <QFileDialog>
+#include <QInputDialog>
 
 #include "editortabimage.h"
 #include "bitmapcontainer.h"
@@ -47,13 +48,16 @@ QString MainWindow::findAvailableName(const QString &prefix)
         names.append(doc->documentName());
     }
     int i = 1;
-    while (true)
+    if (names.contains(prefix))
     {
-        QString name = QString("%1 %2").arg(prefix).arg(i++);
-        if (!names.contains(name))
+        while (true)
         {
-            result = name;
-            break;
+            QString name = QString("%1 %2").arg(prefix).arg(i++);
+            if (!names.contains(name))
+            {
+                result = name;
+                break;
+            }
         }
     }
     return result;
@@ -92,8 +96,15 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionNew_Image_triggered()
 {
+    bool ok;
+    QString name = QInputDialog::getText(this,
+                                         tr("Enter image name"),
+                                         tr("Image name:"),
+                                         QLineEdit::Normal,
+                                         tr("Image", "new image name"),
+                                         &ok);
     EditorTabImage *e = new EditorTabImage(this);
-    QString name = e->documentName();
+
     name = this->findAvailableName(name);
     e->setDocumentName(name);
     this->ui->tabWidget->addTab(e, name);
