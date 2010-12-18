@@ -8,8 +8,8 @@ class QString;
 class IDocument
 {
 public:
-    virtual void save(const QString &filename) = 0;
-    virtual void load(const QString &filename) = 0;
+    virtual bool save(const QString &filename) = 0;
+    virtual bool load(const QString &filename) = 0;
     virtual bool changed() = 0;
     virtual QString fileName() = 0;
     virtual QString documentName() = 0;

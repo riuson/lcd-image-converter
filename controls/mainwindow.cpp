@@ -24,6 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //QPixmap pix = QPixmap::fromImage(im2);
     //this->ui->label->setPixmap(pix);
     this->mEditor = NULL;
+
+    this->updateMenuState();
 }
 //-----------------------------------------------------------------------------
 MainWindow::~MainWindow()
@@ -69,6 +71,30 @@ QString MainWindow::findAvailableName(const QString &prefix)
     return result;
 }
 //-----------------------------------------------------------------------------
+void MainWindow::updateMenuState()
+{
+    int index = this->ui->tabWidget->currentIndex();
+    QWidget *w = this->ui->tabWidget->widget(index);
+    bool editorSelected = false;
+    if (EditorTabImage *eti = qobject_cast<EditorTabImage *>(w))
+    {
+        this->ui->menuFont->setEnabled(false);
+        this->mEditor = eti->editor();
+        editorSelected = true;
+    }
+    if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
+    {
+        this->ui->menuFont->setEnabled(true);
+        //editorSelected = true;
+    }
+    this->ui->menuImage->setEnabled(editorSelected);
+
+    this->ui->actionSave->setEnabled(editorSelected);
+    this->ui->actionSave_As->setEnabled(editorSelected);
+    this->ui->actionClose->setEnabled(editorSelected);
+    this->ui->actionConvert->setEnabled(editorSelected);
+}
+//-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     QWidget *w = this->ui->tabWidget->widget(index);
@@ -81,10 +107,27 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
         switch (dialog.answer())
         {
         case DialogSaveChanges::Save:
-            doc->save(doc->fileName());
+            {
+                if (!doc->save(doc->fileName()))
+                    cancel = true;
+            }
             break;
         case DialogSaveChanges::SaveAs:
-            doc->save(doc->fileName());
+            {
+                QFileDialog dialog(this);
+                dialog.setAcceptMode(QFileDialog::AcceptSave);
+                dialog.setFileMode(QFileDialog::AnyFile);
+                dialog.setFilter(tr("XML Files (*.xml)"));
+                dialog.setWindowTitle(tr("Save file as"));
+                if (dialog.exec() == QDialog::Accepted)
+                {
+                    QString filename = dialog.selectedFiles().at(0);
+                    if (!doc->save(filename))
+                        cancel = true;
+                }
+                else
+                    cancel = true;
+            }
             break;
         case DialogSaveChanges::DontSave:
             break;
@@ -106,18 +149,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
 //-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
-    QWidget *w = this->ui->tabWidget->widget(index);
-    if (EditorTabImage *eti = qobject_cast<EditorTabImage *>(w))
-    {
-        this->ui->menuImage->setEnabled(true);
-        this->ui->menuFont->setEnabled(false);
-        this->mEditor = eti->editor();
-    }
-    if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
-    {
-        this->ui->menuImage->setEnabled(true);
-        this->ui->menuFont->setEnabled(true);
-    }
+    this->updateMenuState();
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionNew_Image_triggered()
@@ -129,11 +161,12 @@ void MainWindow::on_actionNew_Image_triggered()
                                          QLineEdit::Normal,
                                          tr("Image", "new image name"),
                                          &ok);
-    EditorTabImage *e = new EditorTabImage(this);
+    EditorTabImage *ed = new EditorTabImage(this);
+    this->connect(ed, SIGNAL(dataChanged()), SLOT(on_editor_dataChanged()));
 
     name = this->findAvailableName(name);
-    e->setDocumentName(name);
-    this->ui->tabWidget->addTab(e, name);
+    ed->setDocumentName(name);
+    this->ui->tabWidget->addTab(ed, name);
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionOpen_triggered()
@@ -173,6 +206,8 @@ void MainWindow::on_actionOpen_triggered()
         if (isImage)
         {
             EditorTabImage *ed = new EditorTabImage(this);
+            this->connect(ed, SIGNAL(dataChanged()), SLOT(on_editor_dataChanged()));
+
             int index = this->ui->tabWidget->addTab(ed, "");
             ed->load(filename);
             this->ui->tabWidget->setTabText(index, ed->documentName());
@@ -205,6 +240,11 @@ void MainWindow::on_actionSave_As_triggered()
         QString filename = dialog.selectedFiles().at(0);
         doc->save(filename);
     }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionClose_triggered()
+{
+    this->on_tabWidget_tabCloseRequested(this->ui->tabWidget->currentIndex());
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionImageFlip_Horizontal_triggered()
@@ -359,5 +399,18 @@ void MainWindow::on_actionImageExport_triggered()
             this->mEditor->dataContainer()->image(index)->save(filename);
         }
     }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_editor_dataChanged()
+{
+    QWidget *w = qobject_cast<QWidget *>(sender());
+    int index = this->ui->tabWidget->indexOf(w);
+    IDocument *doc = dynamic_cast<IDocument *> (w);
+
+    if (doc->changed())
+        this->ui->tabWidget->setTabText(index, "* " + doc->documentName());
+    else
+        this->ui->tabWidget->setTabText(index, doc->documentName());
+    this->ui->tabWidget->setTabToolTip(index, doc->fileName());
 }
 //-----------------------------------------------------------------------------

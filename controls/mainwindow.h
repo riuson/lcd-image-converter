@@ -22,6 +22,7 @@ private:
     Ui::MainWindow *ui;
     QString findAvailableName(const QString &prefix);
     WidgetBitmapEditor *mEditor;
+    void updateMenuState();
 
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
@@ -30,6 +31,7 @@ private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
     void on_actionSave_As_triggered();
+    void on_actionClose_triggered();
     void on_actionImageFlip_Horizontal_triggered();
     void on_actionImageFlip_Vertical_triggered();
     void on_actionImageRotate_90_Clockwise_triggered();
@@ -39,6 +41,8 @@ private slots:
     void on_actionImageResize_triggered();
     void on_actionImageImport_triggered();
     void on_actionImageExport_triggered();
+
+    void on_editor_dataChanged();
 };
 //-----------------------------------------------------------------------------
 #endif // MAINWINDOW_H

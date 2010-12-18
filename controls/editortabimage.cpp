@@ -53,10 +53,12 @@ void EditorTabImage::changeEvent(QEvent *e)
 void EditorTabImage::on_editor_dataChanged()
 {
     this->mDataChanged = true;
+    emit this->dataChanged();
 }
 //-----------------------------------------------------------------------------
-void EditorTabImage::load(const QString &fileName)
+bool EditorTabImage::load(const QString &fileName)
 {
+    bool result = false;
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly))
     {
@@ -83,6 +85,8 @@ void EditorTabImage::load(const QString &fileName)
                       QImage image;
                       image.load(&buffer, "PNG");
                       this->mContainer->setImage(0, &image);
+                      result = true;
+                      break;
                     }
                   }
 
@@ -93,11 +97,15 @@ void EditorTabImage::load(const QString &fileName)
         file.close();
 
         this->mFileName = fileName;
+        this->mDataChanged = false;
+        emit this->dataChanged();
     }
+    return result;
 }
 //-----------------------------------------------------------------------------
-void EditorTabImage::save(const QString &fileName)
+bool EditorTabImage::save(const QString &fileName)
 {
+    bool result = false;
     QDomDocument doc;
     QDomProcessingInstruction procInstruction = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\"");
     doc.appendChild(procInstruction);
@@ -127,8 +135,14 @@ void EditorTabImage::save(const QString &fileName)
     {
         QTextStream stream(&file);
         doc.save(stream, 4);
+
+        this->mFileName = fileName;
+        this->mDataChanged = false;
         file.close();
+        result = true;
+        emit this->dataChanged();
     }
+    return result;
 }
 //-----------------------------------------------------------------------------
 bool EditorTabImage::changed()
@@ -149,6 +163,7 @@ QString EditorTabImage::documentName()
 void EditorTabImage::setDocumentName(const QString &value)
 {
     this->mDocumentName = value;
+    emit this->dataChanged();
 }
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor *EditorTabImage::editor()

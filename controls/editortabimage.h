@@ -21,8 +21,8 @@ public:
     explicit EditorTabImage(QWidget *parent = 0);
     ~EditorTabImage();
 
-    void load(const QString &fileName);
-    void save(const QString &fileName);
+    bool load(const QString &fileName);
+    bool save(const QString &fileName);
     bool changed();
     QString fileName();
     QString documentName();
