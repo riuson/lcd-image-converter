@@ -1,21 +1,23 @@
-#ifndef BITMAPCONTAINER_H
-#define BITMAPCONTAINER_H
+#ifndef FONTCONTAINER_H
+#define FONTCONTAINER_H
 
 #include <QObject>
+
+#include <QList>
 
 #include "idatacontainer.h"
 //-----------------------------------------------------------------------------
 class QImage;
 //-----------------------------------------------------------------------------
-class BitmapContainer : public QObject, public IDataContainer
+class FontContainer : public QObject, public IDataContainer
 {
     Q_OBJECT
     Q_INTERFACES(IDataContainer)
 public:
-    explicit BitmapContainer(QObject *parent = 0);
-    ~BitmapContainer();
+    explicit FontContainer(QObject *parent = 0);
+    ~FontContainer();
 private:
-    QImage *mImage;
+    QList<QImage *> mImageList;
 public:
     QImage *image(int index);
     void setImage(int index, QImage *image);
@@ -27,5 +29,4 @@ public slots:
 
 };
 //-----------------------------------------------------------------------------
-
-#endif // BITMAPCONTAINER_H
+#endif // FONTCONTAINER_H

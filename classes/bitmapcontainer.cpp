@@ -20,13 +20,6 @@ BitmapContainer::~BitmapContainer()
         delete this->mImage;
 }
 //-----------------------------------------------------------------------------
-void BitmapContainer::createNew(int width, int height)
-{
-    if (this->mImage != NULL)
-        delete this->mImage;
-    this->mImage = new QImage(width, height, QImage::Format_RGB32);
-}
-//-----------------------------------------------------------------------------
 QImage *BitmapContainer::image(int index)
 {
     Q_UNUSED(index);
