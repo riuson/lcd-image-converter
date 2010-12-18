@@ -273,3 +273,72 @@ void MainWindow::on_actionImageInverse_triggered()
     }
 }
 //-----------------------------------------------------------------------------
+void MainWindow::on_actionImageImport_triggered()
+{
+    if (this->mEditor != NULL)
+    {
+        QFileDialog dialog(this);
+        dialog.setAcceptMode(QFileDialog::AcceptOpen);
+        dialog.setFileMode(QFileDialog::ExistingFile);
+        dialog.setFilter(tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
+        dialog.setWindowTitle(tr("Open image file"));
+
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            QImage image;
+            image.load(dialog.selectedFiles().at(0));
+            int index = this->mEditor->currentImageIndex();
+            this->mEditor->dataContainer()->setImage(index, &image);
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionImageExport_triggered()
+{
+    if (this->mEditor != NULL)
+    {
+        QFileDialog dialog(this);
+        dialog.setAcceptMode(QFileDialog::AcceptSave);
+        dialog.setFileMode(QFileDialog::AnyFile);
+        QString filter = tr("Windows Bitmap (*.bmp);;" \
+                            "Joint Photographic Experts Group (*.jpg *.jpeg);;" \
+                            "Portable Network Graphics (*.png);;" \
+                            "Portable Pixmap (*.ppm);;" \
+                            "Tagged Image File Format (*.tiff);;" \
+                            "X11 Bitmap (*.xbm);;" \
+                            "X11 Bitmap (*.xpm)");
+        dialog.setFilter(filter);
+        dialog.setWindowTitle(tr("Save image file"));
+
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            filter = dialog.selectedFilter();
+            QString ext = "png";
+            if (filter.contains("bmp"))
+                ext = "bmp";
+            else if (filter.contains("jpg"))
+                ext = "jpg";
+            else if (filter.contains("png"))
+                ext = "png";
+            else if (filter.contains("ppm"))
+                ext = "ppm";
+            else if (filter.contains("tiff"))
+                ext = "tiff";
+            else if (filter.contains("xbm"))
+                ext = "xbm";
+            else if (filter.contains("xpm"))
+                ext = "xpm";
+
+            QString filename = dialog.selectedFiles().at(0);
+            QFileInfo info(filename);
+            QString fileExt = info.suffix().toLower();
+            if (fileExt.isEmpty() || fileExt != ext)
+            {
+                filename += "." + ext;
+            }
+            int index = this->mEditor->currentImageIndex();
+            this->mEditor->dataContainer()->image(index)->save(filename);
+        }
+    }
+}
+//-----------------------------------------------------------------------------

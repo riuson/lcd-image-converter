@@ -36,6 +36,8 @@ private slots:
     void on_actionImageRotate_180_triggered();
     void on_actionImageRotate_90_Counter_Clockwise_triggered();
     void on_actionImageInverse_triggered();
+    void on_actionImageImport_triggered();
+    void on_actionImageExport_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // MAINWINDOW_H
