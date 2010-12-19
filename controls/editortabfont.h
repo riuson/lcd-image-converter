@@ -50,6 +50,13 @@ private:
     bool mDataChanged;
     QFont mFont;
 
+    QImage drawCharacter(const QChar value,
+                         const QFont &font,
+                         const QColor &foreground,
+                         const QColor &background,
+                         const int width,
+                         const int height);
+
 private slots:
     void on_editor_dataChanged();
     void on_listWidgetCharacters_currentTextChanged(const QString &value);

@@ -8,6 +8,8 @@
 #include <QFile>
 #include <QTextStream>
 #include <QFontDatabase>
+#include <QPainter>
+#include <QImage>
 
 #include "widgetbitmapeditor.h"
 #include "fontcontainer.h"
@@ -195,8 +197,47 @@ void EditorTabFont::assignFontCharacters(const QString &chars,
     for (int i = 0; i < chars.count(); i++)
     {
         this->ui->listWidgetCharacters->addItem(QString(chars.at(i)));
-        this->mContainer->setImage(QString(chars.at(i)), new QImage(":/images/template"));
+        QImage image = this->drawCharacter(chars.at(i),
+                                           this->mFont,
+                                           this->mEditor->color1(),
+                                           this->mEditor->color2(),
+                                           0, 0);
+        this->mContainer->setImage(QString(chars.at(i)), new QImage(image));
     }
+}
+//-----------------------------------------------------------------------------
+QImage EditorTabFont::drawCharacter(const QChar value,
+                                    const QFont &font,
+                                    const QColor &foreground,
+                                    const QColor &background,
+                                    const int width,
+                                    const int height)
+{
+    QFontMetrics fontMetrics(font);
+
+    int charWidth = fontMetrics.width(value);
+    int charHeight = fontMetrics.height();
+
+    int imageWidth = width;
+    int imageHeight = height;
+
+    if (width == 0 || height == 0)
+    {
+        imageWidth = charWidth;
+        imageHeight = charHeight;
+    }
+    QImage result(imageWidth, imageHeight, QImage::Format_RGB32);
+
+    QPainter painter(&result);
+    painter.setPen(QPen(Qt::black));
+
+    painter.fillRect(result.rect(), background);
+
+    painter.drawText((imageWidth / 2) - (charWidth / 2),
+                     fontMetrics.ascent(),//+4
+                     QString(value));
+
+    return result;
 }
 //-----------------------------------------------------------------------------
 /*
