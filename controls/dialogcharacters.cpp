@@ -83,12 +83,14 @@ DialogCharacters::~DialogCharacters()
     delete ui;
 }
 //-----------------------------------------------------------------------------
-void DialogCharacters::selectFont(const QFont &usedfont,
-                                  const int size,
+void DialogCharacters::selectFont(const QString &family,
                                   const QString &style,
+                                  const int size,
                                   bool monospaced,
                                   bool antialiasing)
 {
+    QFontDatabase fonts;
+    QFont usedfont = fonts.font(family, style, size);
     this->ui->comboBoxFont->setCurrentFont(usedfont);
 
     int indexSize = this->ui->comboBoxSize->findText(QString("%1").arg(size));

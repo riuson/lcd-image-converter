@@ -8,7 +8,7 @@ FontContainer::FontContainer(QObject *parent) :
     QObject(parent)
 {
     this->mDefaultImage = new QImage(":/images/template");
-    this->mImageMap.insert("template", this->mDefaultImage);
+    //this->mImageMap.insert("template", this->mDefaultImage);
 }
 //-----------------------------------------------------------------------------
 FontContainer::~FontContainer()
@@ -23,12 +23,7 @@ QImage *FontContainer::image(const QString &key)
 //-----------------------------------------------------------------------------
 void FontContainer::setImage(const QString &key, QImage *image)
 {
-    if (this->mImageMap.contains(key))
-    {
-        QImage *imageOld = this->mImageMap.value(key);
-        this->mImageMap.remove(key);
-        delete imageOld;
-    }
+    this->remove(key);
     QImage *imageNew = new QImage(*image);
     this->mImageMap.insert(key, imageNew);
     emit this->imageChanged(key);
@@ -53,5 +48,28 @@ void FontContainer::transform(const QString &key, int code)
 int FontContainer::count()
 {
     return this->mImageMap.count();
+}
+//-----------------------------------------------------------------------------
+void FontContainer::clear()
+{
+    qDeleteAll(this->mImageMap);
+    this->mImageMap.clear();
+}
+//-----------------------------------------------------------------------------
+QList<QString> FontContainer::keys()
+{
+    QList<QString> result = this->mImageMap.keys();
+    qSort(result);
+    return result;
+}
+//-----------------------------------------------------------------------------
+void FontContainer::remove(const QString &key)
+{
+    if (this->mImageMap.contains(key))
+    {
+        QImage *imageOld = this->mImageMap.value(key);
+        this->mImageMap.remove(key);
+        delete imageOld;
+    }
 }
 //-----------------------------------------------------------------------------

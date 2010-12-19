@@ -43,6 +43,7 @@ private slots:
     void on_actionImageResize_triggered();
     void on_actionImageImport_triggered();
     void on_actionImageExport_triggered();
+    void on_actionFontChange_triggered();
 
     void on_editor_dataChanged();
 };

@@ -58,7 +58,8 @@ private:
     bool mDataChanged;
     QFont mFont;
 
-    QString mCharacters;
+    //QString mCharacters;
+    QString mStyle;
     bool mMonospaced;
     bool mAntialiasing;
 

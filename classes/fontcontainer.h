@@ -25,6 +25,10 @@ public:
     void setImage(const QString &key, QImage *image);
     void transform(const QString &key, int code);
     int count();
+
+    void clear();
+    QList<QString> keys();
+    void remove(const QString &key);
 signals:
     void imageChanged(const QString &key);
 public slots:

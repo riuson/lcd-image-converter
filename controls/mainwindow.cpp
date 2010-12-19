@@ -450,6 +450,33 @@ void MainWindow::on_actionImageExport_triggered()
     }
 }
 //-----------------------------------------------------------------------------
+void MainWindow::on_actionFontChange_triggered()
+{
+    int index = this->ui->tabWidget->currentIndex();
+    QWidget *w = this->ui->tabWidget->widget(index);
+    if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
+    {
+        QString chars, fontFamily, style;
+        int size;
+        bool monospaced, antialiasing;
+        etf->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
+
+        DialogCharacters dialog(this);
+        dialog.setCharacters(chars);
+        dialog.selectFont(fontFamily, style, size, monospaced, antialiasing);
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            QString chars = dialog.selectedCharacters();
+            int size;
+            QString family, style;
+            bool monospaced, antialiasing;
+            dialog.selectedFont(&family, &style, &size, &monospaced, &antialiasing);
+
+            etf->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
+        }
+    }
+}
+//-----------------------------------------------------------------------------
 void MainWindow::on_editor_dataChanged()
 {
     QWidget *w = qobject_cast<QWidget *>(sender());

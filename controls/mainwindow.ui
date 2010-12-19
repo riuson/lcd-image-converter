@@ -77,7 +77,7 @@
     <property name="title">
      <string>Font</string>
     </property>
-    <addaction name="actionAdd_Remove_characters"/>
+    <addaction name="actionFontChange"/>
     <addaction name="separator"/>
     <addaction name="actionFontResize"/>
     <addaction name="actionFontInverse"/>
@@ -184,9 +184,9 @@
     <string>Resize</string>
    </property>
   </action>
-  <action name="actionAdd_Remove_characters">
+  <action name="actionFontChange">
    <property name="text">
-    <string>Add/Remove characters...</string>
+    <string>Change...</string>
    </property>
   </action>
   <action name="actionFontResize">

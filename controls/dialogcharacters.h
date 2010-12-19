@@ -56,9 +56,9 @@ class DialogCharacters : public QDialog
 public:
     explicit DialogCharacters(QWidget *parent = 0);
     ~DialogCharacters();
-    void selectFont(const QFont &usedfont,
-                    const int size,
+    void selectFont(const QString &family,
                     const QString &style,
+                    const int size,
                     bool monospaced,
                     bool antialiasing);
     void setCharacters(const QString &value);

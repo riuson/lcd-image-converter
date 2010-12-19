@@ -10,6 +10,7 @@
 #include <QFontDatabase>
 #include <QPainter>
 #include <QImage>
+#include <QMessageBox>
 
 #include "widgetbitmapeditor.h"
 #include "fontcontainer.h"
@@ -196,39 +197,110 @@ void EditorTabFont::setFontCharacters(const QString &chars,
                           const bool antialiasing)
 {
     QFontDatabase fonts;
-    this->mFont = fonts.font(fontFamily, style, size);
-    this->ui->listWidgetCharacters->setFont(this->mFont);
 
-    this->mCharacters = chars;
-    this->mMonospaced = monospaced;
-    this->mAntialiasing = antialiasing;
-
-    if (this->mAntialiasing)
-        this->mFont.setStyleStrategy(QFont::PreferAntialias);
-    else
-        this->mFont.setStyleStrategy(QFont::NoAntialias);
-    int width = 0, height = 0;
-    if (this->mMonospaced)
+    bool needRecreate = false;
+    bool cancel = false;
+    if (this->mContainer->count() > 1)
     {
-        QFontMetrics metrics(this->mFont);
-        for (int i = 0; i < chars.count(); i++)
+        if (this->mFont.family() != fontFamily ||
+            this->mStyle != style ||
+            this->mFont.pointSize() != size ||
+            this->mMonospaced != monospaced ||
+            this->mAntialiasing != antialiasing)
         {
-            width = qMax(width, metrics.width(chars.at(i)));
+            // Font changed, need recreate all images
+            // TODO: may be allow add only new characters with other font? :
+            // * recreate all images and add new
+            // * only recreate old images with new font
+            // * add new characters with new font
+            // * add new character with old font
+            // * cancel
+            needRecreate = true;
         }
-        height = metrics.height();
+    }
+    if (needRecreate)
+    {
+        QMessageBox msgBox;
+        msgBox.setText(tr("Font parameters was changed"));
+        msgBox.setInformativeText(tr("Do you want update all characters?"));
+        msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+        int ret = msgBox.exec();
+        if (ret == QMessageBox::Cancel)
+            cancel = true;
     }
 
-    for (int i = 0; i < chars.count(); i++)
+    if (!cancel)
     {
-        this->ui->listWidgetCharacters->addItem(QString(chars.at(i)));
-        QImage image = this->drawCharacter(chars.at(i),
-                                           this->mFont,
-                                           this->mEditor->color1(),
-                                           this->mEditor->color2(),
-                                           width,
-                                           height,
-                                           this->mAntialiasing);
-        this->mContainer->setImage(QString(chars.at(i)), new QImage(image));
+        // list of exists characters
+        QList<QString> keys = this->mContainer->keys();
+        if (needRecreate)
+        {
+            this->mContainer->clear();
+        }
+        else
+        {
+            // remove characters, which not present in new characters list
+            QListIterator<QString> it(keys);
+            it.toFront();
+            while(it.hasNext())
+            {
+                QString a = it.next();
+                if (!chars.contains(a))
+                {
+                    this->mContainer->remove(a);
+                }
+            }
+        }
+        this->mFont = fonts.font(fontFamily, style, size);
+        this->ui->listWidgetCharacters->setFont(this->mFont);
+
+        //this->mCharacters = chars;
+        this->mStyle = style;
+        this->mMonospaced = monospaced;
+        this->mAntialiasing = antialiasing;
+
+        if (this->mAntialiasing)
+            this->mFont.setStyleStrategy(QFont::PreferAntialias);
+        else
+            this->mFont.setStyleStrategy(QFont::NoAntialias);
+        int width = 0, height = 0;
+        if (this->mMonospaced)
+        {
+            QFontMetrics metrics(this->mFont);
+            for (int i = 0; i < chars.count(); i++)
+            {
+                width = qMax(width, metrics.width(chars.at(i)));
+            }
+            height = metrics.height();
+        }
+
+        // clear items of listwidget
+        this->ui->listWidgetCharacters->clear();
+        // list of exists characters, what present in new characters list
+        keys = this->mContainer->keys();
+        for (int i = 0; i < chars.count(); i++)
+        {
+            QString key = QString(chars.at(i));
+
+            //this->ui->listWidgetCharacters->addItem(key);
+            // if character not exists, create it
+            if (!keys.contains(key))
+            {
+                QImage image = this->drawCharacter(chars.at(i),
+                                                   this->mFont,
+                                                   this->mEditor->color1(),
+                                                   this->mEditor->color2(),
+                                                   width,
+                                                   height,
+                                                   this->mAntialiasing);
+                this->mContainer->setImage(key, new QImage(image));
+            }
+        }
+        keys = this->mContainer->keys();
+        QStringList list(keys);
+        this->ui->listWidgetCharacters->addItems(list);
+        this->on_editor_dataChanged();
     }
 }
 //-----------------------------------------------------------------------------
@@ -239,17 +311,12 @@ void EditorTabFont::fontCharacters(QString *chars,
                                    bool *monospaced,
                                    bool *antialiasing)
 {
-    *chars = this->mCharacters;
+    QStringList charList(this->mContainer->keys());
+    //*chars = this->mCharacters;
+    *chars = charList.join("");
     *fontFamily = this->mFont.family();
     *size = this->mFont.pointSize();
-    QString st = "Normal";
-    if (this->mFont.italic())
-        st = "Italic";
-    if (this->mFont.bold())
-        st = "Bold";
-    if (this->mFont.italic() && this->mFont.bold())
-        st = "Bold Italic";
-    *style = st;
+    *style = this->mStyle;
     *monospaced = this->mMonospaced;
     *antialiasing = this->mAntialiasing;
 }
