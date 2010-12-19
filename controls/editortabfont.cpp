@@ -59,6 +59,11 @@ void EditorTabFont::on_editor_dataChanged()
     emit this->dataChanged();
 }
 //-----------------------------------------------------------------------------
+void EditorTabFont::on_listWidgetCharacters_currentTextChanged(const QString &value)
+{
+    this->mEditor->selectImage(value);
+}
+//-----------------------------------------------------------------------------
 bool EditorTabFont::load(const QString &fileName)
 {
     bool result = false;
@@ -190,6 +195,7 @@ void EditorTabFont::assignFontCharacters(const QString &chars,
     for (int i = 0; i < chars.count(); i++)
     {
         this->ui->listWidgetCharacters->addItem(QString(chars.at(i)));
+        this->mContainer->setImage(QString(chars.at(i)), new QImage(":/images/template"));
     }
 }
 //-----------------------------------------------------------------------------

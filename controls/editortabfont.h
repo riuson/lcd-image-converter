@@ -52,6 +52,7 @@ private:
 
 private slots:
     void on_editor_dataChanged();
+    void on_listWidgetCharacters_currentTextChanged(const QString &value);
 signals:
     void dataChanged();
 };

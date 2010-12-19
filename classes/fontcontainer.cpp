@@ -23,9 +23,12 @@ QImage *FontContainer::image(const QString &key)
 //-----------------------------------------------------------------------------
 void FontContainer::setImage(const QString &key, QImage *image)
 {
-    QImage *imageOld = this->mImageMap.value(key);
-    this->mImageMap.remove(key);
-    delete imageOld;
+    if (this->mImageMap.contains(key))
+    {
+        QImage *imageOld = this->mImageMap.value(key);
+        this->mImageMap.remove(key);
+        delete imageOld;
+    }
     this->mImageMap.insert(key, image);
     emit this->imageChanged(key);
 }

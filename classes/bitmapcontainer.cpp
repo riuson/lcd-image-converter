@@ -9,8 +9,8 @@ BitmapContainer::BitmapContainer(QObject *parent) :
     QObject(parent)
 {
     //this->mImage = NULL;
-    this->mImage = new QImage(":/images/template");
-    this->mImage = new QImage(this->mImage->scaled(20, 10));
+    //this->mImage = new QImage(":/images/template");
+    this->mImage = new QImage(QImage(":/images/template").scaled(20, 10));
     //this->createNew(10, 10);
 }
 //-----------------------------------------------------------------------------
