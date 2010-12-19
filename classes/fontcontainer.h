@@ -3,7 +3,8 @@
 
 #include <QObject>
 
-#include <QList>
+#include <QMap>
+#include <QString>
 
 #include "idatacontainer.h"
 //-----------------------------------------------------------------------------
@@ -17,14 +18,15 @@ public:
     explicit FontContainer(QObject *parent = 0);
     ~FontContainer();
 private:
-    QList<QImage *> mImageList;
+    QMap<QString, QImage *> mImageMap;
+    QImage *mDefaultImage;
 public:
-    QImage *image(int index);
-    void setImage(int index, QImage *image);
-    void transform(int index, int code);
+    QImage *image(const QString &key);
+    void setImage(const QString &key, QImage *image);
+    void transform(const QString &key, int code);
     int count();
 signals:
-    void imageChanged(int index);
+    void imageChanged(const QString &key);
 public slots:
 
 };

@@ -20,32 +20,32 @@ BitmapContainer::~BitmapContainer()
         delete this->mImage;
 }
 //-----------------------------------------------------------------------------
-QImage *BitmapContainer::image(int index)
+QImage *BitmapContainer::image(const QString &key)
 {
-    Q_UNUSED(index);
+    Q_UNUSED(key);
     return this->mImage;
 }
 //-----------------------------------------------------------------------------
-void BitmapContainer::setImage(int index, QImage *image)
+void BitmapContainer::setImage(const QString &key, QImage *image)
 {
-    Q_UNUSED(index);
+    Q_UNUSED(key);
     if (this->mImage != NULL)
         delete this->mImage;
     this->mImage = new QImage(*image);
 
-    emit this->imageChanged(0);
+    emit this->imageChanged("template");
 }
 //-----------------------------------------------------------------------------
-void BitmapContainer::transform(int index, int code)
+void BitmapContainer::transform(const QString &key, int code)
 {
-    Q_UNUSED(index);
+    Q_UNUSED(key);
     BitmapHelper::BitmapHelperTransformCodes type = (BitmapHelper::BitmapHelperTransformCodes)code;
     QImage result = BitmapHelper::transform(type, this->mImage);
     if (this->mImage != NULL)
         delete this->mImage;
     this->mImage = new QImage(result);
 
-    emit this->imageChanged(0);
+    emit this->imageChanged("template");
 }
 //-----------------------------------------------------------------------------
 int BitmapContainer::count()

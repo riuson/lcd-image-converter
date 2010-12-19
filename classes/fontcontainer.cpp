@@ -7,47 +7,47 @@
 FontContainer::FontContainer(QObject *parent) :
     QObject(parent)
 {
-    QImage *image = new QImage(":/images/template");
-    this->mImageList.append(image);
+    this->mDefaultImage = new QImage(":/images/template");
+    this->mImageMap.insert("template", this->mDefaultImage);
 }
 //-----------------------------------------------------------------------------
 FontContainer::~FontContainer()
 {
-    qDeleteAll(this->mImageList);
+    qDeleteAll(this->mImageMap);
 }
 //-----------------------------------------------------------------------------
-QImage *FontContainer::image(int index)
+QImage *FontContainer::image(const QString &key)
 {
-    return this->mImageList.at(index);
+    return this->mImageMap.value(key, this->mDefaultImage);
 }
 //-----------------------------------------------------------------------------
-void FontContainer::setImage(int index, QImage *image)
+void FontContainer::setImage(const QString &key, QImage *image)
 {
-    QImage *imageOld = this->mImageList.at(index);
-    this->mImageList.removeAt(index);
+    QImage *imageOld = this->mImageMap.value(key);
+    this->mImageMap.remove(key);
     delete imageOld;
-    this->mImageList.insert(index, image);
-    emit this->imageChanged(index);
+    this->mImageMap.insert(key, image);
+    emit this->imageChanged(key);
 }
 //-----------------------------------------------------------------------------
-void FontContainer::transform(int index, int code)
+void FontContainer::transform(const QString &key, int code)
 {
-    QImage *imageOld = this->mImageList.at(index);
+    QImage *imageOld = this->mImageMap.value(key);
 
     BitmapHelper::BitmapHelperTransformCodes type = (BitmapHelper::BitmapHelperTransformCodes)code;
     QImage result = BitmapHelper::transform(type, imageOld);
 
-    this->mImageList.removeAt(index);
+    this->mImageMap.remove(key);
     delete imageOld;
 
     QImage *imageNew = new QImage(result);
-    this->mImageList.insert(index, imageNew);
+    this->mImageMap.insert(key, imageNew);
 
     emit this->imageChanged(0);
 }
 //-----------------------------------------------------------------------------
 int FontContainer::count()
 {
-    return this->mImageList.count();
+    return this->mImageMap.count();
 }
 //-----------------------------------------------------------------------------

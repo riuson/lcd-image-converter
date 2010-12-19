@@ -298,10 +298,10 @@ void MainWindow::on_actionImageFlip_Horizontal_triggered()
 {
     if (this->mEditor != NULL)
     {
-        int index = this->mEditor->currentImageIndex();
-        QImage *original = this->mEditor->dataContainer()->image(index);
+        QString key = this->mEditor->currentImageKey();
+        QImage *original = this->mEditor->dataContainer()->image(key);
         QImage result = BitmapHelper::flipHorizontal(original);
-        this->mEditor->dataContainer()->setImage(index, &result);
+        this->mEditor->dataContainer()->setImage(key, &result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -309,10 +309,10 @@ void MainWindow::on_actionImageFlip_Vertical_triggered()
 {
     if (this->mEditor != NULL)
     {
-        int index = this->mEditor->currentImageIndex();
-        QImage *original = this->mEditor->dataContainer()->image(index);
+        QString key = this->mEditor->currentImageKey();
+        QImage *original = this->mEditor->dataContainer()->image(key);
         QImage result = BitmapHelper::flipVertical(original);
-        this->mEditor->dataContainer()->setImage(index, &result);
+        this->mEditor->dataContainer()->setImage(key, &result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -320,10 +320,10 @@ void MainWindow::on_actionImageRotate_90_Clockwise_triggered()
 {
     if (this->mEditor != NULL)
     {
-        int index = this->mEditor->currentImageIndex();
-        QImage *original = this->mEditor->dataContainer()->image(index);
+        QString key = this->mEditor->currentImageKey();
+        QImage *original = this->mEditor->dataContainer()->image(key);
         QImage result = BitmapHelper::rotate90(original);
-        this->mEditor->dataContainer()->setImage(index, &result);
+        this->mEditor->dataContainer()->setImage(key, &result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -331,10 +331,10 @@ void MainWindow::on_actionImageRotate_180_triggered()
 {
     if (this->mEditor != NULL)
     {
-        int index = this->mEditor->currentImageIndex();
-        QImage *original = this->mEditor->dataContainer()->image(index);
+        QString key = this->mEditor->currentImageKey();
+        QImage *original = this->mEditor->dataContainer()->image(key);
         QImage result = BitmapHelper::rotate180(original);
-        this->mEditor->dataContainer()->setImage(index, &result);
+        this->mEditor->dataContainer()->setImage(key, &result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -342,10 +342,10 @@ void MainWindow::on_actionImageRotate_90_Counter_Clockwise_triggered()
 {
     if (this->mEditor != NULL)
     {
-        int index = this->mEditor->currentImageIndex();
-        QImage *original = this->mEditor->dataContainer()->image(index);
+        QString key = this->mEditor->currentImageKey();
+        QImage *original = this->mEditor->dataContainer()->image(key);
         QImage result = BitmapHelper::rotate270(original);
-        this->mEditor->dataContainer()->setImage(index, &result);
+        this->mEditor->dataContainer()->setImage(key, &result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -353,11 +353,11 @@ void MainWindow::on_actionImageInverse_triggered()
 {
     if (this->mEditor != NULL)
     {
-        int index = this->mEditor->currentImageIndex();
-        QImage *original = this->mEditor->dataContainer()->image(index);
+        QString key = this->mEditor->currentImageKey();
+        QImage *original = this->mEditor->dataContainer()->image(key);
         QImage result(*original);
         result.invertPixels();
-        this->mEditor->dataContainer()->setImage(index, &result);
+        this->mEditor->dataContainer()->setImage(key, &result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -365,8 +365,8 @@ void MainWindow::on_actionImageResize_triggered()
 {
     if (this->mEditor != NULL)
     {
-        int index = this->mEditor->currentImageIndex();
-        QImage *original = this->mEditor->dataContainer()->image(index);
+        QString key = this->mEditor->currentImageKey();
+        QImage *original = this->mEditor->dataContainer()->image(key);
         DialogResize dialog(original->width(), original->height(), 0, 0, false, this);
         if (dialog.exec() == QDialog::Accepted)
         {
@@ -374,7 +374,7 @@ void MainWindow::on_actionImageResize_triggered()
             bool center;
             dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center);
             QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, this->mEditor->color2());
-            this->mEditor->dataContainer()->setImage(index, &result);
+            this->mEditor->dataContainer()->setImage(key, &result);
         }
     }
 }
@@ -393,8 +393,8 @@ void MainWindow::on_actionImageImport_triggered()
         {
             QImage image;
             image.load(dialog.selectedFiles().at(0));
-            int index = this->mEditor->currentImageIndex();
-            this->mEditor->dataContainer()->setImage(index, &image);
+            QString key = this->mEditor->currentImageKey();
+            this->mEditor->dataContainer()->setImage(key, &image);
         }
     }
 }
@@ -442,8 +442,8 @@ void MainWindow::on_actionImageExport_triggered()
             {
                 filename += "." + ext;
             }
-            int index = this->mEditor->currentImageIndex();
-            this->mEditor->dataContainer()->image(index)->save(filename);
+            QString key = this->mEditor->currentImageKey();
+            this->mEditor->dataContainer()->image(key)->save(filename);
         }
     }
 }

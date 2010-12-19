@@ -27,12 +27,12 @@ WidgetBitmapEditor::WidgetBitmapEditor(IDataContainer *dataContainer, QWidget *p
     this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
 
     this->mDataContainer = dataContainer;
-    this->mImageIndex = 0;
+    this->mImageKey = "template";
     this->createImageScaled(this->mScale);
 
     this->ui->spinBoxScale->setValue(this->mScale);
     QObject *d = dynamic_cast<QObject *>(this->mDataContainer);
-    this->connect(d, SIGNAL(imageChanged(int)), SLOT(on_dataContainer_imageChanged(int)));
+    this->connect(d, SIGNAL(imageChanged(QString)), SLOT(on_dataContainer_imageChanged(QString)));
 }
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::~WidgetBitmapEditor()
@@ -63,7 +63,7 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
         int yscaled = me->pos().y();
         int xreal = xscaled / this->mScale;
         int yreal = yscaled / this->mScale;
-        QImage *original = this->mDataContainer->image(this->mImageIndex);
+        QImage *original = this->mDataContainer->image(this->mImageKey);
         if (xreal < original->width() && yreal < original ->height())
         {
             // show coordinates
@@ -129,15 +129,15 @@ IDataContainer *WidgetBitmapEditor::dataContainer()
     return this->mDataContainer;
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::selectImage(int index)
+void WidgetBitmapEditor::selectImage(const QString &key)
 {
-    this->mImageIndex = index;
+    this->mImageKey = key;
     this->createImageScaled(this->mScale);
 }
 //-----------------------------------------------------------------------------
-int WidgetBitmapEditor::currentImageIndex()
+const QString WidgetBitmapEditor::currentImageKey()
 {
-    return this->mImageIndex;
+    return this->mImageKey;
 }
 //-----------------------------------------------------------------------------
 QColor WidgetBitmapEditor::color1()
@@ -152,7 +152,7 @@ QColor WidgetBitmapEditor::color2()
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::createImageScaled(int scale)
 {
-    QImage *original = this->mDataContainer->image(this->mImageIndex);
+    QImage *original = this->mDataContainer->image(this->mImageKey);
     if (original != NULL)
     {
         int width = original->width();
@@ -192,9 +192,9 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
     }
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::on_dataContainer_imageChanged(int index)
+void WidgetBitmapEditor::on_dataContainer_imageChanged(const QString &key)
 {
-    if (this->mImageIndex == index)
+    if (this->mImageKey == key)
     {
         this->createImageScaled(this->mScale);
         emit this->dataChanged();;

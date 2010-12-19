@@ -18,8 +18,8 @@ public:
 
     IDataContainer *dataContainer();
 
-    void selectImage(int index);
-    int currentImageIndex();
+    void selectImage(const QString &key);
+    const QString currentImageKey();
 
     QColor color1();
     QColor color2();
@@ -38,7 +38,7 @@ private:
     QPixmap mPixmapColor2;
     bool mFlagChanged;
     IDataContainer *mDataContainer;
-    int mImageIndex;
+    QString mImageKey;
 
     void createImageScaled(int scale);
     void updateState();
@@ -46,7 +46,7 @@ private slots:
     void on_spinBoxScale_valueChanged(int value);
     void on_pushButtonColor1_clicked();
     void on_pushButtonColor2_clicked();
-    void on_dataContainer_imageChanged(int index);
+    void on_dataContainer_imageChanged(const QString &key);
 signals:
     void dataChanged();
 };

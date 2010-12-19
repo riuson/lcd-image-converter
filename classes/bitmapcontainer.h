@@ -17,12 +17,12 @@ public:
 private:
     QImage *mImage;
 public:
-    QImage *image(int index);
-    void setImage(int index, QImage *image);
-    void transform(int index, int code);
+    QImage *image(const QString &key);
+    void setImage(const QString &key, QImage *image);
+    void transform(const QString &key, int code);
     int count();
 signals:
-    void imageChanged(int index);
+    void imageChanged(const QString &key);
 public slots:
 
 };
