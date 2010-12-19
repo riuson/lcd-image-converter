@@ -67,7 +67,7 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
         if (xreal < original->width() && yreal < original ->height())
         {
             // show coordinates
-            this->ui->labelCoordinates->setText(QString("%1,%2").arg(xreal).arg(yreal));
+            this->ui->labelCoordinates->setText(tr("x: %1, y: %2").arg(xreal).arg(yreal));
             // get buttons
             bool buttonLeft = (me->buttons() & Qt::LeftButton) == Qt::LeftButton;
             bool buttonRight = (me->buttons() & Qt::RightButton) == Qt::RightButton;
@@ -103,6 +103,10 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
 
                 this->mFlagChanged = true;
             }
+        }
+        else
+        {
+            this->ui->labelCoordinates->setText(tr("Size: %1,%2").arg(original->width()).arg(original->height()));
         }
         event->accept();
     }
@@ -161,6 +165,8 @@ void WidgetBitmapEditor::createImageScaled(int scale)
         QImage scaled = original->scaled(width * scale, height * scale, Qt::KeepAspectRatio, Qt::FastTransformation);
         this->mPixmapScaled = QPixmap::fromImage(scaled);
         this->ui->label->setPixmap(this->mPixmapScaled);
+
+        this->ui->labelCoordinates->setText(tr("Size: %1,%2").arg(original->width()).arg(original->height()));
     }
 }
 //-----------------------------------------------------------------------------
