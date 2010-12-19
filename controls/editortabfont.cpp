@@ -122,7 +122,7 @@ bool EditorTabFont::load(const QString &fileName)
 bool EditorTabFont::save(const QString &fileName)
 {
     bool result = false;
-    /*
+
     QDomDocument doc;
     QDomProcessingInstruction procInstruction = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\"");
     doc.appendChild(procInstruction);
@@ -130,22 +130,79 @@ bool EditorTabFont::save(const QString &fileName)
     QDomElement nodeRoot = doc.createElement("data");
     doc.appendChild(nodeRoot);
 
-    nodeRoot.setAttribute("type", "image");
+    QString chars, fontFamily, style;
+    int size;
+    bool monospaced, antialiasing;
+    this->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
+
+    nodeRoot.setAttribute("type", "font");
     nodeRoot.setAttribute("name", this->mDocumentName);
 
-    QDomElement nodePicture = doc.createElement("picture");
-    nodeRoot.appendChild(nodePicture);
+    //font family
+    QDomElement nodeFamily = doc.createElement("family");
+    nodeRoot.appendChild(nodeFamily);
+    nodeFamily.appendChild(doc.createTextNode(fontFamily));
 
-    nodePicture.setAttribute("format", "png");
+    // size
+    QDomElement nodeSize = doc.createElement("size");
+    nodeRoot.appendChild(nodeSize);
+    nodeSize.appendChild(doc.createTextNode(QString("%1").arg(size)));
 
-    QByteArray ba;
-    QBuffer buffer(&ba);
-    buffer.open(QIODevice::WriteOnly);
-    this->mContainer->image(0)->save(&buffer, "PNG");
-    QString data = ba.toBase64();
+    // style
+    QDomElement nodeStyle = doc.createElement("style");
+    nodeRoot.appendChild(nodeStyle);
+    nodeStyle.appendChild(doc.createTextNode(style));
 
-    QDomText nodeData = doc.createTextNode(data);
-    nodePicture.appendChild(nodeData);
+    // monospaced or proportional
+    QDomElement nodeWidthType = doc.createElement("widthType");
+    nodeRoot.appendChild(nodeWidthType);
+    if (monospaced)
+        nodeWidthType.appendChild(doc.createTextNode("monospaced"));
+    else
+        nodeWidthType.appendChild(doc.createTextNode("proportional"));
+
+    // antialiasing
+    QDomElement nodeAntialiasing = doc.createElement("antialiasing");
+    nodeRoot.appendChild(nodeAntialiasing);
+    if (monospaced)
+        nodeAntialiasing.appendChild(doc.createTextNode("true"));
+    else
+        nodeAntialiasing.appendChild(doc.createTextNode("false"));
+
+    // string
+    QDomElement nodeString = doc.createElement("string");
+    nodeRoot.appendChild(nodeString);
+    nodeString.appendChild(doc.createTextNode(chars));
+
+    // chars list
+    QDomElement nodeChars = doc.createElement("chars");
+    nodeRoot.appendChild(nodeChars);
+
+    QListIterator<QString> it(this->mContainer->keys());
+    it.toFront();
+    while (it.hasNext())
+    {
+        QString key = it.next();
+        // char
+        QDomElement nodeChar = doc.createElement("char");
+        nodeChars.appendChild(nodeChar);
+        nodeChar.setAttribute("character", key);
+        nodeChar.setAttribute("code", QString("%1").arg(key.at(0).unicode(), 4, 16, QChar('0')));
+
+        QDomElement nodePicture = doc.createElement("picture");
+        nodeChar.appendChild(nodePicture);
+
+        nodePicture.setAttribute("format", "png");
+
+        QByteArray ba;
+        QBuffer buffer(&ba);
+        buffer.open(QIODevice::WriteOnly);
+        this->mContainer->image(0)->save(&buffer, "PNG");
+        QString data = ba.toBase64();
+
+        QDomText nodeData = doc.createTextNode(data);
+        nodePicture.appendChild(nodeData);
+    }
 
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly))
@@ -159,7 +216,7 @@ bool EditorTabFont::save(const QString &fileName)
         result = true;
         emit this->dataChanged();
     }
-    */
+
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -364,15 +421,17 @@ QImage EditorTabFont::drawCharacter(const QChar value,
 /*
  Storage data format:
 <?xml version="1.0" encoding="utf-8"?>
-<data type="image" name="documentName">
-    <picture format="png">
-        Base64 string
-    </picture>
+<data type="font" name="Font">
+    <family>Ubuntu</family>
+    <size>12</size>
+    <style>Normal</style>
+    <widthType>proportional</widthType>
+    <antialiasing>false</antialiasing>
+    <string> !"#$%&amp;'()*+,-./0123456789:;&lt;=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~АБВ</string>
+    <chars>
+        <char character=" " code="0020">
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAsTAAALEwEAmpwYAAAARklEQVQYlYWPSQrAMAwDpZAX5x/Nl6eHgLMQt8IniRGWAeWqkux+zaD5my5B2z0uzHq0XegjW1+ZdLhbB4mkB0iHjY6fYS/sJjZR2Wu+lAAAAABJRU5ErkJggg==</picture>
+        </char>
+    </chars>
 </data>
-
-<?xml version="1.0" encoding="utf-8"?>
-<data type="image" name="Image">
-    <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAsTAAALEwEAmpwYAAAARklEQVQYlYWPSQrAMAwDpZAX5x/Nl6eHgLMQt8IniRGWAeWqkux+zaD5my5B2z0uzHq0XegjW1+ZdLhbB4mkB0iHjY6fYS/sJjZR2Wu+lAAAAABJRU5ErkJggg==</picture>
-</data>
-
  */
