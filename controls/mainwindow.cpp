@@ -86,6 +86,7 @@ void MainWindow::updateMenuState()
     if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
     {
         this->ui->menuFont->setEnabled(true);
+        this->mEditor = etf->editor();
         editorSelected = true;
     }
     else
@@ -201,8 +202,9 @@ void MainWindow::on_actionNew_Font_triggered()
             QString chars = dialog.selectedCharacters();
             int size;
             QString family, style;
-            dialog.selectedFont(&family, &style, &size);
-            ed->assignFontCharacters(chars, family, style, size);
+            bool monospaced, antialiasing;
+            dialog.selectedFont(&family, &style, &size, &monospaced, &antialiasing);
+            ed->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
 
             name = this->findAvailableName(name);
             ed->setDocumentName(name);

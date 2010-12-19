@@ -31,10 +31,18 @@ public:
 
     WidgetBitmapEditor *editor();
 
-    void assignFontCharacters(const QString &chars,
-                              const QString &fontFamily,
-                              const QString &style,
-                              const int size);
+    void setFontCharacters(const QString &chars,
+                           const QString &fontFamily,
+                           const QString &style,
+                           const int size,
+                           const bool monospaced,
+                           const bool antialiasing);
+    void fontCharacters(QString *chars,
+                        QString *fontFamily,
+                        QString *style,
+                        int *size,
+                        bool *monospaced,
+                        bool *antialiasing);
 
 protected:
     void changeEvent(QEvent *e);
@@ -50,12 +58,17 @@ private:
     bool mDataChanged;
     QFont mFont;
 
+    QString mCharacters;
+    bool mMonospaced;
+    bool mAntialiasing;
+
     QImage drawCharacter(const QChar value,
                          const QFont &font,
                          const QColor &foreground,
                          const QColor &background,
                          const int width,
-                         const int height);
+                         const int height,
+                         const bool antialiasing);
 
 private slots:
     void on_editor_dataChanged();

@@ -56,9 +56,17 @@ class DialogCharacters : public QDialog
 public:
     explicit DialogCharacters(QWidget *parent = 0);
     ~DialogCharacters();
-    void selectFont(const QFont &usedfont, const int size, const QString &style);
+    void selectFont(const QFont &usedfont,
+                    const int size,
+                    const QString &style,
+                    bool monospaced,
+                    bool antialiasing);
     void setCharacters(const QString &value);
-    void selectedFont(QString *family, QString *style, int *size);
+    void selectedFont(QString *family,
+                      QString *style,
+                      int *size,
+                      bool *monospaced,
+                      bool *antialiasing);
     QString selectedCharacters();
 public slots:
     void findStyles(const QFont &font);
@@ -72,10 +80,14 @@ private:
     QString mFontFamily;
     QString mStyle;
     int mSize;
+    bool mMonospaced;
+    bool mAntialiasing;
 private slots:
     void on_comboBoxSize_currentIndexChanged(const QString &value);
     void on_comboBoxStyle_currentIndexChanged(const QString &value);
     void on_lineEdit_textChanged(const QString &value);
+    void on_radioButtonMonospaced_toggled(bool value);
+    void on_checkBoxAntialiasing_toggled(bool value);
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCHARACTERS_H

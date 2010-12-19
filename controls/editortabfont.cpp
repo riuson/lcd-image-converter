@@ -35,6 +35,9 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->mDocumentName = tr("Font", "new font name");
     this->mFileName = "";
     this->mDataChanged = false;
+
+    this->mAntialiasing = false;
+    this->mMonospaced = false;
 }
 //-----------------------------------------------------------------------------
 EditorTabFont::~EditorTabFont()
@@ -185,14 +188,35 @@ WidgetBitmapEditor *EditorTabFont::editor()
     return this->mEditor;
 }
 //-----------------------------------------------------------------------------
-void EditorTabFont::assignFontCharacters(const QString &chars,
+void EditorTabFont::setFontCharacters(const QString &chars,
                           const QString &fontFamily,
                           const QString &style,
-                          const int size)
+                          const int size,
+                          const bool monospaced,
+                          const bool antialiasing)
 {
     QFontDatabase fonts;
     this->mFont = fonts.font(fontFamily, style, size);
     this->ui->listWidgetCharacters->setFont(this->mFont);
+
+    this->mCharacters = chars;
+    this->mMonospaced = monospaced;
+    this->mAntialiasing = antialiasing;
+
+    if (this->mAntialiasing)
+        this->mFont.setStyleStrategy(QFont::PreferAntialias);
+    else
+        this->mFont.setStyleStrategy(QFont::NoAntialias);
+    int width = 0, height = 0;
+    if (this->mMonospaced)
+    {
+        QFontMetrics metrics(this->mFont);
+        for (int i = 0; i < chars.count(); i++)
+        {
+            width = qMax(width, metrics.width(chars.at(i)));
+        }
+        height = metrics.height();
+    }
 
     for (int i = 0; i < chars.count(); i++)
     {
@@ -201,9 +225,33 @@ void EditorTabFont::assignFontCharacters(const QString &chars,
                                            this->mFont,
                                            this->mEditor->color1(),
                                            this->mEditor->color2(),
-                                           0, 0);
+                                           width,
+                                           height,
+                                           this->mAntialiasing);
         this->mContainer->setImage(QString(chars.at(i)), new QImage(image));
     }
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::fontCharacters(QString *chars,
+                                   QString *fontFamily,
+                                   QString *style,
+                                   int *size,
+                                   bool *monospaced,
+                                   bool *antialiasing)
+{
+    *chars = this->mCharacters;
+    *fontFamily = this->mFont.family();
+    *size = this->mFont.pointSize();
+    QString st = "Normal";
+    if (this->mFont.italic())
+        st = "Italic";
+    if (this->mFont.bold())
+        st = "Bold";
+    if (this->mFont.italic() && this->mFont.bold())
+        st = "Bold Italic";
+    *style = st;
+    *monospaced = this->mMonospaced;
+    *antialiasing = this->mAntialiasing;
 }
 //-----------------------------------------------------------------------------
 QImage EditorTabFont::drawCharacter(const QChar value,
@@ -211,7 +259,8 @@ QImage EditorTabFont::drawCharacter(const QChar value,
                                     const QColor &foreground,
                                     const QColor &background,
                                     const int width,
-                                    const int height)
+                                    const int height,
+                                    const bool antialiasing)
 {
     QFontMetrics fontMetrics(font);
 
@@ -229,7 +278,12 @@ QImage EditorTabFont::drawCharacter(const QChar value,
     QImage result(imageWidth, imageHeight, QImage::Format_RGB32);
 
     QPainter painter(&result);
-    painter.setPen(QPen(Qt::black));
+    painter.setFont(font);
+
+    painter.setRenderHint(QPainter::Antialiasing, antialiasing);
+    painter.setRenderHint(QPainter::TextAntialiasing, antialiasing);
+
+    painter.setPen(foreground);
 
     painter.fillRect(result.rect(), background);
 

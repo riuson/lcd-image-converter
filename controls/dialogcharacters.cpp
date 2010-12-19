@@ -73,6 +73,9 @@ DialogCharacters::DialogCharacters(QWidget *parent) :
         defChars += QString(QChar(i));
     }
     this->ui->lineEdit->setText(defChars);
+
+    this->mAntialiasing = false;
+    this->mMonospaced = false;
 }
 //-----------------------------------------------------------------------------
 DialogCharacters::~DialogCharacters()
@@ -80,7 +83,11 @@ DialogCharacters::~DialogCharacters()
     delete ui;
 }
 //-----------------------------------------------------------------------------
-void DialogCharacters::selectFont(const QFont &usedfont, const int size, const QString &style)
+void DialogCharacters::selectFont(const QFont &usedfont,
+                                  const int size,
+                                  const QString &style,
+                                  bool monospaced,
+                                  bool antialiasing)
 {
     this->ui->comboBoxFont->setCurrentFont(usedfont);
 
@@ -91,6 +98,8 @@ void DialogCharacters::selectFont(const QFont &usedfont, const int size, const Q
     int indexStyle = this->ui->comboBoxStyle->findText(style);
     if (indexStyle >= 0)
         this->ui->comboBoxStyle->setCurrentIndex(indexStyle);
+    this->ui->checkBoxAntialiasing->setChecked(antialiasing);
+    this->ui->radioButtonMonospaced->setChecked(monospaced);
 }
 //-----------------------------------------------------------------------------
 void DialogCharacters::setCharacters(const QString &value)
@@ -98,11 +107,17 @@ void DialogCharacters::setCharacters(const QString &value)
     this->ui->lineEdit->setText(value);
 }
 //-----------------------------------------------------------------------------
-void DialogCharacters::selectedFont(QString *family, QString *style, int *size)
+void DialogCharacters::selectedFont(QString *family,
+                                    QString *style,
+                                    int *size,
+                                    bool *monospaced,
+                                    bool *antialiasing)
 {
     *family = this->mFontFamily;
     *style = this->mStyle;
     *size = this->mSize;
+    *monospaced = this->mMonospaced;
+    *antialiasing = this->mAntialiasing;
 }
 //-----------------------------------------------------------------------------
 QString DialogCharacters::selectedCharacters()
@@ -183,5 +198,15 @@ void DialogCharacters::on_comboBoxStyle_currentIndexChanged(const QString &value
 void DialogCharacters::on_lineEdit_textChanged(const QString &value)
 {
     this->mCharacters = value;
+}
+//-----------------------------------------------------------------------------
+void DialogCharacters::on_radioButtonMonospaced_toggled(bool value)
+{
+    this->mMonospaced = value;
+}
+//-----------------------------------------------------------------------------
+void DialogCharacters::on_checkBoxAntialiasing_toggled(bool value)
+{
+    this->mAntialiasing = value;
 }
 //-----------------------------------------------------------------------------
