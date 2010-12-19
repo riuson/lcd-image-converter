@@ -29,7 +29,9 @@ SOURCES += main.cpp \
     controls/dialogsavechanges.cpp \
     classes/bitmaphelper.cpp \
     controls/dialogresize.cpp \
-    classes/fontcontainer.cpp
+    classes/fontcontainer.cpp \
+    controls/widgetcharacters.cpp \
+    controls/dialogcharacters.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -41,14 +43,17 @@ HEADERS += \
     classes/bitmaphelper.h \
     interfaces/idatacontainer.h \
     controls/dialogresize.h \
-    classes/fontcontainer.h
+    classes/fontcontainer.h \
+    controls/widgetcharacters.h \
+    controls/dialogcharacters.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
     controls/editortabimage.ui \
     controls/editortabfont.ui \
     controls/dialogsavechanges.ui \
-    controls/dialogresize.ui
+    controls/dialogresize.ui \
+    controls/dialogcharacters.ui
 INCLUDEPATH += . \
     ./classes \
     ./controls \

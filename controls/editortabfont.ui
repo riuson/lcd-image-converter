@@ -1,7 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>EditorTabFont</class>
  <widget class="QWidget" name="EditorTabFont">
   <property name="geometry">
@@ -15,7 +13,17 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>325</x>
+     <y>20</y>
+     <width>61</width>
+     <height>261</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
- <pixmapfunction/>
+ <resources/>
  <connections/>
 </ui>

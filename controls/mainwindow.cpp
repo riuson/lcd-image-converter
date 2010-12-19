@@ -13,6 +13,7 @@
 #include "widgetbitmapeditor.h"
 #include "bitmaphelper.h"
 #include "dialogresize.h"
+#include "dialogcharacters.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -156,6 +157,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
 //-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
+    Q_UNUSED(index);
     this->updateMenuState();
 }
 //-----------------------------------------------------------------------------
@@ -168,12 +170,36 @@ void MainWindow::on_actionNew_Image_triggered()
                                          QLineEdit::Normal,
                                          tr("Image", "new image name"),
                                          &ok);
-    EditorTabImage *ed = new EditorTabImage(this);
-    this->connect(ed, SIGNAL(dataChanged()), SLOT(on_editor_dataChanged()));
+    if (ok)
+    {
+        EditorTabImage *ed = new EditorTabImage(this);
+        this->connect(ed, SIGNAL(dataChanged()), SLOT(on_editor_dataChanged()));
 
-    name = this->findAvailableName(name);
-    ed->setDocumentName(name);
-    this->ui->tabWidget->addTab(ed, name);
+        name = this->findAvailableName(name);
+        ed->setDocumentName(name);
+        this->ui->tabWidget->addTab(ed, name);
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionNew_Font_triggered()
+{
+    bool ok;
+    QString name = QInputDialog::getText(this,
+                                         tr("Enter font name"),
+                                         tr("Font name:"),
+                                         QLineEdit::Normal,
+                                         tr("Font", "new font name"),
+                                         &ok);
+    DialogCharacters dialog(this);
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        EditorTabFont *ed = new EditorTabFont(this);
+        //this->connect(ed, SIGNAL(dataChanged()), SLOT(on_editor_dataChanged()));
+
+        //name = this->findAvailableName(name);
+        //ed->setDocumentName(name);
+        this->ui->tabWidget->addTab(ed, name);
+    }
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionOpen_triggered()

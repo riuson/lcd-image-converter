@@ -7,6 +7,9 @@ namespace Ui {
     class EditorTabFont;
 }
 //-----------------------------------------------------------------------------
+class FontContainer;
+class WidgetBitmapEditor;
+//-----------------------------------------------------------------------------
 class EditorTabFont : public QWidget
 {
     Q_OBJECT
@@ -20,6 +23,8 @@ protected:
 
 private:
     Ui::EditorTabFont *ui;
+    WidgetBitmapEditor *mEditor;
+    FontContainer *mContainer;
 };
 //-----------------------------------------------------------------------------
 #endif // EDITORTABFONT_H
