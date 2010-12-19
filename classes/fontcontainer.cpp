@@ -7,6 +7,8 @@
 FontContainer::FontContainer(QObject *parent) :
     QObject(parent)
 {
+    QImage *image = new QImage(":/images/template");
+    this->mImageList.append(image);
 }
 //-----------------------------------------------------------------------------
 FontContainer::~FontContainer()

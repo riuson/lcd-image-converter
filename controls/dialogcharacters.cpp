@@ -98,11 +98,11 @@ void DialogCharacters::setCharacters(const QString &value)
     this->ui->lineEdit->setText(value);
 }
 //-----------------------------------------------------------------------------
-QFont *DialogCharacters::selectedFont(int *size, QString *style)
+void DialogCharacters::selectedFont(QString *family, QString *style, int *size)
 {
-    *size = this->mSize;
+    *family = this->mFontFamily;
     *style = this->mStyle;
-    return this->mFont;
+    *size = this->mSize;
 }
 //-----------------------------------------------------------------------------
 QString DialogCharacters::selectedCharacters()
@@ -127,7 +127,7 @@ void DialogCharacters::findStyles(const QFont &font)
     else
         this->ui->comboBoxStyle->setCurrentIndex(styleIndex);
 
-    this->mFont = (QFont *)&font;
+    this->mFontFamily = font.family();
 }
 //-----------------------------------------------------------------------------
 void DialogCharacters::findSizes(const QFont &font)

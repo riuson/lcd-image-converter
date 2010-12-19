@@ -58,7 +58,7 @@ public:
     ~DialogCharacters();
     void selectFont(const QFont &usedfont, const int size, const QString &style);
     void setCharacters(const QString &value);
-    QFont *selectedFont(int *size, QString *style);
+    void selectedFont(QString *family, QString *style, int *size);
     QString selectedCharacters();
 public slots:
     void findStyles(const QFont &font);
@@ -69,9 +69,9 @@ private:
     CharacterWidget *mCharacterWidget;
 
     QString mCharacters;
-    int mSize;
+    QString mFontFamily;
     QString mStyle;
-    QFont *mFont;
+    int mSize;
 private slots:
     void on_comboBoxSize_currentIndexChanged(const QString &value);
     void on_comboBoxStyle_currentIndexChanged(const QString &value);

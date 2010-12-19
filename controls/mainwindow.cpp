@@ -86,7 +86,7 @@ void MainWindow::updateMenuState()
     if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
     {
         this->ui->menuFont->setEnabled(true);
-        //editorSelected = true;
+        editorSelected = true;
     }
     else
     {
@@ -108,7 +108,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
     QWidget *w = this->ui->tabWidget->widget(index);
     IDocument *doc = dynamic_cast<IDocument *> (w);
     bool cancel = false;
-    if (doc->changed())
+    if (doc != NULL && doc->changed())
     {
         DialogSaveChanges dialog(this);
         dialog.exec();
@@ -190,15 +190,24 @@ void MainWindow::on_actionNew_Font_triggered()
                                          QLineEdit::Normal,
                                          tr("Font", "new font name"),
                                          &ok);
-    DialogCharacters dialog(this);
-    if (dialog.exec() == QDialog::Accepted)
+    if (ok)
     {
-        EditorTabFont *ed = new EditorTabFont(this);
-        //this->connect(ed, SIGNAL(dataChanged()), SLOT(on_editor_dataChanged()));
+        DialogCharacters dialog(this);
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            EditorTabFont *ed = new EditorTabFont(this);
+            this->connect(ed, SIGNAL(dataChanged()), SLOT(on_editor_dataChanged()));
 
-        //name = this->findAvailableName(name);
-        //ed->setDocumentName(name);
-        this->ui->tabWidget->addTab(ed, name);
+            QString chars = dialog.selectedCharacters();
+            int size;
+            QString family, style;
+            dialog.selectedFont(&family, &style, &size);
+            ed->assignFontCharacters(chars, family, style, size);
+
+            name = this->findAvailableName(name);
+            ed->setDocumentName(name);
+            this->ui->tabWidget->addTab(ed, name);
+        }
     }
 }
 //-----------------------------------------------------------------------------
