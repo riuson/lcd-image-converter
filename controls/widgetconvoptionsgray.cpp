@@ -58,7 +58,6 @@ void WidgetConvOptionsGray::updatePreview()
         bits = 32;
     this->mDelegate->setBitsCount(bits);
 
-    int gradations = this->ui->spinBoxGradations->value() - 1;
     // 3 - 2 bits
     // 7 - 3 bits
     // 15 - 4 bits
@@ -67,12 +66,7 @@ void WidgetConvOptionsGray::updatePreview()
     // 127 - 7 bits
     // 255 - 8 bits
 
-    int bitsPerPoint = 0;
-    for (int i = gradations; i != 0; i = i >> 1)
-    {
-        bitsPerPoint++;
-    }
-    this->ui->labelBitsPerPoint->setText(QString("%1").arg(bitsPerPoint));
+    int bitsPerPoint = this->ui->spinBoxBitsPerPoint->value();
 
     bool littleEndian = this->ui->radioButtonLittleEndian->isChecked();
     bool mirror = this->ui->checkBoxMirrorBits->isChecked();

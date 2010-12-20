@@ -164,35 +164,17 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Number of grayscale gradations:</string>
+        <string>Number of bits per point:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="spinBoxGradations">
+      <widget class="QSpinBox" name="spinBoxBitsPerPoint">
        <property name="minimum">
-        <number>3</number>
+        <number>2</number>
        </property>
        <property name="maximum">
-        <number>256</number>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Bits per point:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="labelBitsPerPoint">
-       <property name="text">
-        <string>0</string>
+        <number>8</number>
        </property>
       </widget>
      </item>
@@ -309,7 +291,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>spinBoxGradations</sender>
+   <sender>spinBoxBitsPerPoint</sender>
    <signal>valueChanged(int)</signal>
    <receiver>WidgetConvOptionsGray</receiver>
    <slot>updatePreview()</slot>
