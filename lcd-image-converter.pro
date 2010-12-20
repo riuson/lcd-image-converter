@@ -31,7 +31,9 @@ SOURCES += main.cpp \
     controls/dialogresize.cpp \
     classes/fontcontainer.cpp \
     controls/widgetcharacters.cpp \
-    controls/dialogcharacters.cpp
+    controls/dialogcharacters.cpp \
+    controls/widgetconvoptionsmono.cpp \
+    classes/bytelistitemdelegate.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -45,7 +47,9 @@ HEADERS += \
     controls/dialogresize.h \
     classes/fontcontainer.h \
     controls/widgetcharacters.h \
-    controls/dialogcharacters.h
+    controls/dialogcharacters.h \
+    controls/widgetconvoptionsmono.h \
+    classes/bytelistitemdelegate.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -53,7 +57,8 @@ FORMS += \
     controls/editortabfont.ui \
     controls/dialogsavechanges.ui \
     controls/dialogresize.ui \
-    controls/dialogcharacters.ui
+    controls/dialogcharacters.ui \
+    controls/widgetconvoptionsmono.ui
 INCLUDEPATH += . \
     ./classes \
     ./controls \

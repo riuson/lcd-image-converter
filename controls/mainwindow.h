@@ -33,6 +33,7 @@ private slots:
     void on_actionSave_triggered();
     void on_actionSave_As_triggered();
     void on_actionClose_triggered();
+    void on_actionConvert_triggered();
     void on_actionQuit_triggered();
     void on_actionImageFlip_Horizontal_triggered();
     void on_actionImageFlip_Vertical_triggered();

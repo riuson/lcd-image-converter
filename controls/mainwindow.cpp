@@ -14,6 +14,7 @@
 #include "bitmaphelper.h"
 #include "dialogresize.h"
 #include "dialogcharacters.h"
+#include "widgetconvoptionsmono.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -98,7 +99,7 @@ void MainWindow::updateMenuState()
     this->ui->actionSave->setEnabled(editorSelected);
     this->ui->actionSave_As->setEnabled(editorSelected);
     this->ui->actionClose->setEnabled(editorSelected);
-    this->ui->actionConvert->setEnabled(editorSelected);
+    //this->ui->actionConvert->setEnabled(editorSelected);
 
     if (!editorSelected)
         this->mEditor = NULL;
@@ -298,6 +299,13 @@ void MainWindow::on_actionSave_As_triggered()
 void MainWindow::on_actionClose_triggered()
 {
     this->on_tabWidget_tabCloseRequested(this->ui->tabWidget->currentIndex());
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionConvert_triggered()
+{
+    // test
+    WidgetConvOptionsMono *w = new WidgetConvOptionsMono(this);
+    this->ui->tabWidget->addTab(w, "");
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionQuit_triggered()
