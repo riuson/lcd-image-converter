@@ -32,7 +32,7 @@ WidgetBitmapEditor::WidgetBitmapEditor(IDataContainer *dataContainer, QWidget *p
 
     this->ui->spinBoxScale->setValue(this->mScale);
     QObject *d = dynamic_cast<QObject *>(this->mDataContainer);
-    this->connect(d, SIGNAL(imageChanged(QString)), SLOT(on_dataContainer_imageChanged(QString)));
+    this->connect(d, SIGNAL(imageChanged(QString)), SLOT(mon_dataContainer_imageChanged(QString)));
 }
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::~WidgetBitmapEditor()
@@ -198,7 +198,7 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
     }
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::on_dataContainer_imageChanged(const QString &key)
+void WidgetBitmapEditor::mon_dataContainer_imageChanged(const QString &key)
 {
     if (this->mImageKey == key)
     {

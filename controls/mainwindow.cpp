@@ -174,7 +174,7 @@ void MainWindow::on_actionNew_Image_triggered()
     if (ok)
     {
         EditorTabImage *ed = new EditorTabImage(this);
-        this->connect(ed, SIGNAL(dataChanged()), SLOT(on_editor_dataChanged()));
+        this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
 
         name = this->findAvailableName(name);
         ed->setDocumentName(name);
@@ -197,7 +197,7 @@ void MainWindow::on_actionNew_Font_triggered()
         if (dialog.exec() == QDialog::Accepted)
         {
             EditorTabFont *ed = new EditorTabFont(this);
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(on_editor_dataChanged()));
+            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
 
             QString chars = dialog.selectedCharacters();
             int size;
@@ -250,7 +250,16 @@ void MainWindow::on_actionOpen_triggered()
         if (isImage)
         {
             EditorTabImage *ed = new EditorTabImage(this);
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(on_editor_dataChanged()));
+            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+
+            int index = this->ui->tabWidget->addTab(ed, "");
+            ed->load(filename);
+            this->ui->tabWidget->setTabText(index, ed->documentName());
+        }
+        if (isFont)
+        {
+            EditorTabFont *ed = new EditorTabFont(this);
+            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
 
             int index = this->ui->tabWidget->addTab(ed, "");
             ed->load(filename);
@@ -477,7 +486,7 @@ void MainWindow::on_actionFontChange_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void MainWindow::on_editor_dataChanged()
+void MainWindow::mon_editor_dataChanged()
 {
     QWidget *w = qobject_cast<QWidget *>(sender());
     int index = this->ui->tabWidget->indexOf(w);

@@ -45,7 +45,7 @@ private slots:
     void on_actionImageExport_triggered();
     void on_actionFontChange_triggered();
 
-    void on_editor_dataChanged();
+    void mon_editor_dataChanged();
 };
 //-----------------------------------------------------------------------------
 #endif // MAINWINDOW_H

@@ -16,8 +16,8 @@
 #include "fontcontainer.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::EditorTabFont)
+        QWidget(parent),
+        ui(new Ui::EditorTabFont)
 {
     ui->setupUi(this);
 
@@ -31,7 +31,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->mSplitter->addWidget(this->ui->listWidgetCharacters);
     this->mSplitter->setChildrenCollapsible(false);
 
-    this->connect(this->mEditor, SIGNAL(dataChanged()), SLOT(on_editor_dataChanged()));
+    this->connect(this->mEditor, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
 
     this->mDocumentName = tr("Font", "new font name");
     this->mFileName = "";
@@ -59,7 +59,7 @@ void EditorTabFont::changeEvent(QEvent *e)
 }
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void EditorTabFont::on_editor_dataChanged()
+void EditorTabFont::mon_editor_dataChanged()
 {
     this->mDataChanged = true;
     emit this->dataChanged();
@@ -70,10 +70,11 @@ void EditorTabFont::on_listWidgetCharacters_currentTextChanged(const QString &va
     this->mEditor->selectImage(value);
 }
 //-----------------------------------------------------------------------------
+#include <QDebug>
 bool EditorTabFont::load(const QString &fileName)
 {
     bool result = false;
-    /*
+
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly))
     {
@@ -86,27 +87,74 @@ bool EditorTabFont::load(const QString &fileName)
             if( root.tagName() == "data" )
             {
                 this->mDocumentName = root.attribute("name", fileName);
+
+                QString chars, fontFamily, style;
+                int size = 0;
+                bool monospaced, antialiasing;
+
                 QDomNode n = root.firstChild();
                 while( !n.isNull() )
                 {
-                  QDomElement e = n.toElement();
-                  if( !e.isNull() )
-                  {
-                    if( e.tagName() == "picture" )
+                    QDomElement e = n.toElement();
+                    qDebug() << e.tagName();
+                    if( !e.isNull() )
                     {
-                      QString str = e.text();
-                      QByteArray ba = QByteArray::fromBase64(str.toAscii());
-                      QBuffer buffer(&ba);
-                      QImage image;
-                      image.load(&buffer, "PNG");
-                      this->mContainer->setImage(0, &image);
-                      result = true;
-                      break;
+                        if( e.tagName() == "family" )
+                        {
+                            fontFamily = e.text();
+                        }
+                        else if( e.tagName() == "style" )
+                        {
+                            style = e.text();
+                        }
+                        else if( e.tagName() == "size" )
+                        {
+                            bool ok;
+                            int a = e.text().toInt(&ok);
+                            if (ok)
+                                size = a;
+                        }
+                        else if( e.tagName() == "widthType" )
+                        {
+                            monospaced = (e.text() == "monospaced");
+                        }
+                        else if( e.tagName() == "antialiasing" )
+                        {
+                            antialiasing = (e.text() == "true");
+                        }
                     }
-                  }
 
-                  n = n.nextSibling();
+                    n = n.nextSibling();
                 }
+
+                QDomNodeList nodesChar = root.elementsByTagName("char");
+                for (int i = 0; i < nodesChar.count(); i++)
+                {
+                    QDomElement e = nodesChar.at(i).toElement();
+                    bool ok;
+                    int code = e.attribute("code", "none").toInt(&ok, 16);
+                    if (ok)
+                    {
+                        QDomElement nodePicture = e.firstChildElement("picture");
+                        if (nodePicture.isElement())
+                        {
+                            QString str = nodePicture.text();
+                            QByteArray ba = QByteArray::fromBase64(str.toAscii());
+                            QBuffer buffer(&ba);
+                            QImage image;
+                            image.load(&buffer, "PNG");
+
+                            QString key = QString(QChar(code));
+                            this->mContainer->setImage(key, &image);
+                        }
+                    }
+                }
+                this->ui->listWidgetCharacters->addItems(QStringList(this->mContainer->keys()));
+
+                QFontDatabase fonts;
+                this->mFont = fonts.font(fontFamily, style, size);
+                this->mMonospaced = monospaced;
+                this->mAntialiasing = antialiasing;
             }
         }
         file.close();
@@ -115,7 +163,7 @@ bool EditorTabFont::load(const QString &fileName)
         this->mDataChanged = false;
         emit this->dataChanged();
     }
-    */
+
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -197,7 +245,7 @@ bool EditorTabFont::save(const QString &fileName)
         QByteArray ba;
         QBuffer buffer(&ba);
         buffer.open(QIODevice::WriteOnly);
-        this->mContainer->image(0)->save(&buffer, "PNG");
+        this->mContainer->image(key)->save(&buffer, "PNG");
         QString data = ba.toBase64();
 
         QDomText nodeData = doc.createTextNode(data);
@@ -247,11 +295,11 @@ WidgetBitmapEditor *EditorTabFont::editor()
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::setFontCharacters(const QString &chars,
-                          const QString &fontFamily,
-                          const QString &style,
-                          const int size,
-                          const bool monospaced,
-                          const bool antialiasing)
+                                      const QString &fontFamily,
+                                      const QString &style,
+                                      const int size,
+                                      const bool monospaced,
+                                      const bool antialiasing)
 {
     QFontDatabase fonts;
 
@@ -357,7 +405,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
         keys = this->mContainer->keys();
         QStringList list(keys);
         this->ui->listWidgetCharacters->addItems(list);
-        this->on_editor_dataChanged();
+        this->mon_editor_dataChanged();
     }
 }
 //-----------------------------------------------------------------------------
@@ -430,7 +478,7 @@ QImage EditorTabFont::drawCharacter(const QChar value,
     <string> !"#$%&amp;'()*+,-./0123456789:;&lt;=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~АБВ</string>
     <chars>
         <char character=" " code="0020">
-            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAsTAAALEwEAmpwYAAAARklEQVQYlYWPSQrAMAwDpZAX5x/Nl6eHgLMQt8IniRGWAeWqkux+zaD5my5B2z0uzHq0XegjW1+ZdLhbB4mkB0iHjY6fYS/sJjZR2Wu+lAAAAABJRU5ErkJggg==</picture>
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAQAAAATCAIAAAA4QDsKAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAFUlEQVQImWP8//8/AwwwMSCBYc0BAO+LAyPoIK0eAAAAAElFTkSuQmCC</picture>
         </char>
     </chars>
 </data>

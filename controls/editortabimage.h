@@ -42,7 +42,7 @@ private:
     QString mDocumentName;
     bool mDataChanged;
 private slots:
-    void on_editor_dataChanged();
+    void mon_editor_dataChanged();
 signals:
     void dataChanged();
 };

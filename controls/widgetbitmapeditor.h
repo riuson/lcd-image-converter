@@ -46,7 +46,7 @@ private slots:
     void on_spinBoxScale_valueChanged(int value);
     void on_pushButtonColor1_clicked();
     void on_pushButtonColor2_clicked();
-    void on_dataContainer_imageChanged(const QString &key);
+    void mon_dataContainer_imageChanged(const QString &key);
 signals:
     void dataChanged();
 };

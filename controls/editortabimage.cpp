@@ -26,7 +26,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
     layout->addWidget(this->mEditor);
 
 
-    this->connect(this->mEditor, SIGNAL(dataChanged()), SLOT(on_editor_dataChanged()));
+    this->connect(this->mEditor, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
 
     this->mDocumentName = tr("Image", "new image name");
     this->mFileName = "";
@@ -50,7 +50,7 @@ void EditorTabImage::changeEvent(QEvent *e)
     }
 }
 //-----------------------------------------------------------------------------
-void EditorTabImage::on_editor_dataChanged()
+void EditorTabImage::mon_editor_dataChanged()
 {
     this->mDataChanged = true;
     emit this->dataChanged();
@@ -84,7 +84,7 @@ bool EditorTabImage::load(const QString &fileName)
                       QBuffer buffer(&ba);
                       QImage image;
                       image.load(&buffer, "PNG");
-                      this->mContainer->setImage(0, &image);
+                      this->mContainer->setImage("template", &image);
                       result = true;
                       break;
                     }
