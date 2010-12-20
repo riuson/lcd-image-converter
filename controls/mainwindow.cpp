@@ -15,6 +15,7 @@
 #include "dialogresize.h"
 #include "dialogcharacters.h"
 #include "widgetconvoptionsmono.h"
+#include "widgetconvoptionsgray.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -304,8 +305,11 @@ void MainWindow::on_actionClose_triggered()
 void MainWindow::on_actionConvert_triggered()
 {
     // test
-    WidgetConvOptionsMono *w = new WidgetConvOptionsMono(this);
-    this->ui->tabWidget->addTab(w, "");
+    WidgetConvOptionsMono *w1 = new WidgetConvOptionsMono(this);
+    this->ui->tabWidget->addTab(w1, "test mono");
+
+    WidgetConvOptionsGray *w2 = new WidgetConvOptionsGray(this);
+    this->ui->tabWidget->addTab(w2, "test grayscale");
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionQuit_triggered()

@@ -1,27 +1,27 @@
-#ifndef WIDGETCONVOPTIONSMONO_H
-#define WIDGETCONVOPTIONSMONO_H
+#ifndef WIDGETCONVOPTIONSGRAY_H
+#define WIDGETCONVOPTIONSGRAY_H
 //-----------------------------------------------------------------------------
-#include <QWidget>
+#include <QDialog>
 //-----------------------------------------------------------------------------
 namespace Ui {
-    class WidgetConvOptionsMono;
+    class WidgetConvOptionsGray;
 }
 class ByteListItemDelegate;
 class QButtonGroup;
 //-----------------------------------------------------------------------------
-class WidgetConvOptionsMono : public QWidget
+class WidgetConvOptionsGray : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit WidgetConvOptionsMono(QWidget *parent = 0);
-    ~WidgetConvOptionsMono();
+    explicit WidgetConvOptionsGray(QWidget *parent = 0);
+    ~WidgetConvOptionsGray();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::WidgetConvOptionsMono *ui;
+    Ui::WidgetConvOptionsGray *ui;
     ByteListItemDelegate *mDelegate;
     QButtonGroup *mGroupByteOrder;
     QButtonGroup *mGroupDataSize;
@@ -29,4 +29,4 @@ private slots:
     void updatePreview();
 };
 //-----------------------------------------------------------------------------
-#endif // WIDGETCONVOPTIONSMONO_H
+#endif // WIDGETCONVOPTIONSGRAY_H

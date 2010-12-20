@@ -1,13 +1,13 @@
-#include "widgetconvoptionsmono.h"
-#include "ui_widgetconvoptionsmono.h"
-
+#include "widgetconvoptionsgray.h"
+#include "ui_widgetconvoptionsgray.h"
+//-----------------------------------------------------------------------------
 #include <QButtonGroup>
 
 #include "bytelistitemdelegate.h"
 //-----------------------------------------------------------------------------
-WidgetConvOptionsMono::WidgetConvOptionsMono(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::WidgetConvOptionsMono)
+WidgetConvOptionsGray::WidgetConvOptionsGray(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::WidgetConvOptionsGray)
 {
     ui->setupUi(this);
     this->mGroupByteOrder = new QButtonGroup(this);
@@ -29,12 +29,12 @@ WidgetConvOptionsMono::WidgetConvOptionsMono(QWidget *parent) :
     this->ui->radioButtonData8->setChecked(true);
 }
 //-----------------------------------------------------------------------------
-WidgetConvOptionsMono::~WidgetConvOptionsMono()
+WidgetConvOptionsGray::~WidgetConvOptionsGray()
 {
     delete ui;
 }
 //-----------------------------------------------------------------------------
-void WidgetConvOptionsMono::changeEvent(QEvent *e)
+void WidgetConvOptionsGray::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
     switch (e->type()) {
@@ -46,7 +46,7 @@ void WidgetConvOptionsMono::changeEvent(QEvent *e)
     }
 }
 //-----------------------------------------------------------------------------
-void WidgetConvOptionsMono::updatePreview()
+void WidgetConvOptionsGray::updatePreview()
 {
     this->ui->listWidget->clear();
     QStringList list;
@@ -58,17 +58,51 @@ void WidgetConvOptionsMono::updatePreview()
         bits = 32;
     this->mDelegate->setBitsCount(bits);
 
+    int gradations = this->ui->spinBoxGradations->value() - 1;
+    // 3 - 2 bits
+    // 7 - 3 bits
+    // 15 - 4 bits
+    // 31 - 5 bits
+    // 63 - 6 bits
+    // 127 - 7 bits
+    // 255 - 8 bits
+
+    int bitsPerPoint = 0;
+    for (int i = gradations; i != 0; i = i >> 1)
+    {
+        bitsPerPoint++;
+    }
+    this->ui->labelBitsPerPoint->setText(QString("%1").arg(bitsPerPoint));
+
     bool littleEndian = this->ui->radioButtonLittleEndian->isChecked();
     bool mirror = this->ui->checkBoxMirrorBits->isChecked();
+    bool pack = this->ui->checkBoxPack->isChecked();
 
-    for (int i = 0; i < 80; i++)
+    for (int i = 0, j = 0, k = 0; i < 80; i++)
     {
-        int a = i % bits;
-        int b = bits - a - 1;
-        list.append(QString("b%1").arg(b));
+        int a = k % bitsPerPoint;
+        int b = bitsPerPoint - a - 1;
+        k++;
+        list.append(QString("b%1.%2").arg(j).arg(b));
         //QString str = QString("b%1").arg(b);
         //QListWidgetItem *item = new QListWidgetItem(str, this->ui->listWidget, b);
         //this->ui->listWidget->addItem(item);
+        if (b == 0)
+        {
+            j++;
+            if (!pack)
+            {
+                if ((i % 8) + bitsPerPoint > 7)
+                {
+                    //for (int k = i % 8; k < 7; k++)
+                    while (i % 8 != 7)
+                    {
+                        list.append("0");
+                        i++;
+                    }
+                }
+            }
+        }
     }
 
     if (littleEndian)

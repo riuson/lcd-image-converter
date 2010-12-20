@@ -70,7 +70,6 @@ void EditorTabFont::on_listWidgetCharacters_currentTextChanged(const QString &va
     this->mEditor->selectImage(value);
 }
 //-----------------------------------------------------------------------------
-#include <QDebug>
 bool EditorTabFont::load(const QString &fileName)
 {
     bool result = false;
@@ -96,7 +95,7 @@ bool EditorTabFont::load(const QString &fileName)
                 while( !n.isNull() )
                 {
                     QDomElement e = n.toElement();
-                    qDebug() << e.tagName();
+
                     if( !e.isNull() )
                     {
                         if( e.tagName() == "family" )
