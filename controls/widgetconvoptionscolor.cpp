@@ -1,13 +1,13 @@
-#include "widgetconvoptionsgray.h"
-#include "ui_widgetconvoptionsgray.h"
+#include "widgetconvoptionscolor.h"
+#include "ui_widgetconvoptionscolor.h"
 //-----------------------------------------------------------------------------
 #include <QButtonGroup>
 
 #include "bytelistitemdelegate.h"
 //-----------------------------------------------------------------------------
-WidgetConvOptionsGray::WidgetConvOptionsGray(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::WidgetConvOptionsGray)
+WidgetConvOptionsColor::WidgetConvOptionsColor(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::WidgetConvOptionsColor)
 {
     ui->setupUi(this);
     this->mGroupByteOrder = new QButtonGroup(this);
@@ -27,14 +27,24 @@ WidgetConvOptionsGray::WidgetConvOptionsGray(QWidget *parent) :
     this->ui->radioButtonLittleEndian->setChecked(false);
 
     this->ui->radioButtonData8->setChecked(true);
+
+    QStringList ordersList;
+    ordersList << "RGB";
+    ordersList << "RBG";
+    ordersList << "GRB";
+    ordersList << "GBR";
+    ordersList << "BRG";
+    ordersList << "BGR";
+    this->ui->comboBoxColorsOrder->addItems(ordersList);
+    this->ui->comboBoxColorsOrder->setCurrentIndex(0);
 }
 //-----------------------------------------------------------------------------
-WidgetConvOptionsGray::~WidgetConvOptionsGray()
+WidgetConvOptionsColor::~WidgetConvOptionsColor()
 {
     delete ui;
 }
 //-----------------------------------------------------------------------------
-void WidgetConvOptionsGray::changeEvent(QEvent *e)
+void WidgetConvOptionsColor::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
     switch (e->type()) {
@@ -46,8 +56,10 @@ void WidgetConvOptionsGray::changeEvent(QEvent *e)
     }
 }
 //-----------------------------------------------------------------------------
-void WidgetConvOptionsGray::updatePreview()
+void WidgetConvOptionsColor::updatePreview()
 {
+    if (this->ui->comboBoxColorsOrder->currentIndex() < 0)
+        return;
     this->ui->listWidget->clear();
     QStringList list;
 
@@ -58,19 +70,29 @@ void WidgetConvOptionsGray::updatePreview()
         bits = 32;
     this->mDelegate->setBitsCount(bits);
 
-    // 3 - 2 bits
-    // 7 - 3 bits
-    // 15 - 4 bits
-    // 31 - 5 bits
-    // 63 - 6 bits
-    // 127 - 7 bits
-    // 255 - 8 bits
+    int bitsPerPointR = this->ui->spinBoxRedbits->value();
+    int bitsPerPointG = this->ui->spinBoxGreenBits->value();
+    int bitsPerPointB = this->ui->spinBoxBlueBits->value();
 
-    int bitsPerPoint = this->ui->spinBoxBitsPerPoint->value();
+    QStringList colorsRed, colorsGreen, colorsBlue;
+    for (int i = bitsPerPointR - 1; i >= 0; i--)
+        colorsRed << QString("R.%1").arg(i);
+    for (int i = bitsPerPointG - 1; i >= 0; i--)
+        colorsGreen << QString("G.%1").arg(i);
+    for (int i = bitsPerPointB - 1; i >= 0; i--)
+        colorsBlue << QString("B.%1").arg(i);
 
+    QString colorsOrder = this->ui->comboBoxColorsOrder->currentText();
     QStringList colors;
-    for (int i = bitsPerPoint - 1; i >= 0; i--)
-        colors << QString("b.%1").arg(i);
+    for (int i = 0; i < colorsOrder.length(); i++)
+    {
+        if (colorsOrder.at(i) == QChar('R'))
+            colors << colorsRed;
+        if (colorsOrder.at(i) == QChar('G'))
+            colors << colorsGreen;
+        if (colorsOrder.at(i) == QChar('B'))
+            colors << colorsBlue;
+    }
 
     bool littleEndian = this->ui->radioButtonLittleEndian->isChecked();
     bool mirror = this->ui->checkBoxMirrorBits->isChecked();

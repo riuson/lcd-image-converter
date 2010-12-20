@@ -16,6 +16,7 @@
 #include "dialogcharacters.h"
 #include "widgetconvoptionsmono.h"
 #include "widgetconvoptionsgray.h"
+#include "widgetconvoptionscolor.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -310,6 +311,9 @@ void MainWindow::on_actionConvert_triggered()
 
     WidgetConvOptionsGray *w2 = new WidgetConvOptionsGray(this);
     this->ui->tabWidget->addTab(w2, "test grayscale");
+
+    WidgetConvOptionsColor *w3 = new WidgetConvOptionsColor(this);
+    this->ui->tabWidget->addTab(w3, "test color");
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionQuit_triggered()

@@ -34,7 +34,8 @@ SOURCES += main.cpp \
     controls/dialogcharacters.cpp \
     controls/widgetconvoptionsmono.cpp \
     classes/bytelistitemdelegate.cpp \
-    controls/widgetconvoptionsgray.cpp
+    controls/widgetconvoptionsgray.cpp \
+    controls/widgetconvoptionscolor.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -51,7 +52,8 @@ HEADERS += \
     controls/dialogcharacters.h \
     controls/widgetconvoptionsmono.h \
     classes/bytelistitemdelegate.h \
-    controls/widgetconvoptionsgray.h
+    controls/widgetconvoptionsgray.h \
+    controls/widgetconvoptionscolor.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -61,7 +63,8 @@ FORMS += \
     controls/dialogresize.ui \
     controls/dialogcharacters.ui \
     controls/widgetconvoptionsmono.ui \
-    controls/widgetconvoptionsgray.ui
+    controls/widgetconvoptionsgray.ui \
+    controls/widgetconvoptionscolor.ui
 INCLUDEPATH += . \
     ./classes \
     ./controls \
