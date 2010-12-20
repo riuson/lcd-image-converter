@@ -21,6 +21,7 @@ WidgetConvOptionsColor::WidgetConvOptionsColor(QWidget *parent) :
     this->mGroupDataSize->addButton(this->ui->radioButtonData32);
 
     this->mDelegate = new ByteListItemDelegate(this);
+    this->mDelegate->enableHighlightColors(true);
     this->ui->listWidget->setItemDelegate(this->mDelegate);
 
     this->ui->radioButtonBigEndian->setChecked(true);

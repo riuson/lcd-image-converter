@@ -16,10 +16,12 @@ public:
     QColor colorEven() const;
     void setColorOdd(const QColor &value);
     void setColorEven(const QColor &value);
+    void enableHighlightColors(bool value);
 private:
     int mBitsCount;
     QColor mColorOdd;//1 3
     QColor mColorEven;//2 4
+    bool mHighlightColors;
 };
 //-----------------------------------------------------------------------------
 #endif // BYTELISTITEMDELEGATE_H

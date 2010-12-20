@@ -5,6 +5,7 @@ ByteListItemDelegate::ByteListItemDelegate(QObject *pobj = 0) : QItemDelegate(po
     this->mBitsCount = 8;
     this->mColorEven = QColor("silver");
     this->mColorOdd = QColor("black");
+    this->mHighlightColors = false;
 }
 //-----------------------------------------------------------------------------
 void ByteListItemDelegate::paint(QPainter *painter,
@@ -28,6 +29,27 @@ void ByteListItemDelegate::paint(QPainter *painter,
             QPen pen(QBrush(this->mColorOdd), 3);
             painter->setPen(pen);
             painter->drawLine(rect.left(), rect.bottom() - 2, rect.right(), rect.bottom() - 2);
+        }
+        if (this->mHighlightColors)
+        {
+            QString d = index.data().toString();
+            if (d.contains("R", Qt::CaseInsensitive))
+            {
+                QPen pen(QBrush(QColor("red")), 3);
+                painter->setPen(pen);
+            }
+            if (d.contains("G", Qt::CaseInsensitive))
+            {
+                QPen pen(QBrush(QColor("green")), 3);
+                painter->setPen(pen);
+            }
+            if (d.contains("B", Qt::CaseInsensitive))
+            {
+                QPen pen(QBrush(QColor("blue")), 3);
+                painter->setPen(pen);
+            }
+            painter->drawLine(rect.left(), rect.top() + 10, rect.right(), rect.top() + 10);
+            painter->drawLine(rect.left(), rect.bottom() - 10, rect.right(), rect.bottom() - 10);
         }
     }
     QItemDelegate::paint(painter, option, index);
@@ -61,5 +83,10 @@ void ByteListItemDelegate::setColorOdd(const QColor &value)
 void ByteListItemDelegate::setColorEven(const QColor &value)
 {
     this->mColorEven = value;
+}
+//-----------------------------------------------------------------------------
+void ByteListItemDelegate::enableHighlightColors(bool value)
+{
+    this->mHighlightColors = value;
 }
 //-----------------------------------------------------------------------------
