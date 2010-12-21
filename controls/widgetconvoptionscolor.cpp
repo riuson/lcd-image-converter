@@ -28,9 +28,13 @@ WidgetConvOptionsColor::WidgetConvOptionsColor(IConverter *options, QWidget *par
     this->mDelegate->enableHighlightColors(true);
     this->ui->listWidget->setItemDelegate(this->mDelegate);
 
-    this->mConv = new ConverterColor(this);
+    this->mConv = dynamic_cast<ConverterColor*>(options);
+    if (this->mConv == NULL)
+    {
+        this->mConv = new ConverterColor(this);
+        this->mConv->loadSettings();
+    }
 
-    this->mConv->loadSettings();
     ConverterColor::BytesOrder orderBytes;
     ConverterColor::DataLength length;
     bool mirror, pack;
@@ -67,7 +71,10 @@ WidgetConvOptionsColor::WidgetConvOptionsColor(IConverter *options, QWidget *par
     ordersList << "BRG";
     ordersList << "BGR";
     this->ui->comboBoxColorsOrder->addItems(ordersList);
-    this->ui->comboBoxColorsOrder->setCurrentIndex((int)orderColors);
+    if (orderColors >= 0 && orderColors <= 5)
+        this->ui->comboBoxColorsOrder->setCurrentIndex((int)orderColors);
+    else
+        this->ui->comboBoxColorsOrder->setCurrentIndex(0);
 
     this->mReady = true;
     this->updatePreview();

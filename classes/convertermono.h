@@ -43,6 +43,8 @@ private:
     bool mMirrorBytes;
     int mBlackWhiteLevel;
     ConvMonoType mDithType;
+private:
+    void makeMonochrome(QImage &image);
 };
 //-----------------------------------------------------------------------------
 #endif // CONVERTERMONO_H

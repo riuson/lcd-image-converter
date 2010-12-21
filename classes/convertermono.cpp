@@ -83,23 +83,8 @@ QImage ConverterMono::preprocessImage(const QImage &source)
     switch (this->mDithType)
     {
     case Edge:
-        {
-            QPainter painter(&result);
-            painter.setRenderHint(QPainter::Antialiasing, false);
-            for (int x = 0; x < result.width(); x++)
-            {
-                for (int y = 0; y < result.height(); y++)
-                {
-                    QRgb value = result.pixel(x, y);
-                    if (qGray(value) < this->mBlackWhiteLevel)
-                        painter.setPen(QColor(0, 0, 0));
-                    else
-                        painter.setPen(QColor(255, 255, 255));
-                    painter.drawPoint(x, y);
-                }
-            }
-            break;
-        }
+        this->makeMonochrome(result);
+        break;
     case DiffuseDither:
         result = result.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::DiffuseDither);
         break;
@@ -140,3 +125,20 @@ void ConverterMono::setOptions(const BytesOrder &orderBytes,
     this->mDithType = dithType;
 }
 //-----------------------------------------------------------------------------
+void ConverterMono::makeMonochrome(QImage &image)
+{
+    QPainter painter(&image);
+    painter.setRenderHint(QPainter::Antialiasing, false);
+    for (int x = 0; x < image.width(); x++)
+    {
+        for (int y = 0; y < image.height(); y++)
+        {
+            QRgb value = image.pixel(x, y);
+            if (qGray(value) < this->mBlackWhiteLevel)
+                painter.setPen(QColor(0, 0, 0));
+            else
+                painter.setPen(QColor(255, 255, 255));
+            painter.drawPoint(x, y);
+        }
+    }
+}//-----------------------------------------------------------------------------

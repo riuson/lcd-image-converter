@@ -2,6 +2,8 @@
 
 #include <QSettings>
 #include <QImage>
+#include <QPainter>
+#include <QRgb>
 //-----------------------------------------------------------------------------
 ConverterGrayscale::ConverterGrayscale(QObject *parent) :
         QObject(parent)
@@ -75,6 +77,7 @@ QString ConverterGrayscale::displayName()
 QImage ConverterGrayscale::preprocessImage(const QImage &source)
 {
     QImage result(source);
+    this->makeGrayscale(result);
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -104,3 +107,19 @@ void ConverterGrayscale::setOptions(const BytesOrder &orderBytes,
     this->mBitsPerPoint = bitsPerPoint;
 }
 //-----------------------------------------------------------------------------
+void ConverterGrayscale::makeGrayscale(QImage& image)
+{
+    QPainter painter(&image);
+    painter.setRenderHint(QPainter::Antialiasing, false);
+    for (int x = 0; x < image.width(); x++)
+    {
+        for (int y = 0; y < image.height(); y++)
+        {
+            QRgb value = image.pixel(x, y);
+            value = qGray(value);
+            value = value & (0x0000ff00 >> this->mBitsPerPoint);
+            painter.setPen(QColor(value, value, value));
+            painter.drawPoint(x, y);
+        }
+    }
+}

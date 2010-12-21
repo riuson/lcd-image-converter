@@ -34,7 +34,6 @@ WidgetConvOptionsGray::WidgetConvOptionsGray(IConverter *options, QWidget *paren
         this->mConv->loadSettings();
     }
 
-    this->mConv->loadSettings();
     ConverterGrayscale::BytesOrder orderBytes;
     ConverterGrayscale::DataLength length;
     bool mirror, pack;

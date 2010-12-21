@@ -35,6 +35,8 @@ private:
     bool mMirrorBytes;
     bool mPack;
     int mBitsPerPoint;
+
+    void makeGrayscale(QImage &image);
 };
 //-----------------------------------------------------------------------------
 #endif // CONVERTERGRAYSCALE_H

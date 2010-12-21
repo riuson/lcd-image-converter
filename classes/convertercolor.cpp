@@ -2,6 +2,8 @@
 
 #include <QSettings>
 #include <QImage>
+#include <QPainter>
+#include <QColor>
 //-----------------------------------------------------------------------------
 ConverterColor::ConverterColor(QObject *parent) :
         QObject(parent)
@@ -93,6 +95,7 @@ QString ConverterColor::displayName()
 QImage ConverterColor::preprocessImage(const QImage &source)
 {
     QImage result(source);
+    this->makeGradations(result);
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -132,5 +135,23 @@ void ConverterColor::setOptions(const BytesOrder &orderBytes,
     this->mBitsPerPointGreen = bitsPerPointGreen;
     this->mBitsPerPointBlue = bitsPerPointBlue;
     this->mOrderColors = orderColors;
+}
+//-----------------------------------------------------------------------------
+void ConverterColor::makeGradations(QImage &image)
+{
+    QPainter painter(&image);
+    painter.setRenderHint(QPainter::Antialiasing, false);
+    for (int x = 0; x < image.width(); x++)
+    {
+        for (int y = 0; y < image.height(); y++)
+        {
+            QRgb value = image.pixel(x, y);
+            int r = qRed  (value) & (0x0000ff00 >> this->mBitsPerPointRed);
+            int g = qGreen(value) & (0x0000ff00 >> this->mBitsPerPointGreen);
+            int b = qBlue (value) & (0x0000ff00 >> this->mBitsPerPointBlue);
+            painter.setPen(QColor(r, g, b));
+            painter.drawPoint(x, y);
+        }
+    }
 }
 //-----------------------------------------------------------------------------

@@ -54,6 +54,8 @@ private:
     int mBitsPerPointGreen;
     int mBitsPerPointBlue;
     ColorsOrder mOrderColors;
+
+    void makeGradations(QImage &image);
 };
 //-----------------------------------------------------------------------------
 #endif // CONVERTERCOLOR_H
