@@ -46,7 +46,7 @@ void DialogConvert::on_comboBoxType_currentIndexChanged()
     QVariant data = this->ui->comboBoxType->itemData(this->ui->comboBoxType->currentIndex());
     this->mConverter->selectConv(data.toString());
     this->mWidgetSetup = this->mConverter->widgetSetup();
-    this->ui->verticalLayout->insertWidget(2, this->mWidgetSetup);
+    this->ui->verticalLayout->insertWidget(1, this->mWidgetSetup);
     this->connect(this->mWidgetSetup, SIGNAL(settingsChanged()), SLOT(updatePreview()));
 
     this->updatePreview();
