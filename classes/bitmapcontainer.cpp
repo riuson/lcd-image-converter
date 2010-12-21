@@ -33,7 +33,7 @@ void BitmapContainer::setImage(const QString &key, QImage *image)
         delete this->mImage;
     this->mImage = new QImage(*image);
 
-    emit this->imageChanged("template");
+    emit this->imageChanged("default");
 }
 //-----------------------------------------------------------------------------
 void BitmapContainer::transform(const QString &key, int code)
@@ -45,11 +45,17 @@ void BitmapContainer::transform(const QString &key, int code)
         delete this->mImage;
     this->mImage = new QImage(result);
 
-    emit this->imageChanged("template");
+    emit this->imageChanged("default");
 }
 //-----------------------------------------------------------------------------
 int BitmapContainer::count()
 {
     return 1;
+}
+//-----------------------------------------------------------------------------
+QStringList BitmapContainer::keys() const
+{
+    QStringList result("default");
+    return result;
 }
 //-----------------------------------------------------------------------------

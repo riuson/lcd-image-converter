@@ -99,7 +99,7 @@ void MainWindow::updateMenuState()
     this->ui->actionSave->setEnabled(editorSelected);
     this->ui->actionSave_As->setEnabled(editorSelected);
     this->ui->actionClose->setEnabled(editorSelected);
-    //this->ui->actionConvert->setEnabled(editorSelected);
+    this->ui->actionConvert->setEnabled(editorSelected);
 
     if (!editorSelected)
         this->mEditor = NULL;
@@ -304,7 +304,7 @@ void MainWindow::on_actionClose_triggered()
 void MainWindow::on_actionConvert_triggered()
 {
     // test
-    DialogConvert dialog(this);
+    DialogConvert dialog(this->mEditor->dataContainer(), this);
     dialog.exec();
 }
 //-----------------------------------------------------------------------------

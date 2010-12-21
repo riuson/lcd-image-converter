@@ -2,14 +2,16 @@
 #include "ui_dialogconvert.h"
 
 #include "converter.h"
+#include "idatacontainer.h"
 //-----------------------------------------------------------------------------
-DialogConvert::DialogConvert(QWidget *parent) :
+DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogConvert)
 {
     ui->setupUi(this);
 
     this->mWidgetSetup = NULL;
+    this->mData = dataContainer;
 
     this->mConverter = new Converter(this);
     QStringList names = this->mConverter->names();
@@ -19,6 +21,8 @@ DialogConvert::DialogConvert(QWidget *parent) :
         this->ui->comboBoxType->addItem(conv->displayName(), QVariant(conv->name()));
     }
     this->ui->comboBoxType->setCurrentIndex(0);
+
+    this->ui->comboBoxSampleyKey->addItems(this->mData->keys());
 }
 //-----------------------------------------------------------------------------
 DialogConvert::~DialogConvert()

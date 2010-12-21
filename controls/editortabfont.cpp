@@ -148,7 +148,7 @@ bool EditorTabFont::load(const QString &fileName)
                         }
                     }
                 }
-                this->ui->listWidgetCharacters->addItems(QStringList(this->mContainer->keys()));
+                this->ui->listWidgetCharacters->addItems(this->mContainer->keys());
 
                 QFontDatabase fonts;
                 this->mFont = fonts.font(fontFamily, style, size);
@@ -337,7 +337,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
     if (!cancel)
     {
         // list of exists characters
-        QList<QString> keys = this->mContainer->keys();
+        QStringList keys = this->mContainer->keys();
         if (needRecreate)
         {
             this->mContainer->clear();
@@ -402,8 +402,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
             }
         }
         keys = this->mContainer->keys();
-        QStringList list(keys);
-        this->ui->listWidgetCharacters->addItems(list);
+        this->ui->listWidgetCharacters->addItems(keys);
         this->mon_editor_dataChanged();
     }
 }

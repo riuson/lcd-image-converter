@@ -27,7 +27,7 @@ WidgetBitmapEditor::WidgetBitmapEditor(IDataContainer *dataContainer, QWidget *p
     this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
 
     this->mDataContainer = dataContainer;
-    this->mImageKey = "template";
+    this->mImageKey = "default";
     this->createImageScaled(this->mScale);
 
     this->ui->spinBoxScale->setValue(this->mScale);

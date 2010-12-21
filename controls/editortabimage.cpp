@@ -84,7 +84,7 @@ bool EditorTabImage::load(const QString &fileName)
                       QBuffer buffer(&ba);
                       QImage image;
                       image.load(&buffer, "PNG");
-                      this->mContainer->setImage("template", &image);
+                      this->mContainer->setImage("default", &image);
                       result = true;
                       break;
                     }

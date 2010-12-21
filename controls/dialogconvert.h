@@ -7,19 +7,21 @@ namespace Ui {
     class DialogConvert;
 }
 class Converter;
+class IDataContainer;
 //-----------------------------------------------------------------------------
 class DialogConvert : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit DialogConvert(QWidget *parent = 0);
+    explicit DialogConvert(IDataContainer *dataContainer, QWidget *parent = 0);
     ~DialogConvert();
 
 private:
     Ui::DialogConvert *ui;
     QWidget *mWidgetSetup;
     Converter *mConverter;
+    IDataContainer *mData;
 private slots:
     void on_comboBoxType_currentIndexChanged();
 };

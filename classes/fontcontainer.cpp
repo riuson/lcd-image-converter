@@ -8,7 +8,7 @@ FontContainer::FontContainer(QObject *parent) :
     QObject(parent)
 {
     this->mDefaultImage = new QImage(":/images/template");
-    //this->mImageMap.insert("template", this->mDefaultImage);
+    //this->mImageMap.insert("default", this->mDefaultImage);
 }
 //-----------------------------------------------------------------------------
 FontContainer::~FontContainer()
@@ -56,10 +56,11 @@ void FontContainer::clear()
     this->mImageMap.clear();
 }
 //-----------------------------------------------------------------------------
-QList<QString> FontContainer::keys()
+QStringList FontContainer::keys() const
 {
-    QList<QString> result = this->mImageMap.keys();
-    qSort(result);
+    QList<QString> tmp = this->mImageMap.keys();
+    qSort(tmp);
+    QStringList result(tmp);
     return result;
 }
 //-----------------------------------------------------------------------------

@@ -2,8 +2,10 @@
 #define IDATACONTAINER_H
 //-----------------------------------------------------------------------------
 #include <QtGlobal>
+#include <QString>
+#include <QStringList>
+
 class QImage;
-class QString;
 //-----------------------------------------------------------------------------
 class IDataContainer
 {
@@ -12,6 +14,7 @@ public:
     virtual void setImage(const QString &key, QImage *image) = 0;
     virtual void transform(const QString &key, int code) = 0;
     virtual int count() = 0;
+    virtual QStringList keys() const = 0;
     //virtual void imageChanged() = 0;
 };
 Q_DECLARE_INTERFACE (IDataContainer,
