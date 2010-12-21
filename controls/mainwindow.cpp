@@ -14,9 +14,7 @@
 #include "bitmaphelper.h"
 #include "dialogresize.h"
 #include "dialogcharacters.h"
-#include "widgetconvoptionsmono.h"
-#include "widgetconvoptionsgray.h"
-#include "widgetconvoptionscolor.h"
+#include "dialogconvert.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -306,14 +304,8 @@ void MainWindow::on_actionClose_triggered()
 void MainWindow::on_actionConvert_triggered()
 {
     // test
-    WidgetConvOptionsMono *w1 = new WidgetConvOptionsMono(this);
-    this->ui->tabWidget->addTab(w1, "test mono");
-
-    WidgetConvOptionsGray *w2 = new WidgetConvOptionsGray(this);
-    this->ui->tabWidget->addTab(w2, "test grayscale");
-
-    WidgetConvOptionsColor *w3 = new WidgetConvOptionsColor(this);
-    this->ui->tabWidget->addTab(w3, "test color");
+    DialogConvert dialog(this);
+    dialog.exec();
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionQuit_triggered()

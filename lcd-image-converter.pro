@@ -35,7 +35,12 @@ SOURCES += main.cpp \
     controls/widgetconvoptionsmono.cpp \
     classes/bytelistitemdelegate.cpp \
     controls/widgetconvoptionsgray.cpp \
-    controls/widgetconvoptionscolor.cpp
+    controls/widgetconvoptionscolor.cpp \
+    controls/dialogconvert.cpp \
+    classes/converter.cpp \
+    classes/convertermono.cpp \
+    classes/convertergrayscale.cpp \
+    classes/convertercolor.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -53,7 +58,13 @@ HEADERS += \
     controls/widgetconvoptionsmono.h \
     classes/bytelistitemdelegate.h \
     controls/widgetconvoptionsgray.h \
-    controls/widgetconvoptionscolor.h
+    controls/widgetconvoptionscolor.h \
+    controls/dialogconvert.h \
+    classes/converter.h \
+    classes/convertermono.h \
+    classes/convertergrayscale.h \
+    classes/convertercolor.h \
+    interfaces/iconverter.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -64,7 +75,8 @@ FORMS += \
     controls/dialogcharacters.ui \
     controls/widgetconvoptionsmono.ui \
     controls/widgetconvoptionsgray.ui \
-    controls/widgetconvoptionscolor.ui
+    controls/widgetconvoptionscolor.ui \
+    controls/dialogconvert.ui
 INCLUDEPATH += . \
     ./classes \
     ./controls \

@@ -1,20 +1,22 @@
 #ifndef WIDGETCONVOPTIONSGRAY_H
 #define WIDGETCONVOPTIONSGRAY_H
 //-----------------------------------------------------------------------------
-#include <QDialog>
+#include <QWidget>
 //-----------------------------------------------------------------------------
 namespace Ui {
     class WidgetConvOptionsGray;
 }
 class ByteListItemDelegate;
 class QButtonGroup;
+class ConverterGrayscale;
+class IConverter;
 //-----------------------------------------------------------------------------
-class WidgetConvOptionsGray : public QDialog
+class WidgetConvOptionsGray : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit WidgetConvOptionsGray(QWidget *parent = 0);
+    explicit WidgetConvOptionsGray(IConverter *options, QWidget *parent = 0);
     ~WidgetConvOptionsGray();
 
 protected:
@@ -25,6 +27,8 @@ private:
     ByteListItemDelegate *mDelegate;
     QButtonGroup *mGroupByteOrder;
     QButtonGroup *mGroupDataSize;
+    ConverterGrayscale *mConv;
+    bool mReady;
 private slots:
     void updatePreview();
 };

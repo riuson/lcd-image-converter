@@ -8,13 +8,15 @@ namespace Ui {
 }
 class ByteListItemDelegate;
 class QButtonGroup;
+class ConverterColor;
+class IConverter;
 //-----------------------------------------------------------------------------
 class WidgetConvOptionsColor : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit WidgetConvOptionsColor(QWidget *parent = 0);
+    explicit WidgetConvOptionsColor(IConverter *options, QWidget *parent = 0);
     ~WidgetConvOptionsColor();
 
 protected:
@@ -25,6 +27,8 @@ private:
     ByteListItemDelegate *mDelegate;
     QButtonGroup *mGroupByteOrder;
     QButtonGroup *mGroupDataSize;
+    ConverterColor *mConv;
+    bool mReady;
 private slots:
     void updatePreview();
 };

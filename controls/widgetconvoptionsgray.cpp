@@ -4,12 +4,16 @@
 #include <QButtonGroup>
 
 #include "bytelistitemdelegate.h"
+#include "convertergrayscale.h"
 //-----------------------------------------------------------------------------
-WidgetConvOptionsGray::WidgetConvOptionsGray(QWidget *parent) :
-    QDialog(parent),
+WidgetConvOptionsGray::WidgetConvOptionsGray(IConverter *options, QWidget *parent) :
+    QWidget(parent),
     ui(new Ui::WidgetConvOptionsGray)
 {
     ui->setupUi(this);
+
+    this->mReady = false;
+
     this->mGroupByteOrder = new QButtonGroup(this);
     this->mGroupDataSize = new QButtonGroup(this);
 
@@ -23,10 +27,34 @@ WidgetConvOptionsGray::WidgetConvOptionsGray(QWidget *parent) :
     this->mDelegate = new ByteListItemDelegate(this);
     this->ui->listWidget->setItemDelegate(this->mDelegate);
 
-    this->ui->radioButtonBigEndian->setChecked(true);
-    this->ui->radioButtonLittleEndian->setChecked(false);
+    this->mConv = dynamic_cast<ConverterGrayscale*>(options);
+    if (this->mConv == NULL)
+    {
+        this->mConv = new ConverterGrayscale(this);
+        this->mConv->loadSettings();
+    }
 
-    this->ui->radioButtonData8->setChecked(true);
+    this->mConv->loadSettings();
+    ConverterGrayscale::BytesOrder orderBytes;
+    ConverterGrayscale::DataLength length;
+    bool mirror, pack;
+    int bitsPerPoint;
+    this->mConv->options(&orderBytes, &length, &mirror, &pack, &bitsPerPoint);
+
+    this->ui->radioButtonBigEndian->setChecked(orderBytes == ConverterGrayscale::BigEndian);
+    this->ui->radioButtonLittleEndian->setChecked(orderBytes == ConverterGrayscale::LittleEndian);
+
+    this->ui->radioButtonData8->setChecked(length == ConverterGrayscale::Data8);
+    this->ui->radioButtonData16->setChecked(length == ConverterGrayscale::Data16);
+    this->ui->radioButtonData32->setChecked(length == ConverterGrayscale::Data32);
+
+    this->ui->checkBoxMirrorBits->setChecked(mirror);
+    this->ui->checkBoxPack->setChecked(pack);
+
+    this->ui->spinBoxBitsPerPoint->setValue(bitsPerPoint);
+
+    this->mReady = true;
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 WidgetConvOptionsGray::~WidgetConvOptionsGray()
@@ -48,14 +76,18 @@ void WidgetConvOptionsGray::changeEvent(QEvent *e)
 //-----------------------------------------------------------------------------
 void WidgetConvOptionsGray::updatePreview()
 {
+    if (!this->mReady)
+        return;
+
     this->ui->listWidget->clear();
     QStringList list;
 
     int bits = 8;
+    ConverterGrayscale::DataLength length = ConverterGrayscale::Data8;
     if (this->ui->radioButtonData16->isChecked())
-        bits = 16;
+        bits = 16, length = ConverterGrayscale::Data16;
     if (this->ui->radioButtonData32->isChecked())
-        bits = 32;
+        bits = 32, length = ConverterGrayscale::Data32;
     this->mDelegate->setBitsCount(bits);
 
     // 3 - 2 bits
@@ -127,5 +159,12 @@ void WidgetConvOptionsGray::updatePreview()
         list = outlist;
     }
     this->ui->listWidget->addItems(list);
+
+    this->mConv->setOptions(littleEndian ? ConverterGrayscale::LittleEndian : ConverterGrayscale::BigEndian,
+                               length,
+                               mirror,
+                               pack,
+                               bitsPerPoint);
+    this->mConv->saveSettings();
 }
 //-----------------------------------------------------------------------------
