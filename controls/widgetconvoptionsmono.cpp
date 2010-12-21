@@ -38,7 +38,8 @@ WidgetConvOptionsMono::WidgetConvOptionsMono(IConverter *options, QWidget *paren
     ConverterMono::DataLength length;
     bool mirror;
     int level;
-    this->mConv->options(&orderBytes, &length, &mirror, &level);
+    ConverterMono::ConvMonoType convType;
+    this->mConv->options(&orderBytes, &length, &mirror, &level, &convType);
 
     this->ui->radioButtonBigEndian->setChecked(orderBytes == ConverterMono::BigEndian);
     this->ui->radioButtonLittleEndian->setChecked(orderBytes == ConverterMono::LittleEndian);
@@ -50,6 +51,12 @@ WidgetConvOptionsMono::WidgetConvOptionsMono(IConverter *options, QWidget *paren
     this->ui->checkBoxMirrorBits->setChecked(mirror);
 
     this->ui->horizontalScrollBar->setValue(level);
+
+    this->ui->comboBoxConvType->addItem("Edge", ConverterMono::Edge);
+    this->ui->comboBoxConvType->addItem("Diffuse dither", ConverterMono::DiffuseDither);
+    this->ui->comboBoxConvType->addItem("Ordered dither", ConverterMono::OrderedDither);
+    this->ui->comboBoxConvType->addItem("Threshold dither", ConverterMono::ThresholdDither);
+    this->ui->comboBoxConvType->setCurrentIndex(convType);
 
     this->mReady = true;
     this->updatePreview();
@@ -74,6 +81,8 @@ void WidgetConvOptionsMono::changeEvent(QEvent *e)
 //-----------------------------------------------------------------------------
 void WidgetConvOptionsMono::updatePreview()
 {
+    this->ui->horizontalScrollBar->setEnabled(this->ui->comboBoxConvType->currentIndex() == 0);
+
     if (!this->mReady)
         return;
 
@@ -88,6 +97,12 @@ void WidgetConvOptionsMono::updatePreview()
     if (this->ui->radioButtonData32->isChecked())
         bits = 32, length = ConverterMono::Data32;
     this->mDelegate->setBitsCount(bits);
+
+    bool ok;
+    int a = this->ui->comboBoxConvType->itemData(this->ui->comboBoxConvType->currentIndex()).toInt(&ok);
+    ConverterMono::ConvMonoType dithType = ConverterMono::Edge;
+    if (ok)
+        dithType = (ConverterMono::ConvMonoType)a;
 
     bool littleEndian = this->ui->radioButtonLittleEndian->isChecked();
     bool mirror = this->ui->checkBoxMirrorBits->isChecked();
@@ -135,7 +150,10 @@ void WidgetConvOptionsMono::updatePreview()
     this->mConv->setOptions(littleEndian ? ConverterMono::LittleEndian : ConverterMono::BigEndian,
                                length,
                                mirror,
-                               this->ui->horizontalScrollBar->value());
+                               this->ui->horizontalScrollBar->value(),
+                               dithType);
     this->mConv->saveSettings();
+
+    emit this->settingsChanged();
 }
 //-----------------------------------------------------------------------------

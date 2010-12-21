@@ -1,6 +1,7 @@
 #include "convertergrayscale.h"
 
 #include <QSettings>
+#include <QImage>
 //-----------------------------------------------------------------------------
 ConverterGrayscale::ConverterGrayscale(QObject *parent) :
         QObject(parent)
@@ -69,6 +70,12 @@ QString ConverterGrayscale::name()
 QString ConverterGrayscale::displayName()
 {
     return tr("Grayscale");
+}
+//-----------------------------------------------------------------------------
+QImage ConverterGrayscale::preprocessImage(const QImage &source)
+{
+    QImage result(source);
+    return result;
 }
 //-----------------------------------------------------------------------------
 void ConverterGrayscale::options(BytesOrder *orderBytes,

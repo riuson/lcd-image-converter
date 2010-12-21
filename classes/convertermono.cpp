@@ -1,6 +1,8 @@
 #include "convertermono.h"
 
 #include <QSettings>
+#include <QImage>
+#include <QPainter>
 //-----------------------------------------------------------------------------
 ConverterMono::ConverterMono(QObject *parent) :
         QObject(parent)
@@ -9,6 +11,7 @@ ConverterMono::ConverterMono(QObject *parent) :
     this->mDataLength = Data8;
     this->mMirrorBytes = false;
     this->mBlackWhiteLevel = 128;
+    this->mDithType = Edge;
 }
 //-----------------------------------------------------------------------------
 ConverterMono::~ConverterMono()
@@ -36,6 +39,10 @@ void ConverterMono::loadSettings()
     if (ok)
         this->mBlackWhiteLevel = a;
 
+    a = sett.value("dithType", QVariant(Edge)).toInt(&ok);
+    if (ok)
+        this->mDithType = (ConvMonoType)a;
+
     sett.endGroup();
     sett.endGroup();
 }
@@ -54,6 +61,8 @@ void ConverterMono::saveSettings()
 
     sett.setValue("level", QVariant(this->mBlackWhiteLevel));
 
+    sett.setValue("dithType", QVariant(this->mDithType));
+
     sett.endGroup();
     sett.endGroup();
 }
@@ -68,25 +77,66 @@ QString ConverterMono::displayName()
     return tr("Monochrome");
 }
 //-----------------------------------------------------------------------------
+QImage ConverterMono::preprocessImage(const QImage &source)
+{
+    QImage result(source);
+    switch (this->mDithType)
+    {
+    case Edge:
+        {
+            QPainter painter(&result);
+            painter.setRenderHint(QPainter::Antialiasing, false);
+            for (int x = 0; x < result.width(); x++)
+            {
+                for (int y = 0; y < result.height(); y++)
+                {
+                    QRgb value = result.pixel(x, y);
+                    if (qGray(value) < this->mBlackWhiteLevel)
+                        painter.setPen(QColor(0, 0, 0));
+                    else
+                        painter.setPen(QColor(255, 255, 255));
+                    painter.drawPoint(x, y);
+                }
+            }
+            break;
+        }
+    case DiffuseDither:
+        result = result.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::DiffuseDither);
+        break;
+    case OrderedDither:
+        result = result.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::OrderedDither);
+        break;
+    case ThresholdDither:
+        result = result.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::ThresholdDither);
+        break;
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void ConverterMono::options(BytesOrder *orderBytes,
                             DataLength *length,
                             bool *mirror,
-                            int *level)
+                            int *level,
+                            ConvMonoType *dithType)
 {
     *orderBytes = this->mBytesOrder;
     *length = this->mDataLength;
     *mirror = this->mMirrorBytes;
     *level = this->mBlackWhiteLevel;
+    *dithType = this->mDithType;
 }
 //-----------------------------------------------------------------------------
 void ConverterMono::setOptions(const BytesOrder &orderBytes,
                                const DataLength &length,
                                const bool mirror,
-                               const int level)
+                               const int level,
+                               const ConvMonoType dithType)
 {
     this->mBytesOrder = orderBytes;
     this->mDataLength = length;
     this->mMirrorBytes = mirror;
     this->mBlackWhiteLevel = level;
+    this->mDithType = dithType;
 }
 //-----------------------------------------------------------------------------

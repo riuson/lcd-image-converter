@@ -41,7 +41,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBoxSampleyKey"/>
+      <widget class="QComboBox" name="comboBoxSampleKey"/>
      </item>
     </layout>
    </item>

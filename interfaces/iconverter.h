@@ -2,6 +2,8 @@
 #define ICONVERTER_H
 //-----------------------------------------------------------------------------
 #include <QObject>
+
+#include <QImage>
 //-----------------------------------------------------------------------------
 class IConverter
 {
@@ -10,6 +12,7 @@ public:
     virtual void saveSettings() = 0;
     virtual QString name() = 0;
     virtual QString displayName() = 0;
+    virtual QImage preprocessImage(const QImage &source) = 0;
     enum BytesOrder
     {
         LittleEndian = 0,

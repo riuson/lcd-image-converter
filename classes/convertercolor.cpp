@@ -1,6 +1,7 @@
 #include "convertercolor.h"
 
 #include <QSettings>
+#include <QImage>
 //-----------------------------------------------------------------------------
 ConverterColor::ConverterColor(QObject *parent) :
         QObject(parent)
@@ -87,6 +88,12 @@ QString ConverterColor::name()
 QString ConverterColor::displayName()
 {
     return tr("Color");
+}
+//-----------------------------------------------------------------------------
+QImage ConverterColor::preprocessImage(const QImage &source)
+{
+    QImage result(source);
+    return result;
 }
 //-----------------------------------------------------------------------------
 void ConverterColor::options(BytesOrder *orderBytes,

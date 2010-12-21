@@ -133,34 +133,28 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Black/white level:</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Convert to monochrome:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBoxConvType"/>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QScrollBar" name="horizontalScrollBar">
      <property name="maximum">
-      <number>100</number>
+      <number>255</number>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>
@@ -259,6 +253,38 @@
     <hint type="destinationlabel">
      <x>323</x>
      <y>75</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBoxConvType</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>WidgetConvOptionsMono</receiver>
+   <slot>updatePreview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>286</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>213</x>
+     <y>172</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalScrollBar</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>WidgetConvOptionsMono</receiver>
+   <slot>updatePreview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>213</x>
+     <y>330</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>213</x>
+     <y>172</y>
     </hint>
    </hints>
   </connection>

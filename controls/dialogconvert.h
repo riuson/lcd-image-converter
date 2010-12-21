@@ -22,8 +22,12 @@ private:
     QWidget *mWidgetSetup;
     Converter *mConverter;
     IDataContainer *mData;
+    QImage mImageOriginal;
+    QImage mImageProcessed;
 private slots:
     void on_comboBoxType_currentIndexChanged();
+    void on_comboBoxSampleKey_currentIndexChanged();
+    void updatePreview();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT_H

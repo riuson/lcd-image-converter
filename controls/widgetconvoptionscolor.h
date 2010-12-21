@@ -31,6 +31,8 @@ private:
     bool mReady;
 private slots:
     void updatePreview();
+signals:
+    void settingsChanged();
 };
 //-----------------------------------------------------------------------------
 #endif // WIDGETCONVOPTIONSCOLOR_H

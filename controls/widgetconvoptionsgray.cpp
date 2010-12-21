@@ -166,5 +166,7 @@ void WidgetConvOptionsGray::updatePreview()
                                pack,
                                bitsPerPoint);
     this->mConv->saveSettings();
+
+    emit this->settingsChanged();
 }
 //-----------------------------------------------------------------------------

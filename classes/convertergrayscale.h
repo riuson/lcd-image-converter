@@ -17,6 +17,7 @@ public:
     void saveSettings();
     QString name();
     QString displayName();
+    QImage preprocessImage(const QImage &source);
 
     void options(BytesOrder *orderBytes,
                  DataLength *length,

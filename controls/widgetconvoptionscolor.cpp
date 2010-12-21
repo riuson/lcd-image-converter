@@ -196,5 +196,7 @@ void WidgetConvOptionsColor::updatePreview()
                                bitsPerPointB,
                                orderColors);
     this->mConv->saveSettings();
+
+    emit this->settingsChanged();
 }
 //-----------------------------------------------------------------------------
