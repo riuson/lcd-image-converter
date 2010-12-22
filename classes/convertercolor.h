@@ -4,6 +4,8 @@
 #include <QObject>
 
 #include "iconverter.h"
+
+template <class T> class QQueue;
 //-----------------------------------------------------------------------------
 class ConverterColor : public QObject, public IConverter
 {
@@ -57,6 +59,8 @@ private:
     ColorsOrder mOrderColors;
 
     void makeGradations(QImage &image);
+    void queueColors(QQueue<bool> &queue, QRgb value);
+    void queueColor(QQueue<bool> &queue, quint8 value, int bitsPerPoint);
 };
 //-----------------------------------------------------------------------------
 #endif // CONVERTERCOLOR_H

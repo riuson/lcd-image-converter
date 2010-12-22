@@ -4,6 +4,9 @@
 #include <QImage>
 #include <QPainter>
 #include <QColor>
+#include <QQueue>
+
+#include "bitmapdata.h"
 //-----------------------------------------------------------------------------
 ConverterColor::ConverterColor(QObject *parent) :
         QObject(parent)
@@ -99,8 +102,68 @@ QImage ConverterColor::preprocessImage(const QImage &source)
     return result;
 }
 //-----------------------------------------------------------------------------
-void ConverterColor::processImage(const QImage &preprocessedImage, BitmapData *output)
+void ConverterColor::processImage(const QImage &image, BitmapData *output)
 {
+    output->clear();
+    output->setBlockSize(this->mDataLength);
+    output->setWidth(image.width());
+    output->setHeight(image.height());
+
+    QQueue<bool> temp;// queue for bits of line
+
+    for (int y = 0; y < image.height(); y++)
+    {
+        temp.clear();
+        // collect all bits of line
+        for (int x = 0; x < image.width(); x++)
+        {
+            QRgb point = image.pixel(x, y);// r = g = b
+            this->queueColors(temp, point);
+        }
+        // put bits to data blocks
+        quint32 data = 0;
+        int bitsCounter = 0;
+        int bitsPerPoint = this->mBitsPerPointRed + this->mBitsPerPointGreen + this->mBitsPerPointBlue;
+
+        while (!temp.isEmpty())
+        {
+            bool bit = temp.dequeue();
+            if (bit)
+                data |= (0x01 << (this->mDataLength - bitsCounter - 1));
+            bitsCounter++;
+            // if need packing
+            if (this->mPack)
+            {
+                if (bitsCounter >= this->mDataLength)
+                {
+                    output->addBlock(data);
+                    data = 0;
+                    bitsCounter = 0;
+                }
+            }
+            else
+            {
+                // if data block full
+                if (bitsCounter >= this->mDataLength - (this->mDataLength % bitsPerPoint))
+                {
+                    bitsCounter = 0;
+                    output->addBlock(data);
+                    data = 0;
+                }
+            }
+        }
+        if (bitsCounter != 0)
+        {
+            output->addBlock(data);
+            data = 0;
+            bitsCounter = 0;
+        }
+    }
+
+    if (this->mBytesOrder == LittleEndian)
+        output->swapBytes();
+    if (this->mMirrorBytes)
+        output->mirrorBytes();
 }
 //-----------------------------------------------------------------------------
 void ConverterColor::options(BytesOrder *orderBytes,
@@ -156,6 +219,54 @@ void ConverterColor::makeGradations(QImage &image)
             painter.setPen(QColor(r, g, b));
             painter.drawPoint(x, y);
         }
+    }
+}
+//-----------------------------------------------------------------------------
+void ConverterColor::queueColors(QQueue<bool> &queue, QRgb value)
+{
+    switch (this->mOrderColors)
+    {
+    case ColorsOrderRGB:
+        this->queueColor(queue, qRed(value), this->mBitsPerPointRed);
+        this->queueColor(queue, qGreen(value), this->mBitsPerPointGreen);
+        this->queueColor(queue, qBlue(value), this->mBitsPerPointBlue);
+        break;
+    case ColorsOrderRBG:
+        this->queueColor(queue, qRed(value), this->mBitsPerPointRed);
+        this->queueColor(queue, qBlue(value), this->mBitsPerPointBlue);
+        this->queueColor(queue, qGreen(value), this->mBitsPerPointGreen);
+        break;
+    case ColorsOrderGRB:
+        this->queueColor(queue, qGreen(value), this->mBitsPerPointGreen);
+        this->queueColor(queue, qRed(value), this->mBitsPerPointRed);
+        this->queueColor(queue, qBlue(value), this->mBitsPerPointBlue);
+        break;
+    case ColorsOrderGBR:
+        this->queueColor(queue, qGreen(value), this->mBitsPerPointGreen);
+        this->queueColor(queue, qBlue(value), this->mBitsPerPointBlue);
+        this->queueColor(queue, qRed(value), this->mBitsPerPointRed);
+        break;
+    case ColorsOrderBRG:
+        this->queueColor(queue, qBlue(value), this->mBitsPerPointBlue);
+        this->queueColor(queue, qRed(value), this->mBitsPerPointRed);
+        this->queueColor(queue, qGreen(value), this->mBitsPerPointGreen);
+        break;
+    case ColorsOrderBGR:
+        this->queueColor(queue, qBlue(value), this->mBitsPerPointBlue);
+        this->queueColor(queue, qGreen(value), this->mBitsPerPointGreen);
+        this->queueColor(queue, qRed(value), this->mBitsPerPointRed);
+        break;
+    }
+}
+//-----------------------------------------------------------------------------
+void ConverterColor::queueColor(QQueue<bool> &queue, quint8 value, int bitsPerPoint)
+{
+    for (int i = 0; i < bitsPerPoint; i++)
+    {
+        if (value & (0x80 >> i))
+            queue.enqueue(true);
+        else
+            queue.enqueue(false);
     }
 }
 //-----------------------------------------------------------------------------
