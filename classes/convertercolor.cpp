@@ -99,6 +99,10 @@ QImage ConverterColor::preprocessImage(const QImage &source)
     return result;
 }
 //-----------------------------------------------------------------------------
+void ConverterColor::processImage(const QImage &preprocessedImage, BitmapData *output)
+{
+}
+//-----------------------------------------------------------------------------
 void ConverterColor::options(BytesOrder *orderBytes,
                             DataLength *length,
                             bool *mirror,

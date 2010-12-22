@@ -5,6 +5,8 @@
 
 #include <QImage>
 //-----------------------------------------------------------------------------
+class BitmapData;
+//-----------------------------------------------------------------------------
 class IConverter
 {
 public:
@@ -13,6 +15,7 @@ public:
     virtual QString name() = 0;
     virtual QString displayName() = 0;
     virtual QImage preprocessImage(const QImage &source) = 0;
+    virtual void processImage(const QImage &preprocessedImage, BitmapData *output) = 0;
     enum BytesOrder
     {
         LittleEndian = 0,

@@ -3,6 +3,7 @@
 
 #include "converter.h"
 #include "idatacontainer.h"
+#include "bitmapdata.h"
 //-----------------------------------------------------------------------------
 DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
@@ -66,5 +67,11 @@ void DialogConvert::updatePreview()
         this->ui->labelOriginal->setPixmap(QPixmap::fromImage(this->mImageOriginal));
         QImage processed = this->mConverter->preprocessImage(this->mImageOriginal);
         this->ui->labelPreview->setPixmap(QPixmap::fromImage(processed));
+
+        BitmapData data;
+        this->mConverter->processImage(processed, &data);
+
+        QString str = this->mConverter->dataToString(data);
+        this->ui->plainTextEdit->setPlainText(str);
     }
 }

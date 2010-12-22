@@ -3,6 +3,8 @@
 #include <QSettings>
 #include <QImage>
 #include <QPainter>
+
+#include "bitmapdata.h"
 //-----------------------------------------------------------------------------
 ConverterMono::ConverterMono(QObject *parent) :
         QObject(parent)
@@ -97,6 +99,45 @@ QImage ConverterMono::preprocessImage(const QImage &source)
     }
 
     return result;
+}
+//-----------------------------------------------------------------------------
+void ConverterMono::processImage(const QImage &image, BitmapData *output)
+{
+    output->clear();
+    output->setBlockSize(this->mDataLength);
+    output->setWidth(image.width());
+    output->setHeight(image.height());
+
+    quint32 data = 0;
+    int bitsCounter = 0;
+    for (int y = 0; y < image.height(); y++)
+    {
+        bitsCounter = 0;
+        for (int x = 0; x < image.width(); x++)
+        {
+            QRgb point = image.pixel(x, y);
+            // if point is black
+            if (qRed(point) == 0)
+                data |= (0x01 << (this->mDataLength - bitsCounter - 1));
+            bitsCounter++;
+            if (bitsCounter >= this->mDataLength)
+            {
+                output->addBlock(data);
+                data = 0;
+                bitsCounter = 0;
+            }
+        }
+        if (bitsCounter != 0)
+        {
+            output->addBlock(data);
+            data = 0;
+            bitsCounter = 0;
+        }
+    }
+    if (this->mBytesOrder == LittleEndian)
+        output->swapBytes();
+    if (this->mMirrorBytes)
+        output->mirrorBytes();
 }
 //-----------------------------------------------------------------------------
 void ConverterMono::options(BytesOrder *orderBytes,

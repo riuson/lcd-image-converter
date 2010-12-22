@@ -40,7 +40,8 @@ SOURCES += main.cpp \
     classes/converter.cpp \
     classes/convertermono.cpp \
     classes/convertergrayscale.cpp \
-    classes/convertercolor.cpp
+    classes/convertercolor.cpp \
+    classes/bitmapdata.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -64,7 +65,8 @@ HEADERS += \
     classes/convertermono.h \
     classes/convertergrayscale.h \
     classes/convertercolor.h \
-    interfaces/iconverter.h
+    interfaces/iconverter.h \
+    classes/bitmapdata.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \

@@ -9,6 +9,8 @@
 #include "convertercolor.h"
 #include "convertergrayscale.h"
 #include "convertermono.h"
+
+#include "bitmapdata.h"
 //-----------------------------------------------------------------------------
 Converter::Converter(QObject *parent) :
         QObject(parent)
@@ -70,6 +72,31 @@ QImage Converter::preprocessImage(const QImage &source)
 {
     IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
     return options->preprocessImage(source);
+}
+//-----------------------------------------------------------------------------
+void Converter::processImage(const QImage &preprocessedImage, BitmapData *output)
+{
+    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
+    options->processImage(preprocessedImage, output);
+}
+//-----------------------------------------------------------------------------
+QString Converter::dataToString(const BitmapData &data)
+{
+    QString result;
+    int bits = data.blockSize();
+    for (int line = 0, counter = 0; line < data.height(); line++)
+    {
+        if (result.endsWith(", "))
+            result.append("\n");
+        for (int column = 0; column < data.blocksPerLine(); column++)
+        {
+            quint32 value = data.data()->at(counter++);
+            result.append(QString("0x%1, ").arg(value, bits / 4, 16, QChar('0')));
+        }
+    }
+    if (result.endsWith(", "))
+        result = result.remove(QRegExp("\\,\\s$"));
+    return result;
 }
 //-----------------------------------------------------------------------------
 QStringList Converter::names() const

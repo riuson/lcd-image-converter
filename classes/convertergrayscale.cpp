@@ -81,6 +81,10 @@ QImage ConverterGrayscale::preprocessImage(const QImage &source)
     return result;
 }
 //-----------------------------------------------------------------------------
+void ConverterGrayscale::processImage(const QImage &preprocessedImage, BitmapData *output)
+{
+}
+//-----------------------------------------------------------------------------
 void ConverterGrayscale::options(BytesOrder *orderBytes,
                             DataLength *length,
                             bool *mirror,

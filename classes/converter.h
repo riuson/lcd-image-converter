@@ -19,6 +19,8 @@ public:
     QString name();
     QString displayName();
     QImage preprocessImage(const QImage &source);
+    void processImage(const QImage &preprocessedImage, BitmapData *output);
+    QString dataToString(const BitmapData &data);
 
     QStringList names() const ;
     QWidget *widgetSetup();
