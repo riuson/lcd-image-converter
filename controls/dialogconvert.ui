@@ -116,7 +116,13 @@
        </layout>
       </widget>
      </widget>
-     <widget class="QPlainTextEdit" name="plainTextEdit"/>
+     <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="font">
+       <font>
+        <family>Monospace</family>
+       </font>
+      </property>
+     </widget>
     </widget>
    </item>
    <item>

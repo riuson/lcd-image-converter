@@ -4,6 +4,9 @@
 #include <QImage>
 #include <QPainter>
 #include <QRgb>
+#include <QQueue>
+
+#include "bitmapdata.h"
 //-----------------------------------------------------------------------------
 ConverterGrayscale::ConverterGrayscale(QObject *parent) :
         QObject(parent)
@@ -81,8 +84,74 @@ QImage ConverterGrayscale::preprocessImage(const QImage &source)
     return result;
 }
 //-----------------------------------------------------------------------------
-void ConverterGrayscale::processImage(const QImage &preprocessedImage, BitmapData *output)
+void ConverterGrayscale::processImage(const QImage &image, BitmapData *output)
 {
+    output->clear();
+    output->setBlockSize(this->mDataLength);
+    output->setWidth(image.width());
+    output->setHeight(image.height());
+
+    QQueue<bool> temp;// queue for bits of line
+
+    for (int y = 0; y < image.height(); y++)
+    {
+        temp.clear();
+        // collect all bits of line
+        for (int x = 0; x < image.width(); x++)
+        {
+            QRgb point = image.pixel(x, y);// r = g = b
+            quint8 r = qRed(point);
+            for (int i = 0; i < this->mBitsPerPoint; i++)
+            {
+                if (r & (0x80 >> i))
+                    temp.enqueue(true);
+                else
+                    temp.enqueue(false);
+            }
+        }
+        // put bits to data blocks
+        quint32 data = 0;
+        int bitsCounter = 0;
+
+        while (!temp.isEmpty())
+        {
+            bool bit = temp.dequeue();
+            if (bit)
+                data |= (0x01 << (this->mDataLength - bitsCounter - 1));
+            bitsCounter++;
+            // if need packing
+            if (this->mPack)
+            {
+                if (bitsCounter >= this->mDataLength)
+                {
+                    output->addBlock(data);
+                    data = 0;
+                    bitsCounter = 0;
+                }
+            }
+            else
+            {
+                // if data block full
+                if (bitsCounter >= this->mDataLength - (this->mDataLength % this->mBitsPerPoint))
+                {
+                    bitsCounter = 0;
+                    output->addBlock(data);
+                    data = 0;
+                }
+            }
+        }
+        if (bitsCounter != 0)
+        {
+            output->addBlock(data);
+            data = 0;
+            bitsCounter = 0;
+        }
+    }
+
+    if (this->mBytesOrder == LittleEndian)
+        output->swapBytes();
+    if (this->mMirrorBytes)
+        output->mirrorBytes();
 }
 //-----------------------------------------------------------------------------
 void ConverterGrayscale::options(BytesOrder *orderBytes,
