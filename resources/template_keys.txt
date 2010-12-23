@@ -1,0 +1,139 @@
+# @start_header
+# @fileName - source file name
+# @documentName - image/font name
+# @documentName_ws - image/font name without spaces
+# @bits - information about color density
+# @fontFamily -
+# @fontSize - font height
+# @fontAntialising - is antialising used
+# @fontWidthType - proportional or monospaced
+# @use_char_encoding(str) - encoding for character codes, one of following:
+#  UTF-8
+#  UTF-16
+#  UTF-16BE
+#  UTF-16LE
+#  UTF-32
+#  UTF-32BE
+#  UTF-32LE
+#  Windows-1250 to 1258
+# @end_header
+
+# @start_image
+# @width - width of image
+# @height - height of image
+# @end_mage
+//-----------------------------------------------------------------------------
+// Image template:
+
+@start_header
+// filename: @fileName@
+// name: @documentName@
+// colors: @bits@
+// typedef struct {
+//     const unsigned char *data;
+//     const int width;
+//     const int height;
+//     } tImage;
+@end_header
+
+# @start_image
+const unsigned char image_data_@documentName_ws@[@blockCount@] = {
+    @imageData@
+};
+tImage @documentName_ws@ { &image_data_@documentName_ws@[0], @width@, @height@};
+# @end_mage
+
+//-----------------------------------------------------------------------------
+// Image result:
+
+// header: image
+// filename: E:\Documents\Projects\lcd-bitmap-converter\lcd-bitmap-converter-mono\Samples\cat.xml
+// name: cat
+// colors: monochrome (1 bit per pixel)
+// end of header
+
+
+const unsigned char image_data_cat[512] = {
+    ...array-of-bytes...
+};
+tImage cat { &image_data_cat[0], 64, 64};
+
+//-----------------------------------------------------------------------------
+// Font template:
+
+@start_header
+// filename: @fileName@
+// name: @documentName@
+// family: @fontFamily@
+// colors: @bits@
+// size: @fontSize@
+// style: @style@
+// included characters: @string@
+// antialiasing: @fontAntialising@
+// type: @fontWidthType@
+// coding: @use_char_encoding(UTF-8)@
+//
+// typedef struct {
+//     const long int code;
+//     const tImage *image;
+//     } tChar;
+// typedef struct {
+//     const int length;
+//     const tChar *chars;
+//     } tFont;
+@end_header
+
+@images_table
+@start_image
+const unsigned char image_data_@documentName_ws@_0x@charCode@[@blocksCount@] = {
+...array-of-bytes...
+};
+const tImage @documentName_ws@_0x@charCode@ = { &image_data_@documentName_ws@_0x@charCode@[0], @width@, @height@};
+@end_image
+@end_images_table
+
+const tChar @documentName_ws@_array[] = {
+@char_images_table
+  // character: '@charText@'
+  {0x@charCode@, &@documentName_ws@_0x@charCode@}@comma@
+@end_images_table
+};
+const tFont @documentName_ws@ = { @charsCount@, &@documentName_ws@_array[0] };
+//-----------------------------------------------------------------------------
+// Font Output:
+
+// header: font
+// filename: E:\Documents\Projects\lcd-bitmap-converter\lcd-bitmap-converter-mono\bin\Debug\Xslt\opensymbol.xml
+// name: opensymbol
+// family: OpenSymbol
+// colors: monochrome (1 bit per pixel)
+// size: 14
+// style: Normal
+// included characters: !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя
+// antialiasing: false
+// type: proportional
+// coding: UTF-8
+//
+// typedef struct {
+//     const long int code;
+//     const tImage *image;
+//     } tChar;
+// typedef struct {
+//     const int length;
+//     const tChar *chars;
+//     } tFont;
+// end of header
+
+const unsigned char image_data_opensymbol_0x20000000[32] = {
+...array-of-bytes...
+};
+const tImage opensymbol_0x20000000 = { &image_data_opensymbol_0x20000000[0], 16, 14};
+
+const tChar opensymbol_array[] = {
+  //character: '#'
+  {0x23, &opensymbol_0x23000000},
+  ...............................
+  //character: '~'
+  {0x7E, &opensymbol_0x7E000000}
+};
+const tFont font_opensymbol = { 159, &opensymbol_array[0] };

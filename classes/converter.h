@@ -5,6 +5,9 @@
 
 #include <QObject>
 #include <QMap>
+
+class IDocument;
+class IDataContainer;
 //-----------------------------------------------------------------------------
 class Converter : public QObject, public IConverter
 {
@@ -26,9 +29,16 @@ public:
     QWidget *widgetSetup();
     IConverter *conv(const QString &name);
     void selectConv(const QString &name);
+    QString convert(IDocument *document, const QString &templateFile, QMap<QString, QString> &tags);
 private:
     QMap <QString, QObject *> mConverters;
     QString mSelectedConverterName;
+    void substHeader(QString &outputString, QMap<QString, QString> &tags);
+    void substImagesTable(QString &outputString, QMap<QString, QString> &tags, IDataContainer *data);
+    void substCharsTable(QString &outputString, QMap<QString, QString> &tags, IDataContainer *data);
+    void substImage(QString &outputString, QMap<QString, QString> &tags);
+    void substTags(QString &outputString, QMap<QString, QString> &tags);
+    void substTag(QString &outputString, QMap<QString, QString> &tags, const QString &tagName);
 };
 //-----------------------------------------------------------------------------
 #endif // CONVERTER_H

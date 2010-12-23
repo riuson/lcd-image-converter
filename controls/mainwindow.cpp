@@ -15,6 +15,7 @@
 #include "dialogresize.h"
 #include "dialogcharacters.h"
 #include "dialogconvert.h"
+#include "converter.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -302,6 +303,64 @@ void MainWindow::on_actionClose_triggered()
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionConvert_triggered()
+{
+    QWidget *w = this->ui->tabWidget->currentWidget();
+    IDocument *doc = dynamic_cast<IDocument *> (w);
+
+    QMap<QString, QString> tags;
+    tags["@fileName@"] = doc->fileName();
+    QString docName = doc->documentName();
+    tags["@documentName@"] = docName;
+    docName = docName.remove(QRegExp("\\W", Qt::CaseInsensitive));
+    tags["@documentName_ws@"] = docName;
+
+    QString templateFileName;
+
+    if (EditorTabImage *eti = qobject_cast<EditorTabImage *>(w))
+    {
+        tags["@dataType@"] = "image";
+        templateFileName = ":/templates/image_convert";
+    }
+    if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
+    {
+        QString chars, fontFamily, style;
+        int size;
+        bool monospaced, antialiasing;
+        etf->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
+
+        tags["@dataType@"] = "font";
+        tags["@fontFamily@"] = fontFamily;
+        tags["@fontSize@"] = QString("%1").arg(size);
+        tags["@fontStyle@"] = style;
+        tags["@string@"] = chars;
+        tags["@fontAntialiasing@"] = antialiasing ? "true" : "false";
+        tags["@fontWidthType@"] = monospaced ? "monospaced" : "proportional";
+
+        templateFileName = ":/templates/font_convert";
+    }
+    Converter conv(this);
+    QString result = conv.convert(doc, templateFileName, tags);
+
+    QFileDialog dialog(this);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setFilter(tr("C Files (*.c);;All Files (*.*)"));
+    dialog.setWindowTitle(tr("Save result file as"));
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        QString filename = dialog.selectedFiles().at(0);
+        doc->save(filename);
+
+        QFile file(filename);
+        if (file.open(QFile::WriteOnly))
+        {
+            file.write(result.toUtf8());
+            file.close();
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionPreferences_triggered()
 {
     // test
     DialogConvert dialog(this->mEditor->dataContainer(), this);

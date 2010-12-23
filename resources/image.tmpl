@@ -1,0 +1,21 @@
+@start_header
+// @dataType@
+// filename: @fileName@
+// name: @documentName@
+// colors: @bits@
+// encoding: @use_char_encoding(UTF-8)@
+// typedef struct {
+//     const unsigned char *data;
+//     const int width;
+//     const int height;
+//     } tImage;
+@end_header
+
+@start_images_table
+@start_image
+const unsigned char image_data_@documentName_ws@[@blocksCount@] = {
+    @imageData@
+};
+tImage @documentName_ws@ { &image_data_@documentName_ws@[0], @width@, @height@};
+@end_image
+@end_images_table

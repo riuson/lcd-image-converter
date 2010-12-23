@@ -86,3 +86,8 @@ INCLUDEPATH += . \
 
 RESOURCES += \
     resources/resources.qrc
+
+OTHER_FILES += \
+    resources/image.tmpl \
+    resources/font.tmpl \
+    resources/template_keys.txt

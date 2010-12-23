@@ -3,4 +3,8 @@
         <file alias="winter">winter.jpg</file>
         <file alias="template">template.png</file>
     </qresource>
+    <qresource prefix="/templates">
+        <file alias="font_convert">font.tmpl</file>
+        <file alias="image_convert">image.tmpl</file>
+    </qresource>
 </RCC>

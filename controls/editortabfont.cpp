@@ -288,6 +288,11 @@ void EditorTabFont::setDocumentName(const QString &value)
     emit this->dataChanged();
 }
 //-----------------------------------------------------------------------------
+IDataContainer *EditorTabFont::dataContainer()
+{
+    return this->mContainer;
+}
+//-----------------------------------------------------------------------------
 WidgetBitmapEditor *EditorTabFont::editor()
 {
     return this->mEditor;

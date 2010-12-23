@@ -27,6 +27,7 @@ public:
     QString fileName();
     QString documentName();
     void setDocumentName(const QString &value);
+    IDataContainer *dataContainer();
 
     WidgetBitmapEditor *editor();
 

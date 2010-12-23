@@ -166,6 +166,11 @@ void EditorTabImage::setDocumentName(const QString &value)
     emit this->dataChanged();
 }
 //-----------------------------------------------------------------------------
+IDataContainer *EditorTabImage::dataContainer()
+{
+    return this->mContainer;
+}
+//-----------------------------------------------------------------------------
 WidgetBitmapEditor *EditorTabImage::editor()
 {
     return this->mEditor;
