@@ -52,8 +52,6 @@
     <addaction name="separator"/>
     <addaction name="actionConvert"/>
     <addaction name="separator"/>
-    <addaction name="actionPreferences"/>
-    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuImage">
@@ -88,9 +86,17 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="actionSetupConversion"/>
+    <addaction name="actionSetupTemplates"/>
+   </widget>
    <addaction name="menuHello"/>
    <addaction name="menuImage"/>
    <addaction name="menuFont"/>
+   <addaction name="menuOptions"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -164,9 +170,9 @@
     <string>Convert...</string>
    </property>
   </action>
-  <action name="actionPreferences">
+  <action name="actionSetupConversion">
    <property name="text">
-    <string>Preferences...</string>
+    <string>Conversion...</string>
    </property>
   </action>
   <action name="actionImageImport">
@@ -202,6 +208,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionSetupTemplates">
+   <property name="text">
+    <string>Templates...</string>
    </property>
   </action>
  </widget>

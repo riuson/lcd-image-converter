@@ -25,6 +25,16 @@ public:
     void processImage(const QImage &preprocessedImage, BitmapData *output);
     QString dataToString(const BitmapData &data);
 
+    BytesOrder order();
+    DataLength length();
+    bool mirror();
+    bool pack();
+
+    void setOrder(BytesOrder value);
+    void setLength(DataLength value);
+    void setMirror(bool value);
+    void setPack(bool value);
+
     QStringList names() const ;
     QWidget *widgetSetup();
     IConverter *conv(const QString &name);
@@ -37,7 +47,7 @@ private:
     void parse(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
     void parseBlocks(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
     void parseImagesTable(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
-    void parseSimple(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc, int index);
+    void parseSimple(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
     QString hexCode(const QChar &ch, const QString &encoding);
 };
 //-----------------------------------------------------------------------------

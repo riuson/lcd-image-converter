@@ -140,30 +140,64 @@ void ConverterMono::processImage(const QImage &image, BitmapData *output)
         output->mirrorBytes();
 }
 //-----------------------------------------------------------------------------
-void ConverterMono::options(BytesOrder *orderBytes,
-                            DataLength *length,
-                            bool *mirror,
-                            int *level,
-                            ConvMonoType *dithType)
+IConverter::BytesOrder ConverterMono::order()
 {
-    *orderBytes = this->mBytesOrder;
-    *length = this->mDataLength;
-    *mirror = this->mMirrorBytes;
-    *level = this->mBlackWhiteLevel;
-    *dithType = this->mDithType;
+    return this->mBytesOrder;
 }
 //-----------------------------------------------------------------------------
-void ConverterMono::setOptions(const BytesOrder &orderBytes,
-                               const DataLength &length,
-                               const bool mirror,
-                               const int level,
-                               const ConvMonoType dithType)
+IConverter::DataLength ConverterMono::length()
 {
-    this->mBytesOrder = orderBytes;
-    this->mDataLength = length;
-    this->mMirrorBytes = mirror;
-    this->mBlackWhiteLevel = level;
-    this->mDithType = dithType;
+    return this->mDataLength;
+}
+//-----------------------------------------------------------------------------
+bool ConverterMono::mirror()
+{
+    return this->mMirrorBytes;
+}
+//-----------------------------------------------------------------------------
+bool ConverterMono::pack()
+{
+    return true;
+}
+//-----------------------------------------------------------------------------
+int ConverterMono::level()
+{
+    return this->mBlackWhiteLevel;
+}
+//-----------------------------------------------------------------------------
+ConverterMono::ConvMonoType ConverterMono::dithType()
+{
+    return this->mDithType;
+}
+//-----------------------------------------------------------------------------
+void ConverterMono::setOrder(BytesOrder value)
+{
+    this->mBytesOrder = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterMono::setLength(DataLength value)
+{
+    this->mDataLength = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterMono::setMirror(bool value)
+{
+    this->mMirrorBytes = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterMono::setPack(bool value)
+{
+    Q_UNUSED(value);
+}
+//-----------------------------------------------------------------------------
+void ConverterMono::setLevel(int value)
+{
+    this->mBlackWhiteLevel = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterMono::setDithType(ConvMonoType value)
+{
+    this->mDithType = value;
 }
 //-----------------------------------------------------------------------------
 void ConverterMono::makeMonochrome(QImage &image)

@@ -27,7 +27,13 @@ private:
 private slots:
     void on_comboBoxType_currentIndexChanged();
     void on_comboBoxSampleKey_currentIndexChanged();
+    void on_comboBoxDataLength_currentIndexChanged();
     void updatePreview();
+signals:
+    void dataLengthChanged(int length);
+    void dataPackChanged(bool pack);
+    void swapBytesChanged(bool swap);
+    void mirrorBytesChanged(bool mirror);
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT_H

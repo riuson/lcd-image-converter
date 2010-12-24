@@ -25,12 +25,15 @@ protected:
 private:
     Ui::WidgetConvOptionsColor *ui;
     ByteListItemDelegate *mDelegate;
-    QButtonGroup *mGroupByteOrder;
-    QButtonGroup *mGroupDataSize;
     ConverterColor *mConv;
     bool mReady;
 private slots:
     void updatePreview();
+public slots:
+    void dataLengthChanged(int value);
+    void dataPackChanged(bool value);
+    void swapBytesChanged(bool value);
+    void mirrorBytesChanged(bool value);
 signals:
     void settingsChanged();
 };

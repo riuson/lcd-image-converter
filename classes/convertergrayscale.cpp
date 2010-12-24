@@ -154,30 +154,54 @@ void ConverterGrayscale::processImage(const QImage &image, BitmapData *output)
         output->mirrorBytes();
 }
 //-----------------------------------------------------------------------------
-void ConverterGrayscale::options(BytesOrder *orderBytes,
-                            DataLength *length,
-                            bool *mirror,
-                            bool *pack,
-                            int *bitsPerPoint)
+IConverter::BytesOrder ConverterGrayscale::order()
 {
-    *orderBytes = this->mBytesOrder;
-    *length = this->mDataLength;
-    *mirror = this->mMirrorBytes;
-    *pack = this->mPack;
-    *bitsPerPoint = this->mBitsPerPoint;
+    return this->mBytesOrder;
 }
 //-----------------------------------------------------------------------------
-void ConverterGrayscale::setOptions(const BytesOrder &orderBytes,
-                               const DataLength &length,
-                               const bool mirror,
-                               const bool pack,
-                               const int bitsPerPoint)
+IConverter::DataLength ConverterGrayscale::length()
 {
-    this->mBytesOrder = orderBytes;
-    this->mDataLength = length;
-    this->mMirrorBytes = mirror;
-    this->mPack = pack;
-    this->mBitsPerPoint = bitsPerPoint;
+    return this->mDataLength;
+}
+//-----------------------------------------------------------------------------
+bool ConverterGrayscale::mirror()
+{
+    return this->mMirrorBytes;
+}
+//-----------------------------------------------------------------------------
+bool ConverterGrayscale::pack()
+{
+    return this->mPack;
+}
+//-----------------------------------------------------------------------------
+int ConverterGrayscale::depth()
+{
+    return this->mBitsPerPoint;
+}
+//-----------------------------------------------------------------------------
+void ConverterGrayscale::setOrder(BytesOrder value)
+{
+    this->mBytesOrder = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterGrayscale::setLength(DataLength value)
+{
+    this->mDataLength = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterGrayscale::setMirror(bool value)
+{
+    this->mMirrorBytes = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterGrayscale::setPack(bool value)
+{
+    this->mPack = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterGrayscale::setDepth(int value)
+{
+    this->mBitsPerPoint = value;
 }
 //-----------------------------------------------------------------------------
 void ConverterGrayscale::makeGrayscale(QImage& image)

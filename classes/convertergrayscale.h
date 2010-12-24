@@ -20,16 +20,17 @@ public:
     QImage preprocessImage(const QImage &source);
     void processImage(const QImage &preprocessedImage, BitmapData *output);
 
-    void options(BytesOrder *orderBytes,
-                 DataLength *length,
-                 bool *mirror,
-                 bool *pack,
-                 int *bitsPerPoint);
-    void setOptions(const BytesOrder &orderBytes,
-                    const DataLength &length,
-                    const bool mirror,
-                    const bool pack,
-                    const int bitsPerPoint);
+    BytesOrder order();
+    DataLength length();
+    bool mirror();
+    bool pack();
+    int depth();
+
+    void setOrder(BytesOrder value);
+    void setLength(DataLength value);
+    void setMirror(bool value);
+    void setPack(bool value);
+    void setDepth(int value);
 private:
     BytesOrder mBytesOrder;
     DataLength mDataLength;

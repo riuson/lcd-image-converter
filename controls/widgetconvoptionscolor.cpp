@@ -14,16 +14,6 @@ WidgetConvOptionsColor::WidgetConvOptionsColor(IConverter *options, QWidget *par
 
     this->mReady = false;
 
-    this->mGroupByteOrder = new QButtonGroup(this);
-    this->mGroupDataSize = new QButtonGroup(this);
-
-    this->mGroupByteOrder->addButton(this->ui->radioButtonBigEndian);
-    this->mGroupByteOrder->addButton(this->ui->radioButtonLittleEndian);
-
-    this->mGroupDataSize->addButton(this->ui->radioButtonData8);
-    this->mGroupDataSize->addButton(this->ui->radioButtonData16);
-    this->mGroupDataSize->addButton(this->ui->radioButtonData32);
-
     this->mDelegate = new ByteListItemDelegate(this);
     this->mDelegate->enableHighlightColors(true);
     this->ui->listWidget->setItemDelegate(this->mDelegate);
@@ -35,29 +25,10 @@ WidgetConvOptionsColor::WidgetConvOptionsColor(IConverter *options, QWidget *par
         this->mConv->loadSettings();
     }
 
-    ConverterColor::BytesOrder orderBytes;
-    ConverterColor::DataLength length;
-    bool mirror, pack;
-    int bitsPerPointRed, bitsPerPointGreen, bitsPerPointBlue;
-    ConverterColor::ColorsOrder orderColors;
-    this->mConv->options(&orderBytes,
-                            &length,
-                            &mirror,
-                            &pack,
-                            &bitsPerPointRed,
-                            &bitsPerPointGreen,
-                            &bitsPerPointBlue,
-                            &orderColors);
-
-    this->ui->radioButtonBigEndian->setChecked(orderBytes == ConverterColor::BigEndian);
-    this->ui->radioButtonLittleEndian->setChecked(orderBytes == ConverterColor::LittleEndian);
-
-    this->ui->radioButtonData8->setChecked(length == ConverterColor::Data8);
-    this->ui->radioButtonData16->setChecked(length == ConverterColor::Data16);
-    this->ui->radioButtonData32->setChecked(length == ConverterColor::Data32);
-
-    this->ui->checkBoxMirrorBits->setChecked(mirror);
-    this->ui->checkBoxPack->setChecked(pack);
+    int bitsPerPointRed = this->mConv->depthRed();
+    int bitsPerPointGreen = this->mConv->depthGreen();
+    int bitsPerPointBlue = this->mConv->depthBlue();
+    ConverterColor::ColorsOrder orderColors = this->mConv->orderRGB();
 
     this->ui->spinBoxRedbits->setValue(bitsPerPointRed);
     this->ui->spinBoxGreenBits->setValue(bitsPerPointGreen);
@@ -71,10 +42,7 @@ WidgetConvOptionsColor::WidgetConvOptionsColor(IConverter *options, QWidget *par
     ordersList << "BRG";
     ordersList << "BGR";
     this->ui->comboBoxColorsOrder->addItems(ordersList);
-    if (orderColors >= 0 && orderColors <= 5)
-        this->ui->comboBoxColorsOrder->setCurrentIndex((int)orderColors);
-    else
-        this->ui->comboBoxColorsOrder->setCurrentIndex(0);
+    this->ui->comboBoxColorsOrder->setCurrentIndex((int)orderColors);
 
     this->mReady = true;
     this->updatePreview();
@@ -105,17 +73,13 @@ void WidgetConvOptionsColor::updatePreview()
     this->ui->listWidget->clear();
     QStringList list;
 
-    int bits = 8;
-    ConverterColor::DataLength length = ConverterColor::Data8;
-    if (this->ui->radioButtonData16->isChecked())
-        bits = 16, length = ConverterColor::Data16;
-    if (this->ui->radioButtonData32->isChecked())
-        bits = 32, length = ConverterColor::Data32;
+    ConverterColor::DataLength length = this->mConv->length();
+    int bits = (int)length;
     this->mDelegate->setBitsCount(bits);
 
-    int bitsPerPointR = this->ui->spinBoxRedbits->value();
-    int bitsPerPointG = this->ui->spinBoxGreenBits->value();
-    int bitsPerPointB = this->ui->spinBoxBlueBits->value();
+    int bitsPerPointR = this->mConv->depthRed();
+    int bitsPerPointG = this->mConv->depthGreen();
+    int bitsPerPointB = this->mConv->depthBlue();
 
     QStringList colorsRed, colorsGreen, colorsBlue;
     for (int i = bitsPerPointR - 1; i >= 0; i--)
@@ -138,9 +102,9 @@ void WidgetConvOptionsColor::updatePreview()
             colors << colorsBlue;
     }
 
-    bool littleEndian = this->ui->radioButtonLittleEndian->isChecked();
-    bool mirror = this->ui->checkBoxMirrorBits->isChecked();
-    bool pack = this->ui->checkBoxPack->isChecked();
+    bool littleEndian = this->mConv->order() == IConverter::LittleEndian;
+    bool mirror = this->mConv->mirror();
+    bool pack = this->mConv->pack();
 
     for (int i = 0, j = 0, k = 0; i < 80; i++)
     {
@@ -194,16 +158,47 @@ void WidgetConvOptionsColor::updatePreview()
     }
     this->ui->listWidget->addItems(list);
 
-    this->mConv->setOptions(littleEndian ? ConverterColor::LittleEndian : ConverterColor::BigEndian,
-                               length,
-                               mirror,
-                               pack,
-                               bitsPerPointR,
-                               bitsPerPointG,
-                               bitsPerPointB,
-                               orderColors);
+    this->mConv->setDepthRed(bitsPerPointR);
+    this->mConv->setDepthGreen(bitsPerPointG);
+    this->mConv->setDepthBlue(bitsPerPointB);
+    this->mConv->setOrderColors(orderColors);
+
     this->mConv->saveSettings();
 
     emit this->settingsChanged();
+}
+//-----------------------------------------------------------------------------
+void WidgetConvOptionsColor::dataLengthChanged(int value)
+{
+    switch (value)
+    {
+    case 8:
+    case 16:
+    case 32:
+        this->mConv->setLength((IConverter::DataLength)value);
+        break;
+    default:
+        this->mConv->setLength(IConverter::Data8);
+        break;
+    }
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void WidgetConvOptionsColor::dataPackChanged(bool value)
+{
+    this->mConv->setPack(value);
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void WidgetConvOptionsColor::swapBytesChanged(bool value)
+{
+    this->mConv->setOrder(value ? IConverter::LittleEndian : IConverter::BigEndian);
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void WidgetConvOptionsColor::mirrorBytesChanged(bool value)
+{
+    this->mConv->setMirror(value);
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------

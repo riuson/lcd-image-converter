@@ -28,16 +28,19 @@ public:
         ThresholdDither = 3
     };
 
-    void options(BytesOrder *orderBytes,
-                 DataLength *length,
-                 bool *mirror,
-                 int *level,
-                 ConvMonoType *dithType);
-    void setOptions(const BytesOrder &orderBytes,
-                    const DataLength &length,
-                    const bool mirror,
-                    const int level,
-                    const ConvMonoType dithType);
+    BytesOrder order();
+    DataLength length();
+    bool mirror();
+    bool pack();
+    int level();
+    ConvMonoType dithType();
+
+    void setOrder(BytesOrder value);
+    void setLength(DataLength value);
+    void setMirror(bool value);
+    void setPack(bool value);
+    void setLevel(int value);
+    void setDithType(ConvMonoType value);
 private:
     BytesOrder mBytesOrder;
     DataLength mDataLength;

@@ -32,22 +32,23 @@ public:
         ColorsOrderBGR = 5
     };
 
-    void options(BytesOrder *orderBytes,
-                 DataLength *length,
-                 bool *mirror,
-                 bool *pack,
-                 int *bitsPerPointRed,
-                 int *bitsPerPointGreen,
-                 int *bitsPerPointBlue,
-                 ColorsOrder *orderColors);
-    void setOptions(const BytesOrder &orderBytes,
-                    const DataLength &length,
-                    const bool mirror,
-                    const bool pack,
-                    const int bitsPerPointRed,
-                    const int bitsPerPointGreen,
-                    const int bitsPerPointBlue,
-                    const ColorsOrder orderColors);
+    BytesOrder order();
+    DataLength length();
+    bool mirror();
+    bool pack();
+    int depthRed();
+    int depthGreen();
+    int depthBlue();
+    ColorsOrder orderRGB();
+
+    void setOrder(BytesOrder value);
+    void setLength(DataLength value);
+    void setMirror(bool value);
+    void setPack(bool value);
+    void setDepthRed(int value);
+    void setDepthGreen(int value);
+    void setDepthBlue(int value);
+    void setOrderColors(ColorsOrder value);
 private:
     BytesOrder mBytesOrder;
     DataLength mDataLength;

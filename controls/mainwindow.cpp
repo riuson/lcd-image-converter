@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QTextStream>
+#include <QSettings>
 
 #include "editortabimage.h"
 #include "editortabfont.h"
@@ -16,6 +17,7 @@
 #include "dialogcharacters.h"
 #include "dialogconvert.h"
 #include "converter.h"
+#include "dialogsetuptemplates.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -304,6 +306,14 @@ void MainWindow::on_actionClose_triggered()
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionConvert_triggered()
 {
+    QSettings sett;
+    sett.beginGroup("setup");
+
+    QString templateImageFileName = sett.value("templateImage", ":/templates/image_convert").toString();
+    QString templateFontFileName = sett.value("templateFont", ":/templates/font_convert").toString();
+
+    sett.endGroup();
+
     QWidget *w = this->ui->tabWidget->currentWidget();
     IDocument *doc = dynamic_cast<IDocument *> (w);
 
@@ -318,8 +328,9 @@ void MainWindow::on_actionConvert_triggered()
 
     if (EditorTabImage *eti = qobject_cast<EditorTabImage *>(w))
     {
+        Q_UNUSED(eti);
         tags["dataType"] = "image";
-        templateFileName = ":/templates/image_convert";
+        templateFileName = templateImageFileName;
     }
     if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
     {
@@ -336,7 +347,7 @@ void MainWindow::on_actionConvert_triggered()
         tags["fontAntialiasing"] = antialiasing ? "true" : "false";
         tags["fontWidthType"] = monospaced ? "monospaced" : "proportional";
 
-        templateFileName = ":/templates/font_convert";
+        templateFileName = templateFontFileName;
     }
     Converter conv(this);
     QString result = conv.convert(doc, templateFileName, tags);
@@ -358,13 +369,6 @@ void MainWindow::on_actionConvert_triggered()
             file.close();
         }
     }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionPreferences_triggered()
-{
-    // test
-    DialogConvert dialog(this->mEditor->dataContainer(), this);
-    dialog.exec();
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_actionQuit_triggered()
@@ -551,6 +555,21 @@ void MainWindow::on_actionFontChange_triggered()
             etf->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
         }
     }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionSetupConversion_triggered()
+{
+    IDataContainer *data = NULL;
+    if (this->mEditor != NULL)
+        data = this->mEditor->dataContainer();
+    DialogConvert dialog(data, this);
+    dialog.exec();
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionSetupTemplates_triggered()
+{
+    DialogSetupTemplates dialog(this);
+    dialog.exec();
 }
 //-----------------------------------------------------------------------------
 void MainWindow::mon_editor_dataChanged()

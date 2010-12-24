@@ -14,16 +14,6 @@ WidgetConvOptionsMono::WidgetConvOptionsMono(IConverter *options, QWidget *paren
 
     this->mReady = false;
 
-    this->mGroupByteOrder = new QButtonGroup(this);
-    this->mGroupDataSize = new QButtonGroup(this);
-
-    this->mGroupByteOrder->addButton(this->ui->radioButtonBigEndian);
-    this->mGroupByteOrder->addButton(this->ui->radioButtonLittleEndian);
-
-    this->mGroupDataSize->addButton(this->ui->radioButtonData8);
-    this->mGroupDataSize->addButton(this->ui->radioButtonData16);
-    this->mGroupDataSize->addButton(this->ui->radioButtonData32);
-
     this->mDelegate = new ByteListItemDelegate(this);
     this->ui->listWidget->setItemDelegate(this->mDelegate);
 
@@ -34,21 +24,8 @@ WidgetConvOptionsMono::WidgetConvOptionsMono(IConverter *options, QWidget *paren
         this->mConv->loadSettings();
     }
 
-    ConverterMono::BytesOrder orderBytes;
-    ConverterMono::DataLength length;
-    bool mirror;
-    int level;
-    ConverterMono::ConvMonoType convType;
-    this->mConv->options(&orderBytes, &length, &mirror, &level, &convType);
-
-    this->ui->radioButtonBigEndian->setChecked(orderBytes == ConverterMono::BigEndian);
-    this->ui->radioButtonLittleEndian->setChecked(orderBytes == ConverterMono::LittleEndian);
-
-    this->ui->radioButtonData8->setChecked(length == ConverterMono::Data8);
-    this->ui->radioButtonData16->setChecked(length == ConverterMono::Data16);
-    this->ui->radioButtonData32->setChecked(length == ConverterMono::Data32);
-
-    this->ui->checkBoxMirrorBits->setChecked(mirror);
+    int level = this->mConv->level();
+    ConverterMono::ConvMonoType convType = this->mConv->dithType();
 
     this->ui->horizontalScrollBar->setValue(level);
 
@@ -89,13 +66,9 @@ void WidgetConvOptionsMono::updatePreview()
     this->ui->listWidget->clear();
     QStringList list;
 
-    int bits = 8;
-    ConverterMono::DataLength length = ConverterMono::Data8;
+    ConverterMono::DataLength length = this->mConv->length();
+    int bits = (int)length;
 
-    if (this->ui->radioButtonData16->isChecked())
-        bits = 16, length = ConverterMono::Data16;
-    if (this->ui->radioButtonData32->isChecked())
-        bits = 32, length = ConverterMono::Data32;
     this->mDelegate->setBitsCount(bits);
 
     bool ok;
@@ -104,8 +77,8 @@ void WidgetConvOptionsMono::updatePreview()
     if (ok)
         dithType = (ConverterMono::ConvMonoType)a;
 
-    bool littleEndian = this->ui->radioButtonLittleEndian->isChecked();
-    bool mirror = this->ui->checkBoxMirrorBits->isChecked();
+    bool littleEndian = this->mConv->order() == IConverter::LittleEndian;
+    bool mirror = this->mConv->mirror();
 
     for (int i = 0; i < 80; i++)
     {
@@ -147,13 +120,44 @@ void WidgetConvOptionsMono::updatePreview()
     }
     this->ui->listWidget->addItems(list);
 
-    this->mConv->setOptions(littleEndian ? ConverterMono::LittleEndian : ConverterMono::BigEndian,
-                               length,
-                               mirror,
-                               this->ui->horizontalScrollBar->value(),
-                               dithType);
+    this->mConv->setDithType(dithType);
+    this->mConv->setLevel(this->ui->horizontalScrollBar->value());
+
     this->mConv->saveSettings();
 
     emit this->settingsChanged();
+}
+//-----------------------------------------------------------------------------
+void WidgetConvOptionsMono::dataLengthChanged(int value)
+{
+    switch (value)
+    {
+    case 8:
+    case 16:
+    case 32:
+        this->mConv->setLength((IConverter::DataLength)value);
+        break;
+    default:
+        this->mConv->setLength(IConverter::Data8);
+        break;
+    }
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void WidgetConvOptionsMono::dataPackChanged(bool value)
+{
+    Q_UNUSED(value);
+}
+//-----------------------------------------------------------------------------
+void WidgetConvOptionsMono::swapBytesChanged(bool value)
+{
+    this->mConv->setOrder(value ? IConverter::LittleEndian : IConverter::BigEndian);
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void WidgetConvOptionsMono::mirrorBytesChanged(bool value)
+{
+    this->mConv->setMirror(value);
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------

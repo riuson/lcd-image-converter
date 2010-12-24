@@ -41,7 +41,8 @@ SOURCES += main.cpp \
     classes/convertermono.cpp \
     classes/convertergrayscale.cpp \
     classes/convertercolor.cpp \
-    classes/bitmapdata.cpp
+    classes/bitmapdata.cpp \
+    controls/dialogsetuptemplates.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -66,7 +67,8 @@ HEADERS += \
     classes/convertergrayscale.h \
     classes/convertercolor.h \
     interfaces/iconverter.h \
-    classes/bitmapdata.h
+    classes/bitmapdata.h \
+    controls/dialogsetuptemplates.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -78,7 +80,8 @@ FORMS += \
     controls/widgetconvoptionsmono.ui \
     controls/widgetconvoptionsgray.ui \
     controls/widgetconvoptionscolor.ui \
-    controls/dialogconvert.ui
+    controls/dialogconvert.ui \
+    controls/dialogsetuptemplates.ui
 INCLUDEPATH += . \
     ./classes \
     ./controls \

@@ -50,6 +50,15 @@ void Converter::loadSettings()
     this->mSelectedConverterName = name;
 
     sett.endGroup();
+
+    QListIterator<QString> it(this->mConverters.keys());
+    it.toFront();
+    while (it.hasNext())
+    {
+        QString key = it.next();
+        IConverter *conv = dynamic_cast<IConverter *>(this->mConverters.value(key));
+        conv->loadSettings();
+    }
 }
 //-----------------------------------------------------------------------------
 void Converter::saveSettings()
@@ -60,6 +69,15 @@ void Converter::saveSettings()
     sett.setValue("selected", this->mSelectedConverterName);
 
     sett.endGroup();
+
+    QListIterator<QString> it(this->mConverters.keys());
+    it.toFront();
+    while (it.hasNext())
+    {
+        QString key = it.next();
+        IConverter *conv = dynamic_cast<IConverter *>(this->mConverters.value(key));
+        conv->saveSettings();
+    }
 }
 //-----------------------------------------------------------------------------
 QString Converter::name()
@@ -104,6 +122,54 @@ QString Converter::dataToString(const BitmapData &data)
     if (result.endsWith(", "))
         result = result.remove(QRegExp("\\,\\s$"));
     return result;
+}
+//-----------------------------------------------------------------------------
+IConverter::BytesOrder Converter::order()
+{
+    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
+    return options->order();
+}
+//-----------------------------------------------------------------------------
+IConverter::DataLength Converter::length()
+{
+    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
+    return options->length();
+}
+//-----------------------------------------------------------------------------
+bool Converter::mirror()
+{
+    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
+    return options->mirror();
+}
+//-----------------------------------------------------------------------------
+bool Converter::pack()
+{
+    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
+    return options->pack();
+}
+//-----------------------------------------------------------------------------
+void Converter::setOrder(BytesOrder value)
+{
+    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
+    options->setOrder(value);
+}
+//-----------------------------------------------------------------------------
+void Converter::setLength(DataLength value)
+{
+    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
+    options->setLength(value);
+}
+//-----------------------------------------------------------------------------
+void Converter::setMirror(bool value)
+{
+    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
+    options->setMirror(value);
+}
+//-----------------------------------------------------------------------------
+void Converter::setPack(bool value)
+{
+    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
+    options->setPack(value);
 }
 //-----------------------------------------------------------------------------
 QStringList Converter::names() const
@@ -226,7 +292,6 @@ void Converter::parse(const QString &templateString,
         }
         else
         {
-            int len = regTag.cap(0).length();
             if (tags.contains(tagName))
                 resultString.append(tags.value(tagName));
             else
@@ -275,7 +340,7 @@ void Converter::parseBlocks(const QString &templateString,
             }
             else
             {
-                this->parseSimple(content, contentParsed, tags, doc, 0);
+                this->parseSimple(content, contentParsed, tags, doc);
             }
             resultString.append(contentParsed);
         }
@@ -313,7 +378,7 @@ void Converter::parseImagesTable(const QString &templateString,
         else
             tags["comma"] = "";
 
-        this->parseSimple(templateString, imageString, tags, doc, 0);
+        this->parseSimple(templateString, imageString, tags, doc);
         resultString.append("\n");
         resultString.append(imageString);
     }
@@ -322,9 +387,9 @@ void Converter::parseImagesTable(const QString &templateString,
 void Converter::parseSimple(const QString &templateString,
                             QString &resultString,
                             QMap<QString, QString> &tags,
-                            IDocument *doc,
-                            int startIndex = 0)
+                            IDocument *doc)
 {
+    Q_UNUSED(doc);
     QRegExp regTag("@(.+)@");
     regTag.setMinimal(true);
     resultString = templateString;

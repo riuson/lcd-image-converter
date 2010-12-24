@@ -14,16 +14,6 @@ WidgetConvOptionsGray::WidgetConvOptionsGray(IConverter *options, QWidget *paren
 
     this->mReady = false;
 
-    this->mGroupByteOrder = new QButtonGroup(this);
-    this->mGroupDataSize = new QButtonGroup(this);
-
-    this->mGroupByteOrder->addButton(this->ui->radioButtonBigEndian);
-    this->mGroupByteOrder->addButton(this->ui->radioButtonLittleEndian);
-
-    this->mGroupDataSize->addButton(this->ui->radioButtonData8);
-    this->mGroupDataSize->addButton(this->ui->radioButtonData16);
-    this->mGroupDataSize->addButton(this->ui->radioButtonData32);
-
     this->mDelegate = new ByteListItemDelegate(this);
     this->ui->listWidget->setItemDelegate(this->mDelegate);
 
@@ -34,21 +24,7 @@ WidgetConvOptionsGray::WidgetConvOptionsGray(IConverter *options, QWidget *paren
         this->mConv->loadSettings();
     }
 
-    ConverterGrayscale::BytesOrder orderBytes;
-    ConverterGrayscale::DataLength length;
-    bool mirror, pack;
-    int bitsPerPoint;
-    this->mConv->options(&orderBytes, &length, &mirror, &pack, &bitsPerPoint);
-
-    this->ui->radioButtonBigEndian->setChecked(orderBytes == ConverterGrayscale::BigEndian);
-    this->ui->radioButtonLittleEndian->setChecked(orderBytes == ConverterGrayscale::LittleEndian);
-
-    this->ui->radioButtonData8->setChecked(length == ConverterGrayscale::Data8);
-    this->ui->radioButtonData16->setChecked(length == ConverterGrayscale::Data16);
-    this->ui->radioButtonData32->setChecked(length == ConverterGrayscale::Data32);
-
-    this->ui->checkBoxMirrorBits->setChecked(mirror);
-    this->ui->checkBoxPack->setChecked(pack);
+    int bitsPerPoint = this->mConv->depth();
 
     this->ui->spinBoxBitsPerPoint->setValue(bitsPerPoint);
 
@@ -81,12 +57,8 @@ void WidgetConvOptionsGray::updatePreview()
     this->ui->listWidget->clear();
     QStringList list;
 
-    int bits = 8;
-    ConverterGrayscale::DataLength length = ConverterGrayscale::Data8;
-    if (this->ui->radioButtonData16->isChecked())
-        bits = 16, length = ConverterGrayscale::Data16;
-    if (this->ui->radioButtonData32->isChecked())
-        bits = 32, length = ConverterGrayscale::Data32;
+    ConverterGrayscale::DataLength length = this->mConv->length();
+    int bits = (int)length;
     this->mDelegate->setBitsCount(bits);
 
     // 3 - 2 bits
@@ -103,9 +75,9 @@ void WidgetConvOptionsGray::updatePreview()
     for (int i = bitsPerPoint - 1; i >= 0; i--)
         colors << QString("b.%1").arg(i);
 
-    bool littleEndian = this->ui->radioButtonLittleEndian->isChecked();
-    bool mirror = this->ui->checkBoxMirrorBits->isChecked();
-    bool pack = this->ui->checkBoxPack->isChecked();
+    bool littleEndian = this->mConv->order() == IConverter::LittleEndian;
+    bool mirror = this->mConv->mirror();
+    bool pack = this->mConv->pack();
 
     for (int i = 0, j = 0, k = 0; i < 80; i++)
     {
@@ -159,13 +131,40 @@ void WidgetConvOptionsGray::updatePreview()
     }
     this->ui->listWidget->addItems(list);
 
-    this->mConv->setOptions(littleEndian ? ConverterGrayscale::LittleEndian : ConverterGrayscale::BigEndian,
-                               length,
-                               mirror,
-                               pack,
-                               bitsPerPoint);
+    this->mConv->setDepth(bitsPerPoint);
+
     this->mConv->saveSettings();
 
     emit this->settingsChanged();
+}
+//-----------------------------------------------------------------------------
+void WidgetConvOptionsGray::dataLengthChanged(int value)
+{
+    switch (value)
+    {
+    case 8:
+    case 16:
+    case 32:
+        this->mConv->setLength((IConverter::DataLength)value);
+        break;
+    default:
+        this->mConv->setLength(IConverter::Data8);
+        break;
+    }
+}
+//-----------------------------------------------------------------------------
+void WidgetConvOptionsGray::dataPackChanged(bool value)
+{
+    this->mConv->setPack(value);
+}
+//-----------------------------------------------------------------------------
+void WidgetConvOptionsGray::swapBytesChanged(bool value)
+{
+    this->mConv->setOrder(value ? IConverter::LittleEndian : IConverter::BigEndian);
+}
+//-----------------------------------------------------------------------------
+void WidgetConvOptionsGray::mirrorBytesChanged(bool value)
+{
+    this->mConv->setMirror(value);
 }
 //-----------------------------------------------------------------------------

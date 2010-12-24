@@ -27,6 +27,15 @@ public:
         Data16 = 16,
         Data32 = 32
     };
+    virtual BytesOrder order() = 0;
+    virtual DataLength length() = 0;
+    virtual bool mirror() = 0;
+    virtual bool pack() = 0;
+
+    virtual void setOrder(BytesOrder value) = 0;
+    virtual void setLength(DataLength value) = 0;
+    virtual void setMirror(bool value) = 0;
+    virtual void setPack(bool pack) = 0;
 };
 Q_DECLARE_INTERFACE (IConverter,
                      "riuson.lcd-image-converter/1.0"

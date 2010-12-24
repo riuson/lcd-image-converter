@@ -18,6 +18,7 @@ ConverterColor::ConverterColor(QObject *parent) :
     this->mBitsPerPointRed = 3;
     this->mBitsPerPointGreen = 2;
     this->mBitsPerPointBlue = 3;
+    this->mOrderColors = ConverterColor::ColorsOrderRGB;
 }
 //-----------------------------------------------------------------------------
 ConverterColor::~ConverterColor()
@@ -166,42 +167,84 @@ void ConverterColor::processImage(const QImage &image, BitmapData *output)
         output->mirrorBytes();
 }
 //-----------------------------------------------------------------------------
-void ConverterColor::options(BytesOrder *orderBytes,
-                            DataLength *length,
-                            bool *mirror,
-                            bool *pack,
-                            int *bitsPerPointRed,
-                            int *bitsPerPointGreen,
-                            int *bitsPerPointBlue,
-                            ColorsOrder *orderColors)
+IConverter::BytesOrder ConverterColor::order()
 {
-    *orderBytes = this->mBytesOrder;
-    *length = this->mDataLength;
-    *mirror = this->mMirrorBytes;
-    *pack = this->mPack;
-    *bitsPerPointRed = this->mBitsPerPointRed;
-    *bitsPerPointGreen = this->mBitsPerPointGreen;
-    *bitsPerPointBlue = this->mBitsPerPointBlue;
-    *orderColors = this->mOrderColors;
+    return this->mBytesOrder;
 }
 //-----------------------------------------------------------------------------
-void ConverterColor::setOptions(const BytesOrder &orderBytes,
-                               const DataLength &length,
-                               const bool mirror,
-                               const bool pack,
-                               const int bitsPerPointRed,
-                               const int bitsPerPointGreen,
-                               const int bitsPerPointBlue,
-                               const ColorsOrder orderColors)
+IConverter::DataLength ConverterColor::length()
 {
-    this->mBytesOrder = orderBytes;
-    this->mDataLength = length;
-    this->mMirrorBytes = mirror;
-    this->mPack = pack;
-    this->mBitsPerPointRed = bitsPerPointRed;
-    this->mBitsPerPointGreen = bitsPerPointGreen;
-    this->mBitsPerPointBlue = bitsPerPointBlue;
-    this->mOrderColors = orderColors;
+    return this->mDataLength;
+}
+//-----------------------------------------------------------------------------
+bool ConverterColor::mirror()
+{
+    return this->mMirrorBytes;
+}
+//-----------------------------------------------------------------------------
+bool ConverterColor::pack()
+{
+    return this->mPack;
+}
+//-----------------------------------------------------------------------------
+int ConverterColor::depthRed()
+{
+    return this->mBitsPerPointRed;
+}
+//-----------------------------------------------------------------------------
+int ConverterColor::depthGreen()
+{
+    return this->mBitsPerPointGreen;
+}
+//-----------------------------------------------------------------------------
+int ConverterColor::depthBlue()
+{
+    return this->mBitsPerPointBlue;
+}
+//-----------------------------------------------------------------------------
+ConverterColor::ColorsOrder ConverterColor::orderRGB()
+{
+    return this->mOrderColors;
+}
+//-----------------------------------------------------------------------------
+void ConverterColor::setOrder(BytesOrder value)
+{
+    this->mBytesOrder = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterColor::setLength(DataLength value)
+{
+    this->mDataLength = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterColor::setMirror(bool value)
+{
+    this->mMirrorBytes = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterColor::setPack(bool value)
+{
+    this->mPack = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterColor::setDepthRed(int value)
+{
+    this->mBitsPerPointRed = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterColor::setDepthGreen(int value)
+{
+    this->mBitsPerPointRed = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterColor::setDepthBlue(int value)
+{
+    this->mBitsPerPointRed = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterColor::setOrderColors(ColorsOrder value)
+{
+    this->mOrderColors = value;
 }
 //-----------------------------------------------------------------------------
 void ConverterColor::makeGradations(QImage &image)
