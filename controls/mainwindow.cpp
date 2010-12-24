@@ -308,17 +308,17 @@ void MainWindow::on_actionConvert_triggered()
     IDocument *doc = dynamic_cast<IDocument *> (w);
 
     QMap<QString, QString> tags;
-    tags["@fileName@"] = doc->fileName();
+    tags["fileName"] = doc->fileName();
     QString docName = doc->documentName();
-    tags["@documentName@"] = docName;
+    tags["documentName"] = docName;
     docName = docName.remove(QRegExp("\\W", Qt::CaseInsensitive));
-    tags["@documentName_ws@"] = docName;
+    tags["documentName_ws"] = docName;
 
     QString templateFileName;
 
     if (EditorTabImage *eti = qobject_cast<EditorTabImage *>(w))
     {
-        tags["@dataType@"] = "image";
+        tags["dataType"] = "image";
         templateFileName = ":/templates/image_convert";
     }
     if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
@@ -328,13 +328,13 @@ void MainWindow::on_actionConvert_triggered()
         bool monospaced, antialiasing;
         etf->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
 
-        tags["@dataType@"] = "font";
-        tags["@fontFamily@"] = fontFamily;
-        tags["@fontSize@"] = QString("%1").arg(size);
-        tags["@fontStyle@"] = style;
-        tags["@string@"] = chars;
-        tags["@fontAntialiasing@"] = antialiasing ? "true" : "false";
-        tags["@fontWidthType@"] = monospaced ? "monospaced" : "proportional";
+        tags["dataType"] = "font";
+        tags["fontFamily"] = fontFamily;
+        tags["fontSize"] = QString("%1").arg(size);
+        tags["fontStyle"] = style;
+        tags["string"] = chars;
+        tags["fontAntialiasing"] = antialiasing ? "true" : "false";
+        tags["fontWidthType"] = monospaced ? "monospaced" : "proportional";
 
         templateFileName = ":/templates/font_convert";
     }

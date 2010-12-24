@@ -16,6 +16,8 @@
 #include "bitmapdata.h"
 #include "idocument.h"
 #include "idatacontainer.h"
+
+#include <QDebug>
 //-----------------------------------------------------------------------------
 Converter::Converter(QObject *parent) :
         QObject(parent)
@@ -144,7 +146,7 @@ QString Converter::convert(IDocument *document,
 {
     QString result;
 
-    QString outputString;
+    QString templateString;
 
     QFile file(templateFile);
     //if (!file.exists())
@@ -154,248 +156,204 @@ QString Converter::convert(IDocument *document,
     if (file.open(QIODevice::ReadOnly))
     {
         QTextStream stream(&file);
-        outputString = stream.readAll();
+        templateString = stream.readAll();
         file.close();
     }
-    tags.insert("@templateFile@", file.fileName());
+    tags.insert("templateFile", file.fileName());
 
-    QRegExp regEnc("@use_char_encoding.+@");
+    QRegExp regEnc("encoding:\\s+(.+)(?=\\s)");
     regEnc.setMinimal(true);
-    if (regEnc.indexIn(outputString) >= 0)
+    if (regEnc.indexIn(templateString) >= 0)
     {
-        int index1 = regEnc.cap(0).indexOf("(");
-        int index2 = regEnc.cap(0).indexOf(")");
-        QString enc = regEnc.cap(0).mid(index1 + 1, index2 - index1 - 1);
-        tags["@encoding@"] = enc;
-        outputString.replace(regEnc, enc);
+        QString enc = regEnc.cap(1);
+        tags["encoding"] = enc;
+    }
+    else
+    {
+        tags["encoding"] = "UTF-8";
     }
 
-    this->substHeader(outputString, tags);
-
-    QRegExp regImagesTable("@start_images_table.*@end_images_table");
-    regImagesTable.setMinimal(true);
-
-    this->substImagesTable(outputString, tags, document->dataContainer());
-    this->substCharsTable(outputString, tags, document->dataContainer());
-
-    this->substTags(outputString, tags);
-
-    result = outputString;
+    this->parse(templateString, result, tags, document);
 
     return result;
 }
 //-----------------------------------------------------------------------------
-void Converter::substHeader(QString &outputString, QMap<QString, QString> &tags)
+void Converter::parse(const QString &templateString,
+                      QString &resultString,
+                      QMap<QString, QString> &tags,
+                      IDocument *doc)
 {
-    QRegExp regHeader("@start_header.*@end_header");
-    if(regHeader.indexIn(outputString) >= 0)
-    {
-        QString header = regHeader.cap(0);
-        header.remove("@start_header");
-        header.remove("@end_header");
-        this->substTags(header, tags);
-
-        outputString.replace(regHeader, header);
-    }
-}
-//-----------------------------------------------------------------------------
-void Converter::substImagesTable(QString &outputString, QMap<QString, QString> &tags, IDataContainer *data)
-{
-    QRegExp regImagesTable("@start_images_table.*@end_images_table");
-    regImagesTable.setMinimal(true);
-    if(regImagesTable.indexIn(outputString) >= 0)
-    {
-        tags["@imagesCount@"] = QString("%1").arg(data->count());
-        QString im = regImagesTable.cap(0);
-        im.remove("@start_images_table");
-        im.remove("@end_images_table");
-        QRegExp regTag("@start_image.+@end_image");
-        regTag.setMinimal(true);
-        int index = 0;
-        QString strImagesTable;
-        if (regTag.indexIn(im) >= 0)
-        {
-            QString enc = "UTF-8";
-            if (tags.contains("@encoding@"))
-                enc = tags.value("@encoding@");
-
-            QTextCodec *codec = QTextCodec::codecForName(enc.toAscii());
-
-            QString imageTemplate = regTag.cap(0);
-            QListIterator<QString> it(data->keys());
-            it.toFront();
-            while (it.hasNext())
-            {
-                QString key = it.next();
-                QByteArray codeArray = codec->fromUnicode(key);
-                bool ok;
-
-                quint32 code = (quint8)codeArray.at(0);
-                tags["@charCode@"] = QString("%1").arg((ulong)code, 2, 16, QChar('0'));
-
-                if (codeArray.length() >= 2)
-                {
-                    code = code << 8;
-                    code |= (quint8)codeArray.at(1);
-                    tags["@charCode@"] = QString("%1").arg((ulong)code, 4, 16, QChar('0'));
-                }
-                if (codeArray.length() >= 3)
-                {
-                    code = code << 8;
-                    code |= (quint8)codeArray.at(2);
-                    tags["@charCode@"] = QString("%1").arg((ulong)code, 6, 16, QChar('0'));
-                }
-                if (codeArray.length() >= 4)
-                {
-                    code = code << 8;
-                    code |= (quint8)codeArray.at(3);
-                    tags["@charCode@"] = QString("%1").arg((ulong)code, 8, 16, QChar('0'));
-                }
-
-
-                QImage image = QImage(*data->image(key));
-                image = this->preprocessImage(image);
-                BitmapData bmpData;
-                this->processImage(image, &bmpData);
-                QString dataString = this->dataToString(bmpData);
-
-                tags["@imageData@"] = dataString;
-                tags["@blocksCount@"] = QString("%1").arg(bmpData.blocksCount());
-                tags["@width@"] = QString("%1").arg(image.width());
-                tags["@height@"] = QString("%1").arg(image.height());
-
-                QString imageStr = imageTemplate;
-                this->substImage(imageStr, tags);
-                strImagesTable.append(imageStr);
-            }
-            //this->substTag(im, tags, tag);
-        }
-        outputString.replace(regImagesTable, strImagesTable);
-    }
-}
-//-----------------------------------------------------------------------------
-void Converter::substCharsTable(QString &outputString, QMap<QString, QString> &tags, IDataContainer *data)
-{
-    QRegExp regCharsTable("@start_chars_table.*@end_chars_table");
-    regCharsTable.setMinimal(true);
-    if(regCharsTable.indexIn(outputString) >= 0)
-    {
-        tags["@imagesCount@"] = QString("%1").arg(data->count());
-        QString im = regCharsTable.cap(0);
-        im.remove("@start_chars_table");
-        im.remove("@end_chars_table");
-        QRegExp regTag("@start_image.+@end_image");
-        regTag.setMinimal(true);
-        int index = 0;
-        QString strImagesTable;
-        if (regTag.indexIn(im) >= 0)
-        {
-            QString enc = "UTF-8";
-            if (tags.contains("@encoding@"))
-                enc = tags.value("@encoding@");
-
-            QTextCodec *codec = QTextCodec::codecForName(enc.toAscii());
-
-            QString imageTemplate = regTag.cap(0);
-            QListIterator<QString> it(data->keys());
-            it.toFront();
-            while (it.hasNext())
-            {
-                QString key = it.next();
-                QByteArray codeArray = codec->fromUnicode(key);
-                bool ok;
-
-                quint32 code = (quint8)codeArray.at(0);
-                tags["@charCode@"] = QString("%1").arg(code, 2, 16, QChar('0'));
-
-                if (codeArray.length() >= 2)
-                {
-                    code = code << 8;
-                    code |= (quint8)codeArray.at(1);
-                    tags["@charCode@"] = QString("%1").arg(code, 4, 16, QChar('0'));
-                }
-                if (codeArray.length() >= 3)
-                {
-                    code = code << 8;
-                    code |= (quint8)codeArray.at(2);
-                    tags["@charCode@"] = QString("%1").arg(code, 6, 16, QChar('0'));
-                }
-                if (codeArray.length() >= 4)
-                {
-                    code = code << 8;
-                    code |= (quint8)codeArray.at(3);
-                    tags["@charCode@"] = QString("%1").arg(code, 8, 16, QChar('0'));
-                }
-
-
-                QImage image = QImage(*data->image(key));
-                image = this->preprocessImage(image);
-                BitmapData bmpData;
-                this->processImage(image, &bmpData);
-                QString dataString = this->dataToString(bmpData);
-
-                tags["@imageData@"] = dataString;
-                tags["@blocksCount@"] = QString("%1").arg(bmpData.blocksCount());
-                tags["@width@"] = QString("%1").arg(image.width());
-                tags["@height@"] = QString("%1").arg(image.height());
-                tags["@charText@"] = key;
-
-                QString imageStr = imageTemplate;
-                if (it.hasNext())
-                    tags["@comma@"] = ",";
-                else
-                    tags["@comma@"] = "";
-                this->substImage(imageStr, tags);
-                strImagesTable.append(imageStr);
-            }
-            //this->substTag(im, tags, tag);
-        }
-        outputString.replace(regCharsTable, strImagesTable);
-    }
-}
-//-----------------------------------------------------------------------------
-void Converter::substImage(QString &outputString, QMap<QString, QString> &tags)
-{
-    QRegExp regImage("@start_image.*@end_image");
-    regImage.setMinimal(true);
-    if(regImage.indexIn(outputString) >= 0)
-    {
-        QString im = regImage.cap(0);
-        im.remove("@start_image");
-        im.remove("@end_image");
-        QRegExp regTag("@.+@");
-        regTag.setMinimal(true);
-        int index = 0;
-        while ((index = regTag.indexIn(im)) >= 0)
-        {
-            QString tag = regTag.cap(0);
-            this->substTag(im, tags, tag);
-        }
-
-        outputString.replace(regImage, im);
-    }
-
-}
-//-----------------------------------------------------------------------------
-void Converter::substTags(QString &outputString, QMap<QString, QString> &tags)
-{
-    QRegExp regTag("@.+@");
+    int index = 0;
+    int prevIndex = 0;
+    QRegExp regTag("@(start_block_)?(.+)@");
     regTag.setMinimal(true);
-    while (regTag.indexIn(outputString) >= 0)
+    int capturedLength = 0;
+    while ((index = regTag.indexIn(templateString, index + capturedLength)) >= 0)
+    {
+        capturedLength = regTag.cap(0).length();
+        if (index > prevIndex)
+        {
+            resultString.append(templateString.mid(prevIndex, index - prevIndex));
+            qDebug() << resultString;
+        }
+        QString tagName = regTag.cap(2);
+        // if block starts
+        if (regTag.cap(1) == "start_block_")
+        {
+            QRegExp contentReg("@start_block_" + tagName + "@(.+)@end_block_" + tagName + "@");
+            contentReg.setMinimal(true);
+            if (contentReg.indexIn(templateString, index) >= 0)
+            {
+                QString content = contentReg.cap(1);
+                content = content.trimmed();
+                QString temp;
+
+                if (tagName == "images_table")
+                {
+                    this->parseImagesTable(content, temp, tags, doc);
+                }
+                else
+                {
+                    this->parse(content, temp, tags, doc);
+                }
+                qDebug() << temp;
+                resultString.append(temp);
+                qDebug() << resultString;
+
+                capturedLength = contentReg.cap(0).length();
+                prevIndex = index + capturedLength;
+            }
+        }
+        else
+        {
+            int len = regTag.cap(0).length();
+            if (tags.contains(tagName))
+                resultString.append(tags.value(tagName));
+            else
+                resultString.append("<value not defined>");
+            prevIndex = index + regTag.cap(0).length();
+        }
+        qDebug() << resultString;
+    }
+    int last = prevIndex;
+    if (last < templateString.length() - 1)
+    {
+        resultString.append(templateString.mid(last, templateString.length() - last));
+    }
+    qDebug() << resultString;
+}
+//-----------------------------------------------------------------------------
+void Converter::parseBlocks(const QString &templateString,
+                            QString &resultString,
+                            QMap<QString, QString> &tags,
+                            IDocument *doc)
+{
+    // capture block
+    QRegExp startReg("@start_block_(.+)(?=\\s)");
+    startReg.setMinimal(true);
+    int index = -1;
+    while ((index = startReg.indexIn(templateString, index + 1)) >= 0)
+    {
+        QString blockName = startReg.cap(1);
+        QRegExp endReg("@end_block_" + blockName);
+        endReg.setMinimal(true);
+        // capture block's content
+        QRegExp contentReg("@start_block_" + blockName + "(.+)@end_block_" + blockName);
+        contentReg.setMinimal(true);
+        int index2 = index - 1;
+        while ((index2 = contentReg.indexIn(templateString, index2 + 1)) >= 0)
+        {
+            QString content = contentReg.cap(1);
+            //index2 += content.length();
+            content = content.trimmed();
+
+            qDebug() << content;
+            QString contentParsed;
+            if (blockName == "images_table")
+            {
+                this->parseImagesTable(content, contentParsed, tags, doc);
+            }
+            else
+            {
+                this->parseSimple(content, contentParsed, tags, doc, 0);
+            }
+            resultString.append(contentParsed);
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void Converter::parseImagesTable(const QString &templateString,
+                                 QString &resultString,
+                                 QMap<QString, QString> &tags,
+                                 IDocument *doc)
+{
+    IDataContainer *data = doc->dataContainer();
+    QString imageString;
+    QListIterator<QString> it(data->keys());
+    it.toFront();
+    tags["imagesCount"] = QString("%1").arg(data->count());
+    while (it.hasNext())
+    {
+        QString key = it.next();
+        QImage image = QImage(*data->image(key));
+        image = this->preprocessImage(image);
+        BitmapData bmpData;
+        this->processImage(image, &bmpData);
+        QString dataString = this->dataToString(bmpData);
+        QString charCode = this->hexCode(key.at(0), tags.value("encoding"));
+
+        tags["blocksCount"] = QString("%1").arg(bmpData.blocksCount());
+        tags["width"] = QString("%1").arg(image.width());
+        tags["height"] = QString("%1").arg(image.height());
+        tags["imageData"] = dataString;
+        tags["charCode"] = charCode;
+        tags["charText"] = key.left(1);
+        if (it.hasNext())
+            tags["comma"] = ",";
+        else
+            tags["comma"] = "";
+
+        this->parseSimple(templateString, imageString, tags, doc, 0);
+        resultString.append("\n");
+        resultString.append(imageString);
+    }
+}
+//-----------------------------------------------------------------------------
+void Converter::parseSimple(const QString &templateString,
+                            QString &resultString,
+                            QMap<QString, QString> &tags,
+                            IDocument *doc,
+                            int startIndex = 0)
+{
+    QRegExp regTag("@(.+)@");
+    regTag.setMinimal(true);
+    resultString = templateString;
+    while (regTag.indexIn(resultString) >= 0)
     {
         QString tag = regTag.cap(0);
-        this->substTag(outputString, tags, tag);
+        QString tagName = regTag.cap(1);
+        if (tags.contains(tagName))
+            resultString.replace(tag, tags.value(tagName));
+        else
+            resultString.replace(tag, "<value not defined>");
     }
 }
 //-----------------------------------------------------------------------------
-void Converter::substTag(QString &outputString, QMap<QString, QString> &tags, const QString &tagName)
+QString Converter::hexCode(const QChar &ch, const QString &encoding)
 {
-    if (outputString.contains(tagName))
+    QString result;
+    QTextCodec *codec = QTextCodec::codecForName(encoding.toAscii());
+
+    QByteArray codeArray = codec->fromUnicode(&ch, 1);
+
+    quint32 code = 0;
+    for (int i = 0; i < codeArray.count() && i < 4; i++)
     {
-        if (tags.contains(tagName))
-            outputString.replace(tagName, tags.value(tagName));
-        else
-            outputString.replace(tagName, "<value not defined>");
+        code = code << 8;
+        code |= (quint8)codeArray.at(i);
     }
+    result = QString("%1").arg(code, codeArray.count() * 2, 16, QChar('0'));
+
+    return result;
 }
 //-----------------------------------------------------------------------------

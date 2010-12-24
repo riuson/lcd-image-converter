@@ -33,12 +33,12 @@ public:
 private:
     QMap <QString, QObject *> mConverters;
     QString mSelectedConverterName;
-    void substHeader(QString &outputString, QMap<QString, QString> &tags);
-    void substImagesTable(QString &outputString, QMap<QString, QString> &tags, IDataContainer *data);
-    void substCharsTable(QString &outputString, QMap<QString, QString> &tags, IDataContainer *data);
-    void substImage(QString &outputString, QMap<QString, QString> &tags);
-    void substTags(QString &outputString, QMap<QString, QString> &tags);
-    void substTag(QString &outputString, QMap<QString, QString> &tags, const QString &tagName);
+
+    void parse(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
+    void parseBlocks(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
+    void parseImagesTable(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
+    void parseSimple(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc, int index);
+    QString hexCode(const QChar &ch, const QString &encoding);
 };
 //-----------------------------------------------------------------------------
 #endif // CONVERTER_H
