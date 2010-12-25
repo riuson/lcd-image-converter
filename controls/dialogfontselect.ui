@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogCharacters</class>
- <widget class="QDialog" name="DialogCharacters">
+ <class>DialogFontSelect</class>
+ <widget class="QDialog" name="DialogFontSelect">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>815</width>
-    <height>404</height>
+    <width>671</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Characters</string>
+   <string>Dialog</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -20,27 +20,17 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="labelFont">
+      <widget class="QLabel" name="label">
        <property name="text">
         <string>Font:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QFontComboBox" name="comboBoxFont"/>
+      <widget class="QFontComboBox" name="fontComboBox"/>
      </item>
      <item>
-      <widget class="QLabel" name="labelSize">
-       <property name="text">
-        <string>Size:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBoxSize"/>
-     </item>
-     <item>
-      <widget class="QLabel" name="labelStyle">
+      <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Style:</string>
        </property>
@@ -50,14 +40,14 @@
       <widget class="QComboBox" name="comboBoxStyle"/>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBoxFontMerging">
+      <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Automatic font merging</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
+        <string>Size:</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBoxSize"/>
      </item>
      <item>
       <spacer name="horizontalSpacer">
@@ -116,24 +106,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QScrollArea" name="scrollArea">
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOn</enum>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>782</width>
-        <height>284</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
+    <widget class="QTableView" name="tableView"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -162,70 +135,34 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DialogCharacters</receiver>
+   <receiver>DialogFontSelect</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>716</x>
-     <y>380</y>
+     <x>572</x>
+     <y>276</y>
     </hint>
     <hint type="destinationlabel">
-     <x>407</x>
-     <y>201</y>
+     <x>335</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DialogCharacters</receiver>
+   <receiver>DialogFontSelect</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>656</x>
-     <y>383</y>
+     <x>572</x>
+     <y>276</y>
     </hint>
     <hint type="destinationlabel">
-     <x>334</x>
-     <y>259</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBoxFont</sender>
-   <signal>currentFontChanged(QFont)</signal>
-   <receiver>DialogCharacters</receiver>
-   <slot>findStyles(QFont)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>58</x>
-     <y>33</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>3</x>
-     <y>99</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBoxFont</sender>
-   <signal>currentFontChanged(QFont)</signal>
-   <receiver>DialogCharacters</receiver>
-   <slot>findSizes(QFont)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>109</x>
-     <y>33</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>5</x>
-     <y>190</y>
+     <x>335</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>
  </connections>
- <slots>
-  <slot>findStyles(QFont)</slot>
-  <slot>findSizes(QFont)</slot>
- </slots>
 </ui>

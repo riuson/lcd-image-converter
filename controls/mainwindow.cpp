@@ -14,10 +14,12 @@
 #include "widgetbitmapeditor.h"
 #include "bitmaphelper.h"
 #include "dialogresize.h"
-#include "dialogcharacters.h"
 #include "dialogconvert.h"
 #include "converter.h"
 #include "dialogsetuptemplates.h"
+
+#include "charactersmodel.h"
+#include "dialogfontselect.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -197,17 +199,24 @@ void MainWindow::on_actionNew_Font_triggered()
                                          &ok);
     if (ok)
     {
-        DialogCharacters dialog(this);
+        DialogFontSelect dialog(this);
+        //DialogCharacters dialog(this);
         if (dialog.exec() == QDialog::Accepted)
         {
             EditorTabFont *ed = new EditorTabFont(this);
             this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
 
-            QString chars = dialog.selectedCharacters();
+            QString chars = dialog.characters();
             int size;
             QString family, style;
             bool monospaced, antialiasing;
-            dialog.selectedFont(&family, &style, &size, &monospaced, &antialiasing);
+            //dialog.selectedFont(&family, &style, &size, &monospaced, &antialiasing);
+            family = dialog.fontFamily();
+            style = dialog.fontStyle();
+            size = dialog.fontSize();
+            monospaced = dialog.monospaced();
+            antialiasing = dialog.antialiasing();
+
             ed->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
 
             name = this->findAvailableName(name);
@@ -541,16 +550,28 @@ void MainWindow::on_actionFontChange_triggered()
         bool monospaced, antialiasing;
         etf->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
 
-        DialogCharacters dialog(this);
+        DialogFontSelect dialog(this);
         dialog.setCharacters(chars);
-        dialog.selectFont(fontFamily, style, size, monospaced, antialiasing);
+        //dialog.selectFont(fontFamily, style, size, monospaced, antialiasing);
+        dialog.setFontFamily(fontFamily);
+        dialog.setFontStyle(style);
+        dialog.setFontSize(size);
+        dialog.setMonospaced(monospaced);
+        dialog.setAntialising(antialiasing);
+
         if (dialog.exec() == QDialog::Accepted)
         {
-            QString chars = dialog.selectedCharacters();
+            QString chars = dialog.characters();
             int size;
             QString family, style;
             bool monospaced, antialiasing;
-            dialog.selectedFont(&family, &style, &size, &monospaced, &antialiasing);
+
+            //dialog.selectedFont(&family, &style, &size, &monospaced, &antialiasing);
+            family = dialog.fontFamily();
+            style = dialog.fontStyle();
+            size = dialog.fontSize();
+            monospaced = dialog.monospaced();
+            antialiasing = dialog.antialiasing();
 
             etf->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
         }

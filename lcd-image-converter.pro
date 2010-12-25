@@ -30,8 +30,6 @@ SOURCES += main.cpp \
     classes/bitmaphelper.cpp \
     controls/dialogresize.cpp \
     classes/fontcontainer.cpp \
-    controls/widgetcharacters.cpp \
-    controls/dialogcharacters.cpp \
     controls/widgetconvoptionsmono.cpp \
     classes/bytelistitemdelegate.cpp \
     controls/widgetconvoptionsgray.cpp \
@@ -42,7 +40,9 @@ SOURCES += main.cpp \
     classes/convertergrayscale.cpp \
     classes/convertercolor.cpp \
     classes/bitmapdata.cpp \
-    controls/dialogsetuptemplates.cpp
+    controls/dialogsetuptemplates.cpp \
+    classes/charactersmodel.cpp \
+    controls/dialogfontselect.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -55,8 +55,6 @@ HEADERS += \
     interfaces/idatacontainer.h \
     controls/dialogresize.h \
     classes/fontcontainer.h \
-    controls/widgetcharacters.h \
-    controls/dialogcharacters.h \
     controls/widgetconvoptionsmono.h \
     classes/bytelistitemdelegate.h \
     controls/widgetconvoptionsgray.h \
@@ -68,7 +66,9 @@ HEADERS += \
     classes/convertercolor.h \
     interfaces/iconverter.h \
     classes/bitmapdata.h \
-    controls/dialogsetuptemplates.h
+    controls/dialogsetuptemplates.h \
+    classes/charactersmodel.h \
+    controls/dialogfontselect.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -76,12 +76,12 @@ FORMS += \
     controls/editortabfont.ui \
     controls/dialogsavechanges.ui \
     controls/dialogresize.ui \
-    controls/dialogcharacters.ui \
     controls/widgetconvoptionsmono.ui \
     controls/widgetconvoptionsgray.ui \
     controls/widgetconvoptionscolor.ui \
     controls/dialogconvert.ui \
-    controls/dialogsetuptemplates.ui
+    controls/dialogsetuptemplates.ui \
+    controls/dialogfontselect.ui
 INCLUDEPATH += . \
     ./classes \
     ./controls \
