@@ -162,7 +162,7 @@ void DialogConvert::on_comboBoxRotate_currentIndexChanged(int index)
     int a = data.toInt(&ok);
     if (ok)
     {
-        BitmapHelper::BitmapHelperTransformCodes rotate = (BitmapHelper::BitmapHelperTransformCodes)a;
+        //BitmapHelper::BitmapHelperTransformCodes rotate = (BitmapHelper::BitmapHelperTransformCodes)a;
         int b = this->mConverter->transform();
         b = b & ~(0x00000003);
         b = b | a;

@@ -25,6 +25,8 @@ QImage BitmapHelper::transform(BitmapHelperTransformCodes type, QImage *source)
     case Inverse:
         result.invertPixels();
         break;
+    default:
+        break;
     }
     return result;
 }
