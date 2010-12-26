@@ -16,7 +16,7 @@
 #include "bitmapdata.h"
 #include "idocument.h"
 #include "idatacontainer.h"
-
+#include "bitmaphelper.h"
 #include <QDebug>
 //-----------------------------------------------------------------------------
 Converter::Converter(QObject *parent) :
@@ -30,6 +30,8 @@ Converter::Converter(QObject *parent) :
     this->mConverters.insert(gray->name(), gray);
     this->mConverters.insert(color->name(), color);
     this->mSelectedConverterName = mono->name();
+
+    this->mPreprocessTransform = BitmapHelper::None;
 
     this->loadSettings();
 }
@@ -49,6 +51,11 @@ void Converter::loadSettings()
     QString name = sett.value("selected", this->mSelectedConverterName).toString();
     this->mSelectedConverterName = name;
 
+    bool ok;
+    this->mPreprocessTransform = sett.value("transform", QVariant(0)).toInt(&ok);
+    if (!ok)
+        this->mPreprocessTransform = 0;
+
     sett.endGroup();
 
     QListIterator<QString> it(this->mConverters.keys());
@@ -67,6 +74,8 @@ void Converter::saveSettings()
     sett.beginGroup("converters");
 
     sett.setValue("selected", this->mSelectedConverterName);
+
+    sett.setValue("transform", this->mPreprocessTransform);
 
     sett.endGroup();
 
@@ -96,7 +105,27 @@ QString Converter::displayName()
 QImage Converter::preprocessImage(const QImage &source)
 {
     IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    return options->preprocessImage(source);
+    QImage result = options->preprocessImage(source);
+
+    if ((this->mPreprocessTransform & 0x03) == BitmapHelper::Rotate90)
+        result = BitmapHelper::rotate90(&result);
+
+    if ((this->mPreprocessTransform & 0x03) == BitmapHelper::Rotate180)
+        result = BitmapHelper::rotate180(&result);
+
+    if ((this->mPreprocessTransform & 0x03) == BitmapHelper::Rotate270)
+        result = BitmapHelper::rotate270(&result);
+
+    if ((this->mPreprocessTransform & BitmapHelper::FlipHorizontal) == BitmapHelper::FlipHorizontal)
+        result = BitmapHelper::flipHorizontal(&result);
+
+    if ((this->mPreprocessTransform & BitmapHelper::FlipVertical) == BitmapHelper::FlipVertical)
+        result = BitmapHelper::flipVertical(&result);
+
+    if ((this->mPreprocessTransform & BitmapHelper::Inverse) == BitmapHelper::Inverse)
+        result.invertPixels();
+
+    return result;
 }
 //-----------------------------------------------------------------------------
 void Converter::processImage(const QImage &preprocessedImage, BitmapData *output)
@@ -242,6 +271,16 @@ QString Converter::convert(IDocument *document,
     this->parse(templateString, result, tags, document);
 
     return result;
+}
+//-----------------------------------------------------------------------------
+int Converter::transform()
+{
+    return this->mPreprocessTransform;
+}
+//-----------------------------------------------------------------------------
+void Converter::setTransform(int value)
+{
+    this->mPreprocessTransform = value;
 }
 //-----------------------------------------------------------------------------
 void Converter::parse(const QString &templateString,

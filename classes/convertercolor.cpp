@@ -234,12 +234,12 @@ void ConverterColor::setDepthRed(int value)
 //-----------------------------------------------------------------------------
 void ConverterColor::setDepthGreen(int value)
 {
-    this->mBitsPerPointRed = value;
+    this->mBitsPerPointGreen = value;
 }
 //-----------------------------------------------------------------------------
 void ConverterColor::setDepthBlue(int value)
 {
-    this->mBitsPerPointRed = value;
+    this->mBitsPerPointBlue = value;
 }
 //-----------------------------------------------------------------------------
 void ConverterColor::setOrderColors(ColorsOrder value)
@@ -247,8 +247,12 @@ void ConverterColor::setOrderColors(ColorsOrder value)
     this->mOrderColors = value;
 }
 //-----------------------------------------------------------------------------
+#include <QDebug>
 void ConverterColor::makeGradations(QImage &image)
 {
+    qDebug() << this->mBitsPerPointRed;
+    qDebug() << this->mBitsPerPointGreen;
+    qDebug() << this->mBitsPerPointBlue;
     QPainter painter(&image);
     painter.setRenderHint(QPainter::Antialiasing, false);
     for (int x = 0; x < image.width(); x++)

@@ -17,12 +17,13 @@ class BitmapHelper
 public:
     enum BitmapHelperTransformCodes
     {
-        Rotate90,
-        Rotate180,
-        Rotate270,
-        FlipHorizontal,
-        FlipVertical,
-        Inverse
+        None = 0,
+        Rotate90 = 1,
+        Rotate180 = 2,
+        Rotate270 = 3,
+        FlipHorizontal = 4,
+        FlipVertical = 8,
+        Inverse = 16
     };
     static QImage transform(BitmapHelperTransformCodes type, QImage *source);
     static QImage rotate90(QImage *source);

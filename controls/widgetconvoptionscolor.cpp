@@ -77,9 +77,9 @@ void WidgetConvOptionsColor::updatePreview()
     int bits = (int)length;
     this->mDelegate->setBitsCount(bits);
 
-    int bitsPerPointR = this->mConv->depthRed();
-    int bitsPerPointG = this->mConv->depthGreen();
-    int bitsPerPointB = this->mConv->depthBlue();
+    int bitsPerPointR = this->ui->spinBoxRedbits->value();
+    int bitsPerPointG = this->ui->spinBoxGreenBits->value();
+    int bitsPerPointB = this->ui->spinBoxBlueBits->value();
 
     QStringList colorsRed, colorsGreen, colorsBlue;
     for (int i = bitsPerPointR - 1; i >= 0; i--)

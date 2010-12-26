@@ -28,6 +28,10 @@ private slots:
     void on_comboBoxType_currentIndexChanged();
     void on_comboBoxSampleKey_currentIndexChanged();
     void on_comboBoxDataLength_currentIndexChanged();
+    void on_comboBoxRotate_currentIndexChanged(int index);
+    void on_checkBoxFlipHorizontal_toggled(bool value);
+    void on_checkBoxFlipVertical_toggled(bool value);
+    void on_checkBoxInverse_toggled(bool value);
     void updatePreview();
 signals:
     void dataLengthChanged(int length);

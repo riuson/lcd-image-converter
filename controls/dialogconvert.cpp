@@ -4,6 +4,7 @@
 #include "converter.h"
 #include "idatacontainer.h"
 #include "bitmapdata.h"
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
@@ -57,6 +58,39 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
         this->ui->comboBoxDataLength->setCurrentIndex(2);
         break;
     }
+
+
+    this->ui->comboBoxRotate->addItem(tr("Rotate none"), QVariant(BitmapHelper::None));
+    this->ui->comboBoxRotate->addItem(tr("Rotate 90° Clockwise"), QVariant(BitmapHelper::Rotate90));
+    this->ui->comboBoxRotate->addItem(tr("Rotate 180°"), QVariant(BitmapHelper::Rotate180));
+    this->ui->comboBoxRotate->addItem(tr("Rotate 90° Counter-Clockwise"), QVariant(BitmapHelper::Rotate270));
+
+    int transform = this->mConverter->transform();
+    this->ui->comboBoxRotate->setCurrentIndex(0);
+
+    if ((transform & 0x03) == BitmapHelper::Rotate90)
+        this->ui->comboBoxRotate->setCurrentIndex(1);
+
+    if ((transform & 0x03) == BitmapHelper::Rotate180)
+        this->ui->comboBoxRotate->setCurrentIndex(2);
+
+    if ((transform & 0x03) == BitmapHelper::Rotate270)
+        this->ui->comboBoxRotate->setCurrentIndex(3);
+
+    if ((transform & BitmapHelper::FlipHorizontal) == BitmapHelper::FlipHorizontal)
+        this->ui->checkBoxFlipHorizontal->setChecked(true);
+    else
+        this->ui->checkBoxFlipHorizontal->setChecked(false);
+
+    if ((transform & BitmapHelper::FlipVertical) == BitmapHelper::FlipVertical)
+        this->ui->checkBoxFlipVertical->setChecked(true);
+    else
+        this->ui->checkBoxFlipVertical->setChecked(false);
+
+    if ((transform & BitmapHelper::Inverse) == BitmapHelper::Inverse)
+        this->ui->checkBoxInverse->setChecked(true);
+    else
+        this->ui->checkBoxInverse->setChecked(false);
 
     this->connect(this->ui->checkBoxMirrorBytes, SIGNAL(toggled(bool)), SIGNAL(mirrorBytesChanged(bool)));
     this->connect(this->ui->checkBoxPack, SIGNAL(toggled(bool)), SIGNAL(dataPackChanged(bool)));
@@ -119,6 +153,52 @@ void DialogConvert::on_comboBoxDataLength_currentIndexChanged()
     bool ok;
     int len = data.toInt(&ok);
     emit this->dataLengthChanged(len);
+}
+//-----------------------------------------------------------------------------
+void DialogConvert::on_comboBoxRotate_currentIndexChanged(int index)
+{
+    QVariant data = this->ui->comboBoxRotate->itemData(index);
+    bool ok;
+    int a = data.toInt(&ok);
+    if (ok)
+    {
+        BitmapHelper::BitmapHelperTransformCodes rotate = (BitmapHelper::BitmapHelperTransformCodes)a;
+        int b = this->mConverter->transform();
+        b = b & ~(0x00000003);
+        b = b | a;
+        this->mConverter->setTransform(b);
+    }
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert::on_checkBoxFlipHorizontal_toggled(bool value)
+{
+    int a = this->mConverter->transform();
+    a = a & ~(BitmapHelper::FlipHorizontal);
+    if (value)
+        a = a | BitmapHelper::FlipHorizontal;
+    this->mConverter->setTransform(a);
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert::on_checkBoxFlipVertical_toggled(bool value)
+{
+    int a = this->mConverter->transform();
+    a = a & ~(BitmapHelper::FlipVertical);
+    if (value)
+        a = a | BitmapHelper::FlipVertical;
+    this->mConverter->setTransform(a);
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert::on_checkBoxInverse_toggled(bool value)
+{
+    int a = this->mConverter->transform();
+    a = a & ~(BitmapHelper::Inverse);
+    if (value)
+        a = a | BitmapHelper::Inverse;
+    this->mConverter->setTransform(a);
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert::updatePreview()

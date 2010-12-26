@@ -40,9 +40,12 @@ public:
     IConverter *conv(const QString &name);
     void selectConv(const QString &name);
     QString convert(IDocument *document, const QString &templateFile, QMap<QString, QString> &tags);
+    int transform();
+    void setTransform(int value);
 private:
     QMap <QString, QObject *> mConverters;
     QString mSelectedConverterName;
+    int mPreprocessTransform;
 
     void parse(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
     void parseBlocks(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);

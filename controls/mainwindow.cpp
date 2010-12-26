@@ -6,6 +6,7 @@
 #include <QInputDialog>
 #include <QTextStream>
 #include <QSettings>
+#include <QTextCodec>
 
 #include "editortabimage.h"
 #include "editortabfont.h"
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
     //QImage im(":/images/winter");
     //QImage im2 = im.scaled(im.width() * 4, im.height() * 4, Qt::KeepAspectRatio, Qt::FastTransformation);
     //QPixmap pix = QPixmap::fromImage(im2);
