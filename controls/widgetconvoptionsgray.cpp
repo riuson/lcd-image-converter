@@ -151,20 +151,24 @@ void WidgetConvOptionsGray::dataLengthChanged(int value)
         this->mConv->setLength(IConverter::Data8);
         break;
     }
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void WidgetConvOptionsGray::dataPackChanged(bool value)
 {
     this->mConv->setPack(value);
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void WidgetConvOptionsGray::swapBytesChanged(bool value)
 {
     this->mConv->setSwapBytes(value);
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void WidgetConvOptionsGray::mirrorBytesChanged(bool value)
 {
     this->mConv->setMirror(value);
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
