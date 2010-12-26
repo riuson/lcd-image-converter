@@ -87,9 +87,9 @@ bool EditorTabFont::load(const QString &fileName)
             {
                 this->mDocumentName = root.attribute("name", fileName);
 
-                QString chars, fontFamily, style;
+                QString fontFamily, style;
                 int size = 0;
-                bool monospaced, antialiasing;
+                bool monospaced = false, antialiasing = false;
 
                 QDomNode n = root.firstChild();
                 while( !n.isNull() )
