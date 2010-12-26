@@ -75,7 +75,7 @@ void WidgetConvOptionsGray::updatePreview()
     for (int i = bitsPerPoint - 1; i >= 0; i--)
         colors << QString("b.%1").arg(i);
 
-    bool littleEndian = this->mConv->order() == IConverter::LittleEndian;
+    bool swapBytes= this->mConv->swapBytes();
     bool mirror = this->mConv->mirror();
     bool pack = this->mConv->pack();
 
@@ -101,7 +101,7 @@ void WidgetConvOptionsGray::updatePreview()
         }
     }
 
-    if (littleEndian)
+    if (swapBytes)
     {
         QStringList outlist;
         for (int i = 0; i < list.count(); i+= bits)
@@ -160,7 +160,7 @@ void WidgetConvOptionsGray::dataPackChanged(bool value)
 //-----------------------------------------------------------------------------
 void WidgetConvOptionsGray::swapBytesChanged(bool value)
 {
-    this->mConv->setOrder(value ? IConverter::LittleEndian : IConverter::BigEndian);
+    this->mConv->setSwapBytes(value);
 }
 //-----------------------------------------------------------------------------
 void WidgetConvOptionsGray::mirrorBytesChanged(bool value)

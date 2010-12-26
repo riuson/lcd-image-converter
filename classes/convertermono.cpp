@@ -9,7 +9,7 @@
 ConverterMono::ConverterMono(QObject *parent) :
         QObject(parent)
 {
-    this->mBytesOrder = BigEndian;
+    this->mSwapBytes = false;
     this->mDataLength = Data8;
     this->mMirrorBytes = false;
     this->mBlackWhiteLevel = 128;
@@ -27,9 +27,9 @@ void ConverterMono::loadSettings()
     sett.beginGroup("mono");
 
     bool ok;
-    int a = sett.value("endian", QVariant(BigEndian)).toInt(&ok);
-    if (ok)
-        this->mBytesOrder = (BytesOrder)a;
+    int a;
+
+    this->mSwapBytes = sett.value("swapBytes", QVariant(false)).toBool();
 
     a = sett.value("dataLength", QVariant(Data8)).toInt(&ok);
     if (ok)
@@ -55,7 +55,7 @@ void ConverterMono::saveSettings()
     sett.beginGroup("converters");
     sett.beginGroup("mono");
 
-    sett.setValue("endian", QVariant(this->mBytesOrder));
+    sett.setValue("swapBytes", QVariant(this->mSwapBytes));
 
     sett.setValue("dataLength", QVariant(this->mDataLength));
 
@@ -134,15 +134,15 @@ void ConverterMono::processImage(const QImage &image, BitmapData *output)
             bitsCounter = 0;
         }
     }
-    if (this->mBytesOrder == LittleEndian)
+    if (this->mSwapBytes)
         output->swapBytes();
     if (this->mMirrorBytes)
         output->mirrorBytes();
 }
 //-----------------------------------------------------------------------------
-IConverter::BytesOrder ConverterMono::order()
+bool ConverterMono::swapBytes()
 {
-    return this->mBytesOrder;
+    return this->mSwapBytes;
 }
 //-----------------------------------------------------------------------------
 IConverter::DataLength ConverterMono::length()
@@ -170,9 +170,9 @@ ConverterMono::ConvMonoType ConverterMono::dithType()
     return this->mDithType;
 }
 //-----------------------------------------------------------------------------
-void ConverterMono::setOrder(BytesOrder value)
+void ConverterMono::setSwapBytes(bool value)
 {
-    this->mBytesOrder = value;
+    this->mSwapBytes = value;
 }
 //-----------------------------------------------------------------------------
 void ConverterMono::setLength(DataLength value)

@@ -77,7 +77,7 @@ void WidgetConvOptionsMono::updatePreview()
     if (ok)
         dithType = (ConverterMono::ConvMonoType)a;
 
-    bool littleEndian = this->mConv->order() == IConverter::LittleEndian;
+    bool swapBytes= this->mConv->swapBytes();
     bool mirror = this->mConv->mirror();
 
     for (int i = 0; i < 80; i++)
@@ -90,7 +90,7 @@ void WidgetConvOptionsMono::updatePreview()
         //this->ui->listWidget->addItem(item);
     }
 
-    if (littleEndian)
+    if (swapBytes)
     {
         QStringList outlist;
         for (int i = 0; i < list.count(); i+= bits)
@@ -151,7 +151,7 @@ void WidgetConvOptionsMono::dataPackChanged(bool value)
 //-----------------------------------------------------------------------------
 void WidgetConvOptionsMono::swapBytesChanged(bool value)
 {
-    this->mConv->setOrder(value ? IConverter::LittleEndian : IConverter::BigEndian);
+    this->mConv->setSwapBytes(value);
     this->updatePreview();
 }
 //-----------------------------------------------------------------------------

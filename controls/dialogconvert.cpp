@@ -44,7 +44,7 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
 
     this->ui->checkBoxMirrorBytes->setChecked(this->mConverter->mirror());
     this->ui->checkBoxPack->setChecked(this->mConverter->pack());
-    this->ui->checkBoxSwapBytes->setChecked(this->mConverter->order() == IConverter::LittleEndian);
+    this->ui->checkBoxSwapBytes->setChecked(this->mConverter->swapBytes());
     switch (this->mConverter->length())
     {
     case IConverter::Data8:
@@ -80,7 +80,7 @@ void DialogConvert::on_comboBoxType_currentIndexChanged()
 
     this->ui->checkBoxMirrorBytes->setChecked(this->mConverter->mirror());
     this->ui->checkBoxPack->setChecked(this->mConverter->pack());
-    this->ui->checkBoxSwapBytes->setChecked(this->mConverter->order() == IConverter::LittleEndian);
+    this->ui->checkBoxSwapBytes->setChecked(this->mConverter->swapBytes());
     switch (this->mConverter->length())
     {
     case IConverter::Data8:

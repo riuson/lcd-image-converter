@@ -32,7 +32,7 @@ public:
         ColorsOrderBGR = 5
     };
 
-    BytesOrder order();
+    bool swapBytes();
     DataLength length();
     bool mirror();
     bool pack();
@@ -41,7 +41,7 @@ public:
     int depthBlue();
     ColorsOrder orderRGB();
 
-    void setOrder(BytesOrder value);
+    void setSwapBytes(bool value);
     void setLength(DataLength value);
     void setMirror(bool value);
     void setPack(bool value);
@@ -50,7 +50,7 @@ public:
     void setDepthBlue(int value);
     void setOrderColors(ColorsOrder value);
 private:
-    BytesOrder mBytesOrder;
+    bool mSwapBytes;
     DataLength mDataLength;
     bool mMirrorBytes;
     bool mPack;

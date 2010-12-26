@@ -29,6 +29,9 @@
          <property name="sizeConstraint">
           <enum>QLayout::SetMinAndMaxSize</enum>
          </property>
+         <property name="fieldGrowthPolicy">
+          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+         </property>
          <item row="0" column="0">
           <widget class="QLabel" name="label">
            <property name="sizePolicy">
@@ -90,6 +93,37 @@
           <widget class="QCheckBox" name="checkBoxMirrorBytes">
            <property name="text">
             <string>Mirror bytes</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Preporocess:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QComboBox" name="comboBox"/>
+         </item>
+         <item row="7" column="1">
+          <widget class="QCheckBox" name="checkBox">
+           <property name="text">
+            <string>Flip Horizontal</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <widget class="QCheckBox" name="checkBox_2">
+           <property name="text">
+            <string>Flip Vertical</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="1">
+          <widget class="QCheckBox" name="checkBox_3">
+           <property name="text">
+            <string>Inverse</string>
            </property>
           </widget>
          </item>

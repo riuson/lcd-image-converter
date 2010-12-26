@@ -124,10 +124,10 @@ QString Converter::dataToString(const BitmapData &data)
     return result;
 }
 //-----------------------------------------------------------------------------
-IConverter::BytesOrder Converter::order()
+bool Converter::swapBytes()
 {
     IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    return options->order();
+    return options->swapBytes();
 }
 //-----------------------------------------------------------------------------
 IConverter::DataLength Converter::length()
@@ -148,10 +148,10 @@ bool Converter::pack()
     return options->pack();
 }
 //-----------------------------------------------------------------------------
-void Converter::setOrder(BytesOrder value)
+void Converter::setSwapBytes(bool value)
 {
     IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    options->setOrder(value);
+    options->setSwapBytes(value);
 }
 //-----------------------------------------------------------------------------
 void Converter::setLength(DataLength value)

@@ -11,7 +11,7 @@
 ConverterGrayscale::ConverterGrayscale(QObject *parent) :
         QObject(parent)
 {
-    this->mBytesOrder = BigEndian;
+    this->mSwapBytes = false;
     this->mDataLength = Data8;
     this->mMirrorBytes = false;
     this->mPack = true;
@@ -29,9 +29,9 @@ void ConverterGrayscale::loadSettings()
     sett.beginGroup("grayscale");
 
     bool ok;
-    int a = sett.value("endian", QVariant(BigEndian)).toInt(&ok);
-    if (ok)
-        this->mBytesOrder = (BytesOrder)a;
+    int a;
+
+    this->mSwapBytes = sett.value("swapBytes", QVariant(false)).toBool();
 
     a = sett.value("dataLength", QVariant(Data8)).toInt(&ok);
     if (ok)
@@ -54,7 +54,7 @@ void ConverterGrayscale::saveSettings()
     sett.beginGroup("converters");
     sett.beginGroup("grayscale");
 
-    sett.setValue("endian", QVariant(this->mBytesOrder));
+    sett.setValue("swapBytes", QVariant(this->mSwapBytes));
 
     sett.setValue("dataLength", QVariant(this->mDataLength));
 
@@ -148,15 +148,15 @@ void ConverterGrayscale::processImage(const QImage &image, BitmapData *output)
         }
     }
 
-    if (this->mBytesOrder == LittleEndian)
+    if (this->mSwapBytes)
         output->swapBytes();
     if (this->mMirrorBytes)
         output->mirrorBytes();
 }
 //-----------------------------------------------------------------------------
-IConverter::BytesOrder ConverterGrayscale::order()
+bool ConverterGrayscale::swapBytes()
 {
-    return this->mBytesOrder;
+    return this->mSwapBytes;
 }
 //-----------------------------------------------------------------------------
 IConverter::DataLength ConverterGrayscale::length()
@@ -179,9 +179,9 @@ int ConverterGrayscale::depth()
     return this->mBitsPerPoint;
 }
 //-----------------------------------------------------------------------------
-void ConverterGrayscale::setOrder(BytesOrder value)
+void ConverterGrayscale::setSwapBytes(bool value)
 {
-    this->mBytesOrder = value;
+    this->mSwapBytes = value;
 }
 //-----------------------------------------------------------------------------
 void ConverterGrayscale::setLength(DataLength value)

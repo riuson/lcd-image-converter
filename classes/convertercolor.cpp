@@ -11,7 +11,7 @@
 ConverterColor::ConverterColor(QObject *parent) :
         QObject(parent)
 {
-    this->mBytesOrder = BigEndian;
+    this->mSwapBytes = false;
     this->mDataLength = Data8;
     this->mMirrorBytes = false;
     this->mPack = true;
@@ -32,9 +32,9 @@ void ConverterColor::loadSettings()
     sett.beginGroup("color");
 
     bool ok;
-    int a = sett.value("endian", QVariant(BigEndian)).toInt(&ok);
-    if (ok)
-        this->mBytesOrder = (BytesOrder)a;
+    int a;
+
+    this->mSwapBytes = sett.value("swapBytes", QVariant(false)).toBool();
 
     a = sett.value("dataLength", QVariant(Data8)).toInt(&ok);
     if (ok)
@@ -69,7 +69,7 @@ void ConverterColor::saveSettings()
     sett.beginGroup("converters");
     sett.beginGroup("color");
 
-    sett.setValue("endian", QVariant(this->mBytesOrder));
+    sett.setValue("swapBytes", QVariant(this->mSwapBytes));
 
     sett.setValue("dataLength", QVariant(this->mDataLength));
 
@@ -161,15 +161,15 @@ void ConverterColor::processImage(const QImage &image, BitmapData *output)
         }
     }
 
-    if (this->mBytesOrder == LittleEndian)
+    if (this->mSwapBytes)
         output->swapBytes();
     if (this->mMirrorBytes)
         output->mirrorBytes();
 }
 //-----------------------------------------------------------------------------
-IConverter::BytesOrder ConverterColor::order()
+bool ConverterColor::swapBytes()
 {
-    return this->mBytesOrder;
+    return this->mSwapBytes;
 }
 //-----------------------------------------------------------------------------
 IConverter::DataLength ConverterColor::length()
@@ -207,9 +207,9 @@ ConverterColor::ColorsOrder ConverterColor::orderRGB()
     return this->mOrderColors;
 }
 //-----------------------------------------------------------------------------
-void ConverterColor::setOrder(BytesOrder value)
+void ConverterColor::setSwapBytes(bool value)
 {
-    this->mBytesOrder = value;
+    this->mSwapBytes = value;
 }
 //-----------------------------------------------------------------------------
 void ConverterColor::setLength(DataLength value)

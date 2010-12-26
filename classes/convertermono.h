@@ -28,21 +28,21 @@ public:
         ThresholdDither = 3
     };
 
-    BytesOrder order();
+    bool swapBytes();
     DataLength length();
     bool mirror();
     bool pack();
     int level();
     ConvMonoType dithType();
 
-    void setOrder(BytesOrder value);
+    void setSwapBytes(bool value);
     void setLength(DataLength value);
     void setMirror(bool value);
     void setPack(bool value);
     void setLevel(int value);
     void setDithType(ConvMonoType value);
 private:
-    BytesOrder mBytesOrder;
+    bool mSwapBytes;
     DataLength mDataLength;
     bool mMirrorBytes;
     int mBlackWhiteLevel;

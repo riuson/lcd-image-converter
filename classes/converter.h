@@ -25,12 +25,12 @@ public:
     void processImage(const QImage &preprocessedImage, BitmapData *output);
     QString dataToString(const BitmapData &data);
 
-    BytesOrder order();
+    bool swapBytes();
     DataLength length();
     bool mirror();
     bool pack();
 
-    void setOrder(BytesOrder value);
+    void setSwapBytes(bool value);
     void setLength(DataLength value);
     void setMirror(bool value);
     void setPack(bool value);
