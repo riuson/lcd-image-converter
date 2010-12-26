@@ -42,7 +42,8 @@ SOURCES += main.cpp \
     classes/bitmapdata.cpp \
     controls/dialogsetuptemplates.cpp \
     classes/charactersmodel.cpp \
-    controls/dialogfontselect.cpp
+    controls/dialogfontselect.cpp \
+    controls/dialogabout.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -68,7 +69,8 @@ HEADERS += \
     classes/bitmapdata.h \
     controls/dialogsetuptemplates.h \
     classes/charactersmodel.h \
-    controls/dialogfontselect.h
+    controls/dialogfontselect.h \
+    controls/dialogabout.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -81,7 +83,8 @@ FORMS += \
     controls/widgetconvoptionscolor.ui \
     controls/dialogconvert.ui \
     controls/dialogsetuptemplates.ui \
-    controls/dialogfontselect.ui
+    controls/dialogfontselect.ui \
+    controls/dialogabout.ui
 INCLUDEPATH += . \
     ./classes \
     ./controls \

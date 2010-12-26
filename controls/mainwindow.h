@@ -45,8 +45,11 @@ private slots:
     void on_actionImageImport_triggered();
     void on_actionImageExport_triggered();
     void on_actionFontChange_triggered();
+    void on_actionFontInverse_triggered();
+    void on_actionFontResize_triggered();
     void on_actionSetupConversion_triggered();
     void on_actionSetupTemplates_triggered();
+    void on_actionAbout_triggered();
 
     void mon_editor_dataChanged();
 };

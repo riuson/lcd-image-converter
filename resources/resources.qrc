@@ -7,4 +7,7 @@
         <file alias="font_convert">font.tmpl</file>
         <file alias="image_convert">image.tmpl</file>
     </qresource>
+    <qresource prefix="/text">
+        <file alias="gpl3">gpl-3.0-standalone.html</file>
+    </qresource>
 </RCC>

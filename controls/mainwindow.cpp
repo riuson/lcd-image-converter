@@ -17,9 +17,8 @@
 #include "dialogconvert.h"
 #include "converter.h"
 #include "dialogsetuptemplates.h"
-
-#include "charactersmodel.h"
 #include "dialogfontselect.h"
+#include "dialogabout.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -578,6 +577,53 @@ void MainWindow::on_actionFontChange_triggered()
     }
 }
 //-----------------------------------------------------------------------------
+void MainWindow::on_actionFontInverse_triggered()
+{
+    if (this->mEditor != NULL)
+    {
+        QStringList keys = this->mEditor->dataContainer()->keys();
+        QListIterator<QString> it(keys);
+        it.toFront();
+        while (it.hasNext())
+        {
+            QString key = it.next();
+            QImage *original = this->mEditor->dataContainer()->image(key);
+            QImage result(*original);
+            result.invertPixels();
+            this->mEditor->dataContainer()->setImage(key, &result);
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionFontResize_triggered()
+{
+    if (this->mEditor != NULL)
+    {
+        QString key = this->mEditor->currentImageKey();
+        QImage *original = this->mEditor->dataContainer()->image(key);
+        DialogResize dialog(original->width(), original->height(), 0, 0, false, this);
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            int width, height, offsetX, offsetY;
+            bool center;
+            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center);
+
+            QStringList keys = this->mEditor->dataContainer()->keys();
+            QListIterator<QString> it(keys);
+            it.toFront();
+            while (it.hasNext())
+            {
+                QString key = it.next();
+                original = this->mEditor->dataContainer()->image(key);
+
+                QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, this->mEditor->color2());
+
+                this->mEditor->dataContainer()->setImage(key, &result);
+            }
+        }
+    }
+}
+//-----------------------------------------------------------------------------
 void MainWindow::on_actionSetupConversion_triggered()
 {
     IDataContainer *data = NULL;
@@ -590,6 +636,12 @@ void MainWindow::on_actionSetupConversion_triggered()
 void MainWindow::on_actionSetupTemplates_triggered()
 {
     DialogSetupTemplates dialog(this);
+    dialog.exec();
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionAbout_triggered()
+{
+    DialogAbout dialog(this);
     dialog.exec();
 }
 //-----------------------------------------------------------------------------
