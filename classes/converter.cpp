@@ -411,11 +411,18 @@ void Converter::parseImagesTable(const QString &templateString,
         tags["height"] = QString("%1").arg(image.height());
         tags["imageData"] = dataString;
         tags["charCode"] = charCode;
-        tags["charText"] = key.left(1);
         if (it.hasNext())
             tags["comma"] = ",";
         else
             tags["comma"] = "";
+
+        if (key.contains("@"))
+        {
+            key.replace("@", "(a)");
+            tags["charText"] = key;
+        }
+        else
+            tags["charText"] = key.left(1);
 
         this->parseSimple(templateString, imageString, tags, doc);
         resultString.append("\n");
