@@ -23,6 +23,7 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication::setApplicationName("lcd-image-converter");
+    QCoreApplication::setOrganizationName("riuson");
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
