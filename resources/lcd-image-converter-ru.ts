@@ -341,7 +341,8 @@ Author:
         <location filename="../controls/editortabfont.cpp" line="55"/>
         <source>Font</source>
         <comment>new font name</comment>
-        <translation>Шрифт</translation>
+        <translatorcomment>название нового шрифта, должно быть латинскими буквами</translatorcomment>
+        <translation>Font</translation>
     </message>
     <message>
         <location filename="../controls/editortabfont.cpp" line="352"/>
@@ -366,7 +367,8 @@ Author:
         <location filename="../controls/editortabimage.cpp" line="50"/>
         <source>Image</source>
         <comment>new image name</comment>
-        <translation>Изображение</translation>
+        <translatorcomment>название нового изображения, должно быть латинскими буквами</translatorcomment>
+        <translation>Image</translation>
     </message>
 </context>
 <context>
@@ -560,7 +562,8 @@ Author:
         <location filename="../controls/mainwindow.cpp" line="257"/>
         <source>Image</source>
         <comment>new image name</comment>
-        <translation>Изображение</translation>
+        <translatorcomment>название нового изображения, должно быть латинскими буквами</translatorcomment>
+        <translation>Image</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.cpp" line="274"/>
@@ -576,7 +579,8 @@ Author:
         <location filename="../controls/mainwindow.cpp" line="277"/>
         <source>Font</source>
         <comment>new font name</comment>
-        <translation>Шрифт</translation>
+        <translatorcomment>название нового шрифта, должно быть латинскими буквами</translatorcomment>
+        <translation>Font</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.cpp" line="314"/>
