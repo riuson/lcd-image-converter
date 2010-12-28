@@ -419,6 +419,11 @@ void Converter::parseImagesTable(const QString &templateString,
     {
         QString key = it.next();
         QImage image = QImage(*data->image(key));
+
+        // width and height must be written before image changes
+        tags["width"] = QString("%1").arg(image.width());
+        tags["height"] = QString("%1").arg(image.height());
+
         image = this->preprocessImage(image);
         BitmapData bmpData;
         this->processImage(image, &bmpData);
@@ -426,8 +431,6 @@ void Converter::parseImagesTable(const QString &templateString,
         QString charCode = this->hexCode(key.at(0), tags.value("encoding"));
 
         tags["blocksCount"] = QString("%1").arg(bmpData.blocksCount());
-        tags["width"] = QString("%1").arg(image.width());
-        tags["height"] = QString("%1").arg(image.height());
         tags["imageData"] = dataString;
         tags["charCode"] = charCode;
         if (it.hasNext())
