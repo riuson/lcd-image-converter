@@ -78,13 +78,13 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
         break;
     }
 
+    int transform = this->mConverter->transform();
 
     this->ui->comboBoxRotate->addItem(tr("Rotate none"), QVariant(BitmapHelper::None));
     this->ui->comboBoxRotate->addItem(tr("Rotate 90° Clockwise"), QVariant(BitmapHelper::Rotate90));
     this->ui->comboBoxRotate->addItem(tr("Rotate 180°"), QVariant(BitmapHelper::Rotate180));
     this->ui->comboBoxRotate->addItem(tr("Rotate 90° Counter-Clockwise"), QVariant(BitmapHelper::Rotate270));
 
-    int transform = this->mConverter->transform();
     this->ui->comboBoxRotate->setCurrentIndex(0);
 
     if ((transform & 0x03) == BitmapHelper::Rotate90)
