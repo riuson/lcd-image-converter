@@ -90,8 +90,15 @@
     <property name="title">
      <string>Options</string>
     </property>
+    <widget class="QMenu" name="menuLanguage">
+     <property name="title">
+      <string>Language</string>
+     </property>
+     <addaction name="actionLanguageDefault"/>
+    </widget>
     <addaction name="actionSetupConversion"/>
     <addaction name="actionSetupTemplates"/>
+    <addaction name="menuLanguage"/>
    </widget>
    <addaction name="menuHello"/>
    <addaction name="menuImage"/>
@@ -177,12 +184,12 @@
   </action>
   <action name="actionImageImport">
    <property name="text">
-    <string>Import</string>
+    <string>Import...</string>
    </property>
   </action>
   <action name="actionImageExport">
    <property name="text">
-    <string>Export</string>
+    <string>Export...</string>
    </property>
   </action>
   <action name="actionImageResize">
@@ -213,6 +220,14 @@
   <action name="actionSetupTemplates">
    <property name="text">
     <string>Templates...</string>
+   </property>
+  </action>
+  <action name="actionLanguageDefault">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>English</string>
    </property>
   </action>
  </widget>

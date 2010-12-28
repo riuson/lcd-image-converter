@@ -9,4 +9,7 @@
     <qresource prefix="/text">
         <file alias="gpl3">gpl-3.0-standalone.html</file>
     </qresource>
+    <qresource prefix="/translations">
+        <file alias="ru">lcd-image-converter-ru.qm</file>
+    </qresource>
 </RCC>

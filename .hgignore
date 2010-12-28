@@ -11,4 +11,4 @@ moc_*
 .user/
 .Debug
 .Release
-
+.sh

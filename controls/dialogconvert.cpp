@@ -34,9 +34,9 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     this->mWidgetSetup = NULL;
     this->mData = dataContainer;
 
-    this->ui->comboBoxDataLength->addItem("8 bit", QVariant(8));
-    this->ui->comboBoxDataLength->addItem("16 bit", QVariant(16));
-    this->ui->comboBoxDataLength->addItem("32 bit", QVariant(32));
+    this->ui->comboBoxDataLength->addItem(tr("8 bit"), QVariant(8));
+    this->ui->comboBoxDataLength->addItem(tr("16 bit"), QVariant(16));
+    this->ui->comboBoxDataLength->addItem(tr("32 bit"), QVariant(32));
 
     this->mConverter = new Converter(this);
     QString name = this->mConverter->name();

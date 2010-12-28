@@ -26,6 +26,8 @@
 #include <QTextStream>
 #include <QSettings>
 #include <QTextCodec>
+#include <QTranslator>
+#include <QLocale>
 
 #include "editortabimage.h"
 #include "editortabfont.h"
@@ -53,6 +55,32 @@ MainWindow::MainWindow(QWidget *parent) :
     this->mEditor = NULL;
 
     this->updateMenuState();
+
+    this->mTrans = new QTranslator;
+    qApp->installTranslator(this->mTrans);
+
+    QDir dir(":/translations");
+    QStringList translations = dir.entryList(QDir::Files, QDir::Name);
+    QStringListIterator it(translations);
+    it.toFront();
+    while (it.hasNext())
+    {
+        QString name = it.next();
+        QAction *action = this->ui->menuLanguage->addAction(name, this, SLOT(actionLanguage_triggered()));
+        action->setCheckable(true);
+        action->setData(QVariant(name));
+        QTranslator trans;
+        trans.load(":/translations/" + name);
+        QString a = trans.translate("MainWindow", "langName");
+        action->setText(a);
+    }
+    this->connect(this->ui->actionLanguageDefault, SIGNAL(triggered()), SLOT(actionLanguage_triggered()));
+
+    QSettings sett;
+    sett.beginGroup("language");
+    QString selectedLocale = sett.value("selected", QVariant("")).toString();
+    this->selectLocale(selectedLocale);
+    sett.endGroup();
 }
 //-----------------------------------------------------------------------------
 MainWindow::~MainWindow()
@@ -128,6 +156,37 @@ void MainWindow::updateMenuState()
 
     if (!editorSelected)
         this->mEditor = NULL;
+}
+//-----------------------------------------------------------------------------
+void MainWindow::selectLocale(const QString &localeName)
+{
+    QSettings sett;
+    sett.beginGroup("language");
+
+    QFile file(":/translations/" + localeName);
+    if (file.exists())
+    {
+        this->mTrans->load(":/translations/" + localeName);
+        qApp->installTranslator(this->mTrans);
+        sett.setValue("selected", QVariant(localeName));
+    }
+    else
+    {
+        qApp->removeTranslator(this->mTrans);
+        sett.setValue("selected", QVariant(""));
+    }
+
+    sett.endGroup();
+
+    QList<QAction *> actions =this->ui->menuLanguage->actions();
+    QMutableListIterator<QAction *> it(actions);
+    it.toFront();
+    while (it.hasNext())
+    {
+        QAction *a = it.next();
+        QString b = a->data().toString();
+        a->setChecked(b == localeName);
+    }
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
@@ -677,5 +736,13 @@ void MainWindow::mon_editor_dataChanged()
     else
         this->ui->tabWidget->setTabText(index, doc->documentName());
     this->ui->tabWidget->setTabToolTip(index, doc->fileName());
+}
+//-----------------------------------------------------------------------------
+#include <QDebug>
+void MainWindow::actionLanguage_triggered()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    QString name = action->data().toString();
+    this->selectLocale(name);
 }
 //-----------------------------------------------------------------------------

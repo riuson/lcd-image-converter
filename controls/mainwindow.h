@@ -27,6 +27,7 @@ namespace Ui {
 }
 
 class WidgetBitmapEditor;
+class QTranslator;
 //-----------------------------------------------------------------------------
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -41,7 +42,9 @@ private:
     Ui::MainWindow *ui;
     QString findAvailableName(const QString &prefix);
     WidgetBitmapEditor *mEditor;
+    QTranslator *mTrans;
     void updateMenuState();
+    void selectLocale(const QString &localeName);
 
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
@@ -69,6 +72,7 @@ private slots:
     void on_actionSetupConversion_triggered();
     void on_actionSetupTemplates_triggered();
     void on_actionAbout_triggered();
+    void actionLanguage_triggered();
 
     void mon_editor_dataChanged();
 };
