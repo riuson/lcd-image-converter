@@ -50,6 +50,13 @@
       <widget class="QComboBox" name="comboBoxSize"/>
      </item>
      <item>
+      <widget class="QLabel" name="labelRealHeight">
+       <property name="text">
+        <string>RealHeight</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

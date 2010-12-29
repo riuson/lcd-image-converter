@@ -207,6 +207,10 @@ void DialogFontSelect::applyFont()
     QFontDatabase fonts;
     QFont font = fonts.font(this->mFontFamily, this->mFontStyle, this->mSize);
     this->ui->tableView->setFont(font);
+    QFontMetrics metrics(font);
+
+    QString strHeight = tr("Real height: %1").arg(metrics.height());
+    this->ui->labelRealHeight->setText(strHeight);
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_fontComboBox_currentFontChanged(const QFont &font)
