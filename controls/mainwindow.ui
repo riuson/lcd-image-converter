@@ -46,6 +46,7 @@
     <addaction name="actionNew_Image"/>
     <addaction name="actionNew_Font"/>
     <addaction name="actionOpen"/>
+    <addaction name="actionRename"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
     <addaction name="actionClose"/>
@@ -228,6 +229,11 @@
    </property>
    <property name="text">
     <string>English</string>
+   </property>
+  </action>
+  <action name="actionRename">
+   <property name="text">
+    <string>Rename...</string>
    </property>
   </action>
  </widget>

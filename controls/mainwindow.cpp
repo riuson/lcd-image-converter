@@ -149,6 +149,7 @@ void MainWindow::updateMenuState()
     }
     this->ui->menuImage->setEnabled(editorSelected);
 
+    this->ui->actionRename->setEnabled(editorSelected);
     this->ui->actionSave->setEnabled(editorSelected);
     this->ui->actionSave_As->setEnabled(editorSelected);
     this->ui->actionClose->setEnabled(editorSelected);
@@ -357,6 +358,24 @@ void MainWindow::on_actionOpen_triggered()
             ed->load(filename);
             this->ui->tabWidget->setTabText(index, ed->documentName());
         }
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionRename_triggered()
+{
+    bool ok;
+    QWidget *w = this->ui->tabWidget->currentWidget();
+    IDocument *doc = dynamic_cast<IDocument *> (w);
+    QString name = QInputDialog::getText(this,
+                                         tr("Rename"),
+                                         tr("New name:"),
+                                         QLineEdit::Normal,
+                                         doc->documentName(),
+                                         &ok);
+    if (ok)
+    {
+        doc->setDocumentName(name);
+        this->ui->tabWidget->setTabText(this->ui->tabWidget->currentIndex(), name);
     }
 }
 //-----------------------------------------------------------------------------
