@@ -12,3 +12,4 @@ moc_*
 .Debug
 .Release
 .sh
+.qm

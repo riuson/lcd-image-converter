@@ -132,22 +132,22 @@ Author:
         <translation>32 бита</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.cpp" line="82"/>
+        <location filename="../controls/dialogconvert.cpp" line="83"/>
         <source>Rotate none</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.cpp" line="83"/>
+        <location filename="../controls/dialogconvert.cpp" line="84"/>
         <source>Rotate 90° Clockwise</source>
         <translation>90° по часовой</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.cpp" line="84"/>
+        <location filename="../controls/dialogconvert.cpp" line="85"/>
         <source>Rotate 180°</source>
         <translation>180°</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.cpp" line="85"/>
+        <location filename="../controls/dialogconvert.cpp" line="86"/>
         <source>Rotate 90° Counter-Clockwise</source>
         <translation>90° против часовой</translation>
     </message>
@@ -175,19 +175,29 @@ Author:
         <translation>Размер:</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.ui" line="72"/>
+        <location filename="../controls/dialogfontselect.ui" line="55"/>
+        <source>RealHeight</source>
+        <translation>Высота</translation>
+    </message>
+    <message>
+        <location filename="../controls/dialogfontselect.ui" line="79"/>
         <source>Proportional</source>
         <translation>Пропорциональный</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.ui" line="82"/>
+        <location filename="../controls/dialogfontselect.ui" line="89"/>
         <source>Monospaced</source>
         <translation>Моноширинный</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.ui" line="89"/>
+        <location filename="../controls/dialogfontselect.ui" line="96"/>
         <source>Antialiasing</source>
         <translation>Сглаживание</translation>
+    </message>
+    <message>
+        <location filename="../controls/dialogfontselect.cpp" line="212"/>
+        <source>Real height: %1</source>
+        <translation>Высота: %1</translation>
     </message>
 </context>
 <context>
