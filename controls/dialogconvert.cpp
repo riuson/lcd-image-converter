@@ -148,8 +148,8 @@ void DialogConvert::on_comboBoxType_currentIndexChanged()
     }
 
     this->mWidgetSetup = this->mConverter->widgetSetup();
-    this->ui->splitterVertical->insertWidget(1, this->mWidgetSetup);
-    this->mWidgetSetup->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    this->ui->verticalLayout->insertWidget(1, this->mWidgetSetup);
+    this->mWidgetSetup->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     this->connect(this->mWidgetSetup, SIGNAL(settingsChanged()), SLOT(updatePreview()));
     this->connect(this, SIGNAL(dataLengthChanged(int)), this->mWidgetSetup, SLOT(dataLengthChanged(int)));
     this->connect(this, SIGNAL(dataPackChanged(bool)), this->mWidgetSetup, SLOT(dataPackChanged(bool)));
