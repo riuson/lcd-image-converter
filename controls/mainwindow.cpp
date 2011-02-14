@@ -43,8 +43,8 @@
 #include "dialogabout.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+        QMainWindow(parent),
+        ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
@@ -716,6 +716,58 @@ void MainWindow::on_actionFontResize_triggered()
                 original = this->mEditor->dataContainer()->image(key);
 
                 QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, this->mEditor->color2());
+
+                this->mEditor->dataContainer()->setImage(key, &result);
+            }
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::on_actionFontMinimizeHeight_triggered()
+{
+    if (this->mEditor != NULL)
+    {
+        int left, top, right, bottom;
+        int l, t, r, b;
+
+        // default values from current image
+        QString key = this->mEditor->currentImageKey();
+        QImage *original = this->mEditor->dataContainer()->image(key);
+        BitmapHelper::findEmptyArea(original, &left, &top, &right, &bottom);
+
+        // find limits
+        QStringList keys = this->mEditor->dataContainer()->keys();
+        QListIterator<QString> it(keys);
+        it.toFront();
+        while (it.hasNext())
+        {
+            QString key = it.next();
+            QImage *original = this->mEditor->dataContainer()->image(key);
+
+            BitmapHelper::findEmptyArea(original, &l, &t, &r, &b);
+
+            left = qMin(left, l);
+            top = qMin(top, t);
+            right = qMax(right, r);
+            bottom = qMax(bottom, b);
+        }
+
+        DialogResize dialog(original->width(), bottom + 1 - top, 0, -top, false, this);
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            int width, height, offsetX, offsetY;
+            bool center;
+            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center);
+
+            QStringList keys = this->mEditor->dataContainer()->keys();
+            QListIterator<QString> it(keys);
+            it.toFront();
+            while (it.hasNext())
+            {
+                QString key = it.next();
+                original = this->mEditor->dataContainer()->image(key);
+
+                QImage result = BitmapHelper::resize(original, original->width(), height, 0, offsetY, center, this->mEditor->color2());
 
                 this->mEditor->dataContainer()->setImage(key, &result);
             }

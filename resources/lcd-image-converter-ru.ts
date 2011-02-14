@@ -56,63 +56,63 @@ Author:
         <translation>Настройка преобразования</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.ui" line="44"/>
+        <location filename="../controls/dialogconvert.ui" line="42"/>
         <source>Type:</source>
         <translation>Тип:</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.ui" line="54"/>
+        <location filename="../controls/dialogconvert.ui" line="52"/>
         <source>Preview image:</source>
         <translation>Предпросмотр:</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.ui" line="64"/>
+        <location filename="../controls/dialogconvert.ui" line="62"/>
         <source>Data blocks:</source>
         <translation>Длина данных:</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.ui" line="74"/>
+        <location filename="../controls/dialogconvert.ui" line="72"/>
         <source>Pack data</source>
         <translation>Упаковка</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.ui" line="81"/>
+        <location filename="../controls/dialogconvert.ui" line="79"/>
         <source>Order:</source>
         <translation>Порядок:</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.ui" line="88"/>
+        <location filename="../controls/dialogconvert.ui" line="86"/>
         <source>Swap bytes</source>
         <translation>Переставить байты</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.ui" line="95"/>
+        <location filename="../controls/dialogconvert.ui" line="93"/>
         <source>Mirror bytes</source>
         <translation>Отразить биты</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.ui" line="102"/>
+        <location filename="../controls/dialogconvert.ui" line="100"/>
         <source>Preprocess:</source>
         <translation>Подготовка:</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.ui" line="112"/>
+        <location filename="../controls/dialogconvert.ui" line="110"/>
         <source>Flip Horizontal</source>
         <translation>Отразить по горизонтали</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.ui" line="119"/>
+        <location filename="../controls/dialogconvert.ui" line="117"/>
         <source>Flip Vertical</source>
         <translation>Отразить по вертикали</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.ui" line="126"/>
+        <location filename="../controls/dialogconvert.ui" line="124"/>
         <source>Inverse</source>
         <translation>Инвертировать</translation>
     </message>
     <message>
-        <location filename="../controls/dialogconvert.ui" line="167"/>
-        <location filename="../controls/dialogconvert.ui" line="194"/>
+        <location filename="../controls/dialogconvert.ui" line="175"/>
+        <location filename="../controls/dialogconvert.ui" line="202"/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
@@ -138,18 +138,30 @@ Author:
     </message>
     <message>
         <location filename="../controls/dialogconvert.cpp" line="84"/>
-        <source>Rotate 90° Clockwise</source>
-        <translation>90° по часовой</translation>
+        <source>Rotate 90Â° Clockwise</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../controls/dialogconvert.cpp" line="85"/>
-        <source>Rotate 180°</source>
-        <translation>180°</translation>
+        <source>Rotate 180Â°</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../controls/dialogconvert.cpp" line="86"/>
+        <source>Rotate 90Â° Counter-Clockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate 90° Clockwise</source>
+        <translation type="obsolete">90° по часовой</translation>
+    </message>
+    <message>
+        <source>Rotate 180°</source>
+        <translation type="obsolete">180°</translation>
+    </message>
+    <message>
         <source>Rotate 90° Counter-Clockwise</source>
-        <translation>90° против часовой</translation>
+        <translation type="obsolete">90° против часовой</translation>
     </message>
 </context>
 <context>
@@ -404,134 +416,152 @@ Author:
         <translation>Шрифт</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="86"/>
+        <location filename="../controls/mainwindow.ui" line="87"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="92"/>
+        <location filename="../controls/mainwindow.ui" line="93"/>
         <source>Options</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="96"/>
+        <location filename="../controls/mainwindow.ui" line="97"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="113"/>
+        <location filename="../controls/mainwindow.ui" line="114"/>
         <source>New Image</source>
         <translation>Новое изображение</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="118"/>
+        <location filename="../controls/mainwindow.ui" line="119"/>
         <source>New Font</source>
         <translation>Новый шрифт</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="123"/>
+        <location filename="../controls/mainwindow.ui" line="124"/>
         <source>Open...</source>
         <translation>Открыть...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="128"/>
+        <location filename="../controls/mainwindow.ui" line="129"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="133"/>
+        <location filename="../controls/mainwindow.ui" line="134"/>
         <source>Save As...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="138"/>
+        <location filename="../controls/mainwindow.ui" line="139"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="143"/>
+        <location filename="../controls/mainwindow.ui" line="144"/>
         <source>Quit</source>
         <translation>Выйти</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="148"/>
+        <location filename="../controls/mainwindow.ui" line="149"/>
         <source>Flip Horizontal</source>
         <translation>Отразить по горизонтали</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="153"/>
+        <location filename="../controls/mainwindow.ui" line="154"/>
         <source>Flip Vertical</source>
         <translation>Отразить по вертикали</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="158"/>
+        <location filename="../controls/mainwindow.ui" line="159"/>
         <source>Rotate 90° Clockwise</source>
         <translation>90° по часовой</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="163"/>
+        <location filename="../controls/mainwindow.ui" line="164"/>
         <source>Rotate 180°</source>
-        <translation>180°</translation>
+        <translation type="unfinished">180°</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="168"/>
+        <location filename="../controls/mainwindow.ui" line="169"/>
         <source>Rotate 90° Counter-Clockwise</source>
-        <translation>90° против часовой</translation>
+        <translation type="unfinished">90° против часовой</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="173"/>
-        <location filename="../controls/mainwindow.ui" line="213"/>
+        <location filename="../controls/mainwindow.ui" line="174"/>
+        <location filename="../controls/mainwindow.ui" line="214"/>
         <source>Inverse</source>
         <translation>Инвертировать</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="178"/>
+        <location filename="../controls/mainwindow.ui" line="179"/>
         <source>Convert...</source>
         <translation>Преобразовать...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="183"/>
+        <location filename="../controls/mainwindow.ui" line="184"/>
         <source>Conversion...</source>
         <translation>Преобразование...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="188"/>
+        <location filename="../controls/mainwindow.ui" line="189"/>
         <source>Import...</source>
         <translation>Импортировать...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="193"/>
+        <location filename="../controls/mainwindow.ui" line="194"/>
         <source>Export...</source>
         <translation>Экспортировать...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="236"/>
+        <location filename="../controls/mainwindow.ui" line="237"/>
         <source>Rename...</source>
         <translation>Переименовать...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="198"/>
-        <location filename="../controls/mainwindow.ui" line="208"/>
+        <location filename="../controls/mainwindow.ui" line="242"/>
+        <source>Optimize height...</source>
+        <translatorcomment>Определение наименьшей высоты знакоместа</translatorcomment>
+        <translation>Подобрать высоту...</translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="199"/>
+        <location filename="../controls/mainwindow.ui" line="209"/>
         <source>Resize</source>
         <translation>Изменение размеров</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="203"/>
+        <source>Rotate 90 Clockwise</source>
+        <translation type="obsolete">90° по часовой</translation>
+    </message>
+    <message>
+        <source>Rotate 180</source>
+        <translation type="obsolete">180°</translation>
+    </message>
+    <message>
+        <source>Rotate 90 Counter-Clockwise</source>
+        <translation type="obsolete">90° против часовой</translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="204"/>
         <source>Change...</source>
         <translation>Изменить...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="218"/>
+        <location filename="../controls/mainwindow.ui" line="219"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="223"/>
+        <location filename="../controls/mainwindow.ui" line="224"/>
         <source>Templates...</source>
         <translation>Шаблоны...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="231"/>
+        <location filename="../controls/mainwindow.ui" line="232"/>
         <source>English</source>
         <translatorcomment>не переводить</translatorcomment>
         <translation>English</translation>
@@ -732,13 +762,13 @@ Author:
 <context>
     <name>WidgetConvOptionsMono</name>
     <message>
-        <location filename="../controls/widgetconvoptionsmono.ui" line="14"/>
+        <location filename="../controls/widgetconvoptionsmono.ui" line="20"/>
         <source>Form</source>
         <translatorcomment>не используется</translatorcomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/widgetconvoptionsmono.ui" line="44"/>
+        <location filename="../controls/widgetconvoptionsmono.ui" line="50"/>
         <source>Convert to monochrome:</source>
         <translation>Способ перевода в монохромное:</translation>
     </message>

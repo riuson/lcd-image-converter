@@ -93,7 +93,7 @@ INCLUDEPATH += . \
 RESOURCES += \
     resources/resources.qrc
 
-TRANSLATIONS = lcd-image-converter-ru.ts
+TRANSLATIONS = resources/lcd-image-converter-ru.ts
 
 OTHER_FILES += \
     resources/image.tmpl \

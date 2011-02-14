@@ -79,6 +79,7 @@
     <addaction name="actionFontChange"/>
     <addaction name="separator"/>
     <addaction name="actionFontResize"/>
+    <addaction name="actionFontMinimizeHeight"/>
     <addaction name="actionFontInverse"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -234,6 +235,11 @@
   <action name="actionRename">
    <property name="text">
     <string>Rename...</string>
+   </property>
+  </action>
+  <action name="actionFontMinimizeHeight">
+   <property name="text">
+    <string>Optimize height...</string>
    </property>
   </action>
  </widget>

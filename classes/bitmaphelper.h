@@ -51,6 +51,7 @@ public:
     static QImage flipHorizontal(QImage *source);
     static QImage flipVertical(QImage *source);
     static QImage resize(QImage *source, int width, int height, int offsetX, int offsetY, bool center, const QColor &backColor);
+    static void findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom);
 };
 //-----------------------------------------------------------------------------
 #endif // BITMAPHELPER_H

@@ -70,6 +70,7 @@ private slots:
     void on_actionFontChange_triggered();
     void on_actionFontInverse_triggered();
     void on_actionFontResize_triggered();
+    void on_actionFontMinimizeHeight_triggered();
     void on_actionSetupConversion_triggered();
     void on_actionSetupTemplates_triggered();
     void on_actionAbout_triggered();
