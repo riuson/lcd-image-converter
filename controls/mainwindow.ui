@@ -156,17 +156,17 @@
   </action>
   <action name="actionImageRotate_90_Clockwise">
    <property name="text">
-    <string>Rotate 90° Clockwise</string>
+    <string>Rotate 90 Clockwise</string>
    </property>
   </action>
   <action name="actionImageRotate_180">
    <property name="text">
-    <string>Rotate 180°</string>
+    <string>Rotate 180</string>
    </property>
   </action>
   <action name="actionImageRotate_90_Counter_Clockwise">
    <property name="text">
-    <string>Rotate 90° Counter-Clockwise</string>
+    <string>Rotate 90 Counter-Clockwise</string>
    </property>
   </action>
   <action name="actionImageInverse">

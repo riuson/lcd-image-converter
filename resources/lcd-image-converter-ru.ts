@@ -138,18 +138,18 @@ Author:
     </message>
     <message>
         <location filename="../controls/dialogconvert.cpp" line="84"/>
-        <source>Rotate 90Â° Clockwise</source>
-        <translation type="unfinished"></translation>
+        <source>Rotate 90 Clockwise</source>
+        <translation>90 по часовой</translation>
     </message>
     <message>
         <location filename="../controls/dialogconvert.cpp" line="85"/>
-        <source>Rotate 180Â°</source>
-        <translation type="unfinished"></translation>
+        <source>Rotate 180</source>
+        <translation>180</translation>
     </message>
     <message>
         <location filename="../controls/dialogconvert.cpp" line="86"/>
-        <source>Rotate 90Â° Counter-Clockwise</source>
-        <translation type="unfinished"></translation>
+        <source>Rotate 90 Counter-Clockwise</source>
+        <translation>90 против часовой</translation>
     </message>
     <message>
         <source>Rotate 90° Clockwise</source>
@@ -476,19 +476,16 @@ Author:
         <translation>Отразить по вертикали</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="159"/>
         <source>Rotate 90° Clockwise</source>
-        <translation>90° по часовой</translation>
+        <translation type="obsolete">90° по часовой</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="164"/>
         <source>Rotate 180°</source>
-        <translation type="unfinished">180°</translation>
+        <translation type="obsolete">180°</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="169"/>
         <source>Rotate 90° Counter-Clockwise</source>
-        <translation type="unfinished">90° против часовой</translation>
+        <translation type="obsolete">90° против часовой</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.ui" line="174"/>
@@ -534,16 +531,19 @@ Author:
         <translation>Изменение размеров</translation>
     </message>
     <message>
+        <location filename="../controls/mainwindow.ui" line="159"/>
         <source>Rotate 90 Clockwise</source>
-        <translation type="obsolete">90° по часовой</translation>
+        <translation>90 по часовой</translation>
     </message>
     <message>
+        <location filename="../controls/mainwindow.ui" line="164"/>
         <source>Rotate 180</source>
-        <translation type="obsolete">180°</translation>
+        <translation>180</translation>
     </message>
     <message>
+        <location filename="../controls/mainwindow.ui" line="169"/>
         <source>Rotate 90 Counter-Clockwise</source>
-        <translation type="obsolete">90° против часовой</translation>
+        <translation>90 против часовой</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.ui" line="204"/>
