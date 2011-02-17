@@ -32,9 +32,9 @@ class DialogResize : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogResize(int width, int height, int offsetX, int offsetY, bool center, QWidget *parent = 0);
+    explicit DialogResize(int width, int height, int offsetX, int offsetY, bool center, bool allowChangeWidth, bool allowChangeHeight, QWidget *parent = 0);
     ~DialogResize();
-    void getResizeInfo(int *width, int *height, int *offsetX, int *offsetY, bool *center);
+    void getResizeInfo(int *width, int *height, int *offsetX, int *offsetY, bool *center, bool *allowChangeWidth, bool *allowChangeHeight);
 
 private:
     Ui::DialogResize *ui;
@@ -43,12 +43,16 @@ private:
     int mOffsetX;
     int mOffsetY;
     bool mCenter;
+    bool mAllowChangeWidth;
+    bool mAllowChangeHeight;
 private slots:
     void on_checkBoxCenter_stateChanged(int state);
     void on_spinBoxWidth_valueChanged(int value);
     void on_spinBoxHeight_valueChanged(int value);
     void on_spinBoxOffsetX_valueChanged(int value);
     void on_spinBoxOffsetY_valueChanged(int value);
+    void on_checkBoxResizeWidth_toggled(bool value);
+    void on_checkBoxResizeHeight_toggled(bool value);
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGRESIZE_H

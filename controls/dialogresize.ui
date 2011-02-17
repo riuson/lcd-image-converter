@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>260</width>
-    <height>251</height>
+    <width>265</width>
+    <height>330</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Resize</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
-   <item row="0" column="0">
+   <item row="3" column="0">
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
@@ -27,14 +27,14 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="4" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
       <string>Width:</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
+   <item row="4" column="1">
     <widget class="QSpinBox" name="spinBoxWidth">
      <property name="suffix">
       <string> px</string>
@@ -47,14 +47,14 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
+   <item row="5" column="0">
     <widget class="QLabel" name="label_3">
      <property name="text">
       <string>Height:</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
+   <item row="5" column="1">
     <widget class="QSpinBox" name="spinBoxHeight">
      <property name="suffix">
       <string> px</string>
@@ -67,7 +67,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="6" column="0">
     <widget class="QLabel" name="label_4">
      <property name="font">
       <font>
@@ -80,14 +80,14 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="7" column="0">
     <widget class="QLabel" name="labelOffsetX">
      <property name="text">
       <string>X:</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
+   <item row="7" column="1">
     <widget class="QSpinBox" name="spinBoxOffsetX">
      <property name="suffix">
       <string> px</string>
@@ -100,14 +100,14 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="8" column="0">
     <widget class="QLabel" name="labelOffsetY">
      <property name="text">
       <string>Y:</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="8" column="1">
     <widget class="QSpinBox" name="spinBoxOffsetY">
      <property name="suffix">
       <string> px</string>
@@ -120,17 +120,50 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="2">
+   <item row="9" column="0" colspan="2">
     <widget class="QCheckBox" name="checkBoxCenter">
      <property name="text">
       <string>Center</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="2">
+   <item row="10" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Resize by</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QCheckBox" name="checkBoxResizeWidth">
+     <property name="text">
+      <string>Horizontal</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QCheckBox" name="checkBoxResizeHeight">
+     <property name="text">
+      <string>Vertical</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -145,8 +178,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>190</x>
-     <y>225</y>
+     <x>199</x>
+     <y>320</y>
     </hint>
     <hint type="destinationlabel">
      <x>204</x>
@@ -161,12 +194,76 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>89</x>
-     <y>215</y>
+     <x>98</x>
+     <y>320</y>
     </hint>
     <hint type="destinationlabel">
      <x>102</x>
      <y>105</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxResizeWidth</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>spinBoxWidth</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>132</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>169</x>
+     <y>124</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxResizeWidth</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>spinBoxOffsetX</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>132</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>169</x>
+     <y>213</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxResizeHeight</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>spinBoxHeight</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>132</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>169</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxResizeHeight</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>spinBoxOffsetY</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>132</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>169</x>
+     <y>246</y>
     </hint>
    </hints>
   </connection>

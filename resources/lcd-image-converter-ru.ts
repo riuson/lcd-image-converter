@@ -262,6 +262,21 @@ Author:
         <source>Center</source>
         <translation>Центрировать</translation>
     </message>
+    <message>
+        <location filename="../controls/dialogresize.ui" line="146"/>
+        <source>Resize by</source>
+        <translation>Менять</translation>
+    </message>
+    <message>
+        <location filename="../controls/dialogresize.ui" line="153"/>
+        <source>Horizontal</source>
+        <translation>Ширину</translation>
+    </message>
+    <message>
+        <location filename="../controls/dialogresize.ui" line="163"/>
+        <source>Vertical</source>
+        <translation>Высоту</translation>
+    </message>
 </context>
 <context>
     <name>DialogSaveChanges</name>
@@ -567,100 +582,100 @@ Author:
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="74"/>
+        <location filename="../controls/mainwindow.cpp" line="75"/>
         <source>langName</source>
         <translatorcomment>название языка в который переводим</translatorcomment>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="215"/>
-        <location filename="../controls/mainwindow.cpp" line="314"/>
-        <location filename="../controls/mainwindow.cpp" line="400"/>
+        <location filename="../controls/mainwindow.cpp" line="216"/>
+        <location filename="../controls/mainwindow.cpp" line="315"/>
+        <location filename="../controls/mainwindow.cpp" line="401"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="216"/>
-        <location filename="../controls/mainwindow.cpp" line="401"/>
+        <location filename="../controls/mainwindow.cpp" line="217"/>
+        <location filename="../controls/mainwindow.cpp" line="402"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="255"/>
+        <location filename="../controls/mainwindow.cpp" line="256"/>
         <source>Enter image name</source>
         <translation>Введите имя изображения</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="256"/>
+        <location filename="../controls/mainwindow.cpp" line="257"/>
         <source>Image name:</source>
         <translation>Имя изображения:</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="258"/>
+        <location filename="../controls/mainwindow.cpp" line="259"/>
         <source>Image</source>
         <comment>new image name</comment>
         <translatorcomment>название нового изображения, должно быть латинскими буквами</translatorcomment>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="275"/>
+        <location filename="../controls/mainwindow.cpp" line="276"/>
         <source>Enter font name</source>
         <translation>Введите имя шрифта</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="276"/>
+        <location filename="../controls/mainwindow.cpp" line="277"/>
         <source>Font name:</source>
         <translation>Имя шрифта:</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="278"/>
+        <location filename="../controls/mainwindow.cpp" line="279"/>
         <source>Font</source>
         <comment>new font name</comment>
         <translatorcomment>название нового шрифта, должно быть латинскими буквами</translatorcomment>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="315"/>
+        <location filename="../controls/mainwindow.cpp" line="316"/>
         <source>Open file</source>
         <translation>Открыть файл</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="370"/>
+        <location filename="../controls/mainwindow.cpp" line="371"/>
         <source>Rename</source>
         <translation>Переименование</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="371"/>
+        <location filename="../controls/mainwindow.cpp" line="372"/>
         <source>New name:</source>
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="465"/>
+        <location filename="../controls/mainwindow.cpp" line="466"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="466"/>
+        <location filename="../controls/mainwindow.cpp" line="467"/>
         <source>Save result file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="578"/>
+        <location filename="../controls/mainwindow.cpp" line="579"/>
         <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="579"/>
+        <location filename="../controls/mainwindow.cpp" line="580"/>
         <source>Open image file</source>
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="598"/>
+        <location filename="../controls/mainwindow.cpp" line="599"/>
         <source>Windows Bitmap (*.bmp);;Joint Photographic Experts Group (*.jpg *.jpeg);;Portable Network Graphics (*.png);;Portable Pixmap (*.ppm);;Tagged Image File Format (*.tiff);;X11 Bitmap (*.xbm);;X11 Bitmap (*.xpm)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="606"/>
+        <location filename="../controls/mainwindow.cpp" line="607"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
     </message>
@@ -700,13 +715,13 @@ Author:
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/widgetbitmapeditor.cpp" line="89"/>
+        <location filename="../controls/widgetbitmapeditor.cpp" line="96"/>
         <source>x: %1, y: %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/widgetbitmapeditor.cpp" line="128"/>
-        <location filename="../controls/widgetbitmapeditor.cpp" line="188"/>
+        <location filename="../controls/widgetbitmapeditor.cpp" line="135"/>
+        <location filename="../controls/widgetbitmapeditor.cpp" line="195"/>
         <source>Size: %1,%2</source>
         <translation>Размер: %1,%2</translation>
     </message>

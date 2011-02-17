@@ -20,7 +20,7 @@
 #include "dialogresize.h"
 #include "ui_dialogresize.h"
 //-----------------------------------------------------------------------------
-DialogResize::DialogResize(int width, int height, int offsetX, int offsetY, bool center, QWidget *parent) :
+DialogResize::DialogResize(int width, int height, int offsetX, int offsetY, bool center, bool allowChangeWidth, bool allowChangeHeight, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogResize)
 {
@@ -30,12 +30,17 @@ DialogResize::DialogResize(int width, int height, int offsetX, int offsetY, bool
     this->mOffsetX = offsetX;
     this->mOffsetY = offsetY;
     this->mCenter = center;
+    this->mAllowChangeWidth = allowChangeWidth;
+    this->mAllowChangeHeight = allowChangeHeight;
 
     this->ui->spinBoxWidth->setValue(width);
     this->ui->spinBoxHeight->setValue(height);
     this->ui->spinBoxOffsetX->setValue(offsetX);
     this->ui->spinBoxOffsetY->setValue(offsetY);
     this->ui->checkBoxCenter->setChecked(center);
+
+    this->ui->checkBoxResizeWidth->setChecked(allowChangeWidth);
+    this->ui->checkBoxResizeHeight->setChecked(allowChangeHeight);
 }
 //-----------------------------------------------------------------------------
 DialogResize::~DialogResize()
@@ -43,13 +48,15 @@ DialogResize::~DialogResize()
     delete ui;
 }
 //-----------------------------------------------------------------------------
-void DialogResize::getResizeInfo(int *width, int *height, int *offsetX, int *offsetY, bool *center)
+void DialogResize::getResizeInfo(int *width, int *height, int *offsetX, int *offsetY, bool *center, bool *allowChangeWidth, bool *allowChangeHeight)
 {
     *width = this->mWidth;
     *height = this->mHeight;
     *offsetX = this->mOffsetX;
     *offsetY = this->mOffsetY;
     *center = this->mCenter;
+    *allowChangeWidth = this->mAllowChangeWidth;
+    *allowChangeHeight = this->mAllowChangeHeight;
 }
 //-----------------------------------------------------------------------------
 void DialogResize::on_checkBoxCenter_stateChanged(int state)
@@ -80,5 +87,15 @@ void DialogResize::on_spinBoxOffsetX_valueChanged(int value)
 void DialogResize::on_spinBoxOffsetY_valueChanged(int value)
 {
     this->mOffsetY = value;
+}
+//-----------------------------------------------------------------------------
+void DialogResize::on_checkBoxResizeWidth_toggled(bool value)
+{
+    this->mAllowChangeWidth = value;
+}
+//-----------------------------------------------------------------------------
+void DialogResize::on_checkBoxResizeHeight_toggled(bool value)
+{
+    this->mAllowChangeHeight = value;
 }
 //-----------------------------------------------------------------------------

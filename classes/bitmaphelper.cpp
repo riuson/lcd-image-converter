@@ -93,8 +93,18 @@ QImage BitmapHelper::flipVertical(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::resize(QImage *source, int width, int height, int offsetX, int offsetY, bool center, const QColor &backColor)
+QImage BitmapHelper::resize(QImage *source, int width, int height, int offsetX, int offsetY, bool center, bool changeWidth, bool changeHeight, const QColor &backColor)
 {
+    if (!changeWidth)
+    {
+        width = source->width();
+        offsetX = 0;
+    }
+    if (!changeHeight)
+    {
+        height = source->height();
+        offsetY = 0;
+    }
     QImage result = QImage(width, height, source->format());
     QPainter painter(&result);
     painter.fillRect(0, 0, width, height, backColor);
@@ -113,30 +123,30 @@ QImage BitmapHelper::resize(QImage *source, int width, int height, int offsetX, 
 //-----------------------------------------------------------------------------
 void BitmapHelper::findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom)
 {
-	QRgb background = source->pixel(0, 0);
-	// max possible values by default
-	int l = std::numeric_limits<int>::max();
-	int t = std::numeric_limits<int>::max();
-	int r = 0;
-	int b = 0;
+    QRgb background = source->pixel(0, 0);
+    // max possible values by default
+    int l = std::numeric_limits<int>::max();
+    int t = std::numeric_limits<int>::max();
+    int r = 0;
+    int b = 0;
 
-	// search from left/top to bottom/right
-	for (int x = 0; x < source->width(); x++)
-	{
-		for (int y = 0; y < source->height(); y++)
-		{
-			if (source->pixel(x, y) != background)
-			{
-				l = qMin(l, x);
-				t = qMin(t, y);
-				r = qMax(r, x);
-				b = qMax(b, y);
-			}
-		}
-	}
-	*left = l;
-	*top = t;
-	*right = r;
-	*bottom = b;
+    // search from left/top to bottom/right
+    for (int x = 0; x < source->width(); x++)
+    {
+        for (int y = 0; y < source->height(); y++)
+        {
+            if (source->pixel(x, y) != background)
+            {
+                l = qMin(l, x);
+                t = qMin(t, y);
+                r = qMax(r, x);
+                b = qMax(b, y);
+            }
+        }
+    }
+    *left = l;
+    *top = t;
+    *right = r;
+    *bottom = b;
 }
 //-----------------------------------------------------------------------------

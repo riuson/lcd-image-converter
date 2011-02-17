@@ -28,6 +28,7 @@
 #include <QTextCodec>
 #include <QTranslator>
 #include <QLocale>
+#include "limits"
 
 #include "editortabimage.h"
 #include "editortabfont.h"
@@ -556,13 +557,13 @@ void MainWindow::on_actionImageResize_triggered()
     {
         QString key = this->mEditor->currentImageKey();
         QImage *original = this->mEditor->dataContainer()->image(key);
-        DialogResize dialog(original->width(), original->height(), 0, 0, false, this);
+        DialogResize dialog(original->width(), original->height(), 0, 0, false, true, true, this);
         if (dialog.exec() == QDialog::Accepted)
         {
             int width, height, offsetX, offsetY;
-            bool center;
-            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center);
-            QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, this->mEditor->color2());
+            bool center, changeWidth, changeHeight;
+            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
+            QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, this->mEditor->color2());
             this->mEditor->dataContainer()->setImage(key, &result);
         }
     }
@@ -700,12 +701,12 @@ void MainWindow::on_actionFontResize_triggered()
     {
         QString key = this->mEditor->currentImageKey();
         QImage *original = this->mEditor->dataContainer()->image(key);
-        DialogResize dialog(original->width(), original->height(), 0, 0, false, this);
+        DialogResize dialog(original->width(), original->height(), 0, 0, true, true, false, this);
         if (dialog.exec() == QDialog::Accepted)
         {
             int width, height, offsetX, offsetY;
-            bool center;
-            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center);
+            bool center, changeWidth, changeHeight;
+            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
 
             QStringList keys = this->mEditor->dataContainer()->keys();
             QListIterator<QString> it(keys);
@@ -715,7 +716,7 @@ void MainWindow::on_actionFontResize_triggered()
                 QString key = it.next();
                 original = this->mEditor->dataContainer()->image(key);
 
-                QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, this->mEditor->color2());
+                QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, this->mEditor->color2());
 
                 this->mEditor->dataContainer()->setImage(key, &result);
             }
@@ -727,13 +728,13 @@ void MainWindow::on_actionFontMinimizeHeight_triggered()
 {
     if (this->mEditor != NULL)
     {
-        int left, top, right, bottom;
+        int left = std::numeric_limits<int>::max();
+        int top = std::numeric_limits<int>::max();
+        int right = 0;
+        int bottom = 0;
         int l, t, r, b;
-
-        // default values from current image
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        BitmapHelper::findEmptyArea(original, &left, &top, &right, &bottom);
+        int width = 0;
+        int height = 0;
 
         // find limits
         QStringList keys = this->mEditor->dataContainer()->keys();
@@ -750,14 +751,17 @@ void MainWindow::on_actionFontMinimizeHeight_triggered()
             top = qMin(top, t);
             right = qMax(right, r);
             bottom = qMax(bottom, b);
+
+            width = qMax(width, original->width());
+            height = qMax(height, original->height());
         }
 
-        DialogResize dialog(original->width(), bottom + 1 - top, 0, -top, false, this);
+        DialogResize dialog(width, bottom + 1 - top, 0, -top, false, false, true, this);
         if (dialog.exec() == QDialog::Accepted)
         {
             int width, height, offsetX, offsetY;
-            bool center;
-            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center);
+            bool center, changeWidth, changeHeight;
+            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
 
             QStringList keys = this->mEditor->dataContainer()->keys();
             QListIterator<QString> it(keys);
@@ -765,9 +769,9 @@ void MainWindow::on_actionFontMinimizeHeight_triggered()
             while (it.hasNext())
             {
                 QString key = it.next();
-                original = this->mEditor->dataContainer()->image(key);
+                QImage *original = this->mEditor->dataContainer()->image(key);
 
-                QImage result = BitmapHelper::resize(original, original->width(), height, 0, offsetY, center, this->mEditor->color2());
+                QImage result = BitmapHelper::resize(original, original->width(), height, width, offsetY, center, changeWidth, changeHeight, this->mEditor->color2());
 
                 this->mEditor->dataContainer()->setImage(key, &result);
             }
