@@ -25,6 +25,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("lcd-image-converter");
     QCoreApplication::setOrganizationName("riuson");
     QApplication a(argc, argv);
+    a.addLibraryPath(QApplication::applicationDirPath());
+    a.addLibraryPath(QApplication::applicationDirPath() + "/plugins");
     MainWindow w;
     w.show();
     return a.exec();
