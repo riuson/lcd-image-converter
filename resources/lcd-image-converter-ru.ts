@@ -39,8 +39,38 @@
 Tool to create image and font source files for embedded applications.&lt;br/&gt;
 Author: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
-&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;</source>
+&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;&lt;br/&gt;
+Version: &lt;b&gt;%1&lt;/b&gt; from &lt;i&gt;%2&lt;/i&gt;</source>
         <translation>LCD Image Converter&lt;br/&gt;
+Утилита создания изображений и шрифтов в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
+Автор: 
+&lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
+Страница проекта:
+&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;&lt;br/&gt;
+Версия: &lt;b&gt;%1&lt;/b&gt; от &lt;i&gt;%2&lt;/i&gt;</translation>
+    </message>
+    <message>
+        <source>LCD Image Converter&lt;br/&gt;
+Tool to create image and font source files for embedded applications.&lt;br/&gt;
+Author: 
+&lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
+&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;&lt;br/&gt;
+Version: %1 from %2</source>
+        <translation type="obsolete">LCD Image Converter&lt;br/&gt;
+Утилита создания изображений и шрифтов в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
+Автор: 
+&lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
+Страница проекта:
+&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;&lt;br/&gt;
+Версия: %1 от %2</translation>
+    </message>
+    <message>
+        <source>LCD Image Converter&lt;br/&gt;
+Tool to create image and font source files for embedded applications.&lt;br/&gt;
+Author: 
+&lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
+&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;</source>
+        <translation type="obsolete">LCD Image Converter&lt;br/&gt;
 Утилита создания изображений и шрифтов в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
 Автор: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
@@ -461,32 +491,52 @@ Author:
         <translation>Открыть...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="129"/>
+        <location filename="../controls/mainwindow.ui" line="127"/>
+        <source>Ctrl+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="132"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="134"/>
+        <location filename="../controls/mainwindow.ui" line="135"/>
+        <source>Ctrl+S</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="140"/>
         <source>Save As...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="139"/>
+        <location filename="../controls/mainwindow.ui" line="145"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="144"/>
+        <location filename="../controls/mainwindow.ui" line="148"/>
+        <source>Ctrl+W</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="153"/>
         <source>Quit</source>
         <translation>Выйти</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="149"/>
+        <location filename="../controls/mainwindow.ui" line="156"/>
+        <source>Ctrl+Q</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="161"/>
         <source>Flip Horizontal</source>
         <translation>Отразить по горизонтали</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="154"/>
+        <location filename="../controls/mainwindow.ui" line="166"/>
         <source>Flip Vertical</source>
         <translation>Отразить по вертикали</translation>
     </message>
@@ -503,80 +553,105 @@ Author:
         <translation type="obsolete">90° против часовой</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="174"/>
-        <location filename="../controls/mainwindow.ui" line="214"/>
+        <location filename="../controls/mainwindow.ui" line="192"/>
+        <location filename="../controls/mainwindow.ui" line="238"/>
         <source>Inverse</source>
         <translation>Инвертировать</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="179"/>
+        <location filename="../controls/mainwindow.ui" line="200"/>
         <source>Convert...</source>
         <translation>Преобразовать...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="184"/>
+        <location filename="../controls/mainwindow.ui" line="208"/>
         <source>Conversion...</source>
         <translation>Преобразование...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="189"/>
+        <location filename="../controls/mainwindow.ui" line="213"/>
         <source>Import...</source>
         <translation>Импортировать...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="194"/>
+        <location filename="../controls/mainwindow.ui" line="218"/>
         <source>Export...</source>
         <translation>Экспортировать...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="237"/>
+        <location filename="../controls/mainwindow.ui" line="264"/>
         <source>Rename...</source>
         <translation>Переименовать...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="242"/>
+        <location filename="../controls/mainwindow.ui" line="269"/>
         <source>Optimize height...</source>
         <translatorcomment>Определение наименьшей высоты знакоместа</translatorcomment>
         <translation>Подобрать высоту...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="199"/>
-        <location filename="../controls/mainwindow.ui" line="209"/>
+        <location filename="../controls/mainwindow.ui" line="223"/>
+        <location filename="../controls/mainwindow.ui" line="233"/>
         <source>Resize</source>
         <translation>Изменение размеров</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="159"/>
+        <location filename="../controls/mainwindow.ui" line="171"/>
         <source>Rotate 90 Clockwise</source>
         <translation>90 по часовой</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="164"/>
+        <location filename="../controls/mainwindow.ui" line="174"/>
+        <source>Ctrl+Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="179"/>
         <source>Rotate 180</source>
         <translation>180</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="169"/>
+        <location filename="../controls/mainwindow.ui" line="184"/>
         <source>Rotate 90 Counter-Clockwise</source>
         <translation>90 против часовой</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="204"/>
+        <location filename="../controls/mainwindow.ui" line="187"/>
+        <source>Ctrl+Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="195"/>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="203"/>
+        <source>Ctrl+P</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="228"/>
         <source>Change...</source>
         <translation>Изменить...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="219"/>
+        <location filename="../controls/mainwindow.ui" line="243"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="224"/>
+        <location filename="../controls/mainwindow.ui" line="246"/>
+        <source>F1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="251"/>
         <source>Templates...</source>
         <translation>Шаблоны...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="232"/>
+        <location filename="../controls/mainwindow.ui" line="259"/>
         <source>English</source>
         <translatorcomment>не переводить</translatorcomment>
         <translation>English</translation>
