@@ -93,10 +93,13 @@ INCLUDEPATH += . \
 RESOURCES += \
     resources/resources.qrc
 
+RC_FILE = iconrc.rc
+
 TRANSLATIONS = resources/lcd-image-converter-ru.ts
 
 OTHER_FILES += \
     resources/image.tmpl \
     resources/font.tmpl \
     resources/template_keys.txt \
-    resources/lcd-image-converter-ru.ts
+    resources/lcd-image-converter-ru.ts \
+    iconrc.rc

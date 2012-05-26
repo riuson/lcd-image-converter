@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/images">
         <file alias="template">template.png</file>
+        <file alias="icon64">icons/lcd-image-converter-64.png</file>
     </qresource>
     <qresource prefix="/templates">
         <file alias="font_convert">font.tmpl</file>
