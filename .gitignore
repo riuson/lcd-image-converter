@@ -5,11 +5,11 @@ _windows/
 .obj/
 Makefile.*
 Makefile
-.user
+*.user
 qrc_*
 moc_*
 .user/
-.Debug
-.Release
-.sh
-.qm
+*.Debug
+*.Release
+*.sh
+*.qm
