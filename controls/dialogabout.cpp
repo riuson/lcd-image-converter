@@ -89,8 +89,11 @@ DialogAbout::DialogAbout(QWidget *parent) :
     {
         QString about = this->ui->labelInfo->text();
         QString formattedAbout = QString(about).arg(qVersion());
-        this->ui->labelInfo->setText(formattedAbout);;
+        this->ui->labelInfo->setText(formattedAbout);
     }
+
+    // focus on Close button
+    this->ui->buttonBox->setFocus();
 }
 //-----------------------------------------------------------------------------
 DialogAbout::~DialogAbout()
