@@ -28,6 +28,7 @@
 #include <QTextCodec>
 #include <QTranslator>
 #include <QLocale>
+#include <QIcon>
 #include "limits"
 
 #include "editortabimage.h"
@@ -49,10 +50,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-    //QImage im(":/images/winter");
-    //QImage im2 = im.scaled(im.width() * 4, im.height() * 4, Qt::KeepAspectRatio, Qt::FastTransformation);
-    //QPixmap pix = QPixmap::fromImage(im2);
-    //this->ui->label->setPixmap(pix);
+
+    QIcon icon;
+    icon.addFile(":/images/icon64", QSize(64, 64));
+    this->setWindowIcon(icon);
+
     this->mEditor = NULL;
 
     this->updateMenuState();
