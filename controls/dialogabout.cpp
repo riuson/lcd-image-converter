@@ -29,6 +29,15 @@ DialogAbout::DialogAbout(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // hide ? button from title
+    this->setWindowFlags(this->windowFlags() & (~Qt::WindowContextHelpButtonHint));
+
+    // update icon
+    QIcon icon;
+    icon.addFile(":/images/icon64", QSize(64, 64));
+    this->setWindowIcon(icon);
+
+    // load license text to textEdit
     QFile file_license(":/text/gpl3");
     if (file_license.open(QIODevice::ReadOnly))
     {
@@ -39,6 +48,7 @@ DialogAbout::DialogAbout(QWidget *parent) :
         this->ui->textEdit->setText(license);
     }
 
+    // load version info
     QFile file_version(":/text/version_info");
     if (file_version.open(QIODevice::ReadOnly))
     {
