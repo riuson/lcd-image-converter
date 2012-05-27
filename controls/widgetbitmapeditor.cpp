@@ -72,6 +72,7 @@ void WidgetBitmapEditor::changeEvent(QEvent *e)
     switch (e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
+        this->createImageScaled(this->mScale);
         break;
     default:
         break;
