@@ -287,6 +287,10 @@ QString Converter::convert(IDocument *document,
         tags["encoding"] = "UTF-8";
     }
 
+    this->addPreprocessInfo(tags);
+
+    this->addOrderInfo(tags);
+
     this->parse(templateString, result, tags, document);
 
     return result;
@@ -488,5 +492,57 @@ QString Converter::hexCode(const QChar &ch, const QString &encoding)
     result = QString("%1").arg(code, codeArray.count() * 2, 16, QChar('0'));
 
     return result;
+}
+//-----------------------------------------------------------------------------
+void Converter::addOrderInfo(QMap<QString, QString> &tags)
+{
+    if (this->swapBytes())
+        tags.insert("swapBytes", "yes");
+    else
+        tags.insert("swapBytes", "no");
+
+    if (this->mirror())
+        tags.insert("mirror", "yes");
+    else
+        tags.insert("mirror", "no");
+
+    if (this->pack())
+        tags.insert("pack", "yes");
+    else
+        tags.insert("pack", "no");
+}
+//-----------------------------------------------------------------------------
+void Converter::addPreprocessInfo(QMap<QString, QString> &tags)
+{
+    switch (this->mPreprocessTransform & 0x03)
+    {
+        case BitmapHelper::Rotate90:
+            tags.insert("rotate", "90°");
+            break;
+        case BitmapHelper::Rotate180:
+            tags.insert("rotate", "180°");
+            break;
+        case BitmapHelper::Rotate270:
+            tags.insert("rotate", "270°");
+            break;
+        case BitmapHelper::None:
+            tags.insert("rotate", "none");
+            break;
+    }
+
+    if ((this->mPreprocessTransform & BitmapHelper::FlipHorizontal) == BitmapHelper::FlipHorizontal)
+        tags.insert("flipHorizontal", "yes");
+    else
+        tags.insert("flipHorizontal", "no");
+
+    if ((this->mPreprocessTransform & BitmapHelper::FlipVertical) == BitmapHelper::FlipVertical)
+        tags.insert("flipVertical", "yes");
+    else
+        tags.insert("flipVertical", "no");
+
+    if ((this->mPreprocessTransform & BitmapHelper::Inverse) == BitmapHelper::Inverse)
+        tags.insert("inverse", "yes");
+    else
+        tags.insert("inverse", "no");
 }
 //-----------------------------------------------------------------------------
