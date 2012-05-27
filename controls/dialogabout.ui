@@ -40,10 +40,13 @@
        <property name="text">
         <string>LCD Image Converter&lt;br/&gt;
 Tool to create image and font source files for embedded applications.&lt;br/&gt;
+&lt;br/&gt;
 Author: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
-&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;&lt;br/&gt;
-Version: &lt;b&gt;%1&lt;/b&gt; from &lt;i&gt;%2&lt;/i&gt;</string>
+&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
+&lt;hr/&gt;
+Version: &lt;b&gt;%1&lt;/b&gt; from &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
+Qt: %3</string>
        </property>
        <property name="openExternalLinks">
         <bool>true</bool>

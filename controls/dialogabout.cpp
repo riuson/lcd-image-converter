@@ -84,6 +84,13 @@ DialogAbout::DialogAbout(QWidget *parent) :
         QString formattedAbout = QString(about).arg("unknown", "???");
         this->ui->labelInfo->setText(formattedAbout);
     }
+
+    // show Qt version
+    {
+        QString about = this->ui->labelInfo->text();
+        QString formattedAbout = QString(about).arg(qVersion());
+        this->ui->labelInfo->setText(formattedAbout);;
+    }
 }
 //-----------------------------------------------------------------------------
 DialogAbout::~DialogAbout()
