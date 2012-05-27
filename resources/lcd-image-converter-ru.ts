@@ -34,48 +34,26 @@
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../controls/dialogabout.ui" line="23"/>
+        <location filename="../controls/dialogabout.ui" line="41"/>
         <source>LCD Image Converter&lt;br/&gt;
 Tool to create image and font source files for embedded applications.&lt;br/&gt;
+&lt;br/&gt;
 Author: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
-&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;&lt;br/&gt;
-Version: &lt;b&gt;%1&lt;/b&gt; from &lt;i&gt;%2&lt;/i&gt;</source>
+Project&apos;s home page: &lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
+&lt;hr/&gt;
+Version: &lt;b&gt;%1&lt;/b&gt; from &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
+Qt: %3</source>
         <translation>LCD Image Converter&lt;br/&gt;
 Утилита создания изображений и шрифтов в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
+&lt;br/&gt;
 Автор: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
 Страница проекта:
-&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;&lt;br/&gt;
-Версия: &lt;b&gt;%1&lt;/b&gt; от &lt;i&gt;%2&lt;/i&gt;</translation>
-    </message>
-    <message>
-        <source>LCD Image Converter&lt;br/&gt;
-Tool to create image and font source files for embedded applications.&lt;br/&gt;
-Author: 
-&lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
-&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;&lt;br/&gt;
-Version: %1 from %2</source>
-        <translation type="obsolete">LCD Image Converter&lt;br/&gt;
-Утилита создания изображений и шрифтов в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
-Автор: 
-&lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
-Страница проекта:
-&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;&lt;br/&gt;
-Версия: %1 от %2</translation>
-    </message>
-    <message>
-        <source>LCD Image Converter&lt;br/&gt;
-Tool to create image and font source files for embedded applications.&lt;br/&gt;
-Author: 
-&lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
-&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;</source>
-        <translation type="obsolete">LCD Image Converter&lt;br/&gt;
-Утилита создания изображений и шрифтов в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
-Автор: 
-&lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
-Страница проекта:
-&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;</translation>
+&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
+&lt;hr/&gt;
+Версия: &lt;b&gt;%1&lt;/b&gt; от &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
+Qt: %3</translation>
     </message>
 </context>
 <context>
@@ -657,100 +635,100 @@ Author:
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="75"/>
+        <location filename="../controls/mainwindow.cpp" line="77"/>
         <source>langName</source>
         <translatorcomment>название языка в который переводим</translatorcomment>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="216"/>
-        <location filename="../controls/mainwindow.cpp" line="315"/>
-        <location filename="../controls/mainwindow.cpp" line="401"/>
+        <location filename="../controls/mainwindow.cpp" line="218"/>
+        <location filename="../controls/mainwindow.cpp" line="317"/>
+        <location filename="../controls/mainwindow.cpp" line="403"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="217"/>
-        <location filename="../controls/mainwindow.cpp" line="402"/>
+        <location filename="../controls/mainwindow.cpp" line="219"/>
+        <location filename="../controls/mainwindow.cpp" line="404"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="256"/>
+        <location filename="../controls/mainwindow.cpp" line="258"/>
         <source>Enter image name</source>
         <translation>Введите имя изображения</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="257"/>
+        <location filename="../controls/mainwindow.cpp" line="259"/>
         <source>Image name:</source>
         <translation>Имя изображения:</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="259"/>
+        <location filename="../controls/mainwindow.cpp" line="261"/>
         <source>Image</source>
         <comment>new image name</comment>
         <translatorcomment>название нового изображения, должно быть латинскими буквами</translatorcomment>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="276"/>
+        <location filename="../controls/mainwindow.cpp" line="278"/>
         <source>Enter font name</source>
         <translation>Введите имя шрифта</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="277"/>
+        <location filename="../controls/mainwindow.cpp" line="279"/>
         <source>Font name:</source>
         <translation>Имя шрифта:</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="279"/>
+        <location filename="../controls/mainwindow.cpp" line="281"/>
         <source>Font</source>
         <comment>new font name</comment>
         <translatorcomment>название нового шрифта, должно быть латинскими буквами</translatorcomment>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="316"/>
+        <location filename="../controls/mainwindow.cpp" line="318"/>
         <source>Open file</source>
         <translation>Открыть файл</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="371"/>
+        <location filename="../controls/mainwindow.cpp" line="373"/>
         <source>Rename</source>
         <translation>Переименование</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="372"/>
+        <location filename="../controls/mainwindow.cpp" line="374"/>
         <source>New name:</source>
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="466"/>
+        <location filename="../controls/mainwindow.cpp" line="468"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="467"/>
+        <location filename="../controls/mainwindow.cpp" line="469"/>
         <source>Save result file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="579"/>
+        <location filename="../controls/mainwindow.cpp" line="581"/>
         <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="580"/>
+        <location filename="../controls/mainwindow.cpp" line="582"/>
         <source>Open image file</source>
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="599"/>
+        <location filename="../controls/mainwindow.cpp" line="601"/>
         <source>Windows Bitmap (*.bmp);;Joint Photographic Experts Group (*.jpg *.jpeg);;Portable Network Graphics (*.png);;Portable Pixmap (*.ppm);;Tagged Image File Format (*.tiff);;X11 Bitmap (*.xbm);;X11 Bitmap (*.xpm)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="607"/>
+        <location filename="../controls/mainwindow.cpp" line="609"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
     </message>
@@ -790,13 +768,13 @@ Author:
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/widgetbitmapeditor.cpp" line="96"/>
+        <location filename="../controls/widgetbitmapeditor.cpp" line="97"/>
         <source>x: %1, y: %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/widgetbitmapeditor.cpp" line="135"/>
-        <location filename="../controls/widgetbitmapeditor.cpp" line="195"/>
+        <location filename="../controls/widgetbitmapeditor.cpp" line="136"/>
+        <location filename="../controls/widgetbitmapeditor.cpp" line="196"/>
         <source>Size: %1,%2</source>
         <translation>Размер: %1,%2</translation>
     </message>
