@@ -53,7 +53,11 @@ Version: &lt;b&gt;%1&lt;/b&gt; from &lt;i&gt;%2&lt;/i&gt;</string>
     </layout>
    </item>
    <item>
-    <widget class="QTextEdit" name="textEdit"/>
+    <widget class="QTextEdit" name="textEdit">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
