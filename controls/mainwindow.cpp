@@ -401,6 +401,7 @@ void MainWindow::on_actionSave_As_triggered()
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setFilter(tr("XML Files (*.xml)"));
+    dialog.setDefaultSuffix(QString("xml"));
     dialog.setWindowTitle(tr("Save file as"));
     if (dialog.exec() == QDialog::Accepted)
     {
@@ -466,6 +467,7 @@ void MainWindow::on_actionConvert_triggered()
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setFilter(tr("C Files (*.c);;All Files (*.*)"));
+    dialog.setDefaultSuffix(QString("c"));
     dialog.setWindowTitle(tr("Save result file as"));
     if (dialog.exec() == QDialog::Accepted)
     {
