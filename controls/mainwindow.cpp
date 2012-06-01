@@ -848,18 +848,24 @@ void MainWindow::updateRecentList()
         delete action;
     }
 
-    for (int i = 0; i < this->mRecentList->files()->count(); i++)
+    if (this->mRecentList->files()->count() > 0)
     {
-        QString filename = this->mRecentList->files()->at(i);
-        QString strippedName = QFileInfo(filename).fileName();
-        QString text = tr("%1 %2").arg(i + 1).arg(strippedName);
+        this->ui->menuRecent->setEnabled(true);
+        for (int i = 0; i < this->mRecentList->files()->count(); i++)
+        {
+            QString filename = this->mRecentList->files()->at(i);
+            QString strippedName = QFileInfo(filename).fileName();
+            QString text = tr("%1 %2").arg(i + 1).arg(strippedName);
 
-        action = new QAction(text, this);
-        action->setData(filename);
-        this->connect(action, SIGNAL(triggered()), SLOT(openRecentFile()));
-        //action->setVisible(true);
-        this->ui->menuRecent->addAction(action);
+            action = new QAction(text, this);
+            action->setData(filename);
+            this->connect(action, SIGNAL(triggered()), SLOT(openRecentFile()));
+            //action->setVisible(true);
+            this->ui->menuRecent->addAction(action);
+        }
     }
+    else
+        this->ui->menuRecent->setEnabled(false);
 }
 //-----------------------------------------------------------------------------
 void MainWindow::openRecentFile()
