@@ -43,6 +43,12 @@ void RecentList::add(const QString &filename)
         this->mFiles->removeOne(filename);
     this->mFiles->insert(0, filename);
 
+    if (this->mFiles->count() > MaxRecentFiles)
+    {
+        for (int i = this->mFiles->count() - 1; i >= 10; i--)
+            this->mFiles->removeAt(i);
+    }
+
     emit this->listChanged();
 }
 //-----------------------------------------------------------------------------
