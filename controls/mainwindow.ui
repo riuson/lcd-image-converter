@@ -275,11 +275,6 @@
     <string>Optimize height...</string>
    </property>
   </action>
-  <action name="actionTest">
-   <property name="text">
-    <string>test</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
