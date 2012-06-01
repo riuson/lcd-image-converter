@@ -45,6 +45,7 @@ private:
     QTranslator *mTrans;
     void updateMenuState();
     void selectLocale(const QString &localeName);
+    void openFile(const QString &filename);
 
 private slots:
     void on_tabWidget_tabCloseRequested(int index);

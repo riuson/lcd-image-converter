@@ -193,6 +193,53 @@ void MainWindow::selectLocale(const QString &localeName)
     }
 }
 //-----------------------------------------------------------------------------
+void MainWindow::openFile(const QString &filename)
+{
+    bool isImage = false;
+    bool isFont = false;
+
+    QFile file(filename);
+    if (file.open(QIODevice::ReadWrite))
+    {
+        QTextStream stream(&file);
+        while (!stream.atEnd())
+        {
+            QString readedLine = stream.readLine();
+            if (readedLine.contains("<data type=\"image\""))
+            {
+                isImage = true;
+                break;
+            }
+            if (readedLine.contains("<data type=\"font\""))
+            {
+                isFont = true;
+                break;
+            }
+        }
+        file.close();
+
+        this->mRecentList->add(filename);
+    }
+    if (isImage)
+    {
+        EditorTabImage *ed = new EditorTabImage(this);
+        this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+
+        int index = this->ui->tabWidget->addTab(ed, "");
+        ed->load(filename);
+        this->ui->tabWidget->setTabText(index, ed->documentName());
+    }
+    if (isFont)
+    {
+        EditorTabFont *ed = new EditorTabFont(this);
+        this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+
+        int index = this->ui->tabWidget->addTab(ed, "");
+        ed->load(filename);
+        this->ui->tabWidget->setTabText(index, ed->documentName());
+    }
+}
+//-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     QWidget *w = this->ui->tabWidget->widget(index);
@@ -319,48 +366,9 @@ void MainWindow::on_actionOpen_triggered()
 
     if (dialog.exec() == QDialog::Accepted)
     {
-        bool isImage = false;
-        bool isFont = false;
-
         QString filename = dialog.selectedFiles().at(0);
-        QFile file(filename);
-        if (file.open(QIODevice::ReadWrite))
-        {
-            QTextStream stream(&file);
-            while (!stream.atEnd())
-            {
-                QString readedLine = stream.readLine();
-                if (readedLine.contains("<data type=\"image\""))
-                {
-                    isImage = true;
-                    break;
-                }
-                if (readedLine.contains("<data type=\"font\""))
-                {
-                    isFont = true;
-                    break;
-                }
-            }
-            file.close();
-        }
-        if (isImage)
-        {
-            EditorTabImage *ed = new EditorTabImage(this);
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
 
-            int index = this->ui->tabWidget->addTab(ed, "");
-            ed->load(filename);
-            this->ui->tabWidget->setTabText(index, ed->documentName());
-        }
-        if (isFont)
-        {
-            EditorTabFont *ed = new EditorTabFont(this);
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
-
-            int index = this->ui->tabWidget->addTab(ed, "");
-            ed->load(filename);
-            this->ui->tabWidget->setTabText(index, ed->documentName());
-        }
+        this->openFile(filename);
     }
 }
 //-----------------------------------------------------------------------------
