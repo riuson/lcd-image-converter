@@ -43,6 +43,7 @@
 #include "dialogsetuptemplates.h"
 #include "dialogfontselect.h"
 #include "dialogabout.h"
+#include "recentlist.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -84,10 +85,16 @@ MainWindow::MainWindow(QWidget *parent) :
     QString selectedLocale = sett.value("selected", QVariant("")).toString();
     this->selectLocale(selectedLocale);
     sett.endGroup();
+
+    // create recent list
+    this->mRecentList = new RecentList(this);
+    this->connect(this->mRecentList, SIGNAL(listChanged()), SLOT(updateRecentList()));
+    this->updateRecentList();
 }
 //-----------------------------------------------------------------------------
 MainWindow::~MainWindow()
 {
+    delete this->mRecentList;
     delete ui;
 }
 //-----------------------------------------------------------------------------
@@ -415,6 +422,8 @@ void MainWindow::on_actionSave_As_triggered()
     {
         QString filename = dialog.selectedFiles().at(0);
         doc->save(filename);
+
+        this->mRecentList->add(filename);
     }
 }
 //-----------------------------------------------------------------------------
@@ -823,6 +832,41 @@ void MainWindow::mon_editor_dataChanged()
     else
         this->ui->tabWidget->setTabText(index, doc->documentName());
     this->ui->tabWidget->setTabToolTip(index, doc->fileName());
+}
+//-----------------------------------------------------------------------------
+void MainWindow::updateRecentList()
+{
+    QList<QAction *> actions = this->ui->menuRecent->actions();
+    QAction *action;
+    foreach(action, actions)
+    {
+        this->ui->menuRecent->removeAction(action);
+    }
+    for (int i = actions.count() - 1; i >= 0; i--)
+    {
+        action = actions.at(i);
+        delete action;
+    }
+
+    for (int i = 0; i < this->mRecentList->files()->count(); i++)
+    {
+        QString filename = this->mRecentList->files()->at(i);
+        QString strippedName = QFileInfo(filename).fileName();
+        QString text = tr("&%1 %2").arg(i + 1).arg(strippedName);
+
+        action = new QAction(text, this);
+        action->setData(filename);
+        this->connect(action, SIGNAL(triggered()), SLOT(openRecentFile()));
+        //action->setVisible(true);
+        this->ui->menuRecent->addAction(action);
+    }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::openRecentFile()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (action)
+        this->openFile(action->data().toString());
 }
 //-----------------------------------------------------------------------------
 #include <QDebug>
