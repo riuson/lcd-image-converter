@@ -43,7 +43,8 @@ SOURCES += main.cpp \
     controls/dialogsetuptemplates.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
-    controls/dialogabout.cpp
+    controls/dialogabout.cpp \
+    classes/recentlist.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -70,7 +71,8 @@ HEADERS += \
     controls/dialogsetuptemplates.h \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
-    controls/dialogabout.h
+    controls/dialogabout.h \
+    classes/recentlist.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
