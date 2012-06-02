@@ -13,3 +13,4 @@ moc_*
 *.Release
 *.sh
 *.qm
+version-included.txt
