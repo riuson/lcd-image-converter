@@ -95,7 +95,10 @@ INCLUDEPATH += . \
 RESOURCES += \
     resources/resources.qrc
 
-RC_FILE = iconrc.rc
+win32 {
+    RC_FILE = iconrc.rc
+    OTHER_FILES += iconrc.rc
+}
 
 TRANSLATIONS = resources/lcd-image-converter-ru.ts
 
