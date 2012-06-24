@@ -44,6 +44,7 @@ public:
     bool load(const QString &fileName);
     bool save(const QString &fileName);
     bool changed();
+    void setChanged(bool value);
     QString fileName();
     QString documentName();
     void setDocumentName(const QString &value);
