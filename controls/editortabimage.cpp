@@ -169,6 +169,11 @@ bool EditorTabImage::changed()
     return this->mDataChanged;
 }
 //-----------------------------------------------------------------------------
+void EditorTabImage::setChanged(bool value)
+{
+    this->mDataChanged = value;
+}
+//-----------------------------------------------------------------------------
 QString EditorTabImage::fileName()
 {
     return this->mFileName;

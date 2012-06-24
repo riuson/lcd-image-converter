@@ -291,6 +291,11 @@ bool EditorTabFont::changed()
     return this->mDataChanged;
 }
 //-----------------------------------------------------------------------------
+void EditorTabFont::setChanged(bool value)
+{
+    this->mDataChanged = value;
+}
+//-----------------------------------------------------------------------------
 QString EditorTabFont::fileName()
 {
     return this->mFileName;

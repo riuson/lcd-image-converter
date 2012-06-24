@@ -321,6 +321,7 @@ void MainWindow::on_actionNew_Image_triggered()
 
         name = this->findAvailableName(name);
         ed->setDocumentName(name);
+        ed->setChanged(false);
         this->ui->tabWidget->addTab(ed, name);
     }
 }
@@ -358,6 +359,7 @@ void MainWindow::on_actionNew_Font_triggered()
 
             name = this->findAvailableName(name);
             ed->setDocumentName(name);
+            ed->setChanged(false);
             this->ui->tabWidget->addTab(ed, name);
         }
     }
