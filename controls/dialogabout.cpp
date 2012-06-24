@@ -29,15 +29,71 @@ DialogAbout::DialogAbout(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QFile file(":/text/gpl3");
-    if (file.open(QIODevice::ReadOnly))
+    // hide ? button from title
+    this->setWindowFlags(this->windowFlags() & (~Qt::WindowContextHelpButtonHint));
+
+    // update icon
+    QIcon icon;
+    icon.addFile(":/images/icon64", QSize(64, 64));
+    this->setWindowIcon(icon);
+
+    // load license text to textEdit
+    QFile file_license(":/text/gpl3");
+    if (file_license.open(QIODevice::ReadOnly))
     {
-        QTextStream stream(&file);
+        QTextStream stream(&file_license);
         QString license = stream.readAll();
-        file.close();
+        file_license.close();
 
         this->ui->textEdit->setText(license);
     }
+
+    // load version info
+    QFile file_version(":/text/version_info");
+    if (file_version.open(QIODevice::ReadOnly))
+    {
+        QTextStream stream(&file_version);
+        QString version = stream.readAll();
+        file_version.close();
+
+        // git-commit-info d693078 Sat May 26 22:30:51 2012 +0600
+
+        QString start = "git-commit-info ";
+        if (version.startsWith(start, Qt::CaseInsensitive))
+        {
+            // get hash of commit
+            QRegExp reg = QRegExp("[0-9a-f]+", Qt::CaseInsensitive);
+            int index;
+            if ((index = reg.indexIn(version, start.length())) >= 0)
+            {
+                QString hash = reg.cap();
+
+                // get date
+                QString date = version.mid(index + hash.length() + 1);
+
+                // show
+                QString about = this->ui->labelInfo->text();
+                QString formattedAbout = QString(about).arg(hash, date);
+                this->ui->labelInfo->setText(formattedAbout);
+            }
+        }
+    }
+    else
+    {
+        QString about = this->ui->labelInfo->text();
+        QString formattedAbout = QString(about).arg("unknown", "???");
+        this->ui->labelInfo->setText(formattedAbout);
+    }
+
+    // show Qt version
+    {
+        QString about = this->ui->labelInfo->text();
+        QString formattedAbout = QString(about).arg(qVersion());
+        this->ui->labelInfo->setText(formattedAbout);
+    }
+
+    // focus on Close button
+    this->ui->buttonBox->setFocus();
 }
 //-----------------------------------------------------------------------------
 DialogAbout::~DialogAbout()

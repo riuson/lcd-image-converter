@@ -28,6 +28,7 @@
 #include <QTextCodec>
 #include <QTranslator>
 #include <QLocale>
+#include <QIcon>
 #include "limits"
 
 #include "editortabimage.h"
@@ -42,6 +43,7 @@
 #include "dialogsetuptemplates.h"
 #include "dialogfontselect.h"
 #include "dialogabout.h"
+#include "recentlist.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -49,10 +51,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-    //QImage im(":/images/winter");
-    //QImage im2 = im.scaled(im.width() * 4, im.height() * 4, Qt::KeepAspectRatio, Qt::FastTransformation);
-    //QPixmap pix = QPixmap::fromImage(im2);
-    //this->ui->label->setPixmap(pix);
+
+    QIcon icon;
+    icon.addFile(":/images/icon64", QSize(64, 64));
+    this->setWindowIcon(icon);
+
     this->mEditor = NULL;
 
     this->updateMenuState();
@@ -82,10 +85,16 @@ MainWindow::MainWindow(QWidget *parent) :
     QString selectedLocale = sett.value("selected", QVariant("")).toString();
     this->selectLocale(selectedLocale);
     sett.endGroup();
+
+    // create recent list
+    this->mRecentList = new RecentList(this);
+    this->connect(this->mRecentList, SIGNAL(listChanged()), SLOT(updateRecentList()));
+    this->updateRecentList();
 }
 //-----------------------------------------------------------------------------
 MainWindow::~MainWindow()
 {
+    delete this->mRecentList;
     delete ui;
 }
 //-----------------------------------------------------------------------------
@@ -191,6 +200,53 @@ void MainWindow::selectLocale(const QString &localeName)
     }
 }
 //-----------------------------------------------------------------------------
+void MainWindow::openFile(const QString &filename)
+{
+    bool isImage = false;
+    bool isFont = false;
+
+    QFile file(filename);
+    if (file.open(QIODevice::ReadWrite))
+    {
+        QTextStream stream(&file);
+        while (!stream.atEnd())
+        {
+            QString readedLine = stream.readLine();
+            if (readedLine.contains("<data type=\"image\""))
+            {
+                isImage = true;
+                break;
+            }
+            if (readedLine.contains("<data type=\"font\""))
+            {
+                isFont = true;
+                break;
+            }
+        }
+        file.close();
+
+        this->mRecentList->add(filename);
+    }
+    if (isImage)
+    {
+        EditorTabImage *ed = new EditorTabImage(this);
+        this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+
+        int index = this->ui->tabWidget->addTab(ed, "");
+        ed->load(filename);
+        this->ui->tabWidget->setTabText(index, ed->documentName());
+    }
+    if (isFont)
+    {
+        EditorTabFont *ed = new EditorTabFont(this);
+        this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+
+        int index = this->ui->tabWidget->addTab(ed, "");
+        ed->load(filename);
+        this->ui->tabWidget->setTabText(index, ed->documentName());
+    }
+}
+//-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     QWidget *w = this->ui->tabWidget->widget(index);
@@ -265,6 +321,7 @@ void MainWindow::on_actionNew_Image_triggered()
 
         name = this->findAvailableName(name);
         ed->setDocumentName(name);
+        ed->setChanged(false);
         this->ui->tabWidget->addTab(ed, name);
     }
 }
@@ -302,6 +359,7 @@ void MainWindow::on_actionNew_Font_triggered()
 
             name = this->findAvailableName(name);
             ed->setDocumentName(name);
+            ed->setChanged(false);
             this->ui->tabWidget->addTab(ed, name);
         }
     }
@@ -317,48 +375,9 @@ void MainWindow::on_actionOpen_triggered()
 
     if (dialog.exec() == QDialog::Accepted)
     {
-        bool isImage = false;
-        bool isFont = false;
-
         QString filename = dialog.selectedFiles().at(0);
-        QFile file(filename);
-        if (file.open(QIODevice::ReadWrite))
-        {
-            QTextStream stream(&file);
-            while (!stream.atEnd())
-            {
-                QString readedLine = stream.readLine();
-                if (readedLine.contains("<data type=\"image\""))
-                {
-                    isImage = true;
-                    break;
-                }
-                if (readedLine.contains("<data type=\"font\""))
-                {
-                    isFont = true;
-                    break;
-                }
-            }
-            file.close();
-        }
-        if (isImage)
-        {
-            EditorTabImage *ed = new EditorTabImage(this);
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
 
-            int index = this->ui->tabWidget->addTab(ed, "");
-            ed->load(filename);
-            this->ui->tabWidget->setTabText(index, ed->documentName());
-        }
-        if (isFont)
-        {
-            EditorTabFont *ed = new EditorTabFont(this);
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
-
-            int index = this->ui->tabWidget->addTab(ed, "");
-            ed->load(filename);
-            this->ui->tabWidget->setTabText(index, ed->documentName());
-        }
+        this->openFile(filename);
     }
 }
 //-----------------------------------------------------------------------------
@@ -376,7 +395,6 @@ void MainWindow::on_actionRename_triggered()
     if (ok)
     {
         doc->setDocumentName(name);
-        this->ui->tabWidget->setTabText(this->ui->tabWidget->currentIndex(), name);
     }
 }
 //-----------------------------------------------------------------------------
@@ -399,11 +417,14 @@ void MainWindow::on_actionSave_As_triggered()
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setFilter(tr("XML Files (*.xml)"));
+    dialog.setDefaultSuffix(QString("xml"));
     dialog.setWindowTitle(tr("Save file as"));
     if (dialog.exec() == QDialog::Accepted)
     {
         QString filename = dialog.selectedFiles().at(0);
         doc->save(filename);
+
+        this->mRecentList->add(filename);
     }
 }
 //-----------------------------------------------------------------------------
@@ -464,6 +485,7 @@ void MainWindow::on_actionConvert_triggered()
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setFilter(tr("C Files (*.c);;All Files (*.*)"));
+    dialog.setDefaultSuffix(QString("c"));
     dialog.setWindowTitle(tr("Save result file as"));
     if (dialog.exec() == QDialog::Accepted)
     {
@@ -811,6 +833,47 @@ void MainWindow::mon_editor_dataChanged()
     else
         this->ui->tabWidget->setTabText(index, doc->documentName());
     this->ui->tabWidget->setTabToolTip(index, doc->fileName());
+}
+//-----------------------------------------------------------------------------
+void MainWindow::updateRecentList()
+{
+    QList<QAction *> actions = this->ui->menuRecent->actions();
+    QAction *action;
+    foreach(action, actions)
+    {
+        this->ui->menuRecent->removeAction(action);
+    }
+    for (int i = actions.count() - 1; i >= 0; i--)
+    {
+        action = actions.at(i);
+        delete action;
+    }
+
+    if (this->mRecentList->files()->count() > 0)
+    {
+        this->ui->menuRecent->setEnabled(true);
+        for (int i = 0; i < this->mRecentList->files()->count(); i++)
+        {
+            QString filename = this->mRecentList->files()->at(i);
+            QString strippedName = QFileInfo(filename).fileName();
+            QString text = tr("%1 %2").arg(i + 1).arg(strippedName);
+
+            action = new QAction(text, this);
+            action->setData(filename);
+            this->connect(action, SIGNAL(triggered()), SLOT(openRecentFile()));
+            //action->setVisible(true);
+            this->ui->menuRecent->addAction(action);
+        }
+    }
+    else
+        this->ui->menuRecent->setEnabled(false);
+}
+//-----------------------------------------------------------------------------
+void MainWindow::openRecentFile()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (action)
+        this->openFile(action->data().toString());
 }
 //-----------------------------------------------------------------------------
 #include <QDebug>

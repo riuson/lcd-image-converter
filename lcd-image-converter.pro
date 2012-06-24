@@ -43,7 +43,8 @@ SOURCES += main.cpp \
     controls/dialogsetuptemplates.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
-    controls/dialogabout.cpp
+    controls/dialogabout.cpp \
+    classes/recentlist.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -70,7 +71,8 @@ HEADERS += \
     controls/dialogsetuptemplates.h \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
-    controls/dialogabout.h
+    controls/dialogabout.h \
+    classes/recentlist.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -93,10 +95,16 @@ INCLUDEPATH += . \
 RESOURCES += \
     resources/resources.qrc
 
+win32 {
+    RC_FILE = iconrc.rc
+    OTHER_FILES += iconrc.rc
+}
+
 TRANSLATIONS = resources/lcd-image-converter-ru.ts
 
 OTHER_FILES += \
     resources/image.tmpl \
     resources/font.tmpl \
     resources/template_keys.txt \
-    resources/lcd-image-converter-ru.ts
+    resources/lcd-image-converter-ru.ts \
+    iconrc.rc

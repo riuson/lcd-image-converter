@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/images">
         <file alias="template">template.png</file>
+        <file alias="icon64">icons/lcd-image-converter-64.png</file>
+        <file alias="icon96">icons/lcd-image-converter-96.png</file>
     </qresource>
     <qresource prefix="/templates">
         <file alias="font_convert">font.tmpl</file>
@@ -8,6 +10,7 @@
     </qresource>
     <qresource prefix="/text">
         <file alias="gpl3">gpl-3.0-standalone.html</file>
+        <file alias="version_info">version-included.txt</file>
     </qresource>
     <qresource prefix="/translations">
         <file alias="ru">lcd-image-converter-ru.qm</file>

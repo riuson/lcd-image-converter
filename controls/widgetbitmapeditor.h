@@ -61,6 +61,7 @@ private:
 
     void createImageScaled(int scale);
     void updateState();
+    void drawGrid(QImage *original, QPixmap &pixmap, QPainter *painter);
 private slots:
     void on_spinBoxScale_valueChanged(int value);
     void on_pushButtonColor1_clicked();

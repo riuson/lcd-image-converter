@@ -72,6 +72,7 @@ void WidgetBitmapEditor::changeEvent(QEvent *e)
     switch (e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
+        this->createImageScaled(this->mScale);
         break;
     default:
         break;
@@ -119,6 +120,7 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
                                            this->mScale,
                                            this->mScale,
                                            color);
+                    this->drawGrid(original, this->mPixmapScaled, &painterScaled);
                 }
 
                 this->ui->label->setPixmap(this->mPixmapScaled);
@@ -190,9 +192,23 @@ void WidgetBitmapEditor::createImageScaled(int scale)
         //this->mImageScaled = new QImage(width * scale, height * scale, QImage::Format_RGB32);
         QImage scaled = original->scaled(width * scale, height * scale, Qt::KeepAspectRatio, Qt::FastTransformation);
         this->mPixmapScaled = QPixmap::fromImage(scaled);
+        QPainter painterScaled(&this->mPixmapScaled);
+        this->drawGrid(original, this->mPixmapScaled, &painterScaled);
         this->ui->label->setPixmap(this->mPixmapScaled);
 
         this->ui->labelCoordinates->setText(tr("Size: %1,%2").arg(original->width()).arg(original->height()));
+    }
+}
+//-----------------------------------------------------------------------------
+void WidgetBitmapEditor::drawGrid(QImage *original, QPixmap &pixmap, QPainter *painter)
+{
+    if (this->mScale > 5)
+    {
+        painter->setPen(QColor("silver"));
+        for (int x = 0; x < original->width(); x++)
+            painter->drawLine(x * this->mScale, 0, x * this->mScale, pixmap.height());
+        for (int y = 0; y < original->height(); y++)
+        painter->drawLine(0, y * this->mScale, pixmap.width(), y * this->mScale);
     }
 }
 //-----------------------------------------------------------------------------

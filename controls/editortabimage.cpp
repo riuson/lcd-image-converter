@@ -169,6 +169,11 @@ bool EditorTabImage::changed()
     return this->mDataChanged;
 }
 //-----------------------------------------------------------------------------
+void EditorTabImage::setChanged(bool value)
+{
+    this->mDataChanged = value;
+}
+//-----------------------------------------------------------------------------
 QString EditorTabImage::fileName()
 {
     return this->mFileName;
@@ -181,8 +186,12 @@ QString EditorTabImage::documentName()
 //-----------------------------------------------------------------------------
 void EditorTabImage::setDocumentName(const QString &value)
 {
-    this->mDocumentName = value;
-    emit this->dataChanged();
+    if (this->mDocumentName != value)
+    {
+        this->mDocumentName = value;
+        this->mDataChanged = true;
+        emit this->dataChanged();
+    }
 }
 //-----------------------------------------------------------------------------
 IDataContainer *EditorTabImage::dataContainer()

@@ -36,16 +36,22 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHello">
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuRecent">
+     <property name="title">
+      <string>Recent</string>
+     </property>
+    </widget>
     <addaction name="actionNew_Image"/>
     <addaction name="actionNew_Font"/>
     <addaction name="actionOpen"/>
+    <addaction name="menuRecent"/>
     <addaction name="actionRename"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>

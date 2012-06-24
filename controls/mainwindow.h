@@ -28,6 +28,7 @@ namespace Ui {
 
 class WidgetBitmapEditor;
 class QTranslator;
+class RecentList;
 //-----------------------------------------------------------------------------
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -43,8 +44,10 @@ private:
     QString findAvailableName(const QString &prefix);
     WidgetBitmapEditor *mEditor;
     QTranslator *mTrans;
+    RecentList *mRecentList;
     void updateMenuState();
     void selectLocale(const QString &localeName);
+    void openFile(const QString &filename);
 
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
@@ -77,6 +80,8 @@ private slots:
     void actionLanguage_triggered();
 
     void mon_editor_dataChanged();
+    void updateRecentList();
+    void openRecentFile();
 };
 //-----------------------------------------------------------------------------
 #endif // MAINWINDOW_H
