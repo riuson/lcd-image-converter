@@ -393,7 +393,6 @@ void MainWindow::on_actionRename_triggered()
     if (ok)
     {
         doc->setDocumentName(name);
-        this->ui->tabWidget->setTabText(this->ui->tabWidget->currentIndex(), name);
     }
 }
 //-----------------------------------------------------------------------------
