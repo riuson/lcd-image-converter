@@ -204,46 +204,79 @@ void MainWindow::openFile(const QString &filename)
 {
     bool isImage = false;
     bool isFont = false;
+    bool isImageBinary = false;
 
-    QFile file(filename);
-    if (file.open(QIODevice::ReadWrite))
+    QFileInfo info(filename);
+    if (info.exists())
     {
-        QTextStream stream(&file);
-        while (!stream.atEnd())
+        if (info.suffix().toLower() == "xml")
         {
-            QString readedLine = stream.readLine();
-            if (readedLine.contains("<data type=\"image\""))
+            QFile file(filename);
+            if (file.open(QIODevice::ReadWrite))
             {
-                isImage = true;
-                break;
-            }
-            if (readedLine.contains("<data type=\"font\""))
-            {
-                isFont = true;
-                break;
+                QTextStream stream(&file);
+                while (!stream.atEnd())
+                {
+                    QString readedLine = stream.readLine();
+                    if (readedLine.contains("<data type=\"image\""))
+                    {
+                        isImage = true;
+                        break;
+                    }
+                    if (readedLine.contains("<data type=\"font\""))
+                    {
+                        isFont = true;
+                        break;
+                    }
+                }
+                file.close();
+
+                this->mRecentList->add(filename);
             }
         }
-        file.close();
+        else
+        {
+            QStringList imageExtensions;
+            imageExtensions << "bmp" << "gif" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "ppm" << "tiff" << "xbm" << "xpm";
+            if (imageExtensions.contains(info.suffix().toLower()))
+                isImageBinary = true;
+        }
+        if (isImage)
+        {
+            EditorTabImage *ed = new EditorTabImage(this);
+            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
 
-        this->mRecentList->add(filename);
-    }
-    if (isImage)
-    {
-        EditorTabImage *ed = new EditorTabImage(this);
-        this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+            int index = this->ui->tabWidget->addTab(ed, "");
+            ed->load(filename);
+            this->ui->tabWidget->setTabText(index, ed->documentName());
+        }
+        if (isFont)
+        {
+            EditorTabFont *ed = new EditorTabFont(this);
+            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
 
-        int index = this->ui->tabWidget->addTab(ed, "");
-        ed->load(filename);
-        this->ui->tabWidget->setTabText(index, ed->documentName());
-    }
-    if (isFont)
-    {
-        EditorTabFont *ed = new EditorTabFont(this);
-        this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+            int index = this->ui->tabWidget->addTab(ed, "");
+            ed->load(filename);
+            this->ui->tabWidget->setTabText(index, ed->documentName());
+        }
+        if (isImageBinary)
+        {
+            QImage image;
+            if (image.load(filename))
+            {
+                EditorTabImage *ed = new EditorTabImage(this);
+                this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
 
-        int index = this->ui->tabWidget->addTab(ed, "");
-        ed->load(filename);
-        this->ui->tabWidget->setTabText(index, ed->documentName());
+                QString name = this->findAvailableName(info.baseName());
+
+                QString key = ed->editor()->currentImageKey();
+                ed->dataContainer()->setImage(key, &image);
+
+                ed->setDocumentName(name);
+                ed->setChanged(false);
+                this->ui->tabWidget->addTab(ed, name);
+            }
+        }
     }
 }
 //-----------------------------------------------------------------------------
@@ -370,7 +403,7 @@ void MainWindow::on_actionOpen_triggered()
     QFileDialog dialog(this);
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setFilter(tr("XML Files (*.xml)"));
+    dialog.setFilter(tr("XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
     dialog.setWindowTitle(tr("Open file"));
 
     if (dialog.exec() == QDialog::Accepted)
