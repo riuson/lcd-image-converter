@@ -370,7 +370,7 @@ void MainWindow::on_actionOpen_triggered()
     QFileDialog dialog(this);
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setFilter(tr("XML Files (*.xml)"));
+    dialog.setFilter(tr("XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
     dialog.setWindowTitle(tr("Open file"));
 
     if (dialog.exec() == QDialog::Accepted)
