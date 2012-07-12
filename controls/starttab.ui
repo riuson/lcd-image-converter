@@ -47,7 +47,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QCommandLinkButton" name="commandLinkButton">
+          <widget class="QCommandLinkButton" name="buttonNewImage">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -63,7 +63,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QCommandLinkButton" name="commandLinkButton_2">
+          <widget class="QCommandLinkButton" name="buttonNewFont">
            <property name="text">
             <string>New Font</string>
            </property>
@@ -85,7 +85,7 @@
   &lt;ul&gt;
     #list#
   &lt;/ul&gt;
-
+&lt;br/&gt;
 &lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;</string>
@@ -109,6 +109,9 @@
         <widget class="QLabel" name="label">
          <property name="text">
           <string>Project's home page: &lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;</string>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

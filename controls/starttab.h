@@ -19,6 +19,11 @@ public:
     
 private:
     Ui::starttab *ui;
+
+signals:
+    void openRecent(const QString &filename);
+    void createNewImage();
+    void createNewFont();
 };
 //-----------------------------------------------------------------------------
 #endif // STARTTAB_H

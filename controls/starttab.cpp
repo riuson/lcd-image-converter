@@ -8,6 +8,10 @@ StartTab::StartTab(QWidget *parent) :
     ui(new Ui::starttab)
 {
     ui->setupUi(this);
+
+    this->connect(this->ui->labelRecentFiles, SIGNAL(linkActivated(QString)), SIGNAL(openRecent(QString)));
+    this->connect(this->ui->buttonNewImage, SIGNAL(clicked()), SIGNAL(createNewImage()));
+    this->connect(this->ui->buttonNewFont, SIGNAL(clicked()), SIGNAL(createNewFont()));
 }
 //-----------------------------------------------------------------------------
 StartTab::~StartTab()
