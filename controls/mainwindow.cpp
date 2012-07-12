@@ -312,6 +312,7 @@ void MainWindow::checkStartPageVisible()
         if (startPageIndex < 0)
         {
             StartTab *tab = new StartTab(this);
+            tab->setRecentFiles(this->mRecentList->files());
             this->ui->tabWidget->addTab(tab, tr("Start Page"));
             this->ui->tabWidget->setTabsClosable(false);
         }

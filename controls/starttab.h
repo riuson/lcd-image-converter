@@ -14,6 +14,8 @@ class StartTab : public QWidget
 public:
     explicit StartTab(QWidget *parent = 0);
     ~StartTab();
+
+    void setRecentFiles(const QStringList *list);
     
 private:
     Ui::starttab *ui;
