@@ -204,86 +204,6 @@ void MainWindow::selectLocale(const QString &localeName)
     }
 }
 //-----------------------------------------------------------------------------
-void MainWindow::openFile(const QString &filename)
-{
-    bool isImage = false;
-    bool isFont = false;
-    bool isImageBinary = false;
-
-    QFileInfo info(filename);
-    if (info.exists())
-    {
-        if (info.suffix().toLower() == "xml")
-        {
-            QFile file(filename);
-            if (file.open(QIODevice::ReadWrite))
-            {
-                QTextStream stream(&file);
-                while (!stream.atEnd())
-                {
-                    QString readedLine = stream.readLine();
-                    if (readedLine.contains("<data type=\"image\""))
-                    {
-                        isImage = true;
-                        break;
-                    }
-                    if (readedLine.contains("<data type=\"font\""))
-                    {
-                        isFont = true;
-                        break;
-                    }
-                }
-                file.close();
-
-                this->mRecentList->add(filename);
-            }
-        }
-        else
-        {
-            QStringList imageExtensions;
-            imageExtensions << "bmp" << "gif" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "ppm" << "tiff" << "xbm" << "xpm";
-            if (imageExtensions.contains(info.suffix().toLower()))
-                isImageBinary = true;
-        }
-        if (isImage)
-        {
-            EditorTabImage *ed = new EditorTabImage(this);
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
-
-            int index = this->appendTab(ed, "");
-            ed->load(filename);
-            this->ui->tabWidget->setTabText(index, ed->documentName());
-        }
-        if (isFont)
-        {
-            EditorTabFont *ed = new EditorTabFont(this);
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
-
-            int index = this->appendTab(ed, "");
-            ed->load(filename);
-            this->ui->tabWidget->setTabText(index, ed->documentName());
-        }
-        if (isImageBinary)
-        {
-            QImage image;
-            if (image.load(filename))
-            {
-                EditorTabImage *ed = new EditorTabImage(this);
-                this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
-
-                QString name = this->findAvailableName(info.baseName());
-
-                QString key = ed->editor()->currentImageKey();
-                ed->dataContainer()->setImage(key, &image);
-
-                ed->setDocumentName(name);
-                ed->setChanged(false);
-                this->appendTab(ed, name);
-            }
-        }
-    }
-}
-//-----------------------------------------------------------------------------
 int MainWindow::appendTab(QWidget *newTab, const QString &name)
 {
     int index = this->ui->tabWidget->addTab(newTab, name);
@@ -915,6 +835,13 @@ void MainWindow::on_actionAbout_triggered()
     dialog.exec();
 }
 //-----------------------------------------------------------------------------
+void MainWindow::actionLanguage_triggered()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    QString name = action->data().toString();
+    this->selectLocale(name);
+}
+//-----------------------------------------------------------------------------
 void MainWindow::mon_editor_dataChanged()
 {
     QWidget *w = qobject_cast<QWidget *>(sender());
@@ -971,11 +898,83 @@ void MainWindow::openRecentFile()
         this->openFile(action->data().toString());
 }
 //-----------------------------------------------------------------------------
-#include <QDebug>
-void MainWindow::actionLanguage_triggered()
+void MainWindow::openFile(const QString &filename)
 {
-    QAction *action = qobject_cast<QAction *>(sender());
-    QString name = action->data().toString();
-    this->selectLocale(name);
+    bool isImage = false;
+    bool isFont = false;
+    bool isImageBinary = false;
+
+    QFileInfo info(filename);
+    if (info.exists())
+    {
+        if (info.suffix().toLower() == "xml")
+        {
+            QFile file(filename);
+            if (file.open(QIODevice::ReadWrite))
+            {
+                QTextStream stream(&file);
+                while (!stream.atEnd())
+                {
+                    QString readedLine = stream.readLine();
+                    if (readedLine.contains("<data type=\"image\""))
+                    {
+                        isImage = true;
+                        break;
+                    }
+                    if (readedLine.contains("<data type=\"font\""))
+                    {
+                        isFont = true;
+                        break;
+                    }
+                }
+                file.close();
+
+                this->mRecentList->add(filename);
+            }
+        }
+        else
+        {
+            QStringList imageExtensions;
+            imageExtensions << "bmp" << "gif" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "ppm" << "tiff" << "xbm" << "xpm";
+            if (imageExtensions.contains(info.suffix().toLower()))
+                isImageBinary = true;
+        }
+        if (isImage)
+        {
+            EditorTabImage *ed = new EditorTabImage(this);
+            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+
+            int index = this->appendTab(ed, "");
+            ed->load(filename);
+            this->ui->tabWidget->setTabText(index, ed->documentName());
+        }
+        if (isFont)
+        {
+            EditorTabFont *ed = new EditorTabFont(this);
+            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+
+            int index = this->appendTab(ed, "");
+            ed->load(filename);
+            this->ui->tabWidget->setTabText(index, ed->documentName());
+        }
+        if (isImageBinary)
+        {
+            QImage image;
+            if (image.load(filename))
+            {
+                EditorTabImage *ed = new EditorTabImage(this);
+                this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+
+                QString name = this->findAvailableName(info.baseName());
+
+                QString key = ed->editor()->currentImageKey();
+                ed->dataContainer()->setImage(key, &image);
+
+                ed->setDocumentName(name);
+                ed->setChanged(false);
+                this->appendTab(ed, name);
+            }
+        }
+    }
 }
 //-----------------------------------------------------------------------------
