@@ -48,6 +48,8 @@ private:
     void updateMenuState();
     void selectLocale(const QString &localeName);
     void openFile(const QString &filename);
+    int appendTab(QWidget *newTab, const QString &name);
+    void checkStartPageVisible();
 
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
