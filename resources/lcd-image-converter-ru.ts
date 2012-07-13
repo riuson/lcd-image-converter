@@ -159,18 +159,6 @@ Qt: %3</translation>
         <source>Rotate 90 Counter-Clockwise</source>
         <translation>90 против часовой</translation>
     </message>
-    <message>
-        <source>Rotate 90° Clockwise</source>
-        <translation type="obsolete">90° по часовой</translation>
-    </message>
-    <message>
-        <source>Rotate 180°</source>
-        <translation type="obsolete">180°</translation>
-    </message>
-    <message>
-        <source>Rotate 90° Counter-Clockwise</source>
-        <translation type="obsolete">90° против часовой</translation>
-    </message>
 </context>
 <context>
     <name>DialogFontSelect</name>
@@ -390,12 +378,12 @@ Qt: %3</translation>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="352"/>
+        <location filename="../controls/editortabfont.cpp" line="361"/>
         <source>Font parameters was changed</source>
         <translation>Параметры шрифта были изменены</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="353"/>
+        <location filename="../controls/editortabfont.cpp" line="362"/>
         <source>Do you want update all characters?</source>
         <translation>Вы хотите обновить все символы?</translation>
     </message>
@@ -525,18 +513,6 @@ Qt: %3</translation>
         <translation>Отразить по вертикали</translation>
     </message>
     <message>
-        <source>Rotate 90° Clockwise</source>
-        <translation type="obsolete">90° по часовой</translation>
-    </message>
-    <message>
-        <source>Rotate 180°</source>
-        <translation type="obsolete">180°</translation>
-    </message>
-    <message>
-        <source>Rotate 90° Counter-Clockwise</source>
-        <translation type="obsolete">90° против часовой</translation>
-    </message>
-    <message>
         <location filename="../controls/mainwindow.ui" line="198"/>
         <location filename="../controls/mainwindow.ui" line="244"/>
         <source>Inverse</source>
@@ -641,107 +617,176 @@ Qt: %3</translation>
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="78"/>
+        <location filename="../controls/mainwindow.cpp" line="79"/>
         <source>langName</source>
         <translatorcomment>название языка в который переводим</translatorcomment>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="272"/>
-        <location filename="../controls/mainwindow.cpp" line="371"/>
-        <location filename="../controls/mainwindow.cpp" line="418"/>
+        <location filename="../controls/mainwindow.cpp" line="279"/>
+        <location filename="../controls/mainwindow.cpp" line="434"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="273"/>
-        <location filename="../controls/mainwindow.cpp" line="420"/>
+        <location filename="../controls/mainwindow.cpp" line="280"/>
+        <location filename="../controls/mainwindow.cpp" line="436"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="312"/>
+        <location filename="../controls/mainwindow.cpp" line="320"/>
         <source>Enter image name</source>
         <translation>Введите имя изображения</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="313"/>
+        <location filename="../controls/mainwindow.cpp" line="321"/>
         <source>Image name:</source>
         <translation>Имя изображения:</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="315"/>
+        <location filename="../controls/mainwindow.cpp" line="323"/>
         <source>Image</source>
         <comment>new image name</comment>
         <translatorcomment>название нового изображения, должно быть латинскими буквами</translatorcomment>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="332"/>
+        <location filename="../controls/mainwindow.cpp" line="341"/>
         <source>Enter font name</source>
         <translation>Введите имя шрифта</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="333"/>
+        <location filename="../controls/mainwindow.cpp" line="342"/>
         <source>Font name:</source>
         <translation>Имя шрифта:</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="335"/>
+        <location filename="../controls/mainwindow.cpp" line="344"/>
         <source>Font</source>
         <comment>new font name</comment>
         <translatorcomment>название нового шрифта, должно быть латинскими буквами</translatorcomment>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="372"/>
+        <location filename="../controls/mainwindow.cpp" line="381"/>
+        <source>XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
+        <translation>Файлы XML (*.xml);;Файлы изображений (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.cpp" line="382"/>
         <source>Open file</source>
         <translation>Открыть файл</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="388"/>
+        <location filename="../controls/mainwindow.cpp" line="400"/>
         <source>Rename</source>
         <translation>Переименование</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="389"/>
+        <location filename="../controls/mainwindow.cpp" line="401"/>
         <source>New name:</source>
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="486"/>
+        <location filename="../controls/mainwindow.cpp" line="504"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="488"/>
+        <location filename="../controls/mainwindow.cpp" line="506"/>
         <source>Save result file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="600"/>
+        <location filename="../controls/mainwindow.cpp" line="619"/>
         <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="601"/>
+        <location filename="../controls/mainwindow.cpp" line="620"/>
         <source>Open image file</source>
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="620"/>
+        <location filename="../controls/mainwindow.cpp" line="639"/>
         <source>Windows Bitmap (*.bmp);;Joint Photographic Experts Group (*.jpg *.jpeg);;Portable Network Graphics (*.png);;Portable Pixmap (*.ppm);;Tagged Image File Format (*.tiff);;X11 Bitmap (*.xbm);;X11 Bitmap (*.xpm)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="628"/>
+        <location filename="../controls/mainwindow.cpp" line="647"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="855"/>
-        <source>&amp;%1 %2</source>
+        <location filename="../controls/mainwindow.cpp" line="886"/>
+        <source>%1 %2</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StartTab</name>
+    <message>
+        <location filename="../controls/starttab.cpp" line="62"/>
+        <source>Start</source>
+        <translation>Начало</translation>
+    </message>
+    <message>
+        <location filename="../controls/starttab.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/starttab.ui" line="58"/>
+        <source>New Image</source>
+        <translation>Новое изображение</translation>
+    </message>
+    <message>
+        <location filename="../controls/starttab.ui" line="61"/>
+        <source>Start work with new image</source>
+        <translation>Начать работу с нового изображения</translation>
+    </message>
+    <message>
+        <location filename="../controls/starttab.ui" line="68"/>
+        <source>New Font</source>
+        <translation>Новый шрифт</translation>
+    </message>
+    <message>
+        <location filename="../controls/starttab.ui" line="71"/>
+        <source>Start work with new font</source>
+        <translation>Начать работу с нового шрифта</translation>
+    </message>
+    <message>
+        <location filename="../controls/starttab.ui" line="80"/>
+        <source>&lt;html&gt;
+&lt;head/&gt;
+&lt;body&gt;
+&lt;p&gt;Last edited files:
+
+  &lt;ul&gt;
+    #list#
+  &lt;/ul&gt;
+&lt;br/&gt;
+&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</source>
+        <translation>&lt;html&gt;
+&lt;head/&gt;
+&lt;body&gt;
+&lt;p&gt;Последние файлы:
+
+  &lt;ul&gt;
+    #list#
+  &lt;/ul&gt;
+&lt;br/&gt;
+&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../controls/starttab.ui" line="111"/>
+        <source>&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;Project&apos;s home page&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;Страница проекта&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
