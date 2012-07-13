@@ -17,30 +17,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef RECENTLIST_H
-#define RECENTLIST_H
+#ifndef STARTTAB_H
+#define STARTTAB_H
 //-----------------------------------------------------------------------------
-#include <QObject>
+#include <QWidget>
 //-----------------------------------------------------------------------------
-//class QStringList;
-//class QStringListIterator;
+namespace Ui {
+class StartTab;
+}
 //-----------------------------------------------------------------------------
-class RecentList : public QObject
+class QStringList;
+//-----------------------------------------------------------------------------
+class StartTab : public QWidget
 {
     Q_OBJECT
+    
 public:
-    explicit RecentList(QObject *parent = 0);
-    virtual ~RecentList();
-    void add(const QString &filename);
-    enum { MaxRecentFiles = 10 };
-    const QStringList * files() const;
+    explicit StartTab(QWidget *parent = 0);
+    ~StartTab();
+
+    void setRecentFiles(const QStringList *list);
+    const QString tabName() const;
+
+protected:
+    void changeEvent(QEvent *e);
 
 private:
-    QStringList *mFiles;
+    Ui::StartTab *ui;
+    const QStringList *mRecentFilesList;
+
 signals:
-    void listChanged();
-public slots:
-    
+    void openRecent(const QString &filename);
+    void createNewImage();
+    void createNewFont();
 };
 //-----------------------------------------------------------------------------
-#endif // RECENTLIST_H
+#endif // STARTTAB_H

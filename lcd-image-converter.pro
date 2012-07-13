@@ -44,7 +44,8 @@ SOURCES += main.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
     controls/dialogabout.cpp \
-    classes/recentlist.cpp
+    classes/recentlist.cpp \
+    controls/starttab.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -72,7 +73,8 @@ HEADERS += \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
     controls/dialogabout.h \
-    classes/recentlist.h
+    classes/recentlist.h \
+    controls/starttab.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -86,7 +88,8 @@ FORMS += \
     controls/dialogconvert.ui \
     controls/dialogsetuptemplates.ui \
     controls/dialogfontselect.ui \
-    controls/dialogabout.ui
+    controls/dialogabout.ui \
+    controls/starttab.ui
 INCLUDEPATH += . \
     ./classes \
     ./controls \
