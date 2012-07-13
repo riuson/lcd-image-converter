@@ -231,13 +231,14 @@ void MainWindow::checkStartPageVisible()
     {
         if (startPageIndex < 0)
         {
-            StartTab *tab = new StartTab(this);
+            StartTab *tab = new StartTab(this->ui->tabWidget);
+            tab->setParent(this->ui->tabWidget);
             tab->setRecentFiles(this->mRecentList->files());
             this->connect(tab, SIGNAL(openRecent(QString)), SLOT(openFile(QString)));
             this->connect(tab, SIGNAL(createNewImage()), SLOT(on_actionNew_Image_triggered()));
             this->connect(tab, SIGNAL(createNewFont()), SLOT(on_actionNew_Font_triggered()));
 
-            this->ui->tabWidget->addTab(tab, tr("Start Page"));
+            this->ui->tabWidget->addTab(tab, tab->tabName());
             this->ui->tabWidget->setTabsClosable(false);
         }
     }

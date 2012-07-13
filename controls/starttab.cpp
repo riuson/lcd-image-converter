@@ -24,13 +24,15 @@
 //-----------------------------------------------------------------------------
 StartTab::StartTab(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::starttab)
+    ui(new Ui::StartTab)
 {
     ui->setupUi(this);
 
     this->connect(this->ui->labelRecentFiles, SIGNAL(linkActivated(QString)), SIGNAL(openRecent(QString)));
     this->connect(this->ui->buttonNewImage, SIGNAL(clicked()), SIGNAL(createNewImage()));
     this->connect(this->ui->buttonNewFont, SIGNAL(clicked()), SIGNAL(createNewFont()));
+
+    this->mRecentFilesList = NULL;
 }
 //-----------------------------------------------------------------------------
 StartTab::~StartTab()
@@ -40,6 +42,8 @@ StartTab::~StartTab()
 //-----------------------------------------------------------------------------
 void StartTab::setRecentFiles(const QStringList *list)
 {
+    this->mRecentFilesList = list;
+
     QString listTemplate = this->ui->labelRecentFiles->text();
     QString listItems;
     for (int i = 0; i < list->count(); i++)
@@ -51,5 +55,41 @@ void StartTab::setRecentFiles(const QStringList *list)
     }
     listTemplate.replace("#list#", listItems);
     this->ui->labelRecentFiles->setText(listTemplate);
+}
+//-----------------------------------------------------------------------------
+const QString StartTab::tabName() const
+{
+    QString result = tr("Start");
+    return result;
+}
+//-----------------------------------------------------------------------------
+#include <QDebug>
+void StartTab::changeEvent(QEvent *e)
+{
+    QWidget::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::LanguageChange:
+    {
+        ui->retranslateUi(this);
+        this->setRecentFiles(this->mRecentFilesList);
+
+        // find parent QTabWidget
+        QObject *w = this;
+        while (w != NULL)
+        {
+            QTabWidget *tab = dynamic_cast<QTabWidget *> (w);
+            if (tab != NULL)
+            {
+                int index = tab->indexOf(this);
+                tab->setTabText(index, this->tabName());
+                break;
+            }
+            w = w->parent();
+        }
+        break;
+    }
+    default:
+        break;
+    }
 }
 //-----------------------------------------------------------------------------

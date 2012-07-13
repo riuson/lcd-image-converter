@@ -23,8 +23,10 @@
 #include <QWidget>
 //-----------------------------------------------------------------------------
 namespace Ui {
-class starttab;
+class StartTab;
 }
+//-----------------------------------------------------------------------------
+class QStringList;
 //-----------------------------------------------------------------------------
 class StartTab : public QWidget
 {
@@ -35,9 +37,14 @@ public:
     ~StartTab();
 
     void setRecentFiles(const QStringList *list);
-    
+    const QString tabName() const;
+
+protected:
+    void changeEvent(QEvent *e);
+
 private:
-    Ui::starttab *ui;
+    Ui::StartTab *ui;
+    const QStringList *mRecentFilesList;
 
 signals:
     void openRecent(const QString &filename);

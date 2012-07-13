@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>starttab</class>
- <widget class="QWidget" name="starttab">
+ <class>StartTab</class>
+ <widget class="QWidget" name="StartTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -108,7 +108,10 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Project's home page: &lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;</string>
+          <string>&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;Project's home page&lt;/a&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
          <property name="openExternalLinks">
           <bool>true</bool>
