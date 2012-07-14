@@ -22,6 +22,7 @@
 #include <QStringList>
 #include <QStringListIterator>
 #include <QSettings>
+#include <QFileInfo>
 //-----------------------------------------------------------------------------
 RecentList::RecentList(QObject *parent) :
     QObject(parent)
@@ -34,7 +35,10 @@ RecentList::RecentList(QObject *parent) :
     for (int i = 0; i < size; i++)
     {
         sett.setArrayIndex(i);
-        this->mFiles->append(sett.value("filename").toString());
+        QString filename = sett.value("filename").toString();
+        QFileInfo info(filename);
+        if (info.exists())
+            this->mFiles->append(filename);
     }
     sett.endArray();
 }
