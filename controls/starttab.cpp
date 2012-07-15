@@ -44,17 +44,22 @@ void StartTab::setRecentFiles(const QStringList *list)
 {
     this->mRecentFilesList = list;
 
-    QString listTemplate = this->ui->labelRecentFiles->text();
-    QString listItems;
-    for (int i = 0; i < list->count(); i++)
+    if (list->count() > 0)
     {
-        QString filename = list->at(i);
-        QString strippedName = QFileInfo(filename).fileName();
-        QString text = QString("<li><a href=\"%1\">%2</a></li>").arg(filename).arg(strippedName);
-        listItems.append(text);
+        QString listTemplate = this->ui->labelRecentFiles->text();
+        QString listItems;
+        for (int i = 0; i < list->count(); i++)
+        {
+            QString filename = list->at(i);
+            QString strippedName = QFileInfo(filename).fileName();
+            QString text = QString("<li><a href=\"%1\">%2</a></li>").arg(filename).arg(strippedName);
+            listItems.append(text);
+        }
+        listTemplate.replace("#list#", listItems);
+        this->ui->labelRecentFiles->setText(listTemplate);
     }
-    listTemplate.replace("#list#", listItems);
-    this->ui->labelRecentFiles->setText(listTemplate);
+    else
+        this->ui->labelRecentFiles->hide();
 }
 //-----------------------------------------------------------------------------
 const QString StartTab::tabName() const
