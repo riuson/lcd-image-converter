@@ -45,7 +45,7 @@ Project&apos;s home page: &lt;a href=&quot;http://code.google.com/p/lcd-image-co
 Version: &lt;b&gt;%1&lt;/b&gt; from &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
 Qt: %3</source>
         <translation>LCD Image Converter&lt;br/&gt;
-Утилита создания изображений и шрифтов в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
+Утилита создания изображений и шрифтов &lt;br/&gt;в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
 &lt;br/&gt;
 Автор: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
