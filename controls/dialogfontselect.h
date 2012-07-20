@@ -27,6 +27,7 @@ namespace Ui {
 }
 class CharactersModel;
 class QModelIndex;
+class QItemSelection;
 //-----------------------------------------------------------------------------
 class DialogFontSelect : public QDialog
 {
@@ -73,6 +74,8 @@ private slots:
     void on_checkBoxAntialiasing_toggled(bool value);
     void on_lineEdit_textChanged(const QString &value);
     void on_tableView_doubleClicked(const QModelIndex &index);
+    void on_pushButtonAppend_clicked();
+    void on_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 };
 
 #endif // DIALOGFONTSELECT_H
