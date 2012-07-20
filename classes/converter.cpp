@@ -280,7 +280,7 @@ QString Converter::convert(IDocument *document,
     if (regEnc.indexIn(templateString) >= 0)
     {
         QString enc = regEnc.cap(1);
-        tags["encoding"] = enc;
+        tags["encoding"] = enc.toUpper();
     }
     else
     {
@@ -483,13 +483,28 @@ QString Converter::hexCode(const QChar &ch, const QString &encoding)
 
     QByteArray codeArray = codec->fromUnicode(&ch, 1);
 
-    quint32 code = 0;
-    for (int i = 0; i < codeArray.count() && i < 4; i++)
+    quint64 code = 0;
+    for (int i = 0; i < codeArray.count() && i < 8; i++)
     {
         code = code << 8;
         code |= (quint8)codeArray.at(i);
     }
-    result = QString("%1").arg(code, codeArray.count() * 2, 16, QChar('0'));
+
+    if (encoding.contains("UTF-16"))
+    {
+        // 0xfeff00c1
+        result = QString("%1").arg(code, 8, 16, QChar('0'));
+    }
+    else if (encoding.contains("UTF-32"))
+    {
+        // 0x0000feff000000c1
+        result = QString("%1").arg(code, 16, 16, QChar('0'));
+    }
+    else
+    {
+        result = QString("%1").arg(code, codeArray.count() * 2, 16, QChar('0'));
+    }
+
 
     return result;
 }
