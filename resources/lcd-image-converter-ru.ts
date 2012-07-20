@@ -203,7 +203,12 @@ Qt: %3</translation>
         <translation>Сглаживание</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.cpp" line="212"/>
+        <location filename="../controls/dialogfontselect.ui" line="126"/>
+        <source>Append</source>
+        <translation>Добавить</translation>
+    </message>
+    <message>
+        <location filename="../controls/dialogfontselect.cpp" line="216"/>
         <source>Real height: %1</source>
         <translation>Высота: %1</translation>
     </message>
@@ -727,7 +732,7 @@ Qt: %3</translation>
 <context>
     <name>StartTab</name>
     <message>
-        <location filename="../controls/starttab.cpp" line="62"/>
+        <location filename="../controls/starttab.cpp" line="67"/>
         <source>Start</source>
         <translation>Начало</translation>
     </message>
