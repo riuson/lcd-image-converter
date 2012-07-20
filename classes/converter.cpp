@@ -287,6 +287,18 @@ QString Converter::convert(IDocument *document,
         tags["encoding"] = "UTF-8";
     }
 
+    QRegExp regBom("unicode bom:\\s+(.+)(?=\\s)");
+    regBom.setMinimal(true);
+    if (regBom.indexIn(templateString) >= 0)
+    {
+        QString bom = regBom.cap(1);
+        tags["bom"] = bom.toUpper();
+    }
+    else
+    {
+        tags["bom"] = "NO";
+    }
+
     this->addPreprocessInfo(tags);
 
     this->addOrderInfo(tags);
@@ -432,7 +444,12 @@ void Converter::parseImagesTable(const QString &templateString,
         BitmapData bmpData;
         this->processImage(image, &bmpData);
         QString dataString = this->dataToString(bmpData);
-        QString charCode = this->hexCode(key.at(0), tags.value("encoding"));
+
+        bool useBom = false;
+        if (tags.value("bom") == "YES")
+            useBom = true;
+
+        QString charCode = this->hexCode(key.at(0), tags.value("encoding"), useBom);
 
         tags["blocksCount"] = QString("%1").arg(bmpData.blocksCount());
         tags["imageData"] = dataString;
@@ -476,7 +493,7 @@ void Converter::parseSimple(const QString &templateString,
     }
 }
 //-----------------------------------------------------------------------------
-QString Converter::hexCode(const QChar &ch, const QString &encoding)
+QString Converter::hexCode(const QChar &ch, const QString &encoding, bool bom)
 {
     QString result;
     QTextCodec *codec = QTextCodec::codecForName(encoding.toAscii());
@@ -492,13 +509,31 @@ QString Converter::hexCode(const QChar &ch, const QString &encoding)
 
     if (encoding.contains("UTF-16"))
     {
-        // 0xfeff00c1
-        result = QString("%1").arg(code, 8, 16, QChar('0'));
+        if (bom)
+        {
+            // 0xfeff00c1
+            result = QString("%1").arg(code, 8, 16, QChar('0'));
+        }
+        else
+        {
+            // 0x00c1
+            code &= 0x000000000000ffff;
+            result = QString("%1").arg(code, 4, 16, QChar('0'));
+        }
     }
     else if (encoding.contains("UTF-32"))
     {
-        // 0x0000feff000000c1
-        result = QString("%1").arg(code, 16, 16, QChar('0'));
+        if (bom)
+        {
+            // 0x0000feff000000c1
+            result = QString("%1").arg(code, 16, 16, QChar('0'));
+        }
+        else
+        {
+            // 0x000000c1
+            code &= 0x00000000ffffffff;
+            result = QString("%1").arg(code, 8, 16, QChar('0'));
+        }
     }
     else
     {
@@ -532,13 +567,13 @@ void Converter::addPreprocessInfo(QMap<QString, QString> &tags)
     switch (this->mPreprocessTransform & 0x03)
     {
         case BitmapHelper::Rotate90:
-            tags.insert("rotate", "90°");
+            tags.insert("rotate", "90 degrees");
             break;
         case BitmapHelper::Rotate180:
-            tags.insert("rotate", "180°");
+            tags.insert("rotate", "180 degrees");
             break;
         case BitmapHelper::Rotate270:
-            tags.insert("rotate", "270°");
+            tags.insert("rotate", "270 degrees");
             break;
         case BitmapHelper::None:
             tags.insert("rotate", "none");
