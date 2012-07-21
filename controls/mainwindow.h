@@ -30,6 +30,7 @@ namespace Ui {
 class WidgetBitmapEditor;
 class QTranslator;
 class RecentList;
+class ActionFileHandlers;
 class ActionImageHandlers;
 class ActionFontHandlers;
 class ActionSetupHandlers;
@@ -49,15 +50,14 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    QString findAvailableName(const QString &prefix);
     WidgetBitmapEditor *mEditor;
     QTranslator *mTrans;
     RecentList *mRecentList;
     void updateMenuState();
     void selectLocale(const QString &localeName);
-    int appendTab(QWidget *newTab, const QString &name);
     void checkStartPageVisible();
 
+    ActionFileHandlers *mFileHandlers;
     ActionImageHandlers *mImageHandlers;
     ActionFontHandlers *mFontHandlers;
     ActionSetupHandlers *mSetupHandlers;
@@ -66,15 +66,6 @@ private:
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
     void on_tabWidget_currentChanged(int index);
-    void on_actionNew_Image_triggered();
-    void on_actionNew_Font_triggered();
-    void on_actionOpen_triggered();
-    void on_actionRename_triggered();
-    void on_actionSave_triggered();
-    void on_actionSave_As_triggered();
-    void on_actionClose_triggered();
-    void on_actionConvert_triggered();
-    void on_actionQuit_triggered();
     void actionLanguage_triggered();
 
     void mon_editor_dataChanged();
@@ -82,10 +73,16 @@ private slots:
     void openRecentFile();
     void openFile(const QString &filename);
 
+    void newFileOpened(const QString &filename);
+    void closeRequest(QWidget *tab);
+    void exitRequest();
 public:
     IDocument *currentDocument();
     QWidget *currentTab();
     QWidget *parentWidget();
+    QString findAvailableName(const QString &prefix);
+    int appendTab(QWidget *newTab, const QString &name);
+    void setTabText(QWidget *tab, const QString &text, const QString &tooltip);
 };
 //-----------------------------------------------------------------------------
 #endif // MAINWINDOW_H

@@ -50,7 +50,8 @@ SOURCES += main.cpp \
     classes/action-handlers/actionhandlersbase.cpp \
     classes/action-handlers/actionfonthandlers.cpp \
     classes/action-handlers/actionhelphandlers.cpp \
-    classes/action-handlers/actionsetuphandlers.cpp
+    classes/action-handlers/actionsetuphandlers.cpp \
+    classes/action-handlers/actionfilehandlers.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -85,7 +86,8 @@ HEADERS += \
     classes/action-handlers/actionhandlersbase.h \
     classes/action-handlers/actionfonthandlers.h \
     classes/action-handlers/actionhelphandlers.h \
-    classes/action-handlers/actionsetuphandlers.h
+    classes/action-handlers/actionsetuphandlers.h \
+    classes/action-handlers/actionfilehandlers.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
