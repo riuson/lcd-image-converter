@@ -10,19 +10,8 @@
 #include "idatacontainer.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
-    QObject(parent)
+    ActionHandlersBase(parent)
 {
-    this->mMainWindow = qobject_cast<IMainWindow *>(parent);
-}
-//-----------------------------------------------------------------------------
-WidgetBitmapEditor *ActionImageHandlers::editor()
-{
-    IDocument *doc = this->mMainWindow->currentDocument();
-    if (doc != NULL)
-    {
-        return doc->editor();
-    }
-    return NULL;
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::on_actionImageFlip_Horizontal_triggered()

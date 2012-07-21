@@ -3,19 +3,16 @@
 //-----------------------------------------------------------------------------
 #include <QObject>
 
+#include "actionhandlersbase.h"
 //-----------------------------------------------------------------------------
 class IMainWindow;
 class WidgetBitmapEditor;
 
-class ActionImageHandlers : public QObject
+class ActionImageHandlers : public ActionHandlersBase
 {
     Q_OBJECT
 public:
     explicit ActionImageHandlers(QObject *parent = 0);
-
-private:
-    IMainWindow *mMainWindow;
-    WidgetBitmapEditor *editor();
 
 signals:
     

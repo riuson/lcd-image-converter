@@ -46,7 +46,8 @@ SOURCES += main.cpp \
     controls/dialogabout.cpp \
     classes/recentlist.cpp \
     controls/starttab.cpp \
-    classes/action-handlers/actionimagehandlers.cpp
+    classes/action-handlers/actionimagehandlers.cpp \
+    classes/action-handlers/actionhandlersbase.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -77,7 +78,8 @@ HEADERS += \
     classes/recentlist.h \
     controls/starttab.h \
     classes/action-handlers/actionimagehandlers.h \
-    interfaces/imainwindow.h
+    interfaces/imainwindow.h \
+    classes/action-handlers/actionhandlersbase.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
