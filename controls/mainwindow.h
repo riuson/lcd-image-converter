@@ -32,6 +32,7 @@ class QTranslator;
 class RecentList;
 class ActionImageHandlers;
 class ActionFontHandlers;
+class ActionHelpHandlers;
 //-----------------------------------------------------------------------------
 class MainWindow : public QMainWindow, public IMainWindow
 {
@@ -58,6 +59,7 @@ private:
 
     ActionImageHandlers *mImageHandlers;
     ActionFontHandlers *mFontHandlers;
+    ActionHelpHandlers *mHelpHandlers;
 
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
@@ -73,7 +75,6 @@ private slots:
     void on_actionQuit_triggered();
     void on_actionSetupConversion_triggered();
     void on_actionSetupTemplates_triggered();
-    void on_actionAbout_triggered();
     void actionLanguage_triggered();
 
     void mon_editor_dataChanged();

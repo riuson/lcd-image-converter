@@ -47,6 +47,7 @@
 #include "recentlist.h"
 #include "actionimagehandlers.h"
 #include "actionfonthandlers.h"
+#include "actionhelphandlers.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -110,6 +111,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this->mFontHandlers->connect(this->ui->actionFontInverse, SIGNAL(triggered()), SLOT(on_actionFontInverse_triggered()));
     this->mFontHandlers->connect(this->ui->actionFontResize, SIGNAL(triggered()), SLOT(on_actionFontResize_triggered()));
     this->mFontHandlers->connect(this->ui->actionFontMinimizeHeight, SIGNAL(triggered()), SLOT(on_actionFontMinimizeHeight_triggered()));
+
+    this->mHelpHandlers = new ActionHelpHandlers(this);
+    this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(on_actionAbout_triggered()));
 
     this->checkStartPageVisible();
 }
@@ -557,12 +561,6 @@ void MainWindow::on_actionSetupConversion_triggered()
 void MainWindow::on_actionSetupTemplates_triggered()
 {
     DialogSetupTemplates dialog(this);
-    dialog.exec();
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionAbout_triggered()
-{
-    DialogAbout dialog(this);
     dialog.exec();
 }
 //-----------------------------------------------------------------------------
