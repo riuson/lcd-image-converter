@@ -30,6 +30,7 @@ class IMainWindow
 {
 public:
     virtual IDocument *currentDocument() = 0;
+    virtual QWidget *currentTab() = 0;
     virtual QWidget *parentWidget() = 0;
 };
 Q_DECLARE_INTERFACE (IMainWindow,

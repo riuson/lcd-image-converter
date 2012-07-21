@@ -31,6 +31,7 @@ class WidgetBitmapEditor;
 class QTranslator;
 class RecentList;
 class ActionImageHandlers;
+class ActionFontHandlers;
 //-----------------------------------------------------------------------------
 class MainWindow : public QMainWindow, public IMainWindow
 {
@@ -56,6 +57,7 @@ private:
     void checkStartPageVisible();
 
     ActionImageHandlers *mImageHandlers;
+    ActionFontHandlers *mFontHandlers;
 
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
@@ -69,10 +71,6 @@ private slots:
     void on_actionClose_triggered();
     void on_actionConvert_triggered();
     void on_actionQuit_triggered();
-    void on_actionFontChange_triggered();
-    void on_actionFontInverse_triggered();
-    void on_actionFontResize_triggered();
-    void on_actionFontMinimizeHeight_triggered();
     void on_actionSetupConversion_triggered();
     void on_actionSetupTemplates_triggered();
     void on_actionAbout_triggered();
@@ -85,6 +83,7 @@ private slots:
 
 public:
     IDocument *currentDocument();
+    QWidget *currentTab();
     QWidget *parentWidget();
 };
 //-----------------------------------------------------------------------------

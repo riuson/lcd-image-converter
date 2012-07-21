@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------------
 class IMainWindow;
 class WidgetBitmapEditor;
-
+//-----------------------------------------------------------------------------
 class ActionImageHandlers : public ActionHandlersBase
 {
     Q_OBJECT
