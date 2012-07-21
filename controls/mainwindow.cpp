@@ -47,6 +47,7 @@
 #include "recentlist.h"
 #include "actionimagehandlers.h"
 #include "actionfonthandlers.h"
+#include "actionsetuphandlers.h"
 #include "actionhelphandlers.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
@@ -111,6 +112,10 @@ MainWindow::MainWindow(QWidget *parent) :
     this->mFontHandlers->connect(this->ui->actionFontInverse, SIGNAL(triggered()), SLOT(on_actionFontInverse_triggered()));
     this->mFontHandlers->connect(this->ui->actionFontResize, SIGNAL(triggered()), SLOT(on_actionFontResize_triggered()));
     this->mFontHandlers->connect(this->ui->actionFontMinimizeHeight, SIGNAL(triggered()), SLOT(on_actionFontMinimizeHeight_triggered()));
+
+    this->mSetupHandlers = new ActionSetupHandlers(this);
+    this->mSetupHandlers->connect(this->ui->actionSetupConversion, SIGNAL(triggered()), SLOT(on_actionSetupConversion_triggered()));
+    this->mSetupHandlers->connect(this->ui->actionSetupTemplates, SIGNAL(triggered()), SLOT(on_actionSetupTemplates_triggered()));
 
     this->mHelpHandlers = new ActionHelpHandlers(this);
     this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(on_actionAbout_triggered()));
@@ -547,21 +552,6 @@ void MainWindow::on_actionConvert_triggered()
 void MainWindow::on_actionQuit_triggered()
 {
     this->close();
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionSetupConversion_triggered()
-{
-    IDataContainer *data = NULL;
-    if (this->mEditor != NULL)
-        data = this->mEditor->dataContainer();
-    DialogConvert dialog(data, this);
-    dialog.exec();
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionSetupTemplates_triggered()
-{
-    DialogSetupTemplates dialog(this);
-    dialog.exec();
 }
 //-----------------------------------------------------------------------------
 void MainWindow::actionLanguage_triggered()

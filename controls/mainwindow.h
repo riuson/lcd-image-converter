@@ -32,6 +32,7 @@ class QTranslator;
 class RecentList;
 class ActionImageHandlers;
 class ActionFontHandlers;
+class ActionSetupHandlers;
 class ActionHelpHandlers;
 //-----------------------------------------------------------------------------
 class MainWindow : public QMainWindow, public IMainWindow
@@ -59,6 +60,7 @@ private:
 
     ActionImageHandlers *mImageHandlers;
     ActionFontHandlers *mFontHandlers;
+    ActionSetupHandlers *mSetupHandlers;
     ActionHelpHandlers *mHelpHandlers;
 
 private slots:
@@ -73,8 +75,6 @@ private slots:
     void on_actionClose_triggered();
     void on_actionConvert_triggered();
     void on_actionQuit_triggered();
-    void on_actionSetupConversion_triggered();
-    void on_actionSetupTemplates_triggered();
     void actionLanguage_triggered();
 
     void mon_editor_dataChanged();
