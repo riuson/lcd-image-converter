@@ -21,6 +21,7 @@
 #define MAINWINDOW_H
 //-----------------------------------------------------------------------------
 #include <QMainWindow>
+#include "imainwindow.h"
 //-----------------------------------------------------------------------------
 namespace Ui {
     class MainWindow;
@@ -29,9 +30,13 @@ namespace Ui {
 class WidgetBitmapEditor;
 class QTranslator;
 class RecentList;
+class ActionImageHandlers;
 //-----------------------------------------------------------------------------
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow, public IMainWindow
+{
     Q_OBJECT
+    Q_INTERFACES(IMainWindow)
+
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -50,6 +55,8 @@ private:
     int appendTab(QWidget *newTab, const QString &name);
     void checkStartPageVisible();
 
+    ActionImageHandlers *mImageHandlers;
+
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
     void on_tabWidget_currentChanged(int index);
@@ -62,15 +69,6 @@ private slots:
     void on_actionClose_triggered();
     void on_actionConvert_triggered();
     void on_actionQuit_triggered();
-    void on_actionImageFlip_Horizontal_triggered();
-    void on_actionImageFlip_Vertical_triggered();
-    void on_actionImageRotate_90_Clockwise_triggered();
-    void on_actionImageRotate_180_triggered();
-    void on_actionImageRotate_90_Counter_Clockwise_triggered();
-    void on_actionImageInverse_triggered();
-    void on_actionImageResize_triggered();
-    void on_actionImageImport_triggered();
-    void on_actionImageExport_triggered();
     void on_actionFontChange_triggered();
     void on_actionFontInverse_triggered();
     void on_actionFontResize_triggered();
@@ -84,6 +82,10 @@ private slots:
     void updateRecentList();
     void openRecentFile();
     void openFile(const QString &filename);
+
+public:
+    IDocument *currentDocument();
+    QWidget *parentWidget();
 };
 //-----------------------------------------------------------------------------
 #endif // MAINWINDOW_H

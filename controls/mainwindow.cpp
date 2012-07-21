@@ -45,6 +45,7 @@
 #include "dialogfontselect.h"
 #include "dialogabout.h"
 #include "recentlist.h"
+#include "actionimagehandlers.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -92,12 +93,24 @@ MainWindow::MainWindow(QWidget *parent) :
     this->connect(this->mRecentList, SIGNAL(listChanged()), SLOT(updateRecentList()));
     this->updateRecentList();
 
+    this->mImageHandlers = new ActionImageHandlers(this);
+    this->mImageHandlers->connect(this->ui->actionImageFlip_Horizontal, SIGNAL(triggered()), SLOT(on_actionImageFlip_Horizontal_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageFlip_Vertical, SIGNAL(triggered()), SLOT(on_actionImageFlip_Vertical_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageRotate_90_Clockwise, SIGNAL(triggered()), SLOT(on_actionImageRotate_90_Clockwise_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageRotate_180, SIGNAL(triggered()), SLOT(on_actionImageRotate_180_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageRotate_90_Counter_Clockwise, SIGNAL(triggered()), SLOT(on_actionImageRotate_90_Counter_Clockwise_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageInverse, SIGNAL(triggered()), SLOT(on_actionImageInverse_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageResize, SIGNAL(triggered()), SLOT(on_actionImageResize_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageImport, SIGNAL(triggered()), SLOT(on_actionImageImport_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageExport, SIGNAL(triggered()), SLOT(on_actionImageExport_triggered()));
+
     this->checkStartPageVisible();
 }
 //-----------------------------------------------------------------------------
 MainWindow::~MainWindow()
 {
     delete this->mRecentList;
+    delete this->mImageHandlers;
     delete ui;
 }
 //-----------------------------------------------------------------------------
@@ -524,160 +537,6 @@ void MainWindow::on_actionQuit_triggered()
     this->close();
 }
 //-----------------------------------------------------------------------------
-void MainWindow::on_actionImageFlip_Horizontal_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        QImage result = BitmapHelper::flipHorizontal(original);
-        this->mEditor->dataContainer()->setImage(key, &result);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageFlip_Vertical_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        QImage result = BitmapHelper::flipVertical(original);
-        this->mEditor->dataContainer()->setImage(key, &result);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageRotate_90_Clockwise_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        QImage result = BitmapHelper::rotate90(original);
-        this->mEditor->dataContainer()->setImage(key, &result);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageRotate_180_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        QImage result = BitmapHelper::rotate180(original);
-        this->mEditor->dataContainer()->setImage(key, &result);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageRotate_90_Counter_Clockwise_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        QImage result = BitmapHelper::rotate270(original);
-        this->mEditor->dataContainer()->setImage(key, &result);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageInverse_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        QImage result(*original);
-        result.invertPixels();
-        this->mEditor->dataContainer()->setImage(key, &result);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageResize_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        DialogResize dialog(original->width(), original->height(), 0, 0, false, true, true, this);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            int width, height, offsetX, offsetY;
-            bool center, changeWidth, changeHeight;
-            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
-            QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, this->mEditor->color2());
-            this->mEditor->dataContainer()->setImage(key, &result);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageImport_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QFileDialog dialog(this);
-        dialog.setAcceptMode(QFileDialog::AcceptOpen);
-        dialog.setFileMode(QFileDialog::ExistingFile);
-        dialog.setFilter(tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
-        dialog.setWindowTitle(tr("Open image file"));
-
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            QImage image;
-            image.load(dialog.selectedFiles().at(0));
-            QString key = this->mEditor->currentImageKey();
-            this->mEditor->dataContainer()->setImage(key, &image);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageExport_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QFileDialog dialog(this);
-        dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.setFileMode(QFileDialog::AnyFile);
-        QString filter = tr("Windows Bitmap (*.bmp);;" \
-                            "Joint Photographic Experts Group (*.jpg *.jpeg);;" \
-                            "Portable Network Graphics (*.png);;" \
-                            "Portable Pixmap (*.ppm);;" \
-                            "Tagged Image File Format (*.tiff);;" \
-                            "X11 Bitmap (*.xbm);;" \
-                            "X11 Bitmap (*.xpm)");
-        dialog.setFilter(filter);
-        dialog.setWindowTitle(tr("Save image file"));
-
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            filter = dialog.selectedFilter();
-            QString ext = "png";
-            if (filter.contains("bmp"))
-                ext = "bmp";
-            else if (filter.contains("jpg"))
-                ext = "jpg";
-            else if (filter.contains("png"))
-                ext = "png";
-            else if (filter.contains("ppm"))
-                ext = "ppm";
-            else if (filter.contains("tiff"))
-                ext = "tiff";
-            else if (filter.contains("xbm"))
-                ext = "xbm";
-            else if (filter.contains("xpm"))
-                ext = "xpm";
-
-            QString filename = dialog.selectedFiles().at(0);
-            QFileInfo info(filename);
-            QString fileExt = info.suffix().toLower();
-            if (fileExt.isEmpty() || fileExt != ext)
-            {
-                filename += "." + ext;
-            }
-            QString key = this->mEditor->currentImageKey();
-            this->mEditor->dataContainer()->image(key)->save(filename);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
 void MainWindow::on_actionFontChange_triggered()
 {
     int index = this->ui->tabWidget->currentIndex();
@@ -981,5 +840,24 @@ void MainWindow::openFile(const QString &filename)
             }
         }
     }
+}
+//-----------------------------------------------------------------------------
+IDocument *MainWindow::currentDocument()
+{
+    IDocument *result = NULL;
+
+    int index = this->ui->tabWidget->currentIndex();
+    if (index >= 0)
+    {
+        QWidget *w = this->ui->tabWidget->widget(index);
+        result = qobject_cast<IDocument *>(w);
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+QWidget *MainWindow::parentWidget()
+{
+    return this;
 }
 //-----------------------------------------------------------------------------
