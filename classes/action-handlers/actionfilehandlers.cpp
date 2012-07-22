@@ -35,7 +35,7 @@ void ActionFileHandlers::on_actionNew_Image_triggered()
         name = this->mMainWindow->findAvailableName(name);
         ed->setDocumentName(name);
         ed->setChanged(false);
-        this->mMainWindow->appendTab(ed, name);
+        this->mMainWindow->appendTab(ed, name, ed->fileName());
     }
 }
 //-----------------------------------------------------------------------------
@@ -72,7 +72,7 @@ void ActionFileHandlers::on_actionNew_Font_triggered()
             name = this->mMainWindow->findAvailableName(name);
             ed->setDocumentName(name);
             ed->setChanged(false);
-            this->mMainWindow->appendTab(ed, name);
+            this->mMainWindow->appendTab(ed, name, ed->fileName());
         }
     }
 }
@@ -270,18 +270,16 @@ void ActionFileHandlers::openFile(const QString &filename)
             EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
             this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
 
-            this->mMainWindow->appendTab(ed, "");
+            this->mMainWindow->appendTab(ed, "", filename);
             ed->load(filename);
-            this->mMainWindow->setTabText(ed, ed->documentName(), filename);
         }
         if (isFont)
         {
             EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
             this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
 
-            this->mMainWindow->appendTab(ed, "");
+            this->mMainWindow->appendTab(ed, "", filename);
             ed->load(filename);
-            this->mMainWindow->setTabText(ed, ed->documentName(), filename);
         }
         if (isImageBinary)
         {
@@ -298,8 +296,7 @@ void ActionFileHandlers::openFile(const QString &filename)
 
                 ed->setDocumentName(name);
                 ed->setChanged(false);
-                this->mMainWindow->appendTab(ed, name);
-                this->mMainWindow->setTabText(ed, name, filename);
+                this->mMainWindow->appendTab(ed, name, filename);
             }
         }
     }
@@ -311,10 +308,10 @@ void ActionFileHandlers::documentChanged(bool changed, const QString &documentNa
     IDocument *doc = dynamic_cast<IDocument *> (w);
     if (doc != NULL)
     {
-        if (doc->changed())
-            this->mMainWindow->setTabText(w, "* " + doc->documentName(), doc->fileName());
+        if (changed)
+            emit this->tabChanged(w, "* " + documentName, filename);
         else
-            this->mMainWindow->setTabText(w, doc->documentName(), doc->fileName());
+            emit this->tabChanged(w, documentName, filename);
     }
 }
 //-----------------------------------------------------------------------------

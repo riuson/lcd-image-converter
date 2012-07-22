@@ -17,6 +17,7 @@ signals:
     void newFileOpened(const QString &filename);
     void closeRequest(QWidget *tab);
     void exitRequest();
+    void tabChanged(QWidget *w, const QString &documentName, const QString &filename);
     
 public slots:
     void on_actionNew_Image_triggered();

@@ -75,13 +75,13 @@ private slots:
     void newFileOpened(const QString &filename);
     void closeRequest(QWidget *tab);
     void exitRequest();
+    void tabChanged(QWidget *tab, const QString &text, const QString &tooltip);
 public:
     IDocument *currentDocument();
     QWidget *currentTab();
     QWidget *parentWidget();
     QString findAvailableName(const QString &prefix);
-    int appendTab(QWidget *newTab, const QString &name);
-    void setTabText(QWidget *tab, const QString &text, const QString &tooltip);
+    int appendTab(QWidget *newTab, const QString &name, const QString &tooltip);
 };
 //-----------------------------------------------------------------------------
 #endif // MAINWINDOW_H

@@ -110,6 +110,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->connect(this->mFileHandlers, SIGNAL(newFileOpened(QString)), SLOT(newFileOpened(QString)));
     this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
     this->connect(this->mFileHandlers, SIGNAL(exitRequest()), SLOT(exitRequest()));
+    this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*,QString,QString)), SLOT(tabChanged(QWidget*,QString,QString)));
 
     this->mImageHandlers = new ActionImageHandlers(this);
     this->mImageHandlers->connect(this->ui->actionImageFlip_Horizontal, SIGNAL(triggered()), SLOT(on_actionImageFlip_Horizontal_triggered()));
@@ -460,15 +461,16 @@ QString MainWindow::findAvailableName(const QString &prefix)
     return result;
 }
 //-----------------------------------------------------------------------------
-int MainWindow::appendTab(QWidget *newTab, const QString &name)
+int MainWindow::appendTab(QWidget *newTab, const QString &name, const QString &tooltip)
 {
     int index = this->ui->tabWidget->addTab(newTab, name);
     this->ui->tabWidget->setCurrentIndex(index);
+    this->ui->tabWidget->setTabToolTip(index, tooltip);
     this->checkStartPageVisible();
     return index;
 }
 //-----------------------------------------------------------------------------
-void MainWindow::setTabText(QWidget *tab, const QString &text, const QString &tooltip)
+void MainWindow::tabChanged(QWidget *tab, const QString &text, const QString &tooltip)
 {
     int index = this->ui->tabWidget->indexOf(tab);
     if (index >= 0)
