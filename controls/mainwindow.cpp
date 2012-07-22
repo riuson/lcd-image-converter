@@ -243,7 +243,7 @@ void MainWindow::createHandlers()
     this->mFileHandlers->connect(this->ui->actionClose, SIGNAL(triggered()), SLOT(on_actionClose_triggered()));
     this->mFileHandlers->connect(this->ui->actionConvert, SIGNAL(triggered()), SLOT(on_actionConvert_triggered()));
     this->connect(this->ui->actionQuit, SIGNAL(triggered()), SLOT(close()));
-    this->connect(this->mFileHandlers, SIGNAL(newFileOpened(QString)), SLOT(newFileOpened(QString)));
+    this->connect(this->mFileHandlers, SIGNAL(rememberFilename(QString)), SLOT(rememberFilename(QString)));
     this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
     this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*,QString,QString)), SLOT(tabChanged(QWidget*,QString,QString)));
     this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget*,QString,QString)), SLOT(tabCreated(QWidget*,QString,QString)));
@@ -380,7 +380,7 @@ void MainWindow::openRecentFile()
         this->mFileHandlers->openFile(action->data().toString());
 }
 //-----------------------------------------------------------------------------
-void MainWindow::newFileOpened(const QString &filename)
+void MainWindow::rememberFilename(const QString &filename)
 {
     this->mRecentList->add(filename);
 }

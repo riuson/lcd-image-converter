@@ -14,7 +14,7 @@ public:
     explicit ActionFileHandlers(QObject *parent = 0);
     
 signals:
-    void newFileOpened(const QString &filename);
+    void rememberFilename(const QString &filename);
     void closeRequest(QWidget *tab);
     void exitRequest();
     void tabChanged(QWidget *w, const QString &documentName, const QString &filename);

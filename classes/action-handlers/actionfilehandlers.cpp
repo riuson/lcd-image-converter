@@ -140,7 +140,7 @@ void ActionFileHandlers::on_actionSave_As_triggered()
             QString filename = dialog.selectedFiles().at(0);
             doc->save(filename);
 
-            emit this->newFileOpened(filename);
+            emit this->rememberFilename(filename);
         }
     }
 }
@@ -255,7 +255,7 @@ void ActionFileHandlers::openFile(const QString &filename)
                 }
                 file.close();
 
-                emit this->newFileOpened(filename);
+                emit this->rememberFilename(filename);
             }
         }
         else

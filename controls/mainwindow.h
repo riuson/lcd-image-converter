@@ -72,7 +72,7 @@ private slots:
     void updateRecentList();
     void openRecentFile();
 
-    void newFileOpened(const QString &filename);
+    void rememberFilename(const QString &filename);
     void closeRequest(QWidget *tab);
     void tabChanged(QWidget *tab, const QString &text, const QString &tooltip);
     int tabCreated(QWidget *newTab, const QString &name, const QString &tooltip);
