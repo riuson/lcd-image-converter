@@ -56,6 +56,7 @@ private:
     void updateMenuState();
     void selectLocale(const QString &localeName);
     void checkStartPageVisible();
+    void createHandlers();
 
     ActionFileHandlers *mFileHandlers;
     ActionImageHandlers *mImageHandlers;

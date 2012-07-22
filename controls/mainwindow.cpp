@@ -97,44 +97,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->connect(this->mRecentList, SIGNAL(listChanged()), SLOT(updateRecentList()));
     this->updateRecentList();
 
-    this->mFileHandlers = new ActionFileHandlers(this);
-    this->mFileHandlers->connect(this->ui->actionNew_Image, SIGNAL(triggered()), SLOT(on_actionNew_Image_triggered()));
-    this->mFileHandlers->connect(this->ui->actionNew_Font, SIGNAL(triggered()), SLOT(on_actionNew_Font_triggered()));
-    this->mFileHandlers->connect(this->ui->actionOpen, SIGNAL(triggered()), SLOT(on_actionOpen_triggered()));
-    this->mFileHandlers->connect(this->ui->actionRename, SIGNAL(triggered()), SLOT(on_actionRename_triggered()));
-    this->mFileHandlers->connect(this->ui->actionSave, SIGNAL(triggered()), SLOT(on_actionSave_triggered()));
-    this->mFileHandlers->connect(this->ui->actionSave_As, SIGNAL(triggered()), SLOT(on_actionSave_As_triggered()));
-    this->mFileHandlers->connect(this->ui->actionClose, SIGNAL(triggered()), SLOT(on_actionClose_triggered()));
-    this->mFileHandlers->connect(this->ui->actionConvert, SIGNAL(triggered()), SLOT(on_actionConvert_triggered()));
-    this->mFileHandlers->connect(this->ui->actionQuit, SIGNAL(triggered()), SLOT(on_actionQuit_triggered()));
-    this->connect(this->mFileHandlers, SIGNAL(newFileOpened(QString)), SLOT(newFileOpened(QString)));
-    this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
-    this->connect(this->mFileHandlers, SIGNAL(exitRequest()), SLOT(exitRequest()));
-    this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*,QString,QString)), SLOT(tabChanged(QWidget*,QString,QString)));
-
-    this->mImageHandlers = new ActionImageHandlers(this);
-    this->mImageHandlers->connect(this->ui->actionImageFlip_Horizontal, SIGNAL(triggered()), SLOT(on_actionImageFlip_Horizontal_triggered()));
-    this->mImageHandlers->connect(this->ui->actionImageFlip_Vertical, SIGNAL(triggered()), SLOT(on_actionImageFlip_Vertical_triggered()));
-    this->mImageHandlers->connect(this->ui->actionImageRotate_90_Clockwise, SIGNAL(triggered()), SLOT(on_actionImageRotate_90_Clockwise_triggered()));
-    this->mImageHandlers->connect(this->ui->actionImageRotate_180, SIGNAL(triggered()), SLOT(on_actionImageRotate_180_triggered()));
-    this->mImageHandlers->connect(this->ui->actionImageRotate_90_Counter_Clockwise, SIGNAL(triggered()), SLOT(on_actionImageRotate_90_Counter_Clockwise_triggered()));
-    this->mImageHandlers->connect(this->ui->actionImageInverse, SIGNAL(triggered()), SLOT(on_actionImageInverse_triggered()));
-    this->mImageHandlers->connect(this->ui->actionImageResize, SIGNAL(triggered()), SLOT(on_actionImageResize_triggered()));
-    this->mImageHandlers->connect(this->ui->actionImageImport, SIGNAL(triggered()), SLOT(on_actionImageImport_triggered()));
-    this->mImageHandlers->connect(this->ui->actionImageExport, SIGNAL(triggered()), SLOT(on_actionImageExport_triggered()));
-
-    this->mFontHandlers = new ActionFontHandlers(this);
-    this->mFontHandlers->connect(this->ui->actionFontChange, SIGNAL(triggered()), SLOT(on_actionFontChange_triggered()));
-    this->mFontHandlers->connect(this->ui->actionFontInverse, SIGNAL(triggered()), SLOT(on_actionFontInverse_triggered()));
-    this->mFontHandlers->connect(this->ui->actionFontResize, SIGNAL(triggered()), SLOT(on_actionFontResize_triggered()));
-    this->mFontHandlers->connect(this->ui->actionFontMinimizeHeight, SIGNAL(triggered()), SLOT(on_actionFontMinimizeHeight_triggered()));
-
-    this->mSetupHandlers = new ActionSetupHandlers(this);
-    this->mSetupHandlers->connect(this->ui->actionSetupConversion, SIGNAL(triggered()), SLOT(on_actionSetupConversion_triggered()));
-    this->mSetupHandlers->connect(this->ui->actionSetupTemplates, SIGNAL(triggered()), SLOT(on_actionSetupTemplates_triggered()));
-
-    this->mHelpHandlers = new ActionHelpHandlers(this);
-    this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(on_actionAbout_triggered()));
+    this->createHandlers();
 
     this->checkStartPageVisible();
 }
@@ -144,6 +107,9 @@ MainWindow::~MainWindow()
     delete this->mRecentList;
     delete this->mImageHandlers;
     delete this->mFontHandlers;
+    delete this->mHelpHandlers;
+    delete this->mFileHandlers;
+    delete this->mSetupHandlers;
     delete ui;
 }
 //-----------------------------------------------------------------------------
@@ -263,6 +229,48 @@ void MainWindow::checkStartPageVisible()
             delete tab;
         }
     }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::createHandlers()
+{
+    this->mFileHandlers = new ActionFileHandlers(this);
+    this->mFileHandlers->connect(this->ui->actionNew_Image, SIGNAL(triggered()), SLOT(on_actionNew_Image_triggered()));
+    this->mFileHandlers->connect(this->ui->actionNew_Font, SIGNAL(triggered()), SLOT(on_actionNew_Font_triggered()));
+    this->mFileHandlers->connect(this->ui->actionOpen, SIGNAL(triggered()), SLOT(on_actionOpen_triggered()));
+    this->mFileHandlers->connect(this->ui->actionRename, SIGNAL(triggered()), SLOT(on_actionRename_triggered()));
+    this->mFileHandlers->connect(this->ui->actionSave, SIGNAL(triggered()), SLOT(on_actionSave_triggered()));
+    this->mFileHandlers->connect(this->ui->actionSave_As, SIGNAL(triggered()), SLOT(on_actionSave_As_triggered()));
+    this->mFileHandlers->connect(this->ui->actionClose, SIGNAL(triggered()), SLOT(on_actionClose_triggered()));
+    this->mFileHandlers->connect(this->ui->actionConvert, SIGNAL(triggered()), SLOT(on_actionConvert_triggered()));
+    this->mFileHandlers->connect(this->ui->actionQuit, SIGNAL(triggered()), SLOT(on_actionQuit_triggered()));
+    this->connect(this->mFileHandlers, SIGNAL(newFileOpened(QString)), SLOT(newFileOpened(QString)));
+    this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
+    this->connect(this->mFileHandlers, SIGNAL(exitRequest()), SLOT(exitRequest()));
+    this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*,QString,QString)), SLOT(tabChanged(QWidget*,QString,QString)));
+
+    this->mImageHandlers = new ActionImageHandlers(this);
+    this->mImageHandlers->connect(this->ui->actionImageFlip_Horizontal, SIGNAL(triggered()), SLOT(on_actionImageFlip_Horizontal_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageFlip_Vertical, SIGNAL(triggered()), SLOT(on_actionImageFlip_Vertical_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageRotate_90_Clockwise, SIGNAL(triggered()), SLOT(on_actionImageRotate_90_Clockwise_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageRotate_180, SIGNAL(triggered()), SLOT(on_actionImageRotate_180_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageRotate_90_Counter_Clockwise, SIGNAL(triggered()), SLOT(on_actionImageRotate_90_Counter_Clockwise_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageInverse, SIGNAL(triggered()), SLOT(on_actionImageInverse_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageResize, SIGNAL(triggered()), SLOT(on_actionImageResize_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageImport, SIGNAL(triggered()), SLOT(on_actionImageImport_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageExport, SIGNAL(triggered()), SLOT(on_actionImageExport_triggered()));
+
+    this->mFontHandlers = new ActionFontHandlers(this);
+    this->mFontHandlers->connect(this->ui->actionFontChange, SIGNAL(triggered()), SLOT(on_actionFontChange_triggered()));
+    this->mFontHandlers->connect(this->ui->actionFontInverse, SIGNAL(triggered()), SLOT(on_actionFontInverse_triggered()));
+    this->mFontHandlers->connect(this->ui->actionFontResize, SIGNAL(triggered()), SLOT(on_actionFontResize_triggered()));
+    this->mFontHandlers->connect(this->ui->actionFontMinimizeHeight, SIGNAL(triggered()), SLOT(on_actionFontMinimizeHeight_triggered()));
+
+    this->mSetupHandlers = new ActionSetupHandlers(this);
+    this->mSetupHandlers->connect(this->ui->actionSetupConversion, SIGNAL(triggered()), SLOT(on_actionSetupConversion_triggered()));
+    this->mSetupHandlers->connect(this->ui->actionSetupTemplates, SIGNAL(triggered()), SLOT(on_actionSetupTemplates_triggered()));
+
+    this->mHelpHandlers = new ActionHelpHandlers(this);
+    this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(on_actionAbout_triggered()));
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
