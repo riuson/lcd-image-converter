@@ -49,7 +49,6 @@ public:
     QString documentName();
     void setDocumentName(const QString &value);
     IDataContainer *dataContainer();
-
     WidgetBitmapEditor *editor();
 
     void setFontCharacters(const QString &chars,
@@ -96,7 +95,7 @@ private slots:
     void mon_editor_dataChanged();
     void on_listWidgetCharacters_currentTextChanged(const QString &value);
 signals:
-    void dataChanged();
+    void documentChanged(bool changed, const QString &documentName, const QString &filename);
 };
 //-----------------------------------------------------------------------------
 #endif // EDITORTABFONT_H

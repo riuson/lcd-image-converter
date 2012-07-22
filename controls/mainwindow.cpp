@@ -29,7 +29,6 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QIcon>
-#include "limits"
 
 #include "editortabimage.h"
 #include "editortabfont.h"
@@ -37,14 +36,12 @@
 #include "bitmapcontainer.h"
 #include "dialogsavechanges.h"
 #include "widgetbitmapeditor.h"
-#include "bitmaphelper.h"
-#include "dialogresize.h"
-#include "dialogconvert.h"
-#include "converter.h"
-#include "dialogsetuptemplates.h"
-#include "dialogfontselect.h"
-#include "dialogabout.h"
 #include "recentlist.h"
+#include "actionfilehandlers.h"
+#include "actionimagehandlers.h"
+#include "actionfonthandlers.h"
+#include "actionsetuphandlers.h"
+#include "actionhelphandlers.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -92,12 +89,19 @@ MainWindow::MainWindow(QWidget *parent) :
     this->connect(this->mRecentList, SIGNAL(listChanged()), SLOT(updateRecentList()));
     this->updateRecentList();
 
+    this->createHandlers();
+
     this->checkStartPageVisible();
 }
 //-----------------------------------------------------------------------------
 MainWindow::~MainWindow()
 {
     delete this->mRecentList;
+    delete this->mImageHandlers;
+    delete this->mFontHandlers;
+    delete this->mHelpHandlers;
+    delete this->mFileHandlers;
+    delete this->mSetupHandlers;
     delete ui;
 }
 //-----------------------------------------------------------------------------
@@ -111,33 +115,6 @@ void MainWindow::changeEvent(QEvent *e)
     default:
         break;
     }
-}
-//-----------------------------------------------------------------------------
-QString MainWindow::findAvailableName(const QString &prefix)
-{
-    QString result = prefix;
-    QList<QString> names;
-    for (int i = 0; i < this->ui->tabWidget->count(); i++)
-    {
-        QWidget *w = this->ui->tabWidget->widget(i);
-        IDocument *doc = dynamic_cast<IDocument *> (w);
-        if (doc != NULL)
-            names.append(doc->documentName());
-    }
-    int i = 1;
-    if (names.contains(prefix))
-    {
-        while (true)
-        {
-            QString name = QString("%1 %2").arg(prefix).arg(i++);
-            if (!names.contains(name))
-            {
-                result = name;
-                break;
-            }
-        }
-    }
-    return result;
 }
 //-----------------------------------------------------------------------------
 void MainWindow::updateMenuState()
@@ -204,14 +181,6 @@ void MainWindow::selectLocale(const QString &localeName)
     }
 }
 //-----------------------------------------------------------------------------
-int MainWindow::appendTab(QWidget *newTab, const QString &name)
-{
-    int index = this->ui->tabWidget->addTab(newTab, name);
-    this->ui->tabWidget->setCurrentIndex(index);
-    this->checkStartPageVisible();
-    return index;
-}
-//-----------------------------------------------------------------------------
 void MainWindow::checkStartPageVisible()
 {
     // show startpage if no other tabs
@@ -234,9 +203,9 @@ void MainWindow::checkStartPageVisible()
             StartTab *tab = new StartTab(this->ui->tabWidget);
             tab->setParent(this->ui->tabWidget);
             tab->setRecentFiles(this->mRecentList->files());
-            this->connect(tab, SIGNAL(openRecent(QString)), SLOT(openFile(QString)));
-            this->connect(tab, SIGNAL(createNewImage()), SLOT(on_actionNew_Image_triggered()));
-            this->connect(tab, SIGNAL(createNewFont()), SLOT(on_actionNew_Font_triggered()));
+            this->mFileHandlers->connect(tab, SIGNAL(openRecent(QString)), SLOT(openFile(QString)));
+            this->mFileHandlers->connect(tab, SIGNAL(createNewImage()), SLOT(on_actionNew_Image_triggered()));
+            this->mFileHandlers->connect(tab, SIGNAL(createNewFont()), SLOT(on_actionNew_Font_triggered()));
 
             this->ui->tabWidget->addTab(tab, tab->tabName());
             this->ui->tabWidget->setTabsClosable(false);
@@ -252,6 +221,48 @@ void MainWindow::checkStartPageVisible()
             delete tab;
         }
     }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::createHandlers()
+{
+    this->mFileHandlers = new ActionFileHandlers(this);
+    this->mFileHandlers->connect(this->ui->actionNew_Image, SIGNAL(triggered()), SLOT(on_actionNew_Image_triggered()));
+    this->mFileHandlers->connect(this->ui->actionNew_Font, SIGNAL(triggered()), SLOT(on_actionNew_Font_triggered()));
+    this->mFileHandlers->connect(this->ui->actionOpen, SIGNAL(triggered()), SLOT(on_actionOpen_triggered()));
+    this->mFileHandlers->connect(this->ui->actionRename, SIGNAL(triggered()), SLOT(on_actionRename_triggered()));
+    this->mFileHandlers->connect(this->ui->actionSave, SIGNAL(triggered()), SLOT(on_actionSave_triggered()));
+    this->mFileHandlers->connect(this->ui->actionSave_As, SIGNAL(triggered()), SLOT(on_actionSave_As_triggered()));
+    this->mFileHandlers->connect(this->ui->actionClose, SIGNAL(triggered()), SLOT(on_actionClose_triggered()));
+    this->mFileHandlers->connect(this->ui->actionConvert, SIGNAL(triggered()), SLOT(on_actionConvert_triggered()));
+    this->connect(this->ui->actionQuit, SIGNAL(triggered()), SLOT(close()));
+    this->connect(this->mFileHandlers, SIGNAL(rememberFilename(QString)), SLOT(rememberFilename(QString)));
+    this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
+    this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*,QString,QString)), SLOT(tabChanged(QWidget*,QString,QString)));
+    this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget*,QString,QString)), SLOT(tabCreated(QWidget*,QString,QString)));
+
+    this->mImageHandlers = new ActionImageHandlers(this);
+    this->mImageHandlers->connect(this->ui->actionImageFlip_Horizontal, SIGNAL(triggered()), SLOT(on_actionImageFlip_Horizontal_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageFlip_Vertical, SIGNAL(triggered()), SLOT(on_actionImageFlip_Vertical_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageRotate_90_Clockwise, SIGNAL(triggered()), SLOT(on_actionImageRotate_90_Clockwise_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageRotate_180, SIGNAL(triggered()), SLOT(on_actionImageRotate_180_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageRotate_90_Counter_Clockwise, SIGNAL(triggered()), SLOT(on_actionImageRotate_90_Counter_Clockwise_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageInverse, SIGNAL(triggered()), SLOT(on_actionImageInverse_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageResize, SIGNAL(triggered()), SLOT(on_actionImageResize_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageImport, SIGNAL(triggered()), SLOT(on_actionImageImport_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageExport, SIGNAL(triggered()), SLOT(on_actionImageExport_triggered()));
+
+    this->mFontHandlers = new ActionFontHandlers(this);
+    this->mFontHandlers->connect(this->ui->actionFontChange, SIGNAL(triggered()), SLOT(on_actionFontChange_triggered()));
+    this->mFontHandlers->connect(this->ui->actionFontInverse, SIGNAL(triggered()), SLOT(on_actionFontInverse_triggered()));
+    this->mFontHandlers->connect(this->ui->actionFontResize, SIGNAL(triggered()), SLOT(on_actionFontResize_triggered()));
+    this->mFontHandlers->connect(this->ui->actionFontMinimizeHeight, SIGNAL(triggered()), SLOT(on_actionFontMinimizeHeight_triggered()));
+
+    this->mSetupHandlers = new ActionSetupHandlers(this);
+    this->mSetupHandlers->connect(this->ui->actionSetupConversion, SIGNAL(triggered()), SLOT(on_actionSetupConversion_triggered()));
+    this->mSetupHandlers->connect(this->ui->actionSetupTemplates, SIGNAL(triggered()), SLOT(on_actionSetupTemplates_triggered()));
+
+    this->mHelpHandlers = new ActionHelpHandlers(this);
+    this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(on_actionAbout_triggered()));
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
@@ -313,553 +324,11 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     this->updateMenuState();
 }
 //-----------------------------------------------------------------------------
-void MainWindow::on_actionNew_Image_triggered()
-{
-    bool ok;
-    QString name = QInputDialog::getText(this,
-                                         tr("Enter image name"),
-                                         tr("Image name:"),
-                                         QLineEdit::Normal,
-                                         tr("Image", "new image name"),
-                                         &ok);
-    if (ok)
-    {
-        EditorTabImage *ed = new EditorTabImage(this);
-        this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
-
-        name = this->findAvailableName(name);
-        ed->setDocumentName(name);
-        ed->setChanged(false);
-        this->appendTab(ed, name);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionNew_Font_triggered()
-{
-    bool ok;
-    QString name = QInputDialog::getText(this,
-                                         tr("Enter font name"),
-                                         tr("Font name:"),
-                                         QLineEdit::Normal,
-                                         tr("Font", "new font name"),
-                                         &ok);
-    if (ok)
-    {
-        DialogFontSelect dialog(this);
-        //DialogCharacters dialog(this);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            EditorTabFont *ed = new EditorTabFont(this);
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
-
-            QString chars = dialog.characters();
-            int size;
-            QString family, style;
-            bool monospaced, antialiasing;
-            //dialog.selectedFont(&family, &style, &size, &monospaced, &antialiasing);
-            family = dialog.fontFamily();
-            style = dialog.fontStyle();
-            size = dialog.fontSize();
-            monospaced = dialog.monospaced();
-            antialiasing = dialog.antialiasing();
-
-            ed->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
-
-            name = this->findAvailableName(name);
-            ed->setDocumentName(name);
-            ed->setChanged(false);
-            this->appendTab(ed, name);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionOpen_triggered()
-{
-    QFileDialog dialog(this);
-    dialog.setAcceptMode(QFileDialog::AcceptOpen);
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setFilter(tr("XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
-    dialog.setWindowTitle(tr("Open file"));
-
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        QString filename = dialog.selectedFiles().at(0);
-
-        this->openFile(filename);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionRename_triggered()
-{
-    bool ok;
-    QWidget *w = this->ui->tabWidget->currentWidget();
-    IDocument *doc = dynamic_cast<IDocument *> (w);
-    if (doc != NULL)
-    {
-        QString name = QInputDialog::getText(this,
-                                             tr("Rename"),
-                                             tr("New name:"),
-                                             QLineEdit::Normal,
-                                             doc->documentName(),
-                                             &ok);
-        if (ok)
-        {
-            doc->setDocumentName(name);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionSave_triggered()
-{
-    QWidget *w = this->ui->tabWidget->currentWidget();
-    IDocument *doc = dynamic_cast<IDocument *> (w);
-    if (doc != NULL)
-    {
-        if (QFile::exists(doc->fileName()))
-            doc->save(doc->fileName());
-        else
-            this->on_actionSave_As_triggered();
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionSave_As_triggered()
-{
-    QWidget *w = this->ui->tabWidget->currentWidget();
-    IDocument *doc = dynamic_cast<IDocument *> (w);
-    if (doc != NULL)
-    {
-        QFileDialog dialog(this);
-        dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.setFileMode(QFileDialog::AnyFile);
-        dialog.setFilter(tr("XML Files (*.xml)"));
-        dialog.setDefaultSuffix(QString("xml"));
-        dialog.setWindowTitle(tr("Save file as"));
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            QString filename = dialog.selectedFiles().at(0);
-            doc->save(filename);
-
-            this->mRecentList->add(filename);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionClose_triggered()
-{
-    this->on_tabWidget_tabCloseRequested(this->ui->tabWidget->currentIndex());
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionConvert_triggered()
-{
-    QSettings sett;
-    sett.beginGroup("setup");
-
-    QString templateImageFileName = sett.value("templateImage", ":/templates/image_convert").toString();
-    QString templateFontFileName = sett.value("templateFont", ":/templates/font_convert").toString();
-
-    sett.endGroup();
-
-    QWidget *w = this->ui->tabWidget->currentWidget();
-    IDocument *doc = dynamic_cast<IDocument *> (w);
-    if (doc != NULL)
-    {
-        QMap<QString, QString> tags;
-        tags["fileName"] = doc->fileName();
-        QString docName = doc->documentName();
-        tags["documentName"] = docName;
-        docName = docName.remove(QRegExp("\\W", Qt::CaseInsensitive));
-        tags["documentName_ws"] = docName;
-
-        QString templateFileName;
-
-        if (EditorTabImage *eti = qobject_cast<EditorTabImage *>(w))
-        {
-            Q_UNUSED(eti);
-            tags["dataType"] = "image";
-            templateFileName = templateImageFileName;
-        }
-        if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
-        {
-            QString chars, fontFamily, style;
-            int size;
-            bool monospaced, antialiasing;
-            etf->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
-
-            tags["dataType"] = "font";
-            tags["fontFamily"] = fontFamily;
-            tags["fontSize"] = QString("%1").arg(size);
-            tags["fontStyle"] = style;
-            tags["string"] = chars;
-            tags["fontAntialiasing"] = antialiasing ? "true" : "false";
-            tags["fontWidthType"] = monospaced ? "monospaced" : "proportional";
-
-            templateFileName = templateFontFileName;
-        }
-        Converter conv(this);
-        QString result = conv.convert(doc, templateFileName, tags);
-
-        QFileDialog dialog(this);
-        dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.setFileMode(QFileDialog::AnyFile);
-        dialog.setFilter(tr("C Files (*.c);;All Files (*.*)"));
-        dialog.setDefaultSuffix(QString("c"));
-        dialog.setWindowTitle(tr("Save result file as"));
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            QString filename = dialog.selectedFiles().at(0);
-            doc->save(filename);
-
-            QFile file(filename);
-            if (file.open(QFile::WriteOnly))
-            {
-                file.write(result.toUtf8());
-                file.close();
-            }
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionQuit_triggered()
-{
-    this->close();
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageFlip_Horizontal_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        QImage result = BitmapHelper::flipHorizontal(original);
-        this->mEditor->dataContainer()->setImage(key, &result);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageFlip_Vertical_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        QImage result = BitmapHelper::flipVertical(original);
-        this->mEditor->dataContainer()->setImage(key, &result);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageRotate_90_Clockwise_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        QImage result = BitmapHelper::rotate90(original);
-        this->mEditor->dataContainer()->setImage(key, &result);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageRotate_180_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        QImage result = BitmapHelper::rotate180(original);
-        this->mEditor->dataContainer()->setImage(key, &result);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageRotate_90_Counter_Clockwise_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        QImage result = BitmapHelper::rotate270(original);
-        this->mEditor->dataContainer()->setImage(key, &result);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageInverse_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        QImage result(*original);
-        result.invertPixels();
-        this->mEditor->dataContainer()->setImage(key, &result);
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageResize_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        DialogResize dialog(original->width(), original->height(), 0, 0, false, true, true, this);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            int width, height, offsetX, offsetY;
-            bool center, changeWidth, changeHeight;
-            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
-            QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, this->mEditor->color2());
-            this->mEditor->dataContainer()->setImage(key, &result);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageImport_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QFileDialog dialog(this);
-        dialog.setAcceptMode(QFileDialog::AcceptOpen);
-        dialog.setFileMode(QFileDialog::ExistingFile);
-        dialog.setFilter(tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
-        dialog.setWindowTitle(tr("Open image file"));
-
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            QImage image;
-            image.load(dialog.selectedFiles().at(0));
-            QString key = this->mEditor->currentImageKey();
-            this->mEditor->dataContainer()->setImage(key, &image);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionImageExport_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QFileDialog dialog(this);
-        dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.setFileMode(QFileDialog::AnyFile);
-        QString filter = tr("Windows Bitmap (*.bmp);;" \
-                            "Joint Photographic Experts Group (*.jpg *.jpeg);;" \
-                            "Portable Network Graphics (*.png);;" \
-                            "Portable Pixmap (*.ppm);;" \
-                            "Tagged Image File Format (*.tiff);;" \
-                            "X11 Bitmap (*.xbm);;" \
-                            "X11 Bitmap (*.xpm)");
-        dialog.setFilter(filter);
-        dialog.setWindowTitle(tr("Save image file"));
-
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            filter = dialog.selectedFilter();
-            QString ext = "png";
-            if (filter.contains("bmp"))
-                ext = "bmp";
-            else if (filter.contains("jpg"))
-                ext = "jpg";
-            else if (filter.contains("png"))
-                ext = "png";
-            else if (filter.contains("ppm"))
-                ext = "ppm";
-            else if (filter.contains("tiff"))
-                ext = "tiff";
-            else if (filter.contains("xbm"))
-                ext = "xbm";
-            else if (filter.contains("xpm"))
-                ext = "xpm";
-
-            QString filename = dialog.selectedFiles().at(0);
-            QFileInfo info(filename);
-            QString fileExt = info.suffix().toLower();
-            if (fileExt.isEmpty() || fileExt != ext)
-            {
-                filename += "." + ext;
-            }
-            QString key = this->mEditor->currentImageKey();
-            this->mEditor->dataContainer()->image(key)->save(filename);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionFontChange_triggered()
-{
-    int index = this->ui->tabWidget->currentIndex();
-    QWidget *w = this->ui->tabWidget->widget(index);
-    if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
-    {
-        QString chars, fontFamily, style;
-        int size;
-        bool monospaced, antialiasing;
-        etf->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
-
-        DialogFontSelect dialog(this);
-        dialog.setCharacters(chars);
-        //dialog.selectFont(fontFamily, style, size, monospaced, antialiasing);
-        dialog.setFontFamily(fontFamily);
-        dialog.setFontStyle(style);
-        dialog.setFontSize(size);
-        dialog.setMonospaced(monospaced);
-        dialog.setAntialising(antialiasing);
-
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            QString chars = dialog.characters();
-            int size;
-            QString family, style;
-            bool monospaced, antialiasing;
-
-            //dialog.selectedFont(&family, &style, &size, &monospaced, &antialiasing);
-            family = dialog.fontFamily();
-            style = dialog.fontStyle();
-            size = dialog.fontSize();
-            monospaced = dialog.monospaced();
-            antialiasing = dialog.antialiasing();
-
-            etf->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionFontInverse_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QStringList keys = this->mEditor->dataContainer()->keys();
-        QListIterator<QString> it(keys);
-        it.toFront();
-        while (it.hasNext())
-        {
-            QString key = it.next();
-            QImage *original = this->mEditor->dataContainer()->image(key);
-            QImage result(*original);
-            result.invertPixels();
-            this->mEditor->dataContainer()->setImage(key, &result);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionFontResize_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        QString key = this->mEditor->currentImageKey();
-        QImage *original = this->mEditor->dataContainer()->image(key);
-        DialogResize dialog(original->width(), original->height(), 0, 0, true, true, false, this);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            int width, height, offsetX, offsetY;
-            bool center, changeWidth, changeHeight;
-            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
-
-            QStringList keys = this->mEditor->dataContainer()->keys();
-            QListIterator<QString> it(keys);
-            it.toFront();
-            while (it.hasNext())
-            {
-                QString key = it.next();
-                original = this->mEditor->dataContainer()->image(key);
-
-                QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, this->mEditor->color2());
-
-                this->mEditor->dataContainer()->setImage(key, &result);
-            }
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionFontMinimizeHeight_triggered()
-{
-    if (this->mEditor != NULL)
-    {
-        int left = std::numeric_limits<int>::max();
-        int top = std::numeric_limits<int>::max();
-        int right = 0;
-        int bottom = 0;
-        int l, t, r, b;
-        int width = 0;
-        int height = 0;
-
-        // find limits
-        QStringList keys = this->mEditor->dataContainer()->keys();
-        QListIterator<QString> it(keys);
-        it.toFront();
-        while (it.hasNext())
-        {
-            QString key = it.next();
-            QImage *original = this->mEditor->dataContainer()->image(key);
-
-            BitmapHelper::findEmptyArea(original, &l, &t, &r, &b);
-
-            left = qMin(left, l);
-            top = qMin(top, t);
-            right = qMax(right, r);
-            bottom = qMax(bottom, b);
-
-            width = qMax(width, original->width());
-            height = qMax(height, original->height());
-        }
-
-        DialogResize dialog(width, bottom + 1 - top, 0, -top, false, false, true, this);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            int width, height, offsetX, offsetY;
-            bool center, changeWidth, changeHeight;
-            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
-
-            QStringList keys = this->mEditor->dataContainer()->keys();
-            QListIterator<QString> it(keys);
-            it.toFront();
-            while (it.hasNext())
-            {
-                QString key = it.next();
-                QImage *original = this->mEditor->dataContainer()->image(key);
-
-                QImage result = BitmapHelper::resize(original, original->width(), height, width, offsetY, center, changeWidth, changeHeight, this->mEditor->color2());
-
-                this->mEditor->dataContainer()->setImage(key, &result);
-            }
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionSetupConversion_triggered()
-{
-    IDataContainer *data = NULL;
-    if (this->mEditor != NULL)
-        data = this->mEditor->dataContainer();
-    DialogConvert dialog(data, this);
-    dialog.exec();
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionSetupTemplates_triggered()
-{
-    DialogSetupTemplates dialog(this);
-    dialog.exec();
-}
-//-----------------------------------------------------------------------------
-void MainWindow::on_actionAbout_triggered()
-{
-    DialogAbout dialog(this);
-    dialog.exec();
-}
-//-----------------------------------------------------------------------------
 void MainWindow::actionLanguage_triggered()
 {
     QAction *action = qobject_cast<QAction *>(sender());
     QString name = action->data().toString();
     this->selectLocale(name);
-}
-//-----------------------------------------------------------------------------
-void MainWindow::mon_editor_dataChanged()
-{
-    QWidget *w = qobject_cast<QWidget *>(sender());
-    int index = this->ui->tabWidget->indexOf(w);
-    IDocument *doc = dynamic_cast<IDocument *> (w);
-    if (doc != NULL)
-    {
-        if (doc->changed())
-            this->ui->tabWidget->setTabText(index, "* " + doc->documentName());
-        else
-            this->ui->tabWidget->setTabText(index, doc->documentName());
-        this->ui->tabWidget->setTabToolTip(index, doc->fileName());
-    }
 }
 //-----------------------------------------------------------------------------
 void MainWindow::updateRecentList()
@@ -900,86 +369,94 @@ void MainWindow::openRecentFile()
 {
     QAction *action = qobject_cast<QAction *>(sender());
     if (action)
-        this->openFile(action->data().toString());
+        this->mFileHandlers->openFile(action->data().toString());
 }
 //-----------------------------------------------------------------------------
-void MainWindow::openFile(const QString &filename)
+void MainWindow::rememberFilename(const QString &filename)
 {
-    bool isImage = false;
-    bool isFont = false;
-    bool isImageBinary = false;
+    this->mRecentList->add(filename);
+}
+//-----------------------------------------------------------------------------
+void MainWindow::closeRequest(QWidget *tab)
+{
+    int index = this->ui->tabWidget->indexOf(tab);
+    if (index >= 0)
+        this->on_tabWidget_tabCloseRequested(index);
+}
+//-----------------------------------------------------------------------------
+IDocument *MainWindow::currentDocument()
+{
+    IDocument *result = NULL;
 
-    QFileInfo info(filename);
-    if (info.exists())
+    int index = this->ui->tabWidget->currentIndex();
+    if (index >= 0)
     {
-        if (info.suffix().toLower() == "xml")
+        QWidget *w = this->ui->tabWidget->widget(index);
+        result = qobject_cast<IDocument *>(w);
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+QWidget *MainWindow::currentTab()
+{
+    int index = this->ui->tabWidget->currentIndex();
+    if (index >= 0)
+    {
+        QWidget *w = this->ui->tabWidget->widget(index);
+        return w;
+    }
+    return NULL;
+}
+//-----------------------------------------------------------------------------
+QWidget *MainWindow::parentWidget()
+{
+    return this;
+}
+//-----------------------------------------------------------------------------
+QString MainWindow::findAvailableName(const QString &prefix)
+{
+    QString result = prefix;
+    QList<QString> names;
+    for (int i = 0; i < this->ui->tabWidget->count(); i++)
+    {
+        QWidget *w = this->ui->tabWidget->widget(i);
+        IDocument *doc = dynamic_cast<IDocument *> (w);
+        if (doc != NULL)
+            names.append(doc->documentName());
+    }
+    int i = 1;
+    if (names.contains(prefix))
+    {
+        while (true)
         {
-            QFile file(filename);
-            if (file.open(QIODevice::ReadWrite))
+            QString name = QString("%1 %2").arg(prefix).arg(i++);
+            if (!names.contains(name))
             {
-                QTextStream stream(&file);
-                while (!stream.atEnd())
-                {
-                    QString readedLine = stream.readLine();
-                    if (readedLine.contains("<data type=\"image\""))
-                    {
-                        isImage = true;
-                        break;
-                    }
-                    if (readedLine.contains("<data type=\"font\""))
-                    {
-                        isFont = true;
-                        break;
-                    }
-                }
-                file.close();
-
-                this->mRecentList->add(filename);
-            }
-        }
-        else
-        {
-            QStringList imageExtensions;
-            imageExtensions << "bmp" << "gif" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "ppm" << "tiff" << "xbm" << "xpm";
-            if (imageExtensions.contains(info.suffix().toLower()))
-                isImageBinary = true;
-        }
-        if (isImage)
-        {
-            EditorTabImage *ed = new EditorTabImage(this);
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
-
-            int index = this->appendTab(ed, "");
-            ed->load(filename);
-            this->ui->tabWidget->setTabText(index, ed->documentName());
-        }
-        if (isFont)
-        {
-            EditorTabFont *ed = new EditorTabFont(this);
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
-
-            int index = this->appendTab(ed, "");
-            ed->load(filename);
-            this->ui->tabWidget->setTabText(index, ed->documentName());
-        }
-        if (isImageBinary)
-        {
-            QImage image;
-            if (image.load(filename))
-            {
-                EditorTabImage *ed = new EditorTabImage(this);
-                this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
-
-                QString name = this->findAvailableName(info.baseName());
-
-                QString key = ed->editor()->currentImageKey();
-                ed->dataContainer()->setImage(key, &image);
-
-                ed->setDocumentName(name);
-                ed->setChanged(false);
-                this->appendTab(ed, name);
+                result = name;
+                break;
             }
         }
     }
+    return result;
+}
+//-----------------------------------------------------------------------------
+void MainWindow::tabChanged(QWidget *tab, const QString &text, const QString &tooltip)
+{
+    int index = this->ui->tabWidget->indexOf(tab);
+    if (index >= 0)
+    {
+        this->ui->tabWidget->setTabText(index, text);
+        this->ui->tabWidget->setTabToolTip(index, tooltip);
+    }
+}
+//-----------------------------------------------------------------------------
+int MainWindow::tabCreated(QWidget *newTab, const QString &name, const QString &tooltip)
+{
+    int index = this->ui->tabWidget->addTab(newTab, name);
+    this->ui->tabWidget->setCurrentIndex(index);
+    this->ui->tabWidget->setTabToolTip(index, tooltip);
+    this->checkStartPageVisible();
+    return index;
 }
 //-----------------------------------------------------------------------------

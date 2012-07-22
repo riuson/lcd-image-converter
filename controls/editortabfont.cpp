@@ -77,11 +77,10 @@ void EditorTabFont::changeEvent(QEvent *e)
     }
 }
 //-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_dataChanged()
 {
     this->mDataChanged = true;
-    emit this->dataChanged();
+    emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::on_listWidgetCharacters_currentTextChanged(const QString &value)
@@ -179,7 +178,7 @@ bool EditorTabFont::load(const QString &fileName)
 
         this->mFileName = fileName;
         this->mDataChanged = false;
-        emit this->dataChanged();
+        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
     }
 
     return result;
@@ -280,7 +279,7 @@ bool EditorTabFont::save(const QString &fileName)
         this->mDataChanged = false;
         file.close();
         result = true;
-        emit this->dataChanged();
+        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
     }
 
     return result;
@@ -294,6 +293,7 @@ bool EditorTabFont::changed()
 void EditorTabFont::setChanged(bool value)
 {
     this->mDataChanged = value;
+    emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
 }
 //-----------------------------------------------------------------------------
 QString EditorTabFont::fileName()
@@ -312,7 +312,7 @@ void EditorTabFont::setDocumentName(const QString &value)
     {
         this->mDocumentName = value;
         this->mDataChanged = true;
-        emit this->dataChanged();
+        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
     }
 }
 //-----------------------------------------------------------------------------
