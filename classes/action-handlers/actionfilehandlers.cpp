@@ -208,7 +208,6 @@ void ActionFileHandlers::on_actionConvert_triggered()
         if (dialog.exec() == QDialog::Accepted)
         {
             QString filename = dialog.selectedFiles().at(0);
-            doc->save(filename);
 
             QFile file(filename);
             if (file.open(QFile::WriteOnly))
