@@ -74,7 +74,6 @@ private slots:
 
     void newFileOpened(const QString &filename);
     void closeRequest(QWidget *tab);
-    void exitRequest();
     void tabChanged(QWidget *tab, const QString &text, const QString &tooltip);
     int tabCreated(QWidget *newTab, const QString &name, const QString &tooltip);
 public:

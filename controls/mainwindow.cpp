@@ -242,10 +242,9 @@ void MainWindow::createHandlers()
     this->mFileHandlers->connect(this->ui->actionSave_As, SIGNAL(triggered()), SLOT(on_actionSave_As_triggered()));
     this->mFileHandlers->connect(this->ui->actionClose, SIGNAL(triggered()), SLOT(on_actionClose_triggered()));
     this->mFileHandlers->connect(this->ui->actionConvert, SIGNAL(triggered()), SLOT(on_actionConvert_triggered()));
-    this->mFileHandlers->connect(this->ui->actionQuit, SIGNAL(triggered()), SLOT(on_actionQuit_triggered()));
+    this->connect(this->ui->actionQuit, SIGNAL(triggered()), SLOT(close()));
     this->connect(this->mFileHandlers, SIGNAL(newFileOpened(QString)), SLOT(newFileOpened(QString)));
     this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
-    this->connect(this->mFileHandlers, SIGNAL(exitRequest()), SLOT(exitRequest()));
     this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*,QString,QString)), SLOT(tabChanged(QWidget*,QString,QString)));
     this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget*,QString,QString)), SLOT(tabCreated(QWidget*,QString,QString)));
 
@@ -391,11 +390,6 @@ void MainWindow::closeRequest(QWidget *tab)
     int index = this->ui->tabWidget->indexOf(tab);
     if (index >= 0)
         this->on_tabWidget_tabCloseRequested(index);
-}
-//-----------------------------------------------------------------------------
-void MainWindow::exitRequest()
-{
-    this->close();
 }
 //-----------------------------------------------------------------------------
 IDocument *MainWindow::currentDocument()
