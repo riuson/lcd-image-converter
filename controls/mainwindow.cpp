@@ -331,21 +331,6 @@ void MainWindow::actionLanguage_triggered()
     this->selectLocale(name);
 }
 //-----------------------------------------------------------------------------
-void MainWindow::mon_editor_dataChanged()
-{
-    QWidget *w = qobject_cast<QWidget *>(sender());
-    int index = this->ui->tabWidget->indexOf(w);
-    IDocument *doc = dynamic_cast<IDocument *> (w);
-    if (doc != NULL)
-    {
-        if (doc->changed())
-            this->ui->tabWidget->setTabText(index, "* " + doc->documentName());
-        else
-            this->ui->tabWidget->setTabText(index, doc->documentName());
-        this->ui->tabWidget->setTabToolTip(index, doc->fileName());
-    }
-}
-//-----------------------------------------------------------------------------
 void MainWindow::updateRecentList()
 {
     QList<QAction *> actions = this->ui->menuRecent->actions();

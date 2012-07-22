@@ -68,7 +68,6 @@ private slots:
     void on_tabWidget_currentChanged(int index);
     void actionLanguage_triggered();
 
-    void mon_editor_dataChanged();
     void updateRecentList();
     void openRecentFile();
 
