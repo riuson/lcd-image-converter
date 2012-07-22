@@ -30,7 +30,7 @@ void ActionFileHandlers::on_actionNew_Image_triggered()
     if (ok)
     {
         EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
-        this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+        this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
 
         name = this->mMainWindow->findAvailableName(name);
         ed->setDocumentName(name);
@@ -54,7 +54,7 @@ void ActionFileHandlers::on_actionNew_Font_triggered()
         if (dialog.exec() == QDialog::Accepted)
         {
             EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+            this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
 
             QString chars = dialog.characters();
             int size;
@@ -268,7 +268,7 @@ void ActionFileHandlers::openFile(const QString &filename)
         if (isImage)
         {
             EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+            this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
 
             this->mMainWindow->appendTab(ed, "");
             ed->load(filename);
@@ -277,7 +277,7 @@ void ActionFileHandlers::openFile(const QString &filename)
         if (isFont)
         {
             EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+            this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
 
             this->mMainWindow->appendTab(ed, "");
             ed->load(filename);
@@ -289,7 +289,7 @@ void ActionFileHandlers::openFile(const QString &filename)
             if (image.load(filename))
             {
                 EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
-                this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+                this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
 
                 QString name = this->mMainWindow->findAvailableName(info.baseName());
 
@@ -305,7 +305,7 @@ void ActionFileHandlers::openFile(const QString &filename)
     }
 }
 //-----------------------------------------------------------------------------
-void ActionFileHandlers::mon_editor_dataChanged()
+void ActionFileHandlers::documentChanged(bool changed, const QString &documentName, const QString &filename)
 {
     QWidget *w = qobject_cast<QWidget *>(sender());
     IDocument *doc = dynamic_cast<IDocument *> (w);

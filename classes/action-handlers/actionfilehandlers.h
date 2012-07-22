@@ -30,7 +30,7 @@ public slots:
     void on_actionQuit_triggered();
     void openFile(const QString &filename);
 private slots:
-    void mon_editor_dataChanged();
+    void documentChanged(bool changed, const QString &documentName, const QString &filename);
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONFILEHANDLERS_H

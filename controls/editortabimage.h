@@ -64,7 +64,7 @@ private:
 private slots:
     void mon_editor_dataChanged();
 signals:
-    void dataChanged();
+    void documentChanged(bool changed, const QString &documentName, const QString &filename);
 };
 //-----------------------------------------------------------------------------
 #endif // EDITORTABIMAGE_H

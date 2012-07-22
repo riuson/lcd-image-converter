@@ -71,7 +71,6 @@ private slots:
     void mon_editor_dataChanged();
     void updateRecentList();
     void openRecentFile();
-    void openFile(const QString &filename);
 
     void newFileOpened(const QString &filename);
     void closeRequest(QWidget *tab);

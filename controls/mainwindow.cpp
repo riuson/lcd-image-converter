@@ -244,7 +244,7 @@ void MainWindow::checkStartPageVisible()
             StartTab *tab = new StartTab(this->ui->tabWidget);
             tab->setParent(this->ui->tabWidget);
             tab->setRecentFiles(this->mRecentList->files());
-            this->connect(tab, SIGNAL(openRecent(QString)), SLOT(openFile(QString)));
+            this->mFileHandlers->connect(tab, SIGNAL(openRecent(QString)), SLOT(openFile(QString)));
             this->mFileHandlers->connect(tab, SIGNAL(createNewImage()), SLOT(on_actionNew_Image_triggered()));
             this->mFileHandlers->connect(tab, SIGNAL(createNewFont()), SLOT(on_actionNew_Font_triggered()));
 
@@ -383,87 +383,7 @@ void MainWindow::openRecentFile()
 {
     QAction *action = qobject_cast<QAction *>(sender());
     if (action)
-        this->openFile(action->data().toString());
-}
-//-----------------------------------------------------------------------------
-void MainWindow::openFile(const QString &filename)
-{
-    bool isImage = false;
-    bool isFont = false;
-    bool isImageBinary = false;
-
-    QFileInfo info(filename);
-    if (info.exists())
-    {
-        if (info.suffix().toLower() == "xml")
-        {
-            QFile file(filename);
-            if (file.open(QIODevice::ReadWrite))
-            {
-                QTextStream stream(&file);
-                while (!stream.atEnd())
-                {
-                    QString readedLine = stream.readLine();
-                    if (readedLine.contains("<data type=\"image\""))
-                    {
-                        isImage = true;
-                        break;
-                    }
-                    if (readedLine.contains("<data type=\"font\""))
-                    {
-                        isFont = true;
-                        break;
-                    }
-                }
-                file.close();
-
-                this->mRecentList->add(filename);
-            }
-        }
-        else
-        {
-            QStringList imageExtensions;
-            imageExtensions << "bmp" << "gif" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "ppm" << "tiff" << "xbm" << "xpm";
-            if (imageExtensions.contains(info.suffix().toLower()))
-                isImageBinary = true;
-        }
-        if (isImage)
-        {
-            EditorTabImage *ed = new EditorTabImage(this);
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
-
-            int index = this->appendTab(ed, "");
-            ed->load(filename);
-            this->ui->tabWidget->setTabText(index, ed->documentName());
-        }
-        if (isFont)
-        {
-            EditorTabFont *ed = new EditorTabFont(this);
-            this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
-
-            int index = this->appendTab(ed, "");
-            ed->load(filename);
-            this->ui->tabWidget->setTabText(index, ed->documentName());
-        }
-        if (isImageBinary)
-        {
-            QImage image;
-            if (image.load(filename))
-            {
-                EditorTabImage *ed = new EditorTabImage(this);
-                this->connect(ed, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
-
-                QString name = this->findAvailableName(info.baseName());
-
-                QString key = ed->editor()->currentImageKey();
-                ed->dataContainer()->setImage(key, &image);
-
-                ed->setDocumentName(name);
-                ed->setChanged(false);
-                this->appendTab(ed, name);
-            }
-        }
-    }
+        this->mFileHandlers->openFile(action->data().toString());
 }
 //-----------------------------------------------------------------------------
 void MainWindow::newFileOpened(const QString &filename)
