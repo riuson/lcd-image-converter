@@ -247,6 +247,7 @@ void MainWindow::createHandlers()
     this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
     this->connect(this->mFileHandlers, SIGNAL(exitRequest()), SLOT(exitRequest()));
     this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*,QString,QString)), SLOT(tabChanged(QWidget*,QString,QString)));
+    this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget*,QString,QString)), SLOT(tabCreated(QWidget*,QString,QString)));
 
     this->mImageHandlers = new ActionImageHandlers(this);
     this->mImageHandlers->connect(this->ui->actionImageFlip_Horizontal, SIGNAL(triggered()), SLOT(on_actionImageFlip_Horizontal_triggered()));
@@ -454,15 +455,6 @@ QString MainWindow::findAvailableName(const QString &prefix)
     return result;
 }
 //-----------------------------------------------------------------------------
-int MainWindow::appendTab(QWidget *newTab, const QString &name, const QString &tooltip)
-{
-    int index = this->ui->tabWidget->addTab(newTab, name);
-    this->ui->tabWidget->setCurrentIndex(index);
-    this->ui->tabWidget->setTabToolTip(index, tooltip);
-    this->checkStartPageVisible();
-    return index;
-}
-//-----------------------------------------------------------------------------
 void MainWindow::tabChanged(QWidget *tab, const QString &text, const QString &tooltip)
 {
     int index = this->ui->tabWidget->indexOf(tab);
@@ -471,5 +463,14 @@ void MainWindow::tabChanged(QWidget *tab, const QString &text, const QString &to
         this->ui->tabWidget->setTabText(index, text);
         this->ui->tabWidget->setTabToolTip(index, tooltip);
     }
+}
+//-----------------------------------------------------------------------------
+int MainWindow::tabCreated(QWidget *newTab, const QString &name, const QString &tooltip)
+{
+    int index = this->ui->tabWidget->addTab(newTab, name);
+    this->ui->tabWidget->setCurrentIndex(index);
+    this->ui->tabWidget->setTabToolTip(index, tooltip);
+    this->checkStartPageVisible();
+    return index;
 }
 //-----------------------------------------------------------------------------

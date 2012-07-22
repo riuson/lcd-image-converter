@@ -33,7 +33,6 @@ public:
     virtual QWidget *currentTab() = 0;
     virtual QWidget *parentWidget() = 0;
     virtual QString findAvailableName(const QString &prefix) = 0;
-    virtual int appendTab(QWidget *newTab, const QString &name, const QString &tooltip) = 0;
 };
 Q_DECLARE_INTERFACE (IMainWindow,
                      "riuson.lcd-image-converter/1.0"

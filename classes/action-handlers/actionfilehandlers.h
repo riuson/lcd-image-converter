@@ -18,7 +18,8 @@ signals:
     void closeRequest(QWidget *tab);
     void exitRequest();
     void tabChanged(QWidget *w, const QString &documentName, const QString &filename);
-    
+    void tabCreated(QWidget *w, const QString &documentName, const QString &filename);
+
 public slots:
     void on_actionNew_Image_triggered();
     void on_actionNew_Font_triggered();
