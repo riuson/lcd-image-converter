@@ -29,7 +29,6 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QIcon>
-#include "limits"
 
 #include "editortabimage.h"
 #include "editortabfont.h"
@@ -37,13 +36,6 @@
 #include "bitmapcontainer.h"
 #include "dialogsavechanges.h"
 #include "widgetbitmapeditor.h"
-#include "bitmaphelper.h"
-#include "dialogresize.h"
-#include "dialogconvert.h"
-#include "converter.h"
-#include "dialogsetuptemplates.h"
-#include "dialogfontselect.h"
-#include "dialogabout.h"
 #include "recentlist.h"
 #include "actionfilehandlers.h"
 #include "actionimagehandlers.h"
