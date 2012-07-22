@@ -75,7 +75,7 @@ private slots:
     void on_lineEdit_textChanged(const QString &value);
     void on_tableView_doubleClicked(const QModelIndex &index);
     void on_pushButtonAppend_clicked();
-    void on_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 };
 
 #endif // DIALOGFONTSELECT_H

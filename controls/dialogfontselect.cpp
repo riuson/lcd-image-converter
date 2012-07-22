@@ -33,7 +33,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     this->ui->tableView->setModel(this->mModel);
 
     QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
-    this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(on_selectionChanged(QItemSelection,QItemSelection)));
+    this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(selectionChanged(QItemSelection,QItemSelection)));
 
     this->ui->radioButtonMonospaced->setChecked(false);
     this->ui->radioButtonProportional->setChecked(false);
@@ -289,7 +289,7 @@ void DialogFontSelect::on_pushButtonAppend_clicked()
     }
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::on_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     Q_UNUSED(selected);
     Q_UNUSED(deselected);
