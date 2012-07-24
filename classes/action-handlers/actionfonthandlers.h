@@ -21,6 +21,7 @@ public slots:
     void on_actionFontInverse_triggered();
     void on_actionFontResize_triggered();
     void on_actionFontMinimizeHeight_triggered();
+    void on_actionFontPreview_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONFONTHANDLERS_H

@@ -7,6 +7,7 @@
 #include "bitmaphelper.h"
 #include "editortabfont.h"
 #include "dialogfontselect.h"
+#include "dialogfontpreview.h"
 #include "imainwindow.h"
 #include "idocument.h"
 #include "idatacontainer.h"
@@ -159,6 +160,19 @@ void ActionFontHandlers::on_actionFontMinimizeHeight_triggered()
                 editor->dataContainer()->setImage(key, &result);
             }
         }
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionFontHandlers::on_actionFontPreview_triggered()
+{
+    if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab()))
+    {
+        IDocument *doc = this->mMainWindow->currentDocument();
+
+        DialogFontPreview dialog(this->mMainWindow->parentWidget());
+        dialog.setDocument(doc);
+
+        dialog.exec();
     }
 }
 //-----------------------------------------------------------------------------

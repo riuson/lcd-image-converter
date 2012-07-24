@@ -51,7 +51,8 @@ SOURCES += main.cpp \
     classes/action-handlers/actionfonthandlers.cpp \
     classes/action-handlers/actionhelphandlers.cpp \
     classes/action-handlers/actionsetuphandlers.cpp \
-    classes/action-handlers/actionfilehandlers.cpp
+    classes/action-handlers/actionfilehandlers.cpp \
+    controls/dialogfontpreview.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -87,7 +88,8 @@ HEADERS += \
     classes/action-handlers/actionfonthandlers.h \
     classes/action-handlers/actionhelphandlers.h \
     classes/action-handlers/actionsetuphandlers.h \
-    classes/action-handlers/actionfilehandlers.h
+    classes/action-handlers/actionfilehandlers.h \
+    controls/dialogfontpreview.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -102,7 +104,8 @@ FORMS += \
     controls/dialogsetuptemplates.ui \
     controls/dialogfontselect.ui \
     controls/dialogabout.ui \
-    controls/starttab.ui
+    controls/starttab.ui \
+    controls/dialogfontpreview.ui
 INCLUDEPATH += . \
     ./classes \
     ./classes/action-handlers \
