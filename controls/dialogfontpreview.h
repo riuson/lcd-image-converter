@@ -4,6 +4,8 @@
 #include <QDialog>
 //-----------------------------------------------------------------------------
 #include "idocument.h"
+#include <QImage>>
+#include <QPixmap>
 //-----------------------------------------------------------------------------
 namespace Ui {
 class DialogFontPreview;
@@ -22,6 +24,8 @@ public:
 private:
     Ui::DialogFontPreview *ui;
     IDocument *mDocument;
+    QImage mOriginalImage;
+    QPixmap mScaledPixmap;
 
 private slots:
     void on_lineEditText_textChanged(const QString &text);
