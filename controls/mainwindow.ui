@@ -118,12 +118,12 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew_Image">
    <property name="text">
-    <string>New Image</string>
+    <string>New Image...</string>
    </property>
   </action>
   <action name="actionNew_Font">
    <property name="text">
-    <string>New Font</string>
+    <string>New Font...</string>
    </property>
   </action>
   <action name="actionOpen">
@@ -227,7 +227,7 @@
   </action>
   <action name="actionImageResize">
    <property name="text">
-    <string>Resize</string>
+    <string>Resize...</string>
    </property>
   </action>
   <action name="actionFontChange">
@@ -237,7 +237,7 @@
   </action>
   <action name="actionFontResize">
    <property name="text">
-    <string>Resize</string>
+    <string>Resize...</string>
    </property>
   </action>
   <action name="actionFontInverse">
@@ -278,7 +278,7 @@
   </action>
   <action name="actionFontPreview">
    <property name="text">
-    <string>Preview</string>
+    <string>Preview...</string>
    </property>
   </action>
  </widget>

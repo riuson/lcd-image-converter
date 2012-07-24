@@ -575,13 +575,13 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.ui" line="121"/>
-        <source>New Image</source>
-        <translation>Новое изображение</translation>
+        <source>New Image...</source>
+        <translation>Новое изображение...</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.ui" line="126"/>
-        <source>New Font</source>
-        <translation>Новый шрифт</translation>
+        <source>New Font...</source>
+        <translation>Новый шрифт...</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.ui" line="131"/>
@@ -665,6 +665,12 @@ Qt: %3</translation>
         <translation>Экспортировать...</translation>
     </message>
     <message>
+        <location filename="../controls/mainwindow.ui" line="230"/>
+        <location filename="../controls/mainwindow.ui" line="240"/>
+        <source>Resize...</source>
+        <translation>Изменение размеров...</translation>
+    </message>
+    <message>
         <location filename="../controls/mainwindow.ui" line="271"/>
         <source>Rename...</source>
         <translation>Переименовать...</translation>
@@ -677,14 +683,8 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.ui" line="281"/>
-        <source>Preview</source>
-        <translation>Предпросмотр</translation>
-    </message>
-    <message>
-        <location filename="../controls/mainwindow.ui" line="230"/>
-        <location filename="../controls/mainwindow.ui" line="240"/>
-        <source>Resize</source>
-        <translation>Изменение размеров</translation>
+        <source>Preview...</source>
+        <translation>Предпросмотр...</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.ui" line="178"/>
