@@ -256,6 +256,7 @@ void MainWindow::createHandlers()
     this->mFontHandlers->connect(this->ui->actionFontInverse, SIGNAL(triggered()), SLOT(on_actionFontInverse_triggered()));
     this->mFontHandlers->connect(this->ui->actionFontResize, SIGNAL(triggered()), SLOT(on_actionFontResize_triggered()));
     this->mFontHandlers->connect(this->ui->actionFontMinimizeHeight, SIGNAL(triggered()), SLOT(on_actionFontMinimizeHeight_triggered()));
+    this->mFontHandlers->connect(this->ui->actionFontPreview, SIGNAL(triggered()), SLOT(on_actionFontPreview_triggered()));
 
     this->mSetupHandlers = new ActionSetupHandlers(this);
     this->mSetupHandlers->connect(this->ui->actionSetupConversion, SIGNAL(triggered()), SLOT(on_actionSetupConversion_triggered()));

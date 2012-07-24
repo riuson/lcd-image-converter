@@ -87,6 +87,7 @@
     <addaction name="actionFontResize"/>
     <addaction name="actionFontMinimizeHeight"/>
     <addaction name="actionFontInverse"/>
+    <addaction name="actionFontPreview"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -273,6 +274,11 @@
   <action name="actionFontMinimizeHeight">
    <property name="text">
     <string>Optimize height...</string>
+   </property>
+  </action>
+  <action name="actionFontPreview">
+   <property name="text">
+    <string>Preview</string>
    </property>
   </action>
  </widget>
