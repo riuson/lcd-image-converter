@@ -42,10 +42,13 @@ QImage *FontContainer::image(const QString &key)
 //-----------------------------------------------------------------------------
 void FontContainer::setImage(const QString &key, QImage *image)
 {
-    this->remove(key);
-    QImage *imageNew = new QImage(*image);
-    this->mImageMap.insert(key, imageNew);
-    emit this->imageChanged(key);
+    if (key != QString("default"))
+    {
+        this->remove(key);
+        QImage *imageNew = new QImage(*image);
+        this->mImageMap.insert(key, imageNew);
+        emit this->imageChanged(key);
+    }
 }
 //-----------------------------------------------------------------------------
 void FontContainer::transform(const QString &key, int code)
