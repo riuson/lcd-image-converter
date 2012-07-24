@@ -16,7 +16,7 @@ public:
 signals:
     
 public slots:
-    void on_actionAbout_triggered();
+    void about_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONHELPHANDLERS_H

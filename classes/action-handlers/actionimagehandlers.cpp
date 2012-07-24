@@ -14,7 +14,7 @@ ActionImageHandlers::ActionImageHandlers(QObject *parent) :
 {
 }
 //-----------------------------------------------------------------------------
-void ActionImageHandlers::on_actionImageFlip_Horizontal_triggered()
+void ActionImageHandlers::flipHorizontal_triggered()
 {
     if (this->editor())
     {
@@ -27,7 +27,7 @@ void ActionImageHandlers::on_actionImageFlip_Horizontal_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionImageHandlers::on_actionImageFlip_Vertical_triggered()
+void ActionImageHandlers::flipVertical_triggered()
 {
     if (this->editor())
     {
@@ -40,7 +40,7 @@ void ActionImageHandlers::on_actionImageFlip_Vertical_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionImageHandlers::on_actionImageRotate_90_Clockwise_triggered()
+void ActionImageHandlers::rotate_90_Clockwise_triggered()
 {
     if (this->editor())
     {
@@ -53,7 +53,7 @@ void ActionImageHandlers::on_actionImageRotate_90_Clockwise_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionImageHandlers::on_actionImageRotate_180_triggered()
+void ActionImageHandlers::rotate_180_triggered()
 {
     if (this->editor())
     {
@@ -66,7 +66,7 @@ void ActionImageHandlers::on_actionImageRotate_180_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionImageHandlers::on_actionImageRotate_90_Counter_Clockwise_triggered()
+void ActionImageHandlers::rotate_90_Counter_Clockwise_triggered()
 {
     if (this->editor())
     {
@@ -79,7 +79,7 @@ void ActionImageHandlers::on_actionImageRotate_90_Counter_Clockwise_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionImageHandlers::on_actionImageInverse_triggered()
+void ActionImageHandlers::inverse_triggered()
 {
     if (this->editor())
     {
@@ -93,7 +93,7 @@ void ActionImageHandlers::on_actionImageInverse_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionImageHandlers::on_actionImageResize_triggered()
+void ActionImageHandlers::resize_triggered()
 {
     if (this->editor())
     {
@@ -113,7 +113,7 @@ void ActionImageHandlers::on_actionImageResize_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionImageHandlers::on_actionImageImport_triggered()
+void ActionImageHandlers::import_triggered()
 {
     if (this->editor())
     {
@@ -135,7 +135,7 @@ void ActionImageHandlers::on_actionImageImport_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionImageHandlers::on_actionImageExport_triggered()
+void ActionImageHandlers::export_triggered()
 {
     if (this->editor())
     {

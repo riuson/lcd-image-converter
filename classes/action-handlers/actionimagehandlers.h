@@ -17,15 +17,15 @@ public:
 signals:
     
 public slots:
-    void on_actionImageFlip_Horizontal_triggered();
-    void on_actionImageFlip_Vertical_triggered();
-    void on_actionImageRotate_90_Clockwise_triggered();
-    void on_actionImageRotate_180_triggered();
-    void on_actionImageRotate_90_Counter_Clockwise_triggered();
-    void on_actionImageInverse_triggered();
-    void on_actionImageResize_triggered();
-    void on_actionImageImport_triggered();
-    void on_actionImageExport_triggered();
+    void flipHorizontal_triggered();
+    void flipVertical_triggered();
+    void rotate_90_Clockwise_triggered();
+    void rotate_180_triggered();
+    void rotate_90_Counter_Clockwise_triggered();
+    void inverse_triggered();
+    void resize_triggered();
+    void import_triggered();
+    void export_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONIMAGEHANDLERS_H

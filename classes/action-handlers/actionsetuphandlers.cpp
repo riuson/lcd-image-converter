@@ -11,7 +11,7 @@ ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
 {
 }
 //-----------------------------------------------------------------------------
-void ActionSetupHandlers::on_actionSetupConversion_triggered()
+void ActionSetupHandlers::conversion_triggered()
 {
     IDataContainer *data = NULL;
     if (this->editor() != NULL)
@@ -20,7 +20,7 @@ void ActionSetupHandlers::on_actionSetupConversion_triggered()
     dialog.exec();
 }
 //-----------------------------------------------------------------------------
-void ActionSetupHandlers::on_actionSetupTemplates_triggered()
+void ActionSetupHandlers::templates_triggered()
 {
     DialogSetupTemplates dialog(this->mMainWindow->parentWidget());
     dialog.exec();

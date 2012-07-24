@@ -17,11 +17,11 @@ public:
 signals:
     
 public slots:
-    void on_actionFontChange_triggered();
-    void on_actionFontInverse_triggered();
-    void on_actionFontResize_triggered();
-    void on_actionFontMinimizeHeight_triggered();
-    void on_actionFontPreview_triggered();
+    void fontChange_triggered();
+    void fontInverse_triggered();
+    void fontResize_triggered();
+    void fontMinimizeHeight_triggered();
+    void fontPreview_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONFONTHANDLERS_H

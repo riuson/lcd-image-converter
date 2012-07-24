@@ -8,7 +8,7 @@ ActionHelpHandlers::ActionHelpHandlers(QObject *parent) :
 {
 }
 //-----------------------------------------------------------------------------
-void ActionHelpHandlers::on_actionAbout_triggered()
+void ActionHelpHandlers::about_triggered()
 {
     DialogAbout dialog(this->mMainWindow->parentWidget());
     dialog.exec();

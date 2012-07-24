@@ -18,7 +18,7 @@ ActionFileHandlers::ActionFileHandlers(QObject *parent) :
 {
 }
 //-----------------------------------------------------------------------------
-void ActionFileHandlers::on_actionNew_Image_triggered()
+void ActionFileHandlers::newImage_triggered()
 {
     bool ok;
     QString name = QInputDialog::getText(this->mMainWindow->parentWidget(),
@@ -39,7 +39,7 @@ void ActionFileHandlers::on_actionNew_Image_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionFileHandlers::on_actionNew_Font_triggered()
+void ActionFileHandlers::newFont_triggered()
 {
     bool ok;
     QString name = QInputDialog::getText(this->mMainWindow->parentWidget(),
@@ -77,7 +77,7 @@ void ActionFileHandlers::on_actionNew_Font_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionFileHandlers::on_actionOpen_triggered()
+void ActionFileHandlers::open_triggered()
 {
     QFileDialog dialog(this->mMainWindow->parentWidget());
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
@@ -93,7 +93,7 @@ void ActionFileHandlers::on_actionOpen_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionFileHandlers::on_actionRename_triggered()
+void ActionFileHandlers::rename_triggered()
 {
     bool ok;
     IDocument *doc = this->mMainWindow->currentDocument();
@@ -112,7 +112,7 @@ void ActionFileHandlers::on_actionRename_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionFileHandlers::on_actionSave_triggered()
+void ActionFileHandlers::save_triggered()
 {
     IDocument *doc = this->mMainWindow->currentDocument();
     if (doc != NULL)
@@ -120,11 +120,11 @@ void ActionFileHandlers::on_actionSave_triggered()
         if (QFile::exists(doc->fileName()))
             doc->save(doc->fileName());
         else
-            this->on_actionSave_As_triggered();
+            this->saveAs_triggered();
     }
 }
 //-----------------------------------------------------------------------------
-void ActionFileHandlers::on_actionSave_As_triggered()
+void ActionFileHandlers::saveAs_triggered()
 {
     IDocument *doc = this->mMainWindow->currentDocument();
     if (doc != NULL)
@@ -145,12 +145,12 @@ void ActionFileHandlers::on_actionSave_As_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionFileHandlers::on_actionClose_triggered()
+void ActionFileHandlers::close_triggered()
 {
     emit closeRequest(this->mMainWindow->currentTab());
 }
 //-----------------------------------------------------------------------------
-void ActionFileHandlers::on_actionConvert_triggered()
+void ActionFileHandlers::convert_triggered()
 {
     QSettings sett;
     sett.beginGroup("setup");
@@ -217,11 +217,6 @@ void ActionFileHandlers::on_actionConvert_triggered()
             }
         }
     }
-}
-//-----------------------------------------------------------------------------
-void ActionFileHandlers::on_actionQuit_triggered()
-{
-    emit this->exitRequest();
 }
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::openFile(const QString &filename)

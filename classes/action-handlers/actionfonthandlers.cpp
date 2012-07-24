@@ -18,7 +18,7 @@ ActionFontHandlers::ActionFontHandlers(QObject *parent) :
 {
 }
 //-----------------------------------------------------------------------------
-void ActionFontHandlers::on_actionFontChange_triggered()
+void ActionFontHandlers::fontChange_triggered()
 {
     if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab()))
     {
@@ -55,7 +55,7 @@ void ActionFontHandlers::on_actionFontChange_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionFontHandlers::on_actionFontInverse_triggered()
+void ActionFontHandlers::fontInverse_triggered()
 {
     if (this->editor() != NULL)
     {
@@ -75,7 +75,7 @@ void ActionFontHandlers::on_actionFontInverse_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionFontHandlers::on_actionFontResize_triggered()
+void ActionFontHandlers::fontResize_triggered()
 {
     if (this->editor() != NULL)
     {
@@ -106,7 +106,7 @@ void ActionFontHandlers::on_actionFontResize_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionFontHandlers::on_actionFontMinimizeHeight_triggered()
+void ActionFontHandlers::fontMinimizeHeight_triggered()
 {
     if (this->editor() != NULL)
     {
@@ -163,9 +163,10 @@ void ActionFontHandlers::on_actionFontMinimizeHeight_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionFontHandlers::on_actionFontPreview_triggered()
+void ActionFontHandlers::fontPreview_triggered()
 {
-    if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab()))
+    IDocument *doc = this->mMainWindow->currentDocument();
+    if (doc != NULL)
     {
         IDocument *doc = this->mMainWindow->currentDocument();
 

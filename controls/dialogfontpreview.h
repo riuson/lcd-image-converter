@@ -4,7 +4,7 @@
 #include <QDialog>
 //-----------------------------------------------------------------------------
 #include "idocument.h"
-#include <QImage>>
+#include <QImage>
 #include <QPixmap>
 //-----------------------------------------------------------------------------
 namespace Ui {

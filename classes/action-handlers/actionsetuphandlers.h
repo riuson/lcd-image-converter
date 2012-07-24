@@ -16,8 +16,8 @@ public:
 signals:
     
 public slots:
-    void on_actionSetupConversion_triggered();
-    void on_actionSetupTemplates_triggered();
+    void conversion_triggered();
+    void templates_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONSETUPHANDLERS_H
