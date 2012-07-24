@@ -118,6 +118,16 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
+      <widget class="QPushButton" name="pushButtonAppend">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Append</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLineEdit" name="lineEdit"/>
      </item>
      <item>

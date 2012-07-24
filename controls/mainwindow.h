@@ -21,6 +21,7 @@
 #define MAINWINDOW_H
 //-----------------------------------------------------------------------------
 #include <QMainWindow>
+#include "imainwindow.h"
 //-----------------------------------------------------------------------------
 namespace Ui {
     class MainWindow;
@@ -29,9 +30,17 @@ namespace Ui {
 class WidgetBitmapEditor;
 class QTranslator;
 class RecentList;
+class ActionFileHandlers;
+class ActionImageHandlers;
+class ActionFontHandlers;
+class ActionSetupHandlers;
+class ActionHelpHandlers;
 //-----------------------------------------------------------------------------
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow, public IMainWindow
+{
     Q_OBJECT
+    Q_INTERFACES(IMainWindow)
+
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -41,49 +50,37 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    QString findAvailableName(const QString &prefix);
     WidgetBitmapEditor *mEditor;
     QTranslator *mTrans;
     RecentList *mRecentList;
     void updateMenuState();
     void selectLocale(const QString &localeName);
-    int appendTab(QWidget *newTab, const QString &name);
     void checkStartPageVisible();
+    void createHandlers();
+
+    ActionFileHandlers *mFileHandlers;
+    ActionImageHandlers *mImageHandlers;
+    ActionFontHandlers *mFontHandlers;
+    ActionSetupHandlers *mSetupHandlers;
+    ActionHelpHandlers *mHelpHandlers;
 
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
     void on_tabWidget_currentChanged(int index);
-    void on_actionNew_Image_triggered();
-    void on_actionNew_Font_triggered();
-    void on_actionOpen_triggered();
-    void on_actionRename_triggered();
-    void on_actionSave_triggered();
-    void on_actionSave_As_triggered();
-    void on_actionClose_triggered();
-    void on_actionConvert_triggered();
-    void on_actionQuit_triggered();
-    void on_actionImageFlip_Horizontal_triggered();
-    void on_actionImageFlip_Vertical_triggered();
-    void on_actionImageRotate_90_Clockwise_triggered();
-    void on_actionImageRotate_180_triggered();
-    void on_actionImageRotate_90_Counter_Clockwise_triggered();
-    void on_actionImageInverse_triggered();
-    void on_actionImageResize_triggered();
-    void on_actionImageImport_triggered();
-    void on_actionImageExport_triggered();
-    void on_actionFontChange_triggered();
-    void on_actionFontInverse_triggered();
-    void on_actionFontResize_triggered();
-    void on_actionFontMinimizeHeight_triggered();
-    void on_actionSetupConversion_triggered();
-    void on_actionSetupTemplates_triggered();
-    void on_actionAbout_triggered();
     void actionLanguage_triggered();
 
-    void mon_editor_dataChanged();
     void updateRecentList();
     void openRecentFile();
-    void openFile(const QString &filename);
+
+    void rememberFilename(const QString &filename);
+    void closeRequest(QWidget *tab);
+    void tabChanged(QWidget *tab, const QString &text, const QString &tooltip);
+    int tabCreated(QWidget *newTab, const QString &name, const QString &tooltip);
+public:
+    IDocument *currentDocument();
+    QWidget *currentTab();
+    QWidget *parentWidget();
+    QString findAvailableName(const QString &prefix);
 };
 //-----------------------------------------------------------------------------
 #endif // MAINWINDOW_H

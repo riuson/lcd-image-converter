@@ -21,6 +21,7 @@
 #include "ui_dialogfontselect.h"
 
 #include "charactersmodel.h"
+#include <QTableWidgetSelectionRange>
 //-----------------------------------------------------------------------------
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
     QDialog(parent),
@@ -30,6 +31,9 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
 
     this->mModel = new CharactersModel(this);
     this->ui->tableView->setModel(this->mModel);
+
+    QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
+    this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(selectionChanged(QItemSelection,QItemSelection)));
 
     this->ui->radioButtonMonospaced->setChecked(false);
     this->ui->radioButtonProportional->setChecked(false);
@@ -266,5 +270,46 @@ void DialogFontSelect::on_tableView_doubleClicked(const QModelIndex &index)
     QString str = this->ui->lineEdit->text();
     QString a = this->mModel->data(index, Qt::DisplayRole).toString();
     this->ui->lineEdit->setText(str + a);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_pushButtonAppend_clicked()
+{
+    QString str = this->ui->lineEdit->text();
+    QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
+    if (selectionModel->hasSelection())
+    {
+        QModelIndexList indexes = selectionModel->selectedIndexes();
+        for (int i = 0; i < indexes.count(); i++)
+        {
+            QString a = this->mModel->data(indexes.at(i), Qt::DisplayRole).toString();
+            if (!str.contains(a))
+                str += a;
+        }
+        this->ui->lineEdit->setText(str);
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    Q_UNUSED(selected);
+    Q_UNUSED(deselected);
+
+    QString str = this->ui->lineEdit->text();
+    QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
+    bool hasNew = false;
+    if (selectionModel->hasSelection())
+    {
+        QModelIndexList indexes = selectionModel->selectedIndexes();
+        for (int i = 0; i < indexes.count(); i++)
+        {
+            QString a = this->mModel->data(indexes.at(i), Qt::DisplayRole).toString();
+            if (!str.contains(a))
+            {
+                hasNew = true;
+                break;
+            }
+        }
+        this->ui->pushButtonAppend->setEnabled(hasNew);
+    }
 }
 //-----------------------------------------------------------------------------

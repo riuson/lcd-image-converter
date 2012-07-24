@@ -70,7 +70,7 @@ private:
     void parseBlocks(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
     void parseImagesTable(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
     void parseSimple(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
-    QString hexCode(const QChar &ch, const QString &encoding);
+    QString hexCode(const QChar &ch, const QString &encoding, bool bom);
     void addOrderInfo(QMap<QString, QString> &tags);
     void addPreprocessInfo(QMap<QString, QString> &tags);
 };

@@ -45,7 +45,14 @@ SOURCES += main.cpp \
     controls/dialogfontselect.cpp \
     controls/dialogabout.cpp \
     classes/recentlist.cpp \
-    controls/starttab.cpp
+    controls/starttab.cpp \
+    classes/action-handlers/actionimagehandlers.cpp \
+    classes/action-handlers/actionhandlersbase.cpp \
+    classes/action-handlers/actionfonthandlers.cpp \
+    classes/action-handlers/actionhelphandlers.cpp \
+    classes/action-handlers/actionsetuphandlers.cpp \
+    classes/action-handlers/actionfilehandlers.cpp \
+    controls/dialogfontpreview.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -74,7 +81,15 @@ HEADERS += \
     controls/dialogfontselect.h \
     controls/dialogabout.h \
     classes/recentlist.h \
-    controls/starttab.h
+    controls/starttab.h \
+    classes/action-handlers/actionimagehandlers.h \
+    interfaces/imainwindow.h \
+    classes/action-handlers/actionhandlersbase.h \
+    classes/action-handlers/actionfonthandlers.h \
+    classes/action-handlers/actionhelphandlers.h \
+    classes/action-handlers/actionsetuphandlers.h \
+    classes/action-handlers/actionfilehandlers.h \
+    controls/dialogfontpreview.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -89,9 +104,11 @@ FORMS += \
     controls/dialogsetuptemplates.ui \
     controls/dialogfontselect.ui \
     controls/dialogabout.ui \
-    controls/starttab.ui
+    controls/starttab.ui \
+    controls/dialogfontpreview.ui
 INCLUDEPATH += . \
     ./classes \
+    ./classes/action-handlers \
     ./controls \
     ./interfaces
 
