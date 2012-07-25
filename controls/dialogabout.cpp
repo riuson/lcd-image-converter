@@ -22,6 +22,7 @@
 
 #include <QTextStream>
 #include <QFile>
+#include "revisioninfo.h"
 //-----------------------------------------------------------------------------
 DialogAbout::DialogAbout(QWidget *parent) :
     QDialog(parent),
@@ -48,35 +49,14 @@ DialogAbout::DialogAbout(QWidget *parent) :
         this->ui->textEdit->setText(license);
     }
 
-    // load version info
-    QFile file_version(":/text/version_info");
-    if (file_version.open(QIODevice::ReadOnly))
+    // show version info
+    QString hash, date;
+    if (RevisionInfo::getRevisionData(&hash, &date))
     {
-        QTextStream stream(&file_version);
-        QString version = stream.readAll();
-        file_version.close();
-
-        // git-commit-info d693078 Sat May 26 22:30:51 2012 +0600
-
-        QString start = "git-commit-info ";
-        if (version.startsWith(start, Qt::CaseInsensitive))
-        {
-            // get hash of commit
-            QRegExp reg = QRegExp("[0-9a-f]+", Qt::CaseInsensitive);
-            int index;
-            if ((index = reg.indexIn(version, start.length())) >= 0)
-            {
-                QString hash = reg.cap();
-
-                // get date
-                QString date = version.mid(index + hash.length() + 1);
-
-                // show
-                QString about = this->ui->labelInfo->text();
-                QString formattedAbout = QString(about).arg(hash, date);
-                this->ui->labelInfo->setText(formattedAbout);
-            }
-        }
+        // show
+        QString about = this->ui->labelInfo->text();
+        QString formattedAbout = QString(about).arg(hash, date);
+        this->ui->labelInfo->setText(formattedAbout);
     }
     else
     {
