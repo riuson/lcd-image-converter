@@ -53,7 +53,8 @@ SOURCES += main.cpp \
     classes/action-handlers/actionsetuphandlers.cpp \
     classes/action-handlers/actionfilehandlers.cpp \
     controls/dialogfontpreview.cpp \
-    controls/revisionlabel.cpp
+    controls/revisionlabel.cpp \
+    classes/revisioninfo.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -91,7 +92,8 @@ HEADERS += \
     classes/action-handlers/actionsetuphandlers.h \
     classes/action-handlers/actionfilehandlers.h \
     controls/dialogfontpreview.h \
-    controls/revisionlabel.h
+    controls/revisionlabel.h \
+    classes/revisioninfo.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
