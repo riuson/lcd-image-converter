@@ -36,6 +36,7 @@
 #include "bitmapcontainer.h"
 #include "dialogsavechanges.h"
 #include "widgetbitmapeditor.h"
+#include "revisionlabel.h"
 #include "recentlist.h"
 #include "actionfilehandlers.h"
 #include "actionimagehandlers.h"
@@ -60,6 +61,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->mTrans = new QTranslator;
     qApp->installTranslator(this->mTrans);
+
+    this->statusBar()->addWidget(new RevisionLabel);
 
     QDir dir(":/translations");
     QStringList translations = dir.entryList(QDir::Files, QDir::Name);
