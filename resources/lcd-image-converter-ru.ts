@@ -43,8 +43,8 @@
     </message>
     <message>
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="86"/>
-        <source>Open file</source>
-        <translation>Открыть файл</translation>
+        <source>Open xml or image file</source>
+        <translation>Открыть xml документ или изображение</translation>
     </message>
     <message>
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="103"/>
@@ -748,23 +748,23 @@ Qt: %3</translation>
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="76"/>
+        <location filename="../controls/mainwindow.cpp" line="79"/>
         <source>langName</source>
         <translatorcomment>название языка в который переводим</translatorcomment>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="291"/>
+        <location filename="../controls/mainwindow.cpp" line="294"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="292"/>
+        <location filename="../controls/mainwindow.cpp" line="295"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="356"/>
+        <location filename="../controls/mainwindow.cpp" line="359"/>
         <source>%1 %2</source>
         <translation type="unfinished"></translation>
     </message>

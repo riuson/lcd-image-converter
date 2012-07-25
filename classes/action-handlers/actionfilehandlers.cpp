@@ -83,7 +83,7 @@ void ActionFileHandlers::open_triggered()
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setFileMode(QFileDialog::ExistingFile);
     dialog.setFilter(tr("XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
-    dialog.setWindowTitle(tr("Open file"));
+    dialog.setWindowTitle(tr("Open xml or image file"));
 
     if (dialog.exec() == QDialog::Accepted)
     {
