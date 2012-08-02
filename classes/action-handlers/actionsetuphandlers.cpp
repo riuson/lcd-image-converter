@@ -19,7 +19,7 @@
 
 #include "actionsetuphandlers.h"
 
-#include "dialogsetuptemplates.h"
+#include "dialogsetup.h"
 #include "dialogconvert.h"
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
@@ -39,9 +39,9 @@ void ActionSetupHandlers::conversion_triggered()
     dialog.exec();
 }
 //-----------------------------------------------------------------------------
-void ActionSetupHandlers::templates_triggered()
+void ActionSetupHandlers::setup_triggered()
 {
-    DialogSetupTemplates dialog(this->mMainWindow->parentWidget());
+    DialogSetup dialog(this->mMainWindow->parentWidget());
     dialog.exec();
 }
 //-----------------------------------------------------------------------------

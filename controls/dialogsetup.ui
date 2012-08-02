@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogSetupTemplates</class>
- <widget class="QDialog" name="DialogSetupTemplates">
+ <class>DialogSetup</class>
+ <widget class="QDialog" name="DialogSetup">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Setup templates</string>
+   <string>Setup</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -68,7 +68,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DialogSetupTemplates</receiver>
+   <receiver>DialogSetup</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -84,7 +84,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DialogSetupTemplates</receiver>
+   <receiver>DialogSetup</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

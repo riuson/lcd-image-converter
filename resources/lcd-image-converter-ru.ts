@@ -5,74 +5,74 @@
 <context>
     <name>ActionFileHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="25"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="44"/>
         <source>Enter image name</source>
         <translation>Введите имя изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="26"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="45"/>
         <source>Image name:</source>
         <translation>Имя изображения:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="28"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="47"/>
         <source>Image</source>
         <comment>new image name</comment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="46"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="65"/>
         <source>Enter font name</source>
         <translation>Введите имя шрифта</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="47"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="66"/>
         <source>Font name:</source>
         <translation>Имя шрифта:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="49"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="68"/>
         <source>Font</source>
         <comment>new font name</comment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="85"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="104"/>
         <source>XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Файлы XML (*.xml);;Файлы изображений (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="86"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="105"/>
         <source>Open xml or image file</source>
         <translation>Открыть xml документ или изображение</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="103"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="122"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="104"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="123"/>
         <source>New name:</source>
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="135"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="154"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="137"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="156"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="205"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="224"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="207"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="226"/>
         <source>Save result file as</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -80,22 +80,22 @@
 <context>
     <name>ActionImageHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="125"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="144"/>
         <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="126"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="145"/>
         <source>Open image file</source>
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="147"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="166"/>
         <source>Windows Bitmap (*.bmp);;Joint Photographic Experts Group (*.jpg *.jpeg);;Portable Network Graphics (*.png);;Portable Pixmap (*.ppm);;Tagged Image File Format (*.tiff);;X11 Bitmap (*.xbm);;X11 Bitmap (*.xpm)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="155"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="174"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
     </message>
@@ -449,41 +449,41 @@ Qt: %3</translation>
     </message>
 </context>
 <context>
-    <name>DialogSetupTemplates</name>
+    <name>DialogSetup</name>
     <message>
-        <location filename="../controls/dialogsetuptemplates.ui" line="14"/>
-        <source>Setup templates</source>
-        <translation>Настройка шаблонов</translation>
+        <location filename="../controls/dialogsetup.ui" line="14"/>
+        <source>Setup</source>
+        <translation>Параметры</translation>
     </message>
     <message>
-        <location filename="../controls/dialogsetuptemplates.ui" line="26"/>
-        <location filename="../controls/dialogsetuptemplates.ui" line="36"/>
+        <location filename="../controls/dialogsetup.ui" line="26"/>
+        <location filename="../controls/dialogsetup.ui" line="36"/>
         <source>...</source>
         <translation>Обзор...</translation>
     </message>
     <message>
-        <location filename="../controls/dialogsetuptemplates.ui" line="53"/>
+        <location filename="../controls/dialogsetup.ui" line="53"/>
         <source>Image:</source>
         <translation>Изображение:</translation>
     </message>
     <message>
-        <location filename="../controls/dialogsetuptemplates.ui" line="60"/>
+        <location filename="../controls/dialogsetup.ui" line="60"/>
         <source>Font:</source>
         <translation>Шрифт:</translation>
     </message>
     <message>
-        <location filename="../controls/dialogsetuptemplates.cpp" line="59"/>
-        <location filename="../controls/dialogsetuptemplates.cpp" line="73"/>
+        <location filename="../controls/dialogsetup.cpp" line="59"/>
+        <location filename="../controls/dialogsetup.cpp" line="73"/>
         <source>Any file (*.*)</source>
         <translation>Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/dialogsetuptemplates.cpp" line="60"/>
+        <location filename="../controls/dialogsetup.cpp" line="60"/>
         <source>Open image template file</source>
         <translation>Открыть файл шаблона изображения</translation>
     </message>
     <message>
-        <location filename="../controls/dialogsetuptemplates.cpp" line="74"/>
+        <location filename="../controls/dialogsetup.cpp" line="74"/>
         <source>Open font template file</source>
         <translation>Открыть файл шаблона шрифта</translation>
     </message>
@@ -671,6 +671,11 @@ Qt: %3</translation>
         <translation>Изменение размеров...</translation>
     </message>
     <message>
+        <location filename="../controls/mainwindow.ui" line="258"/>
+        <source>Setup...</source>
+        <translation>Параметры...</translation>
+    </message>
+    <message>
         <location filename="../controls/mainwindow.ui" line="271"/>
         <source>Rename...</source>
         <translation>Переименовать...</translation>
@@ -735,11 +740,6 @@ Qt: %3</translation>
         <location filename="../controls/mainwindow.ui" line="253"/>
         <source>F1</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../controls/mainwindow.ui" line="258"/>
-        <source>Templates...</source>
-        <translation>Шаблоны...</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.ui" line="266"/>
