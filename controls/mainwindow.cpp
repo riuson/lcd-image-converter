@@ -263,7 +263,7 @@ void MainWindow::createHandlers()
 
     this->mSetupHandlers = new ActionSetupHandlers(this);
     this->mSetupHandlers->connect(this->ui->actionSetupConversion, SIGNAL(triggered()), SLOT(conversion_triggered()));
-    this->mSetupHandlers->connect(this->ui->actionSetupTemplates, SIGNAL(triggered()), SLOT(templates_triggered()));
+    this->mSetupHandlers->connect(this->ui->actionSetup, SIGNAL(triggered()), SLOT(setup_triggered()));
 
     this->mHelpHandlers = new ActionHelpHandlers(this);
     this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(about_triggered()));

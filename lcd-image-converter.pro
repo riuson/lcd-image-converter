@@ -40,7 +40,6 @@ SOURCES += main.cpp \
     classes/convertergrayscale.cpp \
     classes/convertercolor.cpp \
     classes/bitmapdata.cpp \
-    controls/dialogsetuptemplates.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
     controls/dialogabout.cpp \
@@ -54,7 +53,8 @@ SOURCES += main.cpp \
     classes/action-handlers/actionfilehandlers.cpp \
     controls/dialogfontpreview.cpp \
     controls/revisionlabel.cpp \
-    classes/revisioninfo.cpp
+    classes/revisioninfo.cpp \
+    controls/dialogsetup.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -78,7 +78,6 @@ HEADERS += \
     classes/convertercolor.h \
     interfaces/iconverter.h \
     classes/bitmapdata.h \
-    controls/dialogsetuptemplates.h \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
     controls/dialogabout.h \
@@ -93,7 +92,8 @@ HEADERS += \
     classes/action-handlers/actionfilehandlers.h \
     controls/dialogfontpreview.h \
     controls/revisionlabel.h \
-    classes/revisioninfo.h
+    classes/revisioninfo.h \
+    controls/dialogsetup.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -105,11 +105,11 @@ FORMS += \
     controls/widgetconvoptionsgray.ui \
     controls/widgetconvoptionscolor.ui \
     controls/dialogconvert.ui \
-    controls/dialogsetuptemplates.ui \
     controls/dialogfontselect.ui \
     controls/dialogabout.ui \
     controls/starttab.ui \
-    controls/dialogfontpreview.ui
+    controls/dialogfontpreview.ui \
+    controls/dialogsetup.ui
 INCLUDEPATH += . \
     ./classes \
     ./classes/action-handlers \

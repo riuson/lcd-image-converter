@@ -17,15 +17,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "dialogsetuptemplates.h"
-#include "ui_dialogsetuptemplates.h"
+#include "dialogsetup.h"
+#include "ui_dialogsetup.h"
 
 #include <QFileDialog>
 #include <QSettings>
 //-----------------------------------------------------------------------------
-DialogSetupTemplates::DialogSetupTemplates(QWidget *parent) :
+DialogSetup::DialogSetup(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogSetupTemplates)
+    ui(new Ui::DialogSetup)
 {
     ui->setupUi(this);
 
@@ -38,7 +38,7 @@ DialogSetupTemplates::DialogSetupTemplates(QWidget *parent) :
     sett.endGroup();
 }
 //-----------------------------------------------------------------------------
-DialogSetupTemplates::~DialogSetupTemplates()
+DialogSetup::~DialogSetup()
 {
     QSettings sett;
     sett.beginGroup("setup");
@@ -51,7 +51,7 @@ DialogSetupTemplates::~DialogSetupTemplates()
     delete ui;
 }
 //-----------------------------------------------------------------------------
-void DialogSetupTemplates::on_pushButtonBrowseImage_clicked()
+void DialogSetup::on_pushButtonBrowseImage_clicked()
 {
     QFileDialog dialog(this);
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
@@ -65,7 +65,7 @@ void DialogSetupTemplates::on_pushButtonBrowseImage_clicked()
     }
 }
 //-----------------------------------------------------------------------------
-void DialogSetupTemplates::on_pushButtonBrowseFont_clicked()
+void DialogSetup::on_pushButtonBrowseFont_clicked()
 {
     QFileDialog dialog(this);
     dialog.setAcceptMode(QFileDialog::AcceptOpen);

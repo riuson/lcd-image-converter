@@ -17,28 +17,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef DIALOGSETUPTEMPLATES_H
-#define DIALOGSETUPTEMPLATES_H
+#ifndef DIALOGSETUP_H
+#define DIALOGSETUP_H
 //-----------------------------------------------------------------------------
 #include <QDialog>
 //-----------------------------------------------------------------------------
 namespace Ui {
-    class DialogSetupTemplates;
+    class DialogSetup;
 }
 //-----------------------------------------------------------------------------
-class DialogSetupTemplates : public QDialog
+class DialogSetup : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit DialogSetupTemplates(QWidget *parent = 0);
-    ~DialogSetupTemplates();
+    explicit DialogSetup(QWidget *parent = 0);
+    ~DialogSetup();
 
 private:
-    Ui::DialogSetupTemplates *ui;
+    Ui::DialogSetup *ui;
 private slots:
     void on_pushButtonBrowseImage_clicked();
     void on_pushButtonBrowseFont_clicked();
 };
 //-----------------------------------------------------------------------------
-#endif // DIALOGSETUPTEMPLATES_H
+#endif // DIALOGSETUP_H
