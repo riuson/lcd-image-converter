@@ -51,6 +51,8 @@ private slots:
     void on_checkBoxFlipHorizontal_toggled(bool value);
     void on_checkBoxFlipVertical_toggled(bool value);
     void on_checkBoxInverse_toggled(bool value);
+    void on_checkBoxPack_toggled(bool value);
+    void on_radioButtonAlignHigh_toggled(bool value);
     void updatePreview();
 signals:
     void dataLengthChanged(int length);

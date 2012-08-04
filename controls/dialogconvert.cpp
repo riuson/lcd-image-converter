@@ -111,8 +111,12 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     else
         this->ui->checkBoxInverse->setChecked(false);
 
+    if (this->mConverter->align() == IConverter::AlignHigh)
+        this->ui->radioButtonAlignHigh->setChecked(true);
+    else
+        this->ui->radioButtonAlignLow->setChecked(true);
+
     this->connect(this->ui->checkBoxMirrorBytes, SIGNAL(toggled(bool)), SIGNAL(mirrorBytesChanged(bool)));
-    this->connect(this->ui->checkBoxPack, SIGNAL(toggled(bool)), SIGNAL(dataPackChanged(bool)));
     this->connect(this->ui->checkBoxSwapBytes, SIGNAL(toggled(bool)), SIGNAL(swapBytesChanged(bool)));
 }
 //-----------------------------------------------------------------------------
@@ -220,6 +224,22 @@ void DialogConvert::on_checkBoxInverse_toggled(bool value)
     this->updatePreview();
 }
 //-----------------------------------------------------------------------------
+void DialogConvert::on_checkBoxPack_toggled(bool value)
+{
+    this->ui->radioButtonAlignHigh->setEnabled(!value);
+    this->ui->radioButtonAlignLow->setEnabled(!value);
+    emit this->dataPackChanged(value);
+}
+//-----------------------------------------------------------------------------
+void DialogConvert::on_radioButtonAlignHigh_toggled(bool value)
+{
+    if (value)
+        this->mConverter->setAlign(IConverter::AlignHigh);
+    else
+        this->mConverter->setAlign(IConverter::AlignLow);
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
 void DialogConvert::updatePreview()
 {
     if (this->mData != NULL)
@@ -240,3 +260,4 @@ void DialogConvert::updatePreview()
         }
     }
 }
+//-----------------------------------------------------------------------------

@@ -34,6 +34,7 @@ ConverterGrayscale::ConverterGrayscale(QObject *parent) :
     this->mDataLength = Data8;
     this->mMirrorBytes = false;
     this->mPack = true;
+    this->mDataAlign = IConverter::AlignHigh;
     this->mBitsPerPoint = 2;
 }
 //-----------------------------------------------------------------------------
@@ -59,6 +60,10 @@ void ConverterGrayscale::loadSettings()
     this->mMirrorBytes = sett.value("mirror", QVariant(false)).toBool();
     this->mPack = sett.value("pack", QVariant(true)).toBool();
 
+    a = sett.value("dataAlign", QVariant(AlignHigh)).toInt(&ok);
+    if (ok)
+        this->mDataAlign = (DataAlign)a;
+
     a = sett.value("bitsPerPoint", QVariant(2)).toInt(&ok);
     if (ok)
         this->mBitsPerPoint = a;
@@ -79,6 +84,8 @@ void ConverterGrayscale::saveSettings()
 
     sett.setValue("mirror", QVariant(this->mMirrorBytes));
     sett.setValue("pack", QVariant(this->mPack));
+
+    sett.setValue("dataAlign", QVariant(this->mDataAlign));
 
     sett.setValue("bitsPerPoint", QVariant(this->mBitsPerPoint));
 
@@ -193,6 +200,11 @@ bool ConverterGrayscale::pack()
     return this->mPack;
 }
 //-----------------------------------------------------------------------------
+IConverter::DataAlign ConverterGrayscale::align()
+{
+    return this->mDataAlign;
+}
+//-----------------------------------------------------------------------------
 int ConverterGrayscale::depth()
 {
     return this->mBitsPerPoint;
@@ -216,6 +228,11 @@ void ConverterGrayscale::setMirror(bool value)
 void ConverterGrayscale::setPack(bool value)
 {
     this->mPack = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterGrayscale::setAlign(DataAlign value)
+{
+    this->mDataAlign = value;
 }
 //-----------------------------------------------------------------------------
 void ConverterGrayscale::setDepth(int value)

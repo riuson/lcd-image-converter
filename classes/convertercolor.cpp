@@ -34,6 +34,7 @@ ConverterColor::ConverterColor(QObject *parent) :
     this->mDataLength = Data8;
     this->mMirrorBytes = false;
     this->mPack = true;
+    this->mDataAlign = IConverter::AlignHigh;
     this->mBitsPerPointRed = 3;
     this->mBitsPerPointGreen = 2;
     this->mBitsPerPointBlue = 3;
@@ -61,6 +62,10 @@ void ConverterColor::loadSettings()
 
     this->mMirrorBytes = sett.value("mirror", QVariant(false)).toBool();
     this->mPack = sett.value("pack", QVariant(true)).toBool();
+
+    a = sett.value("dataAlign", QVariant(AlignHigh)).toInt(&ok);
+    if (ok)
+        this->mDataAlign = (DataAlign)a;
 
     a = sett.value("bitsPerPointRed", QVariant(3)).toInt(&ok);
     if (ok)
@@ -94,6 +99,8 @@ void ConverterColor::saveSettings()
 
     sett.setValue("mirror", QVariant(this->mMirrorBytes));
     sett.setValue("pack", QVariant(this->mPack));
+
+    sett.setValue("dataAlign", QVariant(this->mDataAlign));
 
     sett.setValue("bitsPerPointRed", QVariant(this->mBitsPerPointRed));
     sett.setValue("bitsPerPointGreen", QVariant(this->mBitsPerPointGreen));
@@ -206,6 +213,11 @@ bool ConverterColor::pack()
     return this->mPack;
 }
 //-----------------------------------------------------------------------------
+IConverter::DataAlign ConverterColor::align()
+{
+    return this->mDataAlign;
+}
+//-----------------------------------------------------------------------------
 int ConverterColor::depthRed()
 {
     return this->mBitsPerPointRed;
@@ -244,6 +256,11 @@ void ConverterColor::setMirror(bool value)
 void ConverterColor::setPack(bool value)
 {
     this->mPack = value;
+}
+//-----------------------------------------------------------------------------
+void ConverterColor::setAlign(DataAlign value)
+{
+    this->mDataAlign = value;
 }
 //-----------------------------------------------------------------------------
 void ConverterColor::setDepthRed(int value)

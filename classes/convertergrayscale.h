@@ -43,18 +43,21 @@ public:
     DataLength length();
     bool mirror();
     bool pack();
+    DataAlign align();
     int depth();
 
     void setSwapBytes(bool value);
     void setLength(DataLength value);
     void setMirror(bool value);
     void setPack(bool value);
+    void setAlign(DataAlign value);
     void setDepth(int value);
 private:
     bool mSwapBytes;
     DataLength mDataLength;
     bool mMirrorBytes;
     bool mPack;
+    DataAlign mDataAlign;
     int mBitsPerPoint;
 
     void makeGrayscale(QImage &image);

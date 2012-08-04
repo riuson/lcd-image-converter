@@ -51,6 +51,7 @@ public:
     DataLength length();
     bool mirror();
     bool pack();
+    DataAlign align();
     int level();
     ConvMonoType dithType();
 
@@ -58,12 +59,14 @@ public:
     void setLength(DataLength value);
     void setMirror(bool value);
     void setPack(bool value);
+    void setAlign(DataAlign value);
     void setLevel(int value);
     void setDithType(ConvMonoType value);
 private:
     bool mSwapBytes;
     DataLength mDataLength;
     bool mMirrorBytes;
+    DataAlign mDataAlign;
     int mBlackWhiteLevel;
     ConvMonoType mDithType;
 private:

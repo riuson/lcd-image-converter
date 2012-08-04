@@ -31,6 +31,7 @@ ConverterMono::ConverterMono(QObject *parent) :
     this->mSwapBytes = false;
     this->mDataLength = Data8;
     this->mMirrorBytes = false;
+    this->mDataAlign = IConverter::AlignHigh;
     this->mBlackWhiteLevel = 128;
     this->mDithType = Edge;
 }
@@ -56,6 +57,10 @@ void ConverterMono::loadSettings()
 
     this->mMirrorBytes = sett.value("mirror", QVariant(false)).toBool();
 
+    a = sett.value("dataAlign", QVariant(AlignHigh)).toInt(&ok);
+    if (ok)
+        this->mDataAlign = (DataAlign)a;
+
     a = sett.value("level", QVariant(128)).toInt(&ok);
     if (ok)
         this->mBlackWhiteLevel = a;
@@ -79,6 +84,8 @@ void ConverterMono::saveSettings()
     sett.setValue("dataLength", QVariant(this->mDataLength));
 
     sett.setValue("mirror", QVariant(this->mMirrorBytes));
+
+    sett.setValue("dataAlign", QVariant(this->mDataAlign));
 
     sett.setValue("level", QVariant(this->mBlackWhiteLevel));
 
@@ -179,6 +186,11 @@ bool ConverterMono::pack()
     return true;
 }
 //-----------------------------------------------------------------------------
+IConverter::DataAlign ConverterMono::align()
+{
+    return this->mDataAlign;
+}
+//-----------------------------------------------------------------------------
 int ConverterMono::level()
 {
     return this->mBlackWhiteLevel;
@@ -207,6 +219,11 @@ void ConverterMono::setMirror(bool value)
 void ConverterMono::setPack(bool value)
 {
     Q_UNUSED(value);
+}
+//-----------------------------------------------------------------------------
+void ConverterMono::setAlign(DataAlign value)
+{
+    this->mDataAlign = value;
 }
 //-----------------------------------------------------------------------------
 void ConverterMono::setLevel(int value)

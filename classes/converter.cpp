@@ -196,6 +196,12 @@ bool Converter::pack()
     return options->pack();
 }
 //-----------------------------------------------------------------------------
+IConverter::DataAlign Converter::align()
+{
+    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
+    return options->align();
+}
+//-----------------------------------------------------------------------------
 void Converter::setSwapBytes(bool value)
 {
     IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
@@ -218,6 +224,12 @@ void Converter::setPack(bool value)
 {
     IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
     options->setPack(value);
+}
+//-----------------------------------------------------------------------------
+void Converter::setAlign(DataAlign value)
+{
+    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
+    options->setAlign(value);
 }
 //-----------------------------------------------------------------------------
 QStringList Converter::names() const

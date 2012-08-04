@@ -48,11 +48,13 @@ public:
     DataLength length();
     bool mirror();
     bool pack();
+    DataAlign align();
 
     void setSwapBytes(bool value);
     void setLength(DataLength value);
     void setMirror(bool value);
     void setPack(bool value);
+    void setAlign(DataAlign value);
 
     QStringList names() const ;
     QWidget *widgetSetup();

@@ -55,6 +55,7 @@ public:
     DataLength length();
     bool mirror();
     bool pack();
+    DataAlign align();
     int depthRed();
     int depthGreen();
     int depthBlue();
@@ -64,6 +65,7 @@ public:
     void setLength(DataLength value);
     void setMirror(bool value);
     void setPack(bool value);
+    void setAlign(DataAlign value);
     void setDepthRed(int value);
     void setDepthGreen(int value);
     void setDepthBlue(int value);
@@ -73,6 +75,7 @@ private:
     DataLength mDataLength;
     bool mMirrorBytes;
     bool mPack;
+    DataAlign mDataAlign;
     int mBitsPerPointRed;
     int mBitsPerPointGreen;
     int mBitsPerPointBlue;
