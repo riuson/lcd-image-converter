@@ -24,6 +24,7 @@
 
 #include "bytelistitemdelegate.h"
 #include "convertergrayscale.h"
+#include "converterhelper.h"
 //-----------------------------------------------------------------------------
 WidgetConvOptionsGray::WidgetConvOptionsGray(IConverter *options, QWidget *parent) :
     QWidget(parent),
@@ -97,28 +98,9 @@ void WidgetConvOptionsGray::updatePreview()
     bool swapBytes= this->mConv->swapBytes();
     bool mirror = this->mConv->mirror();
     bool pack = this->mConv->pack();
+    IConverter::DataAlign align = this->mConv->align();
 
-    for (int i = 0, j = 0, k = 0; i < 80; i++)
-    {
-        QString a = colors.at(k++);
-        list.append(a.replace(".", QString("%1.").arg(j)));
-        if (k == colors.length())// end of point (color bits)
-        {
-            j++;
-            k = 0;
-            if (!pack)
-            {
-                if ((i % bits) + colors.length() > bits - 1)
-                {
-                    while (i % bits != bits - 1)
-                    {
-                        list.append("0");
-                        i++;
-                    }
-                }
-            }
-        }
-    }
+    ConverterHelper::packDataPreview(&list, colors, bits, pack, (align == IConverter::AlignHigh));
 
     if (swapBytes)
     {

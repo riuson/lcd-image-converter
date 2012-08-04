@@ -54,7 +54,8 @@ SOURCES += main.cpp \
     controls/dialogfontpreview.cpp \
     controls/revisionlabel.cpp \
     classes/revisioninfo.cpp \
-    controls/dialogsetup.cpp
+    controls/dialogsetup.cpp \
+    classes/converterhelper.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -93,7 +94,8 @@ HEADERS += \
     controls/dialogfontpreview.h \
     controls/revisionlabel.h \
     classes/revisioninfo.h \
-    controls/dialogsetup.h
+    controls/dialogsetup.h \
+    classes/converterhelper.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
