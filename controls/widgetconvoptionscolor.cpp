@@ -139,6 +139,7 @@ void WidgetConvOptionsColor::updatePreview()
                 {
                     while (i % bits != bits - 1)
                     {
+                        //TODO: align preview can be changed here
                         list.append("0");
                         i++;
                     }
@@ -165,9 +166,9 @@ void WidgetConvOptionsColor::updatePreview()
     if (mirror)
     {
         QStringList outlist;
-        for (int i = 0; i < list.count(); i+= bits)
+        for (int i = 0; i < list.count(); i+= 8)
         {
-            QStringList tmp = list.mid(i, bits);
+            QStringList tmp = list.mid(i, 8);
             for (int j = tmp.count() - 1; j >= 0; j--)
             {
                 outlist.append(tmp.at(j));
