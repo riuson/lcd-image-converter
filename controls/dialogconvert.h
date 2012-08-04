@@ -57,6 +57,7 @@ private slots:
 signals:
     void dataLengthChanged(int length);
     void dataPackChanged(bool pack);
+    void dataAlignChanged(int align);
     void swapBytesChanged(bool swap);
     void mirrorBytesChanged(bool mirror);
 };

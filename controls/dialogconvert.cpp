@@ -157,6 +157,7 @@ void DialogConvert::on_comboBoxType_currentIndexChanged()
     this->connect(this->mWidgetSetup, SIGNAL(settingsChanged()), SLOT(updatePreview()));
     this->connect(this, SIGNAL(dataLengthChanged(int)), this->mWidgetSetup, SLOT(dataLengthChanged(int)));
     this->connect(this, SIGNAL(dataPackChanged(bool)), this->mWidgetSetup, SLOT(dataPackChanged(bool)));
+    this->connect(this, SIGNAL(dataAlignChanged(int)), this->mWidgetSetup, SLOT(dataAlignChanged(int)));
     this->connect(this, SIGNAL(mirrorBytesChanged(bool)), this->mWidgetSetup, SLOT(mirrorBytesChanged(bool)));
     this->connect(this, SIGNAL(swapBytesChanged(bool)), this->mWidgetSetup, SLOT(swapBytesChanged(bool)));
 
@@ -234,10 +235,15 @@ void DialogConvert::on_checkBoxPack_toggled(bool value)
 void DialogConvert::on_radioButtonAlignHigh_toggled(bool value)
 {
     if (value)
+    {
         this->mConverter->setAlign(IConverter::AlignHigh);
+        emit this->dataAlignChanged((int)IConverter::AlignHigh);
+    }
     else
+    {
         this->mConverter->setAlign(IConverter::AlignLow);
-    this->updatePreview();
+        emit this->dataAlignChanged((int)IConverter::AlignLow);
+    }
 }
 //-----------------------------------------------------------------------------
 void DialogConvert::updatePreview()

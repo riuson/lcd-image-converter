@@ -191,6 +191,12 @@ void WidgetConvOptionsColor::dataPackChanged(bool value)
     this->updatePreview();
 }
 //-----------------------------------------------------------------------------
+void WidgetConvOptionsColor::dataAlignChanged(int value)
+{
+    this->mConv->setAlign((IConverter::DataAlign)value);
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
 void WidgetConvOptionsColor::swapBytesChanged(bool value)
 {
     this->mConv->setSwapBytes(value);

@@ -51,6 +51,7 @@ private slots:
 public slots:
     void dataLengthChanged(int value);
     void dataPackChanged(bool value);
+    void dataAlignChanged(int value);
     void swapBytesChanged(bool value);
     void mirrorBytesChanged(bool value);
 signals:

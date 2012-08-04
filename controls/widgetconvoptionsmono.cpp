@@ -168,6 +168,11 @@ void WidgetConvOptionsMono::dataPackChanged(bool value)
     Q_UNUSED(value);
 }
 //-----------------------------------------------------------------------------
+void WidgetConvOptionsMono::dataAlignChanged(int value)
+{
+    Q_UNUSED(value);
+}
+//-----------------------------------------------------------------------------
 void WidgetConvOptionsMono::swapBytesChanged(bool value)
 {
     this->mConv->setSwapBytes(value);
