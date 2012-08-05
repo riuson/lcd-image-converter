@@ -107,7 +107,7 @@ void ConverterHelper::createMatrixGrayscale(QList<quint32> *matrix, int bits)
             mask = mask >> 8;
             mask = mask & 0x000000ff;
 
-            options.setMask(0x00000001);
+            options.setMask(mask);
         }
 
         // bits shift
