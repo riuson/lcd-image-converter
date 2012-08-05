@@ -62,7 +62,7 @@ void ConverterHelper::packDataPreview(QStringList *list, QStringList &colors, in
     temp.clear();
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::createMatrixMono(QList<quint32> *matrix, bool pack, MonochromeType type, int edge)
+void ConverterHelper::createMatrixMono(QList<quint32> *matrix, MonochromeType type, int edge)
 {
     if (matrix != NULL)
     {
@@ -70,7 +70,6 @@ void ConverterHelper::createMatrixMono(QList<quint32> *matrix, bool pack, Monoch
 
         ConversionMatrixOptions options(matrix);
 
-        options.setPack(pack);
         options.setConvType(ConversionTypeMonochrome);
         options.setMonoType(type);
         options.setEdge(edge);
@@ -86,7 +85,7 @@ void ConverterHelper::createMatrixMono(QList<quint32> *matrix, bool pack, Monoch
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::createMatrixGrayscale(QList<quint32> *matrix, bool pack, int bits)
+void ConverterHelper::createMatrixGrayscale(QList<quint32> *matrix, int bits)
 {
     if (matrix != NULL)
     {
@@ -97,7 +96,6 @@ void ConverterHelper::createMatrixGrayscale(QList<quint32> *matrix, bool pack, i
 
         ConversionMatrixOptions options(matrix);
 
-        options.setPack(pack);
         options.setConvType(ConversionTypeGrayscale);
         options.setBlockSize(Data16);
 
@@ -124,7 +122,7 @@ void ConverterHelper::createMatrixGrayscale(QList<quint32> *matrix, bool pack, i
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::createMatrixColor(QList<quint32> *matrix, bool pack, int redBits, int greenBits, int blueBits)
+void ConverterHelper::createMatrixColor(QList<quint32> *matrix, int redBits, int greenBits, int blueBits)
 {
     if (matrix != NULL)
     {
@@ -141,7 +139,6 @@ void ConverterHelper::createMatrixColor(QList<quint32> *matrix, bool pack, int r
 
         ConversionMatrixOptions options(matrix);
 
-        options.setPack(pack);
         options.setConvType(ConversionTypeColor);
         options.setBlockSize(Data32);
 

@@ -12,11 +12,6 @@ ConversionMatrixOptions::ConversionMatrixOptions(QList<quint32> *matrix)
     }
 }
 //-----------------------------------------------------------------------------
-bool ConversionMatrixOptions::pack()
-{
-    return (this->mMatrix->at(0) & MaskPackData) == MaskPackData;
-}
-//-----------------------------------------------------------------------------
 BytesOrder ConversionMatrixOptions::bytesOrder()
 {
     if ((this->mMatrix->at(0) & MaskByteOrder) == MaskByteOrder)
@@ -51,16 +46,6 @@ DataBlockSize ConversionMatrixOptions::blockSize()
 quint32 ConversionMatrixOptions::mask()
 {
     return this->mMatrix->at(1);
-}
-//-----------------------------------------------------------------------------
-void ConversionMatrixOptions::setPack(bool value)
-{
-    quint32 result = this->mMatrix->at(0);
-    if (value)
-        result |= MaskPackData;
-    else
-        result &= ~MaskPackData;
-    this->mMatrix->replace(0, result);
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setBytesOrder(BytesOrder value)

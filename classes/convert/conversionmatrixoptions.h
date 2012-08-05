@@ -50,7 +50,7 @@ enum DataBlockSize
  *  Matrix structure:
  *
  * [0] ConversionOptions:
- *     31    - pack data
+ *     31    - not used more
  *     30    - byte order, 0 = little-endian, 1 = big-endian
  *     29:28 - conversion type
  *     27:24 - monochrome type
@@ -72,7 +72,6 @@ class ConversionMatrixOptions
 public:
     ConversionMatrixOptions(QList<quint32> *matrix);
 
-    bool pack();
     BytesOrder bytesOrder();
     ConversionType convType();
     MonochromeType monoType();
@@ -80,7 +79,6 @@ public:
     DataBlockSize blockSize();
     quint32 mask();
 
-    void setPack(bool value);
     void setBytesOrder(BytesOrder value);
     void setConvType(ConversionType value);
     void setMonoType(MonochromeType value);
@@ -89,7 +87,6 @@ public:
     void setMask(quint32 value);
 
 private:
-    static const quint32 MaskPackData       = 0x80000000;
     static const quint32 MaskByteOrder      = 0x40000000;
     static const quint32 MaskConversionType = 0x30000000;
     static const quint32 MaskMonochromeType = 0x0f000000;

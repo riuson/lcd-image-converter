@@ -35,16 +35,13 @@ public:
 
     static void createMatrixMono(
             QList<quint32> *matrix,
-            bool pack = true,
             MonochromeType type = MonochromeTypeDiffuseDither,
             int edge = 0x80);
     static void createMatrixGrayscale(
             QList<quint32> *matrix,
-            bool pack = true,
             int bits = 8);
     static void createMatrixColor(
             QList<quint32> *matrix,
-            bool pack = true,
             int redBits = 8,
             int greenBits = 8,
             int blueBits = 8);
