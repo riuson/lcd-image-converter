@@ -63,7 +63,7 @@ void ConversionMatrixOptions::setConvType(ConversionType value)
     quint32 result = this->mMatrix->at(0);
     quint32 mask = value;
     mask &= 0x00000003;
-    result &= MaskConversionType;
+    result &= ~MaskConversionType;
     result |= mask << 28;
     this->mMatrix->replace(0, result);
 }
@@ -73,7 +73,7 @@ void ConversionMatrixOptions::setMonoType(MonochromeType value)
     quint32 result = this->mMatrix->at(0);
     quint32 mask = value;
     mask &= 0x0000000f;
-    result &= MaskMonochromeType;
+    result &= ~MaskMonochromeType;
     result |= mask << 24;
     this->mMatrix->replace(0, result);
 }
@@ -82,7 +82,7 @@ void ConversionMatrixOptions::setEdge(int value)
 {
     quint32 result = this->mMatrix->at(0);
     quint32 mask = value & 0x000000ff;
-    result &= MaskEdgeValue;
+    result &= ~MaskEdgeValue;
     result |= mask << 16;
     this->mMatrix->replace(0, result);
 }
@@ -92,7 +92,7 @@ void ConversionMatrixOptions::setBlockSize(DataBlockSize value)
     quint32 result = this->mMatrix->at(0);
     quint32 mask = value;
     mask &= 0x0000000f;
-    result &= MaskDataBlockSize;
+    result &= ~MaskDataBlockSize;
     result |= mask << 12;
     this->mMatrix->replace(0, result);
 }

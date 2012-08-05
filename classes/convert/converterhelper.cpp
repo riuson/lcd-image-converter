@@ -255,8 +255,8 @@ void ConverterHelper::processPixels(QList<quint32> *matrix, QList<quint32> *data
             quint32 valueNew = 0;
             for (int j = 2; j < matrix->length(); j += 2)
             {
-                quint32 mask = matrix->at(i);
-                quint32 shift = matrix->at(i + 1);
+                quint32 mask = matrix->at(j);
+                quint32 shift = matrix->at(j + 1);
 
                 if (shift & 0x80000000)
                     valueNew |= (value & mask) << (shift & 0x0000001f);
@@ -284,6 +284,7 @@ void ConverterHelper::packData(QList<quint32> *matrix, QList<quint32> *inputData
         // get row data packed
         QList<quint32> rowData;
         ConverterHelper::packDataRow(matrix, inputData, start, inputWidth, &rowData);
+        outputData->append(rowData);
         // get row blocks count
         resultWidth = qMax(resultWidth, rowData.length());
     }
