@@ -26,15 +26,37 @@ class ConverterHelper
 {
 public:
 
-    static void packDataPreview(QStringList *list, QStringList &colors, int bits, bool pack, bool alignToHigh);
+    static void packDataPreview(
+            QStringList *list,
+            QStringList &colors,
+            int bits,
+            bool pack,
+            bool alignToHigh);
 
-    static void createMatrixMono(QList<quint32> *matrix, bool pack = true, MonochromeType type = MonochromeTypeDiffuseDither, int edge = 0x80);
-    static void createMatrixGrayscale(QList<quint32> *matrix, bool pack = true, int bits = 8);
-    static void createMatrixColor(QList<quint32> *matrix, bool pack = true, int redBits = 8, int greenBits = 8, int blueBits = 8);
+    static void createMatrixMono(
+            QList<quint32> *matrix,
+            bool pack = true,
+            MonochromeType type = MonochromeTypeDiffuseDither,
+            int edge = 0x80);
+    static void createMatrixGrayscale(
+            QList<quint32> *matrix,
+            bool pack = true,
+            int bits = 8);
+    static void createMatrixColor(
+            QList<quint32> *matrix,
+            bool pack = true,
+            int redBits = 8,
+            int greenBits = 8,
+            int blueBits = 8);
 
     // gets RGB array of pixels
     // also convert images to monochrome or grayscale (r = g = b = qGray(pixel))
-    static void pixelsData(QList<quint32> *matrix, QImage *image, QList<quint32> *data, int *width, int *height);
+    static void pixelsData(
+            QList<quint32> *matrix,
+            QImage *image,
+            QList<quint32> *data,
+            int *width,
+            int *height);
     // apply masks and bits reorder
     static void processPixels(QList<quint32> *matrix, QList<quint32> *data);
 private:
