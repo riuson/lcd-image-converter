@@ -51,6 +51,12 @@ enum ColorsOrder
     ColorsOrderBGR = 5
 };
 //-----------------------------------------------------------------------------
+enum BytesOrder
+{
+    BytesOrderLittleEndian,
+    BytesOrderBigEndian
+};
+//-----------------------------------------------------------------------------
 enum DataBlockSize
 {
     Data8  = 0,
@@ -59,32 +65,6 @@ enum DataBlockSize
     Data32 = 3
 };
 //-----------------------------------------------------------------------------
-class ConverterHelper
-{
-public:
-
-    static void packDataPreview(QStringList *list, QStringList &colors, int bits, bool pack, bool alignToHigh);
-
-    static void createMatrixMono(QList<quint32> *matrix, bool pack = true, MonochromeType type = MonochromeTypeDiffuseDither, int edge = 0x80);
-    static void createMatrixGrayscale(QList<quint32> *matrix, bool pack = true, int bits = 8);
-    static void createMatrixColor(QList<quint32> *matrix, bool pack = true, int redBits = 8, int greenBits = 8, int blueBits = 8);
-
-    // gets RGB array of pixels
-    // also convert images to monochrome or grayscale (r = g = b = qGray(pixel))
-    static void pixelsData(QList<quint32> *matrix, QImage *image, QList<quint32> *data, int *width, int *height);
-    // apply masks and bits reorder
-    static void processPixels(QList<quint32> *matrix, QList<quint32> *data);
-private:
-    static const quint32 MaskPackData       = 0x80000000;
-    static const quint32 MaskByteOrder      = 0x40000000;
-    static const quint32 MaskConversionType = 0x30000000;
-    static const quint32 MaskMonochromeType = 0x0f000000;
-    static const quint32 MaskEdgeValue      = 0x00ff0000;
-    static const quint32 MaskDataBlockSize  = 0x0000f000;
-
-    static void makeMonochrome(QImage &image, int edge);
-    static void makeGrayscale(QImage &image);
-};
 /*
  *  Matrix structure:
  *
@@ -105,5 +85,58 @@ private:
  *
  * ... Repeat 2 and 3 some times
  */
+
+class MatrixOptions
+{
+public:
+    MatrixOptions(QList<quint32> *matrix);
+
+    bool pack();
+    BytesOrder bytesOrder();
+    ConversionType convType();
+    MonochromeType monoType();
+    int edge();
+    DataBlockSize blockSize();
+    quint32 mask();
+
+    void setPack(bool value);
+    void setBytesOrder(BytesOrder value);
+    void setConvType(ConversionType value);
+    void setMonoType(MonochromeType value);
+    void setEdge(int value);
+    void setBlockSize(DataBlockSize value);
+    void setMask(quint32 value);
+
+private:
+    static const quint32 MaskPackData       = 0x80000000;
+    static const quint32 MaskByteOrder      = 0x40000000;
+    static const quint32 MaskConversionType = 0x30000000;
+    static const quint32 MaskMonochromeType = 0x0f000000;
+    static const quint32 MaskEdgeValue      = 0x00ff0000;
+    static const quint32 MaskDataBlockSize  = 0x0000f000;
+
+    QList<quint32> *mMatrix;
+};
+//-----------------------------------------------------------------------------
+class ConverterHelper
+{
+public:
+
+    static void packDataPreview(QStringList *list, QStringList &colors, int bits, bool pack, bool alignToHigh);
+
+    static void createMatrixMono(QList<quint32> *matrix, bool pack = true, MonochromeType type = MonochromeTypeDiffuseDither, int edge = 0x80);
+    static void createMatrixGrayscale(QList<quint32> *matrix, bool pack = true, int bits = 8);
+    static void createMatrixColor(QList<quint32> *matrix, bool pack = true, int redBits = 8, int greenBits = 8, int blueBits = 8);
+
+    // gets RGB array of pixels
+    // also convert images to monochrome or grayscale (r = g = b = qGray(pixel))
+    static void pixelsData(QList<quint32> *matrix, QImage *image, QList<quint32> *data, int *width, int *height);
+    // apply masks and bits reorder
+    static void processPixels(QList<quint32> *matrix, QList<quint32> *data);
+private:
+    static void makeMonochrome(QImage &image, int edge);
+    // make r = g = b = qGray(pixel)
+    static void makeGrayscale(QImage &image);
+};
 //-----------------------------------------------------------------------------
 #endif // CONVERTERHELPER_H
