@@ -19,6 +19,8 @@ public:
     
 private:
     Ui::DialogConvert2 *ui;
+
+    IDataContainer *mData;
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT2_H
