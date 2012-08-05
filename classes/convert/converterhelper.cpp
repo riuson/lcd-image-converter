@@ -24,123 +24,6 @@
 #include <QColor>
 #include <QPainter>
 //-----------------------------------------------------------------------------
-MatrixOptions::MatrixOptions(QList<quint32> *matrix)
-{
-    this->mMatrix = matrix;
-    if (matrix->length() == 0)
-    {
-        matrix->append(0);
-        matrix->append(0);
-    }
-}
-//-----------------------------------------------------------------------------
-bool MatrixOptions::pack()
-{
-    return (this->mMatrix->at(0) & MaskPackData) == MaskPackData;
-}
-//-----------------------------------------------------------------------------
-BytesOrder MatrixOptions::bytesOrder()
-{
-    if ((this->mMatrix->at(0) & MaskByteOrder) == MaskByteOrder)
-        return BytesOrderBigEndian;
-    return BytesOrderLittleEndian;
-}
-//-----------------------------------------------------------------------------
-ConversionType MatrixOptions::convType()
-{
-    ConversionType result = (ConversionType)((this->mMatrix->at(0) & MaskConversionType) >> 28);
-    return result;
-}
-//-----------------------------------------------------------------------------
-MonochromeType MatrixOptions::monoType()
-{
-    MonochromeType result = (MonochromeType)((this->mMatrix->at(0) & MaskMonochromeType) >> 24);
-    return result;
-}
-//-----------------------------------------------------------------------------
-int MatrixOptions::edge()
-{
-    int result = (this->mMatrix->at(0) & MaskEdgeValue) >> 16;
-    return result;
-}
-//-----------------------------------------------------------------------------
-DataBlockSize MatrixOptions::blockSize()
-{
-    DataBlockSize result = (DataBlockSize)((this->mMatrix->at(0) & MaskDataBlockSize) >> 12);
-    return result;
-}
-//-----------------------------------------------------------------------------
-quint32 MatrixOptions::mask()
-{
-    return this->mMatrix->at(1);
-}
-//-----------------------------------------------------------------------------
-void MatrixOptions::setPack(bool value)
-{
-    quint32 result = this->mMatrix->at(0);
-    if (value)
-        result |= MaskPackData;
-    else
-        result &= ~MaskPackData;
-    this->mMatrix->replace(0, result);
-}
-//-----------------------------------------------------------------------------
-void MatrixOptions::setBytesOrder(BytesOrder value)
-{
-    quint32 result = this->mMatrix->at(0);
-    if (value == BytesOrderBigEndian)
-        result |= MaskByteOrder;
-    else
-        result &= ~MaskByteOrder;
-    this->mMatrix->replace(0, result);
-}
-//-----------------------------------------------------------------------------
-void MatrixOptions::setConvType(ConversionType value)
-{
-    quint32 result = this->mMatrix->at(0);
-    quint32 mask = value;
-    mask &= 0x00000003;
-    result &= MaskConversionType;
-    result |= mask << 28;
-    this->mMatrix->replace(0, result);
-}
-//-----------------------------------------------------------------------------
-void MatrixOptions::setMonoType(MonochromeType value)
-{
-    quint32 result = this->mMatrix->at(0);
-    quint32 mask = value;
-    mask &= 0x0000000f;
-    result &= MaskMonochromeType;
-    result |= mask << 24;
-    this->mMatrix->replace(0, result);
-}
-//-----------------------------------------------------------------------------
-void MatrixOptions::setEdge(int value)
-{
-    quint32 result = this->mMatrix->at(0);
-    quint32 mask = value & 0x000000ff;
-    result &= MaskEdgeValue;
-    result |= mask << 16;
-    this->mMatrix->replace(0, result);
-}
-//-----------------------------------------------------------------------------
-void MatrixOptions::setBlockSize(DataBlockSize value)
-{
-    quint32 result = this->mMatrix->at(0);
-    quint32 mask = value;
-    mask &= 0x0000000f;
-    result &= MaskDataBlockSize;
-    result |= mask << 12;
-    this->mMatrix->replace(0, result);
-}
-//-----------------------------------------------------------------------------
-void MatrixOptions::setMask(quint32 value)
-{
-    this->mMatrix->replace(1, value);
-}
-//-----------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------------
 void ConverterHelper::packDataPreview(QStringList *list, QStringList &colors, int bits, bool pack, bool alignToHigh)
 {
     QStringList temp;
@@ -185,7 +68,7 @@ void ConverterHelper::createMatrixMono(QList<quint32> *matrix, bool pack, Monoch
     {
         matrix->clear();
 
-        MatrixOptions options(matrix);
+        ConversionMatrixOptions options(matrix);
 
         options.setPack(pack);
         options.setConvType(ConversionTypeMonochrome);
@@ -212,7 +95,7 @@ void ConverterHelper::createMatrixGrayscale(QList<quint32> *matrix, bool pack, i
         if (bits > 8) bits = 8;
         if (bits < 1) bits = 1;
 
-        MatrixOptions options(matrix);
+        ConversionMatrixOptions options(matrix);
 
         options.setPack(pack);
         options.setConvType(ConversionTypeGrayscale);
@@ -256,7 +139,7 @@ void ConverterHelper::createMatrixColor(QList<quint32> *matrix, bool pack, int r
 
         int bits = redBits + greenBits + blueBits;
 
-        MatrixOptions options(matrix);
+        ConversionMatrixOptions options(matrix);
 
         options.setPack(pack);
         options.setConvType(ConversionTypeColor);
@@ -315,7 +198,7 @@ void ConverterHelper::pixelsData(QList<quint32> *matrix, QImage *image, QList<qu
     {
         data->clear();
 
-        MatrixOptions options(matrix);
+        ConversionMatrixOptions options(matrix);
 
         QImage im = *image;
 
