@@ -21,6 +21,7 @@
 
 #include "dialogsetup.h"
 #include "dialogconvert.h"
+#include "dialogconvert2.h"
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
 #include "idatacontainer.h"
@@ -35,7 +36,7 @@ void ActionSetupHandlers::conversion_triggered()
     IDataContainer *data = NULL;
     if (this->editor() != NULL)
         data = this->editor()->dataContainer();
-    DialogConvert dialog(data, this->mMainWindow->parentWidget());
+    DialogConvert2 dialog(data, this->mMainWindow->parentWidget());
     dialog.exec();
 }
 //-----------------------------------------------------------------------------
