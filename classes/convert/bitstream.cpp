@@ -38,6 +38,7 @@ quint32 BitStream::next()
             result |= this->nextBit();
         i--;
     }
+    return result;
 }
 //-----------------------------------------------------------------------------
 bool BitStream::nextBit()
@@ -64,6 +65,7 @@ bool BitStream::nextBit()
             }
         }
     }
+    return result;
 }
 //-----------------------------------------------------------------------------
 int BitStream::remain()
