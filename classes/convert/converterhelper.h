@@ -56,10 +56,25 @@ public:
             int *height);
     // apply masks and bits reorder
     static void processPixels(QList<quint32> *matrix, QList<quint32> *data);
+    // pack data
+    static void packData(
+            QList<quint32> *matrix,
+            QList<quint32> *inputData,
+            int inputWidth,
+            int inputHeight,
+            QList<quint32> *outputData,
+            int *outputWidth,
+            int *outputHeight);
 private:
     static void makeMonochrome(QImage &image, int edge);
     // make r = g = b = qGray(pixel)
     static void makeGrayscale(QImage &image);
+    static void packDataRow(
+            QList<quint32> *matrix,
+            QList<quint32> *inputData,
+            int start,
+            int count,
+            QList<quint32> *outputData);
 };
 //-----------------------------------------------------------------------------
 #endif // CONVERTERHELPER_H

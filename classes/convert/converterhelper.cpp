@@ -23,6 +23,7 @@
 #include <QImage>
 #include <QColor>
 #include <QPainter>
+#include "bitstream.h"
 //-----------------------------------------------------------------------------
 void ConverterHelper::packDataPreview(QStringList *list, QStringList &colors, int bits, bool pack, bool alignToHigh)
 {
@@ -268,6 +269,27 @@ void ConverterHelper::processPixels(QList<quint32> *matrix, QList<quint32> *data
     }
 }
 //-----------------------------------------------------------------------------
+void ConverterHelper::packData(QList<quint32> *matrix, QList<quint32> *inputData, int inputWidth, int inputHeight, QList<quint32> *outputData, int *outputWidth, int *outputHeight)
+{
+    *outputHeight = inputHeight;
+    outputData->clear();
+
+    int resultWidth = 0;
+
+    // each row
+    for (int y = 0; y < inputHeight; y++)
+    {
+        // start of row in inputData
+        int start = y * inputWidth;
+        // get row data packed
+        QList<quint32> rowData;
+        ConverterHelper::packDataRow(matrix, inputData, start, inputWidth, &rowData);
+        // get row blocks count
+        resultWidth = qMax(resultWidth, rowData.length());
+    }
+    *outputWidth = resultWidth;
+}
+//-----------------------------------------------------------------------------
 void ConverterHelper::makeMonochrome(QImage &image, int edge)
 {
     QPainter painter(&image);
@@ -300,6 +322,21 @@ void ConverterHelper::makeGrayscale(QImage &image)
             QColor color = QColor(gray ,gray, gray);
             painter.setPen(color);
             painter.drawPoint(x, y);
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void ConverterHelper::packDataRow(QList<quint32> *matrix, QList<quint32> *inputData, int start, int count, QList<quint32> *outputData)
+{
+    if (matrix != NULL && inputData != NULL && outputData != NULL)
+    {
+        outputData->clear();
+
+        BitStream stream(matrix, inputData, start, count);
+        while (!stream.eof())
+        {
+            quint32 value = stream.next();
+            outputData->append(value);
         }
     }
 }
