@@ -17,30 +17,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "sourcepreviewmodel.h"
+#include "operationspreviewmodel.h"
 //-----------------------------------------------------------------------------
 #include <QColor>
 #include "conversionmatrixoptions.h"
 //-----------------------------------------------------------------------------
-SourcePreviewModel::SourcePreviewModel(QList<quint32> *matrix, QObject *parent) :
+OperationsPreviewModel::OperationsPreviewModel(QList<quint32> *matrix, QObject *parent) :
     QAbstractItemModel(parent)
 {
     this->mMatrix = matrix;
 }
 //-----------------------------------------------------------------------------
-int SourcePreviewModel::rowCount(const QModelIndex &parent) const
+int OperationsPreviewModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return 1;
+
+    int result = this->mMatrix->length() - ConversionMatrixOptions::OperationsStartIndex;
+    return result / 2;
 }
 //-----------------------------------------------------------------------------
-int SourcePreviewModel::columnCount(const QModelIndex &parent) const
+int OperationsPreviewModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return 32;
 }
 //-----------------------------------------------------------------------------
-QVariant SourcePreviewModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant OperationsPreviewModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     QVariant result = QAbstractItemModel::headerData(section, orientation, role);
 
@@ -54,18 +56,34 @@ QVariant SourcePreviewModel::headerData(int section, Qt::Orientation orientation
     return result;
 }
 //-----------------------------------------------------------------------------
-QVariant SourcePreviewModel::data(const QModelIndex &index, int role) const
+QVariant OperationsPreviewModel::data(const QModelIndex &index, int role) const
 {
     QVariant result;
 
     if (index.isValid())
     {
         int bitIndex = 31 - index.column();
+        int row = index.row();
 
+        // get source bit index
+        quint32 shift = this->mMatrix->at(ConversionMatrixOptions::OperationsStartIndex + (row << 1) + 1);
+        bool left = (shift & 0x80000000) != 0;
+        shift &= 0x0000001f;
+        if (left)
+            bitIndex -= (int)shift;
+        else
+            bitIndex += (int)shift;
+
+        // get source bit info
         ConversionType convType;
         ColorType colorType;
         int partIndex;
         this->getBitType(bitIndex, &convType, &colorType, &partIndex);
+
+        // check for bit using
+        quint32 mask = this->mMatrix->at(ConversionMatrixOptions::OperationsStartIndex + (row << 1));
+        if ((mask & (0x01 << bitIndex)) == 0)
+            colorType = Empty;
 
         if (role == Qt::DisplayRole)
         {
@@ -150,19 +168,19 @@ QVariant SourcePreviewModel::data(const QModelIndex &index, int role) const
     return result;
 }
 //-----------------------------------------------------------------------------
-QModelIndex SourcePreviewModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex OperationsPreviewModel::index(int row, int column, const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return this->createIndex(row, column);
 }
 //-----------------------------------------------------------------------------
-QModelIndex SourcePreviewModel::parent(const QModelIndex &index) const
+QModelIndex OperationsPreviewModel::parent(const QModelIndex &index) const
 {
     Q_UNUSED(index)
     return QModelIndex();
 }
 //-----------------------------------------------------------------------------
-void SourcePreviewModel::getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const
+void OperationsPreviewModel::getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const
 {
     ConversionMatrixOptions options(this->mMatrix);
 

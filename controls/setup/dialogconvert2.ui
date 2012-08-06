@@ -287,12 +287,15 @@
          </layout>
         </item>
         <item row="2" column="1">
-         <widget class="QTableView" name="tableView">
+         <widget class="QTableView" name="tableViewOperations">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
           </property>
          </widget>
         </item>

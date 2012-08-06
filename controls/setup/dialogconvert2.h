@@ -30,6 +30,7 @@ class DialogConvert2;
 class IDataContainer;
 class Converter;
 class SourcePreviewModel;
+class OperationsPreviewModel;
 //-----------------------------------------------------------------------------
 class DialogConvert2 : public QDialog
 {
@@ -46,6 +47,7 @@ private:
 
     QList<quint32> *mMatrix;
     SourcePreviewModel *mSourceModel;
+    OperationsPreviewModel *mOperationsModel;
 
 private slots:
     void on_pushButtonPreview_clicked();

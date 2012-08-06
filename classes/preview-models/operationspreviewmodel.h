@@ -17,19 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef SOURCEPREVIEWMODEL_H
-#define SOURCEPREVIEWMODEL_H
+#ifndef OPERATIONSPREVIEWMODEL_H
+#define OPERATIONSPREVIEWMODEL_H
 //-----------------------------------------------------------------------------
 #include <QAbstractItemModel>
 #include <QVariant>
 
 #include "conversionmatrixoptions.h"
 //-----------------------------------------------------------------------------
-class SourcePreviewModel : public QAbstractItemModel
+class OperationsPreviewModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    explicit SourcePreviewModel(QList<quint32> *matrix, QObject *parent = 0);
+    explicit OperationsPreviewModel(QList<quint32> *matrix, QObject *parent = 0);
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
@@ -61,4 +61,4 @@ public slots:
     
 };
 //-----------------------------------------------------------------------------
-#endif // SOURCEPREVIEWMODEL_H
+#endif // OPERATIONSPREVIEWMODEL_H
