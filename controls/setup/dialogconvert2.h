@@ -31,6 +31,8 @@ class IDataContainer;
 class Converter;
 class SourcePreviewModel;
 class OperationsPreviewModel;
+class MaskPreviewModel;
+class QTableView;
 //-----------------------------------------------------------------------------
 class DialogConvert2 : public QDialog
 {
@@ -48,6 +50,11 @@ private:
     QList<quint32> *mMatrix;
     SourcePreviewModel *mSourceModel;
     OperationsPreviewModel *mOperationsModel;
+    MaskPreviewModel *mMaskModelUsed;
+    MaskPreviewModel *mMaskModelAnd;
+    MaskPreviewModel *mMaskModelOr;
+
+    void setTableHeight(QTableView *tableView);
 
 private slots:
     void on_pushButtonPreview_clicked();

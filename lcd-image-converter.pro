@@ -61,7 +61,8 @@ SOURCES += main.cpp \
     controls/setup/dialogpreview.cpp \
     controls/setup/dialogconvert2.cpp \
     classes/preview-models/sourcepreviewmodel.cpp \
-    classes/preview-models/operationspreviewmodel.cpp
+    classes/preview-models/operationspreviewmodel.cpp \
+    classes/preview-models/maskpreviewmodel.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -107,7 +108,8 @@ HEADERS += \
     controls/setup/dialogpreview.h \
     controls/setup/dialogconvert2.h \
     classes/preview-models/sourcepreviewmodel.h \
-    classes/preview-models/operationspreviewmodel.h
+    classes/preview-models/operationspreviewmodel.h \
+    classes/preview-models/maskpreviewmodel.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \

@@ -26,6 +26,7 @@
 #include "dialogpreview.h"
 #include "sourcepreviewmodel.h"
 #include "operationspreviewmodel.h"
+#include "maskpreviewmodel.h"
 //-----------------------------------------------------------------------------
 DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
@@ -43,24 +44,45 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
 
     this->mSourceModel = new SourcePreviewModel(this->mMatrix, this);
     this->ui->tableViewSource->setModel(this->mSourceModel);
-    this->ui->tableViewSource->resizeColumnsToContents();
-    this->ui->tableViewSource->resizeRowsToContents();
-    this->ui->tableViewSource->setMaximumHeight(
-                this->ui->tableViewSource->verticalHeader()->length() +
-                this->ui->tableViewSource->horizontalHeader()->height() +
-                this->ui->tableViewSource->horizontalScrollBar()->height());
+    this->setTableHeight(this->ui->tableViewSource);
 
     this->mOperationsModel = new OperationsPreviewModel(this->mMatrix, this);
     this->ui->tableViewOperations->setModel(this->mOperationsModel);
     this->ui->tableViewOperations->resizeColumnsToContents();
     this->ui->tableViewOperations->resizeRowsToContents();
+
+    this->mMaskModelUsed = new MaskPreviewModel(this->mMatrix, 1, this);
+    this->ui->tableViewUsed->setModel(this->mMaskModelUsed);
+    this->setTableHeight(this->ui->tableViewUsed);
+
+    this->mMaskModelAnd = new MaskPreviewModel(this->mMatrix, 2, this);
+    this->ui->tableViewAnd->setModel(this->mMaskModelAnd);
+    this->setTableHeight(this->ui->tableViewAnd);
+
+    this->mMaskModelOr = new MaskPreviewModel(this->mMatrix, 3, this);
+    this->ui->tableViewOr->setModel(this->mMaskModelOr);
+    this->setTableHeight(this->ui->tableViewOr);
 }
 //-----------------------------------------------------------------------------
 DialogConvert2::~DialogConvert2()
 {
     delete ui;
+    delete this->mMaskModelOr;
+    delete this->mMaskModelAnd;
+    delete this->mMaskModelUsed;
+    delete this->mOperationsModel;
     delete this->mSourceModel;
     delete this->mMatrix;
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::setTableHeight(QTableView *tableView)
+{
+    tableView->resizeColumnsToContents();
+    tableView->resizeRowsToContents();
+    tableView->setMaximumHeight(
+                tableView->verticalHeader()->length() +
+                tableView->horizontalHeader()->height() +
+                tableView->horizontalScrollBar()->height());
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_pushButtonPreview_clicked()
