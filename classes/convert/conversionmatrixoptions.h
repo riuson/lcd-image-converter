@@ -78,12 +78,15 @@ enum DataBlockSize
  *
  * [1] Mask of used bits before packing
  *
- * [2] Mask of data bit
- * [3] Shift of data bit:
+ * [2] Mask AND of bits before packing
+ * [3] Mask OR of bits before packing
+ *
+ * [4] Mask of data bit
+ * [5] Shift of data bit:
  *     31    - 0 = to right, 1 = to left
  *     4:0   - count
  *
- * ... Repeat 2 and 3 some times
+ * ... Repeat 4 and 5 some times
  */
 
 class ConversionMatrixOptions
@@ -96,14 +99,20 @@ public:
     MonochromeType monoType();
     int edge();
     DataBlockSize blockSize();
-    quint32 mask();
+    quint32 maskUsed();
+    quint32 maskAnd();
+    quint32 maskOr();
+
+    static const int OperationsStartIndex = 4;
 
     void setBytesOrder(BytesOrder value);
     void setConvType(ConversionType value);
     void setMonoType(MonochromeType value);
     void setEdge(int value);
     void setBlockSize(DataBlockSize value);
-    void setMask(quint32 value);
+    void setMaskUsed(quint32 value);
+    void setMaskAnd(quint32 value);
+    void setMaskOr(quint32 value);
 
 private:
     static const quint32 MaskByteOrder      = 0x40000000;

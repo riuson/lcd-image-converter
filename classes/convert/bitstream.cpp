@@ -36,7 +36,7 @@ void BitStream::init()
 {
     ConversionMatrixOptions options(this->mMatrix);
     this->mCurrentPixel = 0;
-    this->mMaskCurrent = this->mMaskSource = options.mask();
+    this->mMaskCurrent = this->mMaskSource = options.maskUsed();
     this->mBlockSize = ((int)options.blockSize() + 1) << 3;
     this->mBitsReaded = 0;
 }

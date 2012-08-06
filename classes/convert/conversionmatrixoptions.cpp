@@ -28,6 +28,8 @@ ConversionMatrixOptions::ConversionMatrixOptions(QList<quint32> *matrix)
     {
         matrix->append(0);
         matrix->append(0);
+        matrix->append(0xffffffff);
+        matrix->append(0);
     }
 }
 //-----------------------------------------------------------------------------
@@ -62,9 +64,19 @@ DataBlockSize ConversionMatrixOptions::blockSize()
     return result;
 }
 //-----------------------------------------------------------------------------
-quint32 ConversionMatrixOptions::mask()
+quint32 ConversionMatrixOptions::maskUsed()
 {
     return this->mMatrix->at(1);
+}
+//-----------------------------------------------------------------------------
+quint32 ConversionMatrixOptions::maskAnd()
+{
+    return this->mMatrix->at(2);
+}
+//-----------------------------------------------------------------------------
+quint32 ConversionMatrixOptions::maskOr()
+{
+    return this->mMatrix->at(3);
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setBytesOrder(BytesOrder value)
@@ -116,8 +128,18 @@ void ConversionMatrixOptions::setBlockSize(DataBlockSize value)
     this->mMatrix->replace(0, result);
 }
 //-----------------------------------------------------------------------------
-void ConversionMatrixOptions::setMask(quint32 value)
+void ConversionMatrixOptions::setMaskUsed(quint32 value)
 {
     this->mMatrix->replace(1, value);
+}
+//-----------------------------------------------------------------------------
+void ConversionMatrixOptions::setMaskAnd(quint32 value)
+{
+    this->mMatrix->replace(2, value);
+}
+//-----------------------------------------------------------------------------
+void ConversionMatrixOptions::setMaskOr(quint32 value)
+{
+    this->mMatrix->replace(3, value);
 }
 //-----------------------------------------------------------------------------

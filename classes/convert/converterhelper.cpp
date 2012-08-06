@@ -75,7 +75,7 @@ void ConverterHelper::createMatrixMono(QList<quint32> *matrix, MonochromeType ty
         options.setMonoType(type);
         options.setEdge(edge);
         options.setBlockSize(Data8);
-        options.setMask(0x00000001);
+        options.setMaskUsed(0x00000001);
 
         // bits shift
         {
@@ -107,7 +107,7 @@ void ConverterHelper::createMatrixGrayscale(QList<quint32> *matrix, int bits)
             mask = mask >> 8;
             mask = mask & 0x000000ff;
 
-            options.setMask(mask);
+            options.setMaskUsed(mask);
         }
 
         // bits shift
@@ -150,7 +150,7 @@ void ConverterHelper::createMatrixColor(QList<quint32> *matrix, int redBits, int
             mask64 = mask64 >> 32;
             mask64 = mask64 & 0x0000000000ffffff; // 24 bits
             quint32 mask = (quint32)mask64;
-            options.setMask(mask);
+            options.setMaskUsed(mask);
         }
 
         // red bits shift
@@ -247,13 +247,15 @@ void ConverterHelper::pixelsData(QList<quint32> *matrix, QImage *image, QList<qu
 //-----------------------------------------------------------------------------
 void ConverterHelper::processPixels(QList<quint32> *matrix, QList<quint32> *data)
 {
+    ConversionMatrixOptions options(matrix);
+
     if (matrix != NULL && data != NULL)
     {
         for (int i = 0; i < data->length(); i++)
         {
             quint32 value = data->at(i);
             quint32 valueNew = 0;
-            for (int j = 2; j < matrix->length(); j += 2)
+            for (int j = ConversionMatrixOptions::OperationsStartIndex; j < matrix->length(); j += 2)
             {
                 quint32 mask = matrix->at(j);
                 quint32 shift = matrix->at(j + 1);
@@ -263,7 +265,8 @@ void ConverterHelper::processPixels(QList<quint32> *matrix, QList<quint32> *data
                 else
                     valueNew |= (value & mask) >> (shift & 0x0000001f);
             }
-            valueNew &= matrix->at(1);
+            valueNew &= options.maskAnd();
+            valueNew |= options.maskOr();
             data->replace(i, valueNew);
         }
     }
