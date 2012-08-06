@@ -21,6 +21,7 @@
 #define DIALOGCONVERT2_H
 //-----------------------------------------------------------------------------
 #include <QDialog>
+#include <QImage>
 //-----------------------------------------------------------------------------
 namespace Ui {
 class DialogConvert2;
@@ -40,6 +41,12 @@ private:
     Ui::DialogConvert2 *ui;
 
     IDataContainer *mData;
+    QImage mImageOriginal;
+    QImage mImageProcessed;
+
+private slots:
+    void on_comboBoxSampleKey_currentIndexChanged();
+    void updatePreview();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT2_H
