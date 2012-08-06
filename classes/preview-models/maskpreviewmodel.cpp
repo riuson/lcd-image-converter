@@ -62,14 +62,14 @@ QVariant MaskPreviewModel::data(const QModelIndex &index, int role) const
     if (index.isValid())
     {
         int bitIndex = 31 - index.column();
+        bool active = (this->mMatrix->at(this->mMaskIndex) & (0x00000001 << bitIndex)) != 0;
 
         if (role == Qt::DisplayRole)
         {
-            result = QString("%1").arg(bitIndex);
+            result = QString("%1").arg(active ? 1 : 0);
         }
         else if (role == Qt::BackgroundColorRole)
         {
-            bool active = (this->mMatrix->at(this->mMaskIndex) & (0x00000001 << bitIndex)) != 0;
             if (active)
                 result = QVariant(QColor(255, 255, 255, 255));
             else
@@ -78,6 +78,36 @@ QVariant MaskPreviewModel::data(const QModelIndex &index, int role) const
     }
 
     return result;
+}
+//-----------------------------------------------------------------------------
+bool MaskPreviewModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (index.isValid())
+    {
+        int bitIndex = 31 - index.column();
+
+        if (role == Qt::EditRole)
+        {
+            bool ok;
+            bool bit = value.toInt(&ok);
+            if (ok)
+            {
+                quint32 mask = this->mMatrix->at(this->mMaskIndex);
+                quint32 maskEdit = 0x00000001 << bitIndex;
+                if (bit)
+                    mask |= maskEdit;
+                else
+                    mask &= ~maskEdit;
+                this->mMatrix->replace(this->mMaskIndex, mask);
+                this->dataChanged(index, index);
+
+                return true;
+            }
+            else
+                return false;
+        }
+    }
+    return false;
 }
 //-----------------------------------------------------------------------------
 QModelIndex MaskPreviewModel::index(int row, int column, const QModelIndex &parent) const
@@ -90,5 +120,12 @@ QModelIndex MaskPreviewModel::parent(const QModelIndex &index) const
 {
     Q_UNUSED(index)
     return QModelIndex();
+}
+//-----------------------------------------------------------------------------
+Qt::ItemFlags MaskPreviewModel::flags(const QModelIndex &index) const
+{
+    Qt::ItemFlags flags = QAbstractItemModel::flags(index);
+    flags |= Qt::ItemIsEditable;
+    return flags;
 }
 //-----------------------------------------------------------------------------
