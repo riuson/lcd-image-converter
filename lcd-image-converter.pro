@@ -58,7 +58,8 @@ SOURCES += main.cpp \
     classes/convert/converterhelper.cpp \
     classes/convert/conversionmatrixoptions.cpp \
     classes/convert/bitstream.cpp \
-    controls/dialogconvert2.cpp
+    controls/dialogconvert2.cpp \
+    controls/setup/dialogpreview.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -101,7 +102,8 @@ HEADERS += \
     classes/convert/converterhelper.h \
     classes/convert/conversionmatrixoptions.h \
     classes/convert/bitstream.h \
-    controls/dialogconvert2.h
+    controls/dialogconvert2.h \
+    controls/setup/dialogpreview.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -118,12 +120,14 @@ FORMS += \
     controls/starttab.ui \
     controls/dialogfontpreview.ui \
     controls/dialogsetup.ui \
-    controls/dialogconvert2.ui
+    controls/dialogconvert2.ui \
+    controls/setup/dialogpresets.ui
 INCLUDEPATH += . \
     ./classes \
     ./classes/convert \
     ./classes/action-handlers \
     ./controls \
+    ./controls/setup \
     ./interfaces
 
 RESOURCES += \

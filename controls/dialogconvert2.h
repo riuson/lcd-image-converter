@@ -45,7 +45,7 @@ private:
     QImage mImageProcessed;
 
 private slots:
-    void on_comboBoxSampleKey_currentIndexChanged();
+    void on_pushButtonPreview_clicked();
     void updatePreview();
 };
 //-----------------------------------------------------------------------------
