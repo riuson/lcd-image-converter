@@ -21,13 +21,15 @@
 #define DIALOGCONVERT2_H
 //-----------------------------------------------------------------------------
 #include <QDialog>
-#include <QImage>
+//-----------------------------------------------------------------------------
+template <class T> class QList;
 //-----------------------------------------------------------------------------
 namespace Ui {
 class DialogConvert2;
 }
-class Converter;
 class IDataContainer;
+class Converter;
+class SourcePreviewModel;
 //-----------------------------------------------------------------------------
 class DialogConvert2 : public QDialog
 {
@@ -41,8 +43,9 @@ private:
     Ui::DialogConvert2 *ui;
 
     IDataContainer *mData;
-    QImage mImageOriginal;
-    QImage mImageProcessed;
+
+    QList<quint32> *mMatrix;
+    SourcePreviewModel *mSourceModel;
 
 private slots:
     void on_pushButtonPreview_clicked();

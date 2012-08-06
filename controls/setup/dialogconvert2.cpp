@@ -24,6 +24,7 @@
 #include "idatacontainer.h"
 #include "converterhelper.h"
 #include "dialogpreview.h"
+#include "sourcepreviewmodel.h"
 //-----------------------------------------------------------------------------
 DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
@@ -32,11 +33,26 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     ui->setupUi(this);
 
     this->mData = dataContainer;
+
+    this->mMatrix = new QList<quint32>();
+
+    ConverterHelper::createMatrixColor(this->mMatrix);
+
+    this->mSourceModel = new SourcePreviewModel(this->mMatrix, this);
+    this->ui->tableViewSource->setModel(this->mSourceModel);
+    this->ui->tableViewSource->resizeColumnsToContents();
+    this->ui->tableViewSource->resizeRowsToContents();
+    this->ui->tableViewSource->setMaximumHeight(
+                this->ui->tableViewSource->verticalHeader()->length() +
+                this->ui->tableViewSource->horizontalHeader()->height() +
+                this->ui->tableViewSource->horizontalScrollBar()->height());
 }
 //-----------------------------------------------------------------------------
 DialogConvert2::~DialogConvert2()
 {
     delete ui;
+    delete this->mSourceModel;
+    delete this->mMatrix;
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_pushButtonPreview_clicked()
