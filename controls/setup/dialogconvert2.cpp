@@ -170,6 +170,11 @@ void DialogConvert2::presetLoad(const QString &name)
         sett.endGroup();
     }
     sett.endGroup();
+\
+    this->ui->tableViewOperations->setModel(NULL);
+    this->ui->tableViewOperations->setModel(this->mMatrixModel);
+    this->ui->tableViewOperations->update();
+    this->ui->tableViewOperations->resizeColumnsToContents();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::presetSaveAs(const QString &name)
