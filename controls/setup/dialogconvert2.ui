@@ -236,6 +236,9 @@
           <property name="alternatingRowColors">
            <bool>true</bool>
           </property>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>20</number>
+          </attribute>
          </widget>
         </item>
        </layout>
