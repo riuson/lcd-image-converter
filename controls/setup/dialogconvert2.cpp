@@ -86,16 +86,90 @@ void DialogConvert2::fillPresetsList()
 
     QSettings sett;
     sett.beginGroup("presets");
-
     QStringList names = sett.childGroups();
-    this->ui->comboBoxPresets->addItems(names);
-
     sett.endGroup();
+
+    this->ui->comboBoxPresets->addItems(names);
 
     if (names.contains(current))
     {
         this->ui->comboBoxPresets->setCurrentIndex(names.indexOf(current));
     }
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::presetLoad(const QString &name)
+{
+    if (name.isEmpty())
+        return;
+
+    QSettings sett;
+    sett.beginGroup("presets");
+
+    if (sett.childGroups().contains(name))
+    {
+        sett.beginGroup(name);
+
+        QString strFlags = sett.value("flags", QString("00000000")).toString();
+        QString strMaskUsed = sett.value("maskUsed", QString("ffffffff")).toString();
+        QString strMaskAnd = sett.value("maskAnd", QString("ffffffff")).toString();
+        QString strMaskOr = sett.value("maskOr", QString("00000000")).toString();
+
+
+        bool ok;
+        quint32 flags, maskUsed, maskAnd, maskOr;
+        flags = strFlags.toUInt(&ok, 16);
+        if (ok)
+        {
+            maskUsed = strMaskUsed.toUInt(&ok, 16);
+
+            if (ok)
+            {
+                maskAnd = strMaskAnd.toUInt(&ok, 16);
+                if (ok)
+                {
+                    maskOr = strMaskOr.toUInt(&ok, 16);
+
+                    this->mMatrix->clear();
+                    this->mMatrix->append(flags);
+                    this->mMatrix->append(maskUsed);
+                    this->mMatrix->append(maskAnd);
+                    this->mMatrix->append(maskOr);
+
+                    int operations = sett.beginReadArray("matrix");
+
+                    for (int i = 0; i < operations; i++)
+                    {
+                        sett.setArrayIndex(i);
+
+                        QString strMask = sett.value("mask", QString("00000000")).toString();
+                        QString strShift = sett.value("shift", QString("00000000")).toString();
+                        quint32 mask, shift;
+                        if (ok)
+                        {
+                            mask = strMask.toUInt(&ok, 16);
+
+                            if (ok)
+                            {
+                                shift = strShift.toUInt(&ok, 16);
+                                if (ok)
+                                {
+                                    this->mMatrix->append(mask);
+                                    this->mMatrix->append(shift);
+                                }
+                            }
+                        }
+                    }
+
+                    sett.endArray();;
+                }
+
+            }
+
+        }
+
+        sett.endGroup();
+    }
+    sett.endGroup();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::presetSaveAs(const QString &name)
@@ -305,9 +379,20 @@ void DialogConvert2::on_pushButtonPresetSaveAs_clicked()
     {
         this->presetSaveAs(result);
     }
+
+    this->fillPresetsList();
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_pushButtonPresetRemove_clicked()
 {
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::on_comboBoxPresets_currentIndexChanged(int index)
+{
+    QString name = this->ui->comboBoxPresets->itemText(index);
+    this->presetLoad(name);
+
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------

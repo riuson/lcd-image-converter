@@ -49,6 +49,7 @@ private:
     MatrixPreviewModel *mMatrixModel;
 
     void fillPresetsList();
+    void presetLoad(const QString &name);
     void presetSaveAs(const QString &name);
     void presetRemove(const QString &name);
 private slots:
@@ -63,6 +64,7 @@ private slots:
     void on_checkBoxInverse_toggled(bool value);
     void on_pushButtonPresetSaveAs_clicked();
     void on_pushButtonPresetRemove_clicked();
+    void on_comboBoxPresets_currentIndexChanged(int index);
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT2_H
