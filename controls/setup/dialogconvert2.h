@@ -48,8 +48,9 @@ private:
     QList<quint32> *mMatrix;
     MatrixPreviewModel *mMatrixModel;
 
-    void setTableHeight(QTableView *tableView);
-
+    void fillPresetsList();
+    void presetSaveAs(const QString &name);
+    void presetRemove(const QString &name);
 private slots:
     void updatePreview();
     void on_pushButtonPreview_clicked();
@@ -60,6 +61,8 @@ private slots:
     void on_checkBoxFlipHorizontal_toggled(bool value);
     void on_checkBoxFlipVertical_toggled(bool value);
     void on_checkBoxInverse_toggled(bool value);
+    void on_pushButtonPresetSaveAs_clicked();
+    void on_pushButtonPresetRemove_clicked();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT2_H

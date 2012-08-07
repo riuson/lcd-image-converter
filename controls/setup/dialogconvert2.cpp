@@ -21,6 +21,9 @@
 #include "ui_dialogconvert2.h"
 //-----------------------------------------------------------------------------
 #include <QList>
+#include <QSettings>
+#include <QStringList>
+#include <QInputDialog>
 #include "idatacontainer.h"
 #include "converterhelper.h"
 #include "dialogpreview.h"
@@ -64,6 +67,8 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->tableViewOperations->setModel(this->mMatrixModel);
     this->ui->tableViewOperations->resizeColumnsToContents();
     this->ui->tableViewOperations->resizeRowsToContents();
+
+    this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
 DialogConvert2::~DialogConvert2()
@@ -73,14 +78,69 @@ DialogConvert2::~DialogConvert2()
     delete this->mMatrix;
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::setTableHeight(QTableView *tableView)
+void DialogConvert2::fillPresetsList()
 {
-    tableView->resizeColumnsToContents();
-    tableView->resizeRowsToContents();
-    tableView->setMaximumHeight(
-                tableView->verticalHeader()->length() +
-                tableView->horizontalHeader()->height() +
-                tableView->horizontalScrollBar()->height());
+    QString current = this->ui->comboBoxPresets->currentText();
+
+    this->ui->comboBoxPresets->clear();
+
+    QSettings sett;
+    sett.beginGroup("presets");
+
+    QStringList names = sett.childGroups();
+    this->ui->comboBoxPresets->addItems(names);
+
+    sett.endGroup();
+
+    if (names.contains(current))
+    {
+        this->ui->comboBoxPresets->setCurrentIndex(names.indexOf(current));
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::presetSaveAs(const QString &name)
+{
+    QSettings sett;
+    sett.beginGroup("presets");
+
+    sett.beginGroup(name);
+    sett.remove("");
+
+    int operations = this->mMatrix->length() - ConversionMatrixOptions::OperationsStartIndex;
+    operations = operations >> 1;
+
+    sett.setValue("flags", QString("%1").arg(this->mMatrix->at(0), 8, 16, QChar('0')));
+    sett.setValue("maskUsed", QString("%1").arg(this->mMatrix->at(1), 8, 16, QChar('0')));
+    sett.setValue("maskAnd", QString("%1").arg(this->mMatrix->at(2), 8, 16, QChar('0')));
+    sett.setValue("maskOr", QString("%1").arg(this->mMatrix->at(3), 8, 16, QChar('0')));
+
+    sett.beginWriteArray("matrix");
+
+    for (int i = 0; i < operations; i++)
+    {
+        sett.setArrayIndex(i);
+        sett.setValue("mask", QString("%1").arg(this->mMatrix->at(ConversionMatrixOptions::OperationsStartIndex + (i << 1)), 8, 16, QChar('0')));
+        sett.setValue("shift", QString("%1").arg(this->mMatrix->at(ConversionMatrixOptions::OperationsStartIndex + (i << 1) + 1), 8, 16, QChar('0')));
+    }
+    sett.endArray();
+
+    sett.endGroup();
+    sett.endGroup();
+
+    this->fillPresetsList();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::presetRemove(const QString &name)
+{
+    QSettings sett;
+    sett.beginGroup("presets");
+
+    sett.beginGroup(name);
+    sett.remove("");
+
+    sett.endGroup();
+
+    this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::updatePreview()
@@ -222,5 +282,32 @@ void DialogConvert2::on_checkBoxInverse_toggled(bool value)
     options.setTransform((Transformation)a);
 
     this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::on_pushButtonPresetSaveAs_clicked()
+{
+    QSettings sett;
+    sett.beginGroup("presets");
+
+    QStringList names = sett.childGroups();
+
+    sett.endGroup();
+
+    QInputDialog dialog(this);
+    dialog.setComboBoxItems(names);
+    dialog.setComboBoxEditable(true);
+
+    QString current = this->ui->comboBoxPresets->currentText();
+    bool ok;
+
+    QString result = dialog.getItem(this, tr("Enter preset name"), tr("Preset name:"), names, names.indexOf(current), true, &ok);
+    if (ok && !result.isEmpty())
+    {
+        this->presetSaveAs(result);
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::on_pushButtonPresetRemove_clicked()
+{
 }
 //-----------------------------------------------------------------------------

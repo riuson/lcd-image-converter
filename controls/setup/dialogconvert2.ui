@@ -30,7 +30,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox">
+      <widget class="QComboBox" name="comboBoxPresets">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -40,16 +40,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButtonPresetNew">
+      <widget class="QPushButton" name="pushButtonPresetSaveAs">
        <property name="text">
-        <string>New...</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButtonPresetEdit">
-       <property name="text">
-        <string>Edit...</string>
+        <string>Save As...</string>
        </property>
       </widget>
      </item>
