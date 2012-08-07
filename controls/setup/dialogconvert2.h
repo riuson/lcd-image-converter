@@ -29,9 +29,7 @@ class DialogConvert2;
 }
 class IDataContainer;
 class Converter;
-class SourcePreviewModel;
-class OperationsPreviewModel;
-class MaskPreviewModel;
+class MatrixPreviewModel;
 class QTableView;
 //-----------------------------------------------------------------------------
 class DialogConvert2 : public QDialog
@@ -48,11 +46,7 @@ private:
     IDataContainer *mData;
 
     QList<quint32> *mMatrix;
-    SourcePreviewModel *mSourceModel;
-    OperationsPreviewModel *mOperationsModel;
-    MaskPreviewModel *mMaskModelUsed;
-    MaskPreviewModel *mMaskModelAnd;
-    MaskPreviewModel *mMaskModelOr;
+    MatrixPreviewModel *mMatrixModel;
 
     void setTableHeight(QTableView *tableView);
 

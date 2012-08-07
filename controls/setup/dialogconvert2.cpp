@@ -24,9 +24,7 @@
 #include "idatacontainer.h"
 #include "converterhelper.h"
 #include "dialogpreview.h"
-#include "sourcepreviewmodel.h"
-#include "operationspreviewmodel.h"
-#include "maskpreviewmodel.h"
+#include "matrixpreviewmodel.h"
 //-----------------------------------------------------------------------------
 DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
@@ -42,36 +40,16 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     //ConverterHelper::createMatrixGrayscale(this->mMatrix);
     ConverterHelper::createMatrixColor(this->mMatrix);
 
-    this->mSourceModel = new SourcePreviewModel(this->mMatrix, this);
-    this->ui->tableViewSource->setModel(this->mSourceModel);
-    this->setTableHeight(this->ui->tableViewSource);
-
-    this->mOperationsModel = new OperationsPreviewModel(this->mMatrix, this);
-    this->ui->tableViewOperations->setModel(this->mOperationsModel);
+    this->mMatrixModel = new MatrixPreviewModel(this->mMatrix, this);
+    this->ui->tableViewOperations->setModel(this->mMatrixModel);
     this->ui->tableViewOperations->resizeColumnsToContents();
     this->ui->tableViewOperations->resizeRowsToContents();
-
-    this->mMaskModelUsed = new MaskPreviewModel(this->mMatrix, 1, this);
-    this->ui->tableViewUsed->setModel(this->mMaskModelUsed);
-    this->setTableHeight(this->ui->tableViewUsed);
-
-    this->mMaskModelAnd = new MaskPreviewModel(this->mMatrix, 2, this);
-    this->ui->tableViewAnd->setModel(this->mMaskModelAnd);
-    this->setTableHeight(this->ui->tableViewAnd);
-
-    this->mMaskModelOr = new MaskPreviewModel(this->mMatrix, 3, this);
-    this->ui->tableViewOr->setModel(this->mMaskModelOr);
-    this->setTableHeight(this->ui->tableViewOr);
 }
 //-----------------------------------------------------------------------------
 DialogConvert2::~DialogConvert2()
 {
     delete ui;
-    delete this->mMaskModelOr;
-    delete this->mMaskModelAnd;
-    delete this->mMaskModelUsed;
-    delete this->mOperationsModel;
-    delete this->mSourceModel;
+    delete this->mMatrixModel;
     delete this->mMatrix;
 }
 //-----------------------------------------------------------------------------
