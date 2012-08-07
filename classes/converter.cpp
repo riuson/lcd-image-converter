@@ -50,7 +50,7 @@ Converter::Converter(QObject *parent) :
     this->mConverters.insert(color->name(), color);
     this->mSelectedConverterName = mono->name();
 
-    this->mPreprocessTransform = BitmapHelper::None;
+    this->mPreprocessTransform = TransformNone;
 
     this->loadSettings();
 }
@@ -126,22 +126,22 @@ QImage Converter::preprocessImage(const QImage &source)
     IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
     QImage result = options->preprocessImage(source);
 
-    if ((this->mPreprocessTransform & 0x03) == BitmapHelper::Rotate90)
+    if ((this->mPreprocessTransform & 0x03) == TransformRotate90)
         result = BitmapHelper::rotate90(&result);
 
-    if ((this->mPreprocessTransform & 0x03) == BitmapHelper::Rotate180)
+    if ((this->mPreprocessTransform & 0x03) == TransformRotate180)
         result = BitmapHelper::rotate180(&result);
 
-    if ((this->mPreprocessTransform & 0x03) == BitmapHelper::Rotate270)
+    if ((this->mPreprocessTransform & 0x03) == TransformRotate270)
         result = BitmapHelper::rotate270(&result);
 
-    if ((this->mPreprocessTransform & BitmapHelper::FlipHorizontal) == BitmapHelper::FlipHorizontal)
+    if ((this->mPreprocessTransform & TransformFlipHorizontal) == TransformFlipHorizontal)
         result = BitmapHelper::flipHorizontal(&result);
 
-    if ((this->mPreprocessTransform & BitmapHelper::FlipVertical) == BitmapHelper::FlipVertical)
+    if ((this->mPreprocessTransform & TransformFlipVertical) == TransformFlipVertical)
         result = BitmapHelper::flipVertical(&result);
 
-    if ((this->mPreprocessTransform & BitmapHelper::Inverse) == BitmapHelper::Inverse)
+    if ((this->mPreprocessTransform & TransformInverse) == TransformInverse)
         result.invertPixels();
 
     return result;
@@ -578,31 +578,31 @@ void Converter::addPreprocessInfo(QMap<QString, QString> &tags)
 {
     switch (this->mPreprocessTransform & 0x03)
     {
-        case BitmapHelper::Rotate90:
+        case TransformRotate90:
             tags.insert("rotate", "90 degrees");
             break;
-        case BitmapHelper::Rotate180:
+        case TransformRotate180:
             tags.insert("rotate", "180 degrees");
             break;
-        case BitmapHelper::Rotate270:
+        case TransformRotate270:
             tags.insert("rotate", "270 degrees");
             break;
-        case BitmapHelper::None:
+        case TransformNone:
             tags.insert("rotate", "none");
             break;
     }
 
-    if ((this->mPreprocessTransform & BitmapHelper::FlipHorizontal) == BitmapHelper::FlipHorizontal)
+    if ((this->mPreprocessTransform & TransformFlipHorizontal) == TransformFlipHorizontal)
         tags.insert("flipHorizontal", "yes");
     else
         tags.insert("flipHorizontal", "no");
 
-    if ((this->mPreprocessTransform & BitmapHelper::FlipVertical) == BitmapHelper::FlipVertical)
+    if ((this->mPreprocessTransform & TransformFlipVertical) == TransformFlipVertical)
         tags.insert("flipVertical", "yes");
     else
         tags.insert("flipVertical", "no");
 
-    if ((this->mPreprocessTransform & BitmapHelper::Inverse) == BitmapHelper::Inverse)
+    if ((this->mPreprocessTransform & TransformInverse) == TransformInverse)
         tags.insert("inverse", "yes");
     else
         tags.insert("inverse", "no");

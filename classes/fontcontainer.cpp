@@ -55,7 +55,7 @@ void FontContainer::transform(const QString &key, int code)
 {
     QImage *imageOld = this->mImageMap.value(key);
 
-    BitmapHelper::BitmapHelperTransformCodes type = (BitmapHelper::BitmapHelperTransformCodes)code;
+    Transformation type = (Transformation)code;
     QImage result = BitmapHelper::transform(type, imageOld);
 
     this->mImageMap.remove(key);

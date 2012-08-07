@@ -105,7 +105,8 @@ HEADERS += \
     classes/convert/bitstream.h \
     controls/setup/dialogpreview.h \
     controls/setup/dialogconvert2.h \
-    classes/preview-models/matrixpreviewmodel.h
+    classes/preview-models/matrixpreviewmodel.h \
+    classes/convert/conversion_options.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \

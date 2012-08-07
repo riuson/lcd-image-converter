@@ -58,7 +58,7 @@ void BitmapContainer::setImage(const QString &key, QImage *image)
 void BitmapContainer::transform(const QString &key, int code)
 {
     Q_UNUSED(key);
-    BitmapHelper::BitmapHelperTransformCodes type = (BitmapHelper::BitmapHelperTransformCodes)code;
+    Transformation type = (Transformation)code;
     QImage result = BitmapHelper::transform(type, this->mImage);
     if (this->mImage != NULL)
         delete this->mImage;

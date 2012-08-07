@@ -22,48 +22,13 @@
 //-----------------------------------------------------------------------------
 #include <QtGlobal>
 //-----------------------------------------------------------------------------
+#include "conversion_options.h"
+//-----------------------------------------------------------------------------
 class QStringList;
 class QImage;
 template <class T> class QList;
 //-----------------------------------------------------------------------------
-enum ConversionType
-{
-    ConversionTypeMonochrome = 0,
-    ConversionTypeGrayscale  = 1,
-    ConversionTypeColor      = 2
-};
-//-----------------------------------------------------------------------------
-enum MonochromeType
-{
-    MonochromeTypeEdge = 0,
-    MonochromeTypeDiffuseDither = 1,
-    MonochromeTypeOrderedDither = 2,
-    MonochromeTypeThresholdDither = 3
-};
-//-----------------------------------------------------------------------------
-enum ColorsOrder
-{
-    ColorsOrderRGB = 0,
-    ColorsOrderRBG = 1,
-    ColorsOrderGRB = 2,
-    ColorsOrderGBR = 3,
-    ColorsOrderBRG = 4,
-    ColorsOrderBGR = 5
-};
-//-----------------------------------------------------------------------------
-enum BytesOrder
-{
-    BytesOrderLittleEndian,
-    BytesOrderBigEndian
-};
-//-----------------------------------------------------------------------------
-enum DataBlockSize
-{
-    Data8  = 0,
-    Data16 = 1,
-    Data24 = 2,
-    Data32 = 3
-};
+using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
 /*
  *  Matrix structure:

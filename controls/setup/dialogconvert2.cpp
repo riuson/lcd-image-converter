@@ -26,6 +26,7 @@
 #include "dialogpreview.h"
 #include "matrixpreviewmodel.h"
 #include "conversionmatrixoptions.h"
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
@@ -50,6 +51,10 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->comboBoxBlockSize->addItem(tr("24 bit"), Data24);
     this->ui->comboBoxBlockSize->addItem(tr("32 bit"), Data32);
 
+    this->ui->comboBoxRotate->addItem(tr("Rotate none"), QVariant(BitmapHelper::TransformNone));
+    this->ui->comboBoxRotate->addItem(tr("Rotate 90 Clockwise"), QVariant(BitmapHelper::TransformRotate90));
+    this->ui->comboBoxRotate->addItem(tr("Rotate 180"), QVariant(BitmapHelper::TransformRotate180));
+    this->ui->comboBoxRotate->addItem(tr("Rotate 90 Counter-Clockwise"), QVariant(BitmapHelper::TransformRotate270));
 
     //ConverterHelper::createMatrixMono(this->mMatrix);
     //ConverterHelper::createMatrixGrayscale(this->mMatrix);

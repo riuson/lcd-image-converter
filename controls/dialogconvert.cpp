@@ -80,33 +80,33 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
 
     int transform = this->mConverter->transform();
 
-    this->ui->comboBoxRotate->addItem(tr("Rotate none"), QVariant(BitmapHelper::None));
-    this->ui->comboBoxRotate->addItem(tr("Rotate 90 Clockwise"), QVariant(BitmapHelper::Rotate90));
-    this->ui->comboBoxRotate->addItem(tr("Rotate 180"), QVariant(BitmapHelper::Rotate180));
-    this->ui->comboBoxRotate->addItem(tr("Rotate 90 Counter-Clockwise"), QVariant(BitmapHelper::Rotate270));
+    this->ui->comboBoxRotate->addItem(tr("Rotate none"), QVariant(BitmapHelper::TransformNone));
+    this->ui->comboBoxRotate->addItem(tr("Rotate 90 Clockwise"), QVariant(BitmapHelper::TransformRotate90));
+    this->ui->comboBoxRotate->addItem(tr("Rotate 180"), QVariant(BitmapHelper::TransformRotate180));
+    this->ui->comboBoxRotate->addItem(tr("Rotate 90 Counter-Clockwise"), QVariant(BitmapHelper::TransformRotate270));
 
     this->ui->comboBoxRotate->setCurrentIndex(0);
 
-    if ((transform & 0x03) == BitmapHelper::Rotate90)
+    if ((transform & 0x03) == BitmapHelper::TransformRotate90)
         this->ui->comboBoxRotate->setCurrentIndex(1);
 
-    if ((transform & 0x03) == BitmapHelper::Rotate180)
+    if ((transform & 0x03) == BitmapHelper::TransformRotate180)
         this->ui->comboBoxRotate->setCurrentIndex(2);
 
-    if ((transform & 0x03) == BitmapHelper::Rotate270)
+    if ((transform & 0x03) == BitmapHelper::TransformRotate270)
         this->ui->comboBoxRotate->setCurrentIndex(3);
 
-    if ((transform & BitmapHelper::FlipHorizontal) == BitmapHelper::FlipHorizontal)
+    if ((transform & BitmapHelper::TransformFlipHorizontal) == BitmapHelper::TransformFlipHorizontal)
         this->ui->checkBoxFlipHorizontal->setChecked(true);
     else
         this->ui->checkBoxFlipHorizontal->setChecked(false);
 
-    if ((transform & BitmapHelper::FlipVertical) == BitmapHelper::FlipVertical)
+    if ((transform & BitmapHelper::TransformFlipVertical) == BitmapHelper::TransformFlipVertical)
         this->ui->checkBoxFlipVertical->setChecked(true);
     else
         this->ui->checkBoxFlipVertical->setChecked(false);
 
-    if ((transform & BitmapHelper::Inverse) == BitmapHelper::Inverse)
+    if ((transform & BitmapHelper::TransformInverse) == BitmapHelper::TransformInverse)
         this->ui->checkBoxInverse->setChecked(true);
     else
         this->ui->checkBoxInverse->setChecked(false);
@@ -198,9 +198,9 @@ void DialogConvert::on_comboBoxRotate_currentIndexChanged(int index)
 void DialogConvert::on_checkBoxFlipHorizontal_toggled(bool value)
 {
     int a = this->mConverter->transform();
-    a = a & ~(BitmapHelper::FlipHorizontal);
+    a = a & ~(BitmapHelper::TransformFlipHorizontal);
     if (value)
-        a = a | BitmapHelper::FlipHorizontal;
+        a = a | BitmapHelper::TransformFlipHorizontal;
     this->mConverter->setTransform(a);
     this->updatePreview();
 }
@@ -208,9 +208,9 @@ void DialogConvert::on_checkBoxFlipHorizontal_toggled(bool value)
 void DialogConvert::on_checkBoxFlipVertical_toggled(bool value)
 {
     int a = this->mConverter->transform();
-    a = a & ~(BitmapHelper::FlipVertical);
+    a = a & ~(BitmapHelper::TransformFlipVertical);
     if (value)
-        a = a | BitmapHelper::FlipVertical;
+        a = a | BitmapHelper::TransformFlipVertical;
     this->mConverter->setTransform(a);
     this->updatePreview();
 }
@@ -218,9 +218,9 @@ void DialogConvert::on_checkBoxFlipVertical_toggled(bool value)
 void DialogConvert::on_checkBoxInverse_toggled(bool value)
 {
     int a = this->mConverter->transform();
-    a = a & ~(BitmapHelper::Inverse);
+    a = a & ~(BitmapHelper::TransformInverse);
     if (value)
-        a = a | BitmapHelper::Inverse;
+        a = a | BitmapHelper::TransformInverse;
     this->mConverter->setTransform(a);
     this->updatePreview();
 }
