@@ -94,85 +94,19 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
 
             // check for bit using
             quint32 mask = this->mMatrix->at(ConversionMatrixOptions::OperationsStartIndex + (row << 1));
-            if ((mask & (0x01 << bitIndex)) == 0)
-                colorType = Empty;
-
-            if (role == Qt::DisplayRole)
+            if ((mask & (0x01 << bitIndex)) != 0)
             {
-                if (colorType != Empty)
+                if (role == Qt::DisplayRole)
                 {
-                    switch (convType)
-                    {
-                    case ConversionTypeMonochrome:
-                        result = QString("BW%1").arg(partIndex);
-                        break;
-                    case ConversionTypeGrayscale:
-                        result = QString("Gr%1").arg(partIndex);
-                        break;
-                    case ConversionTypeColor:
-                    {
-                        switch (colorType)
-                        {
-                        case Red:
-                            result = QString("R%1").arg(partIndex);
-                            break;
-                        case Green:
-                            result = QString("G%1").arg(partIndex);
-                            break;
-                        case Blue:
-                            result = QString("B%1").arg(partIndex);
-                            break;
-                        }
-
-                        break;
-                    }
-                    }
+                    QVariant name, color;
+                    this->sourceBitProperties(bitIndex, &name, &color);
+                    result = name;
                 }
-            }
-            else if (role == Qt::BackgroundColorRole)
-            {
-                if (colorType != Empty)
+                else if (role == Qt::BackgroundColorRole)
                 {
-                    switch (convType)
-                    {
-                    case ConversionTypeMonochrome:
-                    {
-                        result = QVariant(QColor(128, 128, 128));
-                        break;
-                    }
-                    case ConversionTypeGrayscale:
-                    {
-                        int a = (80 / 8 * partIndex) + 50;
-                        result = QVariant(QColor(10, 10, 10, a));
-                        break;
-                    }
-                    case ConversionTypeColor:
-                    {
-                        switch (colorType)
-                        {
-                        case Red:
-                        {
-                            int a = (80 / 8 * partIndex) + 50;
-                            result = QVariant(QColor(255, 0, 0, a));
-                            break;
-                        }
-                        case Green:
-                        {
-                            int a = (80 / 8 * partIndex) + 50;
-                            result = QVariant(QColor(0, 255, 0, a));
-                            break;
-                        }
-                        case Blue:
-                        {
-                            int a = (80 / 8 * partIndex) + 50;
-                            result = QVariant(QColor(0, 0, 255, a));
-                            break;
-                        }
-                        }
-
-                        break;
-                    }
-                    }
+                    QVariant name, color;
+                    this->sourceBitProperties(bitIndex, &name, &color);
+                    result = color;
                 }
             }
             break;
@@ -193,7 +127,7 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
             else if (role == Qt::BackgroundColorRole)
             {
                 QVariant name, color;
-                this->resultToSourceBit(bitIndex, &name, &color);
+                this->sourceBitProperties(bitIndex, &name, &color);
                 result = color;
             }
             break;
@@ -428,73 +362,6 @@ MatrixPreviewModel::RowType MatrixPreviewModel::rowType(int row) const
     return result;
 }
 //-----------------------------------------------------------------------------
-QVariant MatrixPreviewModel::resultBitName(int bitIndex) const
-{
-    ConversionMatrixOptions options(this->mMatrix);
-    QVariant result;
-
-    // check bit using
-    bool active = (options.maskUsed() & (0x00000001 << bitIndex)) != 0;
-    if (active)
-    {
-        // check bit OR
-        bool bitOr = (options.maskOr() & (0x00000001 << bitIndex)) != 0;
-        if (!bitOr)
-        {
-            // check bit AND
-            bool bitAnd = (options.maskAnd() & (0x00000001 << bitIndex)) != 0;
-            if (bitAnd)
-            {
-                // find source bit before shifting
-                int ops = this->mMatrix->length() - ConversionMatrixOptions::OperationsStartIndex;
-                ops = ops >> 1;
-                for (int i = ops - 1; i >= 0; i--)
-                {
-                    quint32 mask = this->mMatrix->at(ConversionMatrixOptions::OperationsStartIndex + (i << 1));
-
-                    quint32 shift = this->mMatrix->at(ConversionMatrixOptions::OperationsStartIndex + (i << 1) + 1);
-                    bool left = (shift & 0x80000000) != 0;
-                    shift &= 0x0000001f;
-
-                    // get source bit index
-                    if (left)
-                        bitIndex -= (int)shift;
-                    else
-                        bitIndex += (int)shift;
-
-                    if ((mask & (0x01 << bitIndex)) == 0)
-                    {
-                        result = this->data(this->createIndex(0, 31 - bitIndex), Qt::DisplayRole);
-                    }
-                }
-            }
-            else
-                result = "0";
-        }
-        else
-            result = "1";
-    }
-
-
-    return result;
-}
-//-----------------------------------------------------------------------------
-QVariant MatrixPreviewModel::resultBitColor(int bitIndex) const
-{
-    ConversionMatrixOptions options(this->mMatrix);
-    QVariant result;
-
-    // check bit using
-    bool active = (options.maskUsed() & (0x00000001 << bitIndex)) != 0;
-    if (active)
-    {
-        //result = "1";
-    }
-    else
-        result = QVariant(QColor(50, 50, 50, 200));
-    return result;
-}
-//-----------------------------------------------------------------------------
 void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const
 {
     *name = QVariant();
@@ -536,6 +403,8 @@ void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVarian
                         *name = this->data(this->createIndex(0, 31 - bitIndex), Qt::DisplayRole);
 
                         this->sourceBitProperties(bitIndex, name, color);
+
+                        break;
                     }
                 }
             }
@@ -609,5 +478,7 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
         }
         }
     }
+    else
+        *color = QVariant(QColor(50, 50, 50, 200));
 }
 //-----------------------------------------------------------------------------

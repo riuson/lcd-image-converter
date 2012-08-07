@@ -47,8 +47,6 @@ private:
 
     void getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const;
     RowType rowType(int row) const;
-    QVariant resultBitName(int bitIndex) const;
-    QVariant resultBitColor(int bitIndex) const;
     void resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
     void sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const;
 
