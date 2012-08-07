@@ -19,6 +19,7 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
     QModelIndex parent(const QModelIndex &child) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
+    void callReset();
 
 private:
     QList<quint32> *mMatrix;

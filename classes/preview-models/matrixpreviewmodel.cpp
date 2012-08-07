@@ -290,6 +290,11 @@ Qt::ItemFlags MatrixPreviewModel::flags(const QModelIndex &index) const
     return flags;
 }
 //-----------------------------------------------------------------------------
+void MatrixPreviewModel::callReset()
+{
+    this->reset();
+}
+//-----------------------------------------------------------------------------
 void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const
 {
     ConversionMatrixOptions options(this->mMatrix);
