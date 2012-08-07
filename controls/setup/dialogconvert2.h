@@ -51,8 +51,11 @@ private:
     void setTableHeight(QTableView *tableView);
 
 private slots:
-    void on_pushButtonPreview_clicked();
     void updatePreview();
+    void on_pushButtonPreview_clicked();
+    void on_comboBoxConversionType_currentIndexChanged();
+    void on_comboBoxMonochromeType_currentIndexChanged();
+    void on_comboBoxBlockSize_currentIndexChanged();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT2_H

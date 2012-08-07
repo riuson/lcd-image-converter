@@ -25,6 +25,7 @@
 #include "converterhelper.h"
 #include "dialogpreview.h"
 #include "matrixpreviewmodel.h"
+#include "conversionmatrixoptions.h"
 //-----------------------------------------------------------------------------
 DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
@@ -33,8 +34,22 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     ui->setupUi(this);
 
     this->mData = dataContainer;
-
     this->mMatrix = new QList<quint32>();
+
+    this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
+    this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
+    this->ui->comboBoxConversionType->addItem(tr("Color"), ConversionTypeColor);
+
+    this->ui->comboBoxMonochromeType->addItem(tr("Edge"), MonochromeTypeEdge);
+    this->ui->comboBoxMonochromeType->addItem(tr("Diffuse Dither"), MonochromeTypeDiffuseDither);
+    this->ui->comboBoxMonochromeType->addItem(tr("Ordered Dither"), MonochromeTypeOrderedDither);
+    this->ui->comboBoxMonochromeType->addItem(tr("Threshold Dither"), MonochromeTypeThresholdDither);
+
+    this->ui->comboBoxBlockSize->addItem(tr("8 bit"), Data8);
+    this->ui->comboBoxBlockSize->addItem(tr("16 bit"), Data16);
+    this->ui->comboBoxBlockSize->addItem(tr("24 bit"), Data24);
+    this->ui->comboBoxBlockSize->addItem(tr("32 bit"), Data32);
+
 
     //ConverterHelper::createMatrixMono(this->mMatrix);
     //ConverterHelper::createMatrixGrayscale(this->mMatrix);
@@ -61,12 +76,6 @@ void DialogConvert2::setTableHeight(QTableView *tableView)
                 tableView->verticalHeader()->length() +
                 tableView->horizontalHeader()->height() +
                 tableView->horizontalScrollBar()->height());
-}
-//-----------------------------------------------------------------------------
-void DialogConvert2::on_pushButtonPreview_clicked()
-{
-    DialogPreview preview(this->mData, this);
-    preview.exec();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::updatePreview()
@@ -100,6 +109,57 @@ void DialogConvert2::updatePreview()
             int width2, height2;
             ConverterHelper::packData(&matrix, &data, width, height, &data2, &width2, &height2);
         }*/
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::on_pushButtonPreview_clicked()
+{
+    DialogPreview preview(this->mData, this);
+    preview.exec();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::on_comboBoxConversionType_currentIndexChanged()
+{
+    QVariant data = this->ui->comboBoxConversionType->itemData(this->ui->comboBoxConversionType->currentIndex());
+    bool ok;
+    int a = data.toInt(&ok);
+    if (ok)
+    {
+        ConversionMatrixOptions options(this->mMatrix);
+        options.setConvType((ConversionType)a);
+
+        this->ui->tableViewOperations->update();
+        this->ui->tableViewOperations->resizeColumnsToContents();
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::on_comboBoxMonochromeType_currentIndexChanged()
+{
+    QVariant data = this->ui->comboBoxMonochromeType->itemData(this->ui->comboBoxMonochromeType->currentIndex());
+    bool ok;
+    int a = data.toInt(&ok);
+    if (ok)
+    {
+        ConversionMatrixOptions options(this->mMatrix);
+        options.setMonoType((MonochromeType)a);
+
+        this->ui->tableViewOperations->update();
+        this->ui->tableViewOperations->resizeColumnsToContents();
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::on_comboBoxBlockSize_currentIndexChanged()
+{
+    QVariant data = this->ui->comboBoxBlockSize->itemData(this->ui->comboBoxBlockSize->currentIndex());
+    bool ok;
+    int a = data.toInt(&ok);
+    if (ok)
+    {
+        ConversionMatrixOptions options(this->mMatrix);
+        options.setBlockSize((DataBlockSize)a);
+
+        this->ui->tableViewOperations->update();
+        this->ui->tableViewOperations->resizeColumnsToContents();
     }
 }
 //-----------------------------------------------------------------------------
