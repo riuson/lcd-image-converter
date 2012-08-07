@@ -51,10 +51,10 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->comboBoxBlockSize->addItem(tr("24 bit"), Data24);
     this->ui->comboBoxBlockSize->addItem(tr("32 bit"), Data32);
 
-    this->ui->comboBoxRotate->addItem(tr("Rotate none"), QVariant(BitmapHelper::TransformNone));
-    this->ui->comboBoxRotate->addItem(tr("Rotate 90 Clockwise"), QVariant(BitmapHelper::TransformRotate90));
-    this->ui->comboBoxRotate->addItem(tr("Rotate 180"), QVariant(BitmapHelper::TransformRotate180));
-    this->ui->comboBoxRotate->addItem(tr("Rotate 90 Counter-Clockwise"), QVariant(BitmapHelper::TransformRotate270));
+    this->ui->comboBoxRotate->addItem(tr("Rotate none"), QVariant(TransformNone));
+    this->ui->comboBoxRotate->addItem(tr("Rotate 90 Clockwise"), QVariant(TransformRotate90));
+    this->ui->comboBoxRotate->addItem(tr("Rotate 180"), QVariant(TransformRotate180));
+    this->ui->comboBoxRotate->addItem(tr("Rotate 90 Counter-Clockwise"), QVariant(TransformRotate270));
 
     //ConverterHelper::createMatrixMono(this->mMatrix);
     //ConverterHelper::createMatrixGrayscale(this->mMatrix);
@@ -87,6 +87,8 @@ void DialogConvert2::updatePreview()
 {
     if (this->mData != NULL)
     {
+        this->ui->tableViewOperations->update();
+        this->ui->tableViewOperations->resizeColumnsToContents();
         /*QString key = this->ui->comboBoxSampleKey->currentText();
         if (!key.isEmpty())
         {
@@ -123,9 +125,9 @@ void DialogConvert2::on_pushButtonPreview_clicked()
     preview.exec();
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_comboBoxConversionType_currentIndexChanged()
+void DialogConvert2::on_comboBoxConversionType_currentIndexChanged(int index)
 {
-    QVariant data = this->ui->comboBoxConversionType->itemData(this->ui->comboBoxConversionType->currentIndex());
+    QVariant data = this->ui->comboBoxConversionType->itemData(index);
     bool ok;
     int a = data.toInt(&ok);
     if (ok)
@@ -133,14 +135,13 @@ void DialogConvert2::on_comboBoxConversionType_currentIndexChanged()
         ConversionMatrixOptions options(this->mMatrix);
         options.setConvType((ConversionType)a);
 
-        this->ui->tableViewOperations->update();
-        this->ui->tableViewOperations->resizeColumnsToContents();
+        this->updatePreview();
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_comboBoxMonochromeType_currentIndexChanged()
+void DialogConvert2::on_comboBoxMonochromeType_currentIndexChanged(int index)
 {
-    QVariant data = this->ui->comboBoxMonochromeType->itemData(this->ui->comboBoxMonochromeType->currentIndex());
+    QVariant data = this->ui->comboBoxMonochromeType->itemData(index);
     bool ok;
     int a = data.toInt(&ok);
     if (ok)
@@ -148,14 +149,13 @@ void DialogConvert2::on_comboBoxMonochromeType_currentIndexChanged()
         ConversionMatrixOptions options(this->mMatrix);
         options.setMonoType((MonochromeType)a);
 
-        this->ui->tableViewOperations->update();
-        this->ui->tableViewOperations->resizeColumnsToContents();
+        this->updatePreview();
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_comboBoxBlockSize_currentIndexChanged()
+void DialogConvert2::on_comboBoxBlockSize_currentIndexChanged(int index)
 {
-    QVariant data = this->ui->comboBoxBlockSize->itemData(this->ui->comboBoxBlockSize->currentIndex());
+    QVariant data = this->ui->comboBoxBlockSize->itemData(index);
     bool ok;
     int a = data.toInt(&ok);
     if (ok)
@@ -163,8 +163,64 @@ void DialogConvert2::on_comboBoxBlockSize_currentIndexChanged()
         ConversionMatrixOptions options(this->mMatrix);
         options.setBlockSize((DataBlockSize)a);
 
-        this->ui->tableViewOperations->update();
-        this->ui->tableViewOperations->resizeColumnsToContents();
+        this->updatePreview();
     }
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::on_comboBoxRotate_currentIndexChanged(int index)
+{
+    QVariant data = this->ui->comboBoxRotate->itemData(index);
+    bool ok;
+    int a = data.toInt(&ok);
+    if (ok)
+    {
+        ConversionMatrixOptions options(this->mMatrix);
+        //BitmapHelper::BitmapHelperTransformCodes rotate = (BitmapHelper::BitmapHelperTransformCodes)a;
+        quint32 b = options.transform();
+        b = b & ~(TransformRotatations);
+        b = b | a;
+        options.setTransform((Transformation)b);
+
+        this->updatePreview();
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::on_checkBoxFlipHorizontal_toggled(bool value)
+{
+    ConversionMatrixOptions options(this->mMatrix);
+    int a = options.transform();
+    if (value)
+        a = a | TransformFlipHorizontal;
+    else
+        a = a & ~(TransformFlipHorizontal);
+    options.setTransform((Transformation)a);
+
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::on_checkBoxFlipVertical_toggled(bool value)
+{
+    ConversionMatrixOptions options(this->mMatrix);
+    int a = options.transform();
+    if (value)
+        a = a | TransformFlipVertical;
+    else
+        a = a & ~(TransformFlipVertical);
+    options.setTransform((Transformation)a);
+
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::on_checkBoxInverse_toggled(bool value)
+{
+    ConversionMatrixOptions options(this->mMatrix);
+    int a = options.transform();
+    if (value)
+        a = a | TransformInverse;
+    else
+        a = a & ~(TransformInverse);
+    options.setTransform((Transformation)a);
+
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------

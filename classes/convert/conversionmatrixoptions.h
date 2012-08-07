@@ -40,6 +40,7 @@ using namespace ConversionOptions;
  *     27:24 - monochrome type
  *     23:16 - edge value for MonochromeTypeEdge
  *     15:12 - data block size
+ *     11:7  - preprocess-transformation flags (rotate/flip/inverse)
  *
  * [1] Mask of used bits before packing
  *
@@ -64,6 +65,7 @@ public:
     MonochromeType monoType();
     int edge();
     DataBlockSize blockSize();
+    Transformation transform();
     quint32 maskUsed();
     quint32 maskAnd();
     quint32 maskOr();
@@ -75,6 +77,7 @@ public:
     void setMonoType(MonochromeType value);
     void setEdge(int value);
     void setBlockSize(DataBlockSize value);
+    void setTransform(Transformation value);
     void setMaskUsed(quint32 value);
     void setMaskAnd(quint32 value);
     void setMaskOr(quint32 value);
@@ -85,6 +88,7 @@ private:
     static const quint32 MaskMonochromeType = 0x0f000000;
     static const quint32 MaskEdgeValue      = 0x00ff0000;
     static const quint32 MaskDataBlockSize  = 0x0000f000;
+    static const quint32 MaskTransform      = 0x00000f80;
 
     QList<quint32> *mMatrix;
 };

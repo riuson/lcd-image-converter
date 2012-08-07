@@ -53,9 +53,13 @@ private:
 private slots:
     void updatePreview();
     void on_pushButtonPreview_clicked();
-    void on_comboBoxConversionType_currentIndexChanged();
-    void on_comboBoxMonochromeType_currentIndexChanged();
-    void on_comboBoxBlockSize_currentIndexChanged();
+    void on_comboBoxConversionType_currentIndexChanged(int index);
+    void on_comboBoxMonochromeType_currentIndexChanged(int index);
+    void on_comboBoxBlockSize_currentIndexChanged(int index);
+    void on_comboBoxRotate_currentIndexChanged(int index);
+    void on_checkBoxFlipHorizontal_toggled(bool value);
+    void on_checkBoxFlipVertical_toggled(bool value);
+    void on_checkBoxInverse_toggled(bool value);
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT2_H

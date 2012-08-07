@@ -64,6 +64,12 @@ DataBlockSize ConversionMatrixOptions::blockSize()
     return result;
 }
 //-----------------------------------------------------------------------------
+Transformation ConversionMatrixOptions::transform()
+{
+    Transformation result = (Transformation)((this->mMatrix->at(0) & MaskTransform) >> 7);
+    return result;
+}
+//-----------------------------------------------------------------------------
 quint32 ConversionMatrixOptions::maskUsed()
 {
     return this->mMatrix->at(1);
@@ -125,6 +131,16 @@ void ConversionMatrixOptions::setBlockSize(DataBlockSize value)
     mask &= 0x0000000f;
     result &= ~MaskDataBlockSize;
     result |= mask << 12;
+    this->mMatrix->replace(0, result);
+}
+//-----------------------------------------------------------------------------
+void ConversionMatrixOptions::setTransform(Transformation value)
+{
+    quint32 result = this->mMatrix->at(0);
+    quint32 mask = value;
+    mask &= 0x0000001f;
+    result &= ~MaskTransform;
+    result |= mask << 7;
     this->mMatrix->replace(0, result);
 }
 //-----------------------------------------------------------------------------

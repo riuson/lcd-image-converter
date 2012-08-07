@@ -51,6 +51,7 @@ enum Transformation
     TransformRotate90 = 1,
     TransformRotate180 = 2,
     TransformRotate270 = 3,
+    TransformRotatations = 3,
     TransformFlipHorizontal = 4,
     TransformFlipVertical = 8,
     TransformInverse = 16
