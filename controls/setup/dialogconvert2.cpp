@@ -386,6 +386,10 @@ void DialogConvert2::on_pushButtonPresetSaveAs_clicked()
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_pushButtonPresetRemove_clicked()
 {
+    QString name = this->ui->comboBoxPresets->currentText();
+    this->presetRemove(name);
+
+    this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_comboBoxPresets_currentIndexChanged(int index)
