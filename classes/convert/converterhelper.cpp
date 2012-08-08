@@ -24,6 +24,7 @@
 #include <QColor>
 #include <QPainter>
 #include "bitstream.h"
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 void ConverterHelper::packDataPreview(QStringList *list, QStringList &colors, int bits, bool pack, bool alignToHigh)
 {
@@ -292,6 +293,38 @@ void ConverterHelper::packData(QList<quint32> *matrix, QList<quint32> *inputData
         resultWidth = qMax(resultWidth, rowData.length());
     }
     *outputWidth = resultWidth;
+}
+//-----------------------------------------------------------------------------
+void ConverterHelper::prepareImage(QList<quint32> *matrix, QImage *source, QImage *result)
+{
+    if (source != NULL)
+    {
+        QImage im = *source;
+        ConversionMatrixOptions options(matrix);
+        switch (options.rotate())
+        {
+        case Rotate90:
+            im = BitmapHelper::rotate90(source);
+            break;
+        case Rotate180:
+            im = BitmapHelper::rotate180(source);
+            break;
+        case Rotate270:
+            im = BitmapHelper::rotate270(source);
+            break;
+        case RotateNone:
+        default:
+            break;
+        }
+        if (options.flipHorizontal())
+            im = BitmapHelper::flipHorizontal(&im);
+        if (options.flipVertical())
+            im = BitmapHelper::flipVertical(&im);
+        if (options.inverse())
+            im.invertPixels();
+
+        *result = im;
+    }
 }
 //-----------------------------------------------------------------------------
 void ConverterHelper::makeMonochrome(QImage &image, int edge)

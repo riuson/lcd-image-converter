@@ -59,8 +59,10 @@ void DialogPreview::updatePreview()
         {
             this->mImageOriginal = QImage(*this->mData->image(key));
             this->ui->labelOriginal->setPixmap(QPixmap::fromImage(this->mImageOriginal));
-            //QImage processed = this->mConverter->preprocessImage(this->mImageOriginal);
-            //this->ui->labelPreview->setPixmap(QPixmap::fromImage(processed));
+            QImage processed;
+            ConverterHelper::prepareImage(this->mMatrix, &this->mImageOriginal, &processed);
+            this->ui->labelPreview->setPixmap(QPixmap::fromImage(processed));
+            this->mImageProcessed = processed;
 
             //BitmapData data;
             //this->mConverter->processImage(processed, &data);
@@ -70,7 +72,7 @@ void DialogPreview::updatePreview()
 
             QList<quint32> data;
             int width, height;
-            ConverterHelper::pixelsData(this->mMatrix, &this->mImageOriginal, &data, &width, &height);
+            ConverterHelper::pixelsData(this->mMatrix, &this->mImageProcessed, &data, &width, &height);
 
             ConverterHelper::processPixels(this->mMatrix, &data);
 

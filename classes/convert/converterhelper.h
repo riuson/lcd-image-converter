@@ -22,6 +22,8 @@
 //-----------------------------------------------------------------------------
 #include "conversionmatrixoptions.h"
 //-----------------------------------------------------------------------------
+class QImage;
+//-----------------------------------------------------------------------------
 class ConverterHelper
 {
 public:
@@ -65,6 +67,8 @@ public:
             QList<quint32> *outputData,
             int *outputWidth,
             int *outputHeight);
+
+    static void prepareImage(QList<quint32> *matrix, QImage *source, QImage *result);
 private:
     static void makeMonochrome(QImage &image, int edge);
     // make r = g = b = qGray(pixel)
