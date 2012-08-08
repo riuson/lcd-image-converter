@@ -54,10 +54,10 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->comboBoxBlockSize->addItem(tr("24 bit"), Data24);
     this->ui->comboBoxBlockSize->addItem(tr("32 bit"), Data32);
 
-    this->ui->comboBoxRotate->addItem(tr("Rotate none"), QVariant(TransformNone));
-    this->ui->comboBoxRotate->addItem(tr("Rotate 90 Clockwise"), QVariant(TransformRotate90));
-    this->ui->comboBoxRotate->addItem(tr("Rotate 180"), QVariant(TransformRotate180));
-    this->ui->comboBoxRotate->addItem(tr("Rotate 90 Counter-Clockwise"), QVariant(TransformRotate270));
+    this->ui->comboBoxRotate->addItem(tr("None"), QVariant(RotateNone));
+    this->ui->comboBoxRotate->addItem(tr("90\u00b0 Clockwise"), QVariant(Rotate90));
+    this->ui->comboBoxRotate->addItem(tr("180\u00b0"), QVariant(Rotate180));
+    this->ui->comboBoxRotate->addItem(tr("90\u00b0 Counter-Clockwise"), QVariant(Rotate270));
 
     //ConverterHelper::createMatrixMono(this->mMatrix);
     //ConverterHelper::createMatrixGrayscale(this->mMatrix);
@@ -314,11 +314,8 @@ void DialogConvert2::on_comboBoxRotate_currentIndexChanged(int index)
     if (ok)
     {
         ConversionMatrixOptions options(this->mMatrix);
-        //BitmapHelper::BitmapHelperTransformCodes rotate = (BitmapHelper::BitmapHelperTransformCodes)a;
-        quint32 b = options.transform();
-        b = b & ~(TransformRotatations);
-        b = b | a;
-        options.setTransform((Transformation)b);
+        Rotate rotate = (Rotate)a;
+        options.setRotate(rotate);
 
         this->updatePreview();
     }
@@ -327,12 +324,7 @@ void DialogConvert2::on_comboBoxRotate_currentIndexChanged(int index)
 void DialogConvert2::on_checkBoxFlipHorizontal_toggled(bool value)
 {
     ConversionMatrixOptions options(this->mMatrix);
-    int a = options.transform();
-    if (value)
-        a = a | TransformFlipHorizontal;
-    else
-        a = a & ~(TransformFlipHorizontal);
-    options.setTransform((Transformation)a);
+    options.setFlipHorizontal(value);
 
     this->updatePreview();
 }
@@ -340,12 +332,7 @@ void DialogConvert2::on_checkBoxFlipHorizontal_toggled(bool value)
 void DialogConvert2::on_checkBoxFlipVertical_toggled(bool value)
 {
     ConversionMatrixOptions options(this->mMatrix);
-    int a = options.transform();
-    if (value)
-        a = a | TransformFlipVertical;
-    else
-        a = a & ~(TransformFlipVertical);
-    options.setTransform((Transformation)a);
+    options.setFlipVertical(value);
 
     this->updatePreview();
 }
@@ -353,12 +340,7 @@ void DialogConvert2::on_checkBoxFlipVertical_toggled(bool value)
 void DialogConvert2::on_checkBoxInverse_toggled(bool value)
 {
     ConversionMatrixOptions options(this->mMatrix);
-    int a = options.transform();
-    if (value)
-        a = a | TransformInverse;
-    else
-        a = a & ~(TransformInverse);
-    options.setTransform((Transformation)a);
+    options.setInverse(value);
 
     this->updatePreview();
 }

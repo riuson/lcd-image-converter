@@ -40,7 +40,10 @@ using namespace ConversionOptions;
  *     27:24 - monochrome type
  *     23:16 - edge value for MonochromeTypeEdge
  *     15:12 - data block size
- *     11:7  - preprocess-transformation flags (rotate/flip/inverse)
+ *     11:10 - preprocess roration
+ *     9     - preprocess flip vertical
+ *     8     - preprocess flip horizontal
+ *     7     - preprocess inverse
  *
  * [1] Mask of used bits before packing
  *
@@ -65,10 +68,13 @@ public:
     MonochromeType monoType();
     int edge();
     DataBlockSize blockSize();
-    Transformation transform();
     quint32 maskUsed();
     quint32 maskAnd();
     quint32 maskOr();
+    Rotate rotate();
+    bool flipVertical();
+    bool flipHorizontal();
+    bool inverse();
 
     static const int OperationsStartIndex = 4;
 
@@ -77,10 +83,13 @@ public:
     void setMonoType(MonochromeType value);
     void setEdge(int value);
     void setBlockSize(DataBlockSize value);
-    void setTransform(Transformation value);
     void setMaskUsed(quint32 value);
     void setMaskAnd(quint32 value);
     void setMaskOr(quint32 value);
+    void setRotate(Rotate value);
+    void setFlipVertical(bool value);
+    void setFlipHorizontal(bool value);
+    void setInverse(bool value);
 
 private:
     static const quint32 MaskByteOrder      = 0x40000000;
@@ -88,7 +97,10 @@ private:
     static const quint32 MaskMonochromeType = 0x0f000000;
     static const quint32 MaskEdgeValue      = 0x00ff0000;
     static const quint32 MaskDataBlockSize  = 0x0000f000;
-    static const quint32 MaskTransform      = 0x00000f80;
+    static const quint32 MaskRotate         = 0x00000c00;
+    static const quint32 MaskFlipV          = 0x00000200;
+    static const quint32 MaskFlipH          = 0x00000100;
+    static const quint32 MaskInverse        = 0x00000080;
 
     QList<quint32> *mMatrix;
 };

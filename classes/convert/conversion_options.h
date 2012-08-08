@@ -75,9 +75,15 @@ enum Transformation
     TransformFlipVertical = 8,
     TransformInverse = 16
 };
-Q_DECLARE_FLAGS(Transformations, Transformation)
 //------------------------------------------------------------------------------
-
-}
+enum Rotate
+{
+    RotateNone = 0,
+    Rotate90  =  1,
+    Rotate180 =  2,
+    Rotate270 =  3
+};
+//------------------------------------------------------------------------------
+} // end of namespace
 //------------------------------------------------------------------------------
 #endif // CONVERSION_OPTIONS_H

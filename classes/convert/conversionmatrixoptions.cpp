@@ -64,12 +64,6 @@ DataBlockSize ConversionMatrixOptions::blockSize()
     return result;
 }
 //-----------------------------------------------------------------------------
-Transformation ConversionMatrixOptions::transform()
-{
-    Transformation result = (Transformation)((this->mMatrix->at(0) & MaskTransform) >> 7);
-    return result;
-}
-//-----------------------------------------------------------------------------
 quint32 ConversionMatrixOptions::maskUsed()
 {
     return this->mMatrix->at(1);
@@ -83,6 +77,27 @@ quint32 ConversionMatrixOptions::maskAnd()
 quint32 ConversionMatrixOptions::maskOr()
 {
     return this->mMatrix->at(3);
+}
+//-----------------------------------------------------------------------------
+Rotate ConversionMatrixOptions::rotate()
+{
+    Rotate result = (Rotate)((this->mMatrix->at(0) & MaskRotate) >> 10);
+    return result;
+}
+//-----------------------------------------------------------------------------
+bool ConversionMatrixOptions::flipVertical()
+{
+    return (this->mMatrix->at(0) & MaskFlipV) != 0;
+}
+//-----------------------------------------------------------------------------
+bool ConversionMatrixOptions::flipHorizontal()
+{
+    return (this->mMatrix->at(0) & MaskFlipH) != 0;
+}
+//-----------------------------------------------------------------------------
+bool ConversionMatrixOptions::inverse()
+{
+    return (this->mMatrix->at(0) & MaskInverse) != 0;
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setBytesOrder(BytesOrder value)
@@ -134,16 +149,6 @@ void ConversionMatrixOptions::setBlockSize(DataBlockSize value)
     this->mMatrix->replace(0, result);
 }
 //-----------------------------------------------------------------------------
-void ConversionMatrixOptions::setTransform(Transformation value)
-{
-    quint32 result = this->mMatrix->at(0);
-    quint32 mask = value;
-    mask &= 0x0000001f;
-    result &= ~MaskTransform;
-    result |= mask << 7;
-    this->mMatrix->replace(0, result);
-}
-//-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setMaskUsed(quint32 value)
 {
     this->mMatrix->replace(1, value);
@@ -157,5 +162,45 @@ void ConversionMatrixOptions::setMaskAnd(quint32 value)
 void ConversionMatrixOptions::setMaskOr(quint32 value)
 {
     this->mMatrix->replace(3, value);
+}
+//-----------------------------------------------------------------------------
+void ConversionMatrixOptions::setRotate(Rotate value)
+{
+    quint32 result = this->mMatrix->at(0);
+    quint32 mask = value;
+    mask &= 0x00000003;
+    result &= ~MaskRotate;
+    result |= mask << 10;
+    this->mMatrix->replace(0, result);
+}
+//-----------------------------------------------------------------------------
+void ConversionMatrixOptions::setFlipVertical(bool value)
+{
+    quint32 result = this->mMatrix->at(0);
+    if (value)
+        result |= MaskFlipV;
+    else
+        result &= ~MaskFlipV;
+    this->mMatrix->replace(0, result);
+}
+//-----------------------------------------------------------------------------
+void ConversionMatrixOptions::setFlipHorizontal(bool value)
+{
+    quint32 result = this->mMatrix->at(0);
+    if (value)
+        result |= MaskFlipH;
+    else
+        result &= ~MaskFlipH;
+    this->mMatrix->replace(0, result);
+}
+//-----------------------------------------------------------------------------
+void ConversionMatrixOptions::setInverse(bool value)
+{
+    quint32 result = this->mMatrix->at(0);
+    if (value)
+        result |= MaskInverse;
+    else
+        result &= ~MaskInverse;
+    this->mMatrix->replace(0, result);
 }
 //-----------------------------------------------------------------------------
