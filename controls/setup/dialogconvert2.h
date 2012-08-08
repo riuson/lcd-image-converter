@@ -65,6 +65,7 @@ private slots:
     void on_pushButtonPresetSaveAs_clicked();
     void on_pushButtonPresetRemove_clicked();
     void on_comboBoxPresets_currentIndexChanged(int index);
+    void on_horizontalScrollBarEdge_valueChanged(int value);
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT2_H

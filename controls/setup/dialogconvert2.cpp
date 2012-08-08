@@ -170,11 +170,38 @@ void DialogConvert2::presetLoad(const QString &name)
         sett.endGroup();
     }
     sett.endGroup();
-\
-    this->ui->tableViewOperations->setModel(NULL);
-    this->ui->tableViewOperations->setModel(this->mMatrixModel);
-    this->ui->tableViewOperations->update();
-    this->ui->tableViewOperations->resizeColumnsToContents();
+    \
+    // update gui
+    {
+        this->ui->tableViewOperations->setModel(NULL);
+        this->ui->tableViewOperations->setModel(this->mMatrixModel);
+        this->ui->tableViewOperations->update();
+        this->ui->tableViewOperations->resizeColumnsToContents();
+
+        ConversionMatrixOptions options(this->mMatrix);
+
+        int index = this->ui->comboBoxConversionType->findData(options.convType());
+        if (index >= 0)
+            this->ui->comboBoxConversionType->setCurrentIndex(index);
+
+        index = this->ui->comboBoxMonochromeType->findData(options.monoType());
+        if (index >= 0)
+            this->ui->comboBoxMonochromeType->setCurrentIndex(index);
+
+        index = this->ui->comboBoxBlockSize->findData(options.blockSize());
+        if (index >= 0)
+            this->ui->comboBoxBlockSize->setCurrentIndex(index);
+
+        index = this->ui->comboBoxRotate->findData(options.rotate());
+        if (index >= 0)
+            this->ui->comboBoxRotate->setCurrentIndex(index);
+
+        this->ui->horizontalScrollBarEdge->setValue(options.edge());
+
+        this->ui->checkBoxFlipHorizontal->setChecked(options.flipHorizontal());
+        this->ui->checkBoxFlipVertical->setChecked(options.flipVertical());
+        this->ui->checkBoxInverse->setChecked(options.inverse());
+    }
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::presetSaveAs(const QString &name)
@@ -274,6 +301,20 @@ void DialogConvert2::on_comboBoxConversionType_currentIndexChanged(int index)
         ConversionMatrixOptions options(this->mMatrix);
         options.setConvType((ConversionType)a);
 
+        if (options.convType() == ConversionTypeMonochrome)
+        {
+            this->ui->comboBoxMonochromeType->setEnabled(true);
+            if (options.monoType() == MonochromeTypeEdge)
+                this->ui->horizontalScrollBarEdge->setEnabled(true);
+            else
+                this->ui->horizontalScrollBarEdge->setEnabled(false);
+        }
+        else
+        {
+            this->ui->comboBoxMonochromeType->setEnabled(false);
+            this->ui->horizontalScrollBarEdge->setEnabled(false);
+        }
+
         this->updatePreview();
     }
 }
@@ -287,6 +328,20 @@ void DialogConvert2::on_comboBoxMonochromeType_currentIndexChanged(int index)
     {
         ConversionMatrixOptions options(this->mMatrix);
         options.setMonoType((MonochromeType)a);
+
+        if (options.convType() == ConversionTypeMonochrome)
+        {
+            this->ui->comboBoxMonochromeType->setEnabled(true);
+            if (options.monoType() == MonochromeTypeEdge)
+                this->ui->horizontalScrollBarEdge->setEnabled(true);
+            else
+                this->ui->horizontalScrollBarEdge->setEnabled(false);
+        }
+        else
+        {
+            this->ui->comboBoxMonochromeType->setEnabled(false);
+            this->ui->horizontalScrollBarEdge->setEnabled(false);
+        }
 
         this->updatePreview();
     }
@@ -385,5 +440,11 @@ void DialogConvert2::on_comboBoxPresets_currentIndexChanged(int index)
     this->presetLoad(name);
 
     this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::on_horizontalScrollBarEdge_valueChanged(int value)
+{
+    ConversionMatrixOptions options(this->mMatrix);
+    options.setEdge(value);
 }
 //-----------------------------------------------------------------------------
