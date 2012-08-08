@@ -503,6 +503,9 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
         }
     }
     else
-        *color = QVariant(QColor(50, 50, 50, 200));
+    {
+        //*color = QVariant(QColor(50, 50, 50, 200));
+        *name = QVariant(QString("0"));
+    }
 }
 //-----------------------------------------------------------------------------
