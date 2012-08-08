@@ -22,6 +22,8 @@
 //-----------------------------------------------------------------------------
 #include <QDialog>
 //-----------------------------------------------------------------------------
+template <class T> class QList;
+//-----------------------------------------------------------------------------
 namespace Ui {
 class DialogPreview;
 }
@@ -33,7 +35,7 @@ class DialogPreview : public QDialog
     Q_OBJECT
     
 public:
-    explicit DialogPreview(IDataContainer *dataContainer, QWidget *parent = 0);
+    explicit DialogPreview(IDataContainer *dataContainer, QList<quint32> *matrix, QWidget *parent = 0);
     ~DialogPreview();
     void updatePreview();
     
@@ -43,6 +45,7 @@ private:
     IDataContainer *mData;
     QImage mImageOriginal;
     QImage mImageProcessed;
+    QList<quint32> *mMatrix;
 
 private slots:
     void on_comboBoxSampleKey_currentIndexChanged();

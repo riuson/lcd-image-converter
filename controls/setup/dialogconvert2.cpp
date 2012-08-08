@@ -269,7 +269,7 @@ void DialogConvert2::on_pushButtonPreview_clicked()
 {
     if (this->mPreview == NULL)
     {
-        this->mPreview = new DialogPreview(this->mData, this);
+        this->mPreview = new DialogPreview(this->mData, this->mMatrix, this);
         QObject::connect(this->mPreview, SIGNAL(accepted()), this, SLOT(previewClosed()));
         QObject::connect(this->mPreview, SIGNAL(rejected()), this, SLOT(previewClosed()));
     }

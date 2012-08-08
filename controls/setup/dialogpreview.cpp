@@ -23,14 +23,16 @@
 #include "idatacontainer.h"
 #include "converterhelper.h"
 #include <QList>
+#include <QRegExp>
 //-----------------------------------------------------------------------------
-DialogPreview::DialogPreview(IDataContainer *dataContainer, QWidget *parent) :
+DialogPreview::DialogPreview(IDataContainer *dataContainer, QList<quint32> *matrix, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogPreview)
 {
     ui->setupUi(this);
 
     this->mData = dataContainer;
+    this->mMatrix = matrix;
 
     if (this->mData != NULL)
     {
@@ -66,18 +68,33 @@ void DialogPreview::updatePreview()
             //QString str = this->mConverter->dataToString(data);
             //this->ui->plainTextEdit->setPlainText(str);
 
-            QList<quint32> matrix;
-            ConverterHelper::createMatrixColor(&matrix);
-
             QList<quint32> data;
             int width, height;
-            ConverterHelper::pixelsData(&matrix, &this->mImageOriginal, &data, &width, &height);
+            ConverterHelper::pixelsData(this->mMatrix, &this->mImageOriginal, &data, &width, &height);
 
-            ConverterHelper::processPixels(&matrix, &data);
+            ConverterHelper::processPixels(this->mMatrix, &data);
 
             QList<quint32> data2;
             int width2, height2;
-            ConverterHelper::packData(&matrix, &data, width, height, &data2, &width2, &height2);
+            ConverterHelper::packData(this->mMatrix, &data, width, height, &data2, &width2, &height2);
+
+            ConversionMatrixOptions options(this->mMatrix);
+
+            QString str;
+            int fieldWidth = ((int)options.blockSize() + 1) << 1;
+            for (int y = 0; y < height2; y++)
+            {
+                if (str.endsWith(", "))
+                    str.append("\n");
+                for (int x = 0; x < width2; x++)
+                {
+                    str += QString("%1, ").arg(data2.at(y * width2 + x), fieldWidth, 16, QChar('0'));
+                }
+            }
+            if (str.endsWith(", "))
+                str = str.remove(QRegExp("\\,\\s$"));
+
+            this->ui->plainTextEdit->setPlainText(str);
         }
     }
 }
