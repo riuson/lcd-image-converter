@@ -123,8 +123,8 @@ FORMS += \
     controls/starttab.ui \
     controls/dialogfontpreview.ui \
     controls/dialogsetup.ui \
-    controls/setup/dialogpresets.ui \
-    controls/setup/dialogconvert2.ui
+    controls/setup/dialogconvert2.ui \
+    controls/setup/dialogpreview.ui
 INCLUDEPATH += . \
     ./classes \
     ./classes/convert \

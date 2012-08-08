@@ -36,6 +36,7 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     ui(new Ui::DialogConvert2)
 {
     ui->setupUi(this);
+    this->mPreview = NULL;
 
     this->mData = dataContainer;
     this->mMatrix = new QList<quint32>();
@@ -73,6 +74,9 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
 //-----------------------------------------------------------------------------
 DialogConvert2::~DialogConvert2()
 {
+    if (this->mPreview != NULL)
+        delete this->mPreview;
+
     delete ui;
     delete this->mMatrixModel;
     delete this->mMatrix;
@@ -287,8 +291,14 @@ void DialogConvert2::updatePreview()
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_pushButtonPreview_clicked()
 {
-    DialogPreview preview(this->mData, this);
-    preview.exec();
+    if (this->mPreview == NULL)
+    {
+        this->mPreview = new DialogPreview(this->mData, this);
+        QObject::connect(this->mPreview, SIGNAL(accepted()), this, SLOT(previewClosed()));
+        QObject::connect(this->mPreview, SIGNAL(rejected()), this, SLOT(previewClosed()));
+    }
+
+    this->mPreview->show();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_comboBoxConversionType_currentIndexChanged(int index)
@@ -446,5 +456,14 @@ void DialogConvert2::on_horizontalScrollBarEdge_valueChanged(int value)
 {
     ConversionMatrixOptions options(this->mMatrix);
     options.setEdge(value);
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::previewClosed()
+{
+    if (this->mPreview != NULL)
+    {
+        delete this->mPreview;
+        this->mPreview = NULL;
+    }
 }
 //-----------------------------------------------------------------------------

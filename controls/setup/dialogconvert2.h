@@ -31,6 +31,7 @@ class IDataContainer;
 class Converter;
 class MatrixPreviewModel;
 class QTableView;
+class DialogPreview;
 //-----------------------------------------------------------------------------
 class DialogConvert2 : public QDialog
 {
@@ -47,6 +48,8 @@ private:
 
     QList<quint32> *mMatrix;
     MatrixPreviewModel *mMatrixModel;
+
+    DialogPreview *mPreview;
 
     void fillPresetsList();
     void presetLoad(const QString &name);
@@ -66,6 +69,7 @@ private slots:
     void on_pushButtonPresetRemove_clicked();
     void on_comboBoxPresets_currentIndexChanged(int index);
     void on_horizontalScrollBarEdge_valueChanged(int value);
+    void previewClosed();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT2_H

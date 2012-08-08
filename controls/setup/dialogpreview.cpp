@@ -18,7 +18,7 @@
  */
 
 #include "dialogpreview.h"
-#include "ui_dialogpresets.h"
+#include "ui_dialogpreview.h"
 //-----------------------------------------------------------------------------
 #include "idatacontainer.h"
 #include "converterhelper.h"
