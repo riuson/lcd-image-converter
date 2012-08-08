@@ -405,6 +405,9 @@ void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVarian
             bool bitAnd = (options.maskAnd() & (0x00000001 << bitIndex)) != 0;
             if (bitAnd)
             {
+                // by default
+                *name = 0;
+
                 // find source bit before shifting
                 int ops = this->mMatrix->length() - ConversionMatrixOptions::OperationsStartIndex;
                 ops = ops >> 1;
@@ -417,16 +420,17 @@ void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVarian
                     shift &= 0x0000001f;
 
                     // get source bit index
+                    int sourceBitIndex = bitIndex;
                     if (left)
-                        bitIndex -= (int)shift;
+                        sourceBitIndex -= (int)shift;
                     else
-                        bitIndex += (int)shift;
+                        sourceBitIndex += (int)shift;
 
-                    if ((mask & (0x01 << bitIndex)) == 0)
+                    if ((mask & (0x01 << sourceBitIndex)) != 0)
                     {
-                        *name = this->data(this->createIndex(0, 31 - bitIndex), Qt::DisplayRole);
+                        *name = this->data(this->createIndex(0, 31 - sourceBitIndex), Qt::DisplayRole);
 
-                        this->sourceBitProperties(bitIndex, name, color);
+                        this->sourceBitProperties(sourceBitIndex, name, color);
 
                         break;
                     }
