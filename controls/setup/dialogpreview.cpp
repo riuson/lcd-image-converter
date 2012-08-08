@@ -48,11 +48,6 @@ DialogPreview::~DialogPreview()
     delete ui;
 }
 //-----------------------------------------------------------------------------
-void DialogPreview::on_comboBoxSampleKey_currentIndexChanged()
-{
-    this->updatePreview();
-}
-//-----------------------------------------------------------------------------
 void DialogPreview::updatePreview()
 {
     if (this->mData != NULL)
@@ -85,5 +80,10 @@ void DialogPreview::updatePreview()
             ConverterHelper::packData(&matrix, &data, width, height, &data2, &width2, &height2);
         }
     }
+}
+//-----------------------------------------------------------------------------
+void DialogPreview::on_comboBoxSampleKey_currentIndexChanged()
+{
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------

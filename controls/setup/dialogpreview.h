@@ -35,6 +35,7 @@ class DialogPreview : public QDialog
 public:
     explicit DialogPreview(IDataContainer *dataContainer, QWidget *parent = 0);
     ~DialogPreview();
+    void updatePreview();
     
 private:
     Ui::DialogPreview *ui;
@@ -45,7 +46,6 @@ private:
 
 private slots:
     void on_comboBoxSampleKey_currentIndexChanged();
-    void updatePreview();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGPREVIEW_H

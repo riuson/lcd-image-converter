@@ -259,33 +259,9 @@ void DialogConvert2::updatePreview()
     {
         this->ui->tableViewOperations->update();
         this->ui->tableViewOperations->resizeColumnsToContents();
-        /*QString key = this->ui->comboBoxSampleKey->currentText();
-        if (!key.isEmpty())
-        {
-            this->mImageOriginal = QImage(*this->mData->image(key));
-            this->ui->labelOriginal->setPixmap(QPixmap::fromImage(this->mImageOriginal));
-            //QImage processed = this->mConverter->preprocessImage(this->mImageOriginal);
-            //this->ui->labelPreview->setPixmap(QPixmap::fromImage(processed));
 
-            //BitmapData data;
-            //this->mConverter->processImage(processed, &data);
-
-            //QString str = this->mConverter->dataToString(data);
-            //this->ui->plainTextEdit->setPlainText(str);
-
-            QList<quint32> matrix;
-            ConverterHelper::createMatrixColor(&matrix);
-
-            QList<quint32> data;
-            int width, height;
-            ConverterHelper::pixelsData(&matrix, &this->mImageOriginal, &data, &width, &height);
-
-            ConverterHelper::processPixels(&matrix, &data);
-
-            QList<quint32> data2;
-            int width2, height2;
-            ConverterHelper::packData(&matrix, &data, width, height, &data2, &width2, &height2);
-        }*/
+        if (this->mPreview != NULL)
+            this->mPreview->updatePreview();
     }
 }
 //-----------------------------------------------------------------------------
