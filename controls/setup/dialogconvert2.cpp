@@ -432,6 +432,8 @@ void DialogConvert2::on_horizontalScrollBarEdge_valueChanged(int value)
 {
     ConversionMatrixOptions options(this->mMatrix);
     options.setEdge(value);
+
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::previewClosed()
