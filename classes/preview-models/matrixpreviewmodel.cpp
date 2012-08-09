@@ -246,6 +246,10 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
                 case MaskOr:
                     mask = options.maskOr();
                     break;
+                case Source:
+                case Operation:
+                case Result:
+                    break;
                 }
 
                 quint32 maskEdit = 0x00000001 << bitIndex;
@@ -264,6 +268,10 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
                     break;
                 case MaskOr:
                     options.setMaskOr(mask);
+                    break;
+                case Source:
+                case Operation:
+                case Result:
                     break;
                 }
 
@@ -500,6 +508,10 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
                 *color = QVariant(QColor(0, 0, 255, a));
                 break;
             }
+            case Empty:
+            case BlackOrWhite:
+            case Gray:
+                break;
             }
 
             break;
