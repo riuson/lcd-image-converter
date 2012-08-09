@@ -395,11 +395,14 @@ void DialogConvert2::on_tableViewOperations_customContextMenuRequested(const QPo
 
                 QAction *actionLeft = this->mMenu->addAction(tr("Shift left"), this, SLOT(operationShift()));
                 QAction *actionRight = this->mMenu->addAction(tr("Shift right"), this, SLOT(operationShift()));
+                QAction *actionRemove = this->mMenu->addAction(tr("Remove"), this, SLOT(operationRemove()));
+                Q_UNUSED(actionRemove)
 
                 quint32 data = operationIndex;
 
                 actionLeft->setData(QVariant(data | 0x80000000));
                 actionRight->setData(QVariant(data));
+                actionRemove->setData(QVariant(data));
 
                 if (shift >= 31)
                 {
@@ -504,5 +507,20 @@ void DialogConvert2::operationShift()
 
         this->mMatrix->operationReplace(index, mask, shift, left);
     }
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::operationRemove()
+{
+    QAction *a = qobject_cast<QAction *>(sender());
+    QVariant var = a->data();
+    bool ok;
+    quint32 index = var.toUInt(&ok);
+
+    if (ok)
+    {
+        this->mMatrix->operationRemove(index);
+    }
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------

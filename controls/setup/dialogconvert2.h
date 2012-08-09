@@ -76,6 +76,7 @@ private slots:
 
     void operationAdd();
     void operationShift();
+    void operationRemove();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT2_H
