@@ -415,6 +415,23 @@ void DialogConvert2::on_tableViewOperations_customContextMenuRequested(const QPo
                 this->mMenu->exec(this->ui->tableViewOperations->mapToGlobal(point));
             break;
         }
+        case MatrixPreviewModel::MaskUsed:
+        case MatrixPreviewModel::MaskAnd:
+        case MatrixPreviewModel::MaskOr:
+        {
+                this->mMenu = new QMenu(tr("Mask"), this);
+
+                QAction *actionSet = this->mMenu->addAction(tr("Set all 1"), this, SLOT(maskReset()));
+                QAction *actionReset = this->mMenu->addAction(tr("Set all 0"), this, SLOT(maskReset()));
+
+                quint32 data = (quint32)type;
+
+                actionSet->setData(QVariant(data | 0x80000000));
+                actionReset->setData(QVariant(data));
+
+                this->mMenu->exec(this->ui->tableViewOperations->mapToGlobal(point));
+            break;
+        }
         }
     }
 }
@@ -520,6 +537,43 @@ void DialogConvert2::operationRemove()
     if (ok)
     {
         this->mMatrix->operationRemove(index);
+    }
+    this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::maskReset()
+{
+    QAction *a = qobject_cast<QAction *>(sender());
+    QVariant var = a->data();
+    bool ok;
+    quint32 i = var.toUInt(&ok);
+
+    if (ok)
+    {
+        MatrixPreviewModel::RowType type = (MatrixPreviewModel::RowType) (i & 0x7fffffff);
+
+        quint32 mask = 0;
+        if ((i & 0x80000000) != 0)
+            mask = 0xffffffff;
+
+        switch (type)
+        {
+        case MatrixPreviewModel::MaskUsed:
+        {
+            this->mMatrix->options()->setMaskUsed(mask);
+            break;
+        }
+        case MatrixPreviewModel::MaskAnd:
+        {
+            this->mMatrix->options()->setMaskAnd(mask);
+            break;
+        }
+        case MatrixPreviewModel::MaskOr:
+        {
+            this->mMatrix->options()->setMaskOr(mask);
+            break;
+        }
+        }
     }
     this->updatePreview();
 }
