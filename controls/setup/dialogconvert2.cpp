@@ -30,6 +30,7 @@
 #include "dialogpreview.h"
 #include "matrixpreviewmodel.h"
 #include "conversionmatrixoptions.h"
+#include "conversionmatrix.h"
 #include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
@@ -41,7 +42,8 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     this->mMenu = NULL;
 
     this->mData = dataContainer;
-    this->mMatrix = new QList<quint32>();
+    this->mMatrix = new ConversionMatrix(this);
+    this->mMatrix->initColor(4, 5, 4);
 
     this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
     this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
@@ -61,10 +63,6 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->comboBoxRotate->addItem(tr("90\u00b0 Clockwise"), QVariant(Rotate90));
     this->ui->comboBoxRotate->addItem(tr("180\u00b0"), QVariant(Rotate180));
     this->ui->comboBoxRotate->addItem(tr("90\u00b0 Counter-Clockwise"), QVariant(Rotate270));
-
-    //ConverterHelper::createMatrixMono(this->mMatrix);
-    //ConverterHelper::createMatrixGrayscale(this->mMatrix);
-    ConverterHelper::createMatrixColor(this->mMatrix);
 
     this->mMatrixModel = new MatrixPreviewModel(this->mMatrix, this);
     this->ui->tableViewOperations->setModel(this->mMatrixModel);
@@ -108,140 +106,42 @@ void DialogConvert2::fillPresetsList()
 //-----------------------------------------------------------------------------
 void DialogConvert2::presetLoad(const QString &name)
 {
-    if (name.isEmpty())
-        return;
-
-    QSettings sett;
-    sett.beginGroup("presets");
-
-    if (sett.childGroups().contains(name))
+    if (this->mMatrix->load(name))
     {
-        sett.beginGroup(name);
+        // update gui
 
-        QString strFlags = sett.value("flags", QString("00000000")).toString();
-        QString strMaskUsed = sett.value("maskUsed", QString("ffffffff")).toString();
-        QString strMaskAnd = sett.value("maskAnd", QString("ffffffff")).toString();
-        QString strMaskOr = sett.value("maskOr", QString("00000000")).toString();
-
-
-        bool ok;
-        quint32 flags, maskUsed, maskAnd, maskOr;
-        flags = strFlags.toUInt(&ok, 16);
-        if (ok)
-        {
-            maskUsed = strMaskUsed.toUInt(&ok, 16);
-
-            if (ok)
-            {
-                maskAnd = strMaskAnd.toUInt(&ok, 16);
-                if (ok)
-                {
-                    maskOr = strMaskOr.toUInt(&ok, 16);
-
-                    this->mMatrix->clear();
-                    this->mMatrix->append(flags);
-                    this->mMatrix->append(maskUsed);
-                    this->mMatrix->append(maskAnd);
-                    this->mMatrix->append(maskOr);
-
-                    int operations = sett.beginReadArray("matrix");
-
-                    for (int i = 0; i < operations; i++)
-                    {
-                        sett.setArrayIndex(i);
-
-                        QString strMask = sett.value("mask", QString("00000000")).toString();
-                        QString strShift = sett.value("shift", QString("00000000")).toString();
-                        quint32 mask, shift;
-                        if (ok)
-                        {
-                            mask = strMask.toUInt(&ok, 16);
-
-                            if (ok)
-                            {
-                                shift = strShift.toUInt(&ok, 16);
-                                if (ok)
-                                {
-                                    this->mMatrix->append(mask);
-                                    this->mMatrix->append(shift);
-                                }
-                            }
-                        }
-                    }
-
-                    sett.endArray();;
-                }
-
-            }
-
-        }
-
-        sett.endGroup();
-    }
-    sett.endGroup();
-    \
-    // update gui
-    {
         this->ui->tableViewOperations->setModel(NULL);
         this->ui->tableViewOperations->setModel(this->mMatrixModel);
         this->ui->tableViewOperations->update();
         this->ui->tableViewOperations->resizeColumnsToContents();
 
-        ConversionMatrixOptions options(this->mMatrix);
-
-        int index = this->ui->comboBoxConversionType->findData(options.convType());
+        int index = this->ui->comboBoxConversionType->findData(this->mMatrix->options()->convType());
         if (index >= 0)
             this->ui->comboBoxConversionType->setCurrentIndex(index);
 
-        index = this->ui->comboBoxMonochromeType->findData(options.monoType());
+        index = this->ui->comboBoxMonochromeType->findData(this->mMatrix->options()->monoType());
         if (index >= 0)
             this->ui->comboBoxMonochromeType->setCurrentIndex(index);
 
-        index = this->ui->comboBoxBlockSize->findData(options.blockSize());
+        index = this->ui->comboBoxBlockSize->findData(this->mMatrix->options()->blockSize());
         if (index >= 0)
             this->ui->comboBoxBlockSize->setCurrentIndex(index);
 
-        index = this->ui->comboBoxRotate->findData(options.rotate());
+        index = this->ui->comboBoxRotate->findData(this->mMatrix->options()->rotate());
         if (index >= 0)
             this->ui->comboBoxRotate->setCurrentIndex(index);
 
-        this->ui->horizontalScrollBarEdge->setValue(options.edge());
+        this->ui->horizontalScrollBarEdge->setValue(this->mMatrix->options()->edge());
 
-        this->ui->checkBoxFlipHorizontal->setChecked(options.flipHorizontal());
-        this->ui->checkBoxFlipVertical->setChecked(options.flipVertical());
-        this->ui->checkBoxInverse->setChecked(options.inverse());
+        this->ui->checkBoxFlipHorizontal->setChecked(this->mMatrix->options()->flipHorizontal());
+        this->ui->checkBoxFlipVertical->setChecked(this->mMatrix->options()->flipVertical());
+        this->ui->checkBoxInverse->setChecked(this->mMatrix->options()->inverse());
     }
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::presetSaveAs(const QString &name)
 {
-    QSettings sett;
-    sett.beginGroup("presets");
-
-    sett.beginGroup(name);
-    sett.remove("");
-
-    int operations = this->mMatrix->length() - ConversionMatrixOptions::OperationsStartIndex;
-    operations = operations >> 1;
-
-    sett.setValue("flags", QString("%1").arg(this->mMatrix->at(0), 8, 16, QChar('0')));
-    sett.setValue("maskUsed", QString("%1").arg(this->mMatrix->at(1), 8, 16, QChar('0')));
-    sett.setValue("maskAnd", QString("%1").arg(this->mMatrix->at(2), 8, 16, QChar('0')));
-    sett.setValue("maskOr", QString("%1").arg(this->mMatrix->at(3), 8, 16, QChar('0')));
-
-    sett.beginWriteArray("matrix");
-
-    for (int i = 0; i < operations; i++)
-    {
-        sett.setArrayIndex(i);
-        sett.setValue("mask", QString("%1").arg(this->mMatrix->at(ConversionMatrixOptions::OperationsStartIndex + (i << 1)), 8, 16, QChar('0')));
-        sett.setValue("shift", QString("%1").arg(this->mMatrix->at(ConversionMatrixOptions::OperationsStartIndex + (i << 1) + 1), 8, 16, QChar('0')));
-    }
-    sett.endArray();
-
-    sett.endGroup();
-    sett.endGroup();
-
+    this->mMatrix->save(name);
     this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
@@ -289,13 +189,12 @@ void DialogConvert2::on_comboBoxConversionType_currentIndexChanged(int index)
     int a = data.toInt(&ok);
     if (ok)
     {
-        ConversionMatrixOptions options(this->mMatrix);
-        options.setConvType((ConversionType)a);
+        this->mMatrix->options()->setConvType((ConversionType)a);
 
-        if (options.convType() == ConversionTypeMonochrome)
+        if (this->mMatrix->options()->convType() == ConversionTypeMonochrome)
         {
             this->ui->comboBoxMonochromeType->setEnabled(true);
-            if (options.monoType() == MonochromeTypeEdge)
+            if (this->mMatrix->options()->monoType() == MonochromeTypeEdge)
                 this->ui->horizontalScrollBarEdge->setEnabled(true);
             else
                 this->ui->horizontalScrollBarEdge->setEnabled(false);
@@ -317,13 +216,12 @@ void DialogConvert2::on_comboBoxMonochromeType_currentIndexChanged(int index)
     int a = data.toInt(&ok);
     if (ok)
     {
-        ConversionMatrixOptions options(this->mMatrix);
-        options.setMonoType((MonochromeType)a);
+        this->mMatrix->options()->setMonoType((MonochromeType)a);
 
-        if (options.convType() == ConversionTypeMonochrome)
+        if (this->mMatrix->options()->convType() == ConversionTypeMonochrome)
         {
             this->ui->comboBoxMonochromeType->setEnabled(true);
-            if (options.monoType() == MonochromeTypeEdge)
+            if (this->mMatrix->options()->monoType() == MonochromeTypeEdge)
                 this->ui->horizontalScrollBarEdge->setEnabled(true);
             else
                 this->ui->horizontalScrollBarEdge->setEnabled(false);
@@ -345,8 +243,7 @@ void DialogConvert2::on_comboBoxBlockSize_currentIndexChanged(int index)
     int a = data.toInt(&ok);
     if (ok)
     {
-        ConversionMatrixOptions options(this->mMatrix);
-        options.setBlockSize((DataBlockSize)a);
+        this->mMatrix->options()->setBlockSize((DataBlockSize)a);
 
         this->updatePreview();
     }
@@ -359,9 +256,8 @@ void DialogConvert2::on_comboBoxRotate_currentIndexChanged(int index)
     int a = data.toInt(&ok);
     if (ok)
     {
-        ConversionMatrixOptions options(this->mMatrix);
         Rotate rotate = (Rotate)a;
-        options.setRotate(rotate);
+        this->mMatrix->options()->setRotate(rotate);
 
         this->updatePreview();
     }
@@ -369,24 +265,21 @@ void DialogConvert2::on_comboBoxRotate_currentIndexChanged(int index)
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_checkBoxFlipHorizontal_toggled(bool value)
 {
-    ConversionMatrixOptions options(this->mMatrix);
-    options.setFlipHorizontal(value);
+    this->mMatrix->options()->setFlipHorizontal(value);
 
     this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_checkBoxFlipVertical_toggled(bool value)
 {
-    ConversionMatrixOptions options(this->mMatrix);
-    options.setFlipVertical(value);
+    this->mMatrix->options()->setFlipVertical(value);
 
     this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_checkBoxInverse_toggled(bool value)
 {
-    ConversionMatrixOptions options(this->mMatrix);
-    options.setInverse(value);
+    this->mMatrix->options()->setInverse(value);
 
     this->updatePreview();
 }
@@ -435,8 +328,7 @@ void DialogConvert2::on_comboBoxPresets_currentIndexChanged(int index)
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_horizontalScrollBarEdge_valueChanged(int value)
 {
-    ConversionMatrixOptions options(this->mMatrix);
-    options.setEdge(value);
+    this->mMatrix->options()->setEdge(value);
 
     this->updatePreview();
 }
@@ -523,11 +415,7 @@ void DialogConvert2::operationAdd()
                 mask |= 0x00000001 << (31 - list.at(i).column());
             }
         }
-        this->mMatrix->append(mask);
-        if (left)
-            this->mMatrix->append(shift | 0x80000000);
-        else
-            this->mMatrix->append(shift);
+        this->mMatrix->operationAdd(mask, shift, left);
     }
 
     this->updatePreview();

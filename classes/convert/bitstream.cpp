@@ -19,10 +19,11 @@
 
 #include "bitstream.h"
 //-----------------------------------------------------------------------------
-#include "conversionmatrixoptions.h"
 #include <QList>
+#include "conversionmatrixoptions.h"
+#include "conversionmatrix.h"
 //-----------------------------------------------------------------------------
-BitStream::BitStream(QList<quint32> *matrix, QList<quint32> *data, int start, int count)
+BitStream::BitStream(ConversionMatrix *matrix, QList<quint32> *data, int start, int count)
 {
     this->mMatrix = matrix;
     this->mData = data;
@@ -34,10 +35,9 @@ BitStream::BitStream(QList<quint32> *matrix, QList<quint32> *data, int start, in
 //-----------------------------------------------------------------------------
 void BitStream::init()
 {
-    ConversionMatrixOptions options(this->mMatrix);
     this->mCurrentPixel = 0;
-    this->mMaskCurrent = this->mMaskSource = options.maskUsed();
-    this->mBlockSize = ((int)options.blockSize() + 1) << 3;
+    this->mMaskCurrent = this->mMaskSource = this->mMatrix->options()->maskUsed();
+    this->mBlockSize = ((int)this->mMatrix->options()->blockSize() + 1) << 3;
     this->mBitsReaded = 0;
 }
 //-----------------------------------------------------------------------------

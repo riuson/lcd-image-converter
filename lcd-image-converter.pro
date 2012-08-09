@@ -60,7 +60,8 @@ SOURCES += main.cpp \
     classes/convert/bitstream.cpp \
     controls/setup/dialogpreview.cpp \
     controls/setup/dialogconvert2.cpp \
-    classes/preview-models/matrixpreviewmodel.cpp
+    classes/preview-models/matrixpreviewmodel.cpp \
+    classes/convert/conversionmatrix.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -106,7 +107,8 @@ HEADERS += \
     controls/setup/dialogpreview.h \
     controls/setup/dialogconvert2.h \
     classes/preview-models/matrixpreviewmodel.h \
-    classes/convert/conversion_options.h
+    classes/convert/conversion_options.h \
+    classes/convert/conversionmatrix.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \

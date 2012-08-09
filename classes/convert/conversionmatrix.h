@@ -17,39 +17,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef BITSTREAM_H
-#define BITSTREAM_H
+#ifndef CONVERSIONMATRIX_H
+#define CONVERSIONMATRIX_H
 //-----------------------------------------------------------------------------
-#include <QtGlobal>
+#include <QObject>
+#include "conversionmatrixoptions.h"
 //-----------------------------------------------------------------------------
 template <class T> class QList;
 //-----------------------------------------------------------------------------
-class ConversionMatrix;
-//-----------------------------------------------------------------------------
-class BitStream
+class ConversionMatrix : public QObject
 {
+    Q_OBJECT
 public:
-    BitStream(ConversionMatrix *matrix, QList<quint32> *data, int start, int count);
+    explicit ConversionMatrix(QObject *parent = 0);
+    virtual ~ConversionMatrix();
 
-    void init();
-    bool eof();
-    quint32 next();
+    ConversionMatrixOptions *options() const;
+
+    int operationsCount() const;
+    void operation(int index, quint32 *mask, int *shift, bool *left) const;
+    void operationAdd(quint32 mask, int shift, bool left);
+    void operationRemove(int index);
+    void operationsRemoveAll();
+
+    void init(quint32 flags, quint32 maskUsed, quint32 maskAnd, quint32 maskOr);
+    void initMono(MonochromeType type, int edge);
+    void initGrayscale(int bits);
+    void initColor(int redBits, int greenBits, int blueBits);
+
+    bool load(const QString &name);
+    bool save(const QString &name) const;
 
 private:
-    ConversionMatrix *mMatrix;
     QList<quint32> *mData;
-    int mStart;
-    int mCount;
-    int mBlockSize;
-
-    int mCurrentPixel;
-    int mMaskSource;
-    int mMaskCurrent;
-    int mBitsReaded;
-
-    bool nextBit();
-    // remaining bit count from one pixel
-    int remain();
+    ConversionMatrixOptions *mOptions;
+signals:
+    
+public slots:
+    
 };
 //-----------------------------------------------------------------------------
-#endif // BITSTREAM_H
+#endif // CONVERSIONMATRIX_H

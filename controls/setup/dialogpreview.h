@@ -22,12 +22,11 @@
 //-----------------------------------------------------------------------------
 #include <QDialog>
 //-----------------------------------------------------------------------------
-template <class T> class QList;
-//-----------------------------------------------------------------------------
 namespace Ui {
 class DialogPreview;
 }
 class Converter;
+class ConversionMatrix;
 class IDataContainer;
 //-----------------------------------------------------------------------------
 class DialogPreview : public QDialog
@@ -35,7 +34,7 @@ class DialogPreview : public QDialog
     Q_OBJECT
     
 public:
-    explicit DialogPreview(IDataContainer *dataContainer, QList<quint32> *matrix, QWidget *parent = 0);
+    explicit DialogPreview(IDataContainer *dataContainer, ConversionMatrix *matrix, QWidget *parent = 0);
     ~DialogPreview();
     void updatePreview();
     
@@ -45,7 +44,7 @@ private:
     IDataContainer *mData;
     QImage mImageOriginal;
     QImage mImageProcessed;
-    QList<quint32> *mMatrix;
+    ConversionMatrix *mMatrix;
 
 private slots:
     void on_comboBoxSampleKey_currentIndexChanged();

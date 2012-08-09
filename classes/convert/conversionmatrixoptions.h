@@ -76,8 +76,6 @@ public:
     bool flipHorizontal();
     bool inverse();
 
-    static const int OperationsStartIndex = 4;
-
     void setBytesOrder(BytesOrder value);
     void setConvType(ConversionType value);
     void setMonoType(MonochromeType value);
@@ -102,7 +100,7 @@ private:
     static const quint32 MaskFlipH          = 0x00000100;
     static const quint32 MaskInverse        = 0x00000080;
 
-    QList<quint32> *mMatrix;
+    QList<quint32> *mMatrixData;
 };
 //-----------------------------------------------------------------------------
 #endif // CONVERSIONMATRIXOPTIONS_H

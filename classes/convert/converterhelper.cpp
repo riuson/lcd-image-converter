@@ -25,6 +25,7 @@
 #include <QPainter>
 #include "bitstream.h"
 #include "bitmaphelper.h"
+#include "conversionmatrix.h"
 //-----------------------------------------------------------------------------
 void ConverterHelper::packDataPreview(QStringList *list, QStringList &colors, int bits, bool pack, bool alignToHigh)
 {
@@ -64,140 +65,11 @@ void ConverterHelper::packDataPreview(QStringList *list, QStringList &colors, in
     temp.clear();
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::createMatrixMono(QList<quint32> *matrix, MonochromeType type, int edge)
-{
-    if (matrix != NULL)
-    {
-        matrix->clear();
-
-        ConversionMatrixOptions options(matrix);
-
-        options.setConvType(ConversionTypeMonochrome);
-        options.setMonoType(type);
-        options.setEdge(edge);
-        options.setBlockSize(Data8);
-        options.setMaskUsed(0x00000001);
-
-        // bits shift
-        {
-            matrix->append(0x00000001);
-
-            matrix->append(0x00000000);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void ConverterHelper::createMatrixGrayscale(QList<quint32> *matrix, int bits)
-{
-    if (matrix != NULL)
-    {
-        matrix->clear();
-
-        if (bits > 8) bits = 8;
-        if (bits < 1) bits = 1;
-
-        ConversionMatrixOptions options(matrix);
-
-        options.setConvType(ConversionTypeGrayscale);
-        options.setBlockSize(Data16);
-
-        // mask of used bits before packing
-        {
-            quint32 mask = 0x000000ff;
-            mask = mask << bits;
-            mask = mask >> 8;
-            mask = mask & 0x000000ff;
-
-            options.setMaskUsed(mask);
-        }
-
-        // bits shift
-        {
-            quint32 mask = 0x0000ff00;
-            mask = mask >> bits;
-            mask = mask & 0x000000ff;
-            matrix->append(mask);
-
-            quint32 shift = 8 - bits;
-            matrix->append(shift);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void ConverterHelper::createMatrixColor(QList<quint32> *matrix, int redBits, int greenBits, int blueBits)
-{
-    if (matrix != NULL)
-    {
-        matrix->clear();
-
-        if (redBits > 8) redBits = 8;
-        if (redBits < 1) redBits = 1;
-        if (greenBits > 8) greenBits = 8;
-        if (greenBits < 1) greenBits = 1;
-        if (blueBits > 8) blueBits = 8;
-        if (blueBits < 1) blueBits = 1;
-
-        int bits = redBits + greenBits + blueBits;
-
-        ConversionMatrixOptions options(matrix);
-
-        options.setConvType(ConversionTypeColor);
-        options.setBlockSize(Data32);
-
-        // mask of used bits before packing
-        {
-            quint64 mask64 = 0x00000000ffffffff;
-            mask64 = mask64 << bits;
-            mask64 = mask64 >> 32;
-            mask64 = mask64 & 0x0000000000ffffff; // 24 bits
-            quint32 mask = (quint32)mask64;
-            options.setMaskUsed(mask);
-        }
-
-        // red bits shift
-        {
-            quint32 mask = 0x0000ff00;
-            mask = mask >> redBits;
-            mask = mask & 0x000000ff;
-            mask = mask << 16;
-            matrix->append(mask);
-
-            quint32 shift = 24 - bits;
-            matrix->append(shift);
-        }
-
-        // green bits shift
-        {
-            quint32 mask = 0x0000ff00;
-            mask = mask >> greenBits;
-            mask = mask & 0x000000ff;
-            mask = mask << 8;
-            matrix->append(mask);
-
-            quint32 shift = 16 - greenBits - blueBits;
-            matrix->append(shift);
-        }
-
-        // blue bits shift
-        {
-            quint32 mask = 0x0000ff00;
-            mask = mask >> blueBits;
-            mask = mask & 0x000000ff;
-            matrix->append(mask);
-
-            quint32 shift = 8 - blueBits;
-            matrix->append(shift);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void ConverterHelper::pixelsData(QList<quint32> *matrix, QImage *image, QList<quint32> *data, int *width, int *height)
+void ConverterHelper::pixelsData(ConversionMatrix *matrix, QImage *image, QList<quint32> *data, int *width, int *height)
 {
     if (image != NULL && data != NULL && width != NULL && height != NULL)
     {
         data->clear();
-
-        ConversionMatrixOptions options(matrix);
 
         QImage im = *image;
 
@@ -205,11 +77,11 @@ void ConverterHelper::pixelsData(QList<quint32> *matrix, QImage *image, QList<qu
         *height = im.height();
 
         // monochrome image needs special preprocessing
-        ConversionType type = options.convType();
+        ConversionType type = matrix->options()->convType();
         if (type == ConversionTypeMonochrome)
         {
-            MonochromeType monotype = options.monoType();
-            int edge = options.edge();
+            MonochromeType monotype = matrix->options()->monoType();
+            int edge = matrix->options()->edge();
 
             switch (monotype)
             {
@@ -246,34 +118,34 @@ void ConverterHelper::pixelsData(QList<quint32> *matrix, QImage *image, QList<qu
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::processPixels(QList<quint32> *matrix, QList<quint32> *data)
+void ConverterHelper::processPixels(ConversionMatrix *matrix, QList<quint32> *data)
 {
-    ConversionMatrixOptions options(matrix);
-
     if (matrix != NULL && data != NULL)
     {
         for (int i = 0; i < data->length(); i++)
         {
             quint32 value = data->at(i);
             quint32 valueNew = 0;
-            for (int j = ConversionMatrixOptions::OperationsStartIndex; j < matrix->length(); j += 2)
+            for (int j = 0; j < matrix->operationsCount(); j++)
             {
-                quint32 mask = matrix->at(j);
-                quint32 shift = matrix->at(j + 1);
+                quint32 mask;
+                int shift;
+                bool left;
+                matrix->operation(j, &mask, &shift, &left);
 
-                if (shift & 0x80000000)
-                    valueNew |= (value & mask) << (shift & 0x0000001f);
+                if (left)
+                    valueNew |= (value & mask) << shift;
                 else
-                    valueNew |= (value & mask) >> (shift & 0x0000001f);
+                    valueNew |= (value & mask) >> shift;
             }
-            valueNew &= options.maskAnd();
-            valueNew |= options.maskOr();
+            valueNew &= matrix->options()->maskAnd();
+            valueNew |= matrix->options()->maskOr();
             data->replace(i, valueNew);
         }
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::packData(QList<quint32> *matrix, QList<quint32> *inputData, int inputWidth, int inputHeight, QList<quint32> *outputData, int *outputWidth, int *outputHeight)
+void ConverterHelper::packData(ConversionMatrix *matrix, QList<quint32> *inputData, int inputWidth, int inputHeight, QList<quint32> *outputData, int *outputWidth, int *outputHeight)
 {
     *outputHeight = inputHeight;
     outputData->clear();
@@ -295,13 +167,13 @@ void ConverterHelper::packData(QList<quint32> *matrix, QList<quint32> *inputData
     *outputWidth = resultWidth;
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::prepareImage(QList<quint32> *matrix, QImage *source, QImage *result)
+void ConverterHelper::prepareImage(ConversionMatrix *matrix, QImage *source, QImage *result)
 {
     if (source != NULL)
     {
         QImage im = *source;
-        ConversionMatrixOptions options(matrix);
-        switch (options.rotate())
+
+        switch (matrix->options()->rotate())
         {
         case Rotate90:
             im = BitmapHelper::rotate90(source);
@@ -316,11 +188,11 @@ void ConverterHelper::prepareImage(QList<quint32> *matrix, QImage *source, QImag
         default:
             break;
         }
-        if (options.flipHorizontal())
+        if (matrix->options()->flipHorizontal())
             im = BitmapHelper::flipHorizontal(&im);
-        if (options.flipVertical())
+        if (matrix->options()->flipVertical())
             im = BitmapHelper::flipVertical(&im);
-        if (options.inverse())
+        if (matrix->options()->inverse())
             im.invertPixels();
 
         *result = im;
@@ -363,7 +235,7 @@ void ConverterHelper::makeGrayscale(QImage &image)
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::packDataRow(QList<quint32> *matrix, QList<quint32> *inputData, int start, int count, QList<quint32> *outputData)
+void ConverterHelper::packDataRow(ConversionMatrix *matrix, QList<quint32> *inputData, int start, int count, QList<quint32> *outputData)
 {
     if (matrix != NULL && inputData != NULL && outputData != NULL)
     {

@@ -23,7 +23,7 @@
 #include <QAbstractItemModel>
 #include <QVariant>
 
-#include "conversionmatrixoptions.h"
+#include "conversionmatrix.h"
 //-----------------------------------------------------------------------------
 class MatrixPreviewModel : public QAbstractItemModel
 {
@@ -39,7 +39,7 @@ public:
         Result
     };
 
-    explicit MatrixPreviewModel(QList<quint32> *matrix, QObject *parent = 0);
+    explicit MatrixPreviewModel(ConversionMatrix *matrix, QObject *parent = 0);
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
@@ -52,7 +52,7 @@ public:
     RowType rowType(int row) const;
 
 private:
-    QList<quint32> *mMatrix;
+    ConversionMatrix *mMatrix;
 
     enum ColorType
     {

@@ -23,6 +23,7 @@
 #include "conversionmatrixoptions.h"
 //-----------------------------------------------------------------------------
 class QImage;
+class ConversionMatrix;
 //-----------------------------------------------------------------------------
 class ConverterHelper
 {
@@ -35,32 +36,19 @@ public:
             bool pack,
             bool alignToHigh);
 
-    static void createMatrixMono(
-            QList<quint32> *matrix,
-            MonochromeType type = MonochromeTypeDiffuseDither,
-            int edge = 0x80);
-    static void createMatrixGrayscale(
-            QList<quint32> *matrix,
-            int bits = 8);
-    static void createMatrixColor(
-            QList<quint32> *matrix,
-            int redBits = 8,
-            int greenBits = 8,
-            int blueBits = 8);
-
     // gets RGB array of pixels
     // also convert images to monochrome or grayscale (r = g = b = qGray(pixel))
     static void pixelsData(
-            QList<quint32> *matrix,
+            ConversionMatrix *matrix,
             QImage *image,
             QList<quint32> *data,
             int *width,
             int *height);
     // apply masks and bits reorder
-    static void processPixels(QList<quint32> *matrix, QList<quint32> *data);
+    static void processPixels(ConversionMatrix *matrix, QList<quint32> *data);
     // pack data
     static void packData(
-            QList<quint32> *matrix,
+            ConversionMatrix *matrix,
             QList<quint32> *inputData,
             int inputWidth,
             int inputHeight,
@@ -68,13 +56,13 @@ public:
             int *outputWidth,
             int *outputHeight);
 
-    static void prepareImage(QList<quint32> *matrix, QImage *source, QImage *result);
+    static void prepareImage(ConversionMatrix *matrix, QImage *source, QImage *result);
 private:
     static void makeMonochrome(QImage &image, int edge);
     // make r = g = b = qGray(pixel)
     static void makeGrayscale(QImage &image);
     static void packDataRow(
-            QList<quint32> *matrix,
+            ConversionMatrix *matrix,
             QList<quint32> *inputData,
             int start,
             int count,

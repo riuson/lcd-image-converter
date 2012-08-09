@@ -21,7 +21,7 @@
 //-----------------------------------------------------------------------------
 #include <QColor>
 //-----------------------------------------------------------------------------
-MatrixPreviewModel::MatrixPreviewModel(QList<quint32> *matrix, QObject *parent) :
+MatrixPreviewModel::MatrixPreviewModel(ConversionMatrix *matrix, QObject *parent) :
     QAbstractItemModel(parent)
 {
     this->mMatrix = matrix;
@@ -31,9 +31,7 @@ int MatrixPreviewModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
-    int result = this->mMatrix->length() - ConversionMatrixOptions::OperationsStartIndex;
-    result = result >> 1;
-    result += 5;// rows for: source, used, and, or, result
+    int result = this->mMatrix->operationsCount() + 5;
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -84,7 +82,6 @@ QVariant MatrixPreviewModel::headerData(int section, Qt::Orientation orientation
 QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
 {
     QVariant result;
-    ConversionMatrixOptions options(this->mMatrix);
 
     if (index.isValid())
     {
@@ -97,9 +94,12 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
         {
             // get source bit index
             row--;
-            quint32 shift = this->mMatrix->at(ConversionMatrixOptions::OperationsStartIndex + (row << 1) + 1);
-            bool left = (shift & 0x80000000) != 0;
-            shift &= 0x0000001f;
+            int shift;
+            quint32 mask;
+            bool left;
+
+            this->mMatrix->operation(row, &mask, &shift, &left);
+
             if (left)
                 bitIndex -= (int)shift;
             else
@@ -112,7 +112,6 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
             this->getBitType(bitIndex, &convType, &colorType, &partIndex);
 
             // check for bit using
-            quint32 mask = this->mMatrix->at(ConversionMatrixOptions::OperationsStartIndex + (row << 1));
             if ((mask & (0x01 << bitIndex)) != 0)
             {
                 if (role == Qt::DisplayRole)
@@ -153,7 +152,7 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
         }
         case MaskUsed:
         {
-            bool active = (options.maskUsed() & (0x00000001 << bitIndex)) != 0;
+            bool active = (this->mMatrix->options()->maskUsed() & (0x00000001 << bitIndex)) != 0;
 
             if (role == Qt::DisplayRole)
             {
@@ -168,7 +167,7 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
         }
         case MaskAnd:
         {
-            bool active = (options.maskAnd() & (0x00000001 << bitIndex)) != 0;
+            bool active = (this->mMatrix->options()->maskAnd() & (0x00000001 << bitIndex)) != 0;
 
             if (role == Qt::DisplayRole)
             {
@@ -183,7 +182,7 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
         }
         case MaskOr:
         {
-            bool active = (options.maskOr() & (0x00000001 << bitIndex)) != 0;
+            bool active = (this->mMatrix->options()->maskOr() & (0x00000001 << bitIndex)) != 0;
 
             if (role == Qt::DisplayRole)
             {
@@ -232,19 +231,17 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
             bool bit = value.toInt(&ok);
             if (ok)
             {
-                ConversionMatrixOptions options(this->mMatrix);
-
                 quint32 mask = 0;
                 switch (type)
                 {
                 case MaskUsed:
-                    mask = options.maskUsed();
+                    mask = this->mMatrix->options()->maskUsed();
                     break;
                 case MaskAnd:
-                    mask = options.maskAnd();
+                    mask = this->mMatrix->options()->maskAnd();
                     break;
                 case MaskOr:
-                    mask = options.maskOr();
+                    mask = this->mMatrix->options()->maskOr();
                     break;
                 case Source:
                 case Operation:
@@ -261,13 +258,13 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
                 switch (type)
                 {
                 case MaskUsed:
-                    options.setMaskUsed(mask);
+                    this->mMatrix->options()->setMaskUsed(mask);
                     break;
                 case MaskAnd:
-                    options.setMaskAnd(mask);
+                    this->mMatrix->options()->setMaskAnd(mask);
                     break;
                 case MaskOr:
-                    options.setMaskOr(mask);
+                    this->mMatrix->options()->setMaskOr(mask);
                     break;
                 case Source:
                 case Operation:
@@ -343,9 +340,7 @@ MatrixPreviewModel::RowType MatrixPreviewModel::rowType(int row) const
 //-----------------------------------------------------------------------------
 void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const
 {
-    ConversionMatrixOptions options(this->mMatrix);
-
-    *convType = options.convType();
+    *convType = this->mMatrix->options()->convType();
     *colorType = Empty;
     *partIndex = 0;
 
@@ -399,33 +394,29 @@ void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVarian
     *name = QVariant();
     *color = QVariant();
 
-    ConversionMatrixOptions options(this->mMatrix);
-
     // check bit using
-    bool active = (options.maskUsed() & (0x00000001 << bitIndex)) != 0;
+    bool active = (this->mMatrix->options()->maskUsed() & (0x00000001 << bitIndex)) != 0;
     if (active)
     {
         // check bit OR
-        bool bitOr = (options.maskOr() & (0x00000001 << bitIndex)) != 0;
+        bool bitOr = (this->mMatrix->options()->maskOr() & (0x00000001 << bitIndex)) != 0;
         if (!bitOr)
         {
             // check bit AND
-            bool bitAnd = (options.maskAnd() & (0x00000001 << bitIndex)) != 0;
+            bool bitAnd = (this->mMatrix->options()->maskAnd() & (0x00000001 << bitIndex)) != 0;
             if (bitAnd)
             {
                 // by default
                 *name = 0;
 
                 // find source bit before shifting
-                int ops = this->mMatrix->length() - ConversionMatrixOptions::OperationsStartIndex;
-                ops = ops >> 1;
-                for (int i = ops - 1; i >= 0; i--)
+                for (int i = this->mMatrix->operationsCount() - 1; i >= 0; i--)
                 {
-                    quint32 mask = this->mMatrix->at(ConversionMatrixOptions::OperationsStartIndex + (i << 1));
+                    quint32 mask;
+                    int shift;
+                    bool left;
 
-                    quint32 shift = this->mMatrix->at(ConversionMatrixOptions::OperationsStartIndex + (i << 1) + 1);
-                    bool left = (shift & 0x80000000) != 0;
-                    shift &= 0x0000001f;
+                    this->mMatrix->operation(i, &mask, &shift, &left);
 
                     // get source bit index
                     int sourceBitIndex = bitIndex;

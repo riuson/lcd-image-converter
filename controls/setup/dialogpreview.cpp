@@ -24,8 +24,9 @@
 #include "converterhelper.h"
 #include <QList>
 #include <QRegExp>
+#include "conversionmatrix.h"
 //-----------------------------------------------------------------------------
-DialogPreview::DialogPreview(IDataContainer *dataContainer, QList<quint32> *matrix, QWidget *parent) :
+DialogPreview::DialogPreview(IDataContainer *dataContainer, ConversionMatrix *matrix, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogPreview)
 {
@@ -80,10 +81,8 @@ void DialogPreview::updatePreview()
             int width2, height2;
             ConverterHelper::packData(this->mMatrix, &data, width, height, &data2, &width2, &height2);
 
-            ConversionMatrixOptions options(this->mMatrix);
-
             QString str;
-            int fieldWidth = ((int)options.blockSize() + 1) << 1;
+            int fieldWidth = ((int)this->mMatrix->options()->blockSize() + 1) << 1;
             for (int y = 0; y < height2; y++)
             {
                 if (str.endsWith(", "))

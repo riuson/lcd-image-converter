@@ -22,9 +22,8 @@
 //-----------------------------------------------------------------------------
 #include <QDialog>
 //-----------------------------------------------------------------------------
-template <class T> class QList;
-//-----------------------------------------------------------------------------
 class QMenu;
+class ConversionMatrix;
 //-----------------------------------------------------------------------------
 namespace Ui {
 class DialogConvert2;
@@ -48,7 +47,7 @@ private:
 
     IDataContainer *mData;
 
-    QList<quint32> *mMatrix;
+    ConversionMatrix *mMatrix;
     MatrixPreviewModel *mMatrixModel;
 
     DialogPreview *mPreview;
