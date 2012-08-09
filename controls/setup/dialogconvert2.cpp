@@ -381,6 +381,37 @@ void DialogConvert2::on_tableViewOperations_customContextMenuRequested(const QPo
             }
             break;
         }
+        case MatrixPreviewModel::Operation:
+        {
+                this->mMenu = new QMenu(tr("Operation"), this);
+
+                int operationIndex = index.row() - 1;
+
+                quint32 mask;
+                int shift;
+                bool left;
+
+                this->mMatrix->operation(operationIndex, &mask, &shift, &left);
+
+                QAction *actionLeft = this->mMenu->addAction(tr("Shift left"), this, SLOT(operationShift()));
+                QAction *actionRight = this->mMenu->addAction(tr("Shift right"), this, SLOT(operationShift()));
+
+                quint32 data = operationIndex;
+
+                actionLeft->setData(QVariant(data | 0x80000000));
+                actionRight->setData(QVariant(data));
+
+                if (shift >= 31)
+                {
+                    if (left)
+                        actionLeft->setEnabled(false);
+                    else
+                        actionRight->setEnabled(false);
+                }
+
+                this->mMenu->exec(this->ui->tableViewOperations->mapToGlobal(point));
+            break;
+        }
         }
     }
 }
@@ -421,5 +452,57 @@ void DialogConvert2::operationAdd()
     }
 
     this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::operationShift()
+{
+    QAction *a = qobject_cast<QAction *>(sender());
+    QVariant var = a->data();
+    bool ok;
+    quint32 index = var.toUInt(&ok);
+
+    if (ok)
+    {
+        bool leftShift = ((index & 0x80000000) != 0);
+        index &= 0x7fffffff;
+
+        quint32 mask;
+        int shift;
+        bool left;
+        this->mMatrix->operation(index, &mask, &shift, &left);
+
+        if (leftShift)
+        {
+            if (shift > 0)
+            {
+                if (left)
+                    shift++;
+                else
+                    shift--;
+            }
+            else
+            {
+                shift = 1;
+                left = true;
+            }
+        }
+        else
+        {
+            if (shift > 0)
+            {
+                if (left)
+                    shift--;
+                else
+                    shift++;
+            }
+            else
+            {
+                shift = 1;
+                left = false;
+            }
+        }
+
+        this->mMatrix->operationReplace(index, mask, shift, left);
+    }
 }
 //-----------------------------------------------------------------------------

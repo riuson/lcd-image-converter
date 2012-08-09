@@ -39,6 +39,7 @@ public:
     void operationAdd(quint32 mask, int shift, bool left);
     void operationRemove(int index);
     void operationsRemoveAll();
+    void operationReplace(int index, quint32 mask, int shift, bool left);
 
     void init(quint32 flags, quint32 maskUsed, quint32 maskAnd, quint32 maskOr);
     void initMono(MonochromeType type, int edge);

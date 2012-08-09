@@ -75,6 +75,7 @@ private slots:
     void previewClosed();
 
     void operationAdd();
+    void operationShift();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT2_H

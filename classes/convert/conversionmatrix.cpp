@@ -93,6 +93,21 @@ void ConversionMatrix::operationsRemoveAll()
         this->operationRemove(i);
 }
 //-----------------------------------------------------------------------------
+void ConversionMatrix::operationReplace(int index, quint32 mask, int shift, bool left)
+{
+    if (index < this->operationsCount())
+    {
+        index = (index << 1) + 4;
+
+        this->mData->replace(index, mask);
+
+        if (left)
+            this->mData->replace(index + 1, shift | 0x80000000);
+        else
+            this->mData->replace(index + 1, shift);
+    }
+}
+//-----------------------------------------------------------------------------
 void ConversionMatrix::init(quint32 flags, quint32 maskUsed, quint32 maskAnd, quint32 maskOr)
 {
     this->mData->replace(0, flags);
