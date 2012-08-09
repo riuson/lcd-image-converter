@@ -45,6 +45,11 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     this->mMatrix = new ConversionMatrix(this);
     this->mMatrix->initColor(4, 5, 4);
 
+    this->mMatrixModel = new MatrixPreviewModel(this->mMatrix, this);
+    this->ui->tableViewOperations->setModel(this->mMatrixModel);
+    this->ui->tableViewOperations->resizeColumnsToContents();
+    this->ui->tableViewOperations->resizeRowsToContents();
+
     this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
     this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
     this->ui->comboBoxConversionType->addItem(tr("Color"), ConversionTypeColor);
@@ -63,11 +68,6 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->comboBoxRotate->addItem(tr("90\u00b0 Clockwise"), QVariant(Rotate90));
     this->ui->comboBoxRotate->addItem(tr("180\u00b0"), QVariant(Rotate180));
     this->ui->comboBoxRotate->addItem(tr("90\u00b0 Counter-Clockwise"), QVariant(Rotate270));
-
-    this->mMatrixModel = new MatrixPreviewModel(this->mMatrix, this);
-    this->ui->tableViewOperations->setModel(this->mMatrixModel);
-    this->ui->tableViewOperations->resizeColumnsToContents();
-    this->ui->tableViewOperations->resizeRowsToContents();
 
     this->fillPresetsList();
 }
@@ -162,8 +162,10 @@ void DialogConvert2::updatePreview()
 {
     if (this->mData != NULL)
     {
+        this->mMatrixModel->callReset();
         this->ui->tableViewOperations->update();
         this->ui->tableViewOperations->resizeColumnsToContents();
+        this->ui->tableViewOperations->resizeRowsToContents();
 
         if (this->mPreview != NULL)
             this->mPreview->updatePreview();
