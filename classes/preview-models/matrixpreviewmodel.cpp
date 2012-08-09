@@ -425,7 +425,7 @@ void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVarian
                     else
                         sourceBitIndex += (int)shift;
 
-                    if ((mask & (0x01 << sourceBitIndex)) != 0)
+                    if ((mask & (0x01 << sourceBitIndex)) != 0 && (sourceBitIndex >= 0) && (sourceBitIndex <= 31))
                     {
                         *name = this->data(this->createIndex(0, 31 - sourceBitIndex), Qt::DisplayRole);
 
@@ -452,67 +452,70 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
     *name = QVariant();
     *color = QVariant();
 
-    ConversionType convType;
-    ColorType colorType;
-    int partIndex;
-    this->getBitType(bitIndex, &convType, &colorType, &partIndex);
-
-    if (colorType != Empty)
+    if (bitIndex >= 0 && bitIndex <= 31)
     {
-        switch (convType)
-        {
-        case ConversionTypeMonochrome:
-        {
-            *name = QVariant(QString("BW%1").arg(partIndex));
-            *color = QVariant(QColor(128, 128, 128));
-            break;
-        }
-        case ConversionTypeGrayscale:
-        {
-            *name = QVariant(QString("Gr%1").arg(partIndex));
-            int a = (80 / 8 * partIndex) + 50;
-            *color = QVariant(QColor(10, 10, 10, a));
-            break;
-        }
-        case ConversionTypeColor:
-        {
-            switch (colorType)
-            {
-            case Red:
-            {
-                *name = QVariant(QString("R%1").arg(partIndex));
-                int a = (80 / 8 * partIndex) + 50;
-                *color = QVariant(QColor(255, 0, 0, a));
-                break;
-            }
-            case Green:
-            {
-                *name = QVariant(QString("G%1").arg(partIndex));
-                int a = (80 / 8 * partIndex) + 50;
-                *color = QVariant(QColor(0, 255, 0, a));
-                break;
-            }
-            case Blue:
-            {
-                *name = QVariant(QString("B%1").arg(partIndex));
-                int a = (80 / 8 * partIndex) + 50;
-                *color = QVariant(QColor(0, 0, 255, a));
-                break;
-            }
-            case Empty:
-            case BlackOrWhite:
-            case Gray:
-                break;
-            }
+        ConversionType convType;
+        ColorType colorType;
+        int partIndex;
+        this->getBitType(bitIndex, &convType, &colorType, &partIndex);
 
-            break;
+        if (colorType != Empty)
+        {
+            switch (convType)
+            {
+            case ConversionTypeMonochrome:
+            {
+                *name = QVariant(QString("BW%1").arg(partIndex));
+                *color = QVariant(QColor(128, 128, 128));
+                break;
+            }
+            case ConversionTypeGrayscale:
+            {
+                *name = QVariant(QString("Gr%1").arg(partIndex));
+                int a = (80 / 8 * partIndex) + 50;
+                *color = QVariant(QColor(10, 10, 10, a));
+                break;
+            }
+            case ConversionTypeColor:
+            {
+                switch (colorType)
+                {
+                case Red:
+                {
+                    *name = QVariant(QString("R%1").arg(partIndex));
+                    int a = (80 / 8 * partIndex) + 50;
+                    *color = QVariant(QColor(255, 0, 0, a));
+                    break;
+                }
+                case Green:
+                {
+                    *name = QVariant(QString("G%1").arg(partIndex));
+                    int a = (80 / 8 * partIndex) + 50;
+                    *color = QVariant(QColor(0, 255, 0, a));
+                    break;
+                }
+                case Blue:
+                {
+                    *name = QVariant(QString("B%1").arg(partIndex));
+                    int a = (80 / 8 * partIndex) + 50;
+                    *color = QVariant(QColor(0, 0, 255, a));
+                    break;
+                }
+                case Empty:
+                case BlackOrWhite:
+                case Gray:
+                    break;
+                }
+
+                break;
+            }
+            }
         }
+        else
+        {
+            //*color = QVariant(QColor(50, 50, 50, 200));
+            *name = QVariant(QString("0"));
         }
-    }
-    else
-    {
-        //*color = QVariant(QColor(50, 50, 50, 200));
-        *name = QVariant(QString("0"));
     }
 }
 //-----------------------------------------------------------------------------
