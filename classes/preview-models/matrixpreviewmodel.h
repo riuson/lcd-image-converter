@@ -29,6 +29,16 @@ class MatrixPreviewModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
+    enum RowType
+    {
+        Source,
+        Operation,
+        MaskUsed,
+        MaskAnd,
+        MaskOr,
+        Result
+    };
+
     explicit MatrixPreviewModel(QList<quint32> *matrix, QObject *parent = 0);
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -39,19 +49,11 @@ public:
     QModelIndex parent(const QModelIndex &child) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
     void callReset();
+    RowType rowType(int row) const;
 
 private:
     QList<quint32> *mMatrix;
 
-    enum RowType
-    {
-        Source,
-        Operation,
-        MaskUsed,
-        MaskAnd,
-        MaskOr,
-        Result
-    };
     enum ColorType
     {
         Empty,
@@ -66,7 +68,6 @@ private:
     };
 
     void getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const;
-    RowType rowType(int row) const;
     void resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
     void sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const;
 

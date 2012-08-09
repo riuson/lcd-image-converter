@@ -24,6 +24,7 @@
 #include <QSettings>
 #include <QStringList>
 #include <QInputDialog>
+#include <QMenu>
 #include "idatacontainer.h"
 #include "converterhelper.h"
 #include "dialogpreview.h"
@@ -37,6 +38,7 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
 {
     ui->setupUi(this);
     this->mPreview = NULL;
+    this->mMenu = NULL;
 
     this->mData = dataContainer;
     this->mMatrix = new QList<quint32>();
@@ -74,6 +76,9 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
 //-----------------------------------------------------------------------------
 DialogConvert2::~DialogConvert2()
 {
+    if (this->mMenu != NULL)
+        delete this->mMenu;
+
     if (this->mPreview != NULL)
         delete this->mPreview;
 
@@ -436,6 +441,56 @@ void DialogConvert2::on_horizontalScrollBarEdge_valueChanged(int value)
     this->updatePreview();
 }
 //-----------------------------------------------------------------------------
+void DialogConvert2::on_tableViewOperations_customContextMenuRequested(const QPoint &point)
+{
+    QModelIndex index = this->ui->tableViewOperations->indexAt(point);
+    QItemSelectionModel *selection = this->ui->tableViewOperations->selectionModel();
+
+    if (this->mMenu != NULL)
+        delete this->mMenu;
+
+    if (index.isValid())
+    {
+        MatrixPreviewModel::RowType type = this->mMatrixModel->rowType(index.row());
+        QModelIndexList list = selection->selectedIndexes();
+
+        switch (type)
+        {
+        case MatrixPreviewModel::Source:
+        {
+            bool found = false;
+            for (int i = 0; i < list.length() && !found; i++)
+            {
+                if (list.at(i).row() == 0)
+                    found = true;
+            }
+            if (found)
+            {
+                this->mMenu = new QMenu(tr("Source"), this);
+
+                QMenu *left = new QMenu(tr("Add \"Left Shift\""), this->mMenu);
+                QMenu *right = new QMenu(tr("Add \"Right Shift\""), this->mMenu);
+
+                this->mMenu->addMenu(left);
+                this->mMenu->addMenu(right);
+
+                for (int i = 0; i < 32; i++)
+                {
+                    QAction *action = left->addAction(tr("<< %1").arg(i), this, SLOT(operationAdd()));
+                    action->setData(QVariant(-i));
+
+                    action = right->addAction(tr(">> %1").arg(i), this, SLOT(operationAdd()));
+                    action->setData(QVariant(i));
+                }
+
+                this->mMenu->exec(this->ui->tableViewOperations->mapToGlobal(point));
+            }
+            break;
+        }
+        }
+    }
+}
+//-----------------------------------------------------------------------------
 void DialogConvert2::previewClosed()
 {
     if (this->mPreview != NULL)
@@ -443,5 +498,38 @@ void DialogConvert2::previewClosed()
         delete this->mPreview;
         this->mPreview = NULL;
     }
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::operationAdd()
+{
+    QAction *a = qobject_cast<QAction *>(sender());
+    QVariant var = a->data();
+    bool ok;
+    int shift = var.toInt(&ok);
+
+    if (ok)
+    {
+        QItemSelectionModel *selection = this->ui->tableViewOperations->selectionModel();
+        QModelIndexList list = selection->selectedIndexes();
+
+        bool left = shift < 0;
+        shift = qAbs(shift);
+
+        quint32 mask = 0;
+        for (int i = 0; i < list.length(); i++)
+        {
+            if (list.at(i).row() == 0)
+            {
+                mask |= 0x00000001 << (31 - list.at(i).column());
+            }
+        }
+        this->mMatrix->append(mask);
+        if (left)
+            this->mMatrix->append(shift | 0x80000000);
+        else
+            this->mMatrix->append(shift);
+    }
+
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------

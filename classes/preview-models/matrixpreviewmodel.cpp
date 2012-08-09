@@ -322,6 +322,25 @@ void MatrixPreviewModel::callReset()
     this->reset();
 }
 //-----------------------------------------------------------------------------
+MatrixPreviewModel::RowType MatrixPreviewModel::rowType(int row) const
+{
+    MatrixPreviewModel::RowType result = Operation;
+    int rows = this->rowCount(QModelIndex());
+
+    if (row == 0)
+        result = Source;
+    else if (row == rows - 1)
+        result = Result;
+    else if (row == rows - 2)
+        result = MaskOr;
+    else if (row == rows - 3)
+        result = MaskAnd;
+    else if (row == rows - 4)
+        result = MaskUsed;
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const
 {
     ConversionMatrixOptions options(this->mMatrix);
@@ -373,25 +392,6 @@ void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, Colo
         break;
     }
     }
-}
-//-----------------------------------------------------------------------------
-MatrixPreviewModel::RowType MatrixPreviewModel::rowType(int row) const
-{
-    MatrixPreviewModel::RowType result = Operation;
-    int rows = this->rowCount(QModelIndex());
-
-    if (row == 0)
-        result = Source;
-    else if (row == rows - 1)
-        result = Result;
-    else if (row == rows - 2)
-        result = MaskOr;
-    else if (row == rows - 3)
-        result = MaskAnd;
-    else if (row == rows - 4)
-        result = MaskUsed;
-
-    return result;
 }
 //-----------------------------------------------------------------------------
 void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const

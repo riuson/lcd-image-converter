@@ -24,6 +24,8 @@
 //-----------------------------------------------------------------------------
 template <class T> class QList;
 //-----------------------------------------------------------------------------
+class QMenu;
+//-----------------------------------------------------------------------------
 namespace Ui {
 class DialogConvert2;
 }
@@ -50,6 +52,7 @@ private:
     MatrixPreviewModel *mMatrixModel;
 
     DialogPreview *mPreview;
+    QMenu *mMenu;
 
     void fillPresetsList();
     void presetLoad(const QString &name);
@@ -69,7 +72,10 @@ private slots:
     void on_pushButtonPresetRemove_clicked();
     void on_comboBoxPresets_currentIndexChanged(int index);
     void on_horizontalScrollBarEdge_valueChanged(int value);
+    void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
     void previewClosed();
+
+    void operationAdd();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT2_H
