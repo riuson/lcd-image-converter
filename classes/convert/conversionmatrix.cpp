@@ -33,7 +33,8 @@ ConversionMatrix::ConversionMatrix(QObject *parent) :
     this->mData->append(0);
     this->mData->append(0);
 
-    this->mOptions = new ConversionMatrixOptions(this->mData);
+    this->mOptions = new ConversionMatrixOptions(this->mData, this);
+    this->connect(this->mOptions, SIGNAL(changed()), SIGNAL(changed()));
 
     // initialize by default
     this->initMono(MonochromeTypeDiffuseDither);
@@ -78,6 +79,8 @@ void ConversionMatrix::operationAdd(quint32 mask, int shift, bool left)
         this->mData->append(shift | 0x80000000);
     else
         this->mData->append(shift);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrix::operationRemove(int index)
@@ -88,12 +91,16 @@ void ConversionMatrix::operationRemove(int index)
         this->mData->remove(index + 1);
         this->mData->remove(index);
     }
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrix::operationsRemoveAll()
 {
     for (int i = this->operationsCount() - 1; i >= 0; i--)
         this->operationRemove(i);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrix::operationReplace(int index, quint32 mask, int shift, bool left)
@@ -109,6 +116,8 @@ void ConversionMatrix::operationReplace(int index, quint32 mask, int shift, bool
         else
             this->mData->replace(index + 1, shift);
     }
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrix::init(quint32 flags, quint32 maskUsed, quint32 maskAnd, quint32 maskOr)
@@ -117,6 +126,8 @@ void ConversionMatrix::init(quint32 flags, quint32 maskUsed, quint32 maskAnd, qu
     this->mData->replace(1, maskUsed);
     this->mData->replace(2, maskAnd);
     this->mData->replace(3, maskOr);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrix::initMono(MonochromeType type, int edge)
@@ -137,6 +148,8 @@ void ConversionMatrix::initMono(MonochromeType type, int edge)
 
         this->mData->append(0x00000000);
     }
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrix::initGrayscale(int bits)
@@ -172,6 +185,8 @@ void ConversionMatrix::initGrayscale(int bits)
         quint32 shift = 8 - bits;
         this->mData->append(shift);
     }
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrix::initColor(int redBits, int greenBits, int blueBits)
@@ -237,6 +252,8 @@ void ConversionMatrix::initColor(int redBits, int greenBits, int blueBits)
         quint32 shift = 8 - blueBits;
         this->mData->append(shift);
     }
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 bool ConversionMatrix::load(const QString &name)
@@ -312,6 +329,8 @@ bool ConversionMatrix::load(const QString &name)
         sett.endGroup();
     }
     sett.endGroup();
+
+    emit this->changed();
 
     return true;
 }

@@ -21,7 +21,8 @@
 
 #include <QVector>
 //-----------------------------------------------------------------------------
-ConversionMatrixOptions::ConversionMatrixOptions(QVector<quint32> *matrixData)
+ConversionMatrixOptions::ConversionMatrixOptions(QVector<quint32> *matrixData, QObject *parent) :
+    QObject(parent)
 {
     this->mMatrixData = matrixData;
     if (matrixData->size() == 0)
@@ -31,6 +32,10 @@ ConversionMatrixOptions::ConversionMatrixOptions(QVector<quint32> *matrixData)
         matrixData->append(0xffffffff);
         matrixData->append(0);
     }
+}
+//-----------------------------------------------------------------------------
+ConversionMatrixOptions::~ConversionMatrixOptions()
+{
 }
 //-----------------------------------------------------------------------------
 BytesOrder ConversionMatrixOptions::bytesOrder()
@@ -108,6 +113,8 @@ void ConversionMatrixOptions::setBytesOrder(BytesOrder value)
     else
         result &= ~MaskByteOrder;
     this->mMatrixData->replace(0, result);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setConvType(ConversionType value)
@@ -118,6 +125,8 @@ void ConversionMatrixOptions::setConvType(ConversionType value)
     result &= ~MaskConversionType;
     result |= mask << 28;
     this->mMatrixData->replace(0, result);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setMonoType(MonochromeType value)
@@ -128,6 +137,8 @@ void ConversionMatrixOptions::setMonoType(MonochromeType value)
     result &= ~MaskMonochromeType;
     result |= mask << 24;
     this->mMatrixData->replace(0, result);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setEdge(int value)
@@ -137,6 +148,8 @@ void ConversionMatrixOptions::setEdge(int value)
     result &= ~MaskEdgeValue;
     result |= mask << 16;
     this->mMatrixData->replace(0, result);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setBlockSize(DataBlockSize value)
@@ -147,21 +160,29 @@ void ConversionMatrixOptions::setBlockSize(DataBlockSize value)
     result &= ~MaskDataBlockSize;
     result |= mask << 12;
     this->mMatrixData->replace(0, result);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setMaskUsed(quint32 value)
 {
     this->mMatrixData->replace(1, value);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setMaskAnd(quint32 value)
 {
     this->mMatrixData->replace(2, value);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setMaskOr(quint32 value)
 {
     this->mMatrixData->replace(3, value);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setRotate(Rotate value)
@@ -172,6 +193,8 @@ void ConversionMatrixOptions::setRotate(Rotate value)
     result &= ~MaskRotate;
     result |= mask << 10;
     this->mMatrixData->replace(0, result);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setFlipVertical(bool value)
@@ -182,6 +205,8 @@ void ConversionMatrixOptions::setFlipVertical(bool value)
     else
         result &= ~MaskFlipV;
     this->mMatrixData->replace(0, result);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setFlipHorizontal(bool value)
@@ -192,6 +217,8 @@ void ConversionMatrixOptions::setFlipHorizontal(bool value)
     else
         result &= ~MaskFlipH;
     this->mMatrixData->replace(0, result);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setInverse(bool value)
@@ -202,5 +229,7 @@ void ConversionMatrixOptions::setInverse(bool value)
     else
         result &= ~MaskInverse;
     this->mMatrixData->replace(0, result);
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------

@@ -25,6 +25,8 @@ MatrixPreviewModel::MatrixPreviewModel(ConversionMatrix *matrix, QObject *parent
     QAbstractItemModel(parent)
 {
     this->mMatrix = matrix;
+
+    this->connect(this->mMatrix, SIGNAL(changed()), SLOT(callReset()));
 }
 //-----------------------------------------------------------------------------
 int MatrixPreviewModel::rowCount(const QModelIndex &parent) const
@@ -314,11 +316,6 @@ Qt::ItemFlags MatrixPreviewModel::flags(const QModelIndex &index) const
     return flags;
 }
 //-----------------------------------------------------------------------------
-void MatrixPreviewModel::callReset()
-{
-    this->reset();
-}
-//-----------------------------------------------------------------------------
 MatrixPreviewModel::RowType MatrixPreviewModel::rowType(int row) const
 {
     MatrixPreviewModel::RowType result = Operation;
@@ -517,5 +514,10 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
             *name = QVariant(QString("0"));
         }
     }
+}
+//-----------------------------------------------------------------------------
+void MatrixPreviewModel::callReset()
+{
+    this->reset();
 }
 //-----------------------------------------------------------------------------

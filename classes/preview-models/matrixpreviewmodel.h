@@ -48,7 +48,6 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
     QModelIndex parent(const QModelIndex &child) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
-    void callReset();
     RowType rowType(int row) const;
 
 private:
@@ -74,7 +73,7 @@ private:
 signals:
     
 public slots:
-    
+    void callReset();
 };
 //-----------------------------------------------------------------------------
 #endif // MATRIXPREVIEWMODEL_H

@@ -75,6 +75,8 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     QString selectedPreset = sett.value("selected", QVariant("")).toString();
     sett.endGroup();
 
+    this->connect(this->mMatrix, SIGNAL(changed()), SLOT(updatePreview()));
+
     this->fillPresetsList();
 
     int presetIndex = this->ui->comboBoxPresets->findText(selectedPreset);
@@ -213,8 +215,6 @@ void DialogConvert2::on_radioButtonLittleEndian_toggled(bool value)
         this->mMatrix->options()->setBytesOrder(BytesOrderLittleEndian);
     else
         this->mMatrix->options()->setBytesOrder(BytesOrderBigEndian);
-
-    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_comboBoxConversionType_currentIndexChanged(int index)
@@ -239,8 +239,6 @@ void DialogConvert2::on_comboBoxConversionType_currentIndexChanged(int index)
             this->ui->comboBoxMonochromeType->setEnabled(false);
             this->ui->horizontalScrollBarEdge->setEnabled(false);
         }
-
-        this->updatePreview();
     }
 }
 //-----------------------------------------------------------------------------
@@ -266,8 +264,6 @@ void DialogConvert2::on_comboBoxMonochromeType_currentIndexChanged(int index)
             this->ui->comboBoxMonochromeType->setEnabled(false);
             this->ui->horizontalScrollBarEdge->setEnabled(false);
         }
-
-        this->updatePreview();
     }
 }
 //-----------------------------------------------------------------------------
@@ -279,8 +275,6 @@ void DialogConvert2::on_comboBoxBlockSize_currentIndexChanged(int index)
     if (ok)
     {
         this->mMatrix->options()->setBlockSize((DataBlockSize)a);
-
-        this->updatePreview();
     }
 }
 //-----------------------------------------------------------------------------
@@ -293,30 +287,22 @@ void DialogConvert2::on_comboBoxRotate_currentIndexChanged(int index)
     {
         Rotate rotate = (Rotate)a;
         this->mMatrix->options()->setRotate(rotate);
-
-        this->updatePreview();
     }
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_checkBoxFlipHorizontal_toggled(bool value)
 {
     this->mMatrix->options()->setFlipHorizontal(value);
-
-    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_checkBoxFlipVertical_toggled(bool value)
 {
     this->mMatrix->options()->setFlipVertical(value);
-
-    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_checkBoxInverse_toggled(bool value)
 {
     this->mMatrix->options()->setInverse(value);
-
-    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_pushButtonPresetSaveAs_clicked()
@@ -342,7 +328,6 @@ void DialogConvert2::on_pushButtonPresetSaveAs_clicked()
     }
 
     this->fillPresetsList();
-    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_pushButtonPresetRemove_clicked()
@@ -357,15 +342,11 @@ void DialogConvert2::on_comboBoxPresets_currentIndexChanged(int index)
 {
     QString name = this->ui->comboBoxPresets->itemText(index);
     this->presetLoad(name);
-
-    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_horizontalScrollBarEdge_valueChanged(int value)
 {
     this->mMatrix->options()->setEdge(value);
-
-    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_tableViewOperations_customContextMenuRequested(const QPoint &point)
@@ -505,8 +486,6 @@ void DialogConvert2::operationAdd()
         }
         this->mMatrix->operationAdd(mask, shift, left);
     }
-
-    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::operationShift()
@@ -559,7 +538,6 @@ void DialogConvert2::operationShift()
 
         this->mMatrix->operationReplace(index, mask, shift, left);
     }
-    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::operationRemove()
@@ -573,7 +551,6 @@ void DialogConvert2::operationRemove()
     {
         this->mMatrix->operationRemove(index);
     }
-    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::maskReset()
@@ -614,6 +591,5 @@ void DialogConvert2::maskReset()
             break;
         }
     }
-    this->updatePreview();
 }
 //-----------------------------------------------------------------------------

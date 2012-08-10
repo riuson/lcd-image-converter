@@ -52,7 +52,9 @@ public:
 private:
     QVector<quint32> *mData;
     ConversionMatrixOptions *mOptions;
+
 signals:
+    void changed();
     
 public slots:
     

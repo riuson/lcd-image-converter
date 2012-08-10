@@ -20,7 +20,7 @@
 #ifndef CONVERSIONMATRIXOPTIONS_H
 #define CONVERSIONMATRIXOPTIONS_H
 //-----------------------------------------------------------------------------
-#include <QtGlobal>
+#include <QObject>
 //-----------------------------------------------------------------------------
 #include "conversion_options.h"
 //-----------------------------------------------------------------------------
@@ -58,10 +58,12 @@ using namespace ConversionOptions;
  * ... Repeat 4 and 5 some times
  */
 
-class ConversionMatrixOptions
+class ConversionMatrixOptions : public QObject
 {
+    Q_OBJECT
 public:
-    ConversionMatrixOptions(QVector<quint32> *matrix);
+    explicit ConversionMatrixOptions(QVector<quint32> *matrix, QObject *parent = 0);
+    virtual ~ConversionMatrixOptions();
 
     BytesOrder bytesOrder();
     ConversionType convType();
@@ -101,6 +103,9 @@ private:
     static const quint32 MaskInverse        = 0x00000080;
 
     QVector<quint32> *mMatrixData;
+
+signals:
+    void changed();
 };
 //-----------------------------------------------------------------------------
 #endif // CONVERSIONMATRIXOPTIONS_H
