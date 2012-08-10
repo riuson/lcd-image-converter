@@ -201,6 +201,73 @@ void ConverterHelper::prepareImage(ConversionMatrix *matrix, QImage *source, QIm
     }
 }
 //-----------------------------------------------------------------------------
+QString ConverterHelper::dataToString(ConversionMatrix *matrix, QList<quint32> *data, int width, int height)
+{
+    QString result;
+    DataBlockSize blockSize = matrix->options()->blockSize();
+    char temp[11];
+    const char *table = "0123456789abcdef";
+
+    for (int y = 0; y < height; y++)
+    {
+        if (result.endsWith(", "))
+            result.append("\n");
+        for (int x = 0; x < width; x++)
+        {
+            quint32 value = data->at(y * width + x);
+            switch (blockSize)
+            {
+            case Data8:
+                temp[0] = table[(value >> 4) & 0x0000000f];
+                temp[1] = table[(value >> 0) & 0x0000000f];
+                temp[2] = ',';
+                temp[3] = ' ';
+                temp[4] = 0;
+                break;
+            case Data16:
+                temp[0] = table[(value >> 12) & 0x0000000f];
+                temp[1] = table[(value >> 8) & 0x0000000f];
+                temp[2] = table[(value >> 4) & 0x0000000f];
+                temp[3] = table[(value >> 0) & 0x0000000f];
+                temp[4] = ',';
+                temp[5] = ' ';
+                temp[6] = 0;
+                break;
+            case Data24:
+                temp[0] = table[(value >> 20) & 0x0000000f];
+                temp[1] = table[(value >> 16) & 0x0000000f];
+                temp[2] = table[(value >> 12) & 0x0000000f];
+                temp[3] = table[(value >> 8) & 0x0000000f];
+                temp[4] = table[(value >> 4) & 0x0000000f];
+                temp[5] = table[(value >> 0) & 0x0000000f];
+                temp[6] = ',';
+                temp[7] = ' ';
+                temp[8] = 0;
+                break;
+            case Data32:
+                temp[0] = table[(value >> 28) & 0x0000000f];
+                temp[1] = table[(value >> 24) & 0x0000000f];
+                temp[2] = table[(value >> 20) & 0x0000000f];
+                temp[3] = table[(value >> 16) & 0x0000000f];
+                temp[4] = table[(value >> 12) & 0x0000000f];
+                temp[5] = table[(value >> 8) & 0x0000000f];
+                temp[6] = table[(value >> 4) & 0x0000000f];
+                temp[7] = table[(value >> 0) & 0x0000000f];
+                temp[8] = ',';
+                temp[9] = ' ';
+                temp[10] = 0;
+                break;
+            }
+
+            result += QString(temp);
+        }
+    }
+    if (result.endsWith(", "))
+        result = result.remove(QRegExp("\\,\\s$"));
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void ConverterHelper::makeMonochrome(QImage &image, int edge)
 {
     QPainter painter(&image);
