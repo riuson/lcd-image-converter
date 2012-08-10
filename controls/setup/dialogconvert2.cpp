@@ -68,6 +68,11 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->comboBoxRotate->addItem(tr("180\u00b0"), QVariant(Rotate180));
     this->ui->comboBoxRotate->addItem(tr("90\u00b0 Counter-Clockwise"), QVariant(Rotate270));
 
+    if (this->mMatrix->options()->bytesOrder() == BytesOrderLittleEndian)
+        this->ui->radioButtonLittleEndian->setChecked(true);
+    else
+        this->ui->radioButtonBigEndian->setChecked(true);
+
     this->connect(this, SIGNAL(finished(int)), SLOT(dialogFinished(int)));
 
     QSettings sett;
