@@ -30,7 +30,6 @@
 #include "conversionmatrix.h"
 #include "conversionmatrixoptions.h"
 #include "converterhelper.h"
-#include <QDebug>
 //-----------------------------------------------------------------------------
 Converter::Converter(QObject *parent) :
         QObject(parent)
@@ -128,7 +127,6 @@ void Converter::parse(const QString &templateString,
         if (index > prevIndex)
         {
             resultString.append(templateString.mid(prevIndex, index - prevIndex));
-            qDebug() << resultString;
         }
         QString tagName = regTag.cap(2);
         // if block starts
@@ -150,9 +148,7 @@ void Converter::parse(const QString &templateString,
                 {
                     this->parse(content, temp, tags, doc);
                 }
-                qDebug() << temp;
                 resultString.append(temp);
-                qDebug() << resultString;
 
                 capturedLength = contentReg.cap(0).length();
                 prevIndex = index + capturedLength;
@@ -166,14 +162,12 @@ void Converter::parse(const QString &templateString,
                 resultString.append("<value not defined>");
             prevIndex = index + regTag.cap(0).length();
         }
-        qDebug() << resultString;
     }
     int last = prevIndex;
     if (last < templateString.length() - 1)
     {
         resultString.append(templateString.mid(last, templateString.length() - last));
     }
-    qDebug() << resultString;
 }
 //-----------------------------------------------------------------------------
 void Converter::parseBlocks(const QString &templateString,
@@ -200,7 +194,6 @@ void Converter::parseBlocks(const QString &templateString,
             //index2 += content.length();
             content = content.trimmed();
 
-            qDebug() << content;
             QString contentParsed;
             if (blockName == "images_table")
             {
