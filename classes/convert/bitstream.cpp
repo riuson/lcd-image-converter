@@ -63,12 +63,12 @@ quint32 BitStream::next()
 bool BitStream::nextBit()
 {
     bool result = false;
+    quint32 data = this->mData->at(this->mStart + this->mCurrentPixel);
     for (int i = 0; i < 32; i++)
     {
         quint32 mask = 0x00000001 << i;
         if (this->mMaskCurrent & mask)
         {
-            quint32 data = this->mData->at(this->mStart + this->mCurrentPixel);
             result = (data & mask) != 0;
 
             // reset processed pixel's bit in mask
@@ -81,6 +81,7 @@ bool BitStream::nextBit()
             {
                 this->mMaskCurrent = this->mMaskSource;
                 this->mCurrentPixel++;
+                data = this->mData->at(this->mStart + this->mCurrentPixel);
             }
 
             break;
