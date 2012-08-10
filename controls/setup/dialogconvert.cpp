@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "dialogconvert2.h"
-#include "ui_dialogconvert2.h"
+#include "dialogconvert.h"
+#include "ui_dialogconvert.h"
 //-----------------------------------------------------------------------------
 #include <QList>
 #include <QSettings>
@@ -33,9 +33,9 @@
 #include "conversionmatrix.h"
 #include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
-DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
+DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogConvert2)
+    ui(new Ui::DialogConvert)
 {
     ui->setupUi(this);
     this->mPreview = NULL;
@@ -73,8 +73,6 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     else
         this->ui->radioButtonBigEndian->setChecked(true);
 
-    this->connect(this, SIGNAL(finished(int)), SLOT(dialogFinished(int)));
-
     QSettings sett;
     sett.beginGroup("presets");
     QString selectedPreset = sett.value("selected", QVariant("")).toString();
@@ -89,7 +87,7 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
         this->ui->comboBoxPresets->setCurrentIndex(presetIndex);
 }
 //-----------------------------------------------------------------------------
-DialogConvert2::~DialogConvert2()
+DialogConvert::~DialogConvert()
 {
     if (this->result() == QDialog::Accepted)
     {
@@ -110,7 +108,7 @@ DialogConvert2::~DialogConvert2()
     delete this->mMatrix;
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::fillPresetsList()
+void DialogConvert::fillPresetsList()
 {
     QString current = this->ui->comboBoxPresets->currentText();
 
@@ -129,7 +127,7 @@ void DialogConvert2::fillPresetsList()
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::presetLoad(const QString &name)
+void DialogConvert::presetLoad(const QString &name)
 {
     if (this->mMatrix->load(name))
     {
@@ -169,13 +167,13 @@ void DialogConvert2::presetLoad(const QString &name)
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::presetSaveAs(const QString &name)
+void DialogConvert::presetSaveAs(const QString &name)
 {
     this->mMatrix->save(name);
     this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::presetRemove(const QString &name)
+void DialogConvert::presetRemove(const QString &name)
 {
     QSettings sett;
     sett.beginGroup("presets");
@@ -188,7 +186,7 @@ void DialogConvert2::presetRemove(const QString &name)
     this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::updatePreview()
+void DialogConvert::updatePreview()
 {
     if (this->mData != NULL)
     {
@@ -202,7 +200,7 @@ void DialogConvert2::updatePreview()
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_pushButtonPreview_clicked()
+void DialogConvert::on_pushButtonPreview_clicked()
 {
     if (this->mPreview == NULL)
     {
@@ -214,7 +212,7 @@ void DialogConvert2::on_pushButtonPreview_clicked()
     this->mPreview->show();
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_radioButtonLittleEndian_toggled(bool value)
+void DialogConvert::on_radioButtonLittleEndian_toggled(bool value)
 {
     if (value)
         this->mMatrix->options()->setBytesOrder(BytesOrderLittleEndian);
@@ -222,7 +220,7 @@ void DialogConvert2::on_radioButtonLittleEndian_toggled(bool value)
         this->mMatrix->options()->setBytesOrder(BytesOrderBigEndian);
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_comboBoxConversionType_currentIndexChanged(int index)
+void DialogConvert::on_comboBoxConversionType_currentIndexChanged(int index)
 {
     QVariant data = this->ui->comboBoxConversionType->itemData(index);
     bool ok;
@@ -247,7 +245,7 @@ void DialogConvert2::on_comboBoxConversionType_currentIndexChanged(int index)
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_comboBoxMonochromeType_currentIndexChanged(int index)
+void DialogConvert::on_comboBoxMonochromeType_currentIndexChanged(int index)
 {
     QVariant data = this->ui->comboBoxMonochromeType->itemData(index);
     bool ok;
@@ -272,7 +270,7 @@ void DialogConvert2::on_comboBoxMonochromeType_currentIndexChanged(int index)
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_comboBoxBlockSize_currentIndexChanged(int index)
+void DialogConvert::on_comboBoxBlockSize_currentIndexChanged(int index)
 {
     QVariant data = this->ui->comboBoxBlockSize->itemData(index);
     bool ok;
@@ -283,7 +281,7 @@ void DialogConvert2::on_comboBoxBlockSize_currentIndexChanged(int index)
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_comboBoxRotate_currentIndexChanged(int index)
+void DialogConvert::on_comboBoxRotate_currentIndexChanged(int index)
 {
     QVariant data = this->ui->comboBoxRotate->itemData(index);
     bool ok;
@@ -295,22 +293,22 @@ void DialogConvert2::on_comboBoxRotate_currentIndexChanged(int index)
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_checkBoxFlipHorizontal_toggled(bool value)
+void DialogConvert::on_checkBoxFlipHorizontal_toggled(bool value)
 {
     this->mMatrix->options()->setFlipHorizontal(value);
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_checkBoxFlipVertical_toggled(bool value)
+void DialogConvert::on_checkBoxFlipVertical_toggled(bool value)
 {
     this->mMatrix->options()->setFlipVertical(value);
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_checkBoxInverse_toggled(bool value)
+void DialogConvert::on_checkBoxInverse_toggled(bool value)
 {
     this->mMatrix->options()->setInverse(value);
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_pushButtonPresetSaveAs_clicked()
+void DialogConvert::on_pushButtonPresetSaveAs_clicked()
 {
     QSettings sett;
     sett.beginGroup("presets");
@@ -335,7 +333,7 @@ void DialogConvert2::on_pushButtonPresetSaveAs_clicked()
     this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_pushButtonPresetRemove_clicked()
+void DialogConvert::on_pushButtonPresetRemove_clicked()
 {
     QString name = this->ui->comboBoxPresets->currentText();
     this->presetRemove(name);
@@ -343,18 +341,18 @@ void DialogConvert2::on_pushButtonPresetRemove_clicked()
     this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_comboBoxPresets_currentIndexChanged(int index)
+void DialogConvert::on_comboBoxPresets_currentIndexChanged(int index)
 {
     QString name = this->ui->comboBoxPresets->itemText(index);
     this->presetLoad(name);
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_horizontalScrollBarEdge_valueChanged(int value)
+void DialogConvert::on_horizontalScrollBarEdge_valueChanged(int value)
 {
     this->mMatrix->options()->setEdge(value);
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::on_tableViewOperations_customContextMenuRequested(const QPoint &point)
+void DialogConvert::on_tableViewOperations_customContextMenuRequested(const QPoint &point)
 {
     QModelIndex index = this->ui->tableViewOperations->indexAt(point);
     QItemSelectionModel *selection = this->ui->tableViewOperations->selectionModel();
@@ -457,7 +455,7 @@ void DialogConvert2::on_tableViewOperations_customContextMenuRequested(const QPo
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::previewClosed()
+void DialogConvert::previewClosed()
 {
     if (this->mPreview != NULL)
     {
@@ -466,7 +464,7 @@ void DialogConvert2::previewClosed()
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::operationAdd()
+void DialogConvert::operationAdd()
 {
     QAction *a = qobject_cast<QAction *>(sender());
     QVariant var = a->data();
@@ -493,7 +491,7 @@ void DialogConvert2::operationAdd()
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::operationShift()
+void DialogConvert::operationShift()
 {
     QAction *a = qobject_cast<QAction *>(sender());
     QVariant var = a->data();
@@ -545,7 +543,7 @@ void DialogConvert2::operationShift()
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::operationRemove()
+void DialogConvert::operationRemove()
 {
     QAction *a = qobject_cast<QAction *>(sender());
     QVariant var = a->data();
@@ -558,7 +556,7 @@ void DialogConvert2::operationRemove()
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert2::maskReset()
+void DialogConvert::maskReset()
 {
     QAction *a = qobject_cast<QAction *>(sender());
     QVariant var = a->data();

@@ -26,7 +26,7 @@ class QMenu;
 class ConversionMatrix;
 //-----------------------------------------------------------------------------
 namespace Ui {
-class DialogConvert2;
+class DialogConvert;
 }
 class IDataContainer;
 class Converter;
@@ -34,16 +34,16 @@ class MatrixPreviewModel;
 class QTableView;
 class DialogPreview;
 //-----------------------------------------------------------------------------
-class DialogConvert2 : public QDialog
+class DialogConvert : public QDialog
 {
     Q_OBJECT
     
 public:
-    explicit DialogConvert2(IDataContainer *dataContainer, QWidget *parent = 0);
-    ~DialogConvert2();
+    explicit DialogConvert(IDataContainer *dataContainer, QWidget *parent = 0);
+    ~DialogConvert();
     
 private:
-    Ui::DialogConvert2 *ui;
+    Ui::DialogConvert *ui;
 
     IDataContainer *mData;
 
