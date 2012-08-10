@@ -245,8 +245,47 @@ void ConverterHelper::packDataRow(ConversionMatrix *matrix, QList<quint32> *inpu
         while (!stream.eof())
         {
             quint32 value = stream.next();
+
+            if (matrix->options()->bytesOrder() == BytesOrderBigEndian)
+                value = ConverterHelper::toBigEndian(matrix, value);
+
             outputData->append(value);
         }
     }
+}
+//-----------------------------------------------------------------------------
+quint32 ConverterHelper::toBigEndian(ConversionMatrix *matrix, quint32 value)
+{
+    quint8 src1, src2, src3, src4;
+    src1 = value & 0xff;
+    src2 = (value >> 8) & 0xff;
+    src3 = (value >> 16) & 0xff;
+    src4 = (value >> 24) & 0xff;
+
+    quint32 result = 0;
+
+    switch (matrix->options()->blockSize())
+    {
+    case Data32:
+        result |= src1 << 24;
+        result |= src2 << 16;
+        result |= src3 << 8;
+        result |= src4;
+        break;
+    case Data24:
+        result |= src1 << 16;
+        result |= src2 << 8;
+        result |= src3;
+        break;
+    case Data16:
+        result |= src1 << 8;
+        result |= src2;
+        break;
+    case Data8:
+        result = src1;
+        break;
+    }
+
+    return result;
 }
 //-----------------------------------------------------------------------------

@@ -67,6 +67,7 @@ private:
             int start,
             int count,
             QList<quint32> *outputData);
+    static quint32 toBigEndian(ConversionMatrix *matrix, quint32 value);
 };
 //-----------------------------------------------------------------------------
 #endif // CONVERTERHELPER_H

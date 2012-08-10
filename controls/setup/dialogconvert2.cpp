@@ -136,6 +136,11 @@ void DialogConvert2::presetLoad(const QString &name)
         this->ui->checkBoxFlipHorizontal->setChecked(this->mMatrix->options()->flipHorizontal());
         this->ui->checkBoxFlipVertical->setChecked(this->mMatrix->options()->flipVertical());
         this->ui->checkBoxInverse->setChecked(this->mMatrix->options()->inverse());
+
+        if (this->mMatrix->options()->bytesOrder() == BytesOrderLittleEndian)
+            this->ui->radioButtonLittleEndian->setChecked(true);
+        else
+            this->ui->radioButtonBigEndian->setChecked(true);
     }
 }
 //-----------------------------------------------------------------------------
@@ -182,6 +187,16 @@ void DialogConvert2::on_pushButtonPreview_clicked()
     }
 
     this->mPreview->show();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert2::on_radioButtonLittleEndian_toggled(bool value)
+{
+    if (value)
+        this->mMatrix->options()->setBytesOrder(BytesOrderLittleEndian);
+    else
+        this->mMatrix->options()->setBytesOrder(BytesOrderBigEndian);
+
+    this->updatePreview();
 }
 //-----------------------------------------------------------------------------
 void DialogConvert2::on_comboBoxConversionType_currentIndexChanged(int index)

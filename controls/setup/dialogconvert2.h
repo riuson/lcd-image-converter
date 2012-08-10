@@ -60,6 +60,7 @@ private:
 private slots:
     void updatePreview();
     void on_pushButtonPreview_clicked();
+    void on_radioButtonLittleEndian_toggled(bool value);
     void on_comboBoxConversionType_currentIndexChanged(int index);
     void on_comboBoxMonochromeType_currentIndexChanged(int index);
     void on_comboBoxBlockSize_currentIndexChanged(int index);
