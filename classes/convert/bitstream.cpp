@@ -19,11 +19,11 @@
 
 #include "bitstream.h"
 //-----------------------------------------------------------------------------
-#include <QList>
+#include <QVector>
 #include "conversionmatrixoptions.h"
 #include "conversionmatrix.h"
 //-----------------------------------------------------------------------------
-BitStream::BitStream(ConversionMatrix *matrix, QList<quint32> *data, int start, int count)
+BitStream::BitStream(ConversionMatrix *matrix, QVector<quint32> *data, int start, int count)
 {
     this->mMatrix = matrix;
     this->mData = data;

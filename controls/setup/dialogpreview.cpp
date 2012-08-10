@@ -71,13 +71,13 @@ void DialogPreview::updatePreview()
             //QString str = this->mConverter->dataToString(data);
             //this->ui->plainTextEdit->setPlainText(str);
 
-            QList<quint32> data;
+            QVector<quint32> data;
             int width, height;
             ConverterHelper::pixelsData(this->mMatrix, &this->mImageProcessed, &data, &width, &height);
 
             ConverterHelper::processPixels(this->mMatrix, &data);
 
-            QList<quint32> data2;
+            QVector<quint32> data2;
             int width2, height2;
             ConverterHelper::packData(this->mMatrix, &data, width, height, &data2, &width2, &height2);
 

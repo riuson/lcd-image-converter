@@ -236,13 +236,13 @@ void Converter::parseImagesTable(const QString &templateString,
 
 
         // conversion from image to strings
-        QList<quint32> imageData;
+        QVector<quint32> imageData;
         int width, height;
         ConverterHelper::pixelsData(this->mMatrix, &image, &imageData, &width, &height);
 
         ConverterHelper::processPixels(this->mMatrix, &imageData);
 
-        QList<quint32> imageDataPacked;
+        QVector<quint32> imageDataPacked;
         int width2, height2;
         ConverterHelper::packData(this->mMatrix, &imageData, width, height, &imageDataPacked, &width2, &height2);
 
@@ -256,7 +256,7 @@ void Converter::parseImagesTable(const QString &templateString,
 
         QString charCode = this->hexCode(key.at(0), tags.value("encoding"), useBom);
 
-        tags["blocksCount"] = QString("%1").arg(imageDataPacked.length());
+        tags["blocksCount"] = QString("%1").arg(imageDataPacked.size());
         tags["imageData"] = dataString;
         tags["charCode"] = charCode;
         if (it.hasNext())

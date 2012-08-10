@@ -23,7 +23,7 @@
 #include <QObject>
 #include "conversionmatrixoptions.h"
 //-----------------------------------------------------------------------------
-template <class T> class QList;
+template <class T> class QVector;
 //-----------------------------------------------------------------------------
 class ConversionMatrix : public QObject
 {
@@ -50,7 +50,7 @@ public:
     bool save(const QString &name) const;
 
 private:
-    QList<quint32> *mData;
+    QVector<quint32> *mData;
     ConversionMatrixOptions *mOptions;
 signals:
     

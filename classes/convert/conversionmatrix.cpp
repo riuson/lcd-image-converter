@@ -20,14 +20,14 @@
 #include "conversionmatrix.h"
 //-----------------------------------------------------------------------------
 #include <QSettings>
-#include <QList>
+#include <QVector>
 #include <QStringList>
 #include "conversionmatrixoptions.h"
 //-----------------------------------------------------------------------------
 ConversionMatrix::ConversionMatrix(QObject *parent) :
     QObject(parent)
 {
-    this->mData = new QList<quint32>();
+    this->mData = new QVector<quint32>();
     this->mData->append(0);
     this->mData->append(0);
     this->mData->append(0);
@@ -49,7 +49,7 @@ ConversionMatrixOptions *ConversionMatrix::options() const
 //-----------------------------------------------------------------------------
 int ConversionMatrix::operationsCount() const
 {
-    return (this->mData->length() - 4) >> 1;
+    return (this->mData->size() - 4) >> 1;
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrix::operation(int index, quint32 *mask, int *shift, bool *left) const
@@ -82,8 +82,8 @@ void ConversionMatrix::operationRemove(int index)
     if (index < this->operationsCount())
     {
         index = (index << 1) + 4;
-        this->mData->removeAt(index + 1);
-        this->mData->removeAt(index);
+        this->mData->remove(index + 1);
+        this->mData->remove(index);
     }
 }
 //-----------------------------------------------------------------------------

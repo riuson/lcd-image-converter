@@ -24,7 +24,7 @@
 #include <QColor>
 #include <QPainter>
 #include <QRegExp>
-#include <QList>
+#include <QVector>
 #include "bitstream.h"
 #include "bitmaphelper.h"
 #include "conversionmatrix.h"
@@ -67,7 +67,7 @@ void ConverterHelper::packDataPreview(QStringList *list, QStringList &colors, in
     temp.clear();
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::pixelsData(ConversionMatrix *matrix, QImage *image, QList<quint32> *data, int *width, int *height)
+void ConverterHelper::pixelsData(ConversionMatrix *matrix, QImage *image, QVector<quint32> *data, int *width, int *height)
 {
     if (image != NULL && data != NULL && width != NULL && height != NULL)
     {
@@ -120,11 +120,11 @@ void ConverterHelper::pixelsData(ConversionMatrix *matrix, QImage *image, QList<
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::processPixels(ConversionMatrix *matrix, QList<quint32> *data)
+void ConverterHelper::processPixels(ConversionMatrix *matrix, QVector<quint32> *data)
 {
     if (matrix != NULL && data != NULL)
     {
-        for (int i = 0; i < data->length(); i++)
+        for (int i = 0; i < data->size(); i++)
         {
             quint32 value = data->at(i);
             quint32 valueNew = 0;
@@ -147,12 +147,13 @@ void ConverterHelper::processPixels(ConversionMatrix *matrix, QList<quint32> *da
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::packData(ConversionMatrix *matrix, QList<quint32> *inputData, int inputWidth, int inputHeight, QList<quint32> *outputData, int *outputWidth, int *outputHeight)
+void ConverterHelper::packData(ConversionMatrix *matrix, QVector<quint32> *inputData, int inputWidth, int inputHeight, QVector<quint32> *outputData, int *outputWidth, int *outputHeight)
 {
     *outputHeight = inputHeight;
     outputData->clear();
 
     int resultWidth = 0;
+    int rowLength = 0;
 
     // each row
     for (int y = 0; y < inputHeight; y++)
@@ -160,11 +161,9 @@ void ConverterHelper::packData(ConversionMatrix *matrix, QList<quint32> *inputDa
         // start of row in inputData
         int start = y * inputWidth;
         // get row data packed
-        QList<quint32> rowData;
-        ConverterHelper::packDataRow(matrix, inputData, start, inputWidth, &rowData);
-        outputData->append(rowData);
+        ConverterHelper::packDataRow(matrix, inputData, start, inputWidth, outputData, &rowLength);
         // get row blocks count
-        resultWidth = qMax(resultWidth, rowData.length());
+        resultWidth = qMax(resultWidth, rowLength);
     }
     *outputWidth = resultWidth;
 }
@@ -201,7 +200,7 @@ void ConverterHelper::prepareImage(ConversionMatrix *matrix, QImage *source, QIm
     }
 }
 //-----------------------------------------------------------------------------
-QString ConverterHelper::dataToString(ConversionMatrix *matrix, QList<quint32> *data, int width, int height)
+QString ConverterHelper::dataToString(ConversionMatrix *matrix, QVector<quint32> *data, int width, int height)
 {
     QString result;
     DataBlockSize blockSize = matrix->options()->blockSize();
@@ -304,12 +303,11 @@ void ConverterHelper::makeGrayscale(QImage &image)
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::packDataRow(ConversionMatrix *matrix, QList<quint32> *inputData, int start, int count, QList<quint32> *outputData)
+void ConverterHelper::packDataRow(ConversionMatrix *matrix, QVector<quint32> *inputData, int start, int count, QVector<quint32> *outputData, int *rowLength)
 {
+    *rowLength = 0;
     if (matrix != NULL && inputData != NULL && outputData != NULL)
     {
-        outputData->clear();
-
         BitStream stream(matrix, inputData, start, count);
         while (!stream.eof())
         {
@@ -319,6 +317,7 @@ void ConverterHelper::packDataRow(ConversionMatrix *matrix, QList<quint32> *inpu
                 value = ConverterHelper::toBigEndian(matrix, value);
 
             outputData->append(value);
+            (*rowLength)++;
         }
     }
 }
