@@ -69,11 +69,30 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->comboBoxRotate->addItem(tr("180\u00b0"), QVariant(Rotate180));
     this->ui->comboBoxRotate->addItem(tr("90\u00b0 Counter-Clockwise"), QVariant(Rotate270));
 
+    this->connect(this, SIGNAL(finished(int)), SLOT(dialogFinished(int)));
+
+    QSettings sett;
+    sett.beginGroup("presets");
+    QString selectedPreset = sett.value("selected", QVariant("")).toString();
+    sett.endGroup();
+
     this->fillPresetsList();
+
+    int presetIndex = this->ui->comboBoxPresets->findText(selectedPreset);
+    if (presetIndex >= 0)
+        this->ui->comboBoxPresets->setCurrentIndex(presetIndex);
 }
 //-----------------------------------------------------------------------------
 DialogConvert2::~DialogConvert2()
 {
+    if (this->result() == QDialog::Accepted)
+    {
+        QSettings sett;
+        sett.beginGroup("presets");
+        sett.setValue("selected", this->ui->comboBoxPresets->currentText());
+        sett.endGroup();
+    }
+
     if (this->mMenu != NULL)
         delete this->mMenu;
 
