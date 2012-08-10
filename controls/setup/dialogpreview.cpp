@@ -71,29 +71,17 @@ void DialogPreview::updatePreview()
             //QString str = this->mConverter->dataToString(data);
             //this->ui->plainTextEdit->setPlainText(str);
 
-            QList<quint32> data;
+            QVector<quint32> data;
             int width, height;
             ConverterHelper::pixelsData(this->mMatrix, &this->mImageProcessed, &data, &width, &height);
 
             ConverterHelper::processPixels(this->mMatrix, &data);
 
-            QList<quint32> data2;
+            QVector<quint32> data2;
             int width2, height2;
             ConverterHelper::packData(this->mMatrix, &data, width, height, &data2, &width2, &height2);
 
-            QString str;
-            int fieldWidth = ((int)this->mMatrix->options()->blockSize() + 1) << 1;
-            for (int y = 0; y < height2; y++)
-            {
-                if (str.endsWith(", "))
-                    str.append("\n");
-                for (int x = 0; x < width2; x++)
-                {
-                    str += QString("%1, ").arg(data2.at(y * width2 + x), fieldWidth, 16, QChar('0'));
-                }
-            }
-            if (str.endsWith(", "))
-                str = str.remove(QRegExp("\\,\\s$"));
+            QString str = ConverterHelper::dataToString(this->mMatrix, &data2, width2, height2);
 
             this->ui->plainTextEdit->setPlainText(str);
         }

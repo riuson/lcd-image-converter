@@ -43,7 +43,6 @@ DialogConvert2::DialogConvert2(IDataContainer *dataContainer, QWidget *parent) :
 
     this->mData = dataContainer;
     this->mMatrix = new ConversionMatrix(this);
-    this->mMatrix->initColor(4, 5, 4);
 
     this->mMatrixModel = new MatrixPreviewModel(this->mMatrix, this);
     this->ui->tableViewOperations->setModel(this->mMatrixModel);

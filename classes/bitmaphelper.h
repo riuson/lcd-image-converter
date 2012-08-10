@@ -38,7 +38,6 @@ typedef struct
 class BitmapHelper
 {
 public:
-    static QImage transform(Transformation type, QImage *source);
     static QImage rotate90(QImage *source);
     static QImage rotate180(QImage *source);
     static QImage rotate270(QImage *source);

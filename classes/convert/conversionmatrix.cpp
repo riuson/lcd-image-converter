@@ -20,20 +20,23 @@
 #include "conversionmatrix.h"
 //-----------------------------------------------------------------------------
 #include <QSettings>
-#include <QList>
+#include <QVector>
 #include <QStringList>
 #include "conversionmatrixoptions.h"
 //-----------------------------------------------------------------------------
 ConversionMatrix::ConversionMatrix(QObject *parent) :
     QObject(parent)
 {
-    this->mData = new QList<quint32>();
+    this->mData = new QVector<quint32>();
     this->mData->append(0);
     this->mData->append(0);
     this->mData->append(0);
     this->mData->append(0);
 
     this->mOptions = new ConversionMatrixOptions(this->mData);
+
+    // initialize by default
+    this->initMono(MonochromeTypeDiffuseDither);
 }
 //-----------------------------------------------------------------------------
 ConversionMatrix::~ConversionMatrix()
@@ -49,7 +52,7 @@ ConversionMatrixOptions *ConversionMatrix::options() const
 //-----------------------------------------------------------------------------
 int ConversionMatrix::operationsCount() const
 {
-    return (this->mData->length() - 4) >> 1;
+    return (this->mData->size() - 4) >> 1;
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrix::operation(int index, quint32 *mask, int *shift, bool *left) const
@@ -82,8 +85,8 @@ void ConversionMatrix::operationRemove(int index)
     if (index < this->operationsCount())
     {
         index = (index << 1) + 4;
-        this->mData->removeAt(index + 1);
-        this->mData->removeAt(index);
+        this->mData->remove(index + 1);
+        this->mData->remove(index);
     }
 }
 //-----------------------------------------------------------------------------
@@ -125,6 +128,8 @@ void ConversionMatrix::initMono(MonochromeType type, int edge)
     this->mOptions->setEdge(edge);
     this->mOptions->setBlockSize(Data8);
     this->mOptions->setMaskUsed(0x00000001);
+    this->mOptions->setMaskAnd(0xffffffff);
+    this->mOptions->setMaskOr(0x00000000);
 
     // bits shift
     {
@@ -153,6 +158,9 @@ void ConversionMatrix::initGrayscale(int bits)
 
         this->mOptions->setMaskUsed(mask);
     }
+
+    this->mOptions->setMaskAnd(0xffffffff);
+    this->mOptions->setMaskOr(0x00000000);
 
     // bits shift
     {
@@ -191,6 +199,9 @@ void ConversionMatrix::initColor(int redBits, int greenBits, int blueBits)
         quint32 mask = (quint32)mask64;
         this->mOptions->setMaskUsed(mask);
     }
+
+    this->mOptions->setMaskAnd(0xffffffff);
+    this->mOptions->setMaskOr(0x00000000);
 
     // red bits shift
     {

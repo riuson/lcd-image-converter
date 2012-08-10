@@ -64,18 +64,6 @@ enum DataBlockSize
     Data32 = 3
 };
 //------------------------------------------------------------------------------
-enum Transformation
-{
-    TransformNone = 0,
-    TransformRotate90 = 1,
-    TransformRotate180 = 2,
-    TransformRotate270 = 3,
-    TransformRotatations = 3,
-    TransformFlipHorizontal = 4,
-    TransformFlipVertical = 8,
-    TransformInverse = 16
-};
-//------------------------------------------------------------------------------
 enum Rotate
 {
     RotateNone = 0,

@@ -19,12 +19,12 @@
 
 #include "conversionmatrixoptions.h"
 
-#include <QList>
+#include <QVector>
 //-----------------------------------------------------------------------------
-ConversionMatrixOptions::ConversionMatrixOptions(QList<quint32> *matrixData)
+ConversionMatrixOptions::ConversionMatrixOptions(QVector<quint32> *matrixData)
 {
     this->mMatrixData = matrixData;
-    if (matrixData->length() == 0)
+    if (matrixData->size() == 0)
     {
         matrixData->append(0);
         matrixData->append(0);

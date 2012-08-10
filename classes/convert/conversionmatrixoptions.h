@@ -26,7 +26,7 @@
 //-----------------------------------------------------------------------------
 class QStringList;
 class QImage;
-template <class T> class QList;
+template <class T> class QVector;
 //-----------------------------------------------------------------------------
 using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
@@ -61,7 +61,7 @@ using namespace ConversionOptions;
 class ConversionMatrixOptions
 {
 public:
-    ConversionMatrixOptions(QList<quint32> *matrix);
+    ConversionMatrixOptions(QVector<quint32> *matrix);
 
     BytesOrder bytesOrder();
     ConversionType convType();
@@ -100,7 +100,7 @@ private:
     static const quint32 MaskFlipH          = 0x00000100;
     static const quint32 MaskInverse        = 0x00000080;
 
-    QList<quint32> *mMatrixData;
+    QVector<quint32> *mMatrixData;
 };
 //-----------------------------------------------------------------------------
 #endif // CONVERSIONMATRIXOPTIONS_H

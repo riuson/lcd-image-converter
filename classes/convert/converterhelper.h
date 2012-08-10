@@ -41,32 +41,35 @@ public:
     static void pixelsData(
             ConversionMatrix *matrix,
             QImage *image,
-            QList<quint32> *data,
+            QVector<quint32> *data,
             int *width,
             int *height);
     // apply masks and bits reorder
-    static void processPixels(ConversionMatrix *matrix, QList<quint32> *data);
+    static void processPixels(ConversionMatrix *matrix, QVector<quint32> *data);
     // pack data
     static void packData(
             ConversionMatrix *matrix,
-            QList<quint32> *inputData,
+            QVector<quint32> *inputData,
             int inputWidth,
             int inputHeight,
-            QList<quint32> *outputData,
+            QVector<quint32> *outputData,
             int *outputWidth,
             int *outputHeight);
 
     static void prepareImage(ConversionMatrix *matrix, QImage *source, QImage *result);
+
+    static QString dataToString(ConversionMatrix *matrix, QVector<quint32> *data, int width, int height);
 private:
     static void makeMonochrome(QImage &image, int edge);
     // make r = g = b = qGray(pixel)
     static void makeGrayscale(QImage &image);
     static void packDataRow(
             ConversionMatrix *matrix,
-            QList<quint32> *inputData,
+            QVector<quint32> *inputData,
             int start,
             int count,
-            QList<quint32> *outputData);
+            QVector<quint32> *outputData,
+            int *rowLength);
     static quint32 toBigEndian(ConversionMatrix *matrix, quint32 value);
 };
 //-----------------------------------------------------------------------------

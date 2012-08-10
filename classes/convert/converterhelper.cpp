@@ -23,6 +23,8 @@
 #include <QImage>
 #include <QColor>
 #include <QPainter>
+#include <QRegExp>
+#include <QVector>
 #include "bitstream.h"
 #include "bitmaphelper.h"
 #include "conversionmatrix.h"
@@ -65,7 +67,7 @@ void ConverterHelper::packDataPreview(QStringList *list, QStringList &colors, in
     temp.clear();
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::pixelsData(ConversionMatrix *matrix, QImage *image, QList<quint32> *data, int *width, int *height)
+void ConverterHelper::pixelsData(ConversionMatrix *matrix, QImage *image, QVector<quint32> *data, int *width, int *height)
 {
     if (image != NULL && data != NULL && width != NULL && height != NULL)
     {
@@ -118,11 +120,11 @@ void ConverterHelper::pixelsData(ConversionMatrix *matrix, QImage *image, QList<
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::processPixels(ConversionMatrix *matrix, QList<quint32> *data)
+void ConverterHelper::processPixels(ConversionMatrix *matrix, QVector<quint32> *data)
 {
     if (matrix != NULL && data != NULL)
     {
-        for (int i = 0; i < data->length(); i++)
+        for (int i = 0; i < data->size(); i++)
         {
             quint32 value = data->at(i);
             quint32 valueNew = 0;
@@ -145,12 +147,13 @@ void ConverterHelper::processPixels(ConversionMatrix *matrix, QList<quint32> *da
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::packData(ConversionMatrix *matrix, QList<quint32> *inputData, int inputWidth, int inputHeight, QList<quint32> *outputData, int *outputWidth, int *outputHeight)
+void ConverterHelper::packData(ConversionMatrix *matrix, QVector<quint32> *inputData, int inputWidth, int inputHeight, QVector<quint32> *outputData, int *outputWidth, int *outputHeight)
 {
     *outputHeight = inputHeight;
     outputData->clear();
 
     int resultWidth = 0;
+    int rowLength = 0;
 
     // each row
     for (int y = 0; y < inputHeight; y++)
@@ -158,11 +161,9 @@ void ConverterHelper::packData(ConversionMatrix *matrix, QList<quint32> *inputDa
         // start of row in inputData
         int start = y * inputWidth;
         // get row data packed
-        QList<quint32> rowData;
-        ConverterHelper::packDataRow(matrix, inputData, start, inputWidth, &rowData);
-        outputData->append(rowData);
+        ConverterHelper::packDataRow(matrix, inputData, start, inputWidth, outputData, &rowLength);
         // get row blocks count
-        resultWidth = qMax(resultWidth, rowData.length());
+        resultWidth = qMax(resultWidth, rowLength);
     }
     *outputWidth = resultWidth;
 }
@@ -197,6 +198,80 @@ void ConverterHelper::prepareImage(ConversionMatrix *matrix, QImage *source, QIm
 
         *result = im;
     }
+}
+//-----------------------------------------------------------------------------
+QString ConverterHelper::dataToString(ConversionMatrix *matrix, QVector<quint32> *data, int width, int height)
+{
+    QString result;
+    DataBlockSize blockSize = matrix->options()->blockSize();
+    QChar temp[11];
+    const QChar table[] = {
+        QChar('0'), QChar('1'), QChar('2'), QChar('3'),
+        QChar('4'), QChar('5'), QChar('6'), QChar('7'),
+        QChar('8'), QChar('9'), QChar('a'), QChar('b'),
+        QChar('c'), QChar('d'), QChar('e'), QChar('f') };
+    const QChar comma = QChar(',');
+    const QChar space = QChar(' ');
+    const QChar end = QChar('\0');
+
+    for (int y = 0; y < height; y++)
+    {
+        if (y > 0)
+            result.append("\n");
+        for (int x = 0; x < width; x++)
+        {
+            quint32 value = data->at(y * width + x);
+            switch (blockSize)
+            {
+            case Data8:
+                temp[0] = table[(value >> 4) & 0x0000000f];
+                temp[1] = table[(value >> 0) & 0x0000000f];
+                temp[2] = comma;
+                temp[3] = space;
+                temp[4] = end;
+                break;
+            case Data16:
+                temp[0] = table[(value >> 12) & 0x0000000f];
+                temp[1] = table[(value >> 8) & 0x0000000f];
+                temp[2] = table[(value >> 4) & 0x0000000f];
+                temp[3] = table[(value >> 0) & 0x0000000f];
+                temp[4] = comma;
+                temp[5] = space;
+                temp[6] = end;
+                break;
+            case Data24:
+                temp[0] = table[(value >> 20) & 0x0000000f];
+                temp[1] = table[(value >> 16) & 0x0000000f];
+                temp[2] = table[(value >> 12) & 0x0000000f];
+                temp[3] = table[(value >> 8) & 0x0000000f];
+                temp[4] = table[(value >> 4) & 0x0000000f];
+                temp[5] = table[(value >> 0) & 0x0000000f];
+                temp[6] = comma;
+                temp[7] = space;
+                temp[8] = end;
+                break;
+            case Data32:
+                temp[0] = table[(value >> 28) & 0x0000000f];
+                temp[1] = table[(value >> 24) & 0x0000000f];
+                temp[2] = table[(value >> 20) & 0x0000000f];
+                temp[3] = table[(value >> 16) & 0x0000000f];
+                temp[4] = table[(value >> 12) & 0x0000000f];
+                temp[5] = table[(value >> 8) & 0x0000000f];
+                temp[6] = table[(value >> 4) & 0x0000000f];
+                temp[7] = table[(value >> 0) & 0x0000000f];
+                temp[8] = comma;
+                temp[9] = space;
+                temp[10] = end;
+                break;
+            }
+
+            result += QString(temp);
+        }
+    }
+
+    result.truncate(result.length() - 2);
+
+    return result;
 }
 //-----------------------------------------------------------------------------
 void ConverterHelper::makeMonochrome(QImage &image, int edge)
@@ -235,12 +310,11 @@ void ConverterHelper::makeGrayscale(QImage &image)
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::packDataRow(ConversionMatrix *matrix, QList<quint32> *inputData, int start, int count, QList<quint32> *outputData)
+void ConverterHelper::packDataRow(ConversionMatrix *matrix, QVector<quint32> *inputData, int start, int count, QVector<quint32> *outputData, int *rowLength)
 {
+    *rowLength = 0;
     if (matrix != NULL && inputData != NULL && outputData != NULL)
     {
-        outputData->clear();
-
         BitStream stream(matrix, inputData, start, count);
         while (!stream.eof())
         {
@@ -250,6 +324,7 @@ void ConverterHelper::packDataRow(ConversionMatrix *matrix, QList<quint32> *inpu
                 value = ConverterHelper::toBigEndian(matrix, value);
 
             outputData->append(value);
+            (*rowLength)++;
         }
     }
 }

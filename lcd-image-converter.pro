@@ -30,16 +30,8 @@ SOURCES += main.cpp \
     classes/bitmaphelper.cpp \
     controls/dialogresize.cpp \
     classes/fontcontainer.cpp \
-    controls/widgetconvoptionsmono.cpp \
     classes/bytelistitemdelegate.cpp \
-    controls/widgetconvoptionsgray.cpp \
-    controls/widgetconvoptionscolor.cpp \
-    controls/dialogconvert.cpp \
     classes/converter.cpp \
-    classes/convertermono.cpp \
-    classes/convertergrayscale.cpp \
-    classes/convertercolor.cpp \
-    classes/bitmapdata.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
     controls/dialogabout.cpp \
@@ -74,17 +66,8 @@ HEADERS += \
     interfaces/idatacontainer.h \
     controls/dialogresize.h \
     classes/fontcontainer.h \
-    controls/widgetconvoptionsmono.h \
     classes/bytelistitemdelegate.h \
-    controls/widgetconvoptionsgray.h \
-    controls/widgetconvoptionscolor.h \
-    controls/dialogconvert.h \
     classes/converter.h \
-    classes/convertermono.h \
-    classes/convertergrayscale.h \
-    classes/convertercolor.h \
-    interfaces/iconverter.h \
-    classes/bitmapdata.h \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
     controls/dialogabout.h \
