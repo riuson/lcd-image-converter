@@ -68,7 +68,6 @@ const QString StartTab::tabName() const
     return result;
 }
 //-----------------------------------------------------------------------------
-#include <QDebug>
 void StartTab::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);

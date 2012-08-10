@@ -22,14 +22,14 @@
 //-----------------------------------------------------------------------------
 #include <QtGlobal>
 //-----------------------------------------------------------------------------
-template <class T> class QList;
+template <class T> class QVector;
 //-----------------------------------------------------------------------------
 class ConversionMatrix;
 //-----------------------------------------------------------------------------
 class BitStream
 {
 public:
-    BitStream(ConversionMatrix *matrix, QList<quint32> *data, int start, int count);
+    BitStream(ConversionMatrix *matrix, QVector<quint32> *data, int start, int count);
 
     void init();
     bool eof();
@@ -37,7 +37,7 @@ public:
 
 private:
     ConversionMatrix *mMatrix;
-    QList<quint32> *mData;
+    QVector<quint32> *mData;
     int mStart;
     int mCount;
     int mBlockSize;
