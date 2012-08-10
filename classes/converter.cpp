@@ -41,8 +41,7 @@ Converter::Converter(QObject *parent) :
     this->mSelectedPresetName = sett.value("selected", QVariant("default")).toString();
     sett.endGroup();
 
-    if (!this->mMatrix->load(this->mSelectedPresetName))
-        this->mMatrix->initMono(MonochromeTypeDiffuseDither, 0x80);
+    this->mMatrix->load(this->mSelectedPresetName);
 }
 //-----------------------------------------------------------------------------
 Converter::~Converter()

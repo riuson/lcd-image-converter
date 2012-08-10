@@ -42,7 +42,7 @@ public:
     void operationReplace(int index, quint32 mask, int shift, bool left);
 
     void init(quint32 flags, quint32 maskUsed, quint32 maskAnd, quint32 maskOr);
-    void initMono(MonochromeType type, int edge);
+    void initMono(MonochromeType type, int edge = 0x80);
     void initGrayscale(int bits);
     void initColor(int redBits, int greenBits, int blueBits);
 
