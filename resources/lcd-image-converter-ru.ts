@@ -149,7 +149,7 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogconvert.ui" line="52"/>
-        <location filename="../controls/setup/dialogconvert.cpp" line="415"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="433"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
@@ -225,16 +225,19 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogconvert.cpp" line="52"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="198"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogconvert.cpp" line="53"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="201"/>
         <source>Grayscale</source>
         <translation>Градации серого</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogconvert.cpp" line="54"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="204"/>
         <source>Color</source>
         <translation>Цветное</translation>
     </message>
@@ -299,57 +302,57 @@ Qt: %3</translation>
         <translation>90\u00b0 против часовой</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="327"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="345"/>
         <source>Enter preset name</source>
         <translation>Введите название предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="327"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="345"/>
         <source>Preset name:</source>
         <translation>Название предустановки:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="380"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="398"/>
         <source>Source</source>
         <translation>Исходник</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="382"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="400"/>
         <source>Add &quot;Left Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг влево&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="383"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="401"/>
         <source>Add &quot;Right Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг вправо&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="403"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="421"/>
         <source>Operation</source>
         <translation>Операция</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="413"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="431"/>
         <source>Shift left</source>
         <translation>Сдвиг слево</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="414"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="432"/>
         <source>Shift right</source>
         <translation>Сдвиг вправо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="439"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="457"/>
         <source>Mask</source>
         <translation>Маска</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="441"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="459"/>
         <source>Set all 1</source>
         <translation>Установить всё в 1</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="442"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="460"/>
         <source>Set all 0</source>
         <translation>Сбросить всё в 0</translation>
     </message>
