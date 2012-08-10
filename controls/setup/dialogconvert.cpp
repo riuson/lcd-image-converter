@@ -76,7 +76,11 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     QSettings sett;
     sett.beginGroup("presets");
     QString selectedPreset = sett.value("selected", QVariant("")).toString();
+    int presetsCount = sett.childGroups().count();
     sett.endGroup();
+
+    if (presetsCount == 0)
+        this->createPresetsDefault();
 
     this->connect(this->mMatrix, SIGNAL(changed()), SLOT(updatePreview()));
 
@@ -184,6 +188,20 @@ void DialogConvert::presetRemove(const QString &name)
     sett.endGroup();
 
     this->fillPresetsList();
+}
+//-----------------------------------------------------------------------------
+void DialogConvert::createPresetsDefault()
+{
+    ConversionMatrix matrix(this);
+
+    matrix.initMono(MonochromeTypeDiffuseDither);
+    matrix.save(tr("Monochrome"));
+
+    matrix.initGrayscale(8);
+    matrix.save(tr("Grayscale"));
+
+    matrix.initColor(4, 5, 4);
+    matrix.save(tr("Color"));
 }
 //-----------------------------------------------------------------------------
 void DialogConvert::updatePreview()

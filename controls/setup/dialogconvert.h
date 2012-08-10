@@ -57,6 +57,7 @@ private:
     void presetLoad(const QString &name);
     void presetSaveAs(const QString &name);
     void presetRemove(const QString &name);
+    void createPresetsDefault();
 private slots:
     void updatePreview();
     void on_pushButtonPreview_clicked();
