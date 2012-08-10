@@ -466,6 +466,8 @@ void DialogConvert2::on_tableViewOperations_customContextMenuRequested(const QPo
                 this->mMenu->exec(this->ui->tableViewOperations->mapToGlobal(point));
             break;
         }
+        case MatrixPreviewModel::Result:
+            break;
         }
     }
 }
@@ -607,6 +609,10 @@ void DialogConvert2::maskReset()
             this->mMatrix->options()->setMaskOr(mask);
             break;
         }
+        case MatrixPreviewModel::Source:
+        case MatrixPreviewModel::Operation:
+        case MatrixPreviewModel::Result:
+            break;
         }
     }
     this->updatePreview();
