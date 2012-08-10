@@ -99,10 +99,6 @@ FORMS += \
     controls/editortabfont.ui \
     controls/dialogsavechanges.ui \
     controls/dialogresize.ui \
-    controls/widgetconvoptionsmono.ui \
-    controls/widgetconvoptionsgray.ui \
-    controls/widgetconvoptionscolor.ui \
-    controls/dialogconvert.ui \
     controls/dialogfontselect.ui \
     controls/dialogabout.ui \
     controls/starttab.ui \
