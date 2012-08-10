@@ -62,7 +62,11 @@ quint32 BitStream::next()
 //-----------------------------------------------------------------------------
 bool BitStream::nextBit()
 {
+    if (this->mStart + this->mCurrentPixel >= this->mData->size())
+        return false;
+
     bool result = false;
+
     quint32 data = this->mData->at(this->mStart + this->mCurrentPixel);
     for (int i = 0; i < 32; i++)
     {
@@ -81,7 +85,11 @@ bool BitStream::nextBit()
             {
                 this->mMaskCurrent = this->mMaskSource;
                 this->mCurrentPixel++;
-                data = this->mData->at(this->mStart + this->mCurrentPixel);
+
+                if (this->mStart + this->mCurrentPixel >= this->mData->size())
+                    data = 0;
+                else
+                    data = this->mData->at(this->mStart + this->mCurrentPixel);
             }
 
             break;
