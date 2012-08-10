@@ -204,12 +204,19 @@ QString ConverterHelper::dataToString(ConversionMatrix *matrix, QVector<quint32>
 {
     QString result;
     DataBlockSize blockSize = matrix->options()->blockSize();
-    char temp[11];
-    const char *table = "0123456789abcdef";
+    QChar temp[11];
+    const QChar table[] = {
+        QChar('0'), QChar('1'), QChar('2'), QChar('3'),
+        QChar('4'), QChar('5'), QChar('6'), QChar('7'),
+        QChar('8'), QChar('9'), QChar('a'), QChar('b'),
+        QChar('c'), QChar('d'), QChar('e'), QChar('f') };
+    const QChar comma = QChar(',');
+    const QChar space = QChar(' ');
+    const QChar end = QChar('\0');
 
     for (int y = 0; y < height; y++)
     {
-        if (result.endsWith(", "))
+        if (y > 0)
             result.append("\n");
         for (int x = 0; x < width; x++)
         {
@@ -219,18 +226,18 @@ QString ConverterHelper::dataToString(ConversionMatrix *matrix, QVector<quint32>
             case Data8:
                 temp[0] = table[(value >> 4) & 0x0000000f];
                 temp[1] = table[(value >> 0) & 0x0000000f];
-                temp[2] = ',';
-                temp[3] = ' ';
-                temp[4] = 0;
+                temp[2] = comma;
+                temp[3] = space;
+                temp[4] = end;
                 break;
             case Data16:
                 temp[0] = table[(value >> 12) & 0x0000000f];
                 temp[1] = table[(value >> 8) & 0x0000000f];
                 temp[2] = table[(value >> 4) & 0x0000000f];
                 temp[3] = table[(value >> 0) & 0x0000000f];
-                temp[4] = ',';
-                temp[5] = ' ';
-                temp[6] = 0;
+                temp[4] = comma;
+                temp[5] = space;
+                temp[6] = end;
                 break;
             case Data24:
                 temp[0] = table[(value >> 20) & 0x0000000f];
@@ -239,9 +246,9 @@ QString ConverterHelper::dataToString(ConversionMatrix *matrix, QVector<quint32>
                 temp[3] = table[(value >> 8) & 0x0000000f];
                 temp[4] = table[(value >> 4) & 0x0000000f];
                 temp[5] = table[(value >> 0) & 0x0000000f];
-                temp[6] = ',';
-                temp[7] = ' ';
-                temp[8] = 0;
+                temp[6] = comma;
+                temp[7] = space;
+                temp[8] = end;
                 break;
             case Data32:
                 temp[0] = table[(value >> 28) & 0x0000000f];
@@ -252,17 +259,17 @@ QString ConverterHelper::dataToString(ConversionMatrix *matrix, QVector<quint32>
                 temp[5] = table[(value >> 8) & 0x0000000f];
                 temp[6] = table[(value >> 4) & 0x0000000f];
                 temp[7] = table[(value >> 0) & 0x0000000f];
-                temp[8] = ',';
-                temp[9] = ' ';
-                temp[10] = 0;
+                temp[8] = comma;
+                temp[9] = space;
+                temp[10] = end;
                 break;
             }
 
             result += QString(temp);
         }
     }
-    if (result.endsWith(", "))
-        result = result.remove(QRegExp("\\,\\s$"));
+
+    result.truncate(result.length() - 2);
 
     return result;
 }
