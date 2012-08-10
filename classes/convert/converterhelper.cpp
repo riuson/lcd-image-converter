@@ -23,6 +23,8 @@
 #include <QImage>
 #include <QColor>
 #include <QPainter>
+#include <QRegExp>
+#include <QList>
 #include "bitstream.h"
 #include "bitmaphelper.h"
 #include "conversionmatrix.h"

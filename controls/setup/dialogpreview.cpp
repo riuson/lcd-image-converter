@@ -81,19 +81,7 @@ void DialogPreview::updatePreview()
             int width2, height2;
             ConverterHelper::packData(this->mMatrix, &data, width, height, &data2, &width2, &height2);
 
-            QString str;
-            int fieldWidth = ((int)this->mMatrix->options()->blockSize() + 1) << 1;
-            for (int y = 0; y < height2; y++)
-            {
-                if (str.endsWith(", "))
-                    str.append("\n");
-                for (int x = 0; x < width2; x++)
-                {
-                    str += QString("%1, ").arg(data2.at(y * width2 + x), fieldWidth, 16, QChar('0'));
-                }
-            }
-            if (str.endsWith(", "))
-                str = str.remove(QRegExp("\\,\\s$"));
+            QString str = ConverterHelper::dataToString(this->mMatrix, &data2, width2, height2);
 
             this->ui->plainTextEdit->setPlainText(str);
         }

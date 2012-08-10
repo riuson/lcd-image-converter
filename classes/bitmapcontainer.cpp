@@ -55,18 +55,6 @@ void BitmapContainer::setImage(const QString &key, QImage *image)
     emit this->imageChanged("default");
 }
 //-----------------------------------------------------------------------------
-void BitmapContainer::transform(const QString &key, int code)
-{
-    Q_UNUSED(key);
-    Transformation type = (Transformation)code;
-    QImage result = BitmapHelper::transform(type, this->mImage);
-    if (this->mImage != NULL)
-        delete this->mImage;
-    this->mImage = new QImage(result);
-
-    emit this->imageChanged("default");
-}
-//-----------------------------------------------------------------------------
 int BitmapContainer::count()
 {
     return 1;

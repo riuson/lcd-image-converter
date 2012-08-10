@@ -24,246 +24,38 @@
 #include <QTextStream>
 #include <QTextCodec>
 
-#include "widgetconvoptionscolor.h"
-#include "widgetconvoptionsgray.h"
-#include "widgetconvoptionsmono.h"
-
-#include "convertercolor.h"
-#include "convertergrayscale.h"
-#include "convertermono.h"
-
-#include "bitmapdata.h"
 #include "idocument.h"
 #include "idatacontainer.h"
 #include "bitmaphelper.h"
+#include "conversionmatrix.h"
+#include "conversionmatrixoptions.h"
+#include "converterhelper.h"
 #include <QDebug>
 //-----------------------------------------------------------------------------
 Converter::Converter(QObject *parent) :
         QObject(parent)
 {
-    ConverterMono *mono = new ConverterMono(this);
-    ConverterGrayscale *gray = new ConverterGrayscale(this);
-    ConverterColor *color = new ConverterColor(this);
+    this->mMatrix = new ConversionMatrix(this);
 
-    this->mConverters.insert(mono->name(), mono);
-    this->mConverters.insert(gray->name(), gray);
-    this->mConverters.insert(color->name(), color);
-    this->mSelectedConverterName = mono->name();
+    QSettings sett;
+    sett.beginGroup("presets");
+    this->mSelectedPresetName = sett.value("selected", QVariant("default")).toString();
+    sett.endGroup();
 
-    this->mPreprocessTransform = TransformNone;
-
-    this->loadSettings();
+    if (!this->mMatrix->load(this->mSelectedPresetName))
+        this->mMatrix->initMono(MonochromeTypeDiffuseDither, 0x80);
 }
 //-----------------------------------------------------------------------------
 Converter::~Converter()
 {
-    this->saveSettings();
-    qDeleteAll(this->mConverters);
     this->mConverters.clear();
-}
-//-----------------------------------------------------------------------------
-void Converter::loadSettings()
-{
-    QSettings sett;
-    sett.beginGroup("converters");
-
-    QString name = sett.value("selected", this->mSelectedConverterName).toString();
-    this->mSelectedConverterName = name;
-
-    bool ok;
-    this->mPreprocessTransform = sett.value("transform", QVariant(0)).toInt(&ok);
-    if (!ok)
-        this->mPreprocessTransform = 0;
-
-    sett.endGroup();
-
-    QListIterator<QString> it(this->mConverters.keys());
-    it.toFront();
-    while (it.hasNext())
-    {
-        QString key = it.next();
-        IConverter *conv = dynamic_cast<IConverter *>(this->mConverters.value(key));
-        conv->loadSettings();
-    }
-}
-//-----------------------------------------------------------------------------
-void Converter::saveSettings()
-{
-    QSettings sett;
-    sett.beginGroup("converters");
-
-    sett.setValue("selected", this->mSelectedConverterName);
-
-    sett.setValue("transform", this->mPreprocessTransform);
-
-    sett.endGroup();
-
-    QListIterator<QString> it(this->mConverters.keys());
-    it.toFront();
-    while (it.hasNext())
-    {
-        QString key = it.next();
-        IConverter *conv = dynamic_cast<IConverter *>(this->mConverters.value(key));
-        conv->saveSettings();
-    }
 }
 //-----------------------------------------------------------------------------
 QString Converter::name()
 {
     //IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
     //return options->name();
-    return this->mSelectedConverterName;
-}
-//-----------------------------------------------------------------------------
-QString Converter::displayName()
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    return options->displayName();
-}
-//-----------------------------------------------------------------------------
-QImage Converter::preprocessImage(const QImage &source)
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    QImage result = options->preprocessImage(source);
-
-    if ((this->mPreprocessTransform & 0x03) == TransformRotate90)
-        result = BitmapHelper::rotate90(&result);
-
-    if ((this->mPreprocessTransform & 0x03) == TransformRotate180)
-        result = BitmapHelper::rotate180(&result);
-
-    if ((this->mPreprocessTransform & 0x03) == TransformRotate270)
-        result = BitmapHelper::rotate270(&result);
-
-    if ((this->mPreprocessTransform & TransformFlipHorizontal) == TransformFlipHorizontal)
-        result = BitmapHelper::flipHorizontal(&result);
-
-    if ((this->mPreprocessTransform & TransformFlipVertical) == TransformFlipVertical)
-        result = BitmapHelper::flipVertical(&result);
-
-    if ((this->mPreprocessTransform & TransformInverse) == TransformInverse)
-        result.invertPixels();
-
-    return result;
-}
-//-----------------------------------------------------------------------------
-void Converter::processImage(const QImage &preprocessedImage, BitmapData *output)
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    options->processImage(preprocessedImage, output);
-}
-//-----------------------------------------------------------------------------
-QString Converter::dataToString(const BitmapData &data)
-{
-    QString result;
-    int bits = data.blockSize();
-    for (int line = 0, counter = 0; line < data.height(); line++)
-    {
-        if (result.endsWith(", "))
-            result.append("\n");
-        for (int column = 0; column < data.blocksPerLine(); column++)
-        {
-            quint32 value = data.data()->at(counter++);
-            result.append(QString("0x%1, ").arg(value, bits / 4, 16, QChar('0')));
-        }
-    }
-    if (result.endsWith(", "))
-        result = result.remove(QRegExp("\\,\\s$"));
-    return result;
-}
-//-----------------------------------------------------------------------------
-bool Converter::swapBytes()
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    return options->swapBytes();
-}
-//-----------------------------------------------------------------------------
-IConverter::DataLength Converter::length()
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    return options->length();
-}
-//-----------------------------------------------------------------------------
-bool Converter::mirror()
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    return options->mirror();
-}
-//-----------------------------------------------------------------------------
-bool Converter::pack()
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    return options->pack();
-}
-//-----------------------------------------------------------------------------
-IConverter::DataAlign Converter::align()
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    return options->align();
-}
-//-----------------------------------------------------------------------------
-void Converter::setSwapBytes(bool value)
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    options->setSwapBytes(value);
-}
-//-----------------------------------------------------------------------------
-void Converter::setLength(DataLength value)
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    options->setLength(value);
-}
-//-----------------------------------------------------------------------------
-void Converter::setMirror(bool value)
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    options->setMirror(value);
-}
-//-----------------------------------------------------------------------------
-void Converter::setPack(bool value)
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    options->setPack(value);
-}
-//-----------------------------------------------------------------------------
-void Converter::setAlign(DataAlign value)
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    options->setAlign(value);
-}
-//-----------------------------------------------------------------------------
-QStringList Converter::names() const
-{
-    QStringList result(this->mConverters.keys());
-    return result;
-}
-//-----------------------------------------------------------------------------
-QWidget *Converter::widgetSetup()
-{
-    QWidget *w = NULL;
-
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    if (options)
-    {
-        if (options->name() == "color")
-            w = new WidgetConvOptionsColor(options);
-        if (options->name() == "grayscale")
-            w = new WidgetConvOptionsGray(options);
-        if (options->name() == "mono")
-            w = new WidgetConvOptionsMono(options);
-    }
-    return w;
-}
-//-----------------------------------------------------------------------------
-IConverter *Converter::conv(const QString &name)
-{
-    IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(name));
-    return options;
-}
-//-----------------------------------------------------------------------------
-void Converter::selectConv(const QString &name)
-{
-    this->mSelectedConverterName = name;
+    return this->mSelectedPresetName;
 }
 //-----------------------------------------------------------------------------
 QString Converter::convert(IDocument *document,
@@ -318,16 +110,6 @@ QString Converter::convert(IDocument *document,
     this->parse(templateString, result, tags, document);
 
     return result;
-}
-//-----------------------------------------------------------------------------
-int Converter::transform()
-{
-    return this->mPreprocessTransform;
-}
-//-----------------------------------------------------------------------------
-void Converter::setTransform(int value)
-{
-    this->mPreprocessTransform = value;
 }
 //-----------------------------------------------------------------------------
 void Converter::parse(const QString &templateString,
@@ -452,10 +234,21 @@ void Converter::parseImagesTable(const QString &templateString,
         tags["width"] = QString("%1").arg(image.width());
         tags["height"] = QString("%1").arg(image.height());
 
-        image = this->preprocessImage(image);
-        BitmapData bmpData;
-        this->processImage(image, &bmpData);
-        QString dataString = this->dataToString(bmpData);
+
+        // conversion from image to strings
+        QList<quint32> imageData;
+        int width, height;
+        ConverterHelper::pixelsData(this->mMatrix, &image, &imageData, &width, &height);
+
+        ConverterHelper::processPixels(this->mMatrix, &imageData);
+
+        QList<quint32> imageDataPacked;
+        int width2, height2;
+        ConverterHelper::packData(this->mMatrix, &imageData, width, height, &imageDataPacked, &width2, &height2);
+
+        QString dataString = ConverterHelper::dataToString(this->mMatrix, &imageDataPacked, width2, height2);
+
+        // end of conversion
 
         bool useBom = false;
         if (tags.value("bom") == "YES")
@@ -463,7 +256,7 @@ void Converter::parseImagesTable(const QString &templateString,
 
         QString charCode = this->hexCode(key.at(0), tags.value("encoding"), useBom);
 
-        tags["blocksCount"] = QString("%1").arg(bmpData.blocksCount());
+        tags["blocksCount"] = QString("%1").arg(imageDataPacked.length());
         tags["imageData"] = dataString;
         tags["charCode"] = charCode;
         if (it.hasNext())
@@ -558,51 +351,41 @@ QString Converter::hexCode(const QChar &ch, const QString &encoding, bool bom)
 //-----------------------------------------------------------------------------
 void Converter::addOrderInfo(QMap<QString, QString> &tags)
 {
-    if (this->swapBytes())
-        tags.insert("swapBytes", "yes");
+    if (this->mMatrix->options()->bytesOrder() == BytesOrderLittleEndian)
+        tags.insert("bytesOrder", "little-endian");
     else
-        tags.insert("swapBytes", "no");
-
-    if (this->mirror())
-        tags.insert("mirror", "yes");
-    else
-        tags.insert("mirror", "no");
-
-    if (this->pack())
-        tags.insert("pack", "yes");
-    else
-        tags.insert("pack", "no");
+        tags.insert("bytesOrder", "big-endian");
 }
 //-----------------------------------------------------------------------------
 void Converter::addPreprocessInfo(QMap<QString, QString> &tags)
 {
-    switch (this->mPreprocessTransform & 0x03)
+    switch (this->mMatrix->options()->rotate())
     {
-        case TransformRotate90:
+        case Rotate90:
             tags.insert("rotate", "90 degrees");
             break;
-        case TransformRotate180:
+        case Rotate180:
             tags.insert("rotate", "180 degrees");
             break;
-        case TransformRotate270:
+        case Rotate270:
             tags.insert("rotate", "270 degrees");
             break;
-        case TransformNone:
+        case RotateNone:
             tags.insert("rotate", "none");
             break;
     }
 
-    if ((this->mPreprocessTransform & TransformFlipHorizontal) == TransformFlipHorizontal)
+    if (this->mMatrix->options()->flipHorizontal())
         tags.insert("flipHorizontal", "yes");
     else
         tags.insert("flipHorizontal", "no");
 
-    if ((this->mPreprocessTransform & TransformFlipVertical) == TransformFlipVertical)
+    if (this->mMatrix->options()->flipVertical())
         tags.insert("flipVertical", "yes");
     else
         tags.insert("flipVertical", "no");
 
-    if ((this->mPreprocessTransform & TransformInverse) == TransformInverse)
+    if (this->mMatrix->options()->inverse())
         tags.insert("inverse", "yes");
     else
         tags.insert("inverse", "no");

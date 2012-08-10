@@ -38,7 +38,6 @@ private:
 public:
     QImage *image(const QString &key);
     void setImage(const QString &key, QImage *image);
-    void transform(const QString &key, int code);
     int count();
     QStringList keys() const;
 signals:

@@ -20,7 +20,6 @@
 #include "actionsetuphandlers.h"
 
 #include "dialogsetup.h"
-#include "dialogconvert.h"
 #include "dialogconvert2.h"
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
