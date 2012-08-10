@@ -387,10 +387,10 @@ void DialogConvert::on_tableViewOperations_customContextMenuRequested(const QPoi
 
                 for (int i = 0; i < 32; i++)
                 {
-                    QAction *action = left->addAction(tr("<< %1").arg(i), this, SLOT(operationAdd()));
+                    QAction *action = left->addAction(QString("<< %1").arg(i), this, SLOT(operationAdd()));
                     action->setData(QVariant(-i));
 
-                    action = right->addAction(tr(">> %1").arg(i), this, SLOT(operationAdd()));
+                    action = right->addAction(QString(">> %1").arg(i), this, SLOT(operationAdd()));
                     action->setData(QVariant(i));
                 }
 
