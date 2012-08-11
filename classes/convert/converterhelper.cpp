@@ -29,44 +29,6 @@
 #include "bitmaphelper.h"
 #include "conversionmatrix.h"
 //-----------------------------------------------------------------------------
-void ConverterHelper::packDataPreview(QStringList *list, QStringList &colors, int bits, bool pack, bool alignToHigh)
-{
-    QStringList temp;
-    for (int i = 0, j = 0, k = 0; i < 80; i++)
-    {
-        QString a = colors.at(k++);
-        temp.append(a.replace(".", QString("%1.").arg(j)));
-        if (k == colors.length())// end of point (color bits)
-        {
-            j++;
-            k = 0;
-            if (!pack)
-            {
-                if ((i % bits) + colors.length() > bits - 1)
-                {
-                    while (i % bits != bits - 1)
-                    {
-                        if (alignToHigh)
-                            temp.append("0");
-                        else
-                            temp.prepend("0");
-                        i++;
-                    }
-                    list->append(temp);
-                    temp.clear();
-                }
-            }
-            else
-            {
-                list->append(temp);
-                temp.clear();
-            }
-        }
-    }
-    list->append(temp);
-    temp.clear();
-}
-//-----------------------------------------------------------------------------
 void ConverterHelper::pixelsData(ConversionMatrix *matrix, QImage *image, QVector<quint32> *data, int *width, int *height)
 {
     if (image != NULL && data != NULL && width != NULL && height != NULL)
@@ -199,6 +161,141 @@ void ConverterHelper::prepareImage(ConversionMatrix *matrix, QImage *source, QIm
             im = BitmapHelper::flipVertical(&im);
         if (matrix->options()->inverse())
             im.invertPixels();
+
+        *result = im;
+    }
+}
+//-----------------------------------------------------------------------------
+void ConverterHelper::createImagePreview(ConversionMatrix *matrix, QImage *source, QImage *result)
+{
+    if (source != NULL)
+    {
+        QImage im = *source;
+
+        // simple prepare options
+        switch (matrix->options()->rotate())
+        {
+        case Rotate90:
+            im = BitmapHelper::rotate90(source);
+            break;
+        case Rotate180:
+            im = BitmapHelper::rotate180(source);
+            break;
+        case Rotate270:
+            im = BitmapHelper::rotate270(source);
+            break;
+        case RotateNone:
+        default:
+            break;
+        }
+        if (matrix->options()->flipHorizontal())
+            im = BitmapHelper::flipHorizontal(&im);
+        if (matrix->options()->flipVertical())
+            im = BitmapHelper::flipVertical(&im);
+        if (matrix->options()->inverse())
+            im.invertPixels();
+
+        // convert to mono/gray/color
+        if (matrix->options()->convType() == ConversionTypeMonochrome)
+        {
+            switch (matrix->options()->monoType())
+            {
+            case MonochromeTypeEdge:
+                ConverterHelper::makeMonochrome(im, matrix->options()->edge());
+                break;
+            case MonochromeTypeDiffuseDither:
+                im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::DiffuseDither);
+                break;
+            case MonochromeTypeOrderedDither:
+                im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::OrderedDither);
+                break;
+            case MonochromeTypeThresholdDither:
+                im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::ThresholdDither);
+                break;
+            }
+        }
+        else if (matrix->options()->convType() == ConversionTypeGrayscale)
+        {
+            ConverterHelper::makeGrayscale(im);
+        }
+
+        // mask used source data bits
+        {
+            // create mask
+            quint32 mask = 0;
+            switch (matrix->options()->convType())
+            {
+            case ConversionTypeMonochrome:
+            {
+                quint32 opMask;
+                int opShift;
+                bool opLeft;
+                for (int i = 0; i < matrix->operationsCount(); i++)
+                {
+                    matrix->operation(i, &opMask, &opShift, &opLeft);
+                    if (opMask != 0)
+                    {
+                        mask = 0xffffffff;
+                        break;
+                    }
+                }
+                if (matrix->operationsCount() == 0)
+                    mask = 0xffffffff;
+                break;
+            }
+            case ConversionTypeGrayscale:
+            {
+                quint32 opMask;
+                int opShift;
+                bool opLeft;
+                for (int i = 0; i < matrix->operationsCount(); i++)
+                {
+                    matrix->operation(i, &opMask, &opShift, &opLeft);
+                    quint8 byte1 = (opMask >> 0) & 0xff;
+                    quint8 byte2 = (opMask >> 8) & 0xff;
+                    quint8 byte3 = (opMask >> 16) & 0xff;
+                    quint8 byte4 = (opMask >> 24) & 0xff;
+                    quint32 all = byte1 | byte2 | byte3 | byte4;
+                    mask |= all;
+                    mask |= all << 8;
+                    mask |= all << 16;
+                    mask |= all << 24;
+                }
+                if (matrix->operationsCount() == 0)
+                    mask = 0xffffffff;
+                break;
+            }
+            case ConversionTypeColor:
+            {
+                quint32 opMask;
+                int opShift;
+                bool opLeft;
+                for (int i = 0; i < matrix->operationsCount(); i++)
+                {
+                    matrix->operation(i, &opMask, &opShift, &opLeft);
+                    mask |= opMask;
+                }
+                if (matrix->operationsCount() == 0)
+                    mask = 0xffffffff;
+                break;
+            }
+            }
+
+            // apply mask
+            QPainter painter(&im);
+            painter.setRenderHint(QPainter::Antialiasing, false);
+            for (int x = 0; x < im.width(); x++)
+            {
+                for (int y = 0; y < im.height(); y++)
+                {
+                    QRgb value = im.pixel(x, y);
+                    value &= mask;
+                    QColor color = QColor(value);
+                    painter.setPen(color);
+                    painter.drawPoint(x, y);
+                }
+            }
+        }
 
         *result = im;
     }

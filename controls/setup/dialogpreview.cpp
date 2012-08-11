@@ -61,7 +61,7 @@ void DialogPreview::updatePreview()
             this->mImageOriginal = QImage(*this->mData->image(key));
             this->ui->labelOriginal->setPixmap(QPixmap::fromImage(this->mImageOriginal));
             QImage processed;
-            ConverterHelper::prepareImage(this->mMatrix, &this->mImageOriginal, &processed);
+            ConverterHelper::createImagePreview(this->mMatrix, &this->mImageOriginal, &processed);
             this->ui->labelPreview->setPixmap(QPixmap::fromImage(processed));
             this->mImageProcessed = processed;
 

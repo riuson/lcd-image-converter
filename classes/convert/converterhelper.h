@@ -28,14 +28,6 @@ class ConversionMatrix;
 class ConverterHelper
 {
 public:
-
-    static void packDataPreview(
-            QStringList *list,
-            QStringList &colors,
-            int bits,
-            bool pack,
-            bool alignToHigh);
-
     // gets RGB array of pixels
     // also convert images to monochrome or grayscale (r = g = b = qGray(pixel))
     static void pixelsData(
@@ -57,6 +49,7 @@ public:
             int *outputHeight);
 
     static void prepareImage(ConversionMatrix *matrix, QImage *source, QImage *result);
+    static void createImagePreview(ConversionMatrix *matrix, QImage *source, QImage *result);
 
     static QString dataToString(ConversionMatrix *matrix, QVector<quint32> *data, int width, int height, const QString &prefix);
 private:
