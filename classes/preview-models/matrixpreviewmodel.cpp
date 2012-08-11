@@ -425,11 +425,16 @@ void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVarian
                     if ((mask & (0x01 << sourceBitIndex)) != 0 && (sourceBitIndex >= 0) && (sourceBitIndex <= 31))
                     {
                         *name = this->data(this->createIndex(0, 31 - sourceBitIndex), Qt::DisplayRole);
-
                         this->sourceBitProperties(sourceBitIndex, name, color);
 
                         break;
                     }
+                }
+
+                if (this->mMatrix->operationsCount() == 0)
+                {
+                    *name = this->data(this->createIndex(0, 31 - bitIndex), Qt::DisplayRole);
+                    this->sourceBitProperties(bitIndex, name, color);
                 }
             }
             else

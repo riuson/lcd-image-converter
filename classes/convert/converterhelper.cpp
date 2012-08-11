@@ -140,6 +140,10 @@ void ConverterHelper::processPixels(ConversionMatrix *matrix, QVector<quint32> *
                 else
                     valueNew |= (value & mask) >> shift;
             }
+
+            if (matrix->operationsCount() == 0)
+                valueNew = value;
+
             valueNew &= matrix->options()->maskAnd();
             valueNew |= matrix->options()->maskOr();
             data->replace(i, valueNew);
