@@ -154,72 +154,62 @@ Qt: %3</translation>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="63"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="69"/>
         <source>Options</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="69"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="81"/>
         <source>Byte order:</source>
         <translation>Порядок байт:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="82"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="100"/>
         <source>Little-Endian</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="95"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="119"/>
         <source>Big-Endian</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="102"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="132"/>
         <source>Type:</source>
         <translation>Тип:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="115"/>
-        <source>Edge:</source>
-        <translation>Порог:</translation>
+        <location filename="../controls/setup/dialogconvert.ui" line="224"/>
+        <source>Horizontal Flip</source>
+        <translation>Отразить по горизонтали</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="122"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="237"/>
+        <source>Vertical Flip</source>
+        <translation>Отразить по вертикали</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogconvert.ui" line="178"/>
         <source>Block size:</source>
         <translation>Блок данных:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="129"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="201"/>
         <source>Rotate:</source>
         <translation>Поворот:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="136"/>
-        <source>Flip:</source>
-        <translation>Отражение:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="149"/>
-        <source>Horizontal</source>
-        <translation>По горизонтали</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="162"/>
-        <source>Vertical</source>
-        <translation>По вертикали</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="175"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="250"/>
         <source>Inverse</source>
         <translation>Инвертировать</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="208"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="263"/>
         <source>Show Preview</source>
         <translation>Открыть предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="218"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="292"/>
         <source>Matrix</source>
         <translation>Матрица</translation>
     </message>

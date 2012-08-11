@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>744</width>
-    <height>410</height>
+    <width>952</width>
+    <height>602</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -59,19 +59,37 @@
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QGroupBox" name="groupBox_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="title">
         <string>Options</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
          <widget class="QLabel" name="label_3">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
            <string>Byte order:</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
+        <item>
          <widget class="QRadioButton" name="radioButtonLittleEndian">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -83,8 +101,14 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
+        <item>
          <widget class="QRadioButton" name="radioButtonBigEndian">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -96,48 +120,99 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
+        <item>
          <widget class="QLabel" name="label_4">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
            <string>Type:</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="comboBoxConversionType"/>
-        </item>
-        <item row="1" column="2">
-         <widget class="QComboBox" name="comboBoxMonochromeType"/>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_10">
-          <property name="text">
-           <string>Edge:</string>
+        <item>
+         <widget class="QComboBox" name="comboBoxConversionType">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
+        <item>
+         <widget class="QComboBox" name="comboBoxMonochromeType">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QScrollBar" name="horizontalScrollBarEdge">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QLabel" name="label_6">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
            <string>Block size:</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
+        <item>
+         <widget class="QComboBox" name="comboBoxBlockSize">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QLabel" name="label_11">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
            <string>Rotate:</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>Flip:</string>
+        <item>
+         <widget class="QComboBox" name="comboBoxRotate">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
+        <item>
          <widget class="QCheckBox" name="checkBoxFlipHorizontal">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -146,11 +221,11 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Horizontal</string>
+           <string>Horizontal Flip</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="2">
+        <item>
          <widget class="QCheckBox" name="checkBoxFlipVertical">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -159,11 +234,11 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Vertical</string>
+           <string>Vertical Flip</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
+        <item>
          <widget class="QCheckBox" name="checkBoxInverse">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -176,7 +251,20 @@
           </property>
          </widget>
         </item>
-        <item row="8" column="1">
+        <item>
+         <widget class="QPushButton" name="pushButtonPreview">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Show Preview</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -189,31 +277,17 @@
           </property>
          </spacer>
         </item>
-        <item row="2" column="1" colspan="2">
-         <widget class="QScrollBar" name="horizontalScrollBarEdge">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1" colspan="2">
-         <widget class="QComboBox" name="comboBoxBlockSize"/>
-        </item>
-        <item row="4" column="1" colspan="2">
-         <widget class="QComboBox" name="comboBoxRotate"/>
-        </item>
-        <item row="7" column="0" colspan="3">
-         <widget class="QPushButton" name="pushButtonPreview">
-          <property name="text">
-           <string>Show Preview</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
      </item>
      <item>
       <widget class="QGroupBox" name="groupBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="title">
         <string>Matrix</string>
        </property>
