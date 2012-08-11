@@ -278,18 +278,18 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogconvert.cpp" line="67"/>
-        <source>90u00b0 Clockwise</source>
-        <translation>90\u00b0 по часовой</translation>
+        <source>90 Clockwise</source>
+        <translation>90 по часовой</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogconvert.cpp" line="68"/>
-        <source>180u00b0</source>
-        <translation>180\u00b0</translation>
+        <source>180</source>
+        <translation>180</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogconvert.cpp" line="69"/>
-        <source>90u00b0 Counter-Clockwise</source>
-        <translation>90\u00b0 против часовой</translation>
+        <source>90 Counter-Clockwise</source>
+        <translation>90 против часовой</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogconvert.cpp" line="345"/>

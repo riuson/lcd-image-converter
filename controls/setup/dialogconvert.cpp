@@ -64,9 +64,9 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->comboBoxBlockSize->addItem(tr("32 bit"), Data32);
 
     this->ui->comboBoxRotate->addItem(tr("None"), QVariant(RotateNone));
-    this->ui->comboBoxRotate->addItem(tr("90\u00b0 Clockwise"), QVariant(Rotate90));
-    this->ui->comboBoxRotate->addItem(tr("180\u00b0"), QVariant(Rotate180));
-    this->ui->comboBoxRotate->addItem(tr("90\u00b0 Counter-Clockwise"), QVariant(Rotate270));
+    this->ui->comboBoxRotate->addItem(tr("90 Clockwise"), QVariant(Rotate90));// \u00b0
+    this->ui->comboBoxRotate->addItem(tr("180"), QVariant(Rotate180));
+    this->ui->comboBoxRotate->addItem(tr("90 Counter-Clockwise"), QVariant(Rotate270));
 
     if (this->mMatrix->options()->bytesOrder() == BytesOrderLittleEndian)
         this->ui->radioButtonLittleEndian->setChecked(true);
