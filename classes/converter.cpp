@@ -238,7 +238,7 @@ void Converter::parseImagesTable(const QString &templateString,
         int width2, height2;
         ConverterHelper::packData(this->mMatrix, &imageData, width, height, &imageDataPacked, &width2, &height2);
 
-        QString dataString = ConverterHelper::dataToString(this->mMatrix, &imageDataPacked, width2, height2);
+        QString dataString = ConverterHelper::dataToString(this->mMatrix, &imageDataPacked, width2, height2, "0x");
 
         // end of conversion
 

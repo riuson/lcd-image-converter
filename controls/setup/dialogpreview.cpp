@@ -81,7 +81,7 @@ void DialogPreview::updatePreview()
             int width2, height2;
             ConverterHelper::packData(this->mMatrix, &data, width, height, &data2, &width2, &height2);
 
-            QString str = ConverterHelper::dataToString(this->mMatrix, &data2, width2, height2);
+            QString str = ConverterHelper::dataToString(this->mMatrix, &data2, width2, height2, "");
 
             this->ui->plainTextEdit->setPlainText(str);
         }

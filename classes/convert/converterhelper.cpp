@@ -200,7 +200,7 @@ void ConverterHelper::prepareImage(ConversionMatrix *matrix, QImage *source, QIm
     }
 }
 //-----------------------------------------------------------------------------
-QString ConverterHelper::dataToString(ConversionMatrix *matrix, QVector<quint32> *data, int width, int height)
+QString ConverterHelper::dataToString(ConversionMatrix *matrix, QVector<quint32> *data, int width, int height, const QString &prefix)
 {
     QString result;
     DataBlockSize blockSize = matrix->options()->blockSize();
@@ -265,7 +265,7 @@ QString ConverterHelper::dataToString(ConversionMatrix *matrix, QVector<quint32>
                 break;
             }
 
-            result += QString(temp);
+            result += prefix + QString(temp);
         }
     }
 

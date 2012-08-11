@@ -58,7 +58,7 @@ public:
 
     static void prepareImage(ConversionMatrix *matrix, QImage *source, QImage *result);
 
-    static QString dataToString(ConversionMatrix *matrix, QVector<quint32> *data, int width, int height);
+    static QString dataToString(ConversionMatrix *matrix, QVector<quint32> *data, int width, int height, const QString &prefix);
 private:
     static void makeMonochrome(QImage &image, int edge);
     // make r = g = b = qGray(pixel)
