@@ -50,9 +50,17 @@ quint32 BitStream::next()
 {
     quint32 result = 0;
     int i = this->mBlockSize - 1;
+    quint64 fill = this->mMatrix->options()->maskFill();
     while (i >= 0)
     {
         result = result << 1;
+
+        if ((fill & (0x00000001 << i)) == 0)
+        {
+            i--;
+            continue;
+        }
+
         if (!this->eof())
             result |= this->nextBit();
         i--;
