@@ -41,7 +41,7 @@ public:
     void operationsRemoveAll();
     void operationReplace(int index, quint32 mask, int shift, bool left);
 
-    void init(quint32 flags, quint32 maskUsed, quint32 maskAnd, quint32 maskOr);
+    void init(quint32 flags, quint32 maskUsed, quint32 maskAnd, quint32 maskOr, quint32 maskFill);
     void initMono(MonochromeType type, int edge = 0x80);
     void initGrayscale(int bits);
     void initColor(int redBits, int greenBits, int blueBits);
@@ -52,6 +52,7 @@ public:
 private:
     QVector<quint32> *mData;
     ConversionMatrixOptions *mOptions;
+    static const int ParamsItemsCount = 5;
 
 signals:
     void changed();

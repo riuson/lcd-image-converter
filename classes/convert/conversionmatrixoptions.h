@@ -73,6 +73,7 @@ public:
     quint32 maskUsed();
     quint32 maskAnd();
     quint32 maskOr();
+    quint32 maskFill();
     Rotate rotate();
     bool flipVertical();
     bool flipHorizontal();
@@ -86,6 +87,7 @@ public:
     void setMaskUsed(quint32 value);
     void setMaskAnd(quint32 value);
     void setMaskOr(quint32 value);
+    void setMaskFill(quint32 value);
     void setRotate(Rotate value);
     void setFlipVertical(bool value);
     void setFlipHorizontal(bool value);

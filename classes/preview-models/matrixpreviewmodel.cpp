@@ -33,7 +33,7 @@ int MatrixPreviewModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
-    int result = this->mMatrix->operationsCount() + 5;
+    int result = this->mMatrix->operationsCount() + 6;
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -74,6 +74,9 @@ QVariant MatrixPreviewModel::headerData(int section, Qt::Orientation orientation
                 break;
             case Result:
                 result = tr("Result");
+                break;
+            case MaskFill:
+                result = tr("Fill");
                 break;
             }
         }
@@ -213,6 +216,23 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
             }
             break;
         }
+        case MaskFill:
+        {
+            bool active = (this->mMatrix->options()->maskFill() & (0x00000001 << bitIndex)) != 0;
+            int bits = 8 * (this->mMatrix->options()->blockSize() + 1);
+
+            if (role == Qt::DisplayRole)
+            {
+                if (bitIndex < bits)
+                    result = QString("%1").arg(active ? 1 : 0);
+            }
+            else if (role == Qt::BackgroundColorRole)
+            {
+                if (!active || (bitIndex >= bits))
+                    result = QVariant(QColor(50, 50, 50, 200));
+            }
+            break;
+        }
         }
     }
 
@@ -227,7 +247,7 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
         RowType type = this->rowType(index.row());
 
         if (role == Qt::EditRole &&
-                (type == MaskUsed || type == MaskAnd || type == MaskOr))
+                (type == MaskUsed || type == MaskAnd || type == MaskOr || type == MaskFill))
         {
             bool ok;
             bool bit = value.toInt(&ok);
@@ -244,6 +264,9 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
                     break;
                 case MaskOr:
                     mask = this->mMatrix->options()->maskOr();
+                    break;
+                case MaskFill:
+                    mask = this->mMatrix->options()->maskFill();
                     break;
                 case Source:
                 case Operation:
@@ -267,6 +290,9 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
                     break;
                 case MaskOr:
                     this->mMatrix->options()->setMaskOr(mask);
+                    break;
+                case MaskFill:
+                    this->mMatrix->options()->setMaskFill(mask);
                     break;
                 case Source:
                 case Operation:
@@ -307,6 +333,7 @@ Qt::ItemFlags MatrixPreviewModel::flags(const QModelIndex &index) const
         case MaskUsed:
         case MaskAnd:
         case MaskOr:
+        case MaskFill:
             flags |= Qt::ItemIsEditable;
             break;
         default:
@@ -324,12 +351,14 @@ MatrixPreviewModel::RowType MatrixPreviewModel::rowType(int row) const
     if (row == 0)
         result = Source;
     else if (row == rows - 1)
-        result = Result;
+        result = MaskFill;
     else if (row == rows - 2)
-        result = MaskOr;
+        result = Result;
     else if (row == rows - 3)
-        result = MaskAnd;
+        result = MaskOr;
     else if (row == rows - 4)
+        result = MaskAnd;
+    else if (row == rows - 5)
         result = MaskUsed;
 
     return result;
