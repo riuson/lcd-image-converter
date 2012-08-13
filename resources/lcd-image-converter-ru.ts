@@ -179,37 +179,37 @@ Qt: %3</translation>
         <translation>Тип:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="224"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="227"/>
         <source>Horizontal Flip</source>
         <translation>Отразить по горизонтали</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="237"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="240"/>
         <source>Vertical Flip</source>
         <translation>Отразить по вертикали</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="178"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="181"/>
         <source>Block size:</source>
         <translation>Блок данных:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="201"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="204"/>
         <source>Rotate:</source>
         <translation>Поворот:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="250"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="253"/>
         <source>Inverse</source>
         <translation>Инвертировать</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="263"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="266"/>
         <source>Show Preview</source>
         <translation>Открыть предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="292"/>
+        <location filename="../controls/setup/dialogconvert.ui" line="295"/>
         <source>Matrix</source>
         <translation>Матрица</translation>
     </message>
@@ -332,17 +332,17 @@ Qt: %3</translation>
         <translation>Сдвиг вправо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="457"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="458"/>
         <source>Mask</source>
         <translation>Маска</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="459"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="460"/>
         <source>Set all 1</source>
         <translation>Установить всё в 1</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="460"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="461"/>
         <source>Set all 0</source>
         <translation>Сбросить всё в 0</translation>
     </message>
@@ -908,6 +908,11 @@ Qt: %3</translation>
         <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="76"/>
         <source>Result</source>
         <translation>Результат</translation>
+    </message>
+    <message>
+        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="79"/>
+        <source>Fill</source>
+        <translation>Заполнение</translation>
     </message>
 </context>
 <context>

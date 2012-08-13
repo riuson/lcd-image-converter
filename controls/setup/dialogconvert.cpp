@@ -453,6 +453,7 @@ void DialogConvert::on_tableViewOperations_customContextMenuRequested(const QPoi
         case MatrixPreviewModel::MaskUsed:
         case MatrixPreviewModel::MaskAnd:
         case MatrixPreviewModel::MaskOr:
+        case MatrixPreviewModel::MaskFill:
         {
                 this->mMenu = new QMenu(tr("Mask"), this);
 
@@ -604,6 +605,11 @@ void DialogConvert::maskReset()
         case MatrixPreviewModel::MaskOr:
         {
             this->mMatrix->options()->setMaskOr(mask);
+            break;
+        }
+        case MatrixPreviewModel::MaskFill:
+        {
+            this->mMatrix->options()->setMaskFill(mask);
             break;
         }
         case MatrixPreviewModel::Source:

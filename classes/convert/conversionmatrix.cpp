@@ -28,10 +28,8 @@ ConversionMatrix::ConversionMatrix(QObject *parent) :
     QObject(parent)
 {
     this->mData = new QVector<quint32>();
-    this->mData->append(0);
-    this->mData->append(0);
-    this->mData->append(0);
-    this->mData->append(0);
+    for (int i = 0; i < ParamsItemsCount; i++)
+        this->mData->append(0);
 
     this->mOptions = new ConversionMatrixOptions(this->mData, this);
     this->connect(this->mOptions, SIGNAL(changed()), SIGNAL(changed()));
@@ -53,7 +51,7 @@ ConversionMatrixOptions *ConversionMatrix::options() const
 //-----------------------------------------------------------------------------
 int ConversionMatrix::operationsCount() const
 {
-    return (this->mData->size() - 4) >> 1;
+    return (this->mData->size() - ParamsItemsCount) >> 1;
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrix::operation(int index, quint32 *mask, int *shift, bool *left) const
@@ -64,7 +62,7 @@ void ConversionMatrix::operation(int index, quint32 *mask, int *shift, bool *lef
 
     if (index < this->operationsCount())
     {
-        index = (index << 1) + 4;
+        index = (index << 1) + ParamsItemsCount;
 
         *mask = this->mData->at(index);
         *shift = (this->mData->at(index + 1) & 0x0000001f);
@@ -87,7 +85,7 @@ void ConversionMatrix::operationRemove(int index)
 {
     if (index < this->operationsCount())
     {
-        index = (index << 1) + 4;
+        index = (index << 1) + ParamsItemsCount;
         this->mData->remove(index + 1);
         this->mData->remove(index);
     }
@@ -107,7 +105,7 @@ void ConversionMatrix::operationReplace(int index, quint32 mask, int shift, bool
 {
     if (index < this->operationsCount())
     {
-        index = (index << 1) + 4;
+        index = (index << 1) + ParamsItemsCount;
 
         this->mData->replace(index, mask);
 
@@ -120,12 +118,13 @@ void ConversionMatrix::operationReplace(int index, quint32 mask, int shift, bool
     emit this->changed();
 }
 //-----------------------------------------------------------------------------
-void ConversionMatrix::init(quint32 flags, quint32 maskUsed, quint32 maskAnd, quint32 maskOr)
+void ConversionMatrix::init(quint32 flags, quint32 maskUsed, quint32 maskAnd, quint32 maskOr, quint32 maskFill)
 {
     this->mData->replace(0, flags);
     this->mData->replace(1, maskUsed);
     this->mData->replace(2, maskAnd);
     this->mData->replace(3, maskOr);
+    this->mData->replace(4, maskFill);
 
     emit this->changed();
 }
@@ -141,6 +140,7 @@ void ConversionMatrix::initMono(MonochromeType type, int edge)
     this->mOptions->setMaskUsed(0x00000001);
     this->mOptions->setMaskAnd(0xffffffff);
     this->mOptions->setMaskOr(0x00000000);
+    this->mOptions->setMaskFill(0x000000ff);
 
     // bits shift
     {
@@ -174,6 +174,7 @@ void ConversionMatrix::initGrayscale(int bits)
 
     this->mOptions->setMaskAnd(0xffffffff);
     this->mOptions->setMaskOr(0x00000000);
+    this->mOptions->setMaskFill(0x0000ffff);
 
     // bits shift
     {
@@ -217,6 +218,7 @@ void ConversionMatrix::initColor(int redBits, int greenBits, int blueBits)
 
     this->mOptions->setMaskAnd(0xffffffff);
     this->mOptions->setMaskOr(0x00000000);
+    this->mOptions->setMaskFill(0xffffffff);
 
     // red bits shift
     {
@@ -272,10 +274,11 @@ bool ConversionMatrix::load(const QString &name)
         QString strMaskUsed = sett.value("maskUsed", QString("ffffffff")).toString();
         QString strMaskAnd = sett.value("maskAnd", QString("ffffffff")).toString();
         QString strMaskOr = sett.value("maskOr", QString("00000000")).toString();
+        QString strMaskFill = sett.value("maskFill", QString("ffffffff")).toString();
 
 
         bool ok;
-        quint32 flags, maskUsed, maskAnd, maskOr;
+        quint32 flags, maskUsed, maskAnd, maskOr, maskFill;
         flags = strFlags.toUInt(&ok, 16);
         if (ok)
         {
@@ -288,32 +291,41 @@ bool ConversionMatrix::load(const QString &name)
                 {
                     maskOr = strMaskOr.toUInt(&ok, 16);
 
-                    this->mData->clear();
-                    this->mData->append(flags);
-                    this->mData->append(maskUsed);
-                    this->mData->append(maskAnd);
-                    this->mData->append(maskOr);
-
-                    int operations = sett.beginReadArray("matrix");
-
-                    for (int i = 0; i < operations; i++)
+                    if (ok)
                     {
-                        sett.setArrayIndex(i);
+                        maskFill = strMaskFill.toUInt(&ok, 16);
 
-                        QString strMask = sett.value("mask", QString("00000000")).toString();
-                        QString strShift = sett.value("shift", QString("00000000")).toString();
-                        quint32 mask, shift;
                         if (ok)
                         {
-                            mask = strMask.toUInt(&ok, 16);
+                            this->mData->clear();
+                            this->mData->append(flags);
+                            this->mData->append(maskUsed);
+                            this->mData->append(maskAnd);
+                            this->mData->append(maskOr);
+                            this->mData->append(maskFill);
 
-                            if (ok)
+                            int operations = sett.beginReadArray("matrix");
+
+                            for (int i = 0; i < operations; i++)
                             {
-                                shift = strShift.toUInt(&ok, 16);
+                                sett.setArrayIndex(i);
+
+                                QString strMask = sett.value("mask", QString("00000000")).toString();
+                                QString strShift = sett.value("shift", QString("00000000")).toString();
+                                quint32 mask, shift;
                                 if (ok)
                                 {
-                                    this->mData->append(mask);
-                                    this->mData->append(shift);
+                                    mask = strMask.toUInt(&ok, 16);
+
+                                    if (ok)
+                                    {
+                                        shift = strShift.toUInt(&ok, 16);
+                                        if (ok)
+                                        {
+                                            this->mData->append(mask);
+                                            this->mData->append(shift);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -347,6 +359,7 @@ bool ConversionMatrix::save(const QString &name) const
     sett.setValue("maskUsed", QString("%1").arg(this->mData->at(1), 8, 16, QChar('0')));
     sett.setValue("maskAnd", QString("%1").arg(this->mData->at(2), 8, 16, QChar('0')));
     sett.setValue("maskOr", QString("%1").arg(this->mData->at(3), 8, 16, QChar('0')));
+    sett.setValue("maskFill", QString("%1").arg(this->mData->at(4), 8, 16, QChar('0')));
 
     sett.beginWriteArray("matrix");
 

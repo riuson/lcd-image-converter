@@ -36,7 +36,8 @@ public:
         MaskUsed,
         MaskAnd,
         MaskOr,
-        Result
+        Result,
+        MaskFill
     };
 
     explicit MatrixPreviewModel(ConversionMatrix *matrix, QObject *parent = 0);

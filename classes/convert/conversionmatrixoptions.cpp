@@ -31,6 +31,7 @@ ConversionMatrixOptions::ConversionMatrixOptions(QVector<quint32> *matrixData, Q
         matrixData->append(0);
         matrixData->append(0xffffffff);
         matrixData->append(0);
+        matrixData->append(0xffffffff);
     }
 }
 //-----------------------------------------------------------------------------
@@ -82,6 +83,11 @@ quint32 ConversionMatrixOptions::maskAnd()
 quint32 ConversionMatrixOptions::maskOr()
 {
     return this->mMatrixData->at(3);
+}
+//-----------------------------------------------------------------------------
+quint32 ConversionMatrixOptions::maskFill()
+{
+    return this->mMatrixData->at(4);
 }
 //-----------------------------------------------------------------------------
 Rotate ConversionMatrixOptions::rotate()
@@ -181,6 +187,33 @@ void ConversionMatrixOptions::setMaskAnd(quint32 value)
 void ConversionMatrixOptions::setMaskOr(quint32 value)
 {
     this->mMatrixData->replace(3, value);
+
+    emit this->changed();
+}
+//-----------------------------------------------------------------------------
+void ConversionMatrixOptions::setMaskFill(quint32 value)
+{
+    switch (this->blockSize())
+    {
+    case Data8:
+        if ((value & 0x000000ff) == 0)
+            value = 0x000000ff;
+        break;
+    case Data16:
+        if ((value & 0x0000ffff) == 0)
+            value = 0x0000ffff;
+        break;
+    case Data24:
+        if ((value & 0x00ffffff) == 0)
+            value = 0x00ffffff;
+        break;
+    case Data32:
+        if (value == 0)
+            value = 0xffffffff;
+        break;
+    }
+
+    this->mMatrixData->replace(4, value);
 
     emit this->changed();
 }
