@@ -366,8 +366,8 @@ bool ConversionMatrix::save(const QString &name) const
     for (int i = 0; i < this->operationsCount(); i++)
     {
         sett.setArrayIndex(i);
-        sett.setValue("mask", QString("%1").arg(this->mData->at(4 + (i << 1)), 8, 16, QChar('0')));
-        sett.setValue("shift", QString("%1").arg(this->mData->at(4 + (i << 1) + 1), 8, 16, QChar('0')));
+        sett.setValue("mask", QString("%1").arg(this->mData->at(ParamsItemsCount + (i << 1)), 8, 16, QChar('0')));
+        sett.setValue("shift", QString("%1").arg(this->mData->at(ParamsItemsCount + (i << 1) + 1), 8, 16, QChar('0')));
     }
     sett.endArray();
 
