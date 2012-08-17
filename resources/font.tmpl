@@ -39,7 +39,7 @@
 static const uint@dataBlockSize@_t image_data_@documentName_ws@_0x@charCode@[@blocksCount@] = {
     @imageData@
 };
-static const tImage @documentName_ws@_0x@charCode@ = { &image_data_@documentName_ws@_0x@charCode@[0], @width@, @height@};
+static const tImage @documentName_ws@_0x@charCode@ = { image_data_@documentName_ws@_0x@charCode@ @width@, @height@};
 @end_block_images_table@
 
 static const tChar @documentName_ws@_array[] = {
@@ -50,5 +50,5 @@ static const tChar @documentName_ws@_array[] = {
 };
 
 @start_block_font_def@
-const tFont @documentName_ws@ = { @imagesCount@, &@documentName_ws@_array[0] };
+const tFont @documentName_ws@ = { @imagesCount@, @documentName_ws@_array };
 @end_block_font_def@
