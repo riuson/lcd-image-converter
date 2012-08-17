@@ -455,17 +455,20 @@ void DialogConvert::on_tableViewOperations_customContextMenuRequested(const QPoi
         case MatrixPreviewModel::MaskOr:
         case MatrixPreviewModel::MaskFill:
         {
-                this->mMenu = new QMenu(tr("Mask"), this);
+            this->mMenu = new QMenu(tr("Mask"), this);
 
-                QAction *actionSet = this->mMenu->addAction(tr("Set all 1"), this, SLOT(maskReset()));
+            quint32 data = (quint32)type;
+
+            QAction *actionSet = this->mMenu->addAction(tr("Set all 1"), this, SLOT(maskReset()));
+            actionSet->setData(QVariant(data | 0x80000000));
+
+            if (type != MatrixPreviewModel::MaskFill)
+            {
                 QAction *actionReset = this->mMenu->addAction(tr("Set all 0"), this, SLOT(maskReset()));
-
-                quint32 data = (quint32)type;
-
-                actionSet->setData(QVariant(data | 0x80000000));
                 actionReset->setData(QVariant(data));
+            }
 
-                this->mMenu->exec(this->ui->tableViewOperations->mapToGlobal(point));
+            this->mMenu->exec(this->ui->tableViewOperations->mapToGlobal(point));
             break;
         }
         case MatrixPreviewModel::Result:
