@@ -485,7 +485,7 @@ void DialogConvert::on_tableViewOperations_customContextMenuRequested(const QPoi
             this->mMenu->exec(this->ui->tableViewOperations->mapToGlobal(point));
             break;
         }
-        case MatrixPreviewModel::Result:
+        default:
             break;
         }
     }

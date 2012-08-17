@@ -40,7 +40,7 @@ void MatrixItemDelegate::paint(QPainter *painter,
             painter->setPen(pen);
             painter->drawLine(rect.left(), rect.bottom() - 1, rect.right(), rect.bottom() - 1);
         }
-        if (row == rows - 1)
+        if (row == rows - 2)
         {
             QPen pen(QBrush(this->mColor), 3);
             painter->setPen(pen);
