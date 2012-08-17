@@ -49,6 +49,7 @@ private:
 
     ConversionMatrix *mMatrix;
     MatrixPreviewModel *mMatrixModel;
+    bool mMatrixChanged;
 
     DialogPreview *mPreview;
     QMenu *mMenu;
@@ -80,6 +81,10 @@ private slots:
     void operationShift();
     void operationRemove();
     void maskReset();
+    void matrixChanged();
+
+protected:
+    void done(int result);
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCONVERT2_H

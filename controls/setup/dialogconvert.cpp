@@ -25,6 +25,7 @@
 #include <QStringList>
 #include <QInputDialog>
 #include <QMenu>
+#include <QMessageBox>
 #include "idatacontainer.h"
 #include "converterhelper.h"
 #include "dialogpreview.h"
@@ -89,18 +90,12 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     int presetIndex = this->ui->comboBoxPresets->findText(selectedPreset);
     if (presetIndex >= 0)
         this->ui->comboBoxPresets->setCurrentIndex(presetIndex);
+
+    this->mMatrixChanged = false;
 }
 //-----------------------------------------------------------------------------
 DialogConvert::~DialogConvert()
 {
-    if (this->result() == QDialog::Accepted)
-    {
-        QSettings sett;
-        sett.beginGroup("presets");
-        sett.setValue("selected", this->ui->comboBoxPresets->currentText());
-        sett.endGroup();
-    }
-
     if (this->mMenu != NULL)
         delete this->mMenu;
 
@@ -215,6 +210,8 @@ void DialogConvert::updatePreview()
 
         if (this->mPreview != NULL)
             this->mPreview->updatePreview();
+
+        this->mMatrixChanged = true;
     }
 }
 //-----------------------------------------------------------------------------
@@ -617,6 +614,67 @@ void DialogConvert::maskReset()
         case MatrixPreviewModel::Result:
             break;
         }
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogConvert::matrixChanged()
+{
+    this->mMatrixChanged = true;
+}
+//-----------------------------------------------------------------------------
+void DialogConvert::done(int result)
+{
+    if (result == QDialog::Accepted)
+    {
+        if (this->mMatrixChanged)
+        {
+            QMessageBox msgBox;
+            msgBox.setText(tr("Save changes?"));
+            msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No | QMessageBox::Cancel);
+            msgBox.setDefaultButton(QMessageBox::Cancel);
+            int result = msgBox.exec();
+
+            switch (result)
+            {
+            case QMessageBox::Yes:
+            {
+                QString name = this->ui->comboBoxPresets->currentText();
+
+                this->mMatrix->save(name);
+
+                QSettings sett;
+                sett.beginGroup("presets");
+                sett.setValue("selected", name);
+                sett.endGroup();
+
+                QDialog::done(result);
+                break;
+            }
+            case QMessageBox::No:
+            {
+                QDialog::done(result);
+                break;
+            }
+            case QMessageBox::Cancel:
+            {
+                break;
+            }
+            default:
+            {
+                QDialog::done(result);
+                break;
+            }
+            }
+        }
+        else
+        {
+            QDialog::done(result);
+        }
+    }
+    else
+    {
+        QDialog::done(result);
+        return;
     }
 }
 //-----------------------------------------------------------------------------
