@@ -387,7 +387,10 @@ void DialogConvert::on_tableViewOperations_customContextMenuRequested(const QPoi
     QItemSelectionModel *selection = this->ui->tableViewOperations->selectionModel();
 
     if (this->mMenu != NULL)
+    {
         delete this->mMenu;
+        this->mMenu = NULL;
+    }
 
     if (index.isValid())
     {
