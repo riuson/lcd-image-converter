@@ -629,9 +629,7 @@ void DialogConvert::maskReset()
             this->mMatrix->options()->setMaskFill(mask);
             break;
         }
-        case MatrixPreviewModel::Source:
-        case MatrixPreviewModel::Operation:
-        case MatrixPreviewModel::Result:
+        default:
             break;
         }
     }

@@ -271,9 +271,7 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
                 case MaskFill:
                     mask = this->mMatrix->options()->maskFill();
                     break;
-                case Source:
-                case Operation:
-                case Result:
+                default:
                     break;
                 }
 
@@ -297,9 +295,7 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
                 case MaskFill:
                     this->mMatrix->options()->setMaskFill(mask);
                     break;
-                case Source:
-                case Operation:
-                case Result:
+                default:
                     break;
                 }
 
