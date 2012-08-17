@@ -504,7 +504,6 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, Q
     *color = QVariant();
 
     bool active = (this->mMatrix->options()->maskFill() & (0x00000001 << bitIndex)) != 0;
-    int bits = 8 * (this->mMatrix->options()->blockSize() + 1);
 
     if (!active)
     {
@@ -549,7 +548,6 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, Q
         }
 
         this->resultToSourceBit(usedBitIndex, name, color);
-        //*name = QVariant(QString("%1").arg(usedBitIndex));
     }
 }
 //-----------------------------------------------------------------------------
