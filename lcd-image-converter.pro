@@ -30,7 +30,6 @@ SOURCES += main.cpp \
     classes/bitmaphelper.cpp \
     controls/dialogresize.cpp \
     classes/fontcontainer.cpp \
-    classes/bytelistitemdelegate.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
     controls/dialogabout.cpp \
@@ -53,7 +52,8 @@ SOURCES += main.cpp \
     classes/convert/conversionmatrix.cpp \
     controls/setup/dialogconvert.cpp \
     controls/setup/dialogsetup.cpp \
-    classes/parser.cpp
+    classes/parser.cpp \
+    classes/preview-models/matrixitemdelegate.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -66,7 +66,6 @@ HEADERS += \
     interfaces/idatacontainer.h \
     controls/dialogresize.h \
     classes/fontcontainer.h \
-    classes/bytelistitemdelegate.h \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
     controls/dialogabout.h \
@@ -91,7 +90,8 @@ HEADERS += \
     classes/convert/conversionmatrix.h \
     controls/setup/dialogconvert.h \
     controls/setup/dialogsetup.h \
-    classes/parser.h
+    classes/parser.h \
+    classes/preview-models/matrixitemdelegate.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \

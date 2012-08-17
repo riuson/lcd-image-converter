@@ -33,6 +33,7 @@
 #include "conversionmatrixoptions.h"
 #include "conversionmatrix.h"
 #include "bitmaphelper.h"
+#include "matrixitemdelegate.h"
 //-----------------------------------------------------------------------------
 DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
@@ -52,6 +53,9 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
 
     this->ui->tableViewOperations->verticalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
     this->connect(this->ui->tableViewOperations->verticalHeader(), SIGNAL(customContextMenuRequested(QPoint)), SLOT(on_tableViewOperations_customContextMenuRequested(QPoint)));
+
+    this->mMatrixItemDelegate = new MatrixItemDelegate(this);
+    this->ui->tableViewOperations->setItemDelegate(this->mMatrixItemDelegate);
 
     this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
     this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
@@ -106,6 +110,7 @@ DialogConvert::~DialogConvert()
         delete this->mPreview;
 
     delete ui;
+    delete this->mMatrixItemDelegate;
     delete this->mMatrixModel;
     delete this->mMatrix;
 }

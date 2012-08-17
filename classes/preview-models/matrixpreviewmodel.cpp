@@ -33,7 +33,8 @@ int MatrixPreviewModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
-    int result = this->mMatrix->operationsCount() + 6;
+    int result = this->mMatrix->operationsCount();
+    result += 6; // source, and, or, fill, result, used
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -78,6 +79,8 @@ QVariant MatrixPreviewModel::headerData(int section, Qt::Orientation orientation
             case MaskFill:
                 result = tr("Fill");
                 break;
+            default:
+                result = QString("");
             }
         }
     }
@@ -351,9 +354,9 @@ MatrixPreviewModel::RowType MatrixPreviewModel::rowType(int row) const
     if (row == 0)
         result = Source;
     else if (row == rows - 1)
-        result = MaskFill;
-    else if (row == rows - 2)
         result = Result;
+    else if (row == rows - 2)
+        result = MaskFill;
     else if (row == rows - 3)
         result = MaskOr;
     else if (row == rows - 4)

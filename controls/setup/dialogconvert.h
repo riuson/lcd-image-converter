@@ -33,6 +33,7 @@ class Parser;
 class MatrixPreviewModel;
 class QTableView;
 class DialogPreview;
+class MatrixItemDelegate;
 //-----------------------------------------------------------------------------
 class DialogConvert : public QDialog
 {
@@ -49,6 +50,7 @@ private:
 
     ConversionMatrix *mMatrix;
     MatrixPreviewModel *mMatrixModel;
+    MatrixItemDelegate *mMatrixItemDelegate;
     bool mMatrixChanged;
 
     DialogPreview *mPreview;
