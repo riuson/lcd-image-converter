@@ -27,7 +27,7 @@
 #include <QTextStream>
 #include <QInputDialog>
 #include <QLineEdit>
-#include "converter.h"
+#include "parser.h"
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
 #include "idatacontainer.h"
@@ -215,8 +215,8 @@ void ActionFileHandlers::convert_triggered()
 
             templateFileName = templateFontFileName;
         }
-        Converter conv(this);
-        QString result = conv.convert(doc, templateFileName, tags);
+        Parser parser(this);
+        QString result = parser.convert(doc, templateFileName, tags);
 
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptSave);

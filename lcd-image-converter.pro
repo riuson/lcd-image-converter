@@ -31,7 +31,6 @@ SOURCES += main.cpp \
     controls/dialogresize.cpp \
     classes/fontcontainer.cpp \
     classes/bytelistitemdelegate.cpp \
-    classes/converter.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
     controls/dialogabout.cpp \
@@ -46,14 +45,15 @@ SOURCES += main.cpp \
     controls/dialogfontpreview.cpp \
     controls/revisionlabel.cpp \
     classes/revisioninfo.cpp \
-    controls/dialogsetup.cpp \
     classes/convert/converterhelper.cpp \
     classes/convert/conversionmatrixoptions.cpp \
     classes/convert/bitstream.cpp \
     controls/setup/dialogpreview.cpp \
     classes/preview-models/matrixpreviewmodel.cpp \
     classes/convert/conversionmatrix.cpp \
-    controls/setup/dialogconvert.cpp
+    controls/setup/dialogconvert.cpp \
+    controls/setup/dialogsetup.cpp \
+    classes/parser.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -67,7 +67,6 @@ HEADERS += \
     controls/dialogresize.h \
     classes/fontcontainer.h \
     classes/bytelistitemdelegate.h \
-    classes/converter.h \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
     controls/dialogabout.h \
@@ -83,7 +82,6 @@ HEADERS += \
     controls/dialogfontpreview.h \
     controls/revisionlabel.h \
     classes/revisioninfo.h \
-    controls/dialogsetup.h \
     classes/convert/converterhelper.h \
     classes/convert/conversionmatrixoptions.h \
     classes/convert/bitstream.h \
@@ -91,7 +89,9 @@ HEADERS += \
     classes/preview-models/matrixpreviewmodel.h \
     classes/convert/conversion_options.h \
     classes/convert/conversionmatrix.h \
-    controls/setup/dialogconvert.h
+    controls/setup/dialogconvert.h \
+    controls/setup/dialogsetup.h \
+    classes/parser.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -103,9 +103,9 @@ FORMS += \
     controls/dialogabout.ui \
     controls/starttab.ui \
     controls/dialogfontpreview.ui \
-    controls/dialogsetup.ui \
     controls/setup/dialogpreview.ui \
-    controls/setup/dialogconvert.ui
+    controls/setup/dialogconvert.ui \
+    controls/setup/dialogsetup.ui
 INCLUDEPATH += . \
     ./classes \
     ./classes/convert \

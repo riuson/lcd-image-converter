@@ -29,7 +29,7 @@ namespace Ui {
 class DialogConvert;
 }
 class IDataContainer;
-class Converter;
+class Parser;
 class MatrixPreviewModel;
 class QTableView;
 class DialogPreview;

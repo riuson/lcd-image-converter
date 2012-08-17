@@ -25,7 +25,7 @@
 namespace Ui {
 class DialogPreview;
 }
-class Converter;
+class Parser;
 class ConversionMatrix;
 class IDataContainer;
 //-----------------------------------------------------------------------------

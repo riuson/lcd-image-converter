@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "converter.h"
+#include "parser.h"
 //-----------------------------------------------------------------------------
 #include <QSettings>
 #include <QFile>
@@ -31,7 +31,7 @@
 #include "conversionmatrixoptions.h"
 #include "converterhelper.h"
 //-----------------------------------------------------------------------------
-Converter::Converter(QObject *parent) :
+Parser::Parser(QObject *parent) :
         QObject(parent)
 {
     this->mMatrix = new ConversionMatrix(this);
@@ -44,19 +44,19 @@ Converter::Converter(QObject *parent) :
     this->mMatrix->load(this->mSelectedPresetName);
 }
 //-----------------------------------------------------------------------------
-Converter::~Converter()
+Parser::~Parser()
 {
     this->mConverters.clear();
 }
 //-----------------------------------------------------------------------------
-QString Converter::name()
+QString Parser::name()
 {
     //IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
     //return options->name();
     return this->mSelectedPresetName;
 }
 //-----------------------------------------------------------------------------
-QString Converter::convert(IDocument *document,
+QString Parser::convert(IDocument *document,
                            const QString &templateFile,
                            QMap<QString, QString> &tags)
 {
@@ -110,7 +110,7 @@ QString Converter::convert(IDocument *document,
     return result;
 }
 //-----------------------------------------------------------------------------
-void Converter::parse(const QString &templateString,
+void Parser::parse(const QString &templateString,
                       QString &resultString,
                       QMap<QString, QString> &tags,
                       IDocument *doc)
@@ -169,7 +169,7 @@ void Converter::parse(const QString &templateString,
     }
 }
 //-----------------------------------------------------------------------------
-void Converter::parseBlocks(const QString &templateString,
+void Parser::parseBlocks(const QString &templateString,
                             QString &resultString,
                             QMap<QString, QString> &tags,
                             IDocument *doc)
@@ -207,7 +207,7 @@ void Converter::parseBlocks(const QString &templateString,
     }
 }
 //-----------------------------------------------------------------------------
-void Converter::parseImagesTable(const QString &templateString,
+void Parser::parseImagesTable(const QString &templateString,
                                  QString &resultString,
                                  QMap<QString, QString> &tags,
                                  IDocument *doc)
@@ -270,7 +270,7 @@ void Converter::parseImagesTable(const QString &templateString,
     }
 }
 //-----------------------------------------------------------------------------
-void Converter::parseSimple(const QString &templateString,
+void Parser::parseSimple(const QString &templateString,
                             QString &resultString,
                             QMap<QString, QString> &tags,
                             IDocument *doc)
@@ -290,7 +290,7 @@ void Converter::parseSimple(const QString &templateString,
     }
 }
 //-----------------------------------------------------------------------------
-QString Converter::hexCode(const QChar &ch, const QString &encoding, bool bom)
+QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom)
 {
     QString result;
     QTextCodec *codec = QTextCodec::codecForName(encoding.toAscii());
@@ -341,7 +341,7 @@ QString Converter::hexCode(const QChar &ch, const QString &encoding, bool bom)
     return result;
 }
 //-----------------------------------------------------------------------------
-void Converter::addOrderInfo(QMap<QString, QString> &tags)
+void Parser::addOrderInfo(QMap<QString, QString> &tags)
 {
     if (this->mMatrix->options()->bytesOrder() == BytesOrderLittleEndian)
         tags.insert("bytesOrder", "little-endian");
@@ -349,7 +349,7 @@ void Converter::addOrderInfo(QMap<QString, QString> &tags)
         tags.insert("bytesOrder", "big-endian");
 }
 //-----------------------------------------------------------------------------
-void Converter::addPreprocessInfo(QMap<QString, QString> &tags)
+void Parser::addPreprocessInfo(QMap<QString, QString> &tags)
 {
     switch (this->mMatrix->options()->rotate())
     {

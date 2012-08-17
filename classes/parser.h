@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef CONVERTER_H
-#define CONVERTER_H
+#ifndef PARSER_H
+#define PARSER_H
 //-----------------------------------------------------------------------------
 #include <QObject>
 #include <QMap>
@@ -27,12 +27,12 @@ class IDocument;
 class IDataContainer;
 class ConversionMatrix;
 //-----------------------------------------------------------------------------
-class Converter : public QObject
+class Parser : public QObject
 {
     Q_OBJECT
 public:
-    Converter(QObject *parent);
-    ~Converter();
+    Parser(QObject *parent);
+    ~Parser();
 
     QString name();
 
@@ -51,4 +51,4 @@ private:
     void addPreprocessInfo(QMap<QString, QString> &tags);
 };
 //-----------------------------------------------------------------------------
-#endif // CONVERTER_H
+#endif // PARSER_H
