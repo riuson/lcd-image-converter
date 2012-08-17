@@ -149,7 +149,7 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogconvert.ui" line="52"/>
-        <location filename="../controls/setup/dialogconvert.cpp" line="433"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="439"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
@@ -204,137 +204,160 @@ Qt: %3</translation>
         <translation>Матрица</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="52"/>
-        <location filename="../controls/setup/dialogconvert.cpp" line="198"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="56"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="196"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="53"/>
-        <location filename="../controls/setup/dialogconvert.cpp" line="201"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="57"/>
         <source>Grayscale</source>
         <translation>Градации серого</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="54"/>
-        <location filename="../controls/setup/dialogconvert.cpp" line="204"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="58"/>
         <source>Color</source>
         <translation>Цветное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="56"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="60"/>
         <source>Edge</source>
         <translation>Порог</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="57"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="61"/>
         <source>Diffuse Dither</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="58"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="62"/>
         <source>Ordered Dither</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="59"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="63"/>
         <source>Threshold Dither</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="61"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="65"/>
         <source>8 bit</source>
         <translation>8 бит</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="62"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="66"/>
         <source>16 bit</source>
         <translation>16 бит</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="63"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="67"/>
         <source>24 bit</source>
         <translation>24 бита</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="64"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="68"/>
         <source>32 bit</source>
         <translation>32 бита</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="66"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="70"/>
         <source>None</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="67"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="71"/>
         <source>90 Clockwise</source>
         <translation>90 по часовой</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="68"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="72"/>
         <source>180</source>
         <translation>180</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="69"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="73"/>
         <source>90 Counter-Clockwise</source>
         <translation>90 против часовой</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="345"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="199"/>
+        <source>Grayscale 8</source>
+        <translation>Градации серого 8</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogconvert.cpp" line="202"/>
+        <source>Color R4G5B4</source>
+        <translation>Цветное R4G5B4</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogconvert.cpp" line="205"/>
+        <source>Color R5G6B5</source>
+        <translation>Цветное R5G6B5</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogconvert.cpp" line="208"/>
+        <source>Color R8G8B8</source>
+        <translation>Цветное R8G8B8</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogconvert.cpp" line="351"/>
         <source>Enter preset name</source>
         <translation>Введите название предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="345"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="351"/>
         <source>Preset name:</source>
         <translation>Название предустановки:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="398"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="404"/>
         <source>Source</source>
         <translation>Исходник</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="400"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="406"/>
         <source>Add &quot;Left Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг влево&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="401"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="407"/>
         <source>Add &quot;Right Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг вправо&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="421"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="427"/>
         <source>Operation</source>
         <translation>Операция</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="431"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="437"/>
         <source>Shift left</source>
         <translation>Сдвиг слево</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="432"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="438"/>
         <source>Shift right</source>
         <translation>Сдвиг вправо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="458"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="464"/>
         <source>Mask</source>
         <translation>Маска</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="460"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="468"/>
         <source>Set all 1</source>
         <translation>Установить всё в 1</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="461"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="473"/>
         <source>Set all 0</source>
         <translation>Сбросить всё в 0</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogconvert.cpp" line="644"/>
+        <source>Save changes?</source>
+        <translation>Сохранить изменения?</translation>
     </message>
 </context>
 <context>
