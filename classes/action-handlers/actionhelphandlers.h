@@ -36,6 +36,7 @@ signals:
     
 public slots:
     void about_triggered();
+    void wiki_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONHELPHANDLERS_H

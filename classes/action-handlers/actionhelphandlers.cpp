@@ -19,6 +19,9 @@
 
 #include "actionhelphandlers.h"
 
+#include <QDesktopServices>
+#include <QUrl>
+
 #include "dialogabout.h"
 #include "imainwindow.h"
 //-----------------------------------------------------------------------------
@@ -31,5 +34,10 @@ void ActionHelpHandlers::about_triggered()
 {
     DialogAbout dialog(this->mMainWindow->parentWidget());
     dialog.exec();
+}
+//-----------------------------------------------------------------------------
+void ActionHelpHandlers::wiki_triggered()
+{
+     QDesktopServices::openUrl(QUrl("http://code.google.com/p/lcd-image-converter/w/list", QUrl::TolerantMode));
 }
 //-----------------------------------------------------------------------------

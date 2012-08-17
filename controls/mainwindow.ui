@@ -93,6 +93,7 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionWiki"/>
     <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
@@ -279,6 +280,11 @@
   <action name="actionFontPreview">
    <property name="text">
     <string>Preview...</string>
+   </property>
+  </action>
+  <action name="actionWiki">
+   <property name="text">
+    <string notr="true">Wiki...</string>
    </property>
   </action>
  </widget>
