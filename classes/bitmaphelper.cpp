@@ -22,35 +22,6 @@
 //-----------------------------------------------------------------------------
 #include <QPainter>
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::transform(BitmapHelperTransformCodes type, QImage *source)
-{
-    QImage result(*source);
-    switch (type)
-    {
-    case Rotate90:
-        result = rotate90(source);
-        break;
-    case Rotate180:
-        result = rotate180(source);
-        break;
-    case Rotate270:
-        result = rotate270(source);
-        break;
-    case FlipHorizontal:
-        result = flipHorizontal(source);
-        break;
-    case FlipVertical:
-        result = flipVertical(source);
-        break;
-    case Inverse:
-        result.invertPixels();
-        break;
-    default:
-        break;
-    }
-    return result;
-}
-//-----------------------------------------------------------------------------
 QImage BitmapHelper::rotate90(QImage *source)
 {
     QImage result = QImage(source->height(), source->width(), source->format());

@@ -51,22 +51,6 @@ void FontContainer::setImage(const QString &key, QImage *image)
     }
 }
 //-----------------------------------------------------------------------------
-void FontContainer::transform(const QString &key, int code)
-{
-    QImage *imageOld = this->mImageMap.value(key);
-
-    BitmapHelper::BitmapHelperTransformCodes type = (BitmapHelper::BitmapHelperTransformCodes)code;
-    QImage result = BitmapHelper::transform(type, imageOld);
-
-    this->mImageMap.remove(key);
-    delete imageOld;
-
-    QImage *imageNew = new QImage(result);
-    this->mImageMap.insert(key, imageNew);
-
-    emit this->imageChanged(0);
-}
-//-----------------------------------------------------------------------------
 int FontContainer::count()
 {
     return this->mImageMap.count();

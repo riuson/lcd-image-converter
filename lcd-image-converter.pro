@@ -30,16 +30,8 @@ SOURCES += main.cpp \
     classes/bitmaphelper.cpp \
     controls/dialogresize.cpp \
     classes/fontcontainer.cpp \
-    controls/widgetconvoptionsmono.cpp \
     classes/bytelistitemdelegate.cpp \
-    controls/widgetconvoptionsgray.cpp \
-    controls/widgetconvoptionscolor.cpp \
-    controls/dialogconvert.cpp \
     classes/converter.cpp \
-    classes/convertermono.cpp \
-    classes/convertergrayscale.cpp \
-    classes/convertercolor.cpp \
-    classes/bitmapdata.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
     controls/dialogabout.cpp \
@@ -54,7 +46,14 @@ SOURCES += main.cpp \
     controls/dialogfontpreview.cpp \
     controls/revisionlabel.cpp \
     classes/revisioninfo.cpp \
-    controls/dialogsetup.cpp
+    controls/dialogsetup.cpp \
+    classes/convert/converterhelper.cpp \
+    classes/convert/conversionmatrixoptions.cpp \
+    classes/convert/bitstream.cpp \
+    controls/setup/dialogpreview.cpp \
+    classes/preview-models/matrixpreviewmodel.cpp \
+    classes/convert/conversionmatrix.cpp \
+    controls/setup/dialogconvert.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -67,17 +66,8 @@ HEADERS += \
     interfaces/idatacontainer.h \
     controls/dialogresize.h \
     classes/fontcontainer.h \
-    controls/widgetconvoptionsmono.h \
     classes/bytelistitemdelegate.h \
-    controls/widgetconvoptionsgray.h \
-    controls/widgetconvoptionscolor.h \
-    controls/dialogconvert.h \
     classes/converter.h \
-    classes/convertermono.h \
-    classes/convertergrayscale.h \
-    classes/convertercolor.h \
-    interfaces/iconverter.h \
-    classes/bitmapdata.h \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
     controls/dialogabout.h \
@@ -93,7 +83,15 @@ HEADERS += \
     controls/dialogfontpreview.h \
     controls/revisionlabel.h \
     classes/revisioninfo.h \
-    controls/dialogsetup.h
+    controls/dialogsetup.h \
+    classes/convert/converterhelper.h \
+    classes/convert/conversionmatrixoptions.h \
+    classes/convert/bitstream.h \
+    controls/setup/dialogpreview.h \
+    classes/preview-models/matrixpreviewmodel.h \
+    classes/convert/conversion_options.h \
+    classes/convert/conversionmatrix.h \
+    controls/setup/dialogconvert.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -101,19 +99,20 @@ FORMS += \
     controls/editortabfont.ui \
     controls/dialogsavechanges.ui \
     controls/dialogresize.ui \
-    controls/widgetconvoptionsmono.ui \
-    controls/widgetconvoptionsgray.ui \
-    controls/widgetconvoptionscolor.ui \
-    controls/dialogconvert.ui \
     controls/dialogfontselect.ui \
     controls/dialogabout.ui \
     controls/starttab.ui \
     controls/dialogfontpreview.ui \
-    controls/dialogsetup.ui
+    controls/dialogsetup.ui \
+    controls/setup/dialogpreview.ui \
+    controls/setup/dialogconvert.ui
 INCLUDEPATH += . \
     ./classes \
+    ./classes/convert \
     ./classes/action-handlers \
+    ./classes/preview-models \
     ./controls \
+    ./controls/setup \
     ./interfaces
 
 RESOURCES += \

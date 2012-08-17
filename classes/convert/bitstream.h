@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applciations.
- * Copyright (C) 2010 riuson
+ * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,47 +17,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef CONVERTERGRAYSCALE_H
-#define CONVERTERGRAYSCALE_H
+#ifndef BITSTREAM_H
+#define BITSTREAM_H
 //-----------------------------------------------------------------------------
-#include <QObject>
-
-#include "iconverter.h"
+#include <QtGlobal>
 //-----------------------------------------------------------------------------
-class ConverterGrayscale : public QObject, public IConverter
+template <class T> class QVector;
+//-----------------------------------------------------------------------------
+class ConversionMatrix;
+//-----------------------------------------------------------------------------
+class BitStream
 {
-    Q_OBJECT
-    Q_INTERFACES(IConverter)
 public:
-    explicit ConverterGrayscale(QObject *parent = 0);
-    ~ConverterGrayscale();
+    BitStream(ConversionMatrix *matrix, QVector<quint32> *data, int start, int count);
 
-    void loadSettings();
-    void saveSettings();
-    QString name();
-    QString displayName();
-    QImage preprocessImage(const QImage &source);
-    void processImage(const QImage &preprocessedImage, BitmapData *output);
+    void init();
+    bool eof();
+    quint32 next();
 
-    bool swapBytes();
-    DataLength length();
-    bool mirror();
-    bool pack();
-    int depth();
-
-    void setSwapBytes(bool value);
-    void setLength(DataLength value);
-    void setMirror(bool value);
-    void setPack(bool value);
-    void setDepth(int value);
 private:
-    bool mSwapBytes;
-    DataLength mDataLength;
-    bool mMirrorBytes;
-    bool mPack;
-    int mBitsPerPoint;
+    ConversionMatrix *mMatrix;
+    QVector<quint32> *mData;
+    int mStart;
+    int mCount;
+    int mBlockSize;
 
-    void makeGrayscale(QImage &image);
+    int mCurrentPixel;
+    int mMaskSource;
+    int mMaskCurrent;
+    int mBitsReaded;
+
+    bool nextBit();
+    // remaining bit count from one pixel
+    int remain();
 };
 //-----------------------------------------------------------------------------
-#endif // CONVERTERGRAYSCALE_H
+#endif // BITSTREAM_H

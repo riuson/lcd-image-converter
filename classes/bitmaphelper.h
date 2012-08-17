@@ -22,6 +22,10 @@
 //-----------------------------------------------------------------------------
 #include <QImage>
 //-----------------------------------------------------------------------------
+#include <conversion_options.h>
+//-----------------------------------------------------------------------------
+using namespace ConversionOptions;
+//-----------------------------------------------------------------------------
 typedef struct
 {
     int width;
@@ -34,17 +38,6 @@ typedef struct
 class BitmapHelper
 {
 public:
-    enum BitmapHelperTransformCodes
-    {
-        None = 0,
-        Rotate90 = 1,
-        Rotate180 = 2,
-        Rotate270 = 3,
-        FlipHorizontal = 4,
-        FlipVertical = 8,
-        Inverse = 16
-    };
-    static QImage transform(BitmapHelperTransformCodes type, QImage *source);
     static QImage rotate90(QImage *source);
     static QImage rotate180(QImage *source);
     static QImage rotate270(QImage *source);

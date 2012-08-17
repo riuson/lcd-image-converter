@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applciations.
- * Copyright (C) 2010 riuson
+ * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,46 +17,69 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef DIALOGCONVERT_H
-#define DIALOGCONVERT_H
+#ifndef DIALOGCONVERT2_H
+#define DIALOGCONVERT2_H
 //-----------------------------------------------------------------------------
 #include <QDialog>
 //-----------------------------------------------------------------------------
+class QMenu;
+class ConversionMatrix;
+//-----------------------------------------------------------------------------
 namespace Ui {
-    class DialogConvert;
+class DialogConvert;
 }
-class Converter;
 class IDataContainer;
+class Converter;
+class MatrixPreviewModel;
+class QTableView;
+class DialogPreview;
 //-----------------------------------------------------------------------------
 class DialogConvert : public QDialog
 {
     Q_OBJECT
-
+    
 public:
     explicit DialogConvert(IDataContainer *dataContainer, QWidget *parent = 0);
     ~DialogConvert();
-
+    
 private:
     Ui::DialogConvert *ui;
-    QWidget *mWidgetSetup;
-    Converter *mConverter;
+
     IDataContainer *mData;
-    QImage mImageOriginal;
-    QImage mImageProcessed;
+
+    ConversionMatrix *mMatrix;
+    MatrixPreviewModel *mMatrixModel;
+
+    DialogPreview *mPreview;
+    QMenu *mMenu;
+
+    void fillPresetsList();
+    void presetLoad(const QString &name);
+    void presetSaveAs(const QString &name);
+    void presetRemove(const QString &name);
+    void createPresetsDefault();
 private slots:
-    void on_comboBoxType_currentIndexChanged();
-    void on_comboBoxSampleKey_currentIndexChanged();
-    void on_comboBoxDataLength_currentIndexChanged();
+    void updatePreview();
+    void on_pushButtonPreview_clicked();
+    void on_radioButtonLittleEndian_toggled(bool value);
+    void on_comboBoxConversionType_currentIndexChanged(int index);
+    void on_comboBoxMonochromeType_currentIndexChanged(int index);
+    void on_comboBoxBlockSize_currentIndexChanged(int index);
     void on_comboBoxRotate_currentIndexChanged(int index);
     void on_checkBoxFlipHorizontal_toggled(bool value);
     void on_checkBoxFlipVertical_toggled(bool value);
     void on_checkBoxInverse_toggled(bool value);
-    void updatePreview();
-signals:
-    void dataLengthChanged(int length);
-    void dataPackChanged(bool pack);
-    void swapBytesChanged(bool swap);
-    void mirrorBytesChanged(bool mirror);
+    void on_pushButtonPresetSaveAs_clicked();
+    void on_pushButtonPresetRemove_clicked();
+    void on_comboBoxPresets_currentIndexChanged(int index);
+    void on_horizontalScrollBarEdge_valueChanged(int value);
+    void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
+    void previewClosed();
+
+    void operationAdd();
+    void operationShift();
+    void operationRemove();
+    void maskReset();
 };
 //-----------------------------------------------------------------------------
-#endif // DIALOGCONVERT_H
+#endif // DIALOGCONVERT2_H
