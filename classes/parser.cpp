@@ -101,6 +101,20 @@ QString Parser::convert(IDocument *document,
         tags["bom"] = "NO";
     }
 
+    QRegExp regImageData("([\\t\\ ]+)@imageData@");
+    regImageData.setMinimal(true);
+    if (regImageData.indexIn(templateString) >= 0)
+    {
+        QString strImageDataIndent = regImageData.cap(1);
+        if (strImageDataIndent.isEmpty())
+            strImageDataIndent = "    ";
+        tags["imageDataIndent"] = strImageDataIndent;
+    }
+    else
+    {
+        tags["imageDataIndent"] = "    ";
+    }
+
     this->addMatrixInfo(tags);
 
     this->parse(templateString, result, tags, document);
@@ -237,6 +251,7 @@ void Parser::parseImagesTable(const QString &templateString,
         ConverterHelper::packData(this->mMatrix, &imageData, width, height, &imageDataPacked, &width2, &height2);
 
         QString dataString = ConverterHelper::dataToString(this->mMatrix, &imageDataPacked, width2, height2, "0x");
+        dataString.replace("\n", "\n" + tags["imageDataIndent"]);
 
         // end of conversion
 
