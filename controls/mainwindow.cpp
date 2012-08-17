@@ -357,7 +357,7 @@ void MainWindow::updateRecentList()
         {
             QString filename = this->mRecentList->files()->at(i);
             QString strippedName = QFileInfo(filename).fileName();
-            QString text = tr("%1 %2").arg(i + 1).arg(strippedName);
+            QString text = QString("%1 %2").arg(i + 1).arg(strippedName);
 
             action = new QAction(text, this);
             action->setData(filename);

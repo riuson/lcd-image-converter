@@ -132,7 +132,7 @@
     <string>Open...</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+O</string>
+    <string notr="true">Ctrl+O</string>
    </property>
   </action>
   <action name="actionSave">
@@ -140,12 +140,15 @@
     <string>Save</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+S</string>
+    <string notr="true">Ctrl+S</string>
    </property>
   </action>
   <action name="actionSave_As">
    <property name="text">
     <string>Save As...</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
    </property>
   </action>
   <action name="actionClose">
@@ -153,7 +156,7 @@
     <string>Close</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+W</string>
+    <string notr="true">Ctrl+W</string>
    </property>
   </action>
   <action name="actionQuit">
@@ -161,7 +164,7 @@
     <string>Quit</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Q</string>
+    <string notr="true">Ctrl+Q</string>
    </property>
   </action>
   <action name="actionImageFlip_Horizontal">
@@ -179,7 +182,7 @@
     <string>Rotate 90 Clockwise</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Right</string>
+    <string notr="true">Ctrl+Right</string>
    </property>
   </action>
   <action name="actionImageRotate_180">
@@ -192,7 +195,7 @@
     <string>Rotate 90 Counter-Clockwise</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Left</string>
+    <string notr="true">Ctrl+Left</string>
    </property>
   </action>
   <action name="actionImageInverse">
@@ -200,7 +203,7 @@
     <string>Inverse</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+I</string>
+    <string notr="true">Ctrl+I</string>
    </property>
   </action>
   <action name="actionConvert">
@@ -208,7 +211,7 @@
     <string>Convert...</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+P</string>
+    <string notr="true">Ctrl+P</string>
    </property>
   </action>
   <action name="actionSetupConversion">
@@ -251,7 +254,7 @@
     <string>About</string>
    </property>
    <property name="shortcut">
-    <string>F1</string>
+    <string notr="true">F1</string>
    </property>
   </action>
   <action name="actionSetup">
@@ -284,7 +287,7 @@
   </action>
   <action name="actionWiki">
    <property name="text">
-    <string notr="true">Wiki...</string>
+    <string>Wiki...</string>
    </property>
   </action>
  </widget>

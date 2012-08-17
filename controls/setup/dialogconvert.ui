@@ -97,7 +97,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Little-Endian</string>
+           <string notr="true">Little-Endian</string>
           </property>
          </widget>
         </item>
@@ -116,7 +116,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Big-Endian</string>
+           <string notr="true">Big-Endian</string>
           </property>
          </widget>
         </item>
