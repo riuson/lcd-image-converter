@@ -36,8 +36,9 @@ public:
         MaskUsed,
         MaskAnd,
         MaskOr,
+        MaskFill,
         Result,
-        MaskFill
+        ResultPacked
     };
 
     explicit MatrixPreviewModel(ConversionMatrix *matrix, QObject *parent = 0);
@@ -69,6 +70,7 @@ private:
 
     void getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const;
     void resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
+    void resultPackedToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
     void sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const;
 
 signals:

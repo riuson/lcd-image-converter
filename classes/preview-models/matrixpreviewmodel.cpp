@@ -33,7 +33,8 @@ int MatrixPreviewModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
-    int result = this->mMatrix->operationsCount() + 6;
+    int result = this->mMatrix->operationsCount();
+    result += 7; // source, and, or, fill, used, result, result packed
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -75,9 +76,14 @@ QVariant MatrixPreviewModel::headerData(int section, Qt::Orientation orientation
             case Result:
                 result = tr("Result");
                 break;
+            case ResultPacked:
+                result = tr("Packed");
+                break;
             case MaskFill:
                 result = tr("Fill");
                 break;
+            default:
+                result = QString("");
             }
         }
     }
@@ -200,6 +206,23 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
             }
             break;
         }
+        case MaskFill:
+        {
+            bool active = (this->mMatrix->options()->maskFill() & (0x00000001 << bitIndex)) != 0;
+            int bits = 8 * (this->mMatrix->options()->blockSize() + 1);
+
+            if (role == Qt::DisplayRole)
+            {
+                if (bitIndex < bits)
+                    result = QString("%1").arg(active ? 1 : 0);
+            }
+            else if (role == Qt::BackgroundColorRole)
+            {
+                if (!active || (bitIndex >= bits))
+                    result = QVariant(QColor(50, 50, 50, 200));
+            }
+            break;
+        }
         case Result:
         {
             if (role == Qt::DisplayRole)
@@ -216,20 +239,19 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
             }
             break;
         }
-        case MaskFill:
+        case ResultPacked:
         {
-            bool active = (this->mMatrix->options()->maskFill() & (0x00000001 << bitIndex)) != 0;
-            int bits = 8 * (this->mMatrix->options()->blockSize() + 1);
-
             if (role == Qt::DisplayRole)
             {
-                if (bitIndex < bits)
-                    result = QString("%1").arg(active ? 1 : 0);
+                QVariant name, color;
+                this->resultPackedToSourceBit(bitIndex, &name, &color);
+                result = name;
             }
             else if (role == Qt::BackgroundColorRole)
             {
-                if (!active || (bitIndex >= bits))
-                    result = QVariant(QColor(50, 50, 50, 200));
+                QVariant name, color;
+                this->resultPackedToSourceBit(bitIndex, &name, &color);
+                result = color;
             }
             break;
         }
@@ -268,9 +290,7 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
                 case MaskFill:
                     mask = this->mMatrix->options()->maskFill();
                     break;
-                case Source:
-                case Operation:
-                case Result:
+                default:
                     break;
                 }
 
@@ -294,9 +314,7 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
                 case MaskFill:
                     this->mMatrix->options()->setMaskFill(mask);
                     break;
-                case Source:
-                case Operation:
-                case Result:
+                default:
                     break;
                 }
 
@@ -351,14 +369,16 @@ MatrixPreviewModel::RowType MatrixPreviewModel::rowType(int row) const
     if (row == 0)
         result = Source;
     else if (row == rows - 1)
-        result = MaskFill;
+        result = ResultPacked;
     else if (row == rows - 2)
         result = Result;
     else if (row == rows - 3)
-        result = MaskOr;
+        result = MaskFill;
     else if (row == rows - 4)
-        result = MaskAnd;
+        result = MaskOr;
     else if (row == rows - 5)
+        result = MaskAnd;
+    else if (row == rows - 6)
         result = MaskUsed;
 
     return result;
@@ -475,6 +495,61 @@ void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVarian
     else
     {
         *color = QVariant(QColor(50, 50, 50, 200));
+    }
+}
+//-----------------------------------------------------------------------------
+void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, QVariant *color) const
+{
+    *name = QVariant();
+    *color = QVariant();
+
+    bool active = (this->mMatrix->options()->maskFill() & (0x00000001 << bitIndex)) != 0;
+    int bits = 8 * (this->mMatrix->options()->blockSize() + 1);
+
+    if (!active)
+    {
+            *name = QVariant(QString("%1").arg(active ? 1 : 0));
+
+            if (!active)
+                *color = QVariant(QColor(50, 50, 50, 200));
+    }
+    else
+    {
+        // count of active bits in "Used" mask
+        int usedBitsCount = 0;
+        quint32 mask = this->mMatrix->options()->maskUsed();
+        while (mask != 0)
+        {
+            if ((mask & 0x00000001) != 0)
+                usedBitsCount ++;
+            mask = mask >> 1;
+        }
+
+        // index of current bit in active bits of "Fill" mask, from MSB
+        int fillBitIndex = -1;
+        mask = this->mMatrix->options()->maskFill();
+        for (int i = 31; i >= bitIndex; i--)
+        {
+            if ((mask & (0x00000001 << i)) != 0)
+                fillBitIndex++;
+        }
+
+        fillBitIndex = fillBitIndex % usedBitsCount;
+
+        // find index of bit in "Used" mask
+        int usedBitIndex = 31;
+        mask = this->mMatrix->options()->maskUsed();
+        for (int i = 31; (i >= 0) && (fillBitIndex >= 0); i--)
+        {
+            if ((mask & (0x00000001 << i)) != 0)
+            {
+                usedBitIndex = i;
+                fillBitIndex--;
+            }
+        }
+
+        this->resultToSourceBit(usedBitIndex, name, color);
+        //*name = QVariant(QString("%1").arg(usedBitIndex));
     }
 }
 //-----------------------------------------------------------------------------

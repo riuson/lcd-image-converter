@@ -25,6 +25,7 @@
 #include <QStringList>
 #include <QInputDialog>
 #include <QMenu>
+#include <QMessageBox>
 #include "idatacontainer.h"
 #include "converterhelper.h"
 #include "dialogpreview.h"
@@ -32,6 +33,7 @@
 #include "conversionmatrixoptions.h"
 #include "conversionmatrix.h"
 #include "bitmaphelper.h"
+#include "matrixitemdelegate.h"
 //-----------------------------------------------------------------------------
 DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
@@ -48,6 +50,12 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->tableViewOperations->setModel(this->mMatrixModel);
     this->ui->tableViewOperations->resizeColumnsToContents();
     this->ui->tableViewOperations->resizeRowsToContents();
+
+    this->ui->tableViewOperations->verticalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
+    this->connect(this->ui->tableViewOperations->verticalHeader(), SIGNAL(customContextMenuRequested(QPoint)), SLOT(on_tableViewOperations_customContextMenuRequested(QPoint)));
+
+    this->mMatrixItemDelegate = new MatrixItemDelegate(this);
+    this->ui->tableViewOperations->setItemDelegate(this->mMatrixItemDelegate);
 
     this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
     this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
@@ -89,18 +97,12 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     int presetIndex = this->ui->comboBoxPresets->findText(selectedPreset);
     if (presetIndex >= 0)
         this->ui->comboBoxPresets->setCurrentIndex(presetIndex);
+
+    this->mMatrixChanged = false;
 }
 //-----------------------------------------------------------------------------
 DialogConvert::~DialogConvert()
 {
-    if (this->result() == QDialog::Accepted)
-    {
-        QSettings sett;
-        sett.beginGroup("presets");
-        sett.setValue("selected", this->ui->comboBoxPresets->currentText());
-        sett.endGroup();
-    }
-
     if (this->mMenu != NULL)
         delete this->mMenu;
 
@@ -108,6 +110,7 @@ DialogConvert::~DialogConvert()
         delete this->mPreview;
 
     delete ui;
+    delete this->mMatrixItemDelegate;
     delete this->mMatrixModel;
     delete this->mMatrix;
 }
@@ -198,10 +201,16 @@ void DialogConvert::createPresetsDefault()
     matrix.save(tr("Monochrome"));
 
     matrix.initGrayscale(8);
-    matrix.save(tr("Grayscale"));
+    matrix.save(tr("Grayscale 8"));
 
     matrix.initColor(4, 5, 4);
-    matrix.save(tr("Color"));
+    matrix.save(tr("Color R4G5B4"));
+
+    matrix.initColor(5, 6, 5);
+    matrix.save(tr("Color R5G6B5"));
+
+    matrix.initColor(8, 8, 8);
+    matrix.save(tr("Color R8G8B8"));
 }
 //-----------------------------------------------------------------------------
 void DialogConvert::updatePreview()
@@ -215,6 +224,8 @@ void DialogConvert::updatePreview()
 
         if (this->mPreview != NULL)
             this->mPreview->updatePreview();
+
+        this->mMatrixChanged = true;
     }
 }
 //-----------------------------------------------------------------------------
@@ -376,7 +387,10 @@ void DialogConvert::on_tableViewOperations_customContextMenuRequested(const QPoi
     QItemSelectionModel *selection = this->ui->tableViewOperations->selectionModel();
 
     if (this->mMenu != NULL)
+    {
         delete this->mMenu;
+        this->mMenu = NULL;
+    }
 
     if (index.isValid())
     {
@@ -455,20 +469,23 @@ void DialogConvert::on_tableViewOperations_customContextMenuRequested(const QPoi
         case MatrixPreviewModel::MaskOr:
         case MatrixPreviewModel::MaskFill:
         {
-                this->mMenu = new QMenu(tr("Mask"), this);
+            this->mMenu = new QMenu(tr("Mask"), this);
 
-                QAction *actionSet = this->mMenu->addAction(tr("Set all 1"), this, SLOT(maskReset()));
+            quint32 data = (quint32)type;
+
+            QAction *actionSet = this->mMenu->addAction(tr("Set all 1"), this, SLOT(maskReset()));
+            actionSet->setData(QVariant(data | 0x80000000));
+
+            if (type != MatrixPreviewModel::MaskFill)
+            {
                 QAction *actionReset = this->mMenu->addAction(tr("Set all 0"), this, SLOT(maskReset()));
-
-                quint32 data = (quint32)type;
-
-                actionSet->setData(QVariant(data | 0x80000000));
                 actionReset->setData(QVariant(data));
+            }
 
-                this->mMenu->exec(this->ui->tableViewOperations->mapToGlobal(point));
+            this->mMenu->exec(this->ui->tableViewOperations->mapToGlobal(point));
             break;
         }
-        case MatrixPreviewModel::Result:
+        default:
             break;
         }
     }
@@ -612,11 +629,70 @@ void DialogConvert::maskReset()
             this->mMatrix->options()->setMaskFill(mask);
             break;
         }
-        case MatrixPreviewModel::Source:
-        case MatrixPreviewModel::Operation:
-        case MatrixPreviewModel::Result:
+        default:
             break;
         }
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogConvert::matrixChanged()
+{
+    this->mMatrixChanged = true;
+}
+//-----------------------------------------------------------------------------
+void DialogConvert::done(int result)
+{
+    if (result == QDialog::Accepted)
+    {
+        if (this->mMatrixChanged)
+        {
+            QMessageBox msgBox;
+            msgBox.setText(tr("Save changes?"));
+            msgBox.setStandardButtons(QMessageBox::Yes| QMessageBox::No | QMessageBox::Cancel);
+            msgBox.setDefaultButton(QMessageBox::Cancel);
+            int result = msgBox.exec();
+
+            switch (result)
+            {
+            case QMessageBox::Yes:
+            {
+                QString name = this->ui->comboBoxPresets->currentText();
+
+                this->mMatrix->save(name);
+
+                QSettings sett;
+                sett.beginGroup("presets");
+                sett.setValue("selected", name);
+                sett.endGroup();
+
+                QDialog::done(result);
+                break;
+            }
+            case QMessageBox::No:
+            {
+                QDialog::done(result);
+                break;
+            }
+            case QMessageBox::Cancel:
+            {
+                break;
+            }
+            default:
+            {
+                QDialog::done(result);
+                break;
+            }
+            }
+        }
+        else
+        {
+            QDialog::done(result);
+        }
+    }
+    else
+    {
+        QDialog::done(result);
+        return;
     }
 }
 //-----------------------------------------------------------------------------

@@ -17,30 +17,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef BYTELISTITEMDELEGATE_H
-#define BYTELISTITEMDELEGATE_H
+#ifndef MATRIXITEMDELEGATE_H
+#define MATRIXITEMDELEGATE_H
 //-----------------------------------------------------------------------------
 #include <QtGui>
 //-----------------------------------------------------------------------------
-class ByteListItemDelegate : public QItemDelegate
+class MatrixItemDelegate : public QItemDelegate
 {
 public:
-    ByteListItemDelegate(QObject *pobj);
+    MatrixItemDelegate(QObject *pobj);
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
 public:
-    int bitsCount();
-    void setBitsCount(const int value);
-    QColor colorOdd() const;
-    QColor colorEven() const;
-    void setColorOdd(const QColor &value);
-    void setColorEven(const QColor &value);
-    void enableHighlightColors(bool value);
+    QColor color() const;
+    void setColor(const QColor &value);
 private:
-    int mBitsCount;
-    QColor mColorOdd;//1 3
-    QColor mColorEven;//2 4
-    bool mHighlightColors;
+    QColor mColor;
 };
 //-----------------------------------------------------------------------------
-#endif // BYTELISTITEMDELEGATE_H
+#endif // MATRIXITEMDELEGATE_H
