@@ -864,7 +864,7 @@ Qt: %3</translation>
     <message>
         <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="80"/>
         <source>Packed</source>
-        <translation>Упакованное</translation>
+        <translation>Упакованный</translation>
     </message>
     <message>
         <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="83"/>
