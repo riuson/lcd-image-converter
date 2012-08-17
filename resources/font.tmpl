@@ -21,24 +21,28 @@
 //  mirror: @mirror@
 //  pack: @pack@
 
+// data block size: @dataBlockSize@ bit(s), uint@dataBlockSize@_t
+
 // typedef struct {
-//     const long int code;
+//     long int code;
 //     const tImage *image;
 //     } tChar;
 // typedef struct {
-//     const int length;
+//     int length;
 //     const tChar *chars;
 //     } tFont;
+
+#include <stdint.h>
 @end_block_header@
 
 @start_block_images_table@
-const unsigned char image_data_@documentName_ws@_0x@charCode@[@blocksCount@] = {
+static const uint@dataBlockSize@_t image_data_@documentName_ws@_0x@charCode@[@blocksCount@] = {
     @imageData@
 };
-const tImage @documentName_ws@_0x@charCode@ = { &image_data_@documentName_ws@_0x@charCode@[0], @width@, @height@};
+static const tImage @documentName_ws@_0x@charCode@ = { &image_data_@documentName_ws@_0x@charCode@[0], @width@, @height@};
 @end_block_images_table@
 
-const tChar @documentName_ws@_array[] = {
+static const tChar @documentName_ws@_array[] = {
 @start_block_images_table@
   // character: '@charText@'
   {0x@charCode@, &@documentName_ws@_0x@charCode@}@comma@

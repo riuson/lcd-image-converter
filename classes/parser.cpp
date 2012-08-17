@@ -101,9 +101,7 @@ QString Parser::convert(IDocument *document,
         tags["bom"] = "NO";
     }
 
-    this->addPreprocessInfo(tags);
-
-    this->addOrderInfo(tags);
+    this->addMatrixInfo(tags);
 
     this->parse(templateString, result, tags, document);
 
@@ -341,16 +339,19 @@ QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom)
     return result;
 }
 //-----------------------------------------------------------------------------
-void Parser::addOrderInfo(QMap<QString, QString> &tags)
+void Parser::addMatrixInfo(QMap<QString, QString> &tags)
 {
+    // byte order
     if (this->mMatrix->options()->bytesOrder() == BytesOrderLittleEndian)
         tags.insert("bytesOrder", "little-endian");
     else
         tags.insert("bytesOrder", "big-endian");
-}
-//-----------------------------------------------------------------------------
-void Parser::addPreprocessInfo(QMap<QString, QString> &tags)
-{
+
+    // data block size
+    int dataBlockSize = (this->mMatrix->options()->blockSize() + 1) * 8;
+    tags.insert("dataBlockSize", QString("%1").arg(dataBlockSize));
+
+    // rotation
     switch (this->mMatrix->options()->rotate())
     {
         case Rotate90:
@@ -367,6 +368,7 @@ void Parser::addPreprocessInfo(QMap<QString, QString> &tags)
             break;
     }
 
+    // flipping
     if (this->mMatrix->options()->flipHorizontal())
         tags.insert("flipHorizontal", "yes");
     else
@@ -377,6 +379,7 @@ void Parser::addPreprocessInfo(QMap<QString, QString> &tags)
     else
         tags.insert("flipVertical", "no");
 
+    // inversion
     if (this->mMatrix->options()->inverse())
         tags.insert("inverse", "yes");
     else
