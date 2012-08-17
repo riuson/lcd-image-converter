@@ -93,6 +93,9 @@ public:
     void setFlipHorizontal(bool value);
     void setInverse(bool value);
 
+    const QString & convTypeName();
+    const QString & monoTypeName();
+
 private:
     static const quint32 MaskByteOrder      = 0x40000000;
     static const quint32 MaskConversionType = 0x30000000;

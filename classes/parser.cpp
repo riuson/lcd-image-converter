@@ -399,5 +399,23 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags)
         tags.insert("inverse", "yes");
     else
         tags.insert("inverse", "no");
+
+    // preset name
+    tags.insert("preset", this->mSelectedPresetName);
+
+    // conversion type
+    tags.insert("convType", this->mMatrix->options()->convTypeName());
+
+    // monochrome type
+    if (this->mMatrix->options()->convType() == ConversionTypeMonochrome)
+    {
+        tags.insert("monoType", this->mMatrix->options()->monoTypeName());
+        tags.insert("edge", QString("%1").arg(this->mMatrix->options()->edge()));
+    }
+    else
+    {
+        tags.insert("monoType", "not used");
+        tags.insert("edge", "not used");
+    }
 }
 //-----------------------------------------------------------------------------
