@@ -50,6 +50,9 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->tableViewOperations->resizeColumnsToContents();
     this->ui->tableViewOperations->resizeRowsToContents();
 
+    this->ui->tableViewOperations->verticalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
+    this->connect(this->ui->tableViewOperations->verticalHeader(), SIGNAL(customContextMenuRequested(QPoint)), SLOT(on_tableViewOperations_customContextMenuRequested(QPoint)));
+
     this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
     this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
     this->ui->comboBoxConversionType->addItem(tr("Color"), ConversionTypeColor);
