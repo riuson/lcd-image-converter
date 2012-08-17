@@ -184,7 +184,10 @@ void ActionFileHandlers::convert_triggered()
     if (doc != NULL)
     {
         QMap<QString, QString> tags;
-        tags["fileName"] = doc->fileName();
+        if (!doc->fileName().isEmpty())
+            tags["fileName"] = doc->fileName();
+        else
+            tags["fileName"] = "unknown";
         QString docName = doc->documentName();
         tags["documentName"] = docName;
         docName = docName.remove(QRegExp("\\W", Qt::CaseInsensitive));

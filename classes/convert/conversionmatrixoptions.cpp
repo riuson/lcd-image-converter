@@ -266,3 +266,50 @@ void ConversionMatrixOptions::setInverse(bool value)
     emit this->changed();
 }
 //-----------------------------------------------------------------------------
+const QString & ConversionMatrixOptions::convTypeName()
+{
+    static const QString names[] =
+    {
+        "Monochrome",
+        "Grayscale",
+        "Color",
+        "???"
+    };
+    switch (this->convType())
+    {
+    case ConversionTypeMonochrome:
+        return names[0];
+    case ConversionTypeGrayscale:
+        return names[1];
+    case ConversionTypeColor:
+        return names[2];
+    default:
+        return names[3];
+    }
+}
+//-----------------------------------------------------------------------------
+const QString & ConversionMatrixOptions::monoTypeName()
+{
+    static const QString names[] =
+    {
+        "Edge",
+        "Diffuse Dither",
+        "Ordered Dither",
+        "Threshold Dither",
+        "???"
+    };
+    switch (this->monoType())
+    {
+    case MonochromeTypeEdge:
+        return names[0];
+    case MonochromeTypeDiffuseDither:
+        return names[1];
+    case MonochromeTypeOrderedDither:
+        return names[2];
+    case MonochromeTypeThresholdDither:
+        return names[3];
+    default:
+        return names[4];
+    }
+}
+//-----------------------------------------------------------------------------
