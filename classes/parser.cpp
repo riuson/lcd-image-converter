@@ -417,5 +417,16 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags)
         tags.insert("monoType", "not used");
         tags.insert("edge", "not used");
     }
+
+    // bits per pixel
+    quint32 maskUsed = this->mMatrix->options()->maskUsed();
+    int bitsPerPixel = 0;
+    while (maskUsed > 0)
+    {
+        if ((maskUsed & 0x00000001) != 0)
+            bitsPerPixel++;
+        maskUsed = maskUsed >> 1;
+    }
+    tags.insert("bpp", QString("%1").arg(bitsPerPixel));
 }
 //-----------------------------------------------------------------------------
