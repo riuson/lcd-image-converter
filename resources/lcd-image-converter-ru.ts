@@ -116,9 +116,9 @@ Author:
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
 Project&apos;s home page: &lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
 &lt;hr/&gt;
-Version: &lt;b&gt;%1&lt;/b&gt; from &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
+Version: &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%1&quot;&gt;%1&lt;/a&gt; from &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
 Qt: %3</source>
-        <translation>LCD Image Converter&lt;br/&gt;
+        <translation type="unfinished">LCD Image Converter&lt;br/&gt;
 Утилита создания изображений и шрифтов &lt;br/&gt;в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
 &lt;br/&gt;
 Автор: 
@@ -126,7 +126,7 @@ Qt: %3</source>
 Страница проекта:
 &lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
 &lt;hr/&gt;
-Версия: &lt;b&gt;%1&lt;/b&gt; от &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
+Версия: &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%1&quot;&gt;%1&lt;/a&gt; от &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
 Qt: %3</translation>
     </message>
 </context>
