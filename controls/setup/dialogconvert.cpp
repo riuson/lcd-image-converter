@@ -473,13 +473,28 @@ void DialogConvert::on_tableViewOperations_customContextMenuRequested(const QPoi
 
             quint32 data = (quint32)type;
 
+            quint32 bits = 0;
+            for (int i = 0; i < list.length(); i++)
+            {
+                if (list.at(i).row() == index.row())
+                {
+                    bits |= 0x00000001 << (31 - list.at(i).column());
+                }
+            }
+
+            QList<QVariant> parameters;
+            parameters.append(QVariant(data));
+            parameters.append(QVariant(bits));
+            parameters.append(QVariant(true));
+
             QAction *actionSet = this->mMenu->addAction(tr("Set all 1"), this, SLOT(maskReset()));
-            actionSet->setData(QVariant(data | 0x80000000));
+            actionSet->setData(parameters);
 
             if (type != MatrixPreviewModel::MaskFill)
             {
                 QAction *actionReset = this->mMenu->addAction(tr("Set all 0"), this, SLOT(maskReset()));
-                actionReset->setData(QVariant(data));
+                parameters.replace(2, QVariant(false));
+                actionReset->setData(parameters);
             }
 
             this->mMenu->exec(this->ui->tableViewOperations->mapToGlobal(point));
@@ -595,42 +610,57 @@ void DialogConvert::operationRemove()
 void DialogConvert::maskReset()
 {
     QAction *a = qobject_cast<QAction *>(sender());
-    QVariant var = a->data();
+    QList<QVariant> vars = a->data().toList();
+
     bool ok;
-    quint32 i = var.toUInt(&ok);
+    quint32 i = vars.at(0).toUInt(&ok);
 
     if (ok)
     {
-        MatrixPreviewModel::RowType type = (MatrixPreviewModel::RowType) (i & 0x7fffffff);
+        MatrixPreviewModel::RowType type = (MatrixPreviewModel::RowType)i;
 
-        quint32 mask = 0;
-        if ((i & 0x80000000) != 0)
-            mask = 0xffffffff;
+        quint32 mask = vars.at(1).toUInt(&ok);
+        if (ok)
+        {
+            bool setBits = vars.at(2).toBool();
 
-        switch (type)
-        {
-        case MatrixPreviewModel::MaskUsed:
-        {
-            this->mMatrix->options()->setMaskUsed(mask);
-            break;
-        }
-        case MatrixPreviewModel::MaskAnd:
-        {
-            this->mMatrix->options()->setMaskAnd(mask);
-            break;
-        }
-        case MatrixPreviewModel::MaskOr:
-        {
-            this->mMatrix->options()->setMaskOr(mask);
-            break;
-        }
-        case MatrixPreviewModel::MaskFill:
-        {
-            this->mMatrix->options()->setMaskFill(mask);
-            break;
-        }
-        default:
-            break;
+            switch (type)
+            {
+            case MatrixPreviewModel::MaskUsed:
+            {
+                if (setBits)
+                    this->mMatrix->options()->setMaskUsed( this->mMatrix->options()->maskUsed() | mask);
+                else
+                    this->mMatrix->options()->setMaskUsed( this->mMatrix->options()->maskUsed() & ~mask);
+                break;
+            }
+            case MatrixPreviewModel::MaskAnd:
+            {
+                if (setBits)
+                    this->mMatrix->options()->setMaskAnd( this->mMatrix->options()->maskAnd() | mask);
+                else
+                    this->mMatrix->options()->setMaskAnd( this->mMatrix->options()->maskAnd() & ~mask);
+                break;
+            }
+            case MatrixPreviewModel::MaskOr:
+            {
+                if (setBits)
+                    this->mMatrix->options()->setMaskOr( this->mMatrix->options()->maskOr() | mask);
+                else
+                    this->mMatrix->options()->setMaskOr( this->mMatrix->options()->maskOr() & ~mask);
+                break;
+            }
+            case MatrixPreviewModel::MaskFill:
+            {
+                if (setBits)
+                    this->mMatrix->options()->setMaskFill( this->mMatrix->options()->maskFill() | mask);
+                else
+                    this->mMatrix->options()->setMaskFill( this->mMatrix->options()->maskFill() & ~mask);
+                break;
+            }
+            default:
+                break;
+            }
         }
     }
 }
