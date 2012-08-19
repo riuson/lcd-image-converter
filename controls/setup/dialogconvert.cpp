@@ -482,17 +482,21 @@ void DialogConvert::on_tableViewOperations_customContextMenuRequested(const QPoi
                 }
             }
 
-            QList<QVariant> parameters;
-            parameters.append(QVariant(data));
-            parameters.append(QVariant(bits));
-            parameters.append(QVariant(true));
+            // show menu if more than 0 bits was selected
+            if (bits != 0)
+            {
+                QList<QVariant> parameters;
+                parameters.append(QVariant(data));
+                parameters.append(QVariant(bits));
+                parameters.append(QVariant(true));
 
-            QAction *actionSet = this->mMenu->addAction(tr("Set 1"), this, SLOT(maskReset()));
-            actionSet->setData(parameters);
+                QAction *actionSet = this->mMenu->addAction(tr("Set 1"), this, SLOT(maskReset()));
+                actionSet->setData(parameters);
 
-            QAction *actionReset = this->mMenu->addAction(tr("Set 0"), this, SLOT(maskReset()));
-            parameters.replace(2, QVariant(false));
-            actionReset->setData(parameters);
+                QAction *actionReset = this->mMenu->addAction(tr("Set 0"), this, SLOT(maskReset()));
+                parameters.replace(2, QVariant(false));
+                actionReset->setData(parameters);
+            }
 
             this->mMenu->exec(this->ui->tableViewOperations->mapToGlobal(point));
             break;
