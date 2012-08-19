@@ -172,6 +172,9 @@ void ConversionMatrixOptions::setBlockSize(DataBlockSize value)
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::setMaskUsed(quint32 value)
 {
+    if (value == 0)
+        value = 0x00ffffff;
+
     this->mMatrixData->replace(1, value);
 
     emit this->changed();
