@@ -35,7 +35,7 @@ FontContainer::~FontContainer()
     qDeleteAll(this->mImageMap);
 }
 //-----------------------------------------------------------------------------
-QImage *FontContainer::image(const QString &key)
+QImage *FontContainer::image(const QString &key) const
 {
     return this->mImageMap.value(key, this->mDefaultImage);
 }
@@ -51,7 +51,7 @@ void FontContainer::setImage(const QString &key, QImage *image)
     }
 }
 //-----------------------------------------------------------------------------
-int FontContainer::count()
+int FontContainer::count() const
 {
     return this->mImageMap.count();
 }

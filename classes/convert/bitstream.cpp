@@ -41,7 +41,7 @@ void BitStream::init()
     this->mBitsReaded = 0;
 }
 //-----------------------------------------------------------------------------
-bool BitStream::eof()
+bool BitStream::eof() const
 {
     return (this->mCurrentPixel >= this->mCount);
 }
@@ -106,7 +106,7 @@ bool BitStream::nextBit()
     return result;
 }
 //-----------------------------------------------------------------------------
-int BitStream::remain()
+int BitStream::remain() const
 {
     int result = 0;
     for (int i = 0; i < 32; i++)

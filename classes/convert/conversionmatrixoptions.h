@@ -65,19 +65,19 @@ public:
     explicit ConversionMatrixOptions(QVector<quint32> *matrix, QObject *parent = 0);
     virtual ~ConversionMatrixOptions();
 
-    BytesOrder bytesOrder();
-    ConversionType convType();
-    MonochromeType monoType();
-    int edge();
-    DataBlockSize blockSize();
-    quint32 maskUsed();
-    quint32 maskAnd();
-    quint32 maskOr();
-    quint32 maskFill();
-    Rotate rotate();
-    bool flipVertical();
-    bool flipHorizontal();
-    bool inverse();
+    BytesOrder bytesOrder() const;
+    ConversionType convType() const;
+    MonochromeType monoType() const;
+    int edge() const;
+    DataBlockSize blockSize() const;
+    quint32 maskUsed() const;
+    quint32 maskAnd() const;
+    quint32 maskOr() const;
+    quint32 maskFill() const;
+    Rotate rotate() const;
+    bool flipVertical() const;
+    bool flipHorizontal() const;
+    bool inverse() const;
 
     void setBytesOrder(BytesOrder value);
     void setConvType(ConversionType value);
@@ -93,8 +93,8 @@ public:
     void setFlipHorizontal(bool value);
     void setInverse(bool value);
 
-    const QString & convTypeName();
-    const QString & monoTypeName();
+    const QString & convTypeName() const;
+    const QString & monoTypeName() const;
 
 private:
     static const quint32 MaskByteOrder      = 0x40000000;

@@ -35,14 +35,14 @@ class FontContainer : public QObject, public IDataContainer
     Q_INTERFACES(IDataContainer)
 public:
     explicit FontContainer(QObject *parent = 0);
-    ~FontContainer();
+    virtual ~FontContainer();
 private:
     QMap<QString, QImage *> mImageMap;
     QImage *mDefaultImage;
 public:
-    QImage *image(const QString &key);
+    QImage *image(const QString &key) const;
     void setImage(const QString &key, QImage *image);
-    int count();
+    int count() const;
     QStringList keys() const;
 
     void clear();

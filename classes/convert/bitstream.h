@@ -32,7 +32,7 @@ public:
     BitStream(ConversionMatrix *matrix, QVector<quint32> *data, int start, int count);
 
     void init();
-    bool eof();
+    bool eof() const;
     quint32 next();
 
 private:
@@ -49,7 +49,7 @@ private:
 
     bool nextBit();
     // remaining bit count from one pixel
-    int remain();
+    int remain() const;
 };
 //-----------------------------------------------------------------------------
 #endif // BITSTREAM_H

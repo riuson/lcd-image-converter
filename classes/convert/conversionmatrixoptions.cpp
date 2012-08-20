@@ -39,74 +39,74 @@ ConversionMatrixOptions::~ConversionMatrixOptions()
 {
 }
 //-----------------------------------------------------------------------------
-BytesOrder ConversionMatrixOptions::bytesOrder()
+BytesOrder ConversionMatrixOptions::bytesOrder() const
 {
     if ((this->mMatrixData->at(0) & MaskByteOrder) == MaskByteOrder)
         return BytesOrderBigEndian;
     return BytesOrderLittleEndian;
 }
 //-----------------------------------------------------------------------------
-ConversionType ConversionMatrixOptions::convType()
+ConversionType ConversionMatrixOptions::convType() const
 {
     ConversionType result = (ConversionType)((this->mMatrixData->at(0) & MaskConversionType) >> 28);
     return result;
 }
 //-----------------------------------------------------------------------------
-MonochromeType ConversionMatrixOptions::monoType()
+MonochromeType ConversionMatrixOptions::monoType() const
 {
     MonochromeType result = (MonochromeType)((this->mMatrixData->at(0) & MaskMonochromeType) >> 24);
     return result;
 }
 //-----------------------------------------------------------------------------
-int ConversionMatrixOptions::edge()
+int ConversionMatrixOptions::edge() const
 {
     int result = (this->mMatrixData->at(0) & MaskEdgeValue) >> 16;
     return result;
 }
 //-----------------------------------------------------------------------------
-DataBlockSize ConversionMatrixOptions::blockSize()
+DataBlockSize ConversionMatrixOptions::blockSize() const
 {
     DataBlockSize result = (DataBlockSize)((this->mMatrixData->at(0) & MaskDataBlockSize) >> 12);
     return result;
 }
 //-----------------------------------------------------------------------------
-quint32 ConversionMatrixOptions::maskUsed()
+quint32 ConversionMatrixOptions::maskUsed() const
 {
     return this->mMatrixData->at(1);
 }
 //-----------------------------------------------------------------------------
-quint32 ConversionMatrixOptions::maskAnd()
+quint32 ConversionMatrixOptions::maskAnd() const
 {
     return this->mMatrixData->at(2);
 }
 //-----------------------------------------------------------------------------
-quint32 ConversionMatrixOptions::maskOr()
+quint32 ConversionMatrixOptions::maskOr() const
 {
     return this->mMatrixData->at(3);
 }
 //-----------------------------------------------------------------------------
-quint32 ConversionMatrixOptions::maskFill()
+quint32 ConversionMatrixOptions::maskFill() const
 {
     return this->mMatrixData->at(4);
 }
 //-----------------------------------------------------------------------------
-Rotate ConversionMatrixOptions::rotate()
+Rotate ConversionMatrixOptions::rotate() const
 {
     Rotate result = (Rotate)((this->mMatrixData->at(0) & MaskRotate) >> 10);
     return result;
 }
 //-----------------------------------------------------------------------------
-bool ConversionMatrixOptions::flipVertical()
+bool ConversionMatrixOptions::flipVertical() const
 {
     return (this->mMatrixData->at(0) & MaskFlipV) != 0;
 }
 //-----------------------------------------------------------------------------
-bool ConversionMatrixOptions::flipHorizontal()
+bool ConversionMatrixOptions::flipHorizontal() const
 {
     return (this->mMatrixData->at(0) & MaskFlipH) != 0;
 }
 //-----------------------------------------------------------------------------
-bool ConversionMatrixOptions::inverse()
+bool ConversionMatrixOptions::inverse() const
 {
     return (this->mMatrixData->at(0) & MaskInverse) != 0;
 }
@@ -269,7 +269,7 @@ void ConversionMatrixOptions::setInverse(bool value)
     emit this->changed();
 }
 //-----------------------------------------------------------------------------
-const QString & ConversionMatrixOptions::convTypeName()
+const QString & ConversionMatrixOptions::convTypeName() const
 {
     static const QString names[] =
     {
@@ -291,7 +291,7 @@ const QString & ConversionMatrixOptions::convTypeName()
     }
 }
 //-----------------------------------------------------------------------------
-const QString & ConversionMatrixOptions::monoTypeName()
+const QString & ConversionMatrixOptions::monoTypeName() const
 {
     static const QString names[] =
     {

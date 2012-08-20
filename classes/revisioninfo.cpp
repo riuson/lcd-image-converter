@@ -25,11 +25,6 @@
 //-----------------------------------------------------------------------------
 // git-commit-info d693078 Sat May 26 22:30:51 2012 +0600
 //-----------------------------------------------------------------------------
-RevisionInfo::RevisionInfo(QObject *parent) :
-    QObject(parent)
-{
-}
-//-----------------------------------------------------------------------------
 bool RevisionInfo::getRevisionData(QString *hash, QString *date)
 {
     bool result = false;

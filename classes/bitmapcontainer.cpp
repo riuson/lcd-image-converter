@@ -39,7 +39,7 @@ BitmapContainer::~BitmapContainer()
         delete this->mImage;
 }
 //-----------------------------------------------------------------------------
-QImage *BitmapContainer::image(const QString &key)
+QImage *BitmapContainer::image(const QString &key) const
 {
     Q_UNUSED(key);
     return this->mImage;
@@ -55,7 +55,7 @@ void BitmapContainer::setImage(const QString &key, QImage *image)
     emit this->imageChanged("default");
 }
 //-----------------------------------------------------------------------------
-int BitmapContainer::count()
+int BitmapContainer::count() const
 {
     return 1;
 }

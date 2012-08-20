@@ -58,7 +58,7 @@ QString Parser::name()
 //-----------------------------------------------------------------------------
 QString Parser::convert(IDocument *document,
                            const QString &templateFile,
-                           QMap<QString, QString> &tags)
+                           QMap<QString, QString> &tags) const
 {
     QString result;
 
@@ -125,7 +125,7 @@ QString Parser::convert(IDocument *document,
 void Parser::parse(const QString &templateString,
                       QString &resultString,
                       QMap<QString, QString> &tags,
-                      IDocument *doc)
+                      IDocument *doc) const
 {
     int index = 0;
     int prevIndex = 0;
@@ -184,7 +184,7 @@ void Parser::parse(const QString &templateString,
 void Parser::parseBlocks(const QString &templateString,
                             QString &resultString,
                             QMap<QString, QString> &tags,
-                            IDocument *doc)
+                            IDocument *doc) const
 {
     // capture block
     QRegExp startReg("@start_block_(.+)(?=\\s)");
@@ -222,7 +222,7 @@ void Parser::parseBlocks(const QString &templateString,
 void Parser::parseImagesTable(const QString &templateString,
                                  QString &resultString,
                                  QMap<QString, QString> &tags,
-                                 IDocument *doc)
+                                 IDocument *doc) const
 {
     IDataContainer *data = doc->dataContainer();
     QString imageString;
@@ -286,7 +286,7 @@ void Parser::parseImagesTable(const QString &templateString,
 void Parser::parseSimple(const QString &templateString,
                             QString &resultString,
                             QMap<QString, QString> &tags,
-                            IDocument *doc)
+                            IDocument *doc) const
 {
     Q_UNUSED(doc);
     QRegExp regTag("@(.+)@");
@@ -303,7 +303,7 @@ void Parser::parseSimple(const QString &templateString,
     }
 }
 //-----------------------------------------------------------------------------
-QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom)
+QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) const
 {
     QString result;
     QTextCodec *codec = QTextCodec::codecForName(encoding.toAscii());
@@ -354,7 +354,7 @@ QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom)
     return result;
 }
 //-----------------------------------------------------------------------------
-void Parser::addMatrixInfo(QMap<QString, QString> &tags)
+void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
 {
     // byte order
     if (this->mMatrix->options()->bytesOrder() == BytesOrderLittleEndian)

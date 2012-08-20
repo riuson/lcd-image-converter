@@ -32,22 +32,22 @@ class Parser : public QObject
     Q_OBJECT
 public:
     Parser(QObject *parent);
-    ~Parser();
+    virtual ~Parser();
 
     QString name();
 
-    QString convert(IDocument *document, const QString &templateFile, QMap<QString, QString> &tags);
+    QString convert(IDocument *document, const QString &templateFile, QMap<QString, QString> &tags) const;
 private:
     QMap <QString, QObject *> mConverters;
     QString mSelectedPresetName;
     ConversionMatrix *mMatrix;
 
-    void parse(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
-    void parseBlocks(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
-    void parseImagesTable(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
-    void parseSimple(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc);
-    QString hexCode(const QChar &ch, const QString &encoding, bool bom);
-    void addMatrixInfo(QMap<QString, QString> &tags);
+    void parse(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
+    void parseBlocks(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
+    void parseImagesTable(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
+    void parseSimple(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
+    QString hexCode(const QChar &ch, const QString &encoding, bool bom) const;
+    void addMatrixInfo(QMap<QString, QString> &tags) const;
 };
 //-----------------------------------------------------------------------------
 #endif // PARSER_H
