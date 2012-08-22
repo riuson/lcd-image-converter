@@ -145,4 +145,4 @@ translation_ru.target = ./resources/lcd-image-converter-ru.qm
 translation_ru.commands = @sh ./translation-compile.sh
 translation_ru.depends = .git
 QMAKE_EXTRA_TARGETS += translation_ru
-PRE_TARGETDEPS += ./resources/lcd-image-converter-ru.ts
+PRE_TARGETDEPS += ./resources/lcd-image-converter-ru.qm ./resources/lcd-image-converter-ru.ts
