@@ -119,8 +119,8 @@ RESOURCES += \
     resources/resources.qrc
 
 win32 {
-    RC_FILE = iconrc.rc
-    OTHER_FILES += iconrc.rc
+    RC_FILE = win-res.rc
+    OTHER_FILES += win-res.rc
 }
 
 TRANSLATIONS = resources/lcd-image-converter-ru.ts
@@ -130,4 +130,19 @@ OTHER_FILES += \
     resources/font.tmpl \
     resources/template_keys.txt \
     resources/lcd-image-converter-ru.ts \
-    iconrc.rc
+    win-res.rc
+
+
+# generate version info file on each build, because file in other directory
+version.target = version-included.txt
+version.commands = @sh ./version-gen.sh
+version.depends = .git
+QMAKE_EXTRA_TARGETS += version
+PRE_TARGETDEPS += version-included.txt
+
+# compile translation
+translation_ru.target = ./resources/lcd-image-converter-ru.qm
+translation_ru.commands = @sh ./translation-compile.sh
+translation_ru.depends = .git
+QMAKE_EXTRA_TARGETS += translation_ru
+PRE_TARGETDEPS += ./resources/lcd-image-converter-ru.qm ./resources/lcd-image-converter-ru.ts
