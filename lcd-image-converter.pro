@@ -131,3 +131,13 @@ OTHER_FILES += \
     resources/template_keys.txt \
     resources/lcd-image-converter-ru.ts \
     iconrc.rc
+
+
+# generate version info file on each build
+version.target = version-included.txt
+version.commands = @sh ./version-gen.sh
+version.depends = .git
+
+QMAKE_EXTRA_TARGETS += version
+
+PRE_TARGETDEPS += version-included.txt
