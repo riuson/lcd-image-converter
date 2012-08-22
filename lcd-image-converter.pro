@@ -119,8 +119,8 @@ RESOURCES += \
     resources/resources.qrc
 
 win32 {
-    RC_FILE = iconrc.rc
-    OTHER_FILES += iconrc.rc
+    RC_FILE = win-res.rc
+    OTHER_FILES += win-res.rc
 }
 
 TRANSLATIONS = resources/lcd-image-converter-ru.ts
@@ -130,7 +130,7 @@ OTHER_FILES += \
     resources/font.tmpl \
     resources/template_keys.txt \
     resources/lcd-image-converter-ru.ts \
-    iconrc.rc
+    win-res.rc
 
 
 # generate version info file on each build, because file in other directory
