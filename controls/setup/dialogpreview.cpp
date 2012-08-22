@@ -20,10 +20,11 @@
 #include "dialogpreview.h"
 #include "ui_dialogpreview.h"
 //-----------------------------------------------------------------------------
-#include "idatacontainer.h"
-#include "converterhelper.h"
 #include <QList>
 #include <QRegExp>
+#include <QFont>
+#include "idatacontainer.h"
+#include "converterhelper.h"
 #include "conversionmatrix.h"
 //-----------------------------------------------------------------------------
 DialogPreview::DialogPreview(IDataContainer *dataContainer, ConversionMatrix *matrix, QWidget *parent) :
@@ -44,6 +45,10 @@ DialogPreview::DialogPreview(IDataContainer *dataContainer, ConversionMatrix *ma
     {
         this->ui->comboBoxSampleKey->setEnabled(false);
     }
+
+    QFont font("Monospace");
+    font.setStyleHint(QFont::TypeWriter);
+    this->ui->plainTextEdit->setFont(font);
 }
 //-----------------------------------------------------------------------------
 DialogPreview::~DialogPreview()
