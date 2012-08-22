@@ -131,3 +131,14 @@ OTHER_FILES += \
     resources/template_keys.txt \
     resources/lcd-image-converter-ru.ts \
     iconrc.rc
+
+
+# define how to create version info file
+version.target = version-included.txt
+#version.commands = git log --pretty=format:\"git-commit-info%n%h%n%ad\" -1 > ./resources/version-included.txt
+version.commands = ./version-gen.sh
+version.depends = .git
+
+QMAKE_EXTRA_TARGETS += version
+
+PRE_TARGETDEPS += version-included.txt
