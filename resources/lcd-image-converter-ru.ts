@@ -109,16 +109,16 @@
     </message>
     <message>
         <location filename="../controls/dialogabout.ui" line="41"/>
-        <source>LCD Image Converter&lt;br/&gt;
+        <source>LCD Image Converter v.%1&lt;br/&gt;
 Tool to create image and font source files for embedded applications.&lt;br/&gt;
 &lt;br/&gt;
 Author: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
 Project&apos;s home page: &lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
 &lt;hr/&gt;
-Version: &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%1&quot;&gt;%1&lt;/a&gt; from &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
-Qt: %3</source>
-        <translation type="unfinished">LCD Image Converter&lt;br/&gt;
+Revision &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%2&quot;&gt;%2&lt;/a&gt; from &lt;i&gt;%3&lt;/i&gt;&lt;br/&gt;
+Qt %4</source>
+        <translation>LCD Image Converter v.%1&lt;br/&gt;
 Утилита создания изображений и шрифтов &lt;br/&gt;в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
 &lt;br/&gt;
 Автор: 
@@ -126,8 +126,8 @@ Qt: %3</source>
 Страница проекта:
 &lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
 &lt;hr/&gt;
-Версия: &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%1&quot;&gt;%1&lt;/a&gt; от &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
-Qt: %3</translation>
+Ревизия &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%2&quot;&gt;%2&lt;/a&gt; от &lt;i&gt;%3&lt;/i&gt;&lt;br/&gt;
+Qt: %4</translation>
     </message>
 </context>
 <context>
@@ -345,17 +345,17 @@ Qt: %3</translation>
         <translation>Маска</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="476"/>
-        <source>Set all 1</source>
-        <translation>Установить всё в 1</translation>
+        <location filename="../controls/setup/dialogconvert.cpp" line="493"/>
+        <source>Set 1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="481"/>
-        <source>Set all 0</source>
-        <translation>Сбросить всё в 0</translation>
+        <location filename="../controls/setup/dialogconvert.cpp" line="496"/>
+        <source>Set 0</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="650"/>
+        <location filename="../controls/setup/dialogconvert.cpp" line="681"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
     </message>

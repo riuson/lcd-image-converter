@@ -24,9 +24,9 @@
 RevisionLabel::RevisionLabel(QWidget *parent) :
     QLabel(parent)
 {
-    QString hash, date;
+    QString hash, date, version;
     // load version info
-    if (RevisionInfo::getRevisionData(&hash, &date))
+    if (RevisionInfo::getRevisionData(&hash, &date, &version))
     {
         this->setText(hash);
     }

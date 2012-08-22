@@ -50,18 +50,11 @@ DialogAbout::DialogAbout(QWidget *parent) :
     }
 
     // show version info
-    QString hash, date;
-    if (RevisionInfo::getRevisionData(&hash, &date))
     {
-        // show
+        QString hash, date, version;
+        RevisionInfo::getRevisionData(&hash, &date, &version);
         QString about = this->ui->labelInfo->text();
-        QString formattedAbout = QString(about).arg(hash, date);
-        this->ui->labelInfo->setText(formattedAbout);
-    }
-    else
-    {
-        QString about = this->ui->labelInfo->text();
-        QString formattedAbout = QString(about).arg("unknown", "???");
+        QString formattedAbout = QString(about).arg(version, hash, date);
         this->ui->labelInfo->setText(formattedAbout);
     }
 

@@ -25,7 +25,7 @@
 class RevisionInfo
 {
 public:
-    static bool getRevisionData(QString *hash, QString *date);
+    static bool getRevisionData(QString *hash, QString *date, QString *version);
 };
 //-----------------------------------------------------------------------------
 #endif // REVISIONINFO_H
