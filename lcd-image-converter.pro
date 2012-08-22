@@ -133,10 +133,9 @@ OTHER_FILES += \
     iconrc.rc
 
 
-# define how to create version info file
+# generate version info file on each build
 version.target = version-included.txt
-#version.commands = git log --pretty=format:\"git-commit-info%n%h%n%ad\" -1 > ./resources/version-included.txt
-version.commands = ./version-gen.sh
+version.commands = @sh ./version-gen.sh
 version.depends = .git
 
 QMAKE_EXTRA_TARGETS += version
