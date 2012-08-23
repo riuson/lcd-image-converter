@@ -109,16 +109,16 @@
     </message>
     <message>
         <location filename="../controls/dialogabout.ui" line="41"/>
-        <source>LCD Image Converter v.%1&lt;br/&gt;
+        <source>LCD Image Converter&lt;br/&gt;
 Tool to create image and font source files for embedded applications.&lt;br/&gt;
 &lt;br/&gt;
 Author: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
 Project&apos;s home page: &lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
 &lt;hr/&gt;
-Revision &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%2&quot;&gt;%2&lt;/a&gt; from &lt;i&gt;%3&lt;/i&gt;&lt;br/&gt;
-Qt %4</source>
-        <translation>LCD Image Converter v.%1&lt;br/&gt;
+Revision &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%1&quot;&gt;%1&lt;/a&gt; from &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
+Qt %3</source>
+        <translation>LCD Image Converter&lt;br/&gt;
 Утилита создания изображений и шрифтов &lt;br/&gt;в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
 &lt;br/&gt;
 Автор: 
@@ -126,8 +126,8 @@ Qt %4</source>
 Страница проекта:
 &lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
 &lt;hr/&gt;
-Ревизия &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%2&quot;&gt;%2&lt;/a&gt; от &lt;i&gt;%3&lt;/i&gt;&lt;br/&gt;
-Qt: %4</translation>
+Ревизия &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%1&quot;&gt;%1&lt;/a&gt; от &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
+Qt: %3</translation>
     </message>
 </context>
 <context>

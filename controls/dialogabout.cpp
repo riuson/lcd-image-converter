@@ -49,12 +49,10 @@ DialogAbout::DialogAbout(QWidget *parent) :
         this->ui->textEdit->setText(license);
     }
 
-    // show version info
+    // show revision info
     {
-        QString hash, date, version;
-        RevisionInfo::getRevisionData(&hash, &date, &version);
         QString about = this->ui->labelInfo->text();
-        QString formattedAbout = QString(about).arg(version, hash, date);
+        QString formattedAbout = QString(about).arg(RevisionInfo::hash(), RevisionInfo::date());
         this->ui->labelInfo->setText(formattedAbout);
     }
 

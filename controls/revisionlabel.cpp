@@ -24,16 +24,7 @@
 RevisionLabel::RevisionLabel(QWidget *parent) :
     QLabel(parent)
 {
-    QString hash, date, version;
-    // load version info
-    if (RevisionInfo::getRevisionData(&hash, &date, &version))
-    {
-        this->setText(hash);
-    }
-    else
-    {
-        this->setText("");
-    }
+    this->setText(RevisionInfo::hash());
 
     this->setForegroundRole(QPalette::Midlight);
 }
