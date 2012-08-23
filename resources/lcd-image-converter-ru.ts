@@ -347,12 +347,12 @@ Qt: %4</translation>
     <message>
         <location filename="../controls/setup/dialogconvert.cpp" line="493"/>
         <source>Set 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Установить в 1</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogconvert.cpp" line="496"/>
         <source>Set 0</source>
-        <translation type="unfinished"></translation>
+        <translation>Сбросить в 0</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogconvert.cpp" line="681"/>
