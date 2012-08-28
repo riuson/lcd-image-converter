@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/rotate">
+        <file alias="0">resources/samples/rotate/rotate0.png</file>
+        <file alias="90">resources/samples/rotate/rotate90.png</file>
+        <file alias="180">resources/samples/rotate/rotate180.png</file>
+        <file alias="270">resources/samples/rotate/rotate270.png</file>
+    </qresource>
+</RCC>
