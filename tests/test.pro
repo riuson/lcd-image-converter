@@ -22,7 +22,7 @@ SOURCES += maintest.cpp \
     ../classes/convert/conversionmatrix.cpp \
     ../classes/convert/bitstream.cpp \
     ../classes/convert/bitmaphelper.cpp \
-    testconversionmatrixoptions.cpp
+    parts/testconversionmatrixoptions.cpp
 
 HEADERS += \
     parts/testbitmaphelper.h \
@@ -32,7 +32,7 @@ HEADERS += \
     ../classes/convert/conversionmatrix.h \
     ../classes/convert/bitstream.h \
     ../classes/convert/bitmaphelper.h \
-    testconversionmatrixoptions.h
+    parts/testconversionmatrixoptions.h
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
