@@ -5,4 +5,9 @@
         <file alias="180">resources/samples/rotate/rotate180.png</file>
         <file alias="270">resources/samples/rotate/rotate270.png</file>
     </qresource>
+    <qresource prefix="/flip">
+        <file alias="0">resources/samples/flip/flip.png</file>
+        <file alias="horizontal">resources/samples/flip/flip-horizontal.png</file>
+        <file alias="vertical">resources/samples/flip/flip-vertical.png</file>
+    </qresource>
 </RCC>

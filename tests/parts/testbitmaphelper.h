@@ -19,6 +19,8 @@ private slots:
     void rotate90();
     void rotate180();
     void rotate270();
+    void flipHorizontal();
+    void flipVertical();
     void cleanupTestCase();
 };
 //-----------------------------------------------------------------------------
