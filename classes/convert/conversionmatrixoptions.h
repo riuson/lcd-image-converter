@@ -97,17 +97,29 @@ public:
     const QString & monoTypeName() const;
 
 private:
-    static const quint32 MaskByteOrder      = 0x40000000;
-    static const quint32 MaskConversionType = 0x30000000;
-    static const quint32 MaskMonochromeType = 0x0f000000;
-    static const quint32 MaskEdgeValue      = 0x00ff0000;
-    static const quint32 MaskDataBlockSize  = 0x0000f000;
-    static const quint32 MaskRotate         = 0x00000c00;
-    static const quint32 MaskFlipV          = 0x00000200;
-    static const quint32 MaskFlipH          = 0x00000100;
-    static const quint32 MaskInverse        = 0x00000080;
+
+    enum
+    {
+        IndexBytesOrder               = 0,
+        IndexConversionType           = 1,
+        IndexMonochromeType           = 2,
+        IndexEdge                     = 3,
+        IndexDataBlockSize            = 4,
+        IndexPreprocessRotation       = 5,
+        IndexPreprocessFlipVertical   = 6,
+        IndexPreprocessFlipHorizontal = 7,
+        IndexPreprocessInverse        = 8,
+        IndexMaskUsed                 = 9,
+        IndexMaskAnd                  = 10,
+        IndexMaskOr                    = 11,
+        IndexMaskFill                 = 12,
+        IndexesCount                  = 13
+    };
 
     QVector<quint32> *mMatrixData;
+
+    quint32 get(int index) const;
+    void    set(int index, quint32 value);
 
 signals:
     void changed();

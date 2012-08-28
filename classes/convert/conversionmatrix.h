@@ -52,13 +52,13 @@ public:
 private:
     QVector<quint32> *mData;
     ConversionMatrixOptions *mOptions;
-    static const int ParamsItemsCount = 5;
+    static const int ParamsItemsCount = 13;
 
 signals:
     void changed();
-    
+
 public slots:
-    
+
 };
 //-----------------------------------------------------------------------------
 #endif // CONVERSIONMATRIX_H
