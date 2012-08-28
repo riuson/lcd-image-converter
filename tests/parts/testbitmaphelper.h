@@ -1,5 +1,5 @@
-#ifndef BITMAPHELPERTEST_H
-#define BITMAPHELPERTEST_H
+#ifndef TESTBITMAPHELPER_H
+#define TESTBITMAPHELPER_H
 //-----------------------------------------------------------------------------
 #include <QObject>
 #include <QtTest/QtTest>
@@ -24,4 +24,4 @@ private slots:
     void cleanupTestCase();
 };
 //-----------------------------------------------------------------------------
-#endif // BITMAPHELPERTEST_H
+#endif // TESTBITMAPHELPER_H
