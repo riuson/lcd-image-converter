@@ -30,34 +30,6 @@ template <class T> class QVector;
 //-----------------------------------------------------------------------------
 using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
-/*
- *  Matrix structure:
- *
- * [0] ConversionOptions:
- *     31    - not used more
- *     30    - byte order, 0 = little-endian, 1 = big-endian
- *     29:28 - conversion type
- *     27:24 - monochrome type
- *     23:16 - edge value for MonochromeTypeEdge
- *     15:12 - data block size
- *     11:10 - preprocess roration
- *     9     - preprocess flip vertical
- *     8     - preprocess flip horizontal
- *     7     - preprocess inverse
- *
- * [1] Mask of used bits before packing
- *
- * [2] Mask AND of bits before packing
- * [3] Mask OR of bits before packing
- *
- * [4] Mask of data bit
- * [5] Shift of data bit:
- *     31    - 0 = to right, 1 = to left
- *     4:0   - count
- *
- * ... Repeat 4 and 5 some times
- */
-
 class ConversionMatrixOptions : public QObject
 {
     Q_OBJECT
