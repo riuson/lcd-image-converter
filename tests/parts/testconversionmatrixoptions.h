@@ -19,10 +19,30 @@ private:
 
 private slots:
     void initTestCase();
+
     void bytesOrder();
     void setBytesOrder();
     void convType();
     void setConvType();
+    void monoType();
+    void setMonoType();
+    void edge();
+    void setEdge();
+    void blockSize();
+    void setBlockSize();
+
+    void rotate();
+    void setRotate();
+    void flipVertical();
+    void setFlipVertical();
+    void flipHorizontal();
+    void setFlipHorizontal();
+    void inverse();
+    void setInverse();
+
+    void mask();
+    void setMask();
+
     void cleanupTestCase();
 };
 //-----------------------------------------------------------------------------
