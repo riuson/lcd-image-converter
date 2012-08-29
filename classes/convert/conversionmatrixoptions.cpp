@@ -320,12 +320,12 @@ const QString & ConversionMatrixOptions::monoTypeName() const
 quint32 ConversionMatrixOptions::get(int index) const
 {
     quint32 result = 0;
-    if (index < ConversionMatrixOptions::IndexesCount)
+    if (index < ConversionMatrixOptions::ParametersCount)
     {
         // if not enough data
-        if (this->mMatrixData->count() < ConversionMatrixOptions::IndexesCount)
+        if (this->mMatrixData->count() < ConversionMatrixOptions::ParametersCount)
         {
-            for (int i = this->mMatrixData->count(); i < ConversionMatrixOptions::IndexesCount; i++)
+            for (int i = this->mMatrixData->count(); i < ConversionMatrixOptions::ParametersCount; i++)
             {
                 this->mMatrixData->append(0);
             }
@@ -337,12 +337,12 @@ quint32 ConversionMatrixOptions::get(int index) const
 //-----------------------------------------------------------------------------
 void ConversionMatrixOptions::set(int index, quint32 value)
 {
-    if (index < ConversionMatrixOptions::IndexesCount)
+    if (index < ConversionMatrixOptions::ParametersCount)
     {
         // if not enough data
-        if (this->mMatrixData->count() < ConversionMatrixOptions::IndexesCount)
+        if (this->mMatrixData->count() < ConversionMatrixOptions::ParametersCount)
         {
-            for (int i = this->mMatrixData->count(); i < ConversionMatrixOptions::IndexesCount; i++)
+            for (int i = this->mMatrixData->count(); i < ConversionMatrixOptions::ParametersCount; i++)
             {
                 this->mMatrixData->append(0);
             }

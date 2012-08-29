@@ -52,7 +52,6 @@ public:
 private:
     QVector<quint32> *mData;
     ConversionMatrixOptions *mOptions;
-    static const int ParamsItemsCount = 13;
 
 signals:
     void changed();

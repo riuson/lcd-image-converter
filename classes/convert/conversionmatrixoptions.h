@@ -68,6 +68,8 @@ public:
     const QString & convTypeName() const;
     const QString & monoTypeName() const;
 
+    static const int ParametersCount = 13;
+
 private:
 
     enum
@@ -83,9 +85,8 @@ private:
         IndexPreprocessInverse        = 8,
         IndexMaskUsed                 = 9,
         IndexMaskAnd                  = 10,
-        IndexMaskOr                    = 11,
-        IndexMaskFill                 = 12,
-        IndexesCount                  = 13
+        IndexMaskOr                   = 11,
+        IndexMaskFill                 = 12
     };
 
     QVector<quint32> *mMatrixData;

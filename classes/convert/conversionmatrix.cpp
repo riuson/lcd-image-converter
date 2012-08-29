@@ -28,7 +28,7 @@ ConversionMatrix::ConversionMatrix(QObject *parent) :
     QObject(parent)
 {
     this->mData = new QVector<quint32>();
-    for (int i = 0; i < ParamsItemsCount; i++)
+    for (int i = 0; i < ConversionMatrixOptions::ParametersCount; i++)
         this->mData->append(0);
 
     this->mOptions = new ConversionMatrixOptions(this->mData, this);
@@ -51,7 +51,7 @@ ConversionMatrixOptions *ConversionMatrix::options() const
 //-----------------------------------------------------------------------------
 int ConversionMatrix::operationsCount() const
 {
-    return (this->mData->size() - ParamsItemsCount) >> 1;
+    return (this->mData->size() - ConversionMatrixOptions::ParametersCount) >> 1;
 }
 //-----------------------------------------------------------------------------
 void ConversionMatrix::operation(int index, quint32 *mask, int *shift, bool *left) const
@@ -62,7 +62,7 @@ void ConversionMatrix::operation(int index, quint32 *mask, int *shift, bool *lef
 
     if (index < this->operationsCount())
     {
-        index = (index << 1) + ParamsItemsCount;
+        index = (index << 1) + ConversionMatrixOptions::ParametersCount;
 
         *mask = this->mData->at(index);
         *shift = (this->mData->at(index + 1) & 0x0000001f);
@@ -85,7 +85,7 @@ void ConversionMatrix::operationRemove(int index)
 {
     if (index < this->operationsCount())
     {
-        index = (index << 1) + ParamsItemsCount;
+        index = (index << 1) + ConversionMatrixOptions::ParametersCount;
         this->mData->remove(index + 1);
         this->mData->remove(index);
     }
@@ -105,7 +105,7 @@ void ConversionMatrix::operationReplace(int index, quint32 mask, int shift, bool
 {
     if (index < this->operationsCount())
     {
-        index = (index << 1) + ParamsItemsCount;
+        index = (index << 1) + ConversionMatrixOptions::ParametersCount;
 
         this->mData->replace(index, mask);
 
@@ -270,10 +270,10 @@ bool ConversionMatrix::load(const QString &name)
     {
         sett.beginGroup(name);
 
-        bool ok;
-        quint32 bytesOrder, convType, monoType, edge, blockSize;
-        quint32 rotate, flipVertical, flipHorizontal, inverse;
-        quint32 maskUsed, maskAnd, maskOr, maskFill;
+        bool ok = false;
+        quint32 bytesOrder = 0, convType = 0, monoType = 0, edge = 0, blockSize = 0;
+        quint32 rotate = 0, flipVertical = 0, flipHorizontal = 0, inverse = 0;
+        quint32 maskUsed = 0, maskAnd = 0, maskOr = 0, maskFill = 0;
 
         bytesOrder = sett.value("bytesOrder", int(0)).toInt(&ok);
 
