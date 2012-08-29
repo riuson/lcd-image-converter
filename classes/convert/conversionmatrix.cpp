@@ -72,6 +72,8 @@ void ConversionMatrix::operation(int index, quint32 *mask, int *shift, bool *lef
 //-----------------------------------------------------------------------------
 void ConversionMatrix::operationAdd(quint32 mask, int shift, bool left)
 {
+    shift = qAbs(shift);
+
     this->mData->append(mask);
     if (left)
         this->mData->append(shift | 0x80000000);
