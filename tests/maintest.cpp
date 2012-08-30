@@ -2,6 +2,7 @@
 #include "testbitmaphelper.h"
 #include "testconversionmatrixoptions.h"
 #include "testconversionmatrix.h"
+#include "testconverterhelper.h"
 //-----------------------------------------------------------------------------
 int main(void)
 {
@@ -13,6 +14,9 @@ int main(void)
 
     TestConversionMatrix tcm;
     QTest::qExec(&tcm);
+
+    TestConverterHelper tch;
+    QTest::qExec(&tch);
 
     return 0;
 }
