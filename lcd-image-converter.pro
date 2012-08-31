@@ -27,7 +27,7 @@ SOURCES += main.cpp \
     controls/editortabimage.cpp \
     controls/editortabfont.cpp \
     controls/dialogsavechanges.cpp \
-    classes/bitmaphelper.cpp \
+    classes/convert/bitmaphelper.cpp \
     controls/dialogresize.cpp \
     classes/fontcontainer.cpp \
     classes/charactersmodel.cpp \
@@ -62,7 +62,7 @@ HEADERS += \
     controls/editortabfont.h \
     interfaces/idocument.h \
     controls/dialogsavechanges.h \
-    classes/bitmaphelper.h \
+    classes/convert/bitmaphelper.h \
     interfaces/idatacontainer.h \
     controls/dialogresize.h \
     classes/fontcontainer.h \

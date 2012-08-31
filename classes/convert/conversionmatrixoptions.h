@@ -30,34 +30,6 @@ template <class T> class QVector;
 //-----------------------------------------------------------------------------
 using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
-/*
- *  Matrix structure:
- *
- * [0] ConversionOptions:
- *     31    - not used more
- *     30    - byte order, 0 = little-endian, 1 = big-endian
- *     29:28 - conversion type
- *     27:24 - monochrome type
- *     23:16 - edge value for MonochromeTypeEdge
- *     15:12 - data block size
- *     11:10 - preprocess roration
- *     9     - preprocess flip vertical
- *     8     - preprocess flip horizontal
- *     7     - preprocess inverse
- *
- * [1] Mask of used bits before packing
- *
- * [2] Mask AND of bits before packing
- * [3] Mask OR of bits before packing
- *
- * [4] Mask of data bit
- * [5] Shift of data bit:
- *     31    - 0 = to right, 1 = to left
- *     4:0   - count
- *
- * ... Repeat 4 and 5 some times
- */
-
 class ConversionMatrixOptions : public QObject
 {
     Q_OBJECT
@@ -96,18 +68,31 @@ public:
     const QString & convTypeName() const;
     const QString & monoTypeName() const;
 
+    static const int ParametersCount = 13;
+
 private:
-    static const quint32 MaskByteOrder      = 0x40000000;
-    static const quint32 MaskConversionType = 0x30000000;
-    static const quint32 MaskMonochromeType = 0x0f000000;
-    static const quint32 MaskEdgeValue      = 0x00ff0000;
-    static const quint32 MaskDataBlockSize  = 0x0000f000;
-    static const quint32 MaskRotate         = 0x00000c00;
-    static const quint32 MaskFlipV          = 0x00000200;
-    static const quint32 MaskFlipH          = 0x00000100;
-    static const quint32 MaskInverse        = 0x00000080;
+
+    enum
+    {
+        IndexBytesOrder               = 0,
+        IndexConversionType           = 1,
+        IndexMonochromeType           = 2,
+        IndexEdge                     = 3,
+        IndexDataBlockSize            = 4,
+        IndexPreprocessRotation       = 5,
+        IndexPreprocessFlipVertical   = 6,
+        IndexPreprocessFlipHorizontal = 7,
+        IndexPreprocessInverse        = 8,
+        IndexMaskUsed                 = 9,
+        IndexMaskAnd                  = 10,
+        IndexMaskOr                   = 11,
+        IndexMaskFill                 = 12
+    };
 
     QVector<quint32> *mMatrixData;
+
+    quint32 get(int index) const;
+    void    set(int index, quint32 value);
 
 signals:
     void changed();

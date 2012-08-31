@@ -52,8 +52,8 @@ enum ColorsOrder
 //-----------------------------------------------------------------------------
 enum BytesOrder
 {
-    BytesOrderLittleEndian,
-    BytesOrderBigEndian
+    BytesOrderLittleEndian = 0,
+    BytesOrderBigEndian = 1
 };
 //-----------------------------------------------------------------------------
 enum DataBlockSize
