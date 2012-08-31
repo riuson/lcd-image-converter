@@ -13,10 +13,15 @@ public:
 
 private:
     ConversionMatrix *mMatrix;
+    void preparePackData(
+            quint32 maskUsed, quint32 maskFill,
+            QVector<quint32> *source, int width, int height,
+            QVector<quint32> *packed, int *widthOut, int *heightOut);
 
 private slots:
     void initTestCase();
     void processPixels();
+    void packData();
     void cleanupTestCase();
 };
 //-----------------------------------------------------------------------------
