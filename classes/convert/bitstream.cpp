@@ -78,7 +78,7 @@ bool BitStream::nextBit()
     quint32 data = this->mData->at(this->mStart + this->mCurrentPixel);
     for (int i = 0; i < 32; i++)
     {
-        quint32 mask = 0x00000001 << i;
+        quint32 mask = 0x80000000 >> i;
         if (this->mMaskCurrent & mask)
         {
             result = (data & mask) != 0;
