@@ -133,6 +133,59 @@ void TestConverterHelper::packData()
     }
 }
 //-----------------------------------------------------------------------------
+void TestConverterHelper::dataToString()
+{
+    const int count = 10;
+    // fill source data
+    QVector<quint32> source;
+    qsrand(QTime::currentTime().msec());
+    for (int y = 0; y < count; y++)
+    {
+        for (int x = 0; x < count; x++)
+        {
+            quint32 value = qrand();
+            source << value;
+        }
+    }
+
+    // configure matrix
+    this->mMatrix->initColor(5, 6, 5);
+    this->mMatrix->operationsRemoveAll();
+    this->mMatrix->options()->setMaskAnd(0xffffffff);
+    this->mMatrix->options()->setMaskOr(0x00000000);
+    this->mMatrix->options()->setMaskUsed(0x00ffffff);
+    this->mMatrix->options()->setMaskFill(0xffffffff);
+
+    // create expected strings
+    QString expected8, expected16, expected24, expected32;
+
+    this->prepareStringData(&source, count, count, Data8, &expected8);
+    this->prepareStringData(&source, count, count, Data16, &expected16);
+    this->prepareStringData(&source, count, count, Data24, &expected24);
+    this->prepareStringData(&source, count, count, Data32, &expected32);
+
+    // create test strings
+    QString test8, test16, test24, test32;
+
+    this->mMatrix->options()->setBlockSize(Data8);
+    test8 = ConverterHelper::dataToString(this->mMatrix, &source, count, count, "");
+
+    this->mMatrix->options()->setBlockSize(Data16);
+    test16 = ConverterHelper::dataToString(this->mMatrix, &source, count, count, "");
+
+    this->mMatrix->options()->setBlockSize(Data24);
+    test24 = ConverterHelper::dataToString(this->mMatrix, &source, count, count, "");
+
+    this->mMatrix->options()->setBlockSize(Data32);
+    test32 = ConverterHelper::dataToString(this->mMatrix, &source, count, count, "");
+
+    // compare
+    QCOMPARE(test8, expected8);
+    QCOMPARE(test16, expected16);
+    QCOMPARE(test24, expected24);
+    QCOMPARE(test32, expected32);
+}
+//-----------------------------------------------------------------------------
 void TestConverterHelper::cleanupTestCase()
 {
     delete this->mMatrix;
@@ -200,5 +253,54 @@ void TestConverterHelper::preparePackData(
 
     *widthOut = packedRowWidth;
     *heightOut = height;
+}
+//-----------------------------------------------------------------------------
+void TestConverterHelper::prepareStringData(
+        QVector<quint32> *source, int width, int height,
+        DataBlockSize size, QString *string)
+{
+    QString result;
+    quint32 mask = 0;
+    int digits = 1;
+    switch(size)
+    {
+    case Data8:
+    {
+        mask = 0x000000ff;
+        digits = 2;
+        break;
+    }
+    case Data16:
+    {
+        mask = 0x0000ffff;
+        digits = 4;
+        break;
+    }
+    case Data24:
+    {
+        mask = 0x00ffffff;
+        digits = 6;
+        break;
+    }
+    case Data32:
+    {
+        mask = 0xffffffff;
+        digits = 8;
+        break;
+    }
+    }
+
+    for (int y = 0; y < height; y++)
+    {
+        if (y > 0)
+            result.append("\n");
+        for (int x = 0; x < width; x++)
+        {
+            quint32 value = source->at(x + width * y);
+            result.append(QString("%1, ").arg(value & mask, digits, 16, QChar('0')));
+        }
+    }
+    result.truncate(result.length() - 2);
+    *string = result;
 }
 //-----------------------------------------------------------------------------
