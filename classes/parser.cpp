@@ -238,11 +238,13 @@ void Parser::parseImagesTable(const QString &templateString,
         tags["width"] = QString("%1").arg(image.width());
         tags["height"] = QString("%1").arg(image.height());
 
+        QImage imagePrepared;
+        ConverterHelper::prepareImage(this->mMatrix, &image, &imagePrepared);
 
         // conversion from image to strings
         QVector<quint32> imageData;
         int width, height;
-        ConverterHelper::pixelsData(this->mMatrix, &image, &imageData, &width, &height);
+        ConverterHelper::pixelsData(this->mMatrix, &imagePrepared, &imageData, &width, &height);
 
         ConverterHelper::processPixels(this->mMatrix, &imageData);
 
