@@ -15,45 +15,45 @@ void TestConversionMatrix::operationsCount()
     this->mMatrix->operationsRemoveAll();
 
     this->mMatrix->operationAdd(0x12345678, 0, false);
-    if (this->mMatrix->operationsCount() != 1)
-        QFAIL("operationsCount failed");
+    QCOMPARE(this->mMatrix->operationsCount(), 1);
 
     this->mMatrix->operationAdd(0x23131315, 1, true);
-    if (this->mMatrix->operationsCount() != 2)
-        QFAIL("operationsCount failed");
+    QCOMPARE(this->mMatrix->operationsCount(), 2);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrix::operation()
 {
     this->mMatrix->operationsRemoveAll();
 
-    quint32 srcMask = 0x12345678;
-    int srcShift = 10;
-    bool srcLeft = true;
+    quint32 expectedMask = 0x12345678;
+    int expectedShift = 10;
+    bool expectedLeft = true;
 
     for (int i = 0; i < 20; i++)
     {
-        this->mMatrix->operationAdd(srcMask, srcShift, srcLeft);
+        this->mMatrix->operationAdd(expectedMask, expectedShift, expectedLeft);
 
-        quint32 mask;
-        int shift;
-        bool left;
-        this->mMatrix->operation(i, &mask, &shift, &left);
+        quint32 actualMask;
+        int actualShift;
+        bool actualLeft;
+        this->mMatrix->operation(i, &actualMask, &actualShift, &actualLeft);
 
-        if (srcShift >= 0)
+        if (expectedShift >= 0)
         {
-            if ((mask != srcMask) || (shift != srcShift) || (left != srcLeft))
-                QFAIL("operation failed");
+            QCOMPARE(actualMask, expectedMask);
+            QCOMPARE(actualShift, expectedShift);
+            QCOMPARE(actualLeft, expectedLeft);
         }
         else
         {
-            if ((mask != srcMask) || (shift < 0) || (left != srcLeft))
-                QFAIL("operation failed");
+            QCOMPARE(actualMask, expectedMask);
+            QVERIFY(actualShift >= 0);
+            QCOMPARE(actualLeft, expectedLeft);
         }
 
-        srcMask = srcMask >> 3;
-        srcShift--;
-        srcLeft = !srcLeft;
+        expectedMask = expectedMask >> 3;
+        expectedShift--;
+        expectedLeft = !expectedLeft;
     }
 }
 //-----------------------------------------------------------------------------
@@ -61,33 +61,35 @@ void TestConversionMatrix::operationAdd()
 {
     this->mMatrix->operationsRemoveAll();
 
-    quint32 srcMask = 0x41654649;
-    int srcShift = 10;
-    bool srcLeft = true;
+    quint32 expectedMask = 0x41654649;
+    int expectedShift = 10;
+    bool expectedLeft = true;
 
     for (int i = 0; i < 20; i++)
     {
-        this->mMatrix->operationAdd(srcMask, srcShift, srcLeft);
+        this->mMatrix->operationAdd(expectedMask, expectedShift, expectedLeft);
 
-        quint32 mask;
-        int shift;
-        bool left;
-        this->mMatrix->operation(i, &mask, &shift, &left);
+        quint32 actualMask;
+        int actualShift;
+        bool actualLeft;
+        this->mMatrix->operation(i, &actualMask, &actualShift, &actualLeft);
 
-        if (srcShift >= 0)
+        if (expectedShift >= 0)
         {
-            if ((mask != srcMask) || (shift != srcShift) || (left != srcLeft))
-                QFAIL("operation failed");
+            QCOMPARE(actualMask, expectedMask);
+            QCOMPARE(actualShift, expectedShift);
+            QCOMPARE(actualLeft, expectedLeft);
         }
         else
         {
-            if ((mask != srcMask) || (shift < 0) || (left != srcLeft))
-                QFAIL("operation failed");
+            QCOMPARE(actualMask, expectedMask);
+            QVERIFY(actualShift >= 0);
+            QCOMPARE(actualLeft, expectedLeft);
         }
 
-        srcMask = srcMask << 1;
-        srcShift--;
-        srcLeft = !srcLeft;
+        expectedMask = expectedMask << 1;
+        expectedShift--;
+        expectedLeft = !expectedLeft;
     }
 }
 //-----------------------------------------------------------------------------
@@ -98,46 +100,38 @@ void TestConversionMatrix::operationRemove()
     this->mMatrix->operationAdd(0x12345678, 5, false);
     this->mMatrix->operationAdd(0x87654321, 3, true);
 
-    quint32 mask;
-    int shift;
-    bool left;
+    quint32 actualMask;
+    int actualShift;
+    bool actualLeft;
 
     this->mMatrix->operationRemove(0);
 
-    this->mMatrix->operation(0, &mask, &shift, &left);
+    this->mMatrix->operation(0, &actualMask, &actualShift, &actualLeft);
 
     if (this->mMatrix->operationsCount() != 1)
         QFAIL("operationRemove failed");
 
-    if ((mask != 0x87654321) || (shift != 3) || (left != true))
-        QFAIL("operationRemove failed");
+    QCOMPARE(actualMask, 0x87654321);
+    QCOMPARE(actualShift, 3);
+    QCOMPARE(actualLeft, true);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrix::operationRemoveAll()
 {
     this->mMatrix->operationsRemoveAll();
 
-    quint32 srcMask = 0x41654649;
-    int srcShift = 10;
-    bool srcLeft = true;
+    quint32 mask = 0x41654649;
+    int shift = 10;
+    bool left = true;
 
     for (int i = 0; i < 20; i++)
     {
-        this->mMatrix->operationAdd(srcMask, srcShift, srcLeft);
+        this->mMatrix->operationAdd(mask, shift, left);
     }
+    QCOMPARE(this->mMatrix->operationsCount(), 20);
 
-    if (this->mMatrix->operationsCount() == 20)
-    {
-        this->mMatrix->operationsRemoveAll();
-        if (this->mMatrix->operationsCount() != 0)
-        {
-            QFAIL("not removed");
-        }
-    }
-    else
-    {
-        QFAIL("No operations added");
-    }
+    this->mMatrix->operationsRemoveAll();
+    QCOMPARE(this->mMatrix->operationsCount(), 0);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrix::operationReplace()
@@ -149,6 +143,8 @@ void TestConversionMatrix::operationReplace()
     this->mMatrix->operationAdd(0x98abcdef, 7, false);
     this->mMatrix->operationAdd(0xdf546b01, 2, true);
 
+    QCOMPARE(this->mMatrix->operationsCount(), 4);
+
     quint32 mask;
     int shift;
     bool left;
@@ -158,22 +154,22 @@ void TestConversionMatrix::operationReplace()
 
     this->mMatrix->operation(2, &mask, &shift, &left);
 
-    if (this->mMatrix->operationsCount() != 4)
-        QFAIL("operationReplace failed");
+    QCOMPARE(this->mMatrix->operationsCount(), 4);
 
-    if ((mask != 0x1234f00d) || (shift != 0) || (left != true))
-        QFAIL("operationReplace failed");
+    QCOMPARE(mask, (quint32)0x1234f00d);
+    QCOMPARE(shift, 0);
+    QCOMPARE(left, true);
 
     // 2
     this->mMatrix->operationReplace(2, 0xab154e46, 7, false);
 
     this->mMatrix->operation(2, &mask, &shift, &left);
 
-    if (this->mMatrix->operationsCount() != 4)
-        QFAIL("operationReplace failed");
+    QCOMPARE(this->mMatrix->operationsCount(), 4);
 
-    if ((mask != 0xab154e46) || (shift != 7) || (left != false))
-        QFAIL("operationReplace failed");
+    QCOMPARE(mask, (quint32)0xab154e46);
+    QCOMPARE(shift, 7);
+    QCOMPARE(left, false);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrix::loadSave()
@@ -206,24 +202,19 @@ void TestConversionMatrix::loadSave()
     if (!this->mMatrix->load(name))
         QFAIL("preset not loaded");
 
-    if (
-            (this->mMatrix->options()->bytesOrder() != sourceMatrix.options()->bytesOrder()) ||
-            (this->mMatrix->options()->convType() != sourceMatrix.options()->convType()) ||
-            (this->mMatrix->options()->monoType() != sourceMatrix.options()->monoType()) ||
-            (this->mMatrix->options()->edge() != sourceMatrix.options()->edge()) ||
-            (this->mMatrix->options()->blockSize() != sourceMatrix.options()->blockSize()) ||
-            (this->mMatrix->options()->rotate() != sourceMatrix.options()->rotate()) ||
-            (this->mMatrix->options()->flipVertical() != sourceMatrix.options()->flipVertical()) ||
-            (this->mMatrix->options()->flipHorizontal() != sourceMatrix.options()->flipHorizontal()) ||
-            (this->mMatrix->options()->inverse() != sourceMatrix.options()->inverse()) ||
-            (this->mMatrix->options()->maskUsed() != sourceMatrix.options()->maskUsed()) ||
-            (this->mMatrix->options()->maskAnd() != sourceMatrix.options()->maskAnd()) ||
-            (this->mMatrix->options()->maskOr() != sourceMatrix.options()->maskOr()) ||
-            (this->mMatrix->options()->maskFill() != sourceMatrix.options()->maskFill())
-            )
-    {
-        QFAIL("loaded preset not match");
-    }
+    QCOMPARE(this->mMatrix->options()->bytesOrder(),     sourceMatrix.options()->bytesOrder());
+    QCOMPARE(this->mMatrix->options()->convType(),       sourceMatrix.options()->convType());
+    QCOMPARE(this->mMatrix->options()->monoType(),       sourceMatrix.options()->monoType());
+    QCOMPARE(this->mMatrix->options()->edge(),           sourceMatrix.options()->edge());
+    QCOMPARE(this->mMatrix->options()->blockSize(),      sourceMatrix.options()->blockSize());
+    QCOMPARE(this->mMatrix->options()->rotate(),         sourceMatrix.options()->rotate());
+    QCOMPARE(this->mMatrix->options()->flipVertical(),   sourceMatrix.options()->flipVertical());
+    QCOMPARE(this->mMatrix->options()->flipHorizontal(), sourceMatrix.options()->flipHorizontal());
+    QCOMPARE(this->mMatrix->options()->inverse(),        sourceMatrix.options()->inverse());
+    QCOMPARE(this->mMatrix->options()->maskUsed(),       sourceMatrix.options()->maskUsed());
+    QCOMPARE(this->mMatrix->options()->maskAnd(),        sourceMatrix.options()->maskAnd());
+    QCOMPARE(this->mMatrix->options()->maskOr(),         sourceMatrix.options()->maskOr());
+    QCOMPARE(this->mMatrix->options()->maskFill(),       sourceMatrix.options()->maskFill());
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrix::cleanupTestCase()

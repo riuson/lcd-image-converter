@@ -12,7 +12,7 @@ public:
     explicit TestBitmapHelper(QObject *parent = 0);
 
 private:
-    void compareSizeAndPixels(const QImage *image1, const QImage *image2) const;
+    void compareSizeAndPixels(const QImage *actual, const QImage *expected) const;
 
 private slots:
     void initTestCase();

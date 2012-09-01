@@ -9,126 +9,105 @@ void TestConversionMatrixOptions::initTestCase()
 {
     this->mMatrixData = new QVector<quint32>();
     this->mOptions = new ConversionMatrixOptions(this->mMatrixData, this);
-    if (this->mMatrixData->count() != 13)
-        QFAIL("Matrix options not initialized");
+    QVERIFY2(this->mMatrixData->count() == 13, "Matrix options not initialized");
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::bytesOrder()
 {
     // 1
     this->mMatrixData->replace(0, BytesOrderBigEndian);
-    if (this->mOptions->bytesOrder() != BytesOrderBigEndian)
-        QFAIL("Big-Endian failed");
+    QCOMPARE(this->mOptions->bytesOrder(), BytesOrderBigEndian);
 
     // 2
     this->mMatrixData->replace(0, BytesOrderLittleEndian);
-    if (this->mOptions->bytesOrder() != BytesOrderLittleEndian)
-        QFAIL("Little-Endian failed");
+    QCOMPARE(this->mOptions->bytesOrder(), BytesOrderLittleEndian);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::setBytesOrder()
 {
     // 1
     this->mOptions->setBytesOrder(BytesOrderBigEndian);
-    if ((BytesOrder)this->mMatrixData->at(0) != BytesOrderBigEndian)
-        QFAIL("Big-Endian failed");
+    QCOMPARE(this->mMatrixData->at(0), (quint32)BytesOrderBigEndian);
 
     // 2
     this->mOptions->setBytesOrder(BytesOrderLittleEndian);
-    if ((BytesOrder)this->mMatrixData->at(0) != BytesOrderLittleEndian)
-        QFAIL("Little-Endian failed");
+    QCOMPARE(this->mMatrixData->at(0), (quint32)BytesOrderLittleEndian);
 
     // 3
     this->mOptions->setBytesOrder(BytesOrderBigEndian);
-    if ((BytesOrder)this->mMatrixData->at(0) != BytesOrderBigEndian)
-        QFAIL("Big-Endian failed");
+    QCOMPARE(this->mMatrixData->at(0), (quint32)BytesOrderBigEndian);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::convType()
 {
     // 1
     this->mMatrixData->replace(1, ConversionTypeMonochrome);
-    if (this->mOptions->convType() != ConversionTypeMonochrome)
-        QFAIL("Monochrome failed");
+    QCOMPARE(this->mOptions->convType(), ConversionTypeMonochrome);
 
     // 2
     this->mMatrixData->replace(1, ConversionTypeGrayscale);
-    if (this->mOptions->convType() != ConversionTypeGrayscale)
-        QFAIL("Grayscale failed");
+    QCOMPARE(this->mOptions->convType(), ConversionTypeGrayscale);
 
     // 3
     this->mMatrixData->replace(1, ConversionTypeColor);
-    if (this->mOptions->convType() != ConversionTypeColor)
-        QFAIL("Color failed");
+    QCOMPARE(this->mOptions->convType(), ConversionTypeColor);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::setConvType()
 {
     // 1
     this->mOptions->setConvType(ConversionTypeMonochrome);
-    if ((ConversionType)this->mMatrixData->at(1) != ConversionTypeMonochrome)
-        QFAIL("Monochrome failed");
+    QCOMPARE(this->mMatrixData->at(1), (quint32)ConversionTypeMonochrome);
 
     // 2
     this->mOptions->setConvType(ConversionTypeGrayscale);
-    if ((ConversionType)this->mMatrixData->at(1) != ConversionTypeGrayscale)
-        QFAIL("Grayscale failed");
+    QCOMPARE(this->mMatrixData->at(1), (quint32)ConversionTypeGrayscale);
 
     // 3
     this->mOptions->setConvType(ConversionTypeColor);
-    if ((ConversionType)this->mMatrixData->at(1) != ConversionTypeColor)
-        QFAIL("Color failed");
+    QCOMPARE(this->mMatrixData->at(1), (quint32)ConversionTypeColor);
 
     // 4
     this->mOptions->setConvType(ConversionTypeMonochrome);
-    if ((ConversionType)this->mMatrixData->at(1) != ConversionTypeMonochrome)
-        QFAIL("Monochrome failed");
+    QCOMPARE(this->mMatrixData->at(1), (quint32)ConversionTypeMonochrome);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::monoType()
 {
     // 1
     this->mMatrixData->replace(2, MonochromeTypeEdge);
-    if (this->mOptions->monoType() != MonochromeTypeEdge)
-        QFAIL("Edge failed");
+    QCOMPARE(this->mOptions->monoType(), MonochromeTypeEdge);
 
     // 2
     this->mMatrixData->replace(2, MonochromeTypeDiffuseDither);
-    if (this->mOptions->monoType() != MonochromeTypeDiffuseDither)
-        QFAIL("Diffuse Dither failed");
+    QCOMPARE(this->mOptions->monoType(), MonochromeTypeDiffuseDither);
 
     // 3
     this->mMatrixData->replace(2, MonochromeTypeOrderedDither);
-    if (this->mOptions->monoType() != MonochromeTypeOrderedDither)
-        QFAIL("Ordered Dither failed");
+    QCOMPARE(this->mOptions->monoType(), MonochromeTypeOrderedDither);
 
     // 4
     this->mMatrixData->replace(2, MonochromeTypeThresholdDither);
-    if (this->mOptions->monoType() != MonochromeTypeThresholdDither)
-        QFAIL("Threshold Dither failed");
+    QCOMPARE(this->mOptions->monoType(), MonochromeTypeThresholdDither);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::setMonoType()
 {
     // 1
     this->mOptions->setMonoType(MonochromeTypeEdge);
-    if ((MonochromeType)this->mMatrixData->at(2) != MonochromeTypeEdge)
-        QFAIL("Edge failed");
+    QCOMPARE(this->mMatrixData->at(2), (quint32)MonochromeTypeEdge);
 
     // 2
     this->mOptions->setMonoType(MonochromeTypeDiffuseDither);
-    if ((MonochromeType)this->mMatrixData->at(2) != MonochromeTypeDiffuseDither)
-        QFAIL("Diffuse Dither failed");
+    QCOMPARE(this->mMatrixData->at(2), (quint32)MonochromeTypeDiffuseDither);
 
     // 3
     this->mOptions->setMonoType(MonochromeTypeOrderedDither);
-    if ((MonochromeType)this->mMatrixData->at(2) != MonochromeTypeOrderedDither)
-        QFAIL("Ordered Dither failed");
+    QCOMPARE(this->mMatrixData->at(2), (quint32)MonochromeTypeOrderedDither);
 
     // 4
     this->mOptions->setMonoType(MonochromeTypeThresholdDither);
-    if ((MonochromeType)this->mMatrixData->at(2) != MonochromeTypeThresholdDither)
-        QFAIL("Threshold Dither failed");
+    QCOMPARE(this->mMatrixData->at(2), (quint32)MonochromeTypeThresholdDither);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::edge()
@@ -138,13 +117,12 @@ void TestConversionMatrixOptions::edge()
         this->mMatrixData->replace(3, (quint32)i);
         if (i >= 0 && i <= 255)
         {
-            if (this->mOptions->edge() != i)
-                QFAIL("Edge not matched in range");
+            QCOMPARE(this->mOptions->edge(), i);
         }
         else
         {
-            if (this->mOptions->edge() < 0 || this->mOptions->edge() > 255)
-                    QFAIL("Edge out of range");
+            QVERIFY(this->mOptions->edge() >= 0);
+            QVERIFY(this->mOptions->edge() <= 255);
         }
     }
 }
@@ -156,13 +134,11 @@ void TestConversionMatrixOptions::setEdge()
         this->mOptions->setEdge(i);
         if (i >= 0 && i <= 255)
         {
-            if (this->mMatrixData->at(3) != i)
-                QFAIL("Edge not matched in range");
+            QCOMPARE((int)this->mMatrixData->at(3), i);
         }
         else
         {
-            if (this->mMatrixData->at(3) > 255)
-                    QFAIL("Edge out of range");
+            QVERIFY(this->mMatrixData->at(3) <= 255);
         }
     }
 }
@@ -171,195 +147,162 @@ void TestConversionMatrixOptions::blockSize()
 {
     // 1
     this->mMatrixData->replace(4, Data8);
-    if (this->mOptions->blockSize() != Data8)
-        QFAIL("Data8 failed");
+    QCOMPARE(this->mOptions->blockSize(), Data8);
 
     // 2
     this->mMatrixData->replace(4, Data16);
-    if (this->mOptions->blockSize() != Data16)
-        QFAIL("Data16 failed");
+    QCOMPARE(this->mOptions->blockSize(), Data16);
 
     // 3
     this->mMatrixData->replace(4, Data24);
-    if (this->mOptions->blockSize() != Data24)
-        QFAIL("Data24 failed");
+    QCOMPARE(this->mOptions->blockSize(), Data24);
 
     // 4
     this->mMatrixData->replace(4, Data32);
-    if (this->mOptions->blockSize() != Data32)
-        QFAIL("Data32 failed");
+    QCOMPARE(this->mOptions->blockSize(), Data32);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::setBlockSize()
 {
     // 1
     this->mOptions->setBlockSize(Data8);
-    if ((DataBlockSize)this->mMatrixData->at(4) != Data8)
-        QFAIL("Data8 failed");
+    QCOMPARE(this->mMatrixData->at(4), (quint32)Data8);
 
     // 2
     this->mOptions->setBlockSize(Data16);
-    if ((DataBlockSize)this->mMatrixData->at(4) != Data16)
-        QFAIL("Data16 failed");
+    QCOMPARE(this->mMatrixData->at(4), (quint32)Data16);
 
     // 3
     this->mOptions->setBlockSize(Data24);
-    if ((DataBlockSize)this->mMatrixData->at(4) != Data24)
-        QFAIL("Data24 failed");
+    QCOMPARE(this->mMatrixData->at(4), (quint32)Data24);
 
     // 4
     this->mOptions->setBlockSize(Data32);
-    if ((DataBlockSize)this->mMatrixData->at(4) != Data32)
-        QFAIL("Data32 failed");
+    QCOMPARE(this->mMatrixData->at(4), (quint32)Data32);
 
     // 5
     this->mOptions->setBlockSize(Data8);
-    if ((DataBlockSize)this->mMatrixData->at(4) != Data8)
-        QFAIL("Data8 failed");
+    QCOMPARE(this->mMatrixData->at(4), (quint32)Data8);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::rotate()
 {
     // 1
     this->mMatrixData->replace(5, RotateNone);
-    if (this->mOptions->rotate() != RotateNone)
-        QFAIL("Rotate 0 failed");
+    QCOMPARE(this->mOptions->rotate(), RotateNone);
 
     // 2
     this->mMatrixData->replace(5, Rotate90);
-    if (this->mOptions->rotate() != Rotate90)
-        QFAIL("Rotate 90 failed");
+    QCOMPARE(this->mOptions->rotate(), Rotate90);
 
     // 3
     this->mMatrixData->replace(5, Rotate180);
-    if (this->mOptions->rotate() != Rotate180)
-        QFAIL("Rotate 180 failed");
+    QCOMPARE(this->mOptions->rotate(), Rotate180);
 
     // 4
     this->mMatrixData->replace(5, Rotate270);
-    if (this->mOptions->rotate() != Rotate270)
-        QFAIL("Rotate 270 failed");
+    QCOMPARE(this->mOptions->rotate(), Rotate270);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::setRotate()
 {
     // 1
     this->mOptions->setRotate(RotateNone);
-    if (this->mMatrixData->at(5) != RotateNone)
-        QFAIL("Rotate 0 failed");
+    QCOMPARE(this->mMatrixData->at(5), (quint32)RotateNone);
 
     // 2
     this->mOptions->setRotate(Rotate90);
-    if (this->mMatrixData->at(5) != Rotate90)
-        QFAIL("Rotate 90 failed");
+    QCOMPARE(this->mMatrixData->at(5), (quint32)Rotate90);
 
     // 3
     this->mOptions->setRotate(Rotate180);
-    if (this->mMatrixData->at(5) != Rotate180)
-        QFAIL("Rotate 180 failed");
+    QCOMPARE(this->mMatrixData->at(5), (quint32)Rotate180);
 
     // 4
     this->mOptions->setRotate(Rotate270);
-    if (this->mMatrixData->at(5) != Rotate270)
-        QFAIL("Rotate 270 failed");
+    QCOMPARE(this->mMatrixData->at(5), (quint32)Rotate270);
 
     // 5
     this->mOptions->setRotate(RotateNone);
-    if (this->mMatrixData->at(5) != RotateNone)
-        QFAIL("Rotate 0 failed");
+    QCOMPARE(this->mMatrixData->at(5), (quint32)RotateNone);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::flipVertical()
 {
     // 1
     this->mMatrixData->replace(6, 0);
-    if (this->mOptions->flipVertical() != false)
-        QFAIL("Flip vertical failed");
+    QCOMPARE(this->mOptions->flipVertical(), false);
 
     // 2
     this->mMatrixData->replace(6, 1);
-    if (this->mOptions->flipVertical() != true)
-        QFAIL("Flip vertical failed");
+    QCOMPARE(this->mOptions->flipVertical(), true);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::setFlipVertical()
 {
     // 1
     this->mOptions->setFlipVertical(false);
-    if (this->mMatrixData->at(6) != 0)
-        QFAIL("Flip vertical failed");
+    QCOMPARE(this->mMatrixData->at(6), (quint32)0);
 
     // 2
     this->mOptions->setFlipVertical(true);
-    if (this->mMatrixData->at(6) != 1)
-        QFAIL("Flip vertical failed");
+    QCOMPARE(this->mMatrixData->at(6), (quint32)1);
 
     // 3
     this->mOptions->setFlipVertical(false);
-    if (this->mMatrixData->at(6) != 0)
-        QFAIL("Flip vertical failed");
+    QCOMPARE(this->mMatrixData->at(6), (quint32)0);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::flipHorizontal()
 {
     // 1
     this->mMatrixData->replace(7, 0);
-    if (this->mOptions->flipHorizontal() != false)
-        QFAIL("Flip horizontal failed");
+    QCOMPARE(this->mOptions->flipHorizontal(), false);
 
     // 2
     this->mMatrixData->replace(7, 1);
-    if (this->mOptions->flipHorizontal() != true)
-        QFAIL("Flip horizontal failed");
+    QCOMPARE(this->mOptions->flipHorizontal(), true);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::setFlipHorizontal()
 {
     // 1
     this->mOptions->setFlipHorizontal(false);
-    if (this->mMatrixData->at(7) != 0)
-        QFAIL("Flip horizontal failed");
+    QCOMPARE(this->mMatrixData->at(7), (quint32)0);
 
     // 2
     this->mOptions->setFlipHorizontal(true);
-    if (this->mMatrixData->at(7) != 1)
-        QFAIL("Flip horizontal failed");
+    QCOMPARE(this->mMatrixData->at(7), (quint32)1);
 
     // 3
     this->mOptions->setFlipHorizontal(false);
-    if (this->mMatrixData->at(7) != 0)
-        QFAIL("Flip horizontal failed");
+    QCOMPARE(this->mMatrixData->at(7), (quint32)0);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::inverse()
 {
     // 1
     this->mMatrixData->replace(8, 0);
-    if (this->mOptions->inverse() != false)
-        QFAIL("Inverse failed");
+    QCOMPARE(this->mOptions->inverse(), false);
 
     // 2
     this->mMatrixData->replace(8, 1);
-    if (this->mOptions->inverse() != true)
-        QFAIL("Inverse failed");
+    QCOMPARE(this->mOptions->inverse(), true);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::setInverse()
 {
     // 1
     this->mOptions->setInverse(false);
-    if (this->mMatrixData->at(8) != 0)
-        QFAIL("Inverse failed");
+    QCOMPARE(this->mMatrixData->at(8), (quint32)0);
 
     // 2
     this->mOptions->setInverse(true);
-    if (this->mMatrixData->at(8) != 1)
-        QFAIL("Inverse failed");
+    QCOMPARE(this->mMatrixData->at(8), (quint32)1);
 
     // 3
     this->mOptions->setInverse(false);
-    if (this->mMatrixData->at(8) != 0)
-        QFAIL("Inverse failed");
+    QCOMPARE(this->mMatrixData->at(8), (quint32)0);
 }
 //-----------------------------------------------------------------------------
 void TestConversionMatrixOptions::mask()
@@ -372,20 +315,16 @@ void TestConversionMatrixOptions::mask()
     for (int i = 0; i < 4; i++)
     {
         this->mMatrixData->replace(9, value1);
-        if (this->mOptions->maskUsed() != value1)
-            QFAIL("MaskUsed failed");
+        QCOMPARE(this->mOptions->maskUsed(), value1);
 
         this->mMatrixData->replace(10, value2);
-        if (this->mOptions->maskAnd() != value2)
-            QFAIL("MaskAnd failed");
+        QCOMPARE(this->mOptions->maskAnd(), value2);
 
         this->mMatrixData->replace(11, value3);
-        if (this->mOptions->maskOr() != value3)
-            QFAIL("MaskOr failed");
+        QCOMPARE(this->mOptions->maskOr(), value3);
 
         this->mMatrixData->replace(12, value4);
-        if (this->mOptions->maskFill() != value4)
-            QFAIL("MaskFill failed");
+        QCOMPARE(this->mOptions->maskFill(), value4);
 
         value1 = value1 >> 1;
         value2 = value2 >> 2;
@@ -404,20 +343,16 @@ void TestConversionMatrixOptions::setMask()
     for (int i = 0; i < 4; i++)
     {
         this->mOptions->setMaskUsed(value1);
-        if (this->mMatrixData->at(9) != value1)
-            QFAIL("MaskUsed failed");
+        QCOMPARE(this->mMatrixData->at(9), value1);
 
         this->mOptions->setMaskAnd(value2);
-        if (this->mMatrixData->at(10) != value2)
-            QFAIL("MaskAnd failed");
+        QCOMPARE(this->mMatrixData->at(10), value2);
 
         this->mOptions->setMaskOr(value3);
-        if (this->mMatrixData->at(11) != value3)
-            QFAIL("MaskOr failed");
+        QCOMPARE(this->mMatrixData->at(11), value3);
 
         this->mOptions->setMaskFill(value4);
-        if (this->mMatrixData->at(12) != value4)
-            QFAIL("MaskFill failed");
+        QCOMPARE(this->mMatrixData->at(12), value4);
 
         value1 = value1 >> 1;
         value2 = value2 >> 2;

@@ -58,19 +58,17 @@ void TestBitmapHelper::cleanupTestCase()
 {
 }
 //-----------------------------------------------------------------------------
-void TestBitmapHelper::compareSizeAndPixels(const QImage *image1, const QImage *image2) const
+void TestBitmapHelper::compareSizeAndPixels(const QImage *actual, const QImage *expected) const
 {
-    if (image1->size() != image2->size())
-        QFAIL("Size not match");
+    QCOMPARE (actual->size(), expected->size());
 
-    for (int x = 0; x < image1->width(); x++)
+    for (int x = 0; x < actual->width(); x++)
     {
-        for (int y = 0; y < image1->height(); y++)
+        for (int y = 0; y < actual->height(); y++)
         {
-            QRgb valueExpected = image1->pixel(x, y);
-            QRgb valueTest = image2->pixel(x, y);
-            if (valueExpected != valueTest)
-                QFAIL("Pixel's color not match");
+            QRgb valueActual = actual->pixel(x, y);
+            QRgb valueExpected = expected->pixel(x, y);
+            QCOMPARE (valueActual, valueExpected);
         }
     }
 }
