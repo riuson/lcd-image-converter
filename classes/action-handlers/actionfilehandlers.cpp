@@ -1,3 +1,22 @@
+/*
+ * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * Copyright (C) 2012 riuson
+ * mailto: riuson@gmail.com
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/
+ */
+
 #include "actionfilehandlers.h"
 
 #include "editortabimage.h"
@@ -8,7 +27,7 @@
 #include <QTextStream>
 #include <QInputDialog>
 #include <QLineEdit>
-#include "converter.h"
+#include "parser.h"
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
 #include "idatacontainer.h"
@@ -83,7 +102,7 @@ void ActionFileHandlers::open_triggered()
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setFileMode(QFileDialog::ExistingFile);
     dialog.setFilter(tr("XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
-    dialog.setWindowTitle(tr("Open file"));
+    dialog.setWindowTitle(tr("Open xml or image file"));
 
     if (dialog.exec() == QDialog::Accepted)
     {
@@ -165,7 +184,10 @@ void ActionFileHandlers::convert_triggered()
     if (doc != NULL)
     {
         QMap<QString, QString> tags;
-        tags["fileName"] = doc->fileName();
+        if (!doc->fileName().isEmpty())
+            tags["fileName"] = doc->fileName();
+        else
+            tags["fileName"] = "unknown";
         QString docName = doc->documentName();
         tags["documentName"] = docName;
         docName = docName.remove(QRegExp("\\W", Qt::CaseInsensitive));
@@ -196,8 +218,8 @@ void ActionFileHandlers::convert_triggered()
 
             templateFileName = templateFontFileName;
         }
-        Converter conv(this);
-        QString result = conv.convert(doc, templateFileName, tags);
+        Parser parser(this);
+        QString result = parser.convert(doc, templateFileName, tags);
 
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptSave);

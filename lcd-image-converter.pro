@@ -27,20 +27,9 @@ SOURCES += main.cpp \
     controls/editortabimage.cpp \
     controls/editortabfont.cpp \
     controls/dialogsavechanges.cpp \
-    classes/bitmaphelper.cpp \
+    classes/convert/bitmaphelper.cpp \
     controls/dialogresize.cpp \
     classes/fontcontainer.cpp \
-    controls/widgetconvoptionsmono.cpp \
-    classes/bytelistitemdelegate.cpp \
-    controls/widgetconvoptionsgray.cpp \
-    controls/widgetconvoptionscolor.cpp \
-    controls/dialogconvert.cpp \
-    classes/converter.cpp \
-    classes/convertermono.cpp \
-    classes/convertergrayscale.cpp \
-    classes/convertercolor.cpp \
-    classes/bitmapdata.cpp \
-    controls/dialogsetuptemplates.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
     controls/dialogabout.cpp \
@@ -52,7 +41,19 @@ SOURCES += main.cpp \
     classes/action-handlers/actionhelphandlers.cpp \
     classes/action-handlers/actionsetuphandlers.cpp \
     classes/action-handlers/actionfilehandlers.cpp \
-    controls/dialogfontpreview.cpp
+    controls/dialogfontpreview.cpp \
+    controls/revisionlabel.cpp \
+    classes/revisioninfo.cpp \
+    classes/convert/converterhelper.cpp \
+    classes/convert/conversionmatrixoptions.cpp \
+    classes/convert/bitstream.cpp \
+    controls/setup/dialogpreview.cpp \
+    classes/preview-models/matrixpreviewmodel.cpp \
+    classes/convert/conversionmatrix.cpp \
+    controls/setup/dialogconvert.cpp \
+    controls/setup/dialogsetup.cpp \
+    classes/parser.cpp \
+    classes/preview-models/matrixitemdelegate.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -61,22 +62,10 @@ HEADERS += \
     controls/editortabfont.h \
     interfaces/idocument.h \
     controls/dialogsavechanges.h \
-    classes/bitmaphelper.h \
+    classes/convert/bitmaphelper.h \
     interfaces/idatacontainer.h \
     controls/dialogresize.h \
     classes/fontcontainer.h \
-    controls/widgetconvoptionsmono.h \
-    classes/bytelistitemdelegate.h \
-    controls/widgetconvoptionsgray.h \
-    controls/widgetconvoptionscolor.h \
-    controls/dialogconvert.h \
-    classes/converter.h \
-    classes/convertermono.h \
-    classes/convertergrayscale.h \
-    classes/convertercolor.h \
-    interfaces/iconverter.h \
-    classes/bitmapdata.h \
-    controls/dialogsetuptemplates.h \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
     controls/dialogabout.h \
@@ -89,7 +78,20 @@ HEADERS += \
     classes/action-handlers/actionhelphandlers.h \
     classes/action-handlers/actionsetuphandlers.h \
     classes/action-handlers/actionfilehandlers.h \
-    controls/dialogfontpreview.h
+    controls/dialogfontpreview.h \
+    controls/revisionlabel.h \
+    classes/revisioninfo.h \
+    classes/convert/converterhelper.h \
+    classes/convert/conversionmatrixoptions.h \
+    classes/convert/bitstream.h \
+    controls/setup/dialogpreview.h \
+    classes/preview-models/matrixpreviewmodel.h \
+    classes/convert/conversion_options.h \
+    classes/convert/conversionmatrix.h \
+    controls/setup/dialogconvert.h \
+    controls/setup/dialogsetup.h \
+    classes/parser.h \
+    classes/preview-models/matrixitemdelegate.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -97,27 +99,28 @@ FORMS += \
     controls/editortabfont.ui \
     controls/dialogsavechanges.ui \
     controls/dialogresize.ui \
-    controls/widgetconvoptionsmono.ui \
-    controls/widgetconvoptionsgray.ui \
-    controls/widgetconvoptionscolor.ui \
-    controls/dialogconvert.ui \
-    controls/dialogsetuptemplates.ui \
     controls/dialogfontselect.ui \
     controls/dialogabout.ui \
     controls/starttab.ui \
-    controls/dialogfontpreview.ui
+    controls/dialogfontpreview.ui \
+    controls/setup/dialogpreview.ui \
+    controls/setup/dialogconvert.ui \
+    controls/setup/dialogsetup.ui
 INCLUDEPATH += . \
     ./classes \
+    ./classes/convert \
     ./classes/action-handlers \
+    ./classes/preview-models \
     ./controls \
+    ./controls/setup \
     ./interfaces
 
 RESOURCES += \
     resources/resources.qrc
 
 win32 {
-    RC_FILE = iconrc.rc
-    OTHER_FILES += iconrc.rc
+    RC_FILE = win-res.rc
+    OTHER_FILES += win-res.rc
 }
 
 TRANSLATIONS = resources/lcd-image-converter-ru.ts
@@ -125,6 +128,20 @@ TRANSLATIONS = resources/lcd-image-converter-ru.ts
 OTHER_FILES += \
     resources/image.tmpl \
     resources/font.tmpl \
-    resources/template_keys.txt \
     resources/lcd-image-converter-ru.ts \
-    iconrc.rc
+    win-res.rc
+
+
+# generate version info file on each build, because file in other directory
+version.target = version-included.txt
+version.commands = @sh ./version-gen.sh
+version.depends = .git
+QMAKE_EXTRA_TARGETS += version
+PRE_TARGETDEPS += version-included.txt
+
+# compile translation
+translation_ru.target = ./resources/lcd-image-converter-ru.qm
+translation_ru.commands = @sh ./translation-compile.sh
+translation_ru.depends = .git
+QMAKE_EXTRA_TARGETS += translation_ru
+PRE_TARGETDEPS += ./resources/lcd-image-converter-ru.qm ./resources/lcd-image-converter-ru.ts

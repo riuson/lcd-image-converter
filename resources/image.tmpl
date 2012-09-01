@@ -1,31 +1,36 @@
 @start_block_header@
-// @dataType@
-// filename: @fileName@
-// name: @documentName@
-// encoding: UTF-8
-// unicode bom: yes
+/*******************************************************************************
+* @dataType@
+* filename: @fileName@
+* name: @documentName@
+* encoding: UTF-8
+* unicode bom: yes
+*
+* preset name: @preset@
+* data block size: @dataBlockSize@ bit(s), uint@dataBlockSize@_t
+* conversion type: @convType@, @monoType@ @edge@
+* bits per pixel: @bpp@
+*
+* preprocess:
+*  rotate: @rotate@
+*  flip horizontal: @flipHorizontal@
+*  flip vertical: @flipVertical@
+*  inverse: @inverse@
+*******************************************************************************/
 
-// preprocess:
-//  rotate: @rotate@
-//  flip horizontal: @flipHorizontal@
-//  flip vertical: @flipVertical@
-//  inverse: @inverse@
-
-// bytes order:
-//  swap bytes: @swapBytes@
-//  mirror: @mirror@
-//  pack: @pack@
-
-// typedef struct {
-//     const unsigned char *data;
-//     const int width;
-//     const int height;
-//     } tImage;
+/*
+ typedef struct {
+     const uint@dataBlockSize@_t *data;
+     uint16_t width;
+     uint16_t height;
+     } tImage;
+*/
+#include <stdint.h>
 @end_block_header@
 
 @start_block_images_table@
-const unsigned char image_data_@documentName_ws@[@blocksCount@] = {
+static const uint@dataBlockSize@_t image_data_@documentName_ws@[@blocksCount@] = {
     @imageData@
 };
-tImage @documentName_ws@ = { &image_data_@documentName_ws@[0], @width@, @height@};
+const tImage @documentName_ws@ = { image_data_@documentName_ws@, @width@, @height@};
 @end_block_images_table@

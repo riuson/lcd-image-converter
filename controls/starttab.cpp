@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applciations.
- * Copyright (C) 2010 riuson
+ * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -68,7 +68,6 @@ const QString StartTab::tabName() const
     return result;
 }
 //-----------------------------------------------------------------------------
-#include <QDebug>
 void StartTab::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);

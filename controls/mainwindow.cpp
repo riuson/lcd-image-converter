@@ -36,6 +36,7 @@
 #include "bitmapcontainer.h"
 #include "dialogsavechanges.h"
 #include "widgetbitmapeditor.h"
+#include "revisionlabel.h"
 #include "recentlist.h"
 #include "actionfilehandlers.h"
 #include "actionimagehandlers.h"
@@ -60,6 +61,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->mTrans = new QTranslator;
     qApp->installTranslator(this->mTrans);
+
+    this->statusBar()->addWidget(new RevisionLabel);
 
     QDir dir(":/translations");
     QStringList translations = dir.entryList(QDir::Files, QDir::Name);
@@ -260,10 +263,11 @@ void MainWindow::createHandlers()
 
     this->mSetupHandlers = new ActionSetupHandlers(this);
     this->mSetupHandlers->connect(this->ui->actionSetupConversion, SIGNAL(triggered()), SLOT(conversion_triggered()));
-    this->mSetupHandlers->connect(this->ui->actionSetupTemplates, SIGNAL(triggered()), SLOT(templates_triggered()));
+    this->mSetupHandlers->connect(this->ui->actionSetup, SIGNAL(triggered()), SLOT(setup_triggered()));
 
     this->mHelpHandlers = new ActionHelpHandlers(this);
     this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(about_triggered()));
+    this->mHelpHandlers->connect(this->ui->actionWiki, SIGNAL(triggered()), SLOT(wiki_triggered()));
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
@@ -353,7 +357,7 @@ void MainWindow::updateRecentList()
         {
             QString filename = this->mRecentList->files()->at(i);
             QString strippedName = QFileInfo(filename).fileName();
-            QString text = tr("%1 %2").arg(i + 1).arg(strippedName);
+            QString text = QString("%1 %2").arg(i + 1).arg(strippedName);
 
             action = new QAction(text, this);
             action->setData(filename);

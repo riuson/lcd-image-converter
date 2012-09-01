@@ -1,0 +1,75 @@
+#include "testbitmaphelper.h"
+//-----------------------------------------------------------------------------
+TestBitmapHelper::TestBitmapHelper(QObject *parent) :
+    QObject(parent)
+{
+}
+//-----------------------------------------------------------------------------
+void TestBitmapHelper::initTestCase()
+{
+}
+//-----------------------------------------------------------------------------
+void TestBitmapHelper::rotate90()
+{
+    QImage original = QImage(":/rotate/0");
+    QImage expected = QImage(":/rotate/90");
+    QImage test = BitmapHelper::rotate90(&original);
+
+    this->compareSizeAndPixels(&expected, &test);
+}
+//-----------------------------------------------------------------------------
+void TestBitmapHelper::rotate180()
+{
+    QImage original = QImage(":/rotate/0");
+    QImage expected = QImage(":/rotate/180");
+    QImage test = BitmapHelper::rotate180(&original);
+
+    this->compareSizeAndPixels(&expected, &test);
+}
+//-----------------------------------------------------------------------------
+void TestBitmapHelper::rotate270()
+{
+    QImage original = QImage(":/rotate/0");
+    QImage expected = QImage(":/rotate/270");
+    QImage test = BitmapHelper::rotate270(&original);
+
+    this->compareSizeAndPixels(&expected, &test);
+}
+//-----------------------------------------------------------------------------
+void TestBitmapHelper::flipHorizontal()
+{
+    QImage original = QImage(":/flip/0");
+    QImage expected = QImage(":/flip/horizontal");
+    QImage test = BitmapHelper::flipHorizontal(&original);
+
+    this->compareSizeAndPixels(&expected, &test);
+}
+//-----------------------------------------------------------------------------
+void TestBitmapHelper::flipVertical()
+{
+    QImage original = QImage(":/flip/0");
+    QImage expected = QImage(":/flip/vertical");
+    QImage test = BitmapHelper::flipVertical(&original);
+
+    this->compareSizeAndPixels(&expected, &test);
+}
+//-----------------------------------------------------------------------------
+void TestBitmapHelper::cleanupTestCase()
+{
+}
+//-----------------------------------------------------------------------------
+void TestBitmapHelper::compareSizeAndPixels(const QImage *actual, const QImage *expected) const
+{
+    QCOMPARE (actual->size(), expected->size());
+
+    for (int x = 0; x < actual->width(); x++)
+    {
+        for (int y = 0; y < actual->height(); y++)
+        {
+            QRgb valueActual = actual->pixel(x, y);
+            QRgb valueExpected = expected->pixel(x, y);
+            QCOMPARE (valueActual, valueExpected);
+        }
+    }
+}
+//-----------------------------------------------------------------------------

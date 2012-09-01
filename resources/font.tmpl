@@ -1,44 +1,50 @@
 @start_block_header@
-// filename: @fileName@
-// name: @documentName@
-// family: @fontFamily@
-// size: @fontSize@
-// style: @fontStyle@
-// included characters: @string@
-// antialiasing: @fontAntialising@
-// type: @fontWidthType@
-// encoding: UTF-8
-// unicode bom: yes
+/*******************************************************************************
+* filename: @fileName@
+* name: @documentName@
+* family: @fontFamily@
+* size: @fontSize@
+* style: @fontStyle@
+* included characters: @string@
+* antialiasing: @fontAntialising@
+* type: @fontWidthType@
+* encoding: UTF-8
+* unicode bom: yes
+*
+* preset name: @preset@
+* data block size: @dataBlockSize@ bit(s), uint@dataBlockSize@_t
+* conversion type: @convType@, @monoType@ @edge@
+* bits per pixel: @bpp@
+*
+* preprocess:
+*  rotate: @rotate@
+*  flip horizontal: @flipHorizontal@
+*  flip vertical: @flipVertical@
+*  inverse: @inverse@
+*******************************************************************************/
 
-// preprocess:
-//  rotate: @rotate@
-//  flip horizontal: @flipHorizontal@
-//  flip vertical: @flipVertical@
-//  inverse: @inverse@
+/*
+ typedef struct {
+     long int code;
+     const tImage *image;
+     } tChar;
+ typedef struct {
+     int length;
+     const tChar *chars;
+     } tFont;
+*/
 
-// bytes order:
-//  swap bytes: @swapBytes@
-//  mirror: @mirror@
-//  pack: @pack@
-
-// typedef struct {
-//     const long int code;
-//     const tImage *image;
-//     } tChar;
-// typedef struct {
-//     const int length;
-//     const tChar *chars;
-//     } tFont;
+#include <stdint.h>
 @end_block_header@
 
 @start_block_images_table@
-const unsigned char image_data_@documentName_ws@_0x@charCode@[@blocksCount@] = {
+static const uint@dataBlockSize@_t image_data_@documentName_ws@_0x@charCode@[@blocksCount@] = {
     @imageData@
 };
-const tImage @documentName_ws@_0x@charCode@ = { &image_data_@documentName_ws@_0x@charCode@[0], @width@, @height@};
+static const tImage @documentName_ws@_0x@charCode@ = { image_data_@documentName_ws@_0x@charCode@, @width@, @height@};
 @end_block_images_table@
 
-const tChar @documentName_ws@_array[] = {
+static const tChar @documentName_ws@_array[] = {
 @start_block_images_table@
   // character: '@charText@'
   {0x@charCode@, &@documentName_ws@_0x@charCode@}@comma@
@@ -46,5 +52,5 @@ const tChar @documentName_ws@_array[] = {
 };
 
 @start_block_font_def@
-const tFont @documentName_ws@ = { @imagesCount@, &@documentName_ws@_array[0] };
+const tFont @documentName_ws@ = { @imagesCount@, @documentName_ws@_array };
 @end_block_font_def@
