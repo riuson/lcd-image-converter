@@ -1,39 +1,38 @@
 @start_block_header@
-// filename: @fileName@
-// name: @documentName@
-// family: @fontFamily@
-// size: @fontSize@
-// style: @fontStyle@
-// included characters: @string@
-// antialiasing: @fontAntialising@
-// type: @fontWidthType@
-// encoding: UTF-8
-// unicode bom: yes
+/*******************************************************************************
+* filename: @fileName@
+* name: @documentName@
+* family: @fontFamily@
+* size: @fontSize@
+* style: @fontStyle@
+* included characters: @string@
+* antialiasing: @fontAntialising@
+* type: @fontWidthType@
+* encoding: UTF-8
+* unicode bom: yes
+*
+* preset name: @preset@
+* data block size: @dataBlockSize@ bit(s), uint@dataBlockSize@_t
+* conversion type: @convType@, @monoType@ @edge@
+* bits per pixel: @bpp@
+*
+* preprocess:
+*  rotate: @rotate@
+*  flip horizontal: @flipHorizontal@
+*  flip vertical: @flipVertical@
+*  inverse: @inverse@
+*******************************************************************************/
 
-// preset name: @preset@
-// data block size: @dataBlockSize@ bit(s), uint@dataBlockSize@_t
-// conversion type: @convType@, @monoType@ @edge@
-// bits per pixel: @bpp@
-
-// preprocess:
-//  rotate: @rotate@
-//  flip horizontal: @flipHorizontal@
-//  flip vertical: @flipVertical@
-//  inverse: @inverse@
-
-// bytes order:
-//  swap bytes: @swapBytes@
-//  mirror: @mirror@
-//  pack: @pack@
-
-// typedef struct {
-//     long int code;
-//     const tImage *image;
-//     } tChar;
-// typedef struct {
-//     int length;
-//     const tChar *chars;
-//     } tFont;
+/*
+ typedef struct {
+     long int code;
+     const tImage *image;
+     } tChar;
+ typedef struct {
+     int length;
+     const tChar *chars;
+     } tFont;
+*/
 
 #include <stdint.h>
 @end_block_header@

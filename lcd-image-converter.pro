@@ -128,7 +128,6 @@ TRANSLATIONS = resources/lcd-image-converter-ru.ts
 OTHER_FILES += \
     resources/image.tmpl \
     resources/font.tmpl \
-    resources/template_keys.txt \
     resources/lcd-image-converter-ru.ts \
     win-res.rc
 
