@@ -299,6 +299,8 @@ bool Preset::load1(const QString &name)
 
             int operations = sett.beginReadArray("matrix");
 
+            this->mMatrix->operationsRemoveAll();
+
             for (int i = 0; i < operations; i++)
             {
                 sett.setArrayIndex(i);

@@ -7,14 +7,14 @@ namespace Ui {
 class SetupTabPrepare;
 }
 //-----------------------------------------------------------------------------
-class ConversionMatrix;
+class Preset;
 //-----------------------------------------------------------------------------
 class SetupTabPrepare : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SetupTabPrepare(ConversionMatrix *matrix, QWidget *parent = 0);
+    explicit SetupTabPrepare(Preset *preset, QWidget *parent = 0);
     ~SetupTabPrepare();
     static const QString &title();
 
@@ -23,7 +23,7 @@ public slots:
 
 private:
     Ui::SetupTabPrepare *ui;
-    ConversionMatrix *mMatrix;
+    Preset *mPreset;
 
 private slots:
     void on_comboBoxConversionType_currentIndexChanged(int index);

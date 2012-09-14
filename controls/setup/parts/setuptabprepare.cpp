@@ -1,14 +1,17 @@
 #include "setuptabprepare.h"
 #include "ui_setuptabprepare.h"
 //-----------------------------------------------------------------------------
-#include "conversionmatrix.h"
+#include "preset.h"
+#include "prepareoptions.h"
+#include "matrixoptions.h"
+#include "imageoptions.h"
 //-----------------------------------------------------------------------------
-SetupTabPrepare::SetupTabPrepare(ConversionMatrix *matrix, QWidget *parent) :
+SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SetupTabPrepare)
 {
     ui->setupUi(this);
-    this->mMatrix = matrix;
+    this->mPreset = preset;
 
     this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
     this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
@@ -40,23 +43,23 @@ const QString &SetupTabPrepare::title()
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::matrixChanged()
 {
-    int index = this->ui->comboBoxConversionType->findData(this->mMatrix->options()->convType());
+    int index = this->ui->comboBoxConversionType->findData(this->mPreset->prepare()->convType());
     if (index >= 0)
         this->ui->comboBoxConversionType->setCurrentIndex(index);
 
-    index = this->ui->comboBoxMonochromeType->findData(this->mMatrix->options()->monoType());
+    index = this->ui->comboBoxMonochromeType->findData(this->mPreset->prepare()->monoType());
     if (index >= 0)
         this->ui->comboBoxMonochromeType->setCurrentIndex(index);
 
-    index = this->ui->comboBoxRotate->findData(this->mMatrix->options()->rotate());
+    index = this->ui->comboBoxRotate->findData(this->mPreset->prepare()->rotate());
     if (index >= 0)
         this->ui->comboBoxRotate->setCurrentIndex(index);
 
-    this->ui->horizontalScrollBarEdge->setValue(this->mMatrix->options()->edge());
+    this->ui->horizontalScrollBarEdge->setValue(this->mPreset->prepare()->edge());
 
-    this->ui->checkBoxFlipHorizontal->setChecked(this->mMatrix->options()->flipHorizontal());
-    this->ui->checkBoxFlipVertical->setChecked(this->mMatrix->options()->flipVertical());
-    this->ui->checkBoxInverse->setChecked(this->mMatrix->options()->inverse());
+    this->ui->checkBoxFlipHorizontal->setChecked(this->mPreset->prepare()->flipHorizontal());
+    this->ui->checkBoxFlipVertical->setChecked(this->mPreset->prepare()->flipVertical());
+    this->ui->checkBoxInverse->setChecked(this->mPreset->prepare()->inverse());
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::on_comboBoxConversionType_currentIndexChanged(int index)
@@ -66,12 +69,12 @@ void SetupTabPrepare::on_comboBoxConversionType_currentIndexChanged(int index)
     int a = data.toInt(&ok);
     if (ok)
     {
-        this->mMatrix->options()->setConvType((ConversionType)a);
+        this->mPreset->prepare()->setConvType((ConversionType)a);
 
-        if (this->mMatrix->options()->convType() == ConversionTypeMonochrome)
+        if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome)
         {
             this->ui->comboBoxMonochromeType->setEnabled(true);
-            if (this->mMatrix->options()->monoType() == MonochromeTypeEdge)
+            if (this->mPreset->prepare()->monoType() == MonochromeTypeEdge)
                 this->ui->horizontalScrollBarEdge->setEnabled(true);
             else
                 this->ui->horizontalScrollBarEdge->setEnabled(false);
@@ -91,12 +94,12 @@ void SetupTabPrepare::on_comboBoxMonochromeType_currentIndexChanged(int index)
     int a = data.toInt(&ok);
     if (ok)
     {
-        this->mMatrix->options()->setMonoType((MonochromeType)a);
+        this->mPreset->prepare()->setMonoType((MonochromeType)a);
 
-        if (this->mMatrix->options()->convType() == ConversionTypeMonochrome)
+        if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome)
         {
             this->ui->comboBoxMonochromeType->setEnabled(true);
-            if (this->mMatrix->options()->monoType() == MonochromeTypeEdge)
+            if (this->mPreset->prepare()->monoType() == MonochromeTypeEdge)
                 this->ui->horizontalScrollBarEdge->setEnabled(true);
             else
                 this->ui->horizontalScrollBarEdge->setEnabled(false);
@@ -117,27 +120,27 @@ void SetupTabPrepare::on_comboBoxRotate_currentIndexChanged(int index)
     if (ok)
     {
         Rotate rotate = (Rotate)a;
-        this->mMatrix->options()->setRotate(rotate);
+        this->mPreset->prepare()->setRotate(rotate);
     }
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::on_checkBoxFlipHorizontal_toggled(bool value)
 {
-    this->mMatrix->options()->setFlipHorizontal(value);
+    this->mPreset->prepare()->setFlipHorizontal(value);
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::on_checkBoxFlipVertical_toggled(bool value)
 {
-    this->mMatrix->options()->setFlipVertical(value);
+    this->mPreset->prepare()->setFlipVertical(value);
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::on_checkBoxInverse_toggled(bool value)
 {
-    this->mMatrix->options()->setInverse(value);
+    this->mPreset->prepare()->setInverse(value);
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::on_horizontalScrollBarEdge_valueChanged(int value)
 {
-    this->mMatrix->options()->setEdge(value);
+    this->mPreset->prepare()->setEdge(value);
 }
 //-----------------------------------------------------------------------------

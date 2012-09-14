@@ -3,13 +3,15 @@
 //-----------------------------------------------------------------------------
 #include <QObject>
 //-----------------------------------------------------------------------------
-#include "conversionmatrixoptions.h"
+#include "conversion_options.h"
 //-----------------------------------------------------------------------------
 class PrepareOptions;
 class MatrixOptions;
 class ImageOptions;
 class QString;
 class QStringList;
+//-----------------------------------------------------------------------------
+using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
 class Preset : public QObject
 {

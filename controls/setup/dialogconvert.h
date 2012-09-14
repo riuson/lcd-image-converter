@@ -26,7 +26,7 @@ namespace Ui {
 class DialogConvert;
 }
 //-----------------------------------------------------------------------------
-class ConversionMatrix;
+class Preset;
 class IDataContainer;
 class Parser;
 class DialogPreview;
@@ -47,8 +47,8 @@ private:
 
     IDataContainer *mData;
 
-    ConversionMatrix *mMatrix;
-    bool mMatrixChanged;
+    Preset *mPreset;
+    bool mPresetChanged;
 
     DialogPreview *mPreview;
 

@@ -7,14 +7,14 @@ namespace Ui {
 class SetupTabImage;
 }
 //-----------------------------------------------------------------------------
-class ConversionMatrix;
+class Preset;
 //-----------------------------------------------------------------------------
 class SetupTabImage : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SetupTabImage(ConversionMatrix *matrix, QWidget *parent = 0);
+    explicit SetupTabImage(Preset *preset, QWidget *parent = 0);
     ~SetupTabImage();
     static const QString &title();
 
@@ -23,7 +23,7 @@ public slots:
 
 private:
     Ui::SetupTabImage *ui;
-    ConversionMatrix *mMatrix;
+    Preset *mPreset;
 
 private slots:
     void on_radioButtonLittleEndian_toggled(bool value);

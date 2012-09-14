@@ -1,23 +1,26 @@
 #include "setuptabmatrix.h"
 #include "ui_setuptabmatrix.h"
 //-----------------------------------------------------------------------------
-#include "conversionmatrix.h"
 #include "matrixpreviewmodel.h"
 #include "matrixitemdelegate.h"
+#include "preset.h"
+#include "prepareoptions.h"
+#include "matrixoptions.h"
+#include "imageoptions.h"
 //-----------------------------------------------------------------------------
-SetupTabMatrix::SetupTabMatrix(ConversionMatrix *matrix, QWidget *parent) :
+SetupTabMatrix::SetupTabMatrix(Preset *preset, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SetupTabMatrix)
 {
     ui->setupUi(this);
-    this->mMatrix = matrix;
+    this->mPreset = preset;
     this->mMenu = NULL;
 
     this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
     this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
     this->ui->comboBoxConversionType->addItem(tr("Color"), ConversionTypeColor);
 
-    this->mMatrixModel = new MatrixPreviewModel(this->mMatrix, this);
+    this->mMatrixModel = new MatrixPreviewModel(this->mPreset, this);
     this->ui->tableViewOperations->setModel(this->mMatrixModel);
     this->ui->tableViewOperations->resizeColumnsToContents();
     this->ui->tableViewOperations->resizeRowsToContents();
@@ -48,7 +51,7 @@ const QString &SetupTabMatrix::title()
 //-----------------------------------------------------------------------------
 void SetupTabMatrix::matrixChanged()
 {
-    int index = this->ui->comboBoxConversionType->findData(this->mMatrix->options()->convType());
+    int index = this->ui->comboBoxConversionType->findData(this->mPreset->prepare()->convType());
     if (index >= 0)
         this->ui->comboBoxConversionType->setCurrentIndex(index);
 
@@ -67,7 +70,7 @@ void SetupTabMatrix::on_comboBoxConversionType_currentIndexChanged(int index)
     int a = data.toInt(&ok);
     if (ok)
     {
-        this->mMatrix->options()->setConvType((ConversionType)a);
+        this->mPreset->prepare()->setConvType((ConversionType)a);
     }
 }
 //-----------------------------------------------------------------------------
@@ -130,7 +133,7 @@ void SetupTabMatrix::on_tableViewOperations_customContextMenuRequested(const QPo
                 int shift;
                 bool left;
 
-                this->mMatrix->operation(operationIndex, &mask, &shift, &left);
+                this->mPreset->matrix()->operation(operationIndex, &mask, &shift, &left);
 
                 QAction *actionLeft = this->mMenu->addAction(tr("Shift left"), this, SLOT(operationShift()));
                 QAction *actionRight = this->mMenu->addAction(tr("Shift right"), this, SLOT(operationShift()));
@@ -220,7 +223,7 @@ void SetupTabMatrix::operationAdd()
                 mask |= 0x00000001 << (31 - list.at(i).column());
             }
         }
-        this->mMatrix->operationAdd(mask, shift, left);
+        this->mPreset->matrix()->operationAdd(mask, shift, left);
     }
 }
 //-----------------------------------------------------------------------------
@@ -239,7 +242,7 @@ void SetupTabMatrix::operationShift()
         quint32 mask;
         int shift;
         bool left;
-        this->mMatrix->operation(index, &mask, &shift, &left);
+        this->mPreset->matrix()->operation(index, &mask, &shift, &left);
 
         if (leftShift)
         {
@@ -272,7 +275,7 @@ void SetupTabMatrix::operationShift()
             }
         }
 
-        this->mMatrix->operationReplace(index, mask, shift, left);
+        this->mPreset->matrix()->operationReplace(index, mask, shift, left);
     }
 }
 //-----------------------------------------------------------------------------
@@ -285,7 +288,7 @@ void SetupTabMatrix::operationRemove()
 
     if (ok)
     {
-        this->mMatrix->operationRemove(index);
+        this->mPreset->matrix()->operationRemove(index);
     }
 }
 //-----------------------------------------------------------------------------
@@ -311,33 +314,33 @@ void SetupTabMatrix::maskReset()
             case MatrixPreviewModel::MaskUsed:
             {
                 if (setBits)
-                    this->mMatrix->options()->setMaskUsed( this->mMatrix->options()->maskUsed() | mask);
+                    this->mPreset->matrix()->setMaskUsed( this->mPreset->matrix()->maskUsed() | mask);
                 else
-                    this->mMatrix->options()->setMaskUsed( this->mMatrix->options()->maskUsed() & ~mask);
+                    this->mPreset->matrix()->setMaskUsed( this->mPreset->matrix()->maskUsed() & ~mask);
                 break;
             }
             case MatrixPreviewModel::MaskAnd:
             {
                 if (setBits)
-                    this->mMatrix->options()->setMaskAnd( this->mMatrix->options()->maskAnd() | mask);
+                    this->mPreset->matrix()->setMaskAnd( this->mPreset->matrix()->maskAnd() | mask);
                 else
-                    this->mMatrix->options()->setMaskAnd( this->mMatrix->options()->maskAnd() & ~mask);
+                    this->mPreset->matrix()->setMaskAnd( this->mPreset->matrix()->maskAnd() & ~mask);
                 break;
             }
             case MatrixPreviewModel::MaskOr:
             {
                 if (setBits)
-                    this->mMatrix->options()->setMaskOr( this->mMatrix->options()->maskOr() | mask);
+                    this->mPreset->matrix()->setMaskOr( this->mPreset->matrix()->maskOr() | mask);
                 else
-                    this->mMatrix->options()->setMaskOr( this->mMatrix->options()->maskOr() & ~mask);
+                    this->mPreset->matrix()->setMaskOr( this->mPreset->matrix()->maskOr() & ~mask);
                 break;
             }
             case MatrixPreviewModel::MaskFill:
             {
                 if (setBits)
-                    this->mMatrix->options()->setMaskFill( this->mMatrix->options()->maskFill() | mask);
+                    this->mPreset->matrix()->setMaskFill( this->mPreset->matrix()->maskFill() | mask);
                 else
-                    this->mMatrix->options()->setMaskFill( this->mMatrix->options()->maskFill() & ~mask);
+                    this->mPreset->matrix()->setMaskFill( this->mPreset->matrix()->maskFill() & ~mask);
                 break;
             }
             default:

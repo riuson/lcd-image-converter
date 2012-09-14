@@ -1,14 +1,17 @@
 #include "setuptabimage.h"
 #include "ui_setuptabimage.h"
 //-----------------------------------------------------------------------------
-#include "conversionmatrix.h"
+#include "preset.h"
+#include "prepareoptions.h"
+#include "matrixoptions.h"
+#include "imageoptions.h"
 //-----------------------------------------------------------------------------
-SetupTabImage::SetupTabImage(ConversionMatrix *matrix, QWidget *parent) :
+SetupTabImage::SetupTabImage(Preset *preset, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SetupTabImage)
 {
     ui->setupUi(this);
-    this->mMatrix = matrix;
+    this->mPreset = preset;
 
     this->ui->comboBoxBlockSize->addItem(tr("8 bit"), Data8);
     this->ui->comboBoxBlockSize->addItem(tr("16 bit"), Data16);
@@ -31,16 +34,16 @@ const QString &SetupTabImage::title()
 //-----------------------------------------------------------------------------
 void SetupTabImage::matrixChanged()
 {
-    if (this->mMatrix->options()->bytesOrder() == BytesOrderLittleEndian)
+    if (this->mPreset->image()->bytesOrder() == BytesOrderLittleEndian)
         this->ui->radioButtonLittleEndian->setChecked(true);
     else
         this->ui->radioButtonBigEndian->setChecked(true);
 
-    int index = this->ui->comboBoxBlockSize->findData(this->mMatrix->options()->blockSize());
+    int index = this->ui->comboBoxBlockSize->findData(this->mPreset->image()->blockSize());
     if (index >= 0)
         this->ui->comboBoxBlockSize->setCurrentIndex(index);
 
-    if (this->mMatrix->options()->bytesOrder() == BytesOrderLittleEndian)
+    if (this->mPreset->image()->bytesOrder() == BytesOrderLittleEndian)
         this->ui->radioButtonLittleEndian->setChecked(true);
     else
         this->ui->radioButtonBigEndian->setChecked(true);
@@ -49,9 +52,9 @@ void SetupTabImage::matrixChanged()
 void SetupTabImage::on_radioButtonLittleEndian_toggled(bool value)
 {
     if (value)
-        this->mMatrix->options()->setBytesOrder(BytesOrderLittleEndian);
+        this->mPreset->image()->setBytesOrder(BytesOrderLittleEndian);
     else
-        this->mMatrix->options()->setBytesOrder(BytesOrderBigEndian);
+        this->mPreset->image()->setBytesOrder(BytesOrderBigEndian);
 }
 //-----------------------------------------------------------------------------
 void SetupTabImage::on_comboBoxBlockSize_currentIndexChanged(int index)
@@ -61,7 +64,7 @@ void SetupTabImage::on_comboBoxBlockSize_currentIndexChanged(int index)
     int a = data.toInt(&ok);
     if (ok)
     {
-        this->mMatrix->options()->setBlockSize((DataBlockSize)a);
+        this->mPreset->image()->setBlockSize((DataBlockSize)a);
     }
 }
 //-----------------------------------------------------------------------------

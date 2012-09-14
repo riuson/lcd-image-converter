@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QtTest/QtTest>
 #include "bitstream.h"
-#include "conversionmatrix.h"
 //-----------------------------------------------------------------------------
 class TestBitStream : public QObject
 {
@@ -13,7 +12,7 @@ public:
     explicit TestBitStream(QObject *parent = 0);
 
 private:
-    ConversionMatrix *mMatrix;
+    Preset *mPreset;
     void preparePackData(
             quint32 maskUsed, quint32 maskFill,
             QVector<quint32> *source, QVector<quint32> *packed);

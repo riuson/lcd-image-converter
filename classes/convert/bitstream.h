@@ -24,19 +24,19 @@
 //-----------------------------------------------------------------------------
 template <class T> class QVector;
 //-----------------------------------------------------------------------------
-class ConversionMatrix;
+class Preset;
 //-----------------------------------------------------------------------------
 class BitStream
 {
 public:
-    BitStream(ConversionMatrix *matrix, QVector<quint32> *data, int start, int count);
+    BitStream(Preset *preset, QVector<quint32> *data, int start, int count);
 
     void init();
     bool eof() const;
     quint32 next();
 
 private:
-    ConversionMatrix *mMatrix;
+    Preset *mPreset;
     QVector<quint32> *mData;
     int mStart;
     int mCount;

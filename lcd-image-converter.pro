@@ -45,11 +45,9 @@ SOURCES += main.cpp \
     controls/revisionlabel.cpp \
     classes/revisioninfo.cpp \
     classes/convert/converterhelper.cpp \
-    classes/convert/conversionmatrixoptions.cpp \
     classes/convert/bitstream.cpp \
     controls/setup/dialogpreview.cpp \
     classes/preview-models/matrixpreviewmodel.cpp \
-    classes/convert/conversionmatrix.cpp \
     controls/setup/dialogconvert.cpp \
     controls/setup/dialogsetup.cpp \
     classes/parser.cpp \
@@ -89,12 +87,10 @@ HEADERS += \
     controls/revisionlabel.h \
     classes/revisioninfo.h \
     classes/convert/converterhelper.h \
-    classes/convert/conversionmatrixoptions.h \
     classes/convert/bitstream.h \
     controls/setup/dialogpreview.h \
     classes/preview-models/matrixpreviewmodel.h \
     classes/convert/conversion_options.h \
-    classes/convert/conversionmatrix.h \
     controls/setup/dialogconvert.h \
     controls/setup/dialogsetup.h \
     classes/parser.h \

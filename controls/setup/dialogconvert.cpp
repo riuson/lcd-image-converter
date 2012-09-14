@@ -27,11 +27,10 @@
 #include <QMessageBox>
 #include "idatacontainer.h"
 #include "dialogpreview.h"
-#include "conversionmatrixoptions.h"
-#include "conversionmatrix.h"
 #include "setuptabprepare.h"
 #include "setuptabmatrix.h"
 #include "setuptabimage.h"
+#include "preset.h"
 //-----------------------------------------------------------------------------
 DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
@@ -41,11 +40,11 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     this->mPreview = NULL;
 
     this->mData = dataContainer;
-    this->mMatrix = new ConversionMatrix(this);
+    this->mPreset = new Preset(this);
 
-    this->mSetupPrepare = new SetupTabPrepare(this->mMatrix, this);
-    this->mSetupMatrix = new SetupTabMatrix(this->mMatrix, this);
-    this->mSetupImage = new SetupTabImage(this->mMatrix, this);
+    this->mSetupPrepare = new SetupTabPrepare(this->mPreset, this);
+    this->mSetupMatrix = new SetupTabMatrix(this->mPreset, this);
+    this->mSetupImage = new SetupTabImage(this->mPreset, this);
 
     QSettings sett;
     sett.beginGroup("presets");
@@ -56,10 +55,10 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     if (presetsCount == 0)
         this->createPresetsDefault();
 
-    this->mSetupPrepare->connect(this->mMatrix, SIGNAL(changed()), SLOT(matrixChanged()));
-    this->mSetupMatrix->connect(this->mMatrix, SIGNAL(changed()), SLOT(matrixChanged()));
-    this->mSetupImage->connect(this->mMatrix, SIGNAL(changed()), SLOT(matrixChanged()));
-    this->connect(this->mMatrix, SIGNAL(changed()), SLOT(updatePreview()));
+    this->mSetupPrepare->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
+    this->mSetupMatrix->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
+    this->mSetupImage->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
+    this->connect(this->mPreset, SIGNAL(changed()), SLOT(updatePreview()));
 
     this->fillPresetsList();
 
@@ -67,7 +66,7 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     if (presetIndex >= 0)
         this->ui->comboBoxPresets->setCurrentIndex(presetIndex);
 
-    this->mMatrixChanged = false;
+    this->mPresetChanged = false;
 
     this->ui->tabWidgetSetupParts->addTab(this->mSetupPrepare, SetupTabPrepare::title());
     this->ui->tabWidgetSetupParts->addTab(this->mSetupMatrix, SetupTabMatrix::title());
@@ -81,7 +80,7 @@ DialogConvert::~DialogConvert()
         delete this->mPreview;
 
     delete ui;
-    delete this->mMatrix;
+    delete this->mPreset;
 }
 //-----------------------------------------------------------------------------
 void DialogConvert::fillPresetsList()
@@ -105,7 +104,7 @@ void DialogConvert::fillPresetsList()
 //-----------------------------------------------------------------------------
 void DialogConvert::presetLoad(const QString &name)
 {
-    if (this->mMatrix->load(name))
+    if (this->mPreset->load(name))
     {
         // update gui
     }
@@ -113,7 +112,7 @@ void DialogConvert::presetLoad(const QString &name)
 //-----------------------------------------------------------------------------
 void DialogConvert::presetSaveAs(const QString &name)
 {
-    this->mMatrix->save(name);
+    this->mPreset->save(name);
     this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
@@ -132,7 +131,7 @@ void DialogConvert::presetRemove(const QString &name)
 //-----------------------------------------------------------------------------
 void DialogConvert::createPresetsDefault()
 {
-    ConversionMatrix matrix(this);
+    Preset matrix(this);
 
     matrix.initMono(MonochromeTypeDiffuseDither);
     matrix.save(tr("Monochrome"));
@@ -157,7 +156,7 @@ void DialogConvert::updatePreview()
         if (this->mPreview != NULL)
             this->mPreview->updatePreview();
 
-        this->mMatrixChanged = true;
+        this->mPresetChanged = true;
     }
 }
 //-----------------------------------------------------------------------------
@@ -165,7 +164,7 @@ void DialogConvert::on_pushButtonPreview_clicked()
 {
     if (this->mPreview == NULL)
     {
-        this->mPreview = new DialogPreview(this->mData, this->mMatrix, this);
+        this->mPreview = new DialogPreview(this->mData, this->mPreset, this);
         QObject::connect(this->mPreview, SIGNAL(accepted()), this, SLOT(previewClosed()));
         QObject::connect(this->mPreview, SIGNAL(rejected()), this, SLOT(previewClosed()));
     }
@@ -223,14 +222,14 @@ void DialogConvert::previewClosed()
 //-----------------------------------------------------------------------------
 void DialogConvert::matrixChanged()
 {
-    this->mMatrixChanged = true;
+    this->mPresetChanged = true;
 }
 //-----------------------------------------------------------------------------
 void DialogConvert::done(int result)
 {
     if (result == QDialog::Accepted)
     {
-        if (this->mMatrixChanged)
+        if (this->mPresetChanged)
         {
             QMessageBox msgBox;
             msgBox.setText(tr("Save changes?"));
@@ -244,7 +243,7 @@ void DialogConvert::done(int result)
             {
                 QString name = this->ui->comboBoxPresets->currentText();
 
-                this->mMatrix->save(name);
+                this->mPreset->save(name);
 
                 QSettings sett;
                 sett.beginGroup("presets");

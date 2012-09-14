@@ -21,9 +21,13 @@
 #define MATRIXPREVIEWMODEL_H
 //-----------------------------------------------------------------------------
 #include <QAbstractItemModel>
+//-----------------------------------------------------------------------------
 #include <QVariant>
-
-#include "conversionmatrix.h"
+#include "conversion_options.h"
+//-----------------------------------------------------------------------------
+class Preset;
+//-----------------------------------------------------------------------------
+using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
 class MatrixPreviewModel : public QAbstractItemModel
 {
@@ -41,7 +45,7 @@ public:
         ResultPacked
     };
 
-    explicit MatrixPreviewModel(ConversionMatrix *matrix, QObject *parent = 0);
+    explicit MatrixPreviewModel(Preset *preset, QObject *parent = 0);
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
@@ -53,7 +57,7 @@ public:
     RowType rowType(int row) const;
 
 private:
-    ConversionMatrix *mMatrix;
+    Preset *mPreset;
 
     enum ColorType
     {
@@ -74,7 +78,7 @@ private:
     void sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const;
 
 signals:
-    
+
 public slots:
     void callReset();
 };

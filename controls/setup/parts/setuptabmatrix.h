@@ -7,7 +7,7 @@ namespace Ui {
 class SetupTabMatrix;
 }
 //-----------------------------------------------------------------------------
-class ConversionMatrix;
+class Preset;
 class MatrixPreviewModel;
 class MatrixItemDelegate;
 class QMenu;
@@ -17,7 +17,7 @@ class SetupTabMatrix : public QWidget
     Q_OBJECT
 
 public:
-    explicit SetupTabMatrix(ConversionMatrix *matrix, QWidget *parent = 0);
+    explicit SetupTabMatrix(Preset *preset, QWidget *parent = 0);
     ~SetupTabMatrix();
     static const QString &title();
 
@@ -26,7 +26,7 @@ public slots:
 
 private:
     Ui::SetupTabMatrix *ui;
-    ConversionMatrix *mMatrix;
+    Preset *mPreset;
     MatrixPreviewModel *mMatrixModel;
     MatrixItemDelegate *mMatrixItemDelegate;
     QMenu *mMenu;

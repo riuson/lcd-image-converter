@@ -25,7 +25,7 @@
 
 class IDocument;
 class IDataContainer;
-class ConversionMatrix;
+class Preset;
 //-----------------------------------------------------------------------------
 class Parser : public QObject
 {
@@ -40,7 +40,7 @@ public:
 private:
     QMap <QString, QObject *> mConverters;
     QString mSelectedPresetName;
-    ConversionMatrix *mMatrix;
+    Preset *mPreset;
 
     void parse(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
     void parseBlocks(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
