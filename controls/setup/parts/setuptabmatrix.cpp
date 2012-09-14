@@ -11,6 +11,7 @@ SetupTabMatrix::SetupTabMatrix(ConversionMatrix *matrix, QWidget *parent) :
 {
     ui->setupUi(this);
     this->mMatrix = matrix;
+    this->mMenu = NULL;
 
     this->mMatrixModel = new MatrixPreviewModel(this->mMatrix, this);
     this->ui->tableViewOperations->setModel(this->mMatrixModel);
@@ -33,6 +34,12 @@ SetupTabMatrix::~SetupTabMatrix()
     delete this->mMatrixModel;
 
     delete ui;
+}
+//-----------------------------------------------------------------------------
+const QString &SetupTabMatrix::title()
+{
+    static const QString result = QObject::tr("Matrix");
+    return result;
 }
 //-----------------------------------------------------------------------------
 void SetupTabMatrix::matrixChanged()

@@ -32,6 +32,12 @@ SetupTabPrepare::~SetupTabPrepare()
     delete ui;
 }
 //-----------------------------------------------------------------------------
+const QString &SetupTabPrepare::title()
+{
+    static const QString result = QObject::tr("Prepare");
+    return result;
+}
+//-----------------------------------------------------------------------------
 void SetupTabPrepare::matrixChanged()
 {
     int index = this->ui->comboBoxConversionType->findData(this->mMatrix->options()->convType());

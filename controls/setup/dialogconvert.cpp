@@ -65,6 +65,10 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
         this->ui->comboBoxPresets->setCurrentIndex(presetIndex);
 
     this->mMatrixChanged = false;
+
+    this->ui->tabWidgetSetupParts->addTab(this->mSetupPrepare, SetupTabPrepare::title());
+    this->ui->tabWidgetSetupParts->addTab(this->mSetupMatrix, SetupTabMatrix::title());
+    this->ui->tabWidgetSetupParts->addTab(this->mSetupImage, SetupTabImage::title());
 }
 //-----------------------------------------------------------------------------
 DialogConvert::~DialogConvert()
