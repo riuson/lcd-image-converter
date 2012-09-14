@@ -5,23 +5,27 @@
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
+#include "templateoptions.h"
 //-----------------------------------------------------------------------------
 Preset::Preset(QObject *parent) :
     QObject(parent)
 {
     this->mBlockChangesSignal = false;
 
-    this->mPrepare = new PrepareOptions(this);
-    this->mMatrix = new MatrixOptions(this);
-    this->mImage = new ImageOptions(this);
+    this->mPrepare   = new PrepareOptions(this);
+    this->mMatrix    = new MatrixOptions(this);
+    this->mImage     = new ImageOptions(this);
+    this->mTemplates = new TemplateOptions(this);
 
-    this->connect(this->mPrepare, SIGNAL(changed()), SLOT(partsChanged()));
-    this->connect(this->mMatrix, SIGNAL(changed()), SLOT(partsChanged()));
-    this->connect(this->mImage, SIGNAL(changed()), SLOT(partsChanged()));
+    this->connect(this->mPrepare,   SIGNAL(changed()), SLOT(partsChanged()));
+    this->connect(this->mMatrix,    SIGNAL(changed()), SLOT(partsChanged()));
+    this->connect(this->mImage,     SIGNAL(changed()), SLOT(partsChanged()));
+    this->connect(this->mTemplates, SIGNAL(changed()), SLOT(partsChanged()));
 }
 //-----------------------------------------------------------------------------
 Preset::~Preset()
 {
+    delete this->mTemplates;
     delete this->mImage;
     delete this->mMatrix;
     delete this->mPrepare;
@@ -40,6 +44,11 @@ MatrixOptions *Preset::matrix()
 ImageOptions *Preset::image()
 {
     return this->mImage;
+}
+//-----------------------------------------------------------------------------
+TemplateOptions *Preset::templates()
+{
+    return this->mTemplates;
 }
 //-----------------------------------------------------------------------------
 QStringList Preset::presetsList()
@@ -279,6 +288,9 @@ bool Preset::load1(const QString &name)
         if (ok)
             maskFill = strMaskFill.toUInt(&ok, 16);
 
+        QString strImageTemplate = sett.value("imageTemplate", QString(":/templates/image_convert")).toString();
+        QString strFontTemplate = sett.value("fontTemplate", QString(":/templates/font_convert")).toString();
+
         if (ok)
         {
             this->mPrepare->setConvType((ConversionType)convType);
@@ -323,6 +335,8 @@ bool Preset::load1(const QString &name)
             }
             sett.endArray();
 
+            this->mTemplates->setImage(strImageTemplate);
+            this->mTemplates->setFont(strFontTemplate);
         }
 
         sett.endGroup();
@@ -373,6 +387,9 @@ bool Preset::save1(const QString &name) const
         sett.setValue("left",  QString("%1").arg((int)left));
     }
     sett.endArray();
+
+    sett.setValue("imageTemplate", this->mTemplates->image());
+    sett.setValue("fontTemplate", this->mTemplates->font());
 
     sett.endGroup();
     sett.endGroup();

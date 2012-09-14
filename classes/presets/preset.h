@@ -8,6 +8,7 @@
 class PrepareOptions;
 class MatrixOptions;
 class ImageOptions;
+class TemplateOptions;
 class QString;
 class QStringList;
 //-----------------------------------------------------------------------------
@@ -23,6 +24,7 @@ public:
     PrepareOptions *prepare();
     MatrixOptions *matrix();
     ImageOptions *image();
+    TemplateOptions *templates();
 
     static QStringList presetsList();
 
@@ -37,6 +39,7 @@ private:
     PrepareOptions *mPrepare;
     MatrixOptions *mMatrix;
     ImageOptions *mImage;
+    TemplateOptions *mTemplates;
     bool mBlockChangesSignal;
 
     bool load1(const QString &name);

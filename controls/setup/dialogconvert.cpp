@@ -30,6 +30,7 @@
 #include "setuptabprepare.h"
 #include "setuptabmatrix.h"
 #include "setuptabimage.h"
+#include "setuptabtemplates.h"
 #include "preset.h"
 //-----------------------------------------------------------------------------
 DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
@@ -42,9 +43,10 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     this->mData = dataContainer;
     this->mPreset = new Preset(this);
 
-    this->mSetupPrepare = new SetupTabPrepare(this->mPreset, this);
-    this->mSetupMatrix = new SetupTabMatrix(this->mPreset, this);
-    this->mSetupImage = new SetupTabImage(this->mPreset, this);
+    this->mSetupPrepare   = new SetupTabPrepare(this->mPreset, this);
+    this->mSetupMatrix    = new SetupTabMatrix(this->mPreset, this);
+    this->mSetupImage     = new SetupTabImage(this->mPreset, this);
+    this->mSetupTemplates = new SetupTabTemplates(this->mPreset, this);
 
     QSettings sett;
     sett.beginGroup("presets");
@@ -58,7 +60,8 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     this->mSetupPrepare->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
     this->mSetupMatrix->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
     this->mSetupImage->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
-    this->connect(this->mPreset, SIGNAL(changed()), SLOT(updatePreview()));
+    this->mSetupTemplates->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
+    this->connect(this->mPreset, SIGNAL(changed()), SLOT(presetChanged()));
 
     this->fillPresetsList();
 
@@ -71,11 +74,11 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->tabWidgetSetupParts->addTab(this->mSetupPrepare, SetupTabPrepare::title());
     this->ui->tabWidgetSetupParts->addTab(this->mSetupMatrix, SetupTabMatrix::title());
     this->ui->tabWidgetSetupParts->addTab(this->mSetupImage, SetupTabImage::title());
+    this->ui->tabWidgetSetupParts->addTab(this->mSetupTemplates, SetupTabTemplates::title());
 }
 //-----------------------------------------------------------------------------
 DialogConvert::~DialogConvert()
 {
-
     if (this->mPreview != NULL)
         delete this->mPreview;
 
@@ -149,15 +152,14 @@ void DialogConvert::createPresetsDefault()
     matrix.save(tr("Color R8G8B8"));
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::updatePreview()
+void DialogConvert::presetChanged()
 {
     if (this->mData != NULL)
     {
         if (this->mPreview != NULL)
             this->mPreview->updatePreview();
-
-        this->mPresetChanged = true;
     }
+    this->mPresetChanged = true;
 }
 //-----------------------------------------------------------------------------
 void DialogConvert::on_pushButtonPreview_clicked()

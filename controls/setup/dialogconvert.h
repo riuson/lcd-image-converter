@@ -33,6 +33,7 @@ class DialogPreview;
 class SetupTabPrepare;
 class SetupTabMatrix;
 class SetupTabImage;
+class SetupTabTemplates;
 //-----------------------------------------------------------------------------
 class DialogConvert : public QDialog
 {
@@ -40,7 +41,7 @@ class DialogConvert : public QDialog
 
 public:
     explicit DialogConvert(IDataContainer *dataContainer, QWidget *parent = 0);
-    ~DialogConvert();
+    virtual ~DialogConvert();
 
 private:
     Ui::DialogConvert *ui;
@@ -52,9 +53,10 @@ private:
 
     DialogPreview *mPreview;
 
-    SetupTabPrepare *mSetupPrepare;
-    SetupTabMatrix  *mSetupMatrix;
-    SetupTabImage   *mSetupImage;
+    SetupTabPrepare   *mSetupPrepare;
+    SetupTabMatrix    *mSetupMatrix;
+    SetupTabImage     *mSetupImage;
+    SetupTabTemplates *mSetupTemplates;
 
     void fillPresetsList();
     void presetLoad(const QString &name);
@@ -62,7 +64,7 @@ private:
     void presetRemove(const QString &name);
     void createPresetsDefault();
 private slots:
-    void updatePreview();
+    void presetChanged();
     void on_pushButtonPreview_clicked();
     void on_pushButtonPresetSaveAs_clicked();
     void on_pushButtonPresetRemove_clicked();

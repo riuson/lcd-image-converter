@@ -32,8 +32,9 @@
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
+#include "templateoptions.h"
 //-----------------------------------------------------------------------------
-Parser::Parser(QObject *parent) :
+Parser::Parser(QObject *parent, TemplateType templateType) :
         QObject(parent)
 {
     this->mPreset = new Preset(this);
@@ -44,11 +45,16 @@ Parser::Parser(QObject *parent) :
     sett.endGroup();
 
     this->mPreset->load(this->mSelectedPresetName);
+
+    if (templateType == TypeImage)
+        this->mTemplateFileName = this->mPreset->templates()->image();
+    else
+        this->mTemplateFileName = this->mPreset->templates()->font();
 }
 //-----------------------------------------------------------------------------
 Parser::~Parser()
 {
-    this->mConverters.clear();
+    delete this->mPreset;
 }
 //-----------------------------------------------------------------------------
 QString Parser::name()
@@ -58,19 +64,17 @@ QString Parser::name()
     return this->mSelectedPresetName;
 }
 //-----------------------------------------------------------------------------
-QString Parser::convert(IDocument *document,
-                           const QString &templateFile,
-                           QMap<QString, QString> &tags) const
+QString Parser::convert(IDocument *document, QMap<QString, QString> &tags) const
 {
     QString result;
 
     QString templateString;
 
-    QFile file(templateFile);
-    //if (!file.exists())
-    //{
-    //    file.setFileName(":/templates/image_convert");
-    //}
+    QFile file(this->mTemplateFileName);
+
+    if (!file.exists())
+        file.setFileName(":/templates/image_convert");
+
     if (file.open(QIODevice::ReadOnly))
     {
         QTextStream stream(&file);
