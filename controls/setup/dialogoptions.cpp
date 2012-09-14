@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "dialogconvert.h"
-#include "ui_dialogconvert.h"
+#include "dialogoptions.h"
+#include "ui_dialogoptions.h"
 //-----------------------------------------------------------------------------
 #include <QList>
 #include <QSettings>
@@ -33,9 +33,9 @@
 #include "setuptabtemplates.h"
 #include "preset.h"
 //-----------------------------------------------------------------------------
-DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
+DialogOptions::DialogOptions(IDataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogConvert)
+    ui(new Ui::DialogOptions)
 {
     ui->setupUi(this);
     this->mPreview = NULL;
@@ -77,16 +77,20 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->tabWidgetSetupParts->addTab(this->mSetupTemplates, SetupTabTemplates::title());
 }
 //-----------------------------------------------------------------------------
-DialogConvert::~DialogConvert()
+DialogOptions::~DialogOptions()
 {
     if (this->mPreview != NULL)
         delete this->mPreview;
 
+    delete this->mSetupPrepare;
+    delete this->mSetupMatrix;
+    delete this->mSetupImage;
+    delete this->mSetupTemplates;
     delete ui;
     delete this->mPreset;
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::fillPresetsList()
+void DialogOptions::fillPresetsList()
 {
     QString current = this->ui->comboBoxPresets->currentText();
 
@@ -105,7 +109,7 @@ void DialogConvert::fillPresetsList()
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::presetLoad(const QString &name)
+void DialogOptions::presetLoad(const QString &name)
 {
     if (this->mPreset->load(name))
     {
@@ -113,13 +117,13 @@ void DialogConvert::presetLoad(const QString &name)
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::presetSaveAs(const QString &name)
+void DialogOptions::presetSaveAs(const QString &name)
 {
     this->mPreset->save(name);
     this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::presetRemove(const QString &name)
+void DialogOptions::presetRemove(const QString &name)
 {
     QSettings sett;
     sett.beginGroup("presets");
@@ -132,7 +136,7 @@ void DialogConvert::presetRemove(const QString &name)
     this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::createPresetsDefault()
+void DialogOptions::createPresetsDefault()
 {
     Preset matrix(this);
 
@@ -152,7 +156,7 @@ void DialogConvert::createPresetsDefault()
     matrix.save(tr("Color R8G8B8"));
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::presetChanged()
+void DialogOptions::presetChanged()
 {
     if (this->mData != NULL)
     {
@@ -162,7 +166,7 @@ void DialogConvert::presetChanged()
     this->mPresetChanged = true;
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::on_pushButtonPreview_clicked()
+void DialogOptions::on_pushButtonPreview_clicked()
 {
     if (this->mPreview == NULL)
     {
@@ -174,7 +178,7 @@ void DialogConvert::on_pushButtonPreview_clicked()
     this->mPreview->show();
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::on_pushButtonPresetSaveAs_clicked()
+void DialogOptions::on_pushButtonPresetSaveAs_clicked()
 {
     QSettings sett;
     sett.beginGroup("presets");
@@ -199,7 +203,7 @@ void DialogConvert::on_pushButtonPresetSaveAs_clicked()
     this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::on_pushButtonPresetRemove_clicked()
+void DialogOptions::on_pushButtonPresetRemove_clicked()
 {
     QString name = this->ui->comboBoxPresets->currentText();
     this->presetRemove(name);
@@ -207,13 +211,13 @@ void DialogConvert::on_pushButtonPresetRemove_clicked()
     this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::on_comboBoxPresets_currentIndexChanged(int index)
+void DialogOptions::on_comboBoxPresets_currentIndexChanged(int index)
 {
     QString name = this->ui->comboBoxPresets->itemText(index);
     this->presetLoad(name);
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::previewClosed()
+void DialogOptions::previewClosed()
 {
     if (this->mPreview != NULL)
     {
@@ -222,7 +226,7 @@ void DialogConvert::previewClosed()
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::done(int result)
+void DialogOptions::done(int result)
 {
     if (result == QDialog::Accepted)
     {

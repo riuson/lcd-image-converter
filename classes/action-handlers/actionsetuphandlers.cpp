@@ -19,8 +19,7 @@
 
 #include "actionsetuphandlers.h"
 
-#include "dialogsetup.h"
-#include "dialogconvert.h"
+#include "dialogoptions.h"
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
 #include "idatacontainer.h"
@@ -30,18 +29,12 @@ ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
 {
 }
 //-----------------------------------------------------------------------------
-void ActionSetupHandlers::conversion_triggered()
+void ActionSetupHandlers::settings_triggered()
 {
     IDataContainer *data = NULL;
     if (this->editor() != NULL)
         data = this->editor()->dataContainer();
-    DialogConvert dialog(data, this->mMainWindow->parentWidget());
-    dialog.exec();
-}
-//-----------------------------------------------------------------------------
-void ActionSetupHandlers::setup_triggered()
-{
-    DialogSetup dialog(this->mMainWindow->parentWidget());
+    DialogOptions dialog(data, this->mMainWindow->parentWidget());
     dialog.exec();
 }
 //-----------------------------------------------------------------------------

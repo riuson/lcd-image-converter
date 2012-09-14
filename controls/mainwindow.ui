@@ -106,8 +106,7 @@
      </property>
      <addaction name="actionLanguageDefault"/>
     </widget>
-    <addaction name="actionSetupConversion"/>
-    <addaction name="actionSetup"/>
+    <addaction name="actionSettings"/>
     <addaction name="menuLanguage"/>
    </widget>
    <addaction name="menuHello"/>
@@ -257,9 +256,9 @@
     <string notr="true">F1</string>
    </property>
   </action>
-  <action name="actionSetup">
+  <action name="actionSettings">
    <property name="text">
-    <string>Setup...</string>
+    <string>Settings...</string>
    </property>
   </action>
   <action name="actionLanguageDefault">

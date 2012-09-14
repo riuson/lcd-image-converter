@@ -48,8 +48,6 @@ SOURCES += main.cpp \
     classes/convert/bitstream.cpp \
     controls/setup/dialogpreview.cpp \
     classes/preview-models/matrixpreviewmodel.cpp \
-    controls/setup/dialogconvert.cpp \
-    controls/setup/dialogsetup.cpp \
     classes/parser.cpp \
     classes/preview-models/matrixitemdelegate.cpp \
     controls/setup/parts/setuptabprepare.cpp \
@@ -60,7 +58,8 @@ SOURCES += main.cpp \
     classes/presets/matrixoptions.cpp \
     classes/presets/imageoptions.cpp \
     classes/presets/templateoptions.cpp \
-    controls/setup/parts/setuptabtemplates.cpp
+    controls/setup/parts/setuptabtemplates.cpp \
+    controls/setup/dialogoptions.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -93,8 +92,6 @@ HEADERS += \
     controls/setup/dialogpreview.h \
     classes/preview-models/matrixpreviewmodel.h \
     classes/convert/conversion_options.h \
-    controls/setup/dialogconvert.h \
-    controls/setup/dialogsetup.h \
     classes/parser.h \
     classes/preview-models/matrixitemdelegate.h \
     controls/setup/parts/setuptabprepare.h \
@@ -105,7 +102,8 @@ HEADERS += \
     classes/presets/matrixoptions.h \
     classes/presets/imageoptions.h \
     classes/presets/templateoptions.h \
-    controls/setup/parts/setuptabtemplates.h
+    controls/setup/parts/setuptabtemplates.h \
+    controls/setup/dialogoptions.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -118,12 +116,11 @@ FORMS += \
     controls/starttab.ui \
     controls/dialogfontpreview.ui \
     controls/setup/dialogpreview.ui \
-    controls/setup/dialogconvert.ui \
-    controls/setup/dialogsetup.ui \
     controls/setup/parts/setuptabprepare.ui \
     controls/setup/parts/setuptabmatrix.ui \
     controls/setup/parts/setuptabimage.ui \
-    controls/setup/parts/setuptabtemplates.ui
+    controls/setup/parts/setuptabtemplates.ui \
+    controls/setup/dialogoptions.ui
 INCLUDEPATH += . \
     ./classes \
     ./classes/convert \

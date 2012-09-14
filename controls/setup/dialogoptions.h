@@ -17,13 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef DIALOGCONVERT2_H
-#define DIALOGCONVERT2_H
+#ifndef DIALOGOPTIONS_H
+#define DIALOGOPTIONS_H
 //-----------------------------------------------------------------------------
 #include <QDialog>
 //-----------------------------------------------------------------------------
 namespace Ui {
-class DialogConvert;
+class DialogOptions;
 }
 //-----------------------------------------------------------------------------
 class Preset;
@@ -35,16 +35,16 @@ class SetupTabMatrix;
 class SetupTabImage;
 class SetupTabTemplates;
 //-----------------------------------------------------------------------------
-class DialogConvert : public QDialog
+class DialogOptions : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit DialogConvert(IDataContainer *dataContainer, QWidget *parent = 0);
-    virtual ~DialogConvert();
+    explicit DialogOptions(IDataContainer *dataContainer, QWidget *parent = 0);
+    virtual ~DialogOptions();
 
 private:
-    Ui::DialogConvert *ui;
+    Ui::DialogOptions *ui;
 
     IDataContainer *mData;
 
@@ -75,4 +75,4 @@ protected:
     void done(int result);
 };
 //-----------------------------------------------------------------------------
-#endif // DIALOGCONVERT2_H
+#endif // DIALOGOPTIONS_H
