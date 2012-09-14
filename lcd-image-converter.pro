@@ -122,6 +122,7 @@ INCLUDEPATH += . \
     ./classes/preview-models \
     ./controls \
     ./controls/setup \
+    ./controls/setup/parts \
     ./interfaces
 
 RESOURCES += \

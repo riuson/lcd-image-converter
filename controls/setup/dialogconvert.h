@@ -22,39 +22,39 @@
 //-----------------------------------------------------------------------------
 #include <QDialog>
 //-----------------------------------------------------------------------------
-class QMenu;
-class ConversionMatrix;
-//-----------------------------------------------------------------------------
 namespace Ui {
 class DialogConvert;
 }
+//-----------------------------------------------------------------------------
+class ConversionMatrix;
 class IDataContainer;
 class Parser;
-class MatrixPreviewModel;
-class QTableView;
 class DialogPreview;
-class MatrixItemDelegate;
+class SetupTabPrepare;
+class SetupTabMatrix;
+class SetupTabImage;
 //-----------------------------------------------------------------------------
 class DialogConvert : public QDialog
 {
     Q_OBJECT
-    
+
 public:
     explicit DialogConvert(IDataContainer *dataContainer, QWidget *parent = 0);
     ~DialogConvert();
-    
+
 private:
     Ui::DialogConvert *ui;
 
     IDataContainer *mData;
 
     ConversionMatrix *mMatrix;
-    MatrixPreviewModel *mMatrixModel;
-    MatrixItemDelegate *mMatrixItemDelegate;
     bool mMatrixChanged;
 
     DialogPreview *mPreview;
-    QMenu *mMenu;
+
+    SetupTabPrepare *mSetupPrepare;
+    SetupTabMatrix  *mSetupMatrix;
+    SetupTabImage   *mSetupImage;
 
     void fillPresetsList();
     void presetLoad(const QString &name);
@@ -64,25 +64,11 @@ private:
 private slots:
     void updatePreview();
     void on_pushButtonPreview_clicked();
-    void on_radioButtonLittleEndian_toggled(bool value);
-    void on_comboBoxConversionType_currentIndexChanged(int index);
-    void on_comboBoxMonochromeType_currentIndexChanged(int index);
-    void on_comboBoxBlockSize_currentIndexChanged(int index);
-    void on_comboBoxRotate_currentIndexChanged(int index);
-    void on_checkBoxFlipHorizontal_toggled(bool value);
-    void on_checkBoxFlipVertical_toggled(bool value);
-    void on_checkBoxInverse_toggled(bool value);
     void on_pushButtonPresetSaveAs_clicked();
     void on_pushButtonPresetRemove_clicked();
     void on_comboBoxPresets_currentIndexChanged(int index);
-    void on_horizontalScrollBarEdge_valueChanged(int value);
-    void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
     void previewClosed();
 
-    void operationAdd();
-    void operationShift();
-    void operationRemove();
-    void maskReset();
     void matrixChanged();
 
 protected:
