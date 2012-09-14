@@ -56,6 +56,9 @@ DialogConvert::DialogConvert(IDataContainer *dataContainer, QWidget *parent) :
     if (presetsCount == 0)
         this->createPresetsDefault();
 
+    this->mSetupPrepare->connect(this->mMatrix, SIGNAL(changed()), SLOT(matrixChanged()));
+    this->mSetupMatrix->connect(this->mMatrix, SIGNAL(changed()), SLOT(matrixChanged()));
+    this->mSetupImage->connect(this->mMatrix, SIGNAL(changed()), SLOT(matrixChanged()));
     this->connect(this->mMatrix, SIGNAL(changed()), SLOT(updatePreview()));
 
     this->fillPresetsList();
