@@ -13,6 +13,10 @@ SetupTabMatrix::SetupTabMatrix(ConversionMatrix *matrix, QWidget *parent) :
     this->mMatrix = matrix;
     this->mMenu = NULL;
 
+    this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
+    this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
+    this->ui->comboBoxConversionType->addItem(tr("Color"), ConversionTypeColor);
+
     this->mMatrixModel = new MatrixPreviewModel(this->mMatrix, this);
     this->ui->tableViewOperations->setModel(this->mMatrixModel);
     this->ui->tableViewOperations->resizeColumnsToContents();
@@ -44,12 +48,27 @@ const QString &SetupTabMatrix::title()
 //-----------------------------------------------------------------------------
 void SetupTabMatrix::matrixChanged()
 {
+    int index = this->ui->comboBoxConversionType->findData(this->mMatrix->options()->convType());
+    if (index >= 0)
+        this->ui->comboBoxConversionType->setCurrentIndex(index);
+
     this->mMatrixModel->callReset();
     this->ui->tableViewOperations->setModel(NULL);
     this->ui->tableViewOperations->setModel(this->mMatrixModel);
     this->ui->tableViewOperations->update();
     this->ui->tableViewOperations->resizeRowsToContents();
     this->ui->tableViewOperations->resizeColumnsToContents();
+}
+//-----------------------------------------------------------------------------
+void SetupTabMatrix::on_comboBoxConversionType_currentIndexChanged(int index)
+{
+    QVariant data = this->ui->comboBoxConversionType->itemData(index);
+    bool ok;
+    int a = data.toInt(&ok);
+    if (ok)
+    {
+        this->mMatrix->options()->setConvType((ConversionType)a);
+    }
 }
 //-----------------------------------------------------------------------------
 void SetupTabMatrix::on_tableViewOperations_customContextMenuRequested(const QPoint &point)
