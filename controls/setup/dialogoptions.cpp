@@ -30,6 +30,7 @@
 #include "setuptabprepare.h"
 #include "setuptabmatrix.h"
 #include "setuptabimage.h"
+#include "setuptabfont.h"
 #include "setuptabtemplates.h"
 #include "preset.h"
 //-----------------------------------------------------------------------------
@@ -46,6 +47,7 @@ DialogOptions::DialogOptions(IDataContainer *dataContainer, QWidget *parent) :
     this->mSetupPrepare   = new SetupTabPrepare(this->mPreset, this);
     this->mSetupMatrix    = new SetupTabMatrix(this->mPreset, this);
     this->mSetupImage     = new SetupTabImage(this->mPreset, this);
+    this->mSetupFont      = new SetupTabFont(this->mPreset, this);
     this->mSetupTemplates = new SetupTabTemplates(this->mPreset, this);
 
     QSettings sett;
@@ -60,6 +62,7 @@ DialogOptions::DialogOptions(IDataContainer *dataContainer, QWidget *parent) :
     this->mSetupPrepare->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
     this->mSetupMatrix->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
     this->mSetupImage->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
+    this->mSetupFont->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
     this->mSetupTemplates->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
     this->connect(this->mPreset, SIGNAL(changed()), SLOT(presetChanged()));
 
@@ -74,6 +77,7 @@ DialogOptions::DialogOptions(IDataContainer *dataContainer, QWidget *parent) :
     this->ui->tabWidgetSetupParts->addTab(this->mSetupPrepare, SetupTabPrepare::title());
     this->ui->tabWidgetSetupParts->addTab(this->mSetupMatrix, SetupTabMatrix::title());
     this->ui->tabWidgetSetupParts->addTab(this->mSetupImage, SetupTabImage::title());
+    this->ui->tabWidgetSetupParts->addTab(this->mSetupFont, SetupTabFont::title());
     this->ui->tabWidgetSetupParts->addTab(this->mSetupTemplates, SetupTabTemplates::title());
 }
 //-----------------------------------------------------------------------------
@@ -84,6 +88,7 @@ DialogOptions::~DialogOptions()
 
     delete this->mSetupPrepare;
     delete this->mSetupMatrix;
+    delete this->mSetupFont;
     delete this->mSetupImage;
     delete this->mSetupTemplates;
     delete ui;

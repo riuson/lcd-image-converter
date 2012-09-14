@@ -5,6 +5,7 @@
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
+#include "fontoptions.h"
 #include "templateoptions.h"
 //-----------------------------------------------------------------------------
 Preset::Preset(QObject *parent) :
@@ -15,17 +16,20 @@ Preset::Preset(QObject *parent) :
     this->mPrepare   = new PrepareOptions(this);
     this->mMatrix    = new MatrixOptions(this);
     this->mImage     = new ImageOptions(this);
+    this->mFont     = new FontOptions(this);
     this->mTemplates = new TemplateOptions(this);
 
     this->connect(this->mPrepare,   SIGNAL(changed()), SLOT(partsChanged()));
     this->connect(this->mMatrix,    SIGNAL(changed()), SLOT(partsChanged()));
     this->connect(this->mImage,     SIGNAL(changed()), SLOT(partsChanged()));
+    this->connect(this->mFont,      SIGNAL(changed()), SLOT(partsChanged()));
     this->connect(this->mTemplates, SIGNAL(changed()), SLOT(partsChanged()));
 }
 //-----------------------------------------------------------------------------
 Preset::~Preset()
 {
     delete this->mTemplates;
+    delete this->mFont;
     delete this->mImage;
     delete this->mMatrix;
     delete this->mPrepare;
@@ -44,6 +48,11 @@ MatrixOptions *Preset::matrix()
 ImageOptions *Preset::image()
 {
     return this->mImage;
+}
+//-----------------------------------------------------------------------------
+FontOptions *Preset::font()
+{
+    return this->mFont;
 }
 //-----------------------------------------------------------------------------
 TemplateOptions *Preset::templates()
@@ -244,6 +253,7 @@ bool Preset::load1(const QString &name)
         quint32 bytesOrder = 0, convType = 0, monoType = 0, edge = 0, blockSize = 0;
         quint32 rotate = 0, flipVertical = 0, flipHorizontal = 0, inverse = 0;
         quint32 maskUsed = 0, maskAnd = 0, maskOr = 0, maskFill = 0;
+        quint32 fontUseBom = 0;
 
         bytesOrder = sett.value("bytesOrder", int(0)).toInt(&ok);
 
@@ -288,8 +298,13 @@ bool Preset::load1(const QString &name)
         if (ok)
             maskFill = strMaskFill.toUInt(&ok, 16);
 
-        QString strImageTemplate = sett.value("imageTemplate", QString(":/templates/image_convert")).toString();
-        QString strFontTemplate = sett.value("fontTemplate", QString(":/templates/font_convert")).toString();
+        QString strTemplateImage = sett.value("templateImage", QString(":/templates/image_convert")).toString();
+        QString strTemplateFont = sett.value("templateFont", QString(":/templates/font_convert")).toString();
+
+        QString strFontCodec = sett.value("fontCodec", QString("UTF-8")).toString();
+
+        if (ok)
+            fontUseBom = sett.value("fontUseBom", int(0)).toInt(&ok);
 
         if (ok)
         {
@@ -335,8 +350,11 @@ bool Preset::load1(const QString &name)
             }
             sett.endArray();
 
-            this->mTemplates->setImage(strImageTemplate);
-            this->mTemplates->setFont(strFontTemplate);
+            this->mTemplates->setImage(strTemplateImage);
+            this->mTemplates->setFont(strTemplateFont);
+
+            this->mFont->setCodec(strFontCodec);
+            this->mFont->setBom((bool)fontUseBom);
         }
 
         sett.endGroup();
@@ -390,6 +408,9 @@ bool Preset::save1(const QString &name) const
 
     sett.setValue("imageTemplate", this->mTemplates->image());
     sett.setValue("fontTemplate", this->mTemplates->font());
+
+    sett.setValue("fontUseBom", QString("%1").arg((int)this->mFont->bom()));
+    sett.setValue("fontCodec",  this->mFont->codec());
 
     sett.endGroup();
     sett.endGroup();

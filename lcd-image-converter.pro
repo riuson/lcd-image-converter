@@ -59,7 +59,9 @@ SOURCES += main.cpp \
     classes/presets/imageoptions.cpp \
     classes/presets/templateoptions.cpp \
     controls/setup/parts/setuptabtemplates.cpp \
-    controls/setup/dialogoptions.cpp
+    controls/setup/dialogoptions.cpp \
+    classes/presets/fontoptions.cpp \
+    controls/setup/parts/setuptabfont.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -103,7 +105,9 @@ HEADERS += \
     classes/presets/imageoptions.h \
     classes/presets/templateoptions.h \
     controls/setup/parts/setuptabtemplates.h \
-    controls/setup/dialogoptions.h
+    controls/setup/dialogoptions.h \
+    classes/presets/fontoptions.h \
+    controls/setup/parts/setuptabfont.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -120,7 +124,8 @@ FORMS += \
     controls/setup/parts/setuptabmatrix.ui \
     controls/setup/parts/setuptabimage.ui \
     controls/setup/parts/setuptabtemplates.ui \
-    controls/setup/dialogoptions.ui
+    controls/setup/dialogoptions.ui \
+    controls/setup/parts/setuptabfont.ui
 INCLUDEPATH += . \
     ./classes \
     ./classes/convert \

@@ -32,6 +32,7 @@
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
+#include "fontoptions.h"
 #include "templateoptions.h"
 //-----------------------------------------------------------------------------
 Parser::Parser(QObject *parent, TemplateType templateType) :
@@ -82,30 +83,6 @@ QString Parser::convert(IDocument *document, QMap<QString, QString> &tags) const
         file.close();
     }
     tags.insert("templateFile", file.fileName());
-
-    QRegExp regEnc("encoding:\\s+(.+)(?=\\s)");
-    regEnc.setMinimal(true);
-    if (regEnc.indexIn(templateString) >= 0)
-    {
-        QString enc = regEnc.cap(1);
-        tags["encoding"] = enc.toUpper();
-    }
-    else
-    {
-        tags["encoding"] = "UTF-8";
-    }
-
-    QRegExp regBom("unicode bom:\\s+(.+)(?=\\s)");
-    regBom.setMinimal(true);
-    if (regBom.indexIn(templateString) >= 0)
-    {
-        QString bom = regBom.cap(1);
-        tags["bom"] = bom.toUpper();
-    }
-    else
-    {
-        tags["bom"] = "NO";
-    }
 
     QRegExp regImageData("([\\t\\ ]+)@imageData@");
     regImageData.setMinimal(true);
@@ -263,11 +240,10 @@ void Parser::parseImagesTable(const QString &templateString,
 
         // end of conversion
 
-        bool useBom = false;
-        if (tags.value("bom") == "YES")
-            useBom = true;
+        bool useBom = this->mPreset->font()->bom();
+        QString encoding = this->mPreset->font()->codec();
 
-        QString charCode = this->hexCode(key.at(0), tags.value("encoding"), useBom);
+        QString charCode = this->hexCode(key.at(0), encoding, useBom);
 
         tags["blocksCount"] = QString("%1").arg(imageDataPacked.size());
         tags["imageData"] = dataString;
@@ -407,6 +383,15 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
         tags.insert("inverse", "yes");
     else
         tags.insert("inverse", "no");
+
+    // bom
+    if (this->mPreset->font()->bom())
+        tags.insert("bom", "yes");
+    else
+        tags.insert("bom", "no");
+
+    // encoding
+    tags.insert("encoding", this->mPreset->font()->codec());
 
     // preset name
     tags.insert("preset", this->mSelectedPresetName);

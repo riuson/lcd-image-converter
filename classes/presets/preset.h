@@ -8,6 +8,7 @@
 class PrepareOptions;
 class MatrixOptions;
 class ImageOptions;
+class FontOptions;
 class TemplateOptions;
 class QString;
 class QStringList;
@@ -24,6 +25,7 @@ public:
     PrepareOptions *prepare();
     MatrixOptions *matrix();
     ImageOptions *image();
+    FontOptions *font();
     TemplateOptions *templates();
 
     static QStringList presetsList();
@@ -39,6 +41,7 @@ private:
     PrepareOptions *mPrepare;
     MatrixOptions *mMatrix;
     ImageOptions *mImage;
+    FontOptions *mFont;
     TemplateOptions *mTemplates;
     bool mBlockChangesSignal;
 

@@ -1,33 +1,33 @@
-#ifndef SETUPTABIMAGE_H
-#define SETUPTABIMAGE_H
+#ifndef SETUPTABFONT_H
+#define SETUPTABFONT_H
 //-----------------------------------------------------------------------------
 #include <QWidget>
 //-----------------------------------------------------------------------------
 namespace Ui {
-class SetupTabImage;
+class SetupTabFont;
 }
 //-----------------------------------------------------------------------------
 class Preset;
 //-----------------------------------------------------------------------------
-class SetupTabImage : public QWidget
+class SetupTabFont : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SetupTabImage(Preset *preset, QWidget *parent = 0);
-    virtual ~SetupTabImage();
+    explicit SetupTabFont(Preset *preset, QWidget *parent = 0);
+    virtual ~SetupTabFont();
     static const QString &title();
 
 public slots:
     void matrixChanged();
 
 private:
-    Ui::SetupTabImage *ui;
+    Ui::SetupTabFont *ui;
     Preset *mPreset;
 
 private slots:
-    void on_radioButtonLittleEndian_toggled(bool value);
-    void on_comboBoxBlockSize_currentIndexChanged(int index);
+    void on_checkBoxBom_toggled(bool value);
+    void on_comboBoxCodec_currentIndexChanged(const QString &value);
 };
 //-----------------------------------------------------------------------------
-#endif // SETUPTABIMAGE_H
+#endif // SETUPTABFONT_H

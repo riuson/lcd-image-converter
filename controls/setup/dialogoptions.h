@@ -33,6 +33,7 @@ class DialogPreview;
 class SetupTabPrepare;
 class SetupTabMatrix;
 class SetupTabImage;
+class SetupTabFont;
 class SetupTabTemplates;
 //-----------------------------------------------------------------------------
 class DialogOptions : public QDialog
@@ -56,6 +57,7 @@ private:
     SetupTabPrepare   *mSetupPrepare;
     SetupTabMatrix    *mSetupMatrix;
     SetupTabImage     *mSetupImage;
+    SetupTabFont      *mSetupFont;
     SetupTabTemplates *mSetupTemplates;
 
     void fillPresetsList();
