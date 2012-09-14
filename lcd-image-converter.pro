@@ -53,7 +53,10 @@ SOURCES += main.cpp \
     controls/setup/dialogconvert.cpp \
     controls/setup/dialogsetup.cpp \
     classes/parser.cpp \
-    classes/preview-models/matrixitemdelegate.cpp
+    classes/preview-models/matrixitemdelegate.cpp \
+    controls/setup/parts/setuptabprepare.cpp \
+    controls/setup/parts/setuptabmatrix.cpp \
+    controls/setup/parts/setuptabimage.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -91,7 +94,10 @@ HEADERS += \
     controls/setup/dialogconvert.h \
     controls/setup/dialogsetup.h \
     classes/parser.h \
-    classes/preview-models/matrixitemdelegate.h
+    classes/preview-models/matrixitemdelegate.h \
+    controls/setup/parts/setuptabprepare.h \
+    controls/setup/parts/setuptabmatrix.h \
+    controls/setup/parts/setuptabimage.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -105,7 +111,10 @@ FORMS += \
     controls/dialogfontpreview.ui \
     controls/setup/dialogpreview.ui \
     controls/setup/dialogconvert.ui \
-    controls/setup/dialogsetup.ui
+    controls/setup/dialogsetup.ui \
+    controls/setup/parts/setuptabprepare.ui \
+    controls/setup/parts/setuptabmatrix.ui \
+    controls/setup/parts/setuptabimage.ui
 INCLUDEPATH += . \
     ./classes \
     ./classes/convert \
