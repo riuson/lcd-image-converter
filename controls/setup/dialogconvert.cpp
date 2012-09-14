@@ -220,11 +220,6 @@ void DialogConvert::previewClosed()
     }
 }
 //-----------------------------------------------------------------------------
-void DialogConvert::matrixChanged()
-{
-    this->mPresetChanged = true;
-}
-//-----------------------------------------------------------------------------
 void DialogConvert::done(int result)
 {
     if (result == QDialog::Accepted)

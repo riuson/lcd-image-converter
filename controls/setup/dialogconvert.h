@@ -69,8 +69,6 @@ private slots:
     void on_comboBoxPresets_currentIndexChanged(int index);
     void previewClosed();
 
-    void matrixChanged();
-
 protected:
     void done(int result);
 };
