@@ -56,7 +56,11 @@ SOURCES += main.cpp \
     classes/preview-models/matrixitemdelegate.cpp \
     controls/setup/parts/setuptabprepare.cpp \
     controls/setup/parts/setuptabmatrix.cpp \
-    controls/setup/parts/setuptabimage.cpp
+    controls/setup/parts/setuptabimage.cpp \
+    classes/presets/preset.cpp \
+    classes/presets/prepareoptions.cpp \
+    classes/presets/matrixoptions.cpp \
+    classes/presets/imageoptions.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -97,7 +101,11 @@ HEADERS += \
     classes/preview-models/matrixitemdelegate.h \
     controls/setup/parts/setuptabprepare.h \
     controls/setup/parts/setuptabmatrix.h \
-    controls/setup/parts/setuptabimage.h
+    controls/setup/parts/setuptabimage.h \
+    classes/presets/preset.h \
+    classes/presets/prepareoptions.h \
+    classes/presets/matrixoptions.h \
+    classes/presets/imageoptions.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -118,6 +126,7 @@ FORMS += \
 INCLUDEPATH += . \
     ./classes \
     ./classes/convert \
+    ./classes/presets \
     ./classes/action-handlers \
     ./classes/preview-models \
     ./controls \
