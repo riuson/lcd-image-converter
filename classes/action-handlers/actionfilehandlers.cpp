@@ -316,6 +316,21 @@ void ActionFileHandlers::openFile(const QString &filename)
     }
 }
 //-----------------------------------------------------------------------------
+void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
+{
+    EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
+    this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
+
+    QString name = this->mMainWindow->findAvailableName(documentName);
+
+    QString key = ed->editor()->currentImageKey();
+    ed->dataContainer()->setImage(key, image);
+
+    ed->setDocumentName(name);
+    ed->setChanged(false);
+    emit this->tabCreated(ed, name, "");
+}
+//-----------------------------------------------------------------------------
 void ActionFileHandlers::documentChanged(bool changed, const QString &documentName, const QString &filename)
 {
     QWidget *w = qobject_cast<QWidget *>(sender());
