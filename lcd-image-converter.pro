@@ -153,7 +153,8 @@ OTHER_FILES += \
     resources/image.tmpl \
     resources/font.tmpl \
     resources/lcd-image-converter-ru.ts \
-    win-res.rc
+    win-res.rc \
+    README
 
 
 # generate version info file on each build, because file in other directory
