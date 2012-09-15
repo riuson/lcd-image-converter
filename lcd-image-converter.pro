@@ -45,15 +45,23 @@ SOURCES += main.cpp \
     controls/revisionlabel.cpp \
     classes/revisioninfo.cpp \
     classes/convert/converterhelper.cpp \
-    classes/convert/conversionmatrixoptions.cpp \
     classes/convert/bitstream.cpp \
     controls/setup/dialogpreview.cpp \
     classes/preview-models/matrixpreviewmodel.cpp \
-    classes/convert/conversionmatrix.cpp \
-    controls/setup/dialogconvert.cpp \
-    controls/setup/dialogsetup.cpp \
     classes/parser.cpp \
-    classes/preview-models/matrixitemdelegate.cpp
+    classes/preview-models/matrixitemdelegate.cpp \
+    controls/setup/parts/setuptabprepare.cpp \
+    controls/setup/parts/setuptabmatrix.cpp \
+    controls/setup/parts/setuptabimage.cpp \
+    classes/presets/preset.cpp \
+    classes/presets/prepareoptions.cpp \
+    classes/presets/matrixoptions.cpp \
+    classes/presets/imageoptions.cpp \
+    classes/presets/templateoptions.cpp \
+    controls/setup/parts/setuptabtemplates.cpp \
+    controls/setup/dialogoptions.cpp \
+    classes/presets/fontoptions.cpp \
+    controls/setup/parts/setuptabfont.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -82,16 +90,24 @@ HEADERS += \
     controls/revisionlabel.h \
     classes/revisioninfo.h \
     classes/convert/converterhelper.h \
-    classes/convert/conversionmatrixoptions.h \
     classes/convert/bitstream.h \
     controls/setup/dialogpreview.h \
     classes/preview-models/matrixpreviewmodel.h \
     classes/convert/conversion_options.h \
-    classes/convert/conversionmatrix.h \
-    controls/setup/dialogconvert.h \
-    controls/setup/dialogsetup.h \
     classes/parser.h \
-    classes/preview-models/matrixitemdelegate.h
+    classes/preview-models/matrixitemdelegate.h \
+    controls/setup/parts/setuptabprepare.h \
+    controls/setup/parts/setuptabmatrix.h \
+    controls/setup/parts/setuptabimage.h \
+    classes/presets/preset.h \
+    classes/presets/prepareoptions.h \
+    classes/presets/matrixoptions.h \
+    classes/presets/imageoptions.h \
+    classes/presets/templateoptions.h \
+    controls/setup/parts/setuptabtemplates.h \
+    controls/setup/dialogoptions.h \
+    classes/presets/fontoptions.h \
+    controls/setup/parts/setuptabfont.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -104,15 +120,21 @@ FORMS += \
     controls/starttab.ui \
     controls/dialogfontpreview.ui \
     controls/setup/dialogpreview.ui \
-    controls/setup/dialogconvert.ui \
-    controls/setup/dialogsetup.ui
+    controls/setup/parts/setuptabprepare.ui \
+    controls/setup/parts/setuptabmatrix.ui \
+    controls/setup/parts/setuptabimage.ui \
+    controls/setup/parts/setuptabtemplates.ui \
+    controls/setup/dialogoptions.ui \
+    controls/setup/parts/setuptabfont.ui
 INCLUDEPATH += . \
     ./classes \
     ./classes/convert \
+    ./classes/presets \
     ./classes/action-handlers \
     ./classes/preview-models \
     ./controls \
     ./controls/setup \
+    ./controls/setup/parts \
     ./interfaces
 
 RESOURCES += \

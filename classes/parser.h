@@ -25,22 +25,29 @@
 
 class IDocument;
 class IDataContainer;
-class ConversionMatrix;
+class Preset;
 //-----------------------------------------------------------------------------
 class Parser : public QObject
 {
     Q_OBJECT
 public:
-    Parser(QObject *parent);
+    enum TemplateType
+    {
+        TypeImage,
+        TypeFont
+    };
+
+    Parser(QObject *parent, TemplateType templateType);
     virtual ~Parser();
 
     QString name();
 
-    QString convert(IDocument *document, const QString &templateFile, QMap<QString, QString> &tags) const;
+    QString convert(IDocument *document, QMap<QString, QString> &tags) const;
+
 private:
-    QMap <QString, QObject *> mConverters;
     QString mSelectedPresetName;
-    ConversionMatrix *mMatrix;
+    Preset *mPreset;
+    QString mTemplateFileName;
 
     void parse(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
     void parseBlocks(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;

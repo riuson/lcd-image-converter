@@ -25,9 +25,8 @@
 #include <QFont>
 #include "idatacontainer.h"
 #include "converterhelper.h"
-#include "conversionmatrix.h"
 //-----------------------------------------------------------------------------
-DialogPreview::DialogPreview(IDataContainer *dataContainer, ConversionMatrix *matrix, QWidget *parent) :
+DialogPreview::DialogPreview(IDataContainer *dataContainer, Preset *matrix, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogPreview)
 {

@@ -174,9 +174,6 @@ void ActionFileHandlers::convert_triggered()
     QSettings sett;
     sett.beginGroup("setup");
 
-    QString templateImageFileName = sett.value("templateImage", ":/templates/image_convert").toString();
-    QString templateFontFileName = sett.value("templateFont", ":/templates/font_convert").toString();
-
     sett.endGroup();
 
     QWidget *w = this->mMainWindow->currentTab();
@@ -193,13 +190,13 @@ void ActionFileHandlers::convert_triggered()
         docName = docName.remove(QRegExp("\\W", Qt::CaseInsensitive));
         tags["documentName_ws"] = docName;
 
-        QString templateFileName;
+        Parser::TemplateType templateType = Parser::TypeImage;
 
         if (EditorTabImage *eti = qobject_cast<EditorTabImage *>(w))
         {
             Q_UNUSED(eti);
             tags["dataType"] = "image";
-            templateFileName = templateImageFileName;
+            templateType = Parser::TypeImage;
         }
         if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
         {
@@ -216,10 +213,10 @@ void ActionFileHandlers::convert_triggered()
             tags["fontAntialiasing"] = antialiasing ? "true" : "false";
             tags["fontWidthType"] = monospaced ? "monospaced" : "proportional";
 
-            templateFileName = templateFontFileName;
+            templateType = Parser::TypeFont;
         }
-        Parser parser(this);
-        QString result = parser.convert(doc, templateFileName, tags);
+        Parser parser(this, templateType);
+        QString result = parser.convert(doc, tags);
 
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptSave);

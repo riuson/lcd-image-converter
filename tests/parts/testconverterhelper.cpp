@@ -1,7 +1,11 @@
 #include "testconverterhelper.h"
-
+//-----------------------------------------------------------------------------
 #include <QVector>
 #include "converterhelper.h"
+#include "preset.h"
+#include "prepareoptions.h"
+#include "matrixoptions.h"
+#include "imageoptions.h"
 //-----------------------------------------------------------------------------
 TestConverterHelper::TestConverterHelper(QObject *parent) :
     QObject(parent)
@@ -10,19 +14,19 @@ TestConverterHelper::TestConverterHelper(QObject *parent) :
 //-----------------------------------------------------------------------------
 void TestConverterHelper::initTestCase()
 {
-    this->mMatrix = new ConversionMatrix(this);
+    this->mPreset = new Preset(this);
 }
 //-----------------------------------------------------------------------------
 void TestConverterHelper::processPixels()
 {
     const int count = 1000;
-    this->mMatrix->initColor(5, 6, 5);
-    this->mMatrix->operationsRemoveAll();
-    this->mMatrix->options()->setBlockSize(Data32);
-    this->mMatrix->options()->setMaskUsed(0x00ffffff);
-    this->mMatrix->options()->setMaskAnd(0xffffffff);
-    this->mMatrix->options()->setMaskOr(0x00000000);
-    this->mMatrix->options()->setMaskFill(0xffffffff);
+    this->mPreset->initColor(5, 6, 5);
+    this->mPreset->matrix()->operationsRemoveAll();
+    this->mPreset->image()->setBlockSize(Data32);
+    this->mPreset->matrix()->setMaskUsed(0x00ffffff);
+    this->mPreset->matrix()->setMaskAnd(0xffffffff);
+    this->mPreset->matrix()->setMaskOr(0x00000000);
+    this->mPreset->matrix()->setMaskFill(0xffffffff);
 
     // equals by default
     QVector<quint32> source, sample;
@@ -35,15 +39,15 @@ void TestConverterHelper::processPixels()
     }
 
     // no operations, no changes
-    ConverterHelper::processPixels(this->mMatrix, &sample);
+    ConverterHelper::processPixels(this->mPreset, &sample);
     for (int i = 0; i < count; i++)
     {
         QCOMPARE(sample.at(i), source.at(i));
     }
 
     // add operations
-    this->mMatrix->operationAdd(0x12345678, 3, true);
-    this->mMatrix->operationAdd(0x87654321, 1, false);
+    this->mPreset->matrix()->operationAdd(0x12345678, 3, true);
+    this->mPreset->matrix()->operationAdd(0x87654321, 1, false);
     source.clear();
     sample.clear();
     for (int i = 0; i < count; i++)
@@ -55,16 +59,16 @@ void TestConverterHelper::processPixels()
         source << a;
         sample << value;
     }
-    ConverterHelper::processPixels(this->mMatrix, &sample);
+    ConverterHelper::processPixels(this->mPreset, &sample);
     for (int i = 0; i < count; i++)
     {
         QCOMPARE(sample.at(i), source.at(i));
     }
 
     // test AND mask
-    this->mMatrix->operationsRemoveAll();
-    this->mMatrix->options()->setMaskAnd(0xabcdef01);
-    this->mMatrix->options()->setMaskOr(0x00000000);
+    this->mPreset->matrix()->operationsRemoveAll();
+    this->mPreset->matrix()->setMaskAnd(0xabcdef01);
+    this->mPreset->matrix()->setMaskOr(0x00000000);
     source.clear();
     sample.clear();
     for (int i = 0; i < count; i++)
@@ -74,16 +78,16 @@ void TestConverterHelper::processPixels()
         source << a;
         sample << value;
     }
-    ConverterHelper::processPixels(this->mMatrix, &sample);
+    ConverterHelper::processPixels(this->mPreset, &sample);
     for (int i = 0; i < count; i++)
     {
         QCOMPARE(sample.at(i), source.at(i));
     }
 
     // test OR mask
-    this->mMatrix->operationsRemoveAll();
-    this->mMatrix->options()->setMaskAnd(0xffffffff);
-    this->mMatrix->options()->setMaskOr(0x1a5b5e4d);
+    this->mPreset->matrix()->operationsRemoveAll();
+    this->mPreset->matrix()->setMaskAnd(0xffffffff);
+    this->mPreset->matrix()->setMaskOr(0x1a5b5e4d);
     source.clear();
     sample.clear();
     for (int i = 0; i < count; i++)
@@ -93,7 +97,7 @@ void TestConverterHelper::processPixels()
         source << a;
         sample << value;
     }
-    ConverterHelper::processPixels(this->mMatrix, &sample);
+    ConverterHelper::processPixels(this->mPreset, &sample);
     for (int i = 0; i < count; i++)
     {
         QCOMPARE(sample.at(i), source.at(i));
@@ -103,14 +107,14 @@ void TestConverterHelper::processPixels()
 void TestConverterHelper::packData()
 {
     const int count = 1000;
-    this->mMatrix->initColor(5, 6, 5);
-    this->mMatrix->operationsRemoveAll();
-    this->mMatrix->options()->setMaskAnd(0xffffffff);
-    this->mMatrix->options()->setMaskOr(0x00000000);
+    this->mPreset->initColor(5, 6, 5);
+    this->mPreset->matrix()->operationsRemoveAll();
+    this->mPreset->matrix()->setMaskAnd(0xffffffff);
+    this->mPreset->matrix()->setMaskOr(0x00000000);
 
-    this->mMatrix->options()->setBlockSize(Data32);
-    this->mMatrix->options()->setMaskUsed(0x00ffffff);
-    this->mMatrix->options()->setMaskFill(0xffffffff);
+    this->mPreset->image()->setBlockSize(Data32);
+    this->mPreset->matrix()->setMaskUsed(0x00ffffff);
+    this->mPreset->matrix()->setMaskFill(0xffffffff);
 
     QVector<quint32> source, expected;
     int widthExpected, heightExpected;
@@ -121,7 +125,7 @@ void TestConverterHelper::packData()
 
     QVector<quint32> sample;
     int widthSample, heightSample;
-    ConverterHelper::packData(this->mMatrix, &source, 1000, 1000, &sample, &widthSample, &heightSample);
+    ConverterHelper::packData(this->mPreset, &source, 1000, 1000, &sample, &widthSample, &heightSample);
 
     QCOMPARE(widthSample, widthExpected);
     QCOMPARE(heightSample, heightExpected);
@@ -149,12 +153,12 @@ void TestConverterHelper::dataToString()
     }
 
     // configure matrix
-    this->mMatrix->initColor(5, 6, 5);
-    this->mMatrix->operationsRemoveAll();
-    this->mMatrix->options()->setMaskAnd(0xffffffff);
-    this->mMatrix->options()->setMaskOr(0x00000000);
-    this->mMatrix->options()->setMaskUsed(0x00ffffff);
-    this->mMatrix->options()->setMaskFill(0xffffffff);
+    this->mPreset->initColor(5, 6, 5);
+    this->mPreset->matrix()->operationsRemoveAll();
+    this->mPreset->matrix()->setMaskAnd(0xffffffff);
+    this->mPreset->matrix()->setMaskOr(0x00000000);
+    this->mPreset->matrix()->setMaskUsed(0x00ffffff);
+    this->mPreset->matrix()->setMaskFill(0xffffffff);
 
     // create expected strings
     QString expected8, expected16, expected24, expected32;
@@ -167,17 +171,17 @@ void TestConverterHelper::dataToString()
     // create test strings
     QString test8, test16, test24, test32;
 
-    this->mMatrix->options()->setBlockSize(Data8);
-    test8 = ConverterHelper::dataToString(this->mMatrix, &source, count, count, "");
+    this->mPreset->image()->setBlockSize(Data8);
+    test8 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
 
-    this->mMatrix->options()->setBlockSize(Data16);
-    test16 = ConverterHelper::dataToString(this->mMatrix, &source, count, count, "");
+    this->mPreset->image()->setBlockSize(Data16);
+    test16 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
 
-    this->mMatrix->options()->setBlockSize(Data24);
-    test24 = ConverterHelper::dataToString(this->mMatrix, &source, count, count, "");
+    this->mPreset->image()->setBlockSize(Data24);
+    test24 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
 
-    this->mMatrix->options()->setBlockSize(Data32);
-    test32 = ConverterHelper::dataToString(this->mMatrix, &source, count, count, "");
+    this->mPreset->image()->setBlockSize(Data32);
+    test32 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
 
     // compare
     QCOMPARE(test8, expected8);
@@ -188,7 +192,7 @@ void TestConverterHelper::dataToString()
 //-----------------------------------------------------------------------------
 void TestConverterHelper::cleanupTestCase()
 {
-    delete this->mMatrix;
+    delete this->mPreset;
 }
 //-----------------------------------------------------------------------------
 void TestConverterHelper::preparePackData(

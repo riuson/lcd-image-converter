@@ -20,20 +20,24 @@
 #include "matrixpreviewmodel.h"
 //-----------------------------------------------------------------------------
 #include <QColor>
+#include "preset.h"
+#include "prepareoptions.h"
+#include "matrixoptions.h"
+#include "imageoptions.h"
 //-----------------------------------------------------------------------------
-MatrixPreviewModel::MatrixPreviewModel(ConversionMatrix *matrix, QObject *parent) :
+MatrixPreviewModel::MatrixPreviewModel(Preset *preset, QObject *parent) :
     QAbstractItemModel(parent)
 {
-    this->mMatrix = matrix;
+    this->mPreset = preset;
 
-    this->connect(this->mMatrix, SIGNAL(changed()), SLOT(callReset()));
+    this->connect(this->mPreset, SIGNAL(changed()), SLOT(callReset()));
 }
 //-----------------------------------------------------------------------------
 int MatrixPreviewModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
-    int result = this->mMatrix->operationsCount();
+    int result = this->mPreset->matrix()->operationsCount();
     result += 7; // source, and, or, fill, used, result, result packed
     return result;
 }
@@ -109,7 +113,7 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
             quint32 mask;
             bool left;
 
-            this->mMatrix->operation(row, &mask, &shift, &left);
+            this->mPreset->matrix()->operation(row, &mask, &shift, &left);
 
             if (left)
                 bitIndex -= (int)shift;
@@ -163,7 +167,7 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
         }
         case MaskUsed:
         {
-            bool active = (this->mMatrix->options()->maskUsed() & (0x00000001 << bitIndex)) != 0;
+            bool active = (this->mPreset->matrix()->maskUsed() & (0x00000001 << bitIndex)) != 0;
 
             if (role == Qt::DisplayRole)
             {
@@ -178,7 +182,7 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
         }
         case MaskAnd:
         {
-            bool active = (this->mMatrix->options()->maskAnd() & (0x00000001 << bitIndex)) != 0;
+            bool active = (this->mPreset->matrix()->maskAnd() & (0x00000001 << bitIndex)) != 0;
 
             if (role == Qt::DisplayRole)
             {
@@ -193,7 +197,7 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
         }
         case MaskOr:
         {
-            bool active = (this->mMatrix->options()->maskOr() & (0x00000001 << bitIndex)) != 0;
+            bool active = (this->mPreset->matrix()->maskOr() & (0x00000001 << bitIndex)) != 0;
 
             if (role == Qt::DisplayRole)
             {
@@ -208,8 +212,8 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
         }
         case MaskFill:
         {
-            bool active = (this->mMatrix->options()->maskFill() & (0x00000001 << bitIndex)) != 0;
-            int bits = 8 * (this->mMatrix->options()->blockSize() + 1);
+            bool active = (this->mPreset->matrix()->maskFill() & (0x00000001 << bitIndex)) != 0;
+            int bits = 8 * (this->mPreset->image()->blockSize() + 1);
 
             if (role == Qt::DisplayRole)
             {
@@ -279,16 +283,16 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
                 switch (type)
                 {
                 case MaskUsed:
-                    mask = this->mMatrix->options()->maskUsed();
+                    mask = this->mPreset->matrix()->maskUsed();
                     break;
                 case MaskAnd:
-                    mask = this->mMatrix->options()->maskAnd();
+                    mask = this->mPreset->matrix()->maskAnd();
                     break;
                 case MaskOr:
-                    mask = this->mMatrix->options()->maskOr();
+                    mask = this->mPreset->matrix()->maskOr();
                     break;
                 case MaskFill:
-                    mask = this->mMatrix->options()->maskFill();
+                    mask = this->mPreset->matrix()->maskFill();
                     break;
                 default:
                     break;
@@ -303,16 +307,16 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
                 switch (type)
                 {
                 case MaskUsed:
-                    this->mMatrix->options()->setMaskUsed(mask);
+                    this->mPreset->matrix()->setMaskUsed(mask);
                     break;
                 case MaskAnd:
-                    this->mMatrix->options()->setMaskAnd(mask);
+                    this->mPreset->matrix()->setMaskAnd(mask);
                     break;
                 case MaskOr:
-                    this->mMatrix->options()->setMaskOr(mask);
+                    this->mPreset->matrix()->setMaskOr(mask);
                     break;
                 case MaskFill:
-                    this->mMatrix->options()->setMaskFill(mask);
+                    this->mPreset->matrix()->setMaskFill(mask);
                     break;
                 default:
                     break;
@@ -386,7 +390,7 @@ MatrixPreviewModel::RowType MatrixPreviewModel::rowType(int row) const
 //-----------------------------------------------------------------------------
 void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const
 {
-    *convType = this->mMatrix->options()->convType();
+    *convType = this->mPreset->prepare()->convType();
     *colorType = Empty;
     *partIndex = 0;
 
@@ -441,28 +445,28 @@ void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVarian
     *color = QVariant();
 
     // check bit using
-    bool active = (this->mMatrix->options()->maskUsed() & (0x00000001 << bitIndex)) != 0;
+    bool active = (this->mPreset->matrix()->maskUsed() & (0x00000001 << bitIndex)) != 0;
     if (active)
     {
         // check bit OR
-        bool bitOr = (this->mMatrix->options()->maskOr() & (0x00000001 << bitIndex)) != 0;
+        bool bitOr = (this->mPreset->matrix()->maskOr() & (0x00000001 << bitIndex)) != 0;
         if (!bitOr)
         {
             // check bit AND
-            bool bitAnd = (this->mMatrix->options()->maskAnd() & (0x00000001 << bitIndex)) != 0;
+            bool bitAnd = (this->mPreset->matrix()->maskAnd() & (0x00000001 << bitIndex)) != 0;
             if (bitAnd)
             {
                 // by default
                 *name = 0;
 
                 // find source bit before shifting
-                for (int i = this->mMatrix->operationsCount() - 1; i >= 0; i--)
+                for (int i = this->mPreset->matrix()->operationsCount() - 1; i >= 0; i--)
                 {
                     quint32 mask;
                     int shift;
                     bool left;
 
-                    this->mMatrix->operation(i, &mask, &shift, &left);
+                    this->mPreset->matrix()->operation(i, &mask, &shift, &left);
 
                     // get source bit index
                     int sourceBitIndex = bitIndex;
@@ -480,7 +484,7 @@ void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVarian
                     }
                 }
 
-                if (this->mMatrix->operationsCount() == 0)
+                if (this->mPreset->matrix()->operationsCount() == 0)
                 {
                     *name = this->data(this->createIndex(0, 31 - bitIndex), Qt::DisplayRole);
                     this->sourceBitProperties(bitIndex, name, color);
@@ -503,7 +507,7 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, Q
     *name = QVariant();
     *color = QVariant();
 
-    bool active = (this->mMatrix->options()->maskFill() & (0x00000001 << bitIndex)) != 0;
+    bool active = (this->mPreset->matrix()->maskFill() & (0x00000001 << bitIndex)) != 0;
 
     if (!active)
     {
@@ -516,7 +520,7 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, Q
     {
         // count of active bits in "Used" mask
         int usedBitsCount = 0;
-        quint32 mask = this->mMatrix->options()->maskUsed();
+        quint32 mask = this->mPreset->matrix()->maskUsed();
         while (mask != 0)
         {
             if ((mask & 0x00000001) != 0)
@@ -526,7 +530,7 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, Q
 
         // index of current bit in active bits of "Fill" mask, from MSB
         int fillBitIndex = -1;
-        mask = this->mMatrix->options()->maskFill();
+        mask = this->mPreset->matrix()->maskFill();
         for (int i = 31; i >= bitIndex; i--)
         {
             if ((mask & (0x00000001 << i)) != 0)
@@ -537,7 +541,7 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, Q
 
         // find index of bit in "Used" mask
         int usedBitIndex = 31;
-        mask = this->mMatrix->options()->maskUsed();
+        mask = this->mPreset->matrix()->maskUsed();
         for (int i = 31; (i >= 0) && (fillBitIndex >= 0); i--)
         {
             if ((mask & (0x00000001 << i)) != 0)

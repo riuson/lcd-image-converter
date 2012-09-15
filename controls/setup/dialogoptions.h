@@ -17,44 +17,48 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef DIALOGCONVERT2_H
-#define DIALOGCONVERT2_H
+#ifndef DIALOGOPTIONS_H
+#define DIALOGOPTIONS_H
 //-----------------------------------------------------------------------------
 #include <QDialog>
 //-----------------------------------------------------------------------------
-class QMenu;
-class ConversionMatrix;
-//-----------------------------------------------------------------------------
 namespace Ui {
-class DialogConvert;
+class DialogOptions;
 }
+//-----------------------------------------------------------------------------
+class Preset;
 class IDataContainer;
 class Parser;
-class MatrixPreviewModel;
-class QTableView;
 class DialogPreview;
-class MatrixItemDelegate;
+class SetupTabPrepare;
+class SetupTabMatrix;
+class SetupTabImage;
+class SetupTabFont;
+class SetupTabTemplates;
 //-----------------------------------------------------------------------------
-class DialogConvert : public QDialog
+class DialogOptions : public QDialog
 {
     Q_OBJECT
-    
+
 public:
-    explicit DialogConvert(IDataContainer *dataContainer, QWidget *parent = 0);
-    ~DialogConvert();
-    
+    explicit DialogOptions(IDataContainer *dataContainer, QWidget *parent = 0);
+    virtual ~DialogOptions();
+
 private:
-    Ui::DialogConvert *ui;
+    Ui::DialogOptions *ui;
 
     IDataContainer *mData;
 
-    ConversionMatrix *mMatrix;
-    MatrixPreviewModel *mMatrixModel;
-    MatrixItemDelegate *mMatrixItemDelegate;
-    bool mMatrixChanged;
+    Preset *mPreset;
+    bool mPresetChanged;
 
     DialogPreview *mPreview;
-    QMenu *mMenu;
+
+    SetupTabPrepare   *mSetupPrepare;
+    SetupTabMatrix    *mSetupMatrix;
+    SetupTabImage     *mSetupImage;
+    SetupTabFont      *mSetupFont;
+    SetupTabTemplates *mSetupTemplates;
 
     void fillPresetsList();
     void presetLoad(const QString &name);
@@ -62,31 +66,15 @@ private:
     void presetRemove(const QString &name);
     void createPresetsDefault();
 private slots:
-    void updatePreview();
+    void presetChanged();
     void on_pushButtonPreview_clicked();
-    void on_radioButtonLittleEndian_toggled(bool value);
-    void on_comboBoxConversionType_currentIndexChanged(int index);
-    void on_comboBoxMonochromeType_currentIndexChanged(int index);
-    void on_comboBoxBlockSize_currentIndexChanged(int index);
-    void on_comboBoxRotate_currentIndexChanged(int index);
-    void on_checkBoxFlipHorizontal_toggled(bool value);
-    void on_checkBoxFlipVertical_toggled(bool value);
-    void on_checkBoxInverse_toggled(bool value);
     void on_pushButtonPresetSaveAs_clicked();
     void on_pushButtonPresetRemove_clicked();
     void on_comboBoxPresets_currentIndexChanged(int index);
-    void on_horizontalScrollBarEdge_valueChanged(int value);
-    void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
     void previewClosed();
-
-    void operationAdd();
-    void operationShift();
-    void operationRemove();
-    void maskReset();
-    void matrixChanged();
 
 protected:
     void done(int result);
 };
 //-----------------------------------------------------------------------------
-#endif // DIALOGCONVERT2_H
+#endif // DIALOGOPTIONS_H

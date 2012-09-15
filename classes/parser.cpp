@@ -27,26 +27,35 @@
 #include "idocument.h"
 #include "idatacontainer.h"
 #include "bitmaphelper.h"
-#include "conversionmatrix.h"
-#include "conversionmatrixoptions.h"
 #include "converterhelper.h"
+#include "preset.h"
+#include "prepareoptions.h"
+#include "matrixoptions.h"
+#include "imageoptions.h"
+#include "fontoptions.h"
+#include "templateoptions.h"
 //-----------------------------------------------------------------------------
-Parser::Parser(QObject *parent) :
+Parser::Parser(QObject *parent, TemplateType templateType) :
         QObject(parent)
 {
-    this->mMatrix = new ConversionMatrix(this);
+    this->mPreset = new Preset(this);
 
     QSettings sett;
     sett.beginGroup("presets");
     this->mSelectedPresetName = sett.value("selected", QVariant("default")).toString();
     sett.endGroup();
 
-    this->mMatrix->load(this->mSelectedPresetName);
+    this->mPreset->load(this->mSelectedPresetName);
+
+    if (templateType == TypeImage)
+        this->mTemplateFileName = this->mPreset->templates()->image();
+    else
+        this->mTemplateFileName = this->mPreset->templates()->font();
 }
 //-----------------------------------------------------------------------------
 Parser::~Parser()
 {
-    this->mConverters.clear();
+    delete this->mPreset;
 }
 //-----------------------------------------------------------------------------
 QString Parser::name()
@@ -56,19 +65,17 @@ QString Parser::name()
     return this->mSelectedPresetName;
 }
 //-----------------------------------------------------------------------------
-QString Parser::convert(IDocument *document,
-                           const QString &templateFile,
-                           QMap<QString, QString> &tags) const
+QString Parser::convert(IDocument *document, QMap<QString, QString> &tags) const
 {
     QString result;
 
     QString templateString;
 
-    QFile file(templateFile);
-    //if (!file.exists())
-    //{
-    //    file.setFileName(":/templates/image_convert");
-    //}
+    QFile file(this->mTemplateFileName);
+
+    if (!file.exists())
+        file.setFileName(":/templates/image_convert");
+
     if (file.open(QIODevice::ReadOnly))
     {
         QTextStream stream(&file);
@@ -76,30 +83,6 @@ QString Parser::convert(IDocument *document,
         file.close();
     }
     tags.insert("templateFile", file.fileName());
-
-    QRegExp regEnc("encoding:\\s+(.+)(?=\\s)");
-    regEnc.setMinimal(true);
-    if (regEnc.indexIn(templateString) >= 0)
-    {
-        QString enc = regEnc.cap(1);
-        tags["encoding"] = enc.toUpper();
-    }
-    else
-    {
-        tags["encoding"] = "UTF-8";
-    }
-
-    QRegExp regBom("unicode bom:\\s+(.+)(?=\\s)");
-    regBom.setMinimal(true);
-    if (regBom.indexIn(templateString) >= 0)
-    {
-        QString bom = regBom.cap(1);
-        tags["bom"] = bom.toUpper();
-    }
-    else
-    {
-        tags["bom"] = "NO";
-    }
 
     QRegExp regImageData("([\\t\\ ]+)@imageData@");
     regImageData.setMinimal(true);
@@ -239,29 +222,28 @@ void Parser::parseImagesTable(const QString &templateString,
         tags["height"] = QString("%1").arg(image.height());
 
         QImage imagePrepared;
-        ConverterHelper::prepareImage(this->mMatrix, &image, &imagePrepared);
+        ConverterHelper::prepareImage(this->mPreset, &image, &imagePrepared);
 
         // conversion from image to strings
         QVector<quint32> imageData;
         int width, height;
-        ConverterHelper::pixelsData(this->mMatrix, &imagePrepared, &imageData, &width, &height);
+        ConverterHelper::pixelsData(this->mPreset, &imagePrepared, &imageData, &width, &height);
 
-        ConverterHelper::processPixels(this->mMatrix, &imageData);
+        ConverterHelper::processPixels(this->mPreset, &imageData);
 
         QVector<quint32> imageDataPacked;
         int width2, height2;
-        ConverterHelper::packData(this->mMatrix, &imageData, width, height, &imageDataPacked, &width2, &height2);
+        ConverterHelper::packData(this->mPreset, &imageData, width, height, &imageDataPacked, &width2, &height2);
 
-        QString dataString = ConverterHelper::dataToString(this->mMatrix, &imageDataPacked, width2, height2, "0x");
+        QString dataString = ConverterHelper::dataToString(this->mPreset, &imageDataPacked, width2, height2, "0x");
         dataString.replace("\n", "\n" + tags["imageDataIndent"]);
 
         // end of conversion
 
-        bool useBom = false;
-        if (tags.value("bom") == "YES")
-            useBom = true;
+        bool useBom = this->mPreset->font()->bom();
+        QString encoding = this->mPreset->font()->encoding();
 
-        QString charCode = this->hexCode(key.at(0), tags.value("encoding"), useBom);
+        QString charCode = this->hexCode(key.at(0), encoding, useBom);
 
         tags["blocksCount"] = QString("%1").arg(imageDataPacked.size());
         tags["imageData"] = dataString;
@@ -359,17 +341,17 @@ QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) cons
 void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
 {
     // byte order
-    if (this->mMatrix->options()->bytesOrder() == BytesOrderLittleEndian)
+    if (this->mPreset->image()->bytesOrder() == BytesOrderLittleEndian)
         tags.insert("bytesOrder", "little-endian");
     else
         tags.insert("bytesOrder", "big-endian");
 
     // data block size
-    int dataBlockSize = (this->mMatrix->options()->blockSize() + 1) * 8;
+    int dataBlockSize = (this->mPreset->image()->blockSize() + 1) * 8;
     tags.insert("dataBlockSize", QString("%1").arg(dataBlockSize));
 
     // rotation
-    switch (this->mMatrix->options()->rotate())
+    switch (this->mPreset->prepare()->rotate())
     {
         case Rotate90:
             tags.insert("rotate", "90 degrees");
@@ -386,33 +368,42 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
     }
 
     // flipping
-    if (this->mMatrix->options()->flipHorizontal())
+    if (this->mPreset->prepare()->flipHorizontal())
         tags.insert("flipHorizontal", "yes");
     else
         tags.insert("flipHorizontal", "no");
 
-    if (this->mMatrix->options()->flipVertical())
+    if (this->mPreset->prepare()->flipVertical())
         tags.insert("flipVertical", "yes");
     else
         tags.insert("flipVertical", "no");
 
     // inversion
-    if (this->mMatrix->options()->inverse())
+    if (this->mPreset->prepare()->inverse())
         tags.insert("inverse", "yes");
     else
         tags.insert("inverse", "no");
+
+    // bom
+    if (this->mPreset->font()->bom())
+        tags.insert("bom", "yes");
+    else
+        tags.insert("bom", "no");
+
+    // encoding
+    tags.insert("encoding", this->mPreset->font()->encoding());
 
     // preset name
     tags.insert("preset", this->mSelectedPresetName);
 
     // conversion type
-    tags.insert("convType", this->mMatrix->options()->convTypeName());
+    tags.insert("convType", this->mPreset->prepare()->convTypeName());
 
     // monochrome type
-    if (this->mMatrix->options()->convType() == ConversionTypeMonochrome)
+    if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome)
     {
-        tags.insert("monoType", this->mMatrix->options()->monoTypeName());
-        tags.insert("edge", QString("%1").arg(this->mMatrix->options()->edge()));
+        tags.insert("monoType", this->mPreset->prepare()->monoTypeName());
+        tags.insert("edge", QString("%1").arg(this->mPreset->prepare()->edge()));
     }
     else
     {
@@ -421,7 +412,7 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
     }
 
     // bits per pixel
-    quint32 maskUsed = this->mMatrix->options()->maskUsed();
+    quint32 maskUsed = this->mPreset->matrix()->maskUsed();
     int bitsPerPixel = 0;
     while (maskUsed > 0)
     {

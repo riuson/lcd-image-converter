@@ -262,8 +262,7 @@ void MainWindow::createHandlers()
     this->mFontHandlers->connect(this->ui->actionFontPreview, SIGNAL(triggered()), SLOT(fontPreview_triggered()));
 
     this->mSetupHandlers = new ActionSetupHandlers(this);
-    this->mSetupHandlers->connect(this->ui->actionSetupConversion, SIGNAL(triggered()), SLOT(conversion_triggered()));
-    this->mSetupHandlers->connect(this->ui->actionSetup, SIGNAL(triggered()), SLOT(setup_triggered()));
+    this->mSetupHandlers->connect(this->ui->actionSettings, SIGNAL(triggered()), SLOT(settings_triggered()));
 
     this->mHelpHandlers = new ActionHelpHandlers(this);
     this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(about_triggered()));
