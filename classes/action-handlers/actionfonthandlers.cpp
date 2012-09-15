@@ -24,6 +24,7 @@
 #include "widgetbitmapeditor.h"
 #include "dialogresize.h"
 #include "bitmaphelper.h"
+#include "fonthelper.h"
 #include "editortabfont.h"
 #include "dialogfontselect.h"
 #include "dialogfontpreview.h"
@@ -193,6 +194,18 @@ void ActionFontHandlers::fontPreview_triggered()
         dialog.setDocument(doc);
 
         dialog.exec();
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionFontHandlers::fontToImage_triggered()
+{
+    EditorTabFont *editor = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab());
+    if (editor != NULL)
+    {
+        QString characters = editor->selectedCharacters();
+        QImage image = FontHelper::drawString(editor->dataContainer(), characters);
+
+        emit this->imageCreated(&image, "image_" + editor->documentName());
     }
 }
 //-----------------------------------------------------------------------------
