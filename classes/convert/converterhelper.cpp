@@ -119,8 +119,8 @@ void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
 void ConverterHelper::packData(
         Preset *preset,
         QVector<quint32> *inputData, int inputWidth, int inputHeight,
-        bool splitToRows,
-        QVector<quint32> *outputData, int *outputWidth, int *outputHeight)
+        QVector<quint32> *outputData,
+        int *outputWidth, int *outputHeight)
 {
     *outputHeight = inputHeight;
     outputData->clear();
@@ -128,7 +128,7 @@ void ConverterHelper::packData(
     int resultWidth = 0;
     int rowLength = 0;
 
-    if (splitToRows)
+    if (preset->image()->splitToRows())
     {
         // process each row
         for (int y = 0; y < inputHeight; y++)

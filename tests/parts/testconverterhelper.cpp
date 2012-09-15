@@ -118,6 +118,8 @@ void TestConverterHelper::packData()
 
     // test splitted data
     {
+        this->mPreset->image()->setSplitToRows(true);
+
         QVector<quint32> source, expected;
         int widthExpected, heightExpected;
         this->preparePackData(
@@ -130,7 +132,6 @@ void TestConverterHelper::packData()
         int widthSample, heightSample;
         ConverterHelper::packData(this->mPreset,
                                   &source, 1000, 1000,
-                                  true,
                                   &sample, &widthSample, &heightSample);
 
         QCOMPARE(widthSample, widthExpected);
@@ -145,6 +146,8 @@ void TestConverterHelper::packData()
 
     // test linear data
     {
+        this->mPreset->image()->setSplitToRows(false);
+
         QVector<quint32> source, expected;
         int widthExpected, heightExpected;
         this->preparePackData(
@@ -157,7 +160,6 @@ void TestConverterHelper::packData()
         int widthSample, heightSample;
         ConverterHelper::packData(this->mPreset,
                                   &source, 1000, 1000,
-                                  false,
                                   &sample, &widthSample, &heightSample);
 
         QCOMPARE(widthSample, widthExpected);
