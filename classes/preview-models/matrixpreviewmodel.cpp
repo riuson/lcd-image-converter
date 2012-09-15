@@ -81,7 +81,7 @@ QVariant MatrixPreviewModel::headerData(int section, Qt::Orientation orientation
                 result = tr("Result");
                 break;
             case ResultPacked:
-                result = tr("Packed");
+                result = tr("Stream");
                 break;
             case MaskFill:
                 result = tr("Fill");

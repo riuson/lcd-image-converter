@@ -67,12 +67,12 @@
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="227"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="224"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="229"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="226"/>
         <source>Save result file as</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -128,236 +128,6 @@ Qt %3</source>
 &lt;hr/&gt;
 Ревизия &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%1&quot;&gt;%1&lt;/a&gt; от &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
 Qt: %3</translation>
-    </message>
-</context>
-<context>
-    <name>DialogConvert</name>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="14"/>
-        <source>Conversion options</source>
-        <translation>Настройки преобразования</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="28"/>
-        <source>Preset:</source>
-        <translation>Предустановка:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="45"/>
-        <source>Save As...</source>
-        <translation>Сохранить как...</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="52"/>
-        <location filename="../controls/setup/dialogconvert.cpp" line="447"/>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="69"/>
-        <source>Options</source>
-        <translation>Настройки</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="81"/>
-        <source>Byte order:</source>
-        <translation>Порядок байт:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="132"/>
-        <source>Type:</source>
-        <translation>Тип:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="227"/>
-        <source>Horizontal Flip</source>
-        <translation>Отразить по горизонтали</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="240"/>
-        <source>Vertical Flip</source>
-        <translation>Отразить по вертикали</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="181"/>
-        <source>Block size:</source>
-        <translation>Блок данных:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="204"/>
-        <source>Rotate:</source>
-        <translation>Поворот:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="253"/>
-        <source>Inverse</source>
-        <translation>Инвертировать</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="266"/>
-        <source>Show Preview</source>
-        <translation>Открыть предпросмотр</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.ui" line="295"/>
-        <source>Matrix</source>
-        <translation>Матрица</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="60"/>
-        <location filename="../controls/setup/dialogconvert.cpp" line="201"/>
-        <source>Monochrome</source>
-        <translation>Монохромное</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="61"/>
-        <source>Grayscale</source>
-        <translation>Градации серого</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="62"/>
-        <source>Color</source>
-        <translation>Цветное</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="64"/>
-        <source>Edge</source>
-        <translation>Порог</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="65"/>
-        <source>Diffuse Dither</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="66"/>
-        <source>Ordered Dither</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="67"/>
-        <source>Threshold Dither</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="69"/>
-        <source>8 bit</source>
-        <translation>8 бит</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="70"/>
-        <source>16 bit</source>
-        <translation>16 бит</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="71"/>
-        <source>24 bit</source>
-        <translation>24 бита</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="72"/>
-        <source>32 bit</source>
-        <translation>32 бита</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="74"/>
-        <source>None</source>
-        <translation>Нет</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="75"/>
-        <source>90 Clockwise</source>
-        <translation>90 по часовой</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="76"/>
-        <source>180</source>
-        <translation>180</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="77"/>
-        <source>90 Counter-Clockwise</source>
-        <translation>90 против часовой</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="204"/>
-        <source>Grayscale 8</source>
-        <translation>Градации серого 8</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="207"/>
-        <source>Color R4G5B4</source>
-        <translation>Цветное R4G5B4</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="210"/>
-        <source>Color R5G6B5</source>
-        <translation>Цветное R5G6B5</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="213"/>
-        <source>Color R8G8B8</source>
-        <translation>Цветное R8G8B8</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="356"/>
-        <source>Enter preset name</source>
-        <translation>Введите название предустановки</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="356"/>
-        <source>Preset name:</source>
-        <translation>Название предустановки:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="412"/>
-        <source>Source</source>
-        <translation>Исходник</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="414"/>
-        <source>Add &quot;Left Shift&quot;</source>
-        <translation>Добавить &quot;Сдвиг влево&quot;</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="415"/>
-        <source>Add &quot;Right Shift&quot;</source>
-        <translation>Добавить &quot;Сдвиг вправо&quot;</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="435"/>
-        <source>Operation</source>
-        <translation>Операция</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="445"/>
-        <source>Shift left</source>
-        <translation>Сдвиг слево</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="446"/>
-        <source>Shift right</source>
-        <translation>Сдвиг вправо</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="472"/>
-        <source>Mask</source>
-        <translation>Маска</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="493"/>
-        <source>Set 1</source>
-        <translation>Установить в 1</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="496"/>
-        <source>Set 0</source>
-        <translation>Сбросить в 0</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogconvert.cpp" line="681"/>
-        <source>Save changes?</source>
-        <translation>Сохранить изменения?</translation>
     </message>
 </context>
 <context>
@@ -424,6 +194,74 @@ Qt: %3</translation>
         <location filename="../controls/dialogfontselect.cpp" line="216"/>
         <source>Real height: %1</source>
         <translation>Высота: %1</translation>
+    </message>
+</context>
+<context>
+    <name>DialogOptions</name>
+    <message>
+        <location filename="../controls/setup/dialogoptions.ui" line="14"/>
+        <source>Options</source>
+        <translation>Настройки</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.ui" line="31"/>
+        <source>Preset:</source>
+        <translation>Предустановка:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.ui" line="48"/>
+        <source>Save As...</source>
+        <translation>Сохранить как...</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.ui" line="55"/>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.ui" line="79"/>
+        <source>Show Preview</source>
+        <translation>Открыть предпросмотр</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.cpp" line="149"/>
+        <source>Monochrome</source>
+        <translation>Монохромное</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.cpp" line="152"/>
+        <source>Grayscale 8</source>
+        <translation>Градации серого 8</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.cpp" line="155"/>
+        <source>Color R4G5B4</source>
+        <translation>Цветное R4G5B4</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.cpp" line="158"/>
+        <source>Color R5G6B5</source>
+        <translation>Цветное R5G6B5</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.cpp" line="161"/>
+        <source>Color R8G8B8</source>
+        <translation>Цветное R8G8B8</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.cpp" line="202"/>
+        <source>Enter preset name</source>
+        <translation>Введите название предустановки</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.cpp" line="202"/>
+        <source>Preset name:</source>
+        <translation>Название предустановки:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.cpp" line="241"/>
+        <source>Save changes?</source>
+        <translation>Сохранить изменения?</translation>
     </message>
 </context>
 <context>
@@ -554,46 +392,6 @@ Qt: %3</translation>
     </message>
 </context>
 <context>
-    <name>DialogSetup</name>
-    <message>
-        <location filename="../controls/setup/dialogsetup.ui" line="14"/>
-        <source>Setup</source>
-        <translation>Параметры</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogsetup.ui" line="26"/>
-        <location filename="../controls/setup/dialogsetup.ui" line="36"/>
-        <source>...</source>
-        <translation>Обзор...</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogsetup.ui" line="53"/>
-        <source>Image:</source>
-        <translation>Изображение:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogsetup.ui" line="60"/>
-        <source>Font:</source>
-        <translation>Шрифт:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogsetup.cpp" line="59"/>
-        <location filename="../controls/setup/dialogsetup.cpp" line="73"/>
-        <source>Any file (*.*)</source>
-        <translation>Все файлы (*.*)</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogsetup.cpp" line="60"/>
-        <source>Open image template file</source>
-        <translation>Открыть файл шаблона изображения</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogsetup.cpp" line="74"/>
-        <source>Open font template file</source>
-        <translation>Открыть файл шаблона шрифта</translation>
-    </message>
-</context>
-<context>
     <name>EditorTabFont</name>
     <message>
         <location filename="../controls/editortabfont.ui" line="14"/>
@@ -664,17 +462,17 @@ Qt: %3</translation>
         <translation>Шрифт</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="94"/>
+        <location filename="../controls/mainwindow.ui" line="95"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="101"/>
+        <location filename="../controls/mainwindow.ui" line="102"/>
         <source>Options</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="105"/>
+        <location filename="../controls/mainwindow.ui" line="106"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
@@ -756,9 +554,9 @@ Qt: %3</translation>
         <translation>Изменение размеров...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="262"/>
-        <source>Setup...</source>
-        <translation>Параметры...</translation>
+        <location filename="../controls/mainwindow.ui" line="295"/>
+        <source>To Image</source>
+        <translation>В изображение</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.ui" line="275"/>
@@ -807,6 +605,11 @@ Qt: %3</translation>
         <translation>О программе</translation>
     </message>
     <message>
+        <location filename="../controls/mainwindow.ui" line="262"/>
+        <source>Settings...</source>
+        <translation>Настройки...</translation>
+    </message>
+    <message>
         <location filename="../controls/mainwindow.ui" line="270"/>
         <source>English</source>
         <translatorcomment>не переводить</translatorcomment>
@@ -819,12 +622,12 @@ Qt: %3</translation>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="295"/>
+        <location filename="../controls/mainwindow.cpp" line="297"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="296"/>
+        <location filename="../controls/mainwindow.cpp" line="298"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -832,44 +635,311 @@ Qt: %3</translation>
 <context>
     <name>MatrixPreviewModel</name>
     <message>
-        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="62"/>
+        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="66"/>
         <source>Source</source>
         <translation>Исходник</translation>
     </message>
     <message>
-        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="65"/>
+        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="69"/>
         <source>Operation %1</source>
         <translation>Операция %1</translation>
     </message>
     <message>
-        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="68"/>
+        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="72"/>
         <source>Used</source>
         <translation>Используемое</translation>
     </message>
     <message>
-        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="71"/>
+        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="75"/>
         <source>AND</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="74"/>
+        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="78"/>
         <source>OR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="77"/>
+        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="81"/>
         <source>Result</source>
         <translation>Результат</translation>
     </message>
     <message>
-        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="80"/>
-        <source>Packed</source>
-        <translation>Упакованный</translation>
+        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="84"/>
+        <source>Stream</source>
+        <translation>Поток</translation>
     </message>
     <message>
-        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="83"/>
+        <location filename="../classes/preview-models/matrixpreviewmodel.cpp" line="87"/>
         <source>Fill</source>
         <translation>Заполнение</translation>
+    </message>
+</context>
+<context>
+    <name>SetupTabFont</name>
+    <message>
+        <location filename="../controls/setup/parts/setuptabfont.ui" line="14"/>
+        <source>Font</source>
+        <translation>Шрифт</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabfont.ui" line="20"/>
+        <source>Use BOM (Byte Order Mark) for Unicode</source>
+        <translation>Использовать BOM (метку порядка байтов)</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabfont.ui" line="37"/>
+        <source>Encoding:</source>
+        <translation>Кодировка:</translation>
+    </message>
+</context>
+<context>
+    <name>SetupTabImage</name>
+    <message>
+        <location filename="../controls/setup/parts/setuptabimage.ui" line="14"/>
+        <source>Image</source>
+        <translation>Изображение</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabimage.ui" line="24"/>
+        <source>Split to rows</source>
+        <translation>Разбивать на строки</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabimage.ui" line="37"/>
+        <source>Byte order:</source>
+        <translation>Порядок байт:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabimage.ui" line="88"/>
+        <source>Block size:</source>
+        <translation>Блок данных:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabimage.cpp" line="16"/>
+        <source>8 bit</source>
+        <translation>8 бит</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabimage.cpp" line="17"/>
+        <source>16 bit</source>
+        <translation>16 бит</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabimage.cpp" line="18"/>
+        <source>24 bit</source>
+        <translation>24 бита</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabimage.cpp" line="19"/>
+        <source>32 bit</source>
+        <translation>32 бита</translation>
+    </message>
+</context>
+<context>
+    <name>SetupTabMatrix</name>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.ui" line="14"/>
+        <source>Matrix</source>
+        <translation>Матрица</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.ui" line="28"/>
+        <source>Type:</source>
+        <translation>Тип:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="19"/>
+        <source>Monochrome</source>
+        <translation>Монохромное</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="20"/>
+        <source>Grayscale</source>
+        <translation>Градации серого</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="21"/>
+        <source>Color</source>
+        <translation>Цветное</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="99"/>
+        <source>Source</source>
+        <translation>Исходник</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="101"/>
+        <source>Add &quot;Left Shift&quot;</source>
+        <translation>Добавить &quot;Сдвиг влево&quot;</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="102"/>
+        <source>Add &quot;Right Shift&quot;</source>
+        <translation>Добавить &quot;Сдвиг вправо&quot;</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="122"/>
+        <source>Operation</source>
+        <translation>Операция</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="132"/>
+        <source>Shift left</source>
+        <translation>Сдвиг слево</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="133"/>
+        <source>Shift right</source>
+        <translation>Сдвиг вправо</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="134"/>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="159"/>
+        <source>Mask</source>
+        <translation>Маска</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="180"/>
+        <source>Set 1</source>
+        <translation>Установить в 1</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="183"/>
+        <source>Set 0</source>
+        <translation>Сбросить в 0</translation>
+    </message>
+</context>
+<context>
+    <name>SetupTabPrepare</name>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.ui" line="14"/>
+        <source>Prepare</source>
+        <translation>Подготовка</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.ui" line="30"/>
+        <source>Type:</source>
+        <translation>Тип:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.ui" line="79"/>
+        <source>Rotate:</source>
+        <translation>Поворот:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.ui" line="102"/>
+        <source>Horizontal Flip</source>
+        <translation>Отразить по горизонтали</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.ui" line="115"/>
+        <source>Vertical Flip</source>
+        <translation>Отразить по вертикали</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.ui" line="128"/>
+        <source>Inverse</source>
+        <translation>Инвертировать</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="16"/>
+        <source>Monochrome</source>
+        <translation>Монохромное</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="17"/>
+        <source>Grayscale</source>
+        <translation>Градации серого</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="18"/>
+        <source>Color</source>
+        <translation>Цветное</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="20"/>
+        <source>Edge</source>
+        <translation>Порог</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="21"/>
+        <source>Diffuse Dither</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="22"/>
+        <source>Ordered Dither</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="23"/>
+        <source>Threshold Dither</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="25"/>
+        <source>None</source>
+        <translation>Нет</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="26"/>
+        <source>90 Clockwise</source>
+        <translation>90 по часовой</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="27"/>
+        <source>180</source>
+        <translation>180</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="28"/>
+        <source>90 Counter-Clockwise</source>
+        <translation>90 против часовой</translation>
+    </message>
+</context>
+<context>
+    <name>SetupTabTemplates</name>
+    <message>
+        <location filename="../controls/setup/parts/setuptabtemplates.ui" line="14"/>
+        <source>Templates</source>
+        <translation>Шаблоны</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabtemplates.ui" line="23"/>
+        <location filename="../controls/setup/parts/setuptabtemplates.ui" line="33"/>
+        <source>...</source>
+        <translation>Обзор...</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabtemplates.ui" line="40"/>
+        <source>Image:</source>
+        <translation>Изображение:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabtemplates.ui" line="47"/>
+        <source>Font:</source>
+        <translation>Шрифт:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabtemplates.cpp" line="34"/>
+        <location filename="../controls/setup/parts/setuptabtemplates.cpp" line="48"/>
+        <source>Any file (*.*)</source>
+        <translation>Все файлы (*.*)</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabtemplates.cpp" line="35"/>
+        <source>Open image template file</source>
+        <translation>Открыть файл шаблона изображения</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabtemplates.cpp" line="49"/>
+        <source>Open font template file</source>
+        <translation>Открыть файл шаблона шрифта</translation>
     </message>
 </context>
 <context>
