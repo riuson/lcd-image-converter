@@ -33,7 +33,7 @@ DialogPreview::DialogPreview(IDataContainer *dataContainer, Preset *matrix, QWid
     ui->setupUi(this);
 
     this->mData = dataContainer;
-    this->mMatrix = matrix;
+    this->mPreset = matrix;
 
     if (this->mData != NULL)
     {
@@ -65,7 +65,7 @@ void DialogPreview::updatePreview()
             this->mImageOriginal = QImage(*this->mData->image(key));
             this->ui->labelOriginal->setPixmap(QPixmap::fromImage(this->mImageOriginal));
             QImage processed;
-            ConverterHelper::createImagePreview(this->mMatrix, &this->mImageOriginal, &processed);
+            ConverterHelper::createImagePreview(this->mPreset, &this->mImageOriginal, &processed);
             this->ui->labelPreview->setPixmap(QPixmap::fromImage(processed));
             this->mImageProcessed = processed;
 
@@ -77,15 +77,15 @@ void DialogPreview::updatePreview()
 
             QVector<quint32> data;
             int width, height;
-            ConverterHelper::pixelsData(this->mMatrix, &this->mImageProcessed, &data, &width, &height);
+            ConverterHelper::pixelsData(this->mPreset, &this->mImageProcessed, &data, &width, &height);
 
-            ConverterHelper::processPixels(this->mMatrix, &data);
+            ConverterHelper::processPixels(this->mPreset, &data);
 
             QVector<quint32> data2;
             int width2, height2;
-            ConverterHelper::packData(this->mMatrix, &data, width, height, &data2, &width2, &height2);
+            ConverterHelper::packData(this->mPreset, &data, width, height, &data2, &width2, &height2);
 
-            QString str = ConverterHelper::dataToString(this->mMatrix, &data2, width2, height2, "");
+            QString str = ConverterHelper::dataToString(this->mPreset, &data2, width2, height2, "");
 
             this->ui->plainTextEdit->setPlainText(str);
         }

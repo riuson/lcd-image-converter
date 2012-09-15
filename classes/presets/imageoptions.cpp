@@ -3,8 +3,14 @@
 ImageOptions::ImageOptions(QObject *parent) :
     QObject(parent)
 {
+    this->mSplitToRows = true;
     this->mBytesOrder = BytesOrderLittleEndian;
     this->mBlockSize = Data8;
+}
+//-----------------------------------------------------------------------------
+bool ImageOptions::splitToRows() const
+{
+    return this->mSplitToRows;
 }
 //-----------------------------------------------------------------------------
 BytesOrder ImageOptions::bytesOrder() const
@@ -19,6 +25,13 @@ DataBlockSize ImageOptions::blockSize() const
         return this->mBlockSize;
     }
     return Data32;
+}
+//-----------------------------------------------------------------------------
+void ImageOptions::setSplitToRows(bool value)
+{
+    this->mSplitToRows = value;
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void ImageOptions::setBytesOrder(BytesOrder value)

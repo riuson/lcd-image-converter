@@ -233,7 +233,10 @@ void Parser::parseImagesTable(const QString &templateString,
 
         QVector<quint32> imageDataPacked;
         int width2, height2;
-        ConverterHelper::packData(this->mPreset, &imageData, width, height, &imageDataPacked, &width2, &height2);
+        ConverterHelper::packData(
+                    this->mPreset,
+                    &imageData, width, height,
+                    &imageDataPacked, &width2, &height2);
 
         QString dataString = ConverterHelper::dataToString(this->mPreset, &imageDataPacked, width2, height2, "0x");
         dataString.replace("\n", "\n" + tags["imageDataIndent"]);
@@ -392,6 +395,12 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
 
     // encoding
     tags.insert("encoding", this->mPreset->font()->encoding());
+
+    // split to rows
+    if (this->mPreset->image()->splitToRows())
+        tags.insert("splitToRows", "yes");
+    else
+        tags.insert("splitToRows", "no");
 
     // preset name
     tags.insert("preset", this->mSelectedPresetName);

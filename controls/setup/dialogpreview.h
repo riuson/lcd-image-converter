@@ -32,19 +32,19 @@ class IDataContainer;
 class DialogPreview : public QDialog
 {
     Q_OBJECT
-    
+
 public:
     explicit DialogPreview(IDataContainer *dataContainer, Preset *matrix, QWidget *parent = 0);
     ~DialogPreview();
     void updatePreview();
-    
+
 private:
     Ui::DialogPreview *ui;
 
     IDataContainer *mData;
     QImage mImageOriginal;
     QImage mImageProcessed;
-    Preset *mMatrix;
+    Preset *mPreset;
 
 private slots:
     void on_comboBoxSampleKey_currentIndexChanged();

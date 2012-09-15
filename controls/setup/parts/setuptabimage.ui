@@ -19,6 +19,13 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
+        <widget class="QCheckBox" name="checkBoxSplitToRows">
+         <property name="text">
+          <string>Split to rows</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="label_3">
          <property name="font">
           <font>
