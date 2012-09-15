@@ -28,6 +28,7 @@ namespace Ui {
     class EditorTabImage;
 }
 //-----------------------------------------------------------------------------
+class QImage;
 class WidgetBitmapEditor;
 class BitmapContainer;
 //-----------------------------------------------------------------------------
