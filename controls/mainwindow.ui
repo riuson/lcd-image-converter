@@ -88,6 +88,7 @@
     <addaction name="actionFontMinimizeHeight"/>
     <addaction name="actionFontInverse"/>
     <addaction name="actionFontPreview"/>
+    <addaction name="actionFontToImage"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -287,6 +288,11 @@
   <action name="actionWiki">
    <property name="text">
     <string>Wiki...</string>
+   </property>
+  </action>
+  <action name="actionFontToImage">
+   <property name="text">
+    <string>To Image</string>
    </property>
   </action>
  </widget>

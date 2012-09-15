@@ -61,7 +61,8 @@ SOURCES += main.cpp \
     controls/setup/parts/setuptabtemplates.cpp \
     controls/setup/dialogoptions.cpp \
     classes/presets/fontoptions.cpp \
-    controls/setup/parts/setuptabfont.cpp
+    controls/setup/parts/setuptabfont.cpp \
+    classes/convert/fonthelper.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -107,7 +108,8 @@ HEADERS += \
     controls/setup/parts/setuptabtemplates.h \
     controls/setup/dialogoptions.h \
     classes/presets/fontoptions.h \
-    controls/setup/parts/setuptabfont.h
+    controls/setup/parts/setuptabfont.h \
+    classes/convert/fonthelper.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \

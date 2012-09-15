@@ -457,6 +457,17 @@ void EditorTabFont::fontCharacters(QString *chars,
     *antialiasing = this->mAntialiasing;
 }
 //-----------------------------------------------------------------------------
+const QString EditorTabFont::selectedCharacters() const
+{
+    QString result;
+    QList<QListWidgetItem *> items = this->ui->listWidgetCharacters->selectedItems();
+    for (int i = 0; i < items.length(); i++)
+    {
+        result += items.at(i)->text();
+    }
+    return result;
+}
+//-----------------------------------------------------------------------------
 QImage EditorTabFont::drawCharacter(const QChar value,
                                     const QFont &font,
                                     const QColor &foreground,

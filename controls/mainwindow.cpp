@@ -260,6 +260,7 @@ void MainWindow::createHandlers()
     this->mFontHandlers->connect(this->ui->actionFontResize, SIGNAL(triggered()), SLOT(fontResize_triggered()));
     this->mFontHandlers->connect(this->ui->actionFontMinimizeHeight, SIGNAL(triggered()), SLOT(fontMinimizeHeight_triggered()));
     this->mFontHandlers->connect(this->ui->actionFontPreview, SIGNAL(triggered()), SLOT(fontPreview_triggered()));
+    this->mFontHandlers->connect(this->ui->actionFontToImage, SIGNAL(triggered()), SLOT(fontToImage_triggered()));
 
     this->mSetupHandlers = new ActionSetupHandlers(this);
     this->mSetupHandlers->connect(this->ui->actionSettings, SIGNAL(triggered()), SLOT(settings_triggered()));
@@ -267,6 +268,8 @@ void MainWindow::createHandlers()
     this->mHelpHandlers = new ActionHelpHandlers(this);
     this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(about_triggered()));
     this->mHelpHandlers->connect(this->ui->actionWiki, SIGNAL(triggered()), SLOT(wiki_triggered()));
+
+    this->mFileHandlers->connect(this->mFontHandlers, SIGNAL(imageCreated(QImage*,QString)), SLOT(openImage(QImage*,QString)));
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
