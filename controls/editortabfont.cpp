@@ -470,6 +470,10 @@ QImage EditorTabFont::drawCharacter(const QChar value,
     int charWidth = fontMetrics.width(value);
     int charHeight = fontMetrics.height();
 
+    // fix width of italic style
+    QRect r = fontMetrics.boundingRect(QString(value));
+    charWidth = qMax(qMax(r.left(), r.right()) + 1, charWidth);
+
     int imageWidth = width;
     int imageHeight = height;
 
