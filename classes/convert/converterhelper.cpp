@@ -332,13 +332,70 @@ QString ConverterHelper::dataToString(Preset *preset, QVector<quint32> *data, in
     const QChar space = QChar(' ');
     const QChar end = QChar('\0');
 
-    for (int y = 0; y < height; y++)
+    if (preset->image()->splitToRows())
     {
-        if (y > 0)
-            result.append("\n");
-        for (int x = 0; x < width; x++)
+        for (int y = 0; y < height; y++)
         {
-            quint32 value = data->at(y * width + x);
+            if (y > 0)
+                result.append("\n");
+            for (int x = 0; x < width; x++)
+            {
+                quint32 value = data->at(y * width + x);
+                switch (blockSize)
+                {
+                case Data8:
+                    temp[0] = table[(value >> 4) & 0x0000000f];
+                    temp[1] = table[(value >> 0) & 0x0000000f];
+                    temp[2] = comma;
+                    temp[3] = space;
+                    temp[4] = end;
+                    break;
+                case Data16:
+                    temp[0] = table[(value >> 12) & 0x0000000f];
+                    temp[1] = table[(value >> 8) & 0x0000000f];
+                    temp[2] = table[(value >> 4) & 0x0000000f];
+                    temp[3] = table[(value >> 0) & 0x0000000f];
+                    temp[4] = comma;
+                    temp[5] = space;
+                    temp[6] = end;
+                    break;
+                case Data24:
+                    temp[0] = table[(value >> 20) & 0x0000000f];
+                    temp[1] = table[(value >> 16) & 0x0000000f];
+                    temp[2] = table[(value >> 12) & 0x0000000f];
+                    temp[3] = table[(value >> 8) & 0x0000000f];
+                    temp[4] = table[(value >> 4) & 0x0000000f];
+                    temp[5] = table[(value >> 0) & 0x0000000f];
+                    temp[6] = comma;
+                    temp[7] = space;
+                    temp[8] = end;
+                    break;
+                case Data32:
+                    temp[0] = table[(value >> 28) & 0x0000000f];
+                    temp[1] = table[(value >> 24) & 0x0000000f];
+                    temp[2] = table[(value >> 20) & 0x0000000f];
+                    temp[3] = table[(value >> 16) & 0x0000000f];
+                    temp[4] = table[(value >> 12) & 0x0000000f];
+                    temp[5] = table[(value >> 8) & 0x0000000f];
+                    temp[6] = table[(value >> 4) & 0x0000000f];
+                    temp[7] = table[(value >> 0) & 0x0000000f];
+                    temp[8] = comma;
+                    temp[9] = space;
+                    temp[10] = end;
+                    break;
+                }
+
+                result += prefix + QString(temp);
+            }
+        }
+
+        result.truncate(result.length() - 2);
+    }
+    else
+    {
+        for (int i = 0; i < width; i++)
+        {
+            quint32 value = data->at(i);
             switch (blockSize)
             {
             case Data8:
@@ -385,9 +442,9 @@ QString ConverterHelper::dataToString(Preset *preset, QVector<quint32> *data, in
 
             result += prefix + QString(temp);
         }
-    }
 
-    result.truncate(result.length() - 2);
+        result.truncate(result.length() - 2);
+    }
 
     return result;
 }

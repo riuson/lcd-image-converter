@@ -196,34 +196,72 @@ void TestConverterHelper::dataToString()
     this->mPreset->matrix()->setMaskUsed(0x00ffffff);
     this->mPreset->matrix()->setMaskFill(0xffffffff);
 
-    // create expected strings
-    QString expected8, expected16, expected24, expected32;
+    // test splitted data
+    {
+        this->mPreset->image()->setSplitToRows(true);
 
-    this->prepareStringData(&source, count, count, Data8, &expected8);
-    this->prepareStringData(&source, count, count, Data16, &expected16);
-    this->prepareStringData(&source, count, count, Data24, &expected24);
-    this->prepareStringData(&source, count, count, Data32, &expected32);
+        // create expected strings
+        QString expected8, expected16, expected24, expected32;
 
-    // create test strings
-    QString test8, test16, test24, test32;
+        this->prepareStringData(&source, count, count, true, Data8, &expected8);
+        this->prepareStringData(&source, count, count, true, Data16, &expected16);
+        this->prepareStringData(&source, count, count, true, Data24, &expected24);
+        this->prepareStringData(&source, count, count, true, Data32, &expected32);
 
-    this->mPreset->image()->setBlockSize(Data8);
-    test8 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+        // create test strings
+        QString test8, test16, test24, test32;
 
-    this->mPreset->image()->setBlockSize(Data16);
-    test16 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+        this->mPreset->image()->setBlockSize(Data8);
+        test8 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
 
-    this->mPreset->image()->setBlockSize(Data24);
-    test24 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+        this->mPreset->image()->setBlockSize(Data16);
+        test16 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
 
-    this->mPreset->image()->setBlockSize(Data32);
-    test32 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+        this->mPreset->image()->setBlockSize(Data24);
+        test24 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
 
-    // compare
-    QCOMPARE(test8, expected8);
-    QCOMPARE(test16, expected16);
-    QCOMPARE(test24, expected24);
-    QCOMPARE(test32, expected32);
+        this->mPreset->image()->setBlockSize(Data32);
+        test32 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+
+        // compare
+        QCOMPARE(test8, expected8);
+        QCOMPARE(test16, expected16);
+        QCOMPARE(test24, expected24);
+        QCOMPARE(test32, expected32);
+    }
+    // test linear data
+    {
+        this->mPreset->image()->setSplitToRows(false);
+
+        // create expected strings
+        QString expected8, expected16, expected24, expected32;
+
+        this->prepareStringData(&source, count, count, false, Data8, &expected8);
+        this->prepareStringData(&source, count, count, false, Data16, &expected16);
+        this->prepareStringData(&source, count, count, false, Data24, &expected24);
+        this->prepareStringData(&source, count, count, false, Data32, &expected32);
+
+        // create test strings
+        QString test8, test16, test24, test32;
+
+        this->mPreset->image()->setBlockSize(Data8);
+        test8 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+
+        this->mPreset->image()->setBlockSize(Data16);
+        test16 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+
+        this->mPreset->image()->setBlockSize(Data24);
+        test24 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+
+        this->mPreset->image()->setBlockSize(Data32);
+        test32 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+
+        // compare
+        QCOMPARE(test8, expected8);
+        QCOMPARE(test16, expected16);
+        QCOMPARE(test24, expected24);
+        QCOMPARE(test32, expected32);
+    }
 }
 //-----------------------------------------------------------------------------
 void TestConverterHelper::cleanupTestCase()
@@ -342,6 +380,7 @@ void TestConverterHelper::preparePackData(
 //-----------------------------------------------------------------------------
 void TestConverterHelper::prepareStringData(
         QVector<quint32> *source, int width, int height,
+        bool splitToRows,
         DataBlockSize size, QString *string)
 {
     QString result;
@@ -375,13 +414,24 @@ void TestConverterHelper::prepareStringData(
     }
     }
 
-    for (int y = 0; y < height; y++)
+    if (splitToRows)
     {
-        if (y > 0)
-            result.append("\n");
-        for (int x = 0; x < width; x++)
+        for (int y = 0; y < height; y++)
         {
-            quint32 value = source->at(x + width * y);
+            if (y > 0)
+                result.append("\n");
+            for (int x = 0; x < width; x++)
+            {
+                quint32 value = source->at(x + width * y);
+                result.append(QString("%1, ").arg(value & mask, digits, 16, QChar('0')));
+            }
+        }
+    }
+    else
+    {
+        for (int i = 0; i < width; i++)
+        {
+            quint32 value = source->at(i);
             result.append(QString("%1, ").arg(value & mask, digits, 16, QChar('0')));
         }
     }
