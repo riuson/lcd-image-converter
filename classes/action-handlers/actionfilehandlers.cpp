@@ -327,8 +327,11 @@ void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
     ed->dataContainer()->setImage(key, image);
 
     ed->setDocumentName(name);
-    ed->setChanged(false);
+    ed->setChanged(true);
+
     emit this->tabCreated(ed, name, "");
+
+    emit this->tabChanged(ed, "* " + name, "");
 }
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::documentChanged(bool changed, const QString &documentName, const QString &filename)
