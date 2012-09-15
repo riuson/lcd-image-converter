@@ -250,24 +250,20 @@ bool Preset::load1(const QString &name)
         sett.beginGroup(name);
 
         bool ok = false;
-        quint32 bytesOrder = 0, convType = 0, monoType = 0, edge = 0, blockSize = 0;
+        quint32 convType = 0, monoType = 0, edge = 0;
+        quint32 bytesOrder = 0, blockSize = 0, splitToRows = 0;
         quint32 rotate = 0, flipVertical = 0, flipHorizontal = 0, inverse = 0;
         quint32 maskUsed = 0, maskAnd = 0, maskOr = 0, maskFill = 0;
         quint32 fontUseBom = 0;
 
-        bytesOrder = sett.value("bytesOrder", int(0)).toInt(&ok);
 
-        if (ok)
-            convType = sett.value("convType", int(0)).toInt(&ok);
+        convType = sett.value("convType", int(0)).toInt(&ok);
 
         if (ok)
             monoType = sett.value("monoType", int(0)).toInt(&ok);
 
         if (ok)
             edge = sett.value("edge", int(0)).toInt(&ok);
-
-        if (ok)
-            blockSize = sett.value("blockSize", int(0)).toInt(&ok);
 
         if (ok)
             rotate = sett.value("rotate", int(0)).toInt(&ok);
@@ -298,6 +294,15 @@ bool Preset::load1(const QString &name)
         if (ok)
             maskFill = strMaskFill.toUInt(&ok, 16);
 
+        if (ok)
+            blockSize = sett.value("blockSize", int(0)).toInt(&ok);
+
+        if (ok)
+            bytesOrder = sett.value("bytesOrder", int(0)).toInt(&ok);
+
+        if (ok)
+            splitToRows = sett.value("splitToRows", int(1)).toInt(&ok);
+
         QString strTemplateImage = sett.value("templateImage", QString(":/templates/image_convert")).toString();
         QString strTemplateFont = sett.value("templateFont", QString(":/templates/font_convert")).toString();
 
@@ -323,6 +328,7 @@ bool Preset::load1(const QString &name)
 
             this->mImage->setBytesOrder((BytesOrder)bytesOrder);
             this->mImage->setBlockSize((DataBlockSize)blockSize);
+            this->mImage->setSplitToRows((bool)splitToRows);
 
             int operations = sett.beginReadArray("matrix");
 
@@ -389,6 +395,7 @@ bool Preset::save1(const QString &name) const
 
     sett.setValue("bytesOrder",     QString("%1").arg((int)this->mImage->bytesOrder()));
     sett.setValue("blockSize",      QString("%1").arg((int)this->mImage->blockSize()));
+    sett.setValue("splitToRows",    QString("%1").arg((int)this->mImage->splitToRows()));
 
     sett.beginWriteArray("matrix");
 

@@ -34,6 +34,8 @@ const QString &SetupTabImage::title()
 //-----------------------------------------------------------------------------
 void SetupTabImage::matrixChanged()
 {
+    this->ui->checkBoxSplitToRows->setChecked(this->mPreset->image()->splitToRows());
+
     if (this->mPreset->image()->bytesOrder() == BytesOrderLittleEndian)
         this->ui->radioButtonLittleEndian->setChecked(true);
     else
@@ -47,6 +49,11 @@ void SetupTabImage::matrixChanged()
         this->ui->radioButtonLittleEndian->setChecked(true);
     else
         this->ui->radioButtonBigEndian->setChecked(true);
+}
+//-----------------------------------------------------------------------------
+void SetupTabImage::on_checkBoxSplitToRows_toggled(bool value)
+{
+    this->mPreset->image()->setSplitToRows(value);
 }
 //-----------------------------------------------------------------------------
 void SetupTabImage::on_radioButtonLittleEndian_toggled(bool value)
