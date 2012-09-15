@@ -12,16 +12,16 @@ public:
     explicit FontOptions(QObject *parent = 0);
 
     bool bom() const;
-    const QString &codec() const;
+    const QString &encoding() const;
 
     void setBom(bool value);
-    void setCodec(const QString &value);
+    void setEncoding(const QString &value);
 
-    static const QStringList &codecs();
+    static const QStringList &encodings();
 
 private:
     bool mBom;
-    QString mCodec;
+    QString mEncoding;
 
 signals:
     void changed();

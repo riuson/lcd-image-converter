@@ -27,7 +27,7 @@ private:
 
 private slots:
     void on_checkBoxBom_toggled(bool value);
-    void on_comboBoxCodec_currentIndexChanged(const QString &value);
+    void on_comboBoxEncoding_currentIndexChanged(const QString &value);
 };
 //-----------------------------------------------------------------------------
 #endif // SETUPTABFONT_H

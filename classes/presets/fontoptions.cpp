@@ -6,7 +6,7 @@ FontOptions::FontOptions(QObject *parent) :
     QObject(parent)
 {
     this->mBom = false;
-    this->mCodec = FontOptions::codecs().at(0);
+    this->mEncoding = FontOptions::encodings().at(0);
 }
 //-----------------------------------------------------------------------------
 bool FontOptions::bom() const
@@ -14,9 +14,9 @@ bool FontOptions::bom() const
     return this->mBom;
 }
 //-----------------------------------------------------------------------------
-const QString &FontOptions::codec() const
+const QString &FontOptions::encoding() const
 {
-    return this->mCodec;
+    return this->mEncoding;
 }
 //-----------------------------------------------------------------------------
 void FontOptions::setBom(bool value)
@@ -26,17 +26,17 @@ void FontOptions::setBom(bool value)
     emit this->changed();
 }
 //-----------------------------------------------------------------------------
-void FontOptions::setCodec(const QString &value)
+void FontOptions::setEncoding(const QString &value)
 {
-    if (FontOptions::codecs().contains(value))
+    if (FontOptions::encodings().contains(value))
     {
-        this->mCodec = value;
+        this->mEncoding = value;
 
         emit this->changed();
     }
 }
 //-----------------------------------------------------------------------------
-const QStringList &FontOptions::codecs()
+const QStringList &FontOptions::encodings()
 {
     static const QStringList result =
             QStringList() << "UTF-8"

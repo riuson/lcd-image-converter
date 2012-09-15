@@ -11,13 +11,13 @@ SetupTabFont::SetupTabFont(Preset *preset, QWidget *parent) :
     ui->setupUi(this);
     this->mPreset = preset;
 
-    QString codec = this->mPreset->font()->codec();
+    QString encoding = this->mPreset->font()->encoding();
 
-    this->ui->comboBoxCodec->addItems(FontOptions::codecs());
+    this->ui->comboBoxEncoding->addItems(FontOptions::encodings());
 
-    int index = this->ui->comboBoxCodec->findData(codec);
+    int index = this->ui->comboBoxEncoding->findData(encoding);
     if (index >= 0)
-        this->ui->comboBoxCodec->setCurrentIndex(index);
+        this->ui->comboBoxEncoding->setCurrentIndex(index);
 
 
     this->matrixChanged();
@@ -36,9 +36,9 @@ const QString &SetupTabFont::title()
 //-----------------------------------------------------------------------------
 void SetupTabFont::matrixChanged()
 {
-    int index = this->ui->comboBoxCodec->findText(this->mPreset->font()->codec());
+    int index = this->ui->comboBoxEncoding->findText(this->mPreset->font()->encoding());
     if (index >= 0)
-        this->ui->comboBoxCodec->setCurrentIndex(index);
+        this->ui->comboBoxEncoding->setCurrentIndex(index);
 
     this->ui->checkBoxBom->setChecked(this->mPreset->font()->bom());
 }
@@ -48,8 +48,8 @@ void SetupTabFont::on_checkBoxBom_toggled(bool value)
     this->mPreset->font()->setBom(value);
 }
 //-----------------------------------------------------------------------------
-void SetupTabFont::on_comboBoxCodec_currentIndexChanged(const QString &value)
+void SetupTabFont::on_comboBoxEncoding_currentIndexChanged(const QString &value)
 {
-    this->mPreset->font()->setCodec(value);
+    this->mPreset->font()->setEncoding(value);
 }
 //-----------------------------------------------------------------------------

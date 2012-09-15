@@ -26,14 +26,14 @@ void TestFontOptions::bom()
 //-----------------------------------------------------------------------------
 void TestFontOptions::encoding()
 {
-    QStringList list = FontOptions::codecs();
+    QStringList list = FontOptions::encodings();
     for (int i = 0; i < list.length(); i++)
     {
-        this->mOptions->setCodec(list.at(i));
-        QCOMPARE(this->mOptions->codec(), list.at(i));
+        this->mOptions->setEncoding(list.at(i));
+        QCOMPARE(this->mOptions->encoding(), list.at(i));
     }
-    this->mOptions->setCodec("other");
-    QVERIFY(this->mOptions->codec() != "other");
+    this->mOptions->setEncoding("other");
+    QVERIFY(this->mOptions->encoding() != "other");
 }
 //-----------------------------------------------------------------------------
 void TestFontOptions::cleanupTestCase()

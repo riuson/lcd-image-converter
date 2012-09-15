@@ -353,7 +353,7 @@ bool Preset::load1(const QString &name)
             this->mTemplates->setImage(strTemplateImage);
             this->mTemplates->setFont(strTemplateFont);
 
-            this->mFont->setCodec(strFontCodec);
+            this->mFont->setEncoding(strFontCodec);
             this->mFont->setBom((bool)fontUseBom);
         }
 
@@ -410,7 +410,7 @@ bool Preset::save1(const QString &name) const
     sett.setValue("fontTemplate", this->mTemplates->font());
 
     sett.setValue("fontUseBom", QString("%1").arg((int)this->mFont->bom()));
-    sett.setValue("fontCodec",  this->mFont->codec());
+    sett.setValue("fontCodec",  this->mFont->encoding());
 
     sett.endGroup();
     sett.endGroup();

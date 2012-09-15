@@ -241,7 +241,7 @@ void Parser::parseImagesTable(const QString &templateString,
         // end of conversion
 
         bool useBom = this->mPreset->font()->bom();
-        QString encoding = this->mPreset->font()->codec();
+        QString encoding = this->mPreset->font()->encoding();
 
         QString charCode = this->hexCode(key.at(0), encoding, useBom);
 
@@ -391,7 +391,7 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
         tags.insert("bom", "no");
 
     // encoding
-    tags.insert("encoding", this->mPreset->font()->codec());
+    tags.insert("encoding", this->mPreset->font()->encoding());
 
     // preset name
     tags.insert("preset", this->mSelectedPresetName);

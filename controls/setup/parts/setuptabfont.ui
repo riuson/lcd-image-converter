@@ -22,7 +22,7 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QComboBox" name="comboBoxCodec">
+    <widget class="QComboBox" name="comboBoxEncoding">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -34,7 +34,7 @@
    <item row="1" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Codec:</string>
+      <string>Encoding:</string>
      </property>
     </widget>
    </item>
