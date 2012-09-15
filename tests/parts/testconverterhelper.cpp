@@ -116,24 +116,58 @@ void TestConverterHelper::packData()
     this->mPreset->matrix()->setMaskUsed(0x00ffffff);
     this->mPreset->matrix()->setMaskFill(0xffffffff);
 
-    QVector<quint32> source, expected;
-    int widthExpected, heightExpected;
-    this->preparePackData(
-                0x00ffffff, 0xffffffff,
-                &source, 1000, 1000,
-                &expected, &widthExpected, &heightExpected);
-
-    QVector<quint32> sample;
-    int widthSample, heightSample;
-    ConverterHelper::packData(this->mPreset, &source, 1000, 1000, &sample, &widthSample, &heightSample);
-
-    QCOMPARE(widthSample, widthExpected);
-    QCOMPARE(heightSample, heightExpected);
-    QCOMPARE(sample.count(), expected.count());
-
-    for (int i = 0; i < sample.count(); i++)
+    // test splitted data
     {
-        QCOMPARE(sample.at(i), expected.at(i));
+        QVector<quint32> source, expected;
+        int widthExpected, heightExpected;
+        this->preparePackData(
+                    0x00ffffff, 0xffffffff,
+                    &source, 1000, 1000,
+                    true,
+                    &expected, &widthExpected, &heightExpected);
+
+        QVector<quint32> sample;
+        int widthSample, heightSample;
+        ConverterHelper::packData(this->mPreset,
+                                  &source, 1000, 1000,
+                                  true,
+                                  &sample, &widthSample, &heightSample);
+
+        QCOMPARE(widthSample, widthExpected);
+        QCOMPARE(heightSample, heightExpected);
+        QCOMPARE(sample.count(), expected.count());
+
+        for (int i = 0; i < sample.count(); i++)
+        {
+            QCOMPARE(sample.at(i), expected.at(i));
+        }
+    }
+
+    // test linear data
+    {
+        QVector<quint32> source, expected;
+        int widthExpected, heightExpected;
+        this->preparePackData(
+                    0x00ffffff, 0xffffffff,
+                    &source, 1000, 1000,
+                    false,
+                    &expected, &widthExpected, &heightExpected);
+
+        QVector<quint32> sample;
+        int widthSample, heightSample;
+        ConverterHelper::packData(this->mPreset,
+                                  &source, 1000, 1000,
+                                  false,
+                                  &sample, &widthSample, &heightSample);
+
+        QCOMPARE(widthSample, widthExpected);
+        QCOMPARE(heightSample, heightExpected);
+        QCOMPARE(sample.count(), expected.count());
+
+        for (int i = 0; i < sample.count(); i++)
+        {
+            QCOMPARE(sample.at(i), expected.at(i));
+        }
     }
 }
 //-----------------------------------------------------------------------------
@@ -198,6 +232,7 @@ void TestConverterHelper::cleanupTestCase()
 void TestConverterHelper::preparePackData(
         quint32 maskUsed, quint32 maskFill,
         QVector<quint32> *source, int width, int height,
+        bool splitToRows,
         QVector<quint32> *packed, int *widthOut, int *heightOut)
 {
     int packedRowWidth = 0;
@@ -215,14 +250,58 @@ void TestConverterHelper::preparePackData(
         }
     }
 
-    for (int y = 0; y < height; y++)
+    if (splitToRows)
     {
+        // process each row
+        for (int y = 0; y < height; y++)
+        {
+            QQueue<bool> bits;
+
+            // stream row bits
+            for (int x = 0; x < width; x++)
+            {
+                quint32 value = source->at(x + width * y);
+
+                for (int j = 0; j < 32; j++)
+                {
+                    if ((maskUsed & (0x80000000 >> j)) != 0)
+                    {
+                        bits.enqueue((value & (0x80000000 >> j)) != 0);
+                    }
+                }
+            }
+
+            // pack bits
+            int counter = 0;
+            while (!bits.empty())
+            {
+                quint32 value = 0;
+                for (int j = 0; j < 32 && !bits.empty(); j++)
+                {
+                    if ((maskFill & (0x80000000 >> j)) != 0)
+                    {
+                        bool bit = bits.dequeue();
+                        if (bit)
+                        {
+                            value |= (0x80000000 >> j);
+                        }
+                    }
+                }
+                packed->append(value);
+                counter++;
+            }
+            packedRowWidth = qMax(packedRowWidth, counter);
+        }
+    }
+    else
+    {
+        // process entire data
         QQueue<bool> bits;
 
         // stream row bits
-        for (int x = 0; x < width; x++)
+        for (int i = 0; i < source->size(); i++)
         {
-            quint32 value = source->at(x + width * y);
+            quint32 value = source->at(i);
 
             for (int j = 0; j < 32; j++)
             {
@@ -252,7 +331,7 @@ void TestConverterHelper::preparePackData(
             packed->append(value);
             counter++;
         }
-        packedRowWidth = qMax(packedRowWidth, counter);
+        packedRowWidth = counter;
     }
 
     *widthOut = packedRowWidth;

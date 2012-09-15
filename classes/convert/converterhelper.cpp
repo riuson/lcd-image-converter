@@ -116,7 +116,11 @@ void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::packData(Preset *preset, QVector<quint32> *inputData, int inputWidth, int inputHeight, QVector<quint32> *outputData, int *outputWidth, int *outputHeight)
+void ConverterHelper::packData(
+        Preset *preset,
+        QVector<quint32> *inputData, int inputWidth, int inputHeight,
+        bool splitToRows,
+        QVector<quint32> *outputData, int *outputWidth, int *outputHeight)
 {
     *outputHeight = inputHeight;
     outputData->clear();
@@ -124,15 +128,25 @@ void ConverterHelper::packData(Preset *preset, QVector<quint32> *inputData, int 
     int resultWidth = 0;
     int rowLength = 0;
 
-    // each row
-    for (int y = 0; y < inputHeight; y++)
+    if (splitToRows)
     {
-        // start of row in inputData
-        int start = y * inputWidth;
-        // get row data packed
-        ConverterHelper::packDataRow(preset, inputData, start, inputWidth, outputData, &rowLength);
-        // get row blocks count
-        resultWidth = qMax(resultWidth, rowLength);
+        // process each row
+        for (int y = 0; y < inputHeight; y++)
+        {
+            // start of row in inputData
+            int start = y * inputWidth;
+            // get row data packed
+            ConverterHelper::packDataRow(preset, inputData, start, inputWidth, outputData, &rowLength);
+            // get row blocks count
+            resultWidth = qMax(resultWidth, rowLength);
+        }
+    }
+    else
+    {
+        // process entire data
+        ConverterHelper::packDataRow(preset, inputData, 0, inputData->size(), outputData, &rowLength);
+        // get blocks count
+        resultWidth = rowLength;
     }
     *outputWidth = resultWidth;
 }

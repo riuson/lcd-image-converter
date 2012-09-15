@@ -44,6 +44,7 @@ public:
             QVector<quint32> *inputData,
             int inputWidth,
             int inputHeight,
+            bool splitToRows,
             QVector<quint32> *outputData,
             int *outputWidth,
             int *outputHeight);
