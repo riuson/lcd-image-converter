@@ -16,7 +16,6 @@ class SetupTabFont : public QWidget
 public:
     explicit SetupTabFont(Preset *preset, QWidget *parent = 0);
     virtual ~SetupTabFont();
-    static const QString &title();
 
 public slots:
     void matrixChanged();

@@ -20,12 +20,6 @@ SetupTabTemplates::~SetupTabTemplates()
     delete ui;
 }
 //-----------------------------------------------------------------------------
-const QString &SetupTabTemplates::title()
-{
-    static const QString result = QObject::tr("Templates");
-    return result;
-}
-//-----------------------------------------------------------------------------
 void SetupTabTemplates::matrixChanged()
 {
     this->ui->lineEditImage->setText(this->mPreset->templates()->image());

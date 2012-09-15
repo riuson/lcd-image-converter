@@ -74,11 +74,11 @@ DialogOptions::DialogOptions(IDataContainer *dataContainer, QWidget *parent) :
 
     this->mPresetChanged = false;
 
-    this->ui->tabWidgetSetupParts->addTab(this->mSetupPrepare, SetupTabPrepare::title());
-    this->ui->tabWidgetSetupParts->addTab(this->mSetupMatrix, SetupTabMatrix::title());
-    this->ui->tabWidgetSetupParts->addTab(this->mSetupImage, SetupTabImage::title());
-    this->ui->tabWidgetSetupParts->addTab(this->mSetupFont, SetupTabFont::title());
-    this->ui->tabWidgetSetupParts->addTab(this->mSetupTemplates, SetupTabTemplates::title());
+    this->ui->tabWidgetSetupParts->addTab(this->mSetupPrepare, this->mSetupPrepare->windowTitle());
+    this->ui->tabWidgetSetupParts->addTab(this->mSetupMatrix, this->mSetupMatrix->windowTitle());
+    this->ui->tabWidgetSetupParts->addTab(this->mSetupImage, this->mSetupImage->windowTitle());
+    this->ui->tabWidgetSetupParts->addTab(this->mSetupFont, this->mSetupFont->windowTitle());
+    this->ui->tabWidgetSetupParts->addTab(this->mSetupTemplates, this->mSetupTemplates->windowTitle());
 }
 //-----------------------------------------------------------------------------
 DialogOptions::~DialogOptions()

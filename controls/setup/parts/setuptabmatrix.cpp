@@ -43,12 +43,6 @@ SetupTabMatrix::~SetupTabMatrix()
     delete ui;
 }
 //-----------------------------------------------------------------------------
-const QString &SetupTabMatrix::title()
-{
-    static const QString result = QObject::tr("Matrix");
-    return result;
-}
-//-----------------------------------------------------------------------------
 void SetupTabMatrix::matrixChanged()
 {
     int index = this->ui->comboBoxConversionType->findData(this->mPreset->prepare()->convType());

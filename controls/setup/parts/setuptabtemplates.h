@@ -16,7 +16,6 @@ class SetupTabTemplates : public QWidget
 public:
     explicit SetupTabTemplates(Preset *preset, QWidget *parent = 0);
     virtual ~SetupTabTemplates();
-    static const QString &title();
 
 private:
     Ui::SetupTabTemplates *ui;

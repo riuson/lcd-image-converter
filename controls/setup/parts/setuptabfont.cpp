@@ -28,12 +28,6 @@ SetupTabFont::~SetupTabFont()
     delete ui;
 }
 //-----------------------------------------------------------------------------
-const QString &SetupTabFont::title()
-{
-    static const QString result = QObject::tr("Font");
-    return result;
-}
-//-----------------------------------------------------------------------------
 void SetupTabFont::matrixChanged()
 {
     int index = this->ui->comboBoxEncoding->findText(this->mPreset->font()->encoding());

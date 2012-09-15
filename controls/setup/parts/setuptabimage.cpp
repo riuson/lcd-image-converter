@@ -26,12 +26,6 @@ SetupTabImage::~SetupTabImage()
     delete ui;
 }
 //-----------------------------------------------------------------------------
-const QString &SetupTabImage::title()
-{
-    static const QString result = QObject::tr("Image");
-    return result;
-}
-//-----------------------------------------------------------------------------
 void SetupTabImage::matrixChanged()
 {
     this->ui->checkBoxSplitToRows->setChecked(this->mPreset->image()->splitToRows());

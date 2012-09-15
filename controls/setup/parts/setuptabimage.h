@@ -16,7 +16,6 @@ class SetupTabImage : public QWidget
 public:
     explicit SetupTabImage(Preset *preset, QWidget *parent = 0);
     virtual ~SetupTabImage();
-    static const QString &title();
 
 public slots:
     void matrixChanged();
