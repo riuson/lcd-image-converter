@@ -29,7 +29,11 @@ SOURCES += maintest.cpp \
     ../classes/presets/imageoptions.cpp \
     parts/testmatrixoptions.cpp \
     parts/testimageoptions.cpp \
-    parts/testpresets.cpp
+    parts/testpresets.cpp \
+    parts/testfontoptions.cpp \
+    ../classes/presets/templateoptions.cpp \
+    ../classes/presets/fontoptions.cpp \
+    parts/testtemplateoptions.cpp
 
 HEADERS += \
     parts/testbitmaphelper.h \
@@ -46,7 +50,11 @@ HEADERS += \
     ../classes/presets/imageoptions.h \
     parts/testmatrixoptions.h \
     parts/testimageoptions.h \
-    parts/testpresets.h
+    parts/testpresets.h \
+    parts/testfontoptions.h \
+    ../classes/presets/templateoptions.h \
+    ../classes/presets/fontoptions.h \
+    parts/testtemplateoptions.h
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
