@@ -31,6 +31,7 @@ SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
 {
     ui->setupUi(this);
     this->mPreset = preset;
+    this->mPixmapScanning = QPixmap();
 
     this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
     this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
@@ -73,6 +74,10 @@ void SetupTabPrepare::matrixChanged()
     this->ui->checkBoxFlipHorizontal->setChecked(this->mPreset->prepare()->flipHorizontal());
     this->ui->checkBoxFlipVertical->setChecked(this->mPreset->prepare()->flipVertical());
     this->ui->checkBoxInverse->setChecked(this->mPreset->prepare()->inverse());
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::updateScanningPreview()
+{
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::on_comboBoxConversionType_currentIndexChanged(int index)

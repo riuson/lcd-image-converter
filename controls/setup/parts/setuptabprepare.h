@@ -42,6 +42,9 @@ public slots:
 private:
     Ui::SetupTabPrepare *ui;
     Preset *mPreset;
+    QPixmap mPixmapScanning;
+
+    void updateScanningPreview();
 
 private slots:
     void on_comboBoxConversionType_currentIndexChanged(int index);
