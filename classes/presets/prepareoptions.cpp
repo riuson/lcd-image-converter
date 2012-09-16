@@ -25,9 +25,8 @@ PrepareOptions::PrepareOptions(QObject *parent) :
     this->mConvType = ConversionTypeMonochrome;
     this->mMonoType = MonochromeTypeDiffuseDither;
     this->mEdge = 128;
-    this->mRotate = RotateNone;
-    this->mFlipVertical = false;
-    this->mFlipHorizontal = false;
+    this->mScanMain = TopToBottom;
+    this->mScanSub = Forward;
     this->mInverse = false;
 }
 //-----------------------------------------------------------------------------
@@ -58,23 +57,22 @@ int PrepareOptions::edge() const
     return 128;
 }
 //-----------------------------------------------------------------------------
-Rotate PrepareOptions::rotate() const
+ScanMainDirection PrepareOptions::scanMain() const
 {
-    if (this->mRotate <= Rotate270)
+    if (this->mScanMain <= RightToLeft)
     {
-        return this->mRotate;
+        return this->mScanMain;
     }
-    return Rotate270;
+    return TopToBottom;
 }
 //-----------------------------------------------------------------------------
-bool PrepareOptions::flipVertical() const
+ScanSubDirection PrepareOptions::scanSub() const
 {
-    return this->mFlipVertical;
-}
-//-----------------------------------------------------------------------------
-bool PrepareOptions::flipHorizontal() const
-{
-    return this->mFlipHorizontal;
+    if (this->mScanSub <= Backward)
+    {
+        return this->mScanSub;
+    }
+    return Forward;
 }
 //-----------------------------------------------------------------------------
 bool PrepareOptions::inverse() const
@@ -109,25 +107,18 @@ void PrepareOptions::setEdge(int value)
     emit this->changed();
 }
 //-----------------------------------------------------------------------------
-void PrepareOptions::setRotate(Rotate value)
+void PrepareOptions::setScanMain(ScanMainDirection value)
 {
-    if (value < RotateNone || value > Rotate270)
-        value = RotateNone;
-    this->mRotate = value;
+    if (value < TopToBottom || value > RightToLeft)
+        value = TopToBottom;
+    this->mScanMain = value;
 
     emit this->changed();
 }
 //-----------------------------------------------------------------------------
-void PrepareOptions::setFlipVertical(bool value)
+void PrepareOptions::setScanSub(ScanSubDirection value)
 {
-    this->mFlipVertical = value;
-
-    emit this->changed();
-}
-//-----------------------------------------------------------------------------
-void PrepareOptions::setFlipHorizontal(bool value)
-{
-    this->mFlipHorizontal = value;
+    this->mScanSub = value;
 
     emit this->changed();
 }
@@ -183,6 +174,82 @@ const QString & PrepareOptions::monoTypeName() const
         return names[3];
     default:
         return names[4];
+    }
+}
+//-----------------------------------------------------------------------------
+void PrepareOptions::modificationsFromScan(
+        Rotate *rotate,
+        bool *flipHorizontal,
+        bool *flipVertical) const
+{
+    bool forward = (this->mScanSub == Forward);
+
+    switch (this->mScanMain)
+    {
+    case TopToBottom:
+    {
+        if (forward)
+        {
+            *rotate = RotateNone;
+            *flipHorizontal = false;
+            *flipVertical = false;
+        }
+        else
+        {
+            *rotate = RotateNone;
+            *flipHorizontal = true;
+            *flipVertical = false;
+        }
+        break;
+    }
+    case BottomToTop:
+    {
+        if (forward)
+        {
+            *rotate = RotateNone;
+            *flipHorizontal = false;
+            *flipVertical = true;
+        }
+        else
+        {
+            *rotate = Rotate180;
+            *flipHorizontal = false;
+            *flipVertical = false;
+        }
+        break;
+    }
+    case LeftToRight:
+    {
+        if (forward)
+        {
+            *rotate = Rotate90;
+            *flipHorizontal = true;
+            *flipVertical = false;
+        }
+        else
+        {
+            *rotate = Rotate90;
+            *flipHorizontal = false;
+            *flipVertical = false;
+        }
+        break;
+    }
+    case RightToLeft:
+    {
+        if (forward)
+        {
+            *rotate = Rotate270;
+            *flipHorizontal = false;
+            *flipVertical = false;
+        }
+        else
+        {
+            *rotate = Rotate270;
+            *flipHorizontal = true;
+            *flipVertical = false;
+        }
+        break;
+    }
     }
 }
 //-----------------------------------------------------------------------------

@@ -35,29 +35,31 @@ public:
     ConversionType convType() const;
     MonochromeType monoType() const;
     int edge() const;
-    Rotate rotate() const;
-    bool flipVertical() const;
-    bool flipHorizontal() const;
+    ScanMainDirection scanMain() const;
+    ScanSubDirection scanSub() const;
     bool inverse() const;
 
     void setConvType(ConversionType value);
     void setMonoType(MonochromeType value);
     void setEdge(int value);
-    void setRotate(Rotate value);
-    void setFlipVertical(bool value);
-    void setFlipHorizontal(bool value);
+    void setScanMain(ScanMainDirection value);
+    void setScanSub(ScanSubDirection value);
     void setInverse(bool value);
 
     const QString & convTypeName() const;
     const QString & monoTypeName() const;
 
+    void modificationsFromScan(
+            Rotate *rotate,
+            bool *flipHorizontal,
+            bool *flipVertical) const;
+
 private:
     ConversionType mConvType;
     MonochromeType mMonoType;
     int mEdge;
-    Rotate mRotate;
-    bool mFlipVertical;
-    bool mFlipHorizontal;
+    ScanMainDirection mScanMain;
+    ScanSubDirection mScanSub;
     bool mInverse;
 
 signals:

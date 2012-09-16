@@ -63,45 +63,34 @@ void TestPrepareOptions::edge()
     }
 }
 //-----------------------------------------------------------------------------
-void TestPrepareOptions::rotate()
+void TestPrepareOptions::scanMain()
 {
     // 1
-    this->mOptions->setRotate(RotateNone);
-    QCOMPARE(this->mOptions->rotate(), RotateNone);
+    this->mOptions->setScanMain(TopToBottom);
+    QCOMPARE(this->mOptions->scanMain(), TopToBottom);
 
     // 2
-    this->mOptions->setRotate(Rotate90);
-    QCOMPARE(this->mOptions->rotate(), Rotate90);
+    this->mOptions->setScanMain(BottomToTop);
+    QCOMPARE(this->mOptions->scanMain(), BottomToTop);
 
     // 3
-    this->mOptions->setRotate(Rotate180);
-    QCOMPARE(this->mOptions->rotate(), Rotate180);
+    this->mOptions->setScanMain(LeftToRight);
+    QCOMPARE(this->mOptions->scanMain(), LeftToRight);
 
     // 4
-    this->mOptions->setRotate(Rotate270);
-    QCOMPARE(this->mOptions->rotate(), Rotate270);
+    this->mOptions->setScanMain(RightToLeft);
+    QCOMPARE(this->mOptions->scanMain(), RightToLeft);
 }
 //-----------------------------------------------------------------------------
-void TestPrepareOptions::flipVertical()
+void TestPrepareOptions::scanSub()
 {
     // 1
-    this->mOptions->setFlipVertical(false);
-    QCOMPARE(this->mOptions->flipVertical(), false);
+    this->mOptions->setScanSub(Forward);
+    QCOMPARE(this->mOptions->scanSub(), Forward);
 
     // 2
-    this->mOptions->setFlipVertical(true);
-    QCOMPARE(this->mOptions->flipVertical(), true);
-}
-//-----------------------------------------------------------------------------
-void TestPrepareOptions::flipHorizontal()
-{
-    // 1
-    this->mOptions->setFlipHorizontal(false);
-    QCOMPARE(this->mOptions->flipHorizontal(), false);
-
-    // 2
-    this->mOptions->setFlipHorizontal(true);
-    QCOMPARE(this->mOptions->flipHorizontal(), true);
+    this->mOptions->setScanSub(Backward);
+    QCOMPARE(this->mOptions->scanSub(), Backward);
 }
 //-----------------------------------------------------------------------------
 void TestPrepareOptions::inverse()
