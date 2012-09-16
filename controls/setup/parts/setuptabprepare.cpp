@@ -24,6 +24,7 @@
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     QWidget(parent),
@@ -79,10 +80,125 @@ void SetupTabPrepare::matrixChanged()
     this->ui->horizontalScrollBarEdge->setValue(this->mPreset->prepare()->edge());
 
     this->ui->checkBoxInverse->setChecked(this->mPreset->prepare()->inverse());
+
+    this->updateScanningPreview();
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::updateScanningPreview()
 {
+    Rotate rotate = RotateNone;
+    bool flipHorizontal = false;
+    bool flipVertical = false;
+
+    this->modificationsFromScan(&rotate, &flipHorizontal, &flipVertical);
+
+    QImage image(":/demos/scanning");
+
+    switch (rotate)
+    {
+    case Rotate90:
+        image = BitmapHelper::rotate90(&image);
+        break;
+    case Rotate180:
+        image = BitmapHelper::rotate180(&image);
+        break;
+    case Rotate270:
+        image = BitmapHelper::rotate270(&image);
+        break;
+    default:
+        image = image;
+        break;
+
+    }
+
+    if (flipHorizontal)
+        image = BitmapHelper::flipHorizontal(&image);
+
+    if (flipVertical)
+        image = BitmapHelper::flipVertical(&image);
+
+    if (this->mPreset->prepare()->inverse())
+        image.invertPixels();
+
+    this->mPixmapScanning = QPixmap::fromImage(image);
+
+    this->ui->labelScanningOrder->setPixmap(this->mPixmapScanning);
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::modificationsFromScan(
+        Rotate *rotate,
+        bool *flipHorizontal,
+        bool *flipVertical) const
+{
+    bool forward = (this->mPreset->prepare()->scanSub() == Forward);
+
+    switch (this->mPreset->prepare()->scanMain())
+    {
+    case TopToBottom:
+    {
+        if (forward)
+        {
+            *rotate = RotateNone;
+            *flipHorizontal = false;
+            *flipVertical = false;
+        }
+        else
+        {
+            *rotate = RotateNone;
+            *flipHorizontal = true;
+            *flipVertical = false;
+        }
+        break;
+    }
+    case BottomToTop:
+    {
+        if (forward)
+        {
+            *rotate = RotateNone;
+            *flipHorizontal = false;
+            *flipVertical = true;
+        }
+        else
+        {
+            *rotate = Rotate180;
+            *flipHorizontal = false;
+            *flipVertical = false;
+        }
+        break;
+    }
+    case LeftToRight:
+    {
+        if (forward)
+        {
+            *rotate = Rotate90;
+            *flipHorizontal = true;
+            *flipVertical = false;
+        }
+        else
+        {
+            *rotate = Rotate270;
+            *flipHorizontal = false;
+            *flipVertical = false;
+        }
+        break;
+    }
+    case RightToLeft:
+    {
+        if (forward)
+        {
+            *rotate = Rotate90;
+            *flipHorizontal = false;
+            *flipVertical = false;
+        }
+        else
+        {
+            *rotate = Rotate270;
+            *flipHorizontal = true;
+            *flipVertical = false;
+        }
+        break;
+    }
+    }
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::on_comboBoxConversionType_currentIndexChanged(int index)

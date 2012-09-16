@@ -22,11 +22,15 @@
 //-----------------------------------------------------------------------------
 #include <QWidget>
 //-----------------------------------------------------------------------------
+#include "conversion_options.h"
+//-----------------------------------------------------------------------------
 namespace Ui {
 class SetupTabPrepare;
 }
 //-----------------------------------------------------------------------------
 class Preset;
+//-----------------------------------------------------------------------------
+using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
 class SetupTabPrepare : public QWidget
 {
@@ -45,6 +49,10 @@ private:
     QPixmap mPixmapScanning;
 
     void updateScanningPreview();
+    void modificationsFromScan(
+            Rotate *rotate,
+            bool *flipHorizontal,
+            bool *flipVertical) const;
 
 private slots:
     void on_comboBoxConversionType_currentIndexChanged(int index);
