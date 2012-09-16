@@ -49,9 +49,8 @@ private:
 private slots:
     void on_comboBoxConversionType_currentIndexChanged(int index);
     void on_comboBoxMonochromeType_currentIndexChanged(int index);
-    void on_comboBoxRotate_currentIndexChanged(int index);
-    void on_checkBoxFlipHorizontal_toggled(bool value);
-    void on_checkBoxFlipVertical_toggled(bool value);
+    void on_comboBoxScanMain_currentIndexChanged(int index);
+    void on_comboBoxScanSub_currentIndexChanged(int index);
     void on_checkBoxInverse_toggled(bool value);
     void on_horizontalScrollBarEdge_valueChanged(int value);
 };

@@ -42,10 +42,13 @@ SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     this->ui->comboBoxMonochromeType->addItem(tr("Ordered Dither"), MonochromeTypeOrderedDither);
     this->ui->comboBoxMonochromeType->addItem(tr("Threshold Dither"), MonochromeTypeThresholdDither);
 
-    this->ui->comboBoxRotate->addItem(tr("None"), QVariant(RotateNone));
-    this->ui->comboBoxRotate->addItem(tr("90 Clockwise"), QVariant(Rotate90));// \u00b0
-    this->ui->comboBoxRotate->addItem(tr("180"), QVariant(Rotate180));
-    this->ui->comboBoxRotate->addItem(tr("90 Counter-Clockwise"), QVariant(Rotate270));
+    this->ui->comboBoxScanMain->addItem(tr("Top to Bottom"), QVariant(TopToBottom));
+    this->ui->comboBoxScanMain->addItem(tr("Bottom to Top"), QVariant(BottomToTop));
+    this->ui->comboBoxScanMain->addItem(tr("Left to Right"), QVariant(LeftToRight));
+    this->ui->comboBoxScanMain->addItem(tr("Right to Left"), QVariant(RightToLeft));
+
+    this->ui->comboBoxScanSub->addItem(tr("Forward"), QVariant(Forward));
+    this->ui->comboBoxScanSub->addItem(tr("Backward"), QVariant(Backward));
 
     this->matrixChanged();
 }
@@ -65,14 +68,16 @@ void SetupTabPrepare::matrixChanged()
     if (index >= 0)
         this->ui->comboBoxMonochromeType->setCurrentIndex(index);
 
-    index = this->ui->comboBoxRotate->findData(this->mPreset->prepare()->rotate());
+    index = this->ui->comboBoxScanMain->findData(this->mPreset->prepare()->scanMain());
     if (index >= 0)
-        this->ui->comboBoxRotate->setCurrentIndex(index);
+        this->ui->comboBoxScanMain->setCurrentIndex(index);
+
+    index = this->ui->comboBoxScanSub->findData(this->mPreset->prepare()->scanSub());
+    if (index >= 0)
+        this->ui->comboBoxScanSub->setCurrentIndex(index);
 
     this->ui->horizontalScrollBarEdge->setValue(this->mPreset->prepare()->edge());
 
-    this->ui->checkBoxFlipHorizontal->setChecked(this->mPreset->prepare()->flipHorizontal());
-    this->ui->checkBoxFlipVertical->setChecked(this->mPreset->prepare()->flipVertical());
     this->ui->checkBoxInverse->setChecked(this->mPreset->prepare()->inverse());
 }
 //-----------------------------------------------------------------------------
@@ -130,26 +135,28 @@ void SetupTabPrepare::on_comboBoxMonochromeType_currentIndexChanged(int index)
     }
 }
 //-----------------------------------------------------------------------------
-void SetupTabPrepare::on_comboBoxRotate_currentIndexChanged(int index)
+void SetupTabPrepare::on_comboBoxScanMain_currentIndexChanged(int index)
 {
-    QVariant data = this->ui->comboBoxRotate->itemData(index);
+    QVariant data = this->ui->comboBoxScanMain->itemData(index);
     bool ok;
     int a = data.toInt(&ok);
     if (ok)
     {
-        Rotate rotate = (Rotate)a;
-        this->mPreset->prepare()->setRotate(rotate);
+        ScanMainDirection dir = (ScanMainDirection)a;
+        this->mPreset->prepare()->setScanMain(dir);
     }
 }
 //-----------------------------------------------------------------------------
-void SetupTabPrepare::on_checkBoxFlipHorizontal_toggled(bool value)
+void SetupTabPrepare::on_comboBoxScanSub_currentIndexChanged(int index)
 {
-    this->mPreset->prepare()->setFlipHorizontal(value);
-}
-//-----------------------------------------------------------------------------
-void SetupTabPrepare::on_checkBoxFlipVertical_toggled(bool value)
-{
-    this->mPreset->prepare()->setFlipVertical(value);
+    QVariant data = this->ui->comboBoxScanSub->itemData(index);
+    bool ok;
+    int a = data.toInt(&ok);
+    if (ok)
+    {
+        ScanSubDirection dir = (ScanSubDirection)a;
+        this->mPreset->prepare()->setScanSub(dir);
+    }
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::on_checkBoxInverse_toggled(bool value)
