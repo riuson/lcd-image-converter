@@ -716,22 +716,22 @@ Qt: %3</translation>
         <translation>Блок данных:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabimage.cpp" line="16"/>
+        <location filename="../controls/setup/parts/setuptabimage.cpp" line="35"/>
         <source>8 bit</source>
         <translation>8 бит</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabimage.cpp" line="17"/>
+        <location filename="../controls/setup/parts/setuptabimage.cpp" line="36"/>
         <source>16 bit</source>
         <translation>16 бит</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabimage.cpp" line="18"/>
+        <location filename="../controls/setup/parts/setuptabimage.cpp" line="37"/>
         <source>24 bit</source>
         <translation>24 бита</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabimage.cpp" line="19"/>
+        <location filename="../controls/setup/parts/setuptabimage.cpp" line="38"/>
         <source>32 bit</source>
         <translation>32 бита</translation>
     </message>
@@ -749,67 +749,67 @@ Qt: %3</translation>
         <translation>Тип:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="19"/>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="38"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="20"/>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="39"/>
         <source>Grayscale</source>
         <translation>Градации серого</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="21"/>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="40"/>
         <source>Color</source>
         <translation>Цветное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="99"/>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="118"/>
         <source>Source</source>
         <translation>Исходник</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="101"/>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="120"/>
         <source>Add &quot;Left Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг влево&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="102"/>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="121"/>
         <source>Add &quot;Right Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг вправо&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="122"/>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="141"/>
         <source>Operation</source>
         <translation>Операция</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="132"/>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="151"/>
         <source>Shift left</source>
         <translation>Сдвиг слево</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="133"/>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="152"/>
         <source>Shift right</source>
         <translation>Сдвиг вправо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="134"/>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="153"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="159"/>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="178"/>
         <source>Mask</source>
         <translation>Маска</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="180"/>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="199"/>
         <source>Set 1</source>
         <translation>Установить в 1</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="183"/>
+        <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="202"/>
         <source>Set 0</source>
         <translation>Сбросить в 0</translation>
     </message>
@@ -828,78 +828,83 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/setuptabprepare.ui" line="79"/>
-        <source>Rotate:</source>
-        <translation>Поворот:</translation>
+        <source>Main Scan Direction:</source>
+        <translation>Основное сканирование:</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/setuptabprepare.ui" line="102"/>
-        <source>Horizontal Flip</source>
-        <translation>Отразить по горизонтали</translation>
+        <source>Line Scan Direction:</source>
+        <translation>Сканирование линий:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabprepare.ui" line="115"/>
-        <source>Vertical Flip</source>
-        <translation>Отразить по вертикали</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/setuptabprepare.ui" line="128"/>
+        <location filename="../controls/setup/parts/setuptabprepare.ui" line="118"/>
         <source>Inverse</source>
         <translation>Инвертировать</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="16"/>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="37"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="17"/>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="38"/>
         <source>Grayscale</source>
         <translation>Градации серого</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="18"/>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="39"/>
         <source>Color</source>
         <translation>Цветное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="20"/>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="41"/>
         <source>Edge</source>
         <translation>Порог</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="21"/>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="42"/>
         <source>Diffuse Dither</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="22"/>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="43"/>
         <source>Ordered Dither</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="23"/>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="44"/>
         <source>Threshold Dither</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="25"/>
-        <source>None</source>
-        <translation>Нет</translation>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="46"/>
+        <source>Top to Bottom</source>
+        <translation>Сверху вниз</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="26"/>
-        <source>90 Clockwise</source>
-        <translation>90 по часовой</translation>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="47"/>
+        <source>Bottom to Top</source>
+        <translation>Снизу вверх</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="27"/>
-        <source>180</source>
-        <translation>180</translation>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="48"/>
+        <source>Left to Right</source>
+        <translation>Слева направо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="28"/>
-        <source>90 Counter-Clockwise</source>
-        <translation>90 против часовой</translation>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="49"/>
+        <source>Right to Left</source>
+        <translation>Справа налево</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="51"/>
+        <source>Forward</source>
+        <translation>Прямое</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.cpp" line="52"/>
+        <source>Backward</source>
+        <translation>Обратное</translation>
     </message>
 </context>
 <context>
@@ -926,18 +931,18 @@ Qt: %3</translation>
         <translation>Шрифт:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabtemplates.cpp" line="34"/>
-        <location filename="../controls/setup/parts/setuptabtemplates.cpp" line="48"/>
+        <location filename="../controls/setup/parts/setuptabtemplates.cpp" line="53"/>
+        <location filename="../controls/setup/parts/setuptabtemplates.cpp" line="67"/>
         <source>Any file (*.*)</source>
         <translation>Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabtemplates.cpp" line="35"/>
+        <location filename="../controls/setup/parts/setuptabtemplates.cpp" line="54"/>
         <source>Open image template file</source>
         <translation>Открыть файл шаблона изображения</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabtemplates.cpp" line="49"/>
+        <location filename="../controls/setup/parts/setuptabtemplates.cpp" line="68"/>
         <source>Open font template file</source>
         <translation>Открыть файл шаблона шрифта</translation>
     </message>

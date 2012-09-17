@@ -76,12 +76,12 @@
           </font>
          </property>
          <property name="text">
-          <string>Rotate:</string>
+          <string>Main Scan Direction:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="comboBoxRotate">
+        <widget class="QComboBox" name="comboBoxScanMain">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -91,30 +91,20 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBoxFlipHorizontal">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+        <widget class="QLabel" name="label">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
          </property>
          <property name="text">
-          <string>Horizontal Flip</string>
+          <string>Line Scan Direction:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBoxFlipVertical">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Vertical Flip</string>
-         </property>
-        </widget>
+        <widget class="QComboBox" name="comboBoxScanSub"/>
        </item>
        <item>
         <widget class="QCheckBox" name="checkBoxInverse">
@@ -132,17 +122,17 @@
       </layout>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+      <widget class="QLabel" name="labelScanningOrder">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
+       <property name="text">
+        <string notr="true">TextLabel</string>
        </property>
-      </spacer>
+      </widget>
      </item>
     </layout>
    </item>

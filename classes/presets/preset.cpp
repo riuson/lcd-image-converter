@@ -271,7 +271,7 @@ bool Preset::load1(const QString &name)
         bool ok = false;
         quint32 convType = 0, monoType = 0, edge = 0;
         quint32 bytesOrder = 0, blockSize = 0, splitToRows = 0;
-        quint32 rotate = 0, flipVertical = 0, flipHorizontal = 0, inverse = 0;
+        quint32 scanMain = 0, scanSub = 0, inverse = 0;
         quint32 maskUsed = 0, maskAnd = 0, maskOr = 0, maskFill = 0;
         quint32 fontUseBom = 0;
 
@@ -285,13 +285,10 @@ bool Preset::load1(const QString &name)
             edge = sett.value("edge", int(0)).toInt(&ok);
 
         if (ok)
-            rotate = sett.value("rotate", int(0)).toInt(&ok);
+            scanMain = sett.value("scanMain", int(0)).toInt(&ok);
 
         if (ok)
-            flipVertical = sett.value("flipVertical", int(0)).toInt(&ok);
-
-        if (ok)
-            flipHorizontal = sett.value("flipHorizontal", int(0)).toInt(&ok);
+            scanSub = sett.value("scanSub", int(0)).toInt(&ok);
 
         if (ok)
             inverse = sett.value("inverse", int(0)).toInt(&ok);
@@ -335,9 +332,8 @@ bool Preset::load1(const QString &name)
             this->mPrepare->setConvType((ConversionType)convType);
             this->mPrepare->setMonoType((MonochromeType)monoType);
             this->mPrepare->setEdge((int)edge);
-            this->mPrepare->setRotate((Rotate)rotate);
-            this->mPrepare->setFlipVertical((bool)flipVertical);
-            this->mPrepare->setFlipHorizontal((bool)flipHorizontal);
+            this->mPrepare->setScanMain((ScanMainDirection)scanMain);
+            this->mPrepare->setScanSub((ScanSubDirection)scanSub);
             this->mPrepare->setInverse((bool)inverse);
 
             this->mMatrix->setMaskUsed(maskUsed);
@@ -402,9 +398,8 @@ bool Preset::save1(const QString &name) const
     sett.setValue("convType",       QString("%1").arg((int)this->mPrepare->convType()));
     sett.setValue("monoType",       QString("%1").arg((int)this->mPrepare->monoType()));
     sett.setValue("edge",           QString("%1").arg((int)this->mPrepare->edge()));
-    sett.setValue("rotate",         QString("%1").arg((int)this->mPrepare->rotate()));
-    sett.setValue("flipVertical",   QString("%1").arg((int)this->mPrepare->flipVertical()));
-    sett.setValue("flipHorizontal", QString("%1").arg((int)this->mPrepare->flipHorizontal()));
+    sett.setValue("scanMain",       QString("%1").arg((int)this->mPrepare->scanMain()));
+    sett.setValue("scanSub",        QString("%1").arg((int)this->mPrepare->scanSub()));
     sett.setValue("inverse",        QString("%1").arg((int)this->mPrepare->inverse()));
 
     sett.setValue("maskUsed", QString("%1").arg(this->mMatrix->maskUsed(), 8, 16, QChar('0')));

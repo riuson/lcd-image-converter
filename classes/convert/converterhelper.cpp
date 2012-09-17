@@ -157,7 +157,13 @@ void ConverterHelper::prepareImage(Preset *preset, QImage *source, QImage *resul
     {
         QImage im = *source;
 
-        switch (preset->prepare()->rotate())
+        Rotate rotate = RotateNone;
+        bool flipHorizontal = false;
+        bool flipVertical = false;
+
+        preset->prepare()->modificationsFromScan(&rotate, &flipHorizontal, &flipVertical);
+
+        switch (rotate)
         {
         case Rotate90:
             im = BitmapHelper::rotate90(source);
@@ -172,9 +178,9 @@ void ConverterHelper::prepareImage(Preset *preset, QImage *source, QImage *resul
         default:
             break;
         }
-        if (preset->prepare()->flipHorizontal())
+        if (flipHorizontal)
             im = BitmapHelper::flipHorizontal(&im);
-        if (preset->prepare()->flipVertical())
+        if (flipVertical)
             im = BitmapHelper::flipVertical(&im);
         if (preset->prepare()->inverse())
             im.invertPixels();
@@ -190,25 +196,33 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
         QImage im = *source;
 
         // simple prepare options
-        switch (preset->prepare()->rotate())
+        Rotate rotate = RotateNone;
+        bool flipHorizontal = false;
+        bool flipVertical = false;
+
+        preset->prepare()->modificationsFromScan(&rotate, &flipHorizontal, &flipVertical);
+
+        switch (rotate)
         {
         case Rotate90:
-            im = BitmapHelper::rotate90(source);
+            im = BitmapHelper::rotate90(&im);
             break;
         case Rotate180:
-            im = BitmapHelper::rotate180(source);
+            im = BitmapHelper::rotate180(&im);
             break;
         case Rotate270:
-            im = BitmapHelper::rotate270(source);
+            im = BitmapHelper::rotate270(&im);
             break;
-        case RotateNone:
         default:
             break;
         }
-        if (preset->prepare()->flipHorizontal())
+
+        if (flipHorizontal)
             im = BitmapHelper::flipHorizontal(&im);
-        if (preset->prepare()->flipVertical())
+
+        if (flipVertical)
             im = BitmapHelper::flipVertical(&im);
+
         if (preset->prepare()->inverse())
             im.invertPixels();
 

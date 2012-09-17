@@ -353,33 +353,28 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
     int dataBlockSize = (this->mPreset->image()->blockSize() + 1) * 8;
     tags.insert("dataBlockSize", QString("%1").arg(dataBlockSize));
 
-    // rotation
-    switch (this->mPreset->prepare()->rotate())
+    // scan main direction
+    switch (this->mPreset->prepare()->scanMain())
     {
-        case Rotate90:
-            tags.insert("rotate", "90 degrees");
+        case TopToBottom:
+            tags.insert("scanMain", "top to bottom");
             break;
-        case Rotate180:
-            tags.insert("rotate", "180 degrees");
+        case BottomToTop:
+            tags.insert("scanMain", "bottom to top");
             break;
-        case Rotate270:
-            tags.insert("rotate", "270 degrees");
+        case LeftToRight:
+            tags.insert("scanMain", "left to right");
             break;
-        case RotateNone:
-            tags.insert("rotate", "none");
+        case RightToLeft:
+            tags.insert("scanMain", "right to left");
             break;
     }
 
-    // flipping
-    if (this->mPreset->prepare()->flipHorizontal())
-        tags.insert("flipHorizontal", "yes");
+    // scan sub direction
+    if (this->mPreset->prepare()->scanSub())
+        tags.insert("scanSub", "forward");
     else
-        tags.insert("flipHorizontal", "no");
-
-    if (this->mPreset->prepare()->flipVertical())
-        tags.insert("flipVertical", "yes");
-    else
-        tags.insert("flipVertical", "no");
+        tags.insert("scanSub", "backward");
 
     // inversion
     if (this->mPreset->prepare()->inverse())

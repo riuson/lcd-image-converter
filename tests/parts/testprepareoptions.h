@@ -21,9 +21,8 @@ private slots:
     void convType();
     void monoType();
     void edge();
-    void rotate();
-    void flipVertical();
-    void flipHorizontal();
+    void scanMain();
+    void scanSub();
     void inverse();
 
     void cleanupTestCase();
