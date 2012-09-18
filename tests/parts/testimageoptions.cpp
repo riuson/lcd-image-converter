@@ -42,6 +42,28 @@ void TestImageOptions::blockSize()
     QCOMPARE(this->mOptions->blockSize(), Data32);
 }
 //-----------------------------------------------------------------------------
+void TestImageOptions::splitToRows()
+{
+    // 1
+    this->mOptions->setSplitToRows(false);
+    QCOMPARE(this->mOptions->splitToRows(), false);
+
+    // 2
+    this->mOptions->setSplitToRows(true);
+    QCOMPARE(this->mOptions->splitToRows(), true);
+}
+//-----------------------------------------------------------------------------
+void TestImageOptions::compressionRle()
+{
+    // 1
+    this->mOptions->setCompressionRle(false);
+    QCOMPARE(this->mOptions->compressionRle(), false);
+
+    // 2
+    this->mOptions->setCompressionRle(true);
+    QCOMPARE(this->mOptions->compressionRle(), true);
+}
+//-----------------------------------------------------------------------------
 void TestImageOptions::cleanupTestCase()
 {
     delete this->mOptions;

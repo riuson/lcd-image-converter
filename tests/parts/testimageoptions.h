@@ -20,6 +20,8 @@ private slots:
 
     void bytesOrder();
     void blockSize();
+    void splitToRows();
+    void compressionRle();
 
     void cleanupTestCase();
 };
