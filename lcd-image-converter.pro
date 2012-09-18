@@ -132,6 +132,7 @@ FORMS += \
     controls/setup/parts/setuptabfont.ui
 INCLUDEPATH += . \
     ./classes \
+    ./classes/compression \
     ./classes/convert \
     ./classes/presets \
     ./classes/action-handlers \

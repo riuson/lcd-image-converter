@@ -47,6 +47,10 @@ public:
             QVector<quint32> *outputData,
             int *outputWidth,
             int *outputHeight);
+    static void compressData(
+            Preset *matrix,
+            QVector<quint32> *inputData,
+            QVector<quint32> *outputData);
 
     static void prepareImage(Preset *matrix, QImage *source, QImage *result);
     static void createImagePreview(Preset *matrix, QImage *source, QImage *result);

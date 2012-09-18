@@ -31,6 +31,7 @@
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
+#include "rlecompressor.h"
 //-----------------------------------------------------------------------------
 void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32> *data, int *width, int *height)
 {
@@ -149,6 +150,23 @@ void ConverterHelper::packData(
         resultWidth = rowLength;
     }
     *outputWidth = resultWidth;
+}
+//-----------------------------------------------------------------------------
+void ConverterHelper::compressData(
+        Preset *matrix,
+        QVector<quint32> *inputData,
+        QVector<quint32> *outputData)
+{
+    if (matrix->image()->compressionRle())
+    {
+        RleCompressor compressor;
+        compressor.compress(inputData, matrix->image()->blockSize(), outputData);
+    }
+    else
+    {
+        for (int i = 0; i < inputData->size(); i++)
+            outputData->append(inputData->at(i));
+    }
 }
 //-----------------------------------------------------------------------------
 void ConverterHelper::prepareImage(Preset *preset, QImage *source, QImage *result)
@@ -348,13 +366,23 @@ QString ConverterHelper::dataToString(Preset *preset, QVector<quint32> *data, in
 
     if (preset->image()->splitToRows())
     {
-        for (int y = 0; y < height; y++)
+        bool completed = false;
+
+        for (int y = 0; y < height && !completed; y++)
         {
             if (y > 0)
                 result.append("\n");
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < width && !completed; x++)
             {
-                quint32 value = data->at(y * width + x);
+                // control index limits for compressed data
+                int index = y * width + x;
+                if (index >= data->size())
+                {
+                    completed = true;
+                    break;
+                }
+
+                quint32 value = data->at(index);
                 switch (blockSize)
                 {
                 case Data8:
@@ -407,8 +435,16 @@ QString ConverterHelper::dataToString(Preset *preset, QVector<quint32> *data, in
     }
     else
     {
-        for (int i = 0; i < width; i++)
+        bool completed = false;
+
+        for (int i = 0; i < width && !completed; i++)
         {
+            // control index limits for compressed data
+            if (i >= data->size())
+            {
+                completed = true;
+                break;
+            }
             quint32 value = data->at(i);
             switch (blockSize)
             {

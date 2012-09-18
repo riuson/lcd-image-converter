@@ -238,7 +238,10 @@ void Parser::parseImagesTable(const QString &templateString,
                     &imageData, width, height,
                     &imageDataPacked, &width2, &height2);
 
-        QString dataString = ConverterHelper::dataToString(this->mPreset, &imageDataPacked, width2, height2, "0x");
+        QVector<quint32> imageDataCompressed;
+        ConverterHelper::compressData(this->mPreset, &imageDataPacked, &imageDataCompressed);
+
+        QString dataString = ConverterHelper::dataToString(this->mPreset, &imageDataCompressed, width2, height2, "0x");
         dataString.replace("\n", "\n" + tags["imageDataIndent"]);
 
         // end of conversion
@@ -248,7 +251,7 @@ void Parser::parseImagesTable(const QString &templateString,
 
         QString charCode = this->hexCode(key.at(0), encoding, useBom);
 
-        tags["blocksCount"] = QString("%1").arg(imageDataPacked.size());
+        tags["blocksCount"] = QString("%1").arg(imageDataCompressed.size());
         tags["imageData"] = dataString;
         tags["charCode"] = charCode;
         if (it.hasNext())
