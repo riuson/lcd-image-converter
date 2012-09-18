@@ -319,8 +319,8 @@ bool Preset::load1(const QString &name)
         if (ok)
             splitToRows = sett.value("splitToRows", int(1)).toInt(&ok);
 
-        QString strTemplateImage = sett.value("templateImage", QString(":/templates/image_convert")).toString();
-        QString strTemplateFont = sett.value("templateFont", QString(":/templates/font_convert")).toString();
+        QString strTemplateImage = sett.value("imageTemplate", QString(":/templates/image_convert")).toString();
+        QString strTemplateFont = sett.value("fontTemplate", QString(":/templates/font_convert")).toString();
 
         QString strFontCodec = sett.value("fontCodec", QString("UTF-8")).toString();
 
