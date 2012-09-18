@@ -1,29 +1,27 @@
-#ifndef TESTIMAGEOPTIONS_H
-#define TESTIMAGEOPTIONS_H
+#ifndef TESTRLE_H
+#define TESTRLE_H
 //-----------------------------------------------------------------------------
 #include <QObject>
 #include <QtTest/QtTest>
 //-----------------------------------------------------------------------------
-class ImageOptions;
+template <class T> class QVector;
 //-----------------------------------------------------------------------------
-class TestImageOptions : public QObject
+class TestRle : public QObject
 {
     Q_OBJECT
 public:
-    explicit TestImageOptions(QObject *parent = 0);
+    explicit TestRle(QObject *parent = 0);
 
 private:
-    ImageOptions *mOptions;
+    QVector<quint32> *mTestVector1;
+    QVector<quint32> *mTestVector2;
 
 private slots:
     void initTestCase();
 
-    void bytesOrder();
-    void blockSize();
-    void splitToRows();
-    void compressionRle();
+    void compress();
 
     void cleanupTestCase();
 };
 //-----------------------------------------------------------------------------
-#endif // TESTIMAGEOPTIONS_H
+#endif // TESTRLE_H

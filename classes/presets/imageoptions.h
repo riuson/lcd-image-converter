@@ -35,15 +35,18 @@ public:
     bool splitToRows() const;
     BytesOrder bytesOrder() const;
     DataBlockSize blockSize() const;
+    bool compressionRle() const;
 
     void setSplitToRows(bool value);
     void setBytesOrder(BytesOrder value);
     void setBlockSize(DataBlockSize value);
+    void setCompressionRle(bool value);
 
 private:
     bool mSplitToRows;
     BytesOrder mBytesOrder;
     DataBlockSize mBlockSize;
+    bool mCompressionRle;
 
 signals:
     void changed();

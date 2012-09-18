@@ -25,6 +25,7 @@ ImageOptions::ImageOptions(QObject *parent) :
     this->mSplitToRows = true;
     this->mBytesOrder = BytesOrderLittleEndian;
     this->mBlockSize = Data8;
+    this->mCompressionRle = false;
 }
 //-----------------------------------------------------------------------------
 bool ImageOptions::splitToRows() const
@@ -44,6 +45,11 @@ DataBlockSize ImageOptions::blockSize() const
         return this->mBlockSize;
     }
     return Data32;
+}
+//-----------------------------------------------------------------------------
+bool ImageOptions::compressionRle() const
+{
+    return this->mCompressionRle;
 }
 //-----------------------------------------------------------------------------
 void ImageOptions::setSplitToRows(bool value)
@@ -67,6 +73,13 @@ void ImageOptions::setBlockSize(DataBlockSize value)
     if (value < Data8 || value > Data32)
         value = Data32;
     this->mBlockSize = value;
+
+    emit this->changed();
+}
+//-----------------------------------------------------------------------------
+void ImageOptions::setCompressionRle(bool value)
+{
+    this->mCompressionRle = value;
 
     emit this->changed();
 }

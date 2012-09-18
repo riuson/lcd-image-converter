@@ -19,15 +19,21 @@ void TestPresets::loadSave()
 {
     Preset source;
     source.initColor(5, 6, 5);
-    source.image()->setBytesOrder(BytesOrderBigEndian);
     source.prepare()->setScanMain(BottomToTop);
     source.prepare()->setScanSub(Backward);
+    source.image()->setBytesOrder(BytesOrderBigEndian);
+    source.image()->setBlockSize(Data16);
+    source.image()->setSplitToRows(true);
+    source.image()->setCompressionRle(true);
 
-    this->mOptions->matrix()->operationsRemoveAll();
     this->mOptions->initColor(5, 6, 5);
-    this->mOptions->image()->setBytesOrder(BytesOrderBigEndian);
     this->mOptions->prepare()->setScanMain(BottomToTop);
     this->mOptions->prepare()->setScanSub(Backward);
+    this->mOptions->matrix()->operationsRemoveAll();
+    this->mOptions->image()->setBytesOrder(BytesOrderBigEndian);
+    this->mOptions->image()->setBlockSize(Data16);
+    this->mOptions->image()->setSplitToRows(true);
+    this->mOptions->image()->setCompressionRle(true);
 
     for (int i = 0; i < 10; i++)
     {
@@ -59,6 +65,8 @@ void TestPresets::loadSave()
 
     QCOMPARE(this->mOptions->image()->bytesOrder(), source.image()->bytesOrder());
     QCOMPARE(this->mOptions->image()->blockSize(),  source.image()->blockSize());
+    QCOMPARE(this->mOptions->image()->splitToRows(),    source.image()->splitToRows());
+    QCOMPARE(this->mOptions->image()->compressionRle(), source.image()->compressionRle());
 }
 //-----------------------------------------------------------------------------
 void TestPresets::cleanupTestCase()

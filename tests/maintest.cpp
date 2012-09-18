@@ -8,6 +8,7 @@
 #include "testfontoptions.h"
 #include "testtemplateoptions.h"
 #include "testpresets.h"
+#include "testrle.h"
 //-----------------------------------------------------------------------------
 int main(void)
 {
@@ -37,6 +38,9 @@ int main(void)
 
     TestPresets tp;
     QTest::qExec(&tp);
+
+    TestRle tr;
+    QTest::qExec(&tr);
 
     return 0;
 }
