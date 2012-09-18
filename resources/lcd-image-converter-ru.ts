@@ -706,12 +706,17 @@ Qt: %3</translation>
         <translation>Разбивать на строки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabimage.ui" line="37"/>
+        <location filename="../controls/setup/parts/setuptabimage.ui" line="54"/>
+        <source>RLE Compression</source>
+        <translation>Сжатие RLE</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabimage.ui" line="67"/>
         <source>Byte order:</source>
         <translation>Порядок байт:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabimage.ui" line="88"/>
+        <location filename="../controls/setup/parts/setuptabimage.ui" line="37"/>
         <source>Block size:</source>
         <translation>Блок данных:</translation>
     </message>
