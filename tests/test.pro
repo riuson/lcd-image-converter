@@ -33,7 +33,9 @@ SOURCES += maintest.cpp \
     parts/testfontoptions.cpp \
     ../classes/presets/templateoptions.cpp \
     ../classes/presets/fontoptions.cpp \
-    parts/testtemplateoptions.cpp
+    parts/testtemplateoptions.cpp \
+    ../classes/compression/rlecompressor.cpp \
+    parts/testrle.cpp
 
 HEADERS += \
     parts/testbitmaphelper.h \
@@ -54,7 +56,9 @@ HEADERS += \
     parts/testfontoptions.h \
     ../classes/presets/templateoptions.h \
     ../classes/presets/fontoptions.h \
-    parts/testtemplateoptions.h
+    parts/testtemplateoptions.h \
+    ../classes/compression/rlecompressor.h \
+    parts/testrle.h
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -62,7 +66,8 @@ INCLUDEPATH += . \
     ./parts \
     ../classes \
     ../classes/convert \
-    ../classes/presets
+    ../classes/presets \
+    ../classes/compression
 
 RESOURCES += \
     samples.qrc
