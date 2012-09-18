@@ -45,18 +45,18 @@ void RleCompressor::compress(
 
         if (!queue.isEmpty())
         {
-            qDebug() << "new value: " << value;
+            //qDebug() << "new value: " << value;
 
             if (queue.size() > 1)
             {
                 // if new value not equals to previous
                 if (this->allEquals(&queue) && queue.last() != value)
                 {
-                    qDebug() << "new value not equals to previous";
+                    //qDebug() << "new value not equals to previous";
                     output->append(queue.size());
-                    qDebug() << " count: " << queue.size();
+                    //qDebug() << " count: " << queue.size();
                     *output << queue.dequeue();
-                    qDebug() <<  " of : " << output->last();
+                    //qDebug() <<  " of : " << output->last();
                     queue.clear();
                 }
                 else
@@ -64,14 +64,14 @@ void RleCompressor::compress(
                     // if new value equals to last in non-equals queue
                     if (!this->allEquals(&queue) && queue.last() == value)
                     {
-                        qDebug() << "new value equals to last in non-equals queue";
+                        //qDebug() << "new value equals to last in non-equals queue";
                         queue.takeLast();
                         output->append(-queue.size()); // minus
-                        qDebug() << " count: " << -queue.size();
+                        //qDebug() << " count: " << -queue.size();
                         while (!queue.isEmpty())
                         {
                             *output << queue.dequeue();
-                            qDebug() <<  " of : " << output->last();
+                            //qDebug() <<  " of : " << output->last();
                         }
                         queue << value;
                     }
@@ -83,7 +83,7 @@ void RleCompressor::compress(
             this->flush(output, &queue);
 
         queue << value;
-        qDebug() << "queue new value: " << value;
+        //qDebug() << "queue new value: " << value;
 
         i++;
     }
@@ -98,11 +98,11 @@ void RleCompressor::flush(QVector<quint32> *output, QQueue<quint32> *queue)
         // if all equals
         if (this->allEquals(queue))
         {
-            qDebug() << "all equals";
+            //qDebug() << "all equals";
             output->append(queue->size());
-            qDebug() << " count: " << queue->size();
+            //qDebug() << " count: " << queue->size();
             *output << queue->dequeue();
-            qDebug() <<  " of : " << output->last();
+            //qDebug() <<  " of : " << output->last();
             queue->clear();
         }
         else
@@ -110,13 +110,13 @@ void RleCompressor::flush(QVector<quint32> *output, QQueue<quint32> *queue)
             // if all non-equals
             if (!this->allEquals(queue))
             {
-                qDebug() << "all non-equals";
+                //qDebug() << "all non-equals";
                 output->append(-queue->size()); // minus
-                qDebug() << " count: " << -queue->size();
+                //qDebug() << " count: " << -queue->size();
                 while (!queue->isEmpty())
                 {
                     *output << queue->dequeue();
-                    qDebug() <<  " of : " << output->last();
+                    //qDebug() <<  " of : " << output->last();
                 }
             }
         }
