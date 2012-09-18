@@ -270,7 +270,7 @@ bool Preset::load1(const QString &name)
 
         bool ok = false;
         quint32 convType = 0, monoType = 0, edge = 0;
-        quint32 bytesOrder = 0, blockSize = 0, splitToRows = 0;
+        quint32 bytesOrder = 0, blockSize = 0, splitToRows = 0, compressionRle = 0;
         quint32 scanMain = 0, scanSub = 0, inverse = 0;
         quint32 maskUsed = 0, maskAnd = 0, maskOr = 0, maskFill = 0;
         quint32 fontUseBom = 0;
@@ -319,6 +319,9 @@ bool Preset::load1(const QString &name)
         if (ok)
             splitToRows = sett.value("splitToRows", int(1)).toInt(&ok);
 
+        if (ok)
+            compressionRle = sett.value("compressionRle", int(0)).toInt(&ok);
+
         QString strTemplateImage = sett.value("imageTemplate", QString(":/templates/image_convert")).toString();
         QString strTemplateFont = sett.value("fontTemplate", QString(":/templates/font_convert")).toString();
 
@@ -344,6 +347,7 @@ bool Preset::load1(const QString &name)
             this->mImage->setBytesOrder((BytesOrder)bytesOrder);
             this->mImage->setBlockSize((DataBlockSize)blockSize);
             this->mImage->setSplitToRows((bool)splitToRows);
+            this->mImage->setCompressionRle((bool)compressionRle);
 
             int operations = sett.beginReadArray("matrix");
 
@@ -410,6 +414,7 @@ bool Preset::save1(const QString &name) const
     sett.setValue("bytesOrder",     QString("%1").arg((int)this->mImage->bytesOrder()));
     sett.setValue("blockSize",      QString("%1").arg((int)this->mImage->blockSize()));
     sett.setValue("splitToRows",    QString("%1").arg((int)this->mImage->splitToRows()));
+    sett.setValue("compressionRle", QString("%1").arg((int)this->mImage->compressionRle()));
 
     sett.beginWriteArray("matrix");
 
