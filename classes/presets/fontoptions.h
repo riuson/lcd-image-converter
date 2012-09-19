@@ -23,6 +23,7 @@
 #include <QObject>
 //-----------------------------------------------------------------------------
 class QStringList;
+class QSettings;
 //-----------------------------------------------------------------------------
 class FontOptions : public QObject
 {
@@ -35,6 +36,9 @@ public:
 
     void setBom(bool value);
     void setEncoding(const QString &value);
+
+    bool load(QSettings *settings, int version);
+    void save(QSettings *settings);
 
     static const QStringList &encodings();
 

@@ -93,40 +93,61 @@ bool Preset::load(const QString &name)
 {
     bool result = false;
 
-    this->mBlockChangesSignal = true;
-
-    QSettings sett;
-    sett.beginGroup("presets");
-
-    // get version of settings
-    int version;
-    bool ok;
-    QVariant varVersion = sett.value("version", QVariant((int)1));
-    version = varVersion.toInt(&ok);
-    if (ok)
+    if (!name.isEmpty())
     {
-        switch (version)
+        this->mBlockChangesSignal = true;
+
+        QSettings sett;
+        sett.beginGroup("presets");
+
+        if (sett.childGroups().contains(name))
         {
-        case 1:
-            result = this->load1(name);
-            break;
-        case 2:
-            break;
+            sett.beginGroup(name);
+
+            // get version of settings
+            int version;
+            bool ok;
+            QVariant varVersion = sett.value("version", QVariant((int)1));
+            version = varVersion.toInt(&ok);
+
+            if (!ok)
+                version = 1;
+
+            result = this->mPrepare->load(&sett, version);
+            result &= this->mMatrix->load(&sett, version);
+            result &= this->mImage->load(&sett, version);
+            result &= this->mFont->load(&sett, version);
+            result &= this->mTemplates->load(&sett, version);
+
+            sett.endGroup();
         }
+        sett.endGroup();
+
+        this->mBlockChangesSignal = false;
+
+        emit this->changed();
     }
-
-    sett.endGroup();
-
-    this->mBlockChangesSignal = false;
-
-    emit this->changed();
-
     return result;
 }
 //-----------------------------------------------------------------------------
-bool Preset::save(const QString &name) const
+void Preset::save(const QString &name) const
 {
-    return this->save1(name);
+    QSettings sett;
+    sett.beginGroup("presets");
+
+    sett.beginGroup(name);
+    sett.remove("");
+
+    sett.setValue("version", (int)2);
+
+    this->mPrepare->save(&sett);
+    this->mMatrix->save(&sett);
+    this->mImage->save(&sett);
+    this->mFont->save(&sett);
+    this->mTemplates->save(&sett);
+
+    sett.endGroup();
+    sett.endGroup();
 }
 //-----------------------------------------------------------------------------
 void Preset::initMono(MonochromeType type, int edge)
@@ -254,194 +275,6 @@ void Preset::initColor(int redBits, int greenBits, int blueBits)
     }
 
     emit this->changed();
-}
-//-----------------------------------------------------------------------------
-bool Preset::load1(const QString &name)
-{
-    if (name.isEmpty())
-        return false;
-
-    QSettings sett;
-    sett.beginGroup("presets");
-
-    if (sett.childGroups().contains(name))
-    {
-        sett.beginGroup(name);
-
-        bool ok = false;
-        quint32 convType = 0, monoType = 0, edge = 0;
-        quint32 bytesOrder = 0, blockSize = 0, splitToRows = 0, compressionRle = 0;
-        quint32 scanMain = 0, scanSub = 0, inverse = 0;
-        quint32 maskUsed = 0, maskAnd = 0, maskOr = 0, maskFill = 0;
-        quint32 fontUseBom = 0;
-
-
-        convType = sett.value("convType", int(0)).toInt(&ok);
-
-        if (ok)
-            monoType = sett.value("monoType", int(0)).toInt(&ok);
-
-        if (ok)
-            edge = sett.value("edge", int(0)).toInt(&ok);
-
-        if (ok)
-            scanMain = sett.value("scanMain", int(0)).toInt(&ok);
-
-        if (ok)
-            scanSub = sett.value("scanSub", int(0)).toInt(&ok);
-
-        if (ok)
-            inverse = sett.value("inverse", int(0)).toInt(&ok);
-
-        QString strMaskUsed = sett.value("maskUsed", QString("ffffffff")).toString();
-        QString strMaskAnd = sett.value("maskAnd", QString("ffffffff")).toString();
-        QString strMaskOr = sett.value("maskOr", QString("00000000")).toString();
-        QString strMaskFill = sett.value("maskFill", QString("ffffffff")).toString();
-
-        if (ok)
-            maskUsed = strMaskUsed.toUInt(&ok, 16);
-
-        if (ok)
-            maskAnd = strMaskAnd.toUInt(&ok, 16);
-
-        if (ok)
-            maskOr = strMaskOr.toUInt(&ok, 16);
-
-        if (ok)
-            maskFill = strMaskFill.toUInt(&ok, 16);
-
-        if (ok)
-            blockSize = sett.value("blockSize", int(0)).toInt(&ok);
-
-        if (ok)
-            bytesOrder = sett.value("bytesOrder", int(0)).toInt(&ok);
-
-        if (ok)
-            splitToRows = sett.value("splitToRows", int(1)).toInt(&ok);
-
-        if (ok)
-            compressionRle = sett.value("compressionRle", int(0)).toInt(&ok);
-
-        QString strTemplateImage = sett.value("imageTemplate", QString(":/templates/image_convert")).toString();
-        QString strTemplateFont = sett.value("fontTemplate", QString(":/templates/font_convert")).toString();
-
-        QString strFontCodec = sett.value("fontCodec", QString("UTF-8")).toString();
-
-        if (ok)
-            fontUseBom = sett.value("fontUseBom", int(0)).toInt(&ok);
-
-        if (ok)
-        {
-            this->mPrepare->setConvType((ConversionType)convType);
-            this->mPrepare->setMonoType((MonochromeType)monoType);
-            this->mPrepare->setEdge((int)edge);
-            this->mPrepare->setScanMain((ScanMainDirection)scanMain);
-            this->mPrepare->setScanSub((ScanSubDirection)scanSub);
-            this->mPrepare->setInverse((bool)inverse);
-
-            this->mMatrix->setMaskUsed(maskUsed);
-            this->mMatrix->setMaskAnd(maskAnd);
-            this->mMatrix->setMaskOr(maskOr);
-            this->mMatrix->setMaskFill(maskFill);
-
-            this->mImage->setBytesOrder((BytesOrder)bytesOrder);
-            this->mImage->setBlockSize((DataBlockSize)blockSize);
-            this->mImage->setSplitToRows((bool)splitToRows);
-            this->mImage->setCompressionRle((bool)compressionRle);
-
-            int operations = sett.beginReadArray("matrix");
-
-            this->mMatrix->operationsRemoveAll();
-
-            for (int i = 0; i < operations; i++)
-            {
-                sett.setArrayIndex(i);
-
-                QString strMask = sett.value("mask", QString("00000000")).toString();
-                quint32 mask, shift, left;
-                if (ok)
-                    mask = strMask.toUInt(&ok, 16);
-
-                if (ok)
-                    shift = sett.value("shift", uint(0)).toUInt(&ok);
-
-                if (ok)
-                    left = sett.value("left", uint(0)).toUInt(&ok);
-
-                if (ok)
-                {
-                    this->mMatrix->operationAdd(mask, shift, left != 0);
-                }
-            }
-            sett.endArray();
-
-            this->mTemplates->setImage(strTemplateImage);
-            this->mTemplates->setFont(strTemplateFont);
-
-            this->mFont->setEncoding(strFontCodec);
-            this->mFont->setBom((bool)fontUseBom);
-        }
-
-        sett.endGroup();
-    }
-    sett.endGroup();
-
-    emit this->changed();
-
-    return true;
-}
-//-----------------------------------------------------------------------------
-bool Preset::save1(const QString &name) const
-{
-    QSettings sett;
-    sett.beginGroup("presets");
-
-    sett.beginGroup(name);
-    sett.remove("");
-
-    sett.setValue("convType",       QString("%1").arg((int)this->mPrepare->convType()));
-    sett.setValue("monoType",       QString("%1").arg((int)this->mPrepare->monoType()));
-    sett.setValue("edge",           QString("%1").arg((int)this->mPrepare->edge()));
-    sett.setValue("scanMain",       QString("%1").arg((int)this->mPrepare->scanMain()));
-    sett.setValue("scanSub",        QString("%1").arg((int)this->mPrepare->scanSub()));
-    sett.setValue("inverse",        QString("%1").arg((int)this->mPrepare->inverse()));
-
-    sett.setValue("maskUsed", QString("%1").arg(this->mMatrix->maskUsed(), 8, 16, QChar('0')));
-    sett.setValue("maskAnd",  QString("%1").arg(this->mMatrix->maskAnd(),  8, 16, QChar('0')));
-    sett.setValue("maskOr",   QString("%1").arg(this->mMatrix->maskOr(),   8, 16, QChar('0')));
-    sett.setValue("maskFill", QString("%1").arg(this->mMatrix->maskFill(), 8, 16, QChar('0')));
-
-    sett.setValue("bytesOrder",     QString("%1").arg((int)this->mImage->bytesOrder()));
-    sett.setValue("blockSize",      QString("%1").arg((int)this->mImage->blockSize()));
-    sett.setValue("splitToRows",    QString("%1").arg((int)this->mImage->splitToRows()));
-    sett.setValue("compressionRle", QString("%1").arg((int)this->mImage->compressionRle()));
-
-    sett.beginWriteArray("matrix");
-
-    for (int i = 0; i < this->mMatrix->operationsCount(); i++)
-    {
-        quint32 mask;
-        int shift;
-        bool left;
-        this->mMatrix->operation(i, &mask, &shift, &left);
-
-        sett.setArrayIndex(i);
-        sett.setValue("mask",  QString("%1").arg(mask, 8, 16, QChar('0')));
-        sett.setValue("shift", QString("%1").arg(shift));
-        sett.setValue("left",  QString("%1").arg((int)left));
-    }
-    sett.endArray();
-
-    sett.setValue("imageTemplate", this->mTemplates->image());
-    sett.setValue("fontTemplate", this->mTemplates->font());
-
-    sett.setValue("fontUseBom", QString("%1").arg((int)this->mFont->bom()));
-    sett.setValue("fontCodec",  this->mFont->encoding());
-
-    sett.endGroup();
-    sett.endGroup();
-
-    return true;
 }
 //-----------------------------------------------------------------------------
 void Preset::partsChanged()

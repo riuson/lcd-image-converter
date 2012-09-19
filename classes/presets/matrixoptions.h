@@ -23,6 +23,7 @@
 #include <QObject>
 //-----------------------------------------------------------------------------
 template <class T> class QVector;
+class QSettings;
 //-----------------------------------------------------------------------------
 class MatrixOptions : public QObject
 {
@@ -47,6 +48,9 @@ public:
     void operationRemove(int index);
     void operationsRemoveAll();
     void operationReplace(int index, quint32 mask, int shift, bool left);
+
+    bool load(QSettings *settings, int version);
+    void save(QSettings *settings);
 
 private:
     quint32 mMaskUsed;

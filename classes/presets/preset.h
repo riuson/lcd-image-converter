@@ -50,7 +50,7 @@ public:
     static QStringList presetsList();
 
     bool load(const QString &name);
-    bool save(const QString &name) const;
+    void save(const QString &name) const;
 
     void initMono(MonochromeType type, int edge = 0x80);
     void initGrayscale(int bits);
@@ -63,9 +63,6 @@ private:
     FontOptions *mFont;
     TemplateOptions *mTemplates;
     bool mBlockChangesSignal;
-
-    bool load1(const QString &name);
-    bool save1(const QString &name) const;
 
 signals:
     void changed();

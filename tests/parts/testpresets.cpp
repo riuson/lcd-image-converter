@@ -42,8 +42,7 @@ void TestPresets::loadSave()
     }
 
     const QString name = "testpresets";
-    if (!this->mOptions->save(name))
-        QFAIL("preset not saved");
+    this->mOptions->save(name);
 
     this->mOptions->matrix()->operationsRemoveAll();
     this->mOptions->initMono(MonochromeTypeEdge, 1);

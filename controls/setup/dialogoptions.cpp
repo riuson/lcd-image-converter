@@ -101,10 +101,7 @@ void DialogOptions::fillPresetsList()
 
     this->ui->comboBoxPresets->clear();
 
-    QSettings sett;
-    sett.beginGroup("presets");
-    QStringList names = sett.childGroups();
-    sett.endGroup();
+    QStringList names = Preset::presetsList();
 
     this->ui->comboBoxPresets->addItems(names);
 
