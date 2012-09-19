@@ -39,7 +39,7 @@ void RleCompressor::compress(
     QQueue<quint32> queue;
     queue.append(input->at(0));
 
-    while (i < input->size())
+    while (i < (quint32)input->size())
     {
         quint32 value = input->at(i);
 
@@ -79,7 +79,7 @@ void RleCompressor::compress(
             }
         }
 
-        if (queue.size() >= size)
+        if ((quint32)queue.size() >= size)
             this->flush(output, &queue);
 
         queue << value;

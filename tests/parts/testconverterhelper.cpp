@@ -106,7 +106,6 @@ void TestConverterHelper::processPixels()
 //-----------------------------------------------------------------------------
 void TestConverterHelper::packData()
 {
-    const int count = 1000;
     this->mPreset->initColor(5, 6, 5);
     this->mPreset->matrix()->operationsRemoveAll();
     this->mPreset->matrix()->setMaskAnd(0xffffffff);
