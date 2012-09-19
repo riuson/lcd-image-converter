@@ -217,18 +217,78 @@ bool MatrixOptions::load(QSettings *settings, int version)
             settings->endArray();
         }
     }
+    else if (version == 2)
+    {
+        settings->beginGroup("matrix");
+
+        quint32 uMaskUsed = 0, uMaskAnd = 0, uMaskOr = 0, uMaskFill = 0;
+
+        QString sMaskUsed = settings->value("maskUsed", QString("ffffffff")).toString();
+        QString sMaskAnd  = settings->value("maskAnd",  QString("ffffffff")).toString();
+        QString sMaskOr   = settings->value("maskOr",   QString("00000000")).toString();
+        QString sMaskFill = settings->value("maskFill", QString("ffffffff")).toString();
+
+        uMaskUsed = sMaskUsed.toUInt(&result, 16);
+
+        if (result)
+            uMaskAnd = sMaskAnd.toUInt(&result, 16);
+
+        if (result)
+            uMaskOr = sMaskOr.toUInt(&result, 16);
+
+        if (result)
+            uMaskFill = sMaskFill.toUInt(&result, 16);
+
+        if (result)
+        {
+            this->setMaskUsed(uMaskUsed);
+            this->setMaskAnd(uMaskAnd);
+            this->setMaskOr(uMaskOr);
+            this->setMaskFill(uMaskFill);
+
+            this->operationsRemoveAll();
+
+            int iOperations = settings->beginReadArray("operations");
+            for (int i = 0; i < iOperations; i++)
+            {
+                settings->setArrayIndex(i);
+
+                QString sMask = settings->value("mask", QString("00000000")).toString();
+                quint32 uMask, uShift, uLeft;
+
+                if (result)
+                    uMask = sMask.toUInt(&result, 16);
+
+                if (result)
+                    uShift = settings->value("shift", uint(0)).toUInt(&result);
+
+                if (result)
+                    uLeft = settings->value("left", uint(0)).toUInt(&result);
+
+                if (result)
+                {
+                    this->operationAdd(uMask, uShift, uLeft != 0);
+                }
+            }
+            settings->endArray();
+        }
+
+        settings->endGroup();
+    }
 
     return result;
 }
 //-----------------------------------------------------------------------------
 void MatrixOptions::save(QSettings *settings)
 {
+    settings->beginGroup("matrix");
+
     settings->setValue("maskUsed", QString("%1").arg(this->maskUsed(), 8, 16, QChar('0')));
     settings->setValue("maskAnd",  QString("%1").arg(this->maskAnd(),  8, 16, QChar('0')));
     settings->setValue("maskOr",   QString("%1").arg(this->maskOr(),   8, 16, QChar('0')));
     settings->setValue("maskFill", QString("%1").arg(this->maskFill(), 8, 16, QChar('0')));
 
-    settings->beginWriteArray("matrix");
+    settings->beginWriteArray("operations");
 
     for (int i = 0; i < this->operationsCount(); i++)
     {
@@ -243,5 +303,7 @@ void MatrixOptions::save(QSettings *settings)
         settings->setValue("left",  QString("%1").arg((int)bLeft));
     }
     settings->endArray();
+
+    settings->endGroup();
 }
 //-----------------------------------------------------------------------------

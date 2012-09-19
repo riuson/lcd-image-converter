@@ -76,14 +76,38 @@ bool FontOptions::load(QSettings *settings, int version)
             this->setEncoding(sEncoding);
         }
     }
+    else if (version == 2)
+    {
+        settings->beginGroup("font");
+
+        quint32 uBom;
+        QString sEncoding;
+
+        uBom = settings->value("bom", int(0)).toInt(&result);
+
+        if (result)
+            sEncoding = settings->value("codec", QString("UTF-8")).toString();
+
+        if (result)
+        {
+            this->setBom((bool)uBom);
+            this->setEncoding(sEncoding);
+        }
+
+        settings->endGroup();
+    }
 
     return result;
 }
 //-----------------------------------------------------------------------------
 void FontOptions::save(QSettings *settings)
 {
-    settings->setValue("fontUseBom", QString("%1").arg((int)this->bom()));
-    settings->setValue("fontCodec",  this->encoding());
+    settings->beginGroup("font");
+
+    settings->setValue("bom", QString("%1").arg((int)this->bom()));
+    settings->setValue("codec",  this->encoding());
+
+    settings->endGroup();
 }
 //-----------------------------------------------------------------------------
 const QStringList &FontOptions::encodings()

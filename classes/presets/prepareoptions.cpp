@@ -291,17 +291,29 @@ bool PrepareOptions::load(QSettings *settings, int version)
             this->setInverse((bool)uInverse);
         }
     }
+    else if (version == 2)
+    {
+        settings->beginGroup("prepare");
+
+        result = this->load(settings, 1);
+
+        settings->endGroup();
+    }
 
     return result;
 }
 //-----------------------------------------------------------------------------
 void PrepareOptions::save(QSettings *settings)
 {
+    settings->beginGroup("prepare");
+
     settings->setValue("convType", QString("%1").arg((int)this->convType()));
     settings->setValue("monoType", QString("%1").arg((int)this->monoType()));
     settings->setValue("edge",     QString("%1").arg((int)this->edge()));
     settings->setValue("scanMain", QString("%1").arg((int)this->scanMain()));
     settings->setValue("scanSub",  QString("%1").arg((int)this->scanSub()));
     settings->setValue("inverse",  QString("%1").arg((int)this->inverse()));
+
+    settings->endGroup();
 }
 //-----------------------------------------------------------------------------

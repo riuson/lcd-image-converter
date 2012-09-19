@@ -58,7 +58,6 @@ bool TemplateOptions::load(QSettings *settings, int version)
 
     if (version == 1)
     {
-
         QString sTemplateImage = settings->value("imageTemplate", QString(":/templates/image_convert")).toString();
         QString sTemplateFont = settings->value("fontTemplate", QString(":/templates/font_convert")).toString();
 
@@ -67,13 +66,31 @@ bool TemplateOptions::load(QSettings *settings, int version)
 
         result = true;
     }
+    else if (version == 2)
+    {
+        settings->beginGroup("templates");
+
+        QString sTemplateImage = settings->value("images", QString(":/templates/image_convert")).toString();
+        QString sTemplateFont = settings->value("fonts", QString(":/templates/font_convert")).toString();
+
+        this->setImage(sTemplateImage);
+        this->setFont(sTemplateFont);
+
+        result = true;
+
+        settings->endGroup();
+    }
 
     return result;
 }
 //-----------------------------------------------------------------------------
 void TemplateOptions::save(QSettings *settings)
 {
-    settings->setValue("imageTemplate", this->image());
-    settings->setValue("fontTemplate", this->font());
+    settings->beginGroup("templates");
+
+    settings->setValue("images", this->image());
+    settings->setValue("fonts", this->font());
+
+    settings->endGroup();
 }
 //-----------------------------------------------------------------------------

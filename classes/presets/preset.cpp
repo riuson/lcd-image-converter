@@ -100,18 +100,18 @@ bool Preset::load(const QString &name)
         QSettings sett;
         sett.beginGroup("presets");
 
-        // get version of settings
-        int version;
-        bool ok;
-        QVariant varVersion = sett.value("version", QVariant((int)1));
-        version = varVersion.toInt(&ok);
-
-        if (!ok)
-            version = 1;
-
         if (sett.childGroups().contains(name))
         {
             sett.beginGroup(name);
+
+            // get version of settings
+            int version;
+            bool ok;
+            QVariant varVersion = sett.value("version", QVariant((int)1));
+            version = varVersion.toInt(&ok);
+
+            if (!ok)
+                version = 1;
 
             result = this->mPrepare->load(&sett, version);
             result &= this->mMatrix->load(&sett, version);
@@ -137,6 +137,8 @@ void Preset::save(const QString &name) const
 
     sett.beginGroup(name);
     sett.remove("");
+
+    sett.setValue("version", (int)2);
 
     this->mPrepare->save(&sett);
     this->mMatrix->save(&sett);

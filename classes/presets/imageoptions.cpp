@@ -113,15 +113,27 @@ bool ImageOptions::load(QSettings *settings, int version)
             this->setCompressionRle((bool)uCompressionRle);
         }
     }
+    else if (version == 2)
+    {
+        settings->beginGroup("image");
+
+        result = this->load(settings, 1);
+
+        settings->endGroup();
+    }
 
     return result;
 }
 //-----------------------------------------------------------------------------
 void ImageOptions::save(QSettings *settings)
 {
+    settings->beginGroup("image");
+
     settings->setValue("bytesOrder",     QString("%1").arg((int)this->bytesOrder()));
     settings->setValue("blockSize",      QString("%1").arg((int)this->blockSize()));
     settings->setValue("splitToRows",    QString("%1").arg((int)this->splitToRows()));
     settings->setValue("compressionRle", QString("%1").arg((int)this->compressionRle()));
+
+    settings->endGroup();
 }
 //-----------------------------------------------------------------------------
