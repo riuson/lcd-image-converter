@@ -309,6 +309,13 @@ QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) cons
 
     if (encoding.contains("UTF-16"))
     {
+        // reorder bytes
+        quint64 a =
+                ((code & 0x000000000000ff00) >> 8) |
+                ((code & 0x00000000000000ff) << 8);
+        code &= 0xffffffffffff0000;
+        code |= a;
+
         if (bom)
         {
             // 0xfeff00c1
@@ -323,6 +330,15 @@ QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) cons
     }
     else if (encoding.contains("UTF-32"))
     {
+        // reorder bytes
+        quint64 a =
+                ((code & 0x00000000ff000000) >> 24) |
+                ((code & 0x0000000000ff0000) >> 8) |
+                ((code & 0x000000000000ff00) << 8) |
+                ((code & 0x00000000000000ff) << 24);
+        code &= 0xffffffff00000000;
+        code |= a;
+
         if (bom)
         {
             // 0x0000feff000000c1
