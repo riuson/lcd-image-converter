@@ -23,6 +23,8 @@
 #include <QObject>
 #include <QString>
 //-----------------------------------------------------------------------------
+class QSettings;
+//-----------------------------------------------------------------------------
 class TemplateOptions : public QObject
 {
     Q_OBJECT
@@ -34,6 +36,9 @@ public:
 
     void setImage(const QString &filename);
     void setFont(const QString &filename);
+
+    bool load(QSettings *settings, int version);
+    void save(QSettings *settings);
 
 private:
     QString mImageTemplate;

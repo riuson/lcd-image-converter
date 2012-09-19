@@ -19,6 +19,8 @@
 
 #include "imageoptions.h"
 //-----------------------------------------------------------------------------
+#include <QSettings>
+//-----------------------------------------------------------------------------
 ImageOptions::ImageOptions(QObject *parent) :
     QObject(parent)
 {
@@ -82,5 +84,44 @@ void ImageOptions::setCompressionRle(bool value)
     this->mCompressionRle = value;
 
     emit this->changed();
+}
+//-----------------------------------------------------------------------------
+bool ImageOptions::load(QSettings *settings, int version)
+{
+    bool result = false;
+
+    if (version == 1)
+    {
+        quint32 uBytesOrder = 0, uBlockSize = 0, uSplitToRows = 0, uCompressionRle = 0;
+
+        uBlockSize = settings->value("blockSize", int(0)).toUInt(&result);
+
+        if (result)
+            uBytesOrder = settings->value("bytesOrder", int(0)).toUInt(&result);
+
+        if (result)
+            uSplitToRows = settings->value("splitToRows", int(1)).toUInt(&result);
+
+        if (result)
+            uCompressionRle = settings->value("compressionRle", int(0)).toUInt(&result);
+
+        if (result)
+        {
+            this->setBlockSize((DataBlockSize)uBlockSize);
+            this->setBytesOrder((BytesOrder)uBytesOrder);
+            this->setSplitToRows((bool)uSplitToRows);
+            this->setCompressionRle((bool)uCompressionRle);
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+void ImageOptions::save(QSettings *settings)
+{
+    settings->setValue("bytesOrder",     QString("%1").arg((int)this->bytesOrder()));
+    settings->setValue("blockSize",      QString("%1").arg((int)this->blockSize()));
+    settings->setValue("splitToRows",    QString("%1").arg((int)this->splitToRows()));
+    settings->setValue("compressionRle", QString("%1").arg((int)this->compressionRle()));
 }
 //-----------------------------------------------------------------------------

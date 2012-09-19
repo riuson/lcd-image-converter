@@ -20,6 +20,7 @@
 #include "fontoptions.h"
 //-----------------------------------------------------------------------------
 #include <QStringList>
+#include <QSettings>
 //-----------------------------------------------------------------------------
 FontOptions::FontOptions(QObject *parent) :
     QObject(parent)
@@ -53,6 +54,36 @@ void FontOptions::setEncoding(const QString &value)
 
         emit this->changed();
     }
+}
+//-----------------------------------------------------------------------------
+bool FontOptions::load(QSettings *settings, int version)
+{
+    bool result = false;
+
+    if (version == 1)
+    {
+        quint32 uBom;
+        QString sEncoding;
+
+        uBom = settings->value("fontUseBom", int(0)).toInt(&result);
+
+        if (result)
+            sEncoding = settings->value("fontCodec", QString("UTF-8")).toString();
+
+        if (result)
+        {
+            this->setBom((bool)uBom);
+            this->setEncoding(sEncoding);
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+void FontOptions::save(QSettings *settings)
+{
+    settings->setValue("fontUseBom", QString("%1").arg((int)this->bom()));
+    settings->setValue("fontCodec",  this->encoding());
 }
 //-----------------------------------------------------------------------------
 const QStringList &FontOptions::encodings()

@@ -19,6 +19,8 @@
 
 #include "prepareoptions.h"
 //-----------------------------------------------------------------------------
+#include <QSettings>
+//-----------------------------------------------------------------------------
 PrepareOptions::PrepareOptions(QObject *parent) :
     QObject(parent)
 {
@@ -251,5 +253,55 @@ void PrepareOptions::modificationsFromScan(
         break;
     }
     }
+}
+//-----------------------------------------------------------------------------
+bool PrepareOptions::load(QSettings *settings, int version)
+{
+    bool result = false;
+
+    if (version == 1)
+    {
+        quint32 uConvType = 0, uMonoType = 0, uEdge = 0;
+        quint32 uScanMain = 0, uScanSub = 0, uInverse = 0;
+
+        uConvType = settings->value("convType", int(0)).toUInt(&result);
+
+        if (result)
+            uMonoType = settings->value("monoType", int(0)).toUInt(&result);
+
+        if (result)
+            uEdge = settings->value("edge", int(0)).toUInt(&result);
+
+        if (result)
+            uScanMain = settings->value("scanMain", int(0)).toUInt(&result);
+
+        if (result)
+            uScanSub = settings->value("scanSub", int(0)).toUInt(&result);
+
+        if (result)
+            uInverse = settings->value("inverse", int(0)).toUInt(&result);
+
+        if (result)
+        {
+            this->setConvType((ConversionType)uConvType);
+            this->setMonoType((MonochromeType)uMonoType);
+            this->setEdge((int)uEdge);
+            this->setScanMain((ScanMainDirection)uScanMain);
+            this->setScanSub((ScanSubDirection)uScanSub);
+            this->setInverse((bool)uInverse);
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+void PrepareOptions::save(QSettings *settings)
+{
+    settings->setValue("convType", QString("%1").arg((int)this->convType()));
+    settings->setValue("monoType", QString("%1").arg((int)this->monoType()));
+    settings->setValue("edge",     QString("%1").arg((int)this->edge()));
+    settings->setValue("scanMain", QString("%1").arg((int)this->scanMain()));
+    settings->setValue("scanSub",  QString("%1").arg((int)this->scanSub()));
+    settings->setValue("inverse",  QString("%1").arg((int)this->inverse()));
 }
 //-----------------------------------------------------------------------------

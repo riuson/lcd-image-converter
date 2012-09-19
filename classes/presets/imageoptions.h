@@ -24,6 +24,8 @@
 //-----------------------------------------------------------------------------
 #include "conversion_options.h"
 //-----------------------------------------------------------------------------
+class QSettings;
+//-----------------------------------------------------------------------------
 using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
 class ImageOptions : public QObject
@@ -41,6 +43,9 @@ public:
     void setBytesOrder(BytesOrder value);
     void setBlockSize(DataBlockSize value);
     void setCompressionRle(bool value);
+
+    bool load(QSettings *settings, int version);
+    void save(QSettings *settings);
 
 private:
     bool mSplitToRows;

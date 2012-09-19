@@ -19,6 +19,8 @@
 
 #include "templateoptions.h"
 //-----------------------------------------------------------------------------
+#include <QSettings>
+//-----------------------------------------------------------------------------
 TemplateOptions::TemplateOptions(QObject *parent) :
     QObject(parent)
 {
@@ -48,5 +50,30 @@ void TemplateOptions::setFont(const QString &filename)
     this->mFontTemplate = filename;
 
     emit this->changed();
+}
+//-----------------------------------------------------------------------------
+bool TemplateOptions::load(QSettings *settings, int version)
+{
+    bool result = false;
+
+    if (version == 1)
+    {
+
+        QString sTemplateImage = settings->value("imageTemplate", QString(":/templates/image_convert")).toString();
+        QString sTemplateFont = settings->value("fontTemplate", QString(":/templates/font_convert")).toString();
+
+        this->setImage(sTemplateImage);
+        this->setFont(sTemplateFont);
+
+        result = true;
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+void TemplateOptions::save(QSettings *settings)
+{
+    settings->setValue("imageTemplate", this->image());
+    settings->setValue("fontTemplate", this->font());
 }
 //-----------------------------------------------------------------------------

@@ -24,6 +24,8 @@
 //-----------------------------------------------------------------------------
 #include "conversion_options.h"
 //-----------------------------------------------------------------------------
+class QSettings;
+//-----------------------------------------------------------------------------
 using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
 class PrepareOptions : public QObject
@@ -53,6 +55,9 @@ public:
             Rotate *rotate,
             bool *flipHorizontal,
             bool *flipVertical) const;
+
+    bool load(QSettings *settings, int version);
+    void save(QSettings *settings);
 
 private:
     ConversionType mConvType;
