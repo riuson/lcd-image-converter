@@ -19,6 +19,7 @@
 
 #include "fontcharactersmodel.h"
 //-----------------------------------------------------------------------------
+#include <QPixmap>
 #include "fontcontainer.h"
 //-----------------------------------------------------------------------------
 FontCharactersModel::FontCharactersModel(FontContainer *container, QObject *parent) :
@@ -36,7 +37,7 @@ int FontCharactersModel::rowCount(const QModelIndex &parent) const
 int FontCharactersModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return 1;
+    return 2;
 }
 //-----------------------------------------------------------------------------
 QVariant FontCharactersModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -54,7 +55,15 @@ QVariant FontCharactersModel::headerData(int section, Qt::Orientation orientatio
         }
         else
         {
-            result = tr("Character");
+            switch (section)
+            {
+            case 0:
+                result = tr("Character");
+                break;
+            case 1:
+                result = tr("Preview", "character prewview");
+                break;
+            }
         }
     }
     return result;
@@ -63,11 +72,47 @@ QVariant FontCharactersModel::headerData(int section, Qt::Orientation orientatio
 QVariant FontCharactersModel::data(const QModelIndex &index, int role) const
 {
     QVariant result = QVariant();
-    if (role == Qt::DisplayRole)
+    if (role == Qt::DisplayRole && index.isValid())
     {
-        if (index.isValid())
+        if (index.column() == 0)
         {
-            result = this->mContainer->keys().at(index.row());
+            QString key = this->mContainer->keys().at(index.row());
+            result = key;
+        }
+    }
+    else if (role == Qt::DecorationRole && index.isValid())
+    {
+        if (index.column() == 1)
+        {
+            QString key = this->mContainer->keys().at(index.row());
+            QImage im = *this->mContainer->image(key);
+            QSize size = im.size();
+            if (size.height() > 30)
+            {
+                float m = ((float)size.height()) / 30.0f;
+                int w = (float)size.width() / m;
+                int h = (float)size.height() / m;
+                im = im.scaled(w, h);
+            }
+            QPixmap pixmap = QPixmap::fromImage(im);
+            result = pixmap;
+        }
+    }
+    else if (role == Qt::SizeHintRole && index.isValid())
+    {
+        if (index.column() == 1)
+        {
+            QString key = this->mContainer->keys().at(index.row());
+            QImage im = *this->mContainer->image(key);
+            QSize size = im.size();
+            if (size.height() > 30)
+            {
+                float m = ((float)size.height()) / 30.0f;
+                int w = (float)size.width() / m;
+                int h = (float)size.height() / m;
+                size = QSize(w, h);
+            }
+            result = size;
         }
     }
     return result;

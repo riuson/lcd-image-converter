@@ -101,7 +101,8 @@ void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItem
     QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
     if (selectionModel->hasSelection())
     {
-        QString a = this->mModel->data(selectionModel->currentIndex(), Qt::DisplayRole).toString();
+        QModelIndex index = this->mModel->index(selectionModel->currentIndex().row(), 0);
+        QString a = this->mModel->data(index, Qt::DisplayRole).toString();
         this->mEditor->selectImage(a);
     }
 }
@@ -488,7 +489,8 @@ const QString EditorTabFont::selectedCharacters() const
         QModelIndexList indexes = selectionModel->selectedIndexes();
         for (int i = 0; i < indexes.count(); i++)
         {
-            QString a = this->mModel->data(indexes.at(i), Qt::DisplayRole).toString();
+            QModelIndex index = this->mModel->index(indexes.at(i).row(), 0);
+            QString a = this->mModel->data(index, Qt::DisplayRole).toString();
             if (!result.contains(a))
                 result += a;
         }
