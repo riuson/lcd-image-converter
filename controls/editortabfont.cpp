@@ -191,6 +191,7 @@ bool EditorTabFont::load(const QString &fileName)
                 this->mFont = fonts.font(fontFamily, style, size);
                 this->mMonospaced = monospaced;
                 this->mAntialiasing = antialiasing;
+                this->updateTableFont();
             }
         }
         file.close();
@@ -409,7 +410,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
             }
         }
         this->mFont = fonts.font(fontFamily, style, size);
-        this->ui->tableViewCharacters->setFont(this->mFont);
+        this->updateTableFont();
 
         //this->mCharacters = chars;
         this->mStyle = style;
@@ -537,6 +538,14 @@ QImage EditorTabFont::drawCharacter(const QChar value,
                      QString(value));
 
     return result;
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::updateTableFont()
+{
+    this->mTableFont = QFont(this->mFont);
+    this->mTableFont.setPointSize(11);
+    this->mTableFont.setBold(false);
+    this->ui->tableViewCharacters->setFont(this->mTableFont);
 }
 //-----------------------------------------------------------------------------
 /*

@@ -82,6 +82,7 @@ private:
     QString mDocumentName;
     bool mDataChanged;
     QFont mFont;
+    QFont mTableFont;
 
     //QString mCharacters;
     QString mStyle;
@@ -95,6 +96,7 @@ private:
                          const int width,
                          const int height,
                          const bool antialiasing);
+    void updateTableFont();
 
 private slots:
     void mon_editor_dataChanged();
