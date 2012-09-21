@@ -63,7 +63,8 @@ SOURCES += main.cpp \
     classes/presets/fontoptions.cpp \
     controls/setup/parts/setuptabfont.cpp \
     classes/convert/fonthelper.cpp \
-    classes/compression/rlecompressor.cpp
+    classes/compression/rlecompressor.cpp \
+    classes/fontcharactersmodel.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -111,7 +112,8 @@ HEADERS += \
     classes/presets/fontoptions.h \
     controls/setup/parts/setuptabfont.h \
     classes/convert/fonthelper.h \
-    classes/compression/rlecompressor.h
+    classes/compression/rlecompressor.h \
+    classes/fontcharactersmodel.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \

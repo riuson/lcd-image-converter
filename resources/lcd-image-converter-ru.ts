@@ -224,42 +224,42 @@ Qt: %3</translation>
         <translation>Открыть предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="149"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="146"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="152"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="149"/>
         <source>Grayscale 8</source>
         <translation>Градации серого 8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="155"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="152"/>
         <source>Color R4G5B4</source>
         <translation>Цветное R4G5B4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="158"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="155"/>
         <source>Color R5G6B5</source>
         <translation>Цветное R5G6B5</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="161"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="158"/>
         <source>Color R8G8B8</source>
         <translation>Цветное R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="202"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="199"/>
         <source>Enter preset name</source>
         <translation>Введите название предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="202"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="199"/>
         <source>Preset name:</source>
         <translation>Название предустановки:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="241"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="238"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
     </message>
@@ -400,19 +400,19 @@ Qt: %3</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="55"/>
+        <location filename="../controls/editortabfont.cpp" line="62"/>
         <source>Font</source>
         <comment>new font name</comment>
         <translatorcomment>название нового шрифта, должно быть латинскими буквами</translatorcomment>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="361"/>
+        <location filename="../controls/editortabfont.cpp" line="383"/>
         <source>Font parameters was changed</source>
         <translation>Параметры шрифта были изменены</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="362"/>
+        <location filename="../controls/editortabfont.cpp" line="384"/>
         <source>Do you want update all characters?</source>
         <translation>Вы хотите обновить все символы?</translation>
     </message>
@@ -431,6 +431,20 @@ Qt: %3</translation>
         <comment>new image name</comment>
         <translatorcomment>название нового изображения, должно быть латинскими буквами</translatorcomment>
         <translation>Image</translation>
+    </message>
+</context>
+<context>
+    <name>FontCharactersModel</name>
+    <message>
+        <location filename="../classes/fontcharactersmodel.cpp" line="61"/>
+        <source>Character</source>
+        <translation>Символ</translation>
+    </message>
+    <message>
+        <location filename="../classes/fontcharactersmodel.cpp" line="64"/>
+        <source>Preview</source>
+        <comment>character prewview</comment>
+        <translation>Предпросмотр</translation>
     </message>
 </context>
 <context>
