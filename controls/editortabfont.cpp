@@ -189,6 +189,7 @@ bool EditorTabFont::load(const QString &fileName)
 
                 QFontDatabase fonts;
                 this->mFont = fonts.font(fontFamily, style, size);
+                this->mStyle = style;
                 this->mMonospaced = monospaced;
                 this->mAntialiasing = antialiasing;
                 this->updateTableFont();
