@@ -33,6 +33,7 @@
 
 #include "widgetbitmapeditor.h"
 #include "fontcontainer.h"
+#include "fontcharactersmodel.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
@@ -45,9 +46,15 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
     this->mContainer = new FontContainer(this);
 
+    this->mModel = new FontCharactersModel(this->mContainer, this);
+    this->ui->tableViewCharacters->setModel(this->mModel);
+
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(selectionChanged(QItemSelection,QItemSelection)));
+
     this->mEditor = new WidgetBitmapEditor(this->mContainer, this);
     this->mSplitter->addWidget(this->mEditor);
-    this->mSplitter->addWidget(this->ui->listWidgetCharacters);
+    this->mSplitter->addWidget(this->ui->tableViewCharacters);
     this->mSplitter->setChildrenCollapsible(false);
 
     this->connect(this->mEditor, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
@@ -58,11 +65,14 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
     this->mAntialiasing = false;
     this->mMonospaced = false;
+
+    this->ui->tableViewCharacters->resizeColumnsToContents();
 }
 //-----------------------------------------------------------------------------
 EditorTabFont::~EditorTabFont()
 {
     delete ui;
+    delete this->mModel;
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::changeEvent(QEvent *e)
@@ -83,9 +93,17 @@ void EditorTabFont::mon_editor_dataChanged()
     emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
 }
 //-----------------------------------------------------------------------------
-void EditorTabFont::on_listWidgetCharacters_currentTextChanged(const QString &value)
+void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
-    this->mEditor->selectImage(value);
+    Q_UNUSED(selected);
+    Q_UNUSED(deselected);
+
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    if (selectionModel->hasSelection())
+    {
+        QString a = this->mModel->data(selectionModel->currentIndex(), Qt::DisplayRole).toString();
+        this->mEditor->selectImage(a);
+    }
 }
 //-----------------------------------------------------------------------------
 bool EditorTabFont::load(const QString &fileName)
@@ -166,7 +184,8 @@ bool EditorTabFont::load(const QString &fileName)
                         }
                     }
                 }
-                this->ui->listWidgetCharacters->addItems(this->mContainer->keys());
+                this->mModel->callReset();
+                this->ui->tableViewCharacters->resizeColumnsToContents();
 
                 QFontDatabase fonts;
                 this->mFont = fonts.font(fontFamily, style, size);
@@ -390,7 +409,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
             }
         }
         this->mFont = fonts.font(fontFamily, style, size);
-        this->ui->listWidgetCharacters->setFont(this->mFont);
+        this->ui->tableViewCharacters->setFont(this->mFont);
 
         //this->mCharacters = chars;
         this->mStyle = style;
@@ -412,8 +431,6 @@ void EditorTabFont::setFontCharacters(const QString &chars,
             height = metrics.height();
         }
 
-        // clear items of listwidget
-        this->ui->listWidgetCharacters->clear();
         // list of exists characters, what present in new characters list
         keys = this->mContainer->keys();
         for (int i = 0; i < chars.count(); i++)
@@ -435,8 +452,10 @@ void EditorTabFont::setFontCharacters(const QString &chars,
             }
         }
         keys = this->mContainer->keys();
-        this->ui->listWidgetCharacters->addItems(keys);
         this->mon_editor_dataChanged();
+
+        this->mModel->callReset();
+        this->ui->tableViewCharacters->resizeColumnsToContents();
     }
 }
 //-----------------------------------------------------------------------------
@@ -460,11 +479,19 @@ void EditorTabFont::fontCharacters(QString *chars,
 const QString EditorTabFont::selectedCharacters() const
 {
     QString result;
-    QList<QListWidgetItem *> items = this->ui->listWidgetCharacters->selectedItems();
-    for (int i = 0; i < items.length(); i++)
+
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    if (selectionModel->hasSelection())
     {
-        result += items.at(i)->text();
+        QModelIndexList indexes = selectionModel->selectedIndexes();
+        for (int i = 0; i < indexes.count(); i++)
+        {
+            QString a = this->mModel->data(indexes.at(i), Qt::DisplayRole).toString();
+            if (!result.contains(a))
+                result += a;
+        }
     }
+
     return result;
 }
 //-----------------------------------------------------------------------------
