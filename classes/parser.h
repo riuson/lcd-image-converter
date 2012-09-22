@@ -22,6 +22,7 @@
 //-----------------------------------------------------------------------------
 #include <QObject>
 #include <QMap>
+#include <QRegExp>
 
 class IDocument;
 class IDataContainer;
@@ -55,6 +56,17 @@ private:
     void parseSimple(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
     QString hexCode(const QChar &ch, const QString &encoding, bool bom) const;
     void addMatrixInfo(QMap<QString, QString> &tags) const;
+
+    enum ExpType
+    {
+        BlockStart,
+        BlockEnd,
+        TagName,
+        ImageData,
+        Content
+    };
+
+    QRegExp expression(ExpType type, const QString &name = QString()) const;
 };
 //-----------------------------------------------------------------------------
 #endif // PARSER_H
