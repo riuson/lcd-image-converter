@@ -34,7 +34,6 @@
 #include "imageoptions.h"
 #include "fontoptions.h"
 #include "templateoptions.h"
-#include <QDebug>
 //-----------------------------------------------------------------------------
 Parser::Parser(QObject *parent, TemplateType templateType) :
         QObject(parent)
@@ -475,7 +474,6 @@ QRegExp Parser::expression(ExpType type, const QString &name) const
         break;
     }
 
-    qDebug() << result;
     return QRegExp(result);
 }
 //-----------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 //-----------------------------------------------------------------------------
 #include <QVector>
 #include <QQueue>
-#include <QDebug>
+//#include <QDebug>
 //-----------------------------------------------------------------------------
 RleCompressor::RleCompressor(QObject *parent) :
     QObject(parent)
