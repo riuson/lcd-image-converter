@@ -123,15 +123,15 @@ void Parser::parse(const QString &templateString,
         {
             resultString.append(templateString.mid(prevIndex, index - prevIndex));
         }
-        QString tagName = regTag.cap(2);
+        QString tagName = regTag.cap(3);
         // if block starts
-        if (regTag.cap(1) == "start_block_")
+        if (regTag.cap(2) == "start_block_")
         {
             QRegExp contentReg = this->expression(Parser::Content, tagName);
             contentReg.setMinimal(true);
             if (contentReg.indexIn(templateString, index) >= 0)
             {
-                QString content = contentReg.cap(1);
+                QString content = contentReg.cap(3);
                 content = content.trimmed();
                 QString temp;
 
@@ -176,7 +176,7 @@ void Parser::parseBlocks(const QString &templateString,
     int index = -1;
     while ((index = startReg.indexIn(templateString, index + 1)) >= 0)
     {
-        QString blockName = startReg.cap(1);
+        QString blockName = startReg.cap(2);
         QRegExp endReg = this->expression(Parser::BlockEnd, blockName);
         endReg.setMinimal(true);
         // capture block's content
@@ -185,7 +185,7 @@ void Parser::parseBlocks(const QString &templateString,
         int index2 = index - 1;
         while ((index2 = contentReg.indexIn(templateString, index2 + 1)) >= 0)
         {
-            QString content = contentReg.cap(1);
+            QString content = contentReg.cap(3);
             //index2 += content.length();
             content = content.trimmed();
 
@@ -286,7 +286,7 @@ void Parser::parseSimple(const QString &templateString,
     while (regTag.indexIn(resultString) >= 0)
     {
         QString tag = regTag.cap(0);
-        QString tagName = regTag.cap(2);
+        QString tagName = regTag.cap(3);
         if (tags.contains(tagName))
             resultString.replace(tag, tags.value(tagName));
         else
@@ -454,20 +454,24 @@ QRegExp Parser::expression(ExpType type, const QString &name) const
     switch (type)
     {
     case BlockStart:
-        result = "[\\@\\$]\\(?start_block_(.+)(?=\\s)";
+        // 2
+        result = "(\\@|\\$\\()start_block_(.+)(?=\\s)";
         break;
     case BlockEnd:
-        result = "[\\@\\$]\\(?end_block_" + name;
+        result = "(\\@|\\$\\()end_block_" + name;
         break;
     case ImageData:
-        result = "([\\t\\ ]+)[\\@\\$]\\(?imageData\\)?[\\@\\$]";
+        // 1
+        result = "([\\t\\ ]+)(\\@|\\$\\()imageData(\\@|\\))";
         break;
     case Content:
-        result = "[\\@\\$]\\(?start_block_" + name + "\\)?[\\@\\$](.+)[\\@\\$]\\(?end_block_" + name + "\\)?[\\@\\$]";
+        // 3
+        result = "(\\@|\\$\\()start_block_" + name + "(\\@|\\))(.+)(\\@|\\$\\()end_block_" + name + "(\\@|\\))";
         break;
     case TagName:
     default:
-        result = "[\\@\\$]\\(?(start_block_)?(.+)\\)?[\\@\\$]";
+        // 2, 3
+        result = "(\\@|\\$\\()(start_block_)?(.+)(\\@|\\))";
         break;
     }
 
