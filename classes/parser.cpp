@@ -34,6 +34,7 @@
 #include "imageoptions.h"
 #include "fontoptions.h"
 #include "templateoptions.h"
+#include <QDebug>
 //-----------------------------------------------------------------------------
 Parser::Parser(QObject *parent, TemplateType templateType) :
         QObject(parent)
@@ -84,7 +85,7 @@ QString Parser::convert(IDocument *document, QMap<QString, QString> &tags) const
     }
     tags.insert("templateFile", file.fileName());
 
-    QRegExp regImageData("([\\t\\ ]+)@imageData@");
+    QRegExp regImageData = this->expression(Parser::ImageData);
     regImageData.setMinimal(true);
     if (regImageData.indexIn(templateString) >= 0)
     {
@@ -112,7 +113,7 @@ void Parser::parse(const QString &templateString,
 {
     int index = 0;
     int prevIndex = 0;
-    QRegExp regTag("@(start_block_)?(.+)@");
+    QRegExp regTag = this->expression(Parser::TagName);
     regTag.setMinimal(true);
     int capturedLength = 0;
     while ((index = regTag.indexIn(templateString, index + capturedLength)) >= 0)
@@ -122,15 +123,15 @@ void Parser::parse(const QString &templateString,
         {
             resultString.append(templateString.mid(prevIndex, index - prevIndex));
         }
-        QString tagName = regTag.cap(2);
+        QString tagName = regTag.cap(3);
         // if block starts
-        if (regTag.cap(1) == "start_block_")
+        if (regTag.cap(2) == "start_block_")
         {
-            QRegExp contentReg("@start_block_" + tagName + "@(.+)@end_block_" + tagName + "@");
+            QRegExp contentReg = this->expression(Parser::Content, tagName);
             contentReg.setMinimal(true);
             if (contentReg.indexIn(templateString, index) >= 0)
             {
-                QString content = contentReg.cap(1);
+                QString content = contentReg.cap(3);
                 content = content.trimmed();
                 QString temp;
 
@@ -170,21 +171,21 @@ void Parser::parseBlocks(const QString &templateString,
                             IDocument *doc) const
 {
     // capture block
-    QRegExp startReg("@start_block_(.+)(?=\\s)");
+    QRegExp startReg = this->expression(Parser::BlockStart);
     startReg.setMinimal(true);
     int index = -1;
     while ((index = startReg.indexIn(templateString, index + 1)) >= 0)
     {
-        QString blockName = startReg.cap(1);
-        QRegExp endReg("@end_block_" + blockName);
+        QString blockName = startReg.cap(2);
+        QRegExp endReg = this->expression(Parser::BlockEnd, blockName);
         endReg.setMinimal(true);
         // capture block's content
-        QRegExp contentReg("@start_block_" + blockName + "(.+)@end_block_" + blockName);
+        QRegExp contentReg = this->expression(Parser::Content, blockName);
         contentReg.setMinimal(true);
         int index2 = index - 1;
         while ((index2 = contentReg.indexIn(templateString, index2 + 1)) >= 0)
         {
-            QString content = contentReg.cap(1);
+            QString content = contentReg.cap(3);
             //index2 += content.length();
             content = content.trimmed();
 
@@ -279,13 +280,13 @@ void Parser::parseSimple(const QString &templateString,
                             IDocument *doc) const
 {
     Q_UNUSED(doc);
-    QRegExp regTag("@(.+)@");
+    QRegExp regTag = this->expression(Parser::TagName);
     regTag.setMinimal(true);
     resultString = templateString;
     while (regTag.indexIn(resultString) >= 0)
     {
         QString tag = regTag.cap(0);
-        QString tagName = regTag.cap(1);
+        QString tagName = regTag.cap(3);
         if (tags.contains(tagName))
             resultString.replace(tag, tags.value(tagName));
         else
@@ -444,5 +445,37 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
         maskUsed = maskUsed >> 1;
     }
     tags.insert("bpp", QString("%1").arg(bitsPerPixel));
+}
+//-----------------------------------------------------------------------------
+QRegExp Parser::expression(ExpType type, const QString &name) const
+{
+    QString result;
+
+    switch (type)
+    {
+    case BlockStart:
+        // 2
+        result = "(\\@|\\$\\()start_block_(.+)(?=\\s)";
+        break;
+    case BlockEnd:
+        result = "(\\@|\\$\\()end_block_" + name;
+        break;
+    case ImageData:
+        // 1
+        result = "([\\t\\ ]+)(\\@|\\$\\()imageData(\\@|\\))";
+        break;
+    case Content:
+        // 3
+        result = "(\\@|\\$\\()start_block_" + name + "(\\@|\\))(.+)(\\@|\\$\\()end_block_" + name + "(\\@|\\))";
+        break;
+    case TagName:
+    default:
+        // 2, 3
+        result = "(\\@|\\$\\()(start_block_)?(.+)(\\@|\\))";
+        break;
+    }
+
+    qDebug() << result;
+    return QRegExp(result);
 }
 //-----------------------------------------------------------------------------
