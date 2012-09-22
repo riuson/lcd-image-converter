@@ -454,20 +454,20 @@ QRegExp Parser::expression(ExpType type, const QString &name) const
     switch (type)
     {
     case BlockStart:
-        result = "@start_block_(.+)(?=\\s)";
+        result = "[\\@\\$]\\(?start_block_(.+)(?=\\s)";
         break;
     case BlockEnd:
-        result = "@end_block_" + name;
+        result = "[\\@\\$]\\(?end_block_" + name;
         break;
     case ImageData:
-        result = "([\\t\\ ]+)@imageData@";
+        result = "([\\t\\ ]+)[\\@\\$]\\(?imageData\\)?[\\@\\$]";
         break;
     case Content:
-        result = "@start_block_" + name + "@(.+)@end_block_" + name + "@";
+        result = "[\\@\\$]\\(?start_block_" + name + "\\)?[\\@\\$](.+)[\\@\\$]\\(?end_block_" + name + "\\)?[\\@\\$]";
         break;
     case TagName:
     default:
-        result = "@(start_block_)?(.+)@";
+        result = "[\\@\\$]\\(?(start_block_)?(.+)\\)?[\\@\\$]";
         break;
     }
 
