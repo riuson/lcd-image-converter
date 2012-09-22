@@ -210,7 +210,7 @@ void ActionFileHandlers::convert_triggered()
             tags["fontSize"] = QString("%1").arg(size);
             tags["fontStyle"] = style;
             tags["string"] = chars;
-            tags["fontAntialiasing"] = antialiasing ? "true" : "false";
+            tags["fontAntialiasing"] = antialiasing ? "yes" : "no";
             tags["fontWidthType"] = monospaced ? "monospaced" : "proportional";
 
             templateType = Parser::TypeFont;
