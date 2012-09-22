@@ -73,3 +73,19 @@ void SetupTabTemplates::on_pushButtonBrowseFont_clicked()
     }
 }
 //-----------------------------------------------------------------------------
+void SetupTabTemplates::on_lineEditImage_textEdited(const QString &value)
+{
+    if (!value.isEmpty())
+        this->mPreset->templates()->setImage(value);
+    else
+        this->mPreset->templates()->setImage(":/templates/image_convert");
+}
+//-----------------------------------------------------------------------------
+void SetupTabTemplates::on_lineEditFont_textEdited(const QString &value)
+{
+    if (!value.isEmpty())
+        this->mPreset->templates()->setFont(value);
+    else
+        this->mPreset->templates()->setFont(":/templates/font_convert");
+}
+//-----------------------------------------------------------------------------

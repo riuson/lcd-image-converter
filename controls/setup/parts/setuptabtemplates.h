@@ -44,6 +44,8 @@ private slots:
     void matrixChanged();
     void on_pushButtonBrowseImage_clicked();
     void on_pushButtonBrowseFont_clicked();
+    void on_lineEditImage_textEdited(const QString &value);
+    void on_lineEditFont_textEdited(const QString &value);
 };
 //-----------------------------------------------------------------------------
 #endif // SETUPTABTEMPLATES_H
