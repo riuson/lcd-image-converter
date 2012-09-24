@@ -311,9 +311,9 @@ QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) cons
     {
         // reorder bytes
         quint64 a =
-                ((code & 0x000000000000ff00) >> 8) |
-                ((code & 0x00000000000000ff) << 8);
-        code &= 0xffffffffffff0000;
+                ((code & 0x000000000000ff00ULL) >> 8) |
+                ((code & 0x00000000000000ffULL) << 8);
+        code &= 0xffffffffffff0000ULL;
         code |= a;
 
         if (bom)
@@ -324,7 +324,7 @@ QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) cons
         else
         {
             // 0x00c1
-            code &= 0x000000000000ffff;
+            code &= 0x000000000000ffffULL;
             result = QString("%1").arg(code, 4, 16, QChar('0'));
         }
     }
@@ -332,11 +332,11 @@ QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) cons
     {
         // reorder bytes
         quint64 a =
-                ((code & 0x00000000ff000000) >> 24) |
-                ((code & 0x0000000000ff0000) >> 8) |
-                ((code & 0x000000000000ff00) << 8) |
-                ((code & 0x00000000000000ff) << 24);
-        code &= 0xffffffff00000000;
+                ((code & 0x00000000ff000000ULL) >> 24) |
+                ((code & 0x0000000000ff0000ULL) >> 8) |
+                ((code & 0x000000000000ff00ULL) << 8) |
+                ((code & 0x00000000000000ffULL) << 24);
+        code &= 0xffffffff00000000ULL;
         code |= a;
 
         if (bom)
@@ -347,7 +347,7 @@ QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) cons
         else
         {
             // 0x000000c1
-            code &= 0x00000000ffffffff;
+            code &= 0x00000000ffffffffULL;
             result = QString("%1").arg(code, 8, 16, QChar('0'));
         }
     }
