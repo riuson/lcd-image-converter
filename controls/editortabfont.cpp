@@ -201,6 +201,7 @@ bool EditorTabFont::load(const QString &fileName)
         this->mFileName = fileName;
         this->mDataChanged = false;
         emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+        this->mEditor->selectImage(this->mContainer->keys().at(0));
     }
 
     return result;
@@ -391,6 +392,8 @@ void EditorTabFont::setFontCharacters(const QString &chars,
 
     if (!cancel)
     {
+        this->mEditor->selectImage("default");
+
         // list of exists characters
         QStringList keys = this->mContainer->keys();
         if (needRecreate)
@@ -459,6 +462,8 @@ void EditorTabFont::setFontCharacters(const QString &chars,
 
         this->mModel->callReset();
         this->ui->tableViewCharacters->resizeColumnsToContents();
+
+        this->mEditor->selectImage(this->mContainer->keys().at(0));
     }
 }
 //-----------------------------------------------------------------------------
