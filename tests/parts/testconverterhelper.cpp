@@ -371,6 +371,7 @@ void TestConverterHelper::preparePackData(
             counter++;
         }
         packedRowWidth = counter;
+        height = 1;
     }
 
     *widthOut = packedRowWidth;
