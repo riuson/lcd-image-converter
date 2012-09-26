@@ -417,6 +417,12 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
     else
         tags.insert("splitToRows", "no");
 
+    // compression
+    if (this->mPreset->image()->compressionRle())
+        tags.insert("rle", "yes");
+    else
+        tags.insert("rle", "no");
+
     // preset name
     tags.insert("preset", this->mSelectedPresetName);
 
