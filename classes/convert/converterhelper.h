@@ -49,13 +49,16 @@ public:
             int *outputHeight);
     static void compressData(
             Preset *matrix,
-            QVector<quint32> *inputData,
-            QVector<quint32> *outputData);
+            QVector<quint32> *inputData, int inputWidth, int inputHeight,
+            QVector<quint32> *outputData, int *outputWidth, int *outputHeight);
 
     static void prepareImage(Preset *matrix, QImage *source, QImage *result);
     static void createImagePreview(Preset *matrix, QImage *source, QImage *result);
 
-    static QString dataToString(Preset *matrix, QVector<quint32> *data, int width, int height, const QString &prefix);
+    static QString dataToString(
+            Preset *matrix,
+            QVector<quint32> *data, int width, int height,
+            const QString &prefix);
 private:
     static void makeMonochrome(QImage &image, int edge);
     // make r = g = b = qGray(pixel)

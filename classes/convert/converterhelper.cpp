@@ -148,6 +148,7 @@ void ConverterHelper::packData(
         ConverterHelper::packDataRow(preset, inputData, 0, inputData->size(), outputData, &rowLength);
         // get blocks count
         resultWidth = rowLength;
+        *outputHeight = 1;
     }
     *outputWidth = resultWidth;
 }
@@ -155,17 +156,23 @@ void ConverterHelper::packData(
 void ConverterHelper::compressData(
         Preset *matrix,
         QVector<quint32> *inputData,
-        QVector<quint32> *outputData)
+        int inputWidth, int inputHeight,
+        QVector<quint32> *outputData,
+        int *outputWidth, int *outputHeight)
 {
     if (matrix->image()->compressionRle())
     {
         RleCompressor compressor;
         compressor.compress(inputData, matrix->image()->blockSize(), outputData);
+        *outputWidth = outputData->size();
+        *outputHeight = 1;
     }
     else
     {
         for (int i = 0; i < inputData->size(); i++)
             outputData->append(inputData->at(i));
+        *outputWidth = inputWidth;
+        *outputHeight = inputHeight;
     }
 }
 //-----------------------------------------------------------------------------

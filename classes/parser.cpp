@@ -239,9 +239,10 @@ void Parser::parseImagesTable(const QString &templateString,
                     &imageDataPacked, &width2, &height2);
 
         QVector<quint32> imageDataCompressed;
-        ConverterHelper::compressData(this->mPreset, &imageDataPacked, &imageDataCompressed);
+        int width3, height3;
+        ConverterHelper::compressData(this->mPreset, &imageDataPacked, width2, height2, &imageDataCompressed, &width3, &height3);
 
-        QString dataString = ConverterHelper::dataToString(this->mPreset, &imageDataCompressed, width2, height2, "0x");
+        QString dataString = ConverterHelper::dataToString(this->mPreset, &imageDataCompressed, width3, height3, "0x");
         dataString.replace("\n", "\n" + tags["imageDataIndent"]);
 
         // end of conversion

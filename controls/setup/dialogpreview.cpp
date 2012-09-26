@@ -86,9 +86,10 @@ void DialogPreview::updatePreview()
             ConverterHelper::packData(this->mPreset, &data, width, height, &data2, &width2, &height2);
 
             QVector<quint32> data3;
-            ConverterHelper::compressData(this->mPreset, &data2, &data3);
+            int width3, height3;
+            ConverterHelper::compressData(this->mPreset, &data2, width2, height2, &data3, &width3, &height3);
 
-            QString str = ConverterHelper::dataToString(this->mPreset, &data3, width2, height2, "");
+            QString str = ConverterHelper::dataToString(this->mPreset, &data3, width3, height3, "");
 
             this->ui->plainTextEdit->setPlainText(str);
         }
