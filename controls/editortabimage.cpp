@@ -116,8 +116,7 @@ bool EditorTabImage::load(const QString &fileName)
         file.close();
 
         this->mFileName = fileName;
-        this->mDataChanged = false;
-        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+        this->setChanged(false);
     }
     return result;
 }
@@ -156,10 +155,9 @@ bool EditorTabImage::save(const QString &fileName)
         doc.save(stream, 4);
 
         this->mFileName = fileName;
-        this->mDataChanged = false;
         file.close();
         result = true;
-        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+        this->setChanged(false);
     }
     return result;
 }
@@ -190,8 +188,7 @@ void EditorTabImage::setDocumentName(const QString &value)
     if (this->mDocumentName != value)
     {
         this->mDocumentName = value;
-        this->mDataChanged = true;
-        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+        this->setChanged(true);
     }
 }
 //-----------------------------------------------------------------------------

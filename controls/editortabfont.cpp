@@ -89,8 +89,7 @@ void EditorTabFont::changeEvent(QEvent *e)
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_dataChanged()
 {
-    this->mDataChanged = true;
-    emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+    this->setChanged(true);
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
@@ -199,9 +198,8 @@ bool EditorTabFont::load(const QString &fileName)
         file.close();
 
         this->mFileName = fileName;
-        this->mDataChanged = false;
-        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
         this->mEditor->selectImage(this->mContainer->keys().at(0));
+        this->setChanged(false);
     }
 
     return result;
@@ -299,10 +297,9 @@ bool EditorTabFont::save(const QString &fileName)
         doc.save(stream, 4);
 
         this->mFileName = fileName;
-        this->mDataChanged = false;
         file.close();
         result = true;
-        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+        this->setChanged(false);
     }
 
     return result;
@@ -334,8 +331,7 @@ void EditorTabFont::setDocumentName(const QString &value)
     if (this->mDocumentName != value)
     {
         this->mDocumentName = value;
-        this->mDataChanged = true;
-        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+        this->setChanged(true);
     }
 }
 //-----------------------------------------------------------------------------
