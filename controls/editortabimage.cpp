@@ -49,6 +49,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 
     this->mDocumentName = tr("Image", "new image name");
     this->mFileName = "";
+    this->mConvertedFileName = "";
     this->mDataChanged = false;
 }
 //-----------------------------------------------------------------------------
@@ -83,6 +84,7 @@ bool EditorTabImage::load(const QString &fileName)
     {
         QDomDocument doc;
         QString errorMsg;
+        QString converted;
         int errorColumn, errorLine;
         if (doc.setContent(&file, &errorMsg, &errorLine, &errorColumn))
         {
@@ -105,7 +107,10 @@ bool EditorTabImage::load(const QString &fileName)
                       image.load(&buffer, "PNG");
                       this->mContainer->setImage("default", &image);
                       result = true;
-                      break;
+                    }
+                    else if( e.tagName() == "converted" )
+                    {
+                        converted = e.text();
                     }
                   }
 
@@ -116,6 +121,7 @@ bool EditorTabImage::load(const QString &fileName)
         file.close();
 
         this->mFileName = fileName;
+        this->mConvertedFileName = converted;
         this->setChanged(false);
     }
     return result;
@@ -134,6 +140,7 @@ bool EditorTabImage::save(const QString &fileName)
     nodeRoot.setAttribute("type", "image");
     nodeRoot.setAttribute("name", this->mDocumentName);
 
+    // image data
     QDomElement nodePicture = doc.createElement("picture");
     nodeRoot.appendChild(nodePicture);
 
@@ -147,6 +154,11 @@ bool EditorTabImage::save(const QString &fileName)
 
     QDomText nodeData = doc.createTextNode(data);
     nodePicture.appendChild(nodeData);
+
+    // converted file name
+    QDomElement nodeConverted = doc.createElement("converted");
+    nodeRoot.appendChild(nodeConverted);
+    nodeConverted.appendChild(doc.createTextNode(this->mConvertedFileName));
 
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly))
@@ -176,6 +188,20 @@ void EditorTabImage::setChanged(bool value)
 QString EditorTabImage::fileName()
 {
     return this->mFileName;
+}
+//-----------------------------------------------------------------------------
+QString EditorTabImage::convertedFileName()
+{
+    return this->mConvertedFileName;
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::setConvertedFileName(const QString &value)
+{
+    if (this->mConvertedFileName != value)
+    {
+        this->mConvertedFileName = value;
+        this->setChanged(true);
+    }
 }
 //-----------------------------------------------------------------------------
 QString EditorTabImage::documentName()
@@ -213,6 +239,7 @@ WidgetBitmapEditor *EditorTabImage::editor()
 
 <?xml version="1.0" encoding="utf-8"?>
 <data type="image" name="Image">
+    <converted>/tmp/font.c</converted>
     <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAsTAAALEwEAmpwYAAAARklEQVQYlYWPSQrAMAwDpZAX5x/Nl6eHgLMQt8IniRGWAeWqkux+zaD5my5B2z0uzHq0XegjW1+ZdLhbB4mkB0iHjY6fYS/sJjZR2Wu+lAAAAABJRU5ErkJggg==</picture>
 </data>
 

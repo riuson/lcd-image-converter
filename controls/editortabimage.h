@@ -46,6 +46,8 @@ public:
     void setChanged(bool value);
     bool changed();
     QString fileName();
+    QString convertedFileName();
+    void setConvertedFileName(const QString &value);
     QString documentName();
     void setDocumentName(const QString &value);
     IDataContainer *dataContainer();
@@ -60,6 +62,7 @@ private:
     BitmapContainer *mContainer;
 
     QString mFileName;
+    QString mConvertedFileName;
     QString mDocumentName;
     bool mDataChanged;
 private slots:

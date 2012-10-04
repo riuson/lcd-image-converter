@@ -61,6 +61,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
     this->mDocumentName = tr("Font", "new font name");
     this->mFileName = "";
+    this->mConvertedFileName = "";
     this->mDataChanged = false;
 
     this->mAntialiasing = false;
@@ -115,6 +116,7 @@ bool EditorTabFont::load(const QString &fileName)
     {
         QDomDocument doc;
         QString errorMsg;
+        QString converted;
         int errorColumn, errorLine;
         if (doc.setContent(&file, &errorMsg, &errorLine, &errorColumn))
         {
@@ -157,6 +159,10 @@ bool EditorTabFont::load(const QString &fileName)
                         {
                             antialiasing = (e.text() == "true");
                         }
+                        else if( e.tagName() == "converted" )
+                        {
+                            converted = e.text();
+                        }
                     }
 
                     n = n.nextSibling();
@@ -198,6 +204,7 @@ bool EditorTabFont::load(const QString &fileName)
         file.close();
 
         this->mFileName = fileName;
+        this->mConvertedFileName = converted;
         this->mEditor->selectImage(this->mContainer->keys().at(0));
         this->setChanged(false);
     }
@@ -260,6 +267,11 @@ bool EditorTabFont::save(const QString &fileName)
     nodeRoot.appendChild(nodeString);
     nodeString.appendChild(doc.createTextNode(chars));
 
+    // converted file name
+    QDomElement nodeConverted = doc.createElement("converted");
+    nodeRoot.appendChild(nodeConverted);
+    nodeConverted.appendChild(doc.createTextNode(this->mConvertedFileName));
+
     // chars list
     QDomElement nodeChars = doc.createElement("chars");
     nodeRoot.appendChild(nodeChars);
@@ -319,6 +331,20 @@ void EditorTabFont::setChanged(bool value)
 QString EditorTabFont::fileName()
 {
     return this->mFileName;
+}
+//-----------------------------------------------------------------------------
+QString EditorTabFont::convertedFileName()
+{
+    return this->mConvertedFileName;
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::setConvertedFileName(const QString &value)
+{
+    if (this->mConvertedFileName != value)
+    {
+        this->mConvertedFileName = value;
+        this->setChanged(true);
+    }
 }
 //-----------------------------------------------------------------------------
 QString EditorTabFont::documentName()
@@ -562,6 +588,7 @@ void EditorTabFont::updateTableFont()
     <widthType>proportional</widthType>
     <antialiasing>false</antialiasing>
     <string> !"#$%&amp;'()*+,-./0123456789:;&lt;=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~АБВ</string>
+    <converted>/tmp/font.c</converted>
     <chars>
         <char character=" " code="0020">
             <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAQAAAATCAIAAAA4QDsKAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAFUlEQVQImWP8//8/AwwwMSCBYc0BAO+LAyPoIK0eAAAAAElFTkSuQmCC</picture>

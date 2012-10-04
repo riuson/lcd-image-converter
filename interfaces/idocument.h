@@ -34,6 +34,8 @@ public:
     virtual bool changed() = 0;
     virtual void setChanged(bool value) = 0;
     virtual QString fileName() = 0;
+    virtual QString convertedFileName() = 0;
+    virtual void setConvertedFileName(const QString &value) = 0;
     virtual QString documentName() = 0;
     virtual void setDocumentName(const QString &value) = 0;
     virtual IDataContainer *dataContainer() = 0;
