@@ -223,6 +223,7 @@ void ActionFileHandlers::convert_triggered()
 
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptSave);
+        dialog.selectFile(doc->convertedFileName());
         dialog.setFileMode(QFileDialog::AnyFile);
         dialog.setFilter(tr("C Files (*.c);;All Files (*.*)"));
         dialog.setDefaultSuffix(QString("c"));
@@ -236,6 +237,7 @@ void ActionFileHandlers::convert_triggered()
             {
                 file.write(result.toUtf8());
                 file.close();
+                doc->setConvertedFileName(filename);
             }
         }
     }
