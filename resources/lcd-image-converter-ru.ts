@@ -584,8 +584,8 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.ui" line="301"/>
-        <source>Convert All...</source>
-        <translation>Преобразовать все...</translation>
+        <source>Convert All</source>
+        <translation>Преобразовать все</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.ui" line="276"/>

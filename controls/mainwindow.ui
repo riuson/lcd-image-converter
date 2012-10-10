@@ -298,7 +298,7 @@
   </action>
   <action name="actionConvert_All">
    <property name="text">
-    <string>Convert All...</string>
+    <string>Convert All</string>
    </property>
   </action>
  </widget>
