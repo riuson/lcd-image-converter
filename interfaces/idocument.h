@@ -34,10 +34,13 @@ public:
     virtual bool changed() = 0;
     virtual void setChanged(bool value) = 0;
     virtual QString fileName() = 0;
+    virtual QString convertedFileName() = 0;
+    virtual void setConvertedFileName(const QString &value) = 0;
     virtual QString documentName() = 0;
     virtual void setDocumentName(const QString &value) = 0;
     virtual IDataContainer *dataContainer() = 0;
     virtual WidgetBitmapEditor *editor() = 0;
+    virtual void convert(bool request) = 0;
 };
 Q_DECLARE_INTERFACE (IDocument,
                      "riuson.lcd-image-converter/1.0"

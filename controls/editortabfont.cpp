@@ -30,10 +30,12 @@
 #include <QPainter>
 #include <QImage>
 #include <QMessageBox>
+#include <QFileDialog>
 
 #include "widgetbitmapeditor.h"
 #include "fontcontainer.h"
 #include "fontcharactersmodel.h"
+#include "parser.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
@@ -61,6 +63,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
     this->mDocumentName = tr("Font", "new font name");
     this->mFileName = "";
+    this->mConvertedFileName = "";
     this->mDataChanged = false;
 
     this->mAntialiasing = false;
@@ -89,8 +92,7 @@ void EditorTabFont::changeEvent(QEvent *e)
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_dataChanged()
 {
-    this->mDataChanged = true;
-    emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+    this->setChanged(true);
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
@@ -116,6 +118,7 @@ bool EditorTabFont::load(const QString &fileName)
     {
         QDomDocument doc;
         QString errorMsg;
+        QString converted;
         int errorColumn, errorLine;
         if (doc.setContent(&file, &errorMsg, &errorLine, &errorColumn))
         {
@@ -158,6 +161,10 @@ bool EditorTabFont::load(const QString &fileName)
                         {
                             antialiasing = (e.text() == "true");
                         }
+                        else if( e.tagName() == "converted" )
+                        {
+                            converted = e.text();
+                        }
                     }
 
                     n = n.nextSibling();
@@ -199,9 +206,9 @@ bool EditorTabFont::load(const QString &fileName)
         file.close();
 
         this->mFileName = fileName;
-        this->mDataChanged = false;
-        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+        this->mConvertedFileName = converted;
         this->mEditor->selectImage(this->mContainer->keys().at(0));
+        this->setChanged(false);
     }
 
     return result;
@@ -262,6 +269,11 @@ bool EditorTabFont::save(const QString &fileName)
     nodeRoot.appendChild(nodeString);
     nodeString.appendChild(doc.createTextNode(chars));
 
+    // converted file name
+    QDomElement nodeConverted = doc.createElement("converted");
+    nodeRoot.appendChild(nodeConverted);
+    nodeConverted.appendChild(doc.createTextNode(this->mConvertedFileName));
+
     // chars list
     QDomElement nodeChars = doc.createElement("chars");
     nodeRoot.appendChild(nodeChars);
@@ -299,10 +311,9 @@ bool EditorTabFont::save(const QString &fileName)
         doc.save(stream, 4);
 
         this->mFileName = fileName;
-        this->mDataChanged = false;
         file.close();
         result = true;
-        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+        this->setChanged(false);
     }
 
     return result;
@@ -324,6 +335,20 @@ QString EditorTabFont::fileName()
     return this->mFileName;
 }
 //-----------------------------------------------------------------------------
+QString EditorTabFont::convertedFileName()
+{
+    return this->mConvertedFileName;
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::setConvertedFileName(const QString &value)
+{
+    if (this->mConvertedFileName != value)
+    {
+        this->mConvertedFileName = value;
+        this->setChanged(true);
+    }
+}
+//-----------------------------------------------------------------------------
 QString EditorTabFont::documentName()
 {
     return this->mDocumentName;
@@ -334,8 +359,7 @@ void EditorTabFont::setDocumentName(const QString &value)
     if (this->mDocumentName != value)
     {
         this->mDocumentName = value;
-        this->mDataChanged = true;
-        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+        this->setChanged(true);
     }
 }
 //-----------------------------------------------------------------------------
@@ -347,6 +371,74 @@ IDataContainer *EditorTabFont::dataContainer()
 WidgetBitmapEditor *EditorTabFont::editor()
 {
     return this->mEditor;
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::convert(bool request)
+{
+    QMap<QString, QString> tags;
+
+    if (!this->mFileName.isEmpty())
+        tags["fileName"] = this->mFileName;
+    else
+        tags["fileName"] = "unknown";
+
+    tags["documentName"] = this->mDocumentName;
+    tags["documentName_ws"] = this->mDocumentName.remove(QRegExp("\\W", Qt::CaseInsensitive));
+
+    QString chars, fontFamily, style;
+    int size;
+    bool monospaced, antialiasing;
+    this->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
+
+    tags["dataType"] = "font";
+    tags["fontFamily"] = fontFamily;
+    tags["fontSize"] = QString("%1").arg(size);
+    tags["fontStyle"] = style;
+    tags["string"] = chars;
+    tags["fontAntialiasing"] = antialiasing ? "yes" : "no";
+    tags["fontWidthType"] = monospaced ? "monospaced" : "proportional";
+
+    Parser parser(this, Parser::TypeFont);
+    QString result = parser.convert(this, tags);
+
+    // converter output file name
+    QString outputFileName = this->mConvertedFileName;
+
+    // if file name not specified, show dialog
+    if (outputFileName.isEmpty())
+        request = true;
+
+    // show dialog
+    if (request)
+    {
+        QFileDialog dialog(this);
+        dialog.setAcceptMode(QFileDialog::AcceptSave);
+        dialog.selectFile(outputFileName);
+        dialog.setFileMode(QFileDialog::AnyFile);
+        dialog.setFilter(tr("C Files (*.c);;All Files (*.*)"));
+        dialog.setDefaultSuffix(QString("c"));
+        dialog.setWindowTitle(tr("Save result file as"));
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            outputFileName = dialog.selectedFiles().at(0);
+        }
+        else
+        {
+            outputFileName = "";
+        }
+    }
+
+    // if file name specified, save result
+    if (!outputFileName.isEmpty())
+    {
+        QFile file(outputFileName);
+        if (file.open(QFile::WriteOnly))
+        {
+            file.write(result.toUtf8());
+            file.close();
+            this->setConvertedFileName(outputFileName);
+        }
+    }
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::setFontCharacters(const QString &chars,
@@ -566,6 +658,7 @@ void EditorTabFont::updateTableFont()
     <widthType>proportional</widthType>
     <antialiasing>false</antialiasing>
     <string> !"#$%&amp;'()*+,-./0123456789:;&lt;=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~АБВ</string>
+    <converted>/tmp/font.c</converted>
     <chars>
         <char character=" " code="0020">
             <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAQAAAATCAIAAAA4QDsKAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAFUlEQVQImWP8//8/AwwwMSCBYc0BAO+LAyPoIK0eAAAAAElFTkSuQmCC</picture>

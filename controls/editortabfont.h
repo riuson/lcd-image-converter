@@ -48,10 +48,13 @@ public:
     bool changed();
     void setChanged(bool value);
     QString fileName();
+    QString convertedFileName();
+    void setConvertedFileName(const QString &value);
     QString documentName();
     void setDocumentName(const QString &value);
     IDataContainer *dataContainer();
     WidgetBitmapEditor *editor();
+    void convert(bool request);
 
     void setFontCharacters(const QString &chars,
                            const QString &fontFamily,
@@ -79,6 +82,7 @@ private:
     FontCharactersModel *mModel;
 
     QString mFileName;
+    QString mConvertedFileName;
     QString mDocumentName;
     bool mDataChanged;
     QFont mFont;
