@@ -418,6 +418,18 @@ QWidget *MainWindow::currentTab()
     return NULL;
 }
 //-----------------------------------------------------------------------------
+void MainWindow::tabsList(QList<QWidget *> *list)
+{
+    if (list != NULL)
+    {
+        list->clear();
+        for (int i = 0; i < this->ui->tabWidget->count(); i++)
+        {
+            list->append(this->ui->tabWidget->widget(i));
+        }
+    }
+}
+//-----------------------------------------------------------------------------
 QWidget *MainWindow::parentWidget()
 {
     return this;
