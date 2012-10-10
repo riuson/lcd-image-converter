@@ -79,6 +79,7 @@ private slots:
 public:
     IDocument *currentDocument();
     QWidget *currentTab();
+    void tabsList(QList<QWidget *> *list);
     QWidget *parentWidget();
     QString findAvailableName(const QString &prefix);
 };

@@ -58,6 +58,7 @@
     <addaction name="actionClose"/>
     <addaction name="separator"/>
     <addaction name="actionConvert"/>
+    <addaction name="actionConvert_All"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -293,6 +294,11 @@
   <action name="actionFontToImage">
    <property name="text">
     <string>To Image</string>
+   </property>
+  </action>
+  <action name="actionConvert_All">
+   <property name="text">
+    <string>Convert All</string>
    </property>
   </action>
  </widget>
