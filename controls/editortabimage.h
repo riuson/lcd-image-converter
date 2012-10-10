@@ -52,6 +52,7 @@ public:
     void setDocumentName(const QString &value);
     IDataContainer *dataContainer();
     WidgetBitmapEditor *editor();
+    void convert(bool request);
 
 protected:
     void changeEvent(QEvent *e);

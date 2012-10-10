@@ -26,9 +26,11 @@
 #include <QBuffer>
 #include <QFile>
 #include <QTextStream>
+#include <QFileDialog>
 
 #include "widgetbitmapeditor.h"
 #include "bitmapcontainer.h"
+#include "parser.h"
 //-----------------------------------------------------------------------------
 EditorTabImage::EditorTabImage(QWidget *parent) :
     QWidget(parent),
@@ -226,6 +228,63 @@ IDataContainer *EditorTabImage::dataContainer()
 WidgetBitmapEditor *EditorTabImage::editor()
 {
     return this->mEditor;
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::convert(bool request)
+{
+    QMap<QString, QString> tags;
+
+    if (!this->mFileName.isEmpty())
+        tags["fileName"] = this->mFileName;
+    else
+        tags["fileName"] = "unknown";
+
+    tags["documentName"] = this->mDocumentName;
+    tags["documentName_ws"] = this->mDocumentName.remove(QRegExp("\\W", Qt::CaseInsensitive));
+
+    tags["dataType"] = "image";
+
+    Parser parser(this, Parser::TypeImage);
+    QString result = parser.convert(this, tags);
+
+    // converter output file name
+    QString outputFileName = this->mConvertedFileName;
+
+    // if file name not specified, show dialog
+    if (outputFileName.isEmpty())
+        request = true;
+
+    // show dialog
+    if (request)
+    {
+        QFileDialog dialog(this);
+        dialog.setAcceptMode(QFileDialog::AcceptSave);
+        dialog.selectFile(outputFileName);
+        dialog.setFileMode(QFileDialog::AnyFile);
+        dialog.setFilter(tr("C Files (*.c);;All Files (*.*)"));
+        dialog.setDefaultSuffix(QString("c"));
+        dialog.setWindowTitle(tr("Save result file as"));
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            outputFileName = dialog.selectedFiles().at(0);
+        }
+        else
+        {
+            outputFileName = "";
+        }
+    }
+
+    // if file name specified, save result
+    if (!outputFileName.isEmpty())
+    {
+        QFile file(outputFileName);
+        if (file.open(QFile::WriteOnly))
+        {
+            file.write(result.toUtf8());
+            file.close();
+            this->setConvertedFileName(outputFileName);
+        }
+    }
 }
 //-----------------------------------------------------------------------------
 /*
