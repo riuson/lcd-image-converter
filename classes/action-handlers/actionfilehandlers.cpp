@@ -183,6 +183,16 @@ void ActionFileHandlers::convert_triggered()
     }
 }
 //-----------------------------------------------------------------------------
+void ActionFileHandlers::convertAll_triggered()
+{
+    QWidget *w = this->mMainWindow->currentTab();
+    IDocument *doc = dynamic_cast<IDocument *> (w);
+    if (doc != NULL)
+    {
+        doc->convert(true);
+    }
+}
+//-----------------------------------------------------------------------------
 void ActionFileHandlers::openFile(const QString &filename)
 {
     bool isImage = false;

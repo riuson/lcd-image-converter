@@ -48,6 +48,7 @@ public slots:
     void saveAs_triggered();
     void close_triggered();
     void convert_triggered();
+    void convertAll_triggered();
     void openFile(const QString &filename);
     void openImage(QImage *image, const QString &documentName);
 private slots:
