@@ -47,33 +47,23 @@
         <translation>Открыть xml документ или изображение</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="122"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="125"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="123"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="126"/>
         <source>New name:</source>
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="154"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="158"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="156"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="160"/>
         <source>Save file as</source>
-        <translation>Сохранить файл как</translation>
-    </message>
-    <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="224"/>
-        <source>C Files (*.c);;All Files (*.*)</source>
-        <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
-    </message>
-    <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="226"/>
-        <source>Save result file as</source>
         <translation>Сохранить файл как</translation>
     </message>
 </context>
@@ -400,19 +390,29 @@ Qt: %3</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="62"/>
+        <location filename="../controls/editortabfont.cpp" line="64"/>
         <source>Font</source>
         <comment>new font name</comment>
         <translatorcomment>название нового шрифта, должно быть латинскими буквами</translatorcomment>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="383"/>
+        <location filename="../controls/editortabfont.cpp" line="418"/>
+        <source>C Files (*.c);;All Files (*.*)</source>
+        <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
+    </message>
+    <message>
+        <location filename="../controls/editortabfont.cpp" line="420"/>
+        <source>Save result file as</source>
+        <translation>Сохранить результат как</translation>
+    </message>
+    <message>
+        <location filename="../controls/editortabfont.cpp" line="476"/>
         <source>Font parameters was changed</source>
         <translation>Параметры шрифта были изменены</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="384"/>
+        <location filename="../controls/editortabfont.cpp" line="477"/>
         <source>Do you want update all characters?</source>
         <translation>Вы хотите обновить все символы?</translation>
     </message>
@@ -426,11 +426,21 @@ Qt: %3</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/editortabimage.cpp" line="50"/>
+        <location filename="../controls/editortabimage.cpp" line="52"/>
         <source>Image</source>
         <comment>new image name</comment>
         <translatorcomment>название нового изображения, должно быть латинскими буквами</translatorcomment>
         <translation>Image</translation>
+    </message>
+    <message>
+        <location filename="../controls/editortabimage.cpp" line="264"/>
+        <source>C Files (*.c);;All Files (*.*)</source>
+        <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
+    </message>
+    <message>
+        <location filename="../controls/editortabimage.cpp" line="266"/>
+        <source>Save result file as</source>
+        <translation>Сохранить результат как</translation>
     </message>
 </context>
 <context>
