@@ -24,6 +24,7 @@
 #include <QDateTime>
 #include <QProcess>
 #include <QSettings>
+#include <QMessageBox>
 #include "widgetbitmapeditor.h"
 #include "dialogresize.h"
 #include "bitmaphelper.h"
@@ -220,30 +221,40 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
         QString imageEditor = sett.value("imageEditor", QVariant("gimp")).toString();
         sett.endGroup();
 
-        // prepare temporary file name
-        QDateTime time = QDateTime::currentDateTime();
-        QString filename = QDir::tempPath() + "/" + time.toString("yyyy-MM-dd-hh-mm-ss-zzz") + ".png";
+        if (QFile::exists(imageEditor))
+        {
+            // prepare temporary file name
+            QDateTime time = QDateTime::currentDateTime();
+            QString filename = QDir::tempPath() + "/" + time.toString("yyyy-MM-dd-hh-mm-ss-zzz") + ".png";
 
-        // save current image to file
-        QString key = editor->currentImageKey();
-        editor->dataContainer()->image(key)->save(filename);
+            // save current image to file
+            QString key = editor->currentImageKey();
+            editor->dataContainer()->image(key)->save(filename);
 
-        // run external application with this file as parameter
-        QProcess process(this);
-        process.start(imageEditor, QStringList() << filename);
+            // run external application with this file as parameter
+            QProcess process(this);
+            process.start(imageEditor, QStringList() << filename);
 
-        // wait for external application finished
-        do {
-            process.waitForFinished();
-        } while (process.state() == QProcess::Running);
+            // wait for external application finished
+            do {
+                process.waitForFinished();
+            } while (process.state() == QProcess::Running);
 
-        // load file back
-        QImage image;
-        image.load(filename);
-        editor->dataContainer()->setImage(key, &image);
+            // load file back
+            QImage image;
+            image.load(filename);
+            editor->dataContainer()->setImage(key, &image);
 
-        // remove temprorary file
-        QFile::remove(filename);
+            // remove temprorary file
+            QFile::remove(filename);
+        }
+        else
+        {
+            QMessageBox box(this->mMainWindow->parentWidget());
+            box.setText(tr("Application file not found: \"%1\"").arg(imageEditor));
+            box.setWindowTitle(tr("Error running external tool"));
+            box.exec();
+        }
     }
 }
 //-----------------------------------------------------------------------------

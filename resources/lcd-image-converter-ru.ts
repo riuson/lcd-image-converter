@@ -70,24 +70,34 @@
 <context>
     <name>ActionImageHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="147"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="148"/>
         <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="148"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="149"/>
         <source>Open image file</source>
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="169"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="170"/>
         <source>Windows Bitmap (*.bmp);;Joint Photographic Experts Group (*.jpg *.jpeg);;Portable Network Graphics (*.png);;Portable Pixmap (*.ppm);;Tagged Image File Format (*.tiff);;X11 Bitmap (*.xbm);;X11 Bitmap (*.xpm)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="177"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="178"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="254"/>
+        <source>Application file not found: &quot;%1&quot;</source>
+        <translation>Файл приложения не найден: &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="255"/>
+        <source>Error running external tool</source>
+        <translation>Ошибка при запуске внешней утилиты</translation>
     </message>
 </context>
 <context>
