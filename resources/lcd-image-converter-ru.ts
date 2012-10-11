@@ -558,6 +558,7 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.ui" line="220"/>
+        <location filename="../controls/mainwindow.ui" line="263"/>
         <source>Conversion...</source>
         <translation>Преобразование...</translation>
     </message>
@@ -632,11 +633,6 @@ Qt: %3</translation>
         <location filename="../controls/mainwindow.ui" line="255"/>
         <source>About</source>
         <translation>О программе</translation>
-    </message>
-    <message>
-        <location filename="../controls/mainwindow.ui" line="263"/>
-        <source>Settings...</source>
-        <translation>Настройки...</translation>
     </message>
     <message>
         <location filename="../controls/mainwindow.ui" line="271"/>

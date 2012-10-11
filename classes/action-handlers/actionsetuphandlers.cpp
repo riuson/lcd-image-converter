@@ -29,7 +29,7 @@ ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
 {
 }
 //-----------------------------------------------------------------------------
-void ActionSetupHandlers::settings_triggered()
+void ActionSetupHandlers::conversion_triggered()
 {
     IDataContainer *data = NULL;
     if (this->editor() != NULL)

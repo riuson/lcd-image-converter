@@ -35,7 +35,7 @@ public:
 signals:
 
 public slots:
-    void settings_triggered();
+    void conversion_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONSETUPHANDLERS_H
