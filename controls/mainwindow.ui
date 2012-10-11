@@ -111,6 +111,7 @@
     </widget>
     <addaction name="actionConversionOptions"/>
     <addaction name="menuLanguage"/>
+    <addaction name="actionExternal_editor"/>
    </widget>
    <addaction name="menuHello"/>
    <addaction name="menuImage"/>
@@ -305,6 +306,11 @@
   <action name="actionEdit_in_external_tool">
    <property name="text">
     <string>Edit in external tool...</string>
+   </property>
+  </action>
+  <action name="actionExternal_editor">
+   <property name="text">
+    <string>External editor...</string>
    </property>
   </action>
  </widget>

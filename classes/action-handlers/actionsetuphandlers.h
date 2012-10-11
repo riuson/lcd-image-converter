@@ -36,6 +36,7 @@ signals:
 
 public slots:
     void conversion_triggered();
+    void external_editor_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONSETUPHANDLERS_H

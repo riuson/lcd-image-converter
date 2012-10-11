@@ -267,6 +267,7 @@ void MainWindow::createHandlers()
 
     this->mSetupHandlers = new ActionSetupHandlers(this);
     this->mSetupHandlers->connect(this->ui->actionConversionOptions, SIGNAL(triggered()), SLOT(conversion_triggered()));
+    this->mSetupHandlers->connect(this->ui->actionExternal_editor, SIGNAL(triggered()), SLOT(external_editor_triggered()));
 
     this->mHelpHandlers = new ActionHelpHandlers(this);
     this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(about_triggered()));

@@ -23,6 +23,7 @@
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
 #include "idatacontainer.h"
+#include "dialogexternaleditor.h"
 //-----------------------------------------------------------------------------
 ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -35,6 +36,12 @@ void ActionSetupHandlers::conversion_triggered()
     if (this->editor() != NULL)
         data = this->editor()->dataContainer();
     DialogOptions dialog(data, this->mMainWindow->parentWidget());
+    dialog.exec();
+}
+//-----------------------------------------------------------------------------
+void ActionSetupHandlers::external_editor_triggered()
+{
+    DialogExternalEditor dialog(this->mMainWindow->parentWidget());
     dialog.exec();
 }
 //-----------------------------------------------------------------------------
