@@ -23,6 +23,7 @@
 #include <QFileInfo>
 #include <QDateTime>
 #include <QProcess>
+#include <QSettings>
 #include "widgetbitmapeditor.h"
 #include "dialogresize.h"
 #include "bitmaphelper.h"
@@ -213,6 +214,12 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
     {
         WidgetBitmapEditor *editor = this->editor();
 
+        // get application path
+        QSettings sett;
+        sett.beginGroup("external-tools");
+        QString imageEditor = sett.value("imageEditor", QVariant("gimp")).toString();
+        sett.endGroup();
+
         // prepare temporary file name
         QDateTime time = QDateTime::currentDateTime();
         QString filename = QDir::tempPath() + "/" + time.toString("yyyy-MM-dd-hh-mm-ss-zzz") + ".png";
@@ -222,9 +229,8 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
         editor->dataContainer()->image(key)->save(filename);
 
         // run external application with this file as parameter
-        QString app = "gimp";
         QProcess process(this);
-        process.start(app, QStringList() << filename);
+        process.start(imageEditor, QStringList() << filename);
 
         // wait for external application finished
         do {
