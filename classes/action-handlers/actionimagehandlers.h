@@ -34,7 +34,7 @@ public:
     explicit ActionImageHandlers(QObject *parent = 0);
 
 signals:
-    
+
 public slots:
     void flipHorizontal_triggered();
     void flipVertical_triggered();
@@ -45,6 +45,7 @@ public slots:
     void resize_triggered();
     void import_triggered();
     void export_triggered();
+    void edit_in_external_tool_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONIMAGEHANDLERS_H

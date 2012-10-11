@@ -21,6 +21,8 @@
 
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QDateTime>
+#include <QProcess>
 #include "widgetbitmapeditor.h"
 #include "dialogresize.h"
 #include "bitmaphelper.h"
@@ -202,6 +204,40 @@ void ActionImageHandlers::export_triggered()
             QString key = editor->currentImageKey();
             editor->dataContainer()->image(key)->save(filename);
         }
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionImageHandlers::edit_in_external_tool_triggered()
+{
+    if (this->editor())
+    {
+        WidgetBitmapEditor *editor = this->editor();
+
+        // prepare temporary file name
+        QDateTime time = QDateTime::currentDateTime();
+        QString filename = QDir::tempPath() + "/" + time.toString("yyyy-MM-dd-hh-mm-ss-zzz") + ".png";
+
+        // save current image to file
+        QString key = editor->currentImageKey();
+        editor->dataContainer()->image(key)->save(filename);
+
+        // run external application with this file as parameter
+        QString app = "gimp";
+        QProcess process(this);
+        process.start(app, QStringList() << filename);
+
+        // wait for external application finished
+        do {
+            process.waitForFinished();
+        } while (process.state() == QProcess::Running);
+
+        // load file back
+        QImage image;
+        image.load(filename);
+        editor->dataContainer()->setImage(key, &image);
+
+        // remove temprorary file
+        QFile::remove(filename);
     }
 }
 //-----------------------------------------------------------------------------

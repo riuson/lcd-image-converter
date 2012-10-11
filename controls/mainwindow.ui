@@ -78,6 +78,7 @@
     <addaction name="separator"/>
     <addaction name="actionImageImport"/>
     <addaction name="actionImageExport"/>
+    <addaction name="actionEdit_in_external_tool"/>
    </widget>
    <widget class="QMenu" name="menuFont">
     <property name="title">
@@ -299,6 +300,11 @@
   <action name="actionConvert_All">
    <property name="text">
     <string>Convert All</string>
+   </property>
+  </action>
+  <action name="actionEdit_in_external_tool">
+   <property name="text">
+    <string>Edit in external tool...</string>
    </property>
   </action>
  </widget>
