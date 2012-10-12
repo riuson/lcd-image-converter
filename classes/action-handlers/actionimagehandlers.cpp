@@ -22,7 +22,6 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QDateTime>
-#include <QProcess>
 #include <QSettings>
 #include <QMessageBox>
 #include "widgetbitmapeditor.h"
@@ -218,43 +217,79 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
         // get application path
         QSettings sett;
         sett.beginGroup("external-tools");
-        QString imageEditor = sett.value("imageEditor", QVariant("gimp")).toString();
+        this->mExternalTool = sett.value("imageEditor", QVariant("gimp")).toString();
         sett.endGroup();
 
-        if (QFile::exists(imageEditor))
+        // prepare temporary file name
+        QDateTime time = QDateTime::currentDateTime();
+        QString filename = QDir::tempPath() + "/" + time.toString("yyyy-MM-dd-hh-mm-ss-zzz") + ".png";
+
+        // save current image to file
+        QString key = editor->currentImageKey();
+        editor->dataContainer()->image(key)->save(filename);
+
+        // run external application with this file as parameter
+        QProcess process(this);
+        this->connect(&process, SIGNAL(error(QProcess::ProcessError)), SLOT(process_error(QProcess::ProcessError)));
+        this->mRunningError = false;
+        process.start(this->mExternalTool, QStringList() << filename);
+
+        // wait for external application finished
+        do {
+            process.waitForFinished();
+        } while (process.state() == QProcess::Running);
+
+        if (!this->mRunningError)
         {
-            // prepare temporary file name
-            QDateTime time = QDateTime::currentDateTime();
-            QString filename = QDir::tempPath() + "/" + time.toString("yyyy-MM-dd-hh-mm-ss-zzz") + ".png";
-
-            // save current image to file
-            QString key = editor->currentImageKey();
-            editor->dataContainer()->image(key)->save(filename);
-
-            // run external application with this file as parameter
-            QProcess process(this);
-            process.start(imageEditor, QStringList() << filename);
-
-            // wait for external application finished
-            do {
-                process.waitForFinished();
-            } while (process.state() == QProcess::Running);
-
             // load file back
             QImage image;
             image.load(filename);
             editor->dataContainer()->setImage(key, &image);
-
-            // remove temprorary file
-            QFile::remove(filename);
         }
-        else
-        {
-            QMessageBox box(this->mMainWindow->parentWidget());
-            box.setText(tr("Application file not found: \"%1\"").arg(imageEditor));
-            box.setWindowTitle(tr("Error running external tool"));
-            box.exec();
-        }
+        // remove temprorary file
+        QFile::remove(filename);
     }
+}
+//-----------------------------------------------------------------------------
+void ActionImageHandlers::process_error(QProcess::ProcessError error)
+{
+    this->mRunningError = true;
+
+    QString message, description;
+
+    switch (error)
+    {
+    case QProcess::FailedToStart:
+        message = tr("Failed to Start");
+        description = tr("The process failed to start. Either the invoked program is missing, or you may have insufficient permissions to invoke the program.");
+        break;
+    case QProcess::Crashed:
+        message = tr("Crashed");
+        description = tr("The process crashed some time after starting successfully.");
+        break;
+    //case QProcess::Timedout:
+    //    message = tr("Timedout");
+    //    description = tr("The last waitFor...() function timed out. The state of QProcess is unchanged, and you can try calling waitFor...() again.");
+    //    break;
+    case QProcess::ReadError:
+        message = tr("Read Error");
+        description = tr("An error occurred when attempting to read from the process. For example, the process may not be running.");
+        break;
+    case QProcess::WriteError:
+        message = tr("Write Error");
+        description = tr("An error occurred when attempting to write to the process. For example, the process may not be running, or it may have closed its input channel.");
+        break;
+    case QProcess::UnknownError:
+    default:
+        message = tr("Unknown Error");
+        description = tr("An unknown error occurred.");
+        break;
+    }
+
+    QMessageBox box(this->mMainWindow->parentWidget());
+    box.setTextFormat(Qt::RichText);
+    box.setText(QString("<b>%1</b>: \"%2\"<br/>%3").arg(message, this->mExternalTool, description));
+    box.setWindowTitle(tr("Error running external tool"));
+    box.exec();
 }
 //-----------------------------------------------------------------------------

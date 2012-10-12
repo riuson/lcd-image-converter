@@ -70,32 +70,81 @@
 <context>
     <name>ActionImageHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="148"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="147"/>
         <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="149"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="148"/>
         <source>Open image file</source>
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="170"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="169"/>
         <source>Windows Bitmap (*.bmp);;Joint Photographic Experts Group (*.jpg *.jpeg);;Portable Network Graphics (*.png);;Portable Pixmap (*.ppm);;Tagged Image File Format (*.tiff);;X11 Bitmap (*.xbm);;X11 Bitmap (*.xpm)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="178"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="177"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="254"/>
-        <source>Application file not found: &quot;%1&quot;</source>
-        <translation>Файл приложения не найден: &quot;%1&quot;</translation>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="263"/>
+        <source>Failed to Start</source>
+        <translation>Не удалось запустить</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="255"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="264"/>
+        <source>The process failed to start. Either the invoked program is missing, or you may have insufficient permissions to invoke the program.</source>
+        <translation>Не удалось запустить процесс. Возможно вызываемая программа отсутствует, или у вас недостаточно привелегий для вызова программы.</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="267"/>
+        <source>Crashed</source>
+        <translation>Сбой</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="268"/>
+        <source>The process crashed some time after starting successfully.</source>
+        <translation>Произошёл сбой процесса после успешно произведённого запуска.</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="275"/>
+        <source>Read Error</source>
+        <translation>Ошибка чтения</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="276"/>
+        <source>An error occurred when attempting to read from the process. For example, the process may not be running.</source>
+        <translation>Возникла ошибка при попытке чтения из процесса. К примеру, процесс может быть не запущен.</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="279"/>
+        <source>Write Error</source>
+        <translation>Ошибка записи</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="280"/>
+        <source>An error occurred when attempting to write to the process. For example, the process may not be running, or it may have closed its input channel.</source>
+        <translation>Возникла ошибка при попытке записи в процесс. К примеру, процесс может быть не запущен, или иметь закрытый входной канал.</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="284"/>
+        <source>Unknown Error</source>
+        <translation>Неизвестная ошибка</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="285"/>
+        <source>An unknown error occurred.</source>
+        <translation>Возникла неизвестная ошибка.</translation>
+    </message>
+    <message>
+        <source>Application file not found: &quot;%1&quot;</source>
+        <translation type="obsolete">Файл приложения не найден: &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="292"/>
         <source>Error running external tool</source>
         <translation>Ошибка при запуске внешней утилиты</translation>
     </message>
