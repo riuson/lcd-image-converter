@@ -228,6 +228,10 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
         QString key = editor->currentImageKey();
         editor->dataContainer()->image(key)->save(filename);
 
+        // remember timestamp
+        QFileInfo info(filename);
+        QDateTime lastModified = info.lastModified();
+
         // run external application with this file as parameter
         QProcess process(this);
         this->connect(&process, SIGNAL(error(QProcess::ProcessError)), SLOT(process_error(QProcess::ProcessError)));
@@ -241,10 +245,15 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
 
         if (!this->mRunningError)
         {
-            // load file back
-            QImage image;
-            image.load(filename);
-            editor->dataContainer()->setImage(key, &image);
+            info.refresh();
+            // if file was modified
+            if (info.lastModified() > lastModified)
+            {
+                // load file back
+                QImage image;
+                image.load(filename);
+                editor->dataContainer()->setImage(key, &image);
+            }
         }
         // remove temprorary file
         QFile::remove(filename);
