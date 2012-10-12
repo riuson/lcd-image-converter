@@ -677,7 +677,7 @@ Qt: %3</translation>
         <translation>Открыть во внешнем редакторе...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="313"/>
+        <location filename="../controls/mainwindow.ui" line="319"/>
         <source>External editor...</source>
         <translation>Внешний редактор...</translation>
     </message>

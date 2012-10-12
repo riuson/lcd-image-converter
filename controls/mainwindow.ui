@@ -307,6 +307,12 @@
    <property name="text">
     <string>Edit in external tool...</string>
    </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+E</string>
+   </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="actionExternal_editor">
    <property name="text">
