@@ -64,7 +64,8 @@ SOURCES += main.cpp \
     controls/setup/parts/setuptabfont.cpp \
     classes/convert/fonthelper.cpp \
     classes/compression/rlecompressor.cpp \
-    classes/fontcharactersmodel.cpp
+    classes/fontcharactersmodel.cpp \
+    controls/dialogexternaleditor.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -113,7 +114,8 @@ HEADERS += \
     controls/setup/parts/setuptabfont.h \
     classes/convert/fonthelper.h \
     classes/compression/rlecompressor.h \
-    classes/fontcharactersmodel.h
+    classes/fontcharactersmodel.h \
+    controls/dialogexternaleditor.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -131,7 +133,8 @@ FORMS += \
     controls/setup/parts/setuptabimage.ui \
     controls/setup/parts/setuptabtemplates.ui \
     controls/setup/dialogoptions.ui \
-    controls/setup/parts/setuptabfont.ui
+    controls/setup/parts/setuptabfont.ui \
+    controls/dialogexternaleditor.ui
 INCLUDEPATH += . \
     ./classes \
     ./classes/compression \

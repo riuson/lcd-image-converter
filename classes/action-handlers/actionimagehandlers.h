@@ -21,6 +21,7 @@
 #define ACTIONIMAGEHANDLERS_H
 //-----------------------------------------------------------------------------
 #include <QObject>
+#include <QProcess>
 
 #include "actionhandlersbase.h"
 //-----------------------------------------------------------------------------
@@ -33,8 +34,12 @@ class ActionImageHandlers : public ActionHandlersBase
 public:
     explicit ActionImageHandlers(QObject *parent = 0);
 
+private:
+    bool mRunningError;
+    QString mExternalTool;
+
 signals:
-    
+
 public slots:
     void flipHorizontal_triggered();
     void flipVertical_triggered();
@@ -45,6 +50,10 @@ public slots:
     void resize_triggered();
     void import_triggered();
     void export_triggered();
+    void edit_in_external_tool_triggered();
+
+private slots:
+    void process_error(QProcess::ProcessError error);
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONIMAGEHANDLERS_H
