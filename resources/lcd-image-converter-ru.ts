@@ -70,77 +70,77 @@
 <context>
     <name>ActionImageHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="147"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="199"/>
         <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="148"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="200"/>
         <source>Open image file</source>
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="169"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="221"/>
         <source>Windows Bitmap (*.bmp);;Joint Photographic Experts Group (*.jpg *.jpeg);;Portable Network Graphics (*.png);;Portable Pixmap (*.ppm);;Tagged Image File Format (*.tiff);;X11 Bitmap (*.xbm);;X11 Bitmap (*.xpm)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="177"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="229"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="272"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="324"/>
         <source>Failed to Start</source>
         <translation>Не удалось запустить</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="273"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="325"/>
         <source>The process failed to start. Either the invoked program is missing, or you may have insufficient permissions to invoke the program.</source>
         <translation>Не удалось запустить процесс. Возможно вызываемая программа отсутствует, или у вас недостаточно привелегий для вызова программы.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="276"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="328"/>
         <source>Crashed</source>
         <translation>Сбой</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="277"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="329"/>
         <source>The process crashed some time after starting successfully.</source>
         <translation>Произошёл сбой процесса после успешно произведённого запуска.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="284"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="336"/>
         <source>Read Error</source>
         <translation>Ошибка чтения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="285"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="337"/>
         <source>An error occurred when attempting to read from the process. For example, the process may not be running.</source>
         <translation>Возникла ошибка при попытке чтения из процесса. К примеру, процесс может быть не запущен.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="288"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="340"/>
         <source>Write Error</source>
         <translation>Ошибка записи</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="289"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="341"/>
         <source>An error occurred when attempting to write to the process. For example, the process may not be running, or it may have closed its input channel.</source>
         <translation>Возникла ошибка при попытке записи в процесс. К примеру, процесс может быть не запущен, или иметь закрытый входной канал.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="293"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="345"/>
         <source>Unknown Error</source>
         <translation>Неизвестная ошибка</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="294"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="346"/>
         <source>An unknown error occurred.</source>
         <translation>Возникла неизвестная ошибка.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="301"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="353"/>
         <source>Error running external tool</source>
         <translation>Ошибка при запуске внешней утилиты</translation>
     </message>
@@ -569,67 +569,72 @@ Qt: %3</translation>
         <translation>Вращение</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="90"/>
+        <location filename="../controls/mainwindow.ui" line="79"/>
+        <source>Shift</source>
+        <translation>Сдвиг</translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="100"/>
         <source>Font</source>
         <translation>Шрифт</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="102"/>
+        <location filename="../controls/mainwindow.ui" line="112"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="109"/>
+        <location filename="../controls/mainwindow.ui" line="119"/>
         <source>Options</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="113"/>
+        <location filename="../controls/mainwindow.ui" line="123"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="130"/>
+        <location filename="../controls/mainwindow.ui" line="140"/>
         <source>New Image...</source>
         <translation>Новое изображение...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="135"/>
+        <location filename="../controls/mainwindow.ui" line="145"/>
         <source>New Font...</source>
         <translation>Новый шрифт...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="140"/>
+        <location filename="../controls/mainwindow.ui" line="150"/>
         <source>Open...</source>
         <translation>Открыть...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="148"/>
+        <location filename="../controls/mainwindow.ui" line="158"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="156"/>
+        <location filename="../controls/mainwindow.ui" line="166"/>
         <source>Save As...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="164"/>
+        <location filename="../controls/mainwindow.ui" line="174"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="172"/>
+        <location filename="../controls/mainwindow.ui" line="182"/>
         <source>Quit</source>
         <translation>Выйти</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="180"/>
+        <location filename="../controls/mainwindow.ui" line="190"/>
         <source>Flip Horizontal</source>
         <translation>Отразить по горизонтали</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="185"/>
+        <location filename="../controls/mainwindow.ui" line="195"/>
         <source>Flip Vertical</source>
         <translation>Отразить по вертикали</translation>
     </message>
@@ -655,97 +660,105 @@ Qt: %3</translation>
         <translation>Инвертировать</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="219"/>
+        <location filename="../controls/mainwindow.ui" line="229"/>
         <source>Convert...</source>
         <translation>Преобразовать...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="227"/>
-        <location filename="../controls/mainwindow.ui" line="270"/>
+        <location filename="../controls/mainwindow.ui" line="237"/>
+        <location filename="../controls/mainwindow.ui" line="280"/>
         <source>Conversion...</source>
         <translation>Преобразование...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="232"/>
+        <location filename="../controls/mainwindow.ui" line="242"/>
         <source>Import...</source>
         <translation>Импортировать...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="237"/>
+        <location filename="../controls/mainwindow.ui" line="247"/>
         <source>Export...</source>
         <translation>Экспортировать...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="242"/>
         <location filename="../controls/mainwindow.ui" line="252"/>
+        <location filename="../controls/mainwindow.ui" line="262"/>
         <source>Resize...</source>
         <translation>Изменение размеров...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="303"/>
+        <location filename="../controls/mainwindow.ui" line="313"/>
         <source>To Image</source>
         <translation>В изображение</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="308"/>
+        <location filename="../controls/mainwindow.ui" line="318"/>
         <source>Convert All</source>
         <translation>Преобразовать все</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="313"/>
+        <location filename="../controls/mainwindow.ui" line="323"/>
         <source>Edit in external tool...</source>
         <translation>Открыть во внешнем редакторе...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="324"/>
+        <location filename="../controls/mainwindow.ui" line="334"/>
         <source>External editor...</source>
         <translation>Внешний редактор...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="283"/>
+        <location filename="../controls/mainwindow.ui" line="339"/>
+        <source>Left</source>
+        <translation>Влево</translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="347"/>
+        <source>Right</source>
+        <translation>Вправо</translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="355"/>
+        <source>Up</source>
+        <translation>Вверх</translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="363"/>
+        <source>Down</source>
+        <translation>Вниз</translation>
+    </message>
+    <message>
+        <location filename="../controls/mainwindow.ui" line="293"/>
         <source>Rename...</source>
         <translation>Переименовать...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="288"/>
+        <location filename="../controls/mainwindow.ui" line="298"/>
         <source>Optimize height...</source>
         <translatorcomment>Определение наименьшей высоты знакоместа</translatorcomment>
         <translation>Подобрать высоту...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="293"/>
+        <location filename="../controls/mainwindow.ui" line="303"/>
         <source>Preview...</source>
         <translation>Предпросмотр...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="298"/>
+        <location filename="../controls/mainwindow.ui" line="308"/>
         <source>Wiki...</source>
         <translation>Вики...</translation>
     </message>
     <message>
-        <source>Rotate 90 Clockwise</source>
-        <translation type="obsolete">90 по часовой</translation>
-    </message>
-    <message>
-        <source>Rotate 180</source>
-        <translation type="obsolete">180</translation>
-    </message>
-    <message>
-        <source>Rotate 90 Counter-Clockwise</source>
-        <translation type="obsolete">90 против часовой</translation>
-    </message>
-    <message>
-        <location filename="../controls/mainwindow.ui" line="247"/>
+        <location filename="../controls/mainwindow.ui" line="257"/>
         <source>Change...</source>
         <translation>Изменить...</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="262"/>
+        <location filename="../controls/mainwindow.ui" line="272"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.ui" line="278"/>
+        <location filename="../controls/mainwindow.ui" line="288"/>
         <source>English</source>
         <translatorcomment>не переводить</translatorcomment>
         <translation>English</translation>
@@ -757,12 +770,12 @@ Qt: %3</translation>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="301"/>
+        <location filename="../controls/mainwindow.cpp" line="305"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/mainwindow.cpp" line="302"/>
+        <location filename="../controls/mainwindow.cpp" line="306"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>

@@ -74,9 +74,19 @@
      <addaction name="actionImageRotate_180"/>
      <addaction name="actionImageRotate_90_Counter_Clockwise"/>
     </widget>
+    <widget class="QMenu" name="menuShift">
+     <property name="title">
+      <string>Shift</string>
+     </property>
+     <addaction name="actionImageShiftLeft"/>
+     <addaction name="actionImageShiftRight"/>
+     <addaction name="actionImageShiftUp"/>
+     <addaction name="actionImageShiftDown"/>
+    </widget>
     <addaction name="actionImageFlip_Horizontal"/>
     <addaction name="actionImageFlip_Vertical"/>
     <addaction name="separator"/>
+    <addaction name="menuShift"/>
     <addaction name="menuRotate"/>
     <addaction name="actionImageResize"/>
     <addaction name="actionImageInverse"/>
@@ -322,6 +332,38 @@
   <action name="actionExternal_editor">
    <property name="text">
     <string>External editor...</string>
+   </property>
+  </action>
+  <action name="actionImageShiftLeft">
+   <property name="text">
+    <string>Left</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Shift+Left</string>
+   </property>
+  </action>
+  <action name="actionImageShiftRight">
+   <property name="text">
+    <string>Right</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Shift+Right</string>
+   </property>
+  </action>
+  <action name="actionImageShiftUp">
+   <property name="text">
+    <string>Up</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Shift+Up</string>
+   </property>
+  </action>
+  <action name="actionImageShiftDown">
+   <property name="text">
+    <string>Down</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Shift+Down</string>
    </property>
   </action>
  </widget>
