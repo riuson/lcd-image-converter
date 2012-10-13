@@ -939,7 +939,7 @@ Qt: %3</translation>
     <message>
         <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="151"/>
         <source>Shift left</source>
-        <translation>Сдвиг слево</translation>
+        <translation>Сдвиг влево</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/setuptabmatrix.cpp" line="152"/>
