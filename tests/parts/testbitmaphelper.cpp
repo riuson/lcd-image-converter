@@ -36,6 +36,42 @@ void TestBitmapHelper::rotate270()
     this->compareSizeAndPixels(&expected, &test);
 }
 //-----------------------------------------------------------------------------
+void TestBitmapHelper::shiftUp()
+{
+    QImage original = QImage(":/shift/original");
+    QImage expected = QImage(":/shift/up");
+    QImage test = BitmapHelper::shiftUp(&original);
+
+    this->compareSizeAndPixels(&expected, &test);
+}
+//-----------------------------------------------------------------------------
+void TestBitmapHelper::shiftRight()
+{
+    QImage original = QImage(":/shift/original");
+    QImage expected = QImage(":/shift/right");
+    QImage test = BitmapHelper::shiftRight(&original);
+
+    this->compareSizeAndPixels(&expected, &test);
+}
+//-----------------------------------------------------------------------------
+void TestBitmapHelper::shiftDown()
+{
+    QImage original = QImage(":/shift/original");
+    QImage expected = QImage(":/shift/down");
+    QImage test = BitmapHelper::shiftDown(&original);
+
+    this->compareSizeAndPixels(&expected, &test);
+}
+//-----------------------------------------------------------------------------
+void TestBitmapHelper::shiftLeft()
+{
+    QImage original = QImage(":/shift/original");
+    QImage expected = QImage(":/shift/left");
+    QImage test = BitmapHelper::shiftLeft(&original);
+
+    this->compareSizeAndPixels(&expected, &test);
+}
+//-----------------------------------------------------------------------------
 void TestBitmapHelper::flipHorizontal()
 {
     QImage original = QImage(":/flip/0");
