@@ -41,6 +41,10 @@ public:
     static QImage rotate90(QImage *source);
     static QImage rotate180(QImage *source);
     static QImage rotate270(QImage *source);
+    static QImage shiftUp(QImage *source);
+    static QImage shiftRight(QImage *source);
+    static QImage shiftDown(QImage *source);
+    static QImage shiftLeft(QImage *source);
     static QImage flipHorizontal(QImage *source);
     static QImage flipVertical(QImage *source);
     static QImage resize(QImage *source, int width, int height, int offsetX, int offsetY, bool center, bool changeWidth, bool changeHeight, const QColor &backColor);
