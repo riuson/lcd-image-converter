@@ -66,13 +66,18 @@
     <property name="title">
      <string>Image</string>
     </property>
+    <widget class="QMenu" name="menuRotate">
+     <property name="title">
+      <string>Rotate</string>
+     </property>
+     <addaction name="actionImageRotate_90_Clockwise"/>
+     <addaction name="actionImageRotate_180"/>
+     <addaction name="actionImageRotate_90_Counter_Clockwise"/>
+    </widget>
     <addaction name="actionImageFlip_Horizontal"/>
     <addaction name="actionImageFlip_Vertical"/>
     <addaction name="separator"/>
-    <addaction name="actionImageRotate_90_Clockwise"/>
-    <addaction name="actionImageRotate_180"/>
-    <addaction name="actionImageRotate_90_Counter_Clockwise"/>
-    <addaction name="separator"/>
+    <addaction name="menuRotate"/>
     <addaction name="actionImageResize"/>
     <addaction name="actionImageInverse"/>
     <addaction name="separator"/>
@@ -182,7 +187,7 @@
   </action>
   <action name="actionImageRotate_90_Clockwise">
    <property name="text">
-    <string>Rotate 90 Clockwise</string>
+    <string>90 Clockwise</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+Right</string>
@@ -190,12 +195,12 @@
   </action>
   <action name="actionImageRotate_180">
    <property name="text">
-    <string>Rotate 180</string>
+    <string>180</string>
    </property>
   </action>
   <action name="actionImageRotate_90_Counter_Clockwise">
    <property name="text">
-    <string>Rotate 90 Counter-Clockwise</string>
+    <string>90 Counter-Clockwise</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+Left</string>
