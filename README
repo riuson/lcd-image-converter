@@ -1,11 +1,12 @@
 LCD Image Converter
 Tool to create bitmaps and fonts for embedded applications, v.2
-This program allows you to create bitmaps and fonts, and transform them to "C" source format for embedded applications.
+This program allows you to create bitmaps and fonts, and transform them to "C"
+source format for embedded applications.
 
 Home page: http://code.google.com/p/lcd-image-converter/
 Mailto:    riuson@gmail.com
 
-=======================================================================================================================
+================================================================================
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -19,49 +20,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/
 
-
-=======================================================================================================================
+================================================================================
 How to build from command line:
 
-cd ./lcd-image-converter
-qmake
-make
+chmod +x build.sh
+./build.sh
 # run
-./_linux/release/lcd-image-converter 
+./_linux/release/lcd-image-converter
 
-
-=======================================================================================================================
-Example of building log:
-
-user@desktop:~/workspace/lcd-image-converter (git: develop)
-qmake
-RCC: Error in 'resources/resources.qrc': Cannot find file 'lcd-image-converter-ru.qm'
-user@desktop:~/workspace/lcd-image-converter (git: develop)
-make
-Updating './resources/lcd-image-converter-ru.qm'...
-    Generated 168 translation(s) (168 finished and 0 unfinished)
-    Ignored 5 untranslated source text(s)
-Updating './resources/lcd-image-converter-ru.qm'...
-    Generated 168 translation(s) (168 finished and 0 unfinished)
-/usr/bin/uic-qt4 controls/mainwindow.ui -o .uic/ui_mainwindow.h
-
-...
-
-g++ -m64 -Wl,-O1 -o _linux/release/lcd-image-converter .obj/main.o .obj/bitmapcontainer.o .obj/mainwindow.o 
-.obj/widgetbitmapeditor.o .obj/editortabimage.o .obj/editortabfont.o .obj/dialogsavechanges.o .obj/bitmaphelper.o 
-.obj/dialogresize.o .obj/fontcontainer.o .obj/charactersmodel.o .obj/dialogfontselect.o .obj/dialogabout.o 
-.obj/recentlist.o .obj/starttab.o .obj/actionimagehandlers.o .obj/actionhandlersbase.o .obj/actionfonthandlers.o 
-.obj/actionhelphandlers.o .obj/actionsetuphandlers.o .obj/actionfilehandlers.o .obj/dialogfontpreview.o 
-.obj/revisionlabel.o .obj/revisioninfo.o .obj/converterhelper.o .obj/conversionmatrixoptions.o .obj/bitstream.o 
-.obj/dialogpreview.o .obj/matrixpreviewmodel.o .obj/conversionmatrix.o .obj/dialogconvert.o .obj/dialogsetup.o 
-.obj/parser.o .obj/matrixitemdelegate.o .obj/moc_bitmapcontainer.o .obj/moc_mainwindow.o 
-.obj/moc_widgetbitmapeditor.o .obj/moc_editortabimage.o .obj/moc_editortabfont.o .obj/moc_dialogsavechanges.o 
-.obj/moc_dialogresize.o .obj/moc_fontcontainer.o .obj/moc_charactersmodel.o .obj/moc_dialogfontselect.o 
-.obj/moc_dialogabout.o .obj/moc_recentlist.o .obj/moc_starttab.o .obj/moc_actionimagehandlers.o 
-.obj/moc_actionhandlersbase.o .obj/moc_actionfonthandlers.o .obj/moc_actionhelphandlers.o 
-.obj/moc_actionsetuphandlers.o .obj/moc_actionfilehandlers.o .obj/moc_dialogfontpreview.o .obj/moc_revisionlabel.o 
-.obj/moc_conversionmatrixoptions.o .obj/moc_dialogpreview.o .obj/moc_matrixpreviewmodel.o .obj/moc_conversionmatrix.o 
-.obj/moc_dialogconvert.o .obj/moc_dialogsetup.o .obj/moc_parser.o .obj/qrc_resources.o    
--L./_linux/release -L/usr/lib/x86_64-linux-gnu -lQtXmlPatterns -lQtXml -lQtGui -lQtCore -lpthread
-=======================================================================================================================
-
+================================================================================
