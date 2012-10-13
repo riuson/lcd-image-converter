@@ -101,6 +101,58 @@ void ActionImageHandlers::rotate_90_Counter_Clockwise_triggered()
     }
 }
 //-----------------------------------------------------------------------------
+void ActionImageHandlers::shift_left_triggered()
+{
+    if (this->editor())
+    {
+        WidgetBitmapEditor *editor = this->editor();
+
+        QString key = editor->currentImageKey();
+        QImage *original = editor->dataContainer()->image(key);
+        QImage result = BitmapHelper::shiftLeft(original);
+        editor->dataContainer()->setImage(key, &result);
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionImageHandlers::shift_right_triggered()
+{
+    if (this->editor())
+    {
+        WidgetBitmapEditor *editor = this->editor();
+
+        QString key = editor->currentImageKey();
+        QImage *original = editor->dataContainer()->image(key);
+        QImage result = BitmapHelper::shiftRight(original);
+        editor->dataContainer()->setImage(key, &result);
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionImageHandlers::shift_up_triggered()
+{
+    if (this->editor())
+    {
+        WidgetBitmapEditor *editor = this->editor();
+
+        QString key = editor->currentImageKey();
+        QImage *original = editor->dataContainer()->image(key);
+        QImage result = BitmapHelper::shiftUp(original);
+        editor->dataContainer()->setImage(key, &result);
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionImageHandlers::shift_down_triggered()
+{
+    if (this->editor())
+    {
+        WidgetBitmapEditor *editor = this->editor();
+
+        QString key = editor->currentImageKey();
+        QImage *original = editor->dataContainer()->image(key);
+        QImage result = BitmapHelper::shiftDown(original);
+        editor->dataContainer()->setImage(key, &result);
+    }
+}
+//-----------------------------------------------------------------------------
 void ActionImageHandlers::inverse_triggered()
 {
     if (this->editor())

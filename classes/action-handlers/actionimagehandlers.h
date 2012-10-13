@@ -46,6 +46,10 @@ public slots:
     void rotate_90_Clockwise_triggered();
     void rotate_180_triggered();
     void rotate_90_Counter_Clockwise_triggered();
+    void shift_left_triggered();
+    void shift_right_triggered();
+    void shift_up_triggered();
+    void shift_down_triggered();
     void inverse_triggered();
     void resize_triggered();
     void import_triggered();

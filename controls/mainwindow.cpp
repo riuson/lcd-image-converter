@@ -251,6 +251,10 @@ void MainWindow::createHandlers()
     this->mImageHandlers->connect(this->ui->actionImageRotate_90_Clockwise, SIGNAL(triggered()), SLOT(rotate_90_Clockwise_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageRotate_180, SIGNAL(triggered()), SLOT(rotate_180_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageRotate_90_Counter_Clockwise, SIGNAL(triggered()), SLOT(rotate_90_Counter_Clockwise_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageShiftLeft, SIGNAL(triggered()), SLOT(shift_left_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageShiftRight, SIGNAL(triggered()), SLOT(shift_right_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageShiftUp, SIGNAL(triggered()), SLOT(shift_up_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageShiftDown, SIGNAL(triggered()), SLOT(shift_down_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageInverse, SIGNAL(triggered()), SLOT(inverse_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageResize, SIGNAL(triggered()), SLOT(resize_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageImport, SIGNAL(triggered()), SLOT(import_triggered()));

@@ -52,6 +52,42 @@ QImage BitmapHelper::rotate270(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
+QImage BitmapHelper::shiftUp(QImage *source)
+{
+    QImage result = QImage(source->width(), source->height(), source->format());
+    QPainter painter(&result);
+    painter.drawImage(0, -1, *source);
+    painter.drawImage(0, source->height() - 1, *source);
+    return result;
+}
+//-----------------------------------------------------------------------------
+QImage BitmapHelper::shiftRight(QImage *source)
+{
+    QImage result = QImage(source->width(), source->height(), source->format());
+    QPainter painter(&result);
+    painter.drawImage(1, 0, *source);
+    painter.drawImage(-source->width() + 1, 0, *source);
+    return result;
+}
+//-----------------------------------------------------------------------------
+QImage BitmapHelper::shiftDown(QImage *source)
+{
+    QImage result = QImage(source->width(), source->height(), source->format());
+    QPainter painter(&result);
+    painter.drawImage(0, 1, *source);
+    painter.drawImage(0, -source->height() + 1, *source);
+    return result;
+}
+//-----------------------------------------------------------------------------
+QImage BitmapHelper::shiftLeft(QImage *source)
+{
+    QImage result = QImage(source->width(), source->height(), source->format());
+    QPainter painter(&result);
+    painter.drawImage(-1, 0, *source);
+    painter.drawImage(source->width() - 1, 0, *source);
+    return result;
+}
+//-----------------------------------------------------------------------------
 QImage BitmapHelper::flipHorizontal(QImage *source)
 {
     QImage result = source->mirrored(true, false);
