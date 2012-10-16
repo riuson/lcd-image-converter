@@ -339,7 +339,7 @@
     <string>Left</string>
    </property>
    <property name="shortcut">
-    <string notr="true">Shift+Left</string>
+    <string notr="true">Ctrl+Shift+Left</string>
    </property>
   </action>
   <action name="actionImageShiftRight">
@@ -347,7 +347,7 @@
     <string>Right</string>
    </property>
    <property name="shortcut">
-    <string notr="true">Shift+Right</string>
+    <string notr="true">Ctrl+Shift+Right</string>
    </property>
   </action>
   <action name="actionImageShiftUp">
@@ -355,7 +355,7 @@
     <string>Up</string>
    </property>
    <property name="shortcut">
-    <string notr="true">Shift+Up</string>
+    <string notr="true">Ctrl+Shift+Up</string>
    </property>
   </action>
   <action name="actionImageShiftDown">
@@ -363,7 +363,7 @@
     <string>Down</string>
    </property>
    <property name="shortcut">
-    <string notr="true">Shift+Down</string>
+    <string notr="true">Ctrl+Shift+Down</string>
    </property>
   </action>
  </widget>
