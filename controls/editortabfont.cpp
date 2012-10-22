@@ -197,6 +197,7 @@ bool EditorTabFont::load(const QString &fileName)
 
                 QFontDatabase fonts;
                 this->mFont = fonts.font(fontFamily, style, size);
+                this->mFont.setPixelSize(size);
                 this->mStyle = style;
                 this->mMonospaced = monospaced;
                 this->mAntialiasing = antialiasing;
@@ -507,6 +508,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
             }
         }
         this->mFont = fonts.font(fontFamily, style, size);
+        this->mFont.setPixelSize(size);
         this->updateTableFont();
 
         //this->mCharacters = chars;
@@ -570,7 +572,7 @@ void EditorTabFont::fontCharacters(QString *chars,
     //*chars = this->mCharacters;
     *chars = charList.join("");
     *fontFamily = this->mFont.family();
-    *size = this->mFont.pointSize();
+    *size = this->mFont.pixelSize();
     *style = this->mStyle;
     *monospaced = this->mMonospaced;
     *antialiasing = this->mAntialiasing;
