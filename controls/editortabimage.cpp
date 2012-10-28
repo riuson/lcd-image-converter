@@ -192,20 +192,6 @@ QString EditorTabImage::fileName()
     return this->mFileName;
 }
 //-----------------------------------------------------------------------------
-QString EditorTabImage::convertedFileName()
-{
-    return this->mConvertedFileName;
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::setConvertedFileName(const QString &value)
-{
-    if (this->mConvertedFileName != value)
-    {
-        this->mConvertedFileName = value;
-        this->setChanged(true);
-    }
-}
-//-----------------------------------------------------------------------------
 QString EditorTabImage::documentName()
 {
     return this->mDocumentName;
@@ -282,7 +268,12 @@ void EditorTabImage::convert(bool request)
         {
             file.write(result.toUtf8());
             file.close();
-            this->setConvertedFileName(outputFileName);
+
+            if (this->mConvertedFileName != outputFileName)
+            {
+                this->mConvertedFileName = outputFileName;
+                emit this->setChanged(true);
+            }
         }
     }
 }

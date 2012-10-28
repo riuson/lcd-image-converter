@@ -29,13 +29,11 @@ class WidgetBitmapEditor;
 class IDocument
 {
 public:
-    virtual bool save(const QString &filename) = 0;
     virtual bool load(const QString &filename) = 0;
+    virtual bool save(const QString &filename) = 0;
     virtual bool changed() = 0;
     virtual void setChanged(bool value) = 0;
     virtual QString fileName() = 0;
-    virtual QString convertedFileName() = 0;
-    virtual void setConvertedFileName(const QString &value) = 0;
     virtual QString documentName() = 0;
     virtual void setDocumentName(const QString &value) = 0;
     virtual IDataContainer *dataContainer() = 0;

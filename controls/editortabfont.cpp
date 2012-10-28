@@ -336,20 +336,6 @@ QString EditorTabFont::fileName()
     return this->mFileName;
 }
 //-----------------------------------------------------------------------------
-QString EditorTabFont::convertedFileName()
-{
-    return this->mConvertedFileName;
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::setConvertedFileName(const QString &value)
-{
-    if (this->mConvertedFileName != value)
-    {
-        this->mConvertedFileName = value;
-        this->setChanged(true);
-    }
-}
-//-----------------------------------------------------------------------------
 QString EditorTabFont::documentName()
 {
     return this->mDocumentName;
@@ -437,7 +423,12 @@ void EditorTabFont::convert(bool request)
         {
             file.write(result.toUtf8());
             file.close();
-            this->setConvertedFileName(outputFileName);
+
+            if (this->mConvertedFileName != outputFileName)
+            {
+                this->mConvertedFileName = outputFileName;
+                emit this->setChanged(true);
+            }
         }
     }
 }

@@ -46,8 +46,6 @@ public:
     void setChanged(bool value);
     bool changed();
     QString fileName();
-    QString convertedFileName();
-    void setConvertedFileName(const QString &value);
     QString documentName();
     void setDocumentName(const QString &value);
     IDataContainer *dataContainer();
