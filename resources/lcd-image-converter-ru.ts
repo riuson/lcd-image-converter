@@ -264,7 +264,7 @@ Qt: %3</translation>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.cpp" line="216"/>
+        <location filename="../controls/dialogfontselect.cpp" line="219"/>
         <source>Real height: %1</source>
         <translation>Высота: %1</translation>
     </message>
@@ -480,22 +480,22 @@ Qt: %3</translation>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="418"/>
+        <location filename="../controls/editortabfont.cpp" line="419"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="420"/>
+        <location filename="../controls/editortabfont.cpp" line="421"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="476"/>
+        <location filename="../controls/editortabfont.cpp" line="477"/>
         <source>Font parameters was changed</source>
         <translation>Параметры шрифта были изменены</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="477"/>
+        <location filename="../controls/editortabfont.cpp" line="478"/>
         <source>Do you want update all characters?</source>
         <translation>Вы хотите обновить все символы?</translation>
     </message>
@@ -1175,22 +1175,22 @@ Qt: %3</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/widgetbitmapeditor.ui" line="66"/>
+        <location filename="../controls/widgetbitmapeditor.ui" line="63"/>
         <source>x</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/widgetbitmapeditor.ui" line="82"/>
+        <location filename="../controls/widgetbitmapeditor.ui" line="81"/>
         <source>Color 1</source>
         <translation>Цвет 1</translation>
     </message>
     <message>
-        <location filename="../controls/widgetbitmapeditor.ui" line="89"/>
+        <location filename="../controls/widgetbitmapeditor.ui" line="91"/>
         <source>Color 2</source>
         <translation>Цвет 2</translation>
     </message>
     <message>
-        <location filename="../controls/widgetbitmapeditor.ui" line="109"/>
+        <location filename="../controls/widgetbitmapeditor.ui" line="116"/>
         <source>x, y</source>
         <translation></translation>
     </message>
