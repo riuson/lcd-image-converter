@@ -134,7 +134,7 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
         }
         else
         {
-            this->ui->labelCoordinates->setText(tr("Size: %1,%2").arg(original->width()).arg(original->height()));
+            this->ui->labelCoordinates->setText(tr("%1 x %2").arg(original->width()).arg(original->height()));
         }
         event->accept();
     }
@@ -192,7 +192,7 @@ void WidgetBitmapEditor::createImageScaled(int scale)
 
         this->ui->label->setPixmap(this->mPixmapScaled);
 
-        this->ui->labelCoordinates->setText(tr("Size: %1,%2").arg(original->width()).arg(original->height()));
+        this->ui->labelCoordinates->setText(tr("%1 x %2").arg(original->width()).arg(original->height()));
     }
 }
 //-----------------------------------------------------------------------------
@@ -234,7 +234,7 @@ void WidgetBitmapEditor::mon_dataContainer_imageChanged(const QString &key)
     if (this->mImageKey == key)
     {
         this->createImageScaled(this->mScale);
-        emit this->dataChanged();;
+        emit this->dataChanged();
     }
 }
 //-----------------------------------------------------------------------------

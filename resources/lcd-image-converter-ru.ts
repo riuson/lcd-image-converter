@@ -1202,8 +1202,8 @@ Qt: %3</translation>
     <message>
         <location filename="../controls/widgetbitmapeditor.cpp" line="137"/>
         <location filename="../controls/widgetbitmapeditor.cpp" line="195"/>
-        <source>Size: %1,%2</source>
-        <translation>Размер: %1,%2</translation>
+        <source>%1 x %2</source>
+        <translation>%1 x %2</translation>
     </message>
 </context>
 </TS>
