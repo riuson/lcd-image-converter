@@ -33,7 +33,7 @@ SOURCES += main.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
     controls/dialogabout.cpp \
-    classes/recentlist.cpp \
+    classes/settings/recentlist.cpp \
     controls/starttab.cpp \
     classes/action-handlers/actionimagehandlers.cpp \
     classes/action-handlers/actionhandlersbase.cpp \
@@ -53,19 +53,22 @@ SOURCES += main.cpp \
     controls/setup/parts/setuptabprepare.cpp \
     controls/setup/parts/setuptabmatrix.cpp \
     controls/setup/parts/setuptabimage.cpp \
-    classes/presets/preset.cpp \
-    classes/presets/prepareoptions.cpp \
-    classes/presets/matrixoptions.cpp \
-    classes/presets/imageoptions.cpp \
-    classes/presets/templateoptions.cpp \
+    classes/settings/presets/preset.cpp \
+    classes/settings/presets/prepareoptions.cpp \
+    classes/settings/presets/matrixoptions.cpp \
+    classes/settings/presets/imageoptions.cpp \
+    classes/settings/presets/templateoptions.cpp \
     controls/setup/parts/setuptabtemplates.cpp \
     controls/setup/dialogoptions.cpp \
-    classes/presets/fontoptions.cpp \
+    classes/settings/presets/fontoptions.cpp \
     controls/setup/parts/setuptabfont.cpp \
     classes/convert/fonthelper.cpp \
     classes/compression/rlecompressor.cpp \
     classes/fontcharactersmodel.cpp \
-    controls/dialogexternaleditor.cpp
+    controls/dialogexternaleditor.cpp \
+    classes/settings/externaltooloptions.cpp \
+    classes/settings/languageoptions.cpp \
+    classes/settings/bitmapeditoroptions.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -81,7 +84,7 @@ HEADERS += \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
     controls/dialogabout.h \
-    classes/recentlist.h \
+    classes/settings/recentlist.h \
     controls/starttab.h \
     classes/action-handlers/actionimagehandlers.h \
     interfaces/imainwindow.h \
@@ -103,19 +106,22 @@ HEADERS += \
     controls/setup/parts/setuptabprepare.h \
     controls/setup/parts/setuptabmatrix.h \
     controls/setup/parts/setuptabimage.h \
-    classes/presets/preset.h \
-    classes/presets/prepareoptions.h \
-    classes/presets/matrixoptions.h \
-    classes/presets/imageoptions.h \
-    classes/presets/templateoptions.h \
+    classes/settings/presets/preset.h \
+    classes/settings/presets/prepareoptions.h \
+    classes/settings/presets/matrixoptions.h \
+    classes/settings/presets/imageoptions.h \
+    classes/settings/presets/templateoptions.h \
     controls/setup/parts/setuptabtemplates.h \
     controls/setup/dialogoptions.h \
-    classes/presets/fontoptions.h \
+    classes/settings/presets/fontoptions.h \
     controls/setup/parts/setuptabfont.h \
     classes/convert/fonthelper.h \
     classes/compression/rlecompressor.h \
     classes/fontcharactersmodel.h \
-    controls/dialogexternaleditor.h
+    controls/dialogexternaleditor.h \
+    classes/settings/externaltooloptions.h \
+    classes/settings/languageoptions.h \
+    classes/settings/bitmapeditoroptions.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -139,7 +145,8 @@ INCLUDEPATH += . \
     ./classes \
     ./classes/compression \
     ./classes/convert \
-    ./classes/presets \
+    ./classes/settings \
+    ./classes/settings/presets \
     ./classes/action-handlers \
     ./classes/preview-models \
     ./controls \

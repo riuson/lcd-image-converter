@@ -23,7 +23,6 @@
 #include "editortabfont.h"
 #include "dialogfontselect.h"
 #include <QFileDialog>
-#include <QSettings>
 #include <QTextStream>
 #include <QInputDialog>
 #include <QLineEdit>

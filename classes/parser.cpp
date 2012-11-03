@@ -19,7 +19,6 @@
 
 #include "parser.h"
 //-----------------------------------------------------------------------------
-#include <QSettings>
 #include <QFile>
 #include <QTextStream>
 #include <QTextCodec>
@@ -40,10 +39,7 @@ Parser::Parser(QObject *parent, TemplateType templateType) :
 {
     this->mPreset = new Preset(this);
 
-    QSettings sett;
-    sett.beginGroup("presets");
-    this->mSelectedPresetName = sett.value("selected", QVariant("default")).toString();
-    sett.endGroup();
+    this->mSelectedPresetName = Preset::currentName();
 
     this->mPreset->load(this->mSelectedPresetName);
 

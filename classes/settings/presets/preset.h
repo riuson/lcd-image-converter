@@ -48,6 +48,9 @@ public:
     TemplateOptions *templates();
 
     static QStringList presetsList();
+    static QString currentName();
+    static void setCurrentName(const QString &value);
+    static void remove(const QString &value);
 
     bool load(const QString &name);
     void save(const QString &name) const;

@@ -89,6 +89,35 @@ QStringList Preset::presetsList()
     return names;
 }
 //-----------------------------------------------------------------------------
+QString Preset::currentName()
+{
+    QSettings sett;
+    sett.beginGroup("presets");
+    QString result = sett.value("selected", QVariant("")).toString();
+    sett.endGroup();
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+void Preset::setCurrentName(const QString &value)
+{
+    QSettings sett;
+    sett.beginGroup("presets");
+    sett.setValue("selected", QVariant(value));
+    sett.endGroup();
+}
+//-----------------------------------------------------------------------------
+void Preset::remove(const QString &value)
+{
+    QSettings sett;
+    sett.beginGroup("presets");
+
+    sett.beginGroup(value);
+    sett.remove("");
+
+    sett.endGroup();
+}
+//-----------------------------------------------------------------------------
 bool Preset::load(const QString &name)
 {
     bool result = false;
