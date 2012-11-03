@@ -67,7 +67,8 @@ SOURCES += main.cpp \
     classes/fontcharactersmodel.cpp \
     controls/dialogexternaleditor.cpp \
     classes/settings/externaltooloptions.cpp \
-    classes/settings/languageoptions.cpp
+    classes/settings/languageoptions.cpp \
+    classes/settings/bitmapeditoroptions.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -119,7 +120,8 @@ HEADERS += \
     classes/fontcharactersmodel.h \
     controls/dialogexternaleditor.h \
     classes/settings/externaltooloptions.h \
-    classes/settings/languageoptions.h
+    classes/settings/languageoptions.h \
+    classes/settings/bitmapeditoroptions.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \

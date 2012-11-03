@@ -23,9 +23,9 @@
 #include <QMouseEvent>
 #include <QColorDialog>
 #include <QPainter>
-#include <QSettings>
 
 #include "bitmaphelper.h"
+#include "bitmapeditoroptions.h"
 #include "idatacontainer.h"
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::WidgetBitmapEditor(IDataContainer *dataContainer, QWidget *parent) :
@@ -34,11 +34,7 @@ WidgetBitmapEditor::WidgetBitmapEditor(IDataContainer *dataContainer, QWidget *p
 {
     ui->setupUi(this);
 
-    QSettings sett;
-    sett.beginGroup("setup");
-    bool ok;
-    this->mScale = sett.value("defaultScale", QVariant(10)).toInt(&ok);
-    sett.endGroup();
+    this->mScale = BitmapEditorOptions::scale();
 
     this->ui->label->installEventFilter(this);
 
@@ -201,10 +197,7 @@ void WidgetBitmapEditor::on_spinBoxScale_valueChanged(int value)
     this->mScale = value;
     this->createImageScaled(this->mScale);
 
-    QSettings sett;
-    sett.beginGroup("setup");
-    sett.setValue("defaultScale", QVariant(value));
-    sett.endGroup();
+    BitmapEditorOptions::setScale(value);
 }
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::on_pushButtonColor1_clicked()
