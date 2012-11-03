@@ -33,7 +33,7 @@ SOURCES += main.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
     controls/dialogabout.cpp \
-    classes/recentlist.cpp \
+    classes/settings/recentlist.cpp \
     controls/starttab.cpp \
     classes/action-handlers/actionimagehandlers.cpp \
     classes/action-handlers/actionhandlersbase.cpp \
@@ -82,7 +82,7 @@ HEADERS += \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
     controls/dialogabout.h \
-    classes/recentlist.h \
+    classes/settings/recentlist.h \
     controls/starttab.h \
     classes/action-handlers/actionimagehandlers.h \
     interfaces/imainwindow.h \
