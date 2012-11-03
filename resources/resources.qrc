@@ -17,4 +17,7 @@
     <qresource prefix="/demos">
         <file alias="scanning">demos/scanning.png</file>
     </qresource>
+    <qresource prefix="/history">
+        <file alias="changes">history.xml</file>
+    </qresource>
 </RCC>
