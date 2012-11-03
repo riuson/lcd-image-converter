@@ -21,7 +21,6 @@
 #include "ui_dialogoptions.h"
 //-----------------------------------------------------------------------------
 #include <QList>
-#include <QSettings>
 #include <QStringList>
 #include <QInputDialog>
 #include <QMessageBox>
@@ -50,11 +49,8 @@ DialogOptions::DialogOptions(IDataContainer *dataContainer, QWidget *parent) :
     this->mSetupFont      = new SetupTabFont(this->mPreset, this);
     this->mSetupTemplates = new SetupTabTemplates(this->mPreset, this);
 
-    QSettings sett;
-    sett.beginGroup("presets");
-    QString selectedPreset = sett.value("selected", QVariant("")).toString();
-    int presetsCount = sett.childGroups().count();
-    sett.endGroup();
+    QString selectedPreset = Preset::currentName();
+    int presetsCount = Preset::presetsList().length();
 
     if (presetsCount == 0)
         this->createPresetsDefault();
@@ -127,13 +123,7 @@ void DialogOptions::presetSaveAs(const QString &name)
 //-----------------------------------------------------------------------------
 void DialogOptions::presetRemove(const QString &name)
 {
-    QSettings sett;
-    sett.beginGroup("presets");
-
-    sett.beginGroup(name);
-    sett.remove("");
-
-    sett.endGroup();
+    Preset::remove(name);
 
     this->fillPresetsList();
 }
@@ -182,12 +172,7 @@ void DialogOptions::on_pushButtonPreview_clicked()
 //-----------------------------------------------------------------------------
 void DialogOptions::on_pushButtonPresetSaveAs_clicked()
 {
-    QSettings sett;
-    sett.beginGroup("presets");
-
-    QStringList names = sett.childGroups();
-
-    sett.endGroup();
+    QStringList names = Preset::presetsList();
 
     QInputDialog dialog(this);
     dialog.setComboBoxItems(names);
@@ -248,10 +233,7 @@ void DialogOptions::done(int result)
 
                 this->mPreset->save(name);
 
-                QSettings sett;
-                sett.beginGroup("presets");
-                sett.setValue("selected", name);
-                sett.endGroup();
+                Preset::setCurrentName(name);
 
                 QDialog::done(result);
                 break;
