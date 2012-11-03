@@ -53,14 +53,14 @@ SOURCES += main.cpp \
     controls/setup/parts/setuptabprepare.cpp \
     controls/setup/parts/setuptabmatrix.cpp \
     controls/setup/parts/setuptabimage.cpp \
-    classes/presets/preset.cpp \
-    classes/presets/prepareoptions.cpp \
-    classes/presets/matrixoptions.cpp \
-    classes/presets/imageoptions.cpp \
-    classes/presets/templateoptions.cpp \
+    classes/settings/presets/preset.cpp \
+    classes/settings/presets/prepareoptions.cpp \
+    classes/settings/presets/matrixoptions.cpp \
+    classes/settings/presets/imageoptions.cpp \
+    classes/settings/presets/templateoptions.cpp \
     controls/setup/parts/setuptabtemplates.cpp \
     controls/setup/dialogoptions.cpp \
-    classes/presets/fontoptions.cpp \
+    classes/settings/presets/fontoptions.cpp \
     controls/setup/parts/setuptabfont.cpp \
     classes/convert/fonthelper.cpp \
     classes/compression/rlecompressor.cpp \
@@ -103,14 +103,14 @@ HEADERS += \
     controls/setup/parts/setuptabprepare.h \
     controls/setup/parts/setuptabmatrix.h \
     controls/setup/parts/setuptabimage.h \
-    classes/presets/preset.h \
-    classes/presets/prepareoptions.h \
-    classes/presets/matrixoptions.h \
-    classes/presets/imageoptions.h \
-    classes/presets/templateoptions.h \
+    classes/settings/presets/preset.h \
+    classes/settings/presets/prepareoptions.h \
+    classes/settings/presets/matrixoptions.h \
+    classes/settings/presets/imageoptions.h \
+    classes/settings/presets/templateoptions.h \
     controls/setup/parts/setuptabtemplates.h \
     controls/setup/dialogoptions.h \
-    classes/presets/fontoptions.h \
+    classes/settings/presets/fontoptions.h \
     controls/setup/parts/setuptabfont.h \
     classes/convert/fonthelper.h \
     classes/compression/rlecompressor.h \
@@ -139,7 +139,7 @@ INCLUDEPATH += . \
     ./classes \
     ./classes/compression \
     ./classes/convert \
-    ./classes/presets \
+    ./classes/settings/presets \
     ./classes/action-handlers \
     ./classes/preview-models \
     ./controls \

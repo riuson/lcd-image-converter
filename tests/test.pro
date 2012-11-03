@@ -23,16 +23,16 @@ SOURCES += maintest.cpp \
     parts/testconverterhelper.cpp \
     parts/testbitstream.cpp \
     parts/testprepareoptions.cpp \
-    ../classes/presets/preset.cpp \
-    ../classes/presets/prepareoptions.cpp \
-    ../classes/presets/matrixoptions.cpp \
-    ../classes/presets/imageoptions.cpp \
+    ../classes/settings/presets/preset.cpp \
+    ../classes/settings/presets/prepareoptions.cpp \
+    ../classes/settings/presets/matrixoptions.cpp \
+    ../classes/settings/presets/imageoptions.cpp \
     parts/testmatrixoptions.cpp \
     parts/testimageoptions.cpp \
     parts/testpresets.cpp \
     parts/testfontoptions.cpp \
-    ../classes/presets/templateoptions.cpp \
-    ../classes/presets/fontoptions.cpp \
+    ../classes/settings/presets/templateoptions.cpp \
+    ../classes/settings/presets/fontoptions.cpp \
     parts/testtemplateoptions.cpp \
     ../classes/compression/rlecompressor.cpp \
     parts/testrle.cpp
@@ -46,16 +46,16 @@ HEADERS += \
     parts/testconverterhelper.h \
     parts/testbitstream.h \
     parts/testprepareoptions.h \
-    ../classes/presets/preset.h \
-    ../classes/presets/prepareoptions.h \
-    ../classes/presets/matrixoptions.h \
-    ../classes/presets/imageoptions.h \
+    ../classes/settings/presets/preset.h \
+    ../classes/settings/presets/prepareoptions.h \
+    ../classes/settings/presets/matrixoptions.h \
+    ../classes/settings/presets/imageoptions.h \
     parts/testmatrixoptions.h \
     parts/testimageoptions.h \
     parts/testpresets.h \
     parts/testfontoptions.h \
-    ../classes/presets/templateoptions.h \
-    ../classes/presets/fontoptions.h \
+    ../classes/settings/presets/templateoptions.h \
+    ../classes/settings/presets/fontoptions.h \
     parts/testtemplateoptions.h \
     ../classes/compression/rlecompressor.h \
     parts/testrle.h
@@ -66,7 +66,7 @@ INCLUDEPATH += . \
     ./parts \
     ../classes \
     ../classes/convert \
-    ../classes/presets \
+    ../classes/settings/presets \
     ../classes/compression
 
 RESOURCES += \
