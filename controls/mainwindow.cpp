@@ -24,7 +24,6 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QTextStream>
-#include <QSettings>
 #include <QTextCodec>
 #include <QTranslator>
 #include <QLocale>
@@ -38,6 +37,7 @@
 #include "widgetbitmapeditor.h"
 #include "revisionlabel.h"
 #include "recentlist.h"
+#include "languageoptions.h"
 #include "actionfilehandlers.h"
 #include "actionimagehandlers.h"
 #include "actionfonthandlers.h"
@@ -81,11 +81,8 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     this->connect(this->ui->actionLanguageDefault, SIGNAL(triggered()), SLOT(actionLanguage_triggered()));
 
-    QSettings sett;
-    sett.beginGroup("language");
-    QString selectedLocale = sett.value("selected", QVariant("")).toString();
+    QString selectedLocale = LanguageOptions::locale();
     this->selectLocale(selectedLocale);
-    sett.endGroup();
 
     // create recent list
     this->mRecentList = new RecentList(this);
@@ -156,23 +153,15 @@ void MainWindow::updateMenuState()
 //-----------------------------------------------------------------------------
 void MainWindow::selectLocale(const QString &localeName)
 {
-    QSettings sett;
-    sett.beginGroup("language");
-
-    QFile file(":/translations/" + localeName);
-    if (file.exists())
+    if (LanguageOptions::setLocale(localeName))
     {
         this->mTrans->load(":/translations/" + localeName);
         qApp->installTranslator(this->mTrans);
-        sett.setValue("selected", QVariant(localeName));
     }
     else
     {
         qApp->removeTranslator(this->mTrans);
-        sett.setValue("selected", QVariant(""));
     }
-
-    sett.endGroup();
 
     QList<QAction *> actions =this->ui->menuLanguage->actions();
     QMutableListIterator<QAction *> it(actions);
