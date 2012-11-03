@@ -38,8 +38,8 @@ WidgetBitmapEditor::WidgetBitmapEditor(IDataContainer *dataContainer, QWidget *p
 
     this->ui->label->installEventFilter(this);
 
-    this->mColor1 = QColor("black");
-    this->mColor2 = QColor("white");
+    this->mColor1 = BitmapEditorOptions::color1();
+    this->mColor2 = BitmapEditorOptions::color2();
 
     this->mPixmapColor1 = QPixmap(16, 16);
     this->mPixmapColor2 = QPixmap(16, 16);
@@ -206,6 +206,7 @@ void WidgetBitmapEditor::on_pushButtonColor1_clicked()
     if (dialog.exec() == QDialog::Accepted)
     {
         this->mColor1 = dialog.selectedColor();
+        BitmapEditorOptions::setColor1(this->mColor1);
         this->mPixmapColor1.fill(this->mColor1);
         this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
     }
@@ -217,6 +218,7 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
     if (dialog.exec() == QDialog::Accepted)
     {
         this->mColor2 = dialog.selectedColor();
+        BitmapEditorOptions::setColor2(this->mColor2);
         this->mPixmapColor2.fill(this->mColor2);
         this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
     }

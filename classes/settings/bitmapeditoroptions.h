@@ -21,6 +21,7 @@
 #define BITMAPEDITOROPTIONS_H
 //-----------------------------------------------------------------------------
 #include <QObject>
+#include <QColor>
 //-----------------------------------------------------------------------------
 class BitmapEditorOptions : public QObject
 {
@@ -28,6 +29,11 @@ class BitmapEditorOptions : public QObject
 public:
     static int scale();
     static void setScale(int value);
+
+    static QColor color1();
+    static QColor color2();
+    static void setColor1(const QColor &color);
+    static void setColor2(const QColor &color);
 };
 //-----------------------------------------------------------------------------
 #endif // BITMAPEDITOROPTIONS_H
