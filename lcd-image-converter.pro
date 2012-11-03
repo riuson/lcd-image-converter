@@ -170,7 +170,8 @@ OTHER_FILES += \
     resources/lcd-image-converter-ru.ts \
     win-res.rc \
     README \
-    resources/history.xml
+    resources/history.xml \
+    resources/history.xsl
 
 
 # generate version info file on each build, because file in other directory

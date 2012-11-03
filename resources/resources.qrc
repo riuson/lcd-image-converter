@@ -19,5 +19,6 @@
     </qresource>
     <qresource prefix="/history">
         <file alias="changes">history.xml</file>
+        <file alias="xsltemplate">history.xsl</file>
     </qresource>
 </RCC>

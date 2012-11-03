@@ -22,6 +22,7 @@
 
 #include <QTextStream>
 #include <QFile>
+#include <QXmlQuery>
 #include "revisioninfo.h"
 //-----------------------------------------------------------------------------
 DialogAbout::DialogAbout(QWidget *parent) :
@@ -46,7 +47,7 @@ DialogAbout::DialogAbout(QWidget *parent) :
         QString license = stream.readAll();
         file_license.close();
 
-        this->ui->textEdit->setText(license);
+        this->ui->textEditLicense->setText(license);
     }
 
     // show revision info
@@ -61,6 +62,30 @@ DialogAbout::DialogAbout(QWidget *parent) :
         QString about = this->ui->labelInfo->text();
         QString formattedAbout = QString(about).arg(qVersion());
         this->ui->labelInfo->setText(formattedAbout);
+    }
+
+    // show history
+    {
+        QFile fileHistory(":/history/changes");
+        if (fileHistory.open(QIODevice::ReadOnly))
+        {
+            QFile fileTransform(":/history/xsltemplate");
+            if (fileTransform.open(QIODevice::ReadOnly))
+            {
+                QXmlQuery query(QXmlQuery::XSLT20);
+                query.setFocus(&fileHistory);
+                query.setQuery(&fileTransform);
+
+                QString html = "";
+                if (query.evaluateTo(&html))
+                {
+                    this->ui->textBrowserHistory->setText(html);
+                }
+
+                fileTransform.close();
+            }
+            fileHistory.close();
+        }
     }
 
     // focus on Close button
