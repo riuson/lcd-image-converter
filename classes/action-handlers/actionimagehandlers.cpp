@@ -22,11 +22,11 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QDateTime>
-#include <QSettings>
 #include <QMessageBox>
 #include "widgetbitmapeditor.h"
 #include "dialogresize.h"
 #include "bitmaphelper.h"
+#include "externaltooloptions.h"
 #include "imainwindow.h"
 #include "idocument.h"
 #include "idatacontainer.h"
@@ -266,12 +266,6 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
     {
         WidgetBitmapEditor *editor = this->editor();
 
-        // get application path
-        QSettings sett;
-        sett.beginGroup("external-tools");
-        this->mExternalTool = sett.value("imageEditor", QVariant("gimp")).toString();
-        sett.endGroup();
-
         // prepare temporary file name
         QDateTime time = QDateTime::currentDateTime();
         QString filename = QDir::tempPath() + "/" + time.toString("yyyy-MM-dd-hh-mm-ss-zzz") + ".png";
@@ -288,7 +282,7 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
         QProcess process(this);
         this->connect(&process, SIGNAL(error(QProcess::ProcessError)), SLOT(process_error(QProcess::ProcessError)));
         this->mRunningError = false;
-        process.start(this->mExternalTool, QStringList() << filename);
+        process.start(ExternalToolOptions::imageEditor(), QStringList() << filename);
 
         // wait for external application finished
         do {
@@ -349,7 +343,7 @@ void ActionImageHandlers::process_error(QProcess::ProcessError error)
 
     QMessageBox box(this->mMainWindow->parentWidget());
     box.setTextFormat(Qt::RichText);
-    box.setText(QString("<b>%1</b>: \"%2\"<br/>%3").arg(message, this->mExternalTool, description));
+    box.setText(QString("<b>%1</b>: \"%2\"<br/>%3").arg(message, ExternalToolOptions::imageEditor(), description));
     box.setWindowTitle(tr("Error running external tool"));
     box.exec();
 }

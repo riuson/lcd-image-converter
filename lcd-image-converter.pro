@@ -65,7 +65,8 @@ SOURCES += main.cpp \
     classes/convert/fonthelper.cpp \
     classes/compression/rlecompressor.cpp \
     classes/fontcharactersmodel.cpp \
-    controls/dialogexternaleditor.cpp
+    controls/dialogexternaleditor.cpp \
+    classes/settings/externaltooloptions.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -115,7 +116,8 @@ HEADERS += \
     classes/convert/fonthelper.h \
     classes/compression/rlecompressor.h \
     classes/fontcharactersmodel.h \
-    controls/dialogexternaleditor.h
+    controls/dialogexternaleditor.h \
+    classes/settings/externaltooloptions.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -139,6 +141,7 @@ INCLUDEPATH += . \
     ./classes \
     ./classes/compression \
     ./classes/convert \
+    ./classes/settings \
     ./classes/settings/presets \
     ./classes/action-handlers \
     ./classes/preview-models \

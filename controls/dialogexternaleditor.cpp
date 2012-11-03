@@ -2,7 +2,7 @@
 #include "ui_dialogexternaleditor.h"
 
 #include <QFileDialog>
-#include <QSettings>
+#include "externaltooloptions.h"
 //-----------------------------------------------------------------------------
 DialogExternalEditor::DialogExternalEditor(QWidget *parent) :
     QDialog(parent),
@@ -10,11 +10,7 @@ DialogExternalEditor::DialogExternalEditor(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QSettings sett;
-    sett.beginGroup("external-tools");
-    QString imageEditor = sett.value("imageEditor", QVariant("gimp")).toString();
-    this->ui->lineEdit->setText(imageEditor);
-    sett.endGroup();
+    this->ui->lineEdit->setText(ExternalToolOptions::imageEditor());
 }
 //-----------------------------------------------------------------------------
 DialogExternalEditor::~DialogExternalEditor()
@@ -26,10 +22,7 @@ void DialogExternalEditor::done(int result)
 {
     if (result == QDialog::Accepted)
     {
-        QSettings sett;
-        sett.beginGroup("external-tools");
-        sett.setValue("imageEditor", QVariant(this->ui->lineEdit->text()));
-        sett.endGroup();
+        ExternalToolOptions::setImageEditor(this->ui->lineEdit->text());
     }
     QDialog::done(result);
 }
