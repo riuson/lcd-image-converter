@@ -22,6 +22,8 @@
 
 #include <QTextStream>
 #include <QFile>
+#include <QXmlQuery>
+#include <QBuffer>
 #include "revisioninfo.h"
 //-----------------------------------------------------------------------------
 DialogAbout::DialogAbout(QWidget *parent) :
@@ -38,16 +40,7 @@ DialogAbout::DialogAbout(QWidget *parent) :
     icon.addFile(":/images/icon64", QSize(64, 64));
     this->setWindowIcon(icon);
 
-    // load license text to textEdit
-    QFile file_license(":/text/gpl3");
-    if (file_license.open(QIODevice::ReadOnly))
-    {
-        QTextStream stream(&file_license);
-        QString license = stream.readAll();
-        file_license.close();
-
-        this->ui->textEdit->setText(license);
-    }
+    this->showLicense();
 
     // show revision info
     {
@@ -63,6 +56,8 @@ DialogAbout::DialogAbout(QWidget *parent) :
         this->ui->labelInfo->setText(formattedAbout);
     }
 
+    this->connect(this->ui->labelLinks, SIGNAL(linkActivated(QString)), SLOT(linkActivated(QString)));
+
     // focus on Close button
     this->ui->buttonBox->setFocus();
 }
@@ -70,5 +65,109 @@ DialogAbout::DialogAbout(QWidget *parent) :
 DialogAbout::~DialogAbout()
 {
     delete ui;
+}
+//-----------------------------------------------------------------------------
+void DialogAbout::showLicense()
+{
+    QFile file_license(":/text/gpl3");
+    if (file_license.open(QIODevice::ReadOnly))
+    {
+        QTextStream stream(&file_license);
+        QString license = stream.readAll();
+        file_license.close();
+
+        this->ui->textBrowser->setText(license);
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogAbout::showHistory()
+{
+    // XML file
+    QBuffer history;
+    {
+        QFile file(":/history/changes");
+        if (file.open(QIODevice::ReadOnly))
+        {
+            QTextStream stream(&file);
+            QString value = stream.readAll();
+            file.close();
+
+            value.replace("<sha1>current</sha1>", QString("<sha1>%1</sha1>").arg(RevisionInfo::hash()));
+            value.replace("<date>current</date>", QString("<date>%1</date>").arg(RevisionInfo::date()));
+
+            QByteArray array = value.toUtf8();
+
+            history.setData(array);
+        }
+    }
+
+    // XSL file
+    QBuffer transform;
+    {
+        QFile file(":/history/xsl");
+        if (file.open(QIODevice::ReadOnly))
+        {
+            QTextStream stream(&file);
+            QString value = stream.readAll();
+            file.close();
+
+            value.replace("$current_date", QString("%1").arg(RevisionInfo::date()));
+
+            QByteArray array = value.toUtf8();
+
+            transform.setData(array);
+        }
+    }
+
+    // CSS file
+    QString style;
+    {
+        QFile file(":/history/style");
+        if (file.open(QIODevice::ReadOnly))
+        {
+            QTextStream stream(&file);
+            style = stream.readAll();
+            file.close();
+        }
+    }
+
+    // transform
+    if (history.open(QIODevice::ReadOnly))
+    {
+        if (transform.open(QIODevice::ReadOnly))
+        {
+            QXmlQuery query(QXmlQuery::XSLT20);
+
+            QByteArray myDocument = QString("this  is the test").toUtf8();
+            QBuffer buffer(&myDocument); // This is a QIODevice.
+            buffer.open(QIODevice::ReadOnly);
+            query.bindVariable("$testvalue", &buffer);
+
+            query.setFocus(&history);
+            query.setQuery(&transform);
+
+            QString html = "";
+            if (query.evaluateTo(&html))
+            {
+                this->ui->textBrowser->document()->setDefaultStyleSheet(style);
+                this->ui->textBrowser->setHtml(html);
+            }
+
+            transform.close();
+        }
+        history.close();
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogAbout::linkActivated(const QString &link)
+{
+    if (link == "license")
+    {
+        this->showLicense();
+    }
+    if (link == "history")
+    {
+        this->showHistory();
+    }
 }
 //-----------------------------------------------------------------------------

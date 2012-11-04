@@ -169,7 +169,10 @@ OTHER_FILES += \
     resources/font.tmpl \
     resources/lcd-image-converter-ru.ts \
     win-res.rc \
-    README
+    README \
+    resources/history.xml \
+    resources/history.xsl \
+    resources/history.css
 
 
 # generate version info file on each build, because file in other directory
