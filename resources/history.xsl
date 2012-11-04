@@ -7,7 +7,7 @@
     <head>
     </head>
     <body>
-    <h2>Revisions list</h2>
+    <h3>Changes history</h3>
 
     <xsl:comment>Records of history</xsl:comment>
     <xsl:apply-templates/>

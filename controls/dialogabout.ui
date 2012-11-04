@@ -62,7 +62,7 @@ Qt %3</string>
     <widget class="QLabel" name="labelLinks">
      <property name="text">
       <string>&lt;a href=&quot;license&quot;&gt;License&lt;/a&gt;, 
-&lt;a href=&quot;history&quot;&gt;Change's history&lt;/a&gt;</string>
+&lt;a href=&quot;history&quot;&gt;Changes history&lt;/a&gt;</string>
      </property>
     </widget>
    </item>
