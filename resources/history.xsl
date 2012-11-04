@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<xsl:stylesheet version="1.0"
+<xsl:stylesheet version="2.0"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:template match="/">
   <html>
-  <body>
-  <h2>Revisions list</h2>
+    <head>
+    </head>
+    <body>
+    <h2>Revisions list</h2>
 
-  <xsl:comment>Records of history</xsl:comment>
-  <xsl:apply-templates/>
+    <xsl:comment>Records of history</xsl:comment>
+    <xsl:apply-templates/>
 
-  </body>
+    </body>
   </html>
 </xsl:template>
 
@@ -21,11 +23,10 @@
       <xsl:apply-templates select="sha1"/>
       <xsl:text> </xsl:text>
       <xsl:apply-templates select="date"/>
-      <br/>
       <xsl:apply-templates select="description"/>
       <br/>
-      <xsl:apply-templates select="download"/>
-      <xsl:apply-templates select="accessories"/>
+      <br/>
+      <xsl:apply-templates select="downloads"/>
     </p>
   </div>
 </xsl:template>
@@ -59,28 +60,21 @@
   </span>
 </xsl:template>
 
-<xsl:template match="download">
-  <span class="download">
-    <a class="download">
-      <xsl:attribute name="href">
-        <xsl:value-of select="."/>
-      </xsl:attribute>
-      <xsl:text>Download application</xsl:text>
-    </a>
-  </span>
-  <xsl:text> </xsl:text>
-</xsl:template>
-
-<xsl:template match="accessories">
-  <span class="accessories">
+<xsl:template match="downloads">
+  <span class="downloads">
+    <xsl:text>Download: </xsl:text>
+    <br/>
     <xsl:for-each select="child::item">
+       <xsl:text> </xsl:text>
        <a>
          <xsl:attribute name="href">
-           <xsl:value-of select="download"/>
+           <xsl:value-of select="url"/>
          </xsl:attribute>
-         <xsl:value-of select="description"/>
+         <xsl:value-of select="name"/>
        </a>
-       <xsl:text> </xsl:text>
+       <xsl:if test="not (position()=last())">
+            <br/>
+       </xsl:if>
     </xsl:for-each>
   </span>
 </xsl:template>
