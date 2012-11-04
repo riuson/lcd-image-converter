@@ -24,6 +24,10 @@
 #include <QFile>
 #include <QXmlQuery>
 #include <QBuffer>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QUrl>
 #include "revisioninfo.h"
 //-----------------------------------------------------------------------------
 DialogAbout::DialogAbout(QWidget *parent) :
@@ -127,6 +131,55 @@ void DialogAbout::showHistory()
     }
 }
 //-----------------------------------------------------------------------------
+void DialogAbout::showUpdates()
+{
+    QNetworkAccessManager* mNetworkManager = new QNetworkAccessManager(this);
+    this->connect(mNetworkManager, SIGNAL(finished(QNetworkReply*)), SLOT(networkReply(QNetworkReply*)));
+
+    QUrl url("http://wiki.lcd-image-converter.googlecode.com/git/history.xml");
+    QNetworkReply* reply = mNetworkManager->get(QNetworkRequest(url));
+}
+//-----------------------------------------------------------------------------
+void DialogAbout::showUpdates(const QString &xml)
+{
+    // XSL file
+    QString xsl;
+    {
+        QFile file(":/history/xsl");
+        if (file.open(QIODevice::ReadOnly))
+        {
+            QTextStream stream(&file);
+            xsl = stream.readAll();
+            file.close();
+        }
+    }
+
+    // CSS file
+    QString style;
+    {
+        QFile file(":/history/style");
+        if (file.open(QIODevice::ReadOnly))
+        {
+            QTextStream stream(&file);
+            style = stream.readAll();
+            file.close();
+        }
+    }
+
+    // transform
+    QString html;
+    if (this->transformHistory(xml, xsl, &html))
+    {
+        this->ui->textBrowser->document()->setDefaultStyleSheet(style);
+        this->ui->textBrowser->setHtml(html);
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogAbout::showError(const QString &message)
+{
+    this->ui->textBrowser->setText(message);
+}
+//-----------------------------------------------------------------------------
 bool DialogAbout::transformHistory(const QString &xml, const QString &xsl, QString *html)
 {
     bool isSuccessfully = false;
@@ -191,5 +244,44 @@ void DialogAbout::linkActivated(const QString &link)
     {
         this->showHistory();
     }
+    if (link == "updates")
+    {
+        this->showUpdates();
+    }
 }
 //-----------------------------------------------------------------------------
+void DialogAbout::networkReply(QNetworkReply* reply)
+{
+    const int RESPONSE_OK = 200;
+
+    QString replyString;
+    if(reply->error() == QNetworkReply::NoError)
+    {
+        int httpStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
+        switch(httpStatusCode)
+        {
+        case RESPONSE_OK:
+        {
+            if (reply->isReadable())
+            {
+                //Assuming this is a human readable file replyString now contains the file
+                replyString = QString::fromUtf8(reply->readAll().data());
+                this->showUpdates(replyString);
+            }
+            break;
+        }
+        default:
+        {
+            QString message = QString("Check updates failed with HTTP code: %1").arg(httpStatusCode);
+            this->showError(message);
+            break;
+        }
+        }
+    }
+    else
+    {
+        QString message = QString("Check updates failed with QNetworkReply message:<br/>%1").arg(reply->errorString());
+        this->showError(message);
+    }
+    reply->deleteLater();
+}

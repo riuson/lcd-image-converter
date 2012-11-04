@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<data type="history">
+<data type="history" title="Changes history">
     <record>
         <commit>
             <sha1>current</sha1>
@@ -26,7 +26,8 @@ Added:
  Shift image to up/down/left/right;
  Conversion for all opened documents at once;
  Changed characters list in font's editor;
- Version history in 'About' dialog.</description>
+ Version history in 'About' dialog;
+ 'Check updates' in 'About' dialog, by downloading history from project's home page</description>
     </record>
     <record>
         <commit>

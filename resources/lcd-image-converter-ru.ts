@@ -177,9 +177,11 @@ Qt: %3</translation>
     <message>
         <location filename="../controls/dialogabout.ui" line="64"/>
         <source>&lt;a href=&quot;license&quot;&gt;License&lt;/a&gt;, 
-&lt;a href=&quot;history&quot;&gt;Changes history&lt;/a&gt;</source>
+&lt;a href=&quot;history&quot;&gt;Changes history&lt;/a&gt;,
+&lt;a href=&quot;updates&quot;&gt;Check updates&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;license&quot;&gt;Лицензия&lt;/a&gt;, 
-&lt;a href=&quot;history&quot;&gt;История изменений&lt;/a&gt;</translation>
+&lt;a href=&quot;history&quot;&gt;История изменений&lt;/a&gt;,
+&lt;a href=&quot;updates&quot;&gt;Проверить обновления&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

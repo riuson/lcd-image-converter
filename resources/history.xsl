@@ -7,7 +7,14 @@
     <head>
     </head>
     <body>
-    <h3>Changes history</h3>
+    <h3>
+      <xsl:value-of select="//data/@title"/>
+    </h3>
+    <xsl:if test="count(//commit[date &gt; '$current_date']) &gt; 0">
+      <h4 class="update-alert">
+        <xsl:text>Update found!</xsl:text>
+      </h4>
+    </xsl:if>
 
     <xsl:comment>Records of history</xsl:comment>
     <xsl:apply-templates/>
