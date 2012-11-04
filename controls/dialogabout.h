@@ -36,6 +36,8 @@ public:
 
 private:
     Ui::DialogAbout *ui;
+
+    void showHistory();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGABOUT_H
