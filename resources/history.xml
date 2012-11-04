@@ -5,7 +5,28 @@
             <sha1>current</sha1>
             <date>current</date>
         </commit>
-        <description>Beta-version.</description>
+        <description>Beta-version.
+
+Fixed:
+ Italic font's rendering;
+ Reading of configuration templates;
+ Byte order for Unicode Little-Endian and Big-Endian;
+ Font size changed from points to pixels, to avoid depending of the font size from screen's DPI.
+ Scan direction settings more easy;
+ Changed template's variables format.
+
+Added:
+ Some options and setup dialog was changed.
+ RLE compression;
+ Feature to combine selected characters to one image;
+ Open many files at once;
+ Output file name are now saved in document;
+ Document's file are now selected by default in 'Save' dialog;
+ Calling for external tool to image editing;
+ Shift image to up/down/left/right;
+ Conversion for all opened documents at once;
+ Changed characters list in font's editor;
+ Version history in 'About' dialog.</description>
     </record>
     <record>
         <commit>
