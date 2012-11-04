@@ -22,3 +22,10 @@ div.record-new
 {
     font-weight: bold;
 }
+
+.update-alert
+{
+    font-weight: bold;
+    text-decoration: underline;
+    color: darkgreen;
+}
