@@ -37,7 +37,11 @@ public:
 private:
     Ui::DialogAbout *ui;
 
+    void showLicense();
     void showHistory();
+
+private slots:
+    void linkActivated(const QString &link);
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGABOUT_H

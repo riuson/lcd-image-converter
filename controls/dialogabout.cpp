@@ -40,16 +40,7 @@ DialogAbout::DialogAbout(QWidget *parent) :
     icon.addFile(":/images/icon64", QSize(64, 64));
     this->setWindowIcon(icon);
 
-    // load license text to textEdit
-    QFile file_license(":/text/gpl3");
-    if (file_license.open(QIODevice::ReadOnly))
-    {
-        QTextStream stream(&file_license);
-        QString license = stream.readAll();
-        file_license.close();
-
-        this->ui->textEditLicense->setText(license);
-    }
+    this->showLicense();
 
     // show revision info
     {
@@ -65,8 +56,7 @@ DialogAbout::DialogAbout(QWidget *parent) :
         this->ui->labelInfo->setText(formattedAbout);
     }
 
-    // show history
-    this->showHistory();
+    this->connect(this->ui->labelLinks, SIGNAL(linkActivated(QString)), SLOT(linkActivated(QString)));
 
     // focus on Close button
     this->ui->buttonBox->setFocus();
@@ -75,6 +65,19 @@ DialogAbout::DialogAbout(QWidget *parent) :
 DialogAbout::~DialogAbout()
 {
     delete ui;
+}
+//-----------------------------------------------------------------------------
+void DialogAbout::showLicense()
+{
+    QFile file_license(":/text/gpl3");
+    if (file_license.open(QIODevice::ReadOnly))
+    {
+        QTextStream stream(&file_license);
+        QString license = stream.readAll();
+        file_license.close();
+
+        this->ui->textBrowser->setText(license);
+    }
 }
 //-----------------------------------------------------------------------------
 void DialogAbout::showHistory()
@@ -146,13 +149,25 @@ void DialogAbout::showHistory()
             QString html = "";
             if (query.evaluateTo(&html))
             {
-                this->ui->textBrowserHistory->document()->setDefaultStyleSheet(style);
-                this->ui->textBrowserHistory->setHtml(html);
+                this->ui->textBrowser->document()->setDefaultStyleSheet(style);
+                this->ui->textBrowser->setHtml(html);
             }
 
             transform.close();
         }
         history.close();
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogAbout::linkActivated(const QString &link)
+{
+    if (link == "license")
+    {
+        this->showLicense();
+    }
+    if (link == "history")
+    {
+        this->showHistory();
     }
 }
 //-----------------------------------------------------------------------------
