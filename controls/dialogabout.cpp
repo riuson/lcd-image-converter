@@ -138,6 +138,7 @@ void DialogAbout::showUpdates()
 
     QUrl url("http://wiki.lcd-image-converter.googlecode.com/git/history.xml");
     QNetworkReply* reply = mNetworkManager->get(QNetworkRequest(url));
+    Q_UNUSED(reply);
 }
 //-----------------------------------------------------------------------------
 void DialogAbout::showUpdates(const QString &xml)
