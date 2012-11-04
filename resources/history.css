@@ -7,3 +7,18 @@ pre {
   padding: 5px;
   font-style: italic;
 }
+
+div.record-old
+{
+    color: silver;
+}
+
+div.record-current
+{
+    font-weight: bold;
+}
+
+div.record-new
+{
+    color: navy;
+}

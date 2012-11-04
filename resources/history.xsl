@@ -18,7 +18,26 @@
 
 <xsl:template match="record">
   <hr/>
-  <div class="record">
+  <div>
+
+    <xsl:choose>
+      <xsl:when test="commit/date = '$current_date'">
+        <xsl:attribute name="class">
+          <xsl:text>record-current</xsl:text>
+        </xsl:attribute>
+      </xsl:when>
+      <xsl:when test="commit/date &gt; '$current_date'">
+        <xsl:attribute name="class">
+          <xsl:text>record-new</xsl:text>
+        </xsl:attribute>
+      </xsl:when>
+      <xsl:when test="commit/date &lt; '$current_date'">
+        <xsl:attribute name="class">
+          <xsl:text>record-old</xsl:text>
+        </xsl:attribute>
+        </xsl:when>
+    </xsl:choose>
+
     <p>
       <xsl:apply-templates select="commit"/>
     </p>
