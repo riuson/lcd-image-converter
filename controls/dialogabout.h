@@ -39,6 +39,7 @@ private:
 
     void showLicense();
     void showHistory();
+    bool transformHistory(const QString &xml, const QString &xsl, QString *html);
 
 private slots:
     void linkActivated(const QString &link);

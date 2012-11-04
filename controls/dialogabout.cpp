@@ -83,39 +83,26 @@ void DialogAbout::showLicense()
 void DialogAbout::showHistory()
 {
     // XML file
-    QBuffer history;
+    QString xml;
     {
         QFile file(":/history/changes");
         if (file.open(QIODevice::ReadOnly))
         {
             QTextStream stream(&file);
-            QString value = stream.readAll();
+            xml = stream.readAll();
             file.close();
-
-            value.replace("<sha1>current</sha1>", QString("<sha1>%1</sha1>").arg(RevisionInfo::hash()));
-            value.replace("<date>current</date>", QString("<date>%1</date>").arg(RevisionInfo::date()));
-
-            QByteArray array = value.toUtf8();
-
-            history.setData(array);
         }
     }
 
     // XSL file
-    QBuffer transform;
+    QString xsl;
     {
         QFile file(":/history/xsl");
         if (file.open(QIODevice::ReadOnly))
         {
             QTextStream stream(&file);
-            QString value = stream.readAll();
+            xsl = stream.readAll();
             file.close();
-
-            value.replace("$current_date", QString("%1").arg(RevisionInfo::date()));
-
-            QByteArray array = value.toUtf8();
-
-            transform.setData(array);
         }
     }
 
@@ -132,31 +119,66 @@ void DialogAbout::showHistory()
     }
 
     // transform
+    QString html;
+    if (this->transformHistory(xml, xsl, &html))
+    {
+        this->ui->textBrowser->document()->setDefaultStyleSheet(style);
+        this->ui->textBrowser->setHtml(html);
+    }
+}
+//-----------------------------------------------------------------------------
+bool DialogAbout::transformHistory(const QString &xml, const QString &xsl, QString *html)
+{
+    bool isSuccessfully = false;
+
+    // XML file
+    QBuffer history;
+    {
+        QString value = xml;
+
+        value.replace("<sha1>current</sha1>", QString("<sha1>%1</sha1>").arg(RevisionInfo::hash()));
+        value.replace("<date>current</date>", QString("<date>%1</date>").arg(RevisionInfo::date()));
+
+        QByteArray array = value.toUtf8();
+
+        history.setData(array);
+    }
+
+    // XSL file
+    QBuffer transform;
+    {
+        QString value = xsl;
+
+        value.replace("$current_date", QString("%1").arg(RevisionInfo::date()));
+
+        QByteArray array = value.toUtf8();
+
+        transform.setData(array);
+    }
+
+    // transform
     if (history.open(QIODevice::ReadOnly))
     {
         if (transform.open(QIODevice::ReadOnly))
         {
             QXmlQuery query(QXmlQuery::XSLT20);
 
-            QByteArray myDocument = QString("this  is the test").toUtf8();
-            QBuffer buffer(&myDocument); // This is a QIODevice.
-            buffer.open(QIODevice::ReadOnly);
-            query.bindVariable("$testvalue", &buffer);
-
             query.setFocus(&history);
             query.setQuery(&transform);
 
-            QString html = "";
-            if (query.evaluateTo(&html))
+            QString resultHtml = "";
+            if (query.evaluateTo(&resultHtml))
             {
-                this->ui->textBrowser->document()->setDefaultStyleSheet(style);
-                this->ui->textBrowser->setHtml(html);
+                *html = resultHtml;
+                isSuccessfully = true;
             }
 
             transform.close();
         }
         history.close();
     }
+
+    return isSuccessfully;
 }
 //-----------------------------------------------------------------------------
 void DialogAbout::linkActivated(const QString &link)
