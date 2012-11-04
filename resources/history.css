@@ -15,10 +15,10 @@ div.record-old
 
 div.record-current
 {
-    font-weight: bold;
+    color: navy;
 }
 
 div.record-new
 {
-    color: navy;
+    font-weight: bold;
 }
