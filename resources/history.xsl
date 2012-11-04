@@ -20,35 +20,35 @@
   <hr/>
   <div class="record">
     <p>
-      <xsl:apply-templates select="sha1"/>
-      <xsl:text> </xsl:text>
-      <xsl:apply-templates select="date"/>
+      <xsl:apply-templates select="commit"/>
+    </p>
+    <p>
       <xsl:apply-templates select="description"/>
-      <br/>
-      <br/>
+    </p>
+    <p>
       <xsl:apply-templates select="downloads"/>
     </p>
   </div>
 </xsl:template>
 
-<xsl:template match="sha1">
+<xsl:template match="commit">
 
-  <xsl:comment>Hyperlink to revision in version control system</xsl:comment>
+  <span class="commit">
+    <xsl:comment>Date and hyperlink to revision in version control system</xsl:comment>
 
-  Revision:
-  <a class="revision">
-    <xsl:attribute name="href">
-      <xsl:text>http://code.google.com/p/lcd-image-converter/source/detail?r=</xsl:text>
-      <xsl:value-of select="."/>
-    </xsl:attribute>
-    <xsl:value-of select="substring(., 1, 7)"/>
-  </a>
-</xsl:template>
-
-<xsl:template match="date">
-  <span class="date">
-    <xsl:text>from: </xsl:text>
-    <xsl:value-of select="."/>
+    <xsl:text>Revision: </xsl:text>
+    <a class="revision">
+      <xsl:attribute name="href">
+        <xsl:text>http://code.google.com/p/lcd-image-converter/source/detail?r=</xsl:text>
+        <xsl:value-of select="sha1"/>
+      </xsl:attribute>
+      <xsl:value-of select="substring(sha1, 1, 7)"/>
+    </a>
+    <xsl:text> </xsl:text>
+    <span class="date">
+      <xsl:text>from: </xsl:text>
+      <xsl:value-of select="date"/>
+    </span>
   </span>
 </xsl:template>
 
