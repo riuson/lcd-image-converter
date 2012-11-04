@@ -66,12 +66,24 @@ DialogAbout::DialogAbout(QWidget *parent) :
 
     // show history
     {
+        // XML file
         QFile fileHistory(":/history/changes");
         if (fileHistory.open(QIODevice::ReadOnly))
         {
+            // XSL file
             QFile fileTransform(":/history/xsltemplate");
             if (fileTransform.open(QIODevice::ReadOnly))
             {
+                QString style;
+                // CSS file
+                QFile fileStyle(":/history/style");
+                if (fileStyle.open(QIODevice::ReadOnly))
+                {
+                    QTextStream stream(&fileStyle);
+                    style = stream.readAll();
+                    fileStyle.close();
+                }
+
                 QXmlQuery query(QXmlQuery::XSLT20);
                 query.setFocus(&fileHistory);
                 query.setQuery(&fileTransform);
@@ -79,7 +91,8 @@ DialogAbout::DialogAbout(QWidget *parent) :
                 QString html = "";
                 if (query.evaluateTo(&html))
                 {
-                    this->ui->textBrowserHistory->setText(html);
+                    this->ui->textBrowserHistory->document()->setDefaultStyleSheet(style);
+                    this->ui->textBrowserHistory->setHtml(html);
                 }
 
                 fileTransform.close();

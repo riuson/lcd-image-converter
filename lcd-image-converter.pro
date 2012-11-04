@@ -171,7 +171,8 @@ OTHER_FILES += \
     win-res.rc \
     README \
     resources/history.xml \
-    resources/history.xsl
+    resources/history.xsl \
+    resources/history.css
 
 
 # generate version info file on each build, because file in other directory

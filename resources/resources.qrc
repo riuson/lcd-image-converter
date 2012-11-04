@@ -20,5 +20,6 @@
     <qresource prefix="/history">
         <file alias="changes">history.xml</file>
         <file alias="xsltemplate">history.xsl</file>
+        <file alias="style">history.css</file>
     </qresource>
 </RCC>
