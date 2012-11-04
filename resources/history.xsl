@@ -7,7 +7,9 @@
     <head>
     </head>
     <body>
-    <h3>Changes history</h3>
+    <h3>
+      <xsl:value-of select="//data/@title"/>
+    </h3>
 
     <xsl:comment>Records of history</xsl:comment>
     <xsl:apply-templates/>
