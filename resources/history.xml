@@ -5,9 +5,7 @@
             <sha1>current</sha1>
             <date>current</date>
         </commit>
-        <description>Beta-version.
-
-Fixed:
+        <description>Fixed:
  Italic font's drawing;
  Reading of configuration templates;
  Order of bytes for Unicode Little-Endian and Big-Endian;
