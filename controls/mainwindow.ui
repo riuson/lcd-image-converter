@@ -36,7 +36,7 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHello">
@@ -58,6 +58,7 @@
     <addaction name="actionClose"/>
     <addaction name="separator"/>
     <addaction name="actionConvert"/>
+    <addaction name="actionConvert_All"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -65,18 +66,34 @@
     <property name="title">
      <string>Image</string>
     </property>
+    <widget class="QMenu" name="menuRotate">
+     <property name="title">
+      <string>Rotate</string>
+     </property>
+     <addaction name="actionImageRotate_90_Clockwise"/>
+     <addaction name="actionImageRotate_180"/>
+     <addaction name="actionImageRotate_90_Counter_Clockwise"/>
+    </widget>
+    <widget class="QMenu" name="menuShift">
+     <property name="title">
+      <string>Shift</string>
+     </property>
+     <addaction name="actionImageShiftLeft"/>
+     <addaction name="actionImageShiftRight"/>
+     <addaction name="actionImageShiftUp"/>
+     <addaction name="actionImageShiftDown"/>
+    </widget>
     <addaction name="actionImageFlip_Horizontal"/>
     <addaction name="actionImageFlip_Vertical"/>
     <addaction name="separator"/>
-    <addaction name="actionImageRotate_90_Clockwise"/>
-    <addaction name="actionImageRotate_180"/>
-    <addaction name="actionImageRotate_90_Counter_Clockwise"/>
-    <addaction name="separator"/>
+    <addaction name="menuShift"/>
+    <addaction name="menuRotate"/>
     <addaction name="actionImageResize"/>
     <addaction name="actionImageInverse"/>
     <addaction name="separator"/>
     <addaction name="actionImageImport"/>
     <addaction name="actionImageExport"/>
+    <addaction name="actionEdit_in_external_tool"/>
    </widget>
    <widget class="QMenu" name="menuFont">
     <property name="title">
@@ -88,6 +105,7 @@
     <addaction name="actionFontMinimizeHeight"/>
     <addaction name="actionFontInverse"/>
     <addaction name="actionFontPreview"/>
+    <addaction name="actionFontToImage"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -106,8 +124,8 @@
      </property>
      <addaction name="actionLanguageDefault"/>
     </widget>
-    <addaction name="actionSetupConversion"/>
-    <addaction name="actionSetup"/>
+    <addaction name="actionConversionOptions"/>
+    <addaction name="actionExternal_editor"/>
     <addaction name="menuLanguage"/>
    </widget>
    <addaction name="menuHello"/>
@@ -179,7 +197,7 @@
   </action>
   <action name="actionImageRotate_90_Clockwise">
    <property name="text">
-    <string>Rotate 90 Clockwise</string>
+    <string>90 Clockwise</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+Right</string>
@@ -187,12 +205,12 @@
   </action>
   <action name="actionImageRotate_180">
    <property name="text">
-    <string>Rotate 180</string>
+    <string>180</string>
    </property>
   </action>
   <action name="actionImageRotate_90_Counter_Clockwise">
    <property name="text">
-    <string>Rotate 90 Counter-Clockwise</string>
+    <string>90 Counter-Clockwise</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+Left</string>
@@ -257,9 +275,9 @@
     <string notr="true">F1</string>
    </property>
   </action>
-  <action name="actionSetup">
+  <action name="actionConversionOptions">
    <property name="text">
-    <string>Setup...</string>
+    <string>Conversion...</string>
    </property>
   </action>
   <action name="actionLanguageDefault">
@@ -288,6 +306,64 @@
   <action name="actionWiki">
    <property name="text">
     <string>Wiki...</string>
+   </property>
+  </action>
+  <action name="actionFontToImage">
+   <property name="text">
+    <string>To Image</string>
+   </property>
+  </action>
+  <action name="actionConvert_All">
+   <property name="text">
+    <string>Convert All</string>
+   </property>
+  </action>
+  <action name="actionEdit_in_external_tool">
+   <property name="text">
+    <string>Edit in external tool...</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+E</string>
+   </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionExternal_editor">
+   <property name="text">
+    <string>External editor...</string>
+   </property>
+  </action>
+  <action name="actionImageShiftLeft">
+   <property name="text">
+    <string>Left</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+Shift+Left</string>
+   </property>
+  </action>
+  <action name="actionImageShiftRight">
+   <property name="text">
+    <string>Right</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+Shift+Right</string>
+   </property>
+  </action>
+  <action name="actionImageShiftUp">
+   <property name="text">
+    <string>Up</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+Shift+Up</string>
+   </property>
+  </action>
+  <action name="actionImageShiftDown">
+   <property name="text">
+    <string>Down</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+Shift+Down</string>
    </property>
   </action>
  </widget>

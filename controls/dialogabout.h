@@ -26,6 +26,8 @@ namespace Ui {
     class DialogAbout;
 }
 //-----------------------------------------------------------------------------
+class QNetworkReply;
+//-----------------------------------------------------------------------------
 class DialogAbout : public QDialog
 {
     Q_OBJECT
@@ -36,6 +38,17 @@ public:
 
 private:
     Ui::DialogAbout *ui;
+
+    void showLicense();
+    void showHistory();
+    void showUpdates();
+    void showUpdates(const QString &xml);
+    void showError(const QString &message);
+    bool transformHistory(const QString &xml, const QString &xsl, QString *html);
+
+private slots:
+    void linkActivated(const QString &link);
+    void networkReply(QNetworkReply* reply);
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGABOUT_H

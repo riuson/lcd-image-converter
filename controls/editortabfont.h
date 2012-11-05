@@ -31,6 +31,8 @@ namespace Ui {
 class FontContainer;
 class WidgetBitmapEditor;
 class QSplitter;
+class FontCharactersModel;
+class QItemSelection;
 //-----------------------------------------------------------------------------
 class EditorTabFont : public QWidget, public IDocument
 {
@@ -50,6 +52,7 @@ public:
     void setDocumentName(const QString &value);
     IDataContainer *dataContainer();
     WidgetBitmapEditor *editor();
+    void convert(bool request);
 
     void setFontCharacters(const QString &chars,
                            const QString &fontFamily,
@@ -64,6 +67,8 @@ public:
                         bool *monospaced,
                         bool *antialiasing);
 
+    const QString selectedCharacters() const;
+
 protected:
     void changeEvent(QEvent *e);
 
@@ -72,11 +77,14 @@ private:
     WidgetBitmapEditor *mEditor;
     FontContainer *mContainer;
     QSplitter *mSplitter;
+    FontCharactersModel *mModel;
 
     QString mFileName;
+    QString mConvertedFileName;
     QString mDocumentName;
     bool mDataChanged;
     QFont mFont;
+    QFont mTableFont;
 
     //QString mCharacters;
     QString mStyle;
@@ -90,10 +98,11 @@ private:
                          const int width,
                          const int height,
                          const bool antialiasing);
+    void updateTableFont();
 
 private slots:
     void mon_editor_dataChanged();
-    void on_listWidgetCharacters_currentTextChanged(const QString &value);
+    void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 signals:
     void documentChanged(bool changed, const QString &documentName, const QString &filename);
 };

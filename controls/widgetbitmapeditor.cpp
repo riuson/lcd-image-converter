@@ -23,9 +23,9 @@
 #include <QMouseEvent>
 #include <QColorDialog>
 #include <QPainter>
-#include <QSettings>
 
 #include "bitmaphelper.h"
+#include "bitmapeditoroptions.h"
 #include "idatacontainer.h"
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::WidgetBitmapEditor(IDataContainer *dataContainer, QWidget *parent) :
@@ -34,16 +34,12 @@ WidgetBitmapEditor::WidgetBitmapEditor(IDataContainer *dataContainer, QWidget *p
 {
     ui->setupUi(this);
 
-    QSettings sett;
-    sett.beginGroup("setup");
-    bool ok;
-    this->mScale = sett.value("defaultScale", QVariant(10)).toInt(&ok);
-    sett.endGroup();
+    this->mScale = BitmapEditorOptions::scale();
 
     this->ui->label->installEventFilter(this);
 
-    this->mColor1 = QColor("black");
-    this->mColor2 = QColor("white");
+    this->mColor1 = BitmapEditorOptions::color1();
+    this->mColor2 = BitmapEditorOptions::color2();
 
     this->mPixmapColor1 = QPixmap(16, 16);
     this->mPixmapColor2 = QPixmap(16, 16);
@@ -134,7 +130,7 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
         }
         else
         {
-            this->ui->labelCoordinates->setText(tr("Size: %1,%2").arg(original->width()).arg(original->height()));
+            this->ui->labelCoordinates->setText(tr("%1 x %2").arg(original->width()).arg(original->height()));
         }
         event->accept();
     }
@@ -192,7 +188,7 @@ void WidgetBitmapEditor::createImageScaled(int scale)
 
         this->ui->label->setPixmap(this->mPixmapScaled);
 
-        this->ui->labelCoordinates->setText(tr("Size: %1,%2").arg(original->width()).arg(original->height()));
+        this->ui->labelCoordinates->setText(tr("%1 x %2").arg(original->width()).arg(original->height()));
     }
 }
 //-----------------------------------------------------------------------------
@@ -201,10 +197,7 @@ void WidgetBitmapEditor::on_spinBoxScale_valueChanged(int value)
     this->mScale = value;
     this->createImageScaled(this->mScale);
 
-    QSettings sett;
-    sett.beginGroup("setup");
-    sett.setValue("defaultScale", QVariant(value));
-    sett.endGroup();
+    BitmapEditorOptions::setScale(value);
 }
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::on_pushButtonColor1_clicked()
@@ -213,6 +206,7 @@ void WidgetBitmapEditor::on_pushButtonColor1_clicked()
     if (dialog.exec() == QDialog::Accepted)
     {
         this->mColor1 = dialog.selectedColor();
+        BitmapEditorOptions::setColor1(this->mColor1);
         this->mPixmapColor1.fill(this->mColor1);
         this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
     }
@@ -224,6 +218,7 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
     if (dialog.exec() == QDialog::Accepted)
     {
         this->mColor2 = dialog.selectedColor();
+        BitmapEditorOptions::setColor2(this->mColor2);
         this->mPixmapColor2.fill(this->mColor2);
         this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
     }
@@ -234,7 +229,7 @@ void WidgetBitmapEditor::mon_dataContainer_imageChanged(const QString &key)
     if (this->mImageKey == key)
     {
         this->createImageScaled(this->mScale);
-        emit this->dataChanged();;
+        emit this->dataChanged();
     }
 }
 //-----------------------------------------------------------------------------

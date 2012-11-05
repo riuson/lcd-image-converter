@@ -26,25 +26,25 @@ namespace Ui {
 class DialogPreview;
 }
 class Parser;
-class ConversionMatrix;
+class Preset;
 class IDataContainer;
 //-----------------------------------------------------------------------------
 class DialogPreview : public QDialog
 {
     Q_OBJECT
-    
+
 public:
-    explicit DialogPreview(IDataContainer *dataContainer, ConversionMatrix *matrix, QWidget *parent = 0);
+    explicit DialogPreview(IDataContainer *dataContainer, Preset *matrix, QWidget *parent = 0);
     ~DialogPreview();
     void updatePreview();
-    
+
 private:
     Ui::DialogPreview *ui;
 
     IDataContainer *mData;
     QImage mImageOriginal;
     QImage mImageProcessed;
-    ConversionMatrix *mMatrix;
+    Preset *mPreset;
 
 private slots:
     void on_comboBoxSampleKey_currentIndexChanged();

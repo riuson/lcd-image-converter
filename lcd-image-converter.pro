@@ -4,7 +4,7 @@
 OBJECTS_DIR         = .obj
 MOC_DIR             = .moc
 UI_DIR              = .uic
-QT += xml xmlpatterns
+QT += xml xmlpatterns network
 TARGET = lcd-image-converter
 TEMPLATE = app
 
@@ -33,7 +33,7 @@ SOURCES += main.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
     controls/dialogabout.cpp \
-    classes/recentlist.cpp \
+    classes/settings/recentlist.cpp \
     controls/starttab.cpp \
     classes/action-handlers/actionimagehandlers.cpp \
     classes/action-handlers/actionhandlersbase.cpp \
@@ -45,15 +45,30 @@ SOURCES += main.cpp \
     controls/revisionlabel.cpp \
     classes/revisioninfo.cpp \
     classes/convert/converterhelper.cpp \
-    classes/convert/conversionmatrixoptions.cpp \
     classes/convert/bitstream.cpp \
     controls/setup/dialogpreview.cpp \
     classes/preview-models/matrixpreviewmodel.cpp \
-    classes/convert/conversionmatrix.cpp \
-    controls/setup/dialogconvert.cpp \
-    controls/setup/dialogsetup.cpp \
     classes/parser.cpp \
-    classes/preview-models/matrixitemdelegate.cpp
+    classes/preview-models/matrixitemdelegate.cpp \
+    controls/setup/parts/setuptabprepare.cpp \
+    controls/setup/parts/setuptabmatrix.cpp \
+    controls/setup/parts/setuptabimage.cpp \
+    classes/settings/presets/preset.cpp \
+    classes/settings/presets/prepareoptions.cpp \
+    classes/settings/presets/matrixoptions.cpp \
+    classes/settings/presets/imageoptions.cpp \
+    classes/settings/presets/templateoptions.cpp \
+    controls/setup/parts/setuptabtemplates.cpp \
+    controls/setup/dialogoptions.cpp \
+    classes/settings/presets/fontoptions.cpp \
+    controls/setup/parts/setuptabfont.cpp \
+    classes/convert/fonthelper.cpp \
+    classes/compression/rlecompressor.cpp \
+    classes/fontcharactersmodel.cpp \
+    controls/dialogexternaleditor.cpp \
+    classes/settings/externaltooloptions.cpp \
+    classes/settings/languageoptions.cpp \
+    classes/settings/bitmapeditoroptions.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -69,7 +84,7 @@ HEADERS += \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
     controls/dialogabout.h \
-    classes/recentlist.h \
+    classes/settings/recentlist.h \
     controls/starttab.h \
     classes/action-handlers/actionimagehandlers.h \
     interfaces/imainwindow.h \
@@ -82,16 +97,31 @@ HEADERS += \
     controls/revisionlabel.h \
     classes/revisioninfo.h \
     classes/convert/converterhelper.h \
-    classes/convert/conversionmatrixoptions.h \
     classes/convert/bitstream.h \
     controls/setup/dialogpreview.h \
     classes/preview-models/matrixpreviewmodel.h \
     classes/convert/conversion_options.h \
-    classes/convert/conversionmatrix.h \
-    controls/setup/dialogconvert.h \
-    controls/setup/dialogsetup.h \
     classes/parser.h \
-    classes/preview-models/matrixitemdelegate.h
+    classes/preview-models/matrixitemdelegate.h \
+    controls/setup/parts/setuptabprepare.h \
+    controls/setup/parts/setuptabmatrix.h \
+    controls/setup/parts/setuptabimage.h \
+    classes/settings/presets/preset.h \
+    classes/settings/presets/prepareoptions.h \
+    classes/settings/presets/matrixoptions.h \
+    classes/settings/presets/imageoptions.h \
+    classes/settings/presets/templateoptions.h \
+    controls/setup/parts/setuptabtemplates.h \
+    controls/setup/dialogoptions.h \
+    classes/settings/presets/fontoptions.h \
+    controls/setup/parts/setuptabfont.h \
+    classes/convert/fonthelper.h \
+    classes/compression/rlecompressor.h \
+    classes/fontcharactersmodel.h \
+    controls/dialogexternaleditor.h \
+    classes/settings/externaltooloptions.h \
+    classes/settings/languageoptions.h \
+    classes/settings/bitmapeditoroptions.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -104,15 +134,24 @@ FORMS += \
     controls/starttab.ui \
     controls/dialogfontpreview.ui \
     controls/setup/dialogpreview.ui \
-    controls/setup/dialogconvert.ui \
-    controls/setup/dialogsetup.ui
+    controls/setup/parts/setuptabprepare.ui \
+    controls/setup/parts/setuptabmatrix.ui \
+    controls/setup/parts/setuptabimage.ui \
+    controls/setup/parts/setuptabtemplates.ui \
+    controls/setup/dialogoptions.ui \
+    controls/setup/parts/setuptabfont.ui \
+    controls/dialogexternaleditor.ui
 INCLUDEPATH += . \
     ./classes \
+    ./classes/compression \
     ./classes/convert \
+    ./classes/settings \
+    ./classes/settings/presets \
     ./classes/action-handlers \
     ./classes/preview-models \
     ./controls \
     ./controls/setup \
+    ./controls/setup/parts \
     ./interfaces
 
 RESOURCES += \
@@ -129,7 +168,11 @@ OTHER_FILES += \
     resources/image.tmpl \
     resources/font.tmpl \
     resources/lcd-image-converter-ru.ts \
-    win-res.rc
+    win-res.rc \
+    README \
+    resources/history.xml \
+    resources/history.xsl \
+    resources/history.css
 
 
 # generate version info file on each build, because file in other directory

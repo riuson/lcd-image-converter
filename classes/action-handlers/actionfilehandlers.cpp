@@ -23,7 +23,6 @@
 #include "editortabfont.h"
 #include "dialogfontselect.h"
 #include <QFileDialog>
-#include <QSettings>
 #include <QTextStream>
 #include <QInputDialog>
 #include <QLineEdit>
@@ -100,15 +99,18 @@ void ActionFileHandlers::open_triggered()
 {
     QFileDialog dialog(this->mMainWindow->parentWidget());
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
-    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setFileMode(QFileDialog::ExistingFiles);
     dialog.setFilter(tr("XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
     dialog.setWindowTitle(tr("Open xml or image file"));
 
     if (dialog.exec() == QDialog::Accepted)
     {
-        QString filename = dialog.selectedFiles().at(0);
+        QStringList filenames = dialog.selectedFiles();
 
-        this->openFile(filename);
+        for (int i = 0; i < filenames.length(); i++)
+        {
+            this->openFile(filenames.at(i));
+        }
     }
 }
 //-----------------------------------------------------------------------------
@@ -150,6 +152,7 @@ void ActionFileHandlers::saveAs_triggered()
     {
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptSave);
+        dialog.selectFile(doc->fileName());
         dialog.setFileMode(QFileDialog::AnyFile);
         dialog.setFilter(tr("XML Files (*.xml)"));
         dialog.setDefaultSuffix(QString("xml"));
@@ -171,72 +174,26 @@ void ActionFileHandlers::close_triggered()
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::convert_triggered()
 {
-    QSettings sett;
-    sett.beginGroup("setup");
-
-    QString templateImageFileName = sett.value("templateImage", ":/templates/image_convert").toString();
-    QString templateFontFileName = sett.value("templateFont", ":/templates/font_convert").toString();
-
-    sett.endGroup();
-
     QWidget *w = this->mMainWindow->currentTab();
     IDocument *doc = dynamic_cast<IDocument *> (w);
     if (doc != NULL)
     {
-        QMap<QString, QString> tags;
-        if (!doc->fileName().isEmpty())
-            tags["fileName"] = doc->fileName();
-        else
-            tags["fileName"] = "unknown";
-        QString docName = doc->documentName();
-        tags["documentName"] = docName;
-        docName = docName.remove(QRegExp("\\W", Qt::CaseInsensitive));
-        tags["documentName_ws"] = docName;
+        doc->convert(true);
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionFileHandlers::convertAll_triggered()
+{
+    QList<QWidget *> list;
 
-        QString templateFileName;
+    this->mMainWindow->tabsList(&list);
 
-        if (EditorTabImage *eti = qobject_cast<EditorTabImage *>(w))
+    for (int i = 0; i < list.count(); i++)
+    {
+        IDocument *doc = dynamic_cast<IDocument *> (list.at(i));
+        if (doc != NULL)
         {
-            Q_UNUSED(eti);
-            tags["dataType"] = "image";
-            templateFileName = templateImageFileName;
-        }
-        if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
-        {
-            QString chars, fontFamily, style;
-            int size;
-            bool monospaced, antialiasing;
-            etf->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
-
-            tags["dataType"] = "font";
-            tags["fontFamily"] = fontFamily;
-            tags["fontSize"] = QString("%1").arg(size);
-            tags["fontStyle"] = style;
-            tags["string"] = chars;
-            tags["fontAntialiasing"] = antialiasing ? "true" : "false";
-            tags["fontWidthType"] = monospaced ? "monospaced" : "proportional";
-
-            templateFileName = templateFontFileName;
-        }
-        Parser parser(this);
-        QString result = parser.convert(doc, templateFileName, tags);
-
-        QFileDialog dialog(this->mMainWindow->parentWidget());
-        dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.setFileMode(QFileDialog::AnyFile);
-        dialog.setFilter(tr("C Files (*.c);;All Files (*.*)"));
-        dialog.setDefaultSuffix(QString("c"));
-        dialog.setWindowTitle(tr("Save result file as"));
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            QString filename = dialog.selectedFiles().at(0);
-
-            QFile file(filename);
-            if (file.open(QFile::WriteOnly))
-            {
-                file.write(result.toUtf8());
-                file.close();
-            }
+            doc->convert(false);
         }
     }
 }
@@ -317,6 +274,24 @@ void ActionFileHandlers::openFile(const QString &filename)
             }
         }
     }
+}
+//-----------------------------------------------------------------------------
+void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
+{
+    EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
+    this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
+
+    QString name = this->mMainWindow->findAvailableName(documentName);
+
+    QString key = ed->editor()->currentImageKey();
+    ed->dataContainer()->setImage(key, image);
+
+    ed->setDocumentName(name);
+    ed->setChanged(true);
+
+    emit this->tabCreated(ed, name, "");
+
+    emit this->tabChanged(ed, "* " + name, "");
 }
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::documentChanged(bool changed, const QString &documentName, const QString &filename)

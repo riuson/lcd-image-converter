@@ -20,12 +20,14 @@
 #include "bitstream.h"
 //-----------------------------------------------------------------------------
 #include <QVector>
-#include "conversionmatrixoptions.h"
-#include "conversionmatrix.h"
+#include "preset.h"
+#include "prepareoptions.h"
+#include "matrixoptions.h"
+#include "imageoptions.h"
 //-----------------------------------------------------------------------------
-BitStream::BitStream(ConversionMatrix *matrix, QVector<quint32> *data, int start, int count)
+BitStream::BitStream(Preset *preset, QVector<quint32> *data, int start, int count)
 {
-    this->mMatrix = matrix;
+    this->mPreset = preset;
     this->mData = data;
     this->mStart = start;
     this->mCount = count;
@@ -36,8 +38,8 @@ BitStream::BitStream(ConversionMatrix *matrix, QVector<quint32> *data, int start
 void BitStream::init()
 {
     this->mCurrentPixel = 0;
-    this->mMaskCurrent = this->mMaskSource = this->mMatrix->options()->maskUsed();
-    this->mBlockSize = ((int)this->mMatrix->options()->blockSize() + 1) << 3;
+    this->mMaskCurrent = this->mMaskSource = this->mPreset->matrix()->maskUsed();
+    this->mBlockSize = ((int)this->mPreset->image()->blockSize() + 1) << 3;
     this->mBitsReaded = 0;
 }
 //-----------------------------------------------------------------------------
@@ -50,7 +52,7 @@ quint32 BitStream::next()
 {
     quint32 result = 0;
     int i = this->mBlockSize - 1;
-    quint32 fill = this->mMatrix->options()->maskFill();
+    quint32 fill = this->mPreset->matrix()->maskFill();
     while (i >= 0)
     {
         result = result << 1;

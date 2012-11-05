@@ -24,6 +24,7 @@
 
 #include "actionhandlersbase.h"
 //-----------------------------------------------------------------------------
+class QImage;
 class IMainWindow;
 //-----------------------------------------------------------------------------
 class ActionFileHandlers : public ActionHandlersBase
@@ -31,7 +32,7 @@ class ActionFileHandlers : public ActionHandlersBase
     Q_OBJECT
 public:
     explicit ActionFileHandlers(QObject *parent = 0);
-    
+
 signals:
     void rememberFilename(const QString &filename);
     void closeRequest(QWidget *tab);
@@ -47,7 +48,9 @@ public slots:
     void saveAs_triggered();
     void close_triggered();
     void convert_triggered();
+    void convertAll_triggered();
     void openFile(const QString &filename);
+    void openImage(QImage *image, const QString &documentName);
 private slots:
     void documentChanged(bool changed, const QString &documentName, const QString &filename);
 };

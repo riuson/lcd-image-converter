@@ -99,6 +99,7 @@ void DialogFontSelect::setFontFamily(const QString &value)
     QFontDatabase fonts;
     QString style = this->mFontStyle;
     QFont f = fonts.font(value, style, this->mSize);
+    f.setPixelSize(this->mSize);
     //this->mFontFamily = value;
     this->ui->fontComboBox->setCurrentFont(f);
 
@@ -159,6 +160,7 @@ void DialogFontSelect::updateFont()
 {
     //QFontDatabase fonts;
     //QFont font = fonts.font(this->mFontFamily, this->mFontStyle, this->mSize);
+    //font.setPixelSize(this->mSize);
     //this->ui->fontComboBox->setCurrentFont(font);
 }
 //-----------------------------------------------------------------------------
@@ -210,6 +212,7 @@ void DialogFontSelect::applyFont()
 {
     QFontDatabase fonts;
     QFont font = fonts.font(this->mFontFamily, this->mFontStyle, this->mSize);
+    font.setPixelSize(this->mSize);
     this->ui->tableView->setFont(font);
     QFontMetrics metrics(font);
 

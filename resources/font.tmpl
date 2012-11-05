@@ -1,26 +1,26 @@
-@start_block_header@
+$(start_block_header)
 /*******************************************************************************
-* filename: @fileName@
-* name: @documentName@
-* family: @fontFamily@
-* size: @fontSize@
-* style: @fontStyle@
-* included characters: @string@
-* antialiasing: @fontAntialising@
-* type: @fontWidthType@
-* encoding: UTF-8
-* unicode bom: yes
+* filename: $(fileName)
+* name: $(documentName)
+* family: $(fontFamily)
+* size: $(fontSize)
+* style: $(fontStyle)
+* included characters: $(string)
+* antialiasing: $(fontAntialiasing)
+* type: $(fontWidthType)
+* encoding: $(encoding)
+* unicode bom: $(bom)
 *
-* preset name: @preset@
-* data block size: @dataBlockSize@ bit(s), uint@dataBlockSize@_t
-* conversion type: @convType@, @monoType@ @edge@
-* bits per pixel: @bpp@
+* preset name: $(preset)
+* data block size: $(dataBlockSize) bit(s), uint$(dataBlockSize)_t
+* RLE compression enabled: $(rle)
+* conversion type: $(convType), $(monoType) $(edge)
+* bits per pixel: $(bpp)
 *
 * preprocess:
-*  rotate: @rotate@
-*  flip horizontal: @flipHorizontal@
-*  flip vertical: @flipVertical@
-*  inverse: @inverse@
+*  main scan direction: $(scanMain)
+*  line scan direction: $(scanSub)
+*  inverse: $(inverse)
 *******************************************************************************/
 
 /*
@@ -35,22 +35,22 @@
 */
 
 #include <stdint.h>
-@end_block_header@
+$(end_block_header)
 
-@start_block_images_table@
-static const uint@dataBlockSize@_t image_data_@documentName_ws@_0x@charCode@[@blocksCount@] = {
-    @imageData@
+$(start_block_images_table)
+static const uint$(dataBlockSize)_t image_data_$(documentName_ws)_0x$(charCode)[$(blocksCount)] = {
+    $(imageData)
 };
-static const tImage @documentName_ws@_0x@charCode@ = { image_data_@documentName_ws@_0x@charCode@, @width@, @height@};
-@end_block_images_table@
+static const tImage $(documentName_ws)_0x$(charCode) = { image_data_$(documentName_ws)_0x$(charCode), $(width), $(height)};
+$(end_block_images_table)
 
-static const tChar @documentName_ws@_array[] = {
-@start_block_images_table@
+static const tChar $(documentName_ws)_array[] = {
+$(start_block_images_table)
   // character: '@charText@'
-  {0x@charCode@, &@documentName_ws@_0x@charCode@}@comma@
-@end_block_images_table@
+  {0x$(charCode), &$(documentName_ws)_0x$(charCode)}$(comma)
+$(end_block_images_table)
 };
 
-@start_block_font_def@
-const tFont @documentName_ws@ = { @imagesCount@, @documentName_ws@_array };
-@end_block_font_def@
+$(start_block_font_def)
+const tFont $(documentName_ws) = { $(imagesCount), $(documentName_ws)_array };
+$(end_block_font_def)

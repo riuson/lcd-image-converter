@@ -24,6 +24,7 @@
 
 #include "actionhandlersbase.h"
 //-----------------------------------------------------------------------------
+class QImage;
 class IMainWindow;
 class WidgetBitmapEditor;
 //-----------------------------------------------------------------------------
@@ -32,15 +33,17 @@ class ActionFontHandlers : public ActionHandlersBase
     Q_OBJECT
 public:
     explicit ActionFontHandlers(QObject *parent = 0);
-    
+
 signals:
-    
+    void imageCreated(QImage *image, const QString &documentName);
+
 public slots:
     void fontChange_triggered();
     void fontInverse_triggered();
     void fontResize_triggered();
     void fontMinimizeHeight_triggered();
     void fontPreview_triggered();
+    void fontToImage_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONFONTHANDLERS_H

@@ -19,6 +19,10 @@ private slots:
     void rotate90();
     void rotate180();
     void rotate270();
+    void shiftUp();
+    void shiftRight();
+    void shiftDown();
+    void shiftLeft();
     void flipHorizontal();
     void flipVertical();
     void cleanupTestCase();

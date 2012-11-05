@@ -22,25 +22,33 @@
 //-----------------------------------------------------------------------------
 #include <QObject>
 #include <QMap>
+#include <QRegExp>
 
 class IDocument;
 class IDataContainer;
-class ConversionMatrix;
+class Preset;
 //-----------------------------------------------------------------------------
 class Parser : public QObject
 {
     Q_OBJECT
 public:
-    Parser(QObject *parent);
+    enum TemplateType
+    {
+        TypeImage,
+        TypeFont
+    };
+
+    Parser(QObject *parent, TemplateType templateType);
     virtual ~Parser();
 
     QString name();
 
-    QString convert(IDocument *document, const QString &templateFile, QMap<QString, QString> &tags) const;
+    QString convert(IDocument *document, QMap<QString, QString> &tags) const;
+
 private:
-    QMap <QString, QObject *> mConverters;
     QString mSelectedPresetName;
-    ConversionMatrix *mMatrix;
+    Preset *mPreset;
+    QString mTemplateFileName;
 
     void parse(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
     void parseBlocks(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
@@ -48,6 +56,17 @@ private:
     void parseSimple(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
     QString hexCode(const QChar &ch, const QString &encoding, bool bom) const;
     void addMatrixInfo(QMap<QString, QString> &tags) const;
+
+    enum ExpType
+    {
+        BlockStart,
+        BlockEnd,
+        TagName,
+        ImageData,
+        Content
+    };
+
+    QRegExp expression(ExpType type, const QString &name = QString()) const;
 };
 //-----------------------------------------------------------------------------
 #endif // PARSER_H

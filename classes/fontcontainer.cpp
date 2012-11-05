@@ -27,7 +27,6 @@ FontContainer::FontContainer(QObject *parent) :
     QObject(parent)
 {
     this->mDefaultImage = new QImage(":/images/template");
-    //this->mImageMap.insert("default", this->mDefaultImage);
 }
 //-----------------------------------------------------------------------------
 FontContainer::~FontContainer()

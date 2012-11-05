@@ -29,8 +29,8 @@ class WidgetBitmapEditor;
 class IDocument
 {
 public:
-    virtual bool save(const QString &filename) = 0;
     virtual bool load(const QString &filename) = 0;
+    virtual bool save(const QString &filename) = 0;
     virtual bool changed() = 0;
     virtual void setChanged(bool value) = 0;
     virtual QString fileName() = 0;
@@ -38,6 +38,7 @@ public:
     virtual void setDocumentName(const QString &value) = 0;
     virtual IDataContainer *dataContainer() = 0;
     virtual WidgetBitmapEditor *editor() = 0;
+    virtual void convert(bool request) = 0;
 };
 Q_DECLARE_INTERFACE (IDocument,
                      "riuson.lcd-image-converter/1.0"

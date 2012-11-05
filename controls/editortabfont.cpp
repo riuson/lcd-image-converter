@@ -30,9 +30,12 @@
 #include <QPainter>
 #include <QImage>
 #include <QMessageBox>
+#include <QFileDialog>
 
 #include "widgetbitmapeditor.h"
 #include "fontcontainer.h"
+#include "fontcharactersmodel.h"
+#include "parser.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
@@ -45,24 +48,34 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
     this->mContainer = new FontContainer(this);
 
+    this->mModel = new FontCharactersModel(this->mContainer, this);
+    this->ui->tableViewCharacters->setModel(this->mModel);
+
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(selectionChanged(QItemSelection,QItemSelection)));
+
     this->mEditor = new WidgetBitmapEditor(this->mContainer, this);
     this->mSplitter->addWidget(this->mEditor);
-    this->mSplitter->addWidget(this->ui->listWidgetCharacters);
+    this->mSplitter->addWidget(this->ui->tableViewCharacters);
     this->mSplitter->setChildrenCollapsible(false);
 
     this->connect(this->mEditor, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
 
     this->mDocumentName = tr("Font", "new font name");
     this->mFileName = "";
+    this->mConvertedFileName = "";
     this->mDataChanged = false;
 
     this->mAntialiasing = false;
     this->mMonospaced = false;
+
+    this->ui->tableViewCharacters->resizeColumnsToContents();
 }
 //-----------------------------------------------------------------------------
 EditorTabFont::~EditorTabFont()
 {
     delete ui;
+    delete this->mModel;
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::changeEvent(QEvent *e)
@@ -79,13 +92,21 @@ void EditorTabFont::changeEvent(QEvent *e)
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_dataChanged()
 {
-    this->mDataChanged = true;
-    emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+    this->setChanged(true);
 }
 //-----------------------------------------------------------------------------
-void EditorTabFont::on_listWidgetCharacters_currentTextChanged(const QString &value)
+void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
-    this->mEditor->selectImage(value);
+    Q_UNUSED(selected);
+    Q_UNUSED(deselected);
+
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    if (selectionModel->hasSelection())
+    {
+        QModelIndex index = this->mModel->index(selectionModel->currentIndex().row(), 0);
+        QString a = this->mModel->data(index, Qt::DisplayRole).toString();
+        this->mEditor->selectImage(a);
+    }
 }
 //-----------------------------------------------------------------------------
 bool EditorTabFont::load(const QString &fileName)
@@ -97,6 +118,7 @@ bool EditorTabFont::load(const QString &fileName)
     {
         QDomDocument doc;
         QString errorMsg;
+        QString converted;
         int errorColumn, errorLine;
         if (doc.setContent(&file, &errorMsg, &errorLine, &errorColumn))
         {
@@ -139,6 +161,10 @@ bool EditorTabFont::load(const QString &fileName)
                         {
                             antialiasing = (e.text() == "true");
                         }
+                        else if( e.tagName() == "converted" )
+                        {
+                            converted = e.text();
+                        }
                     }
 
                     n = n.nextSibling();
@@ -166,19 +192,24 @@ bool EditorTabFont::load(const QString &fileName)
                         }
                     }
                 }
-                this->ui->listWidgetCharacters->addItems(this->mContainer->keys());
+                this->mModel->callReset();
+                this->ui->tableViewCharacters->resizeColumnsToContents();
 
                 QFontDatabase fonts;
                 this->mFont = fonts.font(fontFamily, style, size);
+                this->mFont.setPixelSize(size);
+                this->mStyle = style;
                 this->mMonospaced = monospaced;
                 this->mAntialiasing = antialiasing;
+                this->updateTableFont();
             }
         }
         file.close();
 
         this->mFileName = fileName;
-        this->mDataChanged = false;
-        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+        this->mConvertedFileName = converted;
+        this->mEditor->selectImage(this->mContainer->keys().at(0));
+        this->setChanged(false);
     }
 
     return result;
@@ -239,6 +270,11 @@ bool EditorTabFont::save(const QString &fileName)
     nodeRoot.appendChild(nodeString);
     nodeString.appendChild(doc.createTextNode(chars));
 
+    // converted file name
+    QDomElement nodeConverted = doc.createElement("converted");
+    nodeRoot.appendChild(nodeConverted);
+    nodeConverted.appendChild(doc.createTextNode(this->mConvertedFileName));
+
     // chars list
     QDomElement nodeChars = doc.createElement("chars");
     nodeRoot.appendChild(nodeChars);
@@ -276,10 +312,9 @@ bool EditorTabFont::save(const QString &fileName)
         doc.save(stream, 4);
 
         this->mFileName = fileName;
-        this->mDataChanged = false;
         file.close();
         result = true;
-        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+        this->setChanged(false);
     }
 
     return result;
@@ -311,8 +346,7 @@ void EditorTabFont::setDocumentName(const QString &value)
     if (this->mDocumentName != value)
     {
         this->mDocumentName = value;
-        this->mDataChanged = true;
-        emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+        this->setChanged(true);
     }
 }
 //-----------------------------------------------------------------------------
@@ -324,6 +358,79 @@ IDataContainer *EditorTabFont::dataContainer()
 WidgetBitmapEditor *EditorTabFont::editor()
 {
     return this->mEditor;
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::convert(bool request)
+{
+    QMap<QString, QString> tags;
+
+    if (!this->mFileName.isEmpty())
+        tags["fileName"] = this->mFileName;
+    else
+        tags["fileName"] = "unknown";
+
+    tags["documentName"] = this->mDocumentName;
+    tags["documentName_ws"] = this->mDocumentName.remove(QRegExp("\\W", Qt::CaseInsensitive));
+
+    QString chars, fontFamily, style;
+    int size;
+    bool monospaced, antialiasing;
+    this->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
+
+    tags["dataType"] = "font";
+    tags["fontFamily"] = fontFamily;
+    tags["fontSize"] = QString("%1").arg(size);
+    tags["fontStyle"] = style;
+    tags["string"] = chars;
+    tags["fontAntialiasing"] = antialiasing ? "yes" : "no";
+    tags["fontWidthType"] = monospaced ? "monospaced" : "proportional";
+
+    Parser parser(this, Parser::TypeFont);
+    QString result = parser.convert(this, tags);
+
+    // converter output file name
+    QString outputFileName = this->mConvertedFileName;
+
+    // if file name not specified, show dialog
+    if (outputFileName.isEmpty())
+        request = true;
+
+    // show dialog
+    if (request)
+    {
+        QFileDialog dialog(this);
+        dialog.setAcceptMode(QFileDialog::AcceptSave);
+        dialog.selectFile(outputFileName);
+        dialog.setFileMode(QFileDialog::AnyFile);
+        dialog.setFilter(tr("C Files (*.c);;All Files (*.*)"));
+        dialog.setDefaultSuffix(QString("c"));
+        dialog.setWindowTitle(tr("Save result file as"));
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            outputFileName = dialog.selectedFiles().at(0);
+        }
+        else
+        {
+            outputFileName = "";
+        }
+    }
+
+    // if file name specified, save result
+    if (!outputFileName.isEmpty())
+    {
+        QFile file(outputFileName);
+        if (file.open(QFile::WriteOnly))
+        {
+            file.write(result.toUtf8());
+            file.close();
+
+            if (this->mConvertedFileName != outputFileName)
+            {
+                this->mConvertedFileName = outputFileName;
+                emit this->setChanged(true);
+            }
+        }
+    }
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::setFontCharacters(const QString &chars,
@@ -369,6 +476,8 @@ void EditorTabFont::setFontCharacters(const QString &chars,
 
     if (!cancel)
     {
+        this->mEditor->selectImage("default");
+
         // list of exists characters
         QStringList keys = this->mContainer->keys();
         if (needRecreate)
@@ -390,7 +499,8 @@ void EditorTabFont::setFontCharacters(const QString &chars,
             }
         }
         this->mFont = fonts.font(fontFamily, style, size);
-        this->ui->listWidgetCharacters->setFont(this->mFont);
+        this->mFont.setPixelSize(size);
+        this->updateTableFont();
 
         //this->mCharacters = chars;
         this->mStyle = style;
@@ -412,8 +522,6 @@ void EditorTabFont::setFontCharacters(const QString &chars,
             height = metrics.height();
         }
 
-        // clear items of listwidget
-        this->ui->listWidgetCharacters->clear();
         // list of exists characters, what present in new characters list
         keys = this->mContainer->keys();
         for (int i = 0; i < chars.count(); i++)
@@ -435,8 +543,12 @@ void EditorTabFont::setFontCharacters(const QString &chars,
             }
         }
         keys = this->mContainer->keys();
-        this->ui->listWidgetCharacters->addItems(keys);
         this->mon_editor_dataChanged();
+
+        this->mModel->callReset();
+        this->ui->tableViewCharacters->resizeColumnsToContents();
+
+        this->mEditor->selectImage(this->mContainer->keys().at(0));
     }
 }
 //-----------------------------------------------------------------------------
@@ -451,10 +563,30 @@ void EditorTabFont::fontCharacters(QString *chars,
     //*chars = this->mCharacters;
     *chars = charList.join("");
     *fontFamily = this->mFont.family();
-    *size = this->mFont.pointSize();
+    *size = this->mFont.pixelSize();
     *style = this->mStyle;
     *monospaced = this->mMonospaced;
     *antialiasing = this->mAntialiasing;
+}
+//-----------------------------------------------------------------------------
+const QString EditorTabFont::selectedCharacters() const
+{
+    QString result;
+
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    if (selectionModel->hasSelection())
+    {
+        QModelIndexList indexes = selectionModel->selectedIndexes();
+        for (int i = 0; i < indexes.count(); i++)
+        {
+            QModelIndex index = this->mModel->index(indexes.at(i).row(), 0);
+            QString a = this->mModel->data(index, Qt::DisplayRole).toString();
+            if (!result.contains(a))
+                result += a;
+        }
+    }
+
+    return result;
 }
 //-----------------------------------------------------------------------------
 QImage EditorTabFont::drawCharacter(const QChar value,
@@ -469,6 +601,10 @@ QImage EditorTabFont::drawCharacter(const QChar value,
 
     int charWidth = fontMetrics.width(value);
     int charHeight = fontMetrics.height();
+
+    // fix width of italic style
+    QRect r = fontMetrics.boundingRect(QString(value));
+    charWidth = qMax(qMax(r.left(), r.right()) + 1, charWidth);
 
     int imageWidth = width;
     int imageHeight = height;
@@ -497,6 +633,14 @@ QImage EditorTabFont::drawCharacter(const QChar value,
     return result;
 }
 //-----------------------------------------------------------------------------
+void EditorTabFont::updateTableFont()
+{
+    this->mTableFont = QFont(this->mFont);
+    this->mTableFont.setPointSize(11);
+    this->mTableFont.setBold(false);
+    this->ui->tableViewCharacters->setFont(this->mTableFont);
+}
+//-----------------------------------------------------------------------------
 /*
  Storage data format:
 <?xml version="1.0" encoding="utf-8"?>
@@ -507,6 +651,7 @@ QImage EditorTabFont::drawCharacter(const QChar value,
     <widthType>proportional</widthType>
     <antialiasing>false</antialiasing>
     <string> !"#$%&amp;'()*+,-./0123456789:;&lt;=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~АБВ</string>
+    <converted>/tmp/font.c</converted>
     <chars>
         <char character=" " code="0020">
             <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAQAAAATCAIAAAA4QDsKAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAFUlEQVQImWP8//8/AwwwMSCBYc0BAO+LAyPoIK0eAAAAAElFTkSuQmCC</picture>

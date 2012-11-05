@@ -1,36 +1,34 @@
-@start_block_header@
+$(start_block_header)
 /*******************************************************************************
-* @dataType@
-* filename: @fileName@
-* name: @documentName@
-* encoding: UTF-8
-* unicode bom: yes
+* $(dataType)
+* filename: $(fileName)
+* name: $(documentName)
 *
-* preset name: @preset@
-* data block size: @dataBlockSize@ bit(s), uint@dataBlockSize@_t
-* conversion type: @convType@, @monoType@ @edge@
-* bits per pixel: @bpp@
+* preset name: $(preset)
+* data block size: $(dataBlockSize) bit(s), uint$(dataBlockSize)_t
+* RLE compression enabled: $(rle)
+* conversion type: $(convType), $(monoType) $(edge)
+* bits per pixel: $(bpp)
 *
 * preprocess:
-*  rotate: @rotate@
-*  flip horizontal: @flipHorizontal@
-*  flip vertical: @flipVertical@
-*  inverse: @inverse@
+*  main scan direction: $(scanMain)
+*  line scan direction: $(scanSub)
+*  inverse: $(inverse)
 *******************************************************************************/
 
 /*
  typedef struct {
-     const uint@dataBlockSize@_t *data;
+     const uint$(dataBlockSize)_t *data;
      uint16_t width;
      uint16_t height;
      } tImage;
 */
 #include <stdint.h>
-@end_block_header@
+$(end_block_header)
 
-@start_block_images_table@
-static const uint@dataBlockSize@_t image_data_@documentName_ws@[@blocksCount@] = {
-    @imageData@
+$(start_block_images_table)
+static const uint$(dataBlockSize)_t image_data_$(documentName_ws)[$(blocksCount)] = {
+    $(imageData)
 };
-const tImage @documentName_ws@ = { image_data_@documentName_ws@, @width@, @height@};
-@end_block_images_table@
+const tImage $(documentName_ws) = { image_data_$(documentName_ws), $(width), $(height)};
+$(end_block_images_table)

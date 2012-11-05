@@ -25,12 +25,15 @@
 class QString;
 class QWidget;
 class IDocument;
+
+template <class T> class QList;
 //-----------------------------------------------------------------------------
 class IMainWindow
 {
 public:
     virtual IDocument *currentDocument() = 0;
     virtual QWidget *currentTab() = 0;
+    virtual void tabsList(QList<QWidget *> *list) = 0;
     virtual QWidget *parentWidget() = 0;
     virtual QString findAvailableName(const QString &prefix) = 0;
 };

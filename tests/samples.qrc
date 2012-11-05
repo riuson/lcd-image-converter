@@ -10,4 +10,11 @@
         <file alias="horizontal">resources/samples/flip/flip-horizontal.png</file>
         <file alias="vertical">resources/samples/flip/flip-vertical.png</file>
     </qresource>
+    <qresource prefix="/shift">
+        <file alias="down">resources/samples/shift/down.png</file>
+        <file alias="left">resources/samples/shift/left.png</file>
+        <file alias="original">resources/samples/shift/original.png</file>
+        <file alias="right">resources/samples/shift/right.png</file>
+        <file alias="up">resources/samples/shift/up.png</file>
+    </qresource>
 </RCC>

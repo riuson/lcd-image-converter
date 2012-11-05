@@ -1,0 +1,31 @@
+body {
+  padding: 10px;
+  font-size: medium;
+}
+
+pre {
+  padding: 5px;
+  font-style: italic;
+}
+
+div.record-old
+{
+    color: gray;
+}
+
+div.record-current
+{
+    color: navy;
+}
+
+div.record-new
+{
+    font-weight: bold;
+}
+
+.update-alert
+{
+    font-weight: bold;
+    text-decoration: underline;
+    color: darkgreen;
+}

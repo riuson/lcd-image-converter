@@ -1,5 +1,10 @@
 #include "testbitstream.h"
 //-----------------------------------------------------------------------------
+#include "preset.h"
+#include "prepareoptions.h"
+#include "matrixoptions.h"
+#include "imageoptions.h"
+//-----------------------------------------------------------------------------
 TestBitStream::TestBitStream(QObject *parent) :
     QObject(parent)
 {
@@ -7,19 +12,19 @@ TestBitStream::TestBitStream(QObject *parent) :
 //-----------------------------------------------------------------------------
 void TestBitStream::initTestCase()
 {
-    this->mMatrix = new ConversionMatrix(this);
-    this->mMatrix->initColor(5, 6, 5);
-    this->mMatrix->operationsRemoveAll();
-    this->mMatrix->options()->setMaskAnd(0xffffffff);
-    this->mMatrix->options()->setMaskOr(0x00000000);
+    this->mPreset = new Preset(this);
+    this->mPreset->initColor(5, 6, 5);
+    this->mPreset->matrix()->operationsRemoveAll();
+    this->mPreset->matrix()->setMaskAnd(0xffffffff);
+    this->mPreset->matrix()->setMaskOr(0x00000000);
 
-    this->mMatrix->options()->setBlockSize(Data32);
+    this->mPreset->image()->setBlockSize(Data32);
 }
 //-----------------------------------------------------------------------------
 void TestBitStream::streaming()
 {
-    this->mMatrix->options()->setMaskUsed(0x00ffffff);
-    this->mMatrix->options()->setMaskFill(0xffffffff);
+    this->mPreset->matrix()->setMaskUsed(0x00ffffff);
+    this->mPreset->matrix()->setMaskFill(0xffffffff);
 
     // fill source data
     QVector<quint32> source, expected;
@@ -29,7 +34,7 @@ void TestBitStream::streaming()
 
     // create test data
     QVector<quint32> sample;
-    BitStream stream(this->mMatrix, &source, 0, source.size());
+    BitStream stream(this->mPreset, &source, 0, source.size());
     while (!stream.eof())
     {
         sample << stream.next();
@@ -45,7 +50,7 @@ void TestBitStream::streaming()
 //-----------------------------------------------------------------------------
 void TestBitStream::cleanupTestCase()
 {
-    delete this->mMatrix;
+    delete this->mPreset;
 }
 //-----------------------------------------------------------------------------
 void TestBitStream::preparePackData(

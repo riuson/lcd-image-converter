@@ -24,7 +24,6 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QTextStream>
-#include <QSettings>
 #include <QTextCodec>
 #include <QTranslator>
 #include <QLocale>
@@ -38,6 +37,7 @@
 #include "widgetbitmapeditor.h"
 #include "revisionlabel.h"
 #include "recentlist.h"
+#include "languageoptions.h"
 #include "actionfilehandlers.h"
 #include "actionimagehandlers.h"
 #include "actionfonthandlers.h"
@@ -81,11 +81,8 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     this->connect(this->ui->actionLanguageDefault, SIGNAL(triggered()), SLOT(actionLanguage_triggered()));
 
-    QSettings sett;
-    sett.beginGroup("language");
-    QString selectedLocale = sett.value("selected", QVariant("")).toString();
+    QString selectedLocale = LanguageOptions::locale();
     this->selectLocale(selectedLocale);
-    sett.endGroup();
 
     // create recent list
     this->mRecentList = new RecentList(this);
@@ -148,6 +145,7 @@ void MainWindow::updateMenuState()
     this->ui->actionSave_As->setEnabled(editorSelected);
     this->ui->actionClose->setEnabled(editorSelected);
     this->ui->actionConvert->setEnabled(editorSelected);
+    this->ui->actionConvert_All->setEnabled(editorSelected);
 
     if (!editorSelected)
         this->mEditor = NULL;
@@ -155,23 +153,15 @@ void MainWindow::updateMenuState()
 //-----------------------------------------------------------------------------
 void MainWindow::selectLocale(const QString &localeName)
 {
-    QSettings sett;
-    sett.beginGroup("language");
-
-    QFile file(":/translations/" + localeName);
-    if (file.exists())
+    if (LanguageOptions::setLocale(localeName))
     {
         this->mTrans->load(":/translations/" + localeName);
         qApp->installTranslator(this->mTrans);
-        sett.setValue("selected", QVariant(localeName));
     }
     else
     {
         qApp->removeTranslator(this->mTrans);
-        sett.setValue("selected", QVariant(""));
     }
-
-    sett.endGroup();
 
     QList<QAction *> actions =this->ui->menuLanguage->actions();
     QMutableListIterator<QAction *> it(actions);
@@ -237,6 +227,7 @@ void MainWindow::createHandlers()
     this->mFileHandlers->connect(this->ui->actionSave_As, SIGNAL(triggered()), SLOT(saveAs_triggered()));
     this->mFileHandlers->connect(this->ui->actionClose, SIGNAL(triggered()), SLOT(close_triggered()));
     this->mFileHandlers->connect(this->ui->actionConvert, SIGNAL(triggered()), SLOT(convert_triggered()));
+    this->mFileHandlers->connect(this->ui->actionConvert_All, SIGNAL(triggered()), SLOT(convertAll_triggered()));
     this->connect(this->ui->actionQuit, SIGNAL(triggered()), SLOT(close()));
     this->connect(this->mFileHandlers, SIGNAL(rememberFilename(QString)), SLOT(rememberFilename(QString)));
     this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
@@ -249,10 +240,15 @@ void MainWindow::createHandlers()
     this->mImageHandlers->connect(this->ui->actionImageRotate_90_Clockwise, SIGNAL(triggered()), SLOT(rotate_90_Clockwise_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageRotate_180, SIGNAL(triggered()), SLOT(rotate_180_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageRotate_90_Counter_Clockwise, SIGNAL(triggered()), SLOT(rotate_90_Counter_Clockwise_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageShiftLeft, SIGNAL(triggered()), SLOT(shift_left_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageShiftRight, SIGNAL(triggered()), SLOT(shift_right_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageShiftUp, SIGNAL(triggered()), SLOT(shift_up_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageShiftDown, SIGNAL(triggered()), SLOT(shift_down_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageInverse, SIGNAL(triggered()), SLOT(inverse_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageResize, SIGNAL(triggered()), SLOT(resize_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageImport, SIGNAL(triggered()), SLOT(import_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageExport, SIGNAL(triggered()), SLOT(export_triggered()));
+    this->mImageHandlers->connect(this->ui->actionEdit_in_external_tool, SIGNAL(triggered()), SLOT(edit_in_external_tool_triggered()));
 
     this->mFontHandlers = new ActionFontHandlers(this);
     this->mFontHandlers->connect(this->ui->actionFontChange, SIGNAL(triggered()), SLOT(fontChange_triggered()));
@@ -260,14 +256,17 @@ void MainWindow::createHandlers()
     this->mFontHandlers->connect(this->ui->actionFontResize, SIGNAL(triggered()), SLOT(fontResize_triggered()));
     this->mFontHandlers->connect(this->ui->actionFontMinimizeHeight, SIGNAL(triggered()), SLOT(fontMinimizeHeight_triggered()));
     this->mFontHandlers->connect(this->ui->actionFontPreview, SIGNAL(triggered()), SLOT(fontPreview_triggered()));
+    this->mFontHandlers->connect(this->ui->actionFontToImage, SIGNAL(triggered()), SLOT(fontToImage_triggered()));
 
     this->mSetupHandlers = new ActionSetupHandlers(this);
-    this->mSetupHandlers->connect(this->ui->actionSetupConversion, SIGNAL(triggered()), SLOT(conversion_triggered()));
-    this->mSetupHandlers->connect(this->ui->actionSetup, SIGNAL(triggered()), SLOT(setup_triggered()));
+    this->mSetupHandlers->connect(this->ui->actionConversionOptions, SIGNAL(triggered()), SLOT(conversion_triggered()));
+    this->mSetupHandlers->connect(this->ui->actionExternal_editor, SIGNAL(triggered()), SLOT(external_editor_triggered()));
 
     this->mHelpHandlers = new ActionHelpHandlers(this);
     this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(about_triggered()));
     this->mHelpHandlers->connect(this->ui->actionWiki, SIGNAL(triggered()), SLOT(wiki_triggered()));
+
+    this->mFileHandlers->connect(this->mFontHandlers, SIGNAL(imageCreated(QImage*,QString)), SLOT(openImage(QImage*,QString)));
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
@@ -412,6 +411,18 @@ QWidget *MainWindow::currentTab()
         return w;
     }
     return NULL;
+}
+//-----------------------------------------------------------------------------
+void MainWindow::tabsList(QList<QWidget *> *list)
+{
+    if (list != NULL)
+    {
+        list->clear();
+        for (int i = 0; i < this->ui->tabWidget->count(); i++)
+        {
+            list->append(this->ui->tabWidget->widget(i));
+        }
+    }
 }
 //-----------------------------------------------------------------------------
 QWidget *MainWindow::parentWidget()

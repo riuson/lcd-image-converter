@@ -27,9 +27,13 @@
 #include <QVector>
 #include "bitstream.h"
 #include "bitmaphelper.h"
-#include "conversionmatrix.h"
+#include "preset.h"
+#include "prepareoptions.h"
+#include "matrixoptions.h"
+#include "imageoptions.h"
+#include "rlecompressor.h"
 //-----------------------------------------------------------------------------
-void ConverterHelper::pixelsData(ConversionMatrix *matrix, QImage *image, QVector<quint32> *data, int *width, int *height)
+void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32> *data, int *width, int *height)
 {
     if (image != NULL && data != NULL && width != NULL && height != NULL)
     {
@@ -41,11 +45,11 @@ void ConverterHelper::pixelsData(ConversionMatrix *matrix, QImage *image, QVecto
         *height = im.height();
 
         // monochrome image needs special preprocessing
-        ConversionType type = matrix->options()->convType();
+        ConversionType type = preset->prepare()->convType();
         if (type == ConversionTypeMonochrome)
         {
-            MonochromeType monotype = matrix->options()->monoType();
-            int edge = matrix->options()->edge();
+            MonochromeType monotype = preset->prepare()->monoType();
+            int edge = preset->prepare()->edge();
 
             switch (monotype)
             {
@@ -82,20 +86,20 @@ void ConverterHelper::pixelsData(ConversionMatrix *matrix, QImage *image, QVecto
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::processPixels(ConversionMatrix *matrix, QVector<quint32> *data)
+void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
 {
-    if (matrix != NULL && data != NULL)
+    if (preset != NULL && data != NULL)
     {
         for (int i = 0; i < data->size(); i++)
         {
             quint32 value = data->at(i);
             quint32 valueNew = 0;
-            for (int j = 0; j < matrix->operationsCount(); j++)
+            for (int j = 0; j < preset->matrix()->operationsCount(); j++)
             {
                 quint32 mask;
                 int shift;
                 bool left;
-                matrix->operation(j, &mask, &shift, &left);
+                preset->matrix()->operation(j, &mask, &shift, &left);
 
                 if (left)
                     valueNew |= (value & mask) << shift;
@@ -103,17 +107,21 @@ void ConverterHelper::processPixels(ConversionMatrix *matrix, QVector<quint32> *
                     valueNew |= (value & mask) >> shift;
             }
 
-            if (matrix->operationsCount() == 0)
+            if (preset->matrix()->operationsCount() == 0)
                 valueNew = value;
 
-            valueNew &= matrix->options()->maskAnd();
-            valueNew |= matrix->options()->maskOr();
+            valueNew &= preset->matrix()->maskAnd();
+            valueNew |= preset->matrix()->maskOr();
             data->replace(i, valueNew);
         }
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::packData(ConversionMatrix *matrix, QVector<quint32> *inputData, int inputWidth, int inputHeight, QVector<quint32> *outputData, int *outputWidth, int *outputHeight)
+void ConverterHelper::packData(
+        Preset *preset,
+        QVector<quint32> *inputData, int inputWidth, int inputHeight,
+        QVector<quint32> *outputData,
+        int *outputWidth, int *outputHeight)
 {
     *outputHeight = inputHeight;
     outputData->clear();
@@ -121,26 +129,66 @@ void ConverterHelper::packData(ConversionMatrix *matrix, QVector<quint32> *input
     int resultWidth = 0;
     int rowLength = 0;
 
-    // each row
-    for (int y = 0; y < inputHeight; y++)
+    if (preset->image()->splitToRows())
     {
-        // start of row in inputData
-        int start = y * inputWidth;
-        // get row data packed
-        ConverterHelper::packDataRow(matrix, inputData, start, inputWidth, outputData, &rowLength);
-        // get row blocks count
-        resultWidth = qMax(resultWidth, rowLength);
+        // process each row
+        for (int y = 0; y < inputHeight; y++)
+        {
+            // start of row in inputData
+            int start = y * inputWidth;
+            // get row data packed
+            ConverterHelper::packDataRow(preset, inputData, start, inputWidth, outputData, &rowLength);
+            // get row blocks count
+            resultWidth = qMax(resultWidth, rowLength);
+        }
+    }
+    else
+    {
+        // process entire data
+        ConverterHelper::packDataRow(preset, inputData, 0, inputData->size(), outputData, &rowLength);
+        // get blocks count
+        resultWidth = rowLength;
+        *outputHeight = 1;
     }
     *outputWidth = resultWidth;
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::prepareImage(ConversionMatrix *matrix, QImage *source, QImage *result)
+void ConverterHelper::compressData(
+        Preset *matrix,
+        QVector<quint32> *inputData,
+        int inputWidth, int inputHeight,
+        QVector<quint32> *outputData,
+        int *outputWidth, int *outputHeight)
+{
+    if (matrix->image()->compressionRle())
+    {
+        RleCompressor compressor;
+        compressor.compress(inputData, matrix->image()->blockSize(), outputData);
+        *outputWidth = outputData->size();
+        *outputHeight = 1;
+    }
+    else
+    {
+        for (int i = 0; i < inputData->size(); i++)
+            outputData->append(inputData->at(i));
+        *outputWidth = inputWidth;
+        *outputHeight = inputHeight;
+    }
+}
+//-----------------------------------------------------------------------------
+void ConverterHelper::prepareImage(Preset *preset, QImage *source, QImage *result)
 {
     if (source != NULL)
     {
         QImage im = *source;
 
-        switch (matrix->options()->rotate())
+        Rotate rotate = RotateNone;
+        bool flipHorizontal = false;
+        bool flipVertical = false;
+
+        preset->prepare()->modificationsFromScan(&rotate, &flipHorizontal, &flipVertical);
+
+        switch (rotate)
         {
         case Rotate90:
             im = BitmapHelper::rotate90(source);
@@ -155,53 +203,61 @@ void ConverterHelper::prepareImage(ConversionMatrix *matrix, QImage *source, QIm
         default:
             break;
         }
-        if (matrix->options()->flipHorizontal())
+        if (flipHorizontal)
             im = BitmapHelper::flipHorizontal(&im);
-        if (matrix->options()->flipVertical())
+        if (flipVertical)
             im = BitmapHelper::flipVertical(&im);
-        if (matrix->options()->inverse())
+        if (preset->prepare()->inverse())
             im.invertPixels();
 
         *result = im;
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::createImagePreview(ConversionMatrix *matrix, QImage *source, QImage *result)
+void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage *result)
 {
     if (source != NULL)
     {
         QImage im = *source;
 
         // simple prepare options
-        switch (matrix->options()->rotate())
+        Rotate rotate = RotateNone;
+        bool flipHorizontal = false;
+        bool flipVertical = false;
+
+        preset->prepare()->modificationsFromScan(&rotate, &flipHorizontal, &flipVertical);
+
+        switch (rotate)
         {
         case Rotate90:
-            im = BitmapHelper::rotate90(source);
+            im = BitmapHelper::rotate90(&im);
             break;
         case Rotate180:
-            im = BitmapHelper::rotate180(source);
+            im = BitmapHelper::rotate180(&im);
             break;
         case Rotate270:
-            im = BitmapHelper::rotate270(source);
+            im = BitmapHelper::rotate270(&im);
             break;
-        case RotateNone:
         default:
             break;
         }
-        if (matrix->options()->flipHorizontal())
+
+        if (flipHorizontal)
             im = BitmapHelper::flipHorizontal(&im);
-        if (matrix->options()->flipVertical())
+
+        if (flipVertical)
             im = BitmapHelper::flipVertical(&im);
-        if (matrix->options()->inverse())
+
+        if (preset->prepare()->inverse())
             im.invertPixels();
 
         // convert to mono/gray/color
-        if (matrix->options()->convType() == ConversionTypeMonochrome)
+        if (preset->prepare()->convType() == ConversionTypeMonochrome)
         {
-            switch (matrix->options()->monoType())
+            switch (preset->prepare()->monoType())
             {
             case MonochromeTypeEdge:
-                ConverterHelper::makeMonochrome(im, matrix->options()->edge());
+                ConverterHelper::makeMonochrome(im, preset->prepare()->edge());
                 break;
             case MonochromeTypeDiffuseDither:
                 im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::DiffuseDither);
@@ -214,7 +270,7 @@ void ConverterHelper::createImagePreview(ConversionMatrix *matrix, QImage *sourc
                 break;
             }
         }
-        else if (matrix->options()->convType() == ConversionTypeGrayscale)
+        else if (preset->prepare()->convType() == ConversionTypeGrayscale)
         {
             ConverterHelper::makeGrayscale(im);
         }
@@ -223,23 +279,23 @@ void ConverterHelper::createImagePreview(ConversionMatrix *matrix, QImage *sourc
         {
             // create mask
             quint32 mask = 0;
-            switch (matrix->options()->convType())
+            switch (preset->prepare()->convType())
             {
             case ConversionTypeMonochrome:
             {
                 quint32 opMask;
                 int opShift;
                 bool opLeft;
-                for (int i = 0; i < matrix->operationsCount(); i++)
+                for (int i = 0; i < preset->matrix()->operationsCount(); i++)
                 {
-                    matrix->operation(i, &opMask, &opShift, &opLeft);
+                    preset->matrix()->operation(i, &opMask, &opShift, &opLeft);
                     if (opMask != 0)
                     {
                         mask = 0xffffffff;
                         break;
                     }
                 }
-                if (matrix->operationsCount() == 0)
+                if (preset->matrix()->operationsCount() == 0)
                     mask = 0xffffffff;
                 break;
             }
@@ -248,9 +304,9 @@ void ConverterHelper::createImagePreview(ConversionMatrix *matrix, QImage *sourc
                 quint32 opMask;
                 int opShift;
                 bool opLeft;
-                for (int i = 0; i < matrix->operationsCount(); i++)
+                for (int i = 0; i < preset->matrix()->operationsCount(); i++)
                 {
-                    matrix->operation(i, &opMask, &opShift, &opLeft);
+                    preset->matrix()->operation(i, &opMask, &opShift, &opLeft);
                     quint8 byte1 = (opMask >> 0) & 0xff;
                     quint8 byte2 = (opMask >> 8) & 0xff;
                     quint8 byte3 = (opMask >> 16) & 0xff;
@@ -261,7 +317,7 @@ void ConverterHelper::createImagePreview(ConversionMatrix *matrix, QImage *sourc
                     mask |= all << 16;
                     mask |= all << 24;
                 }
-                if (matrix->operationsCount() == 0)
+                if (preset->matrix()->operationsCount() == 0)
                     mask = 0xffffffff;
                 break;
             }
@@ -270,12 +326,12 @@ void ConverterHelper::createImagePreview(ConversionMatrix *matrix, QImage *sourc
                 quint32 opMask;
                 int opShift;
                 bool opLeft;
-                for (int i = 0; i < matrix->operationsCount(); i++)
+                for (int i = 0; i < preset->matrix()->operationsCount(); i++)
                 {
-                    matrix->operation(i, &opMask, &opShift, &opLeft);
+                    preset->matrix()->operation(i, &opMask, &opShift, &opLeft);
                     mask |= opMask;
                 }
-                if (matrix->operationsCount() == 0)
+                if (preset->matrix()->operationsCount() == 0)
                     mask = 0xffffffff;
                 break;
             }
@@ -301,10 +357,10 @@ void ConverterHelper::createImagePreview(ConversionMatrix *matrix, QImage *sourc
     }
 }
 //-----------------------------------------------------------------------------
-QString ConverterHelper::dataToString(ConversionMatrix *matrix, QVector<quint32> *data, int width, int height, const QString &prefix)
+QString ConverterHelper::dataToString(Preset *preset, QVector<quint32> *data, int width, int height, const QString &prefix)
 {
     QString result;
-    DataBlockSize blockSize = matrix->options()->blockSize();
+    DataBlockSize blockSize = preset->image()->blockSize();
     QChar temp[11];
     const QChar table[] = {
         QChar('0'), QChar('1'), QChar('2'), QChar('3'),
@@ -315,13 +371,88 @@ QString ConverterHelper::dataToString(ConversionMatrix *matrix, QVector<quint32>
     const QChar space = QChar(' ');
     const QChar end = QChar('\0');
 
-    for (int y = 0; y < height; y++)
+    if (preset->image()->splitToRows())
     {
-        if (y > 0)
-            result.append("\n");
-        for (int x = 0; x < width; x++)
+        bool completed = false;
+
+        for (int y = 0; y < height && !completed; y++)
         {
-            quint32 value = data->at(y * width + x);
+            if (y > 0)
+                result.append("\n");
+            for (int x = 0; x < width && !completed; x++)
+            {
+                // control index limits for compressed data
+                int index = y * width + x;
+                if (index >= data->size())
+                {
+                    completed = true;
+                    break;
+                }
+
+                quint32 value = data->at(index);
+                switch (blockSize)
+                {
+                case Data8:
+                    temp[0] = table[(value >> 4) & 0x0000000f];
+                    temp[1] = table[(value >> 0) & 0x0000000f];
+                    temp[2] = comma;
+                    temp[3] = space;
+                    temp[4] = end;
+                    break;
+                case Data16:
+                    temp[0] = table[(value >> 12) & 0x0000000f];
+                    temp[1] = table[(value >> 8) & 0x0000000f];
+                    temp[2] = table[(value >> 4) & 0x0000000f];
+                    temp[3] = table[(value >> 0) & 0x0000000f];
+                    temp[4] = comma;
+                    temp[5] = space;
+                    temp[6] = end;
+                    break;
+                case Data24:
+                    temp[0] = table[(value >> 20) & 0x0000000f];
+                    temp[1] = table[(value >> 16) & 0x0000000f];
+                    temp[2] = table[(value >> 12) & 0x0000000f];
+                    temp[3] = table[(value >> 8) & 0x0000000f];
+                    temp[4] = table[(value >> 4) & 0x0000000f];
+                    temp[5] = table[(value >> 0) & 0x0000000f];
+                    temp[6] = comma;
+                    temp[7] = space;
+                    temp[8] = end;
+                    break;
+                case Data32:
+                    temp[0] = table[(value >> 28) & 0x0000000f];
+                    temp[1] = table[(value >> 24) & 0x0000000f];
+                    temp[2] = table[(value >> 20) & 0x0000000f];
+                    temp[3] = table[(value >> 16) & 0x0000000f];
+                    temp[4] = table[(value >> 12) & 0x0000000f];
+                    temp[5] = table[(value >> 8) & 0x0000000f];
+                    temp[6] = table[(value >> 4) & 0x0000000f];
+                    temp[7] = table[(value >> 0) & 0x0000000f];
+                    temp[8] = comma;
+                    temp[9] = space;
+                    temp[10] = end;
+                    break;
+                }
+
+                result += prefix + QString(temp);
+            }
+        }
+
+        result.truncate(result.length() - 2);
+    }
+    else
+    {
+        bool completed = false;
+
+        for (int i = 0; i < width && !completed; i++)
+        {
+            // control index limits for compressed data
+            if (i >= data->size())
+            {
+                completed = true;
+                break;
+            }
+            quint32 value = data->at(i);
             switch (blockSize)
             {
             case Data8:
@@ -368,9 +499,9 @@ QString ConverterHelper::dataToString(ConversionMatrix *matrix, QVector<quint32>
 
             result += prefix + QString(temp);
         }
-    }
 
-    result.truncate(result.length() - 2);
+        result.truncate(result.length() - 2);
+    }
 
     return result;
 }
@@ -411,18 +542,18 @@ void ConverterHelper::makeGrayscale(QImage &image)
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::packDataRow(ConversionMatrix *matrix, QVector<quint32> *inputData, int start, int count, QVector<quint32> *outputData, int *rowLength)
+void ConverterHelper::packDataRow(Preset *preset, QVector<quint32> *inputData, int start, int count, QVector<quint32> *outputData, int *rowLength)
 {
     *rowLength = 0;
-    if (matrix != NULL && inputData != NULL && outputData != NULL)
+    if (preset != NULL && inputData != NULL && outputData != NULL)
     {
-        BitStream stream(matrix, inputData, start, count);
+        BitStream stream(preset, inputData, start, count);
         while (!stream.eof())
         {
             quint32 value = stream.next();
 
-            if (matrix->options()->bytesOrder() == BytesOrderBigEndian)
-                value = ConverterHelper::toBigEndian(matrix, value);
+            if (preset->image()->bytesOrder() == BytesOrderBigEndian)
+                value = ConverterHelper::toBigEndian(preset, value);
 
             outputData->append(value);
             (*rowLength)++;
@@ -430,7 +561,7 @@ void ConverterHelper::packDataRow(ConversionMatrix *matrix, QVector<quint32> *in
     }
 }
 //-----------------------------------------------------------------------------
-quint32 ConverterHelper::toBigEndian(ConversionMatrix *matrix, quint32 value)
+quint32 ConverterHelper::toBigEndian(Preset *preset, quint32 value)
 {
     quint8 src1, src2, src3, src4;
     src1 = value & 0xff;
@@ -440,7 +571,7 @@ quint32 ConverterHelper::toBigEndian(ConversionMatrix *matrix, quint32 value)
 
     quint32 result = 0;
 
-    switch (matrix->options()->blockSize())
+    switch (preset->image()->blockSize())
     {
     case Data32:
         result |= src1 << 24;

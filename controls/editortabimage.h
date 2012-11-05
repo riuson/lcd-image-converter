@@ -28,6 +28,7 @@ namespace Ui {
     class EditorTabImage;
 }
 //-----------------------------------------------------------------------------
+class QImage;
 class WidgetBitmapEditor;
 class BitmapContainer;
 //-----------------------------------------------------------------------------
@@ -49,6 +50,7 @@ public:
     void setDocumentName(const QString &value);
     IDataContainer *dataContainer();
     WidgetBitmapEditor *editor();
+    void convert(bool request);
 
 protected:
     void changeEvent(QEvent *e);
@@ -59,6 +61,7 @@ private:
     BitmapContainer *mContainer;
 
     QString mFileName;
+    QString mConvertedFileName;
     QString mDocumentName;
     bool mDataChanged;
 private slots:
