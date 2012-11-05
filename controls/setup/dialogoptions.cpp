@@ -52,8 +52,21 @@ DialogOptions::DialogOptions(IDataContainer *dataContainer, QWidget *parent) :
     QString selectedPreset = Preset::currentName();
     int presetsCount = Preset::presetsList().length();
 
+    // create default presets
     if (presetsCount == 0)
+    {
         this->createPresetsDefault();
+    }
+    else
+    {
+        if (presetsCount == 1)
+        {
+            if (Preset::presetsList().at(0) == QString("default"))
+            {
+                this->createPresetsDefault();
+            }
+        }
+    }
 
     this->mSetupPrepare->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
     this->mSetupMatrix->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
@@ -231,8 +244,12 @@ void DialogOptions::done(int result)
             {
                 QString name = this->ui->comboBoxPresets->currentText();
 
-                this->mPreset->save(name);
+                if (name.isEmpty())
+                {
+                    name = QString("default");
+                }
 
+                this->mPreset->save(name);
                 Preset::setCurrentName(name);
 
                 QDialog::done(result);
