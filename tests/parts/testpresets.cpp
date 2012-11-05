@@ -48,7 +48,12 @@ void TestPresets::loadSave()
     this->mOptions->initMono(MonochromeTypeEdge, 1);
 
     if (!this->mOptions->load(name))
+    {
         QFAIL("preset not loaded");
+        // test failed under Windows 7, possible because of this:
+        // https://bugreports.qt-project.org/browse/QTBUG-24145
+        // https://codereview.qt-project.org/#change,17656
+    }
 
     QCOMPARE(this->mOptions->prepare()->convType(), source.prepare()->convType());
     QCOMPARE(this->mOptions->prepare()->monoType(), source.prepare()->monoType());
