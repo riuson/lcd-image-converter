@@ -34,23 +34,16 @@ public:
     explicit DialogFontChanged(QWidget *parent = 0);
     ~DialogFontChanged();
 
-    enum FontChangedResultCode
-    {
-        RegenerateAll,
-        GenerateNewOnly,
-        Cancel
-    };
-
-    FontChangedResultCode answer() const;
+    bool regenerateAll() const;
 
 private:
     Ui::DialogFontChanged *ui;
 
-    FontChangedResultCode mAnswer;
+    bool mRegenerateAll;
 
 private  slots:
     void on_buttonRegenerateAll_clicked();
-    void on_buttonRegenerateNew_clicked();
+    void on_buttonGenerateNewOnly_clicked();
     void on_buttonCancel_clicked();
 };
 //-----------------------------------------------------------------------------

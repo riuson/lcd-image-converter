@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>359</width>
-    <height>201</height>
+    <width>334</width>
+    <height>234</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Font changed</string>
@@ -20,12 +26,12 @@
       <string>Update all characters</string>
      </property>
      <property name="description">
-      <string>Regenerate all characters with new font parameters</string>
+      <string>Save new font parameters and regenerate all characters</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QCommandLinkButton" name="buttonGenerateNew">
+    <widget class="QCommandLinkButton" name="buttonGenerateNewOnly">
      <property name="text">
       <string>Add/remove only</string>
      </property>

@@ -26,7 +26,7 @@ DialogFontChanged::DialogFontChanged(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->mAnswer = DialogFontChanged::Cancel;
+    this->mRegenerateAll = false;
 }
 //-----------------------------------------------------------------------------
 DialogFontChanged::~DialogFontChanged()
@@ -34,24 +34,31 @@ DialogFontChanged::~DialogFontChanged()
     delete ui;
 }
 //-----------------------------------------------------------------------------
-void DialogFontChanged::on_buttonRegenerateAll_clicked()
+bool DialogFontChanged::regenerateAll() const
 {
-    this->mAnswer = DialogFontChanged::RegenerateAll;
-    this->setResult(QDialog::Accepted);
-    this->close();
+    return this->mRegenerateAll;
 }
 //-----------------------------------------------------------------------------
-void DialogFontChanged::on_buttonRegenerateNew_clicked()
+void DialogFontChanged::on_buttonRegenerateAll_clicked()
 {
-    this->mAnswer = DialogFontChanged::GenerateNewOnly;
-    this->setResult(QDialog::Accepted);
-    this->close();
+    this->mRegenerateAll = true;
+    //this->setResult(QDialog::Accepted);
+    //this->close();
+    this->accept();
+}
+//-----------------------------------------------------------------------------
+void DialogFontChanged::on_buttonGenerateNewOnly_clicked()
+{
+    this->mRegenerateAll = false;
+    //this->setResult(QDialog::Accepted);
+    //this->close();
+    this->accept();
 }
 //-----------------------------------------------------------------------------
 void DialogFontChanged::on_buttonCancel_clicked()
 {
-    this->mAnswer = DialogFontChanged::Cancel;
-    this->setResult(QDialog::Rejected);
-    this->close();
+    //this->setResult(QDialog::Rejected);
+    //this->close();
+    this->reject();
 }
 //-----------------------------------------------------------------------------
