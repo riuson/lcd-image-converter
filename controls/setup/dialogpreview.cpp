@@ -23,10 +23,10 @@
 #include <QList>
 #include <QRegExp>
 #include <QFont>
-#include "idatacontainer.h"
+#include "datacontainer.h"
 #include "converterhelper.h"
 //-----------------------------------------------------------------------------
-DialogPreview::DialogPreview(IDataContainer *dataContainer, Preset *matrix, QWidget *parent) :
+DialogPreview::DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogPreview)
 {

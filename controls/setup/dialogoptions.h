@@ -27,7 +27,7 @@ class DialogOptions;
 }
 //-----------------------------------------------------------------------------
 class Preset;
-class IDataContainer;
+class DataContainer;
 class Parser;
 class DialogPreview;
 class SetupTabPrepare;
@@ -41,13 +41,13 @@ class DialogOptions : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogOptions(IDataContainer *dataContainer, QWidget *parent = 0);
+    explicit DialogOptions(DataContainer *dataContainer, QWidget *parent = 0);
     virtual ~DialogOptions();
 
 private:
     Ui::DialogOptions *ui;
 
-    IDataContainer *mData;
+    DataContainer *mData;
 
     Preset *mPreset;
     bool mPresetChanged;

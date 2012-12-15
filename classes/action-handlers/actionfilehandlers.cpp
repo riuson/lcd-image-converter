@@ -29,7 +29,7 @@
 #include "parser.h"
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
-#include "idatacontainer.h"
+#include "datacontainer.h"
 //-----------------------------------------------------------------------------
 ActionFileHandlers::ActionFileHandlers(QObject *parent) :
     ActionHandlersBase(parent)

@@ -17,49 +17,61 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "bitmapcontainer.h"
+#include "datacontainer.h"
 
-#include <QColor>
 #include <QImage>
-
-#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
-BitmapContainer::BitmapContainer(QObject *parent) :
+DataContainer::DataContainer(QObject *parent) :
     QObject(parent)
 {
-    this->mImage = new QImage(QImage(":/images/template").scaled(20, 10));
+    this->mDefaultImage = new QImage(":/images/template");
 }
 //-----------------------------------------------------------------------------
-BitmapContainer::~BitmapContainer()
+DataContainer::~DataContainer()
 {
-    if (this->mImage != NULL)
-        delete this->mImage;
+    qDeleteAll(this->mImageMap);
+    delete this->mDefaultImage;
 }
 //-----------------------------------------------------------------------------
-QImage *BitmapContainer::image(const QString &key) const
+QImage *DataContainer::image(const QString &key) const
 {
-    Q_UNUSED(key);
-    return this->mImage;
+    return this->mImageMap.value(key, this->mDefaultImage);
 }
 //-----------------------------------------------------------------------------
-void BitmapContainer::setImage(const QString &key, QImage *image)
+void DataContainer::setImage(const QString &key, const QImage *image)
 {
-    Q_UNUSED(key);
-    if (this->mImage != NULL)
-        delete this->mImage;
-    this->mImage = new QImage(*image);
-
-    emit this->imageChanged("default");
+    this->remove(key);
+    QImage *imageNew = new QImage(*image);
+    this->mImageMap.insert(key, imageNew);
+    emit this->imageChanged(key);
 }
 //-----------------------------------------------------------------------------
-int BitmapContainer::count() const
+void DataContainer::clear()
 {
-    return 1;
+    qDeleteAll(this->mImageMap);
+    this->mImageMap.clear();
 }
 //-----------------------------------------------------------------------------
-QStringList BitmapContainer::keys() const
+int DataContainer::count() const
 {
-    static const QStringList result("default");
+    return this->mImageMap.count();
+}
+//-----------------------------------------------------------------------------
+QStringList DataContainer::keys() const
+{
+    QList<QString> tmp = this->mImageMap.keys();
+    qSort(tmp);
+    QStringList result(tmp);
     return result;
+}
+//-----------------------------------------------------------------------------
+void DataContainer::remove(const QString &key)
+{
+    if (this->mImageMap.contains(key))
+    {
+        QImage *imageOld = this->mImageMap.value(key);
+        this->mImageMap.remove(key);
+        delete imageOld;
+    }
 }
 //-----------------------------------------------------------------------------

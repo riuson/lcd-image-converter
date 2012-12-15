@@ -22,7 +22,7 @@
 #include "dialogoptions.h"
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
-#include "idatacontainer.h"
+#include "datacontainer.h"
 #include "dialogexternaleditor.h"
 //-----------------------------------------------------------------------------
 ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
@@ -32,7 +32,7 @@ ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
 //-----------------------------------------------------------------------------
 void ActionSetupHandlers::conversion_triggered()
 {
-    IDataContainer *data = NULL;
+    DataContainer *data = NULL;
     if (this->editor() != NULL)
         data = this->editor()->dataContainer();
     DialogOptions dialog(data, this->mMainWindow->parentWidget());

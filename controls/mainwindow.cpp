@@ -32,7 +32,7 @@
 #include "editortabimage.h"
 #include "editortabfont.h"
 #include "starttab.h"
-#include "bitmapcontainer.h"
+#include "datacontainer.h"
 #include "dialogsavechanges.h"
 #include "widgetbitmapeditor.h"
 #include "revisionlabel.h"

@@ -21,14 +21,14 @@
 //-----------------------------------------------------------------------------
 #include <QPixmap>
 #include <QPainter>
-#include "idatacontainer.h"
+#include "datacontainer.h"
 //-----------------------------------------------------------------------------
 FontHelper::FontHelper(QObject *parent) :
     QObject(parent)
 {
 }
 //-----------------------------------------------------------------------------
-QImage FontHelper::drawString(const IDataContainer *data, const QString &value)
+QImage FontHelper::drawString(const DataContainer *data, const QString &value)
 {
     int width = 0, height = 0;
     QImage::Format format = QImage::Format_ARGB32;

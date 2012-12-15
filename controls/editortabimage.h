@@ -30,7 +30,7 @@ namespace Ui {
 //-----------------------------------------------------------------------------
 class QImage;
 class WidgetBitmapEditor;
-class BitmapContainer;
+class DataContainer;
 //-----------------------------------------------------------------------------
 class EditorTabImage : public QWidget, public IDocument
 {
@@ -48,7 +48,7 @@ public:
     QString fileName();
     QString documentName();
     void setDocumentName(const QString &value);
-    IDataContainer *dataContainer();
+    DataContainer *dataContainer();
     WidgetBitmapEditor *editor();
     void convert(bool request);
 
@@ -58,7 +58,7 @@ protected:
 private:
     Ui::EditorTabImage *ui;
     WidgetBitmapEditor *mEditor;
-    BitmapContainer *mContainer;
+    DataContainer *mContainer;
 
     QString mFileName;
     QString mConvertedFileName;

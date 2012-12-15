@@ -28,7 +28,7 @@ namespace Ui {
     class EditorTabFont;
 }
 //-----------------------------------------------------------------------------
-class FontContainer;
+class DataContainer;
 class WidgetBitmapEditor;
 class QSplitter;
 class FontCharactersModel;
@@ -50,7 +50,7 @@ public:
     QString fileName();
     QString documentName();
     void setDocumentName(const QString &value);
-    IDataContainer *dataContainer();
+    DataContainer *dataContainer();
     WidgetBitmapEditor *editor();
     void convert(bool request);
 
@@ -75,7 +75,7 @@ protected:
 private:
     Ui::EditorTabFont *ui;
     WidgetBitmapEditor *mEditor;
-    FontContainer *mContainer;
+    DataContainer *mContainer;
     QSplitter *mSplitter;
     FontCharactersModel *mModel;
 

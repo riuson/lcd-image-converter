@@ -23,7 +23,7 @@
 #include <QPainter>
 #include "bitmaphelper.h"
 #include "fonthelper.h"
-#include "idatacontainer.h"
+#include "datacontainer.h"
 //-----------------------------------------------------------------------------
 DialogFontPreview::DialogFontPreview(QWidget *parent) :
     QDialog(parent),

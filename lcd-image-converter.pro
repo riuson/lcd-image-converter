@@ -21,7 +21,6 @@ CONFIG(debug, debug|release) {
 }
 
 SOURCES += main.cpp \
-    classes/bitmapcontainer.cpp \
     controls/mainwindow.cpp \
     controls/widgetbitmapeditor.cpp \
     controls/editortabimage.cpp \
@@ -29,7 +28,6 @@ SOURCES += main.cpp \
     controls/dialogsavechanges.cpp \
     classes/convert/bitmaphelper.cpp \
     controls/dialogresize.cpp \
-    classes/fontcontainer.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
     controls/dialogabout.cpp \
@@ -69,9 +67,9 @@ SOURCES += main.cpp \
     classes/settings/externaltooloptions.cpp \
     classes/settings/languageoptions.cpp \
     classes/settings/bitmapeditoroptions.cpp \
-    controls/dialogfontchanged.cpp
+    controls/dialogfontchanged.cpp \
+    classes/datacontainer.cpp
 HEADERS += \
-    classes/bitmapcontainer.h \
     controls/mainwindow.h \
     controls/widgetbitmapeditor.h \
     controls/editortabimage.h \
@@ -79,9 +77,7 @@ HEADERS += \
     interfaces/idocument.h \
     controls/dialogsavechanges.h \
     classes/convert/bitmaphelper.h \
-    interfaces/idatacontainer.h \
     controls/dialogresize.h \
-    classes/fontcontainer.h \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
     controls/dialogabout.h \
@@ -123,7 +119,8 @@ HEADERS += \
     classes/settings/externaltooloptions.h \
     classes/settings/languageoptions.h \
     classes/settings/bitmapeditoroptions.h \
-    controls/dialogfontchanged.h
+    controls/dialogfontchanged.h \
+    classes/datacontainer.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \

@@ -26,9 +26,9 @@
 
 #include "bitmaphelper.h"
 #include "bitmapeditoroptions.h"
-#include "idatacontainer.h"
+#include "datacontainer.h"
 //-----------------------------------------------------------------------------
-WidgetBitmapEditor::WidgetBitmapEditor(IDataContainer *dataContainer, QWidget *parent) :
+WidgetBitmapEditor::WidgetBitmapEditor(DataContainer *dataContainer, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetBitmapEditor)
 {
@@ -152,7 +152,7 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
     return result;
 }
 //-----------------------------------------------------------------------------
-IDataContainer *WidgetBitmapEditor::dataContainer()
+DataContainer *WidgetBitmapEditor::dataContainer()
 {
     return this->mDataContainer;
 }

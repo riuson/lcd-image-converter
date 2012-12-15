@@ -33,7 +33,7 @@
 #include <QFileDialog>
 
 #include "widgetbitmapeditor.h"
-#include "fontcontainer.h"
+#include "datacontainer.h"
 #include "fontcharactersmodel.h"
 #include "parser.h"
 #include "dialogfontchanged.h"
@@ -47,7 +47,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->mSplitter = new QSplitter(this);
     this->ui->horizontalLayout->addWidget(this->mSplitter);
 
-    this->mContainer = new FontContainer(this);
+    this->mContainer = new DataContainer(this);
 
     this->mModel = new FontCharactersModel(this->mContainer, this);
     this->ui->tableViewCharacters->setModel(this->mModel);
@@ -351,7 +351,7 @@ void EditorTabFont::setDocumentName(const QString &value)
     }
 }
 //-----------------------------------------------------------------------------
-IDataContainer *EditorTabFont::dataContainer()
+DataContainer *EditorTabFont::dataContainer()
 {
     return this->mContainer;
 }

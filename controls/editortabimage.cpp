@@ -29,7 +29,7 @@
 #include <QFileDialog>
 
 #include "widgetbitmapeditor.h"
-#include "bitmapcontainer.h"
+#include "datacontainer.h"
 #include "parser.h"
 //-----------------------------------------------------------------------------
 EditorTabImage::EditorTabImage(QWidget *parent) :
@@ -41,7 +41,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
     QHBoxLayout *layout = new QHBoxLayout(this);
     this->setLayout(layout);
 
-    this->mContainer = new BitmapContainer(this);
+    this->mContainer = new DataContainer(this);
 
     this->mEditor = new WidgetBitmapEditor(this->mContainer, this);
     layout->addWidget(this->mEditor);
@@ -206,7 +206,7 @@ void EditorTabImage::setDocumentName(const QString &value)
     }
 }
 //-----------------------------------------------------------------------------
-IDataContainer *EditorTabImage::dataContainer()
+DataContainer *EditorTabImage::dataContainer()
 {
     return this->mContainer;
 }

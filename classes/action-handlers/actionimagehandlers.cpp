@@ -29,7 +29,7 @@
 #include "externaltooloptions.h"
 #include "imainwindow.h"
 #include "idocument.h"
-#include "idatacontainer.h"
+#include "datacontainer.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
     ActionHandlersBase(parent)

@@ -23,7 +23,7 @@
 #include <QObject>
 
 class QString;
-class IDataContainer;
+class DataContainer;
 class WidgetBitmapEditor;
 //-----------------------------------------------------------------------------
 class IDocument
@@ -36,7 +36,7 @@ public:
     virtual QString fileName() = 0;
     virtual QString documentName() = 0;
     virtual void setDocumentName(const QString &value) = 0;
-    virtual IDataContainer *dataContainer() = 0;
+    virtual DataContainer *dataContainer() = 0;
     virtual WidgetBitmapEditor *editor() = 0;
     virtual void convert(bool request) = 0;
 };

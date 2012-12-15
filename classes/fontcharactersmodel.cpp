@@ -20,9 +20,9 @@
 #include "fontcharactersmodel.h"
 //-----------------------------------------------------------------------------
 #include <QPixmap>
-#include "fontcontainer.h"
+#include "datacontainer.h"
 //-----------------------------------------------------------------------------
-FontCharactersModel::FontCharactersModel(FontContainer *container, QObject *parent) :
+FontCharactersModel::FontCharactersModel(DataContainer *container, QObject *parent) :
     QAbstractItemModel(parent)
 {
     this->mContainer = container;

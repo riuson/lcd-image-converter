@@ -25,17 +25,17 @@
 namespace Ui {
     class WidgetBitmapEditor;
 }
-class IDataContainer;
+class DataContainer;
 //-----------------------------------------------------------------------------
 class WidgetBitmapEditor : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit WidgetBitmapEditor(IDataContainer *dataContainer, QWidget *parent = 0);
+    explicit WidgetBitmapEditor(DataContainer *dataContainer, QWidget *parent = 0);
     ~WidgetBitmapEditor();
 
-    IDataContainer *dataContainer();
+    DataContainer *dataContainer();
 
     void selectImage(const QString &key);
     const QString currentImageKey();
@@ -56,7 +56,7 @@ private:
     QPixmap mPixmapColor1;
     QPixmap mPixmapColor2;
     bool mFlagChanged;
-    IDataContainer *mDataContainer;
+    DataContainer *mDataContainer;
     QString mImageKey;
 
     void createImageScaled(int scale);

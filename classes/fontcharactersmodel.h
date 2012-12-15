@@ -23,13 +23,13 @@
 #include <QAbstractItemModel>
 #include <QVariant>
 //-----------------------------------------------------------------------------
-class FontContainer;
+class DataContainer;
 //-----------------------------------------------------------------------------
 class FontCharactersModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    explicit FontCharactersModel(FontContainer *container, QObject *parent = 0);
+    explicit FontCharactersModel(DataContainer *container, QObject *parent = 0);
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
@@ -40,7 +40,7 @@ public:
 
     void callReset();
 private:
-    FontContainer *mContainer;
+    DataContainer *mContainer;
 
 signals:
 
