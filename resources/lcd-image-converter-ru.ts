@@ -213,6 +213,44 @@ Qt: %3</translation>
     </message>
 </context>
 <context>
+    <name>DialogFontChanged</name>
+    <message>
+        <location filename="../controls/dialogfontchanged.ui" line="20"/>
+        <source>Font changed</source>
+        <translation>Шрифт изменён</translation>
+    </message>
+    <message>
+        <location filename="../controls/dialogfontchanged.ui" line="26"/>
+        <source>Update all characters</source>
+        <translation>Обновить все символы</translation>
+    </message>
+    <message>
+        <location filename="../controls/dialogfontchanged.ui" line="29"/>
+        <source>Save new font parameters and regenerate all characters</source>
+        <translation>Сохранить новын параметры шрифта и пересоздать все символы</translation>
+    </message>
+    <message>
+        <location filename="../controls/dialogfontchanged.ui" line="36"/>
+        <source>Add/remove only</source>
+        <translation>Добавить/удалить</translation>
+    </message>
+    <message>
+        <location filename="../controls/dialogfontchanged.ui" line="39"/>
+        <source>Add new characters with new parameters or remove existing</source>
+        <translation>Только добавить новые символы с новыми параметрами или удалить существующие</translation>
+    </message>
+    <message>
+        <location filename="../controls/dialogfontchanged.ui" line="46"/>
+        <source>Cancel</source>
+        <translation>Отменить</translation>
+    </message>
+    <message>
+        <location filename="../controls/dialogfontchanged.ui" line="52"/>
+        <source>Don&apos;t change anything</source>
+        <translation>Не производить никаких изменений</translation>
+    </message>
+</context>
+<context>
     <name>DialogFontPreview</name>
     <message>
         <location filename="../controls/dialogfontpreview.ui" line="14"/>
@@ -306,42 +344,42 @@ Qt: %3</translation>
         <translation>Открыть предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="136"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="149"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="139"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="152"/>
         <source>Grayscale 8</source>
         <translation>Градации серого 8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="142"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="155"/>
         <source>Color R4G5B4</source>
         <translation>Цветное R4G5B4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="145"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="158"/>
         <source>Color R5G6B5</source>
         <translation>Цветное R5G6B5</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="148"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="161"/>
         <source>Color R8G8B8</source>
         <translation>Цветное R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="184"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="197"/>
         <source>Enter preset name</source>
         <translation>Введите название предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="184"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="197"/>
         <source>Preset name:</source>
         <translation>Название предустановки:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="223"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="236"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
     </message>
@@ -482,31 +520,29 @@ Qt: %3</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="64"/>
+        <location filename="../controls/editortabfont.cpp" line="65"/>
         <source>Font</source>
         <comment>new font name</comment>
         <translatorcomment>название нового шрифта, должно быть латинскими буквами</translatorcomment>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="405"/>
+        <location filename="../controls/editortabfont.cpp" line="406"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="407"/>
+        <location filename="../controls/editortabfont.cpp" line="408"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="468"/>
         <source>Font parameters was changed</source>
-        <translation>Параметры шрифта были изменены</translation>
+        <translation type="obsolete">Параметры шрифта были изменены</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="469"/>
         <source>Do you want update all characters?</source>
-        <translation>Вы хотите обновить все символы?</translation>
+        <translation type="obsolete">Вы хотите обновить все символы?</translation>
     </message>
 </context>
 <context>
