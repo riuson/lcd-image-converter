@@ -36,6 +36,7 @@
 #include "fontcontainer.h"
 #include "fontcharactersmodel.h"
 #include "parser.h"
+#include "dialogfontchanged.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
@@ -442,114 +443,105 @@ void EditorTabFont::setFontCharacters(const QString &chars,
 {
     QFontDatabase fonts;
 
-    bool needRecreate = false;
-    bool cancel = false;
+    bool regenerateAll = false;
+
     if (this->mContainer->count() > 1)
     {
         if (this->mFont.family() != fontFamily ||
             this->mStyle != style ||
-            this->mFont.pointSize() != size ||
+            this->mFont.pixelSize() != size ||
             this->mMonospaced != monospaced ||
             this->mAntialiasing != antialiasing)
         {
-            // Font changed, need recreate all images
-            // TODO: may be allow add only new characters with other font? :
-            // * recreate all images and add new
-            // * only recreate old images with new font
-            // * add new characters with new font
-            // * add new character with old font
-            // * cancel
-            needRecreate = true;
-        }
-    }
-    if (needRecreate)
-    {
-        QMessageBox msgBox;
-        msgBox.setText(tr("Font parameters was changed"));
-        msgBox.setInformativeText(tr("Do you want update all characters?"));
-        msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-        msgBox.setDefaultButton(QMessageBox::Cancel);
-        int ret = msgBox.exec();
-        if (ret == QMessageBox::Cancel)
-            cancel = true;
-    }
-
-    if (!cancel)
-    {
-        this->mEditor->selectImage("default");
-
-        // list of exists characters
-        QStringList keys = this->mContainer->keys();
-        if (needRecreate)
-        {
-            this->mContainer->clear();
-        }
-        else
-        {
-            // remove characters, which not present in new characters list
-            QListIterator<QString> it(keys);
-            it.toFront();
-            while(it.hasNext())
+            DialogFontChanged dialog(this);
+            if (dialog.exec() == QDialog::Accepted)
             {
-                QString a = it.next();
-                if (!chars.contains(a))
-                {
-                    this->mContainer->remove(a);
-                }
+                regenerateAll = dialog.regenerateAll();
+            }
+            else
+            {
+                return;
             }
         }
-        this->mFont = fonts.font(fontFamily, style, size);
-        this->mFont.setPixelSize(size);
-        this->updateTableFont();
+    }
 
-        //this->mCharacters = chars;
+    this->mEditor->selectImage("default");
+
+    // create font with specified parameters
+    QFont fontNew = fonts.font(fontFamily, style, size);
+    fontNew.setPixelSize(size);
+
+    if (antialiasing)
+        fontNew.setStyleStrategy(QFont::PreferAntialias);
+    else
+        fontNew.setStyleStrategy(QFont::NoAntialias);
+
+    // remove old characters
+    if (regenerateAll)
+    {
+        this->mContainer->clear();
+
+        // save new font
+        this->mFont = fontNew;
         this->mStyle = style;
         this->mMonospaced = monospaced;
         this->mAntialiasing = antialiasing;
-
-        if (this->mAntialiasing)
-            this->mFont.setStyleStrategy(QFont::PreferAntialias);
-        else
-            this->mFont.setStyleStrategy(QFont::NoAntialias);
-        int width = 0, height = 0;
-        if (this->mMonospaced)
+    }
+    else
+    {
+        // remove characters, which not present in new characters list
+        QStringList keys = this->mContainer->keys();
+        QListIterator<QString> it(keys);
+        it.toFront();
+        while(it.hasNext())
         {
-            QFontMetrics metrics(this->mFont);
-            for (int i = 0; i < chars.count(); i++)
+            QString a = it.next();
+            if (!chars.contains(a))
             {
-                width = qMax(width, metrics.width(chars.at(i)));
+                this->mContainer->remove(a);
             }
-            height = metrics.height();
         }
+    }
 
-        // list of exists characters, what present in new characters list
-        keys = this->mContainer->keys();
+    // find max size
+    int width = 0, height = 0;
+    if (monospaced)
+    {
+        QFontMetrics metrics(fontNew);
         for (int i = 0; i < chars.count(); i++)
         {
-            QString key = QString(chars.at(i));
-
-            //this->ui->listWidgetCharacters->addItem(key);
-            // if character not exists, create it
-            if (!keys.contains(key))
-            {
-                QImage image = this->drawCharacter(chars.at(i),
-                                                   this->mFont,
-                                                   this->mEditor->color1(),
-                                                   this->mEditor->color2(),
-                                                   width,
-                                                   height,
-                                                   this->mAntialiasing);
-                this->mContainer->setImage(key, new QImage(image));
-            }
+            width = qMax(width, metrics.width(chars.at(i)));
         }
-        keys = this->mContainer->keys();
-        this->mon_editor_dataChanged();
-
-        this->mModel->callReset();
-        this->ui->tableViewCharacters->resizeColumnsToContents();
-
-        this->mEditor->selectImage(this->mContainer->keys().at(0));
+        height = metrics.height();
     }
+
+    // generate new characters
+    QStringList keys = this->mContainer->keys();
+    for (int i = 0; i < chars.count(); i++)
+    {
+        QString key = QString(chars.at(i));
+
+        // if character not exists, create it
+        if (!keys.contains(key))
+        {
+            QImage image = this->drawCharacter(chars.at(i),
+                                               fontNew,
+                                               this->mEditor->color1(),
+                                               this->mEditor->color2(),
+                                               width,
+                                               height,
+                                               antialiasing);
+            this->mContainer->setImage(key, new QImage(image));
+        }
+    }
+
+    this->mon_editor_dataChanged();
+
+    this->updateTableFont();
+    this->mModel->callReset();
+    this->ui->tableViewCharacters->resizeColumnsToContents();
+
+    this->mEditor->selectImage(this->mContainer->keys().at(0));
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::fontCharacters(QString *chars,
