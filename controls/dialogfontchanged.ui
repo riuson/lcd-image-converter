@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogFontChanged</class>
+ <widget class="QDialog" name="DialogFontChanged">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>359</width>
+    <height>201</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Font changed</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QCommandLinkButton" name="buttonRegenerateAll">
+     <property name="text">
+      <string>Update all characters</string>
+     </property>
+     <property name="description">
+      <string>Regenerate all characters with new font parameters</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCommandLinkButton" name="buttonGenerateNew">
+     <property name="text">
+      <string>Add/remove only</string>
+     </property>
+     <property name="description">
+      <string>Add new characters with new parameters or remove existing</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCommandLinkButton" name="buttonCancel">
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+     <property name="default">
+      <bool>true</bool>
+     </property>
+     <property name="description">
+      <string>Don't change anything</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

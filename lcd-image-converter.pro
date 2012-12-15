@@ -68,7 +68,8 @@ SOURCES += main.cpp \
     controls/dialogexternaleditor.cpp \
     classes/settings/externaltooloptions.cpp \
     classes/settings/languageoptions.cpp \
-    classes/settings/bitmapeditoroptions.cpp
+    classes/settings/bitmapeditoroptions.cpp \
+    controls/dialogfontchanged.cpp
 HEADERS += \
     classes/bitmapcontainer.h \
     controls/mainwindow.h \
@@ -121,7 +122,8 @@ HEADERS += \
     controls/dialogexternaleditor.h \
     classes/settings/externaltooloptions.h \
     classes/settings/languageoptions.h \
-    classes/settings/bitmapeditoroptions.h
+    classes/settings/bitmapeditoroptions.h \
+    controls/dialogfontchanged.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -140,7 +142,8 @@ FORMS += \
     controls/setup/parts/setuptabtemplates.ui \
     controls/setup/dialogoptions.ui \
     controls/setup/parts/setuptabfont.ui \
-    controls/dialogexternaleditor.ui
+    controls/dialogexternaleditor.ui \
+    controls/dialogfontchanged.ui
 INCLUDEPATH += . \
     ./classes \
     ./classes/compression \
