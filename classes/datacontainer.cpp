@@ -33,7 +33,7 @@ DataContainer::~DataContainer()
     delete this->mDefaultImage;
 }
 //-----------------------------------------------------------------------------
-QImage *DataContainer::image(const QString &key) const
+const QImage *DataContainer::image(const QString &key) const
 {
     return this->mImageMap.value(key, this->mDefaultImage);
 }

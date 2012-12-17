@@ -75,8 +75,8 @@ void EditorTabImage::changeEvent(QEvent *e)
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_imageChanged()
 {
-    QImage image = this->mEditor->currentImage();
-    this->mContainer->setImage(DefaultKey, &image);
+    const QImage *image = this->mEditor->currentImage();
+    this->mContainer->setImage(DefaultKey, image);
     this->mDataChanged = true;
     emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
 }
@@ -125,7 +125,7 @@ bool EditorTabImage::load(const QString &fileName)
         }
         file.close();
 
-        this->mEditor->setCurrentImage(*this->mContainer->image(DefaultKey));
+        this->mEditor->setCurrentImage(this->mContainer->image(DefaultKey));
         this->mFileName = fileName;
         this->mConvertedFileName = converted;
         this->setChanged(false);

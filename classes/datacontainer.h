@@ -36,7 +36,7 @@ public:
     explicit DataContainer(QObject *parent = 0);
     virtual ~DataContainer();
 
-    QImage *image(const QString &key) const;
+    const QImage *image(const QString &key) const;
     void setImage(const QString &key, const QImage *image);
 
     void clear();

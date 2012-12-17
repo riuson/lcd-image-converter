@@ -85,7 +85,7 @@ void ActionFontHandlers::fontInverse_triggered()
         while (it.hasNext())
         {
             QString key = it.next();
-            QImage *original = this->document()->dataContainer()->image(key);
+            const QImage *original = this->document()->dataContainer()->image(key);
             QImage result(*original);
             result.invertPixels();
             this->document()->dataContainer()->setImage(key, &result);
@@ -98,7 +98,7 @@ void ActionFontHandlers::fontResize_triggered()
     IDocument *doc = this->document();
     if (doc != NULL)
     {
-        QImage *original = doc->dataContainer()->image(doc->dataContainer()->keys().at(0));
+        const QImage *original = doc->dataContainer()->image(doc->dataContainer()->keys().at(0));
 
         DialogResize dialog(original->width(), original->height(), 0, 0, true, true, false, this->mMainWindow->parentWidget());
         if (dialog.exec() == QDialog::Accepted)
@@ -143,7 +143,7 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
         while (it.hasNext())
         {
             QString key = it.next();
-            QImage *original = doc->dataContainer()->image(key);
+            const QImage *original = doc->dataContainer()->image(key);
 
             BitmapHelper::findEmptyArea(original, &l, &t, &r, &b);
 
@@ -169,7 +169,7 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
             while (it.hasNext())
             {
                 QString key = it.next();
-                QImage *original = doc->dataContainer()->image(key);
+                const QImage *original = doc->dataContainer()->image(key);
 
                 QImage result = BitmapHelper::resize(original, original->width(), height, width, offsetY, center, changeWidth, changeHeight, this->editor()->color2());
 

@@ -22,7 +22,7 @@
 //-----------------------------------------------------------------------------
 #include <QPainter>
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::rotate90(QImage *source)
+QImage BitmapHelper::rotate90(const QImage *source)
 {
     QImage result = QImage(source->height(), source->width(), source->format());
     QPainter painter(&result);
@@ -32,7 +32,7 @@ QImage BitmapHelper::rotate90(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::rotate180(QImage *source)
+QImage BitmapHelper::rotate180(const QImage *source)
 {
     QImage result = QImage(source->width(), source->height(), source->format());
     QPainter painter(&result);
@@ -42,7 +42,7 @@ QImage BitmapHelper::rotate180(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::rotate270(QImage *source)
+QImage BitmapHelper::rotate270(const QImage *source)
 {
     QImage result = QImage(source->height(), source->width(), source->format());
     QPainter painter(&result);
@@ -52,7 +52,7 @@ QImage BitmapHelper::rotate270(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::shiftUp(QImage *source)
+QImage BitmapHelper::shiftUp(const QImage *source)
 {
     QImage result = QImage(source->width(), source->height(), source->format());
     QPainter painter(&result);
@@ -61,7 +61,7 @@ QImage BitmapHelper::shiftUp(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::shiftRight(QImage *source)
+QImage BitmapHelper::shiftRight(const QImage *source)
 {
     QImage result = QImage(source->width(), source->height(), source->format());
     QPainter painter(&result);
@@ -70,7 +70,7 @@ QImage BitmapHelper::shiftRight(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::shiftDown(QImage *source)
+QImage BitmapHelper::shiftDown(const QImage *source)
 {
     QImage result = QImage(source->width(), source->height(), source->format());
     QPainter painter(&result);
@@ -79,7 +79,7 @@ QImage BitmapHelper::shiftDown(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::shiftLeft(QImage *source)
+QImage BitmapHelper::shiftLeft(const QImage *source)
 {
     QImage result = QImage(source->width(), source->height(), source->format());
     QPainter painter(&result);
@@ -88,19 +88,19 @@ QImage BitmapHelper::shiftLeft(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::flipHorizontal(QImage *source)
+QImage BitmapHelper::flipHorizontal(const QImage *source)
 {
     QImage result = source->mirrored(true, false);
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::flipVertical(QImage *source)
+QImage BitmapHelper::flipVertical(const QImage *source)
 {
     QImage result = source->mirrored(false, true);
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::resize(QImage *source, int width, int height, int offsetX, int offsetY, bool center, bool changeWidth, bool changeHeight, const QColor &backColor)
+QImage BitmapHelper::resize(const QImage *source, int width, int height, int offsetX, int offsetY, bool center, bool changeWidth, bool changeHeight, const QColor &backColor)
 {
     if (!changeWidth)
     {

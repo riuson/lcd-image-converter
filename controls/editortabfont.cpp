@@ -94,8 +94,8 @@ void EditorTabFont::changeEvent(QEvent *e)
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_imageChanged()
 {
-    QImage image = this->mEditor->currentImage();
-    this->mContainer->setImage(this->mSelectedeKey, &image);
+    const QImage *image = this->mEditor->currentImage();
+    this->mContainer->setImage(this->mSelectedeKey, image);
     this->setChanged(true);
 }
 //-----------------------------------------------------------------------------
@@ -110,7 +110,7 @@ void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItem
         QModelIndex index = this->mModel->index(selectionModel->currentIndex().row(), 0);
 
         this->mSelectedeKey = this->mModel->data(index, Qt::DisplayRole).toString();
-        QImage image = *this->mContainer->image(this->mSelectedeKey);
+        const QImage *image = this->mContainer->image(this->mSelectedeKey);
         this->mEditor->setCurrentImage(image);
     }
 }
@@ -219,7 +219,7 @@ bool EditorTabFont::load(const QString &fileName)
 
         this->mFileName = fileName;
         this->mConvertedFileName = converted;
-        this->mEditor->setCurrentImage(*this->mContainer->image(this->mSelectedeKey));
+        this->mEditor->setCurrentImage(this->mContainer->image(this->mSelectedeKey));
         this->setChanged(false);
     }
 
@@ -475,7 +475,8 @@ void EditorTabFont::setFontCharacters(const QString &chars,
         }
     }
 
-    this->mEditor->setCurrentImage(QImage());
+    QImage emptyImage = QImage();
+    this->mEditor->setCurrentImage(&emptyImage);
 
     // create font with specified parameters
     QFont fontNew = fonts.font(fontFamily, style, size);
@@ -551,7 +552,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
     this->mModel->callReset();
     this->ui->tableViewCharacters->resizeColumnsToContents();
 
-    this->mEditor->setCurrentImage(*this->mContainer->image(this->mContainer->keys().at(0)));
+    this->mEditor->setCurrentImage(this->mContainer->image(keys.at(0)));
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::fontCharacters(QString *chars,
