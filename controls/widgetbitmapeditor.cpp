@@ -148,6 +148,7 @@ void WidgetBitmapEditor::setCurrentImage(const QImage &value)
         this->mPixmapOriginal = QPixmap::fromImage(value);
     }
     this->updatePixmapScaled(this->mScale);
+    emit this->imageChanged();
 }
 //-----------------------------------------------------------------------------
 QColor WidgetBitmapEditor::color1()

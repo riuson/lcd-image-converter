@@ -32,6 +32,8 @@
 #include "datacontainer.h"
 #include "parser.h"
 //-----------------------------------------------------------------------------
+const QString EditorTabImage::DefaultKey = QString("default");
+//-----------------------------------------------------------------------------
 EditorTabImage::EditorTabImage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::EditorTabImage)
@@ -46,8 +48,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
     this->mEditor = new WidgetBitmapEditor(this);
     layout->addWidget(this->mEditor);
 
-
-    this->connect(this->mEditor, SIGNAL(dataChanged()), SLOT(mon_editor_dataChanged()));
+    this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
 
     this->mDocumentName = tr("Image", "new image name");
     this->mFileName = "";
@@ -72,8 +73,10 @@ void EditorTabImage::changeEvent(QEvent *e)
     }
 }
 //-----------------------------------------------------------------------------
-void EditorTabImage::mon_editor_dataChanged()
+void EditorTabImage::mon_editor_imageChanged()
 {
+    QImage image = this->mEditor->currentImage();
+    this->mContainer->setImage(DefaultKey, &image);
     this->mDataChanged = true;
     emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
 }
@@ -107,7 +110,7 @@ bool EditorTabImage::load(const QString &fileName)
                       QBuffer buffer(&ba);
                       QImage image;
                       image.load(&buffer, "PNG");
-                      this->mContainer->setImage("default", &image);
+                      this->mContainer->setImage(DefaultKey, &image);
                       result = true;
                     }
                     else if( e.tagName() == "converted" )
@@ -122,6 +125,7 @@ bool EditorTabImage::load(const QString &fileName)
         }
         file.close();
 
+        this->mEditor->setCurrentImage(*this->mContainer->image(DefaultKey));
         this->mFileName = fileName;
         this->mConvertedFileName = converted;
         this->setChanged(false);
@@ -151,7 +155,7 @@ bool EditorTabImage::save(const QString &fileName)
     QByteArray ba;
     QBuffer buffer(&ba);
     buffer.open(QIODevice::WriteOnly);
-    this->mContainer->image(0)->save(&buffer, "PNG");
+    this->mContainer->image(DefaultKey)->save(&buffer, "PNG");
     QString data = ba.toBase64();
 
     QDomText nodeData = doc.createTextNode(data);

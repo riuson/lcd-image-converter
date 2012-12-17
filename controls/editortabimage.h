@@ -64,8 +64,11 @@ private:
     QString mConvertedFileName;
     QString mDocumentName;
     bool mDataChanged;
+
+    static const QString DefaultKey;
+
 private slots:
-    void mon_editor_dataChanged();
+    void mon_editor_imageChanged();
 signals:
     void documentChanged(bool changed, const QString &documentName, const QString &filename);
 };

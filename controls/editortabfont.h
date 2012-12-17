@@ -85,6 +85,7 @@ private:
     bool mDataChanged;
     QFont mFont;
     QFont mTableFont;
+    QString mSelectedeKey;
 
     //QString mCharacters;
     QString mStyle;
@@ -101,7 +102,7 @@ private:
     void updateTableFont();
 
 private slots:
-    void mon_editor_dataChanged();
+    void mon_editor_imageChanged();
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 signals:
     void documentChanged(bool changed, const QString &documentName, const QString &filename);
