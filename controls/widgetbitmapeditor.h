@@ -34,9 +34,9 @@ public:
     explicit WidgetBitmapEditor(QWidget *parent = 0);
     ~WidgetBitmapEditor();
 
-    const QImage *currentImage() const;
-    void setCurrentImage(const QImage *value);
-    void setCurrentImageChanged(const QImage *value);
+    const QImage *image() const;
+    void setImage(const QImage *value);
+    void setImageChanged(const QImage *value);
 
     QColor color1();
     QColor color2();

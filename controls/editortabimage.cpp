@@ -79,7 +79,7 @@ void EditorTabImage::mon_container_imageChanged(const QString &key)
     if (DefaultKey == key)
     {
         const QImage *image = this->mContainer->image(key);
-        this->mEditor->setCurrentImage(image);
+        this->mEditor->setImage(image);
     }
     this->mDataChanged = true;
     emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
@@ -87,7 +87,7 @@ void EditorTabImage::mon_container_imageChanged(const QString &key)
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_imageChanged()
 {
-    const QImage *image = this->mEditor->currentImage();
+    const QImage *image = this->mEditor->image();
     this->mContainer->setImage(DefaultKey, image);
     this->mDataChanged = true;
     emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
@@ -137,7 +137,7 @@ bool EditorTabImage::load(const QString &fileName)
         }
         file.close();
 
-        this->mEditor->setCurrentImage(this->mContainer->image(DefaultKey));
+        this->mEditor->setImage(this->mContainer->image(DefaultKey));
         this->mFileName = fileName;
         this->mConvertedFileName = converted;
         this->setChanged(false);

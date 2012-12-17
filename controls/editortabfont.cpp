@@ -98,7 +98,7 @@ void EditorTabFont::mon_container_imageChanged(const QString &key)
     if (this->mSelectedeKey == key)
     {
         const QImage *image = this->mContainer->image(key);
-        this->mEditor->setCurrentImage(image);
+        this->mEditor->setImage(image);
     }
     this->mDataChanged = true;
     emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
@@ -106,7 +106,7 @@ void EditorTabFont::mon_container_imageChanged(const QString &key)
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_imageChanged()
 {
-    const QImage *image = this->mEditor->currentImage();
+    const QImage *image = this->mEditor->image();
     this->mContainer->setImage(this->mSelectedeKey, image);
     this->setChanged(true);
 }
@@ -123,7 +123,7 @@ void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItem
 
         this->mSelectedeKey = this->mModel->data(index, Qt::DisplayRole).toString();
         const QImage *image = this->mContainer->image(this->mSelectedeKey);
-        this->mEditor->setCurrentImage(image);
+        this->mEditor->setImage(image);
     }
 }
 //-----------------------------------------------------------------------------
@@ -231,7 +231,7 @@ bool EditorTabFont::load(const QString &fileName)
 
         this->mFileName = fileName;
         this->mConvertedFileName = converted;
-        this->mEditor->setCurrentImage(this->mContainer->image(this->mSelectedeKey));
+        this->mEditor->setImage(this->mContainer->image(this->mSelectedeKey));
         this->setChanged(false);
     }
 
@@ -488,7 +488,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
     }
 
     QImage emptyImage = QImage();
-    this->mEditor->setCurrentImage(&emptyImage);
+    this->mEditor->setImage(&emptyImage);
 
     // create font with specified parameters
     QFont fontNew = fonts.font(fontFamily, style, size);
@@ -564,7 +564,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
     this->mModel->callReset();
     this->ui->tableViewCharacters->resizeColumnsToContents();
 
-    this->mEditor->setCurrentImage(this->mContainer->image(keys.at(0)));
+    this->mEditor->setImage(this->mContainer->image(keys.at(0)));
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::fontCharacters(QString *chars,

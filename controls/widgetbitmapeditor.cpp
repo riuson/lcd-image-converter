@@ -129,19 +129,19 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
     return result;
 }
 //-----------------------------------------------------------------------------
-const QImage *WidgetBitmapEditor::currentImage() const
+const QImage *WidgetBitmapEditor::image() const
 {
     const QImage *result = &this->mImageOriginal;
     return result;
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::setCurrentImage(const QImage *value)
+void WidgetBitmapEditor::setImage(const QImage *value)
 {
     this->mImageOriginal = QImage(*value);
     this->updateImageScaled(this->mScale);
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::setCurrentImageChanged(const QImage *value)
+void WidgetBitmapEditor::setImageChanged(const QImage *value)
 {
     this->mImageOriginal = QImage(*value);
     this->updateImageScaled(this->mScale);
