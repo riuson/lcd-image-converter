@@ -38,14 +38,13 @@ ActionImageHandlers::ActionImageHandlers(QObject *parent) :
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::flipHorizontal_triggered()
 {
-    if (this->editor())
+    if (this->editor() != NULL)
     {
         WidgetBitmapEditor *editor = this->editor();
 
-        QString key = editor->currentImageKey();
-        QImage *original = editor->dataContainer()->image(key);
-        QImage result = BitmapHelper::flipHorizontal(original);
-        editor->dataContainer()->setImage(key, &result);
+        QImage original = editor->currentImage();
+        QImage result = BitmapHelper::flipHorizontal(&original);
+        editor->setCurrentImage(result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -55,10 +54,9 @@ void ActionImageHandlers::flipVertical_triggered()
     {
         WidgetBitmapEditor *editor = this->editor();
 
-        QString key = editor->currentImageKey();
-        QImage *original = editor->dataContainer()->image(key);
-        QImage result = BitmapHelper::flipVertical(original);
-        editor->dataContainer()->setImage(key, &result);
+        QImage original = editor->currentImage();
+        QImage result = BitmapHelper::flipVertical(&original);
+        editor->setCurrentImage(result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -68,10 +66,9 @@ void ActionImageHandlers::rotate_90_Clockwise_triggered()
     {
         WidgetBitmapEditor *editor = this->editor();
 
-        QString key = editor->currentImageKey();
-        QImage *original = editor->dataContainer()->image(key);
-        QImage result = BitmapHelper::rotate90(original);
-        editor->dataContainer()->setImage(key, &result);
+        QImage original = editor->currentImage();
+        QImage result = BitmapHelper::rotate90(&original);
+        editor->setCurrentImage(result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -81,10 +78,9 @@ void ActionImageHandlers::rotate_180_triggered()
     {
         WidgetBitmapEditor *editor = this->editor();
 
-        QString key = editor->currentImageKey();
-        QImage *original = editor->dataContainer()->image(key);
-        QImage result = BitmapHelper::rotate180(original);
-        editor->dataContainer()->setImage(key, &result);
+        QImage original = editor->currentImage();
+        QImage result = BitmapHelper::rotate180(&original);
+        editor->setCurrentImage(result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -94,10 +90,9 @@ void ActionImageHandlers::rotate_90_Counter_Clockwise_triggered()
     {
         WidgetBitmapEditor *editor = this->editor();
 
-        QString key = editor->currentImageKey();
-        QImage *original = editor->dataContainer()->image(key);
-        QImage result = BitmapHelper::rotate270(original);
-        editor->dataContainer()->setImage(key, &result);
+        QImage original = editor->currentImage();
+        QImage result = BitmapHelper::rotate270(&original);
+        editor->setCurrentImage(result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -107,10 +102,9 @@ void ActionImageHandlers::shift_left_triggered()
     {
         WidgetBitmapEditor *editor = this->editor();
 
-        QString key = editor->currentImageKey();
-        QImage *original = editor->dataContainer()->image(key);
-        QImage result = BitmapHelper::shiftLeft(original);
-        editor->dataContainer()->setImage(key, &result);
+        QImage original = editor->currentImage();
+        QImage result = BitmapHelper::shiftLeft(&original);
+        editor->setCurrentImage(result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -120,10 +114,9 @@ void ActionImageHandlers::shift_right_triggered()
     {
         WidgetBitmapEditor *editor = this->editor();
 
-        QString key = editor->currentImageKey();
-        QImage *original = editor->dataContainer()->image(key);
-        QImage result = BitmapHelper::shiftRight(original);
-        editor->dataContainer()->setImage(key, &result);
+        QImage original = editor->currentImage();
+        QImage result = BitmapHelper::shiftRight(&original);
+        editor->setCurrentImage(result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -133,10 +126,9 @@ void ActionImageHandlers::shift_up_triggered()
     {
         WidgetBitmapEditor *editor = this->editor();
 
-        QString key = editor->currentImageKey();
-        QImage *original = editor->dataContainer()->image(key);
-        QImage result = BitmapHelper::shiftUp(original);
-        editor->dataContainer()->setImage(key, &result);
+        QImage original = editor->currentImage();
+        QImage result = BitmapHelper::shiftUp(&original);
+        editor->setCurrentImage(result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -146,10 +138,9 @@ void ActionImageHandlers::shift_down_triggered()
     {
         WidgetBitmapEditor *editor = this->editor();
 
-        QString key = editor->currentImageKey();
-        QImage *original = editor->dataContainer()->image(key);
-        QImage result = BitmapHelper::shiftDown(original);
-        editor->dataContainer()->setImage(key, &result);
+        QImage original = editor->currentImage();
+        QImage result = BitmapHelper::shiftDown(&original);
+        editor->setCurrentImage(result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -159,11 +150,10 @@ void ActionImageHandlers::inverse_triggered()
     {
         WidgetBitmapEditor *editor = this->editor();
 
-        QString key = editor->currentImageKey();
-        QImage *original = editor->dataContainer()->image(key);
-        QImage result(*original);
+        QImage original = editor->currentImage();
+        QImage result(original);
         result.invertPixels();
-        editor->dataContainer()->setImage(key, &result);
+        editor->setCurrentImage(result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -173,16 +163,15 @@ void ActionImageHandlers::resize_triggered()
     {
         WidgetBitmapEditor *editor = this->editor();
 
-        QString key = editor->currentImageKey();
-        QImage *original = editor->dataContainer()->image(key);
-        DialogResize dialog(original->width(), original->height(), 0, 0, false, true, true, this->mMainWindow->parentWidget());
+        QImage original = editor->currentImage();
+        DialogResize dialog(original.width(), original.height(), 0, 0, false, true, true, this->mMainWindow->parentWidget());
         if (dialog.exec() == QDialog::Accepted)
         {
             int width, height, offsetX, offsetY;
             bool center, changeWidth, changeHeight;
             dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
-            QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, editor->color2());
-            editor->dataContainer()->setImage(key, &result);
+            QImage result = BitmapHelper::resize(&original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, editor->color2());
+            editor->setCurrentImage(result);
         }
     }
 }
@@ -203,8 +192,7 @@ void ActionImageHandlers::import_triggered()
         {
             QImage image;
             image.load(dialog.selectedFiles().at(0));
-            QString key = editor->currentImageKey();
-            editor->dataContainer()->setImage(key, &image);
+            editor->setCurrentImage(image);
         }
     }
 }
@@ -254,8 +242,7 @@ void ActionImageHandlers::export_triggered()
             {
                 filename += "." + ext;
             }
-            QString key = editor->currentImageKey();
-            editor->dataContainer()->image(key)->save(filename);
+            editor->currentImage().save(filename);
         }
     }
 }
@@ -271,8 +258,7 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
         QString filename = QDir::tempPath() + "/" + time.toString("yyyy-MM-dd-hh-mm-ss-zzz") + ".png";
 
         // save current image to file
-        QString key = editor->currentImageKey();
-        editor->dataContainer()->image(key)->save(filename);
+        editor->currentImage().save(filename);
 
         // remember timestamp
         QFileInfo info(filename);
@@ -298,7 +284,7 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
                 // load file back
                 QImage image;
                 image.load(filename);
-                editor->dataContainer()->setImage(key, &image);
+                editor->setCurrentImage(image);
             }
         }
         // remove temprorary file

@@ -77,32 +77,29 @@ void ActionFontHandlers::fontChange_triggered()
 //-----------------------------------------------------------------------------
 void ActionFontHandlers::fontInverse_triggered()
 {
-    if (this->editor() != NULL)
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
-        QStringList keys = editor->dataContainer()->keys();
+        QStringList keys = this->document()->dataContainer()->keys();
         QListIterator<QString> it(keys);
         it.toFront();
         while (it.hasNext())
         {
             QString key = it.next();
-            QImage *original = editor->dataContainer()->image(key);
+            QImage *original = this->document()->dataContainer()->image(key);
             QImage result(*original);
             result.invertPixels();
-            editor->dataContainer()->setImage(key, &result);
+            this->document()->dataContainer()->setImage(key, &result);
         }
     }
 }
 //-----------------------------------------------------------------------------
 void ActionFontHandlers::fontResize_triggered()
 {
-    if (this->editor() != NULL)
+    IDocument *doc = this->document();
+    if (doc != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
+        QImage *original = doc->dataContainer()->image(doc->dataContainer()->keys().at(0));
 
-        QString key = editor->currentImageKey();
-        QImage *original = editor->dataContainer()->image(key);
         DialogResize dialog(original->width(), original->height(), 0, 0, true, true, false, this->mMainWindow->parentWidget());
         if (dialog.exec() == QDialog::Accepted)
         {
@@ -110,17 +107,17 @@ void ActionFontHandlers::fontResize_triggered()
             bool center, changeWidth, changeHeight;
             dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
 
-            QStringList keys = editor->dataContainer()->keys();
+            QStringList keys = this->document()->dataContainer()->keys();
             QListIterator<QString> it(keys);
             it.toFront();
             while (it.hasNext())
             {
                 QString key = it.next();
-                original = editor->dataContainer()->image(key);
+                original = doc->dataContainer()->image(key);
 
-                QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, editor->color2());
+                QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, this->editor()->color2());
 
-                editor->dataContainer()->setImage(key, &result);
+                doc->dataContainer()->setImage(key, &result);
             }
         }
     }
@@ -128,10 +125,9 @@ void ActionFontHandlers::fontResize_triggered()
 //-----------------------------------------------------------------------------
 void ActionFontHandlers::fontMinimizeHeight_triggered()
 {
-    if (this->editor() != NULL)
+    IDocument *doc = this->document();
+    if (doc != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
         int left = std::numeric_limits<int>::max();
         int top = std::numeric_limits<int>::max();
         int right = 0;
@@ -141,13 +137,13 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
         int height = 0;
 
         // find limits
-        QStringList keys = editor->dataContainer()->keys();
+        QStringList keys = doc->dataContainer()->keys();
         QListIterator<QString> it(keys);
         it.toFront();
         while (it.hasNext())
         {
             QString key = it.next();
-            QImage *original = editor->dataContainer()->image(key);
+            QImage *original = doc->dataContainer()->image(key);
 
             BitmapHelper::findEmptyArea(original, &l, &t, &r, &b);
 
@@ -167,17 +163,17 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
             bool center, changeWidth, changeHeight;
             dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
 
-            QStringList keys = editor->dataContainer()->keys();
+            QStringList keys = doc->dataContainer()->keys();
             QListIterator<QString> it(keys);
             it.toFront();
             while (it.hasNext())
             {
                 QString key = it.next();
-                QImage *original = editor->dataContainer()->image(key);
+                QImage *original = doc->dataContainer()->image(key);
 
-                QImage result = BitmapHelper::resize(original, original->width(), height, width, offsetY, center, changeWidth, changeHeight, editor->color2());
+                QImage result = BitmapHelper::resize(original, original->width(), height, width, offsetY, center, changeWidth, changeHeight, this->editor()->color2());
 
-                editor->dataContainer()->setImage(key, &result);
+                doc->dataContainer()->setImage(key, &result);
             }
         }
     }

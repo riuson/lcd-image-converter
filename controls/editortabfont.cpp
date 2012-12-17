@@ -55,7 +55,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
     this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(selectionChanged(QItemSelection,QItemSelection)));
 
-    this->mEditor = new WidgetBitmapEditor(this->mContainer, this);
+    this->mEditor = new WidgetBitmapEditor(this);
     this->mSplitter->addWidget(this->mEditor);
     this->mSplitter->addWidget(this->ui->tableViewCharacters);
     this->mSplitter->setChildrenCollapsible(false);
@@ -105,8 +105,9 @@ void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItem
     if (selectionModel->hasSelection())
     {
         QModelIndex index = this->mModel->index(selectionModel->currentIndex().row(), 0);
-        QString a = this->mModel->data(index, Qt::DisplayRole).toString();
-        this->mEditor->selectImage(a);
+        QString key = this->mModel->data(index, Qt::DisplayRole).toString();
+        QImage image = *this->mContainer->image(key);
+        this->mEditor->setCurrentImage(image);
     }
 }
 //-----------------------------------------------------------------------------
@@ -209,7 +210,7 @@ bool EditorTabFont::load(const QString &fileName)
 
         this->mFileName = fileName;
         this->mConvertedFileName = converted;
-        this->mEditor->selectImage(this->mContainer->keys().at(0));
+        this->mEditor->setCurrentImage(*this->mContainer->image(this->mContainer->keys().at(0)));
         this->setChanged(false);
     }
 
@@ -465,7 +466,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
         }
     }
 
-    this->mEditor->selectImage("default");
+    this->mEditor->setCurrentImage(QImage());
 
     // create font with specified parameters
     QFont fontNew = fonts.font(fontFamily, style, size);
@@ -541,7 +542,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
     this->mModel->callReset();
     this->ui->tableViewCharacters->resizeColumnsToContents();
 
-    this->mEditor->selectImage(this->mContainer->keys().at(0));
+    this->mEditor->setCurrentImage(*this->mContainer->image(this->mContainer->keys().at(0)));
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::fontCharacters(QString *chars,

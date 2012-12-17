@@ -25,20 +25,17 @@
 namespace Ui {
     class WidgetBitmapEditor;
 }
-class DataContainer;
 //-----------------------------------------------------------------------------
 class WidgetBitmapEditor : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit WidgetBitmapEditor(DataContainer *dataContainer, QWidget *parent = 0);
+    explicit WidgetBitmapEditor(QWidget *parent = 0);
     ~WidgetBitmapEditor();
 
-    DataContainer *dataContainer();
-
-    void selectImage(const QString &key);
-    const QString currentImageKey();
+    const QImage currentImage() const;
+    void setCurrentImage(const QImage &value);
 
     QColor color1();
     QColor color2();
@@ -49,6 +46,7 @@ protected:
 
 private:
     Ui::WidgetBitmapEditor *ui;
+    QPixmap mPixmapOriginal;
     QPixmap mPixmapScaled;
     int mScale;
     QColor mColor1;
@@ -56,18 +54,17 @@ private:
     QPixmap mPixmapColor1;
     QPixmap mPixmapColor2;
     bool mFlagChanged;
-    DataContainer *mDataContainer;
-    QString mImageKey;
 
-    void createImageScaled(int scale);
+    void updatePixmapScaled(int scale);
     void updateState();
+    void drawPixel(int x, int y, const QColor &color);
 private slots:
     void on_spinBoxScale_valueChanged(int value);
     void on_pushButtonColor1_clicked();
     void on_pushButtonColor2_clicked();
     void mon_dataContainer_imageChanged(const QString &key);
 signals:
-    void dataChanged();
+    void imageChanged();
 };
 //-----------------------------------------------------------------------------
 #endif // WIDGETBITMAPEDITOR_H

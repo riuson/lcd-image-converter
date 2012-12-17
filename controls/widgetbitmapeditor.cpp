@@ -26,9 +26,8 @@
 
 #include "bitmaphelper.h"
 #include "bitmapeditoroptions.h"
-#include "datacontainer.h"
 //-----------------------------------------------------------------------------
-WidgetBitmapEditor::WidgetBitmapEditor(DataContainer *dataContainer, QWidget *parent) :
+WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetBitmapEditor)
 {
@@ -48,13 +47,9 @@ WidgetBitmapEditor::WidgetBitmapEditor(DataContainer *dataContainer, QWidget *pa
     this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
     this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
 
-    this->mDataContainer = dataContainer;
-    this->mImageKey = "default";
-    this->createImageScaled(this->mScale);
+    this->mPixmapOriginal = QPixmap();
 
     this->ui->spinBoxScale->setValue(this->mScale);
-    QObject *d = dynamic_cast<QObject *>(this->mDataContainer);
-    this->connect(d, SIGNAL(imageChanged(QString)), SLOT(mon_dataContainer_imageChanged(QString)));
 }
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::~WidgetBitmapEditor()
@@ -68,7 +63,7 @@ void WidgetBitmapEditor::changeEvent(QEvent *e)
     switch (e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
-        this->createImageScaled(this->mScale);
+        this->updatePixmapScaled(this->mScale);
         break;
     default:
         break;
@@ -86,51 +81,35 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
         int yscaled = me->pos().y();
         int xreal = xscaled / this->mScale;
         int yreal = yscaled / this->mScale;
-        QImage *original = this->mDataContainer->image(this->mImageKey);
-        if (xreal < original->width() && yreal < original ->height())
+        if (!this->mPixmapOriginal.isNull())
         {
-            // show coordinates
-            this->ui->labelCoordinates->setText(tr("x: %1, y: %2").arg(xreal).arg(yreal));
-            // get buttons
-            bool buttonLeft = (me->buttons() & Qt::LeftButton) == Qt::LeftButton;
-            bool buttonRight = (me->buttons() & Qt::RightButton) == Qt::RightButton;
-            // draw on pixmap
-            if (buttonLeft || buttonRight)
+            if (xreal < this->mPixmapOriginal.width() && yreal < this->mPixmapOriginal.height())
             {
-                QPainter painterScaled(&this->mPixmapScaled);
-                QColor color;
-                if (buttonLeft)
-                    color = this->mColor1;
-                if (buttonRight)
-                    color = this->mColor2;
+                // show coordinates
+                this->ui->labelCoordinates->setText(tr("x: %1, y: %2").arg(xreal).arg(yreal));
 
-                if (this->mScale == 1)
+                // get buttons
+                bool buttonLeft = (me->buttons() & Qt::LeftButton) == Qt::LeftButton;
+                bool buttonRight = (me->buttons() & Qt::RightButton) == Qt::RightButton;
+
+                // draw on pixmap
+                if (buttonLeft || buttonRight)
                 {
-                    painterScaled.setPen(color);
-                    painterScaled.drawPoint(xscaled, yscaled);
+                    QColor color;
+                    if (buttonLeft)
+                        color = this->mColor1;
+                    if (buttonRight)
+                        color = this->mColor2;
+
+                    this->drawPixel(xreal, yreal, color);
+
+                    this->mFlagChanged = true;
                 }
-                else
-                {
-                    painterScaled.fillRect(xreal * this->mScale,
-                                           yreal * this->mScale,
-                                           this->mScale,
-                                           this->mScale,
-                                           color);
-                    BitmapHelper::drawGrid(original, this->mPixmapScaled, &painterScaled, this->mScale);
-                }
-
-                this->ui->label->setPixmap(this->mPixmapScaled);
-
-                QPainter painterOriginal(original);
-                painterOriginal.setPen(color);
-                painterOriginal.drawPoint(xreal, yreal);
-
-                this->mFlagChanged = true;
             }
-        }
-        else
-        {
-            this->ui->labelCoordinates->setText(tr("%1 x %2").arg(original->width()).arg(original->height()));
+            else
+            {
+                this->ui->labelCoordinates->setText(tr("%1 x %2").arg(this->mPixmapOriginal.width()).arg(this->mPixmapOriginal.height()));
+            }
         }
         event->accept();
     }
@@ -142,7 +121,7 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
     {
         if (this->mFlagChanged)
         {
-            emit this->dataChanged();
+            emit this->imageChanged();
         }
     }
     else
@@ -152,20 +131,23 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
     return result;
 }
 //-----------------------------------------------------------------------------
-DataContainer *WidgetBitmapEditor::dataContainer()
+const QImage WidgetBitmapEditor::currentImage() const
 {
-    return this->mDataContainer;
+    QImage result = this->mPixmapOriginal.toImage();
+    return result;
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::selectImage(const QString &key)
+void WidgetBitmapEditor::setCurrentImage(const QImage &value)
 {
-    this->mImageKey = key;
-    this->createImageScaled(this->mScale);
-}
-//-----------------------------------------------------------------------------
-const QString WidgetBitmapEditor::currentImageKey()
-{
-    return this->mImageKey;
+    if (value.isNull())
+    {
+        this->mPixmapOriginal = QPixmap();
+    }
+    else
+    {
+        this->mPixmapOriginal = QPixmap::fromImage(value);
+    }
+    this->updatePixmapScaled(this->mScale);
 }
 //-----------------------------------------------------------------------------
 QColor WidgetBitmapEditor::color1()
@@ -178,24 +160,22 @@ QColor WidgetBitmapEditor::color2()
     return this->mColor2;
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::createImageScaled(int scale)
+void WidgetBitmapEditor::updatePixmapScaled(int scale)
 {
-    QImage *original = this->mDataContainer->image(this->mImageKey);
-    if (original != NULL)
+    if (!this->mPixmapOriginal.isNull())
     {
-        QImage scaled = BitmapHelper::createImageScaled(original, scale);
-        this->mPixmapScaled = QPixmap::fromImage(scaled);
+        this->mPixmapScaled = BitmapHelper::createPixmapScaled(this->mPixmapOriginal, scale);
 
         this->ui->label->setPixmap(this->mPixmapScaled);
 
-        this->ui->labelCoordinates->setText(tr("%1 x %2").arg(original->width()).arg(original->height()));
+        this->ui->labelCoordinates->setText(tr("%1 x %2").arg(this->mPixmapOriginal.width()).arg(this->mPixmapOriginal.height()));
     }
 }
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::on_spinBoxScale_valueChanged(int value)
 {
     this->mScale = value;
-    this->createImageScaled(this->mScale);
+    this->updatePixmapScaled(this->mScale);
 
     BitmapEditorOptions::setScale(value);
 }
@@ -226,10 +206,36 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::mon_dataContainer_imageChanged(const QString &key)
 {
-    if (this->mImageKey == key)
+    //if (this->mImageKey == key)
     {
-        this->createImageScaled(this->mScale);
-        emit this->dataChanged();
+        this->updatePixmapScaled(this->mScale);
+        emit this->imageChanged();
     }
+}
+//-----------------------------------------------------------------------------
+void WidgetBitmapEditor::drawPixel(int x, int y, const QColor &color)
+{
+    QPainter painterScaled(&this->mPixmapScaled);
+
+    if (this->mScale == 1)
+    {
+        painterScaled.setPen(color);
+        painterScaled.drawPoint(x * this->mScale, y * this->mScale);
+    }
+    else
+    {
+        painterScaled.fillRect(x * this->mScale + 1,
+                               y * this->mScale + 1,
+                               this->mScale - 1,
+                               this->mScale - 1,
+                               color);
+        BitmapHelper::drawGrid(this->mPixmapOriginal, this->mPixmapScaled, &painterScaled, this->mScale);
+    }
+
+    this->ui->label->setPixmap(this->mPixmapScaled);
+
+    QPainter painterOriginal(&this->mPixmapOriginal);
+    painterOriginal.setPen(color);
+    painterOriginal.drawPoint(x, y);
 }
 //-----------------------------------------------------------------------------

@@ -43,7 +43,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 
     this->mContainer = new DataContainer(this);
 
-    this->mEditor = new WidgetBitmapEditor(this->mContainer, this);
+    this->mEditor = new WidgetBitmapEditor(this);
     layout->addWidget(this->mEditor);
 
 

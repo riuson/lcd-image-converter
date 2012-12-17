@@ -24,21 +24,23 @@
 //-----------------------------------------------------------------------------
 class IMainWindow;
 class WidgetBitmapEditor;
+class IDocument;
 //-----------------------------------------------------------------------------
 class ActionHandlersBase : public QObject
 {
     Q_OBJECT
 public:
     explicit ActionHandlersBase(QObject *parent = 0);
-    
+
 protected:
     IMainWindow *mMainWindow;
+    IDocument *document();
     WidgetBitmapEditor *editor();
 
 signals:
-    
+
 public slots:
-    
+
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONHANDLERSBASE_H

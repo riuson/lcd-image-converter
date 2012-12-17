@@ -157,28 +157,26 @@ void BitmapHelper::findEmptyArea(const QImage *source, int *left, int *top, int 
     *bottom = b;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::createImageScaled(QImage *original, int scale)
+QPixmap BitmapHelper::createPixmapScaled(const QPixmap &original, int scale)
 {
-    int width = original->width();
-    int height = original->height();
+    int width = original.width();
+    int height = original.height();
 
-    QImage scaled = original->scaled(width * scale, height * scale, Qt::KeepAspectRatio, Qt::FastTransformation);
-    QPixmap pixmapScaled = QPixmap::fromImage(scaled);
-    QPainter painterScaled(&pixmapScaled);
-    BitmapHelper::drawGrid(original, pixmapScaled, &painterScaled, scale);
-    scaled = pixmapScaled.toImage();
+    QPixmap scaled = original.scaled(width * scale, height * scale, Qt::KeepAspectRatio, Qt::FastTransformation);
+    QPainter painterScaled(&scaled);
+    BitmapHelper::drawGrid(original, scaled, &painterScaled, scale);
 
     return scaled;
 }
 //-----------------------------------------------------------------------------
-void BitmapHelper::drawGrid(QImage *original, QPixmap &pixmap, QPainter *painter, int scale)
+void BitmapHelper::drawGrid(const QPixmap &original, QPixmap &pixmap, QPainter *painter, int scale)
 {
     if (scale > 5)
     {
         painter->setPen(QColor("silver"));
-        for (int x = 0; x < original->width(); x++)
+        for (int x = 0; x < original.width(); x++)
             painter->drawLine(x * scale, 0, x * scale, pixmap.height());
-        for (int y = 0; y < original->height(); y++)
+        for (int y = 0; y < original.height(); y++)
             painter->drawLine(0, y * scale, pixmap.width(), y * scale);
     }
 }

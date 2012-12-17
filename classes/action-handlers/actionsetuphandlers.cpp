@@ -20,7 +20,7 @@
 #include "actionsetuphandlers.h"
 
 #include "dialogoptions.h"
-#include "widgetbitmapeditor.h"
+#include "idocument.h"
 #include "imainwindow.h"
 #include "datacontainer.h"
 #include "dialogexternaleditor.h"
@@ -33,8 +33,8 @@ ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
 void ActionSetupHandlers::conversion_triggered()
 {
     DataContainer *data = NULL;
-    if (this->editor() != NULL)
-        data = this->editor()->dataContainer();
+    if (this->document() != NULL)
+        data = this->document()->dataContainer();
     DialogOptions dialog(data, this->mMainWindow->parentWidget());
     dialog.exec();
 }

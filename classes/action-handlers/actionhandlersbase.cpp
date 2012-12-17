@@ -38,3 +38,9 @@ WidgetBitmapEditor *ActionHandlersBase::editor()
     return NULL;
 }
 //-----------------------------------------------------------------------------
+IDocument *ActionHandlersBase::document()
+{
+    IDocument *doc = this->mMainWindow->currentDocument();
+    return doc;
+}
+//-----------------------------------------------------------------------------
