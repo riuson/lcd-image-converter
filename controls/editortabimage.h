@@ -68,6 +68,7 @@ private:
     static const QString DefaultKey;
 
 private slots:
+    void mon_container_imageChanged(const QString &key);
     void mon_editor_imageChanged();
 signals:
     void documentChanged(bool changed, const QString &documentName, const QString &filename);

@@ -102,6 +102,7 @@ private:
     void updateTableFont();
 
 private slots:
+    void mon_container_imageChanged(const QString &key);
     void mon_editor_imageChanged();
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 signals:

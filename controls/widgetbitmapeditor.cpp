@@ -139,6 +139,12 @@ void WidgetBitmapEditor::setCurrentImage(const QImage *value)
 {
     this->mImageOriginal = QImage(*value);
     this->updateImageScaled(this->mScale);
+}
+//-----------------------------------------------------------------------------
+void WidgetBitmapEditor::setCurrentImageChanged(const QImage *value)
+{
+    this->mImageOriginal = QImage(*value);
+    this->updateImageScaled(this->mScale);
     emit this->imageChanged();
 }
 //-----------------------------------------------------------------------------
@@ -196,12 +202,6 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
         this->mPixmapColor2.fill(this->mColor2);
         this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
     }
-}
-//-----------------------------------------------------------------------------
-void WidgetBitmapEditor::mon_dataContainer_imageChanged(const QString &key)
-{
-    this->updateImageScaled(this->mScale);
-    emit this->imageChanged();
 }
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::drawPixel(int x, int y, const QColor &color)

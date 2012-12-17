@@ -61,6 +61,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->mSplitter->addWidget(this->ui->tableViewCharacters);
     this->mSplitter->setChildrenCollapsible(false);
 
+    this->connect(this->mContainer, SIGNAL(imageChanged(QString)), SLOT(mon_container_imageChanged(QString)));
     this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
 
     this->mDocumentName = tr("Font", "new font name");
@@ -90,6 +91,17 @@ void EditorTabFont::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::mon_container_imageChanged(const QString &key)
+{
+    if (this->mSelectedeKey == key)
+    {
+        const QImage *image = this->mContainer->image(key);
+        this->mEditor->setCurrentImage(image);
+    }
+    this->mDataChanged = true;
+    emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_imageChanged()
