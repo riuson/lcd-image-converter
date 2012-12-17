@@ -46,6 +46,20 @@ void DataContainer::setImage(const QString &key, const QImage *image)
     emit this->imageChanged(key);
 }
 //-----------------------------------------------------------------------------
+QVariant DataContainer::info(const QString &key) const
+{
+    if (this->mInfoMap.contains(key))
+    {
+        return this->mInfoMap.value(key);
+    }
+    return QVariant();
+}
+//-----------------------------------------------------------------------------
+void DataContainer::setInfo(const QString &key, const QVariant &value)
+{
+    this->mInfoMap.insert(key, value);
+}
+//-----------------------------------------------------------------------------
 void DataContainer::clear()
 {
     qDeleteAll(this->mImageMap);

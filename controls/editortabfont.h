@@ -45,10 +45,10 @@ public:
 
     bool load(const QString &fileName);
     bool save(const QString &fileName);
-    bool changed();
+    bool changed() const;
     void setChanged(bool value);
-    QString fileName();
-    QString documentName();
+    QString fileName() const;
+    QString documentName() const;
     void setDocumentName(const QString &value);
     DataContainer *dataContainer();
     WidgetBitmapEditor *editor();
@@ -56,16 +56,16 @@ public:
 
     void setFontCharacters(const QString &chars,
                            const QString &fontFamily,
-                           const QString &style,
-                           const int size,
-                           const bool monospaced,
-                           const bool antialiasing);
+                           const QString &_style,
+                           const int _size,
+                           const bool _monospaced,
+                           const bool _antialiasing);
     void fontCharacters(QString *chars,
                         QString *fontFamily,
-                        QString *style,
-                        int *size,
-                        bool *monospaced,
-                        bool *antialiasing);
+                        QString *_style,
+                        int *_size,
+                        bool *_monospaced,
+                        bool *_antialiasing);
 
     const QString selectedCharacters() const;
 
@@ -79,18 +79,20 @@ private:
     QSplitter *mSplitter;
     FontCharactersModel *mModel;
 
-    QString mFileName;
-    QString mConvertedFileName;
-    QString mDocumentName;
-    bool mDataChanged;
-    QFont mFont;
     QFont mTableFont;
     QString mSelectedeKey;
 
-    //QString mCharacters;
-    QString mStyle;
-    bool mMonospaced;
-    bool mAntialiasing;
+    void setFileName(const QString &value);
+    QString convertedFileName() const;
+    void setConvertedFileName(const QString &value);
+    QFont usedFont() const;
+    void setUsedFont(const QFont &value);
+    QString usedStyle() const;
+    void setUsedStyle(const QString &value);
+    bool monospaced() const;
+    void setMonospaced(const bool value);
+    bool antialiasing() const;
+    void setAntialiasing(const bool value);
 
     QImage drawCharacter(const QChar value,
                          const QFont &font,

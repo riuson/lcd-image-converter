@@ -25,7 +25,7 @@
 #include <QMap>
 #include <QString>
 #include <QStringList>
-
+#include <QVariant>
 //-----------------------------------------------------------------------------
 class QImage;
 //-----------------------------------------------------------------------------
@@ -39,6 +39,9 @@ public:
     const QImage *image(const QString &key) const;
     void setImage(const QString &key, const QImage *image);
 
+    QVariant info(const QString &key) const;
+    void setInfo(const QString &key, const QVariant &value);
+
     void clear();
     int count() const;
     QStringList keys() const;
@@ -46,6 +49,7 @@ public:
 
 private:
     QMap<QString, QImage *> mImageMap;
+    QMap<QString, QVariant> mInfoMap;
     QImage *mDefaultImage;
 
 signals:

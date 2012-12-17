@@ -51,10 +51,10 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
     this->connect(this->mContainer, SIGNAL(imageChanged(QString)), SLOT(mon_container_imageChanged(QString)));
     this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
 
-    this->mDocumentName = tr("Image", "new image name");
-    this->mFileName = "";
-    this->mConvertedFileName = "";
-    this->mDataChanged = false;
+    this->setDocumentName(tr("Image", "new image name"));
+    this->setFileName("");
+    this->setConvertedFileName("");
+    this->setChanged(false);
 }
 //-----------------------------------------------------------------------------
 EditorTabImage::~EditorTabImage()
@@ -74,6 +74,22 @@ void EditorTabImage::changeEvent(QEvent *e)
     }
 }
 //-----------------------------------------------------------------------------
+void EditorTabImage::setFileName(const QString &value)
+{
+    this->mContainer->setInfo("filename", QVariant(value));
+}
+//-----------------------------------------------------------------------------
+QString EditorTabImage::convertedFileName() const
+{
+    QVariant result = this->mContainer->info("converted filename");
+    return result.toString();
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::setConvertedFileName(const QString &value)
+{
+    this->mContainer->setInfo("converted filename", QVariant(value));
+}
+//-----------------------------------------------------------------------------
 void EditorTabImage::mon_container_imageChanged(const QString &key)
 {
     if (DefaultKey == key)
@@ -81,16 +97,16 @@ void EditorTabImage::mon_container_imageChanged(const QString &key)
         const QImage *image = this->mContainer->image(key);
         this->mEditor->setImage(image);
     }
-    this->mDataChanged = true;
-    emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+    this->setChanged(true);
+    emit this->documentChanged(true, this->documentName(), this->fileName());
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_imageChanged()
 {
     const QImage *image = this->mEditor->image();
     this->mContainer->setImage(DefaultKey, image);
-    this->mDataChanged = true;
-    emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+    this->setChanged(true);
+    emit this->documentChanged(true, this->documentName(), this->fileName());
 }
 //-----------------------------------------------------------------------------
 bool EditorTabImage::load(const QString &fileName)
@@ -108,7 +124,7 @@ bool EditorTabImage::load(const QString &fileName)
             QDomElement root = doc.documentElement();
             if( root.tagName() == "data" )
             {
-                this->mDocumentName = root.attribute("name", fileName);
+                this->setDocumentName(root.attribute("name", fileName));
                 QDomNode n = root.firstChild();
                 while( !n.isNull() )
                 {
@@ -138,8 +154,8 @@ bool EditorTabImage::load(const QString &fileName)
         file.close();
 
         this->mEditor->setImage(this->mContainer->image(DefaultKey));
-        this->mFileName = fileName;
-        this->mConvertedFileName = converted;
+        this->setFileName(fileName);
+        this->setConvertedFileName(converted);
         this->setChanged(false);
     }
     return result;
@@ -156,7 +172,7 @@ bool EditorTabImage::save(const QString &fileName)
     doc.appendChild(nodeRoot);
 
     nodeRoot.setAttribute("type", "image");
-    nodeRoot.setAttribute("name", this->mDocumentName);
+    nodeRoot.setAttribute("name", this->documentName());
 
     // image data
     QDomElement nodePicture = doc.createElement("picture");
@@ -176,7 +192,7 @@ bool EditorTabImage::save(const QString &fileName)
     // converted file name
     QDomElement nodeConverted = doc.createElement("converted");
     nodeRoot.appendChild(nodeConverted);
-    nodeConverted.appendChild(doc.createTextNode(this->mConvertedFileName));
+    nodeConverted.appendChild(doc.createTextNode(this->convertedFileName()));
 
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly))
@@ -184,7 +200,7 @@ bool EditorTabImage::save(const QString &fileName)
         QTextStream stream(&file);
         doc.save(stream, 4);
 
-        this->mFileName = fileName;
+        this->setFileName(fileName);
         file.close();
         result = true;
         this->setChanged(false);
@@ -192,32 +208,35 @@ bool EditorTabImage::save(const QString &fileName)
     return result;
 }
 //-----------------------------------------------------------------------------
-bool EditorTabImage::changed()
+bool EditorTabImage::changed() const
 {
-    return this->mDataChanged;
+    bool result = this->mContainer->info("data changed").toBool();
+    return result;
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::setChanged(bool value)
 {
-    this->mDataChanged = value;
-    emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+    this->mContainer->setInfo("data changed", value);
+    emit this->documentChanged(value, this->documentName(), this->fileName());
 }
 //-----------------------------------------------------------------------------
-QString EditorTabImage::fileName()
+QString EditorTabImage::fileName() const
 {
-    return this->mFileName;
+    QVariant result = this->mContainer->info("filename");
+    return result.toString();
 }
 //-----------------------------------------------------------------------------
-QString EditorTabImage::documentName()
+QString EditorTabImage::documentName() const
 {
-    return this->mDocumentName;
+    QVariant result = this->mContainer->info("document name");
+    return result.toString();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::setDocumentName(const QString &value)
 {
-    if (this->mDocumentName != value)
+    if (this->documentName() != value)
     {
-        this->mDocumentName = value;
+        this->mContainer->setInfo("document name", value);
         this->setChanged(true);
     }
 }
@@ -236,13 +255,13 @@ void EditorTabImage::convert(bool request)
 {
     QMap<QString, QString> tags;
 
-    if (!this->mFileName.isEmpty())
-        tags["fileName"] = this->mFileName;
+    if (!this->fileName().isEmpty())
+        tags["fileName"] = this->fileName();
     else
         tags["fileName"] = "unknown";
 
-    tags["documentName"] = this->mDocumentName;
-    tags["documentName_ws"] = this->mDocumentName.remove(QRegExp("\\W", Qt::CaseInsensitive));
+    tags["documentName"] = this->documentName();
+    tags["documentName_ws"] = this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive));
 
     tags["dataType"] = "image";
 
@@ -250,7 +269,7 @@ void EditorTabImage::convert(bool request)
     QString result = parser.convert(this, tags);
 
     // converter output file name
-    QString outputFileName = this->mConvertedFileName;
+    QString outputFileName = this->convertedFileName();
 
     // if file name not specified, show dialog
     if (outputFileName.isEmpty())
@@ -285,9 +304,9 @@ void EditorTabImage::convert(bool request)
             file.write(result.toUtf8());
             file.close();
 
-            if (this->mConvertedFileName != outputFileName)
+            if (this->convertedFileName() != outputFileName)
             {
-                this->mConvertedFileName = outputFileName;
+                this->setConvertedFileName(outputFileName);
                 emit this->setChanged(true);
             }
         }

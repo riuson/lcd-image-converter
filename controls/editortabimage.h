@@ -44,9 +44,9 @@ public:
     bool load(const QString &fileName);
     bool save(const QString &fileName);
     void setChanged(bool value);
-    bool changed();
-    QString fileName();
-    QString documentName();
+    bool changed() const;
+    QString fileName() const;
+    QString documentName() const;
     void setDocumentName(const QString &value);
     DataContainer *dataContainer();
     WidgetBitmapEditor *editor();
@@ -60,12 +60,11 @@ private:
     WidgetBitmapEditor *mEditor;
     DataContainer *mContainer;
 
-    QString mFileName;
-    QString mConvertedFileName;
-    QString mDocumentName;
-    bool mDataChanged;
-
     static const QString DefaultKey;
+
+    void setFileName(const QString &value);
+    QString convertedFileName() const;
+    void setConvertedFileName(const QString &value);
 
 private slots:
     void mon_container_imageChanged(const QString &key);

@@ -64,13 +64,13 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->connect(this->mContainer, SIGNAL(imageChanged(QString)), SLOT(mon_container_imageChanged(QString)));
     this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
 
-    this->mDocumentName = tr("Font", "new font name");
-    this->mFileName = "";
-    this->mConvertedFileName = "";
-    this->mDataChanged = false;
+    this->setDocumentName(tr("Font", "new font name"));
+    this->setFileName("");
+    this->setConvertedFileName("");
+    this->setChanged(false);
 
-    this->mAntialiasing = false;
-    this->mMonospaced = false;
+    this->setAntialiasing(false);
+    this->setMonospaced(false);
 
     this->ui->tableViewCharacters->resizeColumnsToContents();
 }
@@ -93,6 +93,48 @@ void EditorTabFont::changeEvent(QEvent *e)
     }
 }
 //-----------------------------------------------------------------------------
+void EditorTabFont::setFileName(const QString &value)
+{
+    this->mContainer->setInfo("filename", QVariant(value));
+}
+//-----------------------------------------------------------------------------
+QString EditorTabFont::convertedFileName() const
+{
+    QVariant result = this->mContainer->info("converted filename");
+    return result.toString();
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::setConvertedFileName(const QString &value)
+{
+    this->mContainer->setInfo("converted filename", QVariant(value));
+}
+//-----------------------------------------------------------------------------
+QFont EditorTabFont::usedFont() const
+{
+    QVariant var = this->mContainer->info("used font");
+    if (!var.isNull())
+    {
+        QFont result = var.value<QFont>();
+        return result;
+    }
+    return QFont();
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::setUsedFont(const QFont &value)
+{
+    this->mContainer->setInfo("used font", value);
+}
+//-----------------------------------------------------------------------------
+QString EditorTabFont::usedStyle() const
+{
+    return this->mContainer->info("style").toString();
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::setUsedStyle(const QString &value)
+{
+    this->mContainer->setInfo("style", value);
+}
+//-----------------------------------------------------------------------------
 void EditorTabFont::mon_container_imageChanged(const QString &key)
 {
     if (this->mSelectedeKey == key)
@@ -100,8 +142,8 @@ void EditorTabFont::mon_container_imageChanged(const QString &key)
         const QImage *image = this->mContainer->image(key);
         this->mEditor->setImage(image);
     }
-    this->mDataChanged = true;
-    emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+    this->setChanged(true);
+    emit this->documentChanged(true, this->documentName(), this->fileName());
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_imageChanged()
@@ -143,7 +185,7 @@ bool EditorTabFont::load(const QString &fileName)
             QDomElement root = doc.documentElement();
             if( root.tagName() == "data" )
             {
-                this->mDocumentName = root.attribute("name", fileName);
+                this->setDocumentName(root.attribute("name", fileName));
 
                 QString fontFamily, style;
                 int size = 0;
@@ -219,18 +261,20 @@ bool EditorTabFont::load(const QString &fileName)
                 this->ui->tableViewCharacters->resizeColumnsToContents();
 
                 QFontDatabase fonts;
-                this->mFont = fonts.font(fontFamily, style, size);
-                this->mFont.setPixelSize(size);
-                this->mStyle = style;
-                this->mMonospaced = monospaced;
-                this->mAntialiasing = antialiasing;
+                QFont font = fonts.font(fontFamily, style, size);
+                font.setPixelSize(size);
+                this->setUsedFont(font);
+
+                this->setUsedStyle(style);
+                this->setMonospaced(monospaced);
+                this->setAntialiasing(antialiasing);
                 this->updateTableFont();
             }
         }
         file.close();
 
-        this->mFileName = fileName;
-        this->mConvertedFileName = converted;
+        this->setFileName(fileName);
+        this->setConvertedFileName(converted);
         this->mEditor->setImage(this->mContainer->image(this->mSelectedeKey));
         this->setChanged(false);
     }
@@ -255,7 +299,7 @@ bool EditorTabFont::save(const QString &fileName)
     this->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
 
     nodeRoot.setAttribute("type", "font");
-    nodeRoot.setAttribute("name", this->mDocumentName);
+    nodeRoot.setAttribute("name", this->documentName());
 
     //font family
     QDomElement nodeFamily = doc.createElement("family");
@@ -296,7 +340,7 @@ bool EditorTabFont::save(const QString &fileName)
     // converted file name
     QDomElement nodeConverted = doc.createElement("converted");
     nodeRoot.appendChild(nodeConverted);
-    nodeConverted.appendChild(doc.createTextNode(this->mConvertedFileName));
+    nodeConverted.appendChild(doc.createTextNode(this->convertedFileName()));
 
     // chars list
     QDomElement nodeChars = doc.createElement("chars");
@@ -334,7 +378,7 @@ bool EditorTabFont::save(const QString &fileName)
         QTextStream stream(&file);
         doc.save(stream, 4);
 
-        this->mFileName = fileName;
+        this->setFileName(fileName);
         file.close();
         result = true;
         this->setChanged(false);
@@ -343,32 +387,35 @@ bool EditorTabFont::save(const QString &fileName)
     return result;
 }
 //-----------------------------------------------------------------------------
-bool EditorTabFont::changed()
+bool EditorTabFont::changed() const
 {
-    return this->mDataChanged;
+    bool result = this->mContainer->info("data changed").toBool();
+    return result;
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::setChanged(bool value)
 {
-    this->mDataChanged = value;
-    emit this->documentChanged(this->mDataChanged, this->mDocumentName, this->mFileName);
+    this->mContainer->setInfo("data changed", value);
+    emit this->documentChanged(value, this->documentName(), this->fileName());
 }
 //-----------------------------------------------------------------------------
-QString EditorTabFont::fileName()
+QString EditorTabFont::fileName() const
 {
-    return this->mFileName;
+    QVariant result = this->mContainer->info("filename");
+    return result.toString();
 }
 //-----------------------------------------------------------------------------
-QString EditorTabFont::documentName()
+QString EditorTabFont::documentName() const
 {
-    return this->mDocumentName;
+    QVariant result = this->mContainer->info("document name");
+    return result.toString();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::setDocumentName(const QString &value)
 {
-    if (this->mDocumentName != value)
+    if (this->documentName() != value)
     {
-        this->mDocumentName = value;
+        this->mContainer->setInfo("document name", value);
         this->setChanged(true);
     }
 }
@@ -387,13 +434,13 @@ void EditorTabFont::convert(bool request)
 {
     QMap<QString, QString> tags;
 
-    if (!this->mFileName.isEmpty())
-        tags["fileName"] = this->mFileName;
+    if (!this->fileName().isEmpty())
+        tags["fileName"] = this->fileName();
     else
         tags["fileName"] = "unknown";
 
-    tags["documentName"] = this->mDocumentName;
-    tags["documentName_ws"] = this->mDocumentName.remove(QRegExp("\\W", Qt::CaseInsensitive));
+    tags["documentName"] = this->documentName();
+    tags["documentName_ws"] = this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive));
 
     QString chars, fontFamily, style;
     int size;
@@ -412,7 +459,7 @@ void EditorTabFont::convert(bool request)
     QString result = parser.convert(this, tags);
 
     // converter output file name
-    QString outputFileName = this->mConvertedFileName;
+    QString outputFileName = this->convertedFileName();
 
     // if file name not specified, show dialog
     if (outputFileName.isEmpty())
@@ -447,9 +494,9 @@ void EditorTabFont::convert(bool request)
             file.write(result.toUtf8());
             file.close();
 
-            if (this->mConvertedFileName != outputFileName)
+            if (this->convertedFileName() != outputFileName)
             {
-                this->mConvertedFileName = outputFileName;
+                this->setConvertedFileName(outputFileName);
                 emit this->setChanged(true);
             }
         }
@@ -458,10 +505,10 @@ void EditorTabFont::convert(bool request)
 //-----------------------------------------------------------------------------
 void EditorTabFont::setFontCharacters(const QString &chars,
                                       const QString &fontFamily,
-                                      const QString &style,
-                                      const int size,
-                                      const bool monospaced,
-                                      const bool antialiasing)
+                                      const QString &_style,
+                                      const int _size,
+                                      const bool _monospaced,
+                                      const bool _antialiasing)
 {
     QFontDatabase fonts;
 
@@ -469,11 +516,11 @@ void EditorTabFont::setFontCharacters(const QString &chars,
 
     if (this->mContainer->count() > 1)
     {
-        if (this->mFont.family() != fontFamily ||
-            this->mStyle != style ||
-            this->mFont.pixelSize() != size ||
-            this->mMonospaced != monospaced ||
-            this->mAntialiasing != antialiasing)
+        if (this->usedFont().family() != fontFamily ||
+            this->usedStyle() != _style ||
+            this->usedFont().pixelSize() != _size ||
+            this->monospaced() != _monospaced ||
+            this->antialiasing() != _antialiasing)
         {
             DialogFontChanged dialog(this);
             if (dialog.exec() == QDialog::Accepted)
@@ -491,10 +538,10 @@ void EditorTabFont::setFontCharacters(const QString &chars,
     this->mEditor->setImage(&emptyImage);
 
     // create font with specified parameters
-    QFont fontNew = fonts.font(fontFamily, style, size);
-    fontNew.setPixelSize(size);
+    QFont fontNew = fonts.font(fontFamily, _style, _size);
+    fontNew.setPixelSize(_size);
 
-    if (antialiasing)
+    if (_antialiasing)
         fontNew.setStyleStrategy(QFont::PreferAntialias);
     else
         fontNew.setStyleStrategy(QFont::NoAntialias);
@@ -505,10 +552,10 @@ void EditorTabFont::setFontCharacters(const QString &chars,
         this->mContainer->clear();
 
         // save new font
-        this->mFont = fontNew;
-        this->mStyle = style;
-        this->mMonospaced = monospaced;
-        this->mAntialiasing = antialiasing;
+        this->setUsedFont(fontNew);
+        this->setUsedStyle(_style);
+        this->setMonospaced(_monospaced);
+        this->setAntialiasing(_antialiasing);
     }
     else
     {
@@ -528,7 +575,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
 
     // find max size
     int width = 0, height = 0;
-    if (monospaced)
+    if (_monospaced)
     {
         QFontMetrics metrics(fontNew);
         for (int i = 0; i < chars.count(); i++)
@@ -553,7 +600,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
                                                this->mEditor->color2(),
                                                width,
                                                height,
-                                               antialiasing);
+                                               _antialiasing);
             this->mContainer->setImage(key, new QImage(image));
         }
     }
@@ -569,19 +616,19 @@ void EditorTabFont::setFontCharacters(const QString &chars,
 //-----------------------------------------------------------------------------
 void EditorTabFont::fontCharacters(QString *chars,
                                    QString *fontFamily,
-                                   QString *style,
-                                   int *size,
-                                   bool *monospaced,
-                                   bool *antialiasing)
+                                   QString *_style,
+                                   int *_size,
+                                   bool *_monospaced,
+                                   bool *_antialiasing)
 {
     QStringList charList(this->mContainer->keys());
     //*chars = this->mCharacters;
     *chars = charList.join("");
-    *fontFamily = this->mFont.family();
-    *size = this->mFont.pixelSize();
-    *style = this->mStyle;
-    *monospaced = this->mMonospaced;
-    *antialiasing = this->mAntialiasing;
+    *fontFamily = this->usedFont().family();
+    *_size = this->usedFont().pixelSize();
+    *_style = this->usedStyle();
+    *_monospaced = this->monospaced();
+    *_antialiasing = this->antialiasing();
 }
 //-----------------------------------------------------------------------------
 const QString EditorTabFont::selectedCharacters() const
@@ -650,10 +697,30 @@ QImage EditorTabFont::drawCharacter(const QChar value,
 //-----------------------------------------------------------------------------
 void EditorTabFont::updateTableFont()
 {
-    this->mTableFont = QFont(this->mFont);
+    this->mTableFont = QFont(this->usedFont());
     this->mTableFont.setPointSize(11);
     this->mTableFont.setBold(false);
     this->ui->tableViewCharacters->setFont(this->mTableFont);
+}
+//-----------------------------------------------------------------------------
+bool EditorTabFont::monospaced() const
+{
+    return this->mContainer->info("monospaced").toBool();
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::setMonospaced(const bool value)
+{
+    this->mContainer->setInfo("monospaced", value);
+}
+//-----------------------------------------------------------------------------
+bool EditorTabFont::antialiasing() const
+{
+    return this->mContainer->info("antialiasing").toBool();
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::setAntialiasing(const bool value)
+{
+    this->mContainer->setInfo("antialiasing", value);
 }
 //-----------------------------------------------------------------------------
 /*
