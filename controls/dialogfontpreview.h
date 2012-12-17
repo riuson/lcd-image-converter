@@ -43,8 +43,8 @@ public:
 private:
     Ui::DialogFontPreview *ui;
     IDocument *mDocument;
-    QPixmap mOriginalPixmap;
-    QPixmap mScaledPixmap;
+    QImage mOriginalImage;
+    QImage mScaledImage;
 
 private slots:
     void on_lineEditText_textChanged(const QString &text);

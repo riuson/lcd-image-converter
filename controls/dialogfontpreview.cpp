@@ -30,7 +30,7 @@ DialogFontPreview::DialogFontPreview(QWidget *parent) :
     ui(new Ui::DialogFontPreview)
 {
     ui->setupUi(this);
-    this->mOriginalPixmap = QPixmap::fromImage(QImage(":/images/template").scaled(20, 10));
+    this->mOriginalImage = QImage(":/images/template").scaled(20, 10);
 
     this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
 }
@@ -47,7 +47,7 @@ void DialogFontPreview::setDocument(IDocument *document)
 //-----------------------------------------------------------------------------
 void DialogFontPreview::on_lineEditText_textChanged(const QString &text)
 {
-    this->mOriginalPixmap = QPixmap::fromImage(FontHelper::drawString(this->mDocument->dataContainer(), text));
+    this->mOriginalImage = FontHelper::drawString(this->mDocument->dataContainer(), text);
 
     // update preview
     this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
@@ -55,7 +55,7 @@ void DialogFontPreview::on_lineEditText_textChanged(const QString &text)
 //-----------------------------------------------------------------------------
 void DialogFontPreview::on_spinBoxScale_valueChanged(int i)
 {
-    this->mScaledPixmap = BitmapHelper::createPixmapScaled(this->mOriginalPixmap, i);
-    this->ui->labelPreview->setPixmap(this->mScaledPixmap);
+    this->mScaledImage = BitmapHelper::scale(&this->mOriginalImage, i);
+    this->ui->labelPreview->setPixmap(QPixmap::fromImage(this->mScaledImage));
 }
 //-----------------------------------------------------------------------------

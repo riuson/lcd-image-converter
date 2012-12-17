@@ -49,8 +49,9 @@ public:
     static QImage flipVertical(QImage *source);
     static QImage resize(QImage *source, int width, int height, int offsetX, int offsetY, bool center, bool changeWidth, bool changeHeight, const QColor &backColor);
     static void findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom);
-    static QPixmap createPixmapScaled(const QPixmap &original, int scale);
-    static void drawGrid(const QPixmap &original, QPixmap &pixmap, QPainter *painter, int scale);
+    static QImage scale(const QImage *source, int scale);
+    static QImage drawGrid(const QImage *source, int scale);
+    static QImage drawPixel(const QImage *source, int x, int y, const QColor &color);
 };
 //-----------------------------------------------------------------------------
 #endif // BITMAPHELPER_H

@@ -157,27 +157,51 @@ void BitmapHelper::findEmptyArea(const QImage *source, int *left, int *top, int 
     *bottom = b;
 }
 //-----------------------------------------------------------------------------
-QPixmap BitmapHelper::createPixmapScaled(const QPixmap &original, int scale)
+QImage BitmapHelper::scale(const QImage *source, int scale)
 {
-    int width = original.width();
-    int height = original.height();
+    int width = source->width();
+    int height = source->height();
 
-    QPixmap scaled = original.scaled(width * scale, height * scale, Qt::KeepAspectRatio, Qt::FastTransformation);
-    QPainter painterScaled(&scaled);
-    BitmapHelper::drawGrid(original, scaled, &painterScaled, scale);
+    QImage result = source->scaled(width * scale, height * scale, Qt::KeepAspectRatio, Qt::FastTransformation);
 
-    return scaled;
+    return result;
 }
 //-----------------------------------------------------------------------------
-void BitmapHelper::drawGrid(const QPixmap &original, QPixmap &pixmap, QPainter *painter, int scale)
+QImage BitmapHelper::drawGrid(const QImage *source, int scale)
 {
+    QImage result = QImage(*source);
+
     if (scale > 5)
     {
-        painter->setPen(QColor("silver"));
-        for (int x = 0; x < original.width(); x++)
-            painter->drawLine(x * scale, 0, x * scale, pixmap.height());
-        for (int y = 0; y < original.height(); y++)
-            painter->drawLine(0, y * scale, pixmap.width(), y * scale);
+        QPixmap pixmap = QPixmap::fromImage(result);
+
+        QPainter painter(&pixmap);
+
+        painter.setPen(QColor("silver"));
+
+        for (int x = 0; x < pixmap.width(); x += scale)
+        {
+            painter.drawLine(x, 0, x, pixmap.height());
+        }
+        for (int y = 0; y < pixmap.height(); y += scale)
+        {
+            painter.drawLine(0, y, pixmap.width(), y);
+        }
+
+        result = pixmap.toImage();
     }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+QImage BitmapHelper::drawPixel(const QImage *source, int x, int y, const QColor &color)
+{
+    QPixmap pixmap = QPixmap::fromImage(*source);
+
+    QPainter painter(&pixmap);
+    painter.setPen(color);
+    painter.drawPoint(x, y);
+
+    return pixmap.toImage();
 }
 //-----------------------------------------------------------------------------

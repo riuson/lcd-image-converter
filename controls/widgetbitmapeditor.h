@@ -46,7 +46,8 @@ protected:
 
 private:
     Ui::WidgetBitmapEditor *ui;
-    QPixmap mPixmapOriginal;
+    QImage mImageOriginal;
+    QImage mImageScaled;
     QPixmap mPixmapScaled;
     int mScale;
     QColor mColor1;
@@ -55,7 +56,7 @@ private:
     QPixmap mPixmapColor2;
     bool mFlagChanged;
 
-    void updatePixmapScaled(int scale);
+    void updateImageScaled(int scale);
     void updateState();
     void drawPixel(int x, int y, const QColor &color);
 private slots:
