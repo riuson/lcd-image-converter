@@ -35,7 +35,6 @@ public:
 protected:
     IMainWindow *mMainWindow;
     IDocument *document();
-    WidgetBitmapEditor *editor();
 
 signals:
 

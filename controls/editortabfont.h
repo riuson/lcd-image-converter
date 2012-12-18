@@ -51,7 +51,8 @@ public:
     QString documentName() const;
     void setDocumentName(const QString &value);
     DataContainer *dataContainer();
-    WidgetBitmapEditor *editor();
+    const QImage *image() const;
+    void setImage(const QImage *value);
     void convert(bool request);
 
     void setFontCharacters(const QString &chars,

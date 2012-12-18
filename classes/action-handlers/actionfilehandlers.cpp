@@ -30,6 +30,7 @@
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
 #include "datacontainer.h"
+#include "idocument.h"
 //-----------------------------------------------------------------------------
 ActionFileHandlers::ActionFileHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -265,7 +266,7 @@ void ActionFileHandlers::openFile(const QString &filename)
 
                 QString name = this->mMainWindow->findAvailableName(info.baseName());
 
-                ed->editor()->setImage(&image);
+                ed->setImage(&image);
 
                 ed->setDocumentName(name);
                 ed->setChanged(false);
@@ -282,7 +283,7 @@ void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
 
     QString name = this->mMainWindow->findAvailableName(documentName);
 
-    ed->editor()->setImage(image);
+    ed->setImage(image);
 
     ed->setDocumentName(name);
     ed->setChanged(true);

@@ -55,8 +55,6 @@ MainWindow::MainWindow(QWidget *parent) :
     icon.addFile(":/images/icon64", QSize(64, 64));
     this->setWindowIcon(icon);
 
-    this->mEditor = NULL;
-
     this->updateMenuState();
 
     this->mTrans = new QTranslator;
@@ -122,16 +120,14 @@ void MainWindow::updateMenuState()
     int index = this->ui->tabWidget->currentIndex();
     QWidget *w = this->ui->tabWidget->widget(index);
     bool editorSelected = false;
-    if (EditorTabImage *eti = qobject_cast<EditorTabImage *>(w))
+    if (qobject_cast<EditorTabImage *>(w) != NULL)
     {
         this->ui->menuFont->setEnabled(false);
-        this->mEditor = eti->editor();
         editorSelected = true;
     }
-    if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(w))
+    if (qobject_cast<EditorTabFont *>(w) != NULL)
     {
         this->ui->menuFont->setEnabled(true);
-        this->mEditor = etf->editor();
         editorSelected = true;
     }
     else
@@ -146,9 +142,6 @@ void MainWindow::updateMenuState()
     this->ui->actionClose->setEnabled(editorSelected);
     this->ui->actionConvert->setEnabled(editorSelected);
     this->ui->actionConvert_All->setEnabled(editorSelected);
-
-    if (!editorSelected)
-        this->mEditor = NULL;
 }
 //-----------------------------------------------------------------------------
 void MainWindow::selectLocale(const QString &localeName)
@@ -312,10 +305,6 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
     }
     if (!cancel)
     {
-        if (this->ui->tabWidget->currentIndex() == index)
-        {
-            this->mEditor = NULL;
-        }
         this->ui->tabWidget->removeTab(index);
         this->checkStartPageVisible();
         delete w;

@@ -30,6 +30,7 @@
 #include "imainwindow.h"
 #include "idocument.h"
 #include "datacontainer.h"
+#include "bitmapeditoroptions.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -38,150 +39,126 @@ ActionImageHandlers::ActionImageHandlers(QObject *parent) :
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::flipHorizontal_triggered()
 {
-    if (this->editor() != NULL)
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
-        const QImage *original = editor->image();
+        const QImage *original = this->document()->image();
         QImage result = BitmapHelper::flipHorizontal(original);
-        editor->setImageChanged(&result);
+        this->document()->setImage(&result);
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::flipVertical_triggered()
 {
-    if (this->editor())
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
-        const QImage *original = editor->image();
+        const QImage *original = this->document()->image();
         QImage result = BitmapHelper::flipVertical(original);
-        editor->setImageChanged(&result);
+        this->document()->setImage(&result);
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::rotate_90_Clockwise_triggered()
 {
-    if (this->editor())
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
-        const QImage *original = editor->image();
+        const QImage *original = this->document()->image();
         QImage result = BitmapHelper::rotate90(original);
-        editor->setImageChanged(&result);
+        this->document()->setImage(&result);
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::rotate_180_triggered()
 {
-    if (this->editor())
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
-        const QImage *original = editor->image();
+        const QImage *original = this->document()->image();
         QImage result = BitmapHelper::rotate180(original);
-        editor->setImageChanged(&result);
+        this->document()->setImage(&result);
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::rotate_90_Counter_Clockwise_triggered()
 {
-    if (this->editor())
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
-        const QImage *original = editor->image();
+        const QImage *original = this->document()->image();
         QImage result = BitmapHelper::rotate270(original);
-        editor->setImageChanged(&result);
+        this->document()->setImage(&result);
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::shift_left_triggered()
 {
-    if (this->editor())
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
-        const QImage *original = editor->image();
+        const QImage *original = this->document()->image();
         QImage result = BitmapHelper::shiftLeft(original);
-        editor->setImageChanged(&result);
+        this->document()->setImage(&result);
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::shift_right_triggered()
 {
-    if (this->editor())
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
-        const QImage *original = editor->image();
+        const QImage *original = this->document()->image();
         QImage result = BitmapHelper::shiftRight(original);
-        editor->setImageChanged(&result);
+        this->document()->setImage(&result);
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::shift_up_triggered()
 {
-    if (this->editor())
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
-        const QImage *original = editor->image();
+        const QImage *original = this->document()->image();
         QImage result = BitmapHelper::shiftUp(original);
-        editor->setImageChanged(&result);
+        this->document()->setImage(&result);
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::shift_down_triggered()
 {
-    if (this->editor())
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
-        const QImage *original = editor->image();
+        const QImage *original = this->document()->image();
         QImage result = BitmapHelper::shiftDown(original);
-        editor->setImageChanged(&result);
+        this->document()->setImage(&result);
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::inverse_triggered()
 {
-    if (this->editor())
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
-        const QImage *original = editor->image();
+        const QImage *original = this->document()->image();
         QImage result(*original);
         result.invertPixels();
-        editor->setImageChanged(&result);
+        this->document()->setImage(&result);
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::resize_triggered()
 {
-    if (this->editor())
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
-        const QImage *original = editor->image();
+        const QImage *original = this->document()->image();
         DialogResize dialog(original->width(), original->height(), 0, 0, false, true, true, this->mMainWindow->parentWidget());
         if (dialog.exec() == QDialog::Accepted)
         {
             int width, height, offsetX, offsetY;
             bool center, changeWidth, changeHeight;
             dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
-            QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, editor->color2());
-            editor->setImageChanged(&result);
+            QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, BitmapEditorOptions::color2());
+            this->document()->setImage(&result);
         }
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::import_triggered()
 {
-    if (this->editor())
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptOpen);
         dialog.setFileMode(QFileDialog::ExistingFile);
@@ -192,17 +169,15 @@ void ActionImageHandlers::import_triggered()
         {
             QImage image;
             image.load(dialog.selectedFiles().at(0));
-            editor->setImageChanged(&image);
+            this->document()->setImage(&image);
         }
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::export_triggered()
 {
-    if (this->editor())
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptSave);
         dialog.setFileMode(QFileDialog::AnyFile);
@@ -242,23 +217,21 @@ void ActionImageHandlers::export_triggered()
             {
                 filename += "." + ext;
             }
-            editor->image()->save(filename);
+            this->document()->image()->save(filename);
         }
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::edit_in_external_tool_triggered()
 {
-    if (this->editor())
+    if (this->document() != NULL)
     {
-        WidgetBitmapEditor *editor = this->editor();
-
         // prepare temporary file name
         QDateTime time = QDateTime::currentDateTime();
         QString filename = QDir::tempPath() + "/" + time.toString("yyyy-MM-dd-hh-mm-ss-zzz") + ".png";
 
         // save current image to file
-        editor->image()->save(filename);
+        this->document()->image()->save(filename);
 
         // remember timestamp
         QFileInfo info(filename);
@@ -284,7 +257,7 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
                 // load file back
                 QImage image;
                 image.load(filename);
-                editor->setImageChanged(&image);
+                this->document()->setImage(&image);
             }
         }
         // remove temprorary file

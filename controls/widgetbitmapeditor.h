@@ -36,7 +36,6 @@ public:
 
     const QImage *image() const;
     void setImage(const QImage *value);
-    void setImageChanged(const QImage *value);
 
     QColor color1();
     QColor color2();

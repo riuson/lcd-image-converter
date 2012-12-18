@@ -246,9 +246,15 @@ DataContainer *EditorTabImage::dataContainer()
     return this->mContainer;
 }
 //-----------------------------------------------------------------------------
-WidgetBitmapEditor *EditorTabImage::editor()
+const QImage *EditorTabImage::image() const
 {
-    return this->mEditor;
+    const QImage *result = this->mContainer->image(DefaultKey);
+    return result;
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::setImage(const QImage *value)
+{
+    this->mContainer->setImage(DefaultKey, value);
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::convert(bool request)

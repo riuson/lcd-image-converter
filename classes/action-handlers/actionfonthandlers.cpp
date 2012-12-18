@@ -32,6 +32,7 @@
 #include "idocument.h"
 #include "datacontainer.h"
 #include "limits"
+#include "bitmapeditoroptions.h"
 //-----------------------------------------------------------------------------
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -115,7 +116,7 @@ void ActionFontHandlers::fontResize_triggered()
                 QString key = it.next();
                 original = doc->dataContainer()->image(key);
 
-                QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, this->editor()->color2());
+                QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, BitmapEditorOptions::color2());
 
                 doc->dataContainer()->setImage(key, &result);
             }
@@ -171,7 +172,7 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
                 QString key = it.next();
                 const QImage *original = doc->dataContainer()->image(key);
 
-                QImage result = BitmapHelper::resize(original, original->width(), height, width, offsetY, center, changeWidth, changeHeight, this->editor()->color2());
+                QImage result = BitmapHelper::resize(original, original->width(), height, width, offsetY, center, changeWidth, changeHeight, BitmapEditorOptions::color2());
 
                 doc->dataContainer()->setImage(key, &result);
             }

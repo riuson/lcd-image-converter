@@ -425,9 +425,15 @@ DataContainer *EditorTabFont::dataContainer()
     return this->mContainer;
 }
 //-----------------------------------------------------------------------------
-WidgetBitmapEditor *EditorTabFont::editor()
+const QImage *EditorTabFont::image() const
 {
-    return this->mEditor;
+    const QImage *result = this->mContainer->image(this->mSelectedKey);
+    return result;
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::setImage(const QImage *value)
+{
+    this->mContainer->setImage(this->mSelectedKey, value);
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::convert(bool request)

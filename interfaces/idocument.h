@@ -22,9 +22,9 @@
 //-----------------------------------------------------------------------------
 #include <QObject>
 
+class QImage;
 class QString;
 class DataContainer;
-class WidgetBitmapEditor;
 //-----------------------------------------------------------------------------
 class IDocument
 {
@@ -37,7 +37,8 @@ public:
     virtual QString documentName() const = 0;
     virtual void setDocumentName(const QString &value) = 0;
     virtual DataContainer *dataContainer() = 0;
-    virtual WidgetBitmapEditor *editor() = 0;
+    virtual const QImage *image() const = 0;
+    virtual void setImage(const QImage *value) = 0;
     virtual void convert(bool request) = 0;
 };
 Q_DECLARE_INTERFACE (IDocument,
