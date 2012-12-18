@@ -80,7 +80,7 @@ private:
     FontCharactersModel *mModel;
 
     QFont mTableFont;
-    QString mSelectedeKey;
+    QString mSelectedKey;
 
     void setFileName(const QString &value);
     QString convertedFileName() const;

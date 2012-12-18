@@ -48,7 +48,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->ui->horizontalLayout->addWidget(this->mSplitter);
 
     this->mContainer = new DataContainer(this);
-    this->mSelectedeKey = QString();
+    this->mSelectedKey = QString();
 
     this->mModel = new FontCharactersModel(this->mContainer, this);
     this->ui->tableViewCharacters->setModel(this->mModel);
@@ -137,7 +137,7 @@ void EditorTabFont::setUsedStyle(const QString &value)
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_container_imageChanged(const QString &key)
 {
-    if (this->mSelectedeKey == key)
+    if (this->mSelectedKey == key)
     {
         const QImage *image = this->mContainer->image(key);
         this->mEditor->setImage(image);
@@ -149,7 +149,7 @@ void EditorTabFont::mon_container_imageChanged(const QString &key)
 void EditorTabFont::mon_editor_imageChanged()
 {
     const QImage *image = this->mEditor->image();
-    this->mContainer->setImage(this->mSelectedeKey, image);
+    this->mContainer->setImage(this->mSelectedKey, image);
     this->setChanged(true);
 }
 //-----------------------------------------------------------------------------
@@ -163,8 +163,8 @@ void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItem
     {
         QModelIndex index = this->mModel->index(selectionModel->currentIndex().row(), 0);
 
-        this->mSelectedeKey = this->mModel->data(index, Qt::DisplayRole).toString();
-        const QImage *image = this->mContainer->image(this->mSelectedeKey);
+        this->mSelectedKey = this->mModel->data(index, Qt::DisplayRole).toString();
+        const QImage *image = this->mContainer->image(this->mSelectedKey);
         this->mEditor->setImage(image);
     }
 }
@@ -230,7 +230,7 @@ bool EditorTabFont::load(const QString &fileName)
                     n = n.nextSibling();
                 }
 
-                this->mSelectedeKey = QString();
+                this->mSelectedKey = QString();
                 QDomNodeList nodesChar = root.elementsByTagName("char");
                 for (int i = 0; i < nodesChar.count(); i++)
                 {
@@ -249,9 +249,9 @@ bool EditorTabFont::load(const QString &fileName)
                             image.load(&buffer, "PNG");
 
                             QString key = QString(QChar(code));
-                            if (this->mSelectedeKey.isNull())
+                            if (this->mSelectedKey.isNull())
                             {
-                                this->mSelectedeKey = key;
+                                this->mSelectedKey = key;
                             }
                             this->mContainer->setImage(key, &image);
                         }
@@ -275,7 +275,7 @@ bool EditorTabFont::load(const QString &fileName)
 
         this->setFileName(fileName);
         this->setConvertedFileName(converted);
-        this->mEditor->setImage(this->mContainer->image(this->mSelectedeKey));
+        this->mEditor->setImage(this->mContainer->image(this->mSelectedKey));
         this->setChanged(false);
     }
 
