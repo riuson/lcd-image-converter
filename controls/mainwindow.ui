@@ -378,10 +378,16 @@
    <property name="text">
     <string>Undo</string>
    </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+Z</string>
+   </property>
   </action>
   <action name="actionEditRedo">
    <property name="text">
     <string>Redo</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+Y</string>
    </property>
   </action>
  </widget>
