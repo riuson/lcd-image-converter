@@ -90,6 +90,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->createHandlers();
 
+    this->connect(this->ui->menuEdit, SIGNAL(aboutToShow()), SLOT(updateMenuState()));
+
     this->checkStartPageVisible();
 }
 //-----------------------------------------------------------------------------
@@ -115,49 +117,6 @@ void MainWindow::changeEvent(QEvent *e)
     default:
         break;
     }
-}
-//-----------------------------------------------------------------------------
-void MainWindow::updateMenuState()
-{
-    int index = this->ui->tabWidget->currentIndex();
-    QWidget *w = this->ui->tabWidget->widget(index);
-    bool editorSelected = false;
-    if (qobject_cast<EditorTabImage *>(w) != NULL)
-    {
-        this->ui->menuFont->setEnabled(false);
-        editorSelected = true;
-    }
-    if (qobject_cast<EditorTabFont *>(w) != NULL)
-    {
-        this->ui->menuFont->setEnabled(true);
-        editorSelected = true;
-    }
-    else
-    {
-        this->ui->menuFont->setEnabled(false);
-    }
-
-    if (editorSelected && this->currentDocument() != NULL)
-    {
-        IDocument *doc = this->currentDocument();
-        this->ui->actionEditUndo->setEnabled(doc->canUndo());
-        this->ui->actionEditRedo->setEnabled(doc->canRedo());
-    }
-    else
-    {
-        this->ui->actionEditUndo->setEnabled(false);
-        this->ui->actionEditRedo->setEnabled(false);
-    }
-
-    this->ui->menuEdit->setEnabled(editorSelected);
-    this->ui->menuImage->setEnabled(editorSelected);
-
-    this->ui->actionRename->setEnabled(editorSelected);
-    this->ui->actionSave->setEnabled(editorSelected);
-    this->ui->actionSave_As->setEnabled(editorSelected);
-    this->ui->actionClose->setEnabled(editorSelected);
-    this->ui->actionConvert->setEnabled(editorSelected);
-    this->ui->actionConvert_All->setEnabled(editorSelected);
 }
 //-----------------------------------------------------------------------------
 void MainWindow::selectLocale(const QString &localeName)
@@ -341,6 +300,49 @@ void MainWindow::actionLanguage_triggered()
     QAction *action = qobject_cast<QAction *>(sender());
     QString name = action->data().toString();
     this->selectLocale(name);
+}
+//-----------------------------------------------------------------------------
+void MainWindow::updateMenuState()
+{
+    int index = this->ui->tabWidget->currentIndex();
+    QWidget *w = this->ui->tabWidget->widget(index);
+    bool editorSelected = false;
+    if (qobject_cast<EditorTabImage *>(w) != NULL)
+    {
+        this->ui->menuFont->setEnabled(false);
+        editorSelected = true;
+    }
+    if (qobject_cast<EditorTabFont *>(w) != NULL)
+    {
+        this->ui->menuFont->setEnabled(true);
+        editorSelected = true;
+    }
+    else
+    {
+        this->ui->menuFont->setEnabled(false);
+    }
+
+    if (editorSelected && this->currentDocument() != NULL)
+    {
+        IDocument *doc = this->currentDocument();
+        this->ui->actionEditUndo->setEnabled(doc->canUndo());
+        this->ui->actionEditRedo->setEnabled(doc->canRedo());
+    }
+    else
+    {
+        this->ui->actionEditUndo->setEnabled(false);
+        this->ui->actionEditRedo->setEnabled(false);
+    }
+
+    this->ui->menuEdit->setEnabled(editorSelected);
+    this->ui->menuImage->setEnabled(editorSelected);
+
+    this->ui->actionRename->setEnabled(editorSelected);
+    this->ui->actionSave->setEnabled(editorSelected);
+    this->ui->actionSave_As->setEnabled(editorSelected);
+    this->ui->actionClose->setEnabled(editorSelected);
+    this->ui->actionConvert->setEnabled(editorSelected);
+    this->ui->actionConvert_All->setEnabled(editorSelected);
 }
 //-----------------------------------------------------------------------------
 void MainWindow::updateRecentList()

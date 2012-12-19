@@ -53,7 +53,6 @@ private:
     Ui::MainWindow *ui;
     QTranslator *mTrans;
     RecentList *mRecentList;
-    void updateMenuState();
     void selectLocale(const QString &localeName);
     void checkStartPageVisible();
     void createHandlers();
@@ -70,6 +69,7 @@ private slots:
     void on_tabWidget_currentChanged(int index);
     void actionLanguage_triggered();
 
+    void updateMenuState();
     void updateRecentList();
     void openRecentFile();
 
