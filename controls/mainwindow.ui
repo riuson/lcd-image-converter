@@ -36,7 +36,7 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHello">
@@ -128,7 +128,15 @@
     <addaction name="actionExternal_editor"/>
     <addaction name="menuLanguage"/>
    </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionEditUndo"/>
+    <addaction name="actionEditRedo"/>
+   </widget>
    <addaction name="menuHello"/>
+   <addaction name="menuEdit"/>
    <addaction name="menuImage"/>
    <addaction name="menuFont"/>
    <addaction name="menuOptions"/>
@@ -364,6 +372,16 @@
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+Shift+Down</string>
+   </property>
+  </action>
+  <action name="actionEditUndo">
+   <property name="text">
+    <string>Undo</string>
+   </property>
+  </action>
+  <action name="actionEditRedo">
+   <property name="text">
+    <string>Redo</string>
    </property>
   </action>
  </widget>

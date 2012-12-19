@@ -39,6 +39,7 @@
 #include "recentlist.h"
 #include "languageoptions.h"
 #include "actionfilehandlers.h"
+#include "actionedithandlers.h"
 #include "actionimagehandlers.h"
 #include "actionfonthandlers.h"
 #include "actionsetuphandlers.h"
@@ -98,6 +99,7 @@ MainWindow::~MainWindow()
     delete this->mImageHandlers;
     delete this->mFontHandlers;
     delete this->mHelpHandlers;
+    delete this->mEditHandlers;
     delete this->mFileHandlers;
     delete this->mSetupHandlers;
     delete ui;
@@ -134,6 +136,8 @@ void MainWindow::updateMenuState()
     {
         this->ui->menuFont->setEnabled(false);
     }
+
+    this->ui->menuEdit->setEnabled(editorSelected);
     this->ui->menuImage->setEnabled(editorSelected);
 
     this->ui->actionRename->setEnabled(editorSelected);
@@ -226,6 +230,9 @@ void MainWindow::createHandlers()
     this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
     this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*,QString,QString)), SLOT(tabChanged(QWidget*,QString,QString)));
     this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget*,QString,QString)), SLOT(tabCreated(QWidget*,QString,QString)));
+
+    this->mEditHandlers = new ActionEditHandlers(this);
+    this->mEditHandlers->connect(this->ui->actionEditUndo, SIGNAL(triggered()), SLOT(undo_triggered()));
 
     this->mImageHandlers = new ActionImageHandlers(this);
     this->mImageHandlers->connect(this->ui->actionImageFlip_Horizontal, SIGNAL(triggered()), SLOT(flipHorizontal_triggered()));

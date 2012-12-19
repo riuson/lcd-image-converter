@@ -31,6 +31,7 @@ class WidgetBitmapEditor;
 class QTranslator;
 class RecentList;
 class ActionFileHandlers;
+class ActionEditHandlers;
 class ActionImageHandlers;
 class ActionFontHandlers;
 class ActionSetupHandlers;
@@ -58,6 +59,7 @@ private:
     void createHandlers();
 
     ActionFileHandlers *mFileHandlers;
+    ActionEditHandlers *mEditHandlers;
     ActionImageHandlers *mImageHandlers;
     ActionFontHandlers *mFontHandlers;
     ActionSetupHandlers *mSetupHandlers;
