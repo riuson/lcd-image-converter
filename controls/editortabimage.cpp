@@ -319,6 +319,25 @@ void EditorTabImage::convert(bool request)
     }
 }
 //-----------------------------------------------------------------------------
+bool EditorTabImage::canUndo()
+{
+    return true;
+}
+//-----------------------------------------------------------------------------
+bool EditorTabImage::canRedo()
+{
+    return true;
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::undo()
+{
+    this->mContainer->restoreState();
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::redo()
+{
+}
+//-----------------------------------------------------------------------------
 /*
  Storage data format:
 <?xml version="1.0" encoding="utf-8"?>

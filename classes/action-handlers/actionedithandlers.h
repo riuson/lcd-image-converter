@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2010 riuson
+ * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,37 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IDOCUMENT_H
-#define IDOCUMENT_H
+#ifndef ACTIONEDITHANDLERS_H
+#define ACTIONEDITHANDLERS_H
 //-----------------------------------------------------------------------------
 #include <QObject>
 
+#include "actionhandlersbase.h"
+//-----------------------------------------------------------------------------
 class QImage;
-class QString;
-class DataContainer;
+class IMainWindow;
 //-----------------------------------------------------------------------------
-class IDocument
+class ActionEditHandlers : public ActionHandlersBase
 {
+    Q_OBJECT
 public:
-    virtual bool load(const QString &filename) = 0;
-    virtual bool save(const QString &filename) = 0;
-    virtual bool changed() const = 0;
-    virtual void setChanged(bool value) = 0;
-    virtual QString fileName() const = 0;
-    virtual QString documentName() const = 0;
-    virtual void setDocumentName(const QString &value) = 0;
-    virtual DataContainer *dataContainer() = 0;
-    virtual const QImage *image() const = 0;
-    virtual void setImage(const QImage *value) = 0;
-    virtual void convert(bool request) = 0;
+    explicit ActionEditHandlers(QObject *parent = 0);
 
-    virtual bool canUndo() = 0;
-    virtual bool canRedo() = 0;
-    virtual void undo() = 0;
-    virtual void redo() = 0;
+public slots:
+    void undo_triggered();
 };
-Q_DECLARE_INTERFACE (IDocument,
-                     "riuson.lcd-image-converter/1.0"
-                     )
 //-----------------------------------------------------------------------------
-#endif // IDOCUMENT_H
+#endif // ACTIONEDITHANDLERS_H

@@ -509,6 +509,25 @@ void EditorTabFont::convert(bool request)
     }
 }
 //-----------------------------------------------------------------------------
+bool EditorTabFont::canUndo()
+{
+    return true;
+}
+//-----------------------------------------------------------------------------
+bool EditorTabFont::canRedo()
+{
+    return true;
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::undo()
+{
+    this->mContainer->restoreState();
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::redo()
+{
+}
+//-----------------------------------------------------------------------------
 void EditorTabFont::setFontCharacters(const QString &chars,
                                       const QString &fontFamily,
                                       const QString &_style,

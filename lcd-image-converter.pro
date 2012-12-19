@@ -70,7 +70,8 @@ SOURCES += main.cpp \
     controls/dialogfontchanged.cpp \
     classes/data/datacontainer.cpp \
     classes/data/historykeeper.cpp \
-    classes/data/historyrecord.cpp
+    classes/data/historyrecord.cpp \
+    classes/action-handlers/actionedithandlers.cpp
 HEADERS += \
     controls/mainwindow.h \
     controls/widgetbitmapeditor.h \
@@ -124,7 +125,8 @@ HEADERS += \
     controls/dialogfontchanged.h \
     classes/data/datacontainer.h \
     classes/data/historykeeper.h \
-    classes/data/historyrecord.h
+    classes/data/historyrecord.h \
+    classes/action-handlers/actionedithandlers.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \

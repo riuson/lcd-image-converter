@@ -53,6 +53,11 @@ public:
     void setImage(const QImage *value);
     void convert(bool request);
 
+    bool canUndo();
+    bool canRedo();
+    void undo();
+    void redo();
+
 protected:
     void changeEvent(QEvent *e);
 
