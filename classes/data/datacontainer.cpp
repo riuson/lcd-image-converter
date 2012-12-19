@@ -95,11 +95,11 @@ void DataContainer::remove(const QString &key)
 //-----------------------------------------------------------------------------
 void DataContainer::saveState()
 {
-    this->mHistory->storeData(&this->mImageMap, &this->mInfoMap);
+    this->mHistory->store(&this->mImageMap, &this->mInfoMap);
 }
 //-----------------------------------------------------------------------------
 void DataContainer::restoreState()
 {
-    this->mHistory->restoreData(&this->mImageMap, &this->mInfoMap);
+    this->mHistory->restorePrevious(&this->mImageMap, &this->mInfoMap);
 }
 //-----------------------------------------------------------------------------

@@ -18,20 +18,25 @@ public:
     explicit HistoryKeeper(QObject *parent = 0);
     ~HistoryKeeper();
 
-    void storeData(
+    void store(
             const QMap<QString, QImage *> *images,
             const QMap<QString, QVariant> *info);
-    void restoreData(
+    void restorePrevious(
+            QMap<QString, QImage *> *images,
+            QMap<QString, QVariant> *info);
+    void restoreNext(
             QMap<QString, QImage *> *images,
             QMap<QString, QVariant> *info);
 
 private:
     QList<HistoryRecord *> *mHistory;
+    int mCurrentIndex;
 
-signals:
-
-public slots:
-
+    void removeAfter(int index);
+    void restoreAt(
+            int index,
+            QMap<QString, QImage *> *images,
+            QMap<QString, QVariant> *info);
 };
 //-----------------------------------------------------------------------------
 #endif // HISTORYKEEPER_H
