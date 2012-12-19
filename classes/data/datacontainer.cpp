@@ -103,3 +103,18 @@ void DataContainer::stateUndo()
     this->mHistory->restorePrevious(&this->mImageMap, &this->mInfoMap);
 }
 //-----------------------------------------------------------------------------
+void DataContainer::stateRedo()
+{
+    this->mHistory->restoreNext(&this->mImageMap, &this->mInfoMap);
+}
+//-----------------------------------------------------------------------------
+bool DataContainer::canUndo() const
+{
+    return this->mHistory->canRestorePrevious();
+}
+//-----------------------------------------------------------------------------
+bool DataContainer::canRedo() const
+{
+    return this->mHistory->canRestoreNext();
+}
+//-----------------------------------------------------------------------------

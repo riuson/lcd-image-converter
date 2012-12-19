@@ -50,6 +50,9 @@ public:
 
     void stateSave();
     void stateUndo();
+    void stateRedo();
+    bool canUndo() const;
+    bool canRedo() const;
 
 private:
     QMap<QString, QImage *> mImageMap;
