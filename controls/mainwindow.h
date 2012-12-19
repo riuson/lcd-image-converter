@@ -50,7 +50,6 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    WidgetBitmapEditor *mEditor;
     QTranslator *mTrans;
     RecentList *mRecentList;
     void updateMenuState();

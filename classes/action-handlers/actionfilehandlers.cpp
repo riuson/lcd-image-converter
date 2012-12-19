@@ -29,7 +29,8 @@
 #include "parser.h"
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
-#include "idatacontainer.h"
+#include "datacontainer.h"
+#include "idocument.h"
 //-----------------------------------------------------------------------------
 ActionFileHandlers::ActionFileHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -265,8 +266,7 @@ void ActionFileHandlers::openFile(const QString &filename)
 
                 QString name = this->mMainWindow->findAvailableName(info.baseName());
 
-                QString key = ed->editor()->currentImageKey();
-                ed->dataContainer()->setImage(key, &image);
+                ed->setImage(&image);
 
                 ed->setDocumentName(name);
                 ed->setChanged(false);
@@ -283,8 +283,7 @@ void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
 
     QString name = this->mMainWindow->findAvailableName(documentName);
 
-    QString key = ed->editor()->currentImageKey();
-    ed->dataContainer()->setImage(key, image);
+    ed->setImage(image);
 
     ed->setDocumentName(name);
     ed->setChanged(true);

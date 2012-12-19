@@ -17,51 +17,61 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "fontcontainer.h"
+#include "datacontainer.h"
 
 #include <QImage>
-
-#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
-FontContainer::FontContainer(QObject *parent) :
+DataContainer::DataContainer(QObject *parent) :
     QObject(parent)
 {
     this->mDefaultImage = new QImage(":/images/template");
 }
 //-----------------------------------------------------------------------------
-FontContainer::~FontContainer()
+DataContainer::~DataContainer()
 {
     qDeleteAll(this->mImageMap);
+    delete this->mDefaultImage;
 }
 //-----------------------------------------------------------------------------
-QImage *FontContainer::image(const QString &key) const
+const QImage *DataContainer::image(const QString &key) const
 {
     return this->mImageMap.value(key, this->mDefaultImage);
 }
 //-----------------------------------------------------------------------------
-void FontContainer::setImage(const QString &key, QImage *image)
+void DataContainer::setImage(const QString &key, const QImage *image)
 {
-    if (key != QString("default"))
+    this->remove(key);
+    QImage *imageNew = new QImage(*image);
+    this->mImageMap.insert(key, imageNew);
+    emit this->imageChanged(key);
+}
+//-----------------------------------------------------------------------------
+QVariant DataContainer::info(const QString &key) const
+{
+    if (this->mInfoMap.contains(key))
     {
-        this->remove(key);
-        QImage *imageNew = new QImage(*image);
-        this->mImageMap.insert(key, imageNew);
-        emit this->imageChanged(key);
+        return this->mInfoMap.value(key);
     }
+    return QVariant();
 }
 //-----------------------------------------------------------------------------
-int FontContainer::count() const
+void DataContainer::setInfo(const QString &key, const QVariant &value)
 {
-    return this->mImageMap.count();
+    this->mInfoMap.insert(key, value);
 }
 //-----------------------------------------------------------------------------
-void FontContainer::clear()
+void DataContainer::clear()
 {
     qDeleteAll(this->mImageMap);
     this->mImageMap.clear();
 }
 //-----------------------------------------------------------------------------
-QStringList FontContainer::keys() const
+int DataContainer::count() const
+{
+    return this->mImageMap.count();
+}
+//-----------------------------------------------------------------------------
+QStringList DataContainer::keys() const
 {
     QList<QString> tmp = this->mImageMap.keys();
     qSort(tmp);
@@ -69,7 +79,7 @@ QStringList FontContainer::keys() const
     return result;
 }
 //-----------------------------------------------------------------------------
-void FontContainer::remove(const QString &key)
+void DataContainer::remove(const QString &key)
 {
     if (this->mImageMap.contains(key))
     {

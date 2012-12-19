@@ -28,13 +28,9 @@ ActionHandlersBase::ActionHandlersBase(QObject *parent) :
     this->mMainWindow = qobject_cast<IMainWindow *>(parent);
 }
 //-----------------------------------------------------------------------------
-WidgetBitmapEditor *ActionHandlersBase::editor()
+IDocument *ActionHandlersBase::document()
 {
     IDocument *doc = this->mMainWindow->currentDocument();
-    if (doc != NULL)
-    {
-        return doc->editor();
-    }
-    return NULL;
+    return doc;
 }
 //-----------------------------------------------------------------------------

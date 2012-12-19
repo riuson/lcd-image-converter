@@ -17,25 +17,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IDATACONTAINER_H
-#define IDATACONTAINER_H
-//-----------------------------------------------------------------------------
-#include <QtGlobal>
+#ifndef DATACONTAINER_H
+#define DATACONTAINER_H
+
+#include <QObject>
+
+#include <QMap>
 #include <QString>
 #include <QStringList>
-
+#include <QVariant>
+//-----------------------------------------------------------------------------
 class QImage;
 //-----------------------------------------------------------------------------
-class IDataContainer
+class DataContainer : public QObject
 {
+    Q_OBJECT
 public:
-    virtual QImage *image(const QString &key) const = 0;
-    virtual void setImage(const QString &key, QImage *image) = 0;
-    virtual int count() const = 0;
-    virtual QStringList keys() const = 0;
+    explicit DataContainer(QObject *parent = 0);
+    virtual ~DataContainer();
+
+    const QImage *image(const QString &key) const;
+    void setImage(const QString &key, const QImage *image);
+
+    QVariant info(const QString &key) const;
+    void setInfo(const QString &key, const QVariant &value);
+
+    void clear();
+    int count() const;
+    QStringList keys() const;
+    void remove(const QString &key);
+
+private:
+    QMap<QString, QImage *> mImageMap;
+    QMap<QString, QVariant> mInfoMap;
+    QImage *mDefaultImage;
+
+signals:
+    void imageChanged(const QString &key);
+
+public slots:
+
 };
-Q_DECLARE_INTERFACE (IDataContainer,
-                     "riuson.lcd-image-converter/1.0"
-                     )
 //-----------------------------------------------------------------------------
-#endif // IDATACONTAINER_H
+#endif // DATACONTAINER_H

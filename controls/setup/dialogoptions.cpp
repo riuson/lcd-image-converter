@@ -24,7 +24,7 @@
 #include <QStringList>
 #include <QInputDialog>
 #include <QMessageBox>
-#include "idatacontainer.h"
+#include "datacontainer.h"
 #include "dialogpreview.h"
 #include "setuptabprepare.h"
 #include "setuptabmatrix.h"
@@ -33,7 +33,7 @@
 #include "setuptabtemplates.h"
 #include "preset.h"
 //-----------------------------------------------------------------------------
-DialogOptions::DialogOptions(IDataContainer *dataContainer, QWidget *parent) :
+DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogOptions)
 {

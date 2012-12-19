@@ -26,9 +26,8 @@
 
 #include "bitmaphelper.h"
 #include "bitmapeditoroptions.h"
-#include "idatacontainer.h"
 //-----------------------------------------------------------------------------
-WidgetBitmapEditor::WidgetBitmapEditor(IDataContainer *dataContainer, QWidget *parent) :
+WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetBitmapEditor)
 {
@@ -48,13 +47,9 @@ WidgetBitmapEditor::WidgetBitmapEditor(IDataContainer *dataContainer, QWidget *p
     this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
     this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
 
-    this->mDataContainer = dataContainer;
-    this->mImageKey = "default";
-    this->createImageScaled(this->mScale);
+    this->mImageOriginal = QImage();
 
     this->ui->spinBoxScale->setValue(this->mScale);
-    QObject *d = dynamic_cast<QObject *>(this->mDataContainer);
-    this->connect(d, SIGNAL(imageChanged(QString)), SLOT(mon_dataContainer_imageChanged(QString)));
 }
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::~WidgetBitmapEditor()
@@ -68,7 +63,7 @@ void WidgetBitmapEditor::changeEvent(QEvent *e)
     switch (e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
-        this->createImageScaled(this->mScale);
+        this->updateImageScaled(this->mScale);
         break;
     default:
         break;
@@ -78,72 +73,55 @@ void WidgetBitmapEditor::changeEvent(QEvent *e)
 bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
 {
     bool result = false;
-    if (event->type() == QEvent::MouseMove)
+    if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress)
     {
+        if (event->type() == QEvent::MouseButtonPress)
+        {
+            this->mFlagChanged = false;
+        }
         QMouseEvent *me = dynamic_cast<QMouseEvent *>(event);
         // get coordinates
         int xscaled = me->pos().x();
         int yscaled = me->pos().y();
         int xreal = xscaled / this->mScale;
         int yreal = yscaled / this->mScale;
-        QImage *original = this->mDataContainer->image(this->mImageKey);
-        if (xreal < original->width() && yreal < original ->height())
+        if (!this->mImageOriginal.isNull())
         {
-            // show coordinates
-            this->ui->labelCoordinates->setText(tr("x: %1, y: %2").arg(xreal).arg(yreal));
-            // get buttons
-            bool buttonLeft = (me->buttons() & Qt::LeftButton) == Qt::LeftButton;
-            bool buttonRight = (me->buttons() & Qt::RightButton) == Qt::RightButton;
-            // draw on pixmap
-            if (buttonLeft || buttonRight)
+            if (xreal < this->mImageOriginal.width() && yreal < this->mImageOriginal.height())
             {
-                QPainter painterScaled(&this->mPixmapScaled);
-                QColor color;
+                // show coordinates
+                this->ui->labelCoordinates->setText(tr("x: %1, y: %2").arg(xreal).arg(yreal));
+
+                // get buttons
+                bool buttonLeft = (me->buttons() & Qt::LeftButton) == Qt::LeftButton;
+                bool buttonRight = (me->buttons() & Qt::RightButton) == Qt::RightButton;
+
+                // draw on pixmap
                 if (buttonLeft)
-                    color = this->mColor1;
-                if (buttonRight)
-                    color = this->mColor2;
-
-                if (this->mScale == 1)
                 {
-                    painterScaled.setPen(color);
-                    painterScaled.drawPoint(xscaled, yscaled);
+                    this->drawPixel(xreal, yreal, this->mColor1);
+                    this->mFlagChanged = true;
                 }
-                else
+                if(buttonRight)
                 {
-                    painterScaled.fillRect(xreal * this->mScale,
-                                           yreal * this->mScale,
-                                           this->mScale,
-                                           this->mScale,
-                                           color);
-                    BitmapHelper::drawGrid(original, this->mPixmapScaled, &painterScaled, this->mScale);
+                    this->drawPixel(xreal, yreal, this->mColor2);
+                    this->mFlagChanged = true;
                 }
-
-                this->ui->label->setPixmap(this->mPixmapScaled);
-
-                QPainter painterOriginal(original);
-                painterOriginal.setPen(color);
-                painterOriginal.drawPoint(xreal, yreal);
-
-                this->mFlagChanged = true;
+            }
+            else
+            {
+                this->ui->labelCoordinates->setText(tr("%1 x %2").arg(this->mImageOriginal.width()).arg(this->mImageOriginal.height()));
             }
         }
-        else
-        {
-            this->ui->labelCoordinates->setText(tr("%1 x %2").arg(original->width()).arg(original->height()));
-        }
         event->accept();
-    }
-    else if (event->type() == QEvent::MouseButtonPress)
-    {
-        this->mFlagChanged = false;
     }
     else if (event->type() == QEvent::MouseButtonRelease)
     {
         if (this->mFlagChanged)
         {
-            emit this->dataChanged();
+            emit this->imageChanged();
         }
+        this->mFlagChanged = false;
     }
     else
     {
@@ -152,20 +130,16 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
     return result;
 }
 //-----------------------------------------------------------------------------
-IDataContainer *WidgetBitmapEditor::dataContainer()
+const QImage *WidgetBitmapEditor::image() const
 {
-    return this->mDataContainer;
+    const QImage *result = &this->mImageOriginal;
+    return result;
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::selectImage(const QString &key)
+void WidgetBitmapEditor::setImage(const QImage *value)
 {
-    this->mImageKey = key;
-    this->createImageScaled(this->mScale);
-}
-//-----------------------------------------------------------------------------
-const QString WidgetBitmapEditor::currentImageKey()
-{
-    return this->mImageKey;
+    this->mImageOriginal = QImage(*value);
+    this->updateImageScaled(this->mScale);
 }
 //-----------------------------------------------------------------------------
 QColor WidgetBitmapEditor::color1()
@@ -178,24 +152,24 @@ QColor WidgetBitmapEditor::color2()
     return this->mColor2;
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::createImageScaled(int scale)
+void WidgetBitmapEditor::updateImageScaled(int scale)
 {
-    QImage *original = this->mDataContainer->image(this->mImageKey);
-    if (original != NULL)
+    if (!this->mImageOriginal.isNull())
     {
-        QImage scaled = BitmapHelper::createImageScaled(original, scale);
-        this->mPixmapScaled = QPixmap::fromImage(scaled);
+        this->mImageScaled = BitmapHelper::scale(&this->mImageOriginal, scale);
+        this->mImageScaled = BitmapHelper::drawGrid(&this->mImageScaled, scale);
+        this->mPixmapScaled = QPixmap::fromImage(this->mImageScaled);
 
         this->ui->label->setPixmap(this->mPixmapScaled);
 
-        this->ui->labelCoordinates->setText(tr("%1 x %2").arg(original->width()).arg(original->height()));
+        this->ui->labelCoordinates->setText(tr("%1 x %2").arg(this->mImageOriginal.width()).arg(this->mImageOriginal.height()));
     }
 }
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::on_spinBoxScale_valueChanged(int value)
 {
     this->mScale = value;
-    this->createImageScaled(this->mScale);
+    this->updateImageScaled(this->mScale);
 
     BitmapEditorOptions::setScale(value);
 }
@@ -224,12 +198,10 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
     }
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::mon_dataContainer_imageChanged(const QString &key)
+void WidgetBitmapEditor::drawPixel(int x, int y, const QColor &color)
 {
-    if (this->mImageKey == key)
-    {
-        this->createImageScaled(this->mScale);
-        emit this->dataChanged();
-    }
+    QImage image = this->mImageOriginal;
+    this->mImageOriginal = BitmapHelper::drawPixel(&image, x, y, color);
+    this->updateImageScaled(this->mScale);
 }
 //-----------------------------------------------------------------------------

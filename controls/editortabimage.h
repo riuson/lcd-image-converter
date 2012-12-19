@@ -30,7 +30,7 @@ namespace Ui {
 //-----------------------------------------------------------------------------
 class QImage;
 class WidgetBitmapEditor;
-class BitmapContainer;
+class DataContainer;
 //-----------------------------------------------------------------------------
 class EditorTabImage : public QWidget, public IDocument
 {
@@ -44,12 +44,13 @@ public:
     bool load(const QString &fileName);
     bool save(const QString &fileName);
     void setChanged(bool value);
-    bool changed();
-    QString fileName();
-    QString documentName();
+    bool changed() const;
+    QString fileName() const;
+    QString documentName() const;
     void setDocumentName(const QString &value);
-    IDataContainer *dataContainer();
-    WidgetBitmapEditor *editor();
+    DataContainer *dataContainer();
+    const QImage *image() const;
+    void setImage(const QImage *value);
     void convert(bool request);
 
 protected:
@@ -58,14 +59,17 @@ protected:
 private:
     Ui::EditorTabImage *ui;
     WidgetBitmapEditor *mEditor;
-    BitmapContainer *mContainer;
+    DataContainer *mContainer;
 
-    QString mFileName;
-    QString mConvertedFileName;
-    QString mDocumentName;
-    bool mDataChanged;
+    static const QString DefaultKey;
+
+    void setFileName(const QString &value);
+    QString convertedFileName() const;
+    void setConvertedFileName(const QString &value);
+
 private slots:
-    void mon_editor_dataChanged();
+    void mon_container_imageChanged(const QString &key);
+    void mon_editor_imageChanged();
 signals:
     void documentChanged(bool changed, const QString &documentName, const QString &filename);
 };

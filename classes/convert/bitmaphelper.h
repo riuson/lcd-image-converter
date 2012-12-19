@@ -38,19 +38,20 @@ typedef struct
 class BitmapHelper
 {
 public:
-    static QImage rotate90(QImage *source);
-    static QImage rotate180(QImage *source);
-    static QImage rotate270(QImage *source);
-    static QImage shiftUp(QImage *source);
-    static QImage shiftRight(QImage *source);
-    static QImage shiftDown(QImage *source);
-    static QImage shiftLeft(QImage *source);
-    static QImage flipHorizontal(QImage *source);
-    static QImage flipVertical(QImage *source);
-    static QImage resize(QImage *source, int width, int height, int offsetX, int offsetY, bool center, bool changeWidth, bool changeHeight, const QColor &backColor);
+    static QImage rotate90(const QImage *source);
+    static QImage rotate180(const QImage *source);
+    static QImage rotate270(const QImage *source);
+    static QImage shiftUp(const QImage *source);
+    static QImage shiftRight(const QImage *source);
+    static QImage shiftDown(const QImage *source);
+    static QImage shiftLeft(const QImage *source);
+    static QImage flipHorizontal(const QImage *source);
+    static QImage flipVertical(const QImage *source);
+    static QImage resize(const QImage *source, int width, int height, int offsetX, int offsetY, bool center, bool changeWidth, bool changeHeight, const QColor &backColor);
     static void findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom);
-    static QImage createImageScaled(QImage *original, int scale);
-    static void drawGrid(QImage *original, QPixmap &pixmap, QPainter *painter, int scale);
+    static QImage scale(const QImage *source, int scale);
+    static QImage drawGrid(const QImage *source, int scale);
+    static QImage drawPixel(const QImage *source, int x, int y, const QColor &color);
 };
 //-----------------------------------------------------------------------------
 #endif // BITMAPHELPER_H
