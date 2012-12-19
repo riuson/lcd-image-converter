@@ -41,6 +41,7 @@ public:
     virtual void setImage(const QImage *value) = 0;
     virtual void convert(bool request) = 0;
 
+    virtual void saveState() = 0;
     virtual bool canUndo() = 0;
     virtual bool canRedo() = 0;
     virtual void undo() = 0;

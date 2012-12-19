@@ -55,6 +55,7 @@ public:
     void setImage(const QImage *value);
     void convert(bool request);
 
+    void saveState();
     bool canUndo();
     bool canRedo();
     void undo();

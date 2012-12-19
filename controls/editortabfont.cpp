@@ -509,6 +509,11 @@ void EditorTabFont::convert(bool request)
     }
 }
 //-----------------------------------------------------------------------------
+void EditorTabFont::saveState()
+{
+    this->mContainer->stateSave();
+}
+//-----------------------------------------------------------------------------
 bool EditorTabFont::canUndo()
 {
     return this->mContainer->canUndo();

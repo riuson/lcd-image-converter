@@ -103,6 +103,8 @@ void EditorTabImage::mon_container_imageChanged(const QString &key)
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_imageChanged()
 {
+    this->saveState();
+
     const QImage *image = this->mEditor->image();
     this->mContainer->setImage(DefaultKey, image);
     this->setChanged(true);
@@ -319,6 +321,11 @@ void EditorTabImage::convert(bool request)
     }
 }
 //-----------------------------------------------------------------------------
+void EditorTabImage::saveState()
+{
+    this->mContainer->stateSave();
+}
+//-----------------------------------------------------------------------------
 bool EditorTabImage::canUndo()
 {
     return this->mContainer->canUndo();
@@ -332,11 +339,13 @@ bool EditorTabImage::canRedo()
 void EditorTabImage::undo()
 {
     this->mContainer->stateUndo();
+    this->setImage(this->image());
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::redo()
 {
     this->mContainer->stateRedo();
+    this->setImage(this->image());
 }
 //-----------------------------------------------------------------------------
 /*

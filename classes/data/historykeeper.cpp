@@ -87,7 +87,8 @@ void HistoryKeeper::restoreAt(
     {
          QString key = iterator.next();
 
-         QImage *newImage = new QImage(*record->images()->value(key));
+         QImage *oldImage = record->images()->value(key);
+         QImage *newImage = new QImage(*oldImage);
 
          images->insert(key, newImage);
     }

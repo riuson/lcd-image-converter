@@ -15,7 +15,8 @@ HistoryRecord::HistoryRecord(
     {
          QString key = iterator.next();
 
-         QImage *newImage = new QImage(*_images->value(key));
+         QImage *oldImage = _images->value(key);
+         QImage *newImage = new QImage(*oldImage);
 
          this->mImageMap.insert(key, newImage);
     }
