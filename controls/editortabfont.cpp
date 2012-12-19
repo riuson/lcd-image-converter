@@ -148,9 +148,13 @@ void EditorTabFont::mon_container_imageChanged(const QString &key)
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_imageChanged()
 {
+    this->beginChanges();
+
     const QImage *image = this->mEditor->image();
     this->mContainer->setImage(this->mSelectedKey, image);
     this->setChanged(true);
+
+    this->endChanges();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
@@ -535,11 +539,13 @@ bool EditorTabFont::canRedo()
 void EditorTabFont::undo()
 {
     this->mContainer->stateUndo();
+    this->setImage(this->image());
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::redo()
 {
     this->mContainer->stateRedo();
+    this->setImage(this->image());
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::setFontCharacters(const QString &chars,

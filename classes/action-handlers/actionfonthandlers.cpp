@@ -71,7 +71,11 @@ void ActionFontHandlers::fontChange_triggered()
             monospaced = dialog.monospaced();
             antialiasing = dialog.antialiasing();
 
+            this->document()->beginChanges();
+
             etf->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
+
+            this->document()->endChanges();
         }
     }
 }
@@ -80,6 +84,8 @@ void ActionFontHandlers::fontInverse_triggered()
 {
     if (this->document() != NULL)
     {
+        this->document()->beginChanges();;
+
         QStringList keys = this->document()->dataContainer()->keys();
         QListIterator<QString> it(keys);
         it.toFront();
@@ -91,6 +97,8 @@ void ActionFontHandlers::fontInverse_triggered()
             result.invertPixels();
             this->document()->dataContainer()->setImage(key, &result);
         }
+
+        this->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
@@ -108,6 +116,8 @@ void ActionFontHandlers::fontResize_triggered()
             bool center, changeWidth, changeHeight;
             dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
 
+            this->document()->beginChanges();
+
             QStringList keys = this->document()->dataContainer()->keys();
             QListIterator<QString> it(keys);
             it.toFront();
@@ -120,6 +130,8 @@ void ActionFontHandlers::fontResize_triggered()
 
                 doc->dataContainer()->setImage(key, &result);
             }
+
+            this->document()->endChanges();
         }
     }
 }
@@ -164,6 +176,8 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
             bool center, changeWidth, changeHeight;
             dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
 
+            this->document()->beginChanges();
+
             QStringList keys = doc->dataContainer()->keys();
             QListIterator<QString> it(keys);
             it.toFront();
@@ -176,6 +190,8 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
 
                 doc->dataContainer()->setImage(key, &result);
             }
+
+            this->document()->endChanges();
         }
     }
 }
