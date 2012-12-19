@@ -633,6 +633,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
         // if character not exists, create it
         if (!keys.contains(key))
         {
+            keys.append(key);
             QImage image = this->drawCharacter(chars.at(i),
                                                fontNew,
                                                this->mEditor->color1(),
@@ -644,7 +645,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
         }
     }
 
-    this->mon_editor_imageChanged();
+    this->setChanged(true);
 
     this->updateTableFont();
     this->mModel->callReset();
