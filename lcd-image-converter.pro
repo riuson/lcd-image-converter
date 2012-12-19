@@ -68,7 +68,7 @@ SOURCES += main.cpp \
     classes/settings/languageoptions.cpp \
     classes/settings/bitmapeditoroptions.cpp \
     controls/dialogfontchanged.cpp \
-    classes/datacontainer.cpp
+    classes/data/datacontainer.cpp
 HEADERS += \
     controls/mainwindow.h \
     controls/widgetbitmapeditor.h \
@@ -120,7 +120,7 @@ HEADERS += \
     classes/settings/languageoptions.h \
     classes/settings/bitmapeditoroptions.h \
     controls/dialogfontchanged.h \
-    classes/datacontainer.h
+    classes/data/datacontainer.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -145,6 +145,7 @@ INCLUDEPATH += . \
     ./classes \
     ./classes/compression \
     ./classes/convert \
+    ./classes/data \
     ./classes/settings \
     ./classes/settings/presets \
     ./classes/action-handlers \
