@@ -350,12 +350,16 @@ void EditorTabImage::undo()
 {
     this->mContainer->stateUndo();
     this->setImage(this->image());
+
+    emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::redo()
 {
     this->mContainer->stateRedo();
     this->setImage(this->image());
+
+    emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
 }
 //-----------------------------------------------------------------------------
 /*
