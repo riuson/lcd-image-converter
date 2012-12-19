@@ -509,7 +509,15 @@ void EditorTabFont::convert(bool request)
     }
 }
 //-----------------------------------------------------------------------------
-void EditorTabFont::saveState()
+void EditorTabFont::beginChanges()
+{
+    if (!this->mContainer->historyInitialized())
+    {
+        this->mContainer->historyInit();
+    }
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::endChanges()
 {
     this->mContainer->stateSave();
 }

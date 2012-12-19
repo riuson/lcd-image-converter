@@ -103,19 +103,14 @@ void EditorTabImage::mon_container_imageChanged(const QString &key)
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_imageChanged()
 {
-    // save first time
-    if (!this->mContainer->historyInitialized())
-    {
-        this->mContainer->historyInit();
-    }
+    this->beginChanges();
 
     const QImage *image = this->mEditor->image();
     this->mContainer->setImage(DefaultKey, image);
     this->setChanged(true);
     emit this->documentChanged(true, this->documentName(), this->fileName());
 
-    // save last changes
-    this->saveState();
+    this->endChanges();
 }
 //-----------------------------------------------------------------------------
 bool EditorTabImage::load(const QString &fileName)
@@ -328,7 +323,15 @@ void EditorTabImage::convert(bool request)
     }
 }
 //-----------------------------------------------------------------------------
-void EditorTabImage::saveState()
+void EditorTabImage::beginChanges()
+{
+    if (!this->mContainer->historyInitialized())
+    {
+        this->mContainer->historyInit();
+    }
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::endChanges()
 {
     this->mContainer->stateSave();
 }
