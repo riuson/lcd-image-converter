@@ -28,6 +28,7 @@
 #include <QVariant>
 //-----------------------------------------------------------------------------
 class QImage;
+class HistoryKeeper;
 //-----------------------------------------------------------------------------
 class DataContainer : public QObject
 {
@@ -51,11 +52,14 @@ private:
     QMap<QString, QImage *> mImageMap;
     QMap<QString, QVariant> mInfoMap;
     QImage *mDefaultImage;
+    HistoryKeeper *mHistory;
 
 signals:
     void imageChanged(const QString &key);
 
 public slots:
+    void saveState();
+    void restoreState();
 
 };
 //-----------------------------------------------------------------------------

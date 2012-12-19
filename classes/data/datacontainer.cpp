@@ -20,17 +20,21 @@
 #include "datacontainer.h"
 
 #include <QImage>
+#include "historykeeper.h"
 //-----------------------------------------------------------------------------
 DataContainer::DataContainer(QObject *parent) :
     QObject(parent)
 {
     this->mDefaultImage = new QImage(":/images/template");
+    this->mHistory = new HistoryKeeper(this);
 }
 //-----------------------------------------------------------------------------
 DataContainer::~DataContainer()
 {
     qDeleteAll(this->mImageMap);
     delete this->mDefaultImage;
+
+    delete this->mHistory;
 }
 //-----------------------------------------------------------------------------
 const QImage *DataContainer::image(const QString &key) const
@@ -87,5 +91,15 @@ void DataContainer::remove(const QString &key)
         this->mImageMap.remove(key);
         delete imageOld;
     }
+}
+//-----------------------------------------------------------------------------
+void DataContainer::saveState()
+{
+    this->mHistory->storeData(&this->mImageMap, &this->mInfoMap);
+}
+//-----------------------------------------------------------------------------
+void DataContainer::restoreState()
+{
+    this->mHistory->restoreData(&this->mImageMap, &this->mInfoMap);
 }
 //-----------------------------------------------------------------------------

@@ -68,7 +68,9 @@ SOURCES += main.cpp \
     classes/settings/languageoptions.cpp \
     classes/settings/bitmapeditoroptions.cpp \
     controls/dialogfontchanged.cpp \
-    classes/data/datacontainer.cpp
+    classes/data/datacontainer.cpp \
+    classes/data/historykeeper.cpp \
+    classes/data/historyrecord.cpp
 HEADERS += \
     controls/mainwindow.h \
     controls/widgetbitmapeditor.h \
@@ -120,7 +122,9 @@ HEADERS += \
     classes/settings/languageoptions.h \
     classes/settings/bitmapeditoroptions.h \
     controls/dialogfontchanged.h \
-    classes/data/datacontainer.h
+    classes/data/datacontainer.h \
+    classes/data/historykeeper.h \
+    classes/data/historyrecord.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
