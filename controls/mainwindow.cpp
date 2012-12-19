@@ -204,6 +204,7 @@ void MainWindow::createHandlers()
 
     this->mEditHandlers = new ActionEditHandlers(this);
     this->mEditHandlers->connect(this->ui->actionEditUndo, SIGNAL(triggered()), SLOT(undo_triggered()));
+    this->mEditHandlers->connect(this->ui->actionEditRedo, SIGNAL(triggered()), SLOT(redo_triggered()));
 
     this->mImageHandlers = new ActionImageHandlers(this);
     this->mImageHandlers->connect(this->ui->actionImageFlip_Horizontal, SIGNAL(triggered()), SLOT(flipHorizontal_triggered()));

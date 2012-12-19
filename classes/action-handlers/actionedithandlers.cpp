@@ -45,3 +45,11 @@ void ActionEditHandlers::undo_triggered()
     }
 }
 //-----------------------------------------------------------------------------
+void ActionEditHandlers::redo_triggered()
+{
+    if (this->document() != NULL)
+    {
+        this->document()->redo();
+    }
+}
+//-----------------------------------------------------------------------------

@@ -18,6 +18,9 @@ public:
     explicit HistoryKeeper(QObject *parent = 0);
     ~HistoryKeeper();
 
+    void init(
+            const QMap<QString, QImage *> *images,
+            const QMap<QString, QVariant> *info);
     void store(
             const QMap<QString, QImage *> *images,
             const QMap<QString, QVariant> *info);
@@ -28,6 +31,7 @@ public:
             QMap<QString, QImage *> *images,
             QMap<QString, QVariant> *info);
 
+    bool initialized() const;
     bool canRestorePrevious() const;
     bool canRestoreNext() const;
 

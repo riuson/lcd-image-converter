@@ -35,6 +35,7 @@ public:
 
 public slots:
     void undo_triggered();
+    void redo_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONEDITHANDLERS_H

@@ -103,12 +103,19 @@ void EditorTabImage::mon_container_imageChanged(const QString &key)
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_imageChanged()
 {
-    this->saveState();
+    // save first time
+    if (!this->mContainer->historyInitialized())
+    {
+        this->mContainer->historyInit();
+    }
 
     const QImage *image = this->mEditor->image();
     this->mContainer->setImage(DefaultKey, image);
     this->setChanged(true);
     emit this->documentChanged(true, this->documentName(), this->fileName());
+
+    // save last changes
+    this->saveState();
 }
 //-----------------------------------------------------------------------------
 bool EditorTabImage::load(const QString &fileName)

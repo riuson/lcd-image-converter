@@ -48,6 +48,8 @@ public:
     QStringList keys() const;
     void remove(const QString &key);
 
+    bool historyInitialized() const;
+    void historyInit();
     void stateSave();
     void stateUndo();
     void stateRedo();

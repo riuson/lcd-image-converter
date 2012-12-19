@@ -93,6 +93,16 @@ void DataContainer::remove(const QString &key)
     }
 }
 //-----------------------------------------------------------------------------
+bool DataContainer::historyInitialized() const
+{
+    return this->mHistory->initialized();
+}
+//-----------------------------------------------------------------------------
+void DataContainer::historyInit()
+{
+    this->mHistory->init(&this->mImageMap, &this->mInfoMap);
+}
+//-----------------------------------------------------------------------------
 void DataContainer::stateSave()
 {
     this->mHistory->store(&this->mImageMap, &this->mInfoMap);

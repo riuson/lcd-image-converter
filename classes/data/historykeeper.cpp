@@ -2,6 +2,7 @@
 
 #include <QStringList>
 #include <QStringListIterator>
+#include <QDebug>
 #include "historyrecord.h"
 //-----------------------------------------------------------------------------
 HistoryKeeper::HistoryKeeper(QObject *parent) :
@@ -17,10 +18,25 @@ HistoryKeeper::~HistoryKeeper()
     this->mHistory->clear();
 }
 //-----------------------------------------------------------------------------
+void HistoryKeeper::init(const QMap<QString, QImage *> *images, const QMap<QString, QVariant> *info)
+{
+    this->mCurrentIndex = 0;
+    this->removeAfter(this->mCurrentIndex);
+
+    HistoryRecord *record = new HistoryRecord(images, info, this);
+    this->mHistory->append(record);
+}
+//-----------------------------------------------------------------------------
 void HistoryKeeper::store(
         const QMap<QString, QImage *> *images,
         const QMap<QString, QVariant> *info)
 {
+    if (this->mCurrentIndex < 0)
+    {
+        qDebug() << "history keeper not initialized";
+        return;
+    }
+
     this->removeAfter(this->mCurrentIndex);
 
     HistoryRecord *record = new HistoryRecord(images, info, this);
@@ -32,10 +48,16 @@ void HistoryKeeper::restorePrevious(
         QMap<QString, QImage *> *images,
         QMap<QString, QVariant> *info)
 {
+    if (this->mCurrentIndex < 0)
+    {
+        qDebug() << "history keeper not initialized";
+        return;
+    }
+
     if (this->canRestorePrevious())
     {
-        this->restoreAt(this->mCurrentIndex, images, info);
         this->mCurrentIndex--;
+        this->restoreAt(this->mCurrentIndex, images, info);
     }
 }
 //-----------------------------------------------------------------------------
@@ -43,6 +65,12 @@ void HistoryKeeper::restoreNext(
         QMap<QString, QImage *> *images,
         QMap<QString, QVariant> *info)
 {
+    if (this->mCurrentIndex < 0)
+    {
+        qDebug() << "history keeper not initialized";
+        return;
+    }
+
     if (this->canRestoreNext())
     {
         this->mCurrentIndex++;
@@ -50,9 +78,14 @@ void HistoryKeeper::restoreNext(
     }
 }
 //-----------------------------------------------------------------------------
-bool HistoryKeeper::canRestorePrevious() const
+bool HistoryKeeper::initialized() const
 {
     return (this->mCurrentIndex >= 0);
+}
+//-----------------------------------------------------------------------------
+bool HistoryKeeper::canRestorePrevious() const
+{
+    return (this->mCurrentIndex > 0);
 }
 //-----------------------------------------------------------------------------
 bool HistoryKeeper::canRestoreNext() const
