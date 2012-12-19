@@ -321,12 +321,12 @@ void EditorTabImage::convert(bool request)
 //-----------------------------------------------------------------------------
 bool EditorTabImage::canUndo()
 {
-    return true;
+    return this->mContainer->canUndo();
 }
 //-----------------------------------------------------------------------------
 bool EditorTabImage::canRedo()
 {
-    return true;
+    return this->mContainer->canRedo();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::undo()
@@ -336,6 +336,7 @@ void EditorTabImage::undo()
 //-----------------------------------------------------------------------------
 void EditorTabImage::redo()
 {
+    this->mContainer->stateRedo();
 }
 //-----------------------------------------------------------------------------
 /*

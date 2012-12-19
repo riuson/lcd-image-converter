@@ -511,12 +511,12 @@ void EditorTabFont::convert(bool request)
 //-----------------------------------------------------------------------------
 bool EditorTabFont::canUndo()
 {
-    return true;
+    return this->mContainer->canUndo();
 }
 //-----------------------------------------------------------------------------
 bool EditorTabFont::canRedo()
 {
-    return true;
+    return this->mContainer->canRedo();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::undo()
@@ -526,6 +526,7 @@ void EditorTabFont::undo()
 //-----------------------------------------------------------------------------
 void EditorTabFont::redo()
 {
+    this->mContainer->stateRedo();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::setFontCharacters(const QString &chars,

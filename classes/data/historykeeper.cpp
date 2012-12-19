@@ -8,7 +8,7 @@ HistoryKeeper::HistoryKeeper(QObject *parent) :
     QObject(parent)
 {
     this->mHistory = new QList<HistoryRecord *>();
-    this->mCurrentIndex = 0;
+    this->mCurrentIndex = -1;
 }
 //-----------------------------------------------------------------------------
 HistoryKeeper::~HistoryKeeper()

@@ -137,6 +137,18 @@ void MainWindow::updateMenuState()
         this->ui->menuFont->setEnabled(false);
     }
 
+    if (editorSelected && this->currentDocument() != NULL)
+    {
+        IDocument *doc = this->currentDocument();
+        this->ui->actionEditUndo->setEnabled(doc->canUndo());
+        this->ui->actionEditRedo->setEnabled(doc->canRedo());
+    }
+    else
+    {
+        this->ui->actionEditUndo->setEnabled(false);
+        this->ui->actionEditRedo->setEnabled(false);
+    }
+
     this->ui->menuEdit->setEnabled(editorSelected);
     this->ui->menuImage->setEnabled(editorSelected);
 
