@@ -28,6 +28,9 @@ public:
             QMap<QString, QImage *> *images,
             QMap<QString, QVariant> *info);
 
+    bool canRestorePrevious() const;
+    bool canRestoreNext() const;
+
 private:
     QList<HistoryRecord *> *mHistory;
     int mCurrentIndex;

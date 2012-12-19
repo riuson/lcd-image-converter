@@ -32,10 +32,10 @@ void HistoryKeeper::restorePrevious(
         QMap<QString, QImage *> *images,
         QMap<QString, QVariant> *info)
 {
-    if (this->mCurrentIndex > 0)
+    if (this->canRestorePrevious())
     {
-        this->mCurrentIndex--;
         this->restoreAt(this->mCurrentIndex, images, info);
+        this->mCurrentIndex--;
     }
 }
 //-----------------------------------------------------------------------------
@@ -43,11 +43,21 @@ void HistoryKeeper::restoreNext(
         QMap<QString, QImage *> *images,
         QMap<QString, QVariant> *info)
 {
-    if (this->mCurrentIndex > 0)
+    if (this->canRestoreNext())
     {
-        this->mCurrentIndex--;
+        this->mCurrentIndex++;
         this->restoreAt(this->mCurrentIndex, images, info);
     }
+}
+//-----------------------------------------------------------------------------
+bool HistoryKeeper::canRestorePrevious() const
+{
+    return (this->mCurrentIndex >= 0);
+}
+//-----------------------------------------------------------------------------
+bool HistoryKeeper::canRestoreNext() const
+{
+    return (this->mCurrentIndex < (this->mHistory->length() - 1));
 }
 //-----------------------------------------------------------------------------
 void HistoryKeeper::removeAfter(int index)
