@@ -129,7 +129,9 @@ void ActionFileHandlers::rename_triggered()
                                              &ok);
         if (ok)
         {
+            doc->beginChanges();
             doc->setDocumentName(name);
+            doc->endChanges();
         }
     }
 }
