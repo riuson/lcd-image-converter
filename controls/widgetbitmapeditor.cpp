@@ -73,8 +73,12 @@ void WidgetBitmapEditor::changeEvent(QEvent *e)
 bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
 {
     bool result = false;
-    if (event->type() == QEvent::MouseMove)
+    if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress)
     {
+        if (event->type() == QEvent::MouseButtonPress)
+        {
+            this->mFlagChanged = false;
+        }
         QMouseEvent *me = dynamic_cast<QMouseEvent *>(event);
         // get coordinates
         int xscaled = me->pos().x();
@@ -111,16 +115,13 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
         }
         event->accept();
     }
-    else if (event->type() == QEvent::MouseButtonPress)
-    {
-        this->mFlagChanged = false;
-    }
     else if (event->type() == QEvent::MouseButtonRelease)
     {
         if (this->mFlagChanged)
         {
             emit this->imageChanged();
         }
+        this->mFlagChanged = false;
     }
     else
     {
