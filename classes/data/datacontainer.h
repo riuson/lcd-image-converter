@@ -48,6 +48,9 @@ public:
     QStringList keys() const;
     void remove(const QString &key);
 
+    void stateSave();
+    void stateUndo();
+
 private:
     QMap<QString, QImage *> mImageMap;
     QMap<QString, QVariant> mInfoMap;
@@ -56,11 +59,6 @@ private:
 
 signals:
     void imageChanged(const QString &key);
-
-public slots:
-    void saveState();
-    void restoreState();
-
 };
 //-----------------------------------------------------------------------------
 #endif // DATACONTAINER_H

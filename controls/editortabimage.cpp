@@ -331,7 +331,7 @@ bool EditorTabImage::canRedo()
 //-----------------------------------------------------------------------------
 void EditorTabImage::undo()
 {
-    this->mContainer->restoreState();
+    this->mContainer->stateUndo();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::redo()

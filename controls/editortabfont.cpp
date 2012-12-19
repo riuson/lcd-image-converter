@@ -521,7 +521,7 @@ bool EditorTabFont::canRedo()
 //-----------------------------------------------------------------------------
 void EditorTabFont::undo()
 {
-    this->mContainer->restoreState();
+    this->mContainer->stateUndo();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::redo()
