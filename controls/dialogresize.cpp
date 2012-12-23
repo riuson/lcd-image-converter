@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2010 riuson
  * mailto: riuson@gmail.com
  *

@@ -1,6 +1,6 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
- * Copyright (C) 2010 riuson
+ * LCD Image Converter. Converts images and fonts for embedded applications.
+ * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,40 +17,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef FONTCONTAINER_H
-#define FONTCONTAINER_H
-
-#include <QObject>
-
-#include <QMap>
-#include <QString>
-
-#include "idatacontainer.h"
+#ifndef DIALOGFONTCHANGED_H
+#define DIALOGFONTCHANGED_H
 //-----------------------------------------------------------------------------
-class QImage;
+#include <QDialog>
 //-----------------------------------------------------------------------------
-class FontContainer : public QObject, public IDataContainer
+namespace Ui {
+class DialogFontChanged;
+}
+//-----------------------------------------------------------------------------
+class DialogFontChanged : public QDialog
 {
     Q_OBJECT
-    Q_INTERFACES(IDataContainer)
+
 public:
-    explicit FontContainer(QObject *parent = 0);
-    virtual ~FontContainer();
+    explicit DialogFontChanged(QWidget *parent = 0);
+    ~DialogFontChanged();
+
+    bool regenerateAll() const;
+
 private:
-    QMap<QString, QImage *> mImageMap;
-    QImage *mDefaultImage;
-public:
-    QImage *image(const QString &key) const;
-    void setImage(const QString &key, QImage *image);
-    int count() const;
-    QStringList keys() const;
+    Ui::DialogFontChanged *ui;
 
-    void clear();
-    void remove(const QString &key);
-signals:
-    void imageChanged(const QString &key);
-public slots:
+    bool mRegenerateAll;
 
+private  slots:
+    void on_buttonRegenerateAll_clicked();
+    void on_buttonGenerateNewOnly_clicked();
+    void on_buttonCancel_clicked();
 };
 //-----------------------------------------------------------------------------
-#endif // FONTCONTAINER_H
+#endif // DIALOGFONTCHANGED_H

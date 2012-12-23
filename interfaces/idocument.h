@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2010 riuson
  * mailto: riuson@gmail.com
  *
@@ -22,23 +22,31 @@
 //-----------------------------------------------------------------------------
 #include <QObject>
 
+class QImage;
 class QString;
-class IDataContainer;
-class WidgetBitmapEditor;
+class DataContainer;
 //-----------------------------------------------------------------------------
 class IDocument
 {
 public:
     virtual bool load(const QString &filename) = 0;
     virtual bool save(const QString &filename) = 0;
-    virtual bool changed() = 0;
+    virtual bool changed() const = 0;
     virtual void setChanged(bool value) = 0;
-    virtual QString fileName() = 0;
-    virtual QString documentName() = 0;
+    virtual QString fileName() const = 0;
+    virtual QString documentName() const = 0;
     virtual void setDocumentName(const QString &value) = 0;
-    virtual IDataContainer *dataContainer() = 0;
-    virtual WidgetBitmapEditor *editor() = 0;
+    virtual DataContainer *dataContainer() = 0;
+    virtual const QImage *image() const = 0;
+    virtual void setImage(const QImage *value) = 0;
     virtual void convert(bool request) = 0;
+
+    virtual void beginChanges() = 0;
+    virtual void endChanges() = 0;
+    virtual bool canUndo() = 0;
+    virtual bool canRedo() = 0;
+    virtual void undo() = 0;
+    virtual void redo() = 0;
 };
 Q_DECLARE_INTERFACE (IDocument,
                      "riuson.lcd-image-converter/1.0"

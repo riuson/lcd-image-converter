@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2010 riuson
+ * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,18 +17,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include <QtGui/QApplication>
-#include "mainwindow.h"
+#include "actionedithandlers.h"
+
+#include "editortabimage.h"
+#include "editortabfont.h"
+#include "dialogfontselect.h"
+#include <QFileDialog>
+#include <QTextStream>
+#include <QInputDialog>
+#include <QLineEdit>
+#include "parser.h"
+#include "widgetbitmapeditor.h"
+#include "imainwindow.h"
+#include "datacontainer.h"
+#include "idocument.h"
 //-----------------------------------------------------------------------------
-int main(int argc, char *argv[])
+ActionEditHandlers::ActionEditHandlers(QObject *parent) :
+    ActionHandlersBase(parent)
 {
-    QCoreApplication::setApplicationName("lcd-image-converter");
-    QCoreApplication::setOrganizationName("riuson");
-    QApplication a(argc, argv);
-    a.addLibraryPath(QApplication::applicationDirPath());
-    a.addLibraryPath(QApplication::applicationDirPath() + "/plugins");
-    MainWindow w;
-    w.show();
-    return a.exec();
+}
+//-----------------------------------------------------------------------------
+void ActionEditHandlers::undo_triggered()
+{
+    if (this->document() != NULL)
+    {
+        this->document()->undo();
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionEditHandlers::redo_triggered()
+{
+    if (this->document() != NULL)
+    {
+        this->document()->redo();
+    }
 }
 //-----------------------------------------------------------------------------

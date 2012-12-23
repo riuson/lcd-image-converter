@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
@@ -21,14 +21,14 @@
 //-----------------------------------------------------------------------------
 #include <QPixmap>
 #include <QPainter>
-#include "idatacontainer.h"
+#include "datacontainer.h"
 //-----------------------------------------------------------------------------
 FontHelper::FontHelper(QObject *parent) :
     QObject(parent)
 {
 }
 //-----------------------------------------------------------------------------
-QImage FontHelper::drawString(const IDataContainer *data, const QString &value)
+QImage FontHelper::drawString(const DataContainer *data, const QString &value)
 {
     int width = 0, height = 0;
     QImage::Format format = QImage::Format_ARGB32;
@@ -38,7 +38,7 @@ QImage FontHelper::drawString(const IDataContainer *data, const QString &value)
         QChar ch = value.at(i);
         if (data->keys().contains(ch))
         {
-            QImage *image = data->image(ch);
+            const QImage *image = data->image(ch);
 
             format = image->format();
             width += image->width();
@@ -58,7 +58,7 @@ QImage FontHelper::drawString(const IDataContainer *data, const QString &value)
         QChar ch = value.at(i);
         if (data->keys().contains(ch))
         {
-            QImage *image = data->image(ch);
+            const QImage *image = data->image(ch);
             painter.drawImage(x, 0, *image);
 
             x += image->width();

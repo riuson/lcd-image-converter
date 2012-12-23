@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2010 riuson
  * mailto: riuson@gmail.com
  *
@@ -22,7 +22,7 @@
 //-----------------------------------------------------------------------------
 #include <QPainter>
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::rotate90(QImage *source)
+QImage BitmapHelper::rotate90(const QImage *source)
 {
     QImage result = QImage(source->height(), source->width(), source->format());
     QPainter painter(&result);
@@ -32,7 +32,7 @@ QImage BitmapHelper::rotate90(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::rotate180(QImage *source)
+QImage BitmapHelper::rotate180(const QImage *source)
 {
     QImage result = QImage(source->width(), source->height(), source->format());
     QPainter painter(&result);
@@ -42,7 +42,7 @@ QImage BitmapHelper::rotate180(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::rotate270(QImage *source)
+QImage BitmapHelper::rotate270(const QImage *source)
 {
     QImage result = QImage(source->height(), source->width(), source->format());
     QPainter painter(&result);
@@ -52,7 +52,7 @@ QImage BitmapHelper::rotate270(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::shiftUp(QImage *source)
+QImage BitmapHelper::shiftUp(const QImage *source)
 {
     QImage result = QImage(source->width(), source->height(), source->format());
     QPainter painter(&result);
@@ -61,7 +61,7 @@ QImage BitmapHelper::shiftUp(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::shiftRight(QImage *source)
+QImage BitmapHelper::shiftRight(const QImage *source)
 {
     QImage result = QImage(source->width(), source->height(), source->format());
     QPainter painter(&result);
@@ -70,7 +70,7 @@ QImage BitmapHelper::shiftRight(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::shiftDown(QImage *source)
+QImage BitmapHelper::shiftDown(const QImage *source)
 {
     QImage result = QImage(source->width(), source->height(), source->format());
     QPainter painter(&result);
@@ -79,7 +79,7 @@ QImage BitmapHelper::shiftDown(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::shiftLeft(QImage *source)
+QImage BitmapHelper::shiftLeft(const QImage *source)
 {
     QImage result = QImage(source->width(), source->height(), source->format());
     QPainter painter(&result);
@@ -88,19 +88,19 @@ QImage BitmapHelper::shiftLeft(QImage *source)
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::flipHorizontal(QImage *source)
+QImage BitmapHelper::flipHorizontal(const QImage *source)
 {
     QImage result = source->mirrored(true, false);
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::flipVertical(QImage *source)
+QImage BitmapHelper::flipVertical(const QImage *source)
 {
     QImage result = source->mirrored(false, true);
     return result;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::resize(QImage *source, int width, int height, int offsetX, int offsetY, bool center, bool changeWidth, bool changeHeight, const QColor &backColor)
+QImage BitmapHelper::resize(const QImage *source, int width, int height, int offsetX, int offsetY, bool center, bool changeWidth, bool changeHeight, const QColor &backColor)
 {
     if (!changeWidth)
     {
@@ -157,29 +157,51 @@ void BitmapHelper::findEmptyArea(const QImage *source, int *left, int *top, int 
     *bottom = b;
 }
 //-----------------------------------------------------------------------------
-QImage BitmapHelper::createImageScaled(QImage *original, int scale)
+QImage BitmapHelper::scale(const QImage *source, int scale)
 {
-    int width = original->width();
-    int height = original->height();
+    int width = source->width();
+    int height = source->height();
 
-    QImage scaled = original->scaled(width * scale, height * scale, Qt::KeepAspectRatio, Qt::FastTransformation);
-    QPixmap pixmapScaled = QPixmap::fromImage(scaled);
-    QPainter painterScaled(&pixmapScaled);
-    BitmapHelper::drawGrid(original, pixmapScaled, &painterScaled, scale);
-    scaled = pixmapScaled.toImage();
+    QImage result = source->scaled(width * scale, height * scale, Qt::KeepAspectRatio, Qt::FastTransformation);
 
-    return scaled;
+    return result;
 }
 //-----------------------------------------------------------------------------
-void BitmapHelper::drawGrid(QImage *original, QPixmap &pixmap, QPainter *painter, int scale)
+QImage BitmapHelper::drawGrid(const QImage *source, int scale)
 {
+    QImage result = QImage(*source);
+
     if (scale > 5)
     {
-        painter->setPen(QColor("silver"));
-        for (int x = 0; x < original->width(); x++)
-            painter->drawLine(x * scale, 0, x * scale, pixmap.height());
-        for (int y = 0; y < original->height(); y++)
-            painter->drawLine(0, y * scale, pixmap.width(), y * scale);
+        QPixmap pixmap = QPixmap::fromImage(result);
+
+        QPainter painter(&pixmap);
+
+        painter.setPen(QColor("silver"));
+
+        for (int x = 0; x < pixmap.width(); x += scale)
+        {
+            painter.drawLine(x, 0, x, pixmap.height());
+        }
+        for (int y = 0; y < pixmap.height(); y += scale)
+        {
+            painter.drawLine(0, y, pixmap.width(), y);
+        }
+
+        result = pixmap.toImage();
     }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+QImage BitmapHelper::drawPixel(const QImage *source, int x, int y, const QColor &color)
+{
+    QPixmap pixmap = QPixmap::fromImage(*source);
+
+    QPainter painter(&pixmap);
+    painter.setPen(color);
+    painter.drawPoint(x, y);
+
+    return pixmap.toImage();
 }
 //-----------------------------------------------------------------------------

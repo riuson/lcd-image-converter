@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
@@ -24,7 +24,7 @@
 //-----------------------------------------------------------------------------
 #include <QImage>
 //-----------------------------------------------------------------------------
-class IDataContainer;
+class DataContainer;
 //-----------------------------------------------------------------------------
 class FontHelper : public QObject
 {
@@ -32,7 +32,7 @@ class FontHelper : public QObject
 public:
     explicit FontHelper(QObject *parent = 0);
 
-    static QImage drawString(const IDataContainer *data, const QString &value);
+    static QImage drawString(const DataContainer *data, const QString &value);
 signals:
 
 public slots:

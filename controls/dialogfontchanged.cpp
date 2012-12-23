@@ -1,6 +1,6 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
- * Copyright (C) 2010 riuson
+ * LCD Image Converter. Converts images and fonts for embedded applications.
+ * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,49 +17,48 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "bitmapcontainer.h"
+#include "dialogfontchanged.h"
+#include "ui_dialogfontchanged.h"
+//-----------------------------------------------------------------------------
+DialogFontChanged::DialogFontChanged(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::DialogFontChanged)
+{
+    ui->setupUi(this);
 
-#include <QColor>
-#include <QImage>
-
-#include "bitmaphelper.h"
-//-----------------------------------------------------------------------------
-BitmapContainer::BitmapContainer(QObject *parent) :
-    QObject(parent)
-{
-    this->mImage = new QImage(QImage(":/images/template").scaled(20, 10));
+    this->mRegenerateAll = false;
 }
 //-----------------------------------------------------------------------------
-BitmapContainer::~BitmapContainer()
+DialogFontChanged::~DialogFontChanged()
 {
-    if (this->mImage != NULL)
-        delete this->mImage;
+    delete ui;
 }
 //-----------------------------------------------------------------------------
-QImage *BitmapContainer::image(const QString &key) const
+bool DialogFontChanged::regenerateAll() const
 {
-    Q_UNUSED(key);
-    return this->mImage;
+    return this->mRegenerateAll;
 }
 //-----------------------------------------------------------------------------
-void BitmapContainer::setImage(const QString &key, QImage *image)
+void DialogFontChanged::on_buttonRegenerateAll_clicked()
 {
-    Q_UNUSED(key);
-    if (this->mImage != NULL)
-        delete this->mImage;
-    this->mImage = new QImage(*image);
-
-    emit this->imageChanged("default");
+    this->mRegenerateAll = true;
+    //this->setResult(QDialog::Accepted);
+    //this->close();
+    this->accept();
 }
 //-----------------------------------------------------------------------------
-int BitmapContainer::count() const
+void DialogFontChanged::on_buttonGenerateNewOnly_clicked()
 {
-    return 1;
+    this->mRegenerateAll = false;
+    //this->setResult(QDialog::Accepted);
+    //this->close();
+    this->accept();
 }
 //-----------------------------------------------------------------------------
-QStringList BitmapContainer::keys() const
+void DialogFontChanged::on_buttonCancel_clicked()
 {
-    static const QStringList result("default");
-    return result;
+    //this->setResult(QDialog::Rejected);
+    //this->close();
+    this->reject();
 }
 //-----------------------------------------------------------------------------

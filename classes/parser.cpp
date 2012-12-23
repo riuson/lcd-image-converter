@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2010 riuson
  * mailto: riuson@gmail.com
  *
@@ -24,7 +24,7 @@
 #include <QTextCodec>
 
 #include "idocument.h"
-#include "idatacontainer.h"
+#include "datacontainer.h"
 #include "bitmaphelper.h"
 #include "converterhelper.h"
 #include "preset.h"
@@ -203,7 +203,7 @@ void Parser::parseImagesTable(const QString &templateString,
                                  QMap<QString, QString> &tags,
                                  IDocument *doc) const
 {
-    IDataContainer *data = doc->dataContainer();
+    DataContainer *data = doc->dataContainer();
     QString imageString;
     QListIterator<QString> it(data->keys());
     it.toFront();

@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
@@ -29,7 +29,8 @@
 #include "parser.h"
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
-#include "idatacontainer.h"
+#include "datacontainer.h"
+#include "idocument.h"
 //-----------------------------------------------------------------------------
 ActionFileHandlers::ActionFileHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -128,7 +129,9 @@ void ActionFileHandlers::rename_triggered()
                                              &ok);
         if (ok)
         {
+            doc->beginChanges();
             doc->setDocumentName(name);
+            doc->endChanges();
         }
     }
 }
@@ -265,8 +268,7 @@ void ActionFileHandlers::openFile(const QString &filename)
 
                 QString name = this->mMainWindow->findAvailableName(info.baseName());
 
-                QString key = ed->editor()->currentImageKey();
-                ed->dataContainer()->setImage(key, &image);
+                ed->setImage(&image);
 
                 ed->setDocumentName(name);
                 ed->setChanged(false);
@@ -283,8 +285,7 @@ void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
 
     QString name = this->mMainWindow->findAvailableName(documentName);
 
-    QString key = ed->editor()->currentImageKey();
-    ed->dataContainer()->setImage(key, image);
+    ed->setImage(image);
 
     ed->setDocumentName(name);
     ed->setChanged(true);

@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
@@ -33,18 +33,18 @@ class DialogFontPreview;
 class DialogFontPreview : public QDialog
 {
     Q_OBJECT
-    
+
 public:
     explicit DialogFontPreview(QWidget *parent = 0);
     ~DialogFontPreview();
 
     void setDocument(IDocument *document);
-    
+
 private:
     Ui::DialogFontPreview *ui;
     IDocument *mDocument;
     QImage mOriginalImage;
-    QPixmap mScaledPixmap;
+    QImage mScaledImage;
 
 private slots:
     void on_lineEditText_textChanged(const QString &text);

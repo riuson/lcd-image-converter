@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2010 riuson
  * mailto: riuson@gmail.com
  *
@@ -31,6 +31,7 @@ class WidgetBitmapEditor;
 class QTranslator;
 class RecentList;
 class ActionFileHandlers;
+class ActionEditHandlers;
 class ActionImageHandlers;
 class ActionFontHandlers;
 class ActionSetupHandlers;
@@ -50,15 +51,14 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    WidgetBitmapEditor *mEditor;
     QTranslator *mTrans;
     RecentList *mRecentList;
-    void updateMenuState();
     void selectLocale(const QString &localeName);
     void checkStartPageVisible();
     void createHandlers();
 
     ActionFileHandlers *mFileHandlers;
+    ActionEditHandlers *mEditHandlers;
     ActionImageHandlers *mImageHandlers;
     ActionFontHandlers *mFontHandlers;
     ActionSetupHandlers *mSetupHandlers;
@@ -69,6 +69,7 @@ private slots:
     void on_tabWidget_currentChanged(int index);
     void actionLanguage_triggered();
 
+    void updateMenuState();
     void updateRecentList();
     void openRecentFile();
 

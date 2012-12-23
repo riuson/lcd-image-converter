@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
@@ -20,9 +20,9 @@
 #include "actionsetuphandlers.h"
 
 #include "dialogoptions.h"
-#include "widgetbitmapeditor.h"
+#include "idocument.h"
 #include "imainwindow.h"
-#include "idatacontainer.h"
+#include "datacontainer.h"
 #include "dialogexternaleditor.h"
 //-----------------------------------------------------------------------------
 ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
@@ -32,9 +32,9 @@ ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
 //-----------------------------------------------------------------------------
 void ActionSetupHandlers::conversion_triggered()
 {
-    IDataContainer *data = NULL;
-    if (this->editor() != NULL)
-        data = this->editor()->dataContainer();
+    DataContainer *data = NULL;
+    if (this->document() != NULL)
+        data = this->document()->dataContainer();
     DialogOptions dialog(data, this->mMainWindow->parentWidget());
     dialog.exec();
 }

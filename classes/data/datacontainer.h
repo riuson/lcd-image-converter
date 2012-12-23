@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2010 riuson
  * mailto: riuson@gmail.com
  *
@@ -17,34 +17,53 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef BITMAPCONTAINER_H
-#define BITMAPCONTAINER_H
+#ifndef DATACONTAINER_H
+#define DATACONTAINER_H
 
 #include <QObject>
 
-#include "idatacontainer.h"
+#include <QMap>
+#include <QString>
+#include <QStringList>
+#include <QVariant>
 //-----------------------------------------------------------------------------
 class QImage;
+class HistoryKeeper;
 //-----------------------------------------------------------------------------
-class BitmapContainer : public QObject, public IDataContainer
+class DataContainer : public QObject
 {
     Q_OBJECT
-    Q_INTERFACES(IDataContainer)
 public:
-    explicit BitmapContainer(QObject *parent = 0);
-    virtual ~BitmapContainer();
-private:
-    QImage *mImage;
-public:
-    QImage *image(const QString &key) const;
-    void setImage(const QString &key, QImage *image);
+    explicit DataContainer(QObject *parent = 0);
+    virtual ~DataContainer();
+
+    const QImage *image(const QString &key) const;
+    void setImage(const QString &key, const QImage *image);
+
+    QVariant info(const QString &key) const;
+    void setInfo(const QString &key, const QVariant &value);
+
+    void clear();
     int count() const;
     QStringList keys() const;
+    void remove(const QString &key);
+
+    bool historyInitialized() const;
+    void historyInit();
+    void stateSave();
+    void stateUndo();
+    void stateRedo();
+    bool canUndo() const;
+    bool canRedo() const;
+
+private:
+    QMap<QString, QImage *> mImageMap;
+    QMap<QString, QVariant> mInfoMap;
+    QImage *mDefaultImage;
+    HistoryKeeper *mHistory;
+
 signals:
     void imageChanged(const QString &key);
-public slots:
-
 };
 //-----------------------------------------------------------------------------
-
-#endif // BITMAPCONTAINER_H
+#endif // DATACONTAINER_H

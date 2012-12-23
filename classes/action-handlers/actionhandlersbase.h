@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
@@ -24,21 +24,22 @@
 //-----------------------------------------------------------------------------
 class IMainWindow;
 class WidgetBitmapEditor;
+class IDocument;
 //-----------------------------------------------------------------------------
 class ActionHandlersBase : public QObject
 {
     Q_OBJECT
 public:
     explicit ActionHandlersBase(QObject *parent = 0);
-    
+
 protected:
     IMainWindow *mMainWindow;
-    WidgetBitmapEditor *editor();
+    IDocument *document();
 
 signals:
-    
+
 public slots:
-    
+
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONHANDLERSBASE_H

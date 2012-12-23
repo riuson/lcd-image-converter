@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
@@ -23,10 +23,10 @@
 #include <QList>
 #include <QRegExp>
 #include <QFont>
-#include "idatacontainer.h"
+#include "datacontainer.h"
 #include "converterhelper.h"
 //-----------------------------------------------------------------------------
-DialogPreview::DialogPreview(IDataContainer *dataContainer, Preset *matrix, QWidget *parent) :
+DialogPreview::DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogPreview)
 {

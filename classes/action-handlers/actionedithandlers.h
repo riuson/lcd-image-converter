@@ -1,6 +1,6 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
- * Copyright (C) 2010 riuson
+ * LCD Image Converter. Converts images and fonts for embedded applications.
+ * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,25 +17,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IDATACONTAINER_H
-#define IDATACONTAINER_H
+#ifndef ACTIONEDITHANDLERS_H
+#define ACTIONEDITHANDLERS_H
 //-----------------------------------------------------------------------------
-#include <QtGlobal>
-#include <QString>
-#include <QStringList>
+#include <QObject>
 
+#include "actionhandlersbase.h"
+//-----------------------------------------------------------------------------
 class QImage;
+class IMainWindow;
 //-----------------------------------------------------------------------------
-class IDataContainer
+class ActionEditHandlers : public ActionHandlersBase
 {
+    Q_OBJECT
 public:
-    virtual QImage *image(const QString &key) const = 0;
-    virtual void setImage(const QString &key, QImage *image) = 0;
-    virtual int count() const = 0;
-    virtual QStringList keys() const = 0;
+    explicit ActionEditHandlers(QObject *parent = 0);
+
+public slots:
+    void undo_triggered();
+    void redo_triggered();
 };
-Q_DECLARE_INTERFACE (IDataContainer,
-                     "riuson.lcd-image-converter/1.0"
-                     )
 //-----------------------------------------------------------------------------
-#endif // IDATACONTAINER_H
+#endif // ACTIONEDITHANDLERS_H

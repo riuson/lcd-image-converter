@@ -1,5 +1,5 @@
 /*
- * LCD Image Converter. Converts images and fonts for embedded applciations.
+ * LCD Image Converter. Converts images and fonts for embedded applications.
  * Copyright (C) 2012 riuson
  * mailto: riuson@gmail.com
  *
@@ -23,14 +23,14 @@
 #include <QPainter>
 #include "bitmaphelper.h"
 #include "fonthelper.h"
-#include "idatacontainer.h"
+#include "datacontainer.h"
 //-----------------------------------------------------------------------------
 DialogFontPreview::DialogFontPreview(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogFontPreview)
 {
     ui->setupUi(this);
-    this->mOriginalImage = QImage(QImage(":/images/template").scaled(20, 10));
+    this->mOriginalImage = QImage(":/images/template").scaled(20, 10);
 
     this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
 }
@@ -47,7 +47,7 @@ void DialogFontPreview::setDocument(IDocument *document)
 //-----------------------------------------------------------------------------
 void DialogFontPreview::on_lineEditText_textChanged(const QString &text)
 {
-    this->mOriginalImage = FontHelper::drawString(this->mDocument->dataContainer(), text);// previewPixmap.toImage();
+    this->mOriginalImage = FontHelper::drawString(this->mDocument->dataContainer(), text);
 
     // update preview
     this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
@@ -55,8 +55,7 @@ void DialogFontPreview::on_lineEditText_textChanged(const QString &text)
 //-----------------------------------------------------------------------------
 void DialogFontPreview::on_spinBoxScale_valueChanged(int i)
 {
-    QImage scaled = BitmapHelper::createImageScaled(&this->mOriginalImage, i);
-    this->mScaledPixmap = QPixmap::fromImage(scaled);
-    this->ui->labelPreview->setPixmap(this->mScaledPixmap);
+    this->mScaledImage = BitmapHelper::scale(&this->mOriginalImage, i);
+    this->ui->labelPreview->setPixmap(QPixmap::fromImage(this->mScaledImage));
 }
 //-----------------------------------------------------------------------------

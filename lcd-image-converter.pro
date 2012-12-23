@@ -21,7 +21,6 @@ CONFIG(debug, debug|release) {
 }
 
 SOURCES += main.cpp \
-    classes/bitmapcontainer.cpp \
     controls/mainwindow.cpp \
     controls/widgetbitmapeditor.cpp \
     controls/editortabimage.cpp \
@@ -29,7 +28,6 @@ SOURCES += main.cpp \
     controls/dialogsavechanges.cpp \
     classes/convert/bitmaphelper.cpp \
     controls/dialogresize.cpp \
-    classes/fontcontainer.cpp \
     classes/charactersmodel.cpp \
     controls/dialogfontselect.cpp \
     controls/dialogabout.cpp \
@@ -68,9 +66,13 @@ SOURCES += main.cpp \
     controls/dialogexternaleditor.cpp \
     classes/settings/externaltooloptions.cpp \
     classes/settings/languageoptions.cpp \
-    classes/settings/bitmapeditoroptions.cpp
+    classes/settings/bitmapeditoroptions.cpp \
+    controls/dialogfontchanged.cpp \
+    classes/data/datacontainer.cpp \
+    classes/data/historykeeper.cpp \
+    classes/data/historyrecord.cpp \
+    classes/action-handlers/actionedithandlers.cpp
 HEADERS += \
-    classes/bitmapcontainer.h \
     controls/mainwindow.h \
     controls/widgetbitmapeditor.h \
     controls/editortabimage.h \
@@ -78,9 +80,7 @@ HEADERS += \
     interfaces/idocument.h \
     controls/dialogsavechanges.h \
     classes/convert/bitmaphelper.h \
-    interfaces/idatacontainer.h \
     controls/dialogresize.h \
-    classes/fontcontainer.h \
     classes/charactersmodel.h \
     controls/dialogfontselect.h \
     controls/dialogabout.h \
@@ -121,7 +121,12 @@ HEADERS += \
     controls/dialogexternaleditor.h \
     classes/settings/externaltooloptions.h \
     classes/settings/languageoptions.h \
-    classes/settings/bitmapeditoroptions.h
+    classes/settings/bitmapeditoroptions.h \
+    controls/dialogfontchanged.h \
+    classes/data/datacontainer.h \
+    classes/data/historykeeper.h \
+    classes/data/historyrecord.h \
+    classes/action-handlers/actionedithandlers.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -140,11 +145,13 @@ FORMS += \
     controls/setup/parts/setuptabtemplates.ui \
     controls/setup/dialogoptions.ui \
     controls/setup/parts/setuptabfont.ui \
-    controls/dialogexternaleditor.ui
+    controls/dialogexternaleditor.ui \
+    controls/dialogfontchanged.ui
 INCLUDEPATH += . \
     ./classes \
     ./classes/compression \
     ./classes/convert \
+    ./classes/data \
     ./classes/settings \
     ./classes/settings/presets \
     ./classes/action-handlers \
