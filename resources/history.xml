@@ -6,6 +6,17 @@
             <date>current</date>
         </commit>
         <description>Fixed:
+ Font regeneration algorithm was changed: possible add new character without changing others.
+
+Added:
+ Undo/Redo support.</description>
+    </record>
+    <record>
+        <commit>
+            <sha1>d2c542188773b33a08050163bf172d2478db015f</sha1>
+            <date>2012-11-05 21:21:31 +0600</date>
+        </commit>
+        <description>Fixed:
  Italic font's drawing;
  Reading of configuration templates;
  Order of bytes for Unicode Little-Endian and Big-Endian;
@@ -26,6 +37,16 @@ Added:
  Changed characters list in font's editor;
  Version history in 'About' dialog;
  'Check updates' in 'About' dialog, by downloading history from project's home page</description>
+        <downloads>
+            <item>
+                <name>Application</name>
+                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20121105212131-d2c542188773.zip</url>
+            </item>
+            <item>
+                <name>Qt (4.8.1) runtime libraries for windows version from 2012-11-05</name>
+                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=qt-4.8.1-runtime-libraries-d2c542188773.zip</url>
+            </item>
+        </downloads>
     </record>
     <record>
         <commit>
