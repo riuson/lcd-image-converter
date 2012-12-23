@@ -76,7 +76,10 @@ void EditorTabImage::changeEvent(QEvent *e)
 //-----------------------------------------------------------------------------
 void EditorTabImage::setFileName(const QString &value)
 {
-    this->mContainer->setInfo("filename", QVariant(value));
+    if (this->fileName() != value)
+    {
+        this->mContainer->setInfo("filename", QVariant(value));
+    }
 }
 //-----------------------------------------------------------------------------
 QString EditorTabImage::convertedFileName() const
@@ -87,7 +90,10 @@ QString EditorTabImage::convertedFileName() const
 //-----------------------------------------------------------------------------
 void EditorTabImage::setConvertedFileName(const QString &value)
 {
-    this->mContainer->setInfo("converted filename", QVariant(value));
+    if (this->convertedFileName() != value)
+    {
+        this->mContainer->setInfo("converted filename", QVariant(value));
+    }
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_container_imageChanged(const QString &key)
@@ -220,8 +226,11 @@ bool EditorTabImage::changed() const
 //-----------------------------------------------------------------------------
 void EditorTabImage::setChanged(bool value)
 {
-    this->mContainer->setInfo("data changed", value);
-    emit this->documentChanged(value, this->documentName(), this->fileName());
+    if (this->changed() != value)
+    {
+        this->mContainer->setInfo("data changed", value);
+        emit this->documentChanged(value, this->documentName(), this->fileName());
+    }
 }
 //-----------------------------------------------------------------------------
 QString EditorTabImage::fileName() const

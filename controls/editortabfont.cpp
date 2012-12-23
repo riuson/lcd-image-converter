@@ -95,7 +95,10 @@ void EditorTabFont::changeEvent(QEvent *e)
 //-----------------------------------------------------------------------------
 void EditorTabFont::setFileName(const QString &value)
 {
-    this->mContainer->setInfo("filename", QVariant(value));
+    if (this->fileName() != value)
+    {
+        this->mContainer->setInfo("filename", QVariant(value));
+    }
 }
 //-----------------------------------------------------------------------------
 QString EditorTabFont::convertedFileName() const
@@ -106,7 +109,10 @@ QString EditorTabFont::convertedFileName() const
 //-----------------------------------------------------------------------------
 void EditorTabFont::setConvertedFileName(const QString &value)
 {
-    this->mContainer->setInfo("converted filename", QVariant(value));
+    if (this->convertedFileName() != value)
+    {
+        this->mContainer->setInfo("converted filename", QVariant(value));
+    }
 }
 //-----------------------------------------------------------------------------
 QFont EditorTabFont::usedFont() const
@@ -132,7 +138,10 @@ QString EditorTabFont::usedStyle() const
 //-----------------------------------------------------------------------------
 void EditorTabFont::setUsedStyle(const QString &value)
 {
-    this->mContainer->setInfo("style", value);
+    if (this->usedStyle() != value)
+    {
+        this->mContainer->setInfo("style", value);
+    }
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_container_imageChanged(const QString &key)
@@ -399,8 +408,11 @@ bool EditorTabFont::changed() const
 //-----------------------------------------------------------------------------
 void EditorTabFont::setChanged(bool value)
 {
-    this->mContainer->setInfo("data changed", value);
-    emit this->documentChanged(value, this->documentName(), this->fileName());
+    if (this->changed() != value)
+    {
+        this->mContainer->setInfo("data changed", value);
+        emit this->documentChanged(value, this->documentName(), this->fileName());
+    }
 }
 //-----------------------------------------------------------------------------
 QString EditorTabFont::fileName() const
@@ -760,7 +772,10 @@ bool EditorTabFont::monospaced() const
 //-----------------------------------------------------------------------------
 void EditorTabFont::setMonospaced(const bool value)
 {
-    this->mContainer->setInfo("monospaced", value);
+    if (this->monospaced() != value)
+    {
+        this->mContainer->setInfo("monospaced", value);
+    }
 }
 //-----------------------------------------------------------------------------
 bool EditorTabFont::antialiasing() const
@@ -770,7 +785,10 @@ bool EditorTabFont::antialiasing() const
 //-----------------------------------------------------------------------------
 void EditorTabFont::setAntialiasing(const bool value)
 {
-    this->mContainer->setInfo("antialiasing", value);
+    if (this->antialiasing() != value)
+    {
+        this->mContainer->setInfo("antialiasing", value);
+    }
 }
 //-----------------------------------------------------------------------------
 /*
