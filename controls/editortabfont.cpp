@@ -518,8 +518,12 @@ void EditorTabFont::convert(bool request)
 
             if (this->convertedFileName() != outputFileName)
             {
+                this->beginChanges();
+
                 this->setConvertedFileName(outputFileName);
                 emit this->setChanged(true);
+
+                this->endChanges();
             }
         }
     }
