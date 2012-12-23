@@ -55,6 +55,13 @@ public:
     void setImage(const QImage *value);
     void convert(bool request);
 
+    void beginChanges();
+    void endChanges();
+    bool canUndo();
+    bool canRedo();
+    void undo();
+    void redo();
+
     void setFontCharacters(const QString &chars,
                            const QString &fontFamily,
                            const QString &_style,

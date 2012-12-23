@@ -31,6 +31,7 @@ class WidgetBitmapEditor;
 class QTranslator;
 class RecentList;
 class ActionFileHandlers;
+class ActionEditHandlers;
 class ActionImageHandlers;
 class ActionFontHandlers;
 class ActionSetupHandlers;
@@ -52,12 +53,12 @@ private:
     Ui::MainWindow *ui;
     QTranslator *mTrans;
     RecentList *mRecentList;
-    void updateMenuState();
     void selectLocale(const QString &localeName);
     void checkStartPageVisible();
     void createHandlers();
 
     ActionFileHandlers *mFileHandlers;
+    ActionEditHandlers *mEditHandlers;
     ActionImageHandlers *mImageHandlers;
     ActionFontHandlers *mFontHandlers;
     ActionSetupHandlers *mSetupHandlers;
@@ -68,6 +69,7 @@ private slots:
     void on_tabWidget_currentChanged(int index);
     void actionLanguage_triggered();
 
+    void updateMenuState();
     void updateRecentList();
     void openRecentFile();
 

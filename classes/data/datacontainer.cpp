@@ -20,17 +20,21 @@
 #include "datacontainer.h"
 
 #include <QImage>
+#include "historykeeper.h"
 //-----------------------------------------------------------------------------
 DataContainer::DataContainer(QObject *parent) :
     QObject(parent)
 {
     this->mDefaultImage = new QImage(":/images/template");
+    this->mHistory = new HistoryKeeper(this);
 }
 //-----------------------------------------------------------------------------
 DataContainer::~DataContainer()
 {
     qDeleteAll(this->mImageMap);
     delete this->mDefaultImage;
+
+    delete this->mHistory;
 }
 //-----------------------------------------------------------------------------
 const QImage *DataContainer::image(const QString &key) const
@@ -87,5 +91,40 @@ void DataContainer::remove(const QString &key)
         this->mImageMap.remove(key);
         delete imageOld;
     }
+}
+//-----------------------------------------------------------------------------
+bool DataContainer::historyInitialized() const
+{
+    return this->mHistory->initialized();
+}
+//-----------------------------------------------------------------------------
+void DataContainer::historyInit()
+{
+    this->mHistory->init(&this->mImageMap, &this->mInfoMap);
+}
+//-----------------------------------------------------------------------------
+void DataContainer::stateSave()
+{
+    this->mHistory->store(&this->mImageMap, &this->mInfoMap);
+}
+//-----------------------------------------------------------------------------
+void DataContainer::stateUndo()
+{
+    this->mHistory->restorePrevious(&this->mImageMap, &this->mInfoMap);
+}
+//-----------------------------------------------------------------------------
+void DataContainer::stateRedo()
+{
+    this->mHistory->restoreNext(&this->mImageMap, &this->mInfoMap);
+}
+//-----------------------------------------------------------------------------
+bool DataContainer::canUndo() const
+{
+    return this->mHistory->canRestorePrevious();
+}
+//-----------------------------------------------------------------------------
+bool DataContainer::canRedo() const
+{
+    return this->mHistory->canRestoreNext();
 }
 //-----------------------------------------------------------------------------

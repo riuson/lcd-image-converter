@@ -28,6 +28,7 @@
 #include <QVariant>
 //-----------------------------------------------------------------------------
 class QImage;
+class HistoryKeeper;
 //-----------------------------------------------------------------------------
 class DataContainer : public QObject
 {
@@ -47,16 +48,22 @@ public:
     QStringList keys() const;
     void remove(const QString &key);
 
+    bool historyInitialized() const;
+    void historyInit();
+    void stateSave();
+    void stateUndo();
+    void stateRedo();
+    bool canUndo() const;
+    bool canRedo() const;
+
 private:
     QMap<QString, QImage *> mImageMap;
     QMap<QString, QVariant> mInfoMap;
     QImage *mDefaultImage;
+    HistoryKeeper *mHistory;
 
 signals:
     void imageChanged(const QString &key);
-
-public slots:
-
 };
 //-----------------------------------------------------------------------------
 #endif // DATACONTAINER_H

@@ -41,9 +41,13 @@ void ActionImageHandlers::flipHorizontal_triggered()
 {
     if (this->document() != NULL)
     {
+        this->document()->beginChanges();
+
         const QImage *original = this->document()->image();
         QImage result = BitmapHelper::flipHorizontal(original);
         this->document()->setImage(&result);
+
+        this->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
@@ -51,9 +55,13 @@ void ActionImageHandlers::flipVertical_triggered()
 {
     if (this->document() != NULL)
     {
+        this->document()->beginChanges();
+
         const QImage *original = this->document()->image();
         QImage result = BitmapHelper::flipVertical(original);
         this->document()->setImage(&result);
+
+        this->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
@@ -61,9 +69,13 @@ void ActionImageHandlers::rotate_90_Clockwise_triggered()
 {
     if (this->document() != NULL)
     {
+        this->document()->beginChanges();
+
         const QImage *original = this->document()->image();
         QImage result = BitmapHelper::rotate90(original);
         this->document()->setImage(&result);
+
+        this->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
@@ -71,9 +83,13 @@ void ActionImageHandlers::rotate_180_triggered()
 {
     if (this->document() != NULL)
     {
+        this->document()->beginChanges();
+
         const QImage *original = this->document()->image();
         QImage result = BitmapHelper::rotate180(original);
         this->document()->setImage(&result);
+
+        this->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
@@ -81,9 +97,13 @@ void ActionImageHandlers::rotate_90_Counter_Clockwise_triggered()
 {
     if (this->document() != NULL)
     {
+        this->document()->beginChanges();
+
         const QImage *original = this->document()->image();
         QImage result = BitmapHelper::rotate270(original);
         this->document()->setImage(&result);
+
+        this->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
@@ -91,9 +111,13 @@ void ActionImageHandlers::shift_left_triggered()
 {
     if (this->document() != NULL)
     {
+        this->document()->beginChanges();
+
         const QImage *original = this->document()->image();
         QImage result = BitmapHelper::shiftLeft(original);
         this->document()->setImage(&result);
+
+        this->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
@@ -101,9 +125,13 @@ void ActionImageHandlers::shift_right_triggered()
 {
     if (this->document() != NULL)
     {
+        this->document()->beginChanges();
+
         const QImage *original = this->document()->image();
         QImage result = BitmapHelper::shiftRight(original);
         this->document()->setImage(&result);
+
+        this->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
@@ -111,9 +139,13 @@ void ActionImageHandlers::shift_up_triggered()
 {
     if (this->document() != NULL)
     {
+        this->document()->beginChanges();
+
         const QImage *original = this->document()->image();
         QImage result = BitmapHelper::shiftUp(original);
         this->document()->setImage(&result);
+
+        this->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
@@ -121,9 +153,13 @@ void ActionImageHandlers::shift_down_triggered()
 {
     if (this->document() != NULL)
     {
+        this->document()->beginChanges();
+
         const QImage *original = this->document()->image();
         QImage result = BitmapHelper::shiftDown(original);
         this->document()->setImage(&result);
+
+        this->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
@@ -131,10 +167,14 @@ void ActionImageHandlers::inverse_triggered()
 {
     if (this->document() != NULL)
     {
+        this->document()->beginChanges();
+
         const QImage *original = this->document()->image();
         QImage result(*original);
         result.invertPixels();
         this->document()->setImage(&result);
+
+        this->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
@@ -143,14 +183,19 @@ void ActionImageHandlers::resize_triggered()
     if (this->document() != NULL)
     {
         const QImage *original = this->document()->image();
+
         DialogResize dialog(original->width(), original->height(), 0, 0, false, true, true, this->mMainWindow->parentWidget());
         if (dialog.exec() == QDialog::Accepted)
         {
+            this->document()->beginChanges();
+
             int width, height, offsetX, offsetY;
             bool center, changeWidth, changeHeight;
             dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
             QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, BitmapEditorOptions::color2());
             this->document()->setImage(&result);
+
+            this->document()->endChanges();
         }
     }
 }
@@ -167,9 +212,13 @@ void ActionImageHandlers::import_triggered()
 
         if (dialog.exec() == QDialog::Accepted)
         {
+            this->document()->beginChanges();
+
             QImage image;
             image.load(dialog.selectedFiles().at(0));
             this->document()->setImage(&image);
+
+            this->document()->endChanges();
         }
     }
 }
@@ -254,10 +303,14 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
             // if file was modified
             if (info.lastModified() > lastModified)
             {
+                this->document()->beginChanges();
+
                 // load file back
                 QImage image;
                 image.load(filename);
                 this->document()->setImage(&image);
+
+                this->document()->endChanges();
             }
         }
         // remove temprorary file
