@@ -55,6 +55,8 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
     this->setFileName("");
     this->setConvertedFileName("");
     this->setChanged(false);
+
+    this->setImage(this->image());
 }
 //-----------------------------------------------------------------------------
 EditorTabImage::~EditorTabImage()
