@@ -23,6 +23,7 @@
 #include <QSettings>
 #include "prepareoptions.h"
 #include "matrixoptions.h"
+#include "reorderingoptions.h"
 #include "imageoptions.h"
 #include "fontoptions.h"
 #include "templateoptions.h"
@@ -32,17 +33,19 @@ Preset::Preset(QObject *parent) :
 {
     this->mBlockChangesSignal = false;
 
-    this->mPrepare   = new PrepareOptions(this);
-    this->mMatrix    = new MatrixOptions(this);
-    this->mImage     = new ImageOptions(this);
-    this->mFont     = new FontOptions(this);
-    this->mTemplates = new TemplateOptions(this);
+    this->mPrepare    = new PrepareOptions(this);
+    this->mMatrix     = new MatrixOptions(this);
+    this->mReordering = new ReorderingOptions(this);
+    this->mImage      = new ImageOptions(this);
+    this->mFont       = new FontOptions(this);
+    this->mTemplates  = new TemplateOptions(this);
 
-    this->connect(this->mPrepare,   SIGNAL(changed()), SLOT(partsChanged()));
-    this->connect(this->mMatrix,    SIGNAL(changed()), SLOT(partsChanged()));
-    this->connect(this->mImage,     SIGNAL(changed()), SLOT(partsChanged()));
-    this->connect(this->mFont,      SIGNAL(changed()), SLOT(partsChanged()));
-    this->connect(this->mTemplates, SIGNAL(changed()), SLOT(partsChanged()));
+    this->connect(this->mPrepare,    SIGNAL(changed()), SLOT(partsChanged()));
+    this->connect(this->mMatrix,     SIGNAL(changed()), SLOT(partsChanged()));
+    this->connect(this->mReordering, SIGNAL(changed()), SLOT(partsChanged()));
+    this->connect(this->mImage,      SIGNAL(changed()), SLOT(partsChanged()));
+    this->connect(this->mFont,       SIGNAL(changed()), SLOT(partsChanged()));
+    this->connect(this->mTemplates,  SIGNAL(changed()), SLOT(partsChanged()));
 }
 //-----------------------------------------------------------------------------
 Preset::~Preset()
@@ -50,6 +53,7 @@ Preset::~Preset()
     delete this->mTemplates;
     delete this->mFont;
     delete this->mImage;
+    delete this->mReordering;
     delete this->mMatrix;
     delete this->mPrepare;
 }
@@ -62,6 +66,11 @@ PrepareOptions *Preset::prepare()
 MatrixOptions *Preset::matrix()
 {
     return this->mMatrix;
+}
+//-----------------------------------------------------------------------------
+ReorderingOptions *Preset::reordering()
+{
+    return this->mReordering;
 }
 //-----------------------------------------------------------------------------
 ImageOptions *Preset::image()
@@ -144,6 +153,7 @@ bool Preset::load(const QString &name)
 
             result = this->mPrepare->load(&sett, version);
             result &= this->mMatrix->load(&sett, version);
+            result &= this->mReordering->load(&sett, version);
             result &= this->mImage->load(&sett, version);
             result &= this->mFont->load(&sett, version);
             result &= this->mTemplates->load(&sett, version);
@@ -171,6 +181,7 @@ void Preset::save(const QString &name) const
 
     this->mPrepare->save(&sett);
     this->mMatrix->save(&sett);
+    this->mReordering->save(&sett);
     this->mImage->save(&sett);
     this->mFont->save(&sett);
     this->mTemplates->save(&sett);
@@ -182,6 +193,7 @@ void Preset::save(const QString &name) const
 void Preset::initMono(MonochromeType type, int edge)
 {
     this->mMatrix->operationsRemoveAll();
+    this->mReordering->operationsRemoveAll();
 
     this->mPrepare->setConvType(ConversionTypeMonochrome);
     this->mPrepare->setMonoType(type);
@@ -203,6 +215,7 @@ void Preset::initMono(MonochromeType type, int edge)
 void Preset::initGrayscale(int bits)
 {
     this->mMatrix->operationsRemoveAll();
+    this->mReordering->operationsRemoveAll();
 
     if (bits > 8) bits = 8;
     if (bits < 1) bits = 1;
@@ -241,6 +254,7 @@ void Preset::initGrayscale(int bits)
 void Preset::initColor(int redBits, int greenBits, int blueBits)
 {
     this->mMatrix->operationsRemoveAll();
+    this->mReordering->operationsRemoveAll();
 
     if (redBits > 8) redBits = 8;
     if (redBits < 1) redBits = 1;

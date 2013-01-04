@@ -26,6 +26,7 @@
 //-----------------------------------------------------------------------------
 class PrepareOptions;
 class MatrixOptions;
+class ReorderingOptions;
 class ImageOptions;
 class FontOptions;
 class TemplateOptions;
@@ -43,6 +44,7 @@ public:
 
     PrepareOptions *prepare();
     MatrixOptions *matrix();
+    ReorderingOptions *reordering();
     ImageOptions *image();
     FontOptions *font();
     TemplateOptions *templates();
@@ -62,6 +64,7 @@ public:
 private:
     PrepareOptions *mPrepare;
     MatrixOptions *mMatrix;
+    ReorderingOptions *mReordering;
     ImageOptions *mImage;
     FontOptions *mFont;
     TemplateOptions *mTemplates;
