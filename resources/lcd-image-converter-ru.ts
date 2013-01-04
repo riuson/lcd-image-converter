@@ -344,42 +344,42 @@ Qt: %3</translation>
         <translation>Открыть предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="149"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="154"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="152"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="157"/>
         <source>Grayscale 8</source>
         <translation>Градации серого 8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="155"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="160"/>
         <source>Color R4G5B4</source>
         <translation>Цветное R4G5B4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="158"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="163"/>
         <source>Color R5G6B5</source>
         <translation>Цветное R5G6B5</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="161"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="166"/>
         <source>Color R8G8B8</source>
         <translation>Цветное R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="197"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="202"/>
         <source>Enter preset name</source>
         <translation>Введите название предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="197"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="202"/>
         <source>Preset name:</source>
         <translation>Название предустановки:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="236"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="241"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
     </message>
@@ -553,12 +553,12 @@ Qt: %3</translation>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../controls/editortabimage.cpp" line="304"/>
+        <location filename="../controls/editortabimage.cpp" line="306"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/editortabimage.cpp" line="306"/>
+        <location filename="../controls/editortabimage.cpp" line="308"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -876,6 +876,24 @@ Qt: %3</translation>
     </message>
 </context>
 <context>
+    <name>ReorderingPreviewModel</name>
+    <message>
+        <location filename="../classes/preview-models/reorderingpreviewmodel.cpp" line="66"/>
+        <source>Source</source>
+        <translation>Исходник</translation>
+    </message>
+    <message>
+        <location filename="../classes/preview-models/reorderingpreviewmodel.cpp" line="69"/>
+        <source>Operation %1</source>
+        <translation>Операция %1</translation>
+    </message>
+    <message>
+        <location filename="../classes/preview-models/reorderingpreviewmodel.cpp" line="72"/>
+        <source>Result</source>
+        <translation>Результат</translation>
+    </message>
+</context>
+<context>
     <name>SetupTabFont</name>
     <message>
         <location filename="../controls/setup/parts/setuptabfont.ui" line="14"/>
@@ -1110,6 +1128,49 @@ Qt: %3</translation>
         <location filename="../controls/setup/parts/setuptabprepare.cpp" line="52"/>
         <source>Backward</source>
         <translation>Обратное</translation>
+    </message>
+</context>
+<context>
+    <name>SetupTabReordering</name>
+    <message>
+        <location filename="../controls/setup/parts/setuptabreordering.ui" line="14"/>
+        <source>Reordering</source>
+        <translation>Перестановка</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="99"/>
+        <source>Source</source>
+        <translation>Исходник</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="101"/>
+        <source>Add &quot;Left Shift&quot;</source>
+        <translation>Добавить &quot;Сдвиг влево&quot;</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="102"/>
+        <source>Add &quot;Right Shift&quot;</source>
+        <translation>Добавить &quot;Сдвиг вправо&quot;</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="122"/>
+        <source>Operation</source>
+        <translation>Операция</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="132"/>
+        <source>Shift left</source>
+        <translation>Сдвиг влево</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="133"/>
+        <source>Shift right</source>
+        <translation>Сдвиг вправо</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="134"/>
+        <source>Remove</source>
+        <translation>Удалить</translation>
     </message>
 </context>
 <context>
