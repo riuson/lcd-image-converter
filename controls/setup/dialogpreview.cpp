@@ -75,25 +75,25 @@ void DialogPreview::updatePreview()
             //QString str = this->mConverter->dataToString(data);
             //this->ui->plainTextEdit->setPlainText(str);
 
-            QVector<quint32> data;
-            int width, height;
-            ConverterHelper::pixelsData(this->mPreset, &this->mImageProcessed, &data, &width, &height);
+            QVector<quint32> sourceData;
+            int sourceWidth, sourceHeight;
+            ConverterHelper::pixelsData(this->mPreset, &this->mImageProcessed, &sourceData, &sourceWidth, &sourceHeight);
 
-            ConverterHelper::processPixels(this->mPreset, &data);
+            ConverterHelper::processPixels(this->mPreset, &sourceData);
 
-            QVector<quint32> data2;
-            int width2, height2;
-            ConverterHelper::packData(this->mPreset, &data, width, height, &data2, &width2, &height2);
+            QVector<quint32> packedData;
+            int packedWidth, packedHeight;
+            ConverterHelper::packData(this->mPreset, &sourceData, sourceWidth, sourceHeight, &packedData, &packedWidth, &packedHeight);
 
-            QVector<quint32> data3;
-            int width3, height3;
-            ConverterHelper::reorder(this->mPreset, &data2, width2, height2, &data3, &width3, &height3);
+            QVector<quint32> reorderedData;
+            int reorderedWidth, reorderedHeight;
+            ConverterHelper::reorder(this->mPreset, &packedData, packedWidth, packedHeight, &reorderedData, &reorderedWidth, &reorderedHeight);
 
-            QVector<quint32> data4;
-            int width4, height4;
-            ConverterHelper::compressData(this->mPreset, &data3, width3, height3, &data4, &width4, &height4);
+            QVector<quint32> compressedData;
+            int compressedWidth, compressedHeight;
+            ConverterHelper::compressData(this->mPreset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
 
-            QString str = ConverterHelper::dataToString(this->mPreset, &data4, width4, height4, "");
+            QString str = ConverterHelper::dataToString(this->mPreset, &compressedData, compressedWidth, compressedHeight, "");
 
             this->ui->plainTextEdit->setPlainText(str);
         }
