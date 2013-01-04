@@ -72,7 +72,8 @@ SOURCES += main.cpp \
     classes/data/historykeeper.cpp \
     classes/data/historyrecord.cpp \
     classes/action-handlers/actionedithandlers.cpp \
-    classes/settings/presets/reorderingoptions.cpp
+    classes/settings/presets/reorderingoptions.cpp \
+    classes/preview-models/reorderingpreviewmodel.cpp
 HEADERS += \
     controls/mainwindow.h \
     controls/widgetbitmapeditor.h \
@@ -128,7 +129,8 @@ HEADERS += \
     classes/data/historykeeper.h \
     classes/data/historyrecord.h \
     classes/action-handlers/actionedithandlers.h \
-    classes/settings/presets/reorderingoptions.h
+    classes/settings/presets/reorderingoptions.h \
+    classes/preview-models/reorderingpreviewmodel.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
