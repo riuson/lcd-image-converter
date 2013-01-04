@@ -25,6 +25,7 @@
 ReorderingOptions::ReorderingOptions(QObject *parent) :
     QObject(parent)
 {
+    this->mOperations = new QVector<quint32>();
 }
 //-----------------------------------------------------------------------------
 ReorderingOptions::~ReorderingOptions()
