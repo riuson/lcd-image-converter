@@ -74,7 +74,8 @@ SOURCES += main.cpp \
     classes/action-handlers/actionedithandlers.cpp \
     classes/settings/presets/reorderingoptions.cpp \
     classes/preview-models/reorderingpreviewmodel.cpp \
-    controls/setup/parts/setuptabreordering.cpp
+    controls/setup/parts/setuptabreordering.cpp \
+    classes/preview-models/reorderingitemdelegate.cpp
 HEADERS += \
     controls/mainwindow.h \
     controls/widgetbitmapeditor.h \
@@ -132,7 +133,8 @@ HEADERS += \
     classes/action-handlers/actionedithandlers.h \
     classes/settings/presets/reorderingoptions.h \
     classes/preview-models/reorderingpreviewmodel.h \
-    controls/setup/parts/setuptabreordering.h
+    controls/setup/parts/setuptabreordering.h \
+    classes/preview-models/reorderingitemdelegate.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \

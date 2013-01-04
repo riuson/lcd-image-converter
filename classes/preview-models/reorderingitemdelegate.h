@@ -17,44 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef SETUPTABREORDERING_H
-#define SETUPTABREORDERING_H
+#ifndef REORDERINGITEMDELEGATE_H
+#define REORDERINGITEMDELEGATE_H
 //-----------------------------------------------------------------------------
-#include <QWidget>
+#include <QtGui>
 //-----------------------------------------------------------------------------
-namespace Ui {
-class SetupTabReordering;
-}
-//-----------------------------------------------------------------------------
-class Preset;
-class ReorderingPreviewModel;
-class ReorderingItemDelegate;
-class QMenu;
-//-----------------------------------------------------------------------------
-class SetupTabReordering : public QWidget
+class ReorderingItemDelegate : public QItemDelegate
 {
     Q_OBJECT
+public:
+    explicit ReorderingItemDelegate(QObject *parent = 0);
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
 public:
-    explicit SetupTabReordering(Preset *preset, QWidget *parent = 0);
-    virtual ~SetupTabReordering();
-
-public slots:
-    void matrixChanged();
-
+    QColor color() const;
+    void setColor(const QColor &value);
 private:
-    Ui::SetupTabReordering *ui;
-    Preset *mPreset;
-    ReorderingPreviewModel *mReorderingModel;
-    ReorderingItemDelegate *mReorderingItemDelegate;
-    QMenu *mMenu;
-
-private slots:
-    void on_comboBoxConversionType_currentIndexChanged(int index);
-    void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
-    void operationAdd();
-    void operationShift();
-    void operationRemove();
+    QColor mColor;
 };
 //-----------------------------------------------------------------------------
-#endif // SETUPTABREORDERING_H
+#endif // REORDERINGITEMDELEGATE_H

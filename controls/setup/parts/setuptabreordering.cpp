@@ -21,7 +21,7 @@
 #include "ui_setuptabreordering.h"
 //-----------------------------------------------------------------------------
 #include "reorderingpreviewmodel.h"
-#include "matrixitemdelegate.h"
+#include "reorderingitemdelegate.h"
 #include "preset.h"
 #include "prepareoptions.h"
 #include "reorderingoptions.h"
@@ -47,8 +47,8 @@ SetupTabReordering::SetupTabReordering(Preset *preset, QWidget *parent) :
     this->ui->tableViewOperations->verticalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
     this->connect(this->ui->tableViewOperations->verticalHeader(), SIGNAL(customContextMenuRequested(QPoint)), SLOT(on_tableViewOperations_customContextMenuRequested(QPoint)));
 
-    this->mMatrixItemDelegate = new MatrixItemDelegate(this);
-    this->ui->tableViewOperations->setItemDelegate(this->mMatrixItemDelegate);
+    this->mReorderingItemDelegate = new ReorderingItemDelegate(this);
+    this->ui->tableViewOperations->setItemDelegate(this->mReorderingItemDelegate);
 }
 //-----------------------------------------------------------------------------
 SetupTabReordering::~SetupTabReordering()
@@ -56,7 +56,7 @@ SetupTabReordering::~SetupTabReordering()
     if (this->mMenu != NULL)
         delete this->mMenu;
 
-    delete this->mMatrixItemDelegate;
+    delete this->mReorderingItemDelegate;
     delete this->mReorderingModel;
 
     delete ui;
