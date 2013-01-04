@@ -1138,37 +1138,37 @@ Qt: %3</translation>
         <translation>Перестановка</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="99"/>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="105"/>
         <source>Source</source>
         <translation>Исходник</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="101"/>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="107"/>
         <source>Add &quot;Left Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг влево&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="102"/>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="108"/>
         <source>Add &quot;Right Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг вправо&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="122"/>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="128"/>
         <source>Operation</source>
         <translation>Операция</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="132"/>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="138"/>
         <source>Shift left</source>
         <translation>Сдвиг влево</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="133"/>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="139"/>
         <source>Shift right</source>
         <translation>Сдвиг вправо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="134"/>
+        <location filename="../controls/setup/parts/setuptabreordering.cpp" line="140"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
