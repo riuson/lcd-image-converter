@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Matrix</string>
+   <string>Reordering</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
