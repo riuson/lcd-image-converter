@@ -49,6 +49,8 @@ private:
     ReorderingItemDelegate *mReorderingItemDelegate;
     QMenu *mMenu;
 
+    int maxBitIndex() const;
+
 private slots:
     void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
     void operationAdd();

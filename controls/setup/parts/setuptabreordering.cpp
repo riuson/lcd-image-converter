@@ -68,6 +68,12 @@ void SetupTabReordering::matrixChanged()
     this->ui->tableViewOperations->resizeColumnsToContents();
 }
 //-----------------------------------------------------------------------------
+int SetupTabReordering::maxBitIndex() const
+{
+    int result = (((int)this->mPreset->image()->blockSize()) * 8) + 7;
+    return result;
+}
+//-----------------------------------------------------------------------------
 void SetupTabReordering::on_tableViewOperations_customContextMenuRequested(const QPoint &point)
 {
     QModelIndex index = this->ui->tableViewOperations->indexAt(point);
@@ -140,7 +146,7 @@ void SetupTabReordering::on_tableViewOperations_customContextMenuRequested(const
                 actionRight->setData(QVariant(data));
                 actionRemove->setData(QVariant(data));
 
-                if (shift >= 31)
+                if (shift >= this->maxBitIndex())
                 {
                     if (left)
                         actionLeft->setEnabled(false);
@@ -177,7 +183,7 @@ void SetupTabReordering::operationAdd()
         {
             if (list.at(i).row() == 0)
             {
-                mask |= 0x00000001 << (31 - list.at(i).column());
+                mask |= 0x00000001 << (this->maxBitIndex() - list.at(i).column());
             }
         }
         this->mPreset->reordering()->operationAdd(mask, shift, left);
