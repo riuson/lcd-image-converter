@@ -73,7 +73,8 @@ SOURCES += main.cpp \
     classes/data/historyrecord.cpp \
     classes/action-handlers/actionedithandlers.cpp \
     classes/settings/presets/reorderingoptions.cpp \
-    classes/preview-models/reorderingpreviewmodel.cpp
+    classes/preview-models/reorderingpreviewmodel.cpp \
+    controls/setup/parts/setuptabreordering.cpp
 HEADERS += \
     controls/mainwindow.h \
     controls/widgetbitmapeditor.h \
@@ -130,7 +131,8 @@ HEADERS += \
     classes/data/historyrecord.h \
     classes/action-handlers/actionedithandlers.h \
     classes/settings/presets/reorderingoptions.h \
-    classes/preview-models/reorderingpreviewmodel.h
+    classes/preview-models/reorderingpreviewmodel.h \
+    controls/setup/parts/setuptabreordering.h
 FORMS += \
     controls/mainwindow.ui \
     controls/widgetbitmapeditor.ui \
@@ -150,7 +152,8 @@ FORMS += \
     controls/setup/dialogoptions.ui \
     controls/setup/parts/setuptabfont.ui \
     controls/dialogexternaleditor.ui \
-    controls/dialogfontchanged.ui
+    controls/dialogfontchanged.ui \
+    controls/setup/parts/setuptabreordering.ui
 INCLUDEPATH += . \
     ./classes \
     ./classes/compression \
