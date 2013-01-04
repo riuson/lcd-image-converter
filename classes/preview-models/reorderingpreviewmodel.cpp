@@ -288,7 +288,7 @@ void ReorderingPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, Q
         if (colorType != Empty)
         {
             *name = QVariant(QString("%1").arg(partIndex));
-            int a = (80 / 8 * partIndex) + 50;
+            int a = (80 / 32 * partIndex) + 50;
             *color = QVariant(QColor(10, 10, 10, a));
         }
     }
