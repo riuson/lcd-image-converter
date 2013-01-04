@@ -30,6 +30,7 @@
 #include "preset.h"
 #include "prepareoptions.h"
 #include "matrixoptions.h"
+#include "reorderingoptions.h"
 #include "imageoptions.h"
 #include "rlecompressor.h"
 //-----------------------------------------------------------------------------
@@ -151,6 +152,41 @@ void ConverterHelper::packData(
         *outputHeight = 1;
     }
     *outputWidth = resultWidth;
+}
+//-----------------------------------------------------------------------------
+void ConverterHelper::reorder(
+        Preset *preset,
+        QVector<quint32> *inputData,
+        int inputWidth,
+        int inputHeight,
+        QVector<quint32> *outputData,
+        int *outputWidth,
+        int *outputHeight)
+{
+    for (int i = 0; i < inputData->size(); i++)
+    {
+        quint32 value = inputData->at(i);
+        quint32 valueNew = 0;
+        for (int j = 0; j < preset->reordering()->operationsCount(); j++)
+        {
+            quint32 mask;
+            int shift;
+            bool left;
+            preset->reordering()->operation(j, &mask, &shift, &left);
+
+            if (left)
+                valueNew |= (value & mask) << shift;
+            else
+                valueNew |= (value & mask) >> shift;
+        }
+
+        if (preset->reordering()->operationsCount() == 0)
+            valueNew = value;
+
+        outputData->append(valueNew);
+    }
+    *outputWidth = inputWidth;
+    *outputHeight = inputHeight;
 }
 //-----------------------------------------------------------------------------
 void ConverterHelper::compressData(
