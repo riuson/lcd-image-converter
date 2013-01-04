@@ -50,7 +50,6 @@ private:
     QMenu *mMenu;
 
 private slots:
-    void on_comboBoxConversionType_currentIndexChanged(int index);
     void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
     void operationAdd();
     void operationShift();

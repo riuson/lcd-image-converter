@@ -35,10 +35,6 @@ SetupTabReordering::SetupTabReordering(Preset *preset, QWidget *parent) :
     this->mPreset = preset;
     this->mMenu = NULL;
 
-    this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
-    this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
-    this->ui->comboBoxConversionType->addItem(tr("Color"), ConversionTypeColor);
-
     this->mReorderingModel = new ReorderingPreviewModel(this->mPreset, this);
     this->ui->tableViewOperations->setModel(this->mReorderingModel);
     this->ui->tableViewOperations->resizeColumnsToContents();
@@ -64,27 +60,12 @@ SetupTabReordering::~SetupTabReordering()
 //-----------------------------------------------------------------------------
 void SetupTabReordering::matrixChanged()
 {
-    int index = this->ui->comboBoxConversionType->findData(this->mPreset->prepare()->convType());
-    if (index >= 0)
-        this->ui->comboBoxConversionType->setCurrentIndex(index);
-
     this->mReorderingModel->callReset();
     this->ui->tableViewOperations->setModel(NULL);
     this->ui->tableViewOperations->setModel(this->mReorderingModel);
     this->ui->tableViewOperations->update();
     this->ui->tableViewOperations->resizeRowsToContents();
     this->ui->tableViewOperations->resizeColumnsToContents();
-}
-//-----------------------------------------------------------------------------
-void SetupTabReordering::on_comboBoxConversionType_currentIndexChanged(int index)
-{
-    QVariant data = this->ui->comboBoxConversionType->itemData(index);
-    bool ok;
-    int a = data.toInt(&ok);
-    if (ok)
-    {
-        this->mPreset->prepare()->setConvType((ConversionType)a);
-    }
 }
 //-----------------------------------------------------------------------------
 void SetupTabReordering::on_tableViewOperations_customContextMenuRequested(const QPoint &point)
