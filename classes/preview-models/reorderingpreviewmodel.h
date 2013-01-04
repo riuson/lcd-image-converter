@@ -64,6 +64,7 @@ private:
     void getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const;
     void resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
     void sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const;
+    int maxBitIndex() const;
 
 signals:
 

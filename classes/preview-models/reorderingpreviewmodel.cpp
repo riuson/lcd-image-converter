@@ -45,7 +45,7 @@ int ReorderingPreviewModel::rowCount(const QModelIndex &parent) const
 int ReorderingPreviewModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return 32;
+    return this->maxBitIndex() + 1;
 }
 //-----------------------------------------------------------------------------
 QVariant ReorderingPreviewModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -56,7 +56,7 @@ QVariant ReorderingPreviewModel::headerData(int section, Qt::Orientation orienta
     {
         if (orientation == Qt::Horizontal)
         {
-            result = QString("%1").arg(31 - section, 2);
+            result = QString("%1").arg(this->maxBitIndex() - section, 2);
         }
         if (orientation == Qt::Vertical)
         {
@@ -85,7 +85,7 @@ QVariant ReorderingPreviewModel::data(const QModelIndex &index, int role) const
 
     if (index.isValid())
     {
-        int bitIndex = 31 - index.column();
+        int bitIndex = this->maxBitIndex() - index.column();
         int row = index.row();
 
         switch (this->rowType(index.row()))
@@ -257,9 +257,9 @@ void ReorderingPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVa
         else
             sourceBitIndex += (int)shift;
 
-        if ((mask & (0x01 << sourceBitIndex)) != 0 && (sourceBitIndex >= 0) && (sourceBitIndex <= 31))
+        if ((mask & (0x01 << sourceBitIndex)) != 0 && (sourceBitIndex >= 0) && (sourceBitIndex <= this->maxBitIndex()))
         {
-            *name = this->data(this->createIndex(0, 31 - sourceBitIndex), Qt::DisplayRole);
+            *name = this->data(this->createIndex(0, this->maxBitIndex() - sourceBitIndex), Qt::DisplayRole);
             this->sourceBitProperties(sourceBitIndex, name, color);
 
             break;
@@ -268,7 +268,7 @@ void ReorderingPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVa
 
     if (this->mPreset->reordering()->operationsCount() == 0)
     {
-        *name = this->data(this->createIndex(0, 31 - bitIndex), Qt::DisplayRole);
+        *name = this->data(this->createIndex(0, this->maxBitIndex() - bitIndex), Qt::DisplayRole);
         this->sourceBitProperties(bitIndex, name, color);
     }
 }
@@ -278,7 +278,7 @@ void ReorderingPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, Q
     *name = QVariant();
     *color = QVariant();
 
-    if (bitIndex >= 0 && bitIndex <= 31)
+    if (bitIndex >= 0 && bitIndex <= this->maxBitIndex())
     {
         ConversionType convType;
         ColorType colorType;
@@ -288,10 +288,16 @@ void ReorderingPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, Q
         if (colorType != Empty)
         {
             *name = QVariant(QString("%1").arg(partIndex));
-            int a = (80 / 32 * partIndex) + 50;
+            int a = (80 / (this->maxBitIndex() + 1) * partIndex) + 50;
             *color = QVariant(QColor(10, 10, 10, a));
         }
     }
+}
+//-----------------------------------------------------------------------------
+int ReorderingPreviewModel::maxBitIndex() const
+{
+    int result = (((int)this->mPreset->image()->blockSize()) * 8) + 7;
+    return result;
 }
 //-----------------------------------------------------------------------------
 void ReorderingPreviewModel::callReset()
