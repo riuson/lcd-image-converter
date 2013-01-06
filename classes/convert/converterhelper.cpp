@@ -73,15 +73,48 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
             ConverterHelper::makeGrayscale(im);
         }
 
-        for (int y = 0; y < im.height(); y++)
+        if (preset->prepare()->bandScanning())
         {
-            for (int x = 0; x < im.width(); x++)
+            const int bandSize = preset->prepare()->bandWidth();
+
+            int bandY = 0;
+
+            do
             {
-                // typedef QRgb
-                // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
-                QRgb pixel = im.pixel(x, y);
-                quint32 value = pixel & 0x00ffffff;
-                data->append(value);
+                for (int y = 0; y < bandSize; y++)
+                {
+                    for (int x = 0; x < im.width(); x++)
+                    {
+                        if (bandY + y < im.height())
+                        {
+                            // typedef QRgb
+                            // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
+                            QRgb pixel = im.pixel(x, bandY + y);
+                            quint32 value = pixel & 0x00ffffff;
+                            data->append(value);
+                        }
+                        else
+                        {
+                            data->append(0x00000000);
+                        }
+                    }
+                }
+
+                bandY += bandSize;
+            } while (bandY < im.height());
+        }
+        else
+        {
+            for (int y = 0; y < im.height(); y++)
+            {
+                for (int x = 0; x < im.width(); x++)
+                {
+                    // typedef QRgb
+                    // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
+                    QRgb pixel = im.pixel(x, y);
+                    quint32 value = pixel & 0x00ffffff;
+                    data->append(value);
+                }
             }
         }
     }
