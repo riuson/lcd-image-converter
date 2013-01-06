@@ -102,6 +102,9 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
 
                 bandX += bandSize;
             } while (bandX < im.width());
+
+            // set new width
+            *width = bandX;
         }
         else
         {
@@ -165,15 +168,40 @@ void ConverterHelper::packData(
 
     if (preset->image()->splitToRows())
     {
-        // process each row
-        for (int y = 0; y < inputHeight; y++)
+        if (preset->prepare()->bandScanning())
         {
-            // start of row in inputData
-            int start = y * inputWidth;
-            // get row data packed
-            ConverterHelper::packDataRow(preset, inputData, start, inputWidth, outputData, &rowLength);
-            // get row blocks count
-            resultWidth = qMax(resultWidth, rowLength);
+            // non-standard row width
+
+            // bandsCount is divisible by bandSize (because of pixelsData() method)
+            int bandSize = preset->prepare()->bandWidth();
+            int bandsCount = inputWidth / bandSize;
+
+            // scanned rows count with bands
+            int rowsCount = inputHeight * bandsCount;
+
+            for (int row = 0; row < rowsCount; row++)
+            {
+                // start of row in inputData
+                int start = row * bandSize;
+                // get row data packed
+                ConverterHelper::packDataRow(preset, inputData, start, bandSize, outputData, &rowLength);
+                // get row blocks count
+                resultWidth = qMax(resultWidth, rowLength);
+            }
+            resultWidth *= bandsCount;
+        }
+        else
+        {
+            // process each standard row
+            for (int y = 0; y < inputHeight; y++)
+            {
+                // start of row in inputData
+                int start = y * inputWidth;
+                // get row data packed
+                ConverterHelper::packDataRow(preset, inputData, start, inputWidth, outputData, &rowLength);
+                // get row blocks count
+                resultWidth = qMax(resultWidth, rowLength);
+            }
         }
     }
     else
