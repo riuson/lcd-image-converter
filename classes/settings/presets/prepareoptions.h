@@ -40,6 +40,8 @@ public:
     ScanMainDirection scanMain() const;
     ScanSubDirection scanSub() const;
     bool inverse() const;
+    bool bandScanning() const;
+    int bandWidth() const;
 
     void setConvType(ConversionType value);
     void setMonoType(MonochromeType value);
@@ -47,6 +49,8 @@ public:
     void setScanMain(ScanMainDirection value);
     void setScanSub(ScanSubDirection value);
     void setInverse(bool value);
+    void setBandScanning(bool value);
+    void setBandWidth(int value);
 
     const QString & convTypeName() const;
     const QString & monoTypeName() const;
@@ -66,6 +70,8 @@ private:
     ScanMainDirection mScanMain;
     ScanSubDirection mScanSub;
     bool mInverse;
+    bool mBandScanning;
+    int mBandWidth;
 
 signals:
     void changed();
