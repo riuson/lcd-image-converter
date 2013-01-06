@@ -79,6 +79,10 @@ void SetupTabPrepare::matrixChanged()
 
     this->ui->horizontalScrollBarEdge->setValue(this->mPreset->prepare()->edge());
 
+    this->ui->checkBoxBands->setChecked(this->mPreset->prepare()->bandScanning());
+
+    this->ui->spinBoxBandWidth->setValue(this->mPreset->prepare()->bandWidth());
+
     this->ui->checkBoxInverse->setChecked(this->mPreset->prepare()->inverse());
 
     this->updateScanningPreview();
@@ -283,5 +287,15 @@ void SetupTabPrepare::on_checkBoxInverse_toggled(bool value)
 void SetupTabPrepare::on_horizontalScrollBarEdge_valueChanged(int value)
 {
     this->mPreset->prepare()->setEdge(value);
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::on_checkBoxBands_toggled(bool value)
+{
+    this->mPreset->prepare()->setBandScanning(value);
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::on_spinBoxBandWidth_valueChanged(int value)
+{
+    this->mPreset->prepare()->setBandWidth(value);
 }
 //-----------------------------------------------------------------------------
