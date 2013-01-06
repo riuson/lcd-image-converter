@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>429</width>
-    <height>295</height>
+    <height>411</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -105,6 +105,29 @@
        </item>
        <item>
         <widget class="QComboBox" name="comboBoxScanSub"/>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxBands">
+         <property name="text">
+          <string>Bands</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spinBoxBandWidth">
+         <property name="toolTip">
+          <string>Band Width</string>
+         </property>
+         <property name="suffix">
+          <string notr="true"> px</string>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>1048576</number>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="checkBoxInverse">
