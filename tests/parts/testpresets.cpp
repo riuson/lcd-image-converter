@@ -21,6 +21,8 @@ void TestPresets::loadSave()
     source.initColor(5, 6, 5);
     source.prepare()->setScanMain(BottomToTop);
     source.prepare()->setScanSub(Backward);
+    source.prepare()->setBandScanning(true);
+    source.prepare()->setBandWidth(577);
     source.image()->setBytesOrder(BytesOrderBigEndian);
     source.image()->setBlockSize(Data16);
     source.image()->setSplitToRows(true);
@@ -29,6 +31,8 @@ void TestPresets::loadSave()
     this->mOptions->initColor(5, 6, 5);
     this->mOptions->prepare()->setScanMain(BottomToTop);
     this->mOptions->prepare()->setScanSub(Backward);
+    this->mOptions->prepare()->setBandScanning(true);
+    this->mOptions->prepare()->setBandWidth(577);
     this->mOptions->matrix()->operationsRemoveAll();
     this->mOptions->image()->setBytesOrder(BytesOrderBigEndian);
     this->mOptions->image()->setBlockSize(Data16);
@@ -61,6 +65,8 @@ void TestPresets::loadSave()
     QCOMPARE(this->mOptions->prepare()->scanMain(), source.prepare()->scanMain());
     QCOMPARE(this->mOptions->prepare()->scanSub(),  source.prepare()->scanSub());
     QCOMPARE(this->mOptions->prepare()->inverse(),  source.prepare()->inverse());
+    QCOMPARE(this->mOptions->prepare()->bandScanning(),  source.prepare()->bandScanning());
+    QCOMPARE(this->mOptions->prepare()->bandWidth(),     source.prepare()->bandWidth());
 
     QCOMPARE(this->mOptions->matrix()->maskUsed(),  source.matrix()->maskUsed());
     QCOMPARE(this->mOptions->matrix()->maskAnd(),   source.matrix()->maskAnd());
