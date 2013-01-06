@@ -77,19 +77,19 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
         {
             const int bandSize = preset->prepare()->bandWidth();
 
-            int bandY = 0;
+            int bandX = 0;
 
             do
             {
-                for (int y = 0; y < bandSize; y++)
+                for (int y = 0; y < im.height(); y++)
                 {
-                    for (int x = 0; x < im.width(); x++)
+                    for (int x = 0; x < bandSize; x++)
                     {
-                        if (bandY + y < im.height())
+                        if (bandX + x < im.width())
                         {
                             // typedef QRgb
                             // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
-                            QRgb pixel = im.pixel(x, bandY + y);
+                            QRgb pixel = im.pixel(bandX + x, y);
                             quint32 value = pixel & 0x00ffffff;
                             data->append(value);
                         }
@@ -100,8 +100,8 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
                     }
                 }
 
-                bandY += bandSize;
-            } while (bandY < im.height());
+                bandX += bandSize;
+            } while (bandX < im.width());
         }
         else
         {
