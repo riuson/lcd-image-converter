@@ -98,6 +98,10 @@ void SetupTabPrepare::updateScanningPreview()
 
     QImage image(":/demos/scanning");
 
+    // load another image for bands
+    if (this->mPreset->prepare()->bandScanning())
+        image.load(":/demos/scanning_band");
+
     switch (rotate)
     {
     case Rotate90:
