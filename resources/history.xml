@@ -5,7 +5,10 @@
             <sha1>current</sha1>
             <date>current</date>
         </commit>
-        <description>Added:
+        <description>Fixed:
+ Bug when editing template file paths.
+
+Added:
  Reordering bits</description>
     </record>
     <record>
