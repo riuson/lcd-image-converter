@@ -32,6 +32,7 @@ class Parser;
 class DialogPreview;
 class SetupTabPrepare;
 class SetupTabMatrix;
+class SetupTabReordering;
 class SetupTabImage;
 class SetupTabFont;
 class SetupTabTemplates;
@@ -54,11 +55,12 @@ private:
 
     DialogPreview *mPreview;
 
-    SetupTabPrepare   *mSetupPrepare;
-    SetupTabMatrix    *mSetupMatrix;
-    SetupTabImage     *mSetupImage;
-    SetupTabFont      *mSetupFont;
-    SetupTabTemplates *mSetupTemplates;
+    SetupTabPrepare    *mSetupPrepare;
+    SetupTabMatrix     *mSetupMatrix;
+    SetupTabReordering *mSetupReordering;
+    SetupTabImage      *mSetupImage;
+    SetupTabFont       *mSetupFont;
+    SetupTabTemplates  *mSetupTemplates;
 
     void fillPresetsList();
     void presetLoad(const QString &name);

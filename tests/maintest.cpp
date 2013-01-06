@@ -5,6 +5,7 @@
 #include "testprepareoptions.h"
 #include "testmatrixoptions.h"
 #include "testimageoptions.h"
+#include "testreorderingoptions.h"
 #include "testfontoptions.h"
 #include "testtemplateoptions.h"
 #include "testpresets.h"
@@ -26,6 +27,9 @@ int main(void)
 
     TestMatrixOptions tmo;
     QTest::qExec(&tmo);
+
+    TestReorderingOptions tro;
+    QTest::qExec(&tro);
 
     TestImageOptions tio;
     QTest::qExec(&tio);

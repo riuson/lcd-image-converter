@@ -47,6 +47,12 @@ public:
             QVector<quint32> *outputData,
             int *outputWidth,
             int *outputHeight);
+    // bits reordering
+    static void reorder(
+            Preset *preset,
+            QVector<quint32> *inputData, int inputWidth, int inputHeight,
+            QVector<quint32> *outputData, int *outputWidth, int *outputHeight);
+
     static void compressData(
             Preset *matrix,
             QVector<quint32> *inputData, int inputWidth, int inputHeight,
