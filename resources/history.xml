@@ -9,7 +9,8 @@
  Bug when editing template file paths.
 
 Added:
- Reordering bits</description>
+ Reordering bits;
+ Scanning of the bands.</description>
     </record>
     <record>
         <commit>
