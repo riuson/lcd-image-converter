@@ -1060,7 +1060,17 @@ Qt: %3</translation>
         <translation>Сканирование линий:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/setuptabprepare.ui" line="118"/>
+        <location filename="../controls/setup/parts/setuptabprepare.ui" line="112"/>
+        <source>Bands</source>
+        <translation>Полосы</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.ui" line="119"/>
+        <source>Band Width</source>
+        <translation>Ширина полосы</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/setuptabprepare.ui" line="141"/>
         <source>Inverse</source>
         <translation>Инвертировать</translation>
     </message>
