@@ -24,6 +24,8 @@ private slots:
     void scanMain();
     void scanSub();
     void inverse();
+    void bandScanning();
+    void bandWidth();
 
     void cleanupTestCase();
 };

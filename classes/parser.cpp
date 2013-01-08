@@ -399,6 +399,15 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
     else
         tags.insert("scanSub", "backward");
 
+    // bands
+    if (this->mPreset->prepare()->bandScanning())
+        tags.insert("bands", "yes");
+    else
+        tags.insert("bands", "no");
+    int bandWidth = this->mPreset->prepare()->bandWidth();
+    tags.insert("bandWidth", QString("%1").arg(bandWidth));
+
+
     // inversion
     if (this->mPreset->prepare()->inverse())
         tags.insert("inverse", "yes");

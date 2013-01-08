@@ -61,6 +61,8 @@ private slots:
     void on_comboBoxScanSub_currentIndexChanged(int index);
     void on_checkBoxInverse_toggled(bool value);
     void on_horizontalScrollBarEdge_valueChanged(int value);
+    void on_checkBoxBands_toggled(bool value);
+    void on_spinBoxBandWidth_valueChanged(int value);
 };
 //-----------------------------------------------------------------------------
 #endif // SETUPTABPREPARE_H
