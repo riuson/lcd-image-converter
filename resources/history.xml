@@ -6,7 +6,8 @@
             <date>current</date>
         </commit>
         <description>Fixed:
- Bug when editing template file paths.
+ Bug when editing template file paths;
+ A grid in the font preview dialog restored.
 
 Added:
  Reordering bits;
