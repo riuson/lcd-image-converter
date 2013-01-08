@@ -43,6 +43,7 @@ public:
 protected:
     void changeEvent(QEvent *e);
     bool eventFilter(QObject *obj, QEvent *event);
+    void wheelEvent(QWheelEvent *event);
 
 private:
     Ui::WidgetBitmapEditor *ui;
@@ -63,6 +64,7 @@ private slots:
     void on_spinBoxScale_valueChanged(int value);
     void on_pushButtonColor1_clicked();
     void on_pushButtonColor2_clicked();
+    void changeScale(int value);
 signals:
     void imageChanged();
 };

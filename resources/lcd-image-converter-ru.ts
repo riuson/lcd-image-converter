@@ -1324,7 +1324,7 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/widgetbitmapeditor.cpp" line="113"/>
-        <location filename="../controls/widgetbitmapeditor.cpp" line="165"/>
+        <location filename="../controls/widgetbitmapeditor.cpp" line="194"/>
         <source>%1 x %2</source>
         <translation>%1 x %2</translation>
     </message>

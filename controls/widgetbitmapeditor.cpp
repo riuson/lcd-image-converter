@@ -130,6 +130,35 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
     return result;
 }
 //-----------------------------------------------------------------------------
+void WidgetBitmapEditor::wheelEvent(QWheelEvent *event)
+{
+    if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier)
+    {
+        QPoint point = event->globalPos();
+        point = this->mapFromGlobal(point);
+
+        QRect labelRect = this->ui->label->rect();
+        QPoint labelPoint = this->ui->label->pos();
+        labelRect.moveTo(labelPoint);
+
+        if (labelRect.contains(point.x(), point.y()))
+        {
+            if (event->orientation() == Qt::Vertical)
+            {
+                int scale = this->mScale;
+                if (event->delta() > 0)
+                    scale++;
+                else
+                    scale--;
+
+                this->changeScale(scale);
+                this->ui->spinBoxScale->setValue(this->mScale);
+            }
+            event->accept();
+        }
+    }
+}
+//-----------------------------------------------------------------------------
 const QImage *WidgetBitmapEditor::image() const
 {
     const QImage *result = &this->mImageOriginal;
@@ -168,10 +197,7 @@ void WidgetBitmapEditor::updateImageScaled(int scale)
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::on_spinBoxScale_valueChanged(int value)
 {
-    this->mScale = value;
-    this->updateImageScaled(this->mScale);
-
-    BitmapEditorOptions::setScale(value);
+    this->changeScale(value);
 }
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::on_pushButtonColor1_clicked()
@@ -195,6 +221,20 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
         BitmapEditorOptions::setColor2(this->mColor2);
         this->mPixmapColor2.fill(this->mColor2);
         this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
+    }
+}
+//-----------------------------------------------------------------------------
+void WidgetBitmapEditor::changeScale(int value)
+{
+    if (value > 0 && value <= 50)
+    {
+        if (this->mScale != value)
+        {
+            this->mScale = value;
+            this->updateImageScaled(this->mScale);
+
+            BitmapEditorOptions::setScale(value);
+        }
     }
 }
 //-----------------------------------------------------------------------------

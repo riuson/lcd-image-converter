@@ -11,7 +11,8 @@
 
 Added:
  Reordering bits;
- Scanning of the bands.</description>
+ Scanning of the bands;
+ Scaling by mouse wheel + Ctrl.</description>
     </record>
     <record>
         <commit>
