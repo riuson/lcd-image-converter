@@ -28,6 +28,7 @@
 #include "dialogpreview.h"
 #include "setuptabprepare.h"
 #include "setuptabmatrix.h"
+#include "setuptabreordering.h"
 #include "setuptabimage.h"
 #include "setuptabfont.h"
 #include "setuptabtemplates.h"
@@ -43,11 +44,12 @@ DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
     this->mData = dataContainer;
     this->mPreset = new Preset(this);
 
-    this->mSetupPrepare   = new SetupTabPrepare(this->mPreset, this);
-    this->mSetupMatrix    = new SetupTabMatrix(this->mPreset, this);
-    this->mSetupImage     = new SetupTabImage(this->mPreset, this);
-    this->mSetupFont      = new SetupTabFont(this->mPreset, this);
-    this->mSetupTemplates = new SetupTabTemplates(this->mPreset, this);
+    this->mSetupPrepare    = new SetupTabPrepare(this->mPreset, this);
+    this->mSetupMatrix     = new SetupTabMatrix(this->mPreset, this);
+    this->mSetupReordering = new SetupTabReordering(this->mPreset, this);
+    this->mSetupImage      = new SetupTabImage(this->mPreset, this);
+    this->mSetupFont       = new SetupTabFont(this->mPreset, this);
+    this->mSetupTemplates  = new SetupTabTemplates(this->mPreset, this);
 
     QString selectedPreset = Preset::currentName();
     int presetsCount = Preset::presetsList().length();
@@ -70,6 +72,7 @@ DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
 
     this->mSetupPrepare->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
     this->mSetupMatrix->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
+    this->mSetupReordering->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
     this->mSetupImage->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
     this->mSetupFont->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
     this->mSetupTemplates->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
@@ -85,6 +88,7 @@ DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
 
     this->ui->tabWidgetSetupParts->addTab(this->mSetupPrepare, this->mSetupPrepare->windowTitle());
     this->ui->tabWidgetSetupParts->addTab(this->mSetupMatrix, this->mSetupMatrix->windowTitle());
+    this->ui->tabWidgetSetupParts->addTab(this->mSetupReordering, this->mSetupReordering->windowTitle());
     this->ui->tabWidgetSetupParts->addTab(this->mSetupImage, this->mSetupImage->windowTitle());
     this->ui->tabWidgetSetupParts->addTab(this->mSetupFont, this->mSetupFont->windowTitle());
     this->ui->tabWidgetSetupParts->addTab(this->mSetupTemplates, this->mSetupTemplates->windowTitle());
@@ -97,6 +101,7 @@ DialogOptions::~DialogOptions()
 
     delete this->mSetupPrepare;
     delete this->mSetupMatrix;
+    delete this->mSetupReordering;
     delete this->mSetupFont;
     delete this->mSetupImage;
     delete this->mSetupTemplates;

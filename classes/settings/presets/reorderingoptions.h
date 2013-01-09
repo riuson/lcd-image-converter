@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,52 +17,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef HISTORYKEEPER_H
-#define HISTORYKEEPER_H
+#ifndef REORDERINGOPTIONS_H
+#define REORDERINGOPTIONS_H
 //-----------------------------------------------------------------------------
 #include <QObject>
-#include <QString>
-#include <QImage>
-#include <QVariant>
-#include <QList>
-#include <QMap>
-
 //-----------------------------------------------------------------------------
-class HistoryRecord;
+template <class T> class QVector;
+class QSettings;
 //-----------------------------------------------------------------------------
-class HistoryKeeper : public QObject
+class ReorderingOptions : public QObject
 {
     Q_OBJECT
 public:
-    explicit HistoryKeeper(QObject *parent = 0);
-    ~HistoryKeeper();
+    explicit ReorderingOptions(QObject *parent = 0);
+    virtual ~ReorderingOptions();
 
-    void init(
-            const QMap<QString, QImage *> *images,
-            const QMap<QString, QVariant> *info);
-    void store(
-            const QMap<QString, QImage *> *images,
-            const QMap<QString, QVariant> *info);
-    void restorePrevious(
-            QMap<QString, QImage *> *images,
-            QMap<QString, QVariant> *info);
-    void restoreNext(
-            QMap<QString, QImage *> *images,
-            QMap<QString, QVariant> *info);
+    int operationsCount() const;
+    void operation(int index, quint32 *mask, int *shift, bool *left) const;
+    void operationAdd(quint32 mask, int shift, bool left);
+    void operationRemove(int index);
+    void operationsRemoveAll();
+    void operationReplace(int index, quint32 mask, int shift, bool left);
 
-    bool initialized() const;
-    bool canRestorePrevious() const;
-    bool canRestoreNext() const;
+    bool load(QSettings *settings, int version);
+    void save(QSettings *settings);
 
 private:
-    QList<HistoryRecord *> *mHistory;
-    int mCurrentIndex;
+    QVector<quint32> *mOperations;
 
-    void removeAfter(int index);
-    void restoreAt(
-            int index,
-            QMap<QString, QImage *> *images,
-            QMap<QString, QVariant> *info);
+signals:
+    void changed();
+
+public slots:
+
 };
 //-----------------------------------------------------------------------------
-#endif // HISTORYKEEPER_H
+#endif // REORDERINGOPTIONS_H

@@ -30,6 +30,8 @@ PrepareOptions::PrepareOptions(QObject *parent) :
     this->mScanMain = TopToBottom;
     this->mScanSub = Forward;
     this->mInverse = false;
+    this->mBandScanning = false;
+    this->mBandWidth = 0;
 }
 //-----------------------------------------------------------------------------
 ConversionType PrepareOptions::convType() const
@@ -82,6 +84,18 @@ bool PrepareOptions::inverse() const
     return this->mInverse;
 }
 //-----------------------------------------------------------------------------
+bool PrepareOptions::bandScanning() const
+{
+    return this->mBandScanning;
+}
+//-----------------------------------------------------------------------------
+int PrepareOptions::bandWidth() const
+{
+    if (this->mBandWidth < 1)
+        return 1;
+    return this->mBandWidth;
+}
+//-----------------------------------------------------------------------------
 void PrepareOptions::setConvType(ConversionType value)
 {
     if (value < ConversionTypeMonochrome || value > ConversionTypeColor)
@@ -130,6 +144,22 @@ void PrepareOptions::setInverse(bool value)
     this->mInverse = value;
 
     emit this->changed();
+}
+//-----------------------------------------------------------------------------
+void PrepareOptions::setBandScanning(bool value)
+{
+    this->mBandScanning = value;
+    emit this->changed();
+}
+//-----------------------------------------------------------------------------
+void PrepareOptions::setBandWidth(int value)
+{
+    if (value > 0)
+    {
+        this->mBandWidth = value;
+
+        emit this->changed();
+    }
 }
 //-----------------------------------------------------------------------------
 const QString & PrepareOptions::convTypeName() const
@@ -263,6 +293,7 @@ bool PrepareOptions::load(QSettings *settings, int version)
     {
         quint32 uConvType = 0, uMonoType = 0, uEdge = 0;
         quint32 uScanMain = 0, uScanSub = 0, uInverse = 0;
+        quint32 uBandWidth = 1, uBandScanning = 0;
 
         uConvType = settings->value("convType", int(0)).toUInt(&result);
 
@@ -282,6 +313,12 @@ bool PrepareOptions::load(QSettings *settings, int version)
             uInverse = settings->value("inverse", int(0)).toUInt(&result);
 
         if (result)
+            uBandScanning = settings->value("bandScanning", false).toBool();
+
+        if (result)
+            uBandWidth = settings->value("bandWidth", int(1)).toUInt(&result);
+
+        if (result)
         {
             this->setConvType((ConversionType)uConvType);
             this->setMonoType((MonochromeType)uMonoType);
@@ -289,6 +326,8 @@ bool PrepareOptions::load(QSettings *settings, int version)
             this->setScanMain((ScanMainDirection)uScanMain);
             this->setScanSub((ScanSubDirection)uScanSub);
             this->setInverse((bool)uInverse);
+            this->setBandScanning((bool)uBandScanning);
+            this->setBandWidth((int)uBandWidth);
         }
     }
     else if (version == 2)
@@ -313,6 +352,8 @@ void PrepareOptions::save(QSettings *settings)
     settings->setValue("scanMain", QString("%1").arg((int)this->scanMain()));
     settings->setValue("scanSub",  QString("%1").arg((int)this->scanSub()));
     settings->setValue("inverse",  QString("%1").arg((int)this->inverse()));
+    settings->setValue("bandScanning", QString("%1").arg((int)this->bandScanning()));
+    settings->setValue("bandWidth",    QString("%1").arg((int)this->bandWidth()));
 
     settings->endGroup();
 }

@@ -104,6 +104,33 @@ void TestPrepareOptions::inverse()
     QCOMPARE(this->mOptions->inverse(), true);
 }
 //-----------------------------------------------------------------------------
+void TestPrepareOptions::bandScanning()
+{
+    // 1
+    this->mOptions->setBandScanning(false);
+    QCOMPARE(this->mOptions->bandScanning(), false);
+
+    // 2
+    this->mOptions->setBandScanning(true);
+    QCOMPARE(this->mOptions->bandScanning(), true);
+}
+//-----------------------------------------------------------------------------
+void TestPrepareOptions::bandWidth()
+{
+    for (int i = -512; i < 512; i++)
+    {
+        this->mOptions->setBandWidth(i);
+        if (i > 0)
+        {
+            QCOMPARE(this->mOptions->bandWidth(), i);
+        }
+        else
+        {
+            QCOMPARE(this->mOptions->bandScanning(), 1);
+        }
+    }
+}
+//-----------------------------------------------------------------------------
 void TestPrepareOptions::cleanupTestCase()
 {
     delete this->mOptions;

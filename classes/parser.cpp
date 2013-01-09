@@ -221,24 +221,31 @@ void Parser::parseImagesTable(const QString &templateString,
         ConverterHelper::prepareImage(this->mPreset, &image, &imagePrepared);
 
         // conversion from image to strings
-        QVector<quint32> imageData;
-        int width, height;
-        ConverterHelper::pixelsData(this->mPreset, &imagePrepared, &imageData, &width, &height);
+        QVector<quint32> sourceData;
+        int sourceWidth, sourceHeight;
+        ConverterHelper::pixelsData(this->mPreset, &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
 
-        ConverterHelper::processPixels(this->mPreset, &imageData);
+        ConverterHelper::processPixels(this->mPreset, &sourceData);
 
-        QVector<quint32> imageDataPacked;
-        int width2, height2;
+        QVector<quint32> packedData;
+        int packedWidth, packedHeight;
         ConverterHelper::packData(
                     this->mPreset,
-                    &imageData, width, height,
-                    &imageDataPacked, &width2, &height2);
+                    &sourceData, sourceWidth, sourceHeight,
+                    &packedData, &packedWidth, &packedHeight);
 
-        QVector<quint32> imageDataCompressed;
-        int width3, height3;
-        ConverterHelper::compressData(this->mPreset, &imageDataPacked, width2, height2, &imageDataCompressed, &width3, &height3);
+        QVector<quint32> reorderedData;
+        int reorderedWidth, reorderedHeight;
+        ConverterHelper::reorder(
+                    this->mPreset,
+                    &packedData, packedWidth, packedHeight,
+                    &reorderedData, &reorderedWidth, &reorderedHeight);
 
-        QString dataString = ConverterHelper::dataToString(this->mPreset, &imageDataCompressed, width3, height3, "0x");
+        QVector<quint32> compressedData;
+        int compressedWidth, compressedHeight;
+        ConverterHelper::compressData(this->mPreset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
+
+        QString dataString = ConverterHelper::dataToString(this->mPreset, &compressedData, compressedWidth, compressedHeight, "0x");
         dataString.replace("\n", "\n" + tags["imageDataIndent"]);
 
         // end of conversion
@@ -248,7 +255,7 @@ void Parser::parseImagesTable(const QString &templateString,
 
         QString charCode = this->hexCode(key.at(0), encoding, useBom);
 
-        tags["blocksCount"] = QString("%1").arg(imageDataCompressed.size());
+        tags["blocksCount"] = QString("%1").arg(compressedData.size());
         tags["imageData"] = dataString;
         tags["charCode"] = charCode;
         if (it.hasNext())
@@ -391,6 +398,15 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
         tags.insert("scanSub", "forward");
     else
         tags.insert("scanSub", "backward");
+
+    // bands
+    if (this->mPreset->prepare()->bandScanning())
+        tags.insert("bands", "yes");
+    else
+        tags.insert("bands", "no");
+    int bandWidth = this->mPreset->prepare()->bandWidth();
+    tags.insert("bandWidth", QString("%1").arg(bandWidth));
+
 
     // inversion
     if (this->mPreset->prepare()->inverse())

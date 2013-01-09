@@ -30,6 +30,7 @@
 #include "preset.h"
 #include "prepareoptions.h"
 #include "matrixoptions.h"
+#include "reorderingoptions.h"
 #include "imageoptions.h"
 #include "rlecompressor.h"
 //-----------------------------------------------------------------------------
@@ -72,15 +73,51 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
             ConverterHelper::makeGrayscale(im);
         }
 
-        for (int y = 0; y < im.height(); y++)
+        if (preset->prepare()->bandScanning())
         {
-            for (int x = 0; x < im.width(); x++)
+            const int bandSize = preset->prepare()->bandWidth();
+
+            int bandX = 0;
+
+            do
             {
-                // typedef QRgb
-                // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
-                QRgb pixel = im.pixel(x, y);
-                quint32 value = pixel & 0x00ffffff;
-                data->append(value);
+                for (int y = 0; y < im.height(); y++)
+                {
+                    for (int x = 0; x < bandSize; x++)
+                    {
+                        if (bandX + x < im.width())
+                        {
+                            // typedef QRgb
+                            // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
+                            QRgb pixel = im.pixel(bandX + x, y);
+                            quint32 value = pixel & 0x00ffffff;
+                            data->append(value);
+                        }
+                        else
+                        {
+                            data->append(0x00000000);
+                        }
+                    }
+                }
+
+                bandX += bandSize;
+            } while (bandX < im.width());
+
+            // set new width
+            *width = bandX;
+        }
+        else
+        {
+            for (int y = 0; y < im.height(); y++)
+            {
+                for (int x = 0; x < im.width(); x++)
+                {
+                    // typedef QRgb
+                    // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
+                    QRgb pixel = im.pixel(x, y);
+                    quint32 value = pixel & 0x00ffffff;
+                    data->append(value);
+                }
             }
         }
     }
@@ -131,15 +168,40 @@ void ConverterHelper::packData(
 
     if (preset->image()->splitToRows())
     {
-        // process each row
-        for (int y = 0; y < inputHeight; y++)
+        if (preset->prepare()->bandScanning())
         {
-            // start of row in inputData
-            int start = y * inputWidth;
-            // get row data packed
-            ConverterHelper::packDataRow(preset, inputData, start, inputWidth, outputData, &rowLength);
-            // get row blocks count
-            resultWidth = qMax(resultWidth, rowLength);
+            // non-standard row width
+
+            // bandsCount is divisible by bandSize (because of pixelsData() method)
+            int bandSize = preset->prepare()->bandWidth();
+            int bandsCount = inputWidth / bandSize;
+
+            // scanned rows count with bands
+            int rowsCount = inputHeight * bandsCount;
+
+            for (int row = 0; row < rowsCount; row++)
+            {
+                // start of row in inputData
+                int start = row * bandSize;
+                // get row data packed
+                ConverterHelper::packDataRow(preset, inputData, start, bandSize, outputData, &rowLength);
+                // get row blocks count
+                resultWidth = qMax(resultWidth, rowLength);
+            }
+            resultWidth *= bandsCount;
+        }
+        else
+        {
+            // process each standard row
+            for (int y = 0; y < inputHeight; y++)
+            {
+                // start of row in inputData
+                int start = y * inputWidth;
+                // get row data packed
+                ConverterHelper::packDataRow(preset, inputData, start, inputWidth, outputData, &rowLength);
+                // get row blocks count
+                resultWidth = qMax(resultWidth, rowLength);
+            }
         }
     }
     else
@@ -151,6 +213,41 @@ void ConverterHelper::packData(
         *outputHeight = 1;
     }
     *outputWidth = resultWidth;
+}
+//-----------------------------------------------------------------------------
+void ConverterHelper::reorder(
+        Preset *preset,
+        QVector<quint32> *inputData,
+        int inputWidth,
+        int inputHeight,
+        QVector<quint32> *outputData,
+        int *outputWidth,
+        int *outputHeight)
+{
+    for (int i = 0; i < inputData->size(); i++)
+    {
+        quint32 value = inputData->at(i);
+        quint32 valueNew = 0;
+        for (int j = 0; j < preset->reordering()->operationsCount(); j++)
+        {
+            quint32 mask;
+            int shift;
+            bool left;
+            preset->reordering()->operation(j, &mask, &shift, &left);
+
+            if (left)
+                valueNew |= (value & mask) << shift;
+            else
+                valueNew |= (value & mask) >> shift;
+        }
+
+        if (preset->reordering()->operationsCount() == 0)
+            valueNew = value;
+
+        outputData->append(valueNew);
+    }
+    *outputWidth = inputWidth;
+    *outputHeight = inputHeight;
 }
 //-----------------------------------------------------------------------------
 void ConverterHelper::compressData(

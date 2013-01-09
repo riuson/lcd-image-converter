@@ -56,6 +56,7 @@ void DialogFontPreview::on_lineEditText_textChanged(const QString &text)
 void DialogFontPreview::on_spinBoxScale_valueChanged(int i)
 {
     this->mScaledImage = BitmapHelper::scale(&this->mOriginalImage, i);
+    this->mScaledImage = BitmapHelper::drawGrid(&this->mScaledImage, i);
     this->ui->labelPreview->setPixmap(QPixmap::fromImage(this->mScaledImage));
 }
 //-----------------------------------------------------------------------------

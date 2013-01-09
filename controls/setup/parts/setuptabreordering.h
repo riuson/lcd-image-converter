@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,35 +17,45 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef SETUPTABTEMPLATES_H
-#define SETUPTABTEMPLATES_H
+#ifndef SETUPTABREORDERING_H
+#define SETUPTABREORDERING_H
 //-----------------------------------------------------------------------------
 #include <QWidget>
 //-----------------------------------------------------------------------------
 namespace Ui {
-class SetupTabTemplates;
+class SetupTabReordering;
 }
 //-----------------------------------------------------------------------------
 class Preset;
+class ReorderingPreviewModel;
+class ReorderingItemDelegate;
+class QMenu;
 //-----------------------------------------------------------------------------
-class SetupTabTemplates : public QWidget
+class SetupTabReordering : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SetupTabTemplates(Preset *preset, QWidget *parent = 0);
-    virtual ~SetupTabTemplates();
+    explicit SetupTabReordering(Preset *preset, QWidget *parent = 0);
+    virtual ~SetupTabReordering();
+
+public slots:
+    void matrixChanged();
 
 private:
-    Ui::SetupTabTemplates *ui;
+    Ui::SetupTabReordering *ui;
     Preset *mPreset;
+    ReorderingPreviewModel *mReorderingModel;
+    ReorderingItemDelegate *mReorderingItemDelegate;
+    QMenu *mMenu;
+
+    int maxBitIndex() const;
 
 private slots:
-    void matrixChanged();
-    void on_pushButtonBrowseImage_clicked();
-    void on_pushButtonBrowseFont_clicked();
-    void on_lineEditImage_editingFinished();
-    void on_lineEditFont_editingFinished();
+    void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
+    void operationAdd();
+    void operationShift();
+    void operationRemove();
 };
 //-----------------------------------------------------------------------------
-#endif // SETUPTABTEMPLATES_H
+#endif // SETUPTABREORDERING_H

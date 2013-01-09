@@ -16,6 +16,7 @@
     </qresource>
     <qresource prefix="/demos">
         <file alias="scanning">demos/scanning.png</file>
+        <file alias="scanning_band">demos/scanning_band.png</file>
     </qresource>
     <qresource prefix="/history">
         <file alias="changes">history.xml</file>

@@ -1,33 +1,31 @@
-#ifndef TESTPREPAREOPTIONS_H
-#define TESTPREPAREOPTIONS_H
+#ifndef TESTREORDERINGOPTIONS_H
+#define TESTREORDERINGOPTIONS_H
 //-----------------------------------------------------------------------------
 #include <QObject>
 #include <QtTest/QtTest>
 //-----------------------------------------------------------------------------
-class PrepareOptions;
+class ReorderingOptions;
 //-----------------------------------------------------------------------------
-class TestPrepareOptions : public QObject
+class TestReorderingOptions : public QObject
 {
     Q_OBJECT
 public:
-    explicit TestPrepareOptions(QObject *parent = 0);
+    explicit TestReorderingOptions(QObject *parent = 0);
 
 private:
-    PrepareOptions *mOptions;
+    ReorderingOptions *mOptions;
 
 private slots:
     void initTestCase();
 
-    void convType();
-    void monoType();
-    void edge();
-    void scanMain();
-    void scanSub();
-    void inverse();
-    void bandScanning();
-    void bandWidth();
+    void operationsCount();
+    void operation();
+    void operationAdd();
+    void operationRemove();
+    void operationRemoveAll();
+    void operationReplace();
 
     void cleanupTestCase();
 };
 //-----------------------------------------------------------------------------
-#endif // TESTPREPAREOPTIONS_H
+#endif // TESTREORDERINGOPTIONS_H

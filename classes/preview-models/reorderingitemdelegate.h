@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,35 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef SETUPTABTEMPLATES_H
-#define SETUPTABTEMPLATES_H
+#ifndef REORDERINGITEMDELEGATE_H
+#define REORDERINGITEMDELEGATE_H
 //-----------------------------------------------------------------------------
-#include <QWidget>
+#include <QtGui>
 //-----------------------------------------------------------------------------
-namespace Ui {
-class SetupTabTemplates;
-}
-//-----------------------------------------------------------------------------
-class Preset;
-//-----------------------------------------------------------------------------
-class SetupTabTemplates : public QWidget
+class ReorderingItemDelegate : public QItemDelegate
 {
     Q_OBJECT
+public:
+    explicit ReorderingItemDelegate(QObject *parent = 0);
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
 public:
-    explicit SetupTabTemplates(Preset *preset, QWidget *parent = 0);
-    virtual ~SetupTabTemplates();
-
+    QColor color() const;
+    void setColor(const QColor &value);
 private:
-    Ui::SetupTabTemplates *ui;
-    Preset *mPreset;
-
-private slots:
-    void matrixChanged();
-    void on_pushButtonBrowseImage_clicked();
-    void on_pushButtonBrowseFont_clicked();
-    void on_lineEditImage_editingFinished();
-    void on_lineEditFont_editingFinished();
+    QColor mColor;
 };
 //-----------------------------------------------------------------------------
-#endif // SETUPTABTEMPLATES_H
+#endif // REORDERINGITEMDELEGATE_H

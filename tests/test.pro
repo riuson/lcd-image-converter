@@ -35,7 +35,9 @@ SOURCES += maintest.cpp \
     ../classes/settings/presets/fontoptions.cpp \
     parts/testtemplateoptions.cpp \
     ../classes/compression/rlecompressor.cpp \
-    parts/testrle.cpp
+    parts/testrle.cpp \
+    ../classes/settings/presets/reorderingoptions.cpp \
+    parts/testreorderingoptions.cpp
 
 HEADERS += \
     parts/testbitmaphelper.h \
@@ -58,7 +60,9 @@ HEADERS += \
     ../classes/settings/presets/fontoptions.h \
     parts/testtemplateoptions.h \
     ../classes/compression/rlecompressor.h \
-    parts/testrle.h
+    parts/testrle.h \
+    ../classes/settings/presets/reorderingoptions.h \
+    parts/testreorderingoptions.h
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 

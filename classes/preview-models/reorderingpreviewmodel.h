@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,52 +17,59 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef SETUPTABPREPARE_H
-#define SETUPTABPREPARE_H
+#ifndef REORDERINGPREVIEWMODEL_H
+#define REORDERINGPREVIEWMODEL_H
 //-----------------------------------------------------------------------------
-#include <QWidget>
+#include <QAbstractItemModel>
 //-----------------------------------------------------------------------------
+#include <QVariant>
 #include "conversion_options.h"
-//-----------------------------------------------------------------------------
-namespace Ui {
-class SetupTabPrepare;
-}
 //-----------------------------------------------------------------------------
 class Preset;
 //-----------------------------------------------------------------------------
 using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
-class SetupTabPrepare : public QWidget
+class ReorderingPreviewModel : public QAbstractItemModel
 {
     Q_OBJECT
-
 public:
-    explicit SetupTabPrepare(Preset *preset, QWidget *parent = 0);
-    ~SetupTabPrepare();
+    enum RowType
+    {
+        Source,
+        Operation,
+        Result
+    };
 
-public slots:
-    void matrixChanged();
+    explicit ReorderingPreviewModel(Preset *preset, QObject *parent = 0);
+    int rowCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
+    QModelIndex index(int row, int column, const QModelIndex &parent) const;
+    QModelIndex parent(const QModelIndex &child) const;
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    RowType rowType(int row) const;
 
 private:
-    Ui::SetupTabPrepare *ui;
     Preset *mPreset;
-    QPixmap mPixmapScanning;
 
-    void updateScanningPreview();
-    void modificationsFromScan(
-            Rotate *rotate,
-            bool *flipHorizontal,
-            bool *flipVertical) const;
+    enum ColorType
+    {
+        Empty,
+        //for used bits
+        Gray
+    };
 
-private slots:
-    void on_comboBoxConversionType_currentIndexChanged(int index);
-    void on_comboBoxMonochromeType_currentIndexChanged(int index);
-    void on_comboBoxScanMain_currentIndexChanged(int index);
-    void on_comboBoxScanSub_currentIndexChanged(int index);
-    void on_checkBoxInverse_toggled(bool value);
-    void on_horizontalScrollBarEdge_valueChanged(int value);
-    void on_checkBoxBands_toggled(bool value);
-    void on_spinBoxBandWidth_valueChanged(int value);
+    void getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const;
+    void resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
+    void sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const;
+    int maxBitIndex() const;
+
+signals:
+
+public slots:
+    void callReset();
 };
 //-----------------------------------------------------------------------------
-#endif // SETUPTABPREPARE_H
+#endif // REORDERINGPREVIEWMODEL_H
