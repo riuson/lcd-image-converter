@@ -31,6 +31,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     ui->setupUi(this);
 
     this->mModel = new CharactersModel(this);
+    this->mModel->setCodesRange(0x0000, 0x00ff);
     this->ui->tableView->setModel(this->mModel);
 
     QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();

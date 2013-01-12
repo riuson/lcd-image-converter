@@ -27,12 +27,16 @@ CharactersModel::CharactersModel(QObject *parent) :
 int CharactersModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return 65536 / 16 - 2;
+
+    int result = (this->mResultCode2 + 1 - this->mResultCode1) / 16;
+
+    return result;
 }
 //-----------------------------------------------------------------------------
 int CharactersModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
+
     return 16;
 }
 //-----------------------------------------------------------------------------
@@ -43,7 +47,10 @@ QVariant CharactersModel::headerData(int section, Qt::Orientation orientation, i
     {
         if (orientation == Qt::Vertical)
         {
-            result = QString("%1").arg((section + 2) * 16, 4, 16);
+            int row = (section) * 16;
+            row += this->mResultCode1;
+
+            result = QString("%1").arg(row, 8, 16);
         }
         else
         {
@@ -60,8 +67,16 @@ QVariant CharactersModel::data(const QModelIndex &index, int role) const
     {
         if (index.isValid())
         {
-            quint16 a = index.column() + index.row() * 16 + 32;
-            result = QString(QChar(a));
+            quint32 code = index.column() + index.row() * 16;
+            code += this->mResultCode1;
+
+            if (code >= 0x00000020)
+            {
+                if (code >= this->mDesiredCode1 && code <= this->mDesiredCode2)
+                {
+                    result = QString(QChar(code));
+                }
+            }
         }
     }
     return result;
@@ -77,6 +92,19 @@ QModelIndex CharactersModel::parent(const QModelIndex &index) const
 {
     Q_UNUSED(index)
     return QModelIndex();
+}
+//-----------------------------------------------------------------------------
+void CharactersModel::setCodesRange(quint32 first, quint32 last)
+{
+    this->beginResetModel();
+
+    this->mDesiredCode1 = first;
+    this->mDesiredCode2 = last;
+
+    this->mResultCode1 = first & 0xfffffff0;
+    this->mResultCode2 = last | 0x0000000f;
+
+    this->endResetModel();
 }
 //-----------------------------------------------------------------------------
 

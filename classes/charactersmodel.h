@@ -35,6 +35,16 @@ public:
     QModelIndex index(int row, int column,
                       const QModelIndex &parent = QModelIndex()) const;
     QModelIndex parent(const QModelIndex &index) const;
+
+    void setCodesRange(quint32 first, quint32 last);
+
+private:
+    quint32 mDesiredCode1;
+    quint32 mDesiredCode2;
+    quint32 mResultCode1;
+    quint32 mResultCode2;
+
+
 signals:
 
 public slots:
