@@ -78,6 +78,7 @@ private slots:
     void on_tableView_doubleClicked(const QModelIndex &index);
     void on_pushButtonAppend_clicked();
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void rangeChanged(const QItemSelection &selected, const QItemSelection &deselected);
 };
 
 #endif // DIALOGFONTSELECT_H

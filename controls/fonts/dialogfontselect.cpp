@@ -62,6 +62,9 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
 
     this->mBlocksModel = new UnicodeBlocksModel(this);
     this->ui->listViewBlocks->setModel(this->mBlocksModel);
+
+    selectionModel = this->ui->listViewBlocks->selectionModel();
+    this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(rangeChanged(QItemSelection,QItemSelection)));
 }
 //-----------------------------------------------------------------------------
 DialogFontSelect::~DialogFontSelect()
@@ -318,6 +321,20 @@ void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QI
             }
         }
         this->ui->pushButtonAppend->setEnabled(hasNew);
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::rangeChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    QModelIndexList indexes = selected.indexes();
+
+    if (indexes.length() > 0)
+    {
+        bool ok;
+        quint32 first = this->mBlocksModel->data(indexes.at(0), UnicodeBlocksModel::FirstCodeRole).toUInt(&ok);
+        quint32 last = this->mBlocksModel->data(indexes.at(0), UnicodeBlocksModel::LastCodeRole).toUInt(&ok);
+
+        this->mModel->setCodesRange(first, last);
     }
 }
 //-----------------------------------------------------------------------------
