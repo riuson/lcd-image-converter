@@ -22,6 +22,7 @@
 
 #include "charactersmodel.h"
 #include <QTableWidgetSelectionRange>
+#include "unicodeblocksmodel.h"
 //-----------------------------------------------------------------------------
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
     QDialog(parent),
@@ -57,6 +58,9 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     for (int i = 0; i < 32; i++)
         this->ui->tableView->setColumnWidth(i , cellSize);
     //this->ui->tableView->resizeColumnsToContents();
+
+    this->mBlocksModel = new UnicodeBlocksModel(this);
+    this->ui->listViewBlocks->setModel(this->mBlocksModel);
 }
 //-----------------------------------------------------------------------------
 DialogFontSelect::~DialogFontSelect()

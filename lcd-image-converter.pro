@@ -75,7 +75,8 @@ SOURCES += main.cpp \
     controls/setup/parts/setuptabreordering.cpp \
     controls/setup/parts/setuptabtemplates.cpp \
     controls/starttab.cpp \
-    controls/widgetbitmapeditor.cpp
+    controls/widgetbitmapeditor.cpp \
+    classes/unicodeblocksmodel.cpp
 
 HEADERS += \
     classes/action-handlers/actionedithandlers.h \
@@ -135,7 +136,8 @@ HEADERS += \
     controls/starttab.h \
     controls/widgetbitmapeditor.h \
     interfaces/idocument.h \
-    interfaces/imainwindow.h
+    interfaces/imainwindow.h \
+    classes/unicodeblocksmodel.h
 
 FORMS += \
     controls/dialogabout.ui \
@@ -192,7 +194,8 @@ OTHER_FILES += \
     README \
     resources/history.xml \
     resources/history.xsl \
-    resources/history.css
+    resources/history.css \
+    resources/unicode_blocks.txt
 
 
 # generate version info file on each build, because file in other directory

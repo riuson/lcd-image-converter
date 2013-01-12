@@ -28,6 +28,7 @@ namespace Ui {
 class CharactersModel;
 class QModelIndex;
 class QItemSelection;
+class UnicodeBlocksModel;
 //-----------------------------------------------------------------------------
 class DialogFontSelect : public QDialog
 {
@@ -53,6 +54,7 @@ public:
 private:
     Ui::DialogFontSelect *ui;
     CharactersModel *mModel;
+    UnicodeBlocksModel *mBlocksModel;
 
     QString mFontFamily;
     QString mFontStyle;

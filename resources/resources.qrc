@@ -23,4 +23,7 @@
         <file alias="xsl">history.xsl</file>
         <file alias="style">history.css</file>
     </qresource>
+    <qresource prefix="/font">
+        <file alias="unicode-blocks">unicode_blocks.txt</file>
+    </qresource>
 </RCC>
