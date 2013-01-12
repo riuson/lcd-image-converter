@@ -291,6 +291,13 @@ void DialogFontSelect::on_tableView_doubleClicked(const QModelIndex &index)
 void DialogFontSelect::on_pushButtonAppend_clicked()
 {
     QString str = this->ui->lineEdit->text();
+
+    QList<QString> list;
+    for (int i = 0; i < str.length(); i++)
+    {
+        list.append(QString(str.at(i)));
+    }
+
     QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
     if (selectionModel->hasSelection())
     {
@@ -298,8 +305,16 @@ void DialogFontSelect::on_pushButtonAppend_clicked()
         for (int i = 0; i < indexes.count(); i++)
         {
             QString a = this->mModel->data(indexes.at(i), Qt::DisplayRole).toString();
-            if (!str.contains(a))
-                str += a;
+            if (!list.contains(a))
+                list.append(a);
+        }
+
+        qSort(list);
+
+        str = QString();
+        for (int i = 0; i < list.length(); i++)
+        {
+            str += list.at(i);
         }
         this->ui->lineEdit->setText(str);
     }
