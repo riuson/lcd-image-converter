@@ -5,6 +5,15 @@
             <sha1>current</sha1>
             <date>current</date>
         </commit>
+        <description>
+Added:
+ Unicode blocks.</description>
+    </record>
+    <record>
+        <commit>
+            <sha1>4e8c626a9ac009c14f867b3b1a222cb530d6536c</sha1>
+            <date>2013-01-09 21:49:30 +0600</date>
+        </commit>
         <description>Fixed:
  Bug when editing template file paths;
  A grid in the font preview dialog restored.
@@ -13,6 +22,12 @@ Added:
  Reordering bits;
  Scanning of the bands;
  Scaling by mouse wheel + Ctrl.</description>
+        <downloads>
+            <item>
+                <name>Application for Windows (7.7 MB)</name>
+                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20130109-4e8c626a9ac0.zip</url>
+            </item>
+        </downloads>
     </record>
     <record>
         <commit>

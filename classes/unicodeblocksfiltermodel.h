@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2010 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,33 +17,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef CHARACTERSMODEL_H
-#define CHARACTERSMODEL_H
+#ifndef UNICODEBLOCKSFILTERMODEL_H
+#define UNICODEBLOCKSFILTERMODEL_H
 //-----------------------------------------------------------------------------
-#include <QAbstractItemModel>
-#include <QVariant>
+#include <QSortFilterProxyModel>
 //-----------------------------------------------------------------------------
-class CharactersModel : public QAbstractItemModel
+class UnicodeBlocksFilterModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 public:
-    explicit CharactersModel(QObject *parent = 0);
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QModelIndex index(int row, int column,
-                      const QModelIndex &parent = QModelIndex()) const;
-    QModelIndex parent(const QModelIndex &index) const;
+    explicit UnicodeBlocksFilterModel(QObject *parent = 0);
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
 
-    void setCodesRange(quint32 first, quint32 last);
+    void setNameFilter(const QString &name);
 
 private:
-    quint32 mDesiredCode1;
-    quint32 mDesiredCode2;
-    quint32 mResultCode1;
-    quint32 mResultCode2;
-
+    QString mName;
 
 signals:
 
@@ -51,4 +40,4 @@ public slots:
 
 };
 //-----------------------------------------------------------------------------
-#endif // CHARACTERSMODEL_H
+#endif // UNICODEBLOCKSFILTERMODEL_H

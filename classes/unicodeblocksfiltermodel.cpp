@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2010 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,38 +17,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef CHARACTERSMODEL_H
-#define CHARACTERSMODEL_H
+#include "unicodeblocksfiltermodel.h"
 //-----------------------------------------------------------------------------
-#include <QAbstractItemModel>
-#include <QVariant>
-//-----------------------------------------------------------------------------
-class CharactersModel : public QAbstractItemModel
+UnicodeBlocksFilterModel::UnicodeBlocksFilterModel(QObject *parent) :
+    QSortFilterProxyModel(parent)
 {
-    Q_OBJECT
-public:
-    explicit CharactersModel(QObject *parent = 0);
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QModelIndex index(int row, int column,
-                      const QModelIndex &parent = QModelIndex()) const;
-    QModelIndex parent(const QModelIndex &index) const;
-
-    void setCodesRange(quint32 first, quint32 last);
-
-private:
-    quint32 mDesiredCode1;
-    quint32 mDesiredCode2;
-    quint32 mResultCode1;
-    quint32 mResultCode2;
-
-
-signals:
-
-public slots:
-
-};
+    this->mName = QString();
+}
 //-----------------------------------------------------------------------------
-#endif // CHARACTERSMODEL_H
+bool UnicodeBlocksFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+{
+    if (this->mName.isEmpty())
+        return true;
+    QModelIndex index = this->sourceModel()->index(source_row, 0, source_parent);
+    QString name = this->sourceModel()->data(index).toString();
+
+
+    return (name.contains(this->mName, Qt::CaseInsensitive));
+}
+//-----------------------------------------------------------------------------
+void UnicodeBlocksFilterModel::setNameFilter(const QString &name)
+{
+    this->beginResetModel();
+
+    this->mName = name;
+
+    this->endResetModel();
+}
+//-----------------------------------------------------------------------------

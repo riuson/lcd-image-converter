@@ -22,6 +22,8 @@
 
 #include "charactersmodel.h"
 #include <QTableWidgetSelectionRange>
+#include "unicodeblocksmodel.h"
+#include "unicodeblocksfiltermodel.h"
 //-----------------------------------------------------------------------------
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
     QDialog(parent),
@@ -30,6 +32,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     ui->setupUi(this);
 
     this->mModel = new CharactersModel(this);
+    this->mModel->setCodesRange(0x0000, 0x00ff);
     this->ui->tableView->setModel(this->mModel);
 
     QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
@@ -57,6 +60,16 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     for (int i = 0; i < 32; i++)
         this->ui->tableView->setColumnWidth(i , cellSize);
     //this->ui->tableView->resizeColumnsToContents();
+
+    this->mBlocksModel = new UnicodeBlocksModel(this);
+
+    this->mBlocksFilterModel = new UnicodeBlocksFilterModel(this);
+    this->mBlocksFilterModel->setSourceModel(this->mBlocksModel);
+
+    this->ui->listViewBlocks->setModel(this->mBlocksFilterModel);
+
+    selectionModel = this->ui->listViewBlocks->selectionModel();
+    this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(rangeChanged(QItemSelection,QItemSelection)));
 }
 //-----------------------------------------------------------------------------
 DialogFontSelect::~DialogFontSelect()
@@ -278,6 +291,13 @@ void DialogFontSelect::on_tableView_doubleClicked(const QModelIndex &index)
 void DialogFontSelect::on_pushButtonAppend_clicked()
 {
     QString str = this->ui->lineEdit->text();
+
+    QList<QString> list;
+    for (int i = 0; i < str.length(); i++)
+    {
+        list.append(QString(str.at(i)));
+    }
+
     QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
     if (selectionModel->hasSelection())
     {
@@ -285,8 +305,16 @@ void DialogFontSelect::on_pushButtonAppend_clicked()
         for (int i = 0; i < indexes.count(); i++)
         {
             QString a = this->mModel->data(indexes.at(i), Qt::DisplayRole).toString();
-            if (!str.contains(a))
-                str += a;
+            if (!list.contains(a))
+                list.append(a);
+        }
+
+        qSort(list);
+
+        str = QString();
+        for (int i = 0; i < list.length(); i++)
+        {
+            str += list.at(i);
         }
         this->ui->lineEdit->setText(str);
     }
@@ -314,5 +342,25 @@ void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QI
         }
         this->ui->pushButtonAppend->setEnabled(hasNew);
     }
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::rangeChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    QModelIndexList indexes = selected.indexes();
+
+    if (indexes.length() > 0)
+    {
+        QAbstractItemModel *model = this->ui->listViewBlocks->model();
+        bool ok;
+        quint32 first = model->data(indexes.at(0), UnicodeBlocksModel::FirstCodeRole).toUInt(&ok);
+        quint32 last = model->data(indexes.at(0), UnicodeBlocksModel::LastCodeRole).toUInt(&ok);
+
+        this->mModel->setCodesRange(first, last);
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_lineEditUnicodeBlocksFilter_textChanged(const QString &text)
+{
+    this->mBlocksFilterModel->setNameFilter(text);
 }
 //-----------------------------------------------------------------------------

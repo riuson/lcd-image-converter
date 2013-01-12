@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2010 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,33 +17,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef CHARACTERSMODEL_H
-#define CHARACTERSMODEL_H
+#ifndef QUNICODEBLOCKSMODEL_H
+#define QUNICODEBLOCKSMODEL_H
 //-----------------------------------------------------------------------------
-#include <QAbstractItemModel>
-#include <QVariant>
+#include <QAbstractListModel>
+#include <QList>
 //-----------------------------------------------------------------------------
-class CharactersModel : public QAbstractItemModel
+class UnicodeBlock
+{
+public:
+    UnicodeBlock(const QString &name, quint32 firstCode, quint32 lastCode);
+    const QString &name() const;
+    quint32 firstCode() const;
+    quint32 lastCode() const;
+
+private:
+    QString mName;
+    quint32 mFirstCode;
+    quint32 mLastCode;
+};
+//-----------------------------------------------------------------------------
+class UnicodeBlocksModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    explicit CharactersModel(QObject *parent = 0);
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QModelIndex index(int row, int column,
-                      const QModelIndex &parent = QModelIndex()) const;
-    QModelIndex parent(const QModelIndex &index) const;
+    explicit UnicodeBlocksModel(QObject *parent = 0);
 
-    void setCodesRange(quint32 first, quint32 last);
+    enum UnicodeBlocksModelRole
+    {
+        FirstCodeRole = Qt::UserRole + 1,
+        LastCodeRole = Qt::UserRole + 2
+    };
+
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const; // функция доступа к данным
+    int rowCount(const QModelIndex &parent) const; // количество элементов в модели
 
 private:
-    quint32 mDesiredCode1;
-    quint32 mDesiredCode2;
-    quint32 mResultCode1;
-    quint32 mResultCode2;
-
+    QList<UnicodeBlock *> mList;
 
 signals:
 
@@ -51,4 +61,4 @@ public slots:
 
 };
 //-----------------------------------------------------------------------------
-#endif // CHARACTERSMODEL_H
+#endif // QUNICODEBLOCKSMODEL_H

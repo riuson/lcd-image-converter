@@ -215,37 +215,37 @@ Qt: %3</translation>
 <context>
     <name>DialogFontChanged</name>
     <message>
-        <location filename="../controls/dialogfontchanged.ui" line="20"/>
+        <location filename="../controls/fonts/dialogfontchanged.ui" line="20"/>
         <source>Font changed</source>
         <translation>Шрифт изменён</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontchanged.ui" line="26"/>
+        <location filename="../controls/fonts/dialogfontchanged.ui" line="26"/>
         <source>Update all characters</source>
         <translation>Обновить все символы</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontchanged.ui" line="29"/>
+        <location filename="../controls/fonts/dialogfontchanged.ui" line="29"/>
         <source>Save new font parameters and regenerate all characters</source>
         <translation>Сохранить новын параметры шрифта и пересоздать все символы</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontchanged.ui" line="36"/>
+        <location filename="../controls/fonts/dialogfontchanged.ui" line="36"/>
         <source>Add/remove only</source>
         <translation>Добавить/удалить</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontchanged.ui" line="39"/>
+        <location filename="../controls/fonts/dialogfontchanged.ui" line="39"/>
         <source>Add new characters with new parameters or remove existing</source>
         <translation>Только добавить новые символы с новыми параметрами или удалить существующие</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontchanged.ui" line="46"/>
+        <location filename="../controls/fonts/dialogfontchanged.ui" line="46"/>
         <source>Cancel</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontchanged.ui" line="52"/>
+        <location filename="../controls/fonts/dialogfontchanged.ui" line="52"/>
         <source>Don&apos;t change anything</source>
         <translation>Не производить никаких изменений</translation>
     </message>
@@ -253,12 +253,12 @@ Qt: %3</translation>
 <context>
     <name>DialogFontPreview</name>
     <message>
-        <location filename="../controls/dialogfontpreview.ui" line="14"/>
+        <location filename="../controls/fonts/dialogfontpreview.ui" line="14"/>
         <source>Font preview</source>
         <translation>Предпросмотр шрифта</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontpreview.ui" line="22"/>
+        <location filename="../controls/fonts/dialogfontpreview.ui" line="22"/>
         <source>Enter text to preview</source>
         <translation>Введите текст для предпросмотра</translation>
     </message>
@@ -266,52 +266,57 @@ Qt: %3</translation>
 <context>
     <name>DialogFontSelect</name>
     <message>
-        <location filename="../controls/dialogfontselect.ui" line="14"/>
+        <location filename="../controls/fonts/dialogfontselect.ui" line="14"/>
         <source>Font setup</source>
         <translation>Настройка шрифта</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.ui" line="25"/>
+        <location filename="../controls/fonts/dialogfontselect.ui" line="25"/>
         <source>Font:</source>
         <translation>Семейство:</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.ui" line="35"/>
+        <location filename="../controls/fonts/dialogfontselect.ui" line="35"/>
         <source>Style:</source>
         <translation>Стиль:</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.ui" line="45"/>
+        <location filename="../controls/fonts/dialogfontselect.ui" line="45"/>
         <source>Size:</source>
         <translation>Размер:</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.ui" line="55"/>
+        <location filename="../controls/fonts/dialogfontselect.ui" line="55"/>
         <source>RealHeight</source>
         <translation>Высота</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.ui" line="79"/>
+        <location filename="../controls/fonts/dialogfontselect.ui" line="79"/>
         <source>Proportional</source>
         <translation>Пропорциональный</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.ui" line="89"/>
+        <location filename="../controls/fonts/dialogfontselect.ui" line="89"/>
         <source>Monospaced</source>
         <translation>Моноширинный</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.ui" line="96"/>
+        <location filename="../controls/fonts/dialogfontselect.ui" line="96"/>
         <source>Antialiasing</source>
         <translation>Сглаживание</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.ui" line="126"/>
+        <location filename="../controls/fonts/dialogfontselect.ui" line="128"/>
+        <source>Enter filter...</source>
+        <translation>Введите фильтр...</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/dialogfontselect.ui" line="157"/>
         <source>Append</source>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="../controls/dialogfontselect.cpp" line="219"/>
+        <location filename="../controls/fonts/dialogfontselect.cpp" line="232"/>
         <source>Real height: %1</source>
         <translation>Высота: %1</translation>
     </message>
@@ -514,25 +519,25 @@ Qt: %3</translation>
 <context>
     <name>EditorTabFont</name>
     <message>
-        <location filename="../controls/editortabfont.ui" line="14"/>
+        <location filename="../controls/fonts/editortabfont.ui" line="14"/>
         <source>Form</source>
         <translatorcomment>не используется</translatorcomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="67"/>
+        <location filename="../controls/fonts/editortabfont.cpp" line="67"/>
         <source>Font</source>
         <comment>new font name</comment>
         <translatorcomment>название нового шрифта, должно быть латинскими буквами</translatorcomment>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="497"/>
+        <location filename="../controls/fonts/editortabfont.cpp" line="497"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/editortabfont.cpp" line="499"/>
+        <location filename="../controls/fonts/editortabfont.cpp" line="499"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -1281,6 +1286,14 @@ Qt: %3</translation>
         <location filename="../controls/starttab.ui" line="111"/>
         <source>&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;Project&apos;s home page&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;Страница проекта&lt;/a&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UnicodeBlocksModel</name>
+    <message>
+        <location filename="../classes/unicodeblocksmodel.cpp" line="94"/>
+        <source>All</source>
+        <translation>Все</translation>
     </message>
 </context>
 <context>
