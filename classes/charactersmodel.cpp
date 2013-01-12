@@ -18,6 +18,7 @@
  */
 
 #include "charactersmodel.h"
+#include <QPalette>
 //-----------------------------------------------------------------------------
 CharactersModel::CharactersModel(QObject *parent) :
     QAbstractItemModel(parent)
@@ -76,6 +77,20 @@ QVariant CharactersModel::data(const QModelIndex &index, int role) const
                 {
                     result = QString(QChar(code));
                 }
+            }
+        }
+    }
+    else if (role == Qt::BackgroundRole)
+    {
+        if (index.isValid())
+        {
+            quint32 code = index.column() + index.row() * 16;
+            code += this->mResultCode1;
+
+            if (code < 0x00000020 || code < this->mDesiredCode1 || code > this->mDesiredCode2)
+            {
+                QPalette palette;
+                result = palette.color(QPalette::Disabled, QPalette::Window);
             }
         }
     }
