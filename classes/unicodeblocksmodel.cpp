@@ -57,7 +57,7 @@ UnicodeBlocksModel::UnicodeBlocksModel(QObject *parent) :
     QFile data(":/font/unicode-blocks");
     if (data.open(QFile::ReadOnly))
     {
-        QRegExp exp("U\\+([0123456789cbdefABCDEF]+)");
+        QRegExp expCode("U\\+([0123456789cbdefABCDEF]+)");
 
         QTextStream stream(&data);
         QString line;
@@ -67,15 +67,17 @@ UnicodeBlocksModel::UnicodeBlocksModel(QObject *parent) :
 
             bool ok;
 
-            int index1 = exp.indexIn(line, 0);
-            QString cap1 = exp.cap(1);
+            int index1 = expCode.indexIn(line, 0);
+            QString cap1 = expCode.cap(1);
             quint32 code1 = cap1.toUInt(&ok, 16);
 
-            exp.indexIn(line, index1 + 1);
-            QString cap2 = exp.cap(1);
+            int index2 = expCode.indexIn(line, index1 + 1);
+            QString cap2 = expCode.cap(1);
             quint32 code2 = cap2.toUInt(&ok, 16);
 
-            QString name = line.left(index1);
+            index1 = line.indexOf("\t");
+            index2 = line.indexOf("\t", index1 + 1);
+            QString name = line.mid(index1 + 1, index2 - index1 - 1);
             name = name.simplified();
 
             UnicodeBlock *block = new UnicodeBlock(name, code1, code2);
