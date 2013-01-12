@@ -1291,7 +1291,7 @@ Qt: %3</translation>
 <context>
     <name>UnicodeBlocksModel</name>
     <message>
-        <location filename="../classes/unicodeblocksmodel.cpp" line="92"/>
+        <location filename="../classes/unicodeblocksmodel.cpp" line="94"/>
         <source>All</source>
         <translation>Все</translation>
     </message>
