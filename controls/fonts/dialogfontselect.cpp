@@ -23,6 +23,7 @@
 #include "charactersmodel.h"
 #include <QTableWidgetSelectionRange>
 #include "unicodeblocksmodel.h"
+#include "unicodeblocksfiltermodel.h"
 //-----------------------------------------------------------------------------
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
     QDialog(parent),
@@ -61,7 +62,11 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     //this->ui->tableView->resizeColumnsToContents();
 
     this->mBlocksModel = new UnicodeBlocksModel(this);
-    this->ui->listViewBlocks->setModel(this->mBlocksModel);
+
+    this->mBlocksFilterModel = new UnicodeBlocksFilterModel(this);
+    this->mBlocksFilterModel->setSourceModel(this->mBlocksModel);
+
+    this->ui->listViewBlocks->setModel(this->mBlocksFilterModel);
 
     selectionModel = this->ui->listViewBlocks->selectionModel();
     this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(rangeChanged(QItemSelection,QItemSelection)));
@@ -330,11 +335,17 @@ void DialogFontSelect::rangeChanged(const QItemSelection &selected, const QItemS
 
     if (indexes.length() > 0)
     {
+        QAbstractItemModel *model = this->ui->listViewBlocks->model();
         bool ok;
-        quint32 first = this->mBlocksModel->data(indexes.at(0), UnicodeBlocksModel::FirstCodeRole).toUInt(&ok);
-        quint32 last = this->mBlocksModel->data(indexes.at(0), UnicodeBlocksModel::LastCodeRole).toUInt(&ok);
+        quint32 first = model->data(indexes.at(0), UnicodeBlocksModel::FirstCodeRole).toUInt(&ok);
+        quint32 last = model->data(indexes.at(0), UnicodeBlocksModel::LastCodeRole).toUInt(&ok);
 
         this->mModel->setCodesRange(first, last);
     }
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_lineEditUnicodeBlocksFilter_textChanged(const QString &text)
+{
+    this->mBlocksFilterModel->setNameFilter(text);
 }
 //-----------------------------------------------------------------------------

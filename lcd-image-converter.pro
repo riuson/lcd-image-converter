@@ -76,7 +76,8 @@ SOURCES += main.cpp \
     controls/setup/parts/setuptabtemplates.cpp \
     controls/starttab.cpp \
     controls/widgetbitmapeditor.cpp \
-    classes/unicodeblocksmodel.cpp
+    classes/unicodeblocksmodel.cpp \
+    classes/unicodeblocksfiltermodel.cpp
 
 HEADERS += \
     classes/action-handlers/actionedithandlers.h \
@@ -137,7 +138,8 @@ HEADERS += \
     controls/widgetbitmapeditor.h \
     interfaces/idocument.h \
     interfaces/imainwindow.h \
-    classes/unicodeblocksmodel.h
+    classes/unicodeblocksmodel.h \
+    classes/unicodeblocksfiltermodel.h
 
 FORMS += \
     controls/dialogabout.ui \

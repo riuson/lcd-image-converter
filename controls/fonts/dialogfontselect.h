@@ -29,6 +29,7 @@ class CharactersModel;
 class QModelIndex;
 class QItemSelection;
 class UnicodeBlocksModel;
+class UnicodeBlocksFilterModel;
 //-----------------------------------------------------------------------------
 class DialogFontSelect : public QDialog
 {
@@ -55,6 +56,7 @@ private:
     Ui::DialogFontSelect *ui;
     CharactersModel *mModel;
     UnicodeBlocksModel *mBlocksModel;
+    UnicodeBlocksFilterModel *mBlocksFilterModel;
 
     QString mFontFamily;
     QString mFontStyle;
@@ -79,6 +81,7 @@ private slots:
     void on_pushButtonAppend_clicked();
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void rangeChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void on_lineEditUnicodeBlocksFilter_textChanged(const QString & text);
 };
 
 #endif // DIALOGFONTSELECT_H
