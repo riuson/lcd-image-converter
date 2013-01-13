@@ -33,6 +33,7 @@
 #include "imageoptions.h"
 #include "fontoptions.h"
 #include "templateoptions.h"
+#include "tags.h"
 //-----------------------------------------------------------------------------
 Parser::Parser(QObject *parent, TemplateType templateType) :
         QObject(parent)
@@ -61,7 +62,7 @@ QString Parser::name()
     return this->mSelectedPresetName;
 }
 //-----------------------------------------------------------------------------
-QString Parser::convert(IDocument *document, QMap<QString, QString> &tags) const
+QString Parser::convert(IDocument *document, Tags &tags) const
 {
     QString result;
 
@@ -78,7 +79,7 @@ QString Parser::convert(IDocument *document, QMap<QString, QString> &tags) const
         templateString = stream.readAll();
         file.close();
     }
-    tags.insert("templateFile", file.fileName());
+    tags.setTagValue(Tags::TemplateFilename, file.fileName());
 
     QRegExp regImageData = this->expression(Parser::ImageData);
     regImageData.setMinimal(true);
@@ -87,11 +88,11 @@ QString Parser::convert(IDocument *document, QMap<QString, QString> &tags) const
         QString strImageDataIndent = regImageData.cap(1);
         if (strImageDataIndent.isEmpty())
             strImageDataIndent = "    ";
-        tags["imageDataIndent"] = strImageDataIndent;
+        tags.setTagValue(Tags::OutputDataIndent, strImageDataIndent);
     }
     else
     {
-        tags["imageDataIndent"] = "    ";
+        tags.setTagValue(Tags::OutputDataIndent, "    ");
     }
 
     this->addMatrixInfo(tags);
@@ -103,7 +104,7 @@ QString Parser::convert(IDocument *document, QMap<QString, QString> &tags) const
 //-----------------------------------------------------------------------------
 void Parser::parse(const QString &templateString,
                       QString &resultString,
-                      QMap<QString, QString> &tags,
+                      Tags &tags,
                       IDocument *doc) const
 {
     int index = 0;
@@ -146,10 +147,9 @@ void Parser::parse(const QString &templateString,
         }
         else
         {
-            if (tags.contains(tagName))
-                resultString.append(tags.value(tagName));
-            else
-                resultString.append("<value not defined>");
+            Tags::TagsEnum tagCode = tags.parseTag(tagName);
+            resultString.append(tags.tagValue(tagCode));
+
             prevIndex = index + regTag.cap(0).length();
         }
     }
@@ -162,7 +162,7 @@ void Parser::parse(const QString &templateString,
 //-----------------------------------------------------------------------------
 void Parser::parseBlocks(const QString &templateString,
                             QString &resultString,
-                            QMap<QString, QString> &tags,
+                            Tags &tags,
                             IDocument *doc) const
 {
     // capture block
@@ -200,22 +200,22 @@ void Parser::parseBlocks(const QString &templateString,
 //-----------------------------------------------------------------------------
 void Parser::parseImagesTable(const QString &templateString,
                                  QString &resultString,
-                                 QMap<QString, QString> &tags,
+                                 Tags &tags,
                                  IDocument *doc) const
 {
     DataContainer *data = doc->dataContainer();
     QString imageString;
     QListIterator<QString> it(data->keys());
     it.toFront();
-    tags["imagesCount"] = QString("%1").arg(data->count());
+    tags.setTagValue(Tags::OutputImagesCount, QString("%1").arg(data->count()));
     while (it.hasNext())
     {
         QString key = it.next();
         QImage image = QImage(*data->image(key));
 
         // width and height must be written before image changes
-        tags["width"] = QString("%1").arg(image.width());
-        tags["height"] = QString("%1").arg(image.height());
+        tags.setTagValue(Tags::OutputImageWidth, QString("%1").arg(image.width()));
+        tags.setTagValue(Tags::OutputImageHeight, QString("%1").arg(image.height()));
 
         QImage imagePrepared;
         ConverterHelper::prepareImage(this->mPreset, &image, &imagePrepared);
@@ -246,7 +246,7 @@ void Parser::parseImagesTable(const QString &templateString,
         ConverterHelper::compressData(this->mPreset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
 
         QString dataString = ConverterHelper::dataToString(this->mPreset, &compressedData, compressedWidth, compressedHeight, "0x");
-        dataString.replace("\n", "\n" + tags["imageDataIndent"]);
+        dataString.replace("\n", "\n" + tags.tagValue(Tags::OutputDataIndent));
 
         // end of conversion
 
@@ -255,21 +255,21 @@ void Parser::parseImagesTable(const QString &templateString,
 
         QString charCode = this->hexCode(key.at(0), encoding, useBom);
 
-        tags["blocksCount"] = QString("%1").arg(compressedData.size());
-        tags["imageData"] = dataString;
-        tags["charCode"] = charCode;
+        tags.setTagValue(Tags::OutputBlocksCount, QString("%1").arg(compressedData.size()));
+        tags.setTagValue(Tags::OutputImageData, dataString);
+        tags.setTagValue(Tags::OutputCharacterCode, charCode);
         if (it.hasNext())
-            tags["comma"] = ",";
+            tags.setTagValue(Tags::OutputComma, ",");
         else
-            tags["comma"] = "";
+            tags.setTagValue(Tags::OutputComma, "");
 
         if (key.contains("@"))
         {
             key.replace("@", "(a)");
-            tags["charText"] = key;
+            tags.setTagValue(Tags::OutputCharacterText, key);
         }
         else
-            tags["charText"] = key.left(1);
+            tags.setTagValue(Tags::OutputCharacterText, key.left(1));
 
         this->parseSimple(templateString, imageString, tags, doc);
         resultString.append("\n");
@@ -279,7 +279,7 @@ void Parser::parseImagesTable(const QString &templateString,
 //-----------------------------------------------------------------------------
 void Parser::parseSimple(const QString &templateString,
                             QString &resultString,
-                            QMap<QString, QString> &tags,
+                            Tags &tags,
                             IDocument *doc) const
 {
     Q_UNUSED(doc);
@@ -290,10 +290,9 @@ void Parser::parseSimple(const QString &templateString,
     {
         QString tag = regTag.cap(0);
         QString tagName = regTag.cap(3);
-        if (tags.contains(tagName))
-            resultString.replace(tag, tags.value(tagName));
-        else
-            resultString.replace(tag, "<value not defined>");
+
+        Tags::TagsEnum tagCode = tags.parseTag(tagName);
+        resultString.replace(tag, tags.tagValue(tagCode));
     }
 }
 //-----------------------------------------------------------------------------
@@ -364,93 +363,93 @@ QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) cons
     return result;
 }
 //-----------------------------------------------------------------------------
-void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
+void Parser::addMatrixInfo(Tags &tags) const
 {
     // byte order
     if (this->mPreset->image()->bytesOrder() == BytesOrderLittleEndian)
-        tags.insert("bytesOrder", "little-endian");
+        tags.setTagValue(Tags::ImageByteOrder, "little-endian");
     else
-        tags.insert("bytesOrder", "big-endian");
+        tags.setTagValue(Tags::ImageByteOrder, "big-endian");
 
     // data block size
     int dataBlockSize = (this->mPreset->image()->blockSize() + 1) * 8;
-    tags.insert("dataBlockSize", QString("%1").arg(dataBlockSize));
+    tags.setTagValue(Tags::ImageBlockSize, QString("%1").arg(dataBlockSize));
 
     // scan main direction
     switch (this->mPreset->prepare()->scanMain())
     {
         case TopToBottom:
-            tags.insert("scanMain", "top to bottom");
+            tags.setTagValue(Tags::PrepareScanMain, "top_to_bottom");
             break;
         case BottomToTop:
-            tags.insert("scanMain", "bottom to top");
+            tags.setTagValue(Tags::PrepareScanMain, "bottom_to_top");
             break;
         case LeftToRight:
-            tags.insert("scanMain", "left to right");
+            tags.setTagValue(Tags::PrepareScanMain, "left_to_right");
             break;
         case RightToLeft:
-            tags.insert("scanMain", "right to left");
+            tags.setTagValue(Tags::PrepareScanMain, "right_to_left");
             break;
     }
 
     // scan sub direction
     if (this->mPreset->prepare()->scanSub())
-        tags.insert("scanSub", "forward");
+        tags.setTagValue(Tags::PrepareScanSub, "forward");
     else
-        tags.insert("scanSub", "backward");
+        tags.setTagValue(Tags::PrepareScanSub, "backward");
 
     // bands
     if (this->mPreset->prepare()->bandScanning())
-        tags.insert("bands", "yes");
+        tags.setTagValue(Tags::PrepareUseBands, "yes");
     else
-        tags.insert("bands", "no");
+        tags.setTagValue(Tags::PrepareUseBands, "no");
     int bandWidth = this->mPreset->prepare()->bandWidth();
-    tags.insert("bandWidth", QString("%1").arg(bandWidth));
+    tags.setTagValue(Tags::PrepareBandWidth, QString("%1").arg(bandWidth));
 
 
     // inversion
     if (this->mPreset->prepare()->inverse())
-        tags.insert("inverse", "yes");
+        tags.setTagValue(Tags::PrepareInverse, "yes");
     else
-        tags.insert("inverse", "no");
+        tags.setTagValue(Tags::PrepareInverse, "no");
 
     // bom
     if (this->mPreset->font()->bom())
-        tags.insert("bom", "yes");
+        tags.setTagValue(Tags::FontUseBom, "yes");
     else
-        tags.insert("bom", "no");
+        tags.setTagValue(Tags::FontUseBom, "no");
 
     // encoding
-    tags.insert("encoding", this->mPreset->font()->encoding());
+    tags.setTagValue(Tags::FontEncoding, this->mPreset->font()->encoding());
 
     // split to rows
     if (this->mPreset->image()->splitToRows())
-        tags.insert("splitToRows", "yes");
+        tags.setTagValue(Tags::ImageSplitToRows, "yes");
     else
-        tags.insert("splitToRows", "no");
+        tags.setTagValue(Tags::ImageSplitToRows, "no");
 
     // compression
     if (this->mPreset->image()->compressionRle())
-        tags.insert("rle", "yes");
+        tags.setTagValue(Tags::ImageRleCompression, "yes");
     else
-        tags.insert("rle", "no");
+        tags.setTagValue(Tags::ImageRleCompression, "no");
 
     // preset name
-    tags.insert("preset", this->mSelectedPresetName);
+    tags.setTagValue(Tags::OutputPresetName, this->mSelectedPresetName);
 
     // conversion type
-    tags.insert("convType", this->mPreset->prepare()->convTypeName());
+    tags.setTagValue(Tags::PrepareConversionType, this->mPreset->prepare()->convTypeName());
 
     // monochrome type
     if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome)
     {
-        tags.insert("monoType", this->mPreset->prepare()->monoTypeName());
-        tags.insert("edge", QString("%1").arg(this->mPreset->prepare()->edge()));
+        tags.setTagValue(Tags::PrepareMonoType, this->mPreset->prepare()->monoTypeName());
+        tags.setTagValue(Tags::PrepareMonoEdge, QString("%1").arg(this->mPreset->prepare()->edge()));
     }
     else
     {
-        tags.insert("monoType", "not used");
-        tags.insert("edge", "not used");
+        tags.setTagValue(Tags::PrepareMonoType, "not_used");
+        tags.setTagValue(Tags::PrepareMonoEdge, "not_used");
     }
 
     // bits per pixel
@@ -462,7 +461,7 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
             bitsPerPixel++;
         maskUsed = maskUsed >> 1;
     }
-    tags.insert("bpp", QString("%1").arg(bitsPerPixel));
+    tags.setTagValue(Tags::OutputBitsPerPixel, QString("%1").arg(bitsPerPixel));
 }
 //-----------------------------------------------------------------------------
 QRegExp Parser::expression(ExpType type, const QString &name) const

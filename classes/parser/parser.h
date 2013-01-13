@@ -27,6 +27,7 @@
 class IDocument;
 class IDataContainer;
 class Preset;
+class Tags;
 //-----------------------------------------------------------------------------
 class Parser : public QObject
 {
@@ -43,19 +44,19 @@ public:
 
     QString name();
 
-    QString convert(IDocument *document, QMap<QString, QString> &tags) const;
+    QString convert(IDocument *document, Tags &tags) const;
 
 private:
     QString mSelectedPresetName;
     Preset *mPreset;
     QString mTemplateFileName;
 
-    void parse(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
-    void parseBlocks(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
-    void parseImagesTable(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
-    void parseSimple(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
+    void parse(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
+    void parseBlocks(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
+    void parseImagesTable(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
+    void parseSimple(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
     QString hexCode(const QChar &ch, const QString &encoding, bool bom) const;
-    void addMatrixInfo(QMap<QString, QString> &tags) const;
+    void addMatrixInfo(Tags &tags) const;
 
     enum ExpType
     {

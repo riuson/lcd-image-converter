@@ -40,7 +40,7 @@ Tags::TagsEnum Tags::parseTag(const QString &key) const
 //-----------------------------------------------------------------------------
 const QString Tags::tagValue(Tags::TagsEnum key)
 {
-    return this->mTagValues->value(key, QString("none"));
+    return this->mTagValues->value(key, QString("<value not defined>"));
 }
 //-----------------------------------------------------------------------------
 void Tags::setTagValue(Tags::TagsEnum key, const QString &value)
@@ -85,15 +85,21 @@ void Tags::initTagsMap()
     this->mTagNameMap->insert("img_rle_compression", ImageRleCompression);
     this->mTagNameMap->insert("rle",                 ImageRleCompression);
     this->mTagNameMap->insert("img_byte_order",      ImageByteOrder);
+    this->mTagNameMap->insert("bytesOrder",          ImageByteOrder);
 
-    this->mTagNameMap->insert("fnt_string",     FontString);
-    this->mTagNameMap->insert("string",         FontString);
     this->mTagNameMap->insert("fnt_use_bom",    FontUseBom);
     this->mTagNameMap->insert("bom",            FontUseBom);
     this->mTagNameMap->insert("fnt_encoding",   FontEncoding);
     this->mTagNameMap->insert("encoding",       FontEncoding);
-    this->mTagNameMap->insert("fnt_width_type", FontWidthType);
-    this->mTagNameMap->insert("fontWidthType",  FontWidthType);
+
+    this->mTagNameMap->insert("fnt_style",        FontStyle);
+    this->mTagNameMap->insert("fontStyle",        FontStyle);
+    this->mTagNameMap->insert("fnt_string",       FontString);
+    this->mTagNameMap->insert("string",           FontString);
+    this->mTagNameMap->insert("fnt_width_type",   FontWidthType);
+    this->mTagNameMap->insert("fontWidthType",    FontWidthType);
+    this->mTagNameMap->insert("fnt_antialiasing", FontAntiAliasing);
+    this->mTagNameMap->insert("fontAntialiasing", FontAntiAliasing);
 
     this->mTagNameMap->insert("tmpl_filename", TemplateFilename);
     this->mTagNameMap->insert("templateFile",  TemplateFilename);
@@ -116,6 +122,10 @@ void Tags::initTagsMap()
     this->mTagNameMap->insert("comma",            OutputComma);
     this->mTagNameMap->insert("out_data_indent",  OutputDataIndent);
     this->mTagNameMap->insert("imageDataIndent",  OutputDataIndent);
+    this->mTagNameMap->insert("out_image_width",  OutputImageWidth);
+    this->mTagNameMap->insert("width",            OutputImageWidth);
+    this->mTagNameMap->insert("out_image_height", OutputImageHeight);
+    this->mTagNameMap->insert("height",           OutputImageHeight);
 
     this->mTagNameMap->insert("start_block_header",       BlocksHeaderStart);
     this->mTagNameMap->insert("end_block_header",         BlocksHeaderEnd);

@@ -54,10 +54,15 @@ public:
         ImageRleCompression,
         ImageByteOrder,
 
-        FontString,
         FontUseBom,
         FontEncoding,
+
+        FontFamily,
+        FontSize,
+        FontStyle,
+        FontString,
         FontWidthType,
+        FontAntiAliasing,
 
         TemplateFilename,
 
@@ -70,6 +75,8 @@ public:
         OutputImagesCount,
         OutputComma,
         OutputDataIndent,
+        OutputImageWidth,
+        OutputImageHeight,
 
         BlocksHeaderStart,
         BlocksHeaderEnd,
