@@ -38,6 +38,7 @@ SOURCES += main.cpp \
     classes/parser/convert/converterhelper.cpp \
     classes/parser/convert/fonthelper.cpp \
     classes/parser/parser.cpp \
+    classes/parser/tags.cpp \
     classes/settings/bitmapeditoroptions.cpp \
     classes/settings/externaltooloptions.cpp \
     classes/settings/languageoptions.cpp \
@@ -98,6 +99,7 @@ HEADERS += \
     classes/parser/convert/converterhelper.h \
     classes/parser/convert/fonthelper.h \
     classes/parser/parser.h \
+    classes/parser/tags.h \
     classes/settings/bitmapeditoroptions.h \
     classes/settings/externaltooloptions.h \
     classes/settings/languageoptions.h \
