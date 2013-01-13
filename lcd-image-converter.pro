@@ -28,22 +28,16 @@ SOURCES += main.cpp \
     classes/action-handlers/actionhelphandlers.cpp \
     classes/action-handlers/actionimagehandlers.cpp \
     classes/action-handlers/actionsetuphandlers.cpp \
-    classes/charactersmodel.cpp \
     classes/compression/rlecompressor.cpp \
-    classes/convert/bitmaphelper.cpp \
-    classes/convert/bitstream.cpp \
-    classes/convert/converterhelper.cpp \
-    classes/convert/fonthelper.cpp \
     classes/data/datacontainer.cpp \
     classes/data/historykeeper.cpp \
     classes/data/historyrecord.cpp \
-    classes/fontcharactersmodel.cpp \
-    classes/parser.cpp \
-    classes/preview-models/matrixitemdelegate.cpp \
-    classes/preview-models/matrixpreviewmodel.cpp \
-    classes/preview-models/reorderingitemdelegate.cpp \
-    classes/preview-models/reorderingpreviewmodel.cpp \
-    classes/revisioninfo.cpp \
+    classes/data/revisioninfo.cpp \
+    classes/parser/convert/bitmaphelper.cpp \
+    classes/parser/convert/bitstream.cpp \
+    classes/parser/convert/converterhelper.cpp \
+    classes/parser/convert/fonthelper.cpp \
+    classes/parser/parser.cpp \
     classes/settings/bitmapeditoroptions.cpp \
     classes/settings/externaltooloptions.cpp \
     classes/settings/languageoptions.cpp \
@@ -55,29 +49,35 @@ SOURCES += main.cpp \
     classes/settings/presets/reorderingoptions.cpp \
     classes/settings/presets/templateoptions.cpp \
     classes/settings/recentlist.cpp \
-    controls/dialogabout.cpp \
-    controls/dialogexternaleditor.cpp \
-    controls/dialogresize.cpp \
-    controls/dialogsavechanges.cpp \
-    controls/editortabimage.cpp \
-    controls/fonts/dialogfontchanged.cpp \
-    controls/fonts/dialogfontpreview.cpp \
-    controls/fonts/dialogfontselect.cpp \
-    controls/fonts/editortabfont.cpp \
-    controls/mainwindow.cpp \
-    controls/revisionlabel.cpp \
+    controls/about/dialogabout.cpp \
+    controls/fonts/font-changed/dialogfontchanged.cpp \
+    controls/fonts/font-editor/editortabfont.cpp \
+    controls/fonts/font-editor/fontcharactersmodel.cpp \
+    controls/fonts/font-new/charactersmodel.cpp \
+    controls/fonts/font-new/dialogfontselect.cpp \
+    controls/fonts/font-new/unicodeblocksmodel.cpp \
+    controls/fonts/font-new/unicodeblocksfiltermodel.cpp \
+    controls/fonts/font-preview/dialogfontpreview.cpp \
+    controls/images/editortabimage.cpp \
+    controls/images/dialogresize.cpp \
+    controls/images/widgetbitmapeditor.cpp \
+    controls/main/mainwindow.cpp \
+    controls/main/revisionlabel.cpp \
+    controls/save-changes/dialogsavechanges.cpp \
+    controls/setup/dialogexternaleditor.cpp \
     controls/setup/dialogoptions.cpp \
     controls/setup/dialogpreview.cpp \
-    controls/setup/parts/setuptabfont.cpp \
-    controls/setup/parts/setuptabimage.cpp \
-    controls/setup/parts/setuptabmatrix.cpp \
-    controls/setup/parts/setuptabprepare.cpp \
-    controls/setup/parts/setuptabreordering.cpp \
-    controls/setup/parts/setuptabtemplates.cpp \
-    controls/starttab.cpp \
-    controls/widgetbitmapeditor.cpp \
-    classes/unicodeblocksmodel.cpp \
-    classes/unicodeblocksfiltermodel.cpp
+    controls/setup/parts/font/setuptabfont.cpp \
+    controls/setup/parts/image/setuptabimage.cpp \
+    controls/setup/parts/matrix/matrixitemdelegate.cpp \
+    controls/setup/parts/matrix/matrixpreviewmodel.cpp \
+    controls/setup/parts/matrix/setuptabmatrix.cpp \
+    controls/setup/parts/prepare/setuptabprepare.cpp \
+    controls/setup/parts/reordering/reorderingitemdelegate.cpp \
+    controls/setup/parts/reordering/reorderingpreviewmodel.cpp \
+    controls/setup/parts/reordering/setuptabreordering.cpp \
+    controls/setup/parts/templates/setuptabtemplates.cpp \
+    controls/start/starttab.cpp
 
 HEADERS += \
     classes/action-handlers/actionedithandlers.h \
@@ -87,23 +87,17 @@ HEADERS += \
     classes/action-handlers/actionhelphandlers.h \
     classes/action-handlers/actionimagehandlers.h \
     classes/action-handlers/actionsetuphandlers.h \
-    classes/charactersmodel.h \
     classes/compression/rlecompressor.h \
-    classes/convert/bitmaphelper.h \
-    classes/convert/bitstream.h \
-    classes/convert/conversion_options.h \
-    classes/convert/converterhelper.h \
-    classes/convert/fonthelper.h \
     classes/data/datacontainer.h \
     classes/data/historykeeper.h \
     classes/data/historyrecord.h \
-    classes/fontcharactersmodel.h \
-    classes/parser.h \
-    classes/preview-models/matrixitemdelegate.h \
-    classes/preview-models/matrixpreviewmodel.h \
-    classes/preview-models/reorderingitemdelegate.h \
-    classes/preview-models/reorderingpreviewmodel.h \
-    classes/revisioninfo.h \
+    classes/data/revisioninfo.h \
+    classes/parser/convert/bitmaphelper.h \
+    classes/parser/convert/bitstream.h \
+    classes/parser/convert/conversion_options.h \
+    classes/parser/convert/converterhelper.h \
+    classes/parser/convert/fonthelper.h \
+    classes/parser/parser.h \
     classes/settings/bitmapeditoroptions.h \
     classes/settings/externaltooloptions.h \
     classes/settings/languageoptions.h \
@@ -115,67 +109,88 @@ HEADERS += \
     classes/settings/presets/reorderingoptions.h \
     classes/settings/presets/templateoptions.h \
     classes/settings/recentlist.h \
-    controls/dialogabout.h \
-    controls/dialogexternaleditor.h \
-    controls/dialogresize.h \
-    controls/dialogsavechanges.h \
-    controls/editortabimage.h \
-    controls/fonts/dialogfontchanged.h \
-    controls/fonts/dialogfontpreview.h \
-    controls/fonts/dialogfontselect.h \
-    controls/fonts/editortabfont.h \
-    controls/mainwindow.h \
-    controls/revisionlabel.h \
+    controls/about/dialogabout.h \
+    controls/fonts/font-changed/dialogfontchanged.h \
+    controls/fonts/font-editor/editortabfont.h \
+    controls/fonts/font-editor/fontcharactersmodel.h \
+    controls/fonts/font-new/charactersmodel.h \
+    controls/fonts/font-new/dialogfontselect.h \
+    controls/fonts/font-new/unicodeblocksmodel.h \
+    controls/fonts/font-new/unicodeblocksfiltermodel.h \
+    controls/fonts/font-preview/dialogfontpreview.h \
+    controls/images/dialogresize.h \
+    controls/images/editortabimage.h \
+    controls/images/widgetbitmapeditor.h \
+    controls/main/mainwindow.h \
+    controls/main/revisionlabel.h \
+    controls/save-changes/dialogsavechanges.h \
+    controls/setup/dialogexternaleditor.h \
     controls/setup/dialogoptions.h \
     controls/setup/dialogpreview.h \
-    controls/setup/parts/setuptabfont.h \
-    controls/setup/parts/setuptabimage.h \
-    controls/setup/parts/setuptabmatrix.h \
-    controls/setup/parts/setuptabprepare.h \
-    controls/setup/parts/setuptabreordering.h \
-    controls/setup/parts/setuptabtemplates.h \
-    controls/starttab.h \
-    controls/widgetbitmapeditor.h \
+    controls/setup/parts/font/setuptabfont.h \
+    controls/setup/parts/image/setuptabimage.h \
+    controls/setup/parts/matrix/matrixitemdelegate.h \
+    controls/setup/parts/matrix/matrixpreviewmodel.h \
+    controls/setup/parts/matrix/setuptabmatrix.h \
+    controls/setup/parts/prepare/setuptabprepare.h \
+    controls/setup/parts/reordering/reorderingitemdelegate.h \
+    controls/setup/parts/reordering/reorderingpreviewmodel.h \
+    controls/setup/parts/reordering/setuptabreordering.h \
+    controls/setup/parts/templates/setuptabtemplates.h \
+    controls/start/starttab.h \
     interfaces/idocument.h \
-    interfaces/imainwindow.h \
-    classes/unicodeblocksmodel.h \
-    classes/unicodeblocksfiltermodel.h
+    interfaces/imainwindow.h
 
 FORMS += \
-    controls/dialogabout.ui \
-    controls/dialogexternaleditor.ui \
-    controls/dialogresize.ui \
-    controls/dialogsavechanges.ui \
-    controls/editortabimage.ui \
-    controls/fonts/dialogfontchanged.ui \
-    controls/fonts/dialogfontpreview.ui \
-    controls/fonts/dialogfontselect.ui \
-    controls/fonts/editortabfont.ui \
-    controls/mainwindow.ui \
+    controls/about/dialogabout.ui \
+    controls/fonts/font-changed/dialogfontchanged.ui \
+    controls/fonts/font-editor/editortabfont.ui \
+    controls/fonts/font-new/dialogfontselect.ui \
+    controls/fonts/font-preview/dialogfontpreview.ui \
+    controls/images/dialogresize.ui \
+    controls/images/editortabimage.ui \
+    controls/images/widgetbitmapeditor.ui \
+    controls/main/mainwindow.ui \
+    controls/save-changes/dialogsavechanges.ui \
+    controls/setup/dialogexternaleditor.ui \
     controls/setup/dialogoptions.ui \
     controls/setup/dialogpreview.ui \
-    controls/setup/parts/setuptabfont.ui \
-    controls/setup/parts/setuptabimage.ui \
-    controls/setup/parts/setuptabmatrix.ui \
-    controls/setup/parts/setuptabprepare.ui \
-    controls/setup/parts/setuptabreordering.ui \
-    controls/setup/parts/setuptabtemplates.ui \
-    controls/starttab.ui \
-    controls/widgetbitmapeditor.ui
+    controls/setup/parts/font/setuptabfont.ui \
+    controls/setup/parts/image/setuptabimage.ui \
+    controls/setup/parts/matrix/setuptabmatrix.ui \
+    controls/setup/parts/prepare/setuptabprepare.ui \
+    controls/setup/parts/reordering/setuptabreordering.ui \
+    controls/setup/parts/templates/setuptabtemplates.ui \
+    controls/start/starttab.ui
 
 INCLUDEPATH += . \
     ./classes \
     ./classes/action-handlers \
     ./classes/compression \
-    ./classes/convert \
     ./classes/data \
+    ./classes/parser \
+    ./classes/parser/convert \
     ./classes/preview-models \
     ./classes/settings \
     ./classes/settings/presets \
     ./controls \
-    ./controls/fonts \
+    ./controls/about \
+    ./controls/fonts/font-changed \
+    ./controls/fonts/font-editor \
+    ./controls/fonts/font-new \
+    ./controls/fonts/font-preview \
+    ./controls/images \
+    ./controls/main \
+    ./controls/save-changes \
+    ./controls/start \
     ./controls/setup \
     ./controls/setup/parts \
+    ./controls/setup/parts/font \
+    ./controls/setup/parts/image \
+    ./controls/setup/parts/matrix \
+    ./controls/setup/parts/prepare \
+    ./controls/setup/parts/reordering \
+    ./controls/setup/parts/templates \
     ./interfaces
 
 RESOURCES += \
