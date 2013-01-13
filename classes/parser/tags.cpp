@@ -35,7 +35,7 @@ Tags::~Tags()
 //-----------------------------------------------------------------------------
 Tags::TagsEnum Tags::parseTag(const QString &key) const
 {
-    return this->mTagNameMap->value(key, UNKNOWN);
+    return this->mTagNameMap->value(key, Unknown);
 }
 //-----------------------------------------------------------------------------
 const QString Tags::tagValue(Tags::TagsEnum key)
@@ -52,74 +52,76 @@ void Tags::initTagsMap()
 {
     this->mTagNameMap = new QHash<QString, TagsEnum>();
 
-    this->mTagNameMap->insert("doc_data_type",   DOCUMENT_DATA_TYPE);
-    this->mTagNameMap->insert("dataType",        DOCUMENT_DATA_TYPE);
-    this->mTagNameMap->insert("doc_name",        DOCUMENT_NAME);
-    this->mTagNameMap->insert("documentName",    DOCUMENT_NAME);
-    this->mTagNameMap->insert("doc_name_ws",     DOCUMENT_NAME_WITHOUT_SPACES);
-    this->mTagNameMap->insert("documentName_ws", DOCUMENT_NAME_WITHOUT_SPACES);
-    this->mTagNameMap->insert("doc_filename",    DOCUMENT_FILENAME);
-    this->mTagNameMap->insert("fileName",        DOCUMENT_FILENAME);
+    this->mTagNameMap->insert("doc_data_type",   DocumentDataType);
+    this->mTagNameMap->insert("dataType",        DocumentDataType);
+    this->mTagNameMap->insert("doc_name",        DocumentName);
+    this->mTagNameMap->insert("documentName",    DocumentName);
+    this->mTagNameMap->insert("doc_name_ws",     DocumentNameWithoutSpaces);
+    this->mTagNameMap->insert("documentName_ws", DocumentNameWithoutSpaces);
+    this->mTagNameMap->insert("doc_filename",    DocumentFilename);
+    this->mTagNameMap->insert("fileName",        DocumentFilename);
 
-    this->mTagNameMap->insert("pre_conv_type",  PREPARE_CONV_TYPE);
-    this->mTagNameMap->insert("convType",       PREPARE_CONV_TYPE);
-    this->mTagNameMap->insert("pre_mono_type",  PREPARE_MONO_TYPE);
-    this->mTagNameMap->insert("monoType",       PREPARE_MONO_TYPE);
-    this->mTagNameMap->insert("pre_mono_edge",  PREPARE_MONO_EDGE);
-    this->mTagNameMap->insert("edge",           PREPARE_MONO_EDGE);
-    this->mTagNameMap->insert("pre_scan_main",  PREPARE_SCAN_MAIN);
-    this->mTagNameMap->insert("scanMain",       PREPARE_SCAN_MAIN);
-    this->mTagNameMap->insert("pre_scan_sub",   PREPARE_SCAN_SUB);
-    this->mTagNameMap->insert("scanSub",        PREPARE_SCAN_SUB);
-    this->mTagNameMap->insert("pre_inverse",    PREPARE_INVERSE);
-    this->mTagNameMap->insert("inverse",        PREPARE_INVERSE);
-    this->mTagNameMap->insert("pre_use_bands",  PREPARE_USE_BANDS);
-    this->mTagNameMap->insert("bands",          PREPARE_USE_BANDS);
-    this->mTagNameMap->insert("pre_band_width", PREPARE_BAND_WIDTH);
-    this->mTagNameMap->insert("bandWidth",      PREPARE_BAND_WIDTH);
+    this->mTagNameMap->insert("pre_conv_type",  PrepareConversionType);
+    this->mTagNameMap->insert("convType",       PrepareConversionType);
+    this->mTagNameMap->insert("pre_mono_type",  PrepareMonoType);
+    this->mTagNameMap->insert("monoType",       PrepareMonoType);
+    this->mTagNameMap->insert("pre_mono_edge",  PrepareMonoEdge);
+    this->mTagNameMap->insert("edge",           PrepareMonoEdge);
+    this->mTagNameMap->insert("pre_scan_main",  PrepareScanMain);
+    this->mTagNameMap->insert("scanMain",       PrepareScanMain);
+    this->mTagNameMap->insert("pre_scan_sub",   PrepareScanSub);
+    this->mTagNameMap->insert("scanSub",        PrepareScanSub);
+    this->mTagNameMap->insert("pre_inverse",    PrepareInverse);
+    this->mTagNameMap->insert("inverse",        PrepareInverse);
+    this->mTagNameMap->insert("pre_use_bands",  PrepareUseBands);
+    this->mTagNameMap->insert("bands",          PrepareUseBands);
+    this->mTagNameMap->insert("pre_band_width", PrepareBandWidth);
+    this->mTagNameMap->insert("bandWidth",      PrepareBandWidth);
 
-    this->mTagNameMap->insert("img_split_to_rows",   IMAGE_SPLIT_TO_ROWS);
-    this->mTagNameMap->insert("splitToRows",         IMAGE_SPLIT_TO_ROWS);
-    this->mTagNameMap->insert("img_data_block_size", IMAGE_BLOCK_SIZE);
-    this->mTagNameMap->insert("dataBlockSize",       IMAGE_BLOCK_SIZE);
-    this->mTagNameMap->insert("img_rle_compression", IMAGE_RLE_COMPRESSION);
-    this->mTagNameMap->insert("rle",                 IMAGE_RLE_COMPRESSION);
-    this->mTagNameMap->insert("img_byte_order",      IMAGE_BYTE_ORDER);
+    this->mTagNameMap->insert("img_split_to_rows",   ImageSplitToRows);
+    this->mTagNameMap->insert("splitToRows",         ImageSplitToRows);
+    this->mTagNameMap->insert("img_data_block_size", ImageBlockSize);
+    this->mTagNameMap->insert("dataBlockSize",       ImageBlockSize);
+    this->mTagNameMap->insert("img_rle_compression", ImageRleCompression);
+    this->mTagNameMap->insert("rle",                 ImageRleCompression);
+    this->mTagNameMap->insert("img_byte_order",      ImageByteOrder);
 
-    this->mTagNameMap->insert("fnt_string",     FONT_STRING);
-    this->mTagNameMap->insert("string",         FONT_STRING);
-    this->mTagNameMap->insert("fnt_use_bom",    FONT_USE_BOM);
-    this->mTagNameMap->insert("bom",            FONT_USE_BOM);
-    this->mTagNameMap->insert("fnt_encoding",   FONT_ENCODING);
-    this->mTagNameMap->insert("encoding",       FONT_ENCODING);
-    this->mTagNameMap->insert("fnt_width_type", FONT_WIDTH_TYPE);
-    this->mTagNameMap->insert("fontWidthType",  FONT_WIDTH_TYPE);
+    this->mTagNameMap->insert("fnt_string",     FontString);
+    this->mTagNameMap->insert("string",         FontString);
+    this->mTagNameMap->insert("fnt_use_bom",    FontUseBom);
+    this->mTagNameMap->insert("bom",            FontUseBom);
+    this->mTagNameMap->insert("fnt_encoding",   FontEncoding);
+    this->mTagNameMap->insert("encoding",       FontEncoding);
+    this->mTagNameMap->insert("fnt_width_type", FontWidthType);
+    this->mTagNameMap->insert("fontWidthType",  FontWidthType);
 
-    this->mTagNameMap->insert("tmpl_font_filename",  TEMPLATES_FONT_FILE);
-    this->mTagNameMap->insert("tmpl_image_filename", TEMPLATES_IMAGE_FILE);
+    this->mTagNameMap->insert("tmpl_filename", TemplateFilename);
+    this->mTagNameMap->insert("templateFile",  TemplateFilename);
 
-    this->mTagNameMap->insert("out_preset_name",  OUTPUT_PRESET_NAME);
-    this->mTagNameMap->insert("preset",           OUTPUT_PRESET_NAME);
-    this->mTagNameMap->insert("out_blocks_count", OUTPUT_BLOCKS_COUNT);
-    this->mTagNameMap->insert("blocksCount",      OUTPUT_BLOCKS_COUNT);
-    this->mTagNameMap->insert("out_bpp",          OUTPUT_BITS_PER_PIXEL);
-    this->mTagNameMap->insert("bpp",              OUTPUT_BITS_PER_PIXEL);
-    this->mTagNameMap->insert("out_char_code",    OUTPUT_CHARACTER_CODE);
-    this->mTagNameMap->insert("charCode",         OUTPUT_CHARACTER_CODE);
-    this->mTagNameMap->insert("out_char_text",    OUTPUT_CHARACTER_TEXT);
-    this->mTagNameMap->insert("charText",         OUTPUT_CHARACTER_TEXT);
-    this->mTagNameMap->insert("out_image_data",   OUTPUT_IMAGE_DATA);
-    this->mTagNameMap->insert("imageData",        OUTPUT_IMAGE_DATA);
-    this->mTagNameMap->insert("out_images_count", OUTPUT_IMAGES_COUNT);
-    this->mTagNameMap->insert("imagesCount",      OUTPUT_IMAGES_COUNT);
-    this->mTagNameMap->insert("out_comma",        OUTPUT_COMMA);
-    this->mTagNameMap->insert("comma",            OUTPUT_COMMA);
+    this->mTagNameMap->insert("out_preset_name",  OutputPresetName);
+    this->mTagNameMap->insert("preset",           OutputPresetName);
+    this->mTagNameMap->insert("out_blocks_count", OutputBlocksCount);
+    this->mTagNameMap->insert("blocksCount",      OutputBlocksCount);
+    this->mTagNameMap->insert("out_bpp",          OutputBitsPerPixel);
+    this->mTagNameMap->insert("bpp",              OutputBitsPerPixel);
+    this->mTagNameMap->insert("out_char_code",    OutputCharacterCode);
+    this->mTagNameMap->insert("charCode",         OutputCharacterCode);
+    this->mTagNameMap->insert("out_char_text",    OutputCharacterText);
+    this->mTagNameMap->insert("charText",         OutputCharacterText);
+    this->mTagNameMap->insert("out_image_data",   OutputImageData);
+    this->mTagNameMap->insert("imageData",        OutputImageData);
+    this->mTagNameMap->insert("out_images_count", OutputImagesCount);
+    this->mTagNameMap->insert("imagesCount",      OutputImagesCount);
+    this->mTagNameMap->insert("out_comma",        OutputComma);
+    this->mTagNameMap->insert("comma",            OutputComma);
+    this->mTagNameMap->insert("out_data_indent",  OutputDataIndent);
+    this->mTagNameMap->insert("imageDataIndent",  OutputDataIndent);
 
-    this->mTagNameMap->insert("start_block_header",       BLOCK_START_HEADER);
-    this->mTagNameMap->insert("end_block_header",         BLOCK_END_HEADER);
-    this->mTagNameMap->insert("start_block_images_table", BLOCK_START_IMAGES_TABLE);
-    this->mTagNameMap->insert("end_block_images_table",   BLOCK_END_IMAGES_TABLE);
-    this->mTagNameMap->insert("start_block_font_def",     BLOCK_START_FONT_DEFINITION);
-    this->mTagNameMap->insert("end_block_font_def",       BLOCK_END_FONT_DEFINITION);
+    this->mTagNameMap->insert("start_block_header",       BlocksHeaderStart);
+    this->mTagNameMap->insert("end_block_header",         BlocksHeaderEnd);
+    this->mTagNameMap->insert("start_block_images_table", BlocksImagesTableStart);
+    this->mTagNameMap->insert("end_block_images_table",   BlocksImagesTableEnd);
+    this->mTagNameMap->insert("start_block_font_def",     BlocksFontDefinitionStart);
+    this->mTagNameMap->insert("end_block_font_def",       BlocksFontDefinitionEnd);
 }
 //-----------------------------------------------------------------------------
