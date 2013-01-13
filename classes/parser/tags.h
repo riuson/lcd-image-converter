@@ -22,7 +22,7 @@
 //-----------------------------------------------------------------------------
 #include <QString>
 //-----------------------------------------------------------------------------
-//template <class T1, class T2> class QMultiMap;
+template <class T1, class T2> class QMap;
 template <class T1, class T2> class QHash;
 //-----------------------------------------------------------------------------
 class Tags
@@ -79,10 +79,16 @@ public:
         BLOCK_END_FONT_DEFINITION
     };
 
-    TagsEnum parseTag(const QString &key);
+    TagsEnum parseTag(const QString &key) const;
+
+    const QString tagValue(TagsEnum key);
+    void setTagValue(TagsEnum key, const QString &value);
 
 private:
     QHash <QString, TagsEnum> *mTagNameMap;
+    QMap <TagsEnum, QString> *mTagValues;
+
+    void initTagsMap();
 };
 //-----------------------------------------------------------------------------
 #endif // TAGS_H

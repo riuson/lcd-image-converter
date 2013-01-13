@@ -19,9 +19,36 @@
 
 #include "tags.h"
 
+#include <QMap>
 #include <QHash>
 //-----------------------------------------------------------------------------
 Tags::Tags()
+{
+    this->initTagsMap();
+    this->mTagValues = new QMap<TagsEnum, QString>();
+}
+//-----------------------------------------------------------------------------
+Tags::~Tags()
+{
+    this->mTagNameMap->clear();
+}
+//-----------------------------------------------------------------------------
+Tags::TagsEnum Tags::parseTag(const QString &key) const
+{
+    return this->mTagNameMap->value(key, UNKNOWN);
+}
+//-----------------------------------------------------------------------------
+const QString Tags::tagValue(Tags::TagsEnum key)
+{
+    return this->mTagValues->value(key, QString("none"));
+}
+//-----------------------------------------------------------------------------
+void Tags::setTagValue(Tags::TagsEnum key, const QString &value)
+{
+    this->mTagValues->insert(key, value);
+}
+//-----------------------------------------------------------------------------
+void Tags::initTagsMap()
 {
     this->mTagNameMap = new QHash<QString, TagsEnum>();
 
@@ -94,15 +121,5 @@ Tags::Tags()
     this->mTagNameMap->insert("end_block_images_table",   BLOCK_END_IMAGES_TABLE);
     this->mTagNameMap->insert("start_block_font_def",     BLOCK_START_FONT_DEFINITION);
     this->mTagNameMap->insert("end_block_font_def",       BLOCK_END_FONT_DEFINITION);
-}
-//-----------------------------------------------------------------------------
-Tags::~Tags()
-{
-    this->mTagNameMap->clear();
-}
-//-----------------------------------------------------------------------------
-Tags::TagsEnum Tags::parseTag(const QString &key)
-{
-    return this->mTagNameMap->value(key, UNKNOWN);
 }
 //-----------------------------------------------------------------------------
