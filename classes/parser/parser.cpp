@@ -160,44 +160,6 @@ void Parser::parse(const QString &templateString,
     }
 }
 //-----------------------------------------------------------------------------
-void Parser::parseBlocks(const QString &templateString,
-                            QString &resultString,
-                            Tags &tags,
-                            IDocument *doc) const
-{
-    // capture block
-    QRegExp startReg = this->expression(Parser::BlockStart);
-    startReg.setMinimal(true);
-    int index = -1;
-    while ((index = startReg.indexIn(templateString, index + 1)) >= 0)
-    {
-        QString blockName = startReg.cap(2);
-        QRegExp endReg = this->expression(Parser::BlockEnd, blockName);
-        endReg.setMinimal(true);
-        // capture block's content
-        QRegExp contentReg = this->expression(Parser::Content, blockName);
-        contentReg.setMinimal(true);
-        int index2 = index - 1;
-        while ((index2 = contentReg.indexIn(templateString, index2 + 1)) >= 0)
-        {
-            QString content = contentReg.cap(3);
-            //index2 += content.length();
-            content = content.trimmed();
-
-            QString contentParsed;
-            if (blockName == "images_table")
-            {
-                this->parseImagesTable(content, contentParsed, tags, doc);
-            }
-            else
-            {
-                this->parseSimple(content, contentParsed, tags, doc);
-            }
-            resultString.append(contentParsed);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
 void Parser::parseImagesTable(const QString &templateString,
                                  QString &resultString,
                                  Tags &tags,
