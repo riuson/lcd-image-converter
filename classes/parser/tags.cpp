@@ -21,6 +21,7 @@
 
 #include <QMap>
 #include <QHash>
+#include <QRegExp>
 //-----------------------------------------------------------------------------
 Tags::Tags()
 {
@@ -46,6 +47,48 @@ const QString Tags::tagValue(Tags::TagsEnum key)
 void Tags::setTagValue(Tags::TagsEnum key, const QString &value)
 {
     this->mTagValues->insert(key, value);
+}
+//-----------------------------------------------------------------------------
+bool Tags::find(const QString &text, int startIndex, int *resultIndex, int *nextIndex, TagsEnum *key, QString *content)
+{
+    *resultIndex = -1;
+    *nextIndex = -1;
+    *key = Unknown;
+    *content = QString();
+
+    QRegExp reg("(\\@|\\$\\()(.+)(\\@|\\))");
+    reg.setMinimal(true);
+
+    int pos = reg.indexIn(text, startIndex);
+    if (pos >= 0)
+    {
+        QString tagText = reg.cap(2);
+        *key = this->parseTag(tagText);
+        *resultIndex = pos;
+
+        if (*key == BlocksHeaderStart ||
+            *key == BlocksImagesTableStart ||
+            *key == BlocksFontDefinitionStart)
+        {
+            QString blockName = tagText.remove(0, 12);
+            QRegExp regContent = QRegExp("(\\@|\\$\\()start_block_" + blockName + "(\\@|\\))(.+)(\\@|\\$\\()end_block_" + blockName + "(\\@|\\))");
+            regContent.setMinimal(true);
+            if (regContent.indexIn(text, pos) >= 0)
+            {
+                QString contentText = regContent.cap(3);
+                *content = contentText.trimmed();
+                *nextIndex = pos + regContent.cap().length();
+            }
+        }
+        else
+        {
+            *content = tagText;
+            *nextIndex = pos + reg.cap().length();
+        }
+
+        return true;
+    }
+    return false;
 }
 //-----------------------------------------------------------------------------
 void Tags::initTagsMap()

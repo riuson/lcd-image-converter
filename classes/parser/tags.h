@@ -91,6 +91,8 @@ public:
     const QString tagValue(TagsEnum key);
     void setTagValue(TagsEnum key, const QString &value);
 
+    bool find(const QString &text, int startIndex, int *resultIndex, int *nextIndex, TagsEnum *key, QString *content);
+
 private:
     QHash <QString, TagsEnum> *mTagNameMap;
     QMap <TagsEnum, QString> *mTagValues;
