@@ -97,9 +97,60 @@ QString Parser::convert(IDocument *document, Tags &tags) const
 
     this->addMatrixInfo(tags);
 
-    this->parse(templateString, result, tags, document);
+    this->parse2(templateString, result, tags, document);
 
     return result;
+}
+//-----------------------------------------------------------------------------
+void Parser::parse2(const QString &templateString,
+                      QString &resultString,
+                      Tags &tags,
+                      IDocument *doc) const
+{
+    int index = 0;
+    QRegExp regTag = this->expression(Parser::TagName);
+    regTag.setMinimal(true);
+
+    Tags::TagsEnum tagKey = Tags::Unknown;
+    int foundIndex = 0, nextIndex = 0;
+    QString tagContent;
+    while (tags.find(templateString, index, &foundIndex, &nextIndex, &tagKey, &tagContent))
+    {
+        if (foundIndex > index)
+        {
+            resultString.append(templateString.mid(index, foundIndex - index));
+        }
+
+        switch (tagKey)
+        {
+        case Tags::BlocksHeaderStart:
+        case Tags::BlocksFontDefinitionStart:
+        {
+            QString temp;
+            this->parse2(tagContent, temp, tags, doc);
+            resultString.append(temp);
+            break;
+        }
+        case Tags::BlocksImagesTableStart:
+        {
+            QString temp;
+            this->parseImagesTable(tagContent, temp, tags, doc);
+            resultString.append(temp);
+            break;
+        }
+        default:
+        {
+            resultString.append(tags.tagValue(tagKey));
+            break;
+        }
+        }
+        index = nextIndex;
+    }
+
+    if (index < templateString.length() - 1)
+    {
+        resultString.append(templateString.mid(index, templateString.length() - index));
+    }
 }
 //-----------------------------------------------------------------------------
 void Parser::parse(const QString &templateString,
@@ -446,6 +497,10 @@ QRegExp Parser::expression(ExpType type, const QString &name) const
     case Content:
         // 3
         result = "(\\@|\\$\\()start_block_" + name + "(\\@|\\))(.+)(\\@|\\$\\()end_block_" + name + "(\\@|\\))";
+        break;
+    case AnyTag:
+        // 2, 3
+        result = "(\\@|\\$\\()(.+)(\\@|\\))";
         break;
     case TagName:
     default:

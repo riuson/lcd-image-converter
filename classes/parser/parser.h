@@ -51,6 +51,7 @@ private:
     Preset *mPreset;
     QString mTemplateFileName;
 
+    void parse2(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
     void parse(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
     void parseImagesTable(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
     void parseSimple(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
@@ -63,10 +64,12 @@ private:
         BlockEnd,
         TagName,
         ImageData,
-        Content
+        Content,
+        AnyTag
     };
 
     QRegExp expression(ExpType type, const QString &name = QString()) const;
+    bool findNextTag(int startIndex, int *resultIndex, Tags);
 };
 //-----------------------------------------------------------------------------
 #endif // PARSER_H
