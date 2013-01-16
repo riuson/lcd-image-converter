@@ -52,9 +52,9 @@ private:
     Preset *mPreset;
     QString mTemplateFileName;
 
-    void parse(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
-    void parseImagesTable(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
-    void parseImage(const QImage *image, QString &resultString, Tags &tags) const;
+    QString parse(const QString &templateString, Tags &tags, IDocument *doc) const;
+    QString parseImagesTable(const QString &templateString, Tags &tags, IDocument *doc) const;
+    QString parseImage(const QImage *image, Tags &tags) const;
     QString hexCode(const QChar &ch, const QString &encoding, bool bom) const;
     void addMatrixInfo(Tags &tags) const;
 

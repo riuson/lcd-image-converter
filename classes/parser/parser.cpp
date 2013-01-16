@@ -85,16 +85,17 @@ QString Parser::convert(IDocument *document, Tags &tags) const
 
     this->addMatrixInfo(tags);
 
-    this->parse(templateString, result, tags, document);
+    result = this->parse(templateString, tags, document);
 
     return result;
 }
 //-----------------------------------------------------------------------------
-void Parser::parse(const QString &templateString,
-                      QString &resultString,
+QString Parser::parse(const QString &templateString,
                       Tags &tags,
                       IDocument *doc) const
 {
+    QString result;
+
     Tags::TagsEnum tagKey = Tags::Unknown;
     int lastIndex = 0, foundIndex = 0, nextIndex = 0;
     QString content;
@@ -102,7 +103,7 @@ void Parser::parse(const QString &templateString,
     {
         if (foundIndex > lastIndex)
         {
-            resultString.append(templateString.mid(lastIndex, foundIndex - lastIndex));
+            result.append(templateString.mid(lastIndex, foundIndex - lastIndex));
         }
 
         switch (tagKey)
@@ -110,21 +111,19 @@ void Parser::parse(const QString &templateString,
         case Tags::BlocksHeaderStart:
         case Tags::BlocksFontDefinitionStart:
         {
-            QString temp;
-            this->parse(content, temp, tags, doc);
-            resultString.append(temp);
+            QString temp = this->parse(content, tags, doc);
+            result.append(temp);
             break;
         }
         case Tags::BlocksImagesTableStart:
         {
-            QString temp;
-            this->parseImagesTable(content, temp, tags, doc);
-            resultString.append(temp);
+            QString temp = this->parseImagesTable(content, tags, doc);
+            result.append(temp);
             break;
         }
         default:
         {
-            resultString.append(tags.tagValue(tagKey));
+            result.append(tags.tagValue(tagKey));
             break;
         }
         }
@@ -133,15 +132,18 @@ void Parser::parse(const QString &templateString,
 
     if (lastIndex < templateString.length() - 1)
     {
-        resultString.append(templateString.right(templateString.length() - lastIndex));
+        result.append(templateString.right(templateString.length() - lastIndex));
     }
+
+    return result;
 }
 //-----------------------------------------------------------------------------
-void Parser::parseImagesTable(const QString &templateString,
-                                 QString &resultString,
+QString Parser::parseImagesTable(const QString &templateString,
                                  Tags &tags,
                                  IDocument *doc) const
 {
+    QString result;
+
     DataContainer *data = doc->dataContainer();
     QString imageString;
     QListIterator<QString> it(data->keys());
@@ -152,8 +154,7 @@ void Parser::parseImagesTable(const QString &templateString,
         QString key = it.next();
         QImage image = QImage(*data->image(key));
 
-        QString dataString;
-        this->parseImage(&image, dataString, tags);
+        QString dataString = this->parseImage(&image, tags);
 
         bool useBom = this->mPreset->font()->bom();
         QString encoding = this->mPreset->font()->encoding();
@@ -175,13 +176,14 @@ void Parser::parseImagesTable(const QString &templateString,
         else
             tags.setTagValue(Tags::OutputCharacterText, key.left(1));
 
-        imageString = QString();
-        this->parse(templateString, imageString, tags, doc);
-        resultString.append(imageString);
+        imageString = this->parse(templateString, tags, doc);
+        result.append(imageString);
     }
+
+    return result;
 }
 //-----------------------------------------------------------------------------
-void Parser::parseImage(const QImage *image, QString &resultString, Tags &tags) const
+QString Parser::parseImage(const QImage *image, Tags &tags) const
 {
     // width and height must be written before image changes
     tags.setTagValue(Tags::OutputImageWidth, QString("%1").arg(image->width()));
@@ -222,7 +224,7 @@ void Parser::parseImage(const QImage *image, QString &resultString, Tags &tags) 
 
     // end of conversion
 
-    resultString = dataString;
+    return dataString;
 }
 //-----------------------------------------------------------------------------
 QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) const
