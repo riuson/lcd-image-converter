@@ -83,6 +83,8 @@ QString Parser::convert(IDocument *document, Tags &tags) const
 
     this->addMatrixInfo(tags);
 
+    this->addImagesInfo(tags, document);
+
     result = this->parse(templateString, tags, document);
 
     return result;
@@ -146,7 +148,7 @@ QString Parser::parseImagesTable(const QString &templateString,
     QString imageString;
     QListIterator<QString> it(data->keys());
     it.toFront();
-    tags.setTagValue(Tags::OutputImagesCount, QString("%1").arg(data->count()));
+
     while (it.hasNext())
     {
         QString key = it.next();
@@ -391,6 +393,33 @@ void Parser::addMatrixInfo(Tags &tags) const
         maskUsed = maskUsed >> 1;
     }
     tags.setTagValue(Tags::OutputBitsPerPixel, QString("%1").arg(bitsPerPixel));
+}
+//-----------------------------------------------------------------------------
+void Parser::addImagesInfo(Tags &tags, IDocument *doc) const
+{
+    DataContainer *data = doc->dataContainer();
+    QListIterator<QString> it(data->keys());
+    it.toFront();
+
+    int maxWidth = 0, maxHeight = 0;
+
+    while (it.hasNext())
+    {
+        const QString key = it.next();
+        QImage image = QImage(*data->image(key));
+
+        if (image.width() > maxWidth)
+        {
+            maxWidth = image.width();
+        }
+        if (image.height() > maxHeight)
+        {
+            maxHeight = image.height();
+        }
+    }
+    tags.setTagValue(Tags::OutputImagesCount, QString("%1").arg(data->count()));
+    tags.setTagValue(Tags::OutputImagesMaxWidth, QString("%1").arg(maxWidth));
+    tags.setTagValue(Tags::OutputImagesMaxHeight, QString("%1").arg(maxHeight));
 }
 //-----------------------------------------------------------------------------
 QString Parser::imageIndent(const QString &templateString) const
