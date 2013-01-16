@@ -81,19 +81,7 @@ QString Parser::convert(IDocument *document, Tags &tags) const
     }
     tags.setTagValue(Tags::TemplateFilename, file.fileName());
 
-    QRegExp regImageData = this->expression(Parser::ImageData);
-    regImageData.setMinimal(true);
-    if (regImageData.indexIn(templateString) >= 0)
-    {
-        QString strImageDataIndent = regImageData.cap(1);
-        if (strImageDataIndent.isEmpty())
-            strImageDataIndent = "    ";
-        tags.setTagValue(Tags::OutputDataIndent, strImageDataIndent);
-    }
-    else
-    {
-        tags.setTagValue(Tags::OutputDataIndent, "    ");
-    }
+    tags.setTagValue(Tags::OutputDataIndent, this->imageIndent(templateString));
 
     this->addMatrixInfo(tags);
 

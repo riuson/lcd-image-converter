@@ -70,6 +70,7 @@ private:
 
     QRegExp expression(ExpType type, const QString &name = QString()) const;
     bool findNextTag(int startIndex, int *resultIndex, Tags);
+    QString imageIndent(const QString &templateString) const;
 };
 //-----------------------------------------------------------------------------
 #endif // PARSER_H
