@@ -57,6 +57,7 @@ private:
     QString parseImage(const QImage *image, Tags &tags) const;
     QString hexCode(const QChar &ch, const QString &encoding, bool bom) const;
     void addMatrixInfo(Tags &tags) const;
+    void addImagesInfo(Tags &tags, IDocument *doc) const;
 
     bool findNextTag(int startIndex, int *resultIndex, Tags);
     QString imageIndent(const QString &templateString) const;

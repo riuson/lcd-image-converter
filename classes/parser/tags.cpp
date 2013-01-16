@@ -173,6 +173,8 @@ void Tags::initTagsMap()
     this->mTagNameMap->insert("width",            OutputImageWidth);
     this->mTagNameMap->insert("out_image_height", OutputImageHeight);
     this->mTagNameMap->insert("height",           OutputImageHeight);
+    this->mTagNameMap->insert("out_images_max_width",  OutputImagesMaxWidth);
+    this->mTagNameMap->insert("out_images_max_height", OutputImagesMaxHeight);
 
     this->mTagNameMap->insert("start_block_header",       BlocksHeaderStart);
     this->mTagNameMap->insert("end_block_header",         BlocksHeaderEnd);
