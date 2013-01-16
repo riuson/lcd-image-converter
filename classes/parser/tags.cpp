@@ -76,7 +76,7 @@ bool Tags::find(const QString &text, int startIndex, int *resultIndex, int *next
             if (regContent.indexIn(text, pos) >= 0)
             {
                 QString contentText = regContent.cap(3);
-                *content = contentText.trimmed();
+                *content = contentText;//.trimmed();
                 *nextIndex = pos + regContent.cap().length();
             }
         }
