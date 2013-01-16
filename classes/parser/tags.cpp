@@ -125,7 +125,7 @@ void Tags::initTagsMap()
     this->mTagNameMap->insert("splitToRows",         ImageSplitToRows);
     this->mTagNameMap->insert("img_data_block_size", ImageBlockSize);
     this->mTagNameMap->insert("dataBlockSize",       ImageBlockSize);
-    this->mTagNameMap->insert("img_rle_compression", ImageRleCompression);
+    this->mTagNameMap->insert("img_rle",             ImageRleCompression);
     this->mTagNameMap->insert("rle",                 ImageRleCompression);
     this->mTagNameMap->insert("img_byte_order",      ImageByteOrder);
     this->mTagNameMap->insert("bytesOrder",          ImageByteOrder);
@@ -135,6 +135,10 @@ void Tags::initTagsMap()
     this->mTagNameMap->insert("fnt_encoding",   FontEncoding);
     this->mTagNameMap->insert("encoding",       FontEncoding);
 
+    this->mTagNameMap->insert("fnt_family",       FontFamily);
+    this->mTagNameMap->insert("fontFamily",       FontFamily);
+    this->mTagNameMap->insert("fnt_size",         FontSize);
+    this->mTagNameMap->insert("fontSize",         FontSize);
     this->mTagNameMap->insert("fnt_style",        FontStyle);
     this->mTagNameMap->insert("fontStyle",        FontStyle);
     this->mTagNameMap->insert("fnt_string",       FontString);

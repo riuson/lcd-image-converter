@@ -1,26 +1,27 @@
 $(start_block_header)
 /*******************************************************************************
-* filename: $(fileName)
-* name: $(documentName)
-* family: $(fontFamily)
-* size: $(fontSize)
-* style: $(fontStyle)
-* included characters: $(string)
-* antialiasing: $(fontAntialiasing)
-* type: $(fontWidthType)
-* encoding: $(encoding)
-* unicode bom: $(bom)
+* $(doc_data_type)
+* filename: $(doc_filename)
+* name: $(doc_name)
+* family: $(fnt_family)
+* size: $(fnt_size)
+* style: $(fnt_style)
+* included characters: $(fnt_string)
+* antialiasing: $(fnt_antialiasing)
+* type: $(fnt_width_type)
+* encoding: $(fnt_encoding)
+* unicode bom: $(fnt_use_bom)
 *
-* preset name: $(preset)
-* data block size: $(dataBlockSize) bit(s), uint$(dataBlockSize)_t
-* RLE compression enabled: $(rle)
-* conversion type: $(convType), $(monoType) $(edge)
-* bits per pixel: $(bpp)
+* preset name: $(out_preset_name)
+* data block size: $(img_data_block_size) bit(s), uint$(img_data_block_size)_t
+* RLE compression enabled: $(img_rle)
+* conversion type: $(pre_conv_type), $(pre_mono_type) $(pre_mono_edge)
+* bits per pixel: $(out_bpp)
 *
 * preprocess:
-*  main scan direction: $(scanMain)
-*  line scan direction: $(scanSub)
-*  inverse: $(inverse)
+*  main scan direction: $(pre_scan_main)
+*  line scan direction: $(pre_scan_sub)
+*  inverse: $(pre_inverse)
 *******************************************************************************/
 
 /*
@@ -38,19 +39,19 @@ $(start_block_header)
 $(end_block_header)
 
 $(start_block_images_table)
-static const uint$(dataBlockSize)_t image_data_$(documentName_ws)_0x$(charCode)[$(blocksCount)] = {
-    $(imageData)
+static const uint$(img_data_block_size)_t image_data_$(doc_name_ws)_0x$(out_char_code)[$(out_blocks_count)] = {
+    $(out_image_data)
 };
-static const tImage $(documentName_ws)_0x$(charCode) = { image_data_$(documentName_ws)_0x$(charCode), $(width), $(height)};
+static const tImage $(doc_name_ws)_0x$(out_char_code) = { image_data_$(doc_name_ws)_0x$(out_char_code), $(out_image_width), $(out_image_height)};
 $(end_block_images_table)
 
-static const tChar $(documentName_ws)_array[] = {
+static const tChar $(doc_name_ws)_array[] = {
 $(start_block_images_table)
-  // character: '@charText@'
-  {0x$(charCode), &$(documentName_ws)_0x$(charCode)}$(comma)
+  // character: '$(out_char_text)'
+  {0x$(out_char_code), &$(doc_name_ws)_0x$(out_char_code)}$(out_comma)
 $(end_block_images_table)
 };
 
 $(start_block_font_def)
-const tFont $(documentName_ws) = { $(imagesCount), $(documentName_ws)_array };
+const tFont $(doc_name_ws) = { $(out_images_count), $(doc_name_ws)_array };
 $(end_block_font_def)
