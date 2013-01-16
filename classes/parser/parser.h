@@ -27,6 +27,8 @@
 class IDocument;
 class IDataContainer;
 class Preset;
+class Tags;
+class QImage;
 //-----------------------------------------------------------------------------
 class Parser : public QObject
 {
@@ -43,30 +45,21 @@ public:
 
     QString name();
 
-    QString convert(IDocument *document, QMap<QString, QString> &tags) const;
+    QString convert(IDocument *document, Tags &tags) const;
 
 private:
     QString mSelectedPresetName;
     Preset *mPreset;
     QString mTemplateFileName;
 
-    void parse(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
-    void parseBlocks(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
-    void parseImagesTable(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
-    void parseSimple(const QString &templateString, QString &resultString, QMap<QString, QString> &tags, IDocument *doc) const;
+    QString parse(const QString &templateString, Tags &tags, IDocument *doc) const;
+    QString parseImagesTable(const QString &templateString, Tags &tags, IDocument *doc) const;
+    QString parseImage(const QImage *image, Tags &tags) const;
     QString hexCode(const QChar &ch, const QString &encoding, bool bom) const;
-    void addMatrixInfo(QMap<QString, QString> &tags) const;
+    void addMatrixInfo(Tags &tags) const;
 
-    enum ExpType
-    {
-        BlockStart,
-        BlockEnd,
-        TagName,
-        ImageData,
-        Content
-    };
-
-    QRegExp expression(ExpType type, const QString &name = QString()) const;
+    bool findNextTag(int startIndex, int *resultIndex, Tags);
+    QString imageIndent(const QString &templateString) const;
 };
 //-----------------------------------------------------------------------------
 #endif // PARSER_H

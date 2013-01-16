@@ -525,19 +525,19 @@ Qt: %3</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="67"/>
+        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="68"/>
         <source>Font</source>
         <comment>new font name</comment>
         <translatorcomment>название нового шрифта, должно быть латинскими буквами</translatorcomment>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="497"/>
+        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="498"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="499"/>
+        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="500"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -551,19 +551,19 @@ Qt: %3</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/images/editortabimage.cpp" line="54"/>
+        <location filename="../controls/images/editortabimage.cpp" line="55"/>
         <source>Image</source>
         <comment>new image name</comment>
         <translatorcomment>название нового изображения, должно быть латинскими буквами</translatorcomment>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../controls/images/editortabimage.cpp" line="306"/>
+        <location filename="../controls/images/editortabimage.cpp" line="307"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/images/editortabimage.cpp" line="308"/>
+        <location filename="../controls/images/editortabimage.cpp" line="309"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>

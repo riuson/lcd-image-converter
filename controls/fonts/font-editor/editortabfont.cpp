@@ -37,6 +37,7 @@
 #include "fontcharactersmodel.h"
 #include "parser.h"
 #include "dialogfontchanged.h"
+#include "tags.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
@@ -454,28 +455,28 @@ void EditorTabFont::setImage(const QImage *value)
 //-----------------------------------------------------------------------------
 void EditorTabFont::convert(bool request)
 {
-    QMap<QString, QString> tags;
+    Tags tags;
 
     if (!this->fileName().isEmpty())
-        tags["fileName"] = this->fileName();
+        tags.setTagValue(Tags::DocumentFilename, this->fileName());
     else
-        tags["fileName"] = "unknown";
+        tags.setTagValue(Tags::DocumentFilename, "unsaved");
 
-    tags["documentName"] = this->documentName();
-    tags["documentName_ws"] = this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive));
+    tags.setTagValue(Tags::DocumentName, this->documentName());
+    tags.setTagValue(Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
 
     QString chars, fontFamily, style;
     int size;
     bool monospaced, antialiasing;
     this->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
 
-    tags["dataType"] = "font";
-    tags["fontFamily"] = fontFamily;
-    tags["fontSize"] = QString("%1").arg(size);
-    tags["fontStyle"] = style;
-    tags["string"] = chars;
-    tags["fontAntialiasing"] = antialiasing ? "yes" : "no";
-    tags["fontWidthType"] = monospaced ? "monospaced" : "proportional";
+    tags.setTagValue(Tags::DocumentDataType, "font");
+    tags.setTagValue(Tags::FontFamily, fontFamily);
+    tags.setTagValue(Tags::FontSize, QString("%1").arg(size));
+    tags.setTagValue(Tags::FontStyle, style);
+    tags.setTagValue(Tags::FontString, chars);
+    tags.setTagValue(Tags::FontAntiAliasing, antialiasing ? "yes" : "no");
+    tags.setTagValue(Tags::FontWidthType, monospaced ? "monospaced" : "proportional");
 
     Parser parser(this, Parser::TypeFont);
     QString result = parser.convert(this, tags);

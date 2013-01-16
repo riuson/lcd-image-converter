@@ -33,6 +33,7 @@
 #include "imageoptions.h"
 #include "fontoptions.h"
 #include "templateoptions.h"
+#include "tags.h"
 //-----------------------------------------------------------------------------
 Parser::Parser(QObject *parent, TemplateType templateType) :
         QObject(parent)
@@ -56,12 +57,10 @@ Parser::~Parser()
 //-----------------------------------------------------------------------------
 QString Parser::name()
 {
-    //IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    //return options->name();
     return this->mSelectedPresetName;
 }
 //-----------------------------------------------------------------------------
-QString Parser::convert(IDocument *document, QMap<QString, QString> &tags) const
+QString Parser::convert(IDocument *document, Tags &tags) const
 {
     QString result;
 
@@ -78,223 +77,152 @@ QString Parser::convert(IDocument *document, QMap<QString, QString> &tags) const
         templateString = stream.readAll();
         file.close();
     }
-    tags.insert("templateFile", file.fileName());
+    tags.setTagValue(Tags::TemplateFilename, file.fileName());
 
-    QRegExp regImageData = this->expression(Parser::ImageData);
-    regImageData.setMinimal(true);
-    if (regImageData.indexIn(templateString) >= 0)
-    {
-        QString strImageDataIndent = regImageData.cap(1);
-        if (strImageDataIndent.isEmpty())
-            strImageDataIndent = "    ";
-        tags["imageDataIndent"] = strImageDataIndent;
-    }
-    else
-    {
-        tags["imageDataIndent"] = "    ";
-    }
+    tags.setTagValue(Tags::OutputDataIndent, this->imageIndent(templateString));
 
     this->addMatrixInfo(tags);
 
-    this->parse(templateString, result, tags, document);
+    result = this->parse(templateString, tags, document);
 
     return result;
 }
 //-----------------------------------------------------------------------------
-void Parser::parse(const QString &templateString,
-                      QString &resultString,
-                      QMap<QString, QString> &tags,
+QString Parser::parse(const QString &templateString,
+                      Tags &tags,
                       IDocument *doc) const
 {
-    int index = 0;
-    int prevIndex = 0;
-    QRegExp regTag = this->expression(Parser::TagName);
-    regTag.setMinimal(true);
-    int capturedLength = 0;
-    while ((index = regTag.indexIn(templateString, index + capturedLength)) >= 0)
-    {
-        capturedLength = regTag.cap(0).length();
-        if (index > prevIndex)
-        {
-            resultString.append(templateString.mid(prevIndex, index - prevIndex));
-        }
-        QString tagName = regTag.cap(3);
-        // if block starts
-        if (regTag.cap(2) == "start_block_")
-        {
-            QRegExp contentReg = this->expression(Parser::Content, tagName);
-            contentReg.setMinimal(true);
-            if (contentReg.indexIn(templateString, index) >= 0)
-            {
-                QString content = contentReg.cap(3);
-                content = content.trimmed();
-                QString temp;
+    QString result;
 
-                if (tagName == "images_table")
-                {
-                    this->parseImagesTable(content, temp, tags, doc);
-                }
-                else
-                {
-                    this->parse(content, temp, tags, doc);
-                }
-                resultString.append(temp);
-
-                capturedLength = contentReg.cap(0).length();
-                prevIndex = index + capturedLength;
-            }
-        }
-        else
-        {
-            if (tags.contains(tagName))
-                resultString.append(tags.value(tagName));
-            else
-                resultString.append("<value not defined>");
-            prevIndex = index + regTag.cap(0).length();
-        }
-    }
-    int last = prevIndex;
-    if (last < templateString.length() - 1)
+    Tags::TagsEnum tagKey = Tags::Unknown;
+    int lastIndex = 0, foundIndex = 0, nextIndex = 0;
+    QString content;
+    while (tags.find(templateString, lastIndex, &foundIndex, &nextIndex, &tagKey, &content))
     {
-        resultString.append(templateString.mid(last, templateString.length() - last));
+        if (foundIndex > lastIndex)
+        {
+            result.append(templateString.mid(lastIndex, foundIndex - lastIndex));
+        }
+
+        switch (tagKey)
+        {
+        case Tags::BlocksHeaderStart:
+        case Tags::BlocksFontDefinitionStart:
+        {
+            QString temp = this->parse(content, tags, doc);
+            result.append(temp);
+            break;
+        }
+        case Tags::BlocksImagesTableStart:
+        {
+            QString temp = this->parseImagesTable(content, tags, doc);
+            result.append(temp);
+            break;
+        }
+        default:
+        {
+            result.append(tags.tagValue(tagKey));
+            break;
+        }
+        }
+        lastIndex = nextIndex;
     }
+
+    if (lastIndex < templateString.length() - 1)
+    {
+        result.append(templateString.right(templateString.length() - lastIndex));
+    }
+
+    return result;
 }
 //-----------------------------------------------------------------------------
-void Parser::parseBlocks(const QString &templateString,
-                            QString &resultString,
-                            QMap<QString, QString> &tags,
-                            IDocument *doc) const
-{
-    // capture block
-    QRegExp startReg = this->expression(Parser::BlockStart);
-    startReg.setMinimal(true);
-    int index = -1;
-    while ((index = startReg.indexIn(templateString, index + 1)) >= 0)
-    {
-        QString blockName = startReg.cap(2);
-        QRegExp endReg = this->expression(Parser::BlockEnd, blockName);
-        endReg.setMinimal(true);
-        // capture block's content
-        QRegExp contentReg = this->expression(Parser::Content, blockName);
-        contentReg.setMinimal(true);
-        int index2 = index - 1;
-        while ((index2 = contentReg.indexIn(templateString, index2 + 1)) >= 0)
-        {
-            QString content = contentReg.cap(3);
-            //index2 += content.length();
-            content = content.trimmed();
-
-            QString contentParsed;
-            if (blockName == "images_table")
-            {
-                this->parseImagesTable(content, contentParsed, tags, doc);
-            }
-            else
-            {
-                this->parseSimple(content, contentParsed, tags, doc);
-            }
-            resultString.append(contentParsed);
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void Parser::parseImagesTable(const QString &templateString,
-                                 QString &resultString,
-                                 QMap<QString, QString> &tags,
+QString Parser::parseImagesTable(const QString &templateString,
+                                 Tags &tags,
                                  IDocument *doc) const
 {
+    QString result;
+
     DataContainer *data = doc->dataContainer();
     QString imageString;
     QListIterator<QString> it(data->keys());
     it.toFront();
-    tags["imagesCount"] = QString("%1").arg(data->count());
+    tags.setTagValue(Tags::OutputImagesCount, QString("%1").arg(data->count()));
     while (it.hasNext())
     {
         QString key = it.next();
         QImage image = QImage(*data->image(key));
 
-        // width and height must be written before image changes
-        tags["width"] = QString("%1").arg(image.width());
-        tags["height"] = QString("%1").arg(image.height());
-
-        QImage imagePrepared;
-        ConverterHelper::prepareImage(this->mPreset, &image, &imagePrepared);
-
-        // conversion from image to strings
-        QVector<quint32> sourceData;
-        int sourceWidth, sourceHeight;
-        ConverterHelper::pixelsData(this->mPreset, &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
-
-        ConverterHelper::processPixels(this->mPreset, &sourceData);
-
-        QVector<quint32> packedData;
-        int packedWidth, packedHeight;
-        ConverterHelper::packData(
-                    this->mPreset,
-                    &sourceData, sourceWidth, sourceHeight,
-                    &packedData, &packedWidth, &packedHeight);
-
-        QVector<quint32> reorderedData;
-        int reorderedWidth, reorderedHeight;
-        ConverterHelper::reorder(
-                    this->mPreset,
-                    &packedData, packedWidth, packedHeight,
-                    &reorderedData, &reorderedWidth, &reorderedHeight);
-
-        QVector<quint32> compressedData;
-        int compressedWidth, compressedHeight;
-        ConverterHelper::compressData(this->mPreset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
-
-        QString dataString = ConverterHelper::dataToString(this->mPreset, &compressedData, compressedWidth, compressedHeight, "0x");
-        dataString.replace("\n", "\n" + tags["imageDataIndent"]);
-
-        // end of conversion
+        QString dataString = this->parseImage(&image, tags);
 
         bool useBom = this->mPreset->font()->bom();
         QString encoding = this->mPreset->font()->encoding();
 
         QString charCode = this->hexCode(key.at(0), encoding, useBom);
 
-        tags["blocksCount"] = QString("%1").arg(compressedData.size());
-        tags["imageData"] = dataString;
-        tags["charCode"] = charCode;
+        tags.setTagValue(Tags::OutputImageData, dataString);
+        tags.setTagValue(Tags::OutputCharacterCode, charCode);
         if (it.hasNext())
-            tags["comma"] = ",";
+            tags.setTagValue(Tags::OutputComma, ",");
         else
-            tags["comma"] = "";
+            tags.setTagValue(Tags::OutputComma, "");
 
         if (key.contains("@"))
         {
             key.replace("@", "(a)");
-            tags["charText"] = key;
+            tags.setTagValue(Tags::OutputCharacterText, key);
         }
         else
-            tags["charText"] = key.left(1);
+            tags.setTagValue(Tags::OutputCharacterText, key.left(1));
 
-        this->parseSimple(templateString, imageString, tags, doc);
-        resultString.append("\n");
-        resultString.append(imageString);
+        imageString = this->parse(templateString, tags, doc);
+        result.append(imageString);
     }
+
+    return result;
 }
 //-----------------------------------------------------------------------------
-void Parser::parseSimple(const QString &templateString,
-                            QString &resultString,
-                            QMap<QString, QString> &tags,
-                            IDocument *doc) const
+QString Parser::parseImage(const QImage *image, Tags &tags) const
 {
-    Q_UNUSED(doc);
-    QRegExp regTag = this->expression(Parser::TagName);
-    regTag.setMinimal(true);
-    resultString = templateString;
-    while (regTag.indexIn(resultString) >= 0)
-    {
-        QString tag = regTag.cap(0);
-        QString tagName = regTag.cap(3);
-        if (tags.contains(tagName))
-            resultString.replace(tag, tags.value(tagName));
-        else
-            resultString.replace(tag, "<value not defined>");
-    }
+    // width and height must be written before image changes
+    tags.setTagValue(Tags::OutputImageWidth, QString("%1").arg(image->width()));
+    tags.setTagValue(Tags::OutputImageHeight, QString("%1").arg(image->height()));
+
+    QImage imagePrepared;
+    ConverterHelper::prepareImage(this->mPreset, image, &imagePrepared);
+
+    // conversion from image to strings
+    QVector<quint32> sourceData;
+    int sourceWidth, sourceHeight;
+    ConverterHelper::pixelsData(this->mPreset, &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
+
+    ConverterHelper::processPixels(this->mPreset, &sourceData);
+
+    QVector<quint32> packedData;
+    int packedWidth, packedHeight;
+    ConverterHelper::packData(
+                this->mPreset,
+                &sourceData, sourceWidth, sourceHeight,
+                &packedData, &packedWidth, &packedHeight);
+
+    QVector<quint32> reorderedData;
+    int reorderedWidth, reorderedHeight;
+    ConverterHelper::reorder(
+                this->mPreset,
+                &packedData, packedWidth, packedHeight,
+                &reorderedData, &reorderedWidth, &reorderedHeight);
+
+    QVector<quint32> compressedData;
+    int compressedWidth, compressedHeight;
+    ConverterHelper::compressData(this->mPreset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
+
+    tags.setTagValue(Tags::OutputBlocksCount, QString("%1").arg(compressedData.size()));
+
+    QString dataString = ConverterHelper::dataToString(this->mPreset, &compressedData, compressedWidth, compressedHeight, "0x");
+    dataString.replace("\n", "\n" + tags.tagValue(Tags::OutputDataIndent));
+
+    // end of conversion
+
+    return dataString;
 }
 //-----------------------------------------------------------------------------
 QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) const
@@ -364,93 +292,93 @@ QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) cons
     return result;
 }
 //-----------------------------------------------------------------------------
-void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
+void Parser::addMatrixInfo(Tags &tags) const
 {
     // byte order
     if (this->mPreset->image()->bytesOrder() == BytesOrderLittleEndian)
-        tags.insert("bytesOrder", "little-endian");
+        tags.setTagValue(Tags::ImageByteOrder, "little-endian");
     else
-        tags.insert("bytesOrder", "big-endian");
+        tags.setTagValue(Tags::ImageByteOrder, "big-endian");
 
     // data block size
     int dataBlockSize = (this->mPreset->image()->blockSize() + 1) * 8;
-    tags.insert("dataBlockSize", QString("%1").arg(dataBlockSize));
+    tags.setTagValue(Tags::ImageBlockSize, QString("%1").arg(dataBlockSize));
 
     // scan main direction
     switch (this->mPreset->prepare()->scanMain())
     {
         case TopToBottom:
-            tags.insert("scanMain", "top to bottom");
+            tags.setTagValue(Tags::PrepareScanMain, "top_to_bottom");
             break;
         case BottomToTop:
-            tags.insert("scanMain", "bottom to top");
+            tags.setTagValue(Tags::PrepareScanMain, "bottom_to_top");
             break;
         case LeftToRight:
-            tags.insert("scanMain", "left to right");
+            tags.setTagValue(Tags::PrepareScanMain, "left_to_right");
             break;
         case RightToLeft:
-            tags.insert("scanMain", "right to left");
+            tags.setTagValue(Tags::PrepareScanMain, "right_to_left");
             break;
     }
 
     // scan sub direction
     if (this->mPreset->prepare()->scanSub())
-        tags.insert("scanSub", "forward");
+        tags.setTagValue(Tags::PrepareScanSub, "forward");
     else
-        tags.insert("scanSub", "backward");
+        tags.setTagValue(Tags::PrepareScanSub, "backward");
 
     // bands
     if (this->mPreset->prepare()->bandScanning())
-        tags.insert("bands", "yes");
+        tags.setTagValue(Tags::PrepareUseBands, "yes");
     else
-        tags.insert("bands", "no");
+        tags.setTagValue(Tags::PrepareUseBands, "no");
     int bandWidth = this->mPreset->prepare()->bandWidth();
-    tags.insert("bandWidth", QString("%1").arg(bandWidth));
+    tags.setTagValue(Tags::PrepareBandWidth, QString("%1").arg(bandWidth));
 
 
     // inversion
     if (this->mPreset->prepare()->inverse())
-        tags.insert("inverse", "yes");
+        tags.setTagValue(Tags::PrepareInverse, "yes");
     else
-        tags.insert("inverse", "no");
+        tags.setTagValue(Tags::PrepareInverse, "no");
 
     // bom
     if (this->mPreset->font()->bom())
-        tags.insert("bom", "yes");
+        tags.setTagValue(Tags::FontUseBom, "yes");
     else
-        tags.insert("bom", "no");
+        tags.setTagValue(Tags::FontUseBom, "no");
 
     // encoding
-    tags.insert("encoding", this->mPreset->font()->encoding());
+    tags.setTagValue(Tags::FontEncoding, this->mPreset->font()->encoding());
 
     // split to rows
     if (this->mPreset->image()->splitToRows())
-        tags.insert("splitToRows", "yes");
+        tags.setTagValue(Tags::ImageSplitToRows, "yes");
     else
-        tags.insert("splitToRows", "no");
+        tags.setTagValue(Tags::ImageSplitToRows, "no");
 
     // compression
     if (this->mPreset->image()->compressionRle())
-        tags.insert("rle", "yes");
+        tags.setTagValue(Tags::ImageRleCompression, "yes");
     else
-        tags.insert("rle", "no");
+        tags.setTagValue(Tags::ImageRleCompression, "no");
 
     // preset name
-    tags.insert("preset", this->mSelectedPresetName);
+    tags.setTagValue(Tags::OutputPresetName, this->mSelectedPresetName);
 
     // conversion type
-    tags.insert("convType", this->mPreset->prepare()->convTypeName());
+    tags.setTagValue(Tags::PrepareConversionType, this->mPreset->prepare()->convTypeName());
 
     // monochrome type
     if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome)
     {
-        tags.insert("monoType", this->mPreset->prepare()->monoTypeName());
-        tags.insert("edge", QString("%1").arg(this->mPreset->prepare()->edge()));
+        tags.setTagValue(Tags::PrepareMonoType, this->mPreset->prepare()->monoTypeName());
+        tags.setTagValue(Tags::PrepareMonoEdge, QString("%1").arg(this->mPreset->prepare()->edge()));
     }
     else
     {
-        tags.insert("monoType", "not used");
-        tags.insert("edge", "not used");
+        tags.setTagValue(Tags::PrepareMonoType, "not_used");
+        tags.setTagValue(Tags::PrepareMonoEdge, "not_used");
     }
 
     // bits per pixel
@@ -462,37 +390,24 @@ void Parser::addMatrixInfo(QMap<QString, QString> &tags) const
             bitsPerPixel++;
         maskUsed = maskUsed >> 1;
     }
-    tags.insert("bpp", QString("%1").arg(bitsPerPixel));
+    tags.setTagValue(Tags::OutputBitsPerPixel, QString("%1").arg(bitsPerPixel));
 }
 //-----------------------------------------------------------------------------
-QRegExp Parser::expression(ExpType type, const QString &name) const
+QString Parser::imageIndent(const QString &templateString) const
 {
-    QString result;
-
-    switch (type)
+    QRegExp regIndent = QRegExp("([\\t\\ ]+)(\\@|\\$\\()imageData(\\@|\\))");
+    regIndent.setMinimal(true);
+    if (regIndent.indexIn(templateString) >= 0)
     {
-    case BlockStart:
-        // 2
-        result = "(\\@|\\$\\()start_block_(.+)(?=\\s)";
-        break;
-    case BlockEnd:
-        result = "(\\@|\\$\\()end_block_" + name;
-        break;
-    case ImageData:
-        // 1
-        result = "([\\t\\ ]+)(\\@|\\$\\()imageData(\\@|\\))";
-        break;
-    case Content:
-        // 3
-        result = "(\\@|\\$\\()start_block_" + name + "(\\@|\\))(.+)(\\@|\\$\\()end_block_" + name + "(\\@|\\))";
-        break;
-    case TagName:
-    default:
-        // 2, 3
-        result = "(\\@|\\$\\()(start_block_)?(.+)(\\@|\\))";
-        break;
-    }
+        QString result = regIndent.cap(1);
+        if (result.isEmpty())
+            result = "    ";
 
-    return QRegExp(result);
+        return result;
+    }
+    else
+    {
+        return "    ";
+    }
 }
 //-----------------------------------------------------------------------------

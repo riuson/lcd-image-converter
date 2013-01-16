@@ -31,6 +31,7 @@
 #include "widgetbitmapeditor.h"
 #include "datacontainer.h"
 #include "parser.h"
+#include "tags.h"
 //-----------------------------------------------------------------------------
 const QString EditorTabImage::DefaultKey = QString("default");
 //-----------------------------------------------------------------------------
@@ -274,17 +275,17 @@ void EditorTabImage::setImage(const QImage *value)
 //-----------------------------------------------------------------------------
 void EditorTabImage::convert(bool request)
 {
-    QMap<QString, QString> tags;
+    Tags tags;
 
     if (!this->fileName().isEmpty())
-        tags["fileName"] = this->fileName();
+        tags.setTagValue(Tags::DocumentFilename, this->fileName());
     else
-        tags["fileName"] = "unknown";
+        tags.setTagValue(Tags::DocumentFilename, "unsaved");
 
-    tags["documentName"] = this->documentName();
-    tags["documentName_ws"] = this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive));
+    tags.setTagValue(Tags::DocumentName, this->documentName());
+    tags.setTagValue(Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
 
-    tags["dataType"] = "image";
+    tags.setTagValue(Tags::DocumentDataType, "image");
 
     Parser parser(this, Parser::TypeImage);
     QString result = parser.convert(this, tags);
