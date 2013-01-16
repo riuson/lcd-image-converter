@@ -77,6 +77,8 @@ public:
         OutputDataIndent,
         OutputImageWidth,
         OutputImageHeight,
+        OutputImagesMaxWidth,
+        OutputImagesMaxHeight,
 
         BlocksHeaderStart,
         BlocksHeaderEnd,
