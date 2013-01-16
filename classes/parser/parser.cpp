@@ -284,8 +284,8 @@ void Parser::parseImagesTable(const QString &templateString,
         else
             tags.setTagValue(Tags::OutputCharacterText, key.left(1));
 
-        this->parseSimple(templateString, imageString, tags, doc);
-        resultString.append("\n");
+        imageString = QString();
+        this->parse2(templateString, imageString, tags, doc);
         resultString.append(imageString);
     }
 }
