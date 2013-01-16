@@ -273,7 +273,7 @@ void ConverterHelper::compressData(
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::prepareImage(Preset *preset, QImage *source, QImage *result)
+void ConverterHelper::prepareImage(Preset *preset, const QImage *source, QImage *result)
 {
     if (source != NULL)
     {

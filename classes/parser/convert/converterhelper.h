@@ -58,7 +58,7 @@ public:
             QVector<quint32> *inputData, int inputWidth, int inputHeight,
             QVector<quint32> *outputData, int *outputWidth, int *outputHeight);
 
-    static void prepareImage(Preset *matrix, QImage *source, QImage *result);
+    static void prepareImage(Preset *matrix, const QImage *source, QImage *result);
     static void createImagePreview(Preset *matrix, QImage *source, QImage *result);
 
     static QString dataToString(

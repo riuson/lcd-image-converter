@@ -28,6 +28,7 @@ class IDocument;
 class IDataContainer;
 class Preset;
 class Tags;
+class QImage;
 //-----------------------------------------------------------------------------
 class Parser : public QObject
 {
@@ -53,6 +54,7 @@ private:
 
     void parse(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
     void parseImagesTable(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
+    void parseImage(const QImage *image, QString &resultString, Tags &tags) const;
     QString hexCode(const QChar &ch, const QString &encoding, bool bom) const;
     void addMatrixInfo(Tags &tags) const;
 

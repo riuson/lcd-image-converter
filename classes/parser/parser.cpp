@@ -168,49 +168,14 @@ void Parser::parseImagesTable(const QString &templateString,
         QString key = it.next();
         QImage image = QImage(*data->image(key));
 
-        // width and height must be written before image changes
-        tags.setTagValue(Tags::OutputImageWidth, QString("%1").arg(image.width()));
-        tags.setTagValue(Tags::OutputImageHeight, QString("%1").arg(image.height()));
-
-        QImage imagePrepared;
-        ConverterHelper::prepareImage(this->mPreset, &image, &imagePrepared);
-
-        // conversion from image to strings
-        QVector<quint32> sourceData;
-        int sourceWidth, sourceHeight;
-        ConverterHelper::pixelsData(this->mPreset, &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
-
-        ConverterHelper::processPixels(this->mPreset, &sourceData);
-
-        QVector<quint32> packedData;
-        int packedWidth, packedHeight;
-        ConverterHelper::packData(
-                    this->mPreset,
-                    &sourceData, sourceWidth, sourceHeight,
-                    &packedData, &packedWidth, &packedHeight);
-
-        QVector<quint32> reorderedData;
-        int reorderedWidth, reorderedHeight;
-        ConverterHelper::reorder(
-                    this->mPreset,
-                    &packedData, packedWidth, packedHeight,
-                    &reorderedData, &reorderedWidth, &reorderedHeight);
-
-        QVector<quint32> compressedData;
-        int compressedWidth, compressedHeight;
-        ConverterHelper::compressData(this->mPreset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
-
-        QString dataString = ConverterHelper::dataToString(this->mPreset, &compressedData, compressedWidth, compressedHeight, "0x");
-        dataString.replace("\n", "\n" + tags.tagValue(Tags::OutputDataIndent));
-
-        // end of conversion
+        QString dataString;
+        this->parseImage(&image, dataString, tags);
 
         bool useBom = this->mPreset->font()->bom();
         QString encoding = this->mPreset->font()->encoding();
 
         QString charCode = this->hexCode(key.at(0), encoding, useBom);
 
-        tags.setTagValue(Tags::OutputBlocksCount, QString("%1").arg(compressedData.size()));
         tags.setTagValue(Tags::OutputImageData, dataString);
         tags.setTagValue(Tags::OutputCharacterCode, charCode);
         if (it.hasNext())
@@ -230,6 +195,50 @@ void Parser::parseImagesTable(const QString &templateString,
         this->parse(templateString, imageString, tags, doc);
         resultString.append(imageString);
     }
+}
+//-----------------------------------------------------------------------------
+void Parser::parseImage(const QImage *image, QString &resultString, Tags &tags) const
+{
+    // width and height must be written before image changes
+    tags.setTagValue(Tags::OutputImageWidth, QString("%1").arg(image->width()));
+    tags.setTagValue(Tags::OutputImageHeight, QString("%1").arg(image->height()));
+
+    QImage imagePrepared;
+    ConverterHelper::prepareImage(this->mPreset, image, &imagePrepared);
+
+    // conversion from image to strings
+    QVector<quint32> sourceData;
+    int sourceWidth, sourceHeight;
+    ConverterHelper::pixelsData(this->mPreset, &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
+
+    ConverterHelper::processPixels(this->mPreset, &sourceData);
+
+    QVector<quint32> packedData;
+    int packedWidth, packedHeight;
+    ConverterHelper::packData(
+                this->mPreset,
+                &sourceData, sourceWidth, sourceHeight,
+                &packedData, &packedWidth, &packedHeight);
+
+    QVector<quint32> reorderedData;
+    int reorderedWidth, reorderedHeight;
+    ConverterHelper::reorder(
+                this->mPreset,
+                &packedData, packedWidth, packedHeight,
+                &reorderedData, &reorderedWidth, &reorderedHeight);
+
+    QVector<quint32> compressedData;
+    int compressedWidth, compressedHeight;
+    ConverterHelper::compressData(this->mPreset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
+
+    tags.setTagValue(Tags::OutputBlocksCount, QString("%1").arg(compressedData.size()));
+
+    QString dataString = ConverterHelper::dataToString(this->mPreset, &compressedData, compressedWidth, compressedHeight, "0x");
+    dataString.replace("\n", "\n" + tags.tagValue(Tags::OutputDataIndent));
+
+    // end of conversion
+
+    resultString = dataString;
 }
 //-----------------------------------------------------------------------------
 QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) const
