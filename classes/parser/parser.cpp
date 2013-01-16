@@ -149,7 +149,7 @@ void Parser::parse(const QString &templateString,
 
     if (index < templateString.length() - 1)
     {
-        resultString.append(templateString.mid(last, templateString.length() - last));
+        resultString.append(templateString.right(templateString.length() - index));
     }
 }
 //-----------------------------------------------------------------------------
