@@ -1,24 +1,24 @@
 $(start_block_header)
 /*******************************************************************************
-* $(dataType)
-* filename: $(fileName)
-* name: $(documentName)
+* $(doc_data_type)
+* filename: $(doc_filename)
+* name: $(doc_name)
 *
-* preset name: $(preset)
-* data block size: $(dataBlockSize) bit(s), uint$(dataBlockSize)_t
-* RLE compression enabled: $(rle)
-* conversion type: $(convType), $(monoType) $(edge)
-* bits per pixel: $(bpp)
+* preset name: $(out_preset_name)
+* data block size: $(img_data_block_size) bit(s), uint$(img_data_block_size)_t
+* RLE compression enabled: $(img_rle)
+* conversion type: $(pre_conv_type), $(pre_mono_type) $(pre_mono_edge)
+* bits per pixel: $(out_bpp)
 *
 * preprocess:
-*  main scan direction: $(scanMain)
-*  line scan direction: $(scanSub)
-*  inverse: $(inverse)
+*  main scan direction: $(pre_scan_main)
+*  line scan direction: $(pre_scan_sub)
+*  inverse: $(pre_inverse)
 *******************************************************************************/
 
 /*
  typedef struct {
-     const uint$(dataBlockSize)_t *data;
+     const uint$(img_data_block_size)_t *data;
      uint16_t width;
      uint16_t height;
      } tImage;
@@ -27,8 +27,8 @@ $(start_block_header)
 $(end_block_header)
 
 $(start_block_images_table)
-static const uint$(dataBlockSize)_t image_data_$(documentName_ws)[$(blocksCount)] = {
-    $(imageData)
+static const uint$(img_data_block_size)_t image_data_$(doc_name_ws)[$(out_blocks_count)] = {
+    $(out_image_data)
 };
-const tImage $(documentName_ws) = { image_data_$(documentName_ws), $(width), $(height)};
+const tImage $(doc_name_ws) = { image_data_$(doc_name_ws), $(out_image_width), $(out_image_height)};
 $(end_block_images_table)
