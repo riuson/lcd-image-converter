@@ -57,8 +57,6 @@ Parser::~Parser()
 //-----------------------------------------------------------------------------
 QString Parser::name()
 {
-    //IConverter *options = dynamic_cast<IConverter *>(this->mConverters.value(this->mSelectedConverterName));
-    //return options->name();
     return this->mSelectedPresetName;
 }
 //-----------------------------------------------------------------------------
