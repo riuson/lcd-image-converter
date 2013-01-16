@@ -96,14 +96,13 @@ void Parser::parse(const QString &templateString,
                       IDocument *doc) const
 {
     Tags::TagsEnum tagKey = Tags::Unknown;
-    int index = 0;
-    int foundIndex = 0, nextIndex = 0;
-    QString tagContent;
-    while (tags.find(templateString, index, &foundIndex, &nextIndex, &tagKey, &tagContent))
+    int lastIndex = 0, foundIndex = 0, nextIndex = 0;
+    QString content;
+    while (tags.find(templateString, lastIndex, &foundIndex, &nextIndex, &tagKey, &content))
     {
-        if (foundIndex > index)
+        if (foundIndex > lastIndex)
         {
-            resultString.append(templateString.mid(index, foundIndex - index));
+            resultString.append(templateString.mid(lastIndex, foundIndex - lastIndex));
         }
 
         switch (tagKey)
@@ -112,14 +111,14 @@ void Parser::parse(const QString &templateString,
         case Tags::BlocksFontDefinitionStart:
         {
             QString temp;
-            this->parse(tagContent, temp, tags, doc);
+            this->parse(content, temp, tags, doc);
             resultString.append(temp);
             break;
         }
         case Tags::BlocksImagesTableStart:
         {
             QString temp;
-            this->parseImagesTable(tagContent, temp, tags, doc);
+            this->parseImagesTable(content, temp, tags, doc);
             resultString.append(temp);
             break;
         }
@@ -129,12 +128,12 @@ void Parser::parse(const QString &templateString,
             break;
         }
         }
-        index = nextIndex;
+        lastIndex = nextIndex;
     }
 
-    if (index < templateString.length() - 1)
+    if (lastIndex < templateString.length() - 1)
     {
-        resultString.append(templateString.right(templateString.length() - index));
+        resultString.append(templateString.right(templateString.length() - lastIndex));
     }
 }
 //-----------------------------------------------------------------------------
