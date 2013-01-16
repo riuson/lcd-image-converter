@@ -95,11 +95,8 @@ void Parser::parse(const QString &templateString,
                       Tags &tags,
                       IDocument *doc) const
 {
-    int index = 0;
-    QRegExp regTag = this->expression(Parser::TagName);
-    regTag.setMinimal(true);
-
     Tags::TagsEnum tagKey = Tags::Unknown;
+    int index = 0;
     int foundIndex = 0, nextIndex = 0;
     QString tagContent;
     while (tags.find(templateString, index, &foundIndex, &nextIndex, &tagKey, &tagContent))
@@ -397,38 +394,21 @@ void Parser::addMatrixInfo(Tags &tags) const
     tags.setTagValue(Tags::OutputBitsPerPixel, QString("%1").arg(bitsPerPixel));
 }
 //-----------------------------------------------------------------------------
-QRegExp Parser::expression(ExpType type, const QString &name) const
+QString Parser::imageIndent(const QString &templateString) const
 {
-    QString result;
-
-    switch (type)
+    QRegExp regIndent = QRegExp("([\\t\\ ]+)(\\@|\\$\\()imageData(\\@|\\))");
+    regIndent.setMinimal(true);
+    if (regIndent.indexIn(templateString) >= 0)
     {
-    case BlockStart:
-        // 2
-        result = "(\\@|\\$\\()start_block_(.+)(?=\\s)";
-        break;
-    case BlockEnd:
-        result = "(\\@|\\$\\()end_block_" + name;
-        break;
-    case ImageData:
-        // 1
-        result = "([\\t\\ ]+)(\\@|\\$\\()imageData(\\@|\\))";
-        break;
-    case Content:
-        // 3
-        result = "(\\@|\\$\\()start_block_" + name + "(\\@|\\))(.+)(\\@|\\$\\()end_block_" + name + "(\\@|\\))";
-        break;
-    case AnyTag:
-        // 2, 3
-        result = "(\\@|\\$\\()(.+)(\\@|\\))";
-        break;
-    case TagName:
-    default:
-        // 2, 3
-        result = "(\\@|\\$\\()(start_block_)?(.+)(\\@|\\))";
-        break;
-    }
+        QString result = regIndent.cap(1);
+        if (result.isEmpty())
+            result = "    ";
 
-    return QRegExp(result);
+        return result;
+    }
+    else
+    {
+        return "    ";
+    }
 }
 //-----------------------------------------------------------------------------

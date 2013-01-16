@@ -58,17 +58,6 @@ private:
     QString hexCode(const QChar &ch, const QString &encoding, bool bom) const;
     void addMatrixInfo(Tags &tags) const;
 
-    enum ExpType
-    {
-        BlockStart,
-        BlockEnd,
-        TagName,
-        ImageData,
-        Content,
-        AnyTag
-    };
-
-    QRegExp expression(ExpType type, const QString &name = QString()) const;
     bool findNextTag(int startIndex, int *resultIndex, Tags);
     QString imageIndent(const QString &templateString) const;
 };
