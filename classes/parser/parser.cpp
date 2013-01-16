@@ -97,12 +97,12 @@ QString Parser::convert(IDocument *document, Tags &tags) const
 
     this->addMatrixInfo(tags);
 
-    this->parse2(templateString, result, tags, document);
+    this->parse(templateString, result, tags, document);
 
     return result;
 }
 //-----------------------------------------------------------------------------
-void Parser::parse2(const QString &templateString,
+void Parser::parse(const QString &templateString,
                       QString &resultString,
                       Tags &tags,
                       IDocument *doc) const
@@ -127,7 +127,7 @@ void Parser::parse2(const QString &templateString,
         case Tags::BlocksFontDefinitionStart:
         {
             QString temp;
-            this->parse2(tagContent, temp, tags, doc);
+            this->parse(tagContent, temp, tags, doc);
             resultString.append(temp);
             break;
         }
@@ -148,64 +148,6 @@ void Parser::parse2(const QString &templateString,
     }
 
     if (index < templateString.length() - 1)
-    {
-        resultString.append(templateString.mid(index, templateString.length() - index));
-    }
-}
-//-----------------------------------------------------------------------------
-void Parser::parse(const QString &templateString,
-                      QString &resultString,
-                      Tags &tags,
-                      IDocument *doc) const
-{
-    int index = 0;
-    int prevIndex = 0;
-    QRegExp regTag = this->expression(Parser::TagName);
-    regTag.setMinimal(true);
-    int capturedLength = 0;
-    while ((index = regTag.indexIn(templateString, index + capturedLength)) >= 0)
-    {
-        capturedLength = regTag.cap(0).length();
-        if (index > prevIndex)
-        {
-            resultString.append(templateString.mid(prevIndex, index - prevIndex));
-        }
-        QString tagName = regTag.cap(3);
-        // if block starts
-        if (regTag.cap(2) == "start_block_")
-        {
-            QRegExp contentReg = this->expression(Parser::Content, tagName);
-            contentReg.setMinimal(true);
-            if (contentReg.indexIn(templateString, index) >= 0)
-            {
-                QString content = contentReg.cap(3);
-                content = content.trimmed();
-                QString temp;
-
-                if (tagName == "images_table")
-                {
-                    this->parseImagesTable(content, temp, tags, doc);
-                }
-                else
-                {
-                    this->parse(content, temp, tags, doc);
-                }
-                resultString.append(temp);
-
-                capturedLength = contentReg.cap(0).length();
-                prevIndex = index + capturedLength;
-            }
-        }
-        else
-        {
-            Tags::TagsEnum tagCode = tags.parseTag(tagName);
-            resultString.append(tags.tagValue(tagCode));
-
-            prevIndex = index + regTag.cap(0).length();
-        }
-    }
-    int last = prevIndex;
-    if (last < templateString.length() - 1)
     {
         resultString.append(templateString.mid(last, templateString.length() - last));
     }
@@ -285,27 +227,8 @@ void Parser::parseImagesTable(const QString &templateString,
             tags.setTagValue(Tags::OutputCharacterText, key.left(1));
 
         imageString = QString();
-        this->parse2(templateString, imageString, tags, doc);
+        this->parse(templateString, imageString, tags, doc);
         resultString.append(imageString);
-    }
-}
-//-----------------------------------------------------------------------------
-void Parser::parseSimple(const QString &templateString,
-                            QString &resultString,
-                            Tags &tags,
-                            IDocument *doc) const
-{
-    Q_UNUSED(doc);
-    QRegExp regTag = this->expression(Parser::TagName);
-    regTag.setMinimal(true);
-    resultString = templateString;
-    while (regTag.indexIn(resultString) >= 0)
-    {
-        QString tag = regTag.cap(0);
-        QString tagName = regTag.cap(3);
-
-        Tags::TagsEnum tagCode = tags.parseTag(tagName);
-        resultString.replace(tag, tags.tagValue(tagCode));
     }
 }
 //-----------------------------------------------------------------------------

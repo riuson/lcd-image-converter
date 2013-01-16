@@ -51,10 +51,8 @@ private:
     Preset *mPreset;
     QString mTemplateFileName;
 
-    void parse2(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
     void parse(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
     void parseImagesTable(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
-    void parseSimple(const QString &templateString, QString &resultString, Tags &tags, IDocument *doc) const;
     QString hexCode(const QChar &ch, const QString &encoding, bool bom) const;
     void addMatrixInfo(Tags &tags) const;
 
