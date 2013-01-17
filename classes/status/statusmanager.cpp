@@ -8,7 +8,7 @@ StatusManager::StatusManager(QStatusBar *statusBar, QObject *parent) :
 {
     this->mBar = statusBar;
 
-    this->mBar->addWidget(new RevisionLabel);
+    this->mBar->addPermanentWidget(new RevisionLabel(this->mBar));
 }
 //-----------------------------------------------------------------------------
 void StatusManager::updateData(const StatusData *data)
