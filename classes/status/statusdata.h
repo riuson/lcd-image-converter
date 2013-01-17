@@ -13,8 +13,7 @@ public:
 
     enum StatusType
     {
-        ImageIndex,
-        ImagesCount
+        ImageIndex
     };
 
     explicit StatusData(QObject *parent = 0);

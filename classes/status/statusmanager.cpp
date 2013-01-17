@@ -11,7 +11,57 @@ StatusManager::StatusManager(QStatusBar *statusBar, QObject *parent) :
     this->mBar->addPermanentWidget(new RevisionLabel(this->mBar));
 }
 //-----------------------------------------------------------------------------
-void StatusManager::updateData(const StatusData *data)
+StatusManager::~StatusManager()
 {
+}
+//-----------------------------------------------------------------------------
+void StatusManager::updateData(const StatusData *statuses)
+{
+    // update
+    QList<StatusData::StatusType> keys = statuses->keys();
+    for (int i = 0; i < keys.length(); i++)
+    {
+        StatusData::StatusType key = keys.at(i);
+
+        // update existing
+        if (this->mList.contains(key))
+        {
+            QLabel *label = this->mList.value(key);
+
+            this->updateItem(key, label, statuses);
+        }
+        else
+        {
+            QLabel *label = new QLabel(this->mBar);
+            this->mBar->addWidget(label);
+            this->mList.insert(key, label);
+
+            this->updateItem(key, label, statuses);
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void StatusManager::updateItem(
+        StatusData::StatusType type,
+        QLabel *label,
+        const StatusData *statuses)
+{
+    switch (type)
+    {
+    case StatusData::ImageIndex:
+    {
+        QList<QVariant> list = statuses->data(type).toList();
+        int current = list.at(0).toInt();
+        int total = list.at(1).toInt();
+        QString message = tr("Image: %1/%2").arg(current + 1).arg(total);
+        label->setText(message);
+        break;
+    }
+    default:
+    {
+        label->setText(statuses->data(type).toString());
+        break;
+    }
+    }
 }
 //-----------------------------------------------------------------------------
