@@ -38,6 +38,7 @@
 #include "parser.h"
 #include "dialogfontchanged.h"
 #include "tags.h"
+#include "statusdata.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
@@ -74,6 +75,8 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->setMonospaced(false);
 
     this->ui->tableViewCharacters->resizeColumnsToContents();
+
+    this->mStatusData = new StatusData(this);
 }
 //-----------------------------------------------------------------------------
 EditorTabFont::~EditorTabFont()
@@ -528,6 +531,11 @@ void EditorTabFont::convert(bool request)
             }
         }
     }
+}
+//-----------------------------------------------------------------------------
+StatusData *EditorTabFont::statusData() const
+{
+    return this->mStatusData;
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::beginChanges()

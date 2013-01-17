@@ -32,6 +32,7 @@
 #include "datacontainer.h"
 #include "parser.h"
 #include "tags.h"
+#include "statusdata.h"
 //-----------------------------------------------------------------------------
 const QString EditorTabImage::DefaultKey = QString("default");
 //-----------------------------------------------------------------------------
@@ -58,6 +59,8 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
     this->setChanged(false);
 
     this->setImage(this->image());
+
+    this->mStatusData = new StatusData(this);
 }
 //-----------------------------------------------------------------------------
 EditorTabImage::~EditorTabImage()
@@ -337,6 +340,11 @@ void EditorTabImage::convert(bool request)
             }
         }
     }
+}
+//-----------------------------------------------------------------------------
+StatusData *EditorTabImage::statusData() const
+{
+    return this->mStatusData;
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::beginChanges()
