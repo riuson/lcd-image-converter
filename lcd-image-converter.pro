@@ -51,6 +51,7 @@ SOURCES += main.cpp \
     classes/settings/presets/templateoptions.cpp \
     classes/settings/recentlist.cpp \
     classes/status/statusdata.cpp \
+    classes/status/statusmanager.cpp \
     controls/about/dialogabout.cpp \
     controls/fonts/font-changed/dialogfontchanged.cpp \
     controls/fonts/font-editor/editortabfont.cpp \
@@ -113,6 +114,7 @@ HEADERS += \
     classes/settings/presets/templateoptions.h \
     classes/settings/recentlist.h \
     classes/status/statusdata.h \
+    classes/status/statusmanager.h \
     controls/about/dialogabout.h \
     controls/fonts/font-changed/dialogfontchanged.h \
     controls/fonts/font-editor/editortabfont.h \
