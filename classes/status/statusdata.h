@@ -2,7 +2,7 @@
 #define STATUSDATA_H
 //-----------------------------------------------------------------------------
 #include <QObject>
-#include <QString>
+#include <QVariant>
 #include <QMap>
 #include <QList>
 //-----------------------------------------------------------------------------
@@ -19,11 +19,11 @@ public:
     explicit StatusData(QObject *parent = 0);
 
     const QList<StatusType> keys() const;
-    const QString data(const StatusType key) const;
-    void setData(const StatusType key, const QString &value);
+    const QVariant data(const StatusType key) const;
+    void setData(const StatusType key, const QVariant &value);
 
 private:
-    QMap<StatusType, QString> mData;
+    QMap<StatusType, QVariant> mData;
 };
 //-----------------------------------------------------------------------------
 #endif // STATUSDATA_H

@@ -10,14 +10,14 @@ const QList<StatusData::StatusType> StatusData::keys() const
     return this->mData.keys();
 }
 //-----------------------------------------------------------------------------
-const QString StatusData::data(const StatusType key) const
+const QVariant StatusData::data(const StatusType key) const
 {
     return this->mData.value(key, QString());
 }
 //-----------------------------------------------------------------------------
-void StatusData::setData(const StatusType key, const QString &value)
+void StatusData::setData(const StatusType key, const QVariant &value)
 {
-    if (value.isEmpty())
+    if (value.isNull())
     {
         this->mData.remove(key);
     }
