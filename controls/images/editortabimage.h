@@ -80,6 +80,7 @@ private:
 private slots:
     void mon_container_imageChanged(const QString &key);
     void mon_editor_imageChanged();
+    void mon_editor_mouseMove(QPoint point);
 signals:
     void documentChanged(bool changed, const QString &documentName, const QString &filename);
     void statusChanged();

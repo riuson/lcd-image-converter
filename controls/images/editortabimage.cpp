@@ -52,6 +52,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 
     this->connect(this->mContainer, SIGNAL(imageChanged(QString)), SLOT(mon_container_imageChanged(QString)));
     this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
+    this->connect(this->mEditor, SIGNAL(mouseMove(QPoint)), SLOT(mon_editor_mouseMove(QPoint)));
 
     this->setDocumentName(tr("Image", "new image name"));
     this->setFileName("");
@@ -123,6 +124,19 @@ void EditorTabImage::mon_editor_imageChanged()
     emit this->documentChanged(true, this->documentName(), this->fileName());
 
     this->endChanges();
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::mon_editor_mouseMove(QPoint point)
+{
+    if (point.x() >= 0 && point.y() >= 0)
+    {
+        this->mStatusData->setData(StatusData::MouseCoordinates, QVariant(point));
+    }
+    else
+    {
+        this->mStatusData->removeData(StatusData::MouseCoordinates);
+    }
+    emit this->statusChanged();
 }
 //-----------------------------------------------------------------------------
 bool EditorTabImage::load(const QString &fileName)

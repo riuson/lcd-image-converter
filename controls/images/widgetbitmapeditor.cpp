@@ -90,7 +90,8 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
             if (xreal < this->mImageOriginal.width() && yreal < this->mImageOriginal.height())
             {
                 // show coordinates
-                this->ui->labelCoordinates->setText(tr("x: %1, y: %2").arg(xreal).arg(yreal));
+                QPoint mouseCoordinates(xreal, yreal);
+                emit this->mouseMove(mouseCoordinates);
 
                 // get buttons
                 bool buttonLeft = (me->buttons() & Qt::LeftButton) == Qt::LeftButton;
@@ -110,7 +111,8 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
             }
             else
             {
-                this->ui->labelCoordinates->setText(tr("%1 x %2").arg(this->mImageOriginal.width()).arg(this->mImageOriginal.height()));
+                QPoint mouseCoordinates(-1, -1);
+                emit this->mouseMove(mouseCoordinates);
             }
         }
         event->accept();

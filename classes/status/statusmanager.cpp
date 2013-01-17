@@ -73,6 +73,13 @@ void StatusManager::updateItem(
         label->setText(message);
         break;
     }
+    case StatusData::MouseCoordinates:
+    {
+        QPoint point = statuses->data(type).toPoint();
+        QString message = tr("x: %1, y: %2").arg(point.x()).arg(point.y());
+        label->setText(message);
+        break;
+    }
     default:
     {
         label->setText(statuses->data(type).toString());
