@@ -39,6 +39,22 @@ void StatusManager::updateData(const StatusData *statuses)
             this->updateItem(key, label, statuses);
         }
     }
+
+    // remove
+    QList<StatusData::StatusType> existingKeys = this->mList.keys();
+    for (int i = existingKeys.length() - 1; i >= 0; i--)
+    {
+        StatusData::StatusType existingKey = existingKeys.at(i);
+        if (!keys.contains(existingKey))
+        {
+            QLabel *label = this->mList.value(existingKey);
+
+            this->mList.remove(existingKey);
+
+            this->mBar->removeWidget(label);
+            delete label;
+        }
+    }
 }
 //-----------------------------------------------------------------------------
 void StatusManager::updateItem(

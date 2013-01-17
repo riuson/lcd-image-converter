@@ -21,6 +21,7 @@ public:
     const QList<StatusType> keys() const;
     const QVariant data(const StatusType key) const;
     void setData(const StatusType key, const QVariant &value);
+    void removeData(const StatusType key);
 
 private:
     QMap<StatusType, QVariant> mData;

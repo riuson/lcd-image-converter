@@ -17,13 +17,11 @@ const QVariant StatusData::data(const StatusType key) const
 //-----------------------------------------------------------------------------
 void StatusData::setData(const StatusType key, const QVariant &value)
 {
-    if (value.isNull())
-    {
-        this->mData.remove(key);
-    }
-    else
-    {
-        this->mData.insert(key, value);
-    }
+    this->mData.insert(key, value);
+}
+//-----------------------------------------------------------------------------
+void StatusData::removeData(const StatusData::StatusType key)
+{
+    this->mData.remove(key);
 }
 //-----------------------------------------------------------------------------
