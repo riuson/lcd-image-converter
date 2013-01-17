@@ -50,6 +50,7 @@ SOURCES += main.cpp \
     classes/settings/presets/reorderingoptions.cpp \
     classes/settings/presets/templateoptions.cpp \
     classes/settings/recentlist.cpp \
+    classes/status/statusdata.cpp \
     controls/about/dialogabout.cpp \
     controls/fonts/font-changed/dialogfontchanged.cpp \
     controls/fonts/font-editor/editortabfont.cpp \
@@ -111,6 +112,7 @@ HEADERS += \
     classes/settings/presets/reorderingoptions.h \
     classes/settings/presets/templateoptions.h \
     classes/settings/recentlist.h \
+    classes/status/statusdata.h \
     controls/about/dialogabout.h \
     controls/fonts/font-changed/dialogfontchanged.h \
     controls/fonts/font-editor/editortabfont.h \
@@ -170,6 +172,7 @@ INCLUDEPATH += . \
     ./classes/action-handlers \
     ./classes/compression \
     ./classes/data \
+    ./classes/status \
     ./classes/parser \
     ./classes/parser/convert \
     ./classes/preview-models \
