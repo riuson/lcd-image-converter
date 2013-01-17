@@ -5,17 +5,17 @@ StatusData::StatusData(QObject *parent) :
 {
 }
 //-----------------------------------------------------------------------------
-const QStringList StatusData::keys() const
+const QList<StatusData::StatusType> StatusData::keys() const
 {
     return this->mData.keys();
 }
 //-----------------------------------------------------------------------------
-const QString StatusData::data(const QString &key) const
+const QString StatusData::data(const StatusType key) const
 {
     return this->mData.value(key, QString());
 }
 //-----------------------------------------------------------------------------
-void StatusData::setData(const QString &key, const QString &value)
+void StatusData::setData(const StatusType key, const QString &value)
 {
     if (value.isEmpty())
     {

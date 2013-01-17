@@ -4,20 +4,26 @@
 #include <QObject>
 #include <QString>
 #include <QMap>
-#include <QStringList>
+#include <QList>
 //-----------------------------------------------------------------------------
 class StatusData : public QObject
 {
     Q_OBJECT
 public:
+
+    enum StatusType
+    {
+        ImageIndex
+    };
+
     explicit StatusData(QObject *parent = 0);
 
-    const QStringList keys() const;
-    const QString data(const QString &key) const;
-    void setData(const QString &key, const QString &value);
+    const QList<StatusType> keys() const;
+    const QString data(const StatusType key) const;
+    void setData(const StatusType key, const QString &value);
 
 private:
-    QMap<QString, QString> mData;
+    QMap<StatusType, QString> mData;
 };
 //-----------------------------------------------------------------------------
 #endif // STATUSDATA_H
