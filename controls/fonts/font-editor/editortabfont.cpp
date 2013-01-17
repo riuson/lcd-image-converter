@@ -183,6 +183,11 @@ void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItem
         this->mSelectedKey = this->mModel->data(index, Qt::DisplayRole).toString();
         const QImage *image = this->mContainer->image(this->mSelectedKey);
         this->mEditor->setImage(image);
+
+        this->mStatusData->setData(StatusData::ImageIndex, QVariant(index.row()));
+        this->mStatusData->setData(StatusData::ImagesCount, QVariant(this->mContainer->count()));
+
+        emit this->statusChanged();
     }
 }
 //-----------------------------------------------------------------------------
