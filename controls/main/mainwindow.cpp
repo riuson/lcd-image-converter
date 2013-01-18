@@ -488,6 +488,9 @@ int MainWindow::tabCreated(QWidget *newTab, const QString &name, const QString &
 
     this->checkStartPageVisible();
 
+    IDocument *doc = this->currentDocument();
+    this->mStatusManager->updateData(doc->statusData());
+
     return index;
 }
 //-----------------------------------------------------------------------------
