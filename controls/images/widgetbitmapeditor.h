@@ -37,8 +37,9 @@ public:
     const QImage *image() const;
     void setImage(const QImage *value);
 
-    QColor color1();
-    QColor color2();
+    QColor color1() const;
+    QColor color2() const;
+    int scale() const;
 
 protected:
     void changeEvent(QEvent *e);
@@ -58,13 +59,17 @@ private:
     bool mFlagChanged;
 
     void updateImageScaled(int scale);
-    void updateState();
     void drawPixel(int x, int y, const QColor &color);
 private slots:
     void on_spinBoxScale_valueChanged(int value);
     void on_pushButtonColor1_clicked();
     void on_pushButtonColor2_clicked();
-    void changeScale(int value);
+
+public slots:
+    void setScale(int value);
+    void setColor1(const QColor value);
+    void setColor2(const QColor value);
+
 signals:
     void imageChanged();
     void mouseMove(QPoint point);

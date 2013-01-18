@@ -33,7 +33,6 @@
 #include "parser.h"
 #include "tags.h"
 #include "statusdata.h"
-#include "bitmapeditoroptions.h"
 //-----------------------------------------------------------------------------
 const QString EditorTabImage::DefaultKey = QString("default");
 //-----------------------------------------------------------------------------
@@ -109,7 +108,7 @@ void EditorTabImage::initStatusData()
 {
     this->mStatusData = new StatusData(this);
     this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
-    this->mStatusData->setData(StatusData::Scale, QVariant(BitmapEditorOptions::scale()));
+    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_container_imageChanged(const QString &key)

@@ -39,7 +39,6 @@
 #include "dialogfontchanged.h"
 #include "tags.h"
 #include "statusdata.h"
-#include "bitmapeditoroptions.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
@@ -126,7 +125,7 @@ void EditorTabFont::initStatusData()
 {
     this->mStatusData = new StatusData(this);
     this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
-    this->mStatusData->setData(StatusData::Scale, QVariant(BitmapEditorOptions::scale()));
+    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
 }
 //-----------------------------------------------------------------------------
 QFont EditorTabFont::usedFont() const
