@@ -33,6 +33,7 @@
 #include "parser.h"
 #include "tags.h"
 #include "statusdata.h"
+#include "bitmapeditoroptions.h"
 //-----------------------------------------------------------------------------
 const QString EditorTabImage::DefaultKey = QString("default");
 //-----------------------------------------------------------------------------
@@ -62,8 +63,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 
     this->setImage(this->image());
 
-    this->mStatusData = new StatusData(this);
-    this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
+    this->initStatusData();
 }
 //-----------------------------------------------------------------------------
 EditorTabImage::~EditorTabImage()
@@ -105,6 +105,13 @@ void EditorTabImage::setConvertedFileName(const QString &value)
     }
 }
 //-----------------------------------------------------------------------------
+void EditorTabImage::initStatusData()
+{
+    this->mStatusData = new StatusData(this);
+    this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
+    this->mStatusData->setData(StatusData::Scale, QVariant(BitmapEditorOptions::scale()));
+}
+//-----------------------------------------------------------------------------
 void EditorTabImage::mon_container_imageChanged(const QString &key)
 {
     if (DefaultKey == key)
@@ -138,7 +145,11 @@ void EditorTabImage::mon_editor_mouseMove(QPoint point)
     {
         this->mStatusData->removeData(StatusData::MouseCoordinates);
     }
-    emit this->statusChanged();
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::mon_editor_scaleChanged(int scale)
+{
+    this->mStatusData->setData(StatusData::Scale, QVariant(scale));
 }
 //-----------------------------------------------------------------------------
 bool EditorTabImage::load(const QString &fileName)

@@ -236,6 +236,8 @@ void WidgetBitmapEditor::changeScale(int value)
             this->updateImageScaled(this->mScale);
 
             BitmapEditorOptions::setScale(value);
+
+            emit this->scaleSchanged(this->mScale);
         }
     }
 }

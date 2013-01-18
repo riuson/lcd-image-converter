@@ -80,6 +80,13 @@ void StatusManager::updateItem(
         label->setText(message);
         break;
     }
+    case StatusData::Scale:
+    {
+        int scale = statuses->data(type).toInt();
+        QString message = tr("%1x").arg(scale);
+        label->setText(message);
+        break;
+    }
     default:
     {
         label->setText(statuses->data(type).toString());

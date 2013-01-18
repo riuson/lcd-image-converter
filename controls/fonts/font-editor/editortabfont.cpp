@@ -39,6 +39,7 @@
 #include "dialogfontchanged.h"
 #include "tags.h"
 #include "statusdata.h"
+#include "bitmapeditoroptions.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
@@ -78,8 +79,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
     this->ui->tableViewCharacters->resizeColumnsToContents();
 
-    this->mStatusData = new StatusData(this);
-    this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
+    this->initStatusData();
 }
 //-----------------------------------------------------------------------------
 EditorTabFont::~EditorTabFont()
@@ -120,6 +120,13 @@ void EditorTabFont::setConvertedFileName(const QString &value)
     {
         this->mContainer->setInfo("converted filename", QVariant(value));
     }
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::initStatusData()
+{
+    this->mStatusData = new StatusData(this);
+    this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
+    this->mStatusData->setData(StatusData::Scale, QVariant(BitmapEditorOptions::scale()));
 }
 //-----------------------------------------------------------------------------
 QFont EditorTabFont::usedFont() const
@@ -183,7 +190,11 @@ void EditorTabFont::mon_editor_mouseMove(QPoint point)
     {
         this->mStatusData->removeData(StatusData::MouseCoordinates);
     }
-    emit this->statusChanged();
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::mon_editor_scaleChanged(int scale)
+{
+    this->mStatusData->setData(StatusData::Scale, QVariant(scale));
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
@@ -200,6 +211,7 @@ void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItem
         const QImage *image = this->mContainer->image(this->mSelectedKey);
         this->mEditor->setImage(image);
 
+        // status update: current image index
         {
             QList<QVariant> list;
             list.append(QVariant(index.row()));

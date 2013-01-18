@@ -68,6 +68,7 @@ private slots:
 signals:
     void imageChanged();
     void mouseMove(QPoint point);
+    void scaleSchanged(int scale);
 };
 //-----------------------------------------------------------------------------
 #endif // WIDGETBITMAPEDITOR_H

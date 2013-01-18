@@ -14,7 +14,8 @@ public:
     enum StatusType
     {
         ImageIndex,
-        MouseCoordinates
+        MouseCoordinates,
+        Scale
     };
 
     explicit StatusData(QObject *parent = 0);

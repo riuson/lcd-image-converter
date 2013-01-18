@@ -96,6 +96,8 @@ private:
     void setFileName(const QString &value);
     QString convertedFileName() const;
     void setConvertedFileName(const QString &value);
+    void initStatusData();
+
     QFont usedFont() const;
     void setUsedFont(const QFont &value);
     QString usedStyle() const;
@@ -118,6 +120,7 @@ private slots:
     void mon_container_imageChanged(const QString &key);
     void mon_editor_imageChanged();
     void mon_editor_mouseMove(QPoint point);
+    void mon_editor_scaleChanged(int scale);
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 signals:
     void documentChanged(bool changed, const QString &documentName, const QString &filename);
