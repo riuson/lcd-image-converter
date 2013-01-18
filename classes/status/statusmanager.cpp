@@ -8,6 +8,10 @@ StatusManager::StatusManager(QStatusBar *statusBar, QObject *parent) :
 {
     this->mBar = statusBar;
 
+    this->addItem(StatusData::MouseCoordinates);
+    this->addItem(StatusData::Scale);
+    this->addItem(StatusData::ImageIndex);
+
     this->mBar->addPermanentWidget(new RevisionLabel(this->mBar));
 }
 //-----------------------------------------------------------------------------
@@ -26,17 +30,7 @@ void StatusManager::updateData(const StatusData *statuses)
         // update existing
         if (this->mList.contains(key))
         {
-            QLabel *label = this->mList.value(key);
-
-            this->updateItem(key, label, statuses);
-        }
-        else
-        {
-            QLabel *label = new QLabel(this->mBar);
-            this->mBar->addWidget(label);
-            this->mList.insert(key, label);
-
-            this->updateItem(key, label, statuses);
+            this->updateItem(key, statuses);
         }
     }
 
@@ -47,26 +41,23 @@ void StatusManager::updateData(const StatusData *statuses)
         StatusData::StatusType existingKey = existingKeys.at(i);
         if (!keys.contains(existingKey))
         {
-            QLabel *label = this->mList.value(existingKey);
-
-            this->mList.remove(existingKey);
-
-            this->mBar->removeWidget(label);
-            delete label;
+            this->hideItem(existingKey);
         }
     }
 }
 //-----------------------------------------------------------------------------
 void StatusManager::updateItem(
-        StatusData::StatusType type,
-        QLabel *label,
+        StatusData::StatusType key,
         const StatusData *statuses)
 {
-    switch (type)
+    QLabel *label = this->mList.value(key);
+    label->setVisible(true);
+
+    switch (key)
     {
     case StatusData::ImageIndex:
     {
-        QList<QVariant> list = statuses->data(type).toList();
+        QList<QVariant> list = statuses->data(key).toList();
         int current = list.at(0).toInt();
         int total = list.at(1).toInt();
         QString message = tr("Image: %1/%2").arg(current + 1).arg(total);
@@ -75,23 +66,37 @@ void StatusManager::updateItem(
     }
     case StatusData::MouseCoordinates:
     {
-        QPoint point = statuses->data(type).toPoint();
+        QPoint point = statuses->data(key).toPoint();
         QString message = tr("x: %1, y: %2").arg(point.x()).arg(point.y());
         label->setText(message);
         break;
     }
     case StatusData::Scale:
     {
-        int scale = statuses->data(type).toInt();
+        int scale = statuses->data(key).toInt();
         QString message = tr("%1x").arg(scale);
         label->setText(message);
         break;
     }
     default:
     {
-        label->setText(statuses->data(type).toString());
+        label->setText(statuses->data(key).toString());
         break;
     }
     }
+}
+//-----------------------------------------------------------------------------
+void StatusManager::addItem(StatusData::StatusType key)
+{
+    QLabel *label = new QLabel(this->mBar);
+    this->mList.insert(key, label);
+    this->mBar->addPermanentWidget(label);
+    label->setVisible(false);
+}
+//-----------------------------------------------------------------------------
+void StatusManager::hideItem(StatusData::StatusType key)
+{
+    QLabel *label = this->mList.value(key);
+    label->setVisible(false);
 }
 //-----------------------------------------------------------------------------

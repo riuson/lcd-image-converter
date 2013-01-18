@@ -21,7 +21,9 @@ private:
     QStatusBar *mBar;
     QMap<StatusData::StatusType, QLabel *> mList;
 
-    void updateItem(StatusData::StatusType type, QLabel *label, const StatusData *statuses);
+    void updateItem(StatusData::StatusType key, const StatusData *statuses);
+    void addItem(StatusData::StatusType key);
+    void hideItem(StatusData::StatusType key);
 
 signals:
 
