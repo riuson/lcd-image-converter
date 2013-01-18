@@ -58,10 +58,9 @@ void StatusManager::updateItem(
     {
     case StatusData::ImageIndex:
     {
-        QList<QVariant> list = statuses->data(key).toList();
-        int current = list.at(0).toInt();
-        int total = list.at(1).toInt();
-        QString message = tr("Image: %1/%2").arg(current + 1).arg(total);
+        int current = statuses->data(key).toInt();
+        int total = statuses->data(StatusData::ImagesCount).toInt();
+        QString message = tr("Char: %1/%2").arg(current + 1).arg(total);
         label->setText(message);
         break;
     }
@@ -105,7 +104,10 @@ void StatusManager::addItem(StatusData::StatusType key)
 //-----------------------------------------------------------------------------
 void StatusManager::hideItem(StatusData::StatusType key)
 {
-    QLabel *label = this->mList.value(key);
-    label->setVisible(false);
+    if (this->mList.contains(key))
+    {
+        QLabel *label = this->mList.value(key);
+        label->setVisible(false);
+    }
 }
 //-----------------------------------------------------------------------------

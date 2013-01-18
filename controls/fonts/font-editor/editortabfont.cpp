@@ -579,11 +579,9 @@ void EditorTabFont::updateStatus()
     {
         int current = this->mContainer->keys().indexOf(this->mSelectedKey);
         int total = this->mContainer->count();
-        QList<QVariant> list;
-        list.append(QVariant(current));
-        list.append(QVariant(total));
-        QVariant var(list);
-        this->mStatusData->setData(StatusData::ImageIndex, var);
+
+        this->mStatusData->setData(StatusData::ImagesCount, total);
+        this->mStatusData->setData(StatusData::ImageIndex, current);
     }
 }
 //-----------------------------------------------------------------------------
