@@ -525,19 +525,19 @@ Qt: %3</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="68"/>
+        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="71"/>
         <source>Font</source>
         <comment>new font name</comment>
         <translatorcomment>название нового шрифта, должно быть латинскими буквами</translatorcomment>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="498"/>
+        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="536"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="500"/>
+        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="538"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -551,19 +551,19 @@ Qt: %3</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/images/editortabimage.cpp" line="55"/>
+        <location filename="../controls/images/editortabimage.cpp" line="58"/>
         <source>Image</source>
         <comment>new image name</comment>
         <translatorcomment>название нового изображения, должно быть латинскими буквами</translatorcomment>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../controls/images/editortabimage.cpp" line="307"/>
+        <location filename="../controls/images/editortabimage.cpp" line="341"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/images/editortabimage.cpp" line="309"/>
+        <location filename="../controls/images/editortabimage.cpp" line="343"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -1289,6 +1289,29 @@ Qt: %3</translation>
     </message>
 </context>
 <context>
+    <name>StatusManager</name>
+    <message>
+        <location filename="../classes/status/statusmanager.cpp" line="73"/>
+        <source>Char: %1/%2</source>
+        <translation>Символ: %1/%2</translation>
+    </message>
+    <message>
+        <location filename="../classes/status/statusmanager.cpp" line="80"/>
+        <source>Cursor: %1,%2</source>
+        <translation>Курсор: %1,%2</translation>
+    </message>
+    <message>
+        <location filename="../classes/status/statusmanager.cpp" line="87"/>
+        <source>Scale: %1x</source>
+        <translation>Масштаб: %1x</translation>
+    </message>
+    <message>
+        <location filename="../classes/status/statusmanager.cpp" line="94"/>
+        <source>Size: %1x%2</source>
+        <translation>Размер: %1x%2</translation>
+    </message>
+</context>
+<context>
     <name>UnicodeBlocksModel</name>
     <message>
         <location filename="../controls/fonts/font-new/unicodeblocksmodel.cpp" line="94"/>
@@ -1324,22 +1347,6 @@ Qt: %3</translation>
         <location filename="../controls/images/widgetbitmapeditor.ui" line="91"/>
         <source>Color 2</source>
         <translation>Цвет 2</translation>
-    </message>
-    <message>
-        <location filename="../controls/images/widgetbitmapeditor.ui" line="116"/>
-        <source>x, y</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../controls/images/widgetbitmapeditor.cpp" line="93"/>
-        <source>x: %1, y: %2</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../controls/images/widgetbitmapeditor.cpp" line="113"/>
-        <location filename="../controls/images/widgetbitmapeditor.cpp" line="194"/>
-        <source>%1 x %2</source>
-        <translation>%1 x %2</translation>
     </message>
 </context>
 </TS>
