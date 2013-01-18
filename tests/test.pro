@@ -17,9 +17,9 @@ win32:DESTDIR       = ./_windows
 
 SOURCES += maintest.cpp \
     parts/testbitmaphelper.cpp \
-    ../classes/convert/converterhelper.cpp \
-    ../classes/convert/bitstream.cpp \
-    ../classes/convert/bitmaphelper.cpp \
+    ../classes/parser/convert/converterhelper.cpp \
+    ../classes/parser/convert/bitstream.cpp \
+    ../classes/parser/convert/bitmaphelper.cpp \
     parts/testconverterhelper.cpp \
     parts/testbitstream.cpp \
     parts/testprepareoptions.cpp \
@@ -41,10 +41,10 @@ SOURCES += maintest.cpp \
 
 HEADERS += \
     parts/testbitmaphelper.h \
-    ../classes/convert/converterhelper.h \
+    ../classes/parser/convert/converterhelper.h \
     ../classes/convert/conversion_options.h \
-    ../classes/convert/bitstream.h \
-    ../classes/convert/bitmaphelper.h \
+    ../classes/parser/convert/bitstream.h \
+    ../classes/parser/convert/bitmaphelper.h \
     parts/testconverterhelper.h \
     parts/testbitstream.h \
     parts/testprepareoptions.h \
@@ -69,7 +69,7 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 INCLUDEPATH += . \
     ./parts \
     ../classes \
-    ../classes/convert \
+    ../classes/parser/convert \
     ../classes/settings/presets \
     ../classes/compression
 
