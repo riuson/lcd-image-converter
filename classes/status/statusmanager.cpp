@@ -67,14 +67,14 @@ void StatusManager::updateItem(
     case StatusData::MouseCoordinates:
     {
         QPoint point = statuses->data(key).toPoint();
-        QString message = tr("x: %1, y: %2").arg(point.x()).arg(point.y());
+        QString message = tr("Cursor: %1,%2").arg(point.x()).arg(point.y());
         label->setText(message);
         break;
     }
     case StatusData::Scale:
     {
         int scale = statuses->data(key).toInt();
-        QString message = tr("%1x").arg(scale);
+        QString message = tr("Scale: %1x").arg(scale);
         label->setText(message);
         break;
     }
@@ -92,6 +92,7 @@ void StatusManager::addItem(StatusData::StatusType key)
     this->mList.insert(key, label);
     this->mBar->addPermanentWidget(label);
     label->setVisible(false);
+    label->setMinimumWidth(50);
 }
 //-----------------------------------------------------------------------------
 void StatusManager::hideItem(StatusData::StatusType key)
