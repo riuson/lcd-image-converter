@@ -9,6 +9,7 @@ StatusManager::StatusManager(QStatusBar *statusBar, QObject *parent) :
     this->mBar = statusBar;
 
     this->addItem(StatusData::MouseCoordinates);
+    this->addItem(StatusData::ImageSize);
     this->addItem(StatusData::Scale);
     this->addItem(StatusData::ImageIndex);
 
@@ -75,6 +76,13 @@ void StatusManager::updateItem(
     {
         int scale = statuses->data(key).toInt();
         QString message = tr("Scale: %1x").arg(scale);
+        label->setText(message);
+        break;
+    }
+    case StatusData::ImageSize:
+    {
+        QSize imageSize = statuses->data(key).toSize();
+        QString message = tr("Size: %1x%2").arg(imageSize.width()).arg(imageSize.height());
         label->setText(message);
         break;
     }

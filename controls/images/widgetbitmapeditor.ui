@@ -110,16 +110,6 @@
        </property>
       </spacer>
      </item>
-     <item>
-      <widget class="QLabel" name="labelCoordinates">
-       <property name="text">
-        <string>x, y</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>

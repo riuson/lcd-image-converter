@@ -197,8 +197,6 @@ void WidgetBitmapEditor::updateImageScaled(int scale)
         this->mPixmapScaled = QPixmap::fromImage(this->mImageScaled);
 
         this->ui->label->setPixmap(this->mPixmapScaled);
-
-        this->ui->labelCoordinates->setText(tr("%1 x %2").arg(this->mImageOriginal.width()).arg(this->mImageOriginal.height()));
     }
 }
 //-----------------------------------------------------------------------------

@@ -60,9 +60,9 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
     this->setConvertedFileName("");
     this->setChanged(false);
 
-    this->setImage(this->image());
-
     this->initStatusData();
+
+    this->setImage(this->image());
 }
 //-----------------------------------------------------------------------------
 EditorTabImage::~EditorTabImage()
@@ -195,7 +195,11 @@ bool EditorTabImage::load(const QString &fileName)
         }
         file.close();
 
-        this->mEditor->setImage(this->mContainer->image(DefaultKey));
+        const QImage *currentImage = this->mContainer->image(DefaultKey);
+        this->mEditor->setImage(currentImage);
+
+        this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+
         this->setFileName(fileName);
         this->setConvertedFileName(converted);
         this->setChanged(false);
@@ -300,6 +304,8 @@ const QImage *EditorTabImage::image() const
 void EditorTabImage::setImage(const QImage *value)
 {
     this->mContainer->setImage(DefaultKey, value);
+
+    this->mStatusData->setData(StatusData::ImageSize, QVariant(value->size()));
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::convert(bool request)

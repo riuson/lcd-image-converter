@@ -14,6 +14,7 @@ public:
     enum StatusType
     {
         ImageIndex,
+        ImageSize,
         MouseCoordinates,
         Scale
     };

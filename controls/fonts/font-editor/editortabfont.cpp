@@ -218,6 +218,10 @@ void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItem
             QVariant var(list);
             this->mStatusData->setData(StatusData::ImageIndex, var);
         }
+        // status update: current image size
+        {
+            this->mStatusData->setData(StatusData::ImageSize, QVariant(image->size()));
+        }
     }
 }
 //-----------------------------------------------------------------------------
@@ -327,7 +331,12 @@ bool EditorTabFont::load(const QString &fileName)
 
         this->setFileName(fileName);
         this->setConvertedFileName(converted);
-        this->mEditor->setImage(this->mContainer->image(this->mSelectedKey));
+
+        const QImage *currentImage = this->mContainer->image(this->mSelectedKey);
+        this->mEditor->setImage(currentImage);
+
+        this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+
         this->setChanged(false);
     }
 
