@@ -13,7 +13,7 @@ StatusManager::StatusManager(QStatusBar *statusBar, QObject *parent) :
     this->addItem(StatusData::Scale);
     this->addItem(StatusData::ImageIndex);
 
-    this->mBar->addPermanentWidget(new RevisionLabel(this->mBar));
+    this->mBar->addWidget(new RevisionLabel(this->mBar));
 }
 //-----------------------------------------------------------------------------
 StatusManager::~StatusManager()
