@@ -53,6 +53,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
     this->connect(this->mContainer, SIGNAL(imageChanged(QString)), SLOT(mon_container_imageChanged(QString)));
     this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
     this->connect(this->mEditor, SIGNAL(mouseMove(QPoint)), SLOT(mon_editor_mouseMove(QPoint)));
+    this->connect(this->mEditor, SIGNAL(scaleSchanged(int)), SLOT(mon_editor_scaleChanged(int)));
 
     this->setDocumentName(tr("Image", "new image name"));
     this->setFileName("");
@@ -62,6 +63,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
     this->setImage(this->image());
 
     this->mStatusData = new StatusData(this);
+    this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
 }
 //-----------------------------------------------------------------------------
 EditorTabImage::~EditorTabImage()

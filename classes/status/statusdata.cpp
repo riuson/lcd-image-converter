@@ -18,10 +18,12 @@ const QVariant StatusData::data(const StatusType key) const
 void StatusData::setData(const StatusType key, const QVariant &value)
 {
     this->mData.insert(key, value);
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 void StatusData::removeData(const StatusData::StatusType key)
 {
     this->mData.remove(key);
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------

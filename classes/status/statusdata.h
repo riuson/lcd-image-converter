@@ -26,6 +26,9 @@ public:
 
 private:
     QMap<StatusType, QVariant> mData;
+
+signals:
+    void changed();
 };
 //-----------------------------------------------------------------------------
 #endif // STATUSDATA_H
