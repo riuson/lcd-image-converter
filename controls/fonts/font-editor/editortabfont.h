@@ -55,6 +55,7 @@ public:
     const QImage *image() const;
     void setImage(const QImage *value);
     void convert(bool request);
+    void updateStatus();
     StatusData *statusData() const;
 
     void beginChanges();

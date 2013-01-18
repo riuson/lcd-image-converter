@@ -125,7 +125,8 @@ void EditorTabFont::initStatusData()
 {
     this->mStatusData = new StatusData(this);
     this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
-    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 QFont EditorTabFont::usedFont() const
@@ -210,18 +211,7 @@ void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItem
         const QImage *image = this->mContainer->image(this->mSelectedKey);
         this->mEditor->setImage(image);
 
-        // status update: current image index
-        {
-            QList<QVariant> list;
-            list.append(QVariant(index.row()));
-            list.append(QVariant(this->mContainer->count()));
-            QVariant var(list);
-            this->mStatusData->setData(StatusData::ImageIndex, var);
-        }
-        // status update: current image size
-        {
-            this->mStatusData->setData(StatusData::ImageSize, QVariant(image->size()));
-        }
+        this->updateStatus();
     }
 }
 //-----------------------------------------------------------------------------
@@ -332,12 +322,11 @@ bool EditorTabFont::load(const QString &fileName)
         this->setFileName(fileName);
         this->setConvertedFileName(converted);
 
-        const QImage *currentImage = this->mContainer->image(this->mSelectedKey);
-        this->mEditor->setImage(currentImage);
-
-        this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+        this->mEditor->setImage(this->mContainer->image(this->mSelectedKey));
 
         this->setChanged(false);
+
+        this->updateStatus();
     }
 
     return result;
@@ -498,6 +487,8 @@ const QImage *EditorTabFont::image() const
 void EditorTabFont::setImage(const QImage *value)
 {
     this->mContainer->setImage(this->mSelectedKey, value);
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::convert(bool request)
@@ -577,6 +568,25 @@ void EditorTabFont::convert(bool request)
     }
 }
 //-----------------------------------------------------------------------------
+void EditorTabFont::updateStatus()
+{
+    const QImage *currentImage = this->mContainer->image(this->mSelectedKey);
+    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+
+    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
+
+    // status update: current image index
+    {
+        int current = this->mContainer->keys().indexOf(this->mSelectedKey);
+        int total = this->mContainer->count();
+        QList<QVariant> list;
+        list.append(QVariant(current));
+        list.append(QVariant(total));
+        QVariant var(list);
+        this->mStatusData->setData(StatusData::ImageIndex, var);
+    }
+}
+//-----------------------------------------------------------------------------
 StatusData *EditorTabFont::statusData() const
 {
     return this->mStatusData;
@@ -611,6 +621,8 @@ void EditorTabFont::undo()
     this->setImage(this->image());
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::redo()
@@ -619,6 +631,8 @@ void EditorTabFont::redo()
     this->setImage(this->image());
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::setFontCharacters(const QString &chars,
@@ -730,7 +744,13 @@ void EditorTabFont::setFontCharacters(const QString &chars,
     this->mModel->callReset();
     this->ui->tableViewCharacters->resizeColumnsToContents();
 
-    this->mEditor->setImage(this->mContainer->image(keys.at(0)));
+    if (this->mSelectedKey.isEmpty())
+    {
+        this->mSelectedKey = keys.at(0);
+    }
+    this->mEditor->setImage(this->mContainer->image(this->mSelectedKey));
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::fontCharacters(QString *chars,

@@ -108,7 +108,7 @@ void EditorTabImage::initStatusData()
 {
     this->mStatusData = new StatusData(this);
     this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
-    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_container_imageChanged(const QString &key)
@@ -195,14 +195,13 @@ bool EditorTabImage::load(const QString &fileName)
         }
         file.close();
 
-        const QImage *currentImage = this->mContainer->image(DefaultKey);
-        this->mEditor->setImage(currentImage);
-
-        this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+        this->mEditor->setImage(this->mContainer->image(DefaultKey));
 
         this->setFileName(fileName);
         this->setConvertedFileName(converted);
         this->setChanged(false);
+
+        this->updateStatus();
     }
     return result;
 }
@@ -305,7 +304,7 @@ void EditorTabImage::setImage(const QImage *value)
 {
     this->mContainer->setImage(DefaultKey, value);
 
-    this->mStatusData->setData(StatusData::ImageSize, QVariant(value->size()));
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::convert(bool request)
@@ -374,6 +373,14 @@ void EditorTabImage::convert(bool request)
     }
 }
 //-----------------------------------------------------------------------------
+void EditorTabImage::updateStatus()
+{
+    const QImage *currentImage = this->mContainer->image(DefaultKey);
+    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+
+    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
+}
+//-----------------------------------------------------------------------------
 StatusData *EditorTabImage::statusData() const
 {
     return this->mStatusData;
@@ -408,6 +415,8 @@ void EditorTabImage::undo()
     this->setImage(this->image());
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::redo()
@@ -416,6 +425,8 @@ void EditorTabImage::redo()
     this->setImage(this->image());
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 /*
