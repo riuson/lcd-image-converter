@@ -32,6 +32,7 @@
 #include "datacontainer.h"
 #include "parser.h"
 #include "tags.h"
+#include "statusdata.h"
 //-----------------------------------------------------------------------------
 const QString EditorTabImage::DefaultKey = QString("default");
 //-----------------------------------------------------------------------------
@@ -51,11 +52,15 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 
     this->connect(this->mContainer, SIGNAL(imageChanged(QString)), SLOT(mon_container_imageChanged(QString)));
     this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
+    this->connect(this->mEditor, SIGNAL(mouseMove(QPoint)), SLOT(mon_editor_mouseMove(QPoint)));
+    this->connect(this->mEditor, SIGNAL(scaleSchanged(int)), SLOT(mon_editor_scaleChanged(int)));
 
     this->setDocumentName(tr("Image", "new image name"));
     this->setFileName("");
     this->setConvertedFileName("");
     this->setChanged(false);
+
+    this->initStatusData();
 
     this->setImage(this->image());
 }
@@ -99,6 +104,13 @@ void EditorTabImage::setConvertedFileName(const QString &value)
     }
 }
 //-----------------------------------------------------------------------------
+void EditorTabImage::initStatusData()
+{
+    this->mStatusData = new StatusData(this);
+    this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
+    this->updateStatus();
+}
+//-----------------------------------------------------------------------------
 void EditorTabImage::mon_container_imageChanged(const QString &key)
 {
     if (DefaultKey == key)
@@ -120,6 +132,23 @@ void EditorTabImage::mon_editor_imageChanged()
     emit this->documentChanged(true, this->documentName(), this->fileName());
 
     this->endChanges();
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::mon_editor_mouseMove(QPoint point)
+{
+    if (point.x() >= 0 && point.y() >= 0)
+    {
+        this->mStatusData->setData(StatusData::MouseCoordinates, QVariant(point));
+    }
+    else
+    {
+        this->mStatusData->removeData(StatusData::MouseCoordinates);
+    }
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::mon_editor_scaleChanged(int scale)
+{
+    this->mStatusData->setData(StatusData::Scale, QVariant(scale));
 }
 //-----------------------------------------------------------------------------
 bool EditorTabImage::load(const QString &fileName)
@@ -167,9 +196,12 @@ bool EditorTabImage::load(const QString &fileName)
         file.close();
 
         this->mEditor->setImage(this->mContainer->image(DefaultKey));
+
         this->setFileName(fileName);
         this->setConvertedFileName(converted);
         this->setChanged(false);
+
+        this->updateStatus();
     }
     return result;
 }
@@ -271,6 +303,8 @@ const QImage *EditorTabImage::image() const
 void EditorTabImage::setImage(const QImage *value)
 {
     this->mContainer->setImage(DefaultKey, value);
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::convert(bool request)
@@ -339,6 +373,19 @@ void EditorTabImage::convert(bool request)
     }
 }
 //-----------------------------------------------------------------------------
+void EditorTabImage::updateStatus()
+{
+    const QImage *currentImage = this->mContainer->image(DefaultKey);
+    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+
+    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
+}
+//-----------------------------------------------------------------------------
+StatusData *EditorTabImage::statusData() const
+{
+    return this->mStatusData;
+}
+//-----------------------------------------------------------------------------
 void EditorTabImage::beginChanges()
 {
     if (!this->mContainer->historyInitialized())
@@ -368,6 +415,8 @@ void EditorTabImage::undo()
     this->setImage(this->image());
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::redo()
@@ -376,6 +425,8 @@ void EditorTabImage::redo()
     this->setImage(this->image());
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 /*

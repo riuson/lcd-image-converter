@@ -33,6 +33,7 @@ class WidgetBitmapEditor;
 class QSplitter;
 class FontCharactersModel;
 class QItemSelection;
+class StatusData;
 //-----------------------------------------------------------------------------
 class EditorTabFont : public QWidget, public IDocument
 {
@@ -54,6 +55,8 @@ public:
     const QImage *image() const;
     void setImage(const QImage *value);
     void convert(bool request);
+    void updateStatus();
+    StatusData *statusData() const;
 
     void beginChanges();
     void endChanges();
@@ -86,6 +89,7 @@ private:
     DataContainer *mContainer;
     QSplitter *mSplitter;
     FontCharactersModel *mModel;
+    StatusData *mStatusData;
 
     QFont mTableFont;
     QString mSelectedKey;
@@ -93,6 +97,8 @@ private:
     void setFileName(const QString &value);
     QString convertedFileName() const;
     void setConvertedFileName(const QString &value);
+    void initStatusData();
+
     QFont usedFont() const;
     void setUsedFont(const QFont &value);
     QString usedStyle() const;
@@ -114,9 +120,12 @@ private:
 private slots:
     void mon_container_imageChanged(const QString &key);
     void mon_editor_imageChanged();
+    void mon_editor_mouseMove(QPoint point);
+    void mon_editor_scaleChanged(int scale);
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 signals:
     void documentChanged(bool changed, const QString &documentName, const QString &filename);
+    void statusChanged();
 };
 //-----------------------------------------------------------------------------
 #endif // EDITORTABFONT_H

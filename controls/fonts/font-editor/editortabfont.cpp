@@ -38,6 +38,7 @@
 #include "parser.h"
 #include "dialogfontchanged.h"
 #include "tags.h"
+#include "statusdata.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
@@ -64,6 +65,8 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
     this->connect(this->mContainer, SIGNAL(imageChanged(QString)), SLOT(mon_container_imageChanged(QString)));
     this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
+    this->connect(this->mEditor, SIGNAL(mouseMove(QPoint)), SLOT(mon_editor_mouseMove(QPoint)));
+    this->connect(this->mEditor, SIGNAL(scaleSchanged(int)), SLOT(mon_editor_scaleChanged(int)));
 
     this->setDocumentName(tr("Font", "new font name"));
     this->setFileName("");
@@ -74,6 +77,8 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->setMonospaced(false);
 
     this->ui->tableViewCharacters->resizeColumnsToContents();
+
+    this->initStatusData();
 }
 //-----------------------------------------------------------------------------
 EditorTabFont::~EditorTabFont()
@@ -114,6 +119,14 @@ void EditorTabFont::setConvertedFileName(const QString &value)
     {
         this->mContainer->setInfo("converted filename", QVariant(value));
     }
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::initStatusData()
+{
+    this->mStatusData = new StatusData(this);
+    this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 QFont EditorTabFont::usedFont() const
@@ -167,6 +180,23 @@ void EditorTabFont::mon_editor_imageChanged()
     this->endChanges();
 }
 //-----------------------------------------------------------------------------
+void EditorTabFont::mon_editor_mouseMove(QPoint point)
+{
+    if (point.x() >= 0 && point.y() >= 0)
+    {
+        this->mStatusData->setData(StatusData::MouseCoordinates, QVariant(point));
+    }
+    else
+    {
+        this->mStatusData->removeData(StatusData::MouseCoordinates);
+    }
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::mon_editor_scaleChanged(int scale)
+{
+    this->mStatusData->setData(StatusData::Scale, QVariant(scale));
+}
+//-----------------------------------------------------------------------------
 void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     Q_UNUSED(selected);
@@ -180,6 +210,8 @@ void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItem
         this->mSelectedKey = this->mModel->data(index, Qt::DisplayRole).toString();
         const QImage *image = this->mContainer->image(this->mSelectedKey);
         this->mEditor->setImage(image);
+
+        this->updateStatus();
     }
 }
 //-----------------------------------------------------------------------------
@@ -289,8 +321,12 @@ bool EditorTabFont::load(const QString &fileName)
 
         this->setFileName(fileName);
         this->setConvertedFileName(converted);
+
         this->mEditor->setImage(this->mContainer->image(this->mSelectedKey));
+
         this->setChanged(false);
+
+        this->updateStatus();
     }
 
     return result;
@@ -451,6 +487,8 @@ const QImage *EditorTabFont::image() const
 void EditorTabFont::setImage(const QImage *value)
 {
     this->mContainer->setImage(this->mSelectedKey, value);
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::convert(bool request)
@@ -530,6 +568,28 @@ void EditorTabFont::convert(bool request)
     }
 }
 //-----------------------------------------------------------------------------
+void EditorTabFont::updateStatus()
+{
+    const QImage *currentImage = this->mContainer->image(this->mSelectedKey);
+    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+
+    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
+
+    // status update: current image index
+    {
+        int current = this->mContainer->keys().indexOf(this->mSelectedKey);
+        int total = this->mContainer->count();
+
+        this->mStatusData->setData(StatusData::ImagesCount, total);
+        this->mStatusData->setData(StatusData::ImageIndex, current);
+    }
+}
+//-----------------------------------------------------------------------------
+StatusData *EditorTabFont::statusData() const
+{
+    return this->mStatusData;
+}
+//-----------------------------------------------------------------------------
 void EditorTabFont::beginChanges()
 {
     if (!this->mContainer->historyInitialized())
@@ -559,6 +619,8 @@ void EditorTabFont::undo()
     this->setImage(this->image());
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::redo()
@@ -567,6 +629,8 @@ void EditorTabFont::redo()
     this->setImage(this->image());
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::setFontCharacters(const QString &chars,
@@ -678,7 +742,13 @@ void EditorTabFont::setFontCharacters(const QString &chars,
     this->mModel->callReset();
     this->ui->tableViewCharacters->resizeColumnsToContents();
 
-    this->mEditor->setImage(this->mContainer->image(keys.at(0)));
+    if (this->mSelectedKey.isEmpty())
+    {
+        this->mSelectedKey = keys.at(0);
+    }
+    this->mEditor->setImage(this->mContainer->image(this->mSelectedKey));
+
+    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::fontCharacters(QString *chars,

@@ -30,6 +30,7 @@ namespace Ui {
 class WidgetBitmapEditor;
 class QTranslator;
 class RecentList;
+class StatusManager;
 class ActionFileHandlers;
 class ActionEditHandlers;
 class ActionImageHandlers;
@@ -53,6 +54,8 @@ private:
     Ui::MainWindow *ui;
     QTranslator *mTrans;
     RecentList *mRecentList;
+    StatusManager *mStatusManager;
+
     void selectLocale(const QString &localeName);
     void checkStartPageVisible();
     void createHandlers();
@@ -77,6 +80,7 @@ private slots:
     void closeRequest(QWidget *tab);
     void tabChanged(QWidget *tab, const QString &text, const QString &tooltip);
     int tabCreated(QWidget *newTab, const QString &name, const QString &tooltip);
+    void statusChanged();
 public:
     IDocument *currentDocument();
     QWidget *currentTab();

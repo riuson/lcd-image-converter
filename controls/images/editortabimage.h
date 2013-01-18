@@ -31,6 +31,7 @@ namespace Ui {
 class QImage;
 class WidgetBitmapEditor;
 class DataContainer;
+class StatusData;
 //-----------------------------------------------------------------------------
 class EditorTabImage : public QWidget, public IDocument
 {
@@ -52,6 +53,8 @@ public:
     const QImage *image() const;
     void setImage(const QImage *value);
     void convert(bool request);
+    void updateStatus();
+    StatusData *statusData() const;
 
     void beginChanges();
     void endChanges();
@@ -67,18 +70,23 @@ private:
     Ui::EditorTabImage *ui;
     WidgetBitmapEditor *mEditor;
     DataContainer *mContainer;
+    StatusData *mStatusData;
 
     static const QString DefaultKey;
 
     void setFileName(const QString &value);
     QString convertedFileName() const;
     void setConvertedFileName(const QString &value);
+    void initStatusData();
 
 private slots:
     void mon_container_imageChanged(const QString &key);
     void mon_editor_imageChanged();
+    void mon_editor_mouseMove(QPoint point);
+    void mon_editor_scaleChanged(int scale);
 signals:
     void documentChanged(bool changed, const QString &documentName, const QString &filename);
+    void statusChanged();
 };
 //-----------------------------------------------------------------------------
 #endif // EDITORTABIMAGE_H

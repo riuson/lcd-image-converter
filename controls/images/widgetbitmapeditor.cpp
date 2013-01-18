@@ -90,7 +90,8 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
             if (xreal < this->mImageOriginal.width() && yreal < this->mImageOriginal.height())
             {
                 // show coordinates
-                this->ui->labelCoordinates->setText(tr("x: %1, y: %2").arg(xreal).arg(yreal));
+                QPoint mouseCoordinates(xreal, yreal);
+                emit this->mouseMove(mouseCoordinates);
 
                 // get buttons
                 bool buttonLeft = (me->buttons() & Qt::LeftButton) == Qt::LeftButton;
@@ -110,7 +111,8 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
             }
             else
             {
-                this->ui->labelCoordinates->setText(tr("%1 x %2").arg(this->mImageOriginal.width()).arg(this->mImageOriginal.height()));
+                QPoint mouseCoordinates(-1, -1);
+                emit this->mouseMove(mouseCoordinates);
             }
         }
         event->accept();
@@ -151,7 +153,7 @@ void WidgetBitmapEditor::wheelEvent(QWheelEvent *event)
                 else
                     scale--;
 
-                this->changeScale(scale);
+                this->setScale(scale);
                 this->ui->spinBoxScale->setValue(this->mScale);
             }
             event->accept();
@@ -171,14 +173,19 @@ void WidgetBitmapEditor::setImage(const QImage *value)
     this->updateImageScaled(this->mScale);
 }
 //-----------------------------------------------------------------------------
-QColor WidgetBitmapEditor::color1()
+QColor WidgetBitmapEditor::color1() const
 {
     return this->mColor1;
 }
 //-----------------------------------------------------------------------------
-QColor WidgetBitmapEditor::color2()
+QColor WidgetBitmapEditor::color2() const
 {
     return this->mColor2;
+}
+//-----------------------------------------------------------------------------
+int WidgetBitmapEditor::scale() const
+{
+    return this->mScale;
 }
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::updateImageScaled(int scale)
@@ -190,14 +197,19 @@ void WidgetBitmapEditor::updateImageScaled(int scale)
         this->mPixmapScaled = QPixmap::fromImage(this->mImageScaled);
 
         this->ui->label->setPixmap(this->mPixmapScaled);
-
-        this->ui->labelCoordinates->setText(tr("%1 x %2").arg(this->mImageOriginal.width()).arg(this->mImageOriginal.height()));
     }
+}
+//-----------------------------------------------------------------------------
+void WidgetBitmapEditor::drawPixel(int x, int y, const QColor &color)
+{
+    QImage image = this->mImageOriginal;
+    this->mImageOriginal = BitmapHelper::drawPixel(&image, x, y, color);
+    this->updateImageScaled(this->mScale);
 }
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::on_spinBoxScale_valueChanged(int value)
 {
-    this->changeScale(value);
+    this->setScale(value);
 }
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::on_pushButtonColor1_clicked()
@@ -224,7 +236,7 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
     }
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::changeScale(int value)
+void WidgetBitmapEditor::setScale(int value)
 {
     if (value > 0 && value <= 50)
     {
@@ -234,14 +246,19 @@ void WidgetBitmapEditor::changeScale(int value)
             this->updateImageScaled(this->mScale);
 
             BitmapEditorOptions::setScale(value);
+
+            emit this->scaleSchanged(this->mScale);
         }
     }
 }
 //-----------------------------------------------------------------------------
-void WidgetBitmapEditor::drawPixel(int x, int y, const QColor &color)
+void WidgetBitmapEditor::setColor1(const QColor value)
 {
-    QImage image = this->mImageOriginal;
-    this->mImageOriginal = BitmapHelper::drawPixel(&image, x, y, color);
-    this->updateImageScaled(this->mScale);
+    this->mColor1 = value;
+}
+//-----------------------------------------------------------------------------
+void WidgetBitmapEditor::setColor2(const QColor value)
+{
+    this->mColor2 = value;
 }
 //-----------------------------------------------------------------------------

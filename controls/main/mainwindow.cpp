@@ -35,8 +35,8 @@
 #include "datacontainer.h"
 #include "dialogsavechanges.h"
 #include "widgetbitmapeditor.h"
-#include "revisionlabel.h"
 #include "recentlist.h"
+#include "statusmanager.h"
 #include "languageoptions.h"
 #include "actionfilehandlers.h"
 #include "actionedithandlers.h"
@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->mTrans = new QTranslator;
     qApp->installTranslator(this->mTrans);
 
-    this->statusBar()->addWidget(new RevisionLabel);
+    this->mStatusManager = new StatusManager(this->ui->statusBar, this);
 
     QDir dir(":/translations");
     QStringList translations = dir.entryList(QDir::Files, QDir::Name);
@@ -294,6 +294,13 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 {
     Q_UNUSED(index);
     this->updateMenuState();
+
+    this->mStatusManager->hideAll();
+    IDocument *doc = this->currentDocument();
+    if (doc != NULL)
+    {
+        doc->updateStatus();
+    }
 }
 //-----------------------------------------------------------------------------
 void MainWindow::actionLanguage_triggered()
@@ -483,7 +490,27 @@ int MainWindow::tabCreated(QWidget *newTab, const QString &name, const QString &
     int index = this->ui->tabWidget->addTab(newTab, name);
     this->ui->tabWidget->setCurrentIndex(index);
     this->ui->tabWidget->setTabToolTip(index, tooltip);
+
+    this->connect(newTab, SIGNAL(statusChanged()), SLOT(statusChanged()));
+
     this->checkStartPageVisible();
+
+    IDocument *doc = this->currentDocument();
+    this->mStatusManager->updateData(doc->statusData());
+
     return index;
+}
+//-----------------------------------------------------------------------------
+void MainWindow::statusChanged()
+{
+    QWidget *widget = qobject_cast<QWidget *>(sender());
+    if (widget != NULL)
+    {
+        if (this->ui->tabWidget->currentWidget() == widget)
+        {
+            IDocument *doc = this->currentDocument();
+            this->mStatusManager->updateData(doc->statusData());
+        }
+    }
 }
 //-----------------------------------------------------------------------------
