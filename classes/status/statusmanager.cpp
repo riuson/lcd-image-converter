@@ -35,15 +35,25 @@ void StatusManager::updateData(const StatusData *statuses)
         }
     }
 
-    // remove
+    // hide
     QList<StatusData::StatusType> existingKeys = this->mList.keys();
-    for (int i = existingKeys.length() - 1; i >= 0; i--)
+    for (int i = 0; i < existingKeys.length(); i++)
     {
         StatusData::StatusType existingKey = existingKeys.at(i);
         if (!keys.contains(existingKey))
         {
             this->hideItem(existingKey);
         }
+    }
+}
+//-----------------------------------------------------------------------------
+void StatusManager::hideAll()
+{
+    QList<StatusData::StatusType> keys = this->mList.keys();
+    for (int i = 0; i < keys.length(); i++)
+    {
+        StatusData::StatusType key = keys.at(i);
+        this->hideItem(key);
     }
 }
 //-----------------------------------------------------------------------------

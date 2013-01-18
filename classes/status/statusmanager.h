@@ -16,6 +16,7 @@ public:
     ~StatusManager();
 
     void updateData(const StatusData *statuses);
+    void hideAll();
 
 private:
     QStatusBar *mBar;

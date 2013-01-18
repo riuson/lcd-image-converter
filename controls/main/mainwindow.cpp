@@ -294,6 +294,13 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 {
     Q_UNUSED(index);
     this->updateMenuState();
+
+    this->mStatusManager->hideAll();
+    IDocument *doc = this->currentDocument();
+    if (doc != NULL)
+    {
+        doc->updateStatus();
+    }
 }
 //-----------------------------------------------------------------------------
 void MainWindow::actionLanguage_triggered()
