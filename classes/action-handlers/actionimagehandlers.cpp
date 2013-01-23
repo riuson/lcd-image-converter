@@ -25,6 +25,7 @@
 #include <QMessageBox>
 #include "widgetbitmapeditor.h"
 #include "dialogresize.h"
+#include "dialogcanvasresize.h"
 #include "bitmaphelper.h"
 #include "externaltooloptions.h"
 #include "imainwindow.h"
@@ -184,10 +185,11 @@ void ActionImageHandlers::resize_triggered()
     {
         const QImage *original = this->document()->image();
 
-        DialogResize dialog(original->width(), original->height(), 0, 0, false, true, true, this->mMainWindow->parentWidget());
+        //DialogResize dialog(original->width(), original->height(), 0, 0, false, true, true, this->mMainWindow->parentWidget());
+        DialogCanvasResize dialog(original, this->mMainWindow->parentWidget());
         if (dialog.exec() == QDialog::Accepted)
         {
-            this->document()->beginChanges();
+            /*this->document()->beginChanges();
 
             int width, height, offsetX, offsetY;
             bool center, changeWidth, changeHeight;
@@ -195,7 +197,7 @@ void ActionImageHandlers::resize_triggered()
             QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, BitmapEditorOptions::color2());
             this->document()->setImage(&result);
 
-            this->document()->endChanges();
+            this->document()->endChanges();*/
         }
     }
 }

@@ -66,6 +66,7 @@ SOURCES += main.cpp \
     controls/images/widgetbitmapeditor.cpp \
     controls/main/mainwindow.cpp \
     controls/main/revisionlabel.cpp \
+    controls/resize/dialogcanvasresize.cpp \
     controls/save-changes/dialogsavechanges.cpp \
     controls/setup/dialogexternaleditor.cpp \
     controls/setup/dialogoptions.cpp \
@@ -129,6 +130,7 @@ HEADERS += \
     controls/images/widgetbitmapeditor.h \
     controls/main/mainwindow.h \
     controls/main/revisionlabel.h \
+    controls/resize/dialogcanvasresize.h \
     controls/save-changes/dialogsavechanges.h \
     controls/setup/dialogexternaleditor.h \
     controls/setup/dialogoptions.h \
@@ -157,6 +159,7 @@ FORMS += \
     controls/images/editortabimage.ui \
     controls/images/widgetbitmapeditor.ui \
     controls/main/mainwindow.ui \
+    controls/resize/dialogcanvasresize.ui \
     controls/save-changes/dialogsavechanges.ui \
     controls/setup/dialogexternaleditor.ui \
     controls/setup/dialogoptions.ui \
@@ -188,6 +191,7 @@ INCLUDEPATH += . \
     ./controls/fonts/font-preview \
     ./controls/images \
     ./controls/main \
+    ./controls/resize \
     ./controls/save-changes \
     ./controls/start \
     ./controls/setup \
