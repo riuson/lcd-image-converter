@@ -45,8 +45,6 @@ private:
     ResizeModel *mModel;
 
 private slots:
-    void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-    void updatePreview();
     void spinBox_valueChanged(int value);
     void on_spinBoxScale_valueChanged(int value);
     void on_pushButtonReset_clicked();
