@@ -29,6 +29,7 @@ ResizeModel::ResizeModel(DataContainer *container, QObject *parent) :
 {
     this->mContainer = container;
     this->setCrop(0, 0, 0, 0);
+    this->setScale(1);
 }
 //-----------------------------------------------------------------------------
 int ResizeModel::rowCount(const QModelIndex &parent) const
@@ -93,7 +94,7 @@ QVariant ResizeModel::data(const QModelIndex &index, int role) const
             QString key = this->mContainer->keys().at(index.column());
             const QImage *original = this->mContainer->image(key);
 
-            QImage modified = this->modifyImage(original);
+            QImage modified = this->modifyImage(original, true);
 
             QPixmap pixmap = QPixmap::fromImage(modified);
             result = pixmap;
@@ -106,16 +107,16 @@ QVariant ResizeModel::data(const QModelIndex &index, int role) const
             QString key = this->mContainer->keys().at(index.column());
             const QImage *original = this->mContainer->image(key);
 
-            QImage modified = this->modifyImage(original);
+            QImage modified = this->modifyImage(original, true);
 
             QSize size = modified.size();
-            if (size.height() > 30)
+            /*if (size.height() > 30)
             {
                 float m = ((float)size.height()) / 30.0f;
                 int w = (float)size.width() / m;
                 int h = (float)size.height() / m;
                 size = QSize(w, h);
-            }
+            }*/
             result = size;
         }
     }
@@ -124,7 +125,7 @@ QVariant ResizeModel::data(const QModelIndex &index, int role) const
         QString key = this->mContainer->keys().at(index.column());
         const QImage *original = this->mContainer->image(key);
 
-        QImage modified = this->modifyImage(original);
+        QImage modified = this->modifyImage(original, false);
 
         result = modified;
     }
@@ -160,9 +161,31 @@ void ResizeModel::setCrop(int left, int top, int right, int bottom)
                 this->index(1, this->mContainer->count() - 1));
 }
 //-----------------------------------------------------------------------------
-QImage ResizeModel::modifyImage(const QImage *source) const
+void ResizeModel::setScale(int scale)
 {
-    QImage modified = BitmapHelper::crop(source, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapEditorOptions::color2());
-    return modified;
+    if (scale > 0)
+    {
+        this->mScale = scale;
+
+        emit this->dataChanged(
+                    this->index(0, 0),
+                    this->index(1, this->mContainer->count() - 1));
+    }
+}
+//-----------------------------------------------------------------------------
+QImage ResizeModel::modifyImage(const QImage *source, bool preview) const
+{
+    if (preview)
+    {
+        QImage modified = BitmapHelper::crop(source, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapEditorOptions::color2());
+        QImage scaled = BitmapHelper::scale(&modified, this->mScale);
+        QImage grids = BitmapHelper::drawGrid(&scaled, this->mScale);
+        return grids;
+    }
+    else
+    {
+        QImage modified = BitmapHelper::crop(source, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapEditorOptions::color2());
+        return modified;
+    }
 }
 //-----------------------------------------------------------------------------

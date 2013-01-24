@@ -79,7 +79,16 @@ void DialogCanvasResize::spinBox_valueChanged(int value)
                 this->ui->spinBoxRight->value(),
                 this->ui->spinBoxBottom->value());
 
-    this->updatePreview();
+    this->ui->tableView->resizeRowsToContents();
+    this->ui->tableView->resizeColumnsToContents();
+}
+//-----------------------------------------------------------------------------
+void DialogCanvasResize::on_spinBoxScale_valueChanged(int value)
+{
+    this->mModel->setScale(value);
+
+    this->ui->tableView->resizeRowsToContents();
+    this->ui->tableView->resizeColumnsToContents();
 }
 //-----------------------------------------------------------------------------
 void DialogCanvasResize::on_pushButtonReset_clicked()

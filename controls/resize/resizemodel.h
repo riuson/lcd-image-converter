@@ -46,14 +46,16 @@ public:
     void callReset();
 
     void setCrop(int left, int top, int right, int bottom);
+    void setScale(int scale);
 private:
     DataContainer *mContainer;
     int mLeft;
     int mRight;
     int mTop;
     int mBottom;
+    int mScale;
 
-    QImage modifyImage(const QImage *source) const;
+    QImage modifyImage(const QImage *source, bool preview) const;
 
 signals:
 
