@@ -186,7 +186,7 @@ void ActionImageHandlers::resize_triggered()
         const QImage *original = this->document()->image();
 
         //DialogResize dialog(original->width(), original->height(), 0, 0, false, true, true, this->mMainWindow->parentWidget());
-        DialogCanvasResize dialog(original, this->mMainWindow->parentWidget());
+        DialogCanvasResize dialog(this->document()->dataContainer(), this->mMainWindow->parentWidget());
         if (dialog.exec() == QDialog::Accepted)
         {
             /*this->document()->beginChanges();

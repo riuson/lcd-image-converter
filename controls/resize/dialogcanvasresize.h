@@ -26,18 +26,29 @@ namespace Ui {
 class DialogCanvasResize;
 }
 //-----------------------------------------------------------------------------
+class QItemSelection;
+class DataContainer;
+class ResizeModel;
+//-----------------------------------------------------------------------------
 class DialogCanvasResize : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit DialogCanvasResize(const QImage *previewImage, QWidget *parent = 0);
+    explicit DialogCanvasResize(DataContainer *container, QWidget *parent = 0);
     ~DialogCanvasResize();
 
 private:
     Ui::DialogCanvasResize *ui;
 
-    QImage mPreviewImageOriginal;
+    DataContainer *mContainer;
+    ResizeModel *mModel;
+
+private slots:
+    void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void updatePreview();
+    void spinBox_valueChanged(int value);
+    void on_pushButtonReset_clicked();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCANVASRESIZE_H
