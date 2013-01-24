@@ -128,6 +128,26 @@ QImage BitmapHelper::resize(const QImage *source, int width, int height, int off
     return result;
 }
 //-----------------------------------------------------------------------------
+QImage BitmapHelper::crop(const QImage *source, int left, int top, int right, int bottom, const QColor &backColor)
+{
+    int sourceWidth = source->width();
+    int sourceHeight = source->height();
+
+    // expanded/cropped size
+    // positive = expand, negative = crop
+    int resultWidth = sourceWidth + left + right;
+    int resultHeight = sourceHeight + top + bottom;
+
+    QImage result = QImage(resultWidth, resultHeight, source->format());
+
+    QPainter painter(&result);
+    painter.fillRect(0, 0, resultWidth, resultHeight, backColor);
+
+    painter.drawImage(left, top, *source);
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void BitmapHelper::findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom)
 {
     QRgb background = source->pixel(0, 0);
