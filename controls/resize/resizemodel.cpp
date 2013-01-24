@@ -91,16 +91,11 @@ QVariant ResizeModel::data(const QModelIndex &index, int role) const
         if (index.row() == 1)
         {
             QString key = this->mContainer->keys().at(index.column());
-            QImage im = *this->mContainer->image(key);
-            QSize size = im.size();
-            if (size.height() > 30)
-            {
-                float m = ((float)size.height()) / 30.0f;
-                int w = (float)size.width() / m;
-                int h = (float)size.height() / m;
-                im = im.scaled(w, h);
-            }
-            QPixmap pixmap = QPixmap::fromImage(im);
+            const QImage *original = this->mContainer->image(key);
+
+            QImage modified = this->modifyImage(original);
+
+            QPixmap pixmap = QPixmap::fromImage(modified);
             result = pixmap;
         }
     }
@@ -109,8 +104,11 @@ QVariant ResizeModel::data(const QModelIndex &index, int role) const
         if (index.row() == 1)
         {
             QString key = this->mContainer->keys().at(index.column());
-            QImage im = *this->mContainer->image(key);
-            QSize size = im.size();
+            const QImage *original = this->mContainer->image(key);
+
+            QImage modified = this->modifyImage(original);
+
+            QSize size = modified.size();
             if (size.height() > 30)
             {
                 float m = ((float)size.height()) / 30.0f;
@@ -125,7 +123,9 @@ QVariant ResizeModel::data(const QModelIndex &index, int role) const
     {
         QString key = this->mContainer->keys().at(index.column());
         const QImage *original = this->mContainer->image(key);
-        QImage modified = BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapEditorOptions::color2());
+
+        QImage modified = this->modifyImage(original);
+
         result = modified;
     }
     return result;
@@ -154,5 +154,15 @@ void ResizeModel::setCrop(int left, int top, int right, int bottom)
     this->mTop = top;
     this->mRight = right;
     this->mBottom = bottom;
+
+    emit this->dataChanged(
+                this->index(0, 0),
+                this->index(1, this->mContainer->count() - 1));
+}
+//-----------------------------------------------------------------------------
+QImage ResizeModel::modifyImage(const QImage *source) const
+{
+    QImage modified = BitmapHelper::crop(source, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapEditorOptions::color2());
+    return modified;
 }
 //-----------------------------------------------------------------------------

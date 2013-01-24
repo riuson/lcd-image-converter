@@ -57,7 +57,7 @@ void DialogCanvasResize::selectionChanged(const QItemSelection &selected, const 
 //-----------------------------------------------------------------------------
 void DialogCanvasResize::updatePreview()
 {
-    QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
+    /*QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
     if (selectionModel->hasSelection())
     {
         QModelIndex index = this->mModel->index(selectionModel->currentIndex().row(), selectionModel->currentIndex().column());
@@ -66,7 +66,7 @@ void DialogCanvasResize::updatePreview()
         QImage image = value.value<QImage>();
         QPixmap pixmap = QPixmap::fromImage(image);
         this->ui->labelPreview->setPixmap(pixmap);
-    }
+    }*/
 }
 //-----------------------------------------------------------------------------
 void DialogCanvasResize::spinBox_valueChanged(int value)

@@ -53,6 +53,8 @@ private:
     int mTop;
     int mBottom;
 
+    QImage modifyImage(const QImage *source) const;
+
 signals:
 
 public slots:
