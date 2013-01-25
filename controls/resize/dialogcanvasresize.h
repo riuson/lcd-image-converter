@@ -40,7 +40,7 @@ public:
     ~DialogCanvasResize();
 
     void selectKeys(const QStringList &keys);
-    void getResizeInfo(int *left, int *top, int *right, int *bottom);
+    void resizeInfo(int *left, int *top, int *right, int *bottom) const;
 
 private:
     Ui::DialogCanvasResize *ui;

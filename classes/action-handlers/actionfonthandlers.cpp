@@ -115,7 +115,7 @@ void ActionFontHandlers::fontResize_triggered()
         if (dialog.exec() == QDialog::Accepted)
         {
             int left, top, right, bottom;
-            dialog.getResizeInfo(&left, &top, &right, &bottom);
+            dialog.resizeInfo(&left, &top, &right, &bottom);
 
             if (left != 0 || top != 0 || right != 0 || bottom != 0)
             {

@@ -60,7 +60,7 @@ void DialogCanvasResize::selectKeys(const QStringList &keys)
     this->mFilter->setFilter(keys);
 }
 //-----------------------------------------------------------------------------
-void DialogCanvasResize::getResizeInfo(int *left, int *top, int *right, int *bottom)
+void DialogCanvasResize::resizeInfo(int *left, int *top, int *right, int *bottom) const
 {
     *left = this->mLeft;
     *top = this->mTop;
