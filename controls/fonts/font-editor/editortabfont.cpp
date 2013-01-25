@@ -478,6 +478,28 @@ DataContainer *EditorTabFont::dataContainer()
     return this->mContainer;
 }
 //-----------------------------------------------------------------------------
+QStringList EditorTabFont::selectedKeys() const
+{
+    QStringList result;
+
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    if (selectionModel->hasSelection())
+    {
+        QModelIndexList indexes = selectionModel->selectedIndexes();
+        for (int i = 0; i < indexes.length(); i++)
+        {
+            QModelIndex indexKey = this->mModel->index(indexes.at(i).row(), 0);
+            QString key = this->mModel->data(indexKey, Qt::DisplayRole).toString();
+            if (!result.contains(key))
+            {
+                result << key;
+            }
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 const QImage *EditorTabFont::image() const
 {
     const QImage *result = this->mContainer->image(this->mSelectedKey);

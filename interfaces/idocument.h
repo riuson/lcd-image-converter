@@ -38,8 +38,7 @@ public:
     virtual QString documentName() const = 0;
     virtual void setDocumentName(const QString &value) = 0;
     virtual DataContainer *dataContainer() = 0;
-    virtual const QImage *image() const = 0;
-    virtual void setImage(const QImage *value) = 0;
+    virtual QStringList selectedKeys() const = 0;
     virtual void convert(bool request) = 0;
     virtual void updateStatus() = 0;
     virtual StatusData *statusData() const = 0;
