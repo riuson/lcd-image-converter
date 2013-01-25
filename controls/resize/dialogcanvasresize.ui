@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>675</width>
-    <height>448</height>
+    <width>757</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,39 +45,7 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Scale:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="3">
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="0" column="1">
+     <item row="1" column="4">
       <widget class="QSpinBox" name="spinBoxScale">
        <property name="suffix">
         <string> x</string>
@@ -99,7 +67,26 @@
         </font>
        </property>
        <property name="text">
-        <string>Crop/Expand</string>
+        <string>Crop/Expand:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLabel" name="label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Scale:</string>
        </property>
       </widget>
      </item>
@@ -139,7 +126,20 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0" colspan="4">
+     <item row="1" column="5">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="4" column="0" colspan="6">
       <widget class="QTableView" name="tableView">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
