@@ -110,13 +110,8 @@ QVariant ResizeModel::data(const QModelIndex &index, int role) const
             QImage modified = this->modifyImage(original, true);
 
             QSize size = modified.size();
-            /*if (size.height() > 30)
-            {
-                float m = ((float)size.height()) / 30.0f;
-                int w = (float)size.width() / m;
-                int h = (float)size.height() / m;
-                size = QSize(w, h);
-            }*/
+            size.rheight() += 10;
+            size.rwidth() += 10;
             result = size;
         }
     }
