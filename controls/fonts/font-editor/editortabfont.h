@@ -79,8 +79,6 @@ public:
                         bool *_monospaced,
                         bool *_antialiasing);
 
-    const QString selectedCharacters() const;
-
 protected:
     void changeEvent(QEvent *e);
 

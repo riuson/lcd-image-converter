@@ -209,7 +209,9 @@ void ActionFontHandlers::fontToImage_triggered()
     EditorTabFont *editor = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab());
     if (editor != NULL)
     {
-        QString characters = editor->selectedCharacters();
+        QStringList keys = this->document()->selectedKeys();
+        qSort(keys);
+        QString characters = keys.join("");
         QImage image = FontHelper::drawString(editor->dataContainer(), characters);
 
         emit this->imageCreated(&image, "image_" + editor->documentName());

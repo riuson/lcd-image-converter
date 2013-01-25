@@ -790,26 +790,6 @@ void EditorTabFont::fontCharacters(QString *chars,
     *_antialiasing = this->antialiasing();
 }
 //-----------------------------------------------------------------------------
-const QString EditorTabFont::selectedCharacters() const
-{
-    QString result;
-
-    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
-    if (selectionModel->hasSelection())
-    {
-        QModelIndexList indexes = selectionModel->selectedIndexes();
-        for (int i = 0; i < indexes.count(); i++)
-        {
-            QModelIndex index = this->mModel->index(indexes.at(i).row(), 0);
-            QString a = this->mModel->data(index, Qt::DisplayRole).toString();
-            if (!result.contains(a))
-                result += a;
-        }
-    }
-
-    return result;
-}
-//-----------------------------------------------------------------------------
 QImage EditorTabFont::drawCharacter(const QChar value,
                                     const QFont &font,
                                     const QColor &foreground,
