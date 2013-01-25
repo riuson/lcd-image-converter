@@ -41,6 +41,7 @@ public:
 
     void selectKeys(const QStringList &keys);
     void resizeInfo(int *left, int *top, int *right, int *bottom) const;
+    void setResizeInfo(int left, int top, int right, int bottom);
 
 private:
     Ui::DialogCanvasResize *ui;

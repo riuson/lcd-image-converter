@@ -68,6 +68,19 @@ void DialogCanvasResize::resizeInfo(int *left, int *top, int *right, int *bottom
     *bottom = this->mBottom;
 }
 //-----------------------------------------------------------------------------
+void DialogCanvasResize::setResizeInfo(int left, int top, int right, int bottom)
+{
+    this->mLeft = left;
+    this->mTop = top;
+    this->mRight = right;
+    this->mBottom = bottom;
+
+    this->ui->spinBoxLeft->setValue(left);
+    this->ui->spinBoxTop->setValue(top);
+    this->ui->spinBoxRight->setValue(right);
+    this->ui->spinBoxBottom->setValue(bottom);
+}
+//-----------------------------------------------------------------------------
 void DialogCanvasResize::spinBox_valueChanged(int value)
 {
     Q_UNUSED(value);
