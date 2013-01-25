@@ -22,6 +22,7 @@
 
 #include <QItemSelectionModel>
 #include "resizemodel.h"
+#include "imagesfilterproxy.h"
 //-----------------------------------------------------------------------------
 DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent) :
     QDialog(parent),
@@ -30,8 +31,13 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
     ui->setupUi(this);
 
     this->mContainer = container;
+
     this->mModel = new ResizeModel(container, this);
-    this->ui->tableView->setModel(this->mModel);
+
+    this->mFilter = new ImagesFilterProxy(this);
+    this->mFilter->setSourceModel(this->mModel);
+
+    this->ui->tableView->setModel(this->mFilter);
 
     this->connect(this->ui->spinBoxLeft,   SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
     this->connect(this->ui->spinBoxTop,    SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
@@ -42,6 +48,11 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
 DialogCanvasResize::~DialogCanvasResize()
 {
     delete ui;
+}
+//-----------------------------------------------------------------------------
+void DialogCanvasResize::selectKeys(const QStringList &keys)
+{
+    this->mFilter->setFilter(keys);
 }
 //-----------------------------------------------------------------------------
 void DialogCanvasResize::spinBox_valueChanged(int value)

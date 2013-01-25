@@ -17,41 +17,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef DIALOGCANVASRESIZE_H
-#define DIALOGCANVASRESIZE_H
+#ifndef IMAGESFILTERPROXY_H
+#define IMAGESFILTERPROXY_H
 //-----------------------------------------------------------------------------
-#include <QDialog>
+#include <QSortFilterProxyModel>
 //-----------------------------------------------------------------------------
-namespace Ui {
-class DialogCanvasResize;
-}
+class QStringList;
 //-----------------------------------------------------------------------------
-class QItemSelection;
-class DataContainer;
-class ResizeModel;
-class ImagesFilterProxy;
-//-----------------------------------------------------------------------------
-class DialogCanvasResize : public QDialog
+class ImagesFilterProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
-
 public:
-    explicit DialogCanvasResize(DataContainer *container, QWidget *parent = 0);
-    ~DialogCanvasResize();
+    explicit ImagesFilterProxy(QObject *parent = 0);
+    ~ImagesFilterProxy();
 
-    void selectKeys(const QStringList &keys);
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+
+    void setFilter(const QStringList &keys);
 
 private:
-    Ui::DialogCanvasResize *ui;
+    QStringList *mKeys;
 
-    DataContainer *mContainer;
-    ResizeModel *mModel;
-    ImagesFilterProxy *mFilter;
-
-private slots:
-    void spinBox_valueChanged(int value);
-    void on_spinBoxScale_valueChanged(int value);
-    void on_pushButtonReset_clicked();
 };
 //-----------------------------------------------------------------------------
-#endif // DIALOGCANVASRESIZE_H
+#endif // IMAGESFILTERPROXY_H

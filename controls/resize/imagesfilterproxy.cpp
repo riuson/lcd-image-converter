@@ -17,41 +17,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef DIALOGCANVASRESIZE_H
-#define DIALOGCANVASRESIZE_H
+#include "imagesfilterproxy.h"
+
+#include <QStringList>
 //-----------------------------------------------------------------------------
-#include <QDialog>
-//-----------------------------------------------------------------------------
-namespace Ui {
-class DialogCanvasResize;
+ImagesFilterProxy::ImagesFilterProxy(QObject *parent) :
+    QSortFilterProxyModel(parent)
+{
+    this->mKeys = new QStringList();
 }
 //-----------------------------------------------------------------------------
-class QItemSelection;
-class DataContainer;
-class ResizeModel;
-class ImagesFilterProxy;
-//-----------------------------------------------------------------------------
-class DialogCanvasResize : public QDialog
+ImagesFilterProxy::~ImagesFilterProxy()
 {
-    Q_OBJECT
-
-public:
-    explicit DialogCanvasResize(DataContainer *container, QWidget *parent = 0);
-    ~DialogCanvasResize();
-
-    void selectKeys(const QStringList &keys);
-
-private:
-    Ui::DialogCanvasResize *ui;
-
-    DataContainer *mContainer;
-    ResizeModel *mModel;
-    ImagesFilterProxy *mFilter;
-
-private slots:
-    void spinBox_valueChanged(int value);
-    void on_spinBoxScale_valueChanged(int value);
-    void on_pushButtonReset_clicked();
-};
+    delete this->mKeys;
+}
 //-----------------------------------------------------------------------------
-#endif // DIALOGCANVASRESIZE_H
+bool ImagesFilterProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+{
+    if (this->mKeys->isEmpty())
+        return true;
+
+    QModelIndex index = this->sourceModel()->index(source_row, 0, source_parent);
+    QString name = this->sourceModel()->data(index).toString();
+
+    return (this->mKeys->contains(name, Qt::CaseInsensitive));
+}
+//-----------------------------------------------------------------------------
+void ImagesFilterProxy::setFilter(const QStringList &keys)
+{
+    emit this->beginResetModel();
+
+    this->mKeys->clear();
+    this->mKeys->append(keys);
+
+    emit this->endResetModel();
+}
+//-----------------------------------------------------------------------------
