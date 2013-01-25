@@ -208,10 +208,13 @@ QImage BitmapHelper::drawGrid(const QImage *source, int scale)
         {
             painter.drawLine(x, 0, x, pixmap.height());
         }
+        painter.drawLine(pixmap.width() - 1, 0, pixmap.width() - 1, pixmap.height());
+
         for (int y = 0; y < pixmap.height(); y += scale)
         {
             painter.drawLine(0, y, pixmap.width(), y);
         }
+        painter.drawLine(0, pixmap.height() - 1, pixmap.width(), pixmap.height() - 1);
 
         result = pixmap.toImage();
     }
