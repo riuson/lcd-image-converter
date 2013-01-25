@@ -22,7 +22,6 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include "widgetbitmapeditor.h"
-#include "dialogresize.h"
 #include "bitmaphelper.h"
 #include "fonthelper.h"
 #include "editortabfont.h"

@@ -62,7 +62,6 @@ SOURCES += main.cpp \
     controls/fonts/font-new/unicodeblocksfiltermodel.cpp \
     controls/fonts/font-preview/dialogfontpreview.cpp \
     controls/images/editortabimage.cpp \
-    controls/images/dialogresize.cpp \
     controls/images/widgetbitmapeditor.cpp \
     controls/main/mainwindow.cpp \
     controls/main/revisionlabel.cpp \
@@ -127,7 +126,6 @@ HEADERS += \
     controls/fonts/font-new/unicodeblocksmodel.h \
     controls/fonts/font-new/unicodeblocksfiltermodel.h \
     controls/fonts/font-preview/dialogfontpreview.h \
-    controls/images/dialogresize.h \
     controls/images/editortabimage.h \
     controls/images/widgetbitmapeditor.h \
     controls/main/mainwindow.h \
@@ -159,7 +157,6 @@ FORMS += \
     controls/fonts/font-editor/editortabfont.ui \
     controls/fonts/font-new/dialogfontselect.ui \
     controls/fonts/font-preview/dialogfontpreview.ui \
-    controls/images/dialogresize.ui \
     controls/images/editortabimage.ui \
     controls/images/widgetbitmapeditor.ui \
     controls/main/mainwindow.ui \

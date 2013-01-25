@@ -24,7 +24,6 @@
 #include <QDateTime>
 #include <QMessageBox>
 #include "widgetbitmapeditor.h"
-#include "dialogresize.h"
 #include "dialogcanvasresize.h"
 #include "bitmaphelper.h"
 #include "externaltooloptions.h"
