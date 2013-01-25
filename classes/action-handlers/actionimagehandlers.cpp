@@ -270,15 +270,25 @@ void ActionImageHandlers::resize_triggered()
 
         if (dialog.exec() == QDialog::Accepted)
         {
-            /*this->document()->beginChanges();
+            int left, top, right, bottom;
+            dialog.getResizeInfo(&left, &top, &right, &bottom);
 
-            int width, height, offsetX, offsetY;
-            bool center, changeWidth, changeHeight;
-            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
-            QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, BitmapEditorOptions::color2());
-            this->document()->setImage(&result);
+            if (left != 0 || top != 0 || right != 0 || bottom != 0)
+            {
+                this->document()->beginChanges();
 
-            this->document()->endChanges();*/
+                QStringListIterator iterator(keys);
+                while (iterator.hasNext())
+                {
+                    QString key = iterator.next();
+
+                    const QImage *original = this->document()->dataContainer()->image(key);
+                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapEditorOptions::color2());
+                    this->document()->dataContainer()->setImage(key, &result);
+                }
+
+                this->document()->endChanges();
+            }
         }
     }
 }
