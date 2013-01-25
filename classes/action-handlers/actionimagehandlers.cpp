@@ -44,9 +44,17 @@ void ActionImageHandlers::flipHorizontal_triggered()
     {
         this->document()->beginChanges();
 
-        const QImage *original = this->document()->image();
-        QImage result = BitmapHelper::flipHorizontal(original);
-        this->document()->setImage(&result);
+        QStringList keys = this->document()->selectedKeys();
+
+        QStringListIterator iterator(keys);
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+
+            const QImage *original = this->document()->dataContainer()->image(key);
+            QImage result = BitmapHelper::flipHorizontal(original);
+            this->document()->dataContainer()->setImage(key, &result);
+        }
 
         this->document()->endChanges();
     }
@@ -58,9 +66,17 @@ void ActionImageHandlers::flipVertical_triggered()
     {
         this->document()->beginChanges();
 
-        const QImage *original = this->document()->image();
-        QImage result = BitmapHelper::flipVertical(original);
-        this->document()->setImage(&result);
+        QStringList keys = this->document()->selectedKeys();
+
+        QStringListIterator iterator(keys);
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+
+            const QImage *original = this->document()->dataContainer()->image(key);
+            QImage result = BitmapHelper::flipVertical(original);
+            this->document()->dataContainer()->setImage(key, &result);
+        }
 
         this->document()->endChanges();
     }
@@ -72,9 +88,17 @@ void ActionImageHandlers::rotate_90_Clockwise_triggered()
     {
         this->document()->beginChanges();
 
-        const QImage *original = this->document()->image();
-        QImage result = BitmapHelper::rotate90(original);
-        this->document()->setImage(&result);
+        QStringList keys = this->document()->selectedKeys();
+
+        QStringListIterator iterator(keys);
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+
+            const QImage *original = this->document()->dataContainer()->image(key);
+            QImage result = BitmapHelper::rotate90(original);
+            this->document()->dataContainer()->setImage(key, &result);
+        }
 
         this->document()->endChanges();
     }
@@ -86,9 +110,17 @@ void ActionImageHandlers::rotate_180_triggered()
     {
         this->document()->beginChanges();
 
-        const QImage *original = this->document()->image();
-        QImage result = BitmapHelper::rotate180(original);
-        this->document()->setImage(&result);
+        QStringList keys = this->document()->selectedKeys();
+
+        QStringListIterator iterator(keys);
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+
+            const QImage *original = this->document()->dataContainer()->image(key);
+            QImage result = BitmapHelper::rotate180(original);
+            this->document()->dataContainer()->setImage(key, &result);
+        }
 
         this->document()->endChanges();
     }
@@ -100,9 +132,17 @@ void ActionImageHandlers::rotate_90_Counter_Clockwise_triggered()
     {
         this->document()->beginChanges();
 
-        const QImage *original = this->document()->image();
-        QImage result = BitmapHelper::rotate270(original);
-        this->document()->setImage(&result);
+        QStringList keys = this->document()->selectedKeys();
+
+        QStringListIterator iterator(keys);
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+
+            const QImage *original = this->document()->dataContainer()->image(key);
+            QImage result = BitmapHelper::rotate270(original);
+            this->document()->dataContainer()->setImage(key, &result);
+        }
 
         this->document()->endChanges();
     }
@@ -114,9 +154,17 @@ void ActionImageHandlers::shift_left_triggered()
     {
         this->document()->beginChanges();
 
-        const QImage *original = this->document()->image();
-        QImage result = BitmapHelper::shiftLeft(original);
-        this->document()->setImage(&result);
+        QStringList keys = this->document()->selectedKeys();
+
+        QStringListIterator iterator(keys);
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+
+            const QImage *original = this->document()->dataContainer()->image(key);
+            QImage result = BitmapHelper::shiftLeft(original);
+            this->document()->dataContainer()->setImage(key, &result);
+        }
 
         this->document()->endChanges();
     }
@@ -128,9 +176,17 @@ void ActionImageHandlers::shift_right_triggered()
     {
         this->document()->beginChanges();
 
-        const QImage *original = this->document()->image();
-        QImage result = BitmapHelper::shiftRight(original);
-        this->document()->setImage(&result);
+        QStringList keys = this->document()->selectedKeys();
+
+        QStringListIterator iterator(keys);
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+
+            const QImage *original = this->document()->dataContainer()->image(key);
+            QImage result = BitmapHelper::shiftRight(original);
+            this->document()->dataContainer()->setImage(key, &result);
+        }
 
         this->document()->endChanges();
     }
@@ -142,9 +198,17 @@ void ActionImageHandlers::shift_up_triggered()
     {
         this->document()->beginChanges();
 
-        const QImage *original = this->document()->image();
-        QImage result = BitmapHelper::shiftUp(original);
-        this->document()->setImage(&result);
+        QStringList keys = this->document()->selectedKeys();
+
+        QStringListIterator iterator(keys);
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+
+            const QImage *original = this->document()->dataContainer()->image(key);
+            QImage result = BitmapHelper::shiftUp(original);
+            this->document()->dataContainer()->setImage(key, &result);
+        }
 
         this->document()->endChanges();
     }
@@ -156,9 +220,17 @@ void ActionImageHandlers::shift_down_triggered()
     {
         this->document()->beginChanges();
 
-        const QImage *original = this->document()->image();
-        QImage result = BitmapHelper::shiftDown(original);
-        this->document()->setImage(&result);
+        QStringList keys = this->document()->selectedKeys();
+
+        QStringListIterator iterator(keys);
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+
+            const QImage *original = this->document()->dataContainer()->image(key);
+            QImage result = BitmapHelper::shiftDown(original);
+            this->document()->dataContainer()->setImage(key, &result);
+        }
 
         this->document()->endChanges();
     }
@@ -170,10 +242,18 @@ void ActionImageHandlers::inverse_triggered()
     {
         this->document()->beginChanges();
 
-        const QImage *original = this->document()->image();
-        QImage result(*original);
-        result.invertPixels();
-        this->document()->setImage(&result);
+        QStringList keys = this->document()->selectedKeys();
+
+        QStringListIterator iterator(keys);
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+
+            const QImage *original = this->document()->dataContainer()->image(key);
+            QImage result(*original);
+            result.invertPixels();
+            this->document()->dataContainer()->setImage(key, &result);
+        }
 
         this->document()->endChanges();
     }
@@ -183,10 +263,11 @@ void ActionImageHandlers::resize_triggered()
 {
     if (this->document() != NULL)
     {
-        const QImage *original = this->document()->image();
+        QStringList keys = this->document()->selectedKeys();
 
-        //DialogResize dialog(original->width(), original->height(), 0, 0, false, true, true, this->mMainWindow->parentWidget());
         DialogCanvasResize dialog(this->document()->dataContainer(), this->mMainWindow->parentWidget());
+        dialog.selectKeys(keys);
+
         if (dialog.exec() == QDialog::Accepted)
         {
             /*this->document()->beginChanges();
@@ -216,9 +297,17 @@ void ActionImageHandlers::import_triggered()
         {
             this->document()->beginChanges();
 
-            QImage image;
-            image.load(dialog.selectedFiles().at(0));
-            this->document()->setImage(&image);
+            QStringList keys = this->document()->selectedKeys();
+
+            QStringListIterator iterator(keys);
+            while (iterator.hasNext())
+            {
+                QString key = iterator.next();
+
+                QImage image;
+                image.load(dialog.selectedFiles().at(0));
+                this->document()->dataContainer()->setImage(key, &image);
+            }
 
             this->document()->endChanges();
         }
@@ -262,13 +351,7 @@ void ActionImageHandlers::export_triggered()
                 ext = "xpm";
 
             QString filename = dialog.selectedFiles().at(0);
-            QFileInfo info(filename);
-            QString fileExt = info.suffix().toLower();
-            if (fileExt.isEmpty() || fileExt != ext)
-            {
-                filename += "." + ext;
-            }
-            this->document()->image()->save(filename);
+            this->saveImages(filename, ext);
         }
     }
 }
@@ -277,46 +360,160 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
 {
     if (this->document() != NULL)
     {
-        // prepare temporary file name
-        QDateTime time = QDateTime::currentDateTime();
-        QString filename = QDir::tempPath() + "/" + time.toString("yyyy-MM-dd-hh-mm-ss-zzz") + ".png";
+        QStringList keys = this->document()->selectedKeys();
 
-        // save current image to file
-        this->document()->image()->save(filename);
+        QMap<QString, QString> files;
 
-        // remember timestamp
-        QFileInfo info(filename);
-        QDateTime lastModified = info.lastModified();
+        // create map of file names
+        int counter = 0;
+        QStringListIterator iterator(keys);
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+            QDateTime time = QDateTime::currentDateTime();
 
-        // run external application with this file as parameter
+            QString filename = QDir::tempPath();
+            filename += "/";
+            filename += time.toString("yyyy-MM-dd-hh-mm-ss-zzz");
+            filename += "-";
+            filename += QString("%1").arg(counter++, 10, 10, QChar('0'));
+            filename += ".png";
+
+            files.insert(key, filename);
+        }
+
+        // time of last file
+        QDateTime lastTime = QDateTime::currentDateTime();
+
+        // save images to files
+        iterator.toFront();
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+
+            // get image
+            const QImage *image = this->document()->dataContainer()->image(key);
+
+            // save image to file
+            QString filename = files.value(key);
+            image->save(filename);
+
+            // get last time
+            QFileInfo info(filename);
+            lastTime = info.lastModified();
+        }
+
+
+        // fill parameters list
+        QStringList parameters;
+        iterator.toFront();
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+            QString filename = files.value(key);
+            parameters << filename;
+        }
+
+        // run external application with this files list as parameter
         QProcess process(this);
         this->connect(&process, SIGNAL(error(QProcess::ProcessError)), SLOT(process_error(QProcess::ProcessError)));
         this->mRunningError = false;
-        process.start(ExternalToolOptions::imageEditor(), QStringList() << filename);
+        process.start(ExternalToolOptions::imageEditor(), parameters);
 
         // wait for external application finished
-        do {
+        do
+        {
             process.waitForFinished();
         } while (process.state() == QProcess::Running);
 
         if (!this->mRunningError)
         {
-            info.refresh();
-            // if file was modified
-            if (info.lastModified() > lastModified)
+            // find changes
+            QStringList changedKeys;
+
+            iterator.toFront();
+            while (iterator.hasNext())
+            {
+                QString key = iterator.next();
+                QString filename = files.value(key);
+
+                QFileInfo info(filename);
+
+                // if file was modified
+                if (info.lastModified() > lastTime)
+                {
+                    changedKeys << key;
+                }
+                else
+                {
+                    QFile::remove(filename);
+                }
+            }
+
+            // load changed files
+            if (changedKeys.length() > 0)
             {
                 this->document()->beginChanges();
 
-                // load file back
-                QImage image;
-                image.load(filename);
-                this->document()->setImage(&image);
+                iterator = QStringListIterator(changedKeys);
+                while (iterator.hasNext())
+                {
+                    QString key = iterator.next();
+                    QString filename = files.value(key);
+
+                    QImage image;
+                    image.load(filename);
+                    this->document()->dataContainer()->setImage(key, &image);
+
+                    QFile::remove(filename);
+                }
 
                 this->document()->endChanges();
             }
         }
-        // remove temprorary file
-        QFile::remove(filename);
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionImageHandlers::saveImages(const QString &filename, const QString &ext)
+{
+    QStringList keys = this->document()->selectedKeys();
+
+    if (keys.length() >= 1)
+    {
+        QString filename2 = filename;
+
+        QFileInfo info(filename2);
+
+        QString fileExt = info.suffix().toLower();
+
+        if (fileExt.isEmpty() || fileExt != ext)
+        {
+            filename2 += "." + ext;
+        }
+
+        if (keys.length() > 1)
+        {
+            filename2.chop(ext.length() + 1);
+
+            int counter = 0;
+            QStringListIterator iterator(keys);
+            while (iterator.hasNext())
+            {
+                QString key = iterator.next();
+
+                QString filename3 = filename2;
+                filename3 += ".";
+                filename3 += QString("%1").arg(counter++, 10, 10, QChar('0'));
+                filename3 += ".";
+                filename3 += ext;
+
+                this->document()->dataContainer()->image(key)->save(filename3);
+            }
+        }
+        else
+        {
+            this->document()->dataContainer()->image(keys.at(0))->save(filename2);
+        }
     }
 }
 //-----------------------------------------------------------------------------
@@ -336,10 +533,10 @@ void ActionImageHandlers::process_error(QProcess::ProcessError error)
         message = tr("Crashed");
         description = tr("The process crashed some time after starting successfully.");
         break;
-    //case QProcess::Timedout:
-    //    message = tr("Timedout");
-    //    description = tr("The last waitFor...() function timed out. The state of QProcess is unchanged, and you can try calling waitFor...() again.");
-    //    break;
+        //case QProcess::Timedout:
+        //    message = tr("Timedout");
+        //    description = tr("The last waitFor...() function timed out. The state of QProcess is unchanged, and you can try calling waitFor...() again.");
+        //    break;
     case QProcess::ReadError:
         message = tr("Read Error");
         description = tr("An error occurred when attempting to read from the process. For example, the process may not be running.");
