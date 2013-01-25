@@ -40,6 +40,7 @@ public:
     ~DialogCanvasResize();
 
     void selectKeys(const QStringList &keys);
+    void getResizeInfo(int *left, int *top, int *right, int *bottom);
 
 private:
     Ui::DialogCanvasResize *ui;
@@ -47,6 +48,11 @@ private:
     DataContainer *mContainer;
     ResizeModel *mModel;
     ImagesFilterProxy *mFilter;
+
+    int mLeft;
+    int mTop;
+    int mRight;
+    int mBottom;
 
 private slots:
     void spinBox_valueChanged(int value);

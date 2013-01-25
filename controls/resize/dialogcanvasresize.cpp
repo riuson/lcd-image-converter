@@ -43,6 +43,11 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
     this->connect(this->ui->spinBoxTop,    SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
     this->connect(this->ui->spinBoxRight,  SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
     this->connect(this->ui->spinBoxBottom, SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
+
+    this->mLeft = 0;
+    this->mTop = 0;
+    this->mRight = 0;
+    this->mBottom = 0;
 }
 //-----------------------------------------------------------------------------
 DialogCanvasResize::~DialogCanvasResize()
@@ -55,15 +60,28 @@ void DialogCanvasResize::selectKeys(const QStringList &keys)
     this->mFilter->setFilter(keys);
 }
 //-----------------------------------------------------------------------------
+void DialogCanvasResize::getResizeInfo(int *left, int *top, int *right, int *bottom)
+{
+    *left = this->mLeft;
+    *top = this->mTop;
+    *right = this->mRight;
+    *bottom = this->mBottom;
+}
+//-----------------------------------------------------------------------------
 void DialogCanvasResize::spinBox_valueChanged(int value)
 {
     Q_UNUSED(value);
 
+    this->mLeft = this->ui->spinBoxLeft->value();
+    this->mTop = this->ui->spinBoxTop->value();
+    this->mRight = this->ui->spinBoxRight->value();
+    this->mBottom = this->ui->spinBoxBottom->value();
+
     this->mModel->setCrop(
-                this->ui->spinBoxLeft->value(),
-                this->ui->spinBoxTop->value(),
-                this->ui->spinBoxRight->value(),
-                this->ui->spinBoxBottom->value());
+                this->mLeft,
+                this->mTop,
+                this->mRight,
+                this->mBottom);
 
     this->ui->tableView->resizeRowsToContents();
     this->ui->tableView->resizeColumnsToContents();
