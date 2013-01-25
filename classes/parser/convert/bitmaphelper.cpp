@@ -138,6 +138,11 @@ QImage BitmapHelper::crop(const QImage *source, int left, int top, int right, in
     int resultWidth = sourceWidth + left + right;
     int resultHeight = sourceHeight + top + bottom;
 
+    if (resultWidth < 1)
+        resultWidth = 1;
+    if (resultHeight < 1)
+        resultHeight = 1;
+
     QImage result = QImage(resultWidth, resultHeight, source->format());
 
     QPainter painter(&result);
