@@ -33,6 +33,7 @@
 #include "datacontainer.h"
 #include "limits"
 #include "bitmapeditoroptions.h"
+#include "dialogcanvasresize.h"
 //-----------------------------------------------------------------------------
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -104,34 +105,34 @@ void ActionFontHandlers::fontInverse_triggered()
 //-----------------------------------------------------------------------------
 void ActionFontHandlers::fontResize_triggered()
 {
-    IDocument *doc = this->document();
-    if (doc != NULL)
+    if (this->document() != NULL)
     {
-        const QImage *original = doc->dataContainer()->image(doc->dataContainer()->keys().at(0));
+        QStringList keys = this->document()->dataContainer()->keys();
 
-        DialogResize dialog(original->width(), original->height(), 0, 0, true, true, false, this->mMainWindow->parentWidget());
+        DialogCanvasResize dialog(this->document()->dataContainer(), this->mMainWindow->parentWidget());
+        //dialog.selectKeys(keys);
+
         if (dialog.exec() == QDialog::Accepted)
         {
-            int width, height, offsetX, offsetY;
-            bool center, changeWidth, changeHeight;
-            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
+            int left, top, right, bottom;
+            dialog.getResizeInfo(&left, &top, &right, &bottom);
 
-            this->document()->beginChanges();
-
-            QStringList keys = this->document()->dataContainer()->keys();
-            QListIterator<QString> it(keys);
-            it.toFront();
-            while (it.hasNext())
+            if (left != 0 || top != 0 || right != 0 || bottom != 0)
             {
-                QString key = it.next();
-                original = doc->dataContainer()->image(key);
+                this->document()->beginChanges();
 
-                QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, BitmapEditorOptions::color2());
+                QStringListIterator iterator(keys);
+                while (iterator.hasNext())
+                {
+                    QString key = iterator.next();
 
-                doc->dataContainer()->setImage(key, &result);
+                    const QImage *original = this->document()->dataContainer()->image(key);
+                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapEditorOptions::color2());
+                    this->document()->dataContainer()->setImage(key, &result);
+                }
+
+                this->document()->endChanges();
             }
-
-            this->document()->endChanges();
         }
     }
 }
