@@ -51,10 +51,13 @@ QVariant ResizeModel::headerData(int section, Qt::Orientation orientation, int r
     {
         if (orientation == Qt::Horizontal)
         {
-            if (section < this->mContainer->count())
+            if (this->mContainer->count() > 1)
             {
-                quint16 code = this->mContainer->keys().at(section).at(0).unicode();
-                result = QString("U+%1").arg(code, 4, 16, QChar('0'));
+                if (section < this->mContainer->count())
+                {
+                    quint16 code = this->mContainer->keys().at(section).at(0).unicode();
+                    result = QString("U+%1").arg(code, 4, 16, QChar('0'));
+                }
             }
         }
         else
@@ -62,11 +65,22 @@ QVariant ResizeModel::headerData(int section, Qt::Orientation orientation, int r
             switch (section)
             {
             case 0:
-                result = tr("Character");
+            {
+                if (this->mContainer->count() > 1)
+                {
+                    result = tr("Character");
+                }
+                else
+                {
+                    result = tr("Image");
+                }
                 break;
+            }
             case 1:
-                result = tr("Preview", "character prewview");
+            {
+                result = tr("Preview", "character preview");
                 break;
+            }
             }
         }
     }
