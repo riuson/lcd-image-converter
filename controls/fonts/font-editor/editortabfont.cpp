@@ -801,6 +801,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
     }
     this->mEditor->setImage(this->mContainer->image(this->mSelectedKey));
 
+    this->resizeToContents();
     this->updateStatus();
 }
 //-----------------------------------------------------------------------------
