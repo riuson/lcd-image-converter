@@ -20,11 +20,13 @@
 #include "imagesmodelvertical.h"
 #include <QPixmap>
 #include "datacontainer.h"
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 ImagesModelVertical::ImagesModelVertical(DataContainer *container, QObject *parent) :
     QAbstractItemModel(parent)
 {
     this->mContainer = container;
+    this->mScale = 2;
 }
 //-----------------------------------------------------------------------------
 int ImagesModelVertical::rowCount(const QModelIndex &parent) const
@@ -46,11 +48,7 @@ QVariant ImagesModelVertical::headerData(int section, Qt::Orientation orientatio
     {
         if (orientation == Qt::Vertical)
         {
-            if (section < this->mContainer->count())
-            {
-                quint16 code = this->mContainer->keys().at(section).at(0).unicode();
-                result = QString("U+%1").arg(code, 4, 16, QChar('0'));
-            }
+            result = this->containerValue(section, KeyCodeRole);
         }
         else
         {
@@ -79,43 +77,23 @@ QVariant ImagesModelVertical::data(const QModelIndex &index, int role) const
     {
         if (index.column() == 0)
         {
-            QString key = this->mContainer->keys().at(index.row());
-            result = key;
+            result = this->containerValue(index.row(), KeyRole);
         }
     }
     else if (role == Qt::DecorationRole)
     {
         if (index.column() == 1)
         {
-            QString key = this->mContainer->keys().at(index.row());
-            QImage im = *this->mContainer->image(key);
-            QSize size = im.size();
-            if (size.height() > 30)
-            {
-                float m = ((float)size.height()) / 30.0f;
-                int w = (float)size.width() / m;
-                int h = (float)size.height() / m;
-                im = im.scaled(w, h);
-            }
-            QPixmap pixmap = QPixmap::fromImage(im);
-            result = pixmap;
+            result = this->containerValue(index.row(), PixmapScaledRole);
         }
     }
     else if (role == Qt::SizeHintRole)
     {
         if (index.column() == 1)
         {
-            QString key = this->mContainer->keys().at(index.row());
-            QImage im = *this->mContainer->image(key);
-            QSize size = im.size();
-            if (size.height() > 30)
-            {
-                float m = ((float)size.height()) / 30.0f;
-                int w = (float)size.width() / m;
-                int h = (float)size.height() / m;
-                size = QSize(w, h);
-            }
-            result = size;
+            QVariant var = this->containerValue(index.row(), PixmapScaledRole);
+            QPixmap pixmap = var.value<QPixmap>();
+            result = pixmap.size();
         }
     }
     return result;
@@ -136,5 +114,77 @@ QModelIndex ImagesModelVertical::parent(const QModelIndex &index) const
 void ImagesModelVertical::callReset()
 {
     this->reset();
+}
+//-----------------------------------------------------------------------------
+int ImagesModelVertical::scale() const
+{
+    return this->mScale;
+}
+//-----------------------------------------------------------------------------
+void ImagesModelVertical::setScale(int value)
+{
+    this->mScale = value;
+    emit this->dataChanged(
+                this->index(0, 0),
+                this->index(this->mContainer->count() - 1, 1));
+}
+//-----------------------------------------------------------------------------
+QVariant ImagesModelVertical::containerValue(int imageIndex, ImagesModelRoles role) const
+{
+    QVariant result;
+
+    if (imageIndex >= 0 && imageIndex < this->mContainer->count())
+    {
+        QString key = this->mContainer->keys().at(imageIndex);
+
+        switch (role)
+        {
+        case KeyRole:
+        {
+            result = key;
+            break;
+        }
+        case KeyCodeRole:
+        {
+            quint16 code = key.at(0).unicode();
+            result = QString("U+%1").arg(code, 4, 16, QChar('0'));
+            break;
+        }
+        case ImageRole:
+        {
+            const QImage *source = this->mContainer->image(key);
+            result = QImage(*source);
+            break;
+        }
+        case ImageScaledRole:
+        {
+            const QImage *source = this->mContainer->image(key);
+
+            QImage scaled = BitmapHelper::scale(source, this->mScale);
+            QImage grids = BitmapHelper::drawGrid(&scaled, this->mScale);
+
+            result = grids;
+            break;
+        }
+        case PixmapRole:
+        {
+            const QImage *source = this->mContainer->image(key);
+            result = QPixmap::fromImage(*source);
+            break;
+        }
+        case PixmapScaledRole:
+        {
+            const QImage *source = this->mContainer->image(key);
+
+            QImage scaled = BitmapHelper::scale(source, this->mScale);
+            QImage grids = BitmapHelper::drawGrid(&scaled, this->mScale);
+
+            result = QPixmap::fromImage(grids);
+            break;
+        }
+        }
+    }
+
+    return result;
 }
 //-----------------------------------------------------------------------------

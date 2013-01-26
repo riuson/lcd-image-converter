@@ -31,8 +31,11 @@ public:
     enum ImagesModelRoles
     {
         KeyRole = Qt::UserRole + 1,
+        KeyCodeRole,
         ImageRole,
-        ImageScaledRole
+        ImageScaledRole,
+        PixmapRole,
+        PixmapScaledRole
     };
 
     explicit ImagesModelVertical(DataContainer *container, QObject *parent = 0);
@@ -45,8 +48,14 @@ public:
     QModelIndex parent(const QModelIndex &index) const;
 
     void callReset();
+
+    int scale() const;
+    void setScale(int value);
 private:
     DataContainer *mContainer;
+    int mScale;
+
+    QVariant containerValue(int imageIndex, ImagesModelRoles role) const;
 
 signals:
 
