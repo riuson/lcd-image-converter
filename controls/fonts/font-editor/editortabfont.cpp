@@ -193,7 +193,6 @@ void EditorTabFont::mon_editor_imageChanged()
 
     const QImage *image = this->mEditor->image();
     this->mContainer->setImage(this->mSelectedKey, image);
-    this->setChanged(true);
 
     this->endChanges();
 }

@@ -132,8 +132,6 @@ void EditorTabImage::mon_editor_imageChanged()
 
     const QImage *image = this->mEditor->image();
     this->mContainer->setImage(DefaultKey, image);
-    this->setChanged(true);
-    emit this->documentChanged(true, this->documentName(), this->fileName());
 
     this->endChanges();
 }
