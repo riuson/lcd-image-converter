@@ -27,6 +27,8 @@ ImagesModelVertical::ImagesModelVertical(DataContainer *container, QObject *pare
 {
     this->mContainer = container;
     this->mScale = 2;
+
+    this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(imagesChanged()));
 }
 //-----------------------------------------------------------------------------
 int ImagesModelVertical::rowCount(const QModelIndex &parent) const
@@ -133,9 +135,7 @@ int ImagesModelVertical::scale() const
 void ImagesModelVertical::setScale(int value)
 {
     this->mScale = value;
-    emit this->dataChanged(
-                this->index(0, 0),
-                this->index(this->mContainer->count() - 1, 1));
+    this->imagesChanged();
 }
 //-----------------------------------------------------------------------------
 QVariant ImagesModelVertical::containerValue(int imageIndex, ImagesModelRoles role) const
@@ -195,5 +195,12 @@ QVariant ImagesModelVertical::containerValue(int imageIndex, ImagesModelRoles ro
     }
 
     return result;
+}
+//-----------------------------------------------------------------------------
+void ImagesModelVertical::imagesChanged()
+{
+    emit this->dataChanged(
+                this->index(0, 0),
+                this->index(this->mContainer->count() - 1, 1));
 }
 //-----------------------------------------------------------------------------

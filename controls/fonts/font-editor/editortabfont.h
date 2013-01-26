@@ -117,7 +117,7 @@ private:
     void updateSelectedImage();
 
 private slots:
-    void mon_container_imageChanged(const QString &key);
+    void mon_container_imagesChanged();
     void mon_editor_imageChanged();
     void mon_editor_mouseMove(QPoint point);
     void mon_editor_scaleChanged(int scale);

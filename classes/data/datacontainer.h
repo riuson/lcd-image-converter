@@ -63,7 +63,7 @@ private:
     HistoryKeeper *mHistory;
 
 signals:
-    void imageChanged(const QString &key);
+    void imagesChanged();
 };
 //-----------------------------------------------------------------------------
 #endif // DATACONTAINER_H

@@ -64,7 +64,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->mSplitter->addWidget(this->ui->tableViewCharacters);
     this->mSplitter->setChildrenCollapsible(false);
 
-    this->connect(this->mContainer, SIGNAL(imageChanged(QString)), SLOT(mon_container_imageChanged(QString)));
+    this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(mon_container_imagesChanged()));
     this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
     this->connect(this->mEditor, SIGNAL(mouseMove(QPoint)), SLOT(mon_editor_mouseMove(QPoint)));
     this->connect(this->mEditor, SIGNAL(scaleSchanged(int)), SLOT(mon_editor_scaleChanged(int)));
@@ -180,13 +180,9 @@ void EditorTabFont::setUsedStyle(const QString &value)
     }
 }
 //-----------------------------------------------------------------------------
-void EditorTabFont::mon_container_imageChanged(const QString &key)
+void EditorTabFont::mon_container_imagesChanged()
 {
-    if (this->mSelectedKey == key)
-    {
-        const QImage *image = this->mContainer->image(key);
-        this->mEditor->setImage(image);
-    }
+    this->updateSelectedImage();
     this->setChanged(true);
     emit this->documentChanged(true, this->documentName(), this->fileName());
 }

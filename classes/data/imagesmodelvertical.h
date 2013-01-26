@@ -57,6 +57,9 @@ private:
 
     QVariant containerValue(int imageIndex, ImagesModelRoles role) const;
 
+private slots:
+    void imagesChanged();
+
 signals:
 
 public slots:
