@@ -40,6 +40,7 @@
 #include "dialogfontchanged.h"
 #include "tags.h"
 #include "statusdata.h"
+#include "fonteditoroptions.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
@@ -56,6 +57,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->mModel = new ImagesModelVertical(this->mContainer, this);
     this->ui->tableViewCharacters->setModel(this->mModel);
     this->connect(this->mModel, SIGNAL(scaleChanged()), SLOT(resizeToContents()));
+    this->mModel->setScale(FontEditorOptions::scale());
 
     QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
     this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(selectionChanged(QItemSelection,QItemSelection)));
@@ -124,6 +126,7 @@ void EditorTabFont::wheelEvent(QWheelEvent *event)
                 {
                     this->mModel->setScale(this->mModel->scale() - 1);
                 }
+                FontEditorOptions::setScale(this->mModel->scale());
             }
             event->accept();
         }
