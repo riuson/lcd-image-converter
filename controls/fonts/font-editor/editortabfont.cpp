@@ -31,6 +31,7 @@
 #include <QImage>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QWheelEvent>
 
 #include "widgetbitmapeditor.h"
 #include "datacontainer.h"
@@ -96,6 +97,27 @@ void EditorTabFont::changeEvent(QEvent *e)
         break;
     default:
         break;
+    }
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::wheelEvent(QWheelEvent *event)
+{
+    if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier)
+    {
+        QPoint point = event->globalPos();
+        point = this->mapFromGlobal(point);
+
+        QRect tableRect = this->ui->tableViewCharacters->rect();
+        QPoint tablePoint = this->ui->tableViewCharacters->pos();
+        tableRect.moveTo(tablePoint);
+
+        if (tableRect.contains(point.x(), point.y()))
+        {
+            if (event->orientation() == Qt::Vertical)
+            {
+            }
+            event->accept();
+        }
     }
 }
 //-----------------------------------------------------------------------------

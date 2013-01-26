@@ -81,6 +81,7 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
+    void wheelEvent(QWheelEvent *event);
 
 private:
     Ui::EditorTabFont *ui;
