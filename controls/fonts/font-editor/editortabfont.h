@@ -31,7 +31,7 @@ namespace Ui {
 class DataContainer;
 class WidgetBitmapEditor;
 class QSplitter;
-class FontCharactersModel;
+class ImagesModelVertical;
 class QItemSelection;
 class StatusData;
 //-----------------------------------------------------------------------------
@@ -88,7 +88,7 @@ private:
     WidgetBitmapEditor *mEditor;
     DataContainer *mContainer;
     QSplitter *mSplitter;
-    FontCharactersModel *mModel;
+    ImagesModelVertical *mModel;
     StatusData *mStatusData;
 
     QFont mTableFont;

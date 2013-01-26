@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,30 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "fontcharactersmodel.h"
-//-----------------------------------------------------------------------------
+#include "imagesmodelvertical.h"
 #include <QPixmap>
 #include "datacontainer.h"
 //-----------------------------------------------------------------------------
-FontCharactersModel::FontCharactersModel(DataContainer *container, QObject *parent) :
+ImagesModelVertical::ImagesModelVertical(DataContainer *container, QObject *parent) :
     QAbstractItemModel(parent)
 {
     this->mContainer = container;
 }
 //-----------------------------------------------------------------------------
-int FontCharactersModel::rowCount(const QModelIndex &parent) const
+int ImagesModelVertical::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return this->mContainer->count();
 }
 //-----------------------------------------------------------------------------
-int FontCharactersModel::columnCount(const QModelIndex &parent) const
+int ImagesModelVertical::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return 2;
 }
 //-----------------------------------------------------------------------------
-QVariant FontCharactersModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant ImagesModelVertical::headerData(int section, Qt::Orientation orientation, int role) const
 {
     QVariant result;
     if (role == Qt::DisplayRole)
@@ -69,10 +68,14 @@ QVariant FontCharactersModel::headerData(int section, Qt::Orientation orientatio
     return result;
 }
 //-----------------------------------------------------------------------------
-QVariant FontCharactersModel::data(const QModelIndex &index, int role) const
+QVariant ImagesModelVertical::data(const QModelIndex &index, int role) const
 {
     QVariant result = QVariant();
-    if (role == Qt::DisplayRole && index.isValid())
+
+    if (!index.isValid())
+        return result;
+
+    if (role == Qt::DisplayRole)
     {
         if (index.column() == 0)
         {
@@ -80,7 +83,7 @@ QVariant FontCharactersModel::data(const QModelIndex &index, int role) const
             result = key;
         }
     }
-    else if (role == Qt::DecorationRole && index.isValid())
+    else if (role == Qt::DecorationRole)
     {
         if (index.column() == 1)
         {
@@ -98,7 +101,7 @@ QVariant FontCharactersModel::data(const QModelIndex &index, int role) const
             result = pixmap;
         }
     }
-    else if (role == Qt::SizeHintRole && index.isValid())
+    else if (role == Qt::SizeHintRole)
     {
         if (index.column() == 1)
         {
@@ -118,19 +121,19 @@ QVariant FontCharactersModel::data(const QModelIndex &index, int role) const
     return result;
 }
 //-----------------------------------------------------------------------------
-QModelIndex FontCharactersModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex ImagesModelVertical::index(int row, int column, const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return this->createIndex(row, column);
 }
 //-----------------------------------------------------------------------------
-QModelIndex FontCharactersModel::parent(const QModelIndex &index) const
+QModelIndex ImagesModelVertical::parent(const QModelIndex &index) const
 {
     Q_UNUSED(index)
     return QModelIndex();
 }
 //-----------------------------------------------------------------------------
-void FontCharactersModel::callReset()
+void ImagesModelVertical::callReset()
 {
     this->reset();
 }

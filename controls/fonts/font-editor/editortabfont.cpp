@@ -35,7 +35,7 @@
 
 #include "widgetbitmapeditor.h"
 #include "datacontainer.h"
-#include "fontcharactersmodel.h"
+#include "imagesmodelvertical.h"
 #include "parser.h"
 #include "dialogfontchanged.h"
 #include "tags.h"
@@ -53,7 +53,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->mContainer = new DataContainer(this);
     this->mSelectedKey = QString();
 
-    this->mModel = new FontCharactersModel(this->mContainer, this);
+    this->mModel = new ImagesModelVertical(this->mContainer, this);
     this->ui->tableViewCharacters->setModel(this->mModel);
 
     QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();

@@ -32,6 +32,7 @@ SOURCES += main.cpp \
     classes/data/datacontainer.cpp \
     classes/data/historykeeper.cpp \
     classes/data/historyrecord.cpp \
+    classes/data/imagesmodelvertical.cpp \
     classes/data/revisioninfo.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
@@ -56,7 +57,6 @@ SOURCES += main.cpp \
     controls/about/dialogabout.cpp \
     controls/fonts/font-changed/dialogfontchanged.cpp \
     controls/fonts/font-editor/editortabfont.cpp \
-    controls/fonts/font-editor/fontcharactersmodel.cpp \
     controls/fonts/font-new/charactersmodel.cpp \
     controls/fonts/font-new/dialogfontselect.cpp \
     controls/fonts/font-new/unicodeblocksmodel.cpp \
@@ -97,6 +97,7 @@ HEADERS += \
     classes/data/datacontainer.h \
     classes/data/historykeeper.h \
     classes/data/historyrecord.h \
+    classes/data/imagesmodelvertical.h \
     classes/data/revisioninfo.h \
     classes/parser/convert/bitmaphelper.h \
     classes/parser/convert/bitstream.h \
@@ -122,7 +123,6 @@ HEADERS += \
     controls/about/dialogabout.h \
     controls/fonts/font-changed/dialogfontchanged.h \
     controls/fonts/font-editor/editortabfont.h \
-    controls/fonts/font-editor/fontcharactersmodel.h \
     controls/fonts/font-new/charactersmodel.h \
     controls/fonts/font-new/dialogfontselect.h \
     controls/fonts/font-new/unicodeblocksmodel.h \
