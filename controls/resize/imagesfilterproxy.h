@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,50 +17,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef ACTIONIMAGEHANDLERS_H
-#define ACTIONIMAGEHANDLERS_H
+#ifndef IMAGESFILTERPROXY_H
+#define IMAGESFILTERPROXY_H
 //-----------------------------------------------------------------------------
-#include <QObject>
-#include <QProcess>
-
-#include "actionhandlersbase.h"
+#include <QSortFilterProxyModel>
 //-----------------------------------------------------------------------------
-class IMainWindow;
-class WidgetBitmapEditor;
+class QStringList;
 //-----------------------------------------------------------------------------
-class ActionImageHandlers : public ActionHandlersBase
+class ImagesFilterProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
 public:
-    explicit ActionImageHandlers(QObject *parent = 0);
+    explicit ImagesFilterProxy(QObject *parent = 0);
+    ~ImagesFilterProxy();
+
+    bool filterAcceptsColumn(int source_column, const QModelIndex &source_parent) const;
+
+    void setFilter(const QStringList &keys);
 
 private:
-    bool mRunningError;
-    QString mExternalTool;
+    QStringList *mKeys;
 
-signals:
-
-public slots:
-    void flipHorizontal_triggered();
-    void flipVertical_triggered();
-    void rotate_90_Clockwise_triggered();
-    void rotate_180_triggered();
-    void rotate_90_Counter_Clockwise_triggered();
-    void shift_left_triggered();
-    void shift_right_triggered();
-    void shift_up_triggered();
-    void shift_down_triggered();
-    void inverse_triggered();
-    void resize_triggered();
-    void import_triggered();
-    void export_triggered();
-    void edit_in_external_tool_triggered();
-
-private:
-    void saveImages(const QString &filename, const QString &ext);
-
-private slots:
-    void process_error(QProcess::ProcessError error);
 };
 //-----------------------------------------------------------------------------
-#endif // ACTIONIMAGEHANDLERS_H
+#endif // IMAGESFILTERPROXY_H

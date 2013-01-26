@@ -8,7 +8,8 @@
         <description>
 Added:
  Unicode blocks;
- New tag names.</description>
+ New tag names;
+ Changed 'Resize' dialog.</description>
     </record>
     <record>
         <commit>
@@ -17,7 +18,7 @@ Added:
         </commit>
         <description>Fixed:
  Bug when editing template file paths;
- A grid in the font preview dialog restored.
+ A grid in the 'Font preview' dialog restored.
 
 Added:
  Reordering bits;

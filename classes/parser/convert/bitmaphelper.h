@@ -48,6 +48,7 @@ public:
     static QImage flipHorizontal(const QImage *source);
     static QImage flipVertical(const QImage *source);
     static QImage resize(const QImage *source, int width, int height, int offsetX, int offsetY, bool center, bool changeWidth, bool changeHeight, const QColor &backColor);
+    static QImage crop(const QImage *source, int left, int top, int right, int bottom, const QColor &backColor);
     static void findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom);
     static QImage scale(const QImage *source, int scale);
     static QImage drawGrid(const QImage *source, int scale);

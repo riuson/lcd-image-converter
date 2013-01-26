@@ -478,6 +478,28 @@ DataContainer *EditorTabFont::dataContainer()
     return this->mContainer;
 }
 //-----------------------------------------------------------------------------
+QStringList EditorTabFont::selectedKeys() const
+{
+    QStringList result;
+
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    if (selectionModel->hasSelection())
+    {
+        QModelIndexList indexes = selectionModel->selectedIndexes();
+        for (int i = 0; i < indexes.length(); i++)
+        {
+            QModelIndex indexKey = this->mModel->index(indexes.at(i).row(), 0);
+            QString key = this->mModel->data(indexKey, Qt::DisplayRole).toString();
+            if (!result.contains(key))
+            {
+                result << key;
+            }
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 const QImage *EditorTabFont::image() const
 {
     const QImage *result = this->mContainer->image(this->mSelectedKey);
@@ -766,26 +788,6 @@ void EditorTabFont::fontCharacters(QString *chars,
     *_style = this->usedStyle();
     *_monospaced = this->monospaced();
     *_antialiasing = this->antialiasing();
-}
-//-----------------------------------------------------------------------------
-const QString EditorTabFont::selectedCharacters() const
-{
-    QString result;
-
-    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
-    if (selectionModel->hasSelection())
-    {
-        QModelIndexList indexes = selectionModel->selectedIndexes();
-        for (int i = 0; i < indexes.count(); i++)
-        {
-            QModelIndex index = this->mModel->index(indexes.at(i).row(), 0);
-            QString a = this->mModel->data(index, Qt::DisplayRole).toString();
-            if (!result.contains(a))
-                result += a;
-        }
-    }
-
-    return result;
 }
 //-----------------------------------------------------------------------------
 QImage EditorTabFont::drawCharacter(const QChar value,

@@ -70,77 +70,77 @@
 <context>
     <name>ActionImageHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="210"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="302"/>
         <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="211"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="303"/>
         <source>Open image file</source>
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="233"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="333"/>
         <source>Windows Bitmap (*.bmp);;Joint Photographic Experts Group (*.jpg *.jpeg);;Portable Network Graphics (*.png);;Portable Pixmap (*.ppm);;Tagged Image File Format (*.tiff);;X11 Bitmap (*.xbm);;X11 Bitmap (*.xpm)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="241"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="341"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="330"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="538"/>
         <source>Failed to Start</source>
         <translation>Не удалось запустить</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="331"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="539"/>
         <source>The process failed to start. Either the invoked program is missing, or you may have insufficient permissions to invoke the program.</source>
         <translation>Не удалось запустить процесс. Возможно вызываемая программа отсутствует, или у вас недостаточно привелегий для вызова программы.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="334"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="542"/>
         <source>Crashed</source>
         <translation>Сбой</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="335"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="543"/>
         <source>The process crashed some time after starting successfully.</source>
         <translation>Произошёл сбой процесса после успешно произведённого запуска.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="342"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="550"/>
         <source>Read Error</source>
         <translation>Ошибка чтения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="343"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="551"/>
         <source>An error occurred when attempting to read from the process. For example, the process may not be running.</source>
         <translation>Возникла ошибка при попытке чтения из процесса. К примеру, процесс может быть не запущен.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="346"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="554"/>
         <source>Write Error</source>
         <translation>Ошибка записи</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="347"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="555"/>
         <source>An error occurred when attempting to write to the process. For example, the process may not be running, or it may have closed its input channel.</source>
         <translation>Возникла ошибка при попытке записи в процесс. К примеру, процесс может быть не запущен, или иметь закрытый входной канал.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="351"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="559"/>
         <source>Unknown Error</source>
         <translation>Неизвестная ошибка</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="352"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="560"/>
         <source>An unknown error occurred.</source>
         <translation>Возникла неизвестная ошибка.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="359"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="567"/>
         <source>Error running external tool</source>
         <translation>Ошибка при запуске внешней утилиты</translation>
     </message>
@@ -185,6 +185,29 @@ Qt: %3</translation>
     </message>
 </context>
 <context>
+    <name>DialogCanvasResize</name>
+    <message>
+        <location filename="../controls/resize/dialogcanvasresize.ui" line="14"/>
+        <source>Resize</source>
+        <translation>Изменение размеров</translation>
+    </message>
+    <message>
+        <location filename="../controls/resize/dialogcanvasresize.ui" line="70"/>
+        <source>Crop/Expand:</source>
+        <translation>Обрезка:</translation>
+    </message>
+    <message>
+        <location filename="../controls/resize/dialogcanvasresize.ui" line="89"/>
+        <source>Scale:</source>
+        <translation>Масштаб:</translation>
+    </message>
+    <message>
+        <location filename="../controls/resize/dialogcanvasresize.ui" line="125"/>
+        <source>Reset</source>
+        <translation>Сбросить</translation>
+    </message>
+</context>
+<context>
     <name>DialogExternalEditor</name>
     <message>
         <location filename="../controls/setup/dialogexternaleditor.ui" line="14"/>
@@ -202,12 +225,12 @@ Qt: %3</translation>
         <translation>Обзор...</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogexternaleditor.cpp" line="36"/>
+        <location filename="../controls/setup/dialogexternaleditor.cpp" line="55"/>
         <source>Any file (*.*)</source>
         <translation>Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogexternaleditor.cpp" line="37"/>
+        <location filename="../controls/setup/dialogexternaleditor.cpp" line="56"/>
         <source>Select application</source>
         <translation>Выберите приложение</translation>
     </message>
@@ -403,72 +426,6 @@ Qt: %3</translation>
     </message>
 </context>
 <context>
-    <name>DialogResize</name>
-    <message>
-        <location filename="../controls/images/dialogresize.ui" line="14"/>
-        <source>Resize</source>
-        <translation>Изменение размеров</translation>
-    </message>
-    <message>
-        <location filename="../controls/images/dialogresize.ui" line="26"/>
-        <source>Size</source>
-        <translation>Размер</translation>
-    </message>
-    <message>
-        <location filename="../controls/images/dialogresize.ui" line="33"/>
-        <source>Width:</source>
-        <translation>Ширина:</translation>
-    </message>
-    <message>
-        <location filename="../controls/images/dialogresize.ui" line="40"/>
-        <location filename="../controls/images/dialogresize.ui" line="60"/>
-        <location filename="../controls/images/dialogresize.ui" line="93"/>
-        <location filename="../controls/images/dialogresize.ui" line="113"/>
-        <source> px</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../controls/images/dialogresize.ui" line="53"/>
-        <source>Height:</source>
-        <translation>Высота:</translation>
-    </message>
-    <message>
-        <location filename="../controls/images/dialogresize.ui" line="79"/>
-        <source>Offset</source>
-        <translation>Смещение</translation>
-    </message>
-    <message>
-        <location filename="../controls/images/dialogresize.ui" line="86"/>
-        <source>X:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../controls/images/dialogresize.ui" line="106"/>
-        <source>Y:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../controls/images/dialogresize.ui" line="126"/>
-        <source>Center</source>
-        <translation>Центрировать</translation>
-    </message>
-    <message>
-        <location filename="../controls/images/dialogresize.ui" line="146"/>
-        <source>Resize by</source>
-        <translation>Менять</translation>
-    </message>
-    <message>
-        <location filename="../controls/images/dialogresize.ui" line="153"/>
-        <source>Horizontal</source>
-        <translation>Ширину</translation>
-    </message>
-    <message>
-        <location filename="../controls/images/dialogresize.ui" line="163"/>
-        <source>Vertical</source>
-        <translation>Высоту</translation>
-    </message>
-</context>
-<context>
     <name>DialogSaveChanges</name>
     <message>
         <location filename="../controls/save-changes/dialogsavechanges.ui" line="17"/>
@@ -532,12 +489,12 @@ Qt: %3</translation>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="536"/>
+        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="558"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="538"/>
+        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="560"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -558,12 +515,12 @@ Qt: %3</translation>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../controls/images/editortabimage.cpp" line="341"/>
+        <location filename="../controls/images/editortabimage.cpp" line="350"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/images/editortabimage.cpp" line="343"/>
+        <location filename="../controls/images/editortabimage.cpp" line="352"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -896,6 +853,25 @@ Qt: %3</translation>
         <location filename="../controls/setup/parts/reordering/reorderingpreviewmodel.cpp" line="72"/>
         <source>Result</source>
         <translation>Результат</translation>
+    </message>
+</context>
+<context>
+    <name>ResizeModel</name>
+    <message>
+        <location filename="../controls/resize/resizemodel.cpp" line="71"/>
+        <source>Character</source>
+        <translation>Символ</translation>
+    </message>
+    <message>
+        <location filename="../controls/resize/resizemodel.cpp" line="75"/>
+        <source>Image</source>
+        <translation>Изображение</translation>
+    </message>
+    <message>
+        <location filename="../controls/resize/resizemodel.cpp" line="81"/>
+        <source>Preview</source>
+        <comment>character preview</comment>
+        <translation>Предпросмотр</translation>
     </message>
 </context>
 <context>
@@ -1291,22 +1267,22 @@ Qt: %3</translation>
 <context>
     <name>StatusManager</name>
     <message>
-        <location filename="../classes/status/statusmanager.cpp" line="73"/>
+        <location filename="../classes/status/statusmanager.cpp" line="92"/>
         <source>Char: %1/%2</source>
         <translation>Символ: %1/%2</translation>
     </message>
     <message>
-        <location filename="../classes/status/statusmanager.cpp" line="80"/>
+        <location filename="../classes/status/statusmanager.cpp" line="99"/>
         <source>Cursor: %1,%2</source>
         <translation>Курсор: %1,%2</translation>
     </message>
     <message>
-        <location filename="../classes/status/statusmanager.cpp" line="87"/>
+        <location filename="../classes/status/statusmanager.cpp" line="106"/>
         <source>Scale: %1x</source>
         <translation>Масштаб: %1x</translation>
     </message>
     <message>
-        <location filename="../classes/status/statusmanager.cpp" line="94"/>
+        <location filename="../classes/status/statusmanager.cpp" line="113"/>
         <source>Size: %1x%2</source>
         <translation>Размер: %1x%2</translation>
     </message>

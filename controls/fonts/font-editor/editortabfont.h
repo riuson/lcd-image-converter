@@ -52,6 +52,7 @@ public:
     QString documentName() const;
     void setDocumentName(const QString &value);
     DataContainer *dataContainer();
+    QStringList selectedKeys() const;
     const QImage *image() const;
     void setImage(const QImage *value);
     void convert(bool request);
@@ -77,8 +78,6 @@ public:
                         int *_size,
                         bool *_monospaced,
                         bool *_antialiasing);
-
-    const QString selectedCharacters() const;
 
 protected:
     void changeEvent(QEvent *e);

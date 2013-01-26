@@ -50,6 +50,7 @@ SOURCES += main.cpp \
     classes/settings/presets/reorderingoptions.cpp \
     classes/settings/presets/templateoptions.cpp \
     classes/settings/recentlist.cpp \
+    classes/settings/resizesettings.cpp \
     classes/status/statusdata.cpp \
     classes/status/statusmanager.cpp \
     controls/about/dialogabout.cpp \
@@ -62,10 +63,12 @@ SOURCES += main.cpp \
     controls/fonts/font-new/unicodeblocksfiltermodel.cpp \
     controls/fonts/font-preview/dialogfontpreview.cpp \
     controls/images/editortabimage.cpp \
-    controls/images/dialogresize.cpp \
     controls/images/widgetbitmapeditor.cpp \
     controls/main/mainwindow.cpp \
     controls/main/revisionlabel.cpp \
+    controls/resize/dialogcanvasresize.cpp \
+    controls/resize/imagesfilterproxy.cpp \
+    controls/resize/resizemodel.cpp \
     controls/save-changes/dialogsavechanges.cpp \
     controls/setup/dialogexternaleditor.cpp \
     controls/setup/dialogoptions.cpp \
@@ -113,6 +116,7 @@ HEADERS += \
     classes/settings/presets/reorderingoptions.h \
     classes/settings/presets/templateoptions.h \
     classes/settings/recentlist.h \
+    classes/settings/resizesettings.h \
     classes/status/statusdata.h \
     classes/status/statusmanager.h \
     controls/about/dialogabout.h \
@@ -124,11 +128,13 @@ HEADERS += \
     controls/fonts/font-new/unicodeblocksmodel.h \
     controls/fonts/font-new/unicodeblocksfiltermodel.h \
     controls/fonts/font-preview/dialogfontpreview.h \
-    controls/images/dialogresize.h \
     controls/images/editortabimage.h \
     controls/images/widgetbitmapeditor.h \
     controls/main/mainwindow.h \
     controls/main/revisionlabel.h \
+    controls/resize/dialogcanvasresize.h \
+    controls/resize/imagesfilterproxy.h \
+    controls/resize/resizemodel.h \
     controls/save-changes/dialogsavechanges.h \
     controls/setup/dialogexternaleditor.h \
     controls/setup/dialogoptions.h \
@@ -153,10 +159,10 @@ FORMS += \
     controls/fonts/font-editor/editortabfont.ui \
     controls/fonts/font-new/dialogfontselect.ui \
     controls/fonts/font-preview/dialogfontpreview.ui \
-    controls/images/dialogresize.ui \
     controls/images/editortabimage.ui \
     controls/images/widgetbitmapeditor.ui \
     controls/main/mainwindow.ui \
+    controls/resize/dialogcanvasresize.ui \
     controls/save-changes/dialogsavechanges.ui \
     controls/setup/dialogexternaleditor.ui \
     controls/setup/dialogoptions.ui \
@@ -188,6 +194,7 @@ INCLUDEPATH += . \
     ./controls/fonts/font-preview \
     ./controls/images \
     ./controls/main \
+    ./controls/resize \
     ./controls/save-changes \
     ./controls/start \
     ./controls/setup \

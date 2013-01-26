@@ -22,7 +22,6 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include "widgetbitmapeditor.h"
-#include "dialogresize.h"
 #include "bitmaphelper.h"
 #include "fonthelper.h"
 #include "editortabfont.h"
@@ -33,6 +32,7 @@
 #include "datacontainer.h"
 #include "limits"
 #include "bitmapeditoroptions.h"
+#include "dialogcanvasresize.h"
 //-----------------------------------------------------------------------------
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -104,34 +104,34 @@ void ActionFontHandlers::fontInverse_triggered()
 //-----------------------------------------------------------------------------
 void ActionFontHandlers::fontResize_triggered()
 {
-    IDocument *doc = this->document();
-    if (doc != NULL)
+    if (this->document() != NULL)
     {
-        const QImage *original = doc->dataContainer()->image(doc->dataContainer()->keys().at(0));
+        QStringList keys = this->document()->dataContainer()->keys();
 
-        DialogResize dialog(original->width(), original->height(), 0, 0, true, true, false, this->mMainWindow->parentWidget());
+        DialogCanvasResize dialog(this->document()->dataContainer(), this->mMainWindow->parentWidget());
+        //dialog.selectKeys(keys);
+
         if (dialog.exec() == QDialog::Accepted)
         {
-            int width, height, offsetX, offsetY;
-            bool center, changeWidth, changeHeight;
-            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
+            int left, top, right, bottom;
+            dialog.resizeInfo(&left, &top, &right, &bottom);
 
-            this->document()->beginChanges();
-
-            QStringList keys = this->document()->dataContainer()->keys();
-            QListIterator<QString> it(keys);
-            it.toFront();
-            while (it.hasNext())
+            if (left != 0 || top != 0 || right != 0 || bottom != 0)
             {
-                QString key = it.next();
-                original = doc->dataContainer()->image(key);
+                this->document()->beginChanges();
 
-                QImage result = BitmapHelper::resize(original, width, height, offsetX, offsetY, center, changeWidth, changeHeight, BitmapEditorOptions::color2());
+                QStringListIterator iterator(keys);
+                while (iterator.hasNext())
+                {
+                    QString key = iterator.next();
 
-                doc->dataContainer()->setImage(key, &result);
+                    const QImage *original = this->document()->dataContainer()->image(key);
+                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapEditorOptions::color2());
+                    this->document()->dataContainer()->setImage(key, &result);
+                }
+
+                this->document()->endChanges();
             }
-
-            this->document()->endChanges();
         }
     }
 }
@@ -146,8 +146,6 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
         int right = 0;
         int bottom = 0;
         int l, t, r, b;
-        int width = 0;
-        int height = 0;
 
         // find limits
         QStringList keys = doc->dataContainer()->keys();
@@ -162,36 +160,32 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
 
             left = qMin(left, l);
             top = qMin(top, t);
-            right = qMax(right, r);
-            bottom = qMax(bottom, b);
-
-            width = qMax(width, original->width());
-            height = qMax(height, original->height());
+            right = qMin(right, r);
+            bottom = qMin(bottom, b);
         }
 
-        DialogResize dialog(width, bottom + 1 - top, 0, -top, false, false, true, this->mMainWindow->parentWidget());
+        DialogCanvasResize dialog(this->document()->dataContainer(), this->mMainWindow->parentWidget());
+        dialog.setResizeInfo(left, top, right, bottom);
         if (dialog.exec() == QDialog::Accepted)
         {
-            int width, height, offsetX, offsetY;
-            bool center, changeWidth, changeHeight;
-            dialog.getResizeInfo(&width, &height, &offsetX, &offsetY, &center, &changeWidth, &changeHeight);
+            dialog.resizeInfo(&left, &top, &right, &bottom);
 
-            this->document()->beginChanges();
-
-            QStringList keys = doc->dataContainer()->keys();
-            QListIterator<QString> it(keys);
-            it.toFront();
-            while (it.hasNext())
+            if (left != 0 || top != 0 || right != 0 || bottom != 0)
             {
-                QString key = it.next();
-                const QImage *original = doc->dataContainer()->image(key);
+                this->document()->beginChanges();
 
-                QImage result = BitmapHelper::resize(original, original->width(), height, width, offsetY, center, changeWidth, changeHeight, BitmapEditorOptions::color2());
+                QStringListIterator iterator(keys);
+                while (iterator.hasNext())
+                {
+                    QString key = iterator.next();
 
-                doc->dataContainer()->setImage(key, &result);
+                    const QImage *original = this->document()->dataContainer()->image(key);
+                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapEditorOptions::color2());
+                    this->document()->dataContainer()->setImage(key, &result);
+                }
+
+                this->document()->endChanges();
             }
-
-            this->document()->endChanges();
         }
     }
 }
@@ -215,7 +209,9 @@ void ActionFontHandlers::fontToImage_triggered()
     EditorTabFont *editor = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab());
     if (editor != NULL)
     {
-        QString characters = editor->selectedCharacters();
+        QStringList keys = this->document()->selectedKeys();
+        qSort(keys);
+        QString characters = keys.join("");
         QImage image = FontHelper::drawString(editor->dataContainer(), characters);
 
         emit this->imageCreated(&image, "image_" + editor->documentName());

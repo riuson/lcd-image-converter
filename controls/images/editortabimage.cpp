@@ -294,6 +294,15 @@ DataContainer *EditorTabImage::dataContainer()
     return this->mContainer;
 }
 //-----------------------------------------------------------------------------
+QStringList EditorTabImage::selectedKeys() const
+{
+    QStringList result;
+
+    result << DefaultKey;
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 const QImage *EditorTabImage::image() const
 {
     const QImage *result = this->mContainer->image(DefaultKey);

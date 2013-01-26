@@ -128,6 +128,31 @@ QImage BitmapHelper::resize(const QImage *source, int width, int height, int off
     return result;
 }
 //-----------------------------------------------------------------------------
+QImage BitmapHelper::crop(const QImage *source, int left, int top, int right, int bottom, const QColor &backColor)
+{
+    int sourceWidth = source->width();
+    int sourceHeight = source->height();
+
+    // expanded/cropped size
+    // positive = expand, negative = crop
+    int resultWidth = sourceWidth + left + right;
+    int resultHeight = sourceHeight + top + bottom;
+
+    if (resultWidth < 1)
+        resultWidth = 1;
+    if (resultHeight < 1)
+        resultHeight = 1;
+
+    QImage result = QImage(resultWidth, resultHeight, source->format());
+
+    QPainter painter(&result);
+    painter.fillRect(0, 0, resultWidth, resultHeight, backColor);
+
+    painter.drawImage(left, top, *source);
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void BitmapHelper::findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom)
 {
     QRgb background = source->pixel(0, 0);
@@ -153,8 +178,8 @@ void BitmapHelper::findEmptyArea(const QImage *source, int *left, int *top, int 
     }
     *left = l;
     *top = t;
-    *right = r;
-    *bottom = b;
+    *right = source->width() - r;
+    *bottom = source->height() - b;
 }
 //-----------------------------------------------------------------------------
 QImage BitmapHelper::scale(const QImage *source, int scale)
@@ -183,10 +208,13 @@ QImage BitmapHelper::drawGrid(const QImage *source, int scale)
         {
             painter.drawLine(x, 0, x, pixmap.height());
         }
+        painter.drawLine(pixmap.width() - 1, 0, pixmap.width() - 1, pixmap.height());
+
         for (int y = 0; y < pixmap.height(); y += scale)
         {
             painter.drawLine(0, y, pixmap.width(), y);
         }
+        painter.drawLine(0, pixmap.height() - 1, pixmap.width(), pixmap.height() - 1);
 
         result = pixmap.toImage();
     }

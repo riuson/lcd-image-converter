@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2010 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,42 +17,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef DIALOGRESIZE_H
-#define DIALOGRESIZE_H
+#include "imagesfilterproxy.h"
+
+#include <QStringList>
 //-----------------------------------------------------------------------------
-#include <QDialog>
-//-----------------------------------------------------------------------------
-namespace Ui {
-    class DialogResize;
+ImagesFilterProxy::ImagesFilterProxy(QObject *parent) :
+    QSortFilterProxyModel(parent)
+{
+    this->mKeys = new QStringList();
 }
 //-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-class DialogResize : public QDialog
+ImagesFilterProxy::~ImagesFilterProxy()
 {
-    Q_OBJECT
-
-public:
-    explicit DialogResize(int width, int height, int offsetX, int offsetY, bool center, bool allowChangeWidth, bool allowChangeHeight, QWidget *parent = 0);
-    ~DialogResize();
-    void getResizeInfo(int *width, int *height, int *offsetX, int *offsetY, bool *center, bool *allowChangeWidth, bool *allowChangeHeight);
-
-private:
-    Ui::DialogResize *ui;
-    int mWidth;
-    int mHeight;
-    int mOffsetX;
-    int mOffsetY;
-    bool mCenter;
-    bool mAllowChangeWidth;
-    bool mAllowChangeHeight;
-private slots:
-    void on_checkBoxCenter_stateChanged(int state);
-    void on_spinBoxWidth_valueChanged(int value);
-    void on_spinBoxHeight_valueChanged(int value);
-    void on_spinBoxOffsetX_valueChanged(int value);
-    void on_spinBoxOffsetY_valueChanged(int value);
-    void on_checkBoxResizeWidth_toggled(bool value);
-    void on_checkBoxResizeHeight_toggled(bool value);
-};
+    delete this->mKeys;
+}
 //-----------------------------------------------------------------------------
-#endif // DIALOGRESIZE_H
+bool ImagesFilterProxy::filterAcceptsColumn(int source_column, const QModelIndex &source_parent) const
+{
+    if (this->mKeys->isEmpty())
+        return true;
+
+    QModelIndex index = this->sourceModel()->index(0, source_column, source_parent);
+    QString name = this->sourceModel()->data(index).toString();
+
+    return (this->mKeys->contains(name, Qt::CaseInsensitive));
+}
+//-----------------------------------------------------------------------------
+void ImagesFilterProxy::setFilter(const QStringList &keys)
+{
+    emit this->beginResetModel();
+
+    this->mKeys->clear();
+    this->mKeys->append(keys);
+
+    emit this->endResetModel();
+}
+//-----------------------------------------------------------------------------

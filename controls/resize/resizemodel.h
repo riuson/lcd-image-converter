@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,50 +17,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef ACTIONIMAGEHANDLERS_H
-#define ACTIONIMAGEHANDLERS_H
+#ifndef RESIZEMODEL_H
+#define RESIZEMODEL_H
 //-----------------------------------------------------------------------------
-#include <QObject>
-#include <QProcess>
-
-#include "actionhandlersbase.h"
+#include <QAbstractItemModel>
+#include <QVariant>
 //-----------------------------------------------------------------------------
-class IMainWindow;
-class WidgetBitmapEditor;
+class DataContainer;
 //-----------------------------------------------------------------------------
-class ActionImageHandlers : public ActionHandlersBase
+class ResizeModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    explicit ActionImageHandlers(QObject *parent = 0);
+    enum
+    {
+        CropResultRole = Qt::UserRole + 1
+    };
 
+    explicit ResizeModel(DataContainer *container, QObject *parent = 0);
+    int rowCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    QModelIndex index(int row, int column,
+                      const QModelIndex &parent = QModelIndex()) const;
+    QModelIndex parent(const QModelIndex &index) const;
+
+    void callReset();
+
+    void setCrop(int left, int top, int right, int bottom);
+    void setScale(int scale);
 private:
-    bool mRunningError;
-    QString mExternalTool;
+    DataContainer *mContainer;
+    int mLeft;
+    int mRight;
+    int mTop;
+    int mBottom;
+    int mScale;
+
+    QImage modifyImage(const QImage *source, bool preview) const;
 
 signals:
 
 public slots:
-    void flipHorizontal_triggered();
-    void flipVertical_triggered();
-    void rotate_90_Clockwise_triggered();
-    void rotate_180_triggered();
-    void rotate_90_Counter_Clockwise_triggered();
-    void shift_left_triggered();
-    void shift_right_triggered();
-    void shift_up_triggered();
-    void shift_down_triggered();
-    void inverse_triggered();
-    void resize_triggered();
-    void import_triggered();
-    void export_triggered();
-    void edit_in_external_tool_triggered();
 
-private:
-    void saveImages(const QString &filename, const QString &ext);
-
-private slots:
-    void process_error(QProcess::ProcessError error);
 };
 //-----------------------------------------------------------------------------
-#endif // ACTIONIMAGEHANDLERS_H
+#endif // RESIZEMODEL_H

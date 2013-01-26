@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,50 +17,49 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef ACTIONIMAGEHANDLERS_H
-#define ACTIONIMAGEHANDLERS_H
+#ifndef DIALOGCANVASRESIZE_H
+#define DIALOGCANVASRESIZE_H
 //-----------------------------------------------------------------------------
-#include <QObject>
-#include <QProcess>
-
-#include "actionhandlersbase.h"
+#include <QDialog>
 //-----------------------------------------------------------------------------
-class IMainWindow;
-class WidgetBitmapEditor;
+namespace Ui {
+class DialogCanvasResize;
+}
 //-----------------------------------------------------------------------------
-class ActionImageHandlers : public ActionHandlersBase
+class QItemSelection;
+class DataContainer;
+class ResizeModel;
+class ImagesFilterProxy;
+//-----------------------------------------------------------------------------
+class DialogCanvasResize : public QDialog
 {
     Q_OBJECT
+
 public:
-    explicit ActionImageHandlers(QObject *parent = 0);
+    explicit DialogCanvasResize(DataContainer *container, QWidget *parent = 0);
+    ~DialogCanvasResize();
+
+    void selectKeys(const QStringList &keys);
+    void resizeInfo(int *left, int *top, int *right, int *bottom) const;
+    void setResizeInfo(int left, int top, int right, int bottom);
 
 private:
-    bool mRunningError;
-    QString mExternalTool;
+    Ui::DialogCanvasResize *ui;
 
-signals:
+    DataContainer *mContainer;
+    ResizeModel *mModel;
+    ImagesFilterProxy *mFilter;
 
-public slots:
-    void flipHorizontal_triggered();
-    void flipVertical_triggered();
-    void rotate_90_Clockwise_triggered();
-    void rotate_180_triggered();
-    void rotate_90_Counter_Clockwise_triggered();
-    void shift_left_triggered();
-    void shift_right_triggered();
-    void shift_up_triggered();
-    void shift_down_triggered();
-    void inverse_triggered();
-    void resize_triggered();
-    void import_triggered();
-    void export_triggered();
-    void edit_in_external_tool_triggered();
-
-private:
-    void saveImages(const QString &filename, const QString &ext);
+    int mLeft;
+    int mTop;
+    int mRight;
+    int mBottom;
 
 private slots:
-    void process_error(QProcess::ProcessError error);
+    void spinBox_valueChanged(int value);
+    void on_spinBoxScale_valueChanged(int value);
+    void on_pushButtonReset_clicked();
+    void resizeToContents();
 };
 //-----------------------------------------------------------------------------
-#endif // ACTIONIMAGEHANDLERS_H
+#endif // DIALOGCANVASRESIZE_H
