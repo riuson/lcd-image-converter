@@ -50,6 +50,7 @@ SOURCES += main.cpp \
     classes/settings/presets/reorderingoptions.cpp \
     classes/settings/presets/templateoptions.cpp \
     classes/settings/recentlist.cpp \
+    classes/settings/resizesettings.cpp \
     classes/status/statusdata.cpp \
     classes/status/statusmanager.cpp \
     controls/about/dialogabout.cpp \
@@ -115,6 +116,7 @@ HEADERS += \
     classes/settings/presets/reorderingoptions.h \
     classes/settings/presets/templateoptions.h \
     classes/settings/recentlist.h \
+    classes/settings/resizesettings.h \
     classes/status/statusdata.h \
     classes/status/statusmanager.h \
     controls/about/dialogabout.h \

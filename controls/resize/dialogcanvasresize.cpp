@@ -23,6 +23,7 @@
 #include <QItemSelectionModel>
 #include "resizemodel.h"
 #include "imagesfilterproxy.h"
+#include "resizesettings.h"
 //-----------------------------------------------------------------------------
 DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent) :
     QDialog(parent),
@@ -48,16 +49,22 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
     this->mTop = 0;
     this->mRight = 0;
     this->mBottom = 0;
+
+    this->ui->spinBoxScale->setValue(ResizeSettings::scale());
 }
 //-----------------------------------------------------------------------------
 DialogCanvasResize::~DialogCanvasResize()
 {
+    ResizeSettings::setScale(this->ui->spinBoxScale->value());
+
     delete ui;
 }
 //-----------------------------------------------------------------------------
 void DialogCanvasResize::selectKeys(const QStringList &keys)
 {
     this->mFilter->setFilter(keys);
+
+    this->resizeToContents();
 }
 //-----------------------------------------------------------------------------
 void DialogCanvasResize::resizeInfo(int *left, int *top, int *right, int *bottom) const
@@ -96,16 +103,14 @@ void DialogCanvasResize::spinBox_valueChanged(int value)
                 this->mRight,
                 this->mBottom);
 
-    this->ui->tableView->resizeRowsToContents();
-    this->ui->tableView->resizeColumnsToContents();
+    this->resizeToContents();
 }
 //-----------------------------------------------------------------------------
 void DialogCanvasResize::on_spinBoxScale_valueChanged(int value)
 {
     this->mModel->setScale(value);
 
-    this->ui->tableView->resizeRowsToContents();
-    this->ui->tableView->resizeColumnsToContents();
+    this->resizeToContents();
 }
 //-----------------------------------------------------------------------------
 void DialogCanvasResize::on_pushButtonReset_clicked()
@@ -114,5 +119,11 @@ void DialogCanvasResize::on_pushButtonReset_clicked()
     this->ui->spinBoxTop->setValue(0);
     this->ui->spinBoxRight->setValue(0);
     this->ui->spinBoxBottom->setValue(0);
+}
+//-----------------------------------------------------------------------------
+void DialogCanvasResize::resizeToContents()
+{
+    this->ui->tableView->resizeRowsToContents();
+    this->ui->tableView->resizeColumnsToContents();
 }
 //-----------------------------------------------------------------------------

@@ -59,6 +59,7 @@ private slots:
     void spinBox_valueChanged(int value);
     void on_spinBoxScale_valueChanged(int value);
     void on_pushButtonReset_clicked();
+    void resizeToContents();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGCANVASRESIZE_H
