@@ -96,6 +96,15 @@ QVariant ImagesModelVertical::data(const QModelIndex &index, int role) const
             result = pixmap.size();
         }
     }
+    else if ((role == KeyRole) ||
+             (role == KeyCodeRole) ||
+             (role == ImageRole) ||
+             (role == ImageScaledRole) ||
+             (role == PixmapRole) ||
+             (role == PixmapScaledRole))
+    {
+        result = this->containerValue(index.row(), (ImagesModelRoles)role);
+    }
     return result;
 }
 //-----------------------------------------------------------------------------

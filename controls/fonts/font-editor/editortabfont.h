@@ -53,8 +53,6 @@ public:
     void setDocumentName(const QString &value);
     DataContainer *dataContainer();
     QStringList selectedKeys() const;
-    const QImage *image() const;
-    void setImage(const QImage *value);
     void convert(bool request);
     void updateStatus();
     StatusData *statusData() const;
@@ -116,6 +114,7 @@ private:
                          const int height,
                          const bool antialiasing);
     void updateTableFont();
+    void updateSelectedImage();
 
 private slots:
     void mon_container_imageChanged(const QString &key);

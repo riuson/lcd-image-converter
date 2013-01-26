@@ -62,7 +62,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 
     this->initStatusData();
 
-    this->setImage(this->image());
+    this->updateSelectedImage();
 }
 //-----------------------------------------------------------------------------
 EditorTabImage::~EditorTabImage()
@@ -108,6 +108,14 @@ void EditorTabImage::initStatusData()
 {
     this->mStatusData = new StatusData(this);
     this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
+    this->updateStatus();
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::updateSelectedImage()
+{
+    const QImage *image = this->mContainer->image(DefaultKey);
+    this->mEditor->setImage(image);
+
     this->updateStatus();
 }
 //-----------------------------------------------------------------------------
@@ -303,19 +311,6 @@ QStringList EditorTabImage::selectedKeys() const
     return result;
 }
 //-----------------------------------------------------------------------------
-const QImage *EditorTabImage::image() const
-{
-    const QImage *result = this->mContainer->image(DefaultKey);
-    return result;
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::setImage(const QImage *value)
-{
-    this->mContainer->setImage(DefaultKey, value);
-
-    this->updateStatus();
-}
-//-----------------------------------------------------------------------------
 void EditorTabImage::convert(bool request)
 {
     Tags tags;
@@ -421,7 +416,7 @@ bool EditorTabImage::canRedo()
 void EditorTabImage::undo()
 {
     this->mContainer->stateUndo();
-    this->setImage(this->image());
+    this->updateSelectedImage();
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
 
@@ -431,7 +426,7 @@ void EditorTabImage::undo()
 void EditorTabImage::redo()
 {
     this->mContainer->stateRedo();
-    this->setImage(this->image());
+    this->updateSelectedImage();
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
 

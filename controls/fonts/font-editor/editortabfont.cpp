@@ -522,19 +522,6 @@ QStringList EditorTabFont::selectedKeys() const
     return result;
 }
 //-----------------------------------------------------------------------------
-const QImage *EditorTabFont::image() const
-{
-    const QImage *result = this->mContainer->image(this->mSelectedKey);
-    return result;
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::setImage(const QImage *value)
-{
-    this->mContainer->setImage(this->mSelectedKey, value);
-
-    this->updateStatus();
-}
-//-----------------------------------------------------------------------------
 void EditorTabFont::convert(bool request)
 {
     Tags tags;
@@ -660,7 +647,7 @@ bool EditorTabFont::canRedo()
 void EditorTabFont::undo()
 {
     this->mContainer->stateUndo();
-    this->setImage(this->image());
+    this->updateSelectedImage();
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
 
@@ -670,7 +657,7 @@ void EditorTabFont::undo()
 void EditorTabFont::redo()
 {
     this->mContainer->stateRedo();
-    this->setImage(this->image());
+    this->updateSelectedImage();
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
 
@@ -862,6 +849,24 @@ void EditorTabFont::updateTableFont()
     this->mTableFont.setPointSize(11);
     this->mTableFont.setBold(false);
     this->ui->tableViewCharacters->setFont(this->mTableFont);
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::updateSelectedImage()
+{
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    if (selectionModel->hasSelection())
+    {
+        QModelIndex index = selectionModel->currentIndex();
+
+        QVariant var = this->mModel->data(index, ImagesModelVertical::ImageRole);
+        if (var.isValid())
+        {
+            QImage image = var.value<QImage>();
+            this->mEditor->setImage(&image);
+
+            this->updateStatus();
+        }
+    }
 }
 //-----------------------------------------------------------------------------
 bool EditorTabFont::monospaced() const
