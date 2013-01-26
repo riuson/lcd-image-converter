@@ -55,6 +55,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
     this->mModel = new ImagesModelVertical(this->mContainer, this);
     this->ui->tableViewCharacters->setModel(this->mModel);
+    this->connect(this->mModel, SIGNAL(scaleChanged()), SLOT(resizeToContents()));
 
     QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
     this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(selectionChanged(QItemSelection,QItemSelection)));
@@ -115,6 +116,14 @@ void EditorTabFont::wheelEvent(QWheelEvent *event)
         {
             if (event->orientation() == Qt::Vertical)
             {
+                if (event->delta() > 0)
+                {
+                    this->mModel->setScale(this->mModel->scale() + 1);
+                }
+                else if (event->delta() < 0)
+                {
+                    this->mModel->setScale(this->mModel->scale() - 1);
+                }
             }
             event->accept();
         }
@@ -230,6 +239,21 @@ void EditorTabFont::selectionChanged(const QItemSelection &selected, const QItem
 
         this->updateStatus();
     }
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::updateTableFont()
+{
+    this->mTableFont = QFont(this->usedFont());
+    this->mTableFont.setPointSize(11);
+    this->mTableFont.setBold(false);
+    this->ui->tableViewCharacters->setFont(this->mTableFont);
+    this->resizeToContents();
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::resizeToContents()
+{
+    this->ui->tableViewCharacters->resizeColumnsToContents();
+    this->ui->tableViewCharacters->resizeRowsToContents();
 }
 //-----------------------------------------------------------------------------
 bool EditorTabFont::load(const QString &fileName)
@@ -836,14 +860,6 @@ QImage EditorTabFont::drawCharacter(const QChar value,
                      QString(value));
 
     return result;
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::updateTableFont()
-{
-    this->mTableFont = QFont(this->usedFont());
-    this->mTableFont.setPointSize(11);
-    this->mTableFont.setBold(false);
-    this->ui->tableViewCharacters->setFont(this->mTableFont);
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::updateSelectedImage()

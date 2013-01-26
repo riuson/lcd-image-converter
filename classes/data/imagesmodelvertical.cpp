@@ -134,8 +134,11 @@ int ImagesModelVertical::scale() const
 //-----------------------------------------------------------------------------
 void ImagesModelVertical::setScale(int value)
 {
-    this->mScale = value;
-    this->imagesChanged();
+    if (value >= 1)
+    {
+        this->mScale = value;
+        emit this->scaleChanged();
+    }
 }
 //-----------------------------------------------------------------------------
 QVariant ImagesModelVertical::containerValue(int imageIndex, ImagesModelRoles role) const

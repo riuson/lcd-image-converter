@@ -113,7 +113,6 @@ private:
                          const int width,
                          const int height,
                          const bool antialiasing);
-    void updateTableFont();
     void updateSelectedImage();
 
 private slots:
@@ -122,6 +121,8 @@ private slots:
     void mon_editor_mouseMove(QPoint point);
     void mon_editor_scaleChanged(int scale);
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void updateTableFont();
+    void resizeToContents();
 signals:
     void documentChanged(bool changed, const QString &documentName, const QString &filename);
     void statusChanged();
