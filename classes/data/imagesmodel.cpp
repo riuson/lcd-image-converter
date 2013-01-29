@@ -174,6 +174,14 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
         }
         break;
     }
+    case Qt::TextAlignmentRole:
+    {
+        if (columnIndex == 0)
+        {
+            result = Qt::AlignCenter;
+        }
+        break;
+    }
     case KeyRole:
     case KeyCodeRole:
     case ImageRole:
