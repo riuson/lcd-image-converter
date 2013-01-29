@@ -54,7 +54,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->mContainer = new DataContainer(this);
     this->mSelectedKey = QString();
 
-    this->mModel = new ImagesModelVertical(this->mContainer, this);
+    this->mModel = new ImagesModelVertical(this->mContainer, Qt::Vertical, this);
     this->ui->tableViewCharacters->setModel(this->mModel);
     this->connect(this->mModel, SIGNAL(scaleChanged()), SLOT(resizeToContents()));
     this->mModel->setScale(FontEditorOptions::scale());

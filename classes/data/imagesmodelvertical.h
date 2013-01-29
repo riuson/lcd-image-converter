@@ -38,7 +38,7 @@ public:
         PixmapScaledRole
     };
 
-    explicit ImagesModelVertical(DataContainer *container, QObject *parent = 0);
+    explicit ImagesModelVertical(DataContainer *container, Qt::Orientation orientation = Qt::Vertical, QObject *parent = 0);
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
@@ -51,9 +51,11 @@ public:
 
     int scale() const;
     void setScale(int value);
+
 private:
     DataContainer *mContainer;
     int mScale;
+    Qt::Orientation mOrientation;
 
     QVariant containerValue(int imageIndex, ImagesModelRoles role) const;
 
