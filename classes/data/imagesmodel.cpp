@@ -79,11 +79,18 @@ QVariant ImagesModel::headerData(int section, Qt::Orientation orientation, int r
                 switch (section)
                 {
                 case 0:
-                    result = tr("Character");
+                {
+                    if (this->rowCount(QModelIndex()) > 1)
+                    {
+                        result = tr("Character");
+                    }
                     break;
+                }
                 case 1:
-                    result = tr("Preview", "character prewview");
+                {
+                    result = tr("Preview", "character preview");
                     break;
+                }
                 }
             }
         }
@@ -98,11 +105,18 @@ QVariant ImagesModel::headerData(int section, Qt::Orientation orientation, int r
                 switch (section)
                 {
                 case 0:
-                    result = tr("Character");
+                {
+                    if (this->columnCount(QModelIndex()) > 1)
+                    {
+                        result = tr("Character");
+                    }
                     break;
+                }
                 case 1:
+                {
                     result = tr("Preview", "character prewview");
                     break;
+                }
                 }
             }
         }
