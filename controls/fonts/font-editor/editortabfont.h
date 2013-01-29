@@ -33,6 +33,7 @@ class WidgetBitmapEditor;
 class QSplitter;
 class ImagesModelVertical;
 class QItemSelection;
+class QModelIndex;
 class StatusData;
 //-----------------------------------------------------------------------------
 class EditorTabFont : public QWidget, public IDocument
@@ -90,7 +91,6 @@ private:
     StatusData *mStatusData;
 
     QFont mTableFont;
-    QString mSelectedKey;
 
     void setFileName(const QString &value);
     QString convertedFileName() const;
@@ -106,6 +106,7 @@ private:
     bool antialiasing() const;
     void setAntialiasing(const bool value);
 
+    QString currentKey() const;
     QImage drawCharacter(const QChar value,
                          const QFont &font,
                          const QColor &foreground,
@@ -120,7 +121,7 @@ private slots:
     void mon_editor_imageChanged();
     void mon_editor_mouseMove(QPoint point);
     void mon_editor_scaleChanged(int scale);
-    void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void currentChanged(const QModelIndex &current, const QModelIndex &previous);
     void updateTableFont();
     void resizeToContents();
 signals:
