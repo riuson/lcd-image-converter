@@ -28,7 +28,7 @@ class DialogCanvasResize;
 //-----------------------------------------------------------------------------
 class QItemSelection;
 class DataContainer;
-class ResizeModel;
+class ImagesModelVertical;
 class ImagesFilterProxy;
 //-----------------------------------------------------------------------------
 class DialogCanvasResize : public QDialog
@@ -47,7 +47,7 @@ private:
     Ui::DialogCanvasResize *ui;
 
     DataContainer *mContainer;
-    ResizeModel *mModel;
+    ImagesModelVertical *mModel;
     ImagesFilterProxy *mFilter;
 
     int mLeft;

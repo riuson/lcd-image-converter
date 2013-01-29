@@ -21,7 +21,7 @@
 #include "ui_dialogcanvasresize.h"
 
 #include <QItemSelectionModel>
-#include "resizemodel.h"
+#include "imagesmodelvertical.h"
 #include "imagesfilterproxy.h"
 #include "resizesettings.h"
 //-----------------------------------------------------------------------------
@@ -33,7 +33,7 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
 
     this->mContainer = container;
 
-    this->mModel = new ResizeModel(container, this);
+    this->mModel = new ImagesModelVertical(container, Qt::Horizontal, this);
 
     this->mFilter = new ImagesFilterProxy(this);
     this->mFilter->setSourceModel(this->mModel);

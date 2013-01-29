@@ -35,7 +35,8 @@ public:
         ImageRole,
         ImageScaledRole,
         PixmapRole,
-        PixmapScaledRole
+        PixmapScaledRole,
+        PixmapScaledCroppedRole
     };
 
     explicit ImagesModelVertical(DataContainer *container, Qt::Orientation orientation = Qt::Vertical, QObject *parent = 0);
@@ -51,11 +52,16 @@ public:
 
     int scale() const;
     void setScale(int value);
+    void setCrop(int left, int top, int right, int bottom);
 
 private:
     DataContainer *mContainer;
-    int mScale;
     Qt::Orientation mOrientation;
+    int mScale;
+    int mLeft;
+    int mRight;
+    int mTop;
+    int mBottom;
 
     QVariant containerValue(int imageIndex, ImagesModelRoles role) const;
 

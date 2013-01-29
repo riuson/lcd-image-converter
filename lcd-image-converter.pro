@@ -69,7 +69,6 @@ SOURCES += main.cpp \
     controls/main/revisionlabel.cpp \
     controls/resize/dialogcanvasresize.cpp \
     controls/resize/imagesfilterproxy.cpp \
-    controls/resize/resizemodel.cpp \
     controls/save-changes/dialogsavechanges.cpp \
     controls/setup/dialogexternaleditor.cpp \
     controls/setup/dialogoptions.cpp \
@@ -136,7 +135,6 @@ HEADERS += \
     controls/main/revisionlabel.h \
     controls/resize/dialogcanvasresize.h \
     controls/resize/imagesfilterproxy.h \
-    controls/resize/resizemodel.h \
     controls/save-changes/dialogsavechanges.h \
     controls/setup/dialogexternaleditor.h \
     controls/setup/dialogoptions.h \

@@ -21,6 +21,7 @@
 #include <QPixmap>
 #include "datacontainer.h"
 #include "bitmaphelper.h"
+#include "bitmapeditoroptions.h"
 //-----------------------------------------------------------------------------
 ImagesModelVertical::ImagesModelVertical(DataContainer *container, Qt::Orientation orientation, QObject *parent) :
     QAbstractItemModel(parent)
@@ -28,6 +29,8 @@ ImagesModelVertical::ImagesModelVertical(DataContainer *container, Qt::Orientati
     this->mContainer = container;
     this->mScale = 2;
     this->mOrientation = orientation;
+
+    this->setCrop(0, 0, 0, 0);
 
     this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(imagesChanged()));
 }
@@ -138,7 +141,7 @@ QVariant ImagesModelVertical::data(const QModelIndex &index, int role) const
     {
         if (columnIndex == 1)
         {
-            result = this->containerValue(valueIndex, PixmapScaledRole);
+            result = this->containerValue(valueIndex, PixmapScaledCroppedRole);
         }
         break;
     }
@@ -146,9 +149,14 @@ QVariant ImagesModelVertical::data(const QModelIndex &index, int role) const
     {
         if (columnIndex == 1)
         {
-            QVariant var = this->containerValue(valueIndex, PixmapScaledRole);
+            QVariant var = this->containerValue(valueIndex, PixmapScaledCroppedRole);
             QPixmap pixmap = var.value<QPixmap>();
-            result = pixmap.size();
+
+            QSize size = pixmap.size();
+            size.rheight() += 10;
+            size.rwidth() += 10;
+
+            result = size;
         }
         break;
     }
@@ -199,6 +207,16 @@ void ImagesModelVertical::setScale(int value)
     }
 }
 //-----------------------------------------------------------------------------
+void ImagesModelVertical::setCrop(int left, int top, int right, int bottom)
+{
+    this->mLeft = left;
+    this->mTop = top;
+    this->mRight = right;
+    this->mBottom = bottom;
+
+    this->imagesChanged();
+}
+//-----------------------------------------------------------------------------
 QVariant ImagesModelVertical::containerValue(int imageIndex, ImagesModelRoles role) const
 {
     QVariant result;
@@ -247,6 +265,17 @@ QVariant ImagesModelVertical::containerValue(int imageIndex, ImagesModelRoles ro
             const QImage *source = this->mContainer->image(key);
 
             QImage scaled = BitmapHelper::scale(source, this->mScale);
+            QImage grids = BitmapHelper::drawGrid(&scaled, this->mScale);
+
+            result = QPixmap::fromImage(grids);
+            break;
+        }
+        case PixmapScaledCroppedRole:
+        {
+            const QImage *source = this->mContainer->image(key);
+
+            QImage cropped = BitmapHelper::crop(source, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapEditorOptions::color2());
+            QImage scaled = BitmapHelper::scale(&cropped, this->mScale);
             QImage grids = BitmapHelper::drawGrid(&scaled, this->mScale);
 
             result = QPixmap::fromImage(grids);
