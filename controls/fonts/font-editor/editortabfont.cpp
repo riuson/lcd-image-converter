@@ -53,7 +53,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
     this->mContainer = new DataContainer(this);
 
-    this->mModel = new ImagesModelVertical(this->mContainer, Qt::Vertical, this);
+    this->mModel = new ImagesModelVertical(this->mContainer, Qt::Horizontal, this);
     this->ui->tableViewCharacters->setModel(this->mModel);
     this->connect(this->mModel, SIGNAL(scaleChanged()), SLOT(resizeToContents()));
     this->mModel->setScale(FontEditorOptions::scale());
@@ -524,8 +524,8 @@ QStringList EditorTabFont::selectedKeys() const
         QModelIndexList indexes = selectionModel->selectedIndexes();
         for (int i = 0; i < indexes.length(); i++)
         {
-            QModelIndex indexKey = this->mModel->index(indexes.at(i).row(), 0);
-            QString key = this->mModel->data(indexKey, Qt::DisplayRole).toString();
+            QVariant var = this->mModel->data(indexes.at(i), ImagesModelVertical::KeyRole);
+            QString key = var.toString();
             if (!result.contains(key))
             {
                 result << key;
