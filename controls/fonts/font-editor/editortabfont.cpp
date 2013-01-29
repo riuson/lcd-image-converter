@@ -35,7 +35,7 @@
 
 #include "widgetbitmapeditor.h"
 #include "datacontainer.h"
-#include "imagesmodelvertical.h"
+#include "imagesmodel.h"
 #include "parser.h"
 #include "dialogfontchanged.h"
 #include "tags.h"
@@ -53,7 +53,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
     this->mContainer = new DataContainer(this);
 
-    this->mModel = new ImagesModelVertical(this->mContainer, Qt::Horizontal, this);
+    this->mModel = new ImagesModel(this->mContainer, Qt::Vertical, this);
     this->ui->tableViewCharacters->setModel(this->mModel);
     this->connect(this->mModel, SIGNAL(scaleChanged()), SLOT(resizeToContents()));
     this->mModel->setScale(FontEditorOptions::scale());
@@ -231,7 +231,7 @@ void EditorTabFont::currentChanged(const QModelIndex &current, const QModelIndex
 
     if (current.isValid())
     {
-        QVariant var = this->mModel->data(current, ImagesModelVertical::KeyRole);
+        QVariant var = this->mModel->data(current, ImagesModel::KeyRole);
         QString key = var.toString();
 
         const QImage *image = this->mContainer->image(key);
@@ -524,7 +524,7 @@ QStringList EditorTabFont::selectedKeys() const
         QModelIndexList indexes = selectionModel->selectedIndexes();
         for (int i = 0; i < indexes.length(); i++)
         {
-            QVariant var = this->mModel->data(indexes.at(i), ImagesModelVertical::KeyRole);
+            QVariant var = this->mModel->data(indexes.at(i), ImagesModel::KeyRole);
             QString key = var.toString();
             if (!result.contains(key))
             {
@@ -861,7 +861,7 @@ void EditorTabFont::updateSelectedImage()
     {
         QModelIndex index = selectionModel->currentIndex();
 
-        QVariant var = this->mModel->data(index, ImagesModelVertical::ImageRole);
+        QVariant var = this->mModel->data(index, ImagesModel::ImageRole);
         if (var.isValid())
         {
             QImage image = var.value<QImage>();
@@ -908,7 +908,7 @@ QString EditorTabFont::currentKey() const
         QModelIndex currentIndex = selectionModel->currentIndex();
         if (currentIndex.isValid())
         {
-            QVariant var = this->mModel->data(currentIndex, ImagesModelVertical::KeyRole);
+            QVariant var = this->mModel->data(currentIndex, ImagesModel::KeyRole);
             result = var.toString();
         }
         else

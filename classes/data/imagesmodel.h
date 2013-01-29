@@ -17,14 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IMAGESMODELVERTICAL_H
-#define IMAGESMODELVERTICAL_H
+#ifndef IMAGESMODEL_H
+#define IMAGESMODEL_H
 //-----------------------------------------------------------------------------
 #include <QAbstractItemModel>
 //-----------------------------------------------------------------------------
 class DataContainer;
 //-----------------------------------------------------------------------------
-class ImagesModelVertical : public QAbstractItemModel
+class ImagesModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
@@ -39,7 +39,7 @@ public:
         PixmapScaledCroppedRole
     };
 
-    explicit ImagesModelVertical(DataContainer *container, Qt::Orientation orientation = Qt::Vertical, QObject *parent = 0);
+    explicit ImagesModel(DataContainer *container, Qt::Orientation orientation = Qt::Vertical, QObject *parent = 0);
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
@@ -75,4 +75,4 @@ public slots:
 
 };
 //-----------------------------------------------------------------------------
-#endif // IMAGESMODELVERTICAL_H
+#endif // IMAGESMODEL_H

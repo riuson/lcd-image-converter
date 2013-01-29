@@ -17,13 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "imagesmodelvertical.h"
+#include "imagesmodel.h"
 #include <QPixmap>
 #include "datacontainer.h"
 #include "bitmaphelper.h"
 #include "bitmapeditoroptions.h"
 //-----------------------------------------------------------------------------
-ImagesModelVertical::ImagesModelVertical(DataContainer *container, Qt::Orientation orientation, QObject *parent) :
+ImagesModel::ImagesModel(DataContainer *container, Qt::Orientation orientation, QObject *parent) :
     QAbstractItemModel(parent)
 {
     this->mContainer = container;
@@ -35,7 +35,7 @@ ImagesModelVertical::ImagesModelVertical(DataContainer *container, Qt::Orientati
     this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(imagesChanged()));
 }
 //-----------------------------------------------------------------------------
-int ImagesModelVertical::rowCount(const QModelIndex &parent) const
+int ImagesModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
@@ -49,7 +49,7 @@ int ImagesModelVertical::rowCount(const QModelIndex &parent) const
     }
 }
 //-----------------------------------------------------------------------------
-int ImagesModelVertical::columnCount(const QModelIndex &parent) const
+int ImagesModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
@@ -63,7 +63,7 @@ int ImagesModelVertical::columnCount(const QModelIndex &parent) const
     }
 }
 //-----------------------------------------------------------------------------
-QVariant ImagesModelVertical::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant ImagesModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     QVariant result;
     if (role == Qt::DisplayRole)
@@ -110,7 +110,7 @@ QVariant ImagesModelVertical::headerData(int section, Qt::Orientation orientatio
     return result;
 }
 //-----------------------------------------------------------------------------
-QVariant ImagesModelVertical::data(const QModelIndex &index, int role) const
+QVariant ImagesModel::data(const QModelIndex &index, int role) const
 {
     QVariant result = QVariant();
 
@@ -176,29 +176,29 @@ QVariant ImagesModelVertical::data(const QModelIndex &index, int role) const
     return result;
 }
 //-----------------------------------------------------------------------------
-QModelIndex ImagesModelVertical::index(int row, int column, const QModelIndex &parent) const
+QModelIndex ImagesModel::index(int row, int column, const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return this->createIndex(row, column);
 }
 //-----------------------------------------------------------------------------
-QModelIndex ImagesModelVertical::parent(const QModelIndex &index) const
+QModelIndex ImagesModel::parent(const QModelIndex &index) const
 {
     Q_UNUSED(index)
     return QModelIndex();
 }
 //-----------------------------------------------------------------------------
-void ImagesModelVertical::callReset()
+void ImagesModel::callReset()
 {
     this->reset();
 }
 //-----------------------------------------------------------------------------
-int ImagesModelVertical::scale() const
+int ImagesModel::scale() const
 {
     return this->mScale;
 }
 //-----------------------------------------------------------------------------
-void ImagesModelVertical::setScale(int value)
+void ImagesModel::setScale(int value)
 {
     if (value >= 1)
     {
@@ -207,7 +207,7 @@ void ImagesModelVertical::setScale(int value)
     }
 }
 //-----------------------------------------------------------------------------
-void ImagesModelVertical::setCrop(int left, int top, int right, int bottom)
+void ImagesModel::setCrop(int left, int top, int right, int bottom)
 {
     this->mLeft = left;
     this->mTop = top;
@@ -217,7 +217,7 @@ void ImagesModelVertical::setCrop(int left, int top, int right, int bottom)
     this->imagesChanged();
 }
 //-----------------------------------------------------------------------------
-QVariant ImagesModelVertical::containerValue(int imageIndex, ImagesModelRoles role) const
+QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) const
 {
     QVariant result;
 
@@ -287,7 +287,7 @@ QVariant ImagesModelVertical::containerValue(int imageIndex, ImagesModelRoles ro
     return result;
 }
 //-----------------------------------------------------------------------------
-void ImagesModelVertical::imagesChanged()
+void ImagesModel::imagesChanged()
 {
     emit this->dataChanged(
                 this->index(0, 0),
