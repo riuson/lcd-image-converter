@@ -34,9 +34,6 @@ ImagesFilterProxy::~ImagesFilterProxy()
 //-----------------------------------------------------------------------------
 bool ImagesFilterProxy::filterAcceptsColumn(int source_column, const QModelIndex &source_parent) const
 {
-    if (this->mKeys->isEmpty())
-        return true;
-
     QModelIndex index = this->sourceModel()->index(0, source_column, source_parent);
     QString name = this->sourceModel()->data(index).toString();
 
