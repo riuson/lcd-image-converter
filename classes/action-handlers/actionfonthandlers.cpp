@@ -109,7 +109,7 @@ void ActionFontHandlers::fontResize_triggered()
         QStringList keys = this->document()->dataContainer()->keys();
 
         DialogCanvasResize dialog(this->document()->dataContainer(), this->mMainWindow->parentWidget());
-        //dialog.selectKeys(keys);
+        dialog.selectKeys(keys);
 
         if (dialog.exec() == QDialog::Accepted)
         {

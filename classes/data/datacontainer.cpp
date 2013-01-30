@@ -47,7 +47,8 @@ void DataContainer::setImage(const QString &key, const QImage *image)
     this->remove(key);
     QImage *imageNew = new QImage(*image);
     this->mImageMap.insert(key, imageNew);
-    emit this->imageChanged(key);
+
+    emit this->imagesChanged();
 }
 //-----------------------------------------------------------------------------
 QVariant DataContainer::info(const QString &key) const
@@ -111,11 +112,15 @@ void DataContainer::stateSave()
 void DataContainer::stateUndo()
 {
     this->mHistory->restorePrevious(&this->mImageMap, &this->mInfoMap);
+
+    emit this->imagesChanged();
 }
 //-----------------------------------------------------------------------------
 void DataContainer::stateRedo()
 {
     this->mHistory->restoreNext(&this->mImageMap, &this->mInfoMap);
+
+    emit this->imagesChanged();
 }
 //-----------------------------------------------------------------------------
 bool DataContainer::canUndo() const

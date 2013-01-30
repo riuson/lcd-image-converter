@@ -50,7 +50,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
     this->mEditor = new WidgetBitmapEditor(this);
     layout->addWidget(this->mEditor);
 
-    this->connect(this->mContainer, SIGNAL(imageChanged(QString)), SLOT(mon_container_imageChanged(QString)));
+    this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(mon_container_imagesChanged()));
     this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
     this->connect(this->mEditor, SIGNAL(mouseMove(QPoint)), SLOT(mon_editor_mouseMove(QPoint)));
     this->connect(this->mEditor, SIGNAL(scaleSchanged(int)), SLOT(mon_editor_scaleChanged(int)));
@@ -62,7 +62,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 
     this->initStatusData();
 
-    this->setImage(this->image());
+    this->updateSelectedImage();
 }
 //-----------------------------------------------------------------------------
 EditorTabImage::~EditorTabImage()
@@ -111,13 +111,17 @@ void EditorTabImage::initStatusData()
     this->updateStatus();
 }
 //-----------------------------------------------------------------------------
-void EditorTabImage::mon_container_imageChanged(const QString &key)
+void EditorTabImage::updateSelectedImage()
 {
-    if (DefaultKey == key)
-    {
-        const QImage *image = this->mContainer->image(key);
-        this->mEditor->setImage(image);
-    }
+    const QImage *image = this->mContainer->image(DefaultKey);
+    this->mEditor->setImage(image);
+
+    this->updateStatus();
+}
+//-----------------------------------------------------------------------------
+void EditorTabImage::mon_container_imagesChanged()
+{
+    this->updateSelectedImage();
     this->setChanged(true);
     emit this->documentChanged(true, this->documentName(), this->fileName());
 }
@@ -128,8 +132,6 @@ void EditorTabImage::mon_editor_imageChanged()
 
     const QImage *image = this->mEditor->image();
     this->mContainer->setImage(DefaultKey, image);
-    this->setChanged(true);
-    emit this->documentChanged(true, this->documentName(), this->fileName());
 
     this->endChanges();
 }
@@ -303,19 +305,6 @@ QStringList EditorTabImage::selectedKeys() const
     return result;
 }
 //-----------------------------------------------------------------------------
-const QImage *EditorTabImage::image() const
-{
-    const QImage *result = this->mContainer->image(DefaultKey);
-    return result;
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::setImage(const QImage *value)
-{
-    this->mContainer->setImage(DefaultKey, value);
-
-    this->updateStatus();
-}
-//-----------------------------------------------------------------------------
 void EditorTabImage::convert(bool request)
 {
     Tags tags;
@@ -421,7 +410,7 @@ bool EditorTabImage::canRedo()
 void EditorTabImage::undo()
 {
     this->mContainer->stateUndo();
-    this->setImage(this->image());
+    this->updateSelectedImage();
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
 
@@ -431,7 +420,7 @@ void EditorTabImage::undo()
 void EditorTabImage::redo()
 {
     this->mContainer->stateRedo();
-    this->setImage(this->image());
+    this->updateSelectedImage();
 
     emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
 

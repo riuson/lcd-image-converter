@@ -17,36 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "imagesfilterproxy.h"
+#include "fonteditoroptions.h"
 
-#include <QStringList>
+#include <QVariant>
+#include <QSettings>
 //-----------------------------------------------------------------------------
-ImagesFilterProxy::ImagesFilterProxy(QObject *parent) :
-    QSortFilterProxyModel(parent)
+int FontEditorOptions::scale()
 {
-    this->mKeys = new QStringList();
+    QSettings sett;
+    sett.beginGroup("font-editor");
+    bool ok;
+    int result = sett.value("scale", QVariant(1)).toInt(&ok);
+    sett.endGroup();
+
+    if (ok)
+        return result;
+    return 1;
 }
 //-----------------------------------------------------------------------------
-ImagesFilterProxy::~ImagesFilterProxy()
+void FontEditorOptions::setScale(int value)
 {
-    delete this->mKeys;
-}
-//-----------------------------------------------------------------------------
-bool ImagesFilterProxy::filterAcceptsColumn(int source_column, const QModelIndex &source_parent) const
-{
-    QModelIndex index = this->sourceModel()->index(0, source_column, source_parent);
-    QString name = this->sourceModel()->data(index).toString();
-
-    return (this->mKeys->contains(name, Qt::CaseInsensitive));
-}
-//-----------------------------------------------------------------------------
-void ImagesFilterProxy::setFilter(const QStringList &keys)
-{
-    emit this->beginResetModel();
-
-    this->mKeys->clear();
-    this->mKeys->append(keys);
-
-    emit this->endResetModel();
+    QSettings sett;
+    sett.beginGroup("font-editor");
+    sett.setValue("scale", QVariant(value));
+    sett.endGroup();
 }
 //-----------------------------------------------------------------------------

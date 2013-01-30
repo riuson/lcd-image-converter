@@ -51,8 +51,6 @@ public:
     void setDocumentName(const QString &value);
     DataContainer *dataContainer();
     QStringList selectedKeys() const;
-    const QImage *image() const;
-    void setImage(const QImage *value);
     void convert(bool request);
     void updateStatus();
     StatusData *statusData() const;
@@ -79,9 +77,10 @@ private:
     QString convertedFileName() const;
     void setConvertedFileName(const QString &value);
     void initStatusData();
+    void updateSelectedImage();
 
 private slots:
-    void mon_container_imageChanged(const QString &key);
+    void mon_container_imagesChanged();
     void mon_editor_imageChanged();
     void mon_editor_mouseMove(QPoint point);
     void mon_editor_scaleChanged(int scale);

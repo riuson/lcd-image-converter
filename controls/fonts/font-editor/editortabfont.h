@@ -31,8 +31,9 @@ namespace Ui {
 class DataContainer;
 class WidgetBitmapEditor;
 class QSplitter;
-class FontCharactersModel;
+class ImagesModel;
 class QItemSelection;
+class QModelIndex;
 class StatusData;
 //-----------------------------------------------------------------------------
 class EditorTabFont : public QWidget, public IDocument
@@ -53,8 +54,6 @@ public:
     void setDocumentName(const QString &value);
     DataContainer *dataContainer();
     QStringList selectedKeys() const;
-    const QImage *image() const;
-    void setImage(const QImage *value);
     void convert(bool request);
     void updateStatus();
     StatusData *statusData() const;
@@ -81,17 +80,17 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
+    void wheelEvent(QWheelEvent *event);
 
 private:
     Ui::EditorTabFont *ui;
     WidgetBitmapEditor *mEditor;
     DataContainer *mContainer;
     QSplitter *mSplitter;
-    FontCharactersModel *mModel;
+    ImagesModel *mModel;
     StatusData *mStatusData;
 
     QFont mTableFont;
-    QString mSelectedKey;
 
     void setFileName(const QString &value);
     QString convertedFileName() const;
@@ -107,6 +106,7 @@ private:
     bool antialiasing() const;
     void setAntialiasing(const bool value);
 
+    QString currentKey() const;
     QImage drawCharacter(const QChar value,
                          const QFont &font,
                          const QColor &foreground,
@@ -114,14 +114,16 @@ private:
                          const int width,
                          const int height,
                          const bool antialiasing);
-    void updateTableFont();
+    void updateSelectedImage();
 
 private slots:
-    void mon_container_imageChanged(const QString &key);
+    void mon_container_imagesChanged();
     void mon_editor_imageChanged();
     void mon_editor_mouseMove(QPoint point);
     void mon_editor_scaleChanged(int scale);
-    void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+    void updateTableFont();
+    void resizeToContents();
 signals:
     void documentChanged(bool changed, const QString &documentName, const QString &filename);
     void statusChanged();

@@ -268,7 +268,17 @@ void ActionFileHandlers::openFile(const QString &filename)
 
                 QString name = this->mMainWindow->findAvailableName(info.baseName());
 
-                ed->setImage(&image);
+                // assign image
+                {
+                    QStringList keys = ed->selectedKeys();
+
+                    QStringListIterator iterator(keys);
+                    while (iterator.hasNext())
+                    {
+                        QString key = iterator.next();
+                        ed->dataContainer()->setImage(key, &image);
+                    }
+                }
 
                 ed->setDocumentName(name);
                 ed->setChanged(false);
@@ -285,7 +295,17 @@ void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
 
     QString name = this->mMainWindow->findAvailableName(documentName);
 
-    ed->setImage(image);
+    // assign image
+    {
+        QStringList keys = ed->selectedKeys();
+
+        QStringListIterator iterator(keys);
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+            ed->dataContainer()->setImage(key, image);
+        }
+    }
 
     ed->setDocumentName(name);
     ed->setChanged(true);

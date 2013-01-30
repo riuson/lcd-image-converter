@@ -482,19 +482,19 @@ Qt: %3</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="71"/>
+        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="74"/>
         <source>Font</source>
         <comment>new font name</comment>
         <translatorcomment>название нового шрифта, должно быть латинскими буквами</translatorcomment>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="558"/>
+        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="581"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="560"/>
+        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="583"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -515,27 +515,29 @@ Qt: %3</translation>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../controls/images/editortabimage.cpp" line="350"/>
+        <location filename="../controls/images/editortabimage.cpp" line="339"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/images/editortabimage.cpp" line="352"/>
+        <location filename="../controls/images/editortabimage.cpp" line="341"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
 </context>
 <context>
-    <name>FontCharactersModel</name>
+    <name>ImagesModel</name>
     <message>
-        <location filename="../controls/fonts/font-editor/fontcharactersmodel.cpp" line="61"/>
+        <location filename="../classes/data/imagesmodel.cpp" line="85"/>
+        <location filename="../classes/data/imagesmodel.cpp" line="111"/>
         <source>Character</source>
         <translation>Символ</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/fontcharactersmodel.cpp" line="64"/>
+        <location filename="../classes/data/imagesmodel.cpp" line="91"/>
+        <location filename="../classes/data/imagesmodel.cpp" line="117"/>
         <source>Preview</source>
-        <comment>character prewview</comment>
+        <comment>character preview</comment>
         <translation>Предпросмотр</translation>
     </message>
 </context>
@@ -853,25 +855,6 @@ Qt: %3</translation>
         <location filename="../controls/setup/parts/reordering/reorderingpreviewmodel.cpp" line="72"/>
         <source>Result</source>
         <translation>Результат</translation>
-    </message>
-</context>
-<context>
-    <name>ResizeModel</name>
-    <message>
-        <location filename="../controls/resize/resizemodel.cpp" line="71"/>
-        <source>Character</source>
-        <translation>Символ</translation>
-    </message>
-    <message>
-        <location filename="../controls/resize/resizemodel.cpp" line="75"/>
-        <source>Image</source>
-        <translation>Изображение</translation>
-    </message>
-    <message>
-        <location filename="../controls/resize/resizemodel.cpp" line="81"/>
-        <source>Preview</source>
-        <comment>character preview</comment>
-        <translation>Предпросмотр</translation>
     </message>
 </context>
 <context>

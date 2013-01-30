@@ -32,6 +32,7 @@ SOURCES += main.cpp \
     classes/data/datacontainer.cpp \
     classes/data/historykeeper.cpp \
     classes/data/historyrecord.cpp \
+    classes/data/imagesmodel.cpp \
     classes/data/revisioninfo.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
@@ -41,6 +42,7 @@ SOURCES += main.cpp \
     classes/parser/tags.cpp \
     classes/settings/bitmapeditoroptions.cpp \
     classes/settings/externaltooloptions.cpp \
+    classes/settings/fonteditoroptions.cpp \
     classes/settings/languageoptions.cpp \
     classes/settings/presets/fontoptions.cpp \
     classes/settings/presets/imageoptions.cpp \
@@ -56,7 +58,6 @@ SOURCES += main.cpp \
     controls/about/dialogabout.cpp \
     controls/fonts/font-changed/dialogfontchanged.cpp \
     controls/fonts/font-editor/editortabfont.cpp \
-    controls/fonts/font-editor/fontcharactersmodel.cpp \
     controls/fonts/font-new/charactersmodel.cpp \
     controls/fonts/font-new/dialogfontselect.cpp \
     controls/fonts/font-new/unicodeblocksmodel.cpp \
@@ -68,7 +69,6 @@ SOURCES += main.cpp \
     controls/main/revisionlabel.cpp \
     controls/resize/dialogcanvasresize.cpp \
     controls/resize/imagesfilterproxy.cpp \
-    controls/resize/resizemodel.cpp \
     controls/save-changes/dialogsavechanges.cpp \
     controls/setup/dialogexternaleditor.cpp \
     controls/setup/dialogoptions.cpp \
@@ -97,6 +97,7 @@ HEADERS += \
     classes/data/datacontainer.h \
     classes/data/historykeeper.h \
     classes/data/historyrecord.h \
+    classes/data/imagesmodel.h \
     classes/data/revisioninfo.h \
     classes/parser/convert/bitmaphelper.h \
     classes/parser/convert/bitstream.h \
@@ -107,6 +108,7 @@ HEADERS += \
     classes/parser/tags.h \
     classes/settings/bitmapeditoroptions.h \
     classes/settings/externaltooloptions.h \
+    classes/settings/fonteditoroptions.h \
     classes/settings/languageoptions.h \
     classes/settings/presets/fontoptions.h \
     classes/settings/presets/imageoptions.h \
@@ -122,7 +124,6 @@ HEADERS += \
     controls/about/dialogabout.h \
     controls/fonts/font-changed/dialogfontchanged.h \
     controls/fonts/font-editor/editortabfont.h \
-    controls/fonts/font-editor/fontcharactersmodel.h \
     controls/fonts/font-new/charactersmodel.h \
     controls/fonts/font-new/dialogfontselect.h \
     controls/fonts/font-new/unicodeblocksmodel.h \
@@ -134,7 +135,6 @@ HEADERS += \
     controls/main/revisionlabel.h \
     controls/resize/dialogcanvasresize.h \
     controls/resize/imagesfilterproxy.h \
-    controls/resize/resizemodel.h \
     controls/save-changes/dialogsavechanges.h \
     controls/setup/dialogexternaleditor.h \
     controls/setup/dialogoptions.h \
