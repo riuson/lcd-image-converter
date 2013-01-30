@@ -114,7 +114,7 @@ QVariant ImagesModel::headerData(int section, Qt::Orientation orientation, int r
                 }
                 case 1:
                 {
-                    result = tr("Preview", "character prewview");
+                    result = tr("Preview", "character preview");
                     break;
                 }
                 }
