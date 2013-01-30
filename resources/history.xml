@@ -9,7 +9,8 @@
 Added:
  Unicode blocks;
  New tag names;
- Changed 'Resize' dialog.</description>
+ Changed 'Resize' dialog;
+ Font preview's size can be changed by Ctrl+Wheel.</description>
     </record>
     <record>
         <commit>
