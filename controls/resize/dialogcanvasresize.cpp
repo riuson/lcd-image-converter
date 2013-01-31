@@ -50,7 +50,9 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
     this->mRight = 0;
     this->mBottom = 0;
 
-    this->ui->spinBoxScale->setValue(ResizeSettings::scale());
+    int scale = ResizeSettings::scale();
+    this->ui->spinBoxScale->setValue(scale);
+    this->on_spinBoxScale_valueChanged(scale);
 }
 //-----------------------------------------------------------------------------
 DialogCanvasResize::~DialogCanvasResize()
