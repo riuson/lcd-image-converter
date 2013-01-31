@@ -913,14 +913,18 @@ QString EditorTabFont::currentKey() const
         }
         else
         {
-            if (this->mContainer->count() > 0)
-            {
-                result = this->mContainer->keys().at(0);
-            }
-            else
-            {
-                result = "default";
-            }
+        }
+    }
+
+    if (result.isEmpty())
+    {
+        if (this->mContainer->count() > 0)
+        {
+            result = this->mContainer->keys().at(0);
+        }
+        else
+        {
+            result = "default";
         }
     }
 
