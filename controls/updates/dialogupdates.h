@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2010 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,27 +17,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef DIALOGABOUT_H
-#define DIALOGABOUT_H
+#ifndef DIALOGUPDATES_H
+#define DIALOGUPDATES_H
 //-----------------------------------------------------------------------------
 #include <QDialog>
 //-----------------------------------------------------------------------------
 namespace Ui {
-    class DialogAbout;
+    class DialogUpdates;
 }
 //-----------------------------------------------------------------------------
-class DialogAbout : public QDialog
+class QNetworkReply;
+//-----------------------------------------------------------------------------
+class DialogUpdates : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit DialogAbout(QWidget *parent = 0);
-    ~DialogAbout();
+    explicit DialogUpdates(QWidget *parent = 0);
+    ~DialogUpdates();
 
 private:
-    Ui::DialogAbout *ui;
+    Ui::DialogUpdates *ui;
 
-    void showLicense();
+    void showHistory();
+    void showUpdates();
+    void showUpdates(const QString &xml);
+    void showError(const QString &message);
+    bool transformHistory(const QString &xml, const QString &xsl, QString *html);
+
+private slots:
+    void networkReply(QNetworkReply* reply);
 };
 //-----------------------------------------------------------------------------
-#endif // DIALOGABOUT_H
+#endif // DIALOGUPDATES_H

@@ -31,7 +31,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../resources/resources.qrc">:/images/icon96</pixmap>
+        <pixmap resource="../../resources/resources.qrc">:/images/icon96</pixmap>
        </property>
       </widget>
      </item>
@@ -59,15 +59,6 @@ Qt %3</string>
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="labelLinks">
-     <property name="text">
-      <string>&lt;a href=&quot;license&quot;&gt;License&lt;/a&gt;, 
-&lt;a href=&quot;history&quot;&gt;Changes history&lt;/a&gt;,
-&lt;a href=&quot;updates&quot;&gt;Check updates&lt;/a&gt;</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QTextBrowser" name="textBrowser">
      <property name="openExternalLinks">
       <bool>true</bool>
@@ -90,7 +81,7 @@ Qt %3</string>
   </layout>
  </widget>
  <resources>
-  <include location="../resources/resources.qrc"/>
+  <include location="../../resources/resources.qrc"/>
  </resources>
  <connections>
   <connection>
