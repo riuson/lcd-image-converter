@@ -47,5 +47,38 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>DialogUpdates</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>273</x>
+     <y>326</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>273</x>
+     <y>174</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>DialogUpdates</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>273</x>
+     <y>326</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>273</x>
+     <y>174</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
