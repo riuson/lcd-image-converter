@@ -23,6 +23,7 @@
 #include <QUrl>
 
 #include "dialogabout.h"
+#include "dialogupdates.h"
 #include "imainwindow.h"
 //-----------------------------------------------------------------------------
 ActionHelpHandlers::ActionHelpHandlers(QObject *parent) :
@@ -33,6 +34,12 @@ ActionHelpHandlers::ActionHelpHandlers(QObject *parent) :
 void ActionHelpHandlers::about_triggered()
 {
     DialogAbout dialog(this->mMainWindow->parentWidget());
+    dialog.exec();
+}
+//-----------------------------------------------------------------------------
+void ActionHelpHandlers::updates_triggered()
+{
+    DialogUpdates dialog(this->mMainWindow->parentWidget());
     dialog.exec();
 }
 //-----------------------------------------------------------------------------

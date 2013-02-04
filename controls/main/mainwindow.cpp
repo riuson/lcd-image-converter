@@ -236,6 +236,7 @@ void MainWindow::createHandlers()
 
     this->mHelpHandlers = new ActionHelpHandlers(this);
     this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(about_triggered()));
+    this->mHelpHandlers->connect(this->ui->actionUpdates, SIGNAL(triggered()), SLOT(updates_triggered()));
     this->mHelpHandlers->connect(this->ui->actionWiki, SIGNAL(triggered()), SLOT(wiki_triggered()));
 
     this->mFileHandlers->connect(this->mFontHandlers, SIGNAL(imageCreated(QImage*,QString)), SLOT(openImage(QImage*,QString)));
