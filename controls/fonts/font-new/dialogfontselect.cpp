@@ -346,6 +346,8 @@ void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QI
 //-----------------------------------------------------------------------------
 void DialogFontSelect::rangeChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
+    Q_UNUSED(deselected);
+
     QModelIndexList indexes = selected.indexes();
 
     if (indexes.length() > 0)
