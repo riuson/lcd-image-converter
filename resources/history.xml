@@ -10,7 +10,8 @@ Added:
  Unicode blocks;
  New tag names;
  Changed 'Resize' dialog;
- Font preview's size can be changed by Ctrl+Wheel.</description>
+ Font preview's size can be changed by Ctrl+Wheel;
+ A separate dialog box to check for updates.</description>
     </record>
     <record>
         <commit>
