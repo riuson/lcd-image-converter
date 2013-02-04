@@ -83,7 +83,8 @@ SOURCES += main.cpp \
     controls/setup/parts/reordering/reorderingpreviewmodel.cpp \
     controls/setup/parts/reordering/setuptabreordering.cpp \
     controls/setup/parts/templates/setuptabtemplates.cpp \
-    controls/start/starttab.cpp
+    controls/start/starttab.cpp \
+    controls/updates/dialogupdates.cpp
 
 HEADERS += \
     classes/action-handlers/actionedithandlers.h \
@@ -150,6 +151,7 @@ HEADERS += \
     controls/setup/parts/reordering/setuptabreordering.h \
     controls/setup/parts/templates/setuptabtemplates.h \
     controls/start/starttab.h \
+    controls/updates/dialogupdates.h \
     interfaces/idocument.h \
     interfaces/imainwindow.h
 
@@ -173,7 +175,8 @@ FORMS += \
     controls/setup/parts/prepare/setuptabprepare.ui \
     controls/setup/parts/reordering/setuptabreordering.ui \
     controls/setup/parts/templates/setuptabtemplates.ui \
-    controls/start/starttab.ui
+    controls/start/starttab.ui \
+    controls/updates/dialogupdates.ui
 
 INCLUDEPATH += . \
     ./classes \
@@ -205,6 +208,7 @@ INCLUDEPATH += . \
     ./controls/setup/parts/prepare \
     ./controls/setup/parts/reordering \
     ./controls/setup/parts/templates \
+    ./controls/updates \
     ./interfaces
 
 RESOURCES += \
