@@ -39,7 +39,6 @@ public:
 private:
     Ui::DialogUpdates *ui;
 
-    void showLicense();
     void showHistory();
     void showUpdates();
     void showUpdates(const QString &xml);
@@ -47,7 +46,6 @@ private:
     bool transformHistory(const QString &xml, const QString &xsl, QString *html);
 
 private slots:
-    void linkActivated(const QString &link);
     void networkReply(QNetworkReply* reply);
 };
 //-----------------------------------------------------------------------------

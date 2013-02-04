@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>About</string>
+   <string>Updates</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -20,7 +20,7 @@
    <item>
     <widget class="QLabel" name="labelStatus">
      <property name="text">
-      <string>Link</string>
+      <string notr="true">Link</string>
      </property>
     </widget>
    </item>

@@ -35,6 +35,7 @@ DialogUpdates::DialogUpdates(QWidget *parent) :
     ui(new Ui::DialogUpdates)
 {
     ui->setupUi(this);
+    this->ui->labelStatus->setVisible(false);
 
     // hide ? button from title
     this->setWindowFlags(this->windowFlags() & (~Qt::WindowContextHelpButtonHint));
@@ -44,28 +45,19 @@ DialogUpdates::DialogUpdates(QWidget *parent) :
     icon.addFile(":/images/icon64", QSize(64, 64));
     this->setWindowIcon(icon);
 
-    this->showLicense();
+    // show local history by default
+    this->showHistory();
 
     // focus on Close button
     this->ui->buttonBox->setFocus();
+
+    // start download history.xml from network
+    this->showUpdates();
 }
 //-----------------------------------------------------------------------------
 DialogUpdates::~DialogUpdates()
 {
     delete ui;
-}
-//-----------------------------------------------------------------------------
-void DialogUpdates::showLicense()
-{
-    QFile file_license(":/text/gpl3");
-    if (file_license.open(QIODevice::ReadOnly))
-    {
-        QTextStream stream(&file_license);
-        QString license = stream.readAll();
-        file_license.close();
-
-        this->ui->textBrowser->setText(license);
-    }
 }
 //-----------------------------------------------------------------------------
 void DialogUpdates::showHistory()
@@ -162,7 +154,8 @@ void DialogUpdates::showUpdates(const QString &xml)
 //-----------------------------------------------------------------------------
 void DialogUpdates::showError(const QString &message)
 {
-    this->ui->textBrowser->setText(message);
+    this->ui->labelStatus->setText(message);
+    this->ui->labelStatus->setVisible(true);
 }
 //-----------------------------------------------------------------------------
 bool DialogUpdates::transformHistory(const QString &xml, const QString &xsl, QString *html)
@@ -217,22 +210,6 @@ bool DialogUpdates::transformHistory(const QString &xml, const QString &xsl, QSt
     }
 
     return isSuccessfully;
-}
-//-----------------------------------------------------------------------------
-void DialogUpdates::linkActivated(const QString &link)
-{
-    if (link == "license")
-    {
-        this->showLicense();
-    }
-    if (link == "history")
-    {
-        this->showHistory();
-    }
-    if (link == "updates")
-    {
-        this->showUpdates();
-    }
 }
 //-----------------------------------------------------------------------------
 void DialogUpdates::networkReply(QNetworkReply* reply)
