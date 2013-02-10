@@ -64,6 +64,7 @@ private:
     int mBottom;
 
     QVariant containerValue(int imageIndex, ImagesModelRoles role) const;
+    QSize containerValueSize(int imageIndex, ImagesModelRoles role) const;
 
 private slots:
     void imagesChanged();
