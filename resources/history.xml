@@ -5,8 +5,7 @@
             <sha1>current</sha1>
             <date>current</date>
         </commit>
-        <description>
-Added:
+        <description>Added:
  Unicode blocks;
  New tag names;
  Changed 'Resize' dialog;
