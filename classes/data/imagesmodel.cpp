@@ -163,10 +163,7 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
     {
         if (columnIndex == 1)
         {
-            QVariant var = this->containerValue(valueIndex, PixmapScaledCroppedRole);
-            QPixmap pixmap = var.value<QPixmap>();
-
-            QSize size = pixmap.size();
+            QSize size = this->containerValueSize(valueIndex, PixmapScaledCroppedRole);
             size.rheight() += 10;
             size.rwidth() += 10;
 
@@ -303,6 +300,60 @@ QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) cons
             result = QPixmap::fromImage(grids);
             break;
         }
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+QSize ImagesModel::containerValueSize(int imageIndex, ImagesModelRoles role) const
+{
+    QSize result = QSize();
+
+    if (imageIndex >= 0 && imageIndex < this->mContainer->count())
+    {
+        QString key = this->mContainer->keys().at(imageIndex);
+
+        const QImage *source = this->mContainer->image(key);
+
+        switch (role)
+        {
+        case ImageRole:
+        case PixmapRole:
+        {
+            result = source->size();
+            break;
+        }
+        case ImageScaledRole:
+        case PixmapScaledRole:
+        {
+            result = source->size();
+            result.rheight() *= this->mScale;
+            result.rwidth() *= this->mScale;
+            break;
+        }
+        case PixmapScaledCroppedRole:
+        {
+            result = source->size();
+
+            result.rwidth() += this->mLeft + this->mRight;
+            result.rheight() += this->mTop + this->mBottom;
+
+            if (result.height() < 1)
+            {
+                result.setHeight(1);
+            }
+            if (result.width() < 1)
+            {
+                result.setWidth(1);
+            }
+
+            result.rheight() *= this->mScale;
+            result.rwidth() *= this->mScale;
+            break;
+        }
+        default:
+            break;
         }
     }
 
