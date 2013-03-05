@@ -37,7 +37,7 @@ bool ImagesFilterProxy::filterAcceptsColumn(int source_column, const QModelIndex
     QModelIndex index = this->sourceModel()->index(0, source_column, source_parent);
     QString name = this->sourceModel()->data(index).toString();
 
-    return (this->mKeys->contains(name, Qt::CaseInsensitive));
+    return (this->mKeys->contains(name, Qt::CaseSensitive));
 }
 //-----------------------------------------------------------------------------
 void ImagesFilterProxy::setFilter(const QStringList &keys)
