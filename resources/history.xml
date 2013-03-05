@@ -5,12 +5,26 @@
             <sha1>current</sha1>
             <date>current</date>
         </commit>
+        <description>Fixed:
+ Character's filter in resize dialog.</description>
+    </record>
+    <record>
+        <commit>
+            <sha1>e3845185e979677235a2d12243b675b96ce225c6</sha1>
+            <date>2013-02-10 09:49:25 +0600</date>
+        </commit>
         <description>Added:
  Unicode blocks;
  New tag names;
  Changed 'Resize' dialog;
  Font preview's size can be changed by Ctrl+Wheel;
  A separate dialog box to check for updates.</description>
+        <downloads>
+            <item>
+                <name>Application for Windows (7.7 MB)</name>
+                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20130210-e3845185e979.zip</url>
+            </item>
+        </downloads>
     </record>
     <record>
         <commit>
