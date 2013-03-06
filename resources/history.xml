@@ -6,7 +6,21 @@
             <date>current</date>
         </commit>
         <description>Fixed:
+ Invalid status on first-time selection.</description>
+    </record>
+    <record>
+        <commit>
+            <sha1>b1e5f171a1b6ecd5593003a2aa35191022537dd9</sha1>
+            <date>2013-03-05 23:31:02</date>
+        </commit>
+        <description>Fixed:
  Character's filter in resize dialog.</description>
+        <downloads>
+            <item>
+                <name>Application for Windows (7.7 MB)</name>
+                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20130305-b1e5f171a1b6.zip</url>
+            </item>
+        </downloads>
     </record>
     <record>
         <commit>
