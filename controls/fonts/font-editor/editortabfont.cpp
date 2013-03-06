@@ -237,6 +237,10 @@ void EditorTabFont::currentChanged(const QModelIndex &current, const QModelIndex
         const QImage *image = this->mContainer->image(key);
         this->mEditor->setImage(image);
 
+        // update selection for currentKey() method, called by updateStatus()
+        QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+        selectionModel->setCurrentIndex(current, QItemSelectionModel::SelectCurrent);
+
         this->updateStatus();
     }
 }
