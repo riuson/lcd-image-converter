@@ -79,7 +79,10 @@ QString Parser::convert(IDocument *document, Tags &tags) const
     }
     tags.setTagValue(Tags::TemplateFilename, file.fileName());
 
-    tags.setTagValue(Tags::OutputDataIndent, this->imageIndent(templateString));
+    QString prefix, suffix;
+    this->imageParticles(templateString, &prefix, &suffix);
+    tags.setTagValue(Tags::OutputDataIndent, prefix);
+    tags.setTagValue(Tags::OutputDataEOL, suffix);
 
     this->addMatrixInfo(tags);
 
@@ -220,7 +223,7 @@ QString Parser::parseImage(const QImage *image, Tags &tags) const
     tags.setTagValue(Tags::OutputBlocksCount, QString("%1").arg(compressedData.size()));
 
     QString dataString = ConverterHelper::dataToString(this->mPreset, &compressedData, compressedWidth, compressedHeight, "0x");
-    dataString.replace("\n", "\n" + tags.tagValue(Tags::OutputDataIndent));
+    dataString.replace("\n", tags.tagValue(Tags::OutputDataEOL) + tags.tagValue(Tags::OutputDataIndent));
 
     // end of conversion
 
@@ -422,21 +425,49 @@ void Parser::addImagesInfo(Tags &tags, IDocument *doc) const
     tags.setTagValue(Tags::OutputImagesMaxHeight, QString("%1").arg(maxHeight));
 }
 //-----------------------------------------------------------------------------
-QString Parser::imageIndent(const QString &templateString) const
+void Parser::imageParticles(const QString &templateString, QString *prefix, QString *suffix) const
 {
-    QRegExp regIndent = QRegExp("([\\t\\ ]+)(\\@|\\$\\()imageData(\\@|\\))");
-    regIndent.setMinimal(true);
-    if (regIndent.indexIn(templateString) >= 0)
-    {
-        QString result = regIndent.cap(1);
-        if (result.isEmpty())
-            result = "    ";
+    QString templateOutImageData;
 
-        return result;
+    // extract 'out_image_data' line
+    QRegExp regOutImageData = QRegExp("[^\\n\\r]*out_image_data[^\\n\\r]*[\\n\\r]*");
+    if (regOutImageData.indexIn(templateString) >= 0)
+    {
+        templateOutImageData = regOutImageData.cap();
     }
     else
     {
-        return "    ";
+        regOutImageData.setPattern("[^\\n\\r]*imageData[^\\n\\r]*[\\n\\r]*");
+        if (regOutImageData.indexIn(templateString) >= 0)
+        {
+            templateOutImageData = regOutImageData.cap();
+        }
+    }
+
+    *prefix = QString("    ");
+    *suffix = QString("\r\n");
+
+    if (!templateOutImageData.isEmpty())
+    {
+        QRegExp regIndent = QRegExp("^[\\t\\ ]*");
+        if (regIndent.indexIn(templateOutImageData) >= 0)
+        {
+            QString result = regIndent.cap();
+            if (!result.isEmpty())
+            {
+                *prefix = result;
+            }
+        }
+
+        QRegExp regEOL = QRegExp("[\\r\\n]*$");
+        if (regEOL.indexIn(templateOutImageData) >= 0)
+        {
+            QString result = regEOL.cap();
+            if (!result.isEmpty())
+            {
+                *suffix = result;
+            }
+        }
     }
 }
 //-----------------------------------------------------------------------------
