@@ -60,7 +60,7 @@ private:
     void addImagesInfo(Tags &tags, IDocument *doc) const;
 
     bool findNextTag(int startIndex, int *resultIndex, Tags);
-    QString imageIndent(const QString &templateString) const;
+    void imageParticles(const QString &templateString, QString *prefix, QString *suffix) const;
 };
 //-----------------------------------------------------------------------------
 #endif // PARSER_H

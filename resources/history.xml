@@ -6,7 +6,8 @@
             <date>current</date>
         </commit>
         <description>Fixed:
- Invalid status on first-time selection.</description>
+ Invalid status on first-time selection;
+ Indent and EOL for the output image data.</description>
     </record>
     <record>
         <commit>

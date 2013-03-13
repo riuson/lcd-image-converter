@@ -75,6 +75,7 @@ public:
         OutputImagesCount,
         OutputComma,
         OutputDataIndent,
+        OutputDataEOL,
         OutputImageWidth,
         OutputImageHeight,
         OutputImagesMaxWidth,
