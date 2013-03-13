@@ -223,7 +223,7 @@ QString Parser::parseImage(const QImage *image, Tags &tags) const
     tags.setTagValue(Tags::OutputBlocksCount, QString("%1").arg(compressedData.size()));
 
     QString dataString = ConverterHelper::dataToString(this->mPreset, &compressedData, compressedWidth, compressedHeight, "0x");
-    dataString.replace("\n", "\n" + tags.tagValue(Tags::OutputDataIndent));
+    dataString.replace("\n", tags.tagValue(Tags::OutputDataEOL) + tags.tagValue(Tags::OutputDataIndent));
 
     // end of conversion
 
