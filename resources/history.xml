@@ -6,7 +6,8 @@
             <date>current</date>
         </commit>
         <description>Fixed:
- Feature 'Optimize height'.</description>
+ Feature 'Optimize height';
+ Save font parameters for newly created font.</description>
     </record>
     <record>
         <commit>

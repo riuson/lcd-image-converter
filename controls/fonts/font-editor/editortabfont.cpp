@@ -712,6 +712,10 @@ void EditorTabFont::setFontCharacters(const QString &chars,
             }
         }
     }
+    else // for newly created fonts
+    {
+        regenerateAll = true;
+    }
 
     QImage emptyImage = QImage();
     this->mEditor->setImage(&emptyImage);
