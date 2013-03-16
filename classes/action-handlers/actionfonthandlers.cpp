@@ -165,7 +165,8 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
         }
 
         DialogCanvasResize dialog(this->document()->dataContainer(), this->mMainWindow->parentWidget());
-        dialog.setResizeInfo(left, top, right, bottom);
+        dialog.selectKeys(keys);
+        dialog.setResizeInfo(-left, -top, -right, -bottom);
         if (dialog.exec() == QDialog::Accepted)
         {
             dialog.resizeInfo(&left, &top, &right, &bottom);

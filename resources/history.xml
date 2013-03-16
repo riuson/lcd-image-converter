@@ -6,13 +6,28 @@
             <date>current</date>
         </commit>
         <description>Fixed:
+ Feature 'Optimize height';
+ Save font parameters for newly created font.</description>
+    </record>
+    <record>
+        <commit>
+            <sha1>559bd5a29c5725863955aa5f974598aef8dff630</sha1>
+            <date>2013-03-13 21:37:41 +0600</date>
+        </commit>
+        <description>Fixed:
  Invalid status on first-time selection;
  Indent and EOL for the output image data.</description>
+        <downloads>
+            <item>
+                <name>Application for Windows (7.7 MB)</name>
+                <url>https://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20130313-559bd5a29c57.zip</url>
+            </item>
+        </downloads>
     </record>
     <record>
         <commit>
             <sha1>b1e5f171a1b6ecd5593003a2aa35191022537dd9</sha1>
-            <date>2013-03-05 23:31:02</date>
+            <date>2013-03-05 23:31:02 +0600</date>
         </commit>
         <description>Fixed:
  Character's filter in resize dialog.</description>
