@@ -22,8 +22,12 @@
 //-----------------------------------------------------------------------------
 #include <QObject>
 //-----------------------------------------------------------------------------
+#include "conversion_options.h"
+//-----------------------------------------------------------------------------
 class QStringList;
 class QSettings;
+//-----------------------------------------------------------------------------
+using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
 class FontOptions : public QObject
 {
@@ -33,9 +37,11 @@ public:
 
     bool bom() const;
     const QString &encoding() const;
+    CharactersSortOrder sortOrder() const;
 
     void setBom(bool value);
     void setEncoding(const QString &value);
+    void setSortOrder(CharactersSortOrder value);
 
     bool load(QSettings *settings, int version);
     void save(QSettings *settings);
@@ -45,6 +51,7 @@ public:
 private:
     bool mBom;
     QString mEncoding;
+    CharactersSortOrder mSortOrder;
 
 signals:
     void changed();

@@ -488,12 +488,12 @@ Qt: %3</translation>
         <translation>Font</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="581"/>
+        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="585"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="583"/>
+        <location filename="../controls/fonts/font-editor/editortabfont.cpp" line="587"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -877,6 +877,26 @@ Qt: %3</translation>
         <location filename="../controls/setup/parts/font/setuptabfont.ui" line="37"/>
         <source>Encoding:</source>
         <translation>Кодировка:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="60"/>
+        <source>Sort characters:</source>
+        <translation>Сортировать символы:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="78"/>
+        <source>None</source>
+        <translation>Нет</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="81"/>
+        <source>Ascending</source>
+        <translation>По возрастанию</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="84"/>
+        <source>Descending</source>
+        <translation>По убыванию</translation>
     </message>
 </context>
 <context>

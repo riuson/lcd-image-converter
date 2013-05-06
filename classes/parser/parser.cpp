@@ -148,8 +148,16 @@ QString Parser::parseImagesTable(const QString &templateString,
     QString result;
 
     DataContainer *data = doc->dataContainer();
+    bool useBom = this->mPreset->font()->bom();
+    QString encoding = this->mPreset->font()->encoding();
+    CharactersSortOrder order = this->mPreset->font()->sortOrder();
+
     QString imageString;
-    QListIterator<QString> it(data->keys());
+
+    QStringList keys = data->keys();
+    QStringList sortedKeys = this->sortKeysWithEncoding(keys, encoding, useBom, order);
+
+    QListIterator<QString> it(sortedKeys);
     it.toFront();
 
     while (it.hasNext())
@@ -159,10 +167,8 @@ QString Parser::parseImagesTable(const QString &templateString,
 
         QString dataString = this->parseImage(&image, tags);
 
-        bool useBom = this->mPreset->font()->bom();
-        QString encoding = this->mPreset->font()->encoding();
 
-        QString charCode = this->hexCode(key.at(0), encoding, useBom);
+        QString charCode = this->hexCode(key, encoding, useBom);
 
         tags.setTagValue(Tags::OutputImageData, dataString);
         tags.setTagValue(Tags::OutputCharacterCode, charCode);
@@ -230,11 +236,12 @@ QString Parser::parseImage(const QImage *image, Tags &tags) const
     return dataString;
 }
 //-----------------------------------------------------------------------------
-QString Parser::hexCode(const QChar &ch, const QString &encoding, bool bom) const
+QString Parser::hexCode(const QString &key, const QString &encoding, bool bom) const
 {
     QString result;
     QTextCodec *codec = QTextCodec::codecForName(encoding.toAscii());
 
+    QChar ch = key.at(0);
     QByteArray codeArray = codec->fromUnicode(&ch, 1);
 
     quint64 code = 0;
@@ -469,5 +476,63 @@ void Parser::imageParticles(const QString &templateString, QString *prefix, QStr
             }
         }
     }
+}
+//-----------------------------------------------------------------------------
+bool caseInsensitiveLessThan(const QString &s1, const QString &s2)
+{
+    return s1.toLower() < s2.toLower();
+}
+//-----------------------------------------------------------------------------
+bool caseInsensitiveMoreThan(const QString &s1, const QString &s2)
+{
+    return s1.toLower() > s2.toLower();
+}
+//-----------------------------------------------------------------------------
+const QStringList Parser::sortKeysWithEncoding(
+        const QStringList &keys,
+        const QString &encoding,
+        bool useBom,
+        CharactersSortOrder order) const
+{
+    if (order == CharactersSortNone)
+        return keys;
+
+    QMap <QString, QString> map;
+
+    QListIterator<QString> it(keys);
+    it.toFront();
+
+    while (it.hasNext())
+    {
+        const QString key = it.next();
+        const QString hex = this->hexCode(key, encoding, useBom);
+        map.insert(hex, key);
+    }
+
+    QStringList hexCodes = map.keys();
+
+    switch (order)
+    {
+    case CharactersSortAscending:
+        qSort(hexCodes.begin(), hexCodes.end(), caseInsensitiveLessThan);
+        break;
+    case CharactersSortDescending:
+        qSort(hexCodes.begin(), hexCodes.end(), caseInsensitiveMoreThan);
+        break;
+    default:
+        break;
+    }
+
+    QStringList result;
+    it = QListIterator<QString>(hexCodes);
+    it.toFront();
+
+    while (it.hasNext())
+    {
+        const QString key = it.next();
+        result.append(map.value(key));
+    }
+
+    return result;
 }
 //-----------------------------------------------------------------------------

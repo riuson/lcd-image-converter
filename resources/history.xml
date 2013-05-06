@@ -5,8 +5,9 @@
             <sha1>current</sha1>
             <date>current</date>
         </commit>
-        <description>Fixed:
- Supported encodings list has been expanded</description>
+        <description>Added:
+ New encodings;
+ Sorting table characters by codes.</description>
     </record>
     <record>
         <commit>
