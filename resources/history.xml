@@ -6,8 +6,22 @@
             <date>current</date>
         </commit>
         <description>Fixed:
+ Supported encodings list has been expanded</description>
+    </record>
+    <record>
+        <commit>
+            <sha1>ce530e158ca31dfbf6cb7268d8abbaef60deca32</sha1>
+            <date>2013-03-16 16:36:45 +0600</date>
+        </commit>
+        <description>Fixed:
  Feature 'Optimize height';
  Save font parameters for newly created font.</description>
+        <downloads>
+            <item>
+                <name>Application for Windows (7.7 MB)</name>
+                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20130316-ce530e158ca3.zip</url>
+            </item>
+        </downloads>
     </record>
     <record>
         <commit>

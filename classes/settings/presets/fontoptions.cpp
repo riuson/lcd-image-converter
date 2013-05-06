@@ -21,6 +21,7 @@
 //-----------------------------------------------------------------------------
 #include <QStringList>
 #include <QSettings>
+#include <QTextCodec>
 //-----------------------------------------------------------------------------
 FontOptions::FontOptions(QObject *parent) :
     QObject(parent)
@@ -112,24 +113,17 @@ void FontOptions::save(QSettings *settings)
 //-----------------------------------------------------------------------------
 const QStringList &FontOptions::encodings()
 {
-    static const QStringList result =
-            QStringList() << "UTF-8"
-                          << "UTF-16"
-                          << "UTF-16BE"
-                          << "UTF-16LE"
-                          << "UTF-32"
-                          << "UTF-32BE"
-                          << "UTF-32LE"
-                          << "Windows-1250"
-                          << "Windows-1251"
-                          << "Windows-1252"
-                          << "Windows-1253"
-                          << "Windows-1254"
-                          << "Windows-1255"
-                          << "Windows-1256"
-                          << "Windows-1257"
-                          << "Windows-1258";
+    static QStringList result;
 
+    if (result.isEmpty())
+    {
+        QList<QByteArray> codecs = QTextCodec::availableCodecs();
+        for (int i = 0; i < codecs.length(); i++)
+        {
+            result.append(QString(codecs.at(i)));
+        }
+        result.sort();
+    }
     return result;
 }
 //-----------------------------------------------------------------------------
