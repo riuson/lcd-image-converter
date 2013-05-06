@@ -86,6 +86,14 @@ enum ScanSubDirection
     Backward = 1
 };
 //------------------------------------------------------------------------------
+enum CharactersSortOrder
+{
+    CharactersSortNone = 0,
+    CharactersSortAscending = 1,
+    CharactersSortDescending = 2
+};
+
+//------------------------------------------------------------------------------
 } // end of namespace
 //------------------------------------------------------------------------------
 #endif // CONVERSION_OPTIONS_H
