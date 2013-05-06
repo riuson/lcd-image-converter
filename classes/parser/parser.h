@@ -23,7 +23,9 @@
 #include <QObject>
 #include <QMap>
 #include <QRegExp>
-
+//-----------------------------------------------------------------------------
+#include "conversion_options.h"
+//-----------------------------------------------------------------------------
 class IDocument;
 class IDataContainer;
 class Preset;
@@ -55,12 +57,13 @@ private:
     QString parse(const QString &templateString, Tags &tags, IDocument *doc) const;
     QString parseImagesTable(const QString &templateString, Tags &tags, IDocument *doc) const;
     QString parseImage(const QImage *image, Tags &tags) const;
-    QString hexCode(const QChar &ch, const QString &encoding, bool bom) const;
+    QString hexCode(const QString &key, const QString &encoding, bool bom) const;
     void addMatrixInfo(Tags &tags) const;
     void addImagesInfo(Tags &tags, IDocument *doc) const;
 
     bool findNextTag(int startIndex, int *resultIndex, Tags);
     void imageParticles(const QString &templateString, QString *prefix, QString *suffix) const;
+    const QStringList sortKeysWithEncoding(const QStringList &keys, const QString &encoding, bool useBom, ConversionOptions::CharactersSortOrder order) const;
 };
 //-----------------------------------------------------------------------------
 #endif // PARSER_H
