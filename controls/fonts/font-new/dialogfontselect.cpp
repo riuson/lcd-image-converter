@@ -24,6 +24,7 @@
 #include <QTableWidgetSelectionRange>
 #include "unicodeblocksmodel.h"
 #include "unicodeblocksfiltermodel.h"
+#include "dialogfontrange.h"
 //-----------------------------------------------------------------------------
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
     QDialog(parent),
@@ -328,23 +329,25 @@ void DialogFontSelect::on_pushButtonAppendSelected_clicked()
         for (int i = 0; i < indexes.count(); i++)
         {
             QString a = this->mModel->data(indexes.at(i), Qt::DisplayRole).toString();
-            if (!list.contains(a))
-                list.append(a);
+            selected += a;
         }
-
-        qSort(list);
-
-        str = QString();
-        for (int i = 0; i < list.length(); i++)
-        {
-            str += list.at(i);
-        }
-        this->ui->lineEdit->setText(str);
     }
+
+    QString original = this->ui->lineEdit->text();
+    QString result = this->injectCharacters(original, selected);
+    this->ui->lineEdit->setText(result);
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_pushButtonAppendRange_clicked()
 {
+    DialogFontRange dialog(this);
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        QString selected = dialog.resultString();
+        QString original = this->ui->lineEdit->text();
+        QString result = this->injectCharacters(original, selected);
+        this->ui->lineEdit->setText(result);
+    }
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
