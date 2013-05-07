@@ -8,7 +8,8 @@
         <description>Added:
  New encodings;
  Sorting table characters by codes;
- Dialog to select new characters by range.</description>
+ Dialog to select new characters by range;
+ Ability to specify custom font size.</description>
     </record>
     <record>
         <commit>
