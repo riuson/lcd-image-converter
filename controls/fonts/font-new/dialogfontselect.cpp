@@ -288,7 +288,7 @@ void DialogFontSelect::on_tableView_doubleClicked(const QModelIndex &index)
     this->ui->lineEdit->setText(str + a);
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::on_pushButtonAppend_clicked()
+void DialogFontSelect::on_pushButtonAppendSelected_clicked()
 {
     QString str = this->ui->lineEdit->text();
 
@@ -320,6 +320,10 @@ void DialogFontSelect::on_pushButtonAppend_clicked()
     }
 }
 //-----------------------------------------------------------------------------
+void DialogFontSelect::on_pushButtonAppendRange_clicked()
+{
+}
+//-----------------------------------------------------------------------------
 void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     Q_UNUSED(selected);
@@ -340,7 +344,7 @@ void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QI
                 break;
             }
         }
-        this->ui->pushButtonAppend->setEnabled(hasNew);
+        this->ui->pushButtonAppendSelected->setEnabled(hasNew);
     }
 }
 //-----------------------------------------------------------------------------
