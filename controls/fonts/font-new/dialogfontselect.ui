@@ -47,7 +47,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBoxSize"/>
+      <widget class="QComboBox" name="comboBoxSize">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="labelRealHeight">
