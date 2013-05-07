@@ -278,6 +278,34 @@ Qt: %3</translation>
     </message>
 </context>
 <context>
+    <name>DialogFontRange</name>
+    <message>
+        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="14"/>
+        <source>Append characters range</source>
+        <translation>Добавление диапазона символов</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="20"/>
+        <source>Encoding:</source>
+        <translation>Кодировка:</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="30"/>
+        <source>From:</source>
+        <translation>От:</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="47"/>
+        <source>To:</source>
+        <translation>До:</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="64"/>
+        <source>Byte order:</source>
+        <translation>Порядок байт:</translation>
+    </message>
+</context>
+<context>
     <name>DialogFontSelect</name>
     <message>
         <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="14"/>
@@ -326,11 +354,16 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="157"/>
-        <source>Append</source>
-        <translation>Добавить</translation>
+        <source>Append Selected</source>
+        <translation>Добавить выбранные</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="232"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="164"/>
+        <source>Append Range...</source>
+        <translation>Добавить диапазон...</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="233"/>
         <source>Real height: %1</source>
         <translation>Высота: %1</translation>
     </message>
