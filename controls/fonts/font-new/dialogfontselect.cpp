@@ -233,6 +233,35 @@ void DialogFontSelect::applyFont()
     this->ui->labelRealHeight->setText(strHeight);
 }
 //-----------------------------------------------------------------------------
+QString DialogFontSelect::injectCharacters(const QString &original, const QString &value)
+{
+    // list of characters
+    QList<QChar> list;
+    for (int i = 0; i < original.length(); i++)
+    {
+        list.append(original.at(i));
+    }
+
+    // combine
+    for (int i = 0; i < value.length(); i++)
+    {
+        QChar c = value.at(i);
+        if (!list.contains(c))
+            list.append(c);
+    }
+
+    qSort(list);
+
+    // list to string
+    QString result = QString();
+    for (int i = 0; i < list.length(); i++)
+    {
+        result += list.at(i);
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void DialogFontSelect::on_fontComboBox_currentFontChanged(const QFont &font)
 {
     this->mFontFamily = font.family();
@@ -290,13 +319,7 @@ void DialogFontSelect::on_tableView_doubleClicked(const QModelIndex &index)
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_pushButtonAppendSelected_clicked()
 {
-    QString str = this->ui->lineEdit->text();
-
-    QList<QString> list;
-    for (int i = 0; i < str.length(); i++)
-    {
-        list.append(QString(str.at(i)));
-    }
+    QString selected = QString();
 
     QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
     if (selectionModel->hasSelection())

@@ -70,6 +70,7 @@ private:
     void updateSizes();
 
     void applyFont();
+    QString injectCharacters(const QString &original, const QString &value);
 private slots:
     void on_fontComboBox_currentFontChanged(const QFont &font);
     void on_comboBoxSize_currentIndexChanged(int index);
