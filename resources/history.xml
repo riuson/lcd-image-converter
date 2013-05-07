@@ -7,7 +7,8 @@
         </commit>
         <description>Added:
  New encodings;
- Sorting table characters by codes.</description>
+ Sorting table characters by codes;
+ Dialog to select new characters by range.</description>
     </record>
     <record>
         <commit>

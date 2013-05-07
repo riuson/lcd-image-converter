@@ -70,6 +70,7 @@ private:
     void updateSizes();
 
     void applyFont();
+    QString injectCharacters(const QString &original, const QString &value);
 private slots:
     void on_fontComboBox_currentFontChanged(const QFont &font);
     void on_comboBoxSize_currentIndexChanged(int index);
@@ -78,7 +79,8 @@ private slots:
     void on_checkBoxAntialiasing_toggled(bool value);
     void on_lineEdit_textChanged(const QString &value);
     void on_tableView_doubleClicked(const QModelIndex &index);
-    void on_pushButtonAppend_clicked();
+    void on_pushButtonAppendSelected_clicked();
+    void on_pushButtonAppendRange_clicked();
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void rangeChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void on_lineEditUnicodeBlocksFilter_textChanged(const QString & text);

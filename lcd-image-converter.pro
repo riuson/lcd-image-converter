@@ -63,6 +63,7 @@ SOURCES += main.cpp \
     controls/fonts/font-new/unicodeblocksmodel.cpp \
     controls/fonts/font-new/unicodeblocksfiltermodel.cpp \
     controls/fonts/font-preview/dialogfontpreview.cpp \
+    controls/fonts/font-range/dialogfontrange.cpp \
     controls/images/editortabimage.cpp \
     controls/images/widgetbitmapeditor.cpp \
     controls/main/mainwindow.cpp \
@@ -130,6 +131,7 @@ HEADERS += \
     controls/fonts/font-new/unicodeblocksmodel.h \
     controls/fonts/font-new/unicodeblocksfiltermodel.h \
     controls/fonts/font-preview/dialogfontpreview.h \
+    controls/fonts/font-range/dialogfontrange.h \
     controls/images/editortabimage.h \
     controls/images/widgetbitmapeditor.h \
     controls/main/mainwindow.h \
@@ -161,6 +163,7 @@ FORMS += \
     controls/fonts/font-editor/editortabfont.ui \
     controls/fonts/font-new/dialogfontselect.ui \
     controls/fonts/font-preview/dialogfontpreview.ui \
+    controls/fonts/font-range/dialogfontrange.ui \
     controls/images/editortabimage.ui \
     controls/images/widgetbitmapeditor.ui \
     controls/main/mainwindow.ui \
@@ -195,6 +198,7 @@ INCLUDEPATH += . \
     ./controls/fonts/font-editor \
     ./controls/fonts/font-new \
     ./controls/fonts/font-preview \
+    ./controls/fonts/font-range \
     ./controls/images \
     ./controls/main \
     ./controls/resize \

@@ -24,6 +24,7 @@
 #include <QTableWidgetSelectionRange>
 #include "unicodeblocksmodel.h"
 #include "unicodeblocksfiltermodel.h"
+#include "dialogfontrange.h"
 //-----------------------------------------------------------------------------
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
     QDialog(parent),
@@ -233,6 +234,35 @@ void DialogFontSelect::applyFont()
     this->ui->labelRealHeight->setText(strHeight);
 }
 //-----------------------------------------------------------------------------
+QString DialogFontSelect::injectCharacters(const QString &original, const QString &value)
+{
+    // list of characters
+    QList<QChar> list;
+    for (int i = 0; i < original.length(); i++)
+    {
+        list.append(original.at(i));
+    }
+
+    // combine
+    for (int i = 0; i < value.length(); i++)
+    {
+        QChar c = value.at(i);
+        if (!list.contains(c))
+            list.append(c);
+    }
+
+    qSort(list);
+
+    // list to string
+    QString result = QString();
+    for (int i = 0; i < list.length(); i++)
+    {
+        result += list.at(i);
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void DialogFontSelect::on_fontComboBox_currentFontChanged(const QFont &font)
 {
     this->mFontFamily = font.family();
@@ -288,15 +318,9 @@ void DialogFontSelect::on_tableView_doubleClicked(const QModelIndex &index)
     this->ui->lineEdit->setText(str + a);
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::on_pushButtonAppend_clicked()
+void DialogFontSelect::on_pushButtonAppendSelected_clicked()
 {
-    QString str = this->ui->lineEdit->text();
-
-    QList<QString> list;
-    for (int i = 0; i < str.length(); i++)
-    {
-        list.append(QString(str.at(i)));
-    }
+    QString selected = QString();
 
     QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
     if (selectionModel->hasSelection())
@@ -305,18 +329,24 @@ void DialogFontSelect::on_pushButtonAppend_clicked()
         for (int i = 0; i < indexes.count(); i++)
         {
             QString a = this->mModel->data(indexes.at(i), Qt::DisplayRole).toString();
-            if (!list.contains(a))
-                list.append(a);
+            selected += a;
         }
+    }
 
-        qSort(list);
-
-        str = QString();
-        for (int i = 0; i < list.length(); i++)
-        {
-            str += list.at(i);
-        }
-        this->ui->lineEdit->setText(str);
+    QString original = this->ui->lineEdit->text();
+    QString result = this->injectCharacters(original, selected);
+    this->ui->lineEdit->setText(result);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_pushButtonAppendRange_clicked()
+{
+    DialogFontRange dialog(this);
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        QString selected = dialog.resultString();
+        QString original = this->ui->lineEdit->text();
+        QString result = this->injectCharacters(original, selected);
+        this->ui->lineEdit->setText(result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -340,7 +370,7 @@ void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QI
                 break;
             }
         }
-        this->ui->pushButtonAppend->setEnabled(hasNew);
+        this->ui->pushButtonAppendSelected->setEnabled(hasNew);
     }
 }
 //-----------------------------------------------------------------------------
