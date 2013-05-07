@@ -48,6 +48,44 @@
      </property>
     </widget>
    </item>
+   <item row="2" column="1">
+    <widget class="QSpinBox" name="spinBoxTo">
+     <property name="maximum">
+      <number>65535</number>
+     </property>
+     <property name="value">
+      <number>255</number>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Byte order:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QRadioButton" name="radioButtonLittleEndian">
+       <property name="text">
+        <string notr="true">Little-Endian</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButtonBigEndian">
+       <property name="text">
+        <string notr="true">Big-Endian</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
    <item row="4" column="0" colspan="2">
     <widget class="QPlainTextEdit" name="plainTextEditPreview"/>
    </item>
@@ -58,16 +96,6 @@
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QSpinBox" name="spinBoxTo">
-     <property name="maximum">
-      <number>65535</number>
-     </property>
-     <property name="value">
-      <number>255</number>
      </property>
     </widget>
    </item>

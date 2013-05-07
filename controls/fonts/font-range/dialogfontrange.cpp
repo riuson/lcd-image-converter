@@ -13,6 +13,8 @@ DialogFontRange::DialogFontRange(QWidget *parent) :
     this->connect(this->ui->comboBoxEncoding, SIGNAL(currentIndexChanged(QString)), SLOT(updatePreview()));
     this->connect(this->ui->spinBoxFrom, SIGNAL(valueChanged(int)), SLOT(updatePreview()));
     this->connect(this->ui->spinBoxTo, SIGNAL(valueChanged(int)), SLOT(updatePreview()));
+    this->connect(this->ui->radioButtonBigEndian, SIGNAL(toggled(bool)), SLOT(updatePreview()));
+    this->connect(this->ui->radioButtonLittleEndian, SIGNAL(toggled(bool)), SLOT(updatePreview()));
 
     this->mResultString = QString();
 
@@ -37,10 +39,11 @@ void DialogFontRange::updatePreview()
     QString encoding = this->ui->comboBoxEncoding->currentText();
     int from = this->ui->spinBoxFrom->value();
     int to = this->ui->spinBoxTo->value();
-    this->updatePreview(encoding, from, to);
+    bool bigEndian = this->ui->radioButtonBigEndian->isChecked();
+    this->updatePreview(encoding, from, to, bigEndian);
 }
 //-----------------------------------------------------------------------------
-void DialogFontRange::updatePreview(const QString &encoding, int from, int to)
+void DialogFontRange::updatePreview(const QString &encoding, int from, int to, bool bigEndian)
 {
     QTextCodec *codec = QTextCodec::codecForName(encoding.toAscii());
     QString result;
@@ -55,7 +58,11 @@ void DialogFontRange::updatePreview(const QString &encoding, int from, int to)
         int code = i;
         while (code != 0)
         {
-            array.insert(0, (char)(code & 0xff));
+            if (bigEndian)
+                array.insert(0, (char)(code & 0xff));
+            else
+                array.append((char)(code & 0xff));
+
             code = code >> 8;
         }
 
