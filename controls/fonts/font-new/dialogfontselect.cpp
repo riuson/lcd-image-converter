@@ -145,7 +145,10 @@ void DialogFontSelect::setFontSize(int value)
     if (index >= 0)
         this->ui->comboBoxSize->setCurrentIndex(index);
     else
-        this->ui->comboBoxSize->setCurrentIndex(0);
+    {
+        QString str = QString("%1").arg(value);
+        this->ui->comboBoxSize->setEditText(str);
+    }
 
     this->applyFont();
 }
@@ -273,18 +276,25 @@ void DialogFontSelect::on_fontComboBox_currentFontChanged(const QFont &font)
     this->applyFont();
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::on_comboBoxSize_currentIndexChanged(int index)
+void DialogFontSelect::on_comboBoxSize_currentIndexChanged(const QString &text)
 {
     bool ok;
-    int a = this->ui->comboBoxSize->itemData(index).toInt(&ok);
+    int a = text.toInt(&ok);
     if (ok)
         this->mSize = a;
+    else
+        this->mSize = 5;
 
     this->applyFont();
 
     int cellSize = qMax(24, QFontMetrics(this->ui->tableView->font()).height());
     for (int i = 0; i < 32; i++)
         this->ui->tableView->setColumnWidth(i , cellSize);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_comboBoxSize_editTextChanged(const QString &text)
+{
+    this->on_comboBoxSize_currentIndexChanged(text);
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_comboBoxStyle_currentIndexChanged(const QString &text)

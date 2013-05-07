@@ -73,7 +73,8 @@ private:
     QString injectCharacters(const QString &original, const QString &value);
 private slots:
     void on_fontComboBox_currentFontChanged(const QFont &font);
-    void on_comboBoxSize_currentIndexChanged(int index);
+    void on_comboBoxSize_currentIndexChanged(const QString &text);
+    void on_comboBoxSize_editTextChanged(const QString & text);
     void on_comboBoxStyle_currentIndexChanged(const QString &text);
     void on_radioButtonProportional_toggled(bool value);
     void on_checkBoxAntialiasing_toggled(bool value);
