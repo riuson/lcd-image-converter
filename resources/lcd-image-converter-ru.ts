@@ -328,42 +328,42 @@ Qt: %3</translation>
         <translation>Размер:</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="55"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="59"/>
         <source>RealHeight</source>
         <translation>Высота</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="79"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="83"/>
         <source>Proportional</source>
         <translation>Пропорциональный</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="89"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="93"/>
         <source>Monospaced</source>
         <translation>Моноширинный</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="96"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="100"/>
         <source>Antialiasing</source>
         <translation>Сглаживание</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="128"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="132"/>
         <source>Enter filter...</source>
         <translation>Введите фильтр...</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="157"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="161"/>
         <source>Append Selected</source>
         <translation>Добавить выбранные</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="164"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="168"/>
         <source>Append Range...</source>
         <translation>Добавить диапазон...</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="233"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="236"/>
         <source>Real height: %1</source>
         <translation>Высота: %1</translation>
     </message>
