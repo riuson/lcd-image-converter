@@ -57,11 +57,6 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     this->mFontFamily = this->ui->fontComboBox->currentFont().family();
     this->updateStyles();
 
-    int cellSize = qMax(24, QFontMetrics(this->ui->tableView->font()).height());
-    for (int i = 0; i < 32; i++)
-        this->ui->tableView->setColumnWidth(i , cellSize);
-    //this->ui->tableView->resizeColumnsToContents();
-
     this->mBlocksModel = new UnicodeBlocksModel(this);
 
     this->mBlocksFilterModel = new UnicodeBlocksFilterModel(this);
@@ -230,8 +225,17 @@ void DialogFontSelect::applyFont()
     QFontDatabase fonts;
     QFont font = fonts.font(this->mFontFamily, this->mFontStyle, this->mSize);
     font.setPixelSize(this->mSize);
+
     this->ui->tableView->setFont(font);
+
     QFontMetrics metrics(font);
+
+    this->ui->tableView->verticalHeader()->hide();
+    this->ui->tableView->horizontalHeader()->hide();
+    this->ui->tableView->verticalHeader()->setDefaultSectionSize(metrics.lineSpacing() + 2);
+    this->ui->tableView->horizontalHeader()->setDefaultSectionSize(metrics.maxWidth());
+    this->ui->tableView->verticalHeader()->show();
+    this->ui->tableView->horizontalHeader()->show();
 
     QString strHeight = tr("Real height: %1").arg(metrics.height());
     this->ui->labelRealHeight->setText(strHeight);
@@ -286,10 +290,6 @@ void DialogFontSelect::on_comboBoxSize_currentIndexChanged(const QString &text)
         this->mSize = 5;
 
     this->applyFont();
-
-    int cellSize = qMax(24, QFontMetrics(this->ui->tableView->font()).height());
-    for (int i = 0; i < 32; i++)
-        this->ui->tableView->setColumnWidth(i , cellSize);
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_comboBoxSize_editTextChanged(const QString &text)
