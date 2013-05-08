@@ -5,7 +5,10 @@
             <sha1>current</sha1>
             <date>current</date>
         </commit>
-        <description>Added:
+        <description>Fixed:
+ Cells size to fit big characters (Font Select dialog).
+
+Added:
  New encodings;
  Sorting table characters by codes;
  Dialog to select new characters by range;
