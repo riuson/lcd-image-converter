@@ -4,7 +4,7 @@
 OBJECTS_DIR         = .obj
 MOC_DIR             = .moc
 UI_DIR              = .uic
-QT += xml xmlpatterns network
+QT += xml xmlpatterns network widgets
 TARGET = lcd-image-converter
 TEMPLATE = app
 
