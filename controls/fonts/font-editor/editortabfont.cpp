@@ -333,7 +333,7 @@ bool EditorTabFont::load(const QString &fileName)
                         if (nodePicture.isElement())
                         {
                             QString str = nodePicture.text();
-                            QByteArray ba = QByteArray::fromBase64(str.toAscii());
+                            QByteArray ba = QByteArray::fromBase64(str.toLatin1());
                             QBuffer buffer(&ba);
                             QImage image;
                             image.load(&buffer, "PNG");

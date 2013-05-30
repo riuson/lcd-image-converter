@@ -178,7 +178,7 @@ bool EditorTabImage::load(const QString &fileName)
                     if( e.tagName() == "picture" )
                     {
                       QString str = e.text();
-                      QByteArray ba = QByteArray::fromBase64(str.toAscii());
+                      QByteArray ba = QByteArray::fromBase64(str.toLatin1());
                       QBuffer buffer(&ba);
                       QImage image;
                       image.load(&buffer, "PNG");
