@@ -21,6 +21,7 @@
 #define REORDERINGITEMDELEGATE_H
 //-----------------------------------------------------------------------------
 #include <QtGui>
+#include <QtWidgets>
 //-----------------------------------------------------------------------------
 class ReorderingItemDelegate : public QItemDelegate
 {

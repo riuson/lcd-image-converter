@@ -45,7 +45,7 @@ void DialogFontRange::updatePreview()
 //-----------------------------------------------------------------------------
 void DialogFontRange::updatePreview(const QString &encoding, int from, int to, bool bigEndian)
 {
-    QTextCodec *codec = QTextCodec::codecForName(encoding.toAscii());
+    QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
     QString result;
 
     if (from > to)

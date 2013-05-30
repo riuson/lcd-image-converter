@@ -101,7 +101,7 @@ void ActionFileHandlers::open_triggered()
     QFileDialog dialog(this->mMainWindow->parentWidget());
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setFilter(tr("XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
+    dialog.setNameFilter(tr("XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
     dialog.setWindowTitle(tr("Open xml or image file"));
 
     if (dialog.exec() == QDialog::Accepted)
@@ -157,7 +157,7 @@ void ActionFileHandlers::saveAs_triggered()
         dialog.setAcceptMode(QFileDialog::AcceptSave);
         dialog.selectFile(doc->fileName());
         dialog.setFileMode(QFileDialog::AnyFile);
-        dialog.setFilter(tr("XML Files (*.xml)"));
+        dialog.setNameFilter(tr("XML Files (*.xml)"));
         dialog.setDefaultSuffix(QString("xml"));
         dialog.setWindowTitle(tr("Save file as"));
         if (dialog.exec() == QDialog::Accepted)

@@ -52,7 +52,7 @@ void DialogExternalEditor::on_pushButtonBrowse_clicked()
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.selectFile(this->ui->lineEdit->text());
     dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setFilter(tr("Any file (*.*)"));
+    dialog.setNameFilter(tr("Any file (*.*)"));
     dialog.setWindowTitle(tr("Select application"));
 
     if (dialog.exec() == QDialog::Accepted)

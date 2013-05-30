@@ -299,7 +299,7 @@ void ActionImageHandlers::import_triggered()
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptOpen);
         dialog.setFileMode(QFileDialog::ExistingFile);
-        dialog.setFilter(tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
+        dialog.setNameFilter(tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
         dialog.setWindowTitle(tr("Open image file"));
 
         if (dialog.exec() == QDialog::Accepted)
@@ -337,12 +337,12 @@ void ActionImageHandlers::export_triggered()
                             "Tagged Image File Format (*.tiff);;" \
                             "X11 Bitmap (*.xbm);;" \
                             "X11 Bitmap (*.xpm)");
-        dialog.setFilter(filter);
+        dialog.setNameFilter(filter);
         dialog.setWindowTitle(tr("Save image file"));
 
         if (dialog.exec() == QDialog::Accepted)
         {
-            filter = dialog.selectedFilter();
+            filter = dialog.selectedNameFilter();
             QString ext = "png";
             if (filter.contains("bmp"))
                 ext = "bmp";

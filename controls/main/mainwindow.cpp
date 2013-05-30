@@ -50,7 +50,6 @@ MainWindow::MainWindow(QWidget *parent) :
         ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
     QIcon icon;
     icon.addFile(":/images/icon64", QSize(64, 64));
@@ -264,7 +263,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
                 QFileDialog dialog(this);
                 dialog.setAcceptMode(QFileDialog::AcceptSave);
                 dialog.setFileMode(QFileDialog::AnyFile);
-                dialog.setFilter(tr("XML Files (*.xml)"));
+                dialog.setNameFilter(tr("XML Files (*.xml)"));
                 dialog.setWindowTitle(tr("Save file as"));
                 if (dialog.exec() == QDialog::Accepted)
                 {

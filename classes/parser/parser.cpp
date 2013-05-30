@@ -239,7 +239,7 @@ QString Parser::parseImage(const QImage *image, Tags &tags) const
 QString Parser::hexCode(const QString &key, const QString &encoding, bool bom) const
 {
     QString result;
-    QTextCodec *codec = QTextCodec::codecForName(encoding.toAscii());
+    QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
 
     QChar ch = key.at(0);
     QByteArray codeArray = codec->fromUnicode(&ch, 1);

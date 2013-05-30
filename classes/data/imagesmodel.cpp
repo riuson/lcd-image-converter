@@ -209,7 +209,8 @@ QModelIndex ImagesModel::parent(const QModelIndex &index) const
 //-----------------------------------------------------------------------------
 void ImagesModel::callReset()
 {
-    this->reset();
+    this->beginResetModel();
+    this->endResetModel();
 }
 //-----------------------------------------------------------------------------
 int ImagesModel::scale() const
