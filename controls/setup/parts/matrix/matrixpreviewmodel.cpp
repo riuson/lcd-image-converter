@@ -629,6 +629,7 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
 //-----------------------------------------------------------------------------
 void MatrixPreviewModel::callReset()
 {
-    this->reset();
+    this->beginResetModel();
+    this->endResetModel();
 }
 //-----------------------------------------------------------------------------
