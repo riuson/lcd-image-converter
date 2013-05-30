@@ -264,7 +264,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
                 QFileDialog dialog(this);
                 dialog.setAcceptMode(QFileDialog::AcceptSave);
                 dialog.setFileMode(QFileDialog::AnyFile);
-                dialog.setFilter(tr("XML Files (*.xml)"));
+                dialog.setNameFilter(tr("XML Files (*.xml)"));
                 dialog.setWindowTitle(tr("Save file as"));
                 if (dialog.exec() == QDialog::Accepted)
                 {

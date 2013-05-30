@@ -582,7 +582,7 @@ void EditorTabFont::convert(bool request)
         dialog.setAcceptMode(QFileDialog::AcceptSave);
         dialog.selectFile(outputFileName);
         dialog.setFileMode(QFileDialog::AnyFile);
-        dialog.setFilter(tr("C Files (*.c);;All Files (*.*)"));
+        dialog.setNameFilter(tr("C Files (*.c);;All Files (*.*)"));
         dialog.setDefaultSuffix(QString("c"));
         dialog.setWindowTitle(tr("Save result file as"));
         if (dialog.exec() == QDialog::Accepted)
