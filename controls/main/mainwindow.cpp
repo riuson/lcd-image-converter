@@ -50,6 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
         ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+#ifndef USED_QT5
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+#endif
 
     QIcon icon;
     icon.addFile(":/images/icon64", QSize(64, 64));

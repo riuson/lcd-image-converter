@@ -26,7 +26,10 @@
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
+
+#ifdef USED_QT5
 #include <QtWidgets>
+#endif
 //-----------------------------------------------------------------------------
 SetupTabMatrix::SetupTabMatrix(Preset *preset, QWidget *parent) :
     QWidget(parent),
