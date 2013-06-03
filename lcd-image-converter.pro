@@ -4,12 +4,17 @@
 OBJECTS_DIR         = .obj
 MOC_DIR             = .moc
 UI_DIR              = .uic
-QT += xml xmlpatterns network widgets
+QT += xml xmlpatterns network
 TARGET = lcd-image-converter
 TEMPLATE = app
 
 unix:DESTDIR        = ./_linux
 win32:DESTDIR       = ./_windows
+
+greaterThan(QT_MAJOR_VERSION, 4) {
+  QT += widgets
+  DEFINES += USED_QT5
+}
 
 CONFIG(debug, debug|release) {
     DESTDIR         = $$DESTDIR/debug
