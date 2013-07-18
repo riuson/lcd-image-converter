@@ -230,10 +230,13 @@ void DialogFontSelect::applyFont()
 
     QFontMetrics metrics(font);
 
+    int h = qMax(metrics.lineSpacing(), 15) + 2;
+    int w = qMax(metrics.maxWidth(), 10);
+
     this->ui->tableView->verticalHeader()->hide();
     this->ui->tableView->horizontalHeader()->hide();
-    this->ui->tableView->verticalHeader()->setDefaultSectionSize(metrics.lineSpacing() + 2);
-    this->ui->tableView->horizontalHeader()->setDefaultSectionSize(metrics.maxWidth());
+    this->ui->tableView->verticalHeader()->setDefaultSectionSize(h);
+    this->ui->tableView->horizontalHeader()->setDefaultSectionSize(w);
     this->ui->tableView->verticalHeader()->show();
     this->ui->tableView->horizontalHeader()->show();
 
