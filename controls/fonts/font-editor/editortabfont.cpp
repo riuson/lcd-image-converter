@@ -41,6 +41,7 @@
 #include "tags.h"
 #include "statusdata.h"
 #include "fonteditoroptions.h"
+#include "fonthelper.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
@@ -425,7 +426,7 @@ bool EditorTabFont::save(const QString &fileName)
     // string
     QDomElement nodeString = doc.createElement("string");
     nodeRoot.appendChild(nodeString);
-    nodeString.appendChild(doc.createTextNode(chars));
+    nodeString.appendChild(doc.createTextNode(FontHelper::escapeControlChars(chars)));
 
     // converted file name
     QDomElement nodeConverted = doc.createElement("converted");
@@ -444,7 +445,7 @@ bool EditorTabFont::save(const QString &fileName)
         // char
         QDomElement nodeChar = doc.createElement("char");
         nodeChars.appendChild(nodeChar);
-        nodeChar.setAttribute("character", key);
+        nodeChar.setAttribute("character", FontHelper::escapeControlChars(key));
         nodeChar.setAttribute("code", QString("%1").arg(key.at(0).unicode(), 4, 16, QChar('0')));
 
         QDomElement nodePicture = doc.createElement("picture");
@@ -561,7 +562,7 @@ void EditorTabFont::convert(bool request)
     tags.setTagValue(Tags::FontFamily, fontFamily);
     tags.setTagValue(Tags::FontSize, QString("%1").arg(size));
     tags.setTagValue(Tags::FontStyle, style);
-    tags.setTagValue(Tags::FontString, chars);
+    tags.setTagValue(Tags::FontString, FontHelper::escapeControlChars(chars));
     tags.setTagValue(Tags::FontAntiAliasing, antialiasing ? "yes" : "no");
     tags.setTagValue(Tags::FontWidthType, monospaced ? "monospaced" : "proportional");
 
