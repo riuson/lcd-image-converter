@@ -71,7 +71,7 @@ QVariant CharactersModel::data(const QModelIndex &index, int role) const
             quint32 code = index.column() + index.row() * 16;
             code += this->mResultCode1;
 
-            if (code >= 0x00000020)
+            if (code > 0x00000000)
             {
                 if (code >= this->mDesiredCode1 && code <= this->mDesiredCode2)
                 {
@@ -87,7 +87,7 @@ QVariant CharactersModel::data(const QModelIndex &index, int role) const
             quint32 code = index.column() + index.row() * 16;
             code += this->mResultCode1;
 
-            if (code < 0x00000020 || code < this->mDesiredCode1 || code > this->mDesiredCode2)
+            if (code == 0x0000000 || code < this->mDesiredCode1 || code > this->mDesiredCode2)
             {
                 QPalette palette;
                 result = palette.color(QPalette::Disabled, QPalette::Window);
