@@ -835,6 +835,15 @@ QImage EditorTabFont::drawCharacter(const QChar value,
     QRect r = fontMetrics.boundingRect(QString(value));
     charWidth = qMax(qMax(r.left(), r.right()) + 1, charWidth);
 
+    // check for abnormal size
+    if ((charWidth > charHeight * 100) || (charWidth == 0))
+    {
+        if (value.isNull() || !value.isPrint())
+        {
+            charWidth = 1;
+        }
+    }
+
     int imageWidth = width;
     int imageHeight = height;
 
