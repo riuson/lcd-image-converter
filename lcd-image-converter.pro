@@ -37,6 +37,7 @@ SOURCES += main.cpp \
     classes/data/datacontainer.cpp \
     classes/data/historykeeper.cpp \
     classes/data/historyrecord.cpp \
+    classes/data/imagedocument.cpp \
     classes/data/imagesmodel.cpp \
     classes/data/revisioninfo.cpp \
     classes/parser/convert/bitmaphelper.cpp \
@@ -104,6 +105,7 @@ HEADERS += \
     classes/data/datacontainer.h \
     classes/data/historykeeper.h \
     classes/data/historyrecord.h \
+    classes/data/imagedocument.h \
     classes/data/imagesmodel.h \
     classes/data/revisioninfo.h \
     classes/parser/convert/bitmaphelper.h \
