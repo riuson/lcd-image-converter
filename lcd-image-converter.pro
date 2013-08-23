@@ -35,6 +35,7 @@ SOURCES += main.cpp \
     classes/action-handlers/actionsetuphandlers.cpp \
     classes/compression/rlecompressor.cpp \
     classes/data/datacontainer.cpp \
+    classes/data/fontdocument.cpp \
     classes/data/historykeeper.cpp \
     classes/data/historyrecord.cpp \
     classes/data/imagedocument.cpp \
@@ -103,6 +104,7 @@ HEADERS += \
     classes/action-handlers/actionsetuphandlers.h \
     classes/compression/rlecompressor.h \
     classes/data/datacontainer.h \
+    classes/data/fontdocument.h \
     classes/data/historykeeper.h \
     classes/data/historyrecord.h \
     classes/data/imagedocument.h \
