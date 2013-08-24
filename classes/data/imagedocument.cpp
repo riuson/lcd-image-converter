@@ -37,6 +37,10 @@ ImageDocument::ImageDocument(QObject *parent) :
     QObject(parent)
 {
     this->mContainer = new DataContainer(this);
+    this->setDocumentName(tr("Image", "new image name"));
+    this->setDataFilename("");
+    this->setOutputFilename("");
+    this->setChanged(false);
 }
 //-----------------------------------------------------------------------------
 ImageDocument::~ImageDocument()
