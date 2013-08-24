@@ -141,10 +141,7 @@ bool FontDocument::load(const QString &fileName)
 
         this->setDataFilename(fileName);
         this->setOutputFilename(converted);
-
         this->setChanged(false);
-
-        this->emitDocumentChanged();
     }
 
     return result;

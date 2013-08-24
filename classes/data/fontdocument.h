@@ -28,6 +28,8 @@
 class FontDocument : public QObject, public IDocument
 {
     Q_OBJECT
+    Q_INTERFACES(IDocument)
+
 public:
     explicit FontDocument(QObject *parent = 0);
     ~FontDocument();

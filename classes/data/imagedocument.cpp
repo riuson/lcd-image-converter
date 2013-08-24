@@ -87,10 +87,8 @@ bool ImageDocument::load(const QString &fileName)
         }
         file.close();
 
-        this->emitSelectionChanged(ImageDocument::DefaultKey);
-
-        this->setFileName(fileName);
-        this->setConvertedFileName(converted);
+        this->setDataFilename(fileName);
+        this->setOutputFilename(converted);
         this->setChanged(false);
     }
     return result;
@@ -127,7 +125,7 @@ bool ImageDocument::save(const QString &fileName)
     // converted file name
     QDomElement nodeConverted = doc.createElement("converted");
     nodeRoot.appendChild(nodeConverted);
-    nodeConverted.appendChild(doc.createTextNode(this->convertedFileName()));
+    nodeConverted.appendChild(doc.createTextNode(this->outputFilename()));
 
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly))
@@ -135,7 +133,7 @@ bool ImageDocument::save(const QString &fileName)
         QTextStream stream(&file);
         doc.save(stream, 4);
 
-        this->setFileName(fileName);
+        this->setDataFilename(fileName);
         file.close();
         result = true;
         this->setChanged(false);
@@ -148,7 +146,7 @@ void ImageDocument::setChanged(bool value)
     if (this->changed() != value)
     {
         this->mContainer->setInfo("data changed", value);
-        emit this->documentChanged(value, this->documentName(), this->fileName());
+        emit this->documentChanged();
     }
 }
 //-----------------------------------------------------------------------------
@@ -211,7 +209,7 @@ void ImageDocument::convert(bool request)
     QString result = parser.convert(this, tags);
 
     // converter output file name
-    QString outputFileName = this->convertedFileName();
+    QString outputFileName = this->outputFilename();
 
     // if file name not specified, show dialog
     if (outputFileName.isEmpty())
@@ -246,11 +244,11 @@ void ImageDocument::convert(bool request)
             file.write(result.toUtf8());
             file.close();
 
-            if (this->convertedFileName() != outputFileName)
+            if (this->outputFilename() != outputFileName)
             {
                 this->beginChanges();
 
-                this->setConvertedFileName(outputFileName);
+                this->setOutputFilename(outputFileName);
                 emit this->setChanged(true);
 
                 this->endChanges();
@@ -294,52 +292,53 @@ bool ImageDocument::canRedo()
 void ImageDocument::undo()
 {
     this->mContainer->stateUndo();
-    this->emitSelectionChanged(ImageDocument::DefaultKey);
 
-    emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
+    emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
 void ImageDocument::redo()
 {
     this->mContainer->stateRedo();
-    this->emitSelectionChanged(ImageDocument::DefaultKey);
 
-    emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
+    emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
-void ImageDocument::setFileName(const QString &value)
+QString ImageDocument::dataFilename() const
 {
-    if (this->fileName() != value)
+    QVariant result = this->mContainer->info("filename");
+    return result.toString();
+}
+//-----------------------------------------------------------------------------
+void ImageDocument::setDataFilename(const QString &value)
+{
+    if (this->dataFilename() != value)
     {
         this->mContainer->setInfo("filename", QVariant(value));
     }
 }
 //-----------------------------------------------------------------------------
-QString ImageDocument::convertedFileName() const
+QString ImageDocument::outputFilename() const
 {
     QVariant result = this->mContainer->info("converted filename");
     return result.toString();
 }
 //-----------------------------------------------------------------------------
-void ImageDocument::setConvertedFileName(const QString &value)
+void ImageDocument::setOutputFilename(const QString &value)
 {
-    if (this->convertedFileName() != value)
+    if (this->outputFilename() != value)
     {
         this->mContainer->setInfo("converted filename", QVariant(value));
     }
 }
 //-----------------------------------------------------------------------------
-void ImageDocument::emitSelectionChanged(const QString &key)
+void ImageDocument::emitDocumentChanged()
 {
-    QStringList keys = QStringList() << key;
-
-    emit this->selectionChanged(keys);
+    emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
 void ImageDocument::mon_container_imagesChanged()
 {
-    this->emitSelectionChanged(ImageDocument::DefaultKey);
     this->setChanged(true);
-    emit this->documentChanged(true, this->documentName(), this->fileName());
+    emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------

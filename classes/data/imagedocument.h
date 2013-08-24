@@ -57,17 +57,19 @@ private:
 
     static const QString DefaultKey;
 
-    void setFileName(const QString &value);
-    QString convertedFileName() const;
-    void setConvertedFileName(const QString &value);
-    void emitSelectionChanged(const QString &key);
+    QString dataFilename() const;
+    void setDataFilename(const QString &value);
+
+    QString outputFilename() const;
+    void setOutputFilename(const QString &value);
+
+    void emitDocumentChanged();
 
 private slots:
     void mon_container_imagesChanged();
 
 signals:
-    void documentChanged(bool changed, const QString &documentName, const QString &filename);
-    void selectionChanged(const QStringList &keys);
+    void documentChanged();
 };
 //-----------------------------------------------------------------------------
 #endif // IMAGEDOCUMENT_H
