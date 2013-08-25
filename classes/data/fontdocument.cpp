@@ -37,6 +37,14 @@
 FontDocument::FontDocument(QObject *parent) :
     QObject(parent)
 {
+    this->mContainer = new DataContainer(this);
+
+    this->setDocumentName(tr("Font", "new font name"));
+    this->setDataFilename("");
+    this->setOutputFilename("");
+    this->setChanged(false);
+    this->setAntialiasing(false);
+    this->setMonospaced(false);
 }
 //-----------------------------------------------------------------------------
 FontDocument::~FontDocument()

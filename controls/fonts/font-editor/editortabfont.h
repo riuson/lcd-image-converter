@@ -35,6 +35,7 @@ class ImagesModel;
 class QItemSelection;
 class QModelIndex;
 class StatusData;
+class FontDocument;
 //-----------------------------------------------------------------------------
 class EditorTabFont : public QWidget, public IDocument
 {
@@ -85,26 +86,14 @@ protected:
 private:
     Ui::EditorTabFont *ui;
     WidgetBitmapEditor *mEditor;
-    DataContainer *mContainer;
+    FontDocument *mDocument;
     QSplitter *mSplitter;
     ImagesModel *mModel;
     StatusData *mStatusData;
 
     QFont mTableFont;
 
-    void setFileName(const QString &value);
-    QString convertedFileName() const;
-    void setConvertedFileName(const QString &value);
     void initStatusData();
-
-    QFont usedFont() const;
-    void setUsedFont(const QFont &value);
-    QString usedStyle() const;
-    void setUsedStyle(const QString &value);
-    bool monospaced() const;
-    void setMonospaced(const bool value);
-    bool antialiasing() const;
-    void setAntialiasing(const bool value);
 
     QString currentKey() const;
     QImage drawCharacter(const QChar value,
@@ -117,7 +106,7 @@ private:
     void updateSelectedImage();
 
 private slots:
-    void mon_container_imagesChanged();
+    void mon_documentChanged();
     void mon_editor_imageChanged();
     void mon_editor_mouseMove(QPoint point);
     void mon_editor_scaleChanged(int scale);
