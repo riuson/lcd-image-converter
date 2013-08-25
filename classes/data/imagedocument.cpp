@@ -60,16 +60,16 @@ bool ImageDocument::load(const QString &fileName)
         if (doc.setContent(&file, &errorMsg, &errorLine, &errorColumn))
         {
             QDomElement root = doc.documentElement();
-            if( root.tagName() == "data" )
+            if (root.tagName() == "data")
             {
                 this->setDocumentName(root.attribute("name", fileName));
                 QDomNode n = root.firstChild();
-                while( !n.isNull() )
+                while (!n.isNull())
                 {
                   QDomElement e = n.toElement();
-                  if( !e.isNull() )
+                  if (!e.isNull())
                   {
-                    if( e.tagName() == "picture" )
+                    if (e.tagName() == "picture")
                     {
                       QString str = e.text();
                       QByteArray ba = QByteArray::fromBase64(str.toLatin1());
@@ -79,7 +79,7 @@ bool ImageDocument::load(const QString &fileName)
                       this->mContainer->setImage(DefaultKey, &image);
                       result = true;
                     }
-                    else if( e.tagName() == "converted" )
+                    else if (e.tagName() == "converted")
                     {
                         converted = e.text();
                     }
