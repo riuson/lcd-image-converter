@@ -164,6 +164,7 @@ HEADERS += \
     controls/start/starttab.h \
     controls/updates/dialogupdates.h \
     interfaces/idocument.h \
+    interfaces/ieditor.h \
     interfaces/imainwindow.h
 
 FORMS += \

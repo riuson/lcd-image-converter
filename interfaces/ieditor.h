@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2010 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,37 +17,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IDOCUMENT_H
-#define IDOCUMENT_H
+#ifndef IEDITOR_H
+#define IEDITOR_H
 //-----------------------------------------------------------------------------
 #include <QObject>
-
-class QImage;
-class QString;
-class DataContainer;
-class StatusData;
 //-----------------------------------------------------------------------------
-class IDocument
+class StatusData;
+class DataContainer;
+class IDocument;
+//-----------------------------------------------------------------------------
+class IEditor
 {
 public:
-    virtual bool load(const QString &filename) = 0;
-    virtual bool save(const QString &filename) = 0;
-    virtual bool changed() const = 0;
-    virtual QString dataFilename() const = 0;//TODO: rename to documentFilename
-    virtual QString documentName() const = 0;
-    virtual void setDocumentName(const QString &value) = 0;
-    virtual DataContainer *dataContainer() = 0;
-    virtual void convert(bool request) = 0;
+    enum EditorType
+    {
+        EditorImage,
+        EditorFont
+    };
 
-    virtual void beginChanges() = 0;
-    virtual void endChanges() = 0;
-    virtual bool canUndo() = 0;
-    virtual bool canRedo() = 0;
-    virtual void undo() = 0;
-    virtual void redo() = 0;
+    virtual IDocument *document() const = 0;
+    virtual QStringList selectedKeys() const = 0;
+    virtual StatusData *statusData() const = 0;
+    virtual EditorType type() const = 0;
 };
-Q_DECLARE_INTERFACE (IDocument,
+Q_DECLARE_INTERFACE (IEditor,
                      "riuson.lcd-image-converter/1.0"
                      )
 //-----------------------------------------------------------------------------
-#endif // IDOCUMENT_H
+#endif // IEDITOR_H
