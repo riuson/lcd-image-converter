@@ -44,6 +44,8 @@
 #include "actionfonthandlers.h"
 #include "actionsetuphandlers.h"
 #include "actionhelphandlers.h"
+#include "ieditor.h"
+#include "idocument.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -247,9 +249,9 @@ void MainWindow::createHandlers()
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     QWidget *w = this->ui->tabWidget->widget(index);
-    IDocument *doc = dynamic_cast<IDocument *> (w);
+    IEditor *editor = dynamic_cast<IEditor *> (w);
     bool cancel = false;
-    if (doc != NULL && doc->changed())
+    if (editor != NULL && editor->document()->changed())
     {
         DialogSaveChanges dialog(this);
         dialog.exec();
@@ -257,7 +259,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
         {
         case DialogSaveChanges::Save:
             {
-                if (!doc->save(doc->fileName()))
+                if (!editor->document()->save(editor->document()->dataFilename()))
                     cancel = true;
             }
             break;
@@ -271,7 +273,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
                 if (dialog.exec() == QDialog::Accepted)
                 {
                     QString filename = dialog.selectedFiles().at(0);
-                    if (!doc->save(filename))
+                    if (!editor->document()->save(filename))
                         cancel = true;
                 }
                 else
@@ -299,10 +301,11 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     this->updateMenuState();
 
     this->mStatusManager->hideAll();
-    IDocument *doc = this->currentDocument();
-    if (doc != NULL)
+    IEditor *editor = this->currentEditor();
+    if (editor != NULL)
     {
-        doc->updateStatus();
+        IEditor *editor = this->currentEditor();
+        this->mStatusManager->updateData(editor->statusData());
     }
 }
 //-----------------------------------------------------------------------------
@@ -315,29 +318,19 @@ void MainWindow::actionLanguage_triggered()
 //-----------------------------------------------------------------------------
 void MainWindow::updateMenuState()
 {
-    int index = this->ui->tabWidget->currentIndex();
-    QWidget *w = this->ui->tabWidget->widget(index);
-    bool editorSelected = false;
-    if (qobject_cast<EditorTabImage *>(w) != NULL)
+    IEditor *editor = this->currentEditor();
+    bool editorSelected = (editor != NULL);
+
+    // enable font menu for EditorTabFont
+    if (editorSelected)
     {
-        this->ui->menuFont->setEnabled(false);
-        editorSelected = true;
-    }
-    if (qobject_cast<EditorTabFont *>(w) != NULL)
-    {
-        this->ui->menuFont->setEnabled(true);
-        editorSelected = true;
-    }
-    else
-    {
-        this->ui->menuFont->setEnabled(false);
+        this->ui->menuFont->setEnabled(editor->type() == IEditor::EditorFont);
     }
 
-    if (editorSelected && this->currentDocument() != NULL)
+    if (editor != NULL)
     {
-        IDocument *doc = this->currentDocument();
-        this->ui->actionEditUndo->setEnabled(doc->canUndo());
-        this->ui->actionEditRedo->setEnabled(doc->canRedo());
+        this->ui->actionEditUndo->setEnabled(editor->document()->canUndo());
+        this->ui->actionEditRedo->setEnabled(editor->document()->canRedo());
     }
     else
     {
@@ -409,17 +402,9 @@ void MainWindow::closeRequest(QWidget *tab)
         this->on_tabWidget_tabCloseRequested(index);
 }
 //-----------------------------------------------------------------------------
-IDocument *MainWindow::currentDocument()
+IEditor *MainWindow::currentEditor()
 {
-    IDocument *result = NULL;
-
-    int index = this->ui->tabWidget->currentIndex();
-    if (index >= 0)
-    {
-        QWidget *w = this->ui->tabWidget->widget(index);
-        result = qobject_cast<IDocument *>(w);
-    }
-
+    IEditor *result = qobject_cast<IEditor *>(this->currentTab());
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -498,8 +483,8 @@ int MainWindow::tabCreated(QWidget *newTab, const QString &name, const QString &
 
     this->checkStartPageVisible();
 
-    IDocument *doc = this->currentDocument();
-    this->mStatusManager->updateData(doc->statusData());
+    IEditor *editor = this->currentEditor();
+    this->mStatusManager->updateData(editor->statusData());
 
     return index;
 }
@@ -511,8 +496,8 @@ void MainWindow::statusChanged()
     {
         if (this->ui->tabWidget->currentWidget() == widget)
         {
-            IDocument *doc = this->currentDocument();
-            this->mStatusManager->updateData(doc->statusData());
+            IEditor *editor = this->currentEditor();
+            this->mStatusManager->updateData(editor->statusData());
         }
     }
 }

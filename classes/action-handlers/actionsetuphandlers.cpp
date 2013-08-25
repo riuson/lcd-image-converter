@@ -21,6 +21,7 @@
 
 #include "dialogoptions.h"
 #include "idocument.h"
+#include "ieditor.h"
 #include "imainwindow.h"
 #include "datacontainer.h"
 #include "dialogexternaleditor.h"
@@ -33,8 +34,8 @@ ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
 void ActionSetupHandlers::conversion_triggered()
 {
     DataContainer *data = NULL;
-    if (this->document() != NULL)
-        data = this->document()->dataContainer();
+    if (this->editor() != NULL)
+        data = this->editor()->document()->dataContainer();
     DialogOptions dialog(data, this->mMainWindow->parentWidget());
     dialog.exec();
 }

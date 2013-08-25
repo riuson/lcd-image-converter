@@ -52,9 +52,8 @@ void ActionFileHandlers::newImage_triggered()
         this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
 
         name = this->mMainWindow->findAvailableName(name);
-        ed->setDocumentName(name);
-        ed->setChanged(false);
-        emit this->tabCreated(ed, name, ed->fileName());
+        ed->document()->setDocumentName(name);
+        emit this->tabCreated(ed, name, ed->document()->dataFilename());
     }
 }
 //-----------------------------------------------------------------------------
@@ -89,9 +88,8 @@ void ActionFileHandlers::newFont_triggered()
             ed->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
 
             name = this->mMainWindow->findAvailableName(name);
-            ed->setDocumentName(name);
-            ed->setChanged(false);
-            emit this->tabCreated(ed, name, ed->fileName());
+            ed->document()->setDocumentName(name);
+            emit this->tabCreated(ed, name, ed->document()->dataFilename());
         }
     }
 }
@@ -118,31 +116,31 @@ void ActionFileHandlers::open_triggered()
 void ActionFileHandlers::rename_triggered()
 {
     bool ok;
-    IDocument *doc = this->mMainWindow->currentDocument();
-    if (doc != NULL)
+    IEditor *editor = this->editor();
+    if (editor != NULL)
     {
         QString name = QInputDialog::getText(this->mMainWindow->parentWidget(),
                                              tr("Rename"),
                                              tr("New name:"),
                                              QLineEdit::Normal,
-                                             doc->documentName(),
+                                             editor->document()->documentName(),
                                              &ok);
         if (ok)
         {
-            doc->beginChanges();
-            doc->setDocumentName(name);
-            doc->endChanges();
+            editor->document()->beginChanges();
+            editor->document()->setDocumentName(name);
+            editor->document()->endChanges();
         }
     }
 }
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::save_triggered()
 {
-    IDocument *doc = this->mMainWindow->currentDocument();
-    if (doc != NULL)
+    IEditor *editor = this->editor();
+    if (editor != NULL)
     {
-        if (QFile::exists(doc->fileName()))
-            doc->save(doc->fileName());
+        if (QFile::exists(editor->document()->dataFilename()))
+            editor->document()->save(editor->document()->dataFilename());
         else
             this->saveAs_triggered();
     }
@@ -150,12 +148,12 @@ void ActionFileHandlers::save_triggered()
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::saveAs_triggered()
 {
-    IDocument *doc = this->mMainWindow->currentDocument();
-    if (doc != NULL)
+    IEditor *editor = this->editor();
+    if (editor != NULL)
     {
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.selectFile(doc->fileName());
+        dialog.selectFile(editor->document()->dataFilename());
         dialog.setFileMode(QFileDialog::AnyFile);
         dialog.setNameFilter(tr("XML Files (*.xml)"));
         dialog.setDefaultSuffix(QString("xml"));
@@ -163,7 +161,7 @@ void ActionFileHandlers::saveAs_triggered()
         if (dialog.exec() == QDialog::Accepted)
         {
             QString filename = dialog.selectedFiles().at(0);
-            doc->save(filename);
+            editor->document()->save(filename);
 
             emit this->rememberFilename(filename);
         }
@@ -177,11 +175,10 @@ void ActionFileHandlers::close_triggered()
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::convert_triggered()
 {
-    QWidget *w = this->mMainWindow->currentTab();
-    IDocument *doc = dynamic_cast<IDocument *> (w);
-    if (doc != NULL)
+    IEditor *editor = this->mMainWindow->currentEditor();
+    if (editor != NULL)
     {
-        doc->convert(true);
+        editor->document()->convert(true);
     }
 }
 //-----------------------------------------------------------------------------
@@ -250,7 +247,7 @@ void ActionFileHandlers::openFile(const QString &filename)
             this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
 
             emit this->tabCreated(ed, "", filename);
-            ed->load(filename);
+            ed->document()->load(filename);
         }
         if (isFont)
         {
@@ -258,7 +255,7 @@ void ActionFileHandlers::openFile(const QString &filename)
             this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
 
             emit this->tabCreated(ed, "", filename);
-            ed->load(filename);
+            ed->document()->load(filename);
         }
         if (isImageBinary)
         {
@@ -278,12 +275,11 @@ void ActionFileHandlers::openFile(const QString &filename)
                     while (iterator.hasNext())
                     {
                         QString key = iterator.next();
-                        ed->dataContainer()->setImage(key, &image);
+                        ed->document()->dataContainer()->setImage(key, &image);
                     }
                 }
 
-                ed->setDocumentName(name);
-                ed->setChanged(false);
+                ed->document()->setDocumentName(name);
                 emit this->tabCreated(ed, name, filename);
             }
         }
@@ -305,12 +301,11 @@ void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
         while (iterator.hasNext())
         {
             QString key = iterator.next();
-            ed->dataContainer()->setImage(key, image);
+            ed->document()->dataContainer()->setImage(key, image);
         }
     }
 
-    ed->setDocumentName(name);
-    ed->setChanged(true);
+    ed->document()->setDocumentName(name);
 
     emit this->tabCreated(ed, name, "");
 

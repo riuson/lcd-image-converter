@@ -39,17 +39,17 @@ ActionEditHandlers::ActionEditHandlers(QObject *parent) :
 //-----------------------------------------------------------------------------
 void ActionEditHandlers::undo_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->undo();
+        this->editor()->document()->undo();
     }
 }
 //-----------------------------------------------------------------------------
 void ActionEditHandlers::redo_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->redo();
+        this->editor()->document()->redo();
     }
 }
 //-----------------------------------------------------------------------------

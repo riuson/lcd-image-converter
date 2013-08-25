@@ -29,6 +29,7 @@
 #include "externaltooloptions.h"
 #include "imainwindow.h"
 #include "idocument.h"
+#include "ieditor.h"
 #include "datacontainer.h"
 #include "bitmapeditoroptions.h"
 //-----------------------------------------------------------------------------
@@ -39,232 +40,232 @@ ActionImageHandlers::ActionImageHandlers(QObject *parent) :
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::flipHorizontal_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->beginChanges();
+        this->editor()->document()->beginChanges();
 
-        QStringList keys = this->document()->selectedKeys();
+        QStringList keys = this->editor()->selectedKeys();
 
         QStringListIterator iterator(keys);
         while (iterator.hasNext())
         {
             QString key = iterator.next();
 
-            const QImage *original = this->document()->dataContainer()->image(key);
+            const QImage *original = this->editor()->document()->dataContainer()->image(key);
             QImage result = BitmapHelper::flipHorizontal(original);
-            this->document()->dataContainer()->setImage(key, &result);
+            this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->document()->endChanges();
+        this->editor()->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::flipVertical_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->beginChanges();
+        this->editor()->document()->beginChanges();
 
-        QStringList keys = this->document()->selectedKeys();
+        QStringList keys = this->editor()->selectedKeys();
 
         QStringListIterator iterator(keys);
         while (iterator.hasNext())
         {
             QString key = iterator.next();
 
-            const QImage *original = this->document()->dataContainer()->image(key);
+            const QImage *original = this->editor()->document()->dataContainer()->image(key);
             QImage result = BitmapHelper::flipVertical(original);
-            this->document()->dataContainer()->setImage(key, &result);
+            this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->document()->endChanges();
+        this->editor()->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::rotate_90_Clockwise_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->beginChanges();
+        this->editor()->document()->beginChanges();
 
-        QStringList keys = this->document()->selectedKeys();
+        QStringList keys = this->editor()->selectedKeys();
 
         QStringListIterator iterator(keys);
         while (iterator.hasNext())
         {
             QString key = iterator.next();
 
-            const QImage *original = this->document()->dataContainer()->image(key);
+            const QImage *original = this->editor()->document()->dataContainer()->image(key);
             QImage result = BitmapHelper::rotate90(original);
-            this->document()->dataContainer()->setImage(key, &result);
+            this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->document()->endChanges();
+        this->editor()->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::rotate_180_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->beginChanges();
+        this->editor()->document()->beginChanges();
 
-        QStringList keys = this->document()->selectedKeys();
+        QStringList keys = this->editor()->selectedKeys();
 
         QStringListIterator iterator(keys);
         while (iterator.hasNext())
         {
             QString key = iterator.next();
 
-            const QImage *original = this->document()->dataContainer()->image(key);
+            const QImage *original = this->editor()->document()->dataContainer()->image(key);
             QImage result = BitmapHelper::rotate180(original);
-            this->document()->dataContainer()->setImage(key, &result);
+            this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->document()->endChanges();
+        this->editor()->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::rotate_90_Counter_Clockwise_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->beginChanges();
+        this->editor()->document()->beginChanges();
 
-        QStringList keys = this->document()->selectedKeys();
+        QStringList keys = this->editor()->selectedKeys();
 
         QStringListIterator iterator(keys);
         while (iterator.hasNext())
         {
             QString key = iterator.next();
 
-            const QImage *original = this->document()->dataContainer()->image(key);
+            const QImage *original = this->editor()->document()->dataContainer()->image(key);
             QImage result = BitmapHelper::rotate270(original);
-            this->document()->dataContainer()->setImage(key, &result);
+            this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->document()->endChanges();
+        this->editor()->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::shift_left_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->beginChanges();
+        this->editor()->document()->beginChanges();
 
-        QStringList keys = this->document()->selectedKeys();
+        QStringList keys = this->editor()->selectedKeys();
 
         QStringListIterator iterator(keys);
         while (iterator.hasNext())
         {
             QString key = iterator.next();
 
-            const QImage *original = this->document()->dataContainer()->image(key);
+            const QImage *original = this->editor()->document()->dataContainer()->image(key);
             QImage result = BitmapHelper::shiftLeft(original);
-            this->document()->dataContainer()->setImage(key, &result);
+            this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->document()->endChanges();
+        this->editor()->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::shift_right_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->beginChanges();
+        this->editor()->document()->beginChanges();
 
-        QStringList keys = this->document()->selectedKeys();
+        QStringList keys = this->editor()->selectedKeys();
 
         QStringListIterator iterator(keys);
         while (iterator.hasNext())
         {
             QString key = iterator.next();
 
-            const QImage *original = this->document()->dataContainer()->image(key);
+            const QImage *original = this->editor()->document()->dataContainer()->image(key);
             QImage result = BitmapHelper::shiftRight(original);
-            this->document()->dataContainer()->setImage(key, &result);
+            this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->document()->endChanges();
+        this->editor()->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::shift_up_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->beginChanges();
+        this->editor()->document()->beginChanges();
 
-        QStringList keys = this->document()->selectedKeys();
+        QStringList keys = this->editor()->selectedKeys();
 
         QStringListIterator iterator(keys);
         while (iterator.hasNext())
         {
             QString key = iterator.next();
 
-            const QImage *original = this->document()->dataContainer()->image(key);
+            const QImage *original = this->editor()->document()->dataContainer()->image(key);
             QImage result = BitmapHelper::shiftUp(original);
-            this->document()->dataContainer()->setImage(key, &result);
+            this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->document()->endChanges();
+        this->editor()->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::shift_down_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->beginChanges();
+        this->editor()->document()->beginChanges();
 
-        QStringList keys = this->document()->selectedKeys();
+        QStringList keys = this->editor()->selectedKeys();
 
         QStringListIterator iterator(keys);
         while (iterator.hasNext())
         {
             QString key = iterator.next();
 
-            const QImage *original = this->document()->dataContainer()->image(key);
+            const QImage *original = this->editor()->document()->dataContainer()->image(key);
             QImage result = BitmapHelper::shiftDown(original);
-            this->document()->dataContainer()->setImage(key, &result);
+            this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->document()->endChanges();
+        this->editor()->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::inverse_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->beginChanges();
+        this->editor()->document()->beginChanges();
 
-        QStringList keys = this->document()->selectedKeys();
+        QStringList keys = this->editor()->selectedKeys();
 
         QStringListIterator iterator(keys);
         while (iterator.hasNext())
         {
             QString key = iterator.next();
 
-            const QImage *original = this->document()->dataContainer()->image(key);
+            const QImage *original = this->editor()->document()->dataContainer()->image(key);
             QImage result(*original);
             result.invertPixels();
-            this->document()->dataContainer()->setImage(key, &result);
+            this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->document()->endChanges();
+        this->editor()->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::resize_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        QStringList keys = this->document()->selectedKeys();
+        QStringList keys = this->editor()->selectedKeys();
 
-        DialogCanvasResize dialog(this->document()->dataContainer(), this->mMainWindow->parentWidget());
+        DialogCanvasResize dialog(this->editor()->document()->dataContainer(), this->mMainWindow->parentWidget());
         dialog.selectKeys(keys);
 
         if (dialog.exec() == QDialog::Accepted)
@@ -274,19 +275,19 @@ void ActionImageHandlers::resize_triggered()
 
             if (left != 0 || top != 0 || right != 0 || bottom != 0)
             {
-                this->document()->beginChanges();
+                this->editor()->document()->beginChanges();
 
                 QStringListIterator iterator(keys);
                 while (iterator.hasNext())
                 {
                     QString key = iterator.next();
 
-                    const QImage *original = this->document()->dataContainer()->image(key);
+                    const QImage *original = this->editor()->document()->dataContainer()->image(key);
                     QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapEditorOptions::color2());
-                    this->document()->dataContainer()->setImage(key, &result);
+                    this->editor()->document()->dataContainer()->setImage(key, &result);
                 }
 
-                this->document()->endChanges();
+                this->editor()->document()->endChanges();
             }
         }
     }
@@ -294,7 +295,7 @@ void ActionImageHandlers::resize_triggered()
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::import_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptOpen);
@@ -304,9 +305,9 @@ void ActionImageHandlers::import_triggered()
 
         if (dialog.exec() == QDialog::Accepted)
         {
-            this->document()->beginChanges();
+            this->editor()->document()->beginChanges();
 
-            QStringList keys = this->document()->selectedKeys();
+            QStringList keys = this->editor()->selectedKeys();
 
             QStringListIterator iterator(keys);
             while (iterator.hasNext())
@@ -315,17 +316,17 @@ void ActionImageHandlers::import_triggered()
 
                 QImage image;
                 image.load(dialog.selectedFiles().at(0));
-                this->document()->dataContainer()->setImage(key, &image);
+                this->editor()->document()->dataContainer()->setImage(key, &image);
             }
 
-            this->document()->endChanges();
+            this->editor()->document()->endChanges();
         }
     }
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::export_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptSave);
@@ -367,9 +368,9 @@ void ActionImageHandlers::export_triggered()
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::edit_in_external_tool_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        QStringList keys = this->document()->selectedKeys();
+        QStringList keys = this->editor()->selectedKeys();
 
         QMap<QString, QString> files;
 
@@ -401,7 +402,7 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
             QString key = iterator.next();
 
             // get image
-            const QImage *image = this->document()->dataContainer()->image(key);
+            const QImage *image = this->editor()->document()->dataContainer()->image(key);
 
             // save image to file
             QString filename = files.value(key);
@@ -462,7 +463,7 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
             // load changed files
             if (changedKeys.length() > 0)
             {
-                this->document()->beginChanges();
+                this->editor()->document()->beginChanges();
 
                 iterator = QStringListIterator(changedKeys);
                 while (iterator.hasNext())
@@ -472,12 +473,12 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
 
                     QImage image;
                     image.load(filename);
-                    this->document()->dataContainer()->setImage(key, &image);
+                    this->editor()->document()->dataContainer()->setImage(key, &image);
 
                     QFile::remove(filename);
                 }
 
-                this->document()->endChanges();
+                this->editor()->document()->endChanges();
             }
         }
     }
@@ -485,7 +486,7 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::saveImages(const QString &filename, const QString &ext)
 {
-    QStringList keys = this->document()->selectedKeys();
+    QStringList keys = this->editor()->selectedKeys();
 
     if (keys.length() >= 1)
     {
@@ -516,12 +517,12 @@ void ActionImageHandlers::saveImages(const QString &filename, const QString &ext
                 filename3 += ".";
                 filename3 += ext;
 
-                this->document()->dataContainer()->image(key)->save(filename3);
+                this->editor()->document()->dataContainer()->image(key)->save(filename3);
             }
         }
         else
         {
-            this->document()->dataContainer()->image(keys.at(0))->save(filename2);
+            this->editor()->document()->dataContainer()->image(keys.at(0))->save(filename2);
         }
     }
 }

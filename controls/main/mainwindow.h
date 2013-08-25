@@ -82,7 +82,7 @@ private slots:
     int tabCreated(QWidget *newTab, const QString &name, const QString &tooltip);
     void statusChanged();
 public:
-    IDocument *currentDocument();
+    IEditor *currentEditor();
     QWidget *currentTab();
     void tabsList(QList<QWidget *> *list);
     QWidget *parentWidget();
