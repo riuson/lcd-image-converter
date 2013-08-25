@@ -266,16 +266,7 @@ bool FontDocument::changed() const
     return result;
 }
 //-----------------------------------------------------------------------------
-void FontDocument::setChanged(bool value)
-{
-    if (this->changed() != value)
-    {
-        this->mContainer->setInfo("data changed", value);
-        emit this->documentChanged();
-    }
-}
-//-----------------------------------------------------------------------------
-QString FontDocument::fileName() const
+QString FontDocument::dataFilename() const
 {
     QVariant result = this->mContainer->info("filename");
     return result.toString();
@@ -301,19 +292,12 @@ DataContainer *FontDocument::dataContainer()
     return this->mContainer;
 }
 //-----------------------------------------------------------------------------
-QStringList FontDocument::selectedKeys() const
-{
-    QStringList result;
-
-    return result;
-}
-//-----------------------------------------------------------------------------
 void FontDocument::convert(bool request)
 {
     Tags tags;
 
-    if (!this->fileName().isEmpty())
-        tags.setTagValue(Tags::DocumentFilename, this->fileName());
+    if (!this->dataFilename().isEmpty())
+        tags.setTagValue(Tags::DocumentFilename, this->dataFilename());
     else
         tags.setTagValue(Tags::DocumentFilename, "unsaved");
 
@@ -383,15 +367,6 @@ void FontDocument::convert(bool request)
             }
         }
     }
-}
-//-----------------------------------------------------------------------------
-void FontDocument::updateStatus()
-{
-}
-//-----------------------------------------------------------------------------
-StatusData *FontDocument::statusData() const
-{
-    return NULL;
 }
 //-----------------------------------------------------------------------------
 void FontDocument::beginChanges()
@@ -482,8 +457,6 @@ void FontDocument::setFontCharacters(const QString &chars,
         regenerateAll = true;
     }
 
-    QImage emptyImage = QImage();
-
     // create font with specified parameters
     QFont fontNew = fonts.font(fontFamily, _style, _size);
     fontNew.setPixelSize(_size);
@@ -554,14 +527,6 @@ void FontDocument::setFontCharacters(const QString &chars,
     }
 
     this->setChanged(true);
-
-    emit this->documentChanged();
-}
-//-----------------------------------------------------------------------------
-QString FontDocument::dataFilename() const
-{
-    QVariant result = this->mContainer->info("filename");
-    return result.toString();
 }
 //-----------------------------------------------------------------------------
 void FontDocument::setDataFilename(const QString &value)
@@ -679,9 +644,13 @@ QImage FontDocument::drawCharacter(const QChar value, const QFont &font, const Q
     return result;
 }
 //-----------------------------------------------------------------------------
-void FontDocument::emitDocumentChanged()
+void FontDocument::setChanged(bool value)
 {
-    emit this->documentChanged();
+    if (this->changed() != value)
+    {
+        this->mContainer->setInfo("data changed", value);
+        emit this->documentChanged();
+    }
 }
 //-----------------------------------------------------------------------------
 void FontDocument::mon_container_imagesChanged()
@@ -689,8 +658,4 @@ void FontDocument::mon_container_imagesChanged()
     this->setChanged(true);
     emit this->documentChanged();
 }
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------

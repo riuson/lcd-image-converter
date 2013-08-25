@@ -145,22 +145,13 @@ bool ImageDocument::save(const QString &fileName)
     return result;
 }
 //-----------------------------------------------------------------------------
-void ImageDocument::setChanged(bool value)
-{
-    if (this->changed() != value)
-    {
-        this->mContainer->setInfo("data changed", value);
-        emit this->documentChanged();
-    }
-}
-//-----------------------------------------------------------------------------
 bool ImageDocument::changed() const
 {
     bool result = this->mContainer->info("data changed").toBool();
     return result;
 }
 //-----------------------------------------------------------------------------
-QString ImageDocument::fileName() const
+QString ImageDocument::dataFilename() const
 {
     QVariant result = this->mContainer->info("filename");
     return result.toString();
@@ -186,21 +177,12 @@ DataContainer *ImageDocument::dataContainer()
     return this->mContainer;
 }
 //-----------------------------------------------------------------------------
-QStringList ImageDocument::selectedKeys() const
-{
-    QStringList result;
-
-    result << DefaultKey;
-
-    return result;
-}
-//-----------------------------------------------------------------------------
 void ImageDocument::convert(bool request)
 {
     Tags tags;
 
-    if (!this->fileName().isEmpty())
-        tags.setTagValue(Tags::DocumentFilename, this->fileName());
+    if (!this->dataFilename().isEmpty())
+        tags.setTagValue(Tags::DocumentFilename, this->dataFilename());
     else
         tags.setTagValue(Tags::DocumentFilename, "unsaved");
 
@@ -261,15 +243,6 @@ void ImageDocument::convert(bool request)
     }
 }
 //-----------------------------------------------------------------------------
-void ImageDocument::updateStatus()
-{
-}
-//-----------------------------------------------------------------------------
-StatusData *ImageDocument::statusData() const
-{
-    return NULL;
-}
-//-----------------------------------------------------------------------------
 void ImageDocument::beginChanges()
 {
     if (!this->mContainer->historyInitialized())
@@ -307,12 +280,6 @@ void ImageDocument::redo()
     emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
-QString ImageDocument::dataFilename() const
-{
-    QVariant result = this->mContainer->info("filename");
-    return result.toString();
-}
-//-----------------------------------------------------------------------------
 void ImageDocument::setDataFilename(const QString &value)
 {
     if (this->dataFilename() != value)
@@ -335,9 +302,13 @@ void ImageDocument::setOutputFilename(const QString &value)
     }
 }
 //-----------------------------------------------------------------------------
-void ImageDocument::emitDocumentChanged()
+void ImageDocument::setChanged(bool value)
 {
-    emit this->documentChanged();
+    if (this->changed() != value)
+    {
+        this->mContainer->setInfo("data changed", value);
+        emit this->documentChanged();
+    }
 }
 //-----------------------------------------------------------------------------
 void ImageDocument::mon_container_imagesChanged()

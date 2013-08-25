@@ -22,7 +22,7 @@
 //-----------------------------------------------------------------------------
 #include <QWidget>
 
-#include "idocument.h"
+#include "ieditor.h"
 //-----------------------------------------------------------------------------
 namespace Ui {
     class EditorTabFont;
@@ -36,35 +36,21 @@ class QItemSelection;
 class QModelIndex;
 class StatusData;
 class FontDocument;
+class IDocument;
 //-----------------------------------------------------------------------------
-class EditorTabFont : public QWidget, public IDocument
+class EditorTabFont : public QWidget, public IEditor
 {
     Q_OBJECT
-    Q_INTERFACES(IDocument)
+    Q_INTERFACES(IEditor)
 
 public:
     explicit EditorTabFont(QWidget *parent = 0);
     ~EditorTabFont();
 
-    bool load(const QString &fileName);
-    bool save(const QString &fileName);
-    bool changed() const;
-    void setChanged(bool value);
-    QString fileName() const;
-    QString documentName() const;
-    void setDocumentName(const QString &value);
-    DataContainer *dataContainer();
+    IDocument *document() const;
     QStringList selectedKeys() const;
-    void convert(bool request);
-    void updateStatus();
     StatusData *statusData() const;
-
-    void beginChanges();
-    void endChanges();
-    bool canUndo();
-    bool canRedo();
-    void undo();
-    void redo();
+    EditorType type() const;
 
     void setFontCharacters(const QString &chars,
                            const QString &fontFamily,
@@ -94,15 +80,9 @@ private:
     QFont mTableFont;
 
     void initStatusData();
+    void updateStatus();
 
     QString currentKey() const;
-    QImage drawCharacter(const QChar value,
-                         const QFont &font,
-                         const QColor &foreground,
-                         const QColor &background,
-                         const int width,
-                         const int height,
-                         const bool antialiasing);
     void updateSelectedImage();
 
 private slots:
@@ -114,7 +94,7 @@ private slots:
     void updateTableFont();
     void resizeToContents();
 signals:
-    void documentChanged(bool changed, const QString &documentName, const QString &filename);
+    void documentChanged();
     void statusChanged();
 };
 //-----------------------------------------------------------------------------

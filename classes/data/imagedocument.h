@@ -34,16 +34,12 @@ public:
 
     bool load(const QString &fileName);
     bool save(const QString &fileName);
-    void setChanged(bool value);
     bool changed() const;
-    QString fileName() const;
+    QString dataFilename() const;
     QString documentName() const;
     void setDocumentName(const QString &value);
     DataContainer *dataContainer();
-    QStringList selectedKeys() const;
     void convert(bool request);
-    void updateStatus();
-    StatusData *statusData() const;
 
     void beginChanges();
     void endChanges();
@@ -57,13 +53,12 @@ private:
 
     static const QString DefaultKey;
 
-    QString dataFilename() const;
     void setDataFilename(const QString &value);
 
     QString outputFilename() const;
     void setOutputFilename(const QString &value);
 
-    void emitDocumentChanged();
+    void setChanged(bool value);
 
 private slots:
     void mon_container_imagesChanged();

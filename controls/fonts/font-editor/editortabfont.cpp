@@ -83,6 +83,84 @@ EditorTabFont::~EditorTabFont()
     delete this->mModel;
 }
 //-----------------------------------------------------------------------------
+IDocument *EditorTabFont::document() const
+{
+    return qobject_cast<IDocument *>(this->mDocument);
+}
+//-----------------------------------------------------------------------------
+QStringList EditorTabFont::selectedKeys() const
+{
+    QStringList result;
+
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    if (selectionModel->hasSelection())
+    {
+        QModelIndexList indexes = selectionModel->selectedIndexes();
+        for (int i = 0; i < indexes.length(); i++)
+        {
+            QVariant var = this->mModel->data(indexes.at(i), ImagesModel::KeyRole);
+            QString key = var.toString();
+            if (!result.contains(key))
+            {
+                result << key;
+            }
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+StatusData *EditorTabFont::statusData() const
+{
+    return this->mStatusData;
+}
+//-----------------------------------------------------------------------------
+IEditor::EditorType EditorTabFont::type() const
+{
+    return EditorFont;
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::setFontCharacters(const QString &chars,
+                                      const QString &fontFamily,
+                                      const QString &_style,
+                                      const int _size,
+                                      const bool _monospaced,
+                                      const bool _antialiasing)
+{
+    this->mDocument->setFontCharacters(
+                chars,
+                fontFamily,
+                _style,
+                _size,
+                _monospaced,
+                _antialiasing);
+
+    this->updateTableFont();
+    this->mModel->callReset();
+    this->ui->tableViewCharacters->resizeColumnsToContents();
+
+    this->mEditor->setImage(this->mDocument->dataContainer()->image(this->currentKey()));
+
+    this->resizeToContents();
+    this->updateStatus();
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::fontCharacters(QString *chars,
+                                   QString *fontFamily,
+                                   QString *_style,
+                                   int *_size,
+                                   bool *_monospaced,
+                                   bool *_antialiasing)
+{
+    this->mDocument->fontCharacters(
+                chars,
+                fontFamily,
+                _style,
+                _size,
+                _monospaced,
+                _antialiasing);
+}
+//-----------------------------------------------------------------------------
 void EditorTabFont::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
@@ -133,21 +211,87 @@ void EditorTabFont::initStatusData()
     this->updateStatus();
 }
 //-----------------------------------------------------------------------------
+void EditorTabFont::updateStatus()
+{
+    const QImage *currentImage = this->mDocument->dataContainer()->image(this->currentKey());
+    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+
+    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
+
+    // status update: current image index
+    {
+        int current = this->mDocument->dataContainer()->keys().indexOf(this->currentKey());
+        int total = this->mDocument->dataContainer()->count();
+
+        this->mStatusData->setData(StatusData::ImagesCount, total);
+        this->mStatusData->setData(StatusData::ImageIndex, current);
+    }
+}
+//-----------------------------------------------------------------------------
+QString EditorTabFont::currentKey() const
+{
+    QString result;
+
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    if (selectionModel->hasSelection())
+    {
+        QModelIndex currentIndex = selectionModel->currentIndex();
+        if (currentIndex.isValid())
+        {
+            QVariant var = this->mModel->data(currentIndex, ImagesModel::KeyRole);
+            result = var.toString();
+        }
+        else
+        {
+        }
+    }
+
+    if (result.isEmpty())
+    {
+        if (this->mDocument->dataContainer()->count() > 0)
+        {
+            result = this->mDocument->dataContainer()->keys().at(0);
+        }
+        else
+        {
+            result = "default";
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::updateSelectedImage()
+{
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    if (selectionModel->hasSelection())
+    {
+        QModelIndex index = selectionModel->currentIndex();
+
+        QVariant var = this->mModel->data(index, ImagesModel::ImageRole);
+        if (var.isValid())
+        {
+            QImage image = var.value<QImage>();
+            this->mEditor->setImage(&image);
+
+            this->updateStatus();
+        }
+    }
+}
+//-----------------------------------------------------------------------------
 void EditorTabFont::mon_documentChanged()
 {
     this->updateSelectedImage();
-    this->setChanged(true);
-    emit this->documentChanged(true, this->documentName(), this->fileName());
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_imageChanged()
 {
-    this->beginChanges();
+    this->mDocument->beginChanges();
 
     const QImage *image = this->mEditor->image();
     this->mDocument->dataContainer()->setImage(this->currentKey(), image);
 
-    this->endChanges();
+    this->mDocument->endChanges();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_mouseMove(QPoint point)
@@ -196,265 +340,6 @@ void EditorTabFont::resizeToContents()
 {
     this->ui->tableViewCharacters->resizeColumnsToContents();
     this->ui->tableViewCharacters->resizeRowsToContents();
-}
-//-----------------------------------------------------------------------------
-bool EditorTabFont::load(const QString &fileName)
-{
-    return this->mDocument->load(fileName);
-}
-//-----------------------------------------------------------------------------
-bool EditorTabFont::save(const QString &fileName)
-{
-    return this->mDocument->save(fileName);
-}
-//-----------------------------------------------------------------------------
-bool EditorTabFont::changed() const
-{
-    return this->mDocument->changed();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::setChanged(bool value)
-{
-    this->mDocument->setChanged(value);
-}
-//-----------------------------------------------------------------------------
-QString EditorTabFont::fileName() const
-{
-    return this->mDocument->fileName();
-}
-//-----------------------------------------------------------------------------
-QString EditorTabFont::documentName() const
-{
-    return this->mDocument->documentName();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::setDocumentName(const QString &value)
-{
-    this->mDocument->setDocumentName(value);
-}
-//-----------------------------------------------------------------------------
-DataContainer *EditorTabFont::dataContainer()
-{
-    return this->mDocument->dataContainer();
-}
-//-----------------------------------------------------------------------------
-QStringList EditorTabFont::selectedKeys() const
-{
-    QStringList result;
-
-    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
-    if (selectionModel->hasSelection())
-    {
-        QModelIndexList indexes = selectionModel->selectedIndexes();
-        for (int i = 0; i < indexes.length(); i++)
-        {
-            QVariant var = this->mModel->data(indexes.at(i), ImagesModel::KeyRole);
-            QString key = var.toString();
-            if (!result.contains(key))
-            {
-                result << key;
-            }
-        }
-    }
-
-    return result;
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::convert(bool request)
-{
-    this->mDocument->convert(request);
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::updateStatus()
-{
-    const QImage *currentImage = this->mDocument->dataContainer()->image(this->currentKey());
-    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
-
-    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
-
-    // status update: current image index
-    {
-        int current = this->mDocument->dataContainer()->keys().indexOf(this->currentKey());
-        int total = this->mDocument->dataContainer()->count();
-
-        this->mStatusData->setData(StatusData::ImagesCount, total);
-        this->mStatusData->setData(StatusData::ImageIndex, current);
-    }
-}
-//-----------------------------------------------------------------------------
-StatusData *EditorTabFont::statusData() const
-{
-    return this->mStatusData;
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::beginChanges()
-{
-    this->mDocument->beginChanges();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::endChanges()
-{
-    this->mDocument->endChanges();
-}
-//-----------------------------------------------------------------------------
-bool EditorTabFont::canUndo()
-{
-    return this->mDocument->canUndo();
-}
-//-----------------------------------------------------------------------------
-bool EditorTabFont::canRedo()
-{
-    return this->mDocument->canRedo();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::undo()
-{
-    this->mDocument->undo();
-
-    this->updateStatus();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::redo()
-{
-    this->mDocument->redo();
-
-    this->updateStatus();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::setFontCharacters(const QString &chars,
-                                      const QString &fontFamily,
-                                      const QString &_style,
-                                      const int _size,
-                                      const bool _monospaced,
-                                      const bool _antialiasing)
-{
-    this->mDocument->setFontCharacters(
-                chars,
-                fontFamily,
-                _style,
-                _size,
-                _monospaced,
-                _antialiasing);
-
-    this->updateTableFont();
-    this->mModel->callReset();
-    this->ui->tableViewCharacters->resizeColumnsToContents();
-
-    this->mEditor->setImage(this->mDocument->dataContainer()->image(this->currentKey()));
-
-    this->resizeToContents();
-    this->updateStatus();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::fontCharacters(QString *chars,
-                                   QString *fontFamily,
-                                   QString *_style,
-                                   int *_size,
-                                   bool *_monospaced,
-                                   bool *_antialiasing)
-{
-    this->mDocument->fontCharacters(
-                chars,
-                fontFamily,
-                _style,
-                _size,
-                _monospaced,
-                _antialiasing);
-}
-//-----------------------------------------------------------------------------
-QImage EditorTabFont::drawCharacter(const QChar value,
-                                    const QFont &font,
-                                    const QColor &foreground,
-                                    const QColor &background,
-                                    const int width,
-                                    const int height,
-                                    const bool antialiasing)
-{
-    QFontMetrics fontMetrics(font);
-
-    int charWidth = fontMetrics.width(value);
-    int charHeight = fontMetrics.height();
-
-    // fix width of italic style
-    QRect r = fontMetrics.boundingRect(QString(value));
-    charWidth = qMax(qMax(r.left(), r.right()) + 1, charWidth);
-
-    int imageWidth = width;
-    int imageHeight = height;
-
-    if (width == 0 || height == 0)
-    {
-        imageWidth = charWidth;
-        imageHeight = charHeight;
-    }
-    QImage result(imageWidth, imageHeight, QImage::Format_RGB32);
-
-    QPainter painter(&result);
-    painter.setFont(font);
-
-    painter.setRenderHint(QPainter::Antialiasing, antialiasing);
-    painter.setRenderHint(QPainter::TextAntialiasing, antialiasing);
-
-    painter.setPen(foreground);
-
-    painter.fillRect(result.rect(), background);
-
-    painter.drawText((imageWidth / 2) - (charWidth / 2),
-                     fontMetrics.ascent(),//+4
-                     QString(value));
-
-    return result;
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::updateSelectedImage()
-{
-    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
-    if (selectionModel->hasSelection())
-    {
-        QModelIndex index = selectionModel->currentIndex();
-
-        QVariant var = this->mModel->data(index, ImagesModel::ImageRole);
-        if (var.isValid())
-        {
-            QImage image = var.value<QImage>();
-            this->mEditor->setImage(&image);
-
-            this->updateStatus();
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-QString EditorTabFont::currentKey() const
-{
-    QString result;
-
-    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
-    if (selectionModel->hasSelection())
-    {
-        QModelIndex currentIndex = selectionModel->currentIndex();
-        if (currentIndex.isValid())
-        {
-            QVariant var = this->mModel->data(currentIndex, ImagesModel::KeyRole);
-            result = var.toString();
-        }
-        else
-        {
-        }
-    }
-
-    if (result.isEmpty())
-    {
-        if (this->mDocument->dataContainer()->count() > 0)
-        {
-            result = this->mDocument->dataContainer()->keys().at(0);
-        }
-        else
-        {
-            result = "default";
-        }
-    }
-
-    return result;
 }
 //-----------------------------------------------------------------------------
 /*

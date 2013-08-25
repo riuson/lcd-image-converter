@@ -64,6 +64,26 @@ EditorTabImage::~EditorTabImage()
     delete ui;
 }
 //-----------------------------------------------------------------------------
+IDocument *EditorTabImage::document() const
+{
+    return qobject_cast<IDocument *>(this->mDocument);
+}
+//-----------------------------------------------------------------------------
+QStringList EditorTabImage::selectedKeys() const
+{
+    return this->mDocument->dataContainer()->keys();
+}
+//-----------------------------------------------------------------------------
+StatusData *EditorTabImage::statusData() const
+{
+    return this->mStatusData;
+}
+//-----------------------------------------------------------------------------
+IEditor::EditorType EditorTabImage::type() const
+{
+    return EditorImage;
+}
+//-----------------------------------------------------------------------------
 void EditorTabImage::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
@@ -83,9 +103,18 @@ void EditorTabImage::initStatusData()
     this->updateStatus();
 }
 //-----------------------------------------------------------------------------
+void EditorTabImage::updateStatus()
+{
+    QStringList keys = this->mDocument->dataContainer()->keys();
+    const QImage *currentImage = this->mDocument->dataContainer()->image(keys.at(0));
+    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+
+    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
+}
+//-----------------------------------------------------------------------------
 void EditorTabImage::updateSelectedImage()
 {
-    QStringList keys = this->mDocument->selectedKeys();
+    QStringList keys = this->mDocument->dataContainer()->keys();
     const QImage *image = this->mDocument->dataContainer()->image(keys.at(0));
     this->mEditor->setImage(image);
 
@@ -95,19 +124,17 @@ void EditorTabImage::updateSelectedImage()
 void EditorTabImage::mon_documentChanged()
 {
     this->updateSelectedImage();
-    this->setChanged(true);
-    emit this->documentChanged(true, this->documentName(), this->fileName());
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_imageChanged()
 {
-    this->beginChanges();
+    this->mDocument->beginChanges();
 
-    QStringList keys = this->mDocument->selectedKeys();
+    QStringList keys = this->mDocument->dataContainer()->keys();
     const QImage *image = this->mEditor->image();
     this->mDocument->dataContainer()->setImage(keys.at(0), image);
 
-    this->endChanges();
+    this->mDocument->endChanges();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_mouseMove(QPoint point)
@@ -125,104 +152,6 @@ void EditorTabImage::mon_editor_mouseMove(QPoint point)
 void EditorTabImage::mon_editor_scaleChanged(int scale)
 {
     this->mStatusData->setData(StatusData::Scale, QVariant(scale));
-}
-//-----------------------------------------------------------------------------
-bool EditorTabImage::load(const QString &fileName)
-{
-    return this->mDocument->load(fileName);
-}
-//-----------------------------------------------------------------------------
-bool EditorTabImage::save(const QString &fileName)
-{
-    return this->mDocument->save(fileName);
-}
-//-----------------------------------------------------------------------------
-bool EditorTabImage::changed() const
-{
-    return this->mDocument->changed();
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::setChanged(bool value)
-{
-    this->mDocument->setChanged(value);
-}
-//-----------------------------------------------------------------------------
-QString EditorTabImage::fileName() const
-{
-    return this->mDocument->fileName();
-}
-//-----------------------------------------------------------------------------
-QString EditorTabImage::documentName() const
-{
-    return this->mDocument->documentName();
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::setDocumentName(const QString &value)
-{
-    this->mDocument->setDocumentName(value);
-}
-//-----------------------------------------------------------------------------
-DataContainer *EditorTabImage::dataContainer()
-{
-    return this->mDocument->dataContainer();
-}
-//-----------------------------------------------------------------------------
-QStringList EditorTabImage::selectedKeys() const
-{
-    return this->mDocument->selectedKeys();
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::convert(bool request)
-{
-    this->mDocument->convert(request);
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::updateStatus()
-{
-    QStringList keys = this->mDocument->selectedKeys();
-    const QImage *currentImage = this->mDocument->dataContainer()->image(keys.at(0));
-    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
-
-    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
-}
-//-----------------------------------------------------------------------------
-StatusData *EditorTabImage::statusData() const
-{
-    return this->mStatusData;
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::beginChanges()
-{
-    this->mDocument->beginChanges();
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::endChanges()
-{
-    this->mDocument->endChanges();
-}
-//-----------------------------------------------------------------------------
-bool EditorTabImage::canUndo()
-{
-    return this->mDocument->canUndo();
-}
-//-----------------------------------------------------------------------------
-bool EditorTabImage::canRedo()
-{
-    return this->mDocument->canRedo();
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::undo()
-{
-    this->mDocument->undo();
-
-    this->updateStatus();
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::redo()
-{
-    this->mDocument->redo();
-
-    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 /*
