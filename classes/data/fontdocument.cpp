@@ -40,7 +40,7 @@ FontDocument::FontDocument(QObject *parent) :
     this->mContainer = new DataContainer(this);
 
     this->setDocumentName(tr("Font", "new font name"));
-    this->setDataFilename("");
+    this->setDocumentFilename("");
     this->setOutputFilename("");
     this->setChanged(false);
     this->setAntialiasing(false);
@@ -147,7 +147,7 @@ bool FontDocument::load(const QString &fileName)
         }
         file.close();
 
-        this->setDataFilename(fileName);
+        this->setDocumentFilename(fileName);
         this->setOutputFilename(converted);
         this->setChanged(false);
     }
@@ -251,7 +251,7 @@ bool FontDocument::save(const QString &fileName)
         QTextStream stream(&file);
         doc.save(stream, 4);
 
-        this->setDataFilename(fileName);
+        this->setDocumentFilename(fileName);
         file.close();
         result = true;
         this->setChanged(false);
@@ -266,7 +266,7 @@ bool FontDocument::changed() const
     return result;
 }
 //-----------------------------------------------------------------------------
-QString FontDocument::dataFilename() const
+QString FontDocument::documentFilename() const
 {
     QVariant result = this->mContainer->info("filename");
     return result.toString();
@@ -296,8 +296,8 @@ void FontDocument::convert(bool request)
 {
     Tags tags;
 
-    if (!this->dataFilename().isEmpty())
-        tags.setTagValue(Tags::DocumentFilename, this->dataFilename());
+    if (!this->documentFilename().isEmpty())
+        tags.setTagValue(Tags::DocumentFilename, this->documentFilename());
     else
         tags.setTagValue(Tags::DocumentFilename, "unsaved");
 
@@ -529,9 +529,9 @@ void FontDocument::setFontCharacters(const QString &chars,
     this->setChanged(true);
 }
 //-----------------------------------------------------------------------------
-void FontDocument::setDataFilename(const QString &value)
+void FontDocument::setDocumentFilename(const QString &value)
 {
-    if (this->dataFilename() != value)
+    if (this->documentFilename() != value)
     {
         this->mContainer->setInfo("filename", QVariant(value));
     }

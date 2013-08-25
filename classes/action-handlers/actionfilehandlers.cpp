@@ -53,7 +53,7 @@ void ActionFileHandlers::newImage_triggered()
 
         name = this->mMainWindow->findAvailableName(name);
         ed->document()->setDocumentName(name);
-        emit this->tabCreated(ed, name, ed->document()->dataFilename());
+        emit this->tabCreated(ed, name, ed->document()->documentFilename());
     }
 }
 //-----------------------------------------------------------------------------
@@ -89,7 +89,7 @@ void ActionFileHandlers::newFont_triggered()
 
             name = this->mMainWindow->findAvailableName(name);
             ed->document()->setDocumentName(name);
-            emit this->tabCreated(ed, name, ed->document()->dataFilename());
+            emit this->tabCreated(ed, name, ed->document()->documentFilename());
         }
     }
 }
@@ -139,8 +139,8 @@ void ActionFileHandlers::save_triggered()
     IEditor *editor = this->editor();
     if (editor != NULL)
     {
-        if (QFile::exists(editor->document()->dataFilename()))
-            editor->document()->save(editor->document()->dataFilename());
+        if (QFile::exists(editor->document()->documentFilename()))
+            editor->document()->save(editor->document()->documentFilename());
         else
             this->saveAs_triggered();
     }
@@ -153,7 +153,7 @@ void ActionFileHandlers::saveAs_triggered()
     {
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.selectFile(editor->document()->dataFilename());
+        dialog.selectFile(editor->document()->documentFilename());
         dialog.setFileMode(QFileDialog::AnyFile);
         dialog.setNameFilter(tr("XML Files (*.xml)"));
         dialog.setDefaultSuffix(QString("xml"));

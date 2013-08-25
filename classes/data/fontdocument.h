@@ -37,7 +37,7 @@ public:
     bool load(const QString &fileName);
     bool save(const QString &fileName);
     bool changed() const;
-    QString dataFilename() const;
+    QString documentFilename() const;
     QString documentName() const;
     void setDocumentName(const QString &value);
     DataContainer *dataContainer();
@@ -66,7 +66,7 @@ public:
 private:
     DataContainer *mContainer;
 
-    void setDataFilename(const QString &value);
+    void setDocumentFilename(const QString &value);
 
     QString outputFilename() const;
     void setOutputFilename(const QString &value);

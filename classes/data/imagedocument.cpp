@@ -38,7 +38,7 @@ ImageDocument::ImageDocument(QObject *parent) :
 {
     this->mContainer = new DataContainer(this);
     this->setDocumentName(tr("Image", "new image name"));
-    this->setDataFilename("");
+    this->setDocumentFilename("");
     this->setOutputFilename("");
     this->setChanged(false);
 }
@@ -91,7 +91,7 @@ bool ImageDocument::load(const QString &fileName)
         }
         file.close();
 
-        this->setDataFilename(fileName);
+        this->setDocumentFilename(fileName);
         this->setOutputFilename(converted);
         this->setChanged(false);
     }
@@ -137,7 +137,7 @@ bool ImageDocument::save(const QString &fileName)
         QTextStream stream(&file);
         doc.save(stream, 4);
 
-        this->setDataFilename(fileName);
+        this->setDocumentFilename(fileName);
         file.close();
         result = true;
         this->setChanged(false);
@@ -151,7 +151,7 @@ bool ImageDocument::changed() const
     return result;
 }
 //-----------------------------------------------------------------------------
-QString ImageDocument::dataFilename() const
+QString ImageDocument::documentFilename() const
 {
     QVariant result = this->mContainer->info("filename");
     return result.toString();
@@ -181,8 +181,8 @@ void ImageDocument::convert(bool request)
 {
     Tags tags;
 
-    if (!this->dataFilename().isEmpty())
-        tags.setTagValue(Tags::DocumentFilename, this->dataFilename());
+    if (!this->documentFilename().isEmpty())
+        tags.setTagValue(Tags::DocumentFilename, this->documentFilename());
     else
         tags.setTagValue(Tags::DocumentFilename, "unsaved");
 
@@ -280,9 +280,9 @@ void ImageDocument::redo()
     emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
-void ImageDocument::setDataFilename(const QString &value)
+void ImageDocument::setDocumentFilename(const QString &value)
 {
-    if (this->dataFilename() != value)
+    if (this->documentFilename() != value)
     {
         this->mContainer->setInfo("filename", QVariant(value));
     }

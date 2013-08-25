@@ -259,7 +259,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
         {
         case DialogSaveChanges::Save:
             {
-                if (!editor->document()->save(editor->document()->dataFilename()))
+                if (!editor->document()->save(editor->document()->documentFilename()))
                     cancel = true;
             }
             break;
