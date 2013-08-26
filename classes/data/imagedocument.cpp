@@ -304,11 +304,8 @@ void ImageDocument::setOutputFilename(const QString &value)
 //-----------------------------------------------------------------------------
 void ImageDocument::setChanged(bool value)
 {
-    if (this->changed() != value)
-    {
-        this->mContainer->setInfo("data changed", value);
-        emit this->documentChanged();
-    }
+    this->mContainer->setInfo("data changed", value);
+    emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
 void ImageDocument::mon_container_imagesChanged()

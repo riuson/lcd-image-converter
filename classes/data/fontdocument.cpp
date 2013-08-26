@@ -646,11 +646,8 @@ QImage FontDocument::drawCharacter(const QChar value, const QFont &font, const Q
 //-----------------------------------------------------------------------------
 void FontDocument::setChanged(bool value)
 {
-    if (this->changed() != value)
-    {
-        this->mContainer->setInfo("data changed", value);
-        emit this->documentChanged();
-    }
+    this->mContainer->setInfo("data changed", value);
+    emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
 void FontDocument::mon_container_imagesChanged()
