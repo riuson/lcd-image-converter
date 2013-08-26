@@ -49,7 +49,7 @@ void ActionFileHandlers::newImage_triggered()
     if (ok)
     {
         EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
-        this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
+        this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
         name = this->mMainWindow->findAvailableName(name);
         ed->document()->setDocumentName(name);
@@ -72,7 +72,7 @@ void ActionFileHandlers::newFont_triggered()
         if (dialog.exec() == QDialog::Accepted)
         {
             EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
-            this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
+            this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
             QString chars = dialog.characters();
             int size;
@@ -244,7 +244,7 @@ void ActionFileHandlers::openFile(const QString &filename)
         if (isImage)
         {
             EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
-            this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
+            this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
             emit this->tabCreated(ed, "", filename);
             ed->document()->load(filename);
@@ -252,7 +252,7 @@ void ActionFileHandlers::openFile(const QString &filename)
         if (isFont)
         {
             EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
-            this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
+            this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
             emit this->tabCreated(ed, "", filename);
             ed->document()->load(filename);
@@ -263,7 +263,7 @@ void ActionFileHandlers::openFile(const QString &filename)
             if (image.load(filename))
             {
                 EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
-                this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
+                this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
                 QString name = this->mMainWindow->findAvailableName(info.baseName());
 
@@ -289,7 +289,7 @@ void ActionFileHandlers::openFile(const QString &filename)
 void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
 {
     EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
-    this->connect(ed, SIGNAL(documentChanged(bool,QString,QString)), SLOT(documentChanged(bool,QString,QString)));
+    this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
     QString name = this->mMainWindow->findAvailableName(documentName);
 
@@ -312,16 +312,16 @@ void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
     emit this->tabChanged(ed, "* " + name, "");
 }
 //-----------------------------------------------------------------------------
-void ActionFileHandlers::documentChanged(bool changed, const QString &documentName, const QString &filename)
+void ActionFileHandlers::documentChanged()
 {
     QWidget *w = qobject_cast<QWidget *>(sender());
-    IDocument *doc = dynamic_cast<IDocument *> (w);
-    if (doc != NULL)
+    IEditor *editor = dynamic_cast<IEditor *> (w);
+    if (editor != NULL)
     {
-        if (changed)
-            emit this->tabChanged(w, "* " + documentName, filename);
+        if (editor->document()->changed())
+            emit this->tabChanged(w, "* " + editor->document()->documentName(), editor->document()->documentFilename());
         else
-            emit this->tabChanged(w, documentName, filename);
+            emit this->tabChanged(w, editor->document()->documentName(), editor->document()->documentFilename());
     }
 }
 //-----------------------------------------------------------------------------

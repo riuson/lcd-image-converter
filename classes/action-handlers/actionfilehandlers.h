@@ -52,7 +52,7 @@ public slots:
     void openFile(const QString &filename);
     void openImage(QImage *image, const QString &documentName);
 private slots:
-    void documentChanged(bool changed, const QString &documentName, const QString &filename);
+    void documentChanged();
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONFILEHANDLERS_H
