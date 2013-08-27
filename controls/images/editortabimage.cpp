@@ -106,17 +106,22 @@ void EditorTabImage::initStatusData()
 void EditorTabImage::updateStatus()
 {
     QStringList keys = this->mDocument->dataContainer()->keys();
-    const QImage *currentImage = this->mDocument->dataContainer()->image(keys.at(0));
-    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
-
+    if (keys.length() > 0)
+    {
+        const QImage *currentImage = this->mDocument->dataContainer()->image(keys.at(0));
+        this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+    }
     this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::updateSelectedImage()
 {
     QStringList keys = this->mDocument->dataContainer()->keys();
-    const QImage *image = this->mDocument->dataContainer()->image(keys.at(0));
-    this->mEditor->setImage(image);
+    if (keys.length() > 0)
+    {
+        const QImage *image = this->mDocument->dataContainer()->image(keys.at(0));
+        this->mEditor->setImage(image);
+    }
 
     this->updateStatus();
 }
