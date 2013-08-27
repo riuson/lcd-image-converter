@@ -56,7 +56,12 @@ public:
     bool canUndo() const;
     bool canRedo() const;
 
+    bool changed() const;
+    void setChanged(bool value);
+
 private:
+    static const QString DataChangedKey;
+
     QMap<QString, QImage *> mImageMap;
     QMap<QString, QVariant> mInfoMap;
     QImage *mDefaultImage;

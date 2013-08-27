@@ -129,6 +129,7 @@ void EditorTabImage::updateSelectedImage()
 void EditorTabImage::mon_documentChanged()
 {
     this->updateSelectedImage();
+    emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_imageChanged()
@@ -140,6 +141,8 @@ void EditorTabImage::mon_editor_imageChanged()
     this->mDocument->dataContainer()->setImage(keys.at(0), image);
 
     this->mDocument->endChanges();
+
+    emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_mouseMove(QPoint point)

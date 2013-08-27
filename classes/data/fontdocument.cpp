@@ -262,7 +262,7 @@ bool FontDocument::save(const QString &fileName)
 //-----------------------------------------------------------------------------
 bool FontDocument::changed() const
 {
-    bool result = this->mContainer->info("data changed").toBool();
+    bool result = this->mContainer->changed();
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -646,13 +646,12 @@ QImage FontDocument::drawCharacter(const QChar value, const QFont &font, const Q
 //-----------------------------------------------------------------------------
 void FontDocument::setChanged(bool value)
 {
-    this->mContainer->setInfo("data changed", value);
+    this->mContainer->setChanged(value);
     emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
 void FontDocument::mon_container_imagesChanged()
 {
-    this->setChanged(true);
     emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------

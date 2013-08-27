@@ -37,6 +37,8 @@ ImageDocument::ImageDocument(QObject *parent) :
     QObject(parent)
 {
     this->mContainer = new DataContainer(this);
+    this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(mon_container_imagesChanged()));
+
     this->setDocumentName(tr("Image", "new image name"));
     this->setDocumentFilename("");
     this->setOutputFilename("");
@@ -147,7 +149,7 @@ bool ImageDocument::save(const QString &fileName)
 //-----------------------------------------------------------------------------
 bool ImageDocument::changed() const
 {
-    bool result = this->mContainer->info("data changed").toBool();
+    bool result = this->mContainer->changed();
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -304,13 +306,12 @@ void ImageDocument::setOutputFilename(const QString &value)
 //-----------------------------------------------------------------------------
 void ImageDocument::setChanged(bool value)
 {
-    this->mContainer->setInfo("data changed", value);
+    this->mContainer->setChanged(value);
     emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
 void ImageDocument::mon_container_imagesChanged()
 {
-    this->setChanged(true);
     emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
