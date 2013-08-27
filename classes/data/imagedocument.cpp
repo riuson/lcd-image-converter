@@ -39,6 +39,10 @@ ImageDocument::ImageDocument(QObject *parent) :
     this->mContainer = new DataContainer(this);
     this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(mon_container_imagesChanged()));
 
+    QImage *image = new QImage(":/images/template");
+    this->mContainer->setImage(ImageDocument::DefaultKey, image);
+    delete image;
+
     this->setDocumentName(tr("Image", "new image name"));
     this->setDocumentFilename("");
     this->setOutputFilename("");
