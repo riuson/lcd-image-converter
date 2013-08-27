@@ -279,8 +279,8 @@ void ActionFileHandlers::openFile(const QString &filename)
                     }
                 }
 
-                ed->document()->setDocumentName(name);
                 emit this->tabCreated(ed, name, filename);
+                ed->document()->setDocumentName(name);
             }
         }
     }
