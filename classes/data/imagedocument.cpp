@@ -63,6 +63,9 @@ bool ImageDocument::load(const QString &fileName)
         QString errorMsg;
         QString converted;
         int errorColumn, errorLine;
+
+        this->mContainer->blockSignals(true);
+
         if (doc.setContent(&file, &errorMsg, &errorLine, &errorColumn))
         {
             QDomElement root = doc.documentElement();
@@ -96,6 +99,8 @@ bool ImageDocument::load(const QString &fileName)
             }
         }
         file.close();
+
+        this->mContainer->blockSignals(false);
 
         this->setDocumentFilename(fileName);
         this->setOutputFilename(converted);
