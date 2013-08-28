@@ -216,15 +216,17 @@ void ActionFileHandlers::openFile(const QString &filename)
             if (file.open(QIODevice::ReadWrite))
             {
                 QTextStream stream(&file);
+                QRegExp regImage("<data.+type=\"image\"", Qt::CaseInsensitive);
+                QRegExp regFont("<data.+type=\"font\"", Qt::CaseInsensitive);
                 while (!stream.atEnd())
                 {
                     QString readedLine = stream.readLine();
-                    if (readedLine.contains("<data type=\"image\""))
+                    if (readedLine.contains(regImage))
                     {
                         isImage = true;
                         break;
                     }
-                    if (readedLine.contains("<data type=\"font\""))
+                    if (readedLine.contains(regFont))
                     {
                         isFont = true;
                         break;
