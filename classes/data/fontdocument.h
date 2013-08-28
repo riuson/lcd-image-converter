@@ -98,6 +98,7 @@ private slots:
 
 signals:
     void documentChanged();
+    void documentChangedSignificantly(); // workaround for model reset
 };
 //-----------------------------------------------------------------------------
 #endif // FONTDOCUMENT_H

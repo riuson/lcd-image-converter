@@ -68,6 +68,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->mSplitter->setChildrenCollapsible(false);
 
     this->connect(this->mDocument, SIGNAL(documentChanged()), SLOT(mon_documentChanged()));
+    this->connect(this->mDocument, SIGNAL(documentChangedSignificantly()), SLOT(mon_documentChangedSignificantly()));
     this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
     this->connect(this->mEditor, SIGNAL(mouseMove(QPoint)), SLOT(mon_editor_mouseMove(QPoint)));
     this->connect(this->mEditor, SIGNAL(scaleSchanged(int)), SLOT(mon_editor_scaleChanged(int)));
@@ -283,7 +284,24 @@ void EditorTabFont::mon_documentChanged()
 {
     this->updateSelectedImage();
     emit this->documentChanged();
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::mon_documentChangedSignificantly()
+{
     this->mModel->callReset();
+    emit this->documentChanged();
+
+    if (this->mDocument->dataContainer()->count() > 0)
+    {
+        QString key = this->currentKey();
+        const QImage *image = this->mDocument->dataContainer()->image(key);
+        this->mEditor->setImage(image);
+    }
+    else
+    {
+        QImage empty = QImage();
+        this->mEditor->setImage(&empty);
+    }
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_imageChanged()

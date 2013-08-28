@@ -156,6 +156,8 @@ bool FontDocument::load(const QString &fileName)
         this->setDocumentFilename(fileName);
         this->setOutputFilename(converted);
         this->setChanged(false);
+
+        emit this->documentChangedSignificantly();
     }
 
     return result;
@@ -533,6 +535,8 @@ void FontDocument::setFontCharacters(const QString &chars,
     }
 
     this->setChanged(true);
+
+    emit this->documentChangedSignificantly();
 }
 //-----------------------------------------------------------------------------
 void FontDocument::setDocumentFilename(const QString &value)

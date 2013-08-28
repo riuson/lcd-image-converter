@@ -87,6 +87,7 @@ private:
 
 private slots:
     void mon_documentChanged();
+    void mon_documentChangedSignificantly();
     void mon_editor_imageChanged();
     void mon_editor_mouseMove(QPoint point);
     void mon_editor_scaleChanged(int scale);
