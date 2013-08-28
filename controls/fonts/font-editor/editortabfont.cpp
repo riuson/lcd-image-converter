@@ -282,6 +282,8 @@ void EditorTabFont::updateSelectedImage()
 void EditorTabFont::mon_documentChanged()
 {
     this->updateSelectedImage();
+    emit this->documentChanged();
+    this->mModel->callReset();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_imageChanged()
