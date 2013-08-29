@@ -321,19 +321,17 @@ void MainWindow::updateMenuState()
     IEditor *editor = this->currentEditor();
     bool editorSelected = (editor != NULL);
 
-    // enable font menu for EditorTabFont
-    if (editorSelected)
-    {
-        this->ui->menuFont->setEnabled(editor->type() == IEditor::EditorFont);
-    }
-
     if (editor != NULL)
     {
+        this->ui->menuFont->setEnabled(editor->type() == IEditor::EditorFont);
+
         this->ui->actionEditUndo->setEnabled(editor->document()->canUndo());
         this->ui->actionEditRedo->setEnabled(editor->document()->canRedo());
     }
     else
     {
+        this->ui->menuFont->setEnabled(false);
+
         this->ui->actionEditUndo->setEnabled(false);
         this->ui->actionEditRedo->setEnabled(false);
     }
