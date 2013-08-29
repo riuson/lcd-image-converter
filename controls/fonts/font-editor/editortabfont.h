@@ -76,6 +76,7 @@ private:
     QSplitter *mSplitter;
     ImagesModel *mModel;
     StatusData *mStatusData;
+    int mLastImagesCount;
 
     QFont mTableFont;
 

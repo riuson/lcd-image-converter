@@ -54,6 +54,8 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
     this->mDocument = new FontDocument(this);
 
+    this->mLastImagesCount = 0;
+
     this->mModel = new ImagesModel(this->mDocument->dataContainer(), Qt::Vertical, this);
     this->ui->tableViewCharacters->setModel(this->mModel);
     this->connect(this->mModel, SIGNAL(scaleChanged()), SLOT(resizeToContents()));
@@ -68,7 +70,6 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->mSplitter->setChildrenCollapsible(false);
 
     this->connect(this->mDocument, SIGNAL(documentChanged()), SLOT(mon_documentChanged()));
-    this->connect(this->mDocument, SIGNAL(documentChangedSignificantly()), SLOT(mon_documentChangedSignificantly()));
     this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
     this->connect(this->mEditor, SIGNAL(mouseMove(QPoint)), SLOT(mon_editor_mouseMove(QPoint)));
     this->connect(this->mEditor, SIGNAL(scaleSchanged(int)), SLOT(mon_editor_scaleChanged(int)));
@@ -284,11 +285,18 @@ void EditorTabFont::mon_documentChanged()
 {
     this->updateSelectedImage();
     emit this->documentChanged();
+
+    if (this->mDocument->dataContainer()->count() != this->mLastImagesCount)
+    {
+        this->mon_documentChangedSignificantly();
+        this->mLastImagesCount = this->mDocument->dataContainer()->count();
+    }
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_documentChangedSignificantly()
 {
     this->mModel->callReset();
+    this->updateTableFont();
     emit this->documentChanged();
 
     if (this->mDocument->dataContainer()->count() > 0)
