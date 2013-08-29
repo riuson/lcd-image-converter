@@ -36,8 +36,8 @@ public:
 signals:
     void rememberFilename(const QString &filename);
     void closeRequest(QWidget *tab);
-    void tabChanged(QWidget *w, const QString &documentName, const QString &filename);
-    void tabCreated(QWidget *w, const QString &documentName, const QString &filename);
+    void tabChanged(QWidget *w);
+    void tabCreated(QWidget *w);
 
 public slots:
     void newImage_triggered();

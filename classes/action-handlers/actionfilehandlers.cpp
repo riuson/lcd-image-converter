@@ -51,9 +51,10 @@ void ActionFileHandlers::newImage_triggered()
         EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
         this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
+        emit this->tabCreated(ed);
+
         name = this->mMainWindow->findAvailableName(name);
         ed->document()->setDocumentName(name);
-        emit this->tabCreated(ed, name, ed->document()->documentFilename());
     }
 }
 //-----------------------------------------------------------------------------
@@ -87,9 +88,10 @@ void ActionFileHandlers::newFont_triggered()
 
             ed->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
 
+            emit this->tabCreated(ed);
+
             name = this->mMainWindow->findAvailableName(name);
             ed->document()->setDocumentName(name);
-            emit this->tabCreated(ed, name, ed->document()->documentFilename());
         }
     }
 }
@@ -246,7 +248,7 @@ void ActionFileHandlers::openFile(const QString &filename)
             EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
             this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
-            emit this->tabCreated(ed, "", filename);
+            emit this->tabCreated(ed);
             ed->document()->load(filename);
         }
         if (isFont)
@@ -254,7 +256,7 @@ void ActionFileHandlers::openFile(const QString &filename)
             EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
             this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
-            emit this->tabCreated(ed, "", filename);
+            emit this->tabCreated(ed);
             ed->document()->load(filename);
         }
         if (isImageBinary)
@@ -279,7 +281,7 @@ void ActionFileHandlers::openFile(const QString &filename)
                     }
                 }
 
-                emit this->tabCreated(ed, name, filename);
+                emit this->tabCreated(ed);
                 ed->document()->setDocumentName(name);
             }
         }
@@ -307,21 +309,12 @@ void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
 
     ed->document()->setDocumentName(name);
 
-    emit this->tabCreated(ed, name, "");
-
-    emit this->tabChanged(ed, "* " + name, "");
+    emit this->tabCreated(ed);
 }
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::documentChanged()
 {
     QWidget *w = qobject_cast<QWidget *>(sender());
-    IEditor *editor = dynamic_cast<IEditor *> (w);
-    if (editor != NULL)
-    {
-        if (editor->document()->changed())
-            emit this->tabChanged(w, "* " + editor->document()->documentName(), editor->document()->documentFilename());
-        else
-            emit this->tabChanged(w, editor->document()->documentName(), editor->document()->documentFilename());
-    }
+    emit this->tabChanged(w);
 }
 //-----------------------------------------------------------------------------

@@ -203,8 +203,8 @@ void MainWindow::createHandlers()
     this->connect(this->ui->actionQuit, SIGNAL(triggered()), SLOT(close()));
     this->connect(this->mFileHandlers, SIGNAL(rememberFilename(QString)), SLOT(rememberFilename(QString)));
     this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
-    this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*,QString,QString)), SLOT(tabChanged(QWidget*,QString,QString)));
-    this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget*,QString,QString)), SLOT(tabCreated(QWidget*,QString,QString)));
+    this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*)), SLOT(tabChanged(QWidget*)));
+    this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget*)), SLOT(tabCreated(QWidget*)));
 
     this->mEditHandlers = new ActionEditHandlers(this);
     this->mEditHandlers->connect(this->ui->actionEditUndo, SIGNAL(triggered()), SLOT(undo_triggered()));
@@ -244,6 +244,26 @@ void MainWindow::createHandlers()
     this->mHelpHandlers->connect(this->ui->actionWiki, SIGNAL(triggered()), SLOT(wiki_triggered()));
 
     this->mFileHandlers->connect(this->mFontHandlers, SIGNAL(imageCreated(QImage*,QString)), SLOT(openImage(QImage*,QString)));
+}
+//-----------------------------------------------------------------------------
+void MainWindow::tabTextUpdate(QWidget *widget)
+{
+    int index = this->ui->tabWidget->indexOf(widget);
+    if (index >= 0)
+    {
+        IEditor *editor = qobject_cast<IEditor *>(widget);
+        if (editor != NULL)
+        {
+            QString name;
+            if (editor->document()->changed())
+                name = "* " + editor->document()->documentName();
+            else
+                name = editor->document()->documentName();
+
+            this->ui->tabWidget->setTabText(index, name);
+            this->ui->tabWidget->setTabToolTip(index, editor->document()->documentFilename());
+        }
+    }
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
@@ -461,21 +481,20 @@ QString MainWindow::findAvailableName(const QString &prefix)
     return result;
 }
 //-----------------------------------------------------------------------------
-void MainWindow::tabChanged(QWidget *tab, const QString &text, const QString &tooltip)
+void MainWindow::tabChanged(QWidget *tab)
 {
     int index = this->ui->tabWidget->indexOf(tab);
     if (index >= 0)
     {
-        this->ui->tabWidget->setTabText(index, text);
-        this->ui->tabWidget->setTabToolTip(index, tooltip);
+        this->tabTextUpdate(tab);
     }
 }
 //-----------------------------------------------------------------------------
-int MainWindow::tabCreated(QWidget *newTab, const QString &name, const QString &tooltip)
+int MainWindow::tabCreated(QWidget *newTab)
 {
-    int index = this->ui->tabWidget->addTab(newTab, name);
+    int index = this->ui->tabWidget->addTab(newTab, "");
     this->ui->tabWidget->setCurrentIndex(index);
-    this->ui->tabWidget->setTabToolTip(index, tooltip);
+    this->tabTextUpdate(newTab);
 
     this->connect(newTab, SIGNAL(statusChanged()), SLOT(statusChanged()));
 

@@ -46,7 +46,7 @@ ImageDocument::ImageDocument(QObject *parent) :
     this->setDocumentName(tr("Image", "new image name"));
     this->setDocumentFilename("");
     this->setOutputFilename("");
-    this->setChanged(false);
+    this->setChanged(true);
 }
 //-----------------------------------------------------------------------------
 ImageDocument::~ImageDocument()

@@ -43,7 +43,7 @@ FontDocument::FontDocument(QObject *parent) :
     this->setDocumentName(tr("Font", "new font name"));
     this->setDocumentFilename("");
     this->setOutputFilename("");
-    this->setChanged(false);
+    this->setChanged(true);
     this->setAntialiasing(false);
     this->setMonospaced(false);
 }
