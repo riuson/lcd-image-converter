@@ -22,7 +22,7 @@
 //-----------------------------------------------------------------------------
 #include <QWidget>
 
-#include "idocument.h"
+#include "ieditor.h"
 //-----------------------------------------------------------------------------
 namespace Ui {
     class EditorTabImage;
@@ -32,35 +32,22 @@ class QImage;
 class WidgetBitmapEditor;
 class DataContainer;
 class StatusData;
+class ImageDocument;
+class IDocument;
 //-----------------------------------------------------------------------------
-class EditorTabImage : public QWidget, public IDocument
+class EditorTabImage : public QWidget, public IEditor
 {
     Q_OBJECT
-    Q_INTERFACES(IDocument)
+    Q_INTERFACES(IEditor)
 
 public:
     explicit EditorTabImage(QWidget *parent = 0);
     ~EditorTabImage();
 
-    bool load(const QString &fileName);
-    bool save(const QString &fileName);
-    void setChanged(bool value);
-    bool changed() const;
-    QString fileName() const;
-    QString documentName() const;
-    void setDocumentName(const QString &value);
-    DataContainer *dataContainer();
+    IDocument *document() const;
     QStringList selectedKeys() const;
-    void convert(bool request);
-    void updateStatus();
     StatusData *statusData() const;
-
-    void beginChanges();
-    void endChanges();
-    bool canUndo();
-    bool canRedo();
-    void undo();
-    void redo();
+    EditorType type() const;
 
 protected:
     void changeEvent(QEvent *e);
@@ -68,24 +55,20 @@ protected:
 private:
     Ui::EditorTabImage *ui;
     WidgetBitmapEditor *mEditor;
-    DataContainer *mContainer;
+    ImageDocument *mDocument;
     StatusData *mStatusData;
 
-    static const QString DefaultKey;
-
-    void setFileName(const QString &value);
-    QString convertedFileName() const;
-    void setConvertedFileName(const QString &value);
     void initStatusData();
+    void updateStatus();
     void updateSelectedImage();
 
 private slots:
-    void mon_container_imagesChanged();
+    void mon_documentChanged();
     void mon_editor_imageChanged();
     void mon_editor_mouseMove(QPoint point);
     void mon_editor_scaleChanged(int scale);
 signals:
-    void documentChanged(bool changed, const QString &documentName, const QString &filename);
+    void documentChanged();
     void statusChanged();
 };
 //-----------------------------------------------------------------------------

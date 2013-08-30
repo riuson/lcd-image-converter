@@ -19,7 +19,7 @@
 
 #include "actionhandlersbase.h"
 
-#include "idocument.h"
+#include "ieditor.h"
 #include "imainwindow.h"
 //-----------------------------------------------------------------------------
 ActionHandlersBase::ActionHandlersBase(QObject *parent) :
@@ -28,9 +28,9 @@ ActionHandlersBase::ActionHandlersBase(QObject *parent) :
     this->mMainWindow = qobject_cast<IMainWindow *>(parent);
 }
 //-----------------------------------------------------------------------------
-IDocument *ActionHandlersBase::document()
+IEditor *ActionHandlersBase::editor()
 {
-    IDocument *doc = this->mMainWindow->currentDocument();
-    return doc;
+    IEditor *editor = this->mMainWindow->currentEditor();
+    return editor;
 }
 //-----------------------------------------------------------------------------

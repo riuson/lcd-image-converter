@@ -33,8 +33,7 @@
 #include "parser.h"
 #include "tags.h"
 #include "statusdata.h"
-//-----------------------------------------------------------------------------
-const QString EditorTabImage::DefaultKey = QString("default");
+#include "imagedocument.h"
 //-----------------------------------------------------------------------------
 EditorTabImage::EditorTabImage(QWidget *parent) :
     QWidget(parent),
@@ -45,20 +44,15 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
     QHBoxLayout *layout = new QHBoxLayout(this);
     this->setLayout(layout);
 
-    this->mContainer = new DataContainer(this);
+    this->mDocument = new ImageDocument(this);
 
     this->mEditor = new WidgetBitmapEditor(this);
     layout->addWidget(this->mEditor);
 
-    this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(mon_container_imagesChanged()));
+    this->connect(this->mDocument, SIGNAL(documentChanged()), SLOT(mon_documentChanged()));
     this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
     this->connect(this->mEditor, SIGNAL(mouseMove(QPoint)), SLOT(mon_editor_mouseMove(QPoint)));
     this->connect(this->mEditor, SIGNAL(scaleSchanged(int)), SLOT(mon_editor_scaleChanged(int)));
-
-    this->setDocumentName(tr("Image", "new image name"));
-    this->setFileName("");
-    this->setConvertedFileName("");
-    this->setChanged(false);
 
     this->initStatusData();
 
@@ -68,6 +62,26 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 EditorTabImage::~EditorTabImage()
 {
     delete ui;
+}
+//-----------------------------------------------------------------------------
+IDocument *EditorTabImage::document() const
+{
+    return qobject_cast<IDocument *>(this->mDocument);
+}
+//-----------------------------------------------------------------------------
+QStringList EditorTabImage::selectedKeys() const
+{
+    return this->mDocument->dataContainer()->keys();
+}
+//-----------------------------------------------------------------------------
+StatusData *EditorTabImage::statusData() const
+{
+    return this->mStatusData;
+}
+//-----------------------------------------------------------------------------
+IEditor::EditorType EditorTabImage::type() const
+{
+    return EditorImage;
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::changeEvent(QEvent *e)
@@ -82,28 +96,6 @@ void EditorTabImage::changeEvent(QEvent *e)
     }
 }
 //-----------------------------------------------------------------------------
-void EditorTabImage::setFileName(const QString &value)
-{
-    if (this->fileName() != value)
-    {
-        this->mContainer->setInfo("filename", QVariant(value));
-    }
-}
-//-----------------------------------------------------------------------------
-QString EditorTabImage::convertedFileName() const
-{
-    QVariant result = this->mContainer->info("converted filename");
-    return result.toString();
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::setConvertedFileName(const QString &value)
-{
-    if (this->convertedFileName() != value)
-    {
-        this->mContainer->setInfo("converted filename", QVariant(value));
-    }
-}
-//-----------------------------------------------------------------------------
 void EditorTabImage::initStatusData()
 {
     this->mStatusData = new StatusData(this);
@@ -111,29 +103,46 @@ void EditorTabImage::initStatusData()
     this->updateStatus();
 }
 //-----------------------------------------------------------------------------
+void EditorTabImage::updateStatus()
+{
+    QStringList keys = this->mDocument->dataContainer()->keys();
+    if (keys.length() > 0)
+    {
+        const QImage *currentImage = this->mDocument->dataContainer()->image(keys.at(0));
+        this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+    }
+    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
+}
+//-----------------------------------------------------------------------------
 void EditorTabImage::updateSelectedImage()
 {
-    const QImage *image = this->mContainer->image(DefaultKey);
-    this->mEditor->setImage(image);
+    QStringList keys = this->mDocument->dataContainer()->keys();
+    if (keys.length() > 0)
+    {
+        const QImage *image = this->mDocument->dataContainer()->image(keys.at(0));
+        this->mEditor->setImage(image);
+    }
 
     this->updateStatus();
 }
 //-----------------------------------------------------------------------------
-void EditorTabImage::mon_container_imagesChanged()
+void EditorTabImage::mon_documentChanged()
 {
     this->updateSelectedImage();
-    this->setChanged(true);
-    emit this->documentChanged(true, this->documentName(), this->fileName());
+    emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_imageChanged()
 {
-    this->beginChanges();
+    this->mDocument->beginChanges();
 
+    QStringList keys = this->mDocument->dataContainer()->keys();
     const QImage *image = this->mEditor->image();
-    this->mContainer->setImage(DefaultKey, image);
+    this->mDocument->dataContainer()->setImage(keys.at(0), image);
 
-    this->endChanges();
+    this->mDocument->endChanges();
+
+    emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_mouseMove(QPoint point)
@@ -151,280 +160,6 @@ void EditorTabImage::mon_editor_mouseMove(QPoint point)
 void EditorTabImage::mon_editor_scaleChanged(int scale)
 {
     this->mStatusData->setData(StatusData::Scale, QVariant(scale));
-}
-//-----------------------------------------------------------------------------
-bool EditorTabImage::load(const QString &fileName)
-{
-    bool result = false;
-    QFile file(fileName);
-    if (file.open(QIODevice::ReadOnly))
-    {
-        QDomDocument doc;
-        QString errorMsg;
-        QString converted;
-        int errorColumn, errorLine;
-        if (doc.setContent(&file, &errorMsg, &errorLine, &errorColumn))
-        {
-            QDomElement root = doc.documentElement();
-            if( root.tagName() == "data" )
-            {
-                this->setDocumentName(root.attribute("name", fileName));
-                QDomNode n = root.firstChild();
-                while( !n.isNull() )
-                {
-                  QDomElement e = n.toElement();
-                  if( !e.isNull() )
-                  {
-                    if( e.tagName() == "picture" )
-                    {
-                      QString str = e.text();
-                      QByteArray ba = QByteArray::fromBase64(str.toLatin1());
-                      QBuffer buffer(&ba);
-                      QImage image;
-                      image.load(&buffer, "PNG");
-                      this->mContainer->setImage(DefaultKey, &image);
-                      result = true;
-                    }
-                    else if( e.tagName() == "converted" )
-                    {
-                        converted = e.text();
-                    }
-                  }
-
-                  n = n.nextSibling();
-                }
-            }
-        }
-        file.close();
-
-        this->mEditor->setImage(this->mContainer->image(DefaultKey));
-
-        this->setFileName(fileName);
-        this->setConvertedFileName(converted);
-        this->setChanged(false);
-
-        this->updateStatus();
-    }
-    return result;
-}
-//-----------------------------------------------------------------------------
-bool EditorTabImage::save(const QString &fileName)
-{
-    bool result = false;
-    QDomDocument doc;
-    QDomProcessingInstruction procInstruction = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\"");
-    doc.appendChild(procInstruction);
-
-    QDomElement nodeRoot = doc.createElement("data");
-    doc.appendChild(nodeRoot);
-
-    nodeRoot.setAttribute("type", "image");
-    nodeRoot.setAttribute("name", this->documentName());
-
-    // image data
-    QDomElement nodePicture = doc.createElement("picture");
-    nodeRoot.appendChild(nodePicture);
-
-    nodePicture.setAttribute("format", "png");
-
-    QByteArray ba;
-    QBuffer buffer(&ba);
-    buffer.open(QIODevice::WriteOnly);
-    this->mContainer->image(DefaultKey)->save(&buffer, "PNG");
-    QString data = ba.toBase64();
-
-    QDomText nodeData = doc.createTextNode(data);
-    nodePicture.appendChild(nodeData);
-
-    // converted file name
-    QDomElement nodeConverted = doc.createElement("converted");
-    nodeRoot.appendChild(nodeConverted);
-    nodeConverted.appendChild(doc.createTextNode(this->convertedFileName()));
-
-    QFile file(fileName);
-    if (file.open(QIODevice::WriteOnly))
-    {
-        QTextStream stream(&file);
-        doc.save(stream, 4);
-
-        this->setFileName(fileName);
-        file.close();
-        result = true;
-        this->setChanged(false);
-    }
-    return result;
-}
-//-----------------------------------------------------------------------------
-bool EditorTabImage::changed() const
-{
-    bool result = this->mContainer->info("data changed").toBool();
-    return result;
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::setChanged(bool value)
-{
-    if (this->changed() != value)
-    {
-        this->mContainer->setInfo("data changed", value);
-        emit this->documentChanged(value, this->documentName(), this->fileName());
-    }
-}
-//-----------------------------------------------------------------------------
-QString EditorTabImage::fileName() const
-{
-    QVariant result = this->mContainer->info("filename");
-    return result.toString();
-}
-//-----------------------------------------------------------------------------
-QString EditorTabImage::documentName() const
-{
-    QVariant result = this->mContainer->info("document name");
-    return result.toString();
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::setDocumentName(const QString &value)
-{
-    if (this->documentName() != value)
-    {
-        this->mContainer->setInfo("document name", value);
-        this->setChanged(true);
-    }
-}
-//-----------------------------------------------------------------------------
-DataContainer *EditorTabImage::dataContainer()
-{
-    return this->mContainer;
-}
-//-----------------------------------------------------------------------------
-QStringList EditorTabImage::selectedKeys() const
-{
-    QStringList result;
-
-    result << DefaultKey;
-
-    return result;
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::convert(bool request)
-{
-    Tags tags;
-
-    if (!this->fileName().isEmpty())
-        tags.setTagValue(Tags::DocumentFilename, this->fileName());
-    else
-        tags.setTagValue(Tags::DocumentFilename, "unsaved");
-
-    tags.setTagValue(Tags::DocumentName, this->documentName());
-    tags.setTagValue(Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
-
-    tags.setTagValue(Tags::DocumentDataType, "image");
-
-    Parser parser(this, Parser::TypeImage);
-    QString result = parser.convert(this, tags);
-
-    // converter output file name
-    QString outputFileName = this->convertedFileName();
-
-    // if file name not specified, show dialog
-    if (outputFileName.isEmpty())
-        request = true;
-
-    // show dialog
-    if (request)
-    {
-        QFileDialog dialog(this);
-        dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.selectFile(outputFileName);
-        dialog.setFileMode(QFileDialog::AnyFile);
-        dialog.setNameFilter(tr("C Files (*.c);;All Files (*.*)"));
-        dialog.setDefaultSuffix(QString("c"));
-        dialog.setWindowTitle(tr("Save result file as"));
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            outputFileName = dialog.selectedFiles().at(0);
-        }
-        else
-        {
-            outputFileName = "";
-        }
-    }
-
-    // if file name specified, save result
-    if (!outputFileName.isEmpty())
-    {
-        QFile file(outputFileName);
-        if (file.open(QFile::WriteOnly))
-        {
-            file.write(result.toUtf8());
-            file.close();
-
-            if (this->convertedFileName() != outputFileName)
-            {
-                this->beginChanges();
-
-                this->setConvertedFileName(outputFileName);
-                emit this->setChanged(true);
-
-                this->endChanges();
-            }
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::updateStatus()
-{
-    const QImage *currentImage = this->mContainer->image(DefaultKey);
-    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
-
-    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
-}
-//-----------------------------------------------------------------------------
-StatusData *EditorTabImage::statusData() const
-{
-    return this->mStatusData;
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::beginChanges()
-{
-    if (!this->mContainer->historyInitialized())
-    {
-        this->mContainer->historyInit();
-    }
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::endChanges()
-{
-    this->mContainer->stateSave();
-}
-//-----------------------------------------------------------------------------
-bool EditorTabImage::canUndo()
-{
-    return this->mContainer->canUndo();
-}
-//-----------------------------------------------------------------------------
-bool EditorTabImage::canRedo()
-{
-    return this->mContainer->canRedo();
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::undo()
-{
-    this->mContainer->stateUndo();
-    this->updateSelectedImage();
-
-    emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
-
-    this->updateStatus();
-}
-//-----------------------------------------------------------------------------
-void EditorTabImage::redo()
-{
-    this->mContainer->stateRedo();
-    this->updateSelectedImage();
-
-    emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
-
-    this->updateStatus();
 }
 //-----------------------------------------------------------------------------
 /*

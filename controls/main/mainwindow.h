@@ -59,6 +59,7 @@ private:
     void selectLocale(const QString &localeName);
     void checkStartPageVisible();
     void createHandlers();
+    void tabTextUpdate(QWidget *widget);
 
     ActionFileHandlers *mFileHandlers;
     ActionEditHandlers *mEditHandlers;
@@ -78,11 +79,11 @@ private slots:
 
     void rememberFilename(const QString &filename);
     void closeRequest(QWidget *tab);
-    void tabChanged(QWidget *tab, const QString &text, const QString &tooltip);
-    int tabCreated(QWidget *newTab, const QString &name, const QString &tooltip);
+    void tabChanged(QWidget *tab);
+    int tabCreated(QWidget *newTab);
     void statusChanged();
 public:
-    IDocument *currentDocument();
+    IEditor *currentEditor();
     QWidget *currentTab();
     void tabsList(QList<QWidget *> *list);
     QWidget *parentWidget();

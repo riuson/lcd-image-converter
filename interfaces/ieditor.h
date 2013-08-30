@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,39 +17,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "actionedithandlers.h"
+#ifndef IEDITOR_H
+#define IEDITOR_H
+//-----------------------------------------------------------------------------
+#include <QObject>
+//-----------------------------------------------------------------------------
+class StatusData;
+class DataContainer;
+class IDocument;
+//-----------------------------------------------------------------------------
+class IEditor
+{
+public:
+    enum EditorType
+    {
+        EditorImage,
+        EditorFont
+    };
 
-#include "editortabimage.h"
-#include "editortabfont.h"
-#include "dialogfontselect.h"
-#include <QFileDialog>
-#include <QTextStream>
-#include <QInputDialog>
-#include <QLineEdit>
-#include "parser.h"
-#include "widgetbitmapeditor.h"
-#include "imainwindow.h"
-#include "datacontainer.h"
-#include "idocument.h"
+    virtual IDocument *document() const = 0;
+    virtual QStringList selectedKeys() const = 0;
+    virtual StatusData *statusData() const = 0;
+    virtual EditorType type() const = 0;
+};
+Q_DECLARE_INTERFACE (IEditor,
+                     "riuson.lcd-image-converter/1.0"
+                     )
 //-----------------------------------------------------------------------------
-ActionEditHandlers::ActionEditHandlers(QObject *parent) :
-    ActionHandlersBase(parent)
-{
-}
-//-----------------------------------------------------------------------------
-void ActionEditHandlers::undo_triggered()
-{
-    if (this->editor() != NULL)
-    {
-        this->editor()->document()->undo();
-    }
-}
-//-----------------------------------------------------------------------------
-void ActionEditHandlers::redo_triggered()
-{
-    if (this->editor() != NULL)
-    {
-        this->editor()->document()->redo();
-    }
-}
-//-----------------------------------------------------------------------------
+#endif // IEDITOR_H

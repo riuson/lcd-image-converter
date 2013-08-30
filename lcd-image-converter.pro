@@ -35,8 +35,10 @@ SOURCES += main.cpp \
     classes/action-handlers/actionsetuphandlers.cpp \
     classes/compression/rlecompressor.cpp \
     classes/data/datacontainer.cpp \
+    classes/data/fontdocument.cpp \
     classes/data/historykeeper.cpp \
     classes/data/historyrecord.cpp \
+    classes/data/imagedocument.cpp \
     classes/data/imagesmodel.cpp \
     classes/data/revisioninfo.cpp \
     classes/parser/convert/bitmaphelper.cpp \
@@ -102,8 +104,10 @@ HEADERS += \
     classes/action-handlers/actionsetuphandlers.h \
     classes/compression/rlecompressor.h \
     classes/data/datacontainer.h \
+    classes/data/fontdocument.h \
     classes/data/historykeeper.h \
     classes/data/historyrecord.h \
+    classes/data/imagedocument.h \
     classes/data/imagesmodel.h \
     classes/data/revisioninfo.h \
     classes/parser/convert/bitmaphelper.h \
@@ -160,6 +164,7 @@ HEADERS += \
     controls/start/starttab.h \
     controls/updates/dialogupdates.h \
     interfaces/idocument.h \
+    interfaces/ieditor.h \
     interfaces/imainwindow.h
 
 FORMS += \

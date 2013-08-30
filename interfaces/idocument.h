@@ -33,16 +33,11 @@ public:
     virtual bool load(const QString &filename) = 0;
     virtual bool save(const QString &filename) = 0;
     virtual bool changed() const = 0;
-    virtual void setChanged(bool value) = 0;
-    virtual QString fileName() const = 0;
+    virtual QString documentFilename() const = 0;
     virtual QString documentName() const = 0;
     virtual void setDocumentName(const QString &value) = 0;
     virtual DataContainer *dataContainer() = 0;
-    virtual QStringList selectedKeys() const = 0;
     virtual void convert(bool request) = 0;
-    virtual void updateStatus() = 0;
-    virtual StatusData *statusData() const = 0;
-
 
     virtual void beginChanges() = 0;
     virtual void endChanges() = 0;

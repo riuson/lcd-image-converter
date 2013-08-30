@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2013 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,29 +17,54 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef ACTIONHANDLERSBASE_H
-#define ACTIONHANDLERSBASE_H
+#ifndef IMAGEDOCUMENT_H
+#define IMAGEDOCUMENT_H
 //-----------------------------------------------------------------------------
 #include <QObject>
+#include "idocument.h"
 //-----------------------------------------------------------------------------
-class IMainWindow;
-class WidgetBitmapEditor;
-class IEditor;
-//-----------------------------------------------------------------------------
-class ActionHandlersBase : public QObject
+class ImageDocument : public QObject, public IDocument
 {
     Q_OBJECT
-public:
-    explicit ActionHandlersBase(QObject *parent = 0);
+    Q_INTERFACES(IDocument)
 
-protected:
-    IMainWindow *mMainWindow;
-    IEditor *editor();
+public:
+    explicit ImageDocument(QObject *parent = 0);
+    ~ImageDocument();
+
+    bool load(const QString &fileName);
+    bool save(const QString &fileName);
+    bool changed() const;
+    QString documentFilename() const;
+    QString documentName() const;
+    void setDocumentName(const QString &value);
+    DataContainer *dataContainer();
+    void convert(bool request);
+
+    void beginChanges();
+    void endChanges();
+    bool canUndo();
+    bool canRedo();
+    void undo();
+    void redo();
+
+private:
+    DataContainer *mContainer;
+
+    static const QString DefaultKey;
+
+    void setDocumentFilename(const QString &value);
+
+    QString outputFilename() const;
+    void setOutputFilename(const QString &value);
+
+    void setChanged(bool value);
+
+private slots:
+    void mon_container_imagesChanged();
 
 signals:
-
-public slots:
-
+    void documentChanged();
 };
 //-----------------------------------------------------------------------------
-#endif // ACTIONHANDLERSBASE_H
+#endif // IMAGEDOCUMENT_H
