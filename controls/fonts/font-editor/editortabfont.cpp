@@ -297,6 +297,7 @@ void EditorTabFont::mon_documentChangedSignificantly()
 {
     this->mModel->callReset();
     this->updateTableFont();
+    this->updateStatus();
     emit this->documentChanged();
 
     if (this->mDocument->dataContainer()->count() > 0)
