@@ -28,6 +28,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QPainter>
+#include <QWidget>
 #include "datacontainer.h"
 #include "tags.h"
 #include "parser.h"
@@ -336,7 +337,7 @@ void FontDocument::convert(bool request)
     // show dialog
     if (request)
     {
-        QFileDialog dialog;
+        QFileDialog dialog(qobject_cast<QWidget *>(this->parent()));
         dialog.setAcceptMode(QFileDialog::AcceptSave);
         dialog.selectFile(outputFileName);
         dialog.setFileMode(QFileDialog::AnyFile);
@@ -449,7 +450,7 @@ void FontDocument::setFontCharacters(const QString &chars,
             this->monospaced() != _monospaced ||
             this->antialiasing() != _antialiasing)
         {
-            DialogFontChanged dialog;
+            DialogFontChanged dialog(qobject_cast<QWidget *>(this->parent()));
             if (dialog.exec() == QDialog::Accepted)
             {
                 regenerateAll = dialog.regenerateAll();

@@ -25,7 +25,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QFileDialog>
-
+#include <QWidget>
 #include "datacontainer.h"
 #include "parser.h"
 #include "tags.h"
@@ -215,7 +215,7 @@ void ImageDocument::convert(bool request)
     // show dialog
     if (request)
     {
-        QFileDialog dialog;//(this)
+        QFileDialog dialog(qobject_cast<QWidget *>(this->parent()));
         dialog.setAcceptMode(QFileDialog::AcceptSave);
         dialog.selectFile(outputFileName);
         dialog.setFileMode(QFileDialog::AnyFile);
