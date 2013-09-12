@@ -33,6 +33,7 @@ public:
     explicit FontHelper(QObject *parent = 0);
 
     static QImage drawString(const DataContainer *data, const QString &value);
+    static QString escapeControlChars(const QString &value);
 signals:
 
 public slots:

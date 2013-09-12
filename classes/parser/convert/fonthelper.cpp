@@ -68,3 +68,29 @@ QImage FontHelper::drawString(const DataContainer *data, const QString &value)
     return previewPixmap.toImage();
 }
 //-----------------------------------------------------------------------------
+QString FontHelper::escapeControlChars(const QString &value)
+{
+    QString result;
+
+    for (int i = 0; i < value.length(); i++)
+    {
+        QChar c = value.at(i);
+
+        if (c.isNull() || !c.isPrint())
+        {
+            quint16 code = c.unicode();
+            result.append(QString("x%1").arg(code, 4, 16, QChar('0')));
+        }
+        else if (c == QChar('@'))
+        {
+            result.append(QString("(a)"));
+        }
+        else
+        {
+            result.append(c);
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------

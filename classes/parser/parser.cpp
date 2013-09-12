@@ -26,6 +26,7 @@
 #include "idocument.h"
 #include "datacontainer.h"
 #include "bitmaphelper.h"
+#include "fonthelper.h"
 #include "converterhelper.h"
 #include "preset.h"
 #include "prepareoptions.h"
@@ -177,13 +178,7 @@ QString Parser::parseImagesTable(const QString &templateString,
         else
             tags.setTagValue(Tags::OutputComma, "");
 
-        if (key.contains("@"))
-        {
-            key.replace("@", "(a)");
-            tags.setTagValue(Tags::OutputCharacterText, key);
-        }
-        else
-            tags.setTagValue(Tags::OutputCharacterText, key.left(1));
+        tags.setTagValue(Tags::OutputCharacterText, FontHelper::escapeControlChars(key));
 
         imageString = this->parse(templateString, tags, doc);
         result.append(imageString);
