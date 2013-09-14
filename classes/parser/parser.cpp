@@ -35,6 +35,7 @@
 #include "fontoptions.h"
 #include "templateoptions.h"
 #include "tags.h"
+#include "parsedimagedata.h"
 //-----------------------------------------------------------------------------
 Parser::Parser(QObject *parent, TemplateType templateType) :
         QObject(parent)
@@ -85,18 +86,22 @@ QString Parser::convert(IDocument *document, Tags &tags) const
     tags.setTagValue(Tags::OutputDataIndent, prefix);
     tags.setTagValue(Tags::OutputDataEOL, suffix);
 
+    QMap<QString, ParsedImageData *> images;
+    this->prepareImages(document, &images);
+
     this->addMatrixInfo(tags);
 
-    this->addImagesInfo(tags, document);
+    this->addImagesInfo(tags, &images);
 
-    result = this->parse(templateString, tags, document);
+    result = this->parse(templateString, tags, document, &images);
 
     return result;
 }
 //-----------------------------------------------------------------------------
 QString Parser::parse(const QString &templateString,
                       Tags &tags,
-                      IDocument *doc) const
+                      IDocument *doc,
+                      QMap<QString, ParsedImageData *> *images) const
 {
     QString result;
 
@@ -115,13 +120,13 @@ QString Parser::parse(const QString &templateString,
         case Tags::BlocksHeaderStart:
         case Tags::BlocksFontDefinitionStart:
         {
-            QString temp = this->parse(content, tags, doc);
+            QString temp = this->parse(content, tags, doc, images);
             result.append(temp);
             break;
         }
         case Tags::BlocksImagesTableStart:
         {
-            QString temp = this->parseImagesTable(content, tags, doc);
+            QString temp = this->parseImagesTable(content, tags, doc, images);
             result.append(temp);
             break;
         }
@@ -144,7 +149,8 @@ QString Parser::parse(const QString &templateString,
 //-----------------------------------------------------------------------------
 QString Parser::parseImagesTable(const QString &templateString,
                                  Tags &tags,
-                                 IDocument *doc) const
+                                 IDocument *doc,
+                                 QMap<QString, ParsedImageData *> *images) const
 {
     QString result;
 
@@ -152,8 +158,6 @@ QString Parser::parseImagesTable(const QString &templateString,
     bool useBom = this->mPreset->font()->bom();
     QString encoding = this->mPreset->font()->encoding();
     CharactersSortOrder order = this->mPreset->font()->sortOrder();
-
-    QString imageString;
 
     QStringList keys = data->keys();
     QStringList sortedKeys = this->sortKeysWithEncoding(keys, encoding, useBom, order);
@@ -164,14 +168,12 @@ QString Parser::parseImagesTable(const QString &templateString,
     while (it.hasNext())
     {
         QString key = it.next();
-        QImage image = QImage(*data->image(key));
 
-        QString dataString = this->parseImage(&image, tags);
-
+        ParsedImageData *data = images->value(key);
 
         QString charCode = this->hexCode(key, encoding, useBom);
 
-        tags.setTagValue(Tags::OutputImageData, dataString);
+        tags.importValues(data->tags());
         tags.setTagValue(Tags::OutputCharacterCode, charCode);
         if (it.hasNext())
             tags.setTagValue(Tags::OutputComma, ",");
@@ -180,55 +182,11 @@ QString Parser::parseImagesTable(const QString &templateString,
 
         tags.setTagValue(Tags::OutputCharacterText, FontHelper::escapeControlChars(key));
 
-        imageString = this->parse(templateString, tags, doc);
+        QString imageString = this->parse(templateString, tags, doc, images);
         result.append(imageString);
     }
 
     return result;
-}
-//-----------------------------------------------------------------------------
-QString Parser::parseImage(const QImage *image, Tags &tags) const
-{
-    // width and height must be written before image changes
-    tags.setTagValue(Tags::OutputImageWidth, QString("%1").arg(image->width()));
-    tags.setTagValue(Tags::OutputImageHeight, QString("%1").arg(image->height()));
-
-    QImage imagePrepared;
-    ConverterHelper::prepareImage(this->mPreset, image, &imagePrepared);
-
-    // conversion from image to strings
-    QVector<quint32> sourceData;
-    int sourceWidth, sourceHeight;
-    ConverterHelper::pixelsData(this->mPreset, &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
-
-    ConverterHelper::processPixels(this->mPreset, &sourceData);
-
-    QVector<quint32> packedData;
-    int packedWidth, packedHeight;
-    ConverterHelper::packData(
-                this->mPreset,
-                &sourceData, sourceWidth, sourceHeight,
-                &packedData, &packedWidth, &packedHeight);
-
-    QVector<quint32> reorderedData;
-    int reorderedWidth, reorderedHeight;
-    ConverterHelper::reorder(
-                this->mPreset,
-                &packedData, packedWidth, packedHeight,
-                &reorderedData, &reorderedWidth, &reorderedHeight);
-
-    QVector<quint32> compressedData;
-    int compressedWidth, compressedHeight;
-    ConverterHelper::compressData(this->mPreset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
-
-    tags.setTagValue(Tags::OutputBlocksCount, QString("%1").arg(compressedData.size()));
-
-    QString dataString = ConverterHelper::dataToString(this->mPreset, &compressedData, compressedWidth, compressedHeight, "0x");
-    dataString.replace("\n", tags.tagValue(Tags::OutputDataEOL) + tags.tagValue(Tags::OutputDataIndent));
-
-    // end of conversion
-
-    return dataString;
 }
 //-----------------------------------------------------------------------------
 QString Parser::hexCode(const QString &key, const QString &encoding, bool bom) const
@@ -400,31 +358,65 @@ void Parser::addMatrixInfo(Tags &tags) const
     tags.setTagValue(Tags::OutputBitsPerPixel, QString("%1").arg(bitsPerPixel));
 }
 //-----------------------------------------------------------------------------
-void Parser::addImagesInfo(Tags &tags, IDocument *doc) const
+void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images) const
+{
+    QListIterator<QString> it(images->keys());
+    it.toFront();
+
+    int maxWidth = 0, maxHeight = 0, maxBlocksCount = 0;
+
+    while (it.hasNext())
+    {
+        const QString key = it.next();
+        ParsedImageData *data = images->value(key);
+
+        bool ok;
+        int width = data->tags()->tagValue(Tags::OutputImageWidth).toInt(&ok);
+        if (ok)
+        {
+            int height = data->tags()->tagValue(Tags::OutputImageHeight).toInt(&ok);
+            if (ok)
+            {
+                int blocksCount = data->tags()->tagValue(Tags::OutputBlocksCount).toInt(&ok);
+                if (ok)
+                {
+                    if (width > maxWidth)
+                    {
+                        maxWidth = width;
+                    }
+                    if (height > maxHeight)
+                    {
+                        maxHeight = height;
+                    }
+                    if (blocksCount > maxBlocksCount)
+                    {
+                        maxBlocksCount = blocksCount;
+                    }
+                }
+            }
+        }
+    }
+
+    tags.setTagValue(Tags::OutputImagesCount, QString("%1").arg(images->count()));
+    tags.setTagValue(Tags::OutputImagesMaxWidth, QString("%1").arg(maxWidth));
+    tags.setTagValue(Tags::OutputImagesMaxHeight, QString("%1").arg(maxHeight));
+    tags.setTagValue(Tags::OutputImagesMaxBlocksCount, QString("%1").arg(maxBlocksCount));
+}
+//-----------------------------------------------------------------------------
+void Parser::prepareImages(IDocument *doc, QMap<QString, ParsedImageData *> *images) const
 {
     DataContainer *data = doc->dataContainer();
     QListIterator<QString> it(data->keys());
     it.toFront();
-
-    int maxWidth = 0, maxHeight = 0;
 
     while (it.hasNext())
     {
         const QString key = it.next();
         QImage image = QImage(*data->image(key));
 
-        if (image.width() > maxWidth)
-        {
-            maxWidth = image.width();
-        }
-        if (image.height() > maxHeight)
-        {
-            maxHeight = image.height();
-        }
+        ParsedImageData *data = new ParsedImageData(this->mPreset, &image);
+        images->insert(key, data);
     }
-    tags.setTagValue(Tags::OutputImagesCount, QString("%1").arg(data->count()));
-    tags.setTagValue(Tags::OutputImagesMaxWidth, QString("%1").arg(maxWidth));
-    tags.setTagValue(Tags::OutputImagesMaxHeight, QString("%1").arg(maxHeight));
 }
 //-----------------------------------------------------------------------------
 void Parser::imageParticles(const QString &templateString, QString *prefix, QString *suffix) const

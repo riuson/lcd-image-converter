@@ -31,6 +31,7 @@ class IDataContainer;
 class Preset;
 class Tags;
 class QImage;
+class ParsedImageData;
 //-----------------------------------------------------------------------------
 class Parser : public QObject
 {
@@ -54,12 +55,12 @@ private:
     Preset *mPreset;
     QString mTemplateFileName;
 
-    QString parse(const QString &templateString, Tags &tags, IDocument *doc) const;
-    QString parseImagesTable(const QString &templateString, Tags &tags, IDocument *doc) const;
-    QString parseImage(const QImage *image, Tags &tags) const;
+    QString parse(const QString &templateString, Tags &tags, IDocument *doc, QMap<QString, ParsedImageData *> *images) const;
+    QString parseImagesTable(const QString &templateString, Tags &tags, IDocument *doc, QMap<QString, ParsedImageData *> *images) const;
     QString hexCode(const QString &key, const QString &encoding, bool bom) const;
     void addMatrixInfo(Tags &tags) const;
-    void addImagesInfo(Tags &tags, IDocument *doc) const;
+    void addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images) const;
+    void prepareImages(IDocument *doc, QMap<QString, ParsedImageData*> *images) const;
 
     bool findNextTag(int startIndex, int *resultIndex, Tags);
     void imageParticles(const QString &templateString, QString *prefix, QString *suffix) const;
