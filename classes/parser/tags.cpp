@@ -39,7 +39,7 @@ Tags::TagsEnum Tags::parseTag(const QString &key) const
     return this->mTagNameMap->value(key, Unknown);
 }
 //-----------------------------------------------------------------------------
-const QString Tags::tagValue(Tags::TagsEnum key)
+const QString Tags::tagValue(Tags::TagsEnum key) const
 {
     return this->mTagValues->value(key, QString("<value not defined>"));
 }
@@ -47,6 +47,18 @@ const QString Tags::tagValue(Tags::TagsEnum key)
 void Tags::setTagValue(Tags::TagsEnum key, const QString &value)
 {
     this->mTagValues->insert(key, value);
+}
+//-----------------------------------------------------------------------------
+void Tags::importValues(const Tags *other)
+{
+    QListIterator<TagsEnum> it(other->mTagValues->keys());
+    it.toFront();
+
+    while (it.hasNext())
+    {
+        TagsEnum tag = it.next();
+        this->setTagValue(tag, other->tagValue(tag));
+    }
 }
 //-----------------------------------------------------------------------------
 bool Tags::find(const QString &text, int startIndex, int *resultIndex, int *nextIndex, TagsEnum *key, QString *content)
