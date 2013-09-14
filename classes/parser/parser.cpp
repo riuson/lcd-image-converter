@@ -363,7 +363,7 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
     QListIterator<QString> it(images->keys());
     it.toFront();
 
-    int maxWidth = 0, maxHeight = 0;
+    int maxWidth = 0, maxHeight = 0, maxBlocksCount = 0;
 
     while (it.hasNext())
     {
@@ -377,13 +377,21 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
             int height = data->tags()->tagValue(Tags::OutputImageHeight).toInt(&ok);
             if (ok)
             {
-                if (width > maxWidth)
+                int blocksCount = data->tags()->tagValue(Tags::OutputBlocksCount).toInt(&ok);
+                if (ok)
                 {
-                    maxWidth = width;
-                }
-                if (height > maxHeight)
-                {
-                    maxHeight = height;
+                    if (width > maxWidth)
+                    {
+                        maxWidth = width;
+                    }
+                    if (height > maxHeight)
+                    {
+                        maxHeight = height;
+                    }
+                    if (blocksCount > maxBlocksCount)
+                    {
+                        maxBlocksCount = blocksCount;
+                    }
                 }
             }
         }
@@ -392,6 +400,7 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
     tags.setTagValue(Tags::OutputImagesCount, QString("%1").arg(images->count()));
     tags.setTagValue(Tags::OutputImagesMaxWidth, QString("%1").arg(maxWidth));
     tags.setTagValue(Tags::OutputImagesMaxHeight, QString("%1").arg(maxHeight));
+    tags.setTagValue(Tags::OutputImagesMaxBlocksCount, QString("%1").arg(maxBlocksCount));
 }
 //-----------------------------------------------------------------------------
 void Parser::prepareImages(IDocument *doc, QMap<QString, ParsedImageData *> *images) const

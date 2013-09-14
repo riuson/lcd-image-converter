@@ -80,6 +80,7 @@ public:
         OutputImageHeight,
         OutputImagesMaxWidth,
         OutputImagesMaxHeight,
+        OutputImagesMaxBlocksCount,
 
         BlocksHeaderStart,
         BlocksHeaderEnd,
