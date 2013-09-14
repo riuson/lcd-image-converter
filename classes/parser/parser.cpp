@@ -329,7 +329,7 @@ void Parser::addMatrixInfo(Tags &tags) const
     }
 
     // scan sub direction
-    if (this->mPreset->prepare()->scanSub())
+    if (this->mPreset->prepare()->scanSub() == Forward)
         tags.setTagValue(Tags::PrepareScanSub, "forward");
     else
         tags.setTagValue(Tags::PrepareScanSub, "backward");
