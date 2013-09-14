@@ -64,7 +64,12 @@ quint32 BitStream::next()
         }
 
         if (!this->eof())
-            result |= this->nextBit();
+        {
+            if (this->nextBit())
+                result |= 0x00000001;
+            else
+                result &= 0xfffffffe;
+        }
         i--;
     }
     return result;
