@@ -192,10 +192,10 @@ void ActionFileHandlers::convertAll_triggered()
 
     for (int i = 0; i < list.count(); i++)
     {
-        IDocument *doc = dynamic_cast<IDocument *> (list.at(i));
-        if (doc != NULL)
+        IEditor *editor = dynamic_cast<IEditor *> (list.at(i));
+        if (editor != NULL)
         {
-            doc->convert(false);
+            editor->document()->convert(false);
         }
     }
 }
