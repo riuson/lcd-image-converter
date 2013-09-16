@@ -37,11 +37,13 @@ public:
     bool splitToRows() const;
     BytesOrder bytesOrder() const;
     DataBlockSize blockSize() const;
+    bool blockDefaultOnes() const;
     bool compressionRle() const;
 
     void setSplitToRows(bool value);
     void setBytesOrder(BytesOrder value);
     void setBlockSize(DataBlockSize value);
+    void setBlockDefaultOnes(bool value);
     void setCompressionRle(bool value);
 
     bool load(QSettings *settings, int version);
@@ -51,6 +53,7 @@ private:
     bool mSplitToRows;
     BytesOrder mBytesOrder;
     DataBlockSize mBlockSize;
+    bool mBlockDefaultOnes;
     bool mCompressionRle;
 
 signals:
