@@ -42,6 +42,21 @@ void TestImageOptions::blockSize()
     QCOMPARE(this->mOptions->blockSize(), Data32);
 }
 //-----------------------------------------------------------------------------
+void TestImageOptions::blockDefaultOnes()
+{
+    // 1
+    this->mOptions->setBlockDefaultOnes(false);
+    QCOMPARE(this->mOptions->blockDefaultOnes(), false);
+
+    // 2
+    this->mOptions->setBlockDefaultOnes(true);
+    QCOMPARE(this->mOptions->blockDefaultOnes(), true);
+
+    // 3
+    this->mOptions->setBlockDefaultOnes(false);
+    QCOMPARE(this->mOptions->blockDefaultOnes(), false);
+}
+//-----------------------------------------------------------------------------
 void TestImageOptions::splitToRows()
 {
     // 1

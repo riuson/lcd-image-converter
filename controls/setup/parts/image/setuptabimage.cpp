@@ -64,6 +64,7 @@ void SetupTabImage::matrixChanged()
         this->ui->radioButtonBigEndian->setChecked(true);
 
     this->ui->checkBoxCompressionRle->setChecked(this->mPreset->image()->compressionRle());
+    this->ui->checkBoxBlockDefaultOnes->setChecked(this->mPreset->image()->blockDefaultOnes());
 }
 //-----------------------------------------------------------------------------
 void SetupTabImage::on_checkBoxSplitToRows_toggled(bool value)
@@ -93,5 +94,10 @@ void SetupTabImage::on_comboBoxBlockSize_currentIndexChanged(int index)
 void SetupTabImage::on_checkBoxCompressionRle_toggled(bool value)
 {
     this->mPreset->image()->setCompressionRle(value);
+}
+//-----------------------------------------------------------------------------
+void SetupTabImage::on_checkBoxBlockDefaultOnes_toggled(bool value)
+{
+    this->mPreset->image()->setBlockDefaultOnes(value);
 }
 //-----------------------------------------------------------------------------

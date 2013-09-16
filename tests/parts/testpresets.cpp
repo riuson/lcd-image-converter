@@ -25,6 +25,7 @@ void TestPresets::loadSave()
     source.prepare()->setBandWidth(577);
     source.image()->setBytesOrder(BytesOrderBigEndian);
     source.image()->setBlockSize(Data16);
+    source.image()->setBlockDefaultOnes(true);
     source.image()->setSplitToRows(true);
     source.image()->setCompressionRle(true);
 
@@ -36,6 +37,7 @@ void TestPresets::loadSave()
     this->mOptions->matrix()->operationsRemoveAll();
     this->mOptions->image()->setBytesOrder(BytesOrderBigEndian);
     this->mOptions->image()->setBlockSize(Data16);
+    this->mOptions->image()->setBlockDefaultOnes(true);
     this->mOptions->image()->setSplitToRows(true);
     this->mOptions->image()->setCompressionRle(true);
 
@@ -73,10 +75,11 @@ void TestPresets::loadSave()
     QCOMPARE(this->mOptions->matrix()->maskOr(),    source.matrix()->maskOr());
     QCOMPARE(this->mOptions->matrix()->maskFill(),  source.matrix()->maskFill());
 
-    QCOMPARE(this->mOptions->image()->bytesOrder(), source.image()->bytesOrder());
-    QCOMPARE(this->mOptions->image()->blockSize(),  source.image()->blockSize());
-    QCOMPARE(this->mOptions->image()->splitToRows(),    source.image()->splitToRows());
-    QCOMPARE(this->mOptions->image()->compressionRle(), source.image()->compressionRle());
+    QCOMPARE(this->mOptions->image()->bytesOrder(),        source.image()->bytesOrder());
+    QCOMPARE(this->mOptions->image()->blockSize(),         source.image()->blockSize());
+    QCOMPARE(this->mOptions->image()->blockDefaultOnes(),  source.image()->blockDefaultOnes());
+    QCOMPARE(this->mOptions->image()->splitToRows(),       source.image()->splitToRows());
+    QCOMPARE(this->mOptions->image()->compressionRle(),    source.image()->compressionRle());
 }
 //-----------------------------------------------------------------------------
 void TestPresets::cleanupTestCase()

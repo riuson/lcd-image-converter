@@ -26,6 +26,26 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="label_4">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Block default bits:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxBlockDefaultOnes">
+         <property name="text">
+          <string>Set to '1'</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="label_6">
          <property name="font">
           <font>
