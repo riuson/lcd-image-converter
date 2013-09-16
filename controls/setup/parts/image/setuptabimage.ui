@@ -34,7 +34,7 @@
           </font>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Block default bits:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>Block default bits:</string>
          </property>
         </widget>
        </item>
