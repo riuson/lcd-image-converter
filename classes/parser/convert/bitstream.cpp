@@ -41,6 +41,7 @@ void BitStream::init()
     this->mMaskCurrent = this->mMaskSource = this->mPreset->matrix()->maskUsed();
     this->mBlockSize = ((int)this->mPreset->image()->blockSize() + 1) << 3;
     this->mBitsReaded = 0;
+    this->mSetOnesByDefault = this->mPreset->image()->blockDefaultOnes();
 }
 //-----------------------------------------------------------------------------
 bool BitStream::eof() const
@@ -50,13 +51,21 @@ bool BitStream::eof() const
 //-----------------------------------------------------------------------------
 quint32 BitStream::next()
 {
-    quint32 result = 0xffffffff;
+    quint32 result;
+
+    if (this->mSetOnesByDefault)
+        result = 0xffffffff;
+    else
+        result = 0;
+
     int i = this->mBlockSize - 1;
     quint32 fill = this->mPreset->matrix()->maskFill();
     while (i >= 0)
     {
         result = result << 1;
-        result |= 0x00000001;
+
+        if (this->mSetOnesByDefault)
+            result |= 0x00000001;
 
         if ((fill & (0x00000001 << i)) == 0)
         {
