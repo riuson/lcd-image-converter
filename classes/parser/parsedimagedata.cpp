@@ -64,7 +64,7 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, QObject *p
 
     this->mTags->setTagValue(Tags::OutputBlocksCount, QString("%1").arg(compressedData.size()));
 
-    QString dataString = ConverterHelper::dataToString(preset, &compressedData, compressedWidth, compressedHeight, "0x");
+    QString dataString = ConverterHelper::dataToString(preset, &compressedData, compressedWidth, compressedHeight, "0x", "", ", ");
     dataString.replace("\n", this->mTags->tagValue(Tags::OutputDataEOL) + this->mTags->tagValue(Tags::OutputDataIndent));
 
     // end of conversion

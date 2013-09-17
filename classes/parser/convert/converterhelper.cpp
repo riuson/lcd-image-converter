@@ -506,9 +506,12 @@ static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
     return QString(temp);
 }
 //-----------------------------------------------------------------------------
-QString ConverterHelper::dataToString(Preset *preset, QVector<quint32> *data, int width, int height, const QString &prefix)
+QString ConverterHelper::dataToString(
+        Preset *preset,
+        QVector<quint32> *data, int width, int height,
+        const QString &prefix, const QString &suffix, const QString &delimiter)
 {
-    QString result, temp;
+    QString result, converted;
     DataBlockSize blockSize = preset->image()->blockSize();
 
     if (preset->image()->splitToRows())
@@ -530,13 +533,12 @@ QString ConverterHelper::dataToString(Preset *preset, QVector<quint32> *data, in
                 }
 
                 quint32 value = data->at(index);
-                temp = uint2hex(blockSize, value);
-
-                result += prefix + temp + ", ";
+                converted = uint2hex(blockSize, value);
+                result += prefix + converted + suffix + delimiter;
             }
         }
 
-        result.truncate(result.length() - 2);
+        result.truncate(result.length() - delimiter.length());
     }
     else
     {
@@ -550,13 +552,13 @@ QString ConverterHelper::dataToString(Preset *preset, QVector<quint32> *data, in
                 completed = true;
                 break;
             }
-            quint32 value = data->at(i);
-            temp = uint2hex(blockSize, value);
 
-            result += prefix + temp + ", ";
+            quint32 value = data->at(i);
+            converted = uint2hex(blockSize, value);
+            result += prefix + converted + suffix + delimiter;
         }
 
-        result.truncate(result.length() - 2);
+        result.truncate(result.length() - delimiter.length());
     }
 
     return result;
