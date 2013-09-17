@@ -971,6 +971,21 @@ Qt: %3</translation>
         <translation>Порядок байт:</translation>
     </message>
     <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="149"/>
+        <source>Prefix:</source>
+        <translation>Префикс:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="165"/>
+        <source>Suffix:</source>
+        <translation>Суффикс:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="181"/>
+        <source>Delimiter:</source>
+        <translation>Разделитель:</translation>
+    </message>
+    <message>
         <location filename="../controls/setup/parts/image/setuptabimage.ui" line="57"/>
         <source>Block size:</source>
         <translation>Блок данных:</translation>

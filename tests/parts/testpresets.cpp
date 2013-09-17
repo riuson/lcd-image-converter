@@ -28,6 +28,9 @@ void TestPresets::loadSave()
     source.image()->setBlockDefaultOnes(true);
     source.image()->setSplitToRows(true);
     source.image()->setCompressionRle(true);
+    source.image()->setBlockPrefix("prefix");
+    source.image()->setBlockSuffix("suffix");
+    source.image()->setBlockDelimiter("delimiter");
 
     this->mOptions->initColor(5, 6, 5);
     this->mOptions->prepare()->setScanMain(BottomToTop);
@@ -40,6 +43,9 @@ void TestPresets::loadSave()
     this->mOptions->image()->setBlockDefaultOnes(true);
     this->mOptions->image()->setSplitToRows(true);
     this->mOptions->image()->setCompressionRle(true);
+    this->mOptions->image()->setBlockPrefix("prefix");
+    this->mOptions->image()->setBlockSuffix("suffix");
+    this->mOptions->image()->setBlockDelimiter("delimiter");
 
     for (int i = 0; i < 10; i++)
     {
@@ -80,6 +86,9 @@ void TestPresets::loadSave()
     QCOMPARE(this->mOptions->image()->blockDefaultOnes(),  source.image()->blockDefaultOnes());
     QCOMPARE(this->mOptions->image()->splitToRows(),       source.image()->splitToRows());
     QCOMPARE(this->mOptions->image()->compressionRle(),    source.image()->compressionRle());
+    QCOMPARE(this->mOptions->image()->blockPrefix(),       source.image()->blockPrefix());
+    QCOMPARE(this->mOptions->image()->blockSuffix(),       source.image()->blockSuffix());
+    QCOMPARE(this->mOptions->image()->blockDelimiter(),    source.image()->blockDelimiter());
 }
 //-----------------------------------------------------------------------------
 void TestPresets::cleanupTestCase()
