@@ -211,16 +211,16 @@ void TestConverterHelper::dataToString()
         QString test8, test16, test24, test32;
 
         this->mPreset->image()->setBlockSize(Data8);
-        test8 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+        test8 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "", "", ", ");
 
         this->mPreset->image()->setBlockSize(Data16);
-        test16 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+        test16 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "", "", ", ");
 
         this->mPreset->image()->setBlockSize(Data24);
-        test24 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+        test24 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "", "", ", ");
 
         this->mPreset->image()->setBlockSize(Data32);
-        test32 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+        test32 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "", "", ", ");
 
         // compare
         QCOMPARE(test8, expected8);
@@ -244,16 +244,16 @@ void TestConverterHelper::dataToString()
         QString test8, test16, test24, test32;
 
         this->mPreset->image()->setBlockSize(Data8);
-        test8 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+        test8 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "", "", ", ");
 
         this->mPreset->image()->setBlockSize(Data16);
-        test16 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+        test16 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "", "", ", ");
 
         this->mPreset->image()->setBlockSize(Data24);
-        test24 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+        test24 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "", "", ", ");
 
         this->mPreset->image()->setBlockSize(Data32);
-        test32 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "");
+        test32 = ConverterHelper::dataToString(this->mPreset, &source, count, count, "", "", ", ");
 
         // compare
         QCOMPARE(test8, expected8);

@@ -23,6 +23,9 @@ private slots:
     void blockDefaultOnes();
     void splitToRows();
     void compressionRle();
+    void blockPrefix();
+    void blockSuffix();
+    void blockDelimiter();
 
     void cleanupTestCase();
 };

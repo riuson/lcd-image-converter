@@ -79,6 +79,51 @@ void TestImageOptions::compressionRle()
     QCOMPARE(this->mOptions->compressionRle(), true);
 }
 //-----------------------------------------------------------------------------
+void TestImageOptions::blockPrefix()
+{
+    // 1
+    this->mOptions->setBlockPrefix("prefix1");
+    QCOMPARE(this->mOptions->blockPrefix(), QString("prefix1"));
+
+    // 2
+    this->mOptions->setBlockPrefix("prefix2");
+    QCOMPARE(this->mOptions->blockPrefix(), QString("prefix2"));
+
+    // 3
+    this->mOptions->setBlockPrefix("prefix3");
+    QCOMPARE(this->mOptions->blockPrefix(), QString("prefix3"));
+}
+//-----------------------------------------------------------------------------
+void TestImageOptions::blockSuffix()
+{
+    // 1
+    this->mOptions->setBlockSuffix("suffix1");
+    QCOMPARE(this->mOptions->blockSuffix(), QString("suffix1"));
+
+    // 2
+    this->mOptions->setBlockSuffix("suffix2");
+    QCOMPARE(this->mOptions->blockSuffix(), QString("suffix2"));
+
+    // 3
+    this->mOptions->setBlockSuffix("suffix3");
+    QCOMPARE(this->mOptions->blockSuffix(), QString("suffix3"));
+}
+//-----------------------------------------------------------------------------
+void TestImageOptions::blockDelimiter()
+{
+    // 1
+    this->mOptions->setBlockDelimiter("delimiter3");
+    QCOMPARE(this->mOptions->blockDelimiter(), QString("delimiter3"));
+
+    // 2
+    this->mOptions->setBlockDelimiter("delimiter3");
+    QCOMPARE(this->mOptions->blockDelimiter(), QString("delimiter3"));
+
+    // 3
+    this->mOptions->setBlockDelimiter("delimiter3");
+    QCOMPARE(this->mOptions->blockDelimiter(), QString("delimiter3"));
+}
+//-----------------------------------------------------------------------------
 void TestImageOptions::cleanupTestCase()
 {
     delete this->mOptions;
