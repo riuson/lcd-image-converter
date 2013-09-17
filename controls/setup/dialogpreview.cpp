@@ -93,9 +93,11 @@ void DialogPreview::updatePreview()
             int compressedWidth, compressedHeight;
             ConverterHelper::compressData(this->mPreset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
 
-            QString str = ConverterHelper::dataToString(this->mPreset, &compressedData, compressedWidth, compressedHeight, "", "", ", ");
+            QString dataString = ConverterHelper::dataToString(
+                        this->mPreset,
+                        &compressedData, compressedWidth, compressedHeight);
 
-            this->ui->plainTextEdit->setPlainText(str);
+            this->ui->plainTextEdit->setPlainText(dataString);
         }
     }
 }

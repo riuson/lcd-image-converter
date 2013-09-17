@@ -62,8 +62,7 @@ public:
     static void createImagePreview(Preset *matrix, QImage *source, QImage *result);
 
     static QString dataToString(Preset *matrix,
-            QVector<quint32> *data, int width, int height,
-            const QString &prefix, const QString &suffix, const QString &delimiter);
+            QVector<quint32> *data, int width, int height);
 private:
     static void makeMonochrome(QImage &image, int edge);
     // make r = g = b = qGray(pixel)

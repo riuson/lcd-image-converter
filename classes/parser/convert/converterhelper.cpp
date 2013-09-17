@@ -508,11 +508,14 @@ static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
 //-----------------------------------------------------------------------------
 QString ConverterHelper::dataToString(
         Preset *preset,
-        QVector<quint32> *data, int width, int height,
-        const QString &prefix, const QString &suffix, const QString &delimiter)
+        QVector<quint32> *data, int width, int height)
 {
     QString result, converted;
+
     DataBlockSize blockSize = preset->image()->blockSize();
+    QString prefix = preset->image()->blockPrefix();
+    QString suffix = preset->image()->blockSuffix();
+    QString delimiter = preset->image()->blockDelimiter();
 
     if (preset->image()->splitToRows())
     {
