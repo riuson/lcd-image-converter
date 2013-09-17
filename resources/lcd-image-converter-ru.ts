@@ -513,20 +513,6 @@ Qt: %3</translation>
         <translatorcomment>не используется</translatorcomment>
         <translation></translation>
     </message>
-    <message>
-        <source>Font</source>
-        <comment>new font name</comment>
-        <translatorcomment>название нового шрифта, должно быть латинскими буквами</translatorcomment>
-        <translation type="obsolete">Font</translation>
-    </message>
-    <message>
-        <source>C Files (*.c);;All Files (*.*)</source>
-        <translation type="obsolete">Файлы C (*.c);;Все файлы (*.*)</translation>
-    </message>
-    <message>
-        <source>Save result file as</source>
-        <translation type="obsolete">Сохранить результат как</translation>
-    </message>
 </context>
 <context>
     <name>EditorTabImage</name>
@@ -535,20 +521,6 @@ Qt: %3</translation>
         <source>Form</source>
         <translatorcomment>не ипользуется</translatorcomment>
         <translation></translation>
-    </message>
-    <message>
-        <source>Image</source>
-        <comment>new image name</comment>
-        <translatorcomment>название нового изображения, должно быть латинскими буквами</translatorcomment>
-        <translation type="obsolete">Image</translation>
-    </message>
-    <message>
-        <source>C Files (*.c);;All Files (*.*)</source>
-        <translation type="obsolete">Файлы C (*.c);;Все файлы (*.*)</translation>
-    </message>
-    <message>
-        <source>Save result file as</source>
-        <translation type="obsolete">Сохранить результат как</translation>
     </message>
 </context>
 <context>
@@ -978,8 +950,10 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/image/setuptabimage.ui" line="37"/>
-        <source>Block default bits:</source>
-        <translation>Биты по умолчанию:</translation>
+        <source>Trailing bits:</source>
+        <extracomment>Unused bits at the end of data blocks</extracomment>
+        <translatorcomment>Неиспользуемые биты в конце блока данных</translatorcomment>
+        <translation>Завершающие биты:</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/image/setuptabimage.ui" line="44"/>

@@ -34,7 +34,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Block default bits:</string>
+          <string extracomment="Unused bits at the end of data blocks">Trailing bits:</string>
          </property>
         </widget>
        </item>
