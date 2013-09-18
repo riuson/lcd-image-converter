@@ -12,7 +12,12 @@ Added:
  New encodings;
  Sorting table characters by codes;
  Dialog to select new characters by range;
- Ability to specify custom font size.</description>
+ Ability to specify custom font size;
+ Control characters (0x01...0x1f) support;
+ New tag 'out_images_max_blocks_count';
+ Optional value of trailing bits;
+ Custom prefix, suffix and delimiter for data blocks;
+ Copy & Paste operations.</description>
     </record>
     <record>
         <commit>
