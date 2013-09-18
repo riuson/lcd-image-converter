@@ -135,6 +135,9 @@
     </property>
     <addaction name="actionEditUndo"/>
     <addaction name="actionEditRedo"/>
+    <addaction name="separator"/>
+    <addaction name="actionEditCopy"/>
+    <addaction name="actionEditPaste"/>
    </widget>
    <addaction name="menuHello"/>
    <addaction name="menuEdit"/>
@@ -394,6 +397,22 @@
   <action name="actionUpdates">
    <property name="text">
     <string>Updates...</string>
+   </property>
+  </action>
+  <action name="actionEditCopy">
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionEditPaste">
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+V</string>
    </property>
   </action>
  </widget>
