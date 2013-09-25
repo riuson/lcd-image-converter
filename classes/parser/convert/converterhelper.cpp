@@ -89,8 +89,9 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
                         {
                             // typedef QRgb
                             // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
+                            // http://qt-project.org/doc/qt-5.0/qtgui/qcolor.html#QRgb-typedef
                             QRgb pixel = im.pixel(bandX + x, y);
-                            quint32 value = pixel & 0x00ffffff;
+                            quint32 value = (quint32)pixel;
                             data->append(value);
                         }
                         else
@@ -114,8 +115,9 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
                 {
                     // typedef QRgb
                     // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
+                    // http://qt-project.org/doc/qt-5.0/qtgui/qcolor.html#QRgb-typedef
                     QRgb pixel = im.pixel(x, y);
-                    quint32 value = pixel & 0x00ffffff;
+                    quint32 value = (quint32)pixel;
                     data->append(value);
                 }
             }
