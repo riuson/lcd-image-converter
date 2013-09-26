@@ -63,6 +63,7 @@ private:
     {
         Empty,
         // for colors
+        Alpha,
         Red,
         Green,
         Blue,

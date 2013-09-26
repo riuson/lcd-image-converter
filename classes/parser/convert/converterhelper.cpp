@@ -89,8 +89,9 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
                         {
                             // typedef QRgb
                             // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
+                            // http://qt-project.org/doc/qt-5.0/qtgui/qcolor.html#QRgb-typedef
                             QRgb pixel = im.pixel(bandX + x, y);
-                            quint32 value = pixel & 0x00ffffff;
+                            quint32 value = (quint32)pixel;
                             data->append(value);
                         }
                         else
@@ -114,8 +115,9 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
                 {
                     // typedef QRgb
                     // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
+                    // http://qt-project.org/doc/qt-5.0/qtgui/qcolor.html#QRgb-typedef
                     QRgb pixel = im.pixel(x, y);
-                    quint32 value = pixel & 0x00ffffff;
+                    quint32 value = (quint32)pixel;
                     data->append(value);
                 }
             }
@@ -443,7 +445,9 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
                 {
                     QRgb value = im.pixel(x, y);
                     value &= mask;
+                    int a = qAlpha(value);
                     QColor color = QColor(value);
+                    color.setAlpha(a);
                     painter.setPen(color);
                     painter.drawPoint(x, y);
                 }
@@ -577,10 +581,11 @@ void ConverterHelper::makeMonochrome(QImage &image, int edge)
         for (int y = 0; y < image.height(); y++)
         {
             QRgb value = image.pixel(x, y);
+            int alpha = qAlpha(value);
             if (qGray(value) < edge)
-                painter.setPen(QColor(0, 0, 0));
+                painter.setPen(QColor(0, 0, 0, alpha));
             else
-                painter.setPen(QColor(255, 255, 255));
+                painter.setPen(QColor(255, 255, 255, alpha));
             painter.drawPoint(x, y);
         }
     }
@@ -596,7 +601,8 @@ void ConverterHelper::makeGrayscale(QImage &image)
         {
             QRgb value = image.pixel(x, y);
             int gray = qGray(value);
-            QColor color = QColor(gray ,gray, gray);
+            int alpha = qAlpha(value);
+            QColor color = QColor(gray ,gray, gray, alpha);
             painter.setPen(color);
             painter.drawPoint(x, y);
         }

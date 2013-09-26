@@ -17,7 +17,8 @@ Added:
  New tag 'out_images_max_blocks_count';
  Optional value of trailing bits;
  Custom prefix, suffix and delimiter for data blocks;
- Copy & Paste operations.</description>
+ Copy & Paste operations;
+ Alpha-channel support.</description>
     </record>
     <record>
         <commit>
