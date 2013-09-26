@@ -445,7 +445,9 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
                 {
                     QRgb value = im.pixel(x, y);
                     value &= mask;
+                    int a = qAlpha(value);
                     QColor color = QColor(value);
+                    color.setAlpha(a);
                     painter.setPen(color);
                     painter.drawPoint(x, y);
                 }
