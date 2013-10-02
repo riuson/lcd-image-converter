@@ -25,6 +25,8 @@
 #include <QPainter>
 #include <QRegExp>
 #include <QVector>
+#include <QScriptEngine>
+#include <QDebug>
 #include "bitstream.h"
 #include "bitmaphelper.h"
 #include "preset.h"
@@ -33,8 +35,102 @@
 #include "reorderingoptions.h"
 #include "imageoptions.h"
 #include "rlecompressor.h"
+#include "convimage.h"
 //-----------------------------------------------------------------------------
 void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32> *data, int *width, int *height)
+{
+    if (image != NULL && data != NULL && width != NULL && height != NULL)
+    {
+        data->clear();
+
+        QImage im = *image;
+
+        *width = im.width();
+        *height = im.height();
+
+        // monochrome image needs special preprocessing
+        ConversionType type = preset->prepare()->convType();
+        if (type == ConversionTypeMonochrome)
+        {
+            MonochromeType monotype = preset->prepare()->monoType();
+            int edge = preset->prepare()->edge();
+
+            switch (monotype)
+            {
+            case MonochromeTypeEdge:
+                ConverterHelper::makeMonochrome(im, edge);
+                break;
+            case MonochromeTypeDiffuseDither:
+                im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::DiffuseDither);
+                break;
+            case MonochromeTypeOrderedDither:
+                im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::OrderedDither);
+                break;
+            case MonochromeTypeThresholdDither:
+                im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::ThresholdDither);
+                break;
+            }
+        }
+        else if (type == ConversionTypeGrayscale)
+        {
+            ConverterHelper::makeGrayscale(im);
+        }
+
+        test(image);
+
+        if (preset->prepare()->bandScanning())
+        {
+            const int bandSize = preset->prepare()->bandWidth();
+
+            int bandX = 0;
+
+            do
+            {
+                for (int y = 0; y < im.height(); y++)
+                {
+                    for (int x = 0; x < bandSize; x++)
+                    {
+                        if (bandX + x < im.width())
+                        {
+                            // typedef QRgb
+                            // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
+                            // http://qt-project.org/doc/qt-5.0/qtgui/qcolor.html#QRgb-typedef
+                            QRgb pixel = im.pixel(bandX + x, y);
+                            quint32 value = (quint32)pixel;
+                            data->append(value);
+                        }
+                        else
+                        {
+                            data->append(0x00000000);
+                        }
+                    }
+                }
+
+                bandX += bandSize;
+            } while (bandX < im.width());
+
+            // set new width
+            *width = bandX;
+        }
+        else
+        {
+            for (int y = 0; y < im.height(); y++)
+            {
+                for (int x = 0; x < im.width(); x++)
+                {
+                    // typedef QRgb
+                    // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
+                    // http://qt-project.org/doc/qt-5.0/qtgui/qcolor.html#QRgb-typedef
+                    QRgb pixel = im.pixel(x, y);
+                    quint32 value = (quint32)pixel;
+                    data->append(value);
+                }
+            }
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void ConverterHelper::pixelsData2(Preset *preset, QImage *image, QVector<quint32> *data, int *width, int *height)
 {
     if (image != NULL && data != NULL && width != NULL && height != NULL)
     {
@@ -123,6 +219,23 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
             }
         }
     }
+}
+//-----------------------------------------------------------------------------
+void ConverterHelper::test(const QImage *image)
+{
+    // scanning with qt script
+    QScriptEngine engine;
+    ConvImage *convImage = new ConvImage(image);
+    QScriptValue imageValue = engine.newQObject(convImage,
+                                                QScriptEngine::QtOwnership,
+                                                QScriptEngine::ExcludeSuperClassProperties | QScriptEngine::ExcludeSuperClassMethods);
+    engine.globalObject().setProperty("image", imageValue);
+    QString script = "\
+            image.useBands;\
+            ";
+    QScriptValue resultValue = engine.evaluate(script);
+    QString res = resultValue.toString();
+    qDebug() << res;
 }
 //-----------------------------------------------------------------------------
 void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
