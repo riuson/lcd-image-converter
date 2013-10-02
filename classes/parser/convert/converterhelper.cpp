@@ -231,8 +231,11 @@ void ConverterHelper::test(const QImage *image)
                                                 QScriptEngine::ExcludeSuperClassProperties | QScriptEngine::ExcludeSuperClassMethods);
     engine.globalObject().setProperty("image", imageValue);
     QString script = "\
-            image.addPoint(1, 2);\
-            image.useBands;\
+            for (i = 0; i < 10; i++) \
+            { \
+                image.addPoint(i, i);\
+            } \
+            image.pointsCount();\
             ";
     QScriptValue resultValue = engine.evaluate(script);
     QString res = resultValue.toString();
