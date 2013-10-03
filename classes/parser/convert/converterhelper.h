@@ -36,11 +36,6 @@ public:
             QVector<quint32> *data,
             int *width,
             int *height);
-    static void pixelsData2(Preset *preset,
-            QImage *image,
-            QVector<quint32> *data,
-            int *width,
-            int *height);
     static void test(const QImage *image);
     // apply masks and bits reorder
     static void processPixels(Preset *matrix, QVector<quint32> *data);
