@@ -25,6 +25,7 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 #include "bitmaphelper.h"
+#include "converterhelper.h"
 //-----------------------------------------------------------------------------
 SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     QWidget(parent),
@@ -87,8 +88,16 @@ void SetupTabPrepare::matrixChanged()
 
     this->ui->checkBoxUseCustomScript->setChecked(this->mPreset->prepare()->useCustomScript());
 
-    if (this->ui->plainTextEditCustomScript->toPlainText() != this->mPreset->prepare()->customScript())
-        this->ui->plainTextEditCustomScript->setPlainText(this->mPreset->prepare()->customScript());
+    if (this->mPreset->prepare()->useCustomScript())
+    {
+        if (this->ui->plainTextEditCustomScript->toPlainText() != this->mPreset->prepare()->customScript())
+            this->ui->plainTextEditCustomScript->setPlainText(this->mPreset->prepare()->customScript());
+    }
+    else
+    {
+        QString script = ConverterHelper::scanScript(this->mPreset);
+        this->ui->plainTextEditCustomScript->setPlainText(script);
+    }
 
     this->updateScanningPreview();
 
