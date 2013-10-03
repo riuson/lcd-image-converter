@@ -111,63 +111,84 @@ QString PrepareOptions::customScript() const
 //-----------------------------------------------------------------------------
 void PrepareOptions::setConvType(ConversionType value)
 {
-    if (value < ConversionTypeMonochrome || value > ConversionTypeColor)
-        value = ConversionTypeColor;
-    this->mConvType = value;
+    if (this->mConvType != value)
+    {
+        if (value < ConversionTypeMonochrome || value > ConversionTypeColor)
+            value = ConversionTypeColor;
+        this->mConvType = value;
 
-    emit this->changed();
+        emit this->changed();
+    }
 }
 //-----------------------------------------------------------------------------
 void PrepareOptions::setMonoType(MonochromeType value)
 {
-    if (value < MonochromeTypeEdge || value > MonochromeTypeThresholdDither)
-        value = MonochromeTypeDiffuseDither;
-    this->mMonoType = value;
+    if (this->mMonoType != value)
+    {
+        if (value < MonochromeTypeEdge || value > MonochromeTypeThresholdDither)
+            value = MonochromeTypeDiffuseDither;
+        this->mMonoType = value;
 
-    emit this->changed();
+        emit this->changed();
+    }
 }
 //-----------------------------------------------------------------------------
 void PrepareOptions::setEdge(int value)
 {
-    if (value < 0 || value > 255)
-        value = 128;
-    this->mEdge = value;
+    if (this->mEdge != value)
+    {
+        if (value < 0 || value > 255)
+            value = 128;
+        this->mEdge = value;
 
-    emit this->changed();
+        emit this->changed();
+    }
 }
 //-----------------------------------------------------------------------------
 void PrepareOptions::setScanMain(ScanMainDirection value)
 {
-    if (value < TopToBottom || value > RightToLeft)
-        value = TopToBottom;
-    this->mScanMain = value;
+    if (this->mScanMain != value)
+    {
+        if (value < TopToBottom || value > RightToLeft)
+            value = TopToBottom;
+        this->mScanMain = value;
 
-    emit this->changed();
+        emit this->changed();
+    }
 }
 //-----------------------------------------------------------------------------
 void PrepareOptions::setScanSub(ScanSubDirection value)
 {
-    this->mScanSub = value;
+    if (this->mScanSub != value)
+    {
+        this->mScanSub = value;
 
-    emit this->changed();
+        emit this->changed();
+    }
 }
 //-----------------------------------------------------------------------------
 void PrepareOptions::setInverse(bool value)
 {
-    this->mInverse = value;
+    if (this->mInverse != value)
+    {
+        this->mInverse = value;
 
-    emit this->changed();
+        emit this->changed();
+    }
 }
 //-----------------------------------------------------------------------------
 void PrepareOptions::setBandScanning(bool value)
 {
-    this->mBandScanning = value;
-    emit this->changed();
+    if (this->mBandScanning != value)
+    {
+        this->mBandScanning = value;
+        emit this->changed();
+    }
 }
 //-----------------------------------------------------------------------------
 void PrepareOptions::setBandWidth(int value)
 {
-    if (value > 0)
+    if (this->mBandWidth != value && value > 0)
     {
         this->mBandWidth = value;
 
@@ -177,14 +198,20 @@ void PrepareOptions::setBandWidth(int value)
 //-----------------------------------------------------------------------------
 void PrepareOptions::setUseCustomScript(bool value)
 {
-    this->mUseCustomScript = value;
-    emit this->changed();
+    if (this->mUseCustomScript != value)
+    {
+        this->mUseCustomScript = value;
+        emit this->changed();
+    }
 }
 //-----------------------------------------------------------------------------
 void PrepareOptions::setCustomScript(const QString &value)
 {
-    this->mCustomScript = value;
-    emit this->changed();
+    if (this->mCustomScript != value)
+    {
+        this->mCustomScript = value;
+        emit this->changed();
+    }
 }
 //-----------------------------------------------------------------------------
 const QString & PrepareOptions::convTypeName() const
