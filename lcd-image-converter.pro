@@ -248,7 +248,24 @@ OTHER_FILES += \
     resources/history.xml \
     resources/history.xsl \
     resources/history.css \
-    resources/unicode_blocks.txt
+    resources/unicode_blocks.txt \
+    resources/script_top2bottom_forward.js \
+    resources/scan_scripts/scan_top2bottom_forward_band.js \
+    resources/scan_scripts/scan_top2bottom_forward.js \
+    resources/scan_scripts/scan_top2bottom_backward_band.js \
+    resources/scan_scripts/scan_top2bottom_backward.js \
+    resources/scan_scripts/scan_right2left_forward_band.js \
+    resources/scan_scripts/scan_right2left_forward.js \
+    resources/scan_scripts/scan_right2left_backward_band.js \
+    resources/scan_scripts/scan_right2left_backward.js \
+    resources/scan_scripts/scan_left2right_forward_band.js \
+    resources/scan_scripts/scan_left2right_forward.js \
+    resources/scan_scripts/scan_left2right_backward_band.js \
+    resources/scan_scripts/scan_left2right_backward.js \
+    resources/scan_scripts/scan_bottom2top_forward_band.js \
+    resources/scan_scripts/scan_bottom2top_forward.js \
+    resources/scan_scripts/scan_bottom2top_backward_band.js \
+    resources/scan_scripts/scan_bottom2top_backward.js
 
 
 # generate version info file on each build, because file in other directory

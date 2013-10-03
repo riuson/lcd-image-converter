@@ -26,6 +26,7 @@
 #include <QRegExp>
 #include <QVector>
 #include <QScriptEngine>
+#include <QFile>
 #include <QDebug>
 #include "bitstream.h"
 #include "bitmaphelper.h"
@@ -594,6 +595,91 @@ QString ConverterHelper::dataToString(
         }
 
         result.truncate(result.length() - delimiter.length());
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+QString ConverterHelper::scanScript(Preset *preset)
+{
+    QString result;
+    const PrepareOptions *prepare = preset->prepare();
+
+    if (prepare->useCustomScript())
+    {
+        result = prepare->customScript();
+    }
+    else
+    {
+        static const QString scripts[] =
+        {
+            ":/scan_scripts/t2b_b", // 0
+            ":/scan_scripts/t2b_b_b",
+            ":/scan_scripts/t2b_f",
+            ":/scan_scripts/t2b_f_b",
+
+            ":/scan_scripts/b2t_b", // 4
+            ":/scan_scripts/b2t_b_b",
+            ":/scan_scripts/b2t_f",
+            ":/scan_scripts/b2t_f_b",
+
+            ":/scan_scripts/l2r_b", // 8
+            ":/scan_scripts/l2r_b_b",
+            ":/scan_scripts/l2r_f",
+            ":/scan_scripts/l2r_f_b",
+
+            ":/scan_scripts/r2l_b", // 12
+            ":/scan_scripts/r2l_b_b",
+            ":/scan_scripts/r2l_f",
+            ":/scan_scripts/r2l_f_b"
+        };
+
+        int index = 0;
+
+        switch (prepare->scanMain())
+        {
+        case TopToBottom:
+        {
+            index = 0;
+            break;
+        }
+        case BottomToTop:
+        {
+            index = 4;
+            break;
+        }
+        case LeftToRight:
+        {
+            index = 8;
+            break;
+        }
+        case RightToLeft:
+        {
+            index = 12;
+            break;
+        }
+        }
+
+        if (prepare->scanSub() == Forward)
+        {
+            index += 2;
+        }
+
+        if (prepare->bandScanning())
+        {
+            index += 1;
+        }
+
+        if (index >= 0 && index < 16)
+        {
+            QFile file_script(scripts[index]);
+            if (file_script.open(QIODevice::ReadOnly))
+            {
+                QTextStream stream(&file_script);
+                result = stream.readAll();
+                file_script.close();
+            }
+        }
     }
 
     return result;
