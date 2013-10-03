@@ -85,7 +85,14 @@ void SetupTabPrepare::matrixChanged()
 
     this->ui->checkBoxInverse->setChecked(this->mPreset->prepare()->inverse());
 
+    this->ui->checkBoxUseCustomScript->setChecked(this->mPreset->prepare()->useCustomScript());
+
+    if (this->ui->plainTextEditCustomScript->toPlainText() != this->mPreset->prepare()->customScript())
+        this->ui->plainTextEditCustomScript->setPlainText(this->mPreset->prepare()->customScript());
+
     this->updateScanningPreview();
+
+    this->updateState();
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::updateScanningPreview()
@@ -217,20 +224,7 @@ void SetupTabPrepare::on_comboBoxConversionType_currentIndexChanged(int index)
     if (ok)
     {
         this->mPreset->prepare()->setConvType((ConversionType)a);
-
-        if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome)
-        {
-            this->ui->comboBoxMonochromeType->setEnabled(true);
-            if (this->mPreset->prepare()->monoType() == MonochromeTypeEdge)
-                this->ui->horizontalScrollBarEdge->setEnabled(true);
-            else
-                this->ui->horizontalScrollBarEdge->setEnabled(false);
-        }
-        else
-        {
-            this->ui->comboBoxMonochromeType->setEnabled(false);
-            this->ui->horizontalScrollBarEdge->setEnabled(false);
-        }
+        this->updateState();
     }
 }
 //-----------------------------------------------------------------------------
@@ -242,20 +236,7 @@ void SetupTabPrepare::on_comboBoxMonochromeType_currentIndexChanged(int index)
     if (ok)
     {
         this->mPreset->prepare()->setMonoType((MonochromeType)a);
-
-        if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome)
-        {
-            this->ui->comboBoxMonochromeType->setEnabled(true);
-            if (this->mPreset->prepare()->monoType() == MonochromeTypeEdge)
-                this->ui->horizontalScrollBarEdge->setEnabled(true);
-            else
-                this->ui->horizontalScrollBarEdge->setEnabled(false);
-        }
-        else
-        {
-            this->ui->comboBoxMonochromeType->setEnabled(false);
-            this->ui->horizontalScrollBarEdge->setEnabled(false);
-        }
+        this->updateState();
     }
 }
 //-----------------------------------------------------------------------------
@@ -296,10 +277,62 @@ void SetupTabPrepare::on_horizontalScrollBarEdge_valueChanged(int value)
 void SetupTabPrepare::on_checkBoxBands_toggled(bool value)
 {
     this->mPreset->prepare()->setBandScanning(value);
+    this->updateState();
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::on_spinBoxBandWidth_valueChanged(int value)
 {
     this->mPreset->prepare()->setBandWidth(value);
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::on_checkBoxUseCustomScript_toggled(bool value)
+{
+    this->mPreset->prepare()->setUseCustomScript(value);
+    this->updateState();
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::on_plainTextEditCustomScript_textChanged()
+{
+    QString str = this->ui->plainTextEditCustomScript->toPlainText();
+    this->mPreset->prepare()->setCustomScript(str);
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::updateState()
+{
+    // conversion type
+    if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome)
+    {
+        this->ui->comboBoxMonochromeType->setEnabled(true);
+        if (this->mPreset->prepare()->monoType() == MonochromeTypeEdge)
+            this->ui->horizontalScrollBarEdge->setEnabled(true);
+        else
+            this->ui->horizontalScrollBarEdge->setEnabled(false);
+    }
+    else
+    {
+        this->ui->comboBoxMonochromeType->setEnabled(false);
+        this->ui->horizontalScrollBarEdge->setEnabled(false);
+    }
+
+    // monochrome type
+    if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome)
+    {
+        this->ui->comboBoxMonochromeType->setEnabled(true);
+        if (this->mPreset->prepare()->monoType() == MonochromeTypeEdge)
+            this->ui->horizontalScrollBarEdge->setEnabled(true);
+        else
+            this->ui->horizontalScrollBarEdge->setEnabled(false);
+    }
+    else
+    {
+        this->ui->comboBoxMonochromeType->setEnabled(false);
+        this->ui->horizontalScrollBarEdge->setEnabled(false);
+    }
+
+    // band scan
+    this->ui->spinBoxBandWidth->setEnabled(this->mPreset->prepare()->bandScanning());
+
+    // use custom script
+    this->ui->plainTextEditCustomScript->setEnabled(this->mPreset->prepare()->useCustomScript());
 }
 //-----------------------------------------------------------------------------
