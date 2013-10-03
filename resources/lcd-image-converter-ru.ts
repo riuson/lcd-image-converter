@@ -648,211 +648,216 @@ Qt: %3</translation>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="120"/>
+        <location filename="../controls/main/mainwindow.ui" line="121"/>
         <source>Options</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="124"/>
+        <location filename="../controls/main/mainwindow.ui" line="125"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="134"/>
+        <location filename="../controls/main/mainwindow.ui" line="135"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="152"/>
+        <location filename="../controls/main/mainwindow.ui" line="153"/>
         <source>New Image...</source>
         <translation>Новое изображение...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="157"/>
+        <location filename="../controls/main/mainwindow.ui" line="158"/>
         <source>New Font...</source>
         <translation>Новый шрифт...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="162"/>
+        <location filename="../controls/main/mainwindow.ui" line="163"/>
         <source>Open...</source>
         <translation>Открыть...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="170"/>
+        <location filename="../controls/main/mainwindow.ui" line="171"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="178"/>
+        <location filename="../controls/main/mainwindow.ui" line="179"/>
         <source>Save As...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="186"/>
+        <location filename="../controls/main/mainwindow.ui" line="187"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="194"/>
+        <location filename="../controls/main/mainwindow.ui" line="195"/>
         <source>Quit</source>
         <translation>Выйти</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="202"/>
+        <location filename="../controls/main/mainwindow.ui" line="203"/>
         <source>Flip Horizontal</source>
         <translation>Отразить по горизонтали</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="207"/>
+        <location filename="../controls/main/mainwindow.ui" line="208"/>
         <source>Flip Vertical</source>
         <translation>Отразить по вертикали</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="212"/>
+        <location filename="../controls/main/mainwindow.ui" line="213"/>
         <source>90 Clockwise</source>
         <translation>90 по часовой</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="220"/>
+        <location filename="../controls/main/mainwindow.ui" line="221"/>
         <source>180</source>
         <translation>180</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="225"/>
+        <location filename="../controls/main/mainwindow.ui" line="226"/>
         <source>90 Counter-Clockwise</source>
         <translation>90 против часовой</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="233"/>
-        <location filename="../controls/main/mainwindow.ui" line="279"/>
+        <location filename="../controls/main/mainwindow.ui" line="234"/>
+        <location filename="../controls/main/mainwindow.ui" line="280"/>
         <source>Inverse</source>
         <translation>Инвертировать</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="241"/>
+        <location filename="../controls/main/mainwindow.ui" line="242"/>
         <source>Convert...</source>
         <translation>Преобразовать...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="249"/>
-        <location filename="../controls/main/mainwindow.ui" line="292"/>
+        <location filename="../controls/main/mainwindow.ui" line="250"/>
+        <location filename="../controls/main/mainwindow.ui" line="293"/>
         <source>Conversion...</source>
         <translation>Преобразование...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="254"/>
+        <location filename="../controls/main/mainwindow.ui" line="255"/>
         <source>Import...</source>
         <translation>Импортировать...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="259"/>
+        <location filename="../controls/main/mainwindow.ui" line="260"/>
         <source>Export...</source>
         <translation>Экспортировать...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="264"/>
-        <location filename="../controls/main/mainwindow.ui" line="274"/>
+        <location filename="../controls/main/mainwindow.ui" line="265"/>
+        <location filename="../controls/main/mainwindow.ui" line="275"/>
         <source>Resize...</source>
         <translation>Изменение размеров...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="284"/>
+        <location filename="../controls/main/mainwindow.ui" line="285"/>
         <source>About...</source>
         <translation>О программе...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="325"/>
+        <location filename="../controls/main/mainwindow.ui" line="326"/>
         <source>To Image</source>
         <translation>В изображение</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="330"/>
+        <location filename="../controls/main/mainwindow.ui" line="331"/>
         <source>Convert All</source>
         <translation>Преобразовать все</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="335"/>
+        <location filename="../controls/main/mainwindow.ui" line="336"/>
         <source>Edit in external tool...</source>
         <translation>Открыть во внешнем редакторе...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="346"/>
+        <location filename="../controls/main/mainwindow.ui" line="347"/>
         <source>External editor...</source>
         <translation>Внешний редактор...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="351"/>
+        <location filename="../controls/main/mainwindow.ui" line="352"/>
         <source>Left</source>
         <translation>Влево</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="359"/>
+        <location filename="../controls/main/mainwindow.ui" line="360"/>
         <source>Right</source>
         <translation>Вправо</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="367"/>
+        <location filename="../controls/main/mainwindow.ui" line="368"/>
         <source>Up</source>
         <translation>Вверх</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="375"/>
+        <location filename="../controls/main/mainwindow.ui" line="376"/>
         <source>Down</source>
         <translation>Вниз</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="383"/>
+        <location filename="../controls/main/mainwindow.ui" line="384"/>
         <source>Undo</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="391"/>
+        <location filename="../controls/main/mainwindow.ui" line="392"/>
         <source>Redo</source>
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="399"/>
+        <location filename="../controls/main/mainwindow.ui" line="400"/>
         <source>Updates...</source>
         <translation>Обновления...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="404"/>
+        <location filename="../controls/main/mainwindow.ui" line="405"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="412"/>
+        <location filename="../controls/main/mainwindow.ui" line="413"/>
         <source>Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="305"/>
+        <location filename="../controls/main/mainwindow.ui" line="421"/>
+        <source>About Qt...</source>
+        <translation>О Qt...</translation>
+    </message>
+    <message>
+        <location filename="../controls/main/mainwindow.ui" line="306"/>
         <source>Rename...</source>
         <translation>Переименовать...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="310"/>
+        <location filename="../controls/main/mainwindow.ui" line="311"/>
         <source>Optimize height...</source>
         <translatorcomment>Определение наименьшей высоты знакоместа</translatorcomment>
         <translation>Подобрать высоту...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="315"/>
+        <location filename="../controls/main/mainwindow.ui" line="316"/>
         <source>Preview...</source>
         <translation>Предпросмотр...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="320"/>
+        <location filename="../controls/main/mainwindow.ui" line="321"/>
         <source>Wiki...</source>
         <translation>Вики...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="269"/>
+        <location filename="../controls/main/mainwindow.ui" line="270"/>
         <source>Change...</source>
         <translation>Изменить...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="300"/>
+        <location filename="../controls/main/mainwindow.ui" line="301"/>
         <source>English</source>
         <translatorcomment>не переводить</translatorcomment>
         <translation>English</translation>
@@ -864,12 +869,12 @@ Qt: %3</translation>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="293"/>
+        <location filename="../controls/main/mainwindow.cpp" line="294"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="294"/>
+        <location filename="../controls/main/mainwindow.cpp" line="295"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
