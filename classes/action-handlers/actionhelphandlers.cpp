@@ -21,6 +21,7 @@
 
 #include <QDesktopServices>
 #include <QUrl>
+#include <QMessageBox>
 
 #include "dialogabout.h"
 #include "dialogupdates.h"
@@ -31,10 +32,15 @@ ActionHelpHandlers::ActionHelpHandlers(QObject *parent) :
 {
 }
 //-----------------------------------------------------------------------------
-void ActionHelpHandlers::about_triggered()
+void ActionHelpHandlers::about_application_triggered()
 {
     DialogAbout dialog(this->mMainWindow->parentWidget());
     dialog.exec();
+}
+//-----------------------------------------------------------------------------
+void ActionHelpHandlers::about_qt_triggered()
+{
+    QMessageBox::aboutQt(this->mMainWindow->parentWidget());
 }
 //-----------------------------------------------------------------------------
 void ActionHelpHandlers::updates_triggered()

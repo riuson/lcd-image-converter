@@ -241,7 +241,8 @@ void MainWindow::createHandlers()
     this->mSetupHandlers->connect(this->ui->actionExternal_editor, SIGNAL(triggered()), SLOT(external_editor_triggered()));
 
     this->mHelpHandlers = new ActionHelpHandlers(this);
-    this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(about_triggered()));
+    this->mHelpHandlers->connect(this->ui->actionAboutApp, SIGNAL(triggered()), SLOT(about_application_triggered()));
+    this->mHelpHandlers->connect(this->ui->actionAboutQt, SIGNAL(triggered()), SLOT(about_qt_triggered()));
     this->mHelpHandlers->connect(this->ui->actionUpdates, SIGNAL(triggered()), SLOT(updates_triggered()));
     this->mHelpHandlers->connect(this->ui->actionWiki, SIGNAL(triggered()), SLOT(wiki_triggered()));
 

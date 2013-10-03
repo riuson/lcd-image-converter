@@ -35,7 +35,8 @@ public:
 signals:
 
 public slots:
-    void about_triggered();
+    void about_application_triggered();
+    void about_qt_triggered();
     void updates_triggered();
     void wiki_triggered();
 };
