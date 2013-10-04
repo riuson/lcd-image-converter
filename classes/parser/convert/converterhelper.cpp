@@ -113,7 +113,6 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
         }
         else
         {
-            test(image);
             for (int y = 0; y < im.height(); y++)
             {
                 for (int x = 0; x < im.width(); x++)
@@ -130,28 +129,17 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::test(const QImage *image)
+void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script)
 {
     // scanning with qt script
     QScriptEngine engine;
-    ConvImage *convImage = new ConvImage(image);
     QScriptValue imageValue = engine.newQObject(convImage,
                                                 QScriptEngine::QtOwnership,
                                                 QScriptEngine::ExcludeSuperClassProperties | QScriptEngine::ExcludeSuperClassMethods);
     engine.globalObject().setProperty("image", imageValue);
-    QString script = "\
-            for (y = 0; y < image.height; y++)\
-            {\
-                for (x = 0; x < image.width; x++)\
-                {\
-                    image.addPoint(x, y);\
-                }\
-            }\
-            image.pointsCount();\
-            ";
     QScriptValue resultValue = engine.evaluate(script);
     QString res = resultValue.toString();
-    qDebug() << res;
+    qDebug() << "Added " << convImage->pointsCount() << " point(s)";
 }
 //-----------------------------------------------------------------------------
 void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)

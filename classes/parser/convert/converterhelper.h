@@ -24,6 +24,7 @@
 //-----------------------------------------------------------------------------
 class QImage;
 class Preset;
+class ConvImage;
 //-----------------------------------------------------------------------------
 class ConverterHelper
 {
@@ -36,7 +37,7 @@ public:
             QVector<quint32> *data,
             int *width,
             int *height);
-    static void test(const QImage *image);
+    static void collectPoints(ConvImage *convImage, const QString &script);
     // apply masks and bits reorder
     static void processPixels(Preset *matrix, QVector<quint32> *data);
     // pack data
