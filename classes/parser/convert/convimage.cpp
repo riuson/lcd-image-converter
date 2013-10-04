@@ -65,7 +65,7 @@ void ConvImage::clearPoints()
 //-----------------------------------------------------------------------------
 QPoint ConvImage::pointAt(int index) const
 {
-    if (index < this->mPoints.length())
+    if (index < this->mPoints.size())
     {
         return this->mPoints.at(index);
     }
@@ -74,7 +74,7 @@ QPoint ConvImage::pointAt(int index) const
 //-----------------------------------------------------------------------------
 int ConvImage::pointsCount() const
 {
-    return this->mPoints.length();
+    return this->mPoints.size();
 }
 //-----------------------------------------------------------------------------
 int ConvImage::height() const

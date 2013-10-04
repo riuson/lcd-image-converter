@@ -21,7 +21,7 @@
 #define CONVIMAGE_H
 //-----------------------------------------------------------------------------
 #include <QObject>
-#include <QList>
+#include <QVector>
 #include <QPoint>
 //-----------------------------------------------------------------------------
 class QImage;
@@ -54,7 +54,7 @@ private:
     const QImage *mImage;
     int mBandSize;
     bool mUseBands;
-    QList<QPoint> mPoints;
+    QVector<QPoint> mPoints;
 
     int height() const;
     int width() const;
