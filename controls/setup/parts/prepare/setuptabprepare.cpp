@@ -26,6 +26,7 @@
 #include "imageoptions.h"
 #include "bitmaphelper.h"
 #include "converterhelper.h"
+#include "demogenerator.h"
 //-----------------------------------------------------------------------------
 SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     QWidget(parent),
@@ -34,6 +35,7 @@ SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     ui->setupUi(this);
     this->mPreset = preset;
     this->mPixmapScanning = QPixmap();
+    this->mDemoGen = new DemoGenerator(this->mPreset, this);
 
     this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
     this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
@@ -57,6 +59,7 @@ SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
 //-----------------------------------------------------------------------------
 SetupTabPrepare::~SetupTabPrepare()
 {
+    delete this->mDemoGen;
     delete ui;
 }
 //-----------------------------------------------------------------------------
@@ -88,20 +91,11 @@ void SetupTabPrepare::matrixChanged()
 
     this->ui->checkBoxUseCustomScript->setChecked(this->mPreset->prepare()->useCustomScript());
 
-    if (this->mPreset->prepare()->useCustomScript())
-    {
-        if (this->ui->plainTextEditCustomScript->toPlainText() != this->mPreset->prepare()->customScript())
-            this->ui->plainTextEditCustomScript->setPlainText(this->mPreset->prepare()->customScript());
-    }
-    else
-    {
-        QString script = ConverterHelper::scanScript(this->mPreset);
-        this->ui->plainTextEditCustomScript->setPlainText(script);
-    }
-
     this->updateScanningPreview();
 
     this->updateState();
+
+    this->updateScript();
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::updateScanningPreview()
@@ -343,5 +337,23 @@ void SetupTabPrepare::updateState()
 
     // use custom script
     this->ui->plainTextEditCustomScript->setEnabled(this->mPreset->prepare()->useCustomScript());
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::updateScript()
+{
+    QString script;
+    if (this->mPreset->prepare()->useCustomScript())
+    {
+        script = this->mPreset->prepare()->customScript();
+        if (this->ui->plainTextEditCustomScript->toPlainText() != script)
+            this->ui->plainTextEditCustomScript->setPlainText(script);
+    }
+    else
+    {
+        script = ConverterHelper::scanScript(this->mPreset);
+        this->ui->plainTextEditCustomScript->setPlainText(script);
+    }
+
+    this->mDemoGen->setScript(script);
 }
 //-----------------------------------------------------------------------------

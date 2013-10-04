@@ -88,6 +88,7 @@ SOURCES += main.cpp \
     controls/setup/parts/matrix/matrixitemdelegate.cpp \
     controls/setup/parts/matrix/matrixpreviewmodel.cpp \
     controls/setup/parts/matrix/setuptabmatrix.cpp \
+    controls/setup/parts/prepare/demogenerator.cpp \
     controls/setup/parts/prepare/setuptabprepare.cpp \
     controls/setup/parts/reordering/reorderingitemdelegate.cpp \
     controls/setup/parts/reordering/reorderingpreviewmodel.cpp \
@@ -160,6 +161,7 @@ HEADERS += \
     controls/setup/parts/matrix/matrixitemdelegate.h \
     controls/setup/parts/matrix/matrixpreviewmodel.h \
     controls/setup/parts/matrix/setuptabmatrix.h \
+    controls/setup/parts/prepare/demogenerator.h \
     controls/setup/parts/prepare/setuptabprepare.h \
     controls/setup/parts/reordering/reorderingitemdelegate.h \
     controls/setup/parts/reordering/reorderingpreviewmodel.h \

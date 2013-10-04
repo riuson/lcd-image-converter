@@ -29,6 +29,7 @@ class SetupTabPrepare;
 }
 //-----------------------------------------------------------------------------
 class Preset;
+class DemoGenerator;
 //-----------------------------------------------------------------------------
 using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
@@ -47,6 +48,7 @@ private:
     Ui::SetupTabPrepare *ui;
     Preset *mPreset;
     QPixmap mPixmapScanning;
+    DemoGenerator *mDemoGen;
 
     void updateScanningPreview();
     void modificationsFromScan(
@@ -66,6 +68,7 @@ private slots:
     void on_checkBoxUseCustomScript_toggled(bool value);
     void on_plainTextEditCustomScript_textChanged();
     void updateState();
+    void updateScript();
 };
 //-----------------------------------------------------------------------------
 #endif // SETUPTABPREPARE_H
