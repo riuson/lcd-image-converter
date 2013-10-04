@@ -38,15 +38,15 @@ public:
     Q_PROPERTY(int bandSize READ bandSize)
     Q_PROPERTY(bool useBands READ useBands)
 
-public slots:
     int bandSize() const;
     void setBandSize(int value);
 
     bool useBands() const;
     void setUseBands(bool value);
 
-    void addPoint(int x, int y);
-    void clearPoints();
+    Q_INVOKABLE void addPoint(int x, int y);
+    Q_INVOKABLE void clearPoints();
+
     QPoint pointAt(int index) const;
     int pointsCount() const;
 
