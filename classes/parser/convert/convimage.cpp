@@ -50,7 +50,7 @@ bool ConvImage::useBands() const
 //-----------------------------------------------------------------------------
 void ConvImage::setUseBands(bool value)
 {
-    this->mBandSize = value;
+    this->mUseBands= value;
 }
 //-----------------------------------------------------------------------------
 void ConvImage::addPoint(int x, int y)
