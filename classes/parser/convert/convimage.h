@@ -38,10 +38,10 @@ public:
     Q_PROPERTY(int bandSize READ bandSize)
     Q_PROPERTY(bool useBands READ useBands)
 
-    int bandSize() const;
+    Q_INVOKABLE int bandSize() const;
     void setBandSize(int value);
 
-    bool useBands() const;
+    Q_INVOKABLE bool useBands() const;
     void setUseBands(bool value);
 
     Q_INVOKABLE void addPoint(int x, int y);
@@ -50,14 +50,14 @@ public:
     QPoint pointAt(int index) const;
     int pointsCount() const;
 
+    Q_INVOKABLE int height() const;
+    Q_INVOKABLE int width() const;
+
 private:
     const QImage *mImage;
     int mBandSize;
     bool mUseBands;
     QVector<QPoint> mPoints;
-
-    int height() const;
-    int width() const;
 };
 //-----------------------------------------------------------------------------
 #endif // CONVIMAGE_H
