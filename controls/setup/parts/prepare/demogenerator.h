@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QVector>
 #include <QPoint>
+#include <QTime>
 //-----------------------------------------------------------------------------
 class Preset;
 class QTimer;
@@ -50,6 +51,8 @@ private:
     int mIndex;
     QImage *mSourceImage;
     QPixmap *mProcessedImage;
+    QTime mLastTick;
+    static const int AnimationTimeSeconds;
 
 signals:
     void pixmapChanged(const QPixmap *pixmap);

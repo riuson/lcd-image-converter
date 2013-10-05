@@ -48,6 +48,7 @@ private:
     Ui::SetupTabPrepare *ui;
     Preset *mPreset;
     QPixmap mPixmapScanning;
+    QPixmap mPixmapScanPreview;
     DemoGenerator *mDemoGen;
 
     void updateScanningPreview();
@@ -69,6 +70,7 @@ private slots:
     void on_plainTextEditCustomScript_textChanged();
     void updateState();
     void updateScript();
+    void demoPixmapChanged(const QPixmap *pixmap);
 };
 //-----------------------------------------------------------------------------
 #endif // SETUPTABPREPARE_H

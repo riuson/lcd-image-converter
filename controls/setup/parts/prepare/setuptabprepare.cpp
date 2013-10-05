@@ -35,7 +35,9 @@ SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     ui->setupUi(this);
     this->mPreset = preset;
     this->mPixmapScanning = QPixmap();
+    this->mPixmapScanPreview = QPixmap();
     this->mDemoGen = new DemoGenerator(this->mPreset, this);
+    this->connect(this->mDemoGen, SIGNAL(pixmapChanged(const QPixmap*)), SLOT(demoPixmapChanged(const QPixmap*)));
 
     this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
     this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
@@ -358,5 +360,12 @@ void SetupTabPrepare::updateScript()
     }
 
     this->mDemoGen->setScript(script);
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::demoPixmapChanged(const QPixmap *pixmap)
+{
+    this->mPixmapScanPreview = QPixmap(*pixmap);
+
+    this->ui->labelScanPreview->setPixmap(this->mPixmapScanPreview);
 }
 //-----------------------------------------------------------------------------

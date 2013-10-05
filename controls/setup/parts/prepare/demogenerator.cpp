@@ -28,6 +28,8 @@
 #include "convimage.h"
 #include "prepareoptions.h"
 //-----------------------------------------------------------------------------
+const int DemoGenerator::AnimationTimeSeconds = 60;
+//-----------------------------------------------------------------------------
 DemoGenerator::DemoGenerator(Preset *preset, QObject *parent) :
     QObject(parent)
 {
@@ -36,6 +38,7 @@ DemoGenerator::DemoGenerator(Preset *preset, QObject *parent) :
     this->connect(this->mTimer, SIGNAL(timeout()), SLOT(timeout()));
     this->mSourceImage = new QImage(":/demos/scanning_background");
     this->mProcessedImage = new QPixmap();
+    this->mLastTick = QTime::currentTime();
 }
 //-----------------------------------------------------------------------------
 DemoGenerator::~DemoGenerator()
@@ -61,13 +64,13 @@ void DemoGenerator::setScript(const QString &value)
     ConverterHelper::collectPoints(convImage, value);
 
     // copy points
-    /*this->mMax = convImage->pointsCount();
+    this->mMax = convImage->pointsCount();
     this->mIndex = 0;
     this->mPoints.clear();
     for (int i = 0; i < this->mMax; i++)
     {
         this->mPoints.append(convImage->pointAt(i));
-    }*/
+    }
     delete convImage;
 
     // start
@@ -86,11 +89,19 @@ void DemoGenerator::stopAnimation()
 //-----------------------------------------------------------------------------
 void DemoGenerator::timeout()
 {
-    /*QPoint point = this->mPoints.at(this->mIndex);
-    if (++this->mIndex >= this->mMax)
+    QTime current = QTime::currentTime();
+    int msecs = this->mLastTick.msecsTo(current); // milliseconds from last frame
+    int fps = this->mMax / DemoGenerator::AnimationTimeSeconds; // frames per second
+    int increment = msecs * fps / 1000;
+
+    this->mIndex += increment;
+
+    if (this->mIndex >= this->mMax)
     {
         this->mIndex = 0;
     }
+
+    QPoint point = this->mPoints.at(this->mIndex);
 
     QPixmap *pixmap = new QPixmap(QPixmap::fromImage(*this->mSourceImage));
     QPainter painter(pixmap);
@@ -107,6 +118,8 @@ void DemoGenerator::timeout()
     delete this->mProcessedImage;
     this->mProcessedImage = pixmap;
 
-    emit this->pixmapChanged(this->mProcessedImage);*/
+    emit this->pixmapChanged(this->mProcessedImage);
+
+    this->mLastTick = current;
 }
 //-----------------------------------------------------------------------------
