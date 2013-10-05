@@ -12,5 +12,5 @@ do {
             image.addPoint(bandX + x, y);
         }
     }
-    bandX += image.bandSize
+    bandX += image.bandSize;
 } while (bandX < image.width);
