@@ -51,12 +51,6 @@ private:
     QPixmap mPixmapScanPreview;
     DemoGenerator *mDemoGen;
 
-    void updateScanningPreview();
-    void modificationsFromScan(
-            Rotate *rotate,
-            bool *flipHorizontal,
-            bool *flipVertical) const;
-
 private slots:
     void on_comboBoxConversionType_currentIndexChanged(int index);
     void on_comboBoxMonochromeType_currentIndexChanged(int index);
