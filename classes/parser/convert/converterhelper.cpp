@@ -143,6 +143,10 @@ void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script,
         int line = engine.uncaughtExceptionLineNumber();
         *resultError = QString("Uncaught exception at line %1 : %2").arg(line).arg(resultValue.toString());
     }
+    else if (convImage->pointsCount() == 0)
+    {
+        *resultError = QString("Empty output");
+    }
     else
     {
         *resultError = QString();
