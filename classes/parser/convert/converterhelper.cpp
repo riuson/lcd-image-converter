@@ -77,54 +77,47 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
             ConverterHelper::makeGrayscale(im);
         }
 
-        if (preset->prepare()->bandScanning())
         {
-            const int bandSize = preset->prepare()->bandWidth();
+            QString script = ConverterHelper::scanScript(preset);
 
-            int bandX = 0;
+            ConvImage *convImage = new ConvImage(&im);
+            convImage->setBandSize(preset->prepare()->bandWidth());
+            convImage->setUseBands(preset->prepare()->bandScanning());
 
-            do
+            QString errorMessage;
+            ConverterHelper::collectPoints(convImage, script, &errorMessage);
+
+            if (convImage->pointsCount() > 0)
             {
-                for (int y = 0; y < im.height(); y++)
+                for (int i = 0; i < convImage->pointsCount(); i++)
                 {
-                    for (int x = 0; x < bandSize; x++)
+                    QPoint point = convImage->pointAt(i);
+                    if (point.x() >= 0 && point.y() >= 0 && point.x() < im.width() && point.y() < im.height())
                     {
-                        if (bandX + x < im.width())
-                        {
-                            // typedef QRgb
-                            // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
-                            // http://qt-project.org/doc/qt-5.0/qtgui/qcolor.html#QRgb-typedef
-                            QRgb pixel = im.pixel(bandX + x, y);
-                            quint32 value = (quint32)pixel;
-                            data->append(value);
-                        }
-                        else
-                        {
-                            data->append(0x00000000);
-                        }
+                        QRgb pixel = im.pixel(point.x(), point.y());
+                        quint32 value = (quint32)pixel;
+                        data->append(value);
+                    }
+                    else
+                    {
+                        data->append(0x00000000);
                     }
                 }
 
-                bandX += bandSize;
-            } while (bandX < im.width());
-
-            // set new width
-            *width = bandX;
-        }
-        else
-        {
-            for (int y = 0; y < im.height(); y++)
-            {
-                for (int x = 0; x < im.width(); x++)
+                if (preset->prepare()->bandScanning())
                 {
-                    // typedef QRgb
-                    // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
-                    // http://qt-project.org/doc/qt-5.0/qtgui/qcolor.html#QRgb-typedef
-                    QRgb pixel = im.pixel(x, y);
-                    quint32 value = (quint32)pixel;
-                    data->append(value);
+                    const int bandSize = preset->prepare()->bandWidth();
+
+                    int bandsCount = (*width) / bandSize;
+                    if (((*width) % bandSize) != 0)
+                        bandsCount++;
+
+                    // set new width
+                    *width = bandSize * bandsCount;
                 }
             }
+
+            delete convImage;
         }
     }
 }
