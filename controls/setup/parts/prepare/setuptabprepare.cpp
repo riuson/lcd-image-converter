@@ -224,18 +224,9 @@ void SetupTabPrepare::updateState()
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::updateScript()
 {
-    QString script;
-    if (this->mPreset->prepare()->useCustomScript())
-    {
-        script = this->mPreset->prepare()->customScript();
-        if (this->ui->plainTextEditCustomScript->toPlainText() != script)
-            this->ui->plainTextEditCustomScript->setPlainText(script);
-    }
-    else
-    {
-        script = ConverterHelper::scanScript(this->mPreset);
+    QString script = ConverterHelper::scanScript(this->mPreset);
+    if (this->ui->plainTextEditCustomScript->toPlainText() != script)
         this->ui->plainTextEditCustomScript->setPlainText(script);
-    }
 
     this->mDemoGen->setScript(script);
 }
