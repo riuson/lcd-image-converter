@@ -4,13 +4,13 @@
  * bands
  */
 
-bandX = 0;
+var bandX = 0;
 
 do {
-    for (y = 0; y < image.height(); y++) {
-        for (x = 0; x < image.bandSize(); x++) {
+    for (var y = 0; y < image.height; y++) {
+        for (var x = 0; x < image.bandSize; x++) {
             image.addPoint(bandX + x, y);
         }
     }
-    bandX += image.bandSize();
-} while (bandX < image.width());
+    bandX += image.bandSize
+} while (bandX < image.width);
