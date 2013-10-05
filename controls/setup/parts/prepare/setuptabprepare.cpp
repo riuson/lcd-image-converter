@@ -339,7 +339,7 @@ void SetupTabPrepare::updateState()
     this->ui->spinBoxBandWidth->setEnabled(this->mPreset->prepare()->bandScanning());
 
     // use custom script
-    this->ui->plainTextEditCustomScript->setEnabled(this->mPreset->prepare()->useCustomScript());
+    this->ui->plainTextEditCustomScript->setReadOnly(!this->mPreset->prepare()->useCustomScript());
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::updateScript()
