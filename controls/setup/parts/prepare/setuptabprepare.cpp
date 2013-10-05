@@ -296,8 +296,11 @@ void SetupTabPrepare::on_checkBoxUseCustomScript_toggled(bool value)
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::on_plainTextEditCustomScript_textChanged()
 {
-    QString str = this->ui->plainTextEditCustomScript->toPlainText();
-    this->mPreset->prepare()->setCustomScript(str);
+    if (this->mPreset->prepare()->useCustomScript())
+    {
+        QString str = this->ui->plainTextEditCustomScript->toPlainText();
+        this->mPreset->prepare()->setCustomScript(str);
+    }
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::updateState()

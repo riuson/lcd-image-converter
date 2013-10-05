@@ -21,9 +21,13 @@
 #define DEMOGENERATOR_H
 //-----------------------------------------------------------------------------
 #include <QObject>
+#include <QVector>
+#include <QPoint>
 //-----------------------------------------------------------------------------
 class Preset;
 class QTimer;
+class QImage;
+class QPixmap;
 //-----------------------------------------------------------------------------
 class DemoGenerator : public QObject
 {
@@ -41,11 +45,17 @@ private:
     Preset *mPreset;
     QString mScript;
     QTimer *mTimer;
+    QVector<QPoint> mPoints;
+    int mMax;
+    int mIndex;
+    QImage *mSourceImage;
+    QPixmap *mProcessedImage;
 
 signals:
+    void pixmapChanged(const QPixmap *pixmap);
 
-public slots:
-
+private slots:
+    void timeout();
 };
 //-----------------------------------------------------------------------------
 #endif // DEMOGENERATOR_H
