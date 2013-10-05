@@ -107,7 +107,7 @@ void DemoGenerator::timeout()
 
     this->mIndex += increment;
 
-    if (this->mIndex >= this->mMax)
+    if ((this->mIndex >= this->mMax) || (this->mIndex < 0))
     {
         this->mIndex = 0;
     }
