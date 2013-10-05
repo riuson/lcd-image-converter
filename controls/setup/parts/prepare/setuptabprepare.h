@@ -71,6 +71,7 @@ private slots:
     void updateState();
     void updateScript();
     void demoPixmapChanged(const QPixmap *pixmap);
+    void demoScriptError(const QString &value);
 };
 //-----------------------------------------------------------------------------
 #endif // SETUPTABPREPARE_H

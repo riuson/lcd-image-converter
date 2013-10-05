@@ -56,6 +56,7 @@ private:
 
 signals:
     void pixmapChanged(const QPixmap *pixmap);
+    void errorHandled(const QString &message);
 
 private slots:
     void timeout();

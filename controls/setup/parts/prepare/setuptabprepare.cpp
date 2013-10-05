@@ -38,6 +38,7 @@ SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     this->mPixmapScanPreview = QPixmap();
     this->mDemoGen = new DemoGenerator(this->mPreset, this);
     this->connect(this->mDemoGen, SIGNAL(pixmapChanged(const QPixmap*)), SLOT(demoPixmapChanged(const QPixmap*)));
+    this->connect(this->mDemoGen, SIGNAL(errorHandled(QString)), SLOT(demoScriptError(QString)));
 
     this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
     this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
@@ -367,5 +368,17 @@ void SetupTabPrepare::demoPixmapChanged(const QPixmap *pixmap)
     this->mPixmapScanPreview = QPixmap(*pixmap);
 
     this->ui->labelScanPreview->setPixmap(this->mPixmapScanPreview);
+    this->ui->labelScanPreview->show();
+
+    this->ui->labelErrorMessage->hide();
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::demoScriptError(const QString &value)
+{
+    this->ui->labelScanPreview->hide();
+    this->ui->labelScanPreview->setPixmap(QPixmap());
+
+    this->ui->labelErrorMessage->setText(value);
+    this->ui->labelErrorMessage->show();
 }
 //-----------------------------------------------------------------------------

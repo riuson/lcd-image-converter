@@ -129,7 +129,7 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
     }
 }
 //-----------------------------------------------------------------------------
-void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script)
+void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script, QString *resultError)
 {
     // scanning with qt script
     QScriptEngine engine;
@@ -138,6 +138,15 @@ void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script)
                                                 QScriptEngine::ExcludeSuperClassProperties | QScriptEngine::ExcludeSuperClassMethods);
     engine.globalObject().setProperty("image", imageValue);
     QScriptValue resultValue = engine.evaluate(script);
+    if (engine.hasUncaughtException())
+    {
+        int line = engine.uncaughtExceptionLineNumber();
+        *resultError = QString("Uncaught exception at line %1 : %2").arg(line).arg(resultValue.toString());
+    }
+    else
+    {
+        *resultError = QString();
+    }
     QString res = resultValue.toString();
     qDebug() << "Added " << convImage->pointsCount() << " point(s)";
 }

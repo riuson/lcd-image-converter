@@ -61,20 +61,31 @@ void DemoGenerator::setScript(const QString &value)
     convImage->setBandSize(this->mPreset->prepare()->bandWidth());
     convImage->setUseBands(this->mPreset->prepare()->bandScanning());
 
-    ConverterHelper::collectPoints(convImage, value);
-
-    // copy points
-    this->mMax = convImage->pointsCount();
-    this->mIndex = 0;
-    this->mPoints.clear();
-    for (int i = 0; i < this->mMax; i++)
+    QString errorMessage;
+    ConverterHelper::collectPoints(convImage, value, &errorMessage);
+    if (!errorMessage.isNull())
     {
-        this->mPoints.append(convImage->pointAt(i));
+        emit this->errorHandled(errorMessage);
     }
-    delete convImage;
+    else
+    {
+        // copy points
+        this->mMax = convImage->pointsCount();
+        this->mIndex = 0;
+        this->mPoints.clear();
+        if (this->mMax > 0)
+        {
+            for (int i = 0; i < this->mMax; i++)
+            {
+                this->mPoints.append(convImage->pointAt(i));
+            }
 
-    // start
-    this->startAnimation();
+            // start
+            this->startAnimation();
+        }
+    }
+
+    delete convImage;
 }
 //-----------------------------------------------------------------------------
 void DemoGenerator::startAnimation()
