@@ -66,6 +66,7 @@ private slots:
     void updateScript();
     void demoPixmapChanged(const QPixmap *pixmap);
     void demoScriptError(const QString &value);
+    void on_spinBoxAnimationTime_valueChanged(int value);
 };
 //-----------------------------------------------------------------------------
 #endif // SETUPTABPREPARE_H

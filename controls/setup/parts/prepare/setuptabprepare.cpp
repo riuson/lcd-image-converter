@@ -250,3 +250,8 @@ void SetupTabPrepare::demoScriptError(const QString &value)
     this->ui->labelErrorMessage->show();
 }
 //-----------------------------------------------------------------------------
+void SetupTabPrepare::on_spinBoxAnimationTime_valueChanged(int value)
+{
+    this->mDemoGen->setAnimationTime(value);
+}
+//-----------------------------------------------------------------------------

@@ -42,6 +42,9 @@ public:
     void startAnimation();
     void stopAnimation();
 
+    int animationTime() const;
+    void setAnimationTime(int value);
+
 private:
     Preset *mPreset;
     QString mScript;
@@ -52,7 +55,7 @@ private:
     QImage *mSourceImage;
     QPixmap *mProcessedImage;
     QTime mLastTick;
-    static const int AnimationTimeSeconds;
+    int mAnimationTimeSeconds;
 
 signals:
     void pixmapChanged(const QPixmap *pixmap);

@@ -28,8 +28,6 @@
 #include "convimage.h"
 #include "prepareoptions.h"
 //-----------------------------------------------------------------------------
-const int DemoGenerator::AnimationTimeSeconds = 60;
-//-----------------------------------------------------------------------------
 DemoGenerator::DemoGenerator(Preset *preset, QObject *parent) :
     QObject(parent)
 {
@@ -39,6 +37,7 @@ DemoGenerator::DemoGenerator(Preset *preset, QObject *parent) :
     this->mSourceImage = new QImage(":/demos/scanning_background");
     this->mProcessedImage = new QPixmap();
     this->mLastTick = QTime::currentTime();
+    this->mAnimationTimeSeconds = 60;
 }
 //-----------------------------------------------------------------------------
 DemoGenerator::~DemoGenerator()
@@ -98,11 +97,22 @@ void DemoGenerator::stopAnimation()
     this->mTimer->stop();
 }
 //-----------------------------------------------------------------------------
+int DemoGenerator::animationTime() const
+{
+    return this->mAnimationTimeSeconds;
+}
+//-----------------------------------------------------------------------------
+void DemoGenerator::setAnimationTime(int value)
+{
+    if (value > 1)
+        this->mAnimationTimeSeconds = value;
+}
+//-----------------------------------------------------------------------------
 void DemoGenerator::timeout()
 {
     QTime current = QTime::currentTime();
     int msecs = this->mLastTick.msecsTo(current); // milliseconds from last frame
-    int fps = this->mMax / DemoGenerator::AnimationTimeSeconds; // frames per second
+    int fps = this->mMax / this->mAnimationTimeSeconds; // frames per second
     int increment = msecs * fps / 1000;
 
     this->mIndex += increment;
