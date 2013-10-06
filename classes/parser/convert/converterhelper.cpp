@@ -27,7 +27,7 @@
 #include <QVector>
 #include <QScriptEngine>
 #include <QFile>
-#include <QDebug>
+#include <QTextStream>
 #include "bitstream.h"
 #include "bitmaphelper.h"
 #include "preset.h"
@@ -144,8 +144,6 @@ void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script,
     {
         *resultError = QString();
     }
-    QString res = resultValue.toString();
-    qDebug() << "Added " << convImage->pointsCount() << " point(s)";
 }
 //-----------------------------------------------------------------------------
 void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
