@@ -30,7 +30,7 @@ class ParsedImageData : public QObject
 {
     Q_OBJECT
 public:
-    explicit ParsedImageData(Preset *preset, const QImage *image, QObject *parent = 0);
+    explicit ParsedImageData(Preset *preset, const QImage *image, const Tags &tags, QObject *parent = 0);
     ~ParsedImageData();
 
     const Tags *tags() const;

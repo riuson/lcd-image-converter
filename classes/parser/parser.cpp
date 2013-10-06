@@ -87,7 +87,7 @@ QString Parser::convert(IDocument *document, Tags &tags) const
     tags.setTagValue(Tags::OutputDataEOL, suffix);
 
     QMap<QString, ParsedImageData *> images;
-    this->prepareImages(document, &images);
+    this->prepareImages(document, &images, tags);
 
     this->addMatrixInfo(tags);
 
@@ -403,7 +403,7 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
     tags.setTagValue(Tags::OutputImagesMaxBlocksCount, QString("%1").arg(maxBlocksCount));
 }
 //-----------------------------------------------------------------------------
-void Parser::prepareImages(IDocument *doc, QMap<QString, ParsedImageData *> *images) const
+void Parser::prepareImages(IDocument *doc, QMap<QString, ParsedImageData *> *images, const Tags &tags) const
 {
     DataContainer *data = doc->dataContainer();
     QListIterator<QString> it(data->keys());
@@ -414,7 +414,7 @@ void Parser::prepareImages(IDocument *doc, QMap<QString, ParsedImageData *> *ima
         const QString key = it.next();
         QImage image = QImage(*data->image(key));
 
-        ParsedImageData *data = new ParsedImageData(this->mPreset, &image);
+        ParsedImageData *data = new ParsedImageData(this->mPreset, &image, tags);
         images->insert(key, data);
     }
 }

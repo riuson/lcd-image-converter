@@ -26,7 +26,7 @@
 #include "preset.h"
 #include "imageoptions.h"
 //-----------------------------------------------------------------------------
-ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, QObject *parent) :
+ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags &tags, QObject *parent) :
     QObject(parent)
 {
     this->mTags = new Tags();
@@ -34,6 +34,9 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, QObject *p
     // width and height must be written before image changes
     this->mTags->setTagValue(Tags::OutputImageWidth, QString("%1").arg(image->width()));
     this->mTags->setTagValue(Tags::OutputImageHeight, QString("%1").arg(image->height()));
+    // parameters from external code
+    this->mTags->setTagValue(Tags::OutputDataEOL, tags.tagValue(Tags::OutputDataEOL));
+    this->mTags->setTagValue(Tags::OutputDataIndent, tags.tagValue(Tags::OutputDataIndent));
 
     QImage imagePrepared;
     ConverterHelper::prepareImage(preset, image, &imagePrepared);
