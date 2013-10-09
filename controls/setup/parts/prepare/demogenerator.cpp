@@ -89,7 +89,7 @@ void DemoGenerator::setScript(const QString &value)
 //-----------------------------------------------------------------------------
 void DemoGenerator::startAnimation()
 {
-    this->mTimer->start(50);
+    this->mTimer->start(100);
 }
 //-----------------------------------------------------------------------------
 void DemoGenerator::stopAnimation()
@@ -105,7 +105,21 @@ int DemoGenerator::animationTime() const
 void DemoGenerator::setAnimationTime(int value)
 {
     if (value > 1)
+    {
         this->mAnimationTimeSeconds = value;
+        if (value < 60)
+        {
+            this->mTimer->setInterval(50);
+        }
+        else if (value < 600)
+        {
+            this->mTimer->setInterval(200);
+        }
+        else
+        {
+            this->mTimer->setInterval(500);
+        }
+    }
 }
 //-----------------------------------------------------------------------------
 void DemoGenerator::timeout()
