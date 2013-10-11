@@ -113,7 +113,8 @@
     </property>
     <addaction name="actionWiki"/>
     <addaction name="actionUpdates"/>
-    <addaction name="actionAbout"/>
+    <addaction name="actionAboutQt"/>
+    <addaction name="actionAboutApp"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
@@ -279,7 +280,7 @@
     <string>Inverse</string>
    </property>
   </action>
-  <action name="actionAbout">
+  <action name="actionAboutApp">
    <property name="text">
     <string>About...</string>
    </property>
@@ -413,6 +414,11 @@
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionAboutQt">
+   <property name="text">
+    <string>About Qt...</string>
    </property>
   </action>
  </widget>
