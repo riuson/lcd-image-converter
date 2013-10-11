@@ -4,7 +4,7 @@
 OBJECTS_DIR         = .obj
 MOC_DIR             = .moc
 UI_DIR              = .uic
-QT += xml xmlpatterns network
+QT += xml xmlpatterns network script
 TARGET = lcd-image-converter
 TEMPLATE = app
 
@@ -44,6 +44,7 @@ SOURCES += main.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
     classes/parser/convert/converterhelper.cpp \
+    classes/parser/convert/convimage.cpp \
     classes/parser/convert/fonthelper.cpp \
     classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
@@ -61,6 +62,7 @@ SOURCES += main.cpp \
     classes/settings/presets/templateoptions.cpp \
     classes/settings/recentlist.cpp \
     classes/settings/resizesettings.cpp \
+    classes/settings/setupdialogoptions.cpp \
     classes/status/statusdata.cpp \
     classes/status/statusmanager.cpp \
     controls/about/dialogabout.cpp \
@@ -87,6 +89,7 @@ SOURCES += main.cpp \
     controls/setup/parts/matrix/matrixitemdelegate.cpp \
     controls/setup/parts/matrix/matrixpreviewmodel.cpp \
     controls/setup/parts/matrix/setuptabmatrix.cpp \
+    controls/setup/parts/prepare/demogenerator.cpp \
     controls/setup/parts/prepare/setuptabprepare.cpp \
     controls/setup/parts/reordering/reorderingitemdelegate.cpp \
     controls/setup/parts/reordering/reorderingpreviewmodel.cpp \
@@ -115,6 +118,7 @@ HEADERS += \
     classes/parser/convert/bitstream.h \
     classes/parser/convert/conversion_options.h \
     classes/parser/convert/converterhelper.h \
+    classes/parser/convert/convimage.h \
     classes/parser/convert/fonthelper.h \
     classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
@@ -132,6 +136,7 @@ HEADERS += \
     classes/settings/presets/templateoptions.h \
     classes/settings/recentlist.h \
     classes/settings/resizesettings.h \
+    classes/settings/setupdialogoptions.h \
     classes/status/statusdata.h \
     classes/status/statusmanager.h \
     controls/about/dialogabout.h \
@@ -158,6 +163,7 @@ HEADERS += \
     controls/setup/parts/matrix/matrixitemdelegate.h \
     controls/setup/parts/matrix/matrixpreviewmodel.h \
     controls/setup/parts/matrix/setuptabmatrix.h \
+    controls/setup/parts/prepare/demogenerator.h \
     controls/setup/parts/prepare/setuptabprepare.h \
     controls/setup/parts/reordering/reorderingitemdelegate.h \
     controls/setup/parts/reordering/reorderingpreviewmodel.h \
@@ -246,7 +252,24 @@ OTHER_FILES += \
     resources/history.xml \
     resources/history.xsl \
     resources/history.css \
-    resources/unicode_blocks.txt
+    resources/unicode_blocks.txt \
+    resources/script_top2bottom_forward.js \
+    resources/scan_scripts/scan_top2bottom_forward_band.js \
+    resources/scan_scripts/scan_top2bottom_forward.js \
+    resources/scan_scripts/scan_top2bottom_backward_band.js \
+    resources/scan_scripts/scan_top2bottom_backward.js \
+    resources/scan_scripts/scan_right2left_forward_band.js \
+    resources/scan_scripts/scan_right2left_forward.js \
+    resources/scan_scripts/scan_right2left_backward_band.js \
+    resources/scan_scripts/scan_right2left_backward.js \
+    resources/scan_scripts/scan_left2right_forward_band.js \
+    resources/scan_scripts/scan_left2right_forward.js \
+    resources/scan_scripts/scan_left2right_backward_band.js \
+    resources/scan_scripts/scan_left2right_backward.js \
+    resources/scan_scripts/scan_bottom2top_forward_band.js \
+    resources/scan_scripts/scan_bottom2top_forward.js \
+    resources/scan_scripts/scan_bottom2top_backward_band.js \
+    resources/scan_scripts/scan_bottom2top_backward.js
 
 
 # generate version info file on each build, because file in other directory

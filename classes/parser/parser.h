@@ -60,7 +60,7 @@ private:
     QString hexCode(const QString &key, const QString &encoding, bool bom) const;
     void addMatrixInfo(Tags &tags) const;
     void addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images) const;
-    void prepareImages(IDocument *doc, QMap<QString, ParsedImageData*> *images) const;
+    void prepareImages(IDocument *doc, QMap<QString, ParsedImageData*> *images, const Tags &tags) const;
 
     bool findNextTag(int startIndex, int *resultIndex, Tags);
     void imageParticles(const QString &templateString, QString *prefix, QString *suffix) const;

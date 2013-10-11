@@ -17,26 +17,55 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef PARSEDIMAGEDATA_H
-#define PARSEDIMAGEDATA_H
+#ifndef DEMOGENERATOR_H
+#define DEMOGENERATOR_H
 //-----------------------------------------------------------------------------
 #include <QObject>
+#include <QVector>
+#include <QPoint>
+#include <QTime>
 //-----------------------------------------------------------------------------
-class QImage;
-class Tags;
 class Preset;
+class QTimer;
+class QImage;
+class QPixmap;
 //-----------------------------------------------------------------------------
-class ParsedImageData : public QObject
+class DemoGenerator : public QObject
 {
     Q_OBJECT
 public:
-    explicit ParsedImageData(Preset *preset, const QImage *image, const Tags &tags, QObject *parent = 0);
-    ~ParsedImageData();
+    explicit DemoGenerator(Preset *preset, QObject *parent = 0);
+    virtual ~DemoGenerator();
 
-    const Tags *tags() const;
+    void setScript(const QString &value);
+
+    void startAnimation();
+    void stopAnimation();
+
+    int animationTime() const;
+    void setAnimationTime(int value);
+
+    int animationInterval() const;
+    void setAnimationInterval(int value);
 
 private:
-    Tags *mTags;
+    Preset *mPreset;
+    QString mScript;
+    QTimer *mTimer;
+    QVector<QPoint> mPoints;
+    int mMax;
+    int mIndex;
+    QImage *mSourceImage;
+    QPixmap *mProcessedImage;
+    QTime mLastTick;
+    int mAnimationTimeSeconds;
+
+signals:
+    void pixmapChanged(const QPixmap *pixmap);
+    void errorHandled(const QString &message);
+
+private slots:
+    void timeout();
 };
 //-----------------------------------------------------------------------------
-#endif // PARSEDIMAGEDATA_H
+#endif // DEMOGENERATOR_H

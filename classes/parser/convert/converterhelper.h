@@ -24,6 +24,7 @@
 //-----------------------------------------------------------------------------
 class QImage;
 class Preset;
+class ConvImage;
 //-----------------------------------------------------------------------------
 class ConverterHelper
 {
@@ -36,6 +37,7 @@ public:
             QVector<quint32> *data,
             int *width,
             int *height);
+    static void collectPoints(ConvImage *convImage, const QString &script, QString *resultError);
     // apply masks and bits reorder
     static void processPixels(Preset *matrix, QVector<quint32> *data);
     // pack data
@@ -63,6 +65,8 @@ public:
 
     static QString dataToString(Preset *matrix,
             QVector<quint32> *data, int width, int height);
+
+    static QString scanScript(Preset *preset);
 private:
     static void makeMonochrome(QImage &image, int edge);
     // make r = g = b = qGray(pixel)

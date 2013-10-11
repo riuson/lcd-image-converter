@@ -15,8 +15,7 @@
         <file alias="ru">lcd-image-converter-ru.qm</file>
     </qresource>
     <qresource prefix="/demos">
-        <file alias="scanning">demos/scanning.png</file>
-        <file alias="scanning_band">demos/scanning_band.png</file>
+        <file alias="scanning_background">demos/scanning_background.png</file>
     </qresource>
     <qresource prefix="/history">
         <file alias="changes">history.xml</file>
@@ -25,5 +24,23 @@
     </qresource>
     <qresource prefix="/font">
         <file alias="unicode-blocks">unicode_blocks.txt</file>
+    </qresource>
+    <qresource prefix="/scan_scripts">
+        <file alias="b2t_b">scan_scripts/scan_bottom2top_backward.js</file>
+        <file alias="b2t_b_b">scan_scripts/scan_bottom2top_backward_band.js</file>
+        <file alias="b2t_f">scan_scripts/scan_bottom2top_forward.js</file>
+        <file alias="b2t_f_b">scan_scripts/scan_bottom2top_forward_band.js</file>
+        <file alias="l2r_b">scan_scripts/scan_left2right_backward.js</file>
+        <file alias="l2r_b_b">scan_scripts/scan_left2right_backward_band.js</file>
+        <file alias="l2r_f">scan_scripts/scan_left2right_forward.js</file>
+        <file alias="l2r_f_b">scan_scripts/scan_left2right_forward_band.js</file>
+        <file alias="r2l_b">scan_scripts/scan_right2left_backward.js</file>
+        <file alias="r2l_b_b">scan_scripts/scan_right2left_backward_band.js</file>
+        <file alias="r2l_f">scan_scripts/scan_right2left_forward.js</file>
+        <file alias="r2l_f_b">scan_scripts/scan_right2left_forward_band.js</file>
+        <file alias="t2b_b">scan_scripts/scan_top2bottom_backward.js</file>
+        <file alias="t2b_b_b">scan_scripts/scan_top2bottom_backward_band.js</file>
+        <file alias="t2b_f">scan_scripts/scan_top2bottom_forward.js</file>
+        <file alias="t2b_f_b">scan_scripts/scan_top2bottom_forward_band.js</file>
     </qresource>
 </RCC>

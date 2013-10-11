@@ -42,6 +42,8 @@ public:
     bool inverse() const;
     bool bandScanning() const;
     int bandWidth() const;
+    bool useCustomScript() const;
+    QString customScript() const;
 
     void setConvType(ConversionType value);
     void setMonoType(MonochromeType value);
@@ -51,6 +53,8 @@ public:
     void setInverse(bool value);
     void setBandScanning(bool value);
     void setBandWidth(int value);
+    void setUseCustomScript(bool value);
+    void setCustomScript(const QString &value);
 
     const QString & convTypeName() const;
     const QString & monoTypeName() const;
@@ -72,6 +76,8 @@ private:
     bool mInverse;
     bool mBandScanning;
     int mBandWidth;
+    bool mUseCustomScript;
+    QString mCustomScript;
 
 signals:
     void changed();

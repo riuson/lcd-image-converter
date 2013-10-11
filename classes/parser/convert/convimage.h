@@ -17,26 +17,47 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef PARSEDIMAGEDATA_H
-#define PARSEDIMAGEDATA_H
+#ifndef CONVIMAGE_H
+#define CONVIMAGE_H
 //-----------------------------------------------------------------------------
 #include <QObject>
+#include <QVector>
+#include <QPoint>
 //-----------------------------------------------------------------------------
 class QImage;
-class Tags;
-class Preset;
 //-----------------------------------------------------------------------------
-class ParsedImageData : public QObject
+class ConvImage : public QObject
 {
     Q_OBJECT
 public:
-    explicit ParsedImageData(Preset *preset, const QImage *image, const Tags &tags, QObject *parent = 0);
-    ~ParsedImageData();
+    explicit ConvImage(const QImage *image, QObject *parent = 0);
+    virtual ~ConvImage();
 
-    const Tags *tags() const;
+    Q_PROPERTY(int height READ height)
+    Q_PROPERTY(int width READ width)
+    Q_PROPERTY(int bandSize READ bandSize)
+    Q_PROPERTY(bool useBands READ useBands)
+
+    int bandSize() const;
+    void setBandSize(int value);
+
+    bool useBands() const;
+    void setUseBands(bool value);
+
+    Q_INVOKABLE void addPoint(int x, int y);
+    Q_INVOKABLE void clearPoints();
+
+    QPoint pointAt(int index) const;
+    int pointsCount() const;
 
 private:
-    Tags *mTags;
+    const QImage *mImage;
+    int mBandSize;
+    bool mUseBands;
+    QVector<QPoint> mPoints;
+
+    int height() const;
+    int width() const;
 };
 //-----------------------------------------------------------------------------
-#endif // PARSEDIMAGEDATA_H
+#endif // CONVIMAGE_H
