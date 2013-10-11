@@ -46,36 +46,39 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags
     int sourceWidth, sourceHeight;
     ConverterHelper::pixelsData(preset, &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
 
-    ConverterHelper::processPixels(preset, &sourceData);
+    if (sourceData.size() > 0)
+    {
+        ConverterHelper::processPixels(preset, &sourceData);
 
-    QVector<quint32> packedData;
-    int packedWidth, packedHeight;
-    ConverterHelper::packData(
-                preset,
-                &sourceData, sourceWidth, sourceHeight,
-                &packedData, &packedWidth, &packedHeight);
+        QVector<quint32> packedData;
+        int packedWidth, packedHeight;
+        ConverterHelper::packData(
+                    preset,
+                    &sourceData, sourceWidth, sourceHeight,
+                    &packedData, &packedWidth, &packedHeight);
 
-    QVector<quint32> reorderedData;
-    int reorderedWidth, reorderedHeight;
-    ConverterHelper::reorder(
-                preset,
-                &packedData, packedWidth, packedHeight,
-                &reorderedData, &reorderedWidth, &reorderedHeight);
+        QVector<quint32> reorderedData;
+        int reorderedWidth, reorderedHeight;
+        ConverterHelper::reorder(
+                    preset,
+                    &packedData, packedWidth, packedHeight,
+                    &reorderedData, &reorderedWidth, &reorderedHeight);
 
-    QVector<quint32> compressedData;
-    int compressedWidth, compressedHeight;
-    ConverterHelper::compressData(preset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
+        QVector<quint32> compressedData;
+        int compressedWidth, compressedHeight;
+        ConverterHelper::compressData(preset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
 
-    this->mTags->setTagValue(Tags::OutputBlocksCount, QString("%1").arg(compressedData.size()));
+        this->mTags->setTagValue(Tags::OutputBlocksCount, QString("%1").arg(compressedData.size()));
 
-    QString dataString = ConverterHelper::dataToString(
-                preset,
-                &compressedData, compressedWidth, compressedHeight);
-    dataString.replace("\n", this->mTags->tagValue(Tags::OutputDataEOL) + this->mTags->tagValue(Tags::OutputDataIndent));
+        QString dataString = ConverterHelper::dataToString(
+                    preset,
+                    &compressedData, compressedWidth, compressedHeight);
+        dataString.replace("\n", this->mTags->tagValue(Tags::OutputDataEOL) + this->mTags->tagValue(Tags::OutputDataIndent));
 
-    // end of conversion
+        // end of conversion
 
-    this->mTags->setTagValue(Tags::OutputImageData, dataString);
+        this->mTags->setTagValue(Tags::OutputImageData, dataString);
+    }
 }
 //-----------------------------------------------------------------------------
 ParsedImageData::~ParsedImageData()
