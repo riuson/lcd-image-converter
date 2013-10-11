@@ -225,6 +225,22 @@
         </widget>
        </item>
        <item>
+        <widget class="QSpinBox" name="spinBoxAnimationInterval">
+         <property name="suffix">
+          <string> msec.</string>
+         </property>
+         <property name="prefix">
+          <string>Interval: </string>
+         </property>
+         <property name="minimum">
+          <number>50</number>
+         </property>
+         <property name="maximum">
+          <number>2000</number>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>

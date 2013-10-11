@@ -45,6 +45,9 @@ public:
     int animationTime() const;
     void setAnimationTime(int value);
 
+    int animationInterval() const;
+    void setAnimationInterval(int value);
+
 private:
     Preset *mPreset;
     QString mScript;

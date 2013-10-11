@@ -27,6 +27,7 @@
 #include "bitmaphelper.h"
 #include "converterhelper.h"
 #include "demogenerator.h"
+#include "setupdialogoptions.h"
 //-----------------------------------------------------------------------------
 SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     QWidget(parent),
@@ -56,6 +57,9 @@ SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
 
     this->ui->comboBoxScanSub->addItem(tr("Forward"), QVariant(Forward));
     this->ui->comboBoxScanSub->addItem(tr("Backward"), QVariant(Backward));
+
+    this->ui->spinBoxAnimationTime->setValue(SetupDialogOptions::animationTotalTime());
+    this->ui->spinBoxAnimationInterval->setValue(SetupDialogOptions::animationInterval());
 
     this->matrixChanged();
 }
@@ -253,5 +257,12 @@ void SetupTabPrepare::demoScriptError(const QString &value)
 void SetupTabPrepare::on_spinBoxAnimationTime_valueChanged(int value)
 {
     this->mDemoGen->setAnimationTime(value);
+    SetupDialogOptions::setAnimationTime(value);
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::on_spinBoxAnimationInterval_valueChanged(int value)
+{
+    this->mDemoGen->setAnimationInterval(value);
+    SetupDialogOptions::setAnimationInterval(value);
 }
 //-----------------------------------------------------------------------------
