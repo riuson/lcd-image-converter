@@ -62,6 +62,7 @@ SOURCES += main.cpp \
     classes/settings/presets/templateoptions.cpp \
     classes/settings/recentlist.cpp \
     classes/settings/resizesettings.cpp \
+    classes/settings/setupdialogoptions.cpp \
     classes/status/statusdata.cpp \
     classes/status/statusmanager.cpp \
     controls/about/dialogabout.cpp \
@@ -135,6 +136,7 @@ HEADERS += \
     classes/settings/presets/templateoptions.h \
     classes/settings/recentlist.h \
     classes/settings/resizesettings.h \
+    classes/settings/setupdialogoptions.h \
     classes/status/statusdata.h \
     classes/status/statusmanager.h \
     controls/about/dialogabout.h \
