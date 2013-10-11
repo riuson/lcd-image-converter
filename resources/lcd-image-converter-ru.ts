@@ -1165,8 +1165,15 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="211"/>
-        <source> sec.</source>
-        <translation> сек.</translation>
+        <source> s</source>
+        <translatorcomment>секунда</translatorcomment>
+        <translation> с</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="230"/>
+        <source> ms</source>
+        <translatorcomment>миллисекунда</translatorcomment>
+        <translation> мс</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="214"/>
@@ -1174,72 +1181,77 @@ Qt: %3</translation>
         <translation>Время: </translation>
     </message>
     <message>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="233"/>
+        <source>Interval: </source>
+        <translation>Интервал: </translation>
+    </message>
+    <message>
         <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="79"/>
         <source>Inverse</source>
         <translation>Инвертировать</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="43"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="44"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="44"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="45"/>
         <source>Grayscale</source>
         <translation>Градации серого</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="45"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="46"/>
         <source>Color</source>
         <translation>Цветное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="47"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="48"/>
         <source>Edge</source>
         <translation>Порог</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="48"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="49"/>
         <source>Diffuse Dither</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="49"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="50"/>
         <source>Ordered Dither</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="50"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="51"/>
         <source>Threshold Dither</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="52"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="53"/>
         <source>Top to Bottom</source>
         <translation>Сверху вниз</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="53"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="54"/>
         <source>Bottom to Top</source>
         <translation>Снизу вверх</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="54"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="55"/>
         <source>Left to Right</source>
         <translation>Слева направо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="55"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="56"/>
         <source>Right to Left</source>
         <translation>Справа налево</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="57"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="58"/>
         <source>Forward</source>
         <translation>Прямое</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="58"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="59"/>
         <source>Backward</source>
         <translation>Обратное</translation>
     </message>

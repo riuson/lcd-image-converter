@@ -208,7 +208,7 @@
        <item>
         <widget class="QSpinBox" name="spinBoxAnimationTime">
          <property name="suffix">
-          <string> sec.</string>
+          <string> s</string>
          </property>
          <property name="prefix">
           <string>Time: </string>
@@ -227,7 +227,7 @@
        <item>
         <widget class="QSpinBox" name="spinBoxAnimationInterval">
          <property name="suffix">
-          <string> msec.</string>
+          <string> ms</string>
          </property>
          <property name="prefix">
           <string>Interval: </string>
