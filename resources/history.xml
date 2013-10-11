@@ -18,7 +18,8 @@ Added:
  Optional value of trailing bits;
  Custom prefix, suffix and delimiter for data blocks;
  Copy & Paste operations;
- Alpha-channel support.</description>
+ Alpha-channel support;
+ User-defined script to specify pixel's scan order.</description>
     </record>
     <record>
         <commit>
