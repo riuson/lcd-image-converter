@@ -390,7 +390,7 @@ Qt: %3</translation>
         <translation>Добавить диапазон...</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="243"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="244"/>
         <source>Real height: %1</source>
         <translation>Высота: %1</translation>
     </message>
