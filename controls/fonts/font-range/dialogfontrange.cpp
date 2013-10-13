@@ -53,21 +53,28 @@ void DialogFontRange::updatePreview(const QString &encoding, int from, int to, b
 
     for (int i = from; i <= to; ++i)
     {
-        QByteArray array;
-
         int code = i;
-        while (code != 0)
+        if (code > 0)
         {
-            if (bigEndian)
-                array.insert(0, (char)(code & 0xff));
-            else
-                array.append((char)(code & 0xff));
+            QByteArray array;
 
-            code = code >> 8;
+            while (code != 0)
+            {
+                if (bigEndian)
+                    array.insert(0, (char)(code & 0xff));
+                else
+                    array.append((char)(code & 0xff));
+
+                code = code >> 8;
+            }
+
+            QString str = codec->toUnicode(array);
+            result += str;
         }
-
-        QString str = codec->toUnicode(array);
-        result += str;
+        else
+        {
+            result += QChar(QChar::Null);
+        }
     }
 
     this->ui->plainTextEditPreview->setPlainText(result);
