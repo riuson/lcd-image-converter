@@ -1,4 +1,4 @@
-QT       += testlib
+QT       += testlib script
 #QT       -= gui
 
 OBJECTS_DIR         = .obj
@@ -37,7 +37,8 @@ SOURCES += maintest.cpp \
     ../classes/compression/rlecompressor.cpp \
     parts/testrle.cpp \
     ../classes/settings/presets/reorderingoptions.cpp \
-    parts/testreorderingoptions.cpp
+    parts/testreorderingoptions.cpp \
+    ../classes/parser/convert/convimage.cpp
 
 HEADERS += \
     parts/testbitmaphelper.h \
@@ -62,7 +63,8 @@ HEADERS += \
     ../classes/compression/rlecompressor.h \
     parts/testrle.h \
     ../classes/settings/presets/reorderingoptions.h \
-    parts/testreorderingoptions.h
+    parts/testreorderingoptions.h \
+    ../classes/parser/convert/convimage.h
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
