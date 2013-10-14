@@ -2,6 +2,7 @@
 #include "ui_dialogfontrange.h"
 //-----------------------------------------------------------------------------
 #include "fontoptions.h"
+#include "fonthelper.h"
 #include <QTextCodec>
 //-----------------------------------------------------------------------------
 DialogFontRange::DialogFontRange(QWidget *parent) :
@@ -77,11 +78,11 @@ void DialogFontRange::updatePreview(const QString &encoding, int from, int to, b
         }
     }
 
-    this->ui->plainTextEditPreview->setPlainText(result);
+    this->ui->plainTextEditPreview->setPlainText(FontHelper::escapeControlChars(result));
 }
 //-----------------------------------------------------------------------------
 void DialogFontRange::on_plainTextEditPreview_textChanged()
 {
-    this->mResultString = this->ui->plainTextEditPreview->toPlainText();
+    this->mResultString = FontHelper::unescapeControlChars(this->ui->plainTextEditPreview->toPlainText());
 }
 //-----------------------------------------------------------------------------

@@ -86,6 +86,10 @@ QString FontHelper::escapeControlChars(const QString &value)
         {
             result.append(QString("\\x0040"));
         }
+        else if (c == QChar(QChar::Nbsp))
+        {
+            result.append(QString("\\x00a0"));
+        }
         else
         {
             result.append(c);
