@@ -78,6 +78,10 @@ void DialogFontRange::updatePreview(const QString &encoding, int from, int to, b
     }
 
     this->ui->plainTextEditPreview->setPlainText(result);
-    this->mResultString = result;
+}
+//-----------------------------------------------------------------------------
+void DialogFontRange::on_plainTextEditPreview_textChanged()
+{
+    this->mResultString = this->ui->plainTextEditPreview->toPlainText();
 }
 //-----------------------------------------------------------------------------
