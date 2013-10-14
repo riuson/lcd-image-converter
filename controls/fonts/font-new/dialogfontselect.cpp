@@ -25,6 +25,7 @@
 #include "unicodeblocksmodel.h"
 #include "unicodeblocksfiltermodel.h"
 #include "dialogfontrange.h"
+#include "fonthelper.h"
 //-----------------------------------------------------------------------------
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
     QDialog(parent),
@@ -52,7 +53,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     {
         defChars += QString(QChar(i));
     }
-    this->ui->lineEdit->setText(defChars);
+    this->setEditorText(defChars);
 
     this->mFontFamily = this->ui->fontComboBox->currentFont().family();
     this->updateStyles();
@@ -165,7 +166,7 @@ void DialogFontSelect::setAntialising(bool value)
 void DialogFontSelect::setCharacters(const QString &value)
 {
     this->mCharacters = value;
-    this->ui->lineEdit->setText(value);
+    this->setEditorText(value);
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::updateFont()
@@ -273,6 +274,16 @@ QString DialogFontSelect::injectCharacters(const QString &original, const QStrin
     return result;
 }
 //-----------------------------------------------------------------------------
+QString DialogFontSelect::editorText()
+{
+    return FontHelper::unescapeControlChars(this->ui->lineEdit->text());
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::setEditorText(const QString &value)
+{
+    this->ui->lineEdit->setText(FontHelper::escapeControlChars(value));
+}
+//-----------------------------------------------------------------------------
 void DialogFontSelect::on_fontComboBox_currentFontChanged(const QFont &font)
 {
     this->mFontFamily = font.family();
@@ -319,16 +330,16 @@ void DialogFontSelect::on_checkBoxAntialiasing_toggled(bool value)
     this->mAntialiasing = value;
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::on_lineEdit_textChanged(const QString &value)
+void DialogFontSelect::on_lineEdit_textChanged()
 {
-    this->mCharacters = value;
+    this->mCharacters = this->editorText();
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_tableView_doubleClicked(const QModelIndex &index)
 {
-    QString str = this->ui->lineEdit->text();
+    QString str = this->editorText();
     QString a = this->mModel->data(index, Qt::DisplayRole).toString();
-    this->ui->lineEdit->setText(str + a);
+    this->setEditorText(str + a);
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_pushButtonAppendSelected_clicked()
@@ -346,9 +357,9 @@ void DialogFontSelect::on_pushButtonAppendSelected_clicked()
         }
     }
 
-    QString original = this->ui->lineEdit->text();
+    QString original = this->editorText();
     QString result = this->injectCharacters(original, selected);
-    this->ui->lineEdit->setText(result);
+    this->setEditorText(result);
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_pushButtonAppendRange_clicked()
@@ -357,9 +368,9 @@ void DialogFontSelect::on_pushButtonAppendRange_clicked()
     if (dialog.exec() == QDialog::Accepted)
     {
         QString selected = dialog.resultString();
-        QString original = this->ui->lineEdit->text();
+        QString original = this->editorText();
         QString result = this->injectCharacters(original, selected);
-        this->ui->lineEdit->setText(result);
+        this->setEditorText(result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -368,7 +379,7 @@ void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QI
     Q_UNUSED(selected);
     Q_UNUSED(deselected);
 
-    QString str = this->ui->lineEdit->text();
+    QString str = this->editorText();
     QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
     bool hasNew = false;
     if (selectionModel->hasSelection())

@@ -24,6 +24,7 @@ private:
 private slots:
     void updatePreview();
     void updatePreview(const QString &encoding, int from, int to, bool bigEndian);
+    void on_plainTextEditPreview_textChanged();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGFONTRANGE_H

@@ -71,6 +71,9 @@ private:
 
     void applyFont();
     QString injectCharacters(const QString &original, const QString &value);
+    QString editorText();
+    void setEditorText(const QString &value);
+
 private slots:
     void on_fontComboBox_currentFontChanged(const QFont &font);
     void on_comboBoxSize_currentIndexChanged(const QString &text);
@@ -78,7 +81,7 @@ private slots:
     void on_comboBoxStyle_currentIndexChanged(const QString &text);
     void on_radioButtonProportional_toggled(bool value);
     void on_checkBoxAntialiasing_toggled(bool value);
-    void on_lineEdit_textChanged(const QString &value);
+    void on_lineEdit_textChanged();
     void on_tableView_doubleClicked(const QModelIndex &index);
     void on_pushButtonAppendSelected_clicked();
     void on_pushButtonAppendRange_clicked();

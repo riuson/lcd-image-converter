@@ -21,6 +21,7 @@
 //-----------------------------------------------------------------------------
 #include <QPixmap>
 #include <QPainter>
+#include <QRegExp>
 #include "datacontainer.h"
 //-----------------------------------------------------------------------------
 FontHelper::FontHelper(QObject *parent) :
@@ -79,11 +80,15 @@ QString FontHelper::escapeControlChars(const QString &value)
         if (c.isNull() || !c.isPrint())
         {
             quint16 code = c.unicode();
-            result.append(QString("x%1").arg(code, 4, 16, QChar('0')));
+            result.append(QString("\\x%1").arg(code, 4, 16, QChar('0')));
         }
         else if (c == QChar('@'))
         {
-            result.append(QString("(a)"));
+            result.append(QString("\\x0040"));
+        }
+        else if (c == QChar(QChar::Nbsp))
+        {
+            result.append(QString("\\x00a0"));
         }
         else
         {
@@ -91,6 +96,29 @@ QString FontHelper::escapeControlChars(const QString &value)
         }
     }
 
+    return result;
+}
+//-----------------------------------------------------------------------------
+QString FontHelper::unescapeControlChars(const QString &value)
+{
+    QRegExp reg("\\\\x([abcdef\\d]{4})", Qt::CaseInsensitive);
+    QString result = value;
+    int index = -1;
+    do
+    {
+        if ((index = result.indexOf(reg)) >= 0)
+        {
+            QString cap0 = reg.cap(0);
+            QString cap1 = reg.cap(1);
+            bool ok;
+            int code = cap1.toInt(&ok, 16);
+            if (ok)
+            {
+                result = result.replace(cap0, QString(QChar(code)));
+            }
+        }
+
+    } while(index >= 0);
     return result;
 }
 //-----------------------------------------------------------------------------
