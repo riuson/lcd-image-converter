@@ -71,44 +71,44 @@ void ActionFontHandlers::fontChange_triggered()
             monospaced = dialog.monospaced();
             antialiasing = dialog.antialiasing();
 
-            this->document()->beginChanges();
+            this->editor()->document()->beginChanges();
 
             etf->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
 
-            this->document()->endChanges();
+            this->editor()->document()->endChanges();
         }
     }
 }
 //-----------------------------------------------------------------------------
 void ActionFontHandlers::fontInverse_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->beginChanges();;
+        this->editor()->document()->beginChanges();;
 
-        QStringList keys = this->document()->dataContainer()->keys();
+        QStringList keys = this->editor()->document()->dataContainer()->keys();
         QListIterator<QString> it(keys);
         it.toFront();
         while (it.hasNext())
         {
             QString key = it.next();
-            const QImage *original = this->document()->dataContainer()->image(key);
+            const QImage *original = this->editor()->document()->dataContainer()->image(key);
             QImage result(*original);
             result.invertPixels();
-            this->document()->dataContainer()->setImage(key, &result);
+            this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->document()->endChanges();
+        this->editor()->document()->endChanges();
     }
 }
 //-----------------------------------------------------------------------------
 void ActionFontHandlers::fontResize_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        QStringList keys = this->document()->dataContainer()->keys();
+        QStringList keys = this->editor()->document()->dataContainer()->keys();
 
-        DialogCanvasResize dialog(this->document()->dataContainer(), this->mMainWindow->parentWidget());
+        DialogCanvasResize dialog(this->editor()->document()->dataContainer(), this->mMainWindow->parentWidget());
         dialog.selectKeys(keys);
 
         if (dialog.exec() == QDialog::Accepted)
@@ -118,19 +118,19 @@ void ActionFontHandlers::fontResize_triggered()
 
             if (left != 0 || top != 0 || right != 0 || bottom != 0)
             {
-                this->document()->beginChanges();
+                this->editor()->document()->beginChanges();
 
                 QStringListIterator iterator(keys);
                 while (iterator.hasNext())
                 {
                     QString key = iterator.next();
 
-                    const QImage *original = this->document()->dataContainer()->image(key);
+                    const QImage *original = this->editor()->document()->dataContainer()->image(key);
                     QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapEditorOptions::color2());
-                    this->document()->dataContainer()->setImage(key, &result);
+                    this->editor()->document()->dataContainer()->setImage(key, &result);
                 }
 
-                this->document()->endChanges();
+                this->editor()->document()->endChanges();
             }
         }
     }
@@ -138,9 +138,10 @@ void ActionFontHandlers::fontResize_triggered()
 //-----------------------------------------------------------------------------
 void ActionFontHandlers::fontMinimizeHeight_triggered()
 {
-    IDocument *doc = this->document();
-    if (doc != NULL)
+    if (this->editor() != NULL)
     {
+        IDocument *doc = this->editor()->document();
+
         int left = std::numeric_limits<int>::max();
         int top = std::numeric_limits<int>::max();
         int right = 0;
@@ -164,7 +165,7 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
             bottom = qMin(bottom, b);
         }
 
-        DialogCanvasResize dialog(this->document()->dataContainer(), this->mMainWindow->parentWidget());
+        DialogCanvasResize dialog(doc->dataContainer(), this->mMainWindow->parentWidget());
         dialog.selectKeys(keys);
         dialog.setResizeInfo(-left, -top, -right, -bottom);
         if (dialog.exec() == QDialog::Accepted)
@@ -173,19 +174,19 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
 
             if (left != 0 || top != 0 || right != 0 || bottom != 0)
             {
-                this->document()->beginChanges();
+                doc->beginChanges();
 
                 QStringListIterator iterator(keys);
                 while (iterator.hasNext())
                 {
                     QString key = iterator.next();
 
-                    const QImage *original = this->document()->dataContainer()->image(key);
+                    const QImage *original = doc->dataContainer()->image(key);
                     QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapEditorOptions::color2());
-                    this->document()->dataContainer()->setImage(key, &result);
+                    doc->dataContainer()->setImage(key, &result);
                 }
 
-                this->document()->endChanges();
+                doc->endChanges();
             }
         }
     }
@@ -193,10 +194,10 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
 //-----------------------------------------------------------------------------
 void ActionFontHandlers::fontPreview_triggered()
 {
-    IDocument *doc = this->mMainWindow->currentDocument();
-    if (doc != NULL)
+    IEditor *editor = this->editor();
+    if (editor != NULL)
     {
-        IDocument *doc = this->mMainWindow->currentDocument();
+        IDocument *doc = editor->document();
 
         DialogFontPreview dialog(this->mMainWindow->parentWidget());
         dialog.setDocument(doc);
@@ -207,15 +208,15 @@ void ActionFontHandlers::fontPreview_triggered()
 //-----------------------------------------------------------------------------
 void ActionFontHandlers::fontToImage_triggered()
 {
-    EditorTabFont *editor = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab());
+    IEditor *editor = this->editor();
     if (editor != NULL)
     {
-        QStringList keys = this->document()->selectedKeys();
+        QStringList keys = editor->selectedKeys();
         qSort(keys);
         QString characters = keys.join("");
-        QImage image = FontHelper::drawString(editor->dataContainer(), characters);
+        QImage image = FontHelper::drawString(editor->document()->dataContainer(), characters);
 
-        emit this->imageCreated(&image, "image_" + editor->documentName());
+        emit this->imageCreated(&image, "image_" + editor->document()->documentName());
     }
 }
 //-----------------------------------------------------------------------------

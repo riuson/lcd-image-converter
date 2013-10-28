@@ -42,6 +42,21 @@ void TestImageOptions::blockSize()
     QCOMPARE(this->mOptions->blockSize(), Data32);
 }
 //-----------------------------------------------------------------------------
+void TestImageOptions::blockDefaultOnes()
+{
+    // 1
+    this->mOptions->setBlockDefaultOnes(false);
+    QCOMPARE(this->mOptions->blockDefaultOnes(), false);
+
+    // 2
+    this->mOptions->setBlockDefaultOnes(true);
+    QCOMPARE(this->mOptions->blockDefaultOnes(), true);
+
+    // 3
+    this->mOptions->setBlockDefaultOnes(false);
+    QCOMPARE(this->mOptions->blockDefaultOnes(), false);
+}
+//-----------------------------------------------------------------------------
 void TestImageOptions::splitToRows()
 {
     // 1
@@ -62,6 +77,51 @@ void TestImageOptions::compressionRle()
     // 2
     this->mOptions->setCompressionRle(true);
     QCOMPARE(this->mOptions->compressionRle(), true);
+}
+//-----------------------------------------------------------------------------
+void TestImageOptions::blockPrefix()
+{
+    // 1
+    this->mOptions->setBlockPrefix("prefix1");
+    QCOMPARE(this->mOptions->blockPrefix(), QString("prefix1"));
+
+    // 2
+    this->mOptions->setBlockPrefix("prefix2");
+    QCOMPARE(this->mOptions->blockPrefix(), QString("prefix2"));
+
+    // 3
+    this->mOptions->setBlockPrefix("prefix3");
+    QCOMPARE(this->mOptions->blockPrefix(), QString("prefix3"));
+}
+//-----------------------------------------------------------------------------
+void TestImageOptions::blockSuffix()
+{
+    // 1
+    this->mOptions->setBlockSuffix("suffix1");
+    QCOMPARE(this->mOptions->blockSuffix(), QString("suffix1"));
+
+    // 2
+    this->mOptions->setBlockSuffix("suffix2");
+    QCOMPARE(this->mOptions->blockSuffix(), QString("suffix2"));
+
+    // 3
+    this->mOptions->setBlockSuffix("suffix3");
+    QCOMPARE(this->mOptions->blockSuffix(), QString("suffix3"));
+}
+//-----------------------------------------------------------------------------
+void TestImageOptions::blockDelimiter()
+{
+    // 1
+    this->mOptions->setBlockDelimiter("delimiter3");
+    QCOMPARE(this->mOptions->blockDelimiter(), QString("delimiter3"));
+
+    // 2
+    this->mOptions->setBlockDelimiter("delimiter3");
+    QCOMPARE(this->mOptions->blockDelimiter(), QString("delimiter3"));
+
+    // 3
+    this->mOptions->setBlockDelimiter("delimiter3");
+    QCOMPARE(this->mOptions->blockDelimiter(), QString("delimiter3"));
 }
 //-----------------------------------------------------------------------------
 void TestImageOptions::cleanupTestCase()

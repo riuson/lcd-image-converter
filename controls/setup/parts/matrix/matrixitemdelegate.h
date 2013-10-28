@@ -21,6 +21,10 @@
 #define MATRIXITEMDELEGATE_H
 //-----------------------------------------------------------------------------
 #include <QtGui>
+
+#ifdef USED_QT5
+#include <QtWidgets>
+#endif
 //-----------------------------------------------------------------------------
 class MatrixItemDelegate : public QItemDelegate
 {

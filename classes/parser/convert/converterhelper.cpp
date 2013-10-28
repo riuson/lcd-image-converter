@@ -25,6 +25,9 @@
 #include <QPainter>
 #include <QRegExp>
 #include <QVector>
+#include <QScriptEngine>
+#include <QFile>
+#include <QTextStream>
 #include "bitstream.h"
 #include "bitmaphelper.h"
 #include "preset.h"
@@ -33,6 +36,7 @@
 #include "reorderingoptions.h"
 #include "imageoptions.h"
 #include "rlecompressor.h"
+#include "convimage.h"
 //-----------------------------------------------------------------------------
 void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32> *data, int *width, int *height)
 {
@@ -73,53 +77,72 @@ void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32>
             ConverterHelper::makeGrayscale(im);
         }
 
-        if (preset->prepare()->bandScanning())
         {
-            const int bandSize = preset->prepare()->bandWidth();
+            QString script = ConverterHelper::scanScript(preset);
 
-            int bandX = 0;
+            ConvImage *convImage = new ConvImage(&im);
+            convImage->setBandSize(preset->prepare()->bandWidth());
+            convImage->setUseBands(preset->prepare()->bandScanning());
 
-            do
+            QString errorMessage;
+            ConverterHelper::collectPoints(convImage, script, &errorMessage);
+
+            if (convImage->pointsCount() > 0)
             {
-                for (int y = 0; y < im.height(); y++)
+                for (int i = 0; i < convImage->pointsCount(); i++)
                 {
-                    for (int x = 0; x < bandSize; x++)
+                    QPoint point = convImage->pointAt(i);
+                    if (point.x() >= 0 && point.y() >= 0 && point.x() < im.width() && point.y() < im.height())
                     {
-                        if (bandX + x < im.width())
-                        {
-                            // typedef QRgb
-                            // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
-                            QRgb pixel = im.pixel(bandX + x, y);
-                            quint32 value = pixel & 0x00ffffff;
-                            data->append(value);
-                        }
-                        else
-                        {
-                            data->append(0x00000000);
-                        }
+                        QRgb pixel = im.pixel(point.x(), point.y());
+                        quint32 value = (quint32)pixel;
+                        data->append(value);
+                    }
+                    else
+                    {
+                        data->append(0x00000000);
                     }
                 }
 
-                bandX += bandSize;
-            } while (bandX < im.width());
-
-            // set new width
-            *width = bandX;
-        }
-        else
-        {
-            for (int y = 0; y < im.height(); y++)
-            {
-                for (int x = 0; x < im.width(); x++)
+                if (preset->prepare()->bandScanning())
                 {
-                    // typedef QRgb
-                    // An ARGB quadruplet on the format #AARRGGBB, equivalent to an unsigned int.
-                    QRgb pixel = im.pixel(x, y);
-                    quint32 value = pixel & 0x00ffffff;
-                    data->append(value);
+                    const int bandSize = preset->prepare()->bandWidth();
+
+                    int bandsCount = (*width) / bandSize;
+                    if (((*width) % bandSize) != 0)
+                        bandsCount++;
+
+                    // set new width
+                    *width = bandSize * bandsCount;
                 }
             }
+
+            delete convImage;
         }
+    }
+}
+//-----------------------------------------------------------------------------
+void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script, QString *resultError)
+{
+    // scanning with qt script
+    QScriptEngine engine;
+    QScriptValue imageValue = engine.newQObject(convImage,
+                                                QScriptEngine::QtOwnership,
+                                                QScriptEngine::ExcludeSuperClassProperties | QScriptEngine::ExcludeSuperClassMethods);
+    engine.globalObject().setProperty("image", imageValue);
+    QScriptValue resultValue = engine.evaluate(script);
+    if (engine.hasUncaughtException())
+    {
+        int line = engine.uncaughtExceptionLineNumber();
+        *resultError = QString("Uncaught exception at line %1 : %2").arg(line).arg(resultValue.toString());
+    }
+    else if (convImage->pointsCount() == 0)
+    {
+        *resultError = QString("Empty output");
+    }
+    else
+    {
+        *resultError = QString();
     }
 }
 //-----------------------------------------------------------------------------
@@ -443,7 +466,9 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
                 {
                     QRgb value = im.pixel(x, y);
                     value &= mask;
+                    int a = qAlpha(value);
                     QColor color = QColor(value);
+                    color.setAlpha(a);
                     painter.setPen(color);
                     painter.drawPoint(x, y);
                 }
@@ -454,19 +479,68 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
     }
 }
 //-----------------------------------------------------------------------------
-QString ConverterHelper::dataToString(Preset *preset, QVector<quint32> *data, int width, int height, const QString &prefix)
+static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
 {
-    QString result;
-    DataBlockSize blockSize = preset->image()->blockSize();
-    QChar temp[11];
-    const QChar table[] = {
+    QChar temp[10];
+    static const QChar table[] = {
         QChar('0'), QChar('1'), QChar('2'), QChar('3'),
         QChar('4'), QChar('5'), QChar('6'), QChar('7'),
         QChar('8'), QChar('9'), QChar('a'), QChar('b'),
         QChar('c'), QChar('d'), QChar('e'), QChar('f') };
-    const QChar comma = QChar(',');
-    const QChar space = QChar(' ');
-    const QChar end = QChar('\0');
+    static const QChar end = QChar('\0');
+
+    switch (blockSize)
+    {
+    case Data8:
+        temp[0] = table[(value >> 4) & 0x0000000f];
+        temp[1] = table[(value >> 0) & 0x0000000f];
+        temp[2] = end;
+        break;
+    case Data16:
+        temp[0] = table[(value >> 12) & 0x0000000f];
+        temp[1] = table[(value >> 8) & 0x0000000f];
+        temp[2] = table[(value >> 4) & 0x0000000f];
+        temp[3] = table[(value >> 0) & 0x0000000f];
+        temp[4] = end;
+        break;
+    case Data24:
+        temp[0] = table[(value >> 20) & 0x0000000f];
+        temp[1] = table[(value >> 16) & 0x0000000f];
+        temp[2] = table[(value >> 12) & 0x0000000f];
+        temp[3] = table[(value >> 8) & 0x0000000f];
+        temp[4] = table[(value >> 4) & 0x0000000f];
+        temp[5] = table[(value >> 0) & 0x0000000f];
+        temp[6] = end;
+        break;
+    case Data32:
+        temp[0] = table[(value >> 28) & 0x0000000f];
+        temp[1] = table[(value >> 24) & 0x0000000f];
+        temp[2] = table[(value >> 20) & 0x0000000f];
+        temp[3] = table[(value >> 16) & 0x0000000f];
+        temp[4] = table[(value >> 12) & 0x0000000f];
+        temp[5] = table[(value >> 8) & 0x0000000f];
+        temp[6] = table[(value >> 4) & 0x0000000f];
+        temp[7] = table[(value >> 0) & 0x0000000f];
+        temp[8] = end;
+        break;
+    default:
+        temp[0] = end;
+        break;
+    }
+
+    return QString(temp);
+}
+//-----------------------------------------------------------------------------
+QString ConverterHelper::dataToString(
+        Preset *preset,
+        QVector<quint32> *data, int width, int height)
+{
+    QString result, converted;
+
+    DataBlockSize blockSize = preset->image()->blockSize();
+    QString prefix = preset->image()->blockPrefix();
+    QString suffix = preset->image()->blockSuffix();
+    QString delimiter = preset->image()->blockDelimiter();
 
     if (preset->image()->splitToRows())
     {
@@ -487,55 +561,12 @@ QString ConverterHelper::dataToString(Preset *preset, QVector<quint32> *data, in
                 }
 
                 quint32 value = data->at(index);
-                switch (blockSize)
-                {
-                case Data8:
-                    temp[0] = table[(value >> 4) & 0x0000000f];
-                    temp[1] = table[(value >> 0) & 0x0000000f];
-                    temp[2] = comma;
-                    temp[3] = space;
-                    temp[4] = end;
-                    break;
-                case Data16:
-                    temp[0] = table[(value >> 12) & 0x0000000f];
-                    temp[1] = table[(value >> 8) & 0x0000000f];
-                    temp[2] = table[(value >> 4) & 0x0000000f];
-                    temp[3] = table[(value >> 0) & 0x0000000f];
-                    temp[4] = comma;
-                    temp[5] = space;
-                    temp[6] = end;
-                    break;
-                case Data24:
-                    temp[0] = table[(value >> 20) & 0x0000000f];
-                    temp[1] = table[(value >> 16) & 0x0000000f];
-                    temp[2] = table[(value >> 12) & 0x0000000f];
-                    temp[3] = table[(value >> 8) & 0x0000000f];
-                    temp[4] = table[(value >> 4) & 0x0000000f];
-                    temp[5] = table[(value >> 0) & 0x0000000f];
-                    temp[6] = comma;
-                    temp[7] = space;
-                    temp[8] = end;
-                    break;
-                case Data32:
-                    temp[0] = table[(value >> 28) & 0x0000000f];
-                    temp[1] = table[(value >> 24) & 0x0000000f];
-                    temp[2] = table[(value >> 20) & 0x0000000f];
-                    temp[3] = table[(value >> 16) & 0x0000000f];
-                    temp[4] = table[(value >> 12) & 0x0000000f];
-                    temp[5] = table[(value >> 8) & 0x0000000f];
-                    temp[6] = table[(value >> 4) & 0x0000000f];
-                    temp[7] = table[(value >> 0) & 0x0000000f];
-                    temp[8] = comma;
-                    temp[9] = space;
-                    temp[10] = end;
-                    break;
-                }
-
-                result += prefix + QString(temp);
+                converted = uint2hex(blockSize, value);
+                result += prefix + converted + suffix + delimiter;
             }
         }
 
-        result.truncate(result.length() - 2);
+        result.truncate(result.length() - delimiter.length());
     }
     else
     {
@@ -549,55 +580,98 @@ QString ConverterHelper::dataToString(Preset *preset, QVector<quint32> *data, in
                 completed = true;
                 break;
             }
-            quint32 value = data->at(i);
-            switch (blockSize)
-            {
-            case Data8:
-                temp[0] = table[(value >> 4) & 0x0000000f];
-                temp[1] = table[(value >> 0) & 0x0000000f];
-                temp[2] = comma;
-                temp[3] = space;
-                temp[4] = end;
-                break;
-            case Data16:
-                temp[0] = table[(value >> 12) & 0x0000000f];
-                temp[1] = table[(value >> 8) & 0x0000000f];
-                temp[2] = table[(value >> 4) & 0x0000000f];
-                temp[3] = table[(value >> 0) & 0x0000000f];
-                temp[4] = comma;
-                temp[5] = space;
-                temp[6] = end;
-                break;
-            case Data24:
-                temp[0] = table[(value >> 20) & 0x0000000f];
-                temp[1] = table[(value >> 16) & 0x0000000f];
-                temp[2] = table[(value >> 12) & 0x0000000f];
-                temp[3] = table[(value >> 8) & 0x0000000f];
-                temp[4] = table[(value >> 4) & 0x0000000f];
-                temp[5] = table[(value >> 0) & 0x0000000f];
-                temp[6] = comma;
-                temp[7] = space;
-                temp[8] = end;
-                break;
-            case Data32:
-                temp[0] = table[(value >> 28) & 0x0000000f];
-                temp[1] = table[(value >> 24) & 0x0000000f];
-                temp[2] = table[(value >> 20) & 0x0000000f];
-                temp[3] = table[(value >> 16) & 0x0000000f];
-                temp[4] = table[(value >> 12) & 0x0000000f];
-                temp[5] = table[(value >> 8) & 0x0000000f];
-                temp[6] = table[(value >> 4) & 0x0000000f];
-                temp[7] = table[(value >> 0) & 0x0000000f];
-                temp[8] = comma;
-                temp[9] = space;
-                temp[10] = end;
-                break;
-            }
 
-            result += prefix + QString(temp);
+            quint32 value = data->at(i);
+            converted = uint2hex(blockSize, value);
+            result += prefix + converted + suffix + delimiter;
         }
 
-        result.truncate(result.length() - 2);
+        result.truncate(result.length() - delimiter.length());
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+QString ConverterHelper::scanScript(Preset *preset)
+{
+    QString result;
+    const PrepareOptions *prepare = preset->prepare();
+
+    if (prepare->useCustomScript())
+    {
+        result = prepare->customScript();
+    }
+    else
+    {
+        static const QString scripts[] =
+        {
+            ":/scan_scripts/t2b_b", // 0
+            ":/scan_scripts/t2b_b_b",
+            ":/scan_scripts/t2b_f",
+            ":/scan_scripts/t2b_f_b",
+
+            ":/scan_scripts/b2t_b", // 4
+            ":/scan_scripts/b2t_b_b",
+            ":/scan_scripts/b2t_f",
+            ":/scan_scripts/b2t_f_b",
+
+            ":/scan_scripts/l2r_b", // 8
+            ":/scan_scripts/l2r_b_b",
+            ":/scan_scripts/l2r_f",
+            ":/scan_scripts/l2r_f_b",
+
+            ":/scan_scripts/r2l_b", // 12
+            ":/scan_scripts/r2l_b_b",
+            ":/scan_scripts/r2l_f",
+            ":/scan_scripts/r2l_f_b"
+        };
+
+        int index = 0;
+
+        switch (prepare->scanMain())
+        {
+        case TopToBottom:
+        {
+            index = 0;
+            break;
+        }
+        case BottomToTop:
+        {
+            index = 4;
+            break;
+        }
+        case LeftToRight:
+        {
+            index = 8;
+            break;
+        }
+        case RightToLeft:
+        {
+            index = 12;
+            break;
+        }
+        }
+
+        if (prepare->scanSub() == Forward)
+        {
+            index += 2;
+        }
+
+        if (prepare->bandScanning())
+        {
+            index += 1;
+        }
+
+        if (index >= 0 && index < 16)
+        {
+            QFile file_script(scripts[index]);
+            if (file_script.open(QIODevice::ReadOnly))
+            {
+                QTextStream stream(&file_script);
+                result = stream.readAll();
+                file_script.close();
+            }
+        }
     }
 
     return result;
@@ -613,10 +687,11 @@ void ConverterHelper::makeMonochrome(QImage &image, int edge)
         for (int y = 0; y < image.height(); y++)
         {
             QRgb value = image.pixel(x, y);
+            int alpha = qAlpha(value);
             if (qGray(value) < edge)
-                painter.setPen(QColor(0, 0, 0));
+                painter.setPen(QColor(0, 0, 0, alpha));
             else
-                painter.setPen(QColor(255, 255, 255));
+                painter.setPen(QColor(255, 255, 255, alpha));
             painter.drawPoint(x, y);
         }
     }
@@ -632,7 +707,8 @@ void ConverterHelper::makeGrayscale(QImage &image)
         {
             QRgb value = image.pixel(x, y);
             int gray = qGray(value);
-            QColor color = QColor(gray ,gray, gray);
+            int alpha = qAlpha(value);
+            QColor color = QColor(gray ,gray, gray, alpha);
             painter.setPen(color);
             painter.drawPoint(x, y);
         }

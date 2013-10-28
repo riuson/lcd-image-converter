@@ -44,13 +44,17 @@
 #include "actionfonthandlers.h"
 #include "actionsetuphandlers.h"
 #include "actionhelphandlers.h"
+#include "ieditor.h"
+#include "idocument.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+#ifndef USED_QT5
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+#endif
 
     QIcon icon;
     icon.addFile(":/images/icon64", QSize(64, 64));
@@ -199,12 +203,14 @@ void MainWindow::createHandlers()
     this->connect(this->ui->actionQuit, SIGNAL(triggered()), SLOT(close()));
     this->connect(this->mFileHandlers, SIGNAL(rememberFilename(QString)), SLOT(rememberFilename(QString)));
     this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
-    this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*,QString,QString)), SLOT(tabChanged(QWidget*,QString,QString)));
-    this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget*,QString,QString)), SLOT(tabCreated(QWidget*,QString,QString)));
+    this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*)), SLOT(tabChanged(QWidget*)));
+    this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget*)), SLOT(tabCreated(QWidget*)));
 
     this->mEditHandlers = new ActionEditHandlers(this);
     this->mEditHandlers->connect(this->ui->actionEditUndo, SIGNAL(triggered()), SLOT(undo_triggered()));
     this->mEditHandlers->connect(this->ui->actionEditRedo, SIGNAL(triggered()), SLOT(redo_triggered()));
+    this->mEditHandlers->connect(this->ui->actionEditCopy, SIGNAL(triggered()), SLOT(copy_triggered()));
+    this->mEditHandlers->connect(this->ui->actionEditPaste, SIGNAL(triggered()), SLOT(paste_triggered()));
 
     this->mImageHandlers = new ActionImageHandlers(this);
     this->mImageHandlers->connect(this->ui->actionImageFlip_Horizontal, SIGNAL(triggered()), SLOT(flipHorizontal_triggered()));
@@ -235,19 +241,40 @@ void MainWindow::createHandlers()
     this->mSetupHandlers->connect(this->ui->actionExternal_editor, SIGNAL(triggered()), SLOT(external_editor_triggered()));
 
     this->mHelpHandlers = new ActionHelpHandlers(this);
-    this->mHelpHandlers->connect(this->ui->actionAbout, SIGNAL(triggered()), SLOT(about_triggered()));
+    this->mHelpHandlers->connect(this->ui->actionAboutApp, SIGNAL(triggered()), SLOT(about_application_triggered()));
+    this->mHelpHandlers->connect(this->ui->actionAboutQt, SIGNAL(triggered()), SLOT(about_qt_triggered()));
     this->mHelpHandlers->connect(this->ui->actionUpdates, SIGNAL(triggered()), SLOT(updates_triggered()));
     this->mHelpHandlers->connect(this->ui->actionWiki, SIGNAL(triggered()), SLOT(wiki_triggered()));
 
     this->mFileHandlers->connect(this->mFontHandlers, SIGNAL(imageCreated(QImage*,QString)), SLOT(openImage(QImage*,QString)));
 }
 //-----------------------------------------------------------------------------
+void MainWindow::tabTextUpdate(QWidget *widget)
+{
+    int index = this->ui->tabWidget->indexOf(widget);
+    if (index >= 0)
+    {
+        IEditor *editor = qobject_cast<IEditor *>(widget);
+        if (editor != NULL)
+        {
+            QString name;
+            if (editor->document()->changed())
+                name = "* " + editor->document()->documentName();
+            else
+                name = editor->document()->documentName();
+
+            this->ui->tabWidget->setTabText(index, name);
+            this->ui->tabWidget->setTabToolTip(index, editor->document()->documentFilename());
+        }
+    }
+}
+//-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     QWidget *w = this->ui->tabWidget->widget(index);
-    IDocument *doc = dynamic_cast<IDocument *> (w);
+    IEditor *editor = dynamic_cast<IEditor *> (w);
     bool cancel = false;
-    if (doc != NULL && doc->changed())
+    if (editor != NULL && editor->document()->changed())
     {
         DialogSaveChanges dialog(this);
         dialog.exec();
@@ -255,7 +282,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
         {
         case DialogSaveChanges::Save:
             {
-                if (!doc->save(doc->fileName()))
+                if (!editor->document()->save(editor->document()->documentFilename()))
                     cancel = true;
             }
             break;
@@ -264,12 +291,12 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
                 QFileDialog dialog(this);
                 dialog.setAcceptMode(QFileDialog::AcceptSave);
                 dialog.setFileMode(QFileDialog::AnyFile);
-                dialog.setFilter(tr("XML Files (*.xml)"));
+                dialog.setNameFilter(tr("XML Files (*.xml)"));
                 dialog.setWindowTitle(tr("Save file as"));
                 if (dialog.exec() == QDialog::Accepted)
                 {
                     QString filename = dialog.selectedFiles().at(0);
-                    if (!doc->save(filename))
+                    if (!editor->document()->save(filename))
                         cancel = true;
                 }
                 else
@@ -297,10 +324,11 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     this->updateMenuState();
 
     this->mStatusManager->hideAll();
-    IDocument *doc = this->currentDocument();
-    if (doc != NULL)
+    IEditor *editor = this->currentEditor();
+    if (editor != NULL)
     {
-        doc->updateStatus();
+        IEditor *editor = this->currentEditor();
+        this->mStatusManager->updateData(editor->statusData());
     }
 }
 //-----------------------------------------------------------------------------
@@ -313,32 +341,20 @@ void MainWindow::actionLanguage_triggered()
 //-----------------------------------------------------------------------------
 void MainWindow::updateMenuState()
 {
-    int index = this->ui->tabWidget->currentIndex();
-    QWidget *w = this->ui->tabWidget->widget(index);
-    bool editorSelected = false;
-    if (qobject_cast<EditorTabImage *>(w) != NULL)
-    {
-        this->ui->menuFont->setEnabled(false);
-        editorSelected = true;
-    }
-    if (qobject_cast<EditorTabFont *>(w) != NULL)
-    {
-        this->ui->menuFont->setEnabled(true);
-        editorSelected = true;
-    }
-    else
-    {
-        this->ui->menuFont->setEnabled(false);
-    }
+    IEditor *editor = this->currentEditor();
+    bool editorSelected = (editor != NULL);
 
-    if (editorSelected && this->currentDocument() != NULL)
+    if (editor != NULL)
     {
-        IDocument *doc = this->currentDocument();
-        this->ui->actionEditUndo->setEnabled(doc->canUndo());
-        this->ui->actionEditRedo->setEnabled(doc->canRedo());
+        this->ui->menuFont->setEnabled(editor->type() == IEditor::EditorFont);
+
+        this->ui->actionEditUndo->setEnabled(editor->document()->canUndo());
+        this->ui->actionEditRedo->setEnabled(editor->document()->canRedo());
     }
     else
     {
+        this->ui->menuFont->setEnabled(false);
+
         this->ui->actionEditUndo->setEnabled(false);
         this->ui->actionEditRedo->setEnabled(false);
     }
@@ -407,17 +423,9 @@ void MainWindow::closeRequest(QWidget *tab)
         this->on_tabWidget_tabCloseRequested(index);
 }
 //-----------------------------------------------------------------------------
-IDocument *MainWindow::currentDocument()
+IEditor *MainWindow::currentEditor()
 {
-    IDocument *result = NULL;
-
-    int index = this->ui->tabWidget->currentIndex();
-    if (index >= 0)
-    {
-        QWidget *w = this->ui->tabWidget->widget(index);
-        result = qobject_cast<IDocument *>(w);
-    }
-
+    IEditor *result = qobject_cast<IEditor *>(this->currentTab());
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -476,28 +484,27 @@ QString MainWindow::findAvailableName(const QString &prefix)
     return result;
 }
 //-----------------------------------------------------------------------------
-void MainWindow::tabChanged(QWidget *tab, const QString &text, const QString &tooltip)
+void MainWindow::tabChanged(QWidget *tab)
 {
     int index = this->ui->tabWidget->indexOf(tab);
     if (index >= 0)
     {
-        this->ui->tabWidget->setTabText(index, text);
-        this->ui->tabWidget->setTabToolTip(index, tooltip);
+        this->tabTextUpdate(tab);
     }
 }
 //-----------------------------------------------------------------------------
-int MainWindow::tabCreated(QWidget *newTab, const QString &name, const QString &tooltip)
+int MainWindow::tabCreated(QWidget *newTab)
 {
-    int index = this->ui->tabWidget->addTab(newTab, name);
+    int index = this->ui->tabWidget->addTab(newTab, "");
     this->ui->tabWidget->setCurrentIndex(index);
-    this->ui->tabWidget->setTabToolTip(index, tooltip);
+    this->tabTextUpdate(newTab);
 
     this->connect(newTab, SIGNAL(statusChanged()), SLOT(statusChanged()));
 
     this->checkStartPageVisible();
 
-    IDocument *doc = this->currentDocument();
-    this->mStatusManager->updateData(doc->statusData());
+    IEditor *editor = this->currentEditor();
+    this->mStatusManager->updateData(editor->statusData());
 
     return index;
 }
@@ -509,8 +516,8 @@ void MainWindow::statusChanged()
     {
         if (this->ui->tabWidget->currentWidget() == widget)
         {
-            IDocument *doc = this->currentDocument();
-            this->mStatusManager->updateData(doc->statusData());
+            IEditor *editor = this->currentEditor();
+            this->mStatusManager->updateData(editor->statusData());
         }
     }
 }

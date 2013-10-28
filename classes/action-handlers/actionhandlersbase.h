@@ -24,7 +24,7 @@
 //-----------------------------------------------------------------------------
 class IMainWindow;
 class WidgetBitmapEditor;
-class IDocument;
+class IEditor;
 //-----------------------------------------------------------------------------
 class ActionHandlersBase : public QObject
 {
@@ -34,7 +34,7 @@ public:
 
 protected:
     IMainWindow *mMainWindow;
-    IDocument *document();
+    IEditor *editor();
 
 signals:
 

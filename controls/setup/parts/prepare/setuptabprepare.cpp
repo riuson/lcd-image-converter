@@ -25,6 +25,9 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 #include "bitmaphelper.h"
+#include "converterhelper.h"
+#include "demogenerator.h"
+#include "setupdialogoptions.h"
 //-----------------------------------------------------------------------------
 SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     QWidget(parent),
@@ -33,6 +36,10 @@ SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     ui->setupUi(this);
     this->mPreset = preset;
     this->mPixmapScanning = QPixmap();
+    this->mPixmapScanPreview = QPixmap();
+    this->mDemoGen = new DemoGenerator(this->mPreset, this);
+    this->connect(this->mDemoGen, SIGNAL(pixmapChanged(const QPixmap*)), SLOT(demoPixmapChanged(const QPixmap*)));
+    this->connect(this->mDemoGen, SIGNAL(errorHandled(QString)), SLOT(demoScriptError(QString)));
 
     this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
     this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
@@ -51,11 +58,15 @@ SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     this->ui->comboBoxScanSub->addItem(tr("Forward"), QVariant(Forward));
     this->ui->comboBoxScanSub->addItem(tr("Backward"), QVariant(Backward));
 
+    this->ui->spinBoxAnimationTime->setValue(SetupDialogOptions::animationTotalTime());
+    this->ui->spinBoxAnimationInterval->setValue(SetupDialogOptions::animationInterval());
+
     this->matrixChanged();
 }
 //-----------------------------------------------------------------------------
 SetupTabPrepare::~SetupTabPrepare()
 {
+    delete this->mDemoGen;
     delete ui;
 }
 //-----------------------------------------------------------------------------
@@ -85,128 +96,11 @@ void SetupTabPrepare::matrixChanged()
 
     this->ui->checkBoxInverse->setChecked(this->mPreset->prepare()->inverse());
 
-    this->updateScanningPreview();
-}
-//-----------------------------------------------------------------------------
-void SetupTabPrepare::updateScanningPreview()
-{
-    Rotate rotate = RotateNone;
-    bool flipHorizontal = false;
-    bool flipVertical = false;
+    this->ui->checkBoxUseCustomScript->setChecked(this->mPreset->prepare()->useCustomScript());
 
-    this->modificationsFromScan(&rotate, &flipHorizontal, &flipVertical);
+    this->updateState();
 
-    QImage image(":/demos/scanning");
-
-    // load another image for bands
-    if (this->mPreset->prepare()->bandScanning())
-        image.load(":/demos/scanning_band");
-
-    switch (rotate)
-    {
-    case Rotate90:
-        image = BitmapHelper::rotate90(&image);
-        break;
-    case Rotate180:
-        image = BitmapHelper::rotate180(&image);
-        break;
-    case Rotate270:
-        image = BitmapHelper::rotate270(&image);
-        break;
-    default:
-        image = image;
-        break;
-
-    }
-
-    if (flipHorizontal)
-        image = BitmapHelper::flipHorizontal(&image);
-
-    if (flipVertical)
-        image = BitmapHelper::flipVertical(&image);
-
-    if (this->mPreset->prepare()->inverse())
-        image.invertPixels();
-
-    this->mPixmapScanning = QPixmap::fromImage(image);
-
-    this->ui->labelScanningOrder->setPixmap(this->mPixmapScanning);
-}
-//-----------------------------------------------------------------------------
-void SetupTabPrepare::modificationsFromScan(
-        Rotate *rotate,
-        bool *flipHorizontal,
-        bool *flipVertical) const
-{
-    bool forward = (this->mPreset->prepare()->scanSub() == Forward);
-
-    switch (this->mPreset->prepare()->scanMain())
-    {
-    case TopToBottom:
-    {
-        if (forward)
-        {
-            *rotate = RotateNone;
-            *flipHorizontal = false;
-            *flipVertical = false;
-        }
-        else
-        {
-            *rotate = RotateNone;
-            *flipHorizontal = true;
-            *flipVertical = false;
-        }
-        break;
-    }
-    case BottomToTop:
-    {
-        if (forward)
-        {
-            *rotate = RotateNone;
-            *flipHorizontal = false;
-            *flipVertical = true;
-        }
-        else
-        {
-            *rotate = Rotate180;
-            *flipHorizontal = false;
-            *flipVertical = false;
-        }
-        break;
-    }
-    case LeftToRight:
-    {
-        if (forward)
-        {
-            *rotate = Rotate90;
-            *flipHorizontal = true;
-            *flipVertical = false;
-        }
-        else
-        {
-            *rotate = Rotate270;
-            *flipHorizontal = false;
-            *flipVertical = false;
-        }
-        break;
-    }
-    case RightToLeft:
-    {
-        if (forward)
-        {
-            *rotate = Rotate90;
-            *flipHorizontal = false;
-            *flipVertical = false;
-        }
-        else
-        {
-            *rotate = Rotate270;
-            *flipHorizontal = true;
-            *flipVertical = false;
-        }
-        break;
-    }
-    }
+    this->updateScript();
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::on_comboBoxConversionType_currentIndexChanged(int index)
@@ -217,20 +111,7 @@ void SetupTabPrepare::on_comboBoxConversionType_currentIndexChanged(int index)
     if (ok)
     {
         this->mPreset->prepare()->setConvType((ConversionType)a);
-
-        if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome)
-        {
-            this->ui->comboBoxMonochromeType->setEnabled(true);
-            if (this->mPreset->prepare()->monoType() == MonochromeTypeEdge)
-                this->ui->horizontalScrollBarEdge->setEnabled(true);
-            else
-                this->ui->horizontalScrollBarEdge->setEnabled(false);
-        }
-        else
-        {
-            this->ui->comboBoxMonochromeType->setEnabled(false);
-            this->ui->horizontalScrollBarEdge->setEnabled(false);
-        }
+        this->updateState();
     }
 }
 //-----------------------------------------------------------------------------
@@ -242,20 +123,7 @@ void SetupTabPrepare::on_comboBoxMonochromeType_currentIndexChanged(int index)
     if (ok)
     {
         this->mPreset->prepare()->setMonoType((MonochromeType)a);
-
-        if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome)
-        {
-            this->ui->comboBoxMonochromeType->setEnabled(true);
-            if (this->mPreset->prepare()->monoType() == MonochromeTypeEdge)
-                this->ui->horizontalScrollBarEdge->setEnabled(true);
-            else
-                this->ui->horizontalScrollBarEdge->setEnabled(false);
-        }
-        else
-        {
-            this->ui->comboBoxMonochromeType->setEnabled(false);
-            this->ui->horizontalScrollBarEdge->setEnabled(false);
-        }
+        this->updateState();
     }
 }
 //-----------------------------------------------------------------------------
@@ -296,10 +164,106 @@ void SetupTabPrepare::on_horizontalScrollBarEdge_valueChanged(int value)
 void SetupTabPrepare::on_checkBoxBands_toggled(bool value)
 {
     this->mPreset->prepare()->setBandScanning(value);
+    this->updateState();
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::on_spinBoxBandWidth_valueChanged(int value)
 {
     this->mPreset->prepare()->setBandWidth(value);
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::on_checkBoxUseCustomScript_toggled(bool value)
+{
+    this->mPreset->prepare()->setUseCustomScript(value);
+    this->updateState();
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::on_plainTextEditCustomScript_textChanged()
+{
+    if (this->mPreset->prepare()->useCustomScript())
+    {
+        QString str = this->ui->plainTextEditCustomScript->toPlainText();
+        this->mPreset->prepare()->setCustomScript(str);
+    }
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::updateState()
+{
+    // conversion type
+    if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome)
+    {
+        this->ui->comboBoxMonochromeType->setEnabled(true);
+        if (this->mPreset->prepare()->monoType() == MonochromeTypeEdge)
+            this->ui->horizontalScrollBarEdge->setEnabled(true);
+        else
+            this->ui->horizontalScrollBarEdge->setEnabled(false);
+    }
+    else
+    {
+        this->ui->comboBoxMonochromeType->setEnabled(false);
+        this->ui->horizontalScrollBarEdge->setEnabled(false);
+    }
+
+    // monochrome type
+    if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome)
+    {
+        this->ui->comboBoxMonochromeType->setEnabled(true);
+        if (this->mPreset->prepare()->monoType() == MonochromeTypeEdge)
+            this->ui->horizontalScrollBarEdge->setEnabled(true);
+        else
+            this->ui->horizontalScrollBarEdge->setEnabled(false);
+    }
+    else
+    {
+        this->ui->comboBoxMonochromeType->setEnabled(false);
+        this->ui->horizontalScrollBarEdge->setEnabled(false);
+    }
+
+    // band scan
+    this->ui->spinBoxBandWidth->setEnabled(this->mPreset->prepare()->bandScanning());
+
+    // use custom script
+    this->ui->plainTextEditCustomScript->setReadOnly(!this->mPreset->prepare()->useCustomScript());
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::updateScript()
+{
+    QString script = ConverterHelper::scanScript(this->mPreset);
+    if (this->ui->plainTextEditCustomScript->toPlainText() != script)
+        this->ui->plainTextEditCustomScript->setPlainText(script);
+
+    this->mDemoGen->setScript(script);
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::demoPixmapChanged(const QPixmap *pixmap)
+{
+    this->mPixmapScanPreview = QPixmap(*pixmap);
+
+    this->ui->labelScanPreview->setPixmap(this->mPixmapScanPreview);
+    this->ui->spinBoxAnimationTime->setEnabled(true);
+    this->ui->spinBoxAnimationInterval->setEnabled(true);
+
+    this->ui->labelErrorMessage->hide();
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::demoScriptError(const QString &value)
+{
+    this->ui->spinBoxAnimationTime->setEnabled(false);
+    this->ui->spinBoxAnimationInterval->setEnabled(false);
+
+    this->ui->labelErrorMessage->setText(value);
+    this->ui->labelErrorMessage->show();
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::on_spinBoxAnimationTime_valueChanged(int value)
+{
+    this->mDemoGen->setAnimationTime(value);
+    SetupDialogOptions::setAnimationTime(value);
+}
+//-----------------------------------------------------------------------------
+void SetupTabPrepare::on_spinBoxAnimationInterval_valueChanged(int value)
+{
+    this->mDemoGen->setAnimationInterval(value);
+    SetupDialogOptions::setAnimationInterval(value);
 }
 //-----------------------------------------------------------------------------

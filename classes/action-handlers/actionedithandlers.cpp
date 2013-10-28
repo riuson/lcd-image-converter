@@ -19,13 +19,22 @@
 
 #include "actionedithandlers.h"
 
-#include "editortabimage.h"
-#include "editortabfont.h"
-#include "dialogfontselect.h"
+#ifdef USED_QT5
+#include <QtWidgets/QApplication>
+#else
+#include <QtGui/QApplication>
+#endif
+
 #include <QFileDialog>
 #include <QTextStream>
 #include <QInputDialog>
 #include <QLineEdit>
+#include <QMessageBox>
+#include <QClipboard>
+#include <QMimeData>
+#include "editortabimage.h"
+#include "editortabfont.h"
+#include "dialogfontselect.h"
 #include "parser.h"
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
@@ -39,17 +48,95 @@ ActionEditHandlers::ActionEditHandlers(QObject *parent) :
 //-----------------------------------------------------------------------------
 void ActionEditHandlers::undo_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->undo();
+        this->editor()->document()->undo();
     }
 }
 //-----------------------------------------------------------------------------
 void ActionEditHandlers::redo_triggered()
 {
-    if (this->document() != NULL)
+    if (this->editor() != NULL)
     {
-        this->document()->redo();
+        this->editor()->document()->redo();
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionEditHandlers::copy_triggered()
+{
+    if (this->editor() != NULL)
+    {
+        QStringList keys = this->editor()->selectedKeys();
+
+        if (keys.length() > 0)
+        {
+            QString key = keys.at(0);
+
+            if (keys.length() > 1)
+            {
+                QString message = tr("More than 1 image(s) selected. But only one will be copied - \"%1\".", "Warning about image copy").arg(key);
+
+                QMessageBox msgBox(this->mMainWindow->parentWidget());
+                msgBox.setTextFormat(Qt::PlainText);
+                msgBox.setWindowTitle(tr("Copy - Attention"));
+                msgBox.setText(message);
+                msgBox.setStandardButtons(QMessageBox::Ok| QMessageBox::Cancel);
+                msgBox.setDefaultButton(QMessageBox::Cancel);
+                if (msgBox.exec() != QMessageBox::Ok)
+                {
+                    return;
+                }
+            }
+
+            const QImage *image = this->editor()->document()->dataContainer()->image(key);
+
+            QClipboard *clipboard = QApplication::clipboard();
+            clipboard->setImage(*image);
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionEditHandlers::paste_triggered()
+{
+    if (this->editor() != NULL)
+    {
+        QClipboard *clipboard = QApplication::clipboard();
+        if (clipboard->mimeData()->hasImage())
+        {
+            QImage image = clipboard->image();
+
+            QStringList keys = this->editor()->selectedKeys();
+
+            if (keys.length() > 0)
+            {
+                if (keys.length() > 1)
+                {
+                    QString message = tr("More than 1 image(s) selected. All of them will be overwritten.", "Warning about image paste");
+
+                    QMessageBox msgBox(this->mMainWindow->parentWidget());
+                    msgBox.setTextFormat(Qt::PlainText);
+                    msgBox.setWindowTitle(tr("Paste - Attention"));
+                    msgBox.setText(message);
+                    msgBox.setStandardButtons(QMessageBox::Ok| QMessageBox::Cancel);
+                    msgBox.setDefaultButton(QMessageBox::Cancel);
+                    if (msgBox.exec() != QMessageBox::Ok)
+                    {
+                        return;
+                    }
+                }
+
+                this->editor()->document()->beginChanges();
+
+                QStringListIterator iterator(keys);
+                while (iterator.hasNext())
+                {
+                    QString key = iterator.next();
+                    this->editor()->document()->dataContainer()->setImage(key, &image);
+                }
+
+                this->editor()->document()->endChanges();
+            }
+        }
     }
 }
 //-----------------------------------------------------------------------------

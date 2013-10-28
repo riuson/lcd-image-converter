@@ -24,6 +24,8 @@
 #include <QTableWidgetSelectionRange>
 #include "unicodeblocksmodel.h"
 #include "unicodeblocksfiltermodel.h"
+#include "dialogfontrange.h"
+#include "fonthelper.h"
 //-----------------------------------------------------------------------------
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
     QDialog(parent),
@@ -51,15 +53,10 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     {
         defChars += QString(QChar(i));
     }
-    this->ui->lineEdit->setText(defChars);
+    this->setEditorText(defChars);
 
     this->mFontFamily = this->ui->fontComboBox->currentFont().family();
     this->updateStyles();
-
-    int cellSize = qMax(24, QFontMetrics(this->ui->tableView->font()).height());
-    for (int i = 0; i < 32; i++)
-        this->ui->tableView->setColumnWidth(i , cellSize);
-    //this->ui->tableView->resizeColumnsToContents();
 
     this->mBlocksModel = new UnicodeBlocksModel(this);
 
@@ -144,7 +141,10 @@ void DialogFontSelect::setFontSize(int value)
     if (index >= 0)
         this->ui->comboBoxSize->setCurrentIndex(index);
     else
-        this->ui->comboBoxSize->setCurrentIndex(0);
+    {
+        QString str = QString("%1").arg(value);
+        this->ui->comboBoxSize->setEditText(str);
+    }
 
     this->applyFont();
 }
@@ -166,7 +166,7 @@ void DialogFontSelect::setAntialising(bool value)
 void DialogFontSelect::setCharacters(const QString &value)
 {
     this->mCharacters = value;
-    this->ui->lineEdit->setText(value);
+    this->setEditorText(value);
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::updateFont()
@@ -226,11 +226,62 @@ void DialogFontSelect::applyFont()
     QFontDatabase fonts;
     QFont font = fonts.font(this->mFontFamily, this->mFontStyle, this->mSize);
     font.setPixelSize(this->mSize);
+
     this->ui->tableView->setFont(font);
+
     QFontMetrics metrics(font);
+
+    int h = qMax(metrics.lineSpacing(), 15) + 2;
+    int w = qMax(metrics.maxWidth(), 10);
+
+    this->ui->tableView->verticalHeader()->hide();
+    this->ui->tableView->horizontalHeader()->hide();
+    this->ui->tableView->verticalHeader()->setDefaultSectionSize(h);
+    this->ui->tableView->horizontalHeader()->setDefaultSectionSize(w);
+    this->ui->tableView->verticalHeader()->show();
+    this->ui->tableView->horizontalHeader()->show();
 
     QString strHeight = tr("Real height: %1").arg(metrics.height());
     this->ui->labelRealHeight->setText(strHeight);
+}
+//-----------------------------------------------------------------------------
+QString DialogFontSelect::injectCharacters(const QString &original, const QString &value)
+{
+    // list of characters
+    QList<QChar> list;
+    for (int i = 0; i < original.length(); i++)
+    {
+        list.append(original.at(i));
+    }
+
+    // combine
+    for (int i = 0; i < value.length(); i++)
+    {
+        QChar c = value.at(i);
+        if (!list.contains(c))
+            list.append(c);
+    }
+
+    qSort(list);
+
+    // list to string
+    QString result = QString();
+    for (int i = 0; i < list.length(); i++)
+    {
+        result += list.at(i);
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+QString DialogFontSelect::editorText()
+{
+    return FontHelper::unescapeControlChars(this->ui->lineEdit->text());
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::setEditorText(const QString &value)
+{
+    this->ui->lineEdit->setText(FontHelper::escapeControlChars(value));
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_fontComboBox_currentFontChanged(const QFont &font)
@@ -243,18 +294,21 @@ void DialogFontSelect::on_fontComboBox_currentFontChanged(const QFont &font)
     this->applyFont();
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::on_comboBoxSize_currentIndexChanged(int index)
+void DialogFontSelect::on_comboBoxSize_currentIndexChanged(const QString &text)
 {
     bool ok;
-    int a = this->ui->comboBoxSize->itemData(index).toInt(&ok);
+    int a = text.toInt(&ok);
     if (ok)
         this->mSize = a;
+    else
+        this->mSize = 5;
 
     this->applyFont();
-
-    int cellSize = qMax(24, QFontMetrics(this->ui->tableView->font()).height());
-    for (int i = 0; i < 32; i++)
-        this->ui->tableView->setColumnWidth(i , cellSize);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_comboBoxSize_editTextChanged(const QString &text)
+{
+    this->on_comboBoxSize_currentIndexChanged(text);
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_comboBoxStyle_currentIndexChanged(const QString &text)
@@ -276,27 +330,21 @@ void DialogFontSelect::on_checkBoxAntialiasing_toggled(bool value)
     this->mAntialiasing = value;
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::on_lineEdit_textChanged(const QString &value)
+void DialogFontSelect::on_lineEdit_textChanged()
 {
-    this->mCharacters = value;
+    this->mCharacters = this->editorText();
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_tableView_doubleClicked(const QModelIndex &index)
 {
-    QString str = this->ui->lineEdit->text();
+    QString str = this->editorText();
     QString a = this->mModel->data(index, Qt::DisplayRole).toString();
-    this->ui->lineEdit->setText(str + a);
+    this->setEditorText(str + a);
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::on_pushButtonAppend_clicked()
+void DialogFontSelect::on_pushButtonAppendSelected_clicked()
 {
-    QString str = this->ui->lineEdit->text();
-
-    QList<QString> list;
-    for (int i = 0; i < str.length(); i++)
-    {
-        list.append(QString(str.at(i)));
-    }
+    QString selected = QString();
 
     QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
     if (selectionModel->hasSelection())
@@ -305,18 +353,24 @@ void DialogFontSelect::on_pushButtonAppend_clicked()
         for (int i = 0; i < indexes.count(); i++)
         {
             QString a = this->mModel->data(indexes.at(i), Qt::DisplayRole).toString();
-            if (!list.contains(a))
-                list.append(a);
+            selected += a;
         }
+    }
 
-        qSort(list);
-
-        str = QString();
-        for (int i = 0; i < list.length(); i++)
-        {
-            str += list.at(i);
-        }
-        this->ui->lineEdit->setText(str);
+    QString original = this->editorText();
+    QString result = this->injectCharacters(original, selected);
+    this->setEditorText(result);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_pushButtonAppendRange_clicked()
+{
+    DialogFontRange dialog(this);
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        QString selected = dialog.resultString();
+        QString original = this->editorText();
+        QString result = this->injectCharacters(original, selected);
+        this->setEditorText(result);
     }
 }
 //-----------------------------------------------------------------------------
@@ -325,7 +379,7 @@ void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QI
     Q_UNUSED(selected);
     Q_UNUSED(deselected);
 
-    QString str = this->ui->lineEdit->text();
+    QString str = this->editorText();
     QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
     bool hasNew = false;
     if (selectionModel->hasSelection())
@@ -340,7 +394,7 @@ void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QI
                 break;
             }
         }
-        this->ui->pushButtonAppend->setEnabled(hasNew);
+        this->ui->pushButtonAppendSelected->setEnabled(hasNew);
     }
 }
 //-----------------------------------------------------------------------------

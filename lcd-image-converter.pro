@@ -4,12 +4,17 @@
 OBJECTS_DIR         = .obj
 MOC_DIR             = .moc
 UI_DIR              = .uic
-QT += xml xmlpatterns network
+QT += xml xmlpatterns network script
 TARGET = lcd-image-converter
 TEMPLATE = app
 
 unix:DESTDIR        = ./_linux
 win32:DESTDIR       = ./_windows
+
+greaterThan(QT_MAJOR_VERSION, 4) {
+  QT += widgets
+  DEFINES += USED_QT5
+}
 
 CONFIG(debug, debug|release) {
     DESTDIR         = $$DESTDIR/debug
@@ -30,14 +35,18 @@ SOURCES += main.cpp \
     classes/action-handlers/actionsetuphandlers.cpp \
     classes/compression/rlecompressor.cpp \
     classes/data/datacontainer.cpp \
+    classes/data/fontdocument.cpp \
     classes/data/historykeeper.cpp \
     classes/data/historyrecord.cpp \
+    classes/data/imagedocument.cpp \
     classes/data/imagesmodel.cpp \
     classes/data/revisioninfo.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
     classes/parser/convert/converterhelper.cpp \
+    classes/parser/convert/convimage.cpp \
     classes/parser/convert/fonthelper.cpp \
+    classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
     classes/parser/tags.cpp \
     classes/settings/bitmapeditoroptions.cpp \
@@ -53,6 +62,7 @@ SOURCES += main.cpp \
     classes/settings/presets/templateoptions.cpp \
     classes/settings/recentlist.cpp \
     classes/settings/resizesettings.cpp \
+    classes/settings/setupdialogoptions.cpp \
     classes/status/statusdata.cpp \
     classes/status/statusmanager.cpp \
     controls/about/dialogabout.cpp \
@@ -63,6 +73,7 @@ SOURCES += main.cpp \
     controls/fonts/font-new/unicodeblocksmodel.cpp \
     controls/fonts/font-new/unicodeblocksfiltermodel.cpp \
     controls/fonts/font-preview/dialogfontpreview.cpp \
+    controls/fonts/font-range/dialogfontrange.cpp \
     controls/images/editortabimage.cpp \
     controls/images/widgetbitmapeditor.cpp \
     controls/main/mainwindow.cpp \
@@ -78,6 +89,7 @@ SOURCES += main.cpp \
     controls/setup/parts/matrix/matrixitemdelegate.cpp \
     controls/setup/parts/matrix/matrixpreviewmodel.cpp \
     controls/setup/parts/matrix/setuptabmatrix.cpp \
+    controls/setup/parts/prepare/demogenerator.cpp \
     controls/setup/parts/prepare/setuptabprepare.cpp \
     controls/setup/parts/reordering/reorderingitemdelegate.cpp \
     controls/setup/parts/reordering/reorderingpreviewmodel.cpp \
@@ -96,15 +108,19 @@ HEADERS += \
     classes/action-handlers/actionsetuphandlers.h \
     classes/compression/rlecompressor.h \
     classes/data/datacontainer.h \
+    classes/data/fontdocument.h \
     classes/data/historykeeper.h \
     classes/data/historyrecord.h \
+    classes/data/imagedocument.h \
     classes/data/imagesmodel.h \
     classes/data/revisioninfo.h \
     classes/parser/convert/bitmaphelper.h \
     classes/parser/convert/bitstream.h \
     classes/parser/convert/conversion_options.h \
     classes/parser/convert/converterhelper.h \
+    classes/parser/convert/convimage.h \
     classes/parser/convert/fonthelper.h \
+    classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
     classes/parser/tags.h \
     classes/settings/bitmapeditoroptions.h \
@@ -120,6 +136,7 @@ HEADERS += \
     classes/settings/presets/templateoptions.h \
     classes/settings/recentlist.h \
     classes/settings/resizesettings.h \
+    classes/settings/setupdialogoptions.h \
     classes/status/statusdata.h \
     classes/status/statusmanager.h \
     controls/about/dialogabout.h \
@@ -130,6 +147,7 @@ HEADERS += \
     controls/fonts/font-new/unicodeblocksmodel.h \
     controls/fonts/font-new/unicodeblocksfiltermodel.h \
     controls/fonts/font-preview/dialogfontpreview.h \
+    controls/fonts/font-range/dialogfontrange.h \
     controls/images/editortabimage.h \
     controls/images/widgetbitmapeditor.h \
     controls/main/mainwindow.h \
@@ -145,6 +163,7 @@ HEADERS += \
     controls/setup/parts/matrix/matrixitemdelegate.h \
     controls/setup/parts/matrix/matrixpreviewmodel.h \
     controls/setup/parts/matrix/setuptabmatrix.h \
+    controls/setup/parts/prepare/demogenerator.h \
     controls/setup/parts/prepare/setuptabprepare.h \
     controls/setup/parts/reordering/reorderingitemdelegate.h \
     controls/setup/parts/reordering/reorderingpreviewmodel.h \
@@ -153,6 +172,7 @@ HEADERS += \
     controls/start/starttab.h \
     controls/updates/dialogupdates.h \
     interfaces/idocument.h \
+    interfaces/ieditor.h \
     interfaces/imainwindow.h
 
 FORMS += \
@@ -161,6 +181,7 @@ FORMS += \
     controls/fonts/font-editor/editortabfont.ui \
     controls/fonts/font-new/dialogfontselect.ui \
     controls/fonts/font-preview/dialogfontpreview.ui \
+    controls/fonts/font-range/dialogfontrange.ui \
     controls/images/editortabimage.ui \
     controls/images/widgetbitmapeditor.ui \
     controls/main/mainwindow.ui \
@@ -195,6 +216,7 @@ INCLUDEPATH += . \
     ./controls/fonts/font-editor \
     ./controls/fonts/font-new \
     ./controls/fonts/font-preview \
+    ./controls/fonts/font-range \
     ./controls/images \
     ./controls/main \
     ./controls/resize \
@@ -230,7 +252,24 @@ OTHER_FILES += \
     resources/history.xml \
     resources/history.xsl \
     resources/history.css \
-    resources/unicode_blocks.txt
+    resources/unicode_blocks.txt \
+    resources/script_top2bottom_forward.js \
+    resources/scan_scripts/scan_top2bottom_forward_band.js \
+    resources/scan_scripts/scan_top2bottom_forward.js \
+    resources/scan_scripts/scan_top2bottom_backward_band.js \
+    resources/scan_scripts/scan_top2bottom_backward.js \
+    resources/scan_scripts/scan_right2left_forward_band.js \
+    resources/scan_scripts/scan_right2left_forward.js \
+    resources/scan_scripts/scan_right2left_backward_band.js \
+    resources/scan_scripts/scan_right2left_backward.js \
+    resources/scan_scripts/scan_left2right_forward_band.js \
+    resources/scan_scripts/scan_left2right_forward.js \
+    resources/scan_scripts/scan_left2right_backward_band.js \
+    resources/scan_scripts/scan_left2right_backward.js \
+    resources/scan_scripts/scan_bottom2top_forward_band.js \
+    resources/scan_scripts/scan_bottom2top_forward.js \
+    resources/scan_scripts/scan_bottom2top_backward_band.js \
+    resources/scan_scripts/scan_bottom2top_backward.js
 
 
 # generate version info file on each build, because file in other directory

@@ -22,11 +22,15 @@
 //-----------------------------------------------------------------------------
 #include <QWidget>
 //-----------------------------------------------------------------------------
+#include "conversion_options.h"
+//-----------------------------------------------------------------------------
 namespace Ui {
 class SetupTabFont;
 }
 //-----------------------------------------------------------------------------
 class Preset;
+//-----------------------------------------------------------------------------
+using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
 class SetupTabFont : public QWidget
 {
@@ -43,9 +47,12 @@ private:
     Ui::SetupTabFont *ui;
     Preset *mPreset;
 
+    const QString sortingName(CharactersSortOrder value) const;
+
 private slots:
     void on_checkBoxBom_toggled(bool value);
     void on_comboBoxEncoding_currentIndexChanged(const QString &value);
+    void on_comboBoxSorting_currentIndexChanged(int index);
 };
 //-----------------------------------------------------------------------------
 #endif // SETUPTABFONT_H

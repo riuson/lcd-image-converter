@@ -437,6 +437,12 @@ void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, Colo
         break;
     }
     }
+
+    if (bitIndex >= 24)
+    {
+        *colorType = Alpha;
+        *partIndex = bitIndex & 7;
+    }
 }
 //-----------------------------------------------------------------------------
 void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const
@@ -573,15 +579,51 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
             {
             case ConversionTypeMonochrome:
             {
-                *name = QVariant(QString("BW%1").arg(partIndex));
-                *color = QVariant(QColor(128, 128, 128));
+                switch (colorType)
+                {
+                case BlackOrWhite:
+                {
+                    *name = QVariant(QString("BW%1").arg(partIndex));
+                    *color = QVariant(QColor(128, 128, 128));
+                    break;
+                }
+                case Alpha:
+                {
+                    *name = QVariant(QString("A%1").arg(partIndex));
+                    int a = (80 / 8 * partIndex) + 50;
+                    *color = QVariant(QColor(128, 128, 128, a));
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+                }
                 break;
             }
             case ConversionTypeGrayscale:
             {
-                *name = QVariant(QString("Gr%1").arg(partIndex));
-                int a = (80 / 8 * partIndex) + 50;
-                *color = QVariant(QColor(10, 10, 10, a));
+                switch (colorType)
+                {
+                case Gray:
+                {
+                    *name = QVariant(QString("Gr%1").arg(partIndex));
+                    int a = (80 / 8 * partIndex) + 50;
+                    *color = QVariant(QColor(10, 10, 10, a));
+                    break;
+                }
+                case Alpha:
+                {
+                    *name = QVariant(QString("A%1").arg(partIndex));
+                    int a = (80 / 8 * partIndex) + 50;
+                    *color = QVariant(QColor(128, 128, 128, a));
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+                }
                 break;
             }
             case ConversionTypeColor:
@@ -609,9 +651,14 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
                     *color = QVariant(QColor(0, 0, 255, a));
                     break;
                 }
-                case Empty:
-                case BlackOrWhite:
-                case Gray:
+                case Alpha:
+                {
+                    *name = QVariant(QString("A%1").arg(partIndex));
+                    int a = (80 / 8 * partIndex) + 50;
+                    *color = QVariant(QColor(128, 128, 128, a));
+                    break;
+                }
+                default:
                     break;
                 }
 
@@ -629,6 +676,7 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
 //-----------------------------------------------------------------------------
 void MatrixPreviewModel::callReset()
 {
-    this->reset();
+    this->beginResetModel();
+    this->endResetModel();
 }
 //-----------------------------------------------------------------------------

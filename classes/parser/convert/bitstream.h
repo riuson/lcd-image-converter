@@ -41,6 +41,7 @@ private:
     int mStart;
     int mCount;
     int mBlockSize;
+    bool mSetOnesByDefault;
 
     int mCurrentPixel;
     int mMaskSource;

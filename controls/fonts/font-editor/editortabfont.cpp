@@ -41,6 +41,7 @@
 #include "tags.h"
 #include "statusdata.h"
 #include "fonteditoroptions.h"
+#include "fontdocument.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
@@ -51,9 +52,11 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->mSplitter = new QSplitter(this);
     this->ui->horizontalLayout->addWidget(this->mSplitter);
 
-    this->mContainer = new DataContainer(this);
+    this->mDocument = new FontDocument(this);
 
-    this->mModel = new ImagesModel(this->mContainer, Qt::Vertical, this);
+    this->mLastImagesCount = 0;
+
+    this->mModel = new ImagesModel(this->mDocument->dataContainer(), Qt::Vertical, this);
     this->ui->tableViewCharacters->setModel(this->mModel);
     this->connect(this->mModel, SIGNAL(scaleChanged()), SLOT(resizeToContents()));
     this->mModel->setScale(FontEditorOptions::scale());
@@ -66,18 +69,10 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->mSplitter->addWidget(this->ui->tableViewCharacters);
     this->mSplitter->setChildrenCollapsible(false);
 
-    this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(mon_container_imagesChanged()));
+    this->connect(this->mDocument, SIGNAL(documentChanged()), SLOT(mon_documentChanged()));
     this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
     this->connect(this->mEditor, SIGNAL(mouseMove(QPoint)), SLOT(mon_editor_mouseMove(QPoint)));
     this->connect(this->mEditor, SIGNAL(scaleSchanged(int)), SLOT(mon_editor_scaleChanged(int)));
-
-    this->setDocumentName(tr("Font", "new font name"));
-    this->setFileName("");
-    this->setConvertedFileName("");
-    this->setChanged(false);
-
-    this->setAntialiasing(false);
-    this->setMonospaced(false);
 
     this->ui->tableViewCharacters->resizeColumnsToContents();
 
@@ -88,6 +83,84 @@ EditorTabFont::~EditorTabFont()
 {
     delete ui;
     delete this->mModel;
+}
+//-----------------------------------------------------------------------------
+IDocument *EditorTabFont::document() const
+{
+    return qobject_cast<IDocument *>(this->mDocument);
+}
+//-----------------------------------------------------------------------------
+QStringList EditorTabFont::selectedKeys() const
+{
+    QStringList result;
+
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    if (selectionModel->hasSelection())
+    {
+        QModelIndexList indexes = selectionModel->selectedIndexes();
+        for (int i = 0; i < indexes.length(); i++)
+        {
+            QVariant var = this->mModel->data(indexes.at(i), ImagesModel::KeyRole);
+            QString key = var.toString();
+            if (!result.contains(key))
+            {
+                result << key;
+            }
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+StatusData *EditorTabFont::statusData() const
+{
+    return this->mStatusData;
+}
+//-----------------------------------------------------------------------------
+IEditor::EditorType EditorTabFont::type() const
+{
+    return EditorFont;
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::setFontCharacters(const QString &chars,
+                                      const QString &fontFamily,
+                                      const QString &_style,
+                                      const int _size,
+                                      const bool _monospaced,
+                                      const bool _antialiasing)
+{
+    this->mDocument->setFontCharacters(
+                chars,
+                fontFamily,
+                _style,
+                _size,
+                _monospaced,
+                _antialiasing);
+
+    this->updateTableFont();
+    this->mModel->callReset();
+    this->ui->tableViewCharacters->resizeColumnsToContents();
+
+    this->mEditor->setImage(this->mDocument->dataContainer()->image(this->currentKey()));
+
+    this->resizeToContents();
+    this->updateStatus();
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::fontCharacters(QString *chars,
+                                   QString *fontFamily,
+                                   QString *_style,
+                                   int *_size,
+                                   bool *_monospaced,
+                                   bool *_antialiasing)
+{
+    this->mDocument->fontCharacters(
+                chars,
+                fontFamily,
+                _style,
+                _size,
+                _monospaced,
+                _antialiasing);
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::changeEvent(QEvent *e)
@@ -132,28 +205,6 @@ void EditorTabFont::wheelEvent(QWheelEvent *event)
     }
 }
 //-----------------------------------------------------------------------------
-void EditorTabFont::setFileName(const QString &value)
-{
-    if (this->fileName() != value)
-    {
-        this->mContainer->setInfo("filename", QVariant(value));
-    }
-}
-//-----------------------------------------------------------------------------
-QString EditorTabFont::convertedFileName() const
-{
-    QVariant result = this->mContainer->info("converted filename");
-    return result.toString();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::setConvertedFileName(const QString &value)
-{
-    if (this->convertedFileName() != value)
-    {
-        this->mContainer->setInfo("converted filename", QVariant(value));
-    }
-}
-//-----------------------------------------------------------------------------
 void EditorTabFont::initStatusData()
 {
     this->mStatusData = new StatusData(this);
@@ -162,50 +213,114 @@ void EditorTabFont::initStatusData()
     this->updateStatus();
 }
 //-----------------------------------------------------------------------------
-QFont EditorTabFont::usedFont() const
+void EditorTabFont::updateStatus()
 {
-    QVariant var = this->mContainer->info("used font");
-    if (!var.isNull())
+    const QImage *currentImage = this->mDocument->dataContainer()->image(this->currentKey());
+    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+
+    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
+
+    // status update: current image index
     {
-        QFont result = var.value<QFont>();
-        return result;
-    }
-    return QFont();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::setUsedFont(const QFont &value)
-{
-    this->mContainer->setInfo("used font", value);
-}
-//-----------------------------------------------------------------------------
-QString EditorTabFont::usedStyle() const
-{
-    return this->mContainer->info("style").toString();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::setUsedStyle(const QString &value)
-{
-    if (this->usedStyle() != value)
-    {
-        this->mContainer->setInfo("style", value);
+        int current = this->mDocument->dataContainer()->keys().indexOf(this->currentKey());
+        int total = this->mDocument->dataContainer()->count();
+
+        this->mStatusData->setData(StatusData::ImagesCount, total);
+        this->mStatusData->setData(StatusData::ImageIndex, current);
     }
 }
 //-----------------------------------------------------------------------------
-void EditorTabFont::mon_container_imagesChanged()
+QString EditorTabFont::currentKey() const
+{
+    QString result;
+
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    if (selectionModel->hasSelection())
+    {
+        QModelIndex currentIndex = selectionModel->currentIndex();
+        if (currentIndex.isValid())
+        {
+            QVariant var = this->mModel->data(currentIndex, ImagesModel::KeyRole);
+            result = var.toString();
+        }
+        else
+        {
+        }
+    }
+
+    if (result.isEmpty())
+    {
+        if (this->mDocument->dataContainer()->count() > 0)
+        {
+            result = this->mDocument->dataContainer()->keys().at(0);
+        }
+        else
+        {
+            result = "default";
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::updateSelectedImage()
+{
+    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    if (selectionModel->hasSelection())
+    {
+        QModelIndex index = selectionModel->currentIndex();
+
+        QVariant var = this->mModel->data(index, ImagesModel::ImageRole);
+        if (var.isValid())
+        {
+            QImage image = var.value<QImage>();
+            this->mEditor->setImage(&image);
+
+            this->updateStatus();
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::mon_documentChanged()
 {
     this->updateSelectedImage();
-    this->setChanged(true);
-    emit this->documentChanged(true, this->documentName(), this->fileName());
+    emit this->documentChanged();
+
+    if (this->mDocument->dataContainer()->count() != this->mLastImagesCount)
+    {
+        this->mon_documentChangedSignificantly();
+        this->mLastImagesCount = this->mDocument->dataContainer()->count();
+    }
+}
+//-----------------------------------------------------------------------------
+void EditorTabFont::mon_documentChangedSignificantly()
+{
+    this->mModel->callReset();
+    this->updateTableFont();
+    this->updateStatus();
+    emit this->documentChanged();
+
+    if (this->mDocument->dataContainer()->count() > 0)
+    {
+        QString key = this->currentKey();
+        const QImage *image = this->mDocument->dataContainer()->image(key);
+        this->mEditor->setImage(image);
+    }
+    else
+    {
+        QImage empty = QImage();
+        this->mEditor->setImage(&empty);
+    }
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_imageChanged()
 {
-    this->beginChanges();
+    this->mDocument->beginChanges();
 
     const QImage *image = this->mEditor->image();
-    this->mContainer->setImage(this->currentKey(), image);
+    this->mDocument->dataContainer()->setImage(this->currentKey(), image);
 
-    this->endChanges();
+    this->mDocument->endChanges();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_mouseMove(QPoint point)
@@ -234,7 +349,7 @@ void EditorTabFont::currentChanged(const QModelIndex &current, const QModelIndex
         QVariant var = this->mModel->data(current, ImagesModel::KeyRole);
         QString key = var.toString();
 
-        const QImage *image = this->mContainer->image(key);
+        const QImage *image = this->mDocument->dataContainer()->image(key);
         this->mEditor->setImage(image);
 
         // update selection for currentKey() method, called by updateStatus()
@@ -247,10 +362,6 @@ void EditorTabFont::currentChanged(const QModelIndex &current, const QModelIndex
 //-----------------------------------------------------------------------------
 void EditorTabFont::updateTableFont()
 {
-    this->mTableFont = QFont(this->usedFont());
-    this->mTableFont.setPointSize(11);
-    this->mTableFont.setBold(false);
-    this->ui->tableViewCharacters->setFont(this->mTableFont);
     this->resizeToContents();
 }
 //-----------------------------------------------------------------------------
@@ -258,685 +369,6 @@ void EditorTabFont::resizeToContents()
 {
     this->ui->tableViewCharacters->resizeColumnsToContents();
     this->ui->tableViewCharacters->resizeRowsToContents();
-}
-//-----------------------------------------------------------------------------
-bool EditorTabFont::load(const QString &fileName)
-{
-    bool result = false;
-
-    QFile file(fileName);
-    if (file.open(QIODevice::ReadOnly))
-    {
-        QDomDocument doc;
-        QString errorMsg;
-        QString converted;
-        int errorColumn, errorLine;
-        if (doc.setContent(&file, &errorMsg, &errorLine, &errorColumn))
-        {
-            QDomElement root = doc.documentElement();
-            if( root.tagName() == "data" )
-            {
-                this->setDocumentName(root.attribute("name", fileName));
-
-                QString fontFamily, style;
-                int size = 0;
-                bool monospaced = false, antialiasing = false;
-
-                QDomNode n = root.firstChild();
-                while( !n.isNull() )
-                {
-                    QDomElement e = n.toElement();
-
-                    if( !e.isNull() )
-                    {
-                        if( e.tagName() == "family" )
-                        {
-                            fontFamily = e.text();
-                        }
-                        else if( e.tagName() == "style" )
-                        {
-                            style = e.text();
-                        }
-                        else if( e.tagName() == "size" )
-                        {
-                            bool ok;
-                            int a = e.text().toInt(&ok);
-                            if (ok)
-                                size = a;
-                        }
-                        else if( e.tagName() == "widthType" )
-                        {
-                            monospaced = (e.text() == "monospaced");
-                        }
-                        else if( e.tagName() == "antialiasing" )
-                        {
-                            antialiasing = (e.text() == "true");
-                        }
-                        else if( e.tagName() == "converted" )
-                        {
-                            converted = e.text();
-                        }
-                    }
-
-                    n = n.nextSibling();
-                }
-
-                QDomNodeList nodesChar = root.elementsByTagName("char");
-                for (int i = 0; i < nodesChar.count(); i++)
-                {
-                    QDomElement e = nodesChar.at(i).toElement();
-                    bool ok;
-                    int code = e.attribute("code", "none").toInt(&ok, 16);
-                    if (ok)
-                    {
-                        QDomElement nodePicture = e.firstChildElement("picture");
-                        if (nodePicture.isElement())
-                        {
-                            QString str = nodePicture.text();
-                            QByteArray ba = QByteArray::fromBase64(str.toAscii());
-                            QBuffer buffer(&ba);
-                            QImage image;
-                            image.load(&buffer, "PNG");
-
-                            QString key = QString(QChar(code));
-                            this->mContainer->setImage(key, &image);
-                        }
-                    }
-                }
-                this->mModel->callReset();
-                this->ui->tableViewCharacters->resizeColumnsToContents();
-
-                QFontDatabase fonts;
-                QFont font = fonts.font(fontFamily, style, size);
-                font.setPixelSize(size);
-                this->setUsedFont(font);
-
-                this->setUsedStyle(style);
-                this->setMonospaced(monospaced);
-                this->setAntialiasing(antialiasing);
-                this->updateTableFont();
-            }
-        }
-        file.close();
-
-        this->setFileName(fileName);
-        this->setConvertedFileName(converted);
-
-        this->mEditor->setImage(this->mContainer->image(this->currentKey()));
-
-        this->setChanged(false);
-
-        this->updateStatus();
-    }
-
-    return result;
-}
-//-----------------------------------------------------------------------------
-bool EditorTabFont::save(const QString &fileName)
-{
-    bool result = false;
-
-    QDomDocument doc;
-    QDomProcessingInstruction procInstruction = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\"");
-    doc.appendChild(procInstruction);
-
-    QDomElement nodeRoot = doc.createElement("data");
-    doc.appendChild(nodeRoot);
-
-    QString chars, fontFamily, style;
-    int size;
-    bool monospaced, antialiasing;
-    this->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
-
-    nodeRoot.setAttribute("type", "font");
-    nodeRoot.setAttribute("name", this->documentName());
-
-    //font family
-    QDomElement nodeFamily = doc.createElement("family");
-    nodeRoot.appendChild(nodeFamily);
-    nodeFamily.appendChild(doc.createTextNode(fontFamily));
-
-    // size
-    QDomElement nodeSize = doc.createElement("size");
-    nodeRoot.appendChild(nodeSize);
-    nodeSize.appendChild(doc.createTextNode(QString("%1").arg(size)));
-
-    // style
-    QDomElement nodeStyle = doc.createElement("style");
-    nodeRoot.appendChild(nodeStyle);
-    nodeStyle.appendChild(doc.createTextNode(style));
-
-    // monospaced or proportional
-    QDomElement nodeWidthType = doc.createElement("widthType");
-    nodeRoot.appendChild(nodeWidthType);
-    if (monospaced)
-        nodeWidthType.appendChild(doc.createTextNode("monospaced"));
-    else
-        nodeWidthType.appendChild(doc.createTextNode("proportional"));
-
-    // antialiasing
-    QDomElement nodeAntialiasing = doc.createElement("antialiasing");
-    nodeRoot.appendChild(nodeAntialiasing);
-    if (monospaced)
-        nodeAntialiasing.appendChild(doc.createTextNode("true"));
-    else
-        nodeAntialiasing.appendChild(doc.createTextNode("false"));
-
-    // string
-    QDomElement nodeString = doc.createElement("string");
-    nodeRoot.appendChild(nodeString);
-    nodeString.appendChild(doc.createTextNode(chars));
-
-    // converted file name
-    QDomElement nodeConverted = doc.createElement("converted");
-    nodeRoot.appendChild(nodeConverted);
-    nodeConverted.appendChild(doc.createTextNode(this->convertedFileName()));
-
-    // chars list
-    QDomElement nodeChars = doc.createElement("chars");
-    nodeRoot.appendChild(nodeChars);
-
-    QListIterator<QString> it(this->mContainer->keys());
-    it.toFront();
-    while (it.hasNext())
-    {
-        QString key = it.next();
-        // char
-        QDomElement nodeChar = doc.createElement("char");
-        nodeChars.appendChild(nodeChar);
-        nodeChar.setAttribute("character", key);
-        nodeChar.setAttribute("code", QString("%1").arg(key.at(0).unicode(), 4, 16, QChar('0')));
-
-        QDomElement nodePicture = doc.createElement("picture");
-        nodeChar.appendChild(nodePicture);
-
-        nodePicture.setAttribute("format", "png");
-
-        QByteArray ba;
-        QBuffer buffer(&ba);
-        buffer.open(QIODevice::WriteOnly);
-        this->mContainer->image(key)->save(&buffer, "PNG");
-        QString data = ba.toBase64();
-
-        QDomText nodeData = doc.createTextNode(data);
-        nodePicture.appendChild(nodeData);
-    }
-
-    QFile file(fileName);
-    if (file.open(QIODevice::WriteOnly))
-    {
-        QTextStream stream(&file);
-        doc.save(stream, 4);
-
-        this->setFileName(fileName);
-        file.close();
-        result = true;
-        this->setChanged(false);
-    }
-
-    return result;
-}
-//-----------------------------------------------------------------------------
-bool EditorTabFont::changed() const
-{
-    bool result = this->mContainer->info("data changed").toBool();
-    return result;
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::setChanged(bool value)
-{
-    if (this->changed() != value)
-    {
-        this->mContainer->setInfo("data changed", value);
-        emit this->documentChanged(value, this->documentName(), this->fileName());
-    }
-}
-//-----------------------------------------------------------------------------
-QString EditorTabFont::fileName() const
-{
-    QVariant result = this->mContainer->info("filename");
-    return result.toString();
-}
-//-----------------------------------------------------------------------------
-QString EditorTabFont::documentName() const
-{
-    QVariant result = this->mContainer->info("document name");
-    return result.toString();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::setDocumentName(const QString &value)
-{
-    if (this->documentName() != value)
-    {
-        this->mContainer->setInfo("document name", value);
-        this->setChanged(true);
-    }
-}
-//-----------------------------------------------------------------------------
-DataContainer *EditorTabFont::dataContainer()
-{
-    return this->mContainer;
-}
-//-----------------------------------------------------------------------------
-QStringList EditorTabFont::selectedKeys() const
-{
-    QStringList result;
-
-    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
-    if (selectionModel->hasSelection())
-    {
-        QModelIndexList indexes = selectionModel->selectedIndexes();
-        for (int i = 0; i < indexes.length(); i++)
-        {
-            QVariant var = this->mModel->data(indexes.at(i), ImagesModel::KeyRole);
-            QString key = var.toString();
-            if (!result.contains(key))
-            {
-                result << key;
-            }
-        }
-    }
-
-    return result;
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::convert(bool request)
-{
-    Tags tags;
-
-    if (!this->fileName().isEmpty())
-        tags.setTagValue(Tags::DocumentFilename, this->fileName());
-    else
-        tags.setTagValue(Tags::DocumentFilename, "unsaved");
-
-    tags.setTagValue(Tags::DocumentName, this->documentName());
-    tags.setTagValue(Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
-
-    QString chars, fontFamily, style;
-    int size;
-    bool monospaced, antialiasing;
-    this->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
-
-    tags.setTagValue(Tags::DocumentDataType, "font");
-    tags.setTagValue(Tags::FontFamily, fontFamily);
-    tags.setTagValue(Tags::FontSize, QString("%1").arg(size));
-    tags.setTagValue(Tags::FontStyle, style);
-    tags.setTagValue(Tags::FontString, chars);
-    tags.setTagValue(Tags::FontAntiAliasing, antialiasing ? "yes" : "no");
-    tags.setTagValue(Tags::FontWidthType, monospaced ? "monospaced" : "proportional");
-
-    Parser parser(this, Parser::TypeFont);
-    QString result = parser.convert(this, tags);
-
-    // converter output file name
-    QString outputFileName = this->convertedFileName();
-
-    // if file name not specified, show dialog
-    if (outputFileName.isEmpty())
-        request = true;
-
-    // show dialog
-    if (request)
-    {
-        QFileDialog dialog(this);
-        dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.selectFile(outputFileName);
-        dialog.setFileMode(QFileDialog::AnyFile);
-        dialog.setFilter(tr("C Files (*.c);;All Files (*.*)"));
-        dialog.setDefaultSuffix(QString("c"));
-        dialog.setWindowTitle(tr("Save result file as"));
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            outputFileName = dialog.selectedFiles().at(0);
-        }
-        else
-        {
-            outputFileName = "";
-        }
-    }
-
-    // if file name specified, save result
-    if (!outputFileName.isEmpty())
-    {
-        QFile file(outputFileName);
-        if (file.open(QFile::WriteOnly))
-        {
-            file.write(result.toUtf8());
-            file.close();
-
-            if (this->convertedFileName() != outputFileName)
-            {
-                this->beginChanges();
-
-                this->setConvertedFileName(outputFileName);
-                emit this->setChanged(true);
-
-                this->endChanges();
-            }
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::updateStatus()
-{
-    const QImage *currentImage = this->mContainer->image(this->currentKey());
-    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
-
-    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
-
-    // status update: current image index
-    {
-        int current = this->mContainer->keys().indexOf(this->currentKey());
-        int total = this->mContainer->count();
-
-        this->mStatusData->setData(StatusData::ImagesCount, total);
-        this->mStatusData->setData(StatusData::ImageIndex, current);
-    }
-}
-//-----------------------------------------------------------------------------
-StatusData *EditorTabFont::statusData() const
-{
-    return this->mStatusData;
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::beginChanges()
-{
-    if (!this->mContainer->historyInitialized())
-    {
-        this->mContainer->historyInit();
-    }
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::endChanges()
-{
-    this->mContainer->stateSave();
-}
-//-----------------------------------------------------------------------------
-bool EditorTabFont::canUndo()
-{
-    return this->mContainer->canUndo();
-}
-//-----------------------------------------------------------------------------
-bool EditorTabFont::canRedo()
-{
-    return this->mContainer->canRedo();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::undo()
-{
-    this->mContainer->stateUndo();
-    this->updateSelectedImage();
-
-    emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
-
-    this->updateStatus();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::redo()
-{
-    this->mContainer->stateRedo();
-    this->updateSelectedImage();
-
-    emit this->documentChanged(this->changed(), this->documentName(), this->fileName());
-
-    this->updateStatus();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::setFontCharacters(const QString &chars,
-                                      const QString &fontFamily,
-                                      const QString &_style,
-                                      const int _size,
-                                      const bool _monospaced,
-                                      const bool _antialiasing)
-{
-    QFontDatabase fonts;
-
-    bool regenerateAll = false;
-
-    if (this->mContainer->count() > 1)
-    {
-        if (this->usedFont().family() != fontFamily ||
-            this->usedStyle() != _style ||
-            this->usedFont().pixelSize() != _size ||
-            this->monospaced() != _monospaced ||
-            this->antialiasing() != _antialiasing)
-        {
-            DialogFontChanged dialog(this);
-            if (dialog.exec() == QDialog::Accepted)
-            {
-                regenerateAll = dialog.regenerateAll();
-            }
-            else
-            {
-                return;
-            }
-        }
-    }
-    else // for newly created fonts
-    {
-        regenerateAll = true;
-    }
-
-    QImage emptyImage = QImage();
-    this->mEditor->setImage(&emptyImage);
-
-    // create font with specified parameters
-    QFont fontNew = fonts.font(fontFamily, _style, _size);
-    fontNew.setPixelSize(_size);
-
-    if (_antialiasing)
-        fontNew.setStyleStrategy(QFont::PreferAntialias);
-    else
-        fontNew.setStyleStrategy(QFont::NoAntialias);
-
-    // remove old characters
-    if (regenerateAll)
-    {
-        this->mContainer->clear();
-
-        // save new font
-        this->setUsedFont(fontNew);
-        this->setUsedStyle(_style);
-        this->setMonospaced(_monospaced);
-        this->setAntialiasing(_antialiasing);
-    }
-    else
-    {
-        // remove characters, which not present in new characters list
-        QStringList keys = this->mContainer->keys();
-        QListIterator<QString> it(keys);
-        it.toFront();
-        while(it.hasNext())
-        {
-            QString a = it.next();
-            if (!chars.contains(a))
-            {
-                this->mContainer->remove(a);
-            }
-        }
-    }
-
-    // find max size
-    int width = 0, height = 0;
-    if (_monospaced)
-    {
-        QFontMetrics metrics(fontNew);
-        for (int i = 0; i < chars.count(); i++)
-        {
-            width = qMax(width, metrics.width(chars.at(i)));
-        }
-        height = metrics.height();
-    }
-
-    // generate new characters
-    QStringList keys = this->mContainer->keys();
-    for (int i = 0; i < chars.count(); i++)
-    {
-        QString key = QString(chars.at(i));
-
-        // if character not exists, create it
-        if (!keys.contains(key))
-        {
-            keys.append(key);
-            QImage image = this->drawCharacter(chars.at(i),
-                                               fontNew,
-                                               this->mEditor->color1(),
-                                               this->mEditor->color2(),
-                                               width,
-                                               height,
-                                               _antialiasing);
-            this->mContainer->setImage(key, new QImage(image));
-        }
-    }
-
-    this->setChanged(true);
-
-    this->updateTableFont();
-    this->mModel->callReset();
-    this->ui->tableViewCharacters->resizeColumnsToContents();
-
-    this->mEditor->setImage(this->mContainer->image(this->currentKey()));
-
-    this->resizeToContents();
-    this->updateStatus();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::fontCharacters(QString *chars,
-                                   QString *fontFamily,
-                                   QString *_style,
-                                   int *_size,
-                                   bool *_monospaced,
-                                   bool *_antialiasing)
-{
-    QStringList charList(this->mContainer->keys());
-    //*chars = this->mCharacters;
-    *chars = charList.join("");
-    *fontFamily = this->usedFont().family();
-    *_size = this->usedFont().pixelSize();
-    *_style = this->usedStyle();
-    *_monospaced = this->monospaced();
-    *_antialiasing = this->antialiasing();
-}
-//-----------------------------------------------------------------------------
-QImage EditorTabFont::drawCharacter(const QChar value,
-                                    const QFont &font,
-                                    const QColor &foreground,
-                                    const QColor &background,
-                                    const int width,
-                                    const int height,
-                                    const bool antialiasing)
-{
-    QFontMetrics fontMetrics(font);
-
-    int charWidth = fontMetrics.width(value);
-    int charHeight = fontMetrics.height();
-
-    // fix width of italic style
-    QRect r = fontMetrics.boundingRect(QString(value));
-    charWidth = qMax(qMax(r.left(), r.right()) + 1, charWidth);
-
-    int imageWidth = width;
-    int imageHeight = height;
-
-    if (width == 0 || height == 0)
-    {
-        imageWidth = charWidth;
-        imageHeight = charHeight;
-    }
-    QImage result(imageWidth, imageHeight, QImage::Format_RGB32);
-
-    QPainter painter(&result);
-    painter.setFont(font);
-
-    painter.setRenderHint(QPainter::Antialiasing, antialiasing);
-    painter.setRenderHint(QPainter::TextAntialiasing, antialiasing);
-
-    painter.setPen(foreground);
-
-    painter.fillRect(result.rect(), background);
-
-    painter.drawText((imageWidth / 2) - (charWidth / 2),
-                     fontMetrics.ascent(),//+4
-                     QString(value));
-
-    return result;
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::updateSelectedImage()
-{
-    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
-    if (selectionModel->hasSelection())
-    {
-        QModelIndex index = selectionModel->currentIndex();
-
-        QVariant var = this->mModel->data(index, ImagesModel::ImageRole);
-        if (var.isValid())
-        {
-            QImage image = var.value<QImage>();
-            this->mEditor->setImage(&image);
-
-            this->updateStatus();
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-bool EditorTabFont::monospaced() const
-{
-    return this->mContainer->info("monospaced").toBool();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::setMonospaced(const bool value)
-{
-    if (this->monospaced() != value)
-    {
-        this->mContainer->setInfo("monospaced", value);
-    }
-}
-//-----------------------------------------------------------------------------
-bool EditorTabFont::antialiasing() const
-{
-    return this->mContainer->info("antialiasing").toBool();
-}
-//-----------------------------------------------------------------------------
-void EditorTabFont::setAntialiasing(const bool value)
-{
-    if (this->antialiasing() != value)
-    {
-        this->mContainer->setInfo("antialiasing", value);
-    }
-}
-//-----------------------------------------------------------------------------
-QString EditorTabFont::currentKey() const
-{
-    QString result;
-
-    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
-    if (selectionModel->hasSelection())
-    {
-        QModelIndex currentIndex = selectionModel->currentIndex();
-        if (currentIndex.isValid())
-        {
-            QVariant var = this->mModel->data(currentIndex, ImagesModel::KeyRole);
-            result = var.toString();
-        }
-        else
-        {
-        }
-    }
-
-    if (result.isEmpty())
-    {
-        if (this->mContainer->count() > 0)
-        {
-            result = this->mContainer->keys().at(0);
-        }
-        else
-        {
-            result = "default";
-        }
-    }
-
-    return result;
 }
 //-----------------------------------------------------------------------------
 /*

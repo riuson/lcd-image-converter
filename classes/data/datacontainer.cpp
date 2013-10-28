@@ -22,6 +22,8 @@
 #include <QImage>
 #include "historykeeper.h"
 //-----------------------------------------------------------------------------
+const QString DataContainer::DataChangedKey = QString("data changed");
+//-----------------------------------------------------------------------------
 DataContainer::DataContainer(QObject *parent) :
     QObject(parent)
 {
@@ -47,6 +49,7 @@ void DataContainer::setImage(const QString &key, const QImage *image)
     this->remove(key);
     QImage *imageNew = new QImage(*image);
     this->mImageMap.insert(key, imageNew);
+    this->setChanged(true);
 
     emit this->imagesChanged();
 }
@@ -62,7 +65,9 @@ QVariant DataContainer::info(const QString &key) const
 //-----------------------------------------------------------------------------
 void DataContainer::setInfo(const QString &key, const QVariant &value)
 {
+    //TODO: may be need to compare old and new values?
     this->mInfoMap.insert(key, value);
+    this->setChanged(true);
 }
 //-----------------------------------------------------------------------------
 void DataContainer::clear()
@@ -131,5 +136,20 @@ bool DataContainer::canUndo() const
 bool DataContainer::canRedo() const
 {
     return this->mHistory->canRestoreNext();
+}
+//-----------------------------------------------------------------------------
+bool DataContainer::changed() const
+{
+    QVariant value = this->info(DataContainer::DataChangedKey);
+    if (!value.isNull())
+    {
+        return value.toBool();
+    }
+    return false;
+}
+//-----------------------------------------------------------------------------
+void DataContainer::setChanged(bool value)
+{
+    this->mInfoMap.insert(DataContainer::DataChangedKey, value);
 }
 //-----------------------------------------------------------------------------

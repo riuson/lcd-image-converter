@@ -302,6 +302,7 @@ int ReorderingPreviewModel::maxBitIndex() const
 //-----------------------------------------------------------------------------
 void ReorderingPreviewModel::callReset()
 {
-    this->reset();
+    this->beginResetModel();
+    this->endResetModel();
 }
 //-----------------------------------------------------------------------------

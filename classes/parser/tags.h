@@ -80,6 +80,7 @@ public:
         OutputImageHeight,
         OutputImagesMaxWidth,
         OutputImagesMaxHeight,
+        OutputImagesMaxBlocksCount,
 
         BlocksHeaderStart,
         BlocksHeaderEnd,
@@ -91,8 +92,9 @@ public:
 
     TagsEnum parseTag(const QString &key) const;
 
-    const QString tagValue(TagsEnum key);
+    const QString tagValue(TagsEnum key) const;
     void setTagValue(TagsEnum key, const QString &value);
+    void importValues(const Tags *other);
 
     bool find(const QString &text, int startIndex, int *resultIndex, int *nextIndex, TagsEnum *key, QString *content);
 

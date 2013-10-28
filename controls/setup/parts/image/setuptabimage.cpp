@@ -64,6 +64,11 @@ void SetupTabImage::matrixChanged()
         this->ui->radioButtonBigEndian->setChecked(true);
 
     this->ui->checkBoxCompressionRle->setChecked(this->mPreset->image()->compressionRle());
+    this->ui->checkBoxBlockDefaultOnes->setChecked(this->mPreset->image()->blockDefaultOnes());
+
+    this->ui->lineEditPrefix->setText(this->mPreset->image()->blockPrefix());
+    this->ui->lineEditSuffix->setText(this->mPreset->image()->blockSuffix());
+    this->ui->lineEditDelimiter->setText(this->mPreset->image()->blockDelimiter());
 }
 //-----------------------------------------------------------------------------
 void SetupTabImage::on_checkBoxSplitToRows_toggled(bool value)
@@ -93,5 +98,25 @@ void SetupTabImage::on_comboBoxBlockSize_currentIndexChanged(int index)
 void SetupTabImage::on_checkBoxCompressionRle_toggled(bool value)
 {
     this->mPreset->image()->setCompressionRle(value);
+}
+//-----------------------------------------------------------------------------
+void SetupTabImage::on_checkBoxBlockDefaultOnes_toggled(bool value)
+{
+    this->mPreset->image()->setBlockDefaultOnes(value);
+}
+//-----------------------------------------------------------------------------
+void SetupTabImage::on_lineEditPrefix_textEdited(const QString &value)
+{
+    this->mPreset->image()->setBlockPrefix(value);
+}
+//-----------------------------------------------------------------------------
+void SetupTabImage::on_lineEditSuffix_textEdited(const QString &value)
+{
+    this->mPreset->image()->setBlockSuffix(value);
+}
+//-----------------------------------------------------------------------------
+void SetupTabImage::on_lineEditDelimiter_textEdited(const QString &value)
+{
+    this->mPreset->image()->setBlockDelimiter(value);
 }
 //-----------------------------------------------------------------------------

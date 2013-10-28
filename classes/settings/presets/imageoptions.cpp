@@ -27,7 +27,11 @@ ImageOptions::ImageOptions(QObject *parent) :
     this->mSplitToRows = true;
     this->mBytesOrder = BytesOrderLittleEndian;
     this->mBlockSize = Data8;
+    this->mBlockDefaultOnes = false;
     this->mCompressionRle = false;
+    this->mBlockPrefix = "0x";
+    this->mBlockSuffix = "";
+    this->mBlockDelimiter = ", ";
 }
 //-----------------------------------------------------------------------------
 bool ImageOptions::splitToRows() const
@@ -49,9 +53,29 @@ DataBlockSize ImageOptions::blockSize() const
     return Data32;
 }
 //-----------------------------------------------------------------------------
+bool ImageOptions::blockDefaultOnes() const
+{
+    return this->mBlockDefaultOnes;
+}
+//-----------------------------------------------------------------------------
 bool ImageOptions::compressionRle() const
 {
     return this->mCompressionRle;
+}
+//-----------------------------------------------------------------------------
+QString ImageOptions::blockPrefix() const
+{
+    return this->mBlockPrefix;
+}
+//-----------------------------------------------------------------------------
+QString ImageOptions::blockSuffix() const
+{
+    return this->mBlockSuffix;
+}
+//-----------------------------------------------------------------------------
+QString ImageOptions::blockDelimiter() const
+{
+    return this->mBlockDelimiter;
 }
 //-----------------------------------------------------------------------------
 void ImageOptions::setSplitToRows(bool value)
@@ -79,9 +103,37 @@ void ImageOptions::setBlockSize(DataBlockSize value)
     emit this->changed();
 }
 //-----------------------------------------------------------------------------
+void ImageOptions::setBlockDefaultOnes(bool value)
+{
+    this->mBlockDefaultOnes = value;
+
+    emit this->changed();
+}
+//-----------------------------------------------------------------------------
 void ImageOptions::setCompressionRle(bool value)
 {
     this->mCompressionRle = value;
+
+    emit this->changed();
+}
+//-----------------------------------------------------------------------------
+void ImageOptions::setBlockPrefix(const QString &value)
+{
+    this->mBlockPrefix = value;
+
+    emit this->changed();
+}
+//-----------------------------------------------------------------------------
+void ImageOptions::setBlockSuffix(const QString &value)
+{
+    this->mBlockSuffix = value;
+
+    emit this->changed();
+}
+//-----------------------------------------------------------------------------
+void ImageOptions::setBlockDelimiter(const QString &value)
+{
+    this->mBlockDelimiter = value;
 
     emit this->changed();
 }
@@ -92,7 +144,8 @@ bool ImageOptions::load(QSettings *settings, int version)
 
     if (version == 1)
     {
-        quint32 uBytesOrder = 0, uBlockSize = 0, uSplitToRows = 0, uCompressionRle = 0;
+        quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0, uCompressionRle = 0;
+        QString sBlockPrefix, sBlockSuffix, sBlockDelimiter;
 
         uBlockSize = settings->value("blockSize", int(0)).toUInt(&result);
 
@@ -106,11 +159,22 @@ bool ImageOptions::load(QSettings *settings, int version)
             uCompressionRle = settings->value("compressionRle", int(0)).toUInt(&result);
 
         if (result)
+            uBlockDefaultOnes = settings->value("blockDefaultOnes", int(0)).toUInt(&result);
+
+        sBlockPrefix = settings->value("blockPrefix", "0x").toString();
+        sBlockSuffix = settings->value("blockSuffix", "").toString();
+        sBlockDelimiter = settings->value("blockDelimiter", ", ").toString();
+
+        if (result)
         {
             this->setBlockSize((DataBlockSize)uBlockSize);
+            this->setBlockDefaultOnes((bool)uBlockDefaultOnes);
             this->setBytesOrder((BytesOrder)uBytesOrder);
             this->setSplitToRows((bool)uSplitToRows);
             this->setCompressionRle((bool)uCompressionRle);
+            this->setBlockPrefix(sBlockPrefix);
+            this->setBlockSuffix(sBlockSuffix);
+            this->setBlockDelimiter(sBlockDelimiter);
         }
     }
     else if (version == 2)
@@ -129,10 +193,14 @@ void ImageOptions::save(QSettings *settings)
 {
     settings->beginGroup("image");
 
-    settings->setValue("bytesOrder",     QString("%1").arg((int)this->bytesOrder()));
-    settings->setValue("blockSize",      QString("%1").arg((int)this->blockSize()));
-    settings->setValue("splitToRows",    QString("%1").arg((int)this->splitToRows()));
-    settings->setValue("compressionRle", QString("%1").arg((int)this->compressionRle()));
+    settings->setValue("bytesOrder",       QString("%1").arg((int)this->bytesOrder()));
+    settings->setValue("blockSize",        QString("%1").arg((int)this->blockSize()));
+    settings->setValue("blockDefaultOnes", QString("%1").arg((int)this->blockDefaultOnes()));
+    settings->setValue("splitToRows",      QString("%1").arg((int)this->splitToRows()));
+    settings->setValue("compressionRle",   QString("%1").arg((int)this->compressionRle()));
+    settings->setValue("blockPrefix",      this->blockPrefix());
+    settings->setValue("blockSuffix",      this->blockSuffix());
+    settings->setValue("blockDelimiter",   this->blockDelimiter());
 
     settings->endGroup();
 }

@@ -48,6 +48,10 @@ private slots:
     void on_radioButtonLittleEndian_toggled(bool value);
     void on_comboBoxBlockSize_currentIndexChanged(int index);
     void on_checkBoxCompressionRle_toggled(bool value);
+    void on_checkBoxBlockDefaultOnes_toggled(bool value);
+    void on_lineEditPrefix_textEdited(const QString &value);
+    void on_lineEditSuffix_textEdited(const QString &value);
+    void on_lineEditDelimiter_textEdited(const QString &value);
 };
 //-----------------------------------------------------------------------------
 #endif // SETUPTABIMAGE_H

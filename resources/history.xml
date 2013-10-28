@@ -6,8 +6,45 @@
             <date>current</date>
         </commit>
         <description>Fixed:
+ Cells size to fit big characters (Font Select dialog).
+
+Added:
+ New encodings;
+ Sorting table characters by codes;
+ Dialog to select new characters by range;
+ Ability to specify custom font size;
+ Control characters (0x01...0x1f) support;
+ New tag 'out_images_max_blocks_count';
+ Optional value of trailing bits;
+ Custom prefix, suffix and delimiter for data blocks;
+ Copy and Paste operations;
+ Alpha-channel support;
+ User-defined script to specify pixel's scan order.</description>
+ <downloads>
+     <item>
+         <name>Application for Windows (19.6 MB) on SourceForge</name>
+         <url>http://sourceforge.net/projects/lcd-image-converter/files</url>
+     </item>
+ </downloads>
+    </record>
+    <record>
+        <commit>
+            <sha1>ce530e158ca31dfbf6cb7268d8abbaef60deca32</sha1>
+            <date>2013-03-16 16:36:45 +0600</date>
+        </commit>
+        <description>Fixed:
  Feature 'Optimize height';
  Save font parameters for newly created font.</description>
+        <downloads>
+            <item>
+                <name>Application for Windows (7.7 MB) on Google Code</name>
+                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20130316-ce530e158ca3.zip</url>
+            </item>
+            <item>
+                <name>Application for Windows (7.7 MB) on SourceForge</name>
+                <url>http://sourceforge.net/projects/lcd-image-converter/files/lcd-image-converter-20130316-ce530e158ca3.zip</url>
+            </item>
+        </downloads>
     </record>
     <record>
         <commit>

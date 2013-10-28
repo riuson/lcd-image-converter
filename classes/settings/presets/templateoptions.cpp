@@ -24,8 +24,8 @@
 TemplateOptions::TemplateOptions(QObject *parent) :
     QObject(parent)
 {
-    this->mImageTemplate = ":/templates/image_convert";
-    this->mFontTemplate = ":/templates/font_convert";
+    this->mImageTemplate = "qrc:///templates/image_convert";
+    this->mFontTemplate = "qrc:///templates/font_convert";
 }
 //-----------------------------------------------------------------------------
 const QString &TemplateOptions::image() const
@@ -58,8 +58,8 @@ bool TemplateOptions::load(QSettings *settings, int version)
 
     if (version == 1)
     {
-        QString sTemplateImage = settings->value("imageTemplate", QString(":/templates/image_convert")).toString();
-        QString sTemplateFont = settings->value("fontTemplate", QString(":/templates/font_convert")).toString();
+        QString sTemplateImage = settings->value("imageTemplate", QString("qrc:///templates/image_convert")).toString();
+        QString sTemplateFont = settings->value("fontTemplate", QString("qrc:///templates/font_convert")).toString();
 
         this->setImage(sTemplateImage);
         this->setFont(sTemplateFont);
@@ -70,8 +70,8 @@ bool TemplateOptions::load(QSettings *settings, int version)
     {
         settings->beginGroup("templates");
 
-        QString sTemplateImage = settings->value("images", QString(":/templates/image_convert")).toString();
-        QString sTemplateFont = settings->value("fonts", QString(":/templates/font_convert")).toString();
+        QString sTemplateImage = settings->value("images", QString("qrc:///templates/image_convert")).toString();
+        QString sTemplateFont = settings->value("fonts", QString("qrc:///templates/font_convert")).toString();
 
         this->setImage(sTemplateImage);
         this->setFont(sTemplateFont);

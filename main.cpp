@@ -17,7 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
+#ifdef USED_QT5
+#include <QtWidgets/QApplication>
+#else
 #include <QtGui/QApplication>
+#endif
+
 #include "mainwindow.h"
 //-----------------------------------------------------------------------------
 int main(int argc, char *argv[])

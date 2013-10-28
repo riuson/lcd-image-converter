@@ -21,12 +21,14 @@
 //-----------------------------------------------------------------------------
 #include <QStringList>
 #include <QSettings>
+#include <QTextCodec>
 //-----------------------------------------------------------------------------
 FontOptions::FontOptions(QObject *parent) :
     QObject(parent)
 {
     this->mBom = false;
     this->mEncoding = FontOptions::encodings().at(0);
+    this->mSortOrder = CharactersSortAscending;
 }
 //-----------------------------------------------------------------------------
 bool FontOptions::bom() const
@@ -37,6 +39,11 @@ bool FontOptions::bom() const
 const QString &FontOptions::encoding() const
 {
     return this->mEncoding;
+}
+//-----------------------------------------------------------------------------
+CharactersSortOrder FontOptions::sortOrder() const
+{
+    return this->mSortOrder;
 }
 //-----------------------------------------------------------------------------
 void FontOptions::setBom(bool value)
@@ -54,6 +61,13 @@ void FontOptions::setEncoding(const QString &value)
 
         emit this->changed();
     }
+}
+//-----------------------------------------------------------------------------
+void FontOptions::setSortOrder(CharactersSortOrder value)
+{
+    this->mSortOrder = value;
+
+    emit this->changed();
 }
 //-----------------------------------------------------------------------------
 bool FontOptions::load(QSettings *settings, int version)
@@ -81,9 +95,13 @@ bool FontOptions::load(QSettings *settings, int version)
         settings->beginGroup("font");
 
         quint32 uBom;
+        quint32 uSortOrder;
         QString sEncoding;
 
         uBom = settings->value("bom", int(0)).toInt(&result);
+
+        if (result)
+            uSortOrder = settings->value("sortOrder", int(CharactersSortNone)).toInt(&result);
 
         if (result)
             sEncoding = settings->value("codec", QString("UTF-8")).toString();
@@ -92,6 +110,7 @@ bool FontOptions::load(QSettings *settings, int version)
         {
             this->setBom((bool)uBom);
             this->setEncoding(sEncoding);
+            this->setSortOrder((CharactersSortOrder)uSortOrder);
         }
 
         settings->endGroup();
@@ -105,6 +124,7 @@ void FontOptions::save(QSettings *settings)
     settings->beginGroup("font");
 
     settings->setValue("bom", QString("%1").arg((int)this->bom()));
+    settings->setValue("sortOrder", QString("%1").arg((int)this->sortOrder()));
     settings->setValue("codec",  this->encoding());
 
     settings->endGroup();
@@ -112,24 +132,17 @@ void FontOptions::save(QSettings *settings)
 //-----------------------------------------------------------------------------
 const QStringList &FontOptions::encodings()
 {
-    static const QStringList result =
-            QStringList() << "UTF-8"
-                          << "UTF-16"
-                          << "UTF-16BE"
-                          << "UTF-16LE"
-                          << "UTF-32"
-                          << "UTF-32BE"
-                          << "UTF-32LE"
-                          << "Windows-1250"
-                          << "Windows-1251"
-                          << "Windows-1252"
-                          << "Windows-1253"
-                          << "Windows-1254"
-                          << "Windows-1255"
-                          << "Windows-1256"
-                          << "Windows-1257"
-                          << "Windows-1258";
+    static QStringList result;
 
+    if (result.isEmpty())
+    {
+        QList<QByteArray> codecs = QTextCodec::availableCodecs();
+        for (int i = 0; i < codecs.length(); i++)
+        {
+            result.append(QString(codecs.at(i)));
+        }
+        result.sort();
+    }
     return result;
 }
 //-----------------------------------------------------------------------------
