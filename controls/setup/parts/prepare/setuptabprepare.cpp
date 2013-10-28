@@ -240,15 +240,16 @@ void SetupTabPrepare::demoPixmapChanged(const QPixmap *pixmap)
     this->mPixmapScanPreview = QPixmap(*pixmap);
 
     this->ui->labelScanPreview->setPixmap(this->mPixmapScanPreview);
-    this->ui->labelScanPreview->show();
+    this->ui->spinBoxAnimationTime->setEnabled(true);
+    this->ui->spinBoxAnimationInterval->setEnabled(true);
 
     this->ui->labelErrorMessage->hide();
 }
 //-----------------------------------------------------------------------------
 void SetupTabPrepare::demoScriptError(const QString &value)
 {
-    this->ui->labelScanPreview->hide();
-    this->ui->labelScanPreview->setPixmap(QPixmap());
+    this->ui->spinBoxAnimationTime->setEnabled(false);
+    this->ui->spinBoxAnimationInterval->setEnabled(false);
 
     this->ui->labelErrorMessage->setText(value);
     this->ui->labelErrorMessage->show();
