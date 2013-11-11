@@ -17,9 +17,15 @@ Added:
  New tag 'out_images_max_blocks_count';
  Optional value of trailing bits;
  Custom prefix, suffix and delimiter for data blocks;
- Copy & Paste operations;
+ Copy and Paste operations;
  Alpha-channel support;
  User-defined script to specify pixel's scan order.</description>
+ <downloads>
+     <item>
+         <name>Application for Windows (19.6 MB) on SourceForge</name>
+         <url>http://sourceforge.net/projects/lcd-image-converter/files</url>
+     </item>
+ </downloads>
     </record>
     <record>
         <commit>
@@ -31,8 +37,12 @@ Added:
  Save font parameters for newly created font.</description>
         <downloads>
             <item>
-                <name>Application for Windows (7.7 MB)</name>
+                <name>Application for Windows (7.7 MB) on Google Code</name>
                 <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20130316-ce530e158ca3.zip</url>
+            </item>
+            <item>
+                <name>Application for Windows (7.7 MB) on SourceForge</name>
+                <url>http://sourceforge.net/projects/lcd-image-converter/files/lcd-image-converter-20130316-ce530e158ca3.zip</url>
             </item>
         </downloads>
     </record>
