@@ -26,7 +26,7 @@
 #include <QVariant>
 #include <QList>
 #include <QMap>
-
+#include <QStringList>
 //-----------------------------------------------------------------------------
 class HistoryRecord;
 //-----------------------------------------------------------------------------
@@ -38,15 +38,19 @@ public:
     ~HistoryKeeper();
 
     void init(
+            const QStringList *keys,
             const QMap<QString, QImage *> *images,
             const QMap<QString, QVariant> *info);
     void store(
+            const QStringList *keys,
             const QMap<QString, QImage *> *images,
             const QMap<QString, QVariant> *info);
     void restorePrevious(
+            QStringList *keys,
             QMap<QString, QImage *> *images,
             QMap<QString, QVariant> *info);
     void restoreNext(
+            QStringList *keys,
             QMap<QString, QImage *> *images,
             QMap<QString, QVariant> *info);
 
@@ -61,6 +65,7 @@ private:
     void removeAfter(int index);
     void restoreAt(
             int index,
+            QStringList *keys,
             QMap<QString, QImage *> *images,
             QMap<QString, QVariant> *info);
 };

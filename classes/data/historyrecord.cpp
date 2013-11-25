@@ -19,16 +19,16 @@
 
 #include "historyrecord.h"
 
-#include <QStringList>
 #include <QStringListIterator>
 //-----------------------------------------------------------------------------
 HistoryRecord::HistoryRecord(
+        const QStringList *_keys,
         const QMap<QString, QImage *> *_images,
         const QMap<QString, QVariant> *_info,
         QObject *parent) :
     QObject(parent)
 {
-    QStringList keys = _images->keys();
+    QStringList keys = QStringList(*_keys);
     QStringListIterator iterator(keys);
     while (iterator.hasNext())
     {
@@ -37,6 +37,7 @@ HistoryRecord::HistoryRecord(
          QImage *oldImage = _images->value(key);
          QImage *newImage = new QImage(*oldImage);
 
+         this->mKeys.append(key);
          this->mImageMap.insert(key, newImage);
     }
 
@@ -55,8 +56,14 @@ HistoryRecord::HistoryRecord(
 HistoryRecord::~HistoryRecord()
 {
     qDeleteAll(this->mImageMap);
+    this->mKeys.clear();
     this->mImageMap.clear();
     this->mInfoMap.clear();
+}
+//-----------------------------------------------------------------------------
+const QStringList *HistoryRecord::keys() const
+{
+    return &this->mKeys;
 }
 //-----------------------------------------------------------------------------
 const QMap<QString, QImage *> *HistoryRecord::images() const

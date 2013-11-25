@@ -118,24 +118,24 @@ bool DataContainer::historyInitialized() const
 //-----------------------------------------------------------------------------
 void DataContainer::historyInit()
 {
-    this->mHistory->init(&this->mImageMap, &this->mInfoMap);
+    this->mHistory->init(&this->mKeys, &this->mImageMap, &this->mInfoMap);
 }
 //-----------------------------------------------------------------------------
 void DataContainer::stateSave()
 {
-    this->mHistory->store(&this->mImageMap, &this->mInfoMap);
+    this->mHistory->store(&this->mKeys, &this->mImageMap, &this->mInfoMap);
 }
 //-----------------------------------------------------------------------------
 void DataContainer::stateUndo()
 {
-    this->mHistory->restorePrevious(&this->mImageMap, &this->mInfoMap);
+    this->mHistory->restorePrevious(&this->mKeys, &this->mImageMap, &this->mInfoMap);
 
     emit this->imagesChanged();
 }
 //-----------------------------------------------------------------------------
 void DataContainer::stateRedo()
 {
-    this->mHistory->restoreNext(&this->mImageMap, &this->mInfoMap);
+    this->mHistory->restoreNext(&this->mKeys, &this->mImageMap, &this->mInfoMap);
 
     emit this->imagesChanged();
 }
