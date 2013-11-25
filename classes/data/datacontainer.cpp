@@ -34,6 +34,7 @@ DataContainer::DataContainer(QObject *parent) :
 DataContainer::~DataContainer()
 {
     qDeleteAll(this->mImageMap);
+    this->mKeys.clear();
     delete this->mDefaultImage;
 
     delete this->mHistory;
@@ -41,7 +42,14 @@ DataContainer::~DataContainer()
 //-----------------------------------------------------------------------------
 const QImage *DataContainer::image(const QString &key) const
 {
-    return this->mImageMap.value(key, this->mDefaultImage);
+    if (this->mKeys.contains(key))
+    {
+        return this->mImageMap.value(key, this->mDefaultImage);
+    }
+    else
+    {
+        return this->mDefaultImage;
+    }
 }
 //-----------------------------------------------------------------------------
 void DataContainer::setImage(const QString &key, const QImage *image)
@@ -49,6 +57,10 @@ void DataContainer::setImage(const QString &key, const QImage *image)
     this->remove(key);
     QImage *imageNew = new QImage(*image);
     this->mImageMap.insert(key, imageNew);
+    if (!this->mKeys.contains(key))
+    {
+        this->mKeys.append(key);
+    }
     this->setChanged(true);
 
     emit this->imagesChanged();
@@ -73,28 +85,28 @@ void DataContainer::setInfo(const QString &key, const QVariant &value)
 void DataContainer::clear()
 {
     qDeleteAll(this->mImageMap);
+    this->mKeys.clear();
     this->mImageMap.clear();
 }
 //-----------------------------------------------------------------------------
 int DataContainer::count() const
 {
-    return this->mImageMap.count();
+    return this->mKeys.count();
 }
 //-----------------------------------------------------------------------------
 QStringList DataContainer::keys() const
 {
-    QList<QString> tmp = this->mImageMap.keys();
-    qSort(tmp);
-    QStringList result(tmp);
+    QStringList result(this->mKeys);
     return result;
 }
 //-----------------------------------------------------------------------------
 void DataContainer::remove(const QString &key)
 {
-    if (this->mImageMap.contains(key))
+    if (this->mKeys.contains(key))
     {
         QImage *imageOld = this->mImageMap.value(key);
         this->mImageMap.remove(key);
+        this->mKeys.removeOne(key);
         delete imageOld;
     }
 }

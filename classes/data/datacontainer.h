@@ -23,6 +23,7 @@
 #include <QObject>
 
 #include <QMap>
+#include <QStringList>
 #include <QString>
 #include <QStringList>
 #include <QVariant>
@@ -64,6 +65,7 @@ private:
 
     QMap<QString, QImage *> mImageMap;
     QMap<QString, QVariant> mInfoMap;
+    QStringList mKeys;
     QImage *mDefaultImage;
     HistoryKeeper *mHistory;
 
