@@ -70,7 +70,7 @@ private:
     void updateSizes();
 
     void applyFont();
-    QString injectCharacters(const QString &original, const QString &value);
+    QString appendCharacters(const QString &original, const QString &value);
     QString editorText();
     void setEditorText(const QString &value);
 
