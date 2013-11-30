@@ -49,6 +49,8 @@ public:
     QStringList keys() const;
     void remove(const QString &key);
 
+    void reorderTo(const QStringList *keys);
+
     bool historyInitialized() const;
     void historyInit();
     void stateSave();

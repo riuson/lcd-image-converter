@@ -111,6 +111,29 @@ void DataContainer::remove(const QString &key)
     }
 }
 //-----------------------------------------------------------------------------
+void DataContainer::reorderTo(const QStringList *keys)
+{
+    if (this->mKeys.length() == keys->length())
+    {
+        bool exists = true;
+        for (int i = 0; i < keys->length(); i++)
+        {
+            QString key = keys->at(i);
+            if (!this->mKeys.contains(key))
+            {
+                exists = true;
+                break;
+            }
+        }
+
+        if (exists)
+        {
+            this->mKeys.clear();
+            this->mKeys.append(*keys);
+        }
+    }
+}
+//-----------------------------------------------------------------------------
 bool DataContainer::historyInitialized() const
 {
     return this->mHistory->initialized();
