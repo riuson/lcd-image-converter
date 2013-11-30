@@ -390,7 +390,12 @@ Qt: %3</translation>
         <translation>Добавить диапазон...</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="244"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="175"/>
+        <source>Sort</source>
+        <translation>Отсортировать</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="245"/>
         <source>Real height: %1</source>
         <translation>Высота: %1</translation>
     </message>
@@ -1169,24 +1174,24 @@ Qt: %3</translation>
         <translation>Ширина полосы</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="211"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="217"/>
         <source> s</source>
         <translatorcomment>секунда</translatorcomment>
         <translation> с</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="230"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="236"/>
         <source> ms</source>
         <translatorcomment>миллисекунда</translatorcomment>
         <translation> мс</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="214"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="220"/>
         <source>Time: </source>
         <translation>Время: </translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="233"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="239"/>
         <source>Interval: </source>
         <translation>Интервал: </translation>
     </message>
