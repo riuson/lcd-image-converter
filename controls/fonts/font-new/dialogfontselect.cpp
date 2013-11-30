@@ -64,6 +64,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     this->mBlocksFilterModel->setSourceModel(this->mBlocksModel);
 
     this->ui->listViewBlocks->setModel(this->mBlocksFilterModel);
+    this->mSortOrderUp = false;
 
     selectionModel = this->ui->listViewBlocks->selectionModel();
     this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(rangeChanged(QItemSelection,QItemSelection)));
@@ -405,5 +406,35 @@ void DialogFontSelect::rangeChanged(const QItemSelection &selected, const QItemS
 void DialogFontSelect::on_lineEditUnicodeBlocksFilter_textChanged(const QString &text)
 {
     this->mBlocksFilterModel->setNameFilter(text);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_pushButtonSort_clicked()
+{
+    QString chars = this->editorText();
+    QList<QChar> list;
+    for (int i = 0; i < chars.length(); i++)
+    {
+        list.append(chars.at(i));
+    }
+    qSort(list);
+    chars = QString();
+
+    if (!this->mSortOrderUp)
+    {
+        for (int i = 0; i < list.length(); i++)
+        {
+            chars.append(list.at(i));
+        }
+    }
+    else
+    {
+        for (int i = list.length() - 1; i >= 0; i--)
+        {
+            chars.append(list.at(i));
+        }
+    }
+
+    this->mSortOrderUp = !this->mSortOrderUp;
+    this->setEditorText(chars);
 }
 //-----------------------------------------------------------------------------
