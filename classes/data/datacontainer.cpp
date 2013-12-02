@@ -34,6 +34,7 @@ DataContainer::DataContainer(QObject *parent) :
 DataContainer::~DataContainer()
 {
     qDeleteAll(this->mImageMap);
+    this->mKeys.clear();
     delete this->mDefaultImage;
 
     delete this->mHistory;
@@ -41,7 +42,14 @@ DataContainer::~DataContainer()
 //-----------------------------------------------------------------------------
 const QImage *DataContainer::image(const QString &key) const
 {
-    return this->mImageMap.value(key, this->mDefaultImage);
+    if (this->mKeys.contains(key))
+    {
+        return this->mImageMap.value(key, this->mDefaultImage);
+    }
+    else
+    {
+        return this->mDefaultImage;
+    }
 }
 //-----------------------------------------------------------------------------
 void DataContainer::setImage(const QString &key, const QImage *image)
@@ -49,6 +57,10 @@ void DataContainer::setImage(const QString &key, const QImage *image)
     this->remove(key);
     QImage *imageNew = new QImage(*image);
     this->mImageMap.insert(key, imageNew);
+    if (!this->mKeys.contains(key))
+    {
+        this->mKeys.append(key);
+    }
     this->setChanged(true);
 
     emit this->imagesChanged();
@@ -73,29 +85,52 @@ void DataContainer::setInfo(const QString &key, const QVariant &value)
 void DataContainer::clear()
 {
     qDeleteAll(this->mImageMap);
+    this->mKeys.clear();
     this->mImageMap.clear();
 }
 //-----------------------------------------------------------------------------
 int DataContainer::count() const
 {
-    return this->mImageMap.count();
+    return this->mKeys.count();
 }
 //-----------------------------------------------------------------------------
 QStringList DataContainer::keys() const
 {
-    QList<QString> tmp = this->mImageMap.keys();
-    qSort(tmp);
-    QStringList result(tmp);
+    QStringList result(this->mKeys);
     return result;
 }
 //-----------------------------------------------------------------------------
 void DataContainer::remove(const QString &key)
 {
-    if (this->mImageMap.contains(key))
+    if (this->mKeys.contains(key))
     {
         QImage *imageOld = this->mImageMap.value(key);
         this->mImageMap.remove(key);
+        this->mKeys.removeOne(key);
         delete imageOld;
+    }
+}
+//-----------------------------------------------------------------------------
+void DataContainer::reorderTo(const QStringList *keys)
+{
+    if (this->mKeys.length() == keys->length())
+    {
+        bool exists = true;
+        for (int i = 0; i < keys->length(); i++)
+        {
+            QString key = keys->at(i);
+            if (!this->mKeys.contains(key))
+            {
+                exists = true;
+                break;
+            }
+        }
+
+        if (exists)
+        {
+            this->mKeys.clear();
+            this->mKeys.append(*keys);
+        }
     }
 }
 //-----------------------------------------------------------------------------
@@ -106,24 +141,24 @@ bool DataContainer::historyInitialized() const
 //-----------------------------------------------------------------------------
 void DataContainer::historyInit()
 {
-    this->mHistory->init(&this->mImageMap, &this->mInfoMap);
+    this->mHistory->init(&this->mKeys, &this->mImageMap, &this->mInfoMap);
 }
 //-----------------------------------------------------------------------------
 void DataContainer::stateSave()
 {
-    this->mHistory->store(&this->mImageMap, &this->mInfoMap);
+    this->mHistory->store(&this->mKeys, &this->mImageMap, &this->mInfoMap);
 }
 //-----------------------------------------------------------------------------
 void DataContainer::stateUndo()
 {
-    this->mHistory->restorePrevious(&this->mImageMap, &this->mInfoMap);
+    this->mHistory->restorePrevious(&this->mKeys, &this->mImageMap, &this->mInfoMap);
 
     emit this->imagesChanged();
 }
 //-----------------------------------------------------------------------------
 void DataContainer::stateRedo()
 {
-    this->mHistory->restoreNext(&this->mImageMap, &this->mInfoMap);
+    this->mHistory->restoreNext(&this->mKeys, &this->mImageMap, &this->mInfoMap);
 
     emit this->imagesChanged();
 }

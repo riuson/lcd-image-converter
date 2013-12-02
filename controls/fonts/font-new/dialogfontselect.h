@@ -57,6 +57,7 @@ private:
     CharactersModel *mModel;
     UnicodeBlocksModel *mBlocksModel;
     UnicodeBlocksFilterModel *mBlocksFilterModel;
+    bool mSortOrderUp;
 
     QString mFontFamily;
     QString mFontStyle;
@@ -70,7 +71,7 @@ private:
     void updateSizes();
 
     void applyFont();
-    QString injectCharacters(const QString &original, const QString &value);
+    QString appendCharacters(const QString &original, const QString &value);
     QString editorText();
     void setEditorText(const QString &value);
 
@@ -88,6 +89,7 @@ private slots:
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void rangeChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void on_lineEditUnicodeBlocksFilter_textChanged(const QString & text);
+    void on_pushButtonSort_clicked();
 };
 
 #endif // DIALOGFONTSELECT_H

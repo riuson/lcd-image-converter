@@ -37,16 +37,17 @@ HistoryKeeper::~HistoryKeeper()
     this->mHistory->clear();
 }
 //-----------------------------------------------------------------------------
-void HistoryKeeper::init(const QMap<QString, QImage *> *images, const QMap<QString, QVariant> *info)
+void HistoryKeeper::init(const QStringList *keys, const QMap<QString, QImage *> *images, const QMap<QString, QVariant> *info)
 {
     this->mCurrentIndex = 0;
     this->removeAfter(this->mCurrentIndex);
 
-    HistoryRecord *record = new HistoryRecord(images, info, this);
+    HistoryRecord *record = new HistoryRecord(keys, images, info, this);
     this->mHistory->append(record);
 }
 //-----------------------------------------------------------------------------
 void HistoryKeeper::store(
+        const QStringList *keys,
         const QMap<QString, QImage *> *images,
         const QMap<QString, QVariant> *info)
 {
@@ -58,12 +59,13 @@ void HistoryKeeper::store(
 
     this->removeAfter(this->mCurrentIndex);
 
-    HistoryRecord *record = new HistoryRecord(images, info, this);
+    HistoryRecord *record = new HistoryRecord(keys, images, info, this);
     this->mHistory->append(record);
     this->mCurrentIndex++;
 }
 //-----------------------------------------------------------------------------
 void HistoryKeeper::restorePrevious(
+        QStringList *keys,
         QMap<QString, QImage *> *images,
         QMap<QString, QVariant> *info)
 {
@@ -76,11 +78,12 @@ void HistoryKeeper::restorePrevious(
     if (this->canRestorePrevious())
     {
         this->mCurrentIndex--;
-        this->restoreAt(this->mCurrentIndex, images, info);
+        this->restoreAt(this->mCurrentIndex, keys, images, info);
     }
 }
 //-----------------------------------------------------------------------------
 void HistoryKeeper::restoreNext(
+        QStringList *keys,
         QMap<QString, QImage *> *images,
         QMap<QString, QVariant> *info)
 {
@@ -93,7 +96,7 @@ void HistoryKeeper::restoreNext(
     if (this->canRestoreNext())
     {
         this->mCurrentIndex++;
-        this->restoreAt(this->mCurrentIndex, images, info);
+        this->restoreAt(this->mCurrentIndex, keys, images, info);
     }
 }
 //-----------------------------------------------------------------------------
@@ -124,17 +127,19 @@ void HistoryKeeper::removeAfter(int index)
 //-----------------------------------------------------------------------------
 void HistoryKeeper::restoreAt(
         int index,
+        QStringList *keys,
         QMap<QString, QImage *> *images,
         QMap<QString, QVariant> *info)
 {
     HistoryRecord *record = this->mHistory->at(index);
 
     qDeleteAll(*images);
+    keys->clear();
     images->clear();
     info->clear();
 
-    QStringList keys = record->images()->keys();
-    QStringListIterator iterator(keys);
+    keys->append(*record->keys());
+    QStringListIterator iterator(*keys);
     while (iterator.hasNext())
     {
          QString key = iterator.next();
@@ -145,8 +150,7 @@ void HistoryKeeper::restoreAt(
          images->insert(key, newImage);
     }
 
-    keys = record->info()->keys();
-    iterator = QStringListIterator(keys);
+    iterator = QStringListIterator(record->info()->keys());
     while (iterator.hasNext())
     {
          QString key = iterator.next();
