@@ -302,31 +302,6 @@ void ConverterHelper::prepareImage(Preset *preset, const QImage *source, QImage 
     {
         QImage im = *source;
 
-        Rotate rotate = RotateNone;
-        bool flipHorizontal = false;
-        bool flipVertical = false;
-
-        preset->prepare()->modificationsFromScan(&rotate, &flipHorizontal, &flipVertical);
-
-        switch (rotate)
-        {
-        case Rotate90:
-            im = BitmapHelper::rotate90(source);
-            break;
-        case Rotate180:
-            im = BitmapHelper::rotate180(source);
-            break;
-        case Rotate270:
-            im = BitmapHelper::rotate270(source);
-            break;
-        case RotateNone:
-        default:
-            break;
-        }
-        if (flipHorizontal)
-            im = BitmapHelper::flipHorizontal(&im);
-        if (flipVertical)
-            im = BitmapHelper::flipVertical(&im);
         if (preset->prepare()->inverse())
             im.invertPixels();
 
@@ -339,34 +314,6 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
     if (source != NULL)
     {
         QImage im = *source;
-
-        // simple prepare options
-        Rotate rotate = RotateNone;
-        bool flipHorizontal = false;
-        bool flipVertical = false;
-
-        preset->prepare()->modificationsFromScan(&rotate, &flipHorizontal, &flipVertical);
-
-        switch (rotate)
-        {
-        case Rotate90:
-            im = BitmapHelper::rotate90(&im);
-            break;
-        case Rotate180:
-            im = BitmapHelper::rotate180(&im);
-            break;
-        case Rotate270:
-            im = BitmapHelper::rotate270(&im);
-            break;
-        default:
-            break;
-        }
-
-        if (flipHorizontal)
-            im = BitmapHelper::flipHorizontal(&im);
-
-        if (flipVertical)
-            im = BitmapHelper::flipVertical(&im);
 
         if (preset->prepare()->inverse())
             im.invertPixels();
