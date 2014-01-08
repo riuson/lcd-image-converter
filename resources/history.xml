@@ -5,7 +5,10 @@
             <sha1>current</sha1>
             <date>current</date>
         </commit>
-        <description>Added:
+        <description>Fixed:
+ Broken image prepare sequence.
+
+Added:
  Optional characters sorting in 'Font Change...' dialog.</description>
     </record>
     <record>
