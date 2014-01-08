@@ -54,15 +54,18 @@ const QImage *DataContainer::image(const QString &key) const
 //-----------------------------------------------------------------------------
 void DataContainer::setImage(const QString &key, const QImage *image)
 {
-    this->remove(key);
-    QImage *imageNew = new QImage(*image);
-    this->mImageMap.insert(key, imageNew);
-    if (!this->mKeys.contains(key))
+    if (this->mKeys.contains(key))
+    {
+        this->mImageMap.remove(key);
+    }
+    else
     {
         this->mKeys.append(key);
     }
-    this->setChanged(true);
+    QImage *imageNew = new QImage(*image);
+    this->mImageMap.insert(key, imageNew);
 
+    this->setChanged(true);
     emit this->imagesChanged();
 }
 //-----------------------------------------------------------------------------
