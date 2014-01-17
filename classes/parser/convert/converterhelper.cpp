@@ -87,33 +87,67 @@ void ConverterHelper::pixelsData(Preset *preset, const QImage *image, QVector<qu
             QString errorMessage;
             ConverterHelper::collectPoints(convImage, script, &errorMessage);
 
-            if (convImage->pointsCount() > 0)
+            if (convImage->pointsCount() > 2)
             {
+                // find image data size
+                QPoint point1 = convImage->pointAt(0);
+                QPoint point2 = convImage->pointAt(1);
+
+                // if horizontal lines
+                if ((qAbs(point1.x() - point2.x()) == 1) && (point1.y() == point2.y()))
+                {
+                    // get length of first horizontal line
+                    QPoint point = point1;
+                    for (int i = 0; i < convImage->pointsCount(); i++)
+                    {
+                        if (convImage->pointAt(i).y() != point.y())
+                        {
+                            break;
+                        }
+                        point = convImage->pointAt(i);
+                    }
+                    *width = qAbs(point.x() - point1.x()) + 1;
+                    *height = convImage->pointsCount() / (*width);
+                }
+                // if vertical lines
+                else if ((qAbs(point1.y() - point2.y()) == 1) && (point1.x() == point2.x()))
+                {
+                    // get length of first vertical line
+                    QPoint point = point1;
+                    for (int i = 0; i < convImage->pointsCount(); i++)
+                    {
+                        if (convImage->pointAt(i).x() != point.x())
+                        {
+                            break;
+                        }
+                        point = convImage->pointAt(i);
+                    }
+                    *width = qAbs(point.y() - point1.y()) + 1;
+                    *height = convImage->pointsCount() / (*width);
+                }
+                // unknown
+                else
+                {
+                    *width = convImage->pointsCount();
+                    *height = 1;
+                }
+
+                // get pixels color
                 for (int i = 0; i < convImage->pointsCount(); i++)
                 {
                     QPoint point = convImage->pointAt(i);
+
+                    // point in image rectangle
                     if (point.x() >= 0 && point.y() >= 0 && point.x() < im.width() && point.y() < im.height())
                     {
                         QRgb pixel = im.pixel(point.x(), point.y());
                         quint32 value = (quint32)pixel;
                         data->append(value);
                     }
-                    else
+                    else // out of image rectangle (bands)
                     {
                         data->append(0x00000000);
                     }
-                }
-
-                if (preset->prepare()->bandScanning())
-                {
-                    const int bandSize = preset->prepare()->bandWidth();
-
-                    int bandsCount = (*width) / bandSize;
-                    if (((*width) % bandSize) != 0)
-                        bandsCount++;
-
-                    // set new width
-                    *width = bandSize * bandsCount;
                 }
             }
 
@@ -195,26 +229,39 @@ void ConverterHelper::packData(
         {
             // non-standard row width
 
-            // bandsCount is divisible by bandSize (because of pixelsData() method)
-            int bandSize = preset->prepare()->bandWidth();
-            int bandsCount = inputWidth / bandSize;
+            /* Number_Of_Rows equals to Height * Number_Of_Columns
+             * (bands used)
+             *
+             * ========  ========  ========  ========  ========
+             * ========  ========  ========  ========  ========
+             * ========  ========  ========  ========  ========
+             * ========  ========  ========  ========  ========
+             * ========  ========  ========  ========  ========
+             */
 
-            // scanned rows count with bands
-            int rowsCount = inputHeight * bandsCount;
-
-            for (int row = 0; row < rowsCount; row++)
+            for (int row = 0; row < inputHeight; row++)
             {
                 // start of row in inputData
-                int start = row * bandSize;
+                int start = row * inputWidth;
                 // get row data packed
-                ConverterHelper::packDataRow(preset, inputData, start, bandSize, outputData, &rowLength);
+                ConverterHelper::packDataRow(preset, inputData, start, inputWidth, outputData, &rowLength);
                 // get row blocks count
                 resultWidth = qMax(resultWidth, rowLength);
             }
-            resultWidth *= bandsCount;
+
+            *outputWidth = resultWidth;
         }
         else
         {
+            /* Number_Of_Rows equals to Height
+             *
+             * ========================================
+             * ========================================
+             * ========================================
+             * ========================================
+             * ========================================
+             */
+
             // process each standard row
             for (int y = 0; y < inputHeight; y++)
             {
@@ -225,17 +272,19 @@ void ConverterHelper::packData(
                 // get row blocks count
                 resultWidth = qMax(resultWidth, rowLength);
             }
+            *outputWidth = resultWidth;
         }
     }
     else
     {
+        // All data in one row
+
         // process entire data
         ConverterHelper::packDataRow(preset, inputData, 0, inputData->size(), outputData, &rowLength);
         // get blocks count
-        resultWidth = rowLength;
+        *outputWidth = rowLength;
         *outputHeight = 1;
     }
-    *outputWidth = resultWidth;
 }
 //-----------------------------------------------------------------------------
 void ConverterHelper::reorder(
