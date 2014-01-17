@@ -38,7 +38,7 @@
 #include "rlecompressor.h"
 #include "convimage.h"
 //-----------------------------------------------------------------------------
-void ConverterHelper::pixelsData(Preset *preset, QImage *image, QVector<quint32> *data, int *width, int *height)
+void ConverterHelper::pixelsData(Preset *preset, const QImage *image, QVector<quint32> *data, int *width, int *height)
 {
     if (image != NULL && data != NULL && width != NULL && height != NULL)
     {
