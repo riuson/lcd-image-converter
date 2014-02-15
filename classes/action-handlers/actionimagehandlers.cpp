@@ -314,9 +314,11 @@ void ActionImageHandlers::import_triggered()
             {
                 QString key = iterator.next();
 
-                QImage image;
-                image.load(dialog.selectedFiles().at(0));
-                this->editor()->document()->dataContainer()->setImage(key, &image);
+                QImage imageLoaded;
+                imageLoaded.load(dialog.selectedFiles().at(0));
+                QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+
+                this->editor()->document()->dataContainer()->setImage(key, &imageConverted);
             }
 
             this->editor()->document()->endChanges();
@@ -471,9 +473,10 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
                     QString key = iterator.next();
                     QString filename = files.value(key);
 
-                    QImage image;
-                    image.load(filename);
-                    this->editor()->document()->dataContainer()->setImage(key, &image);
+                    QImage imageLoaded;
+                    imageLoaded.load(filename);
+                    QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+                    this->editor()->document()->dataContainer()->setImage(key, &imageConverted);
 
                     QFile::remove(filename);
                 }
