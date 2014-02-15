@@ -50,7 +50,7 @@ void SetupTabTemplates::on_pushButtonBrowseImage_clicked()
     QFileDialog dialog(this);
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setNameFilter(tr("Any file (*.*)"));
+    dialog.setNameFilter(tr("All files (*.*)"));
     dialog.setWindowTitle(tr("Open image template file"));
 
     if (dialog.exec() == QDialog::Accepted)

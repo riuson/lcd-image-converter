@@ -44,7 +44,7 @@ void ActionFileHandlers::newImage_triggered()
                                          tr("Enter image name"),
                                          tr("Image name:"),
                                          QLineEdit::Normal,
-                                         tr("Image", "new image name"),
+                                         QString("Image"),
                                          &ok);
     if (ok)
     {
@@ -65,7 +65,7 @@ void ActionFileHandlers::newFont_triggered()
                                          tr("Enter font name"),
                                          tr("Font name:"),
                                          QLineEdit::Normal,
-                                         tr("Font", "new font name"),
+                                         QString("Font"),
                                          &ok);
     if (ok)
     {

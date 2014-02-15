@@ -333,7 +333,7 @@ void ActionImageHandlers::export_triggered()
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptSave);
         dialog.setFileMode(QFileDialog::AnyFile);
-        QString filter = tr("Windows Bitmap (*.bmp);;" \
+        QString filter = QString("Windows Bitmap (*.bmp);;" \
                             "Joint Photographic Experts Group (*.jpg *.jpeg);;" \
                             "Portable Network Graphics (*.png);;" \
                             "Portable Pixmap (*.ppm);;" \

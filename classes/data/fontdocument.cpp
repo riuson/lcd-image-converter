@@ -42,7 +42,7 @@ FontDocument::FontDocument(QObject *parent) :
     this->mContainer = new DataContainer(this);
     this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(mon_container_imagesChanged()));
 
-    this->setDocumentName(tr("Font", "new font name"));
+    this->setDocumentName(QString("Font"));
     this->setDocumentFilename("");
     this->setOutputFilename("");
     this->setChanged(true);

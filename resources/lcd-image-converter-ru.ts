@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.0" language="ru_RU">
-<defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>ActionEditHandlers</name>
     <message>
         <location filename="../classes/action-handlers/actionedithandlers.cpp" line="77"/>
         <source>More than 1 image(s) selected. But only one will be copied - &quot;%1&quot;.</source>
         <comment>Warning about image copy</comment>
-        <translatorcomment>Предупрежедение о копировании изображения</translatorcomment>
+        <translatorcomment>Предупреждение о копировании изображения</translatorcomment>
         <translation>Выбрано более одного изображения. Но скопировано будет только - &quot;%1&quot;.</translation>
     </message>
     <message>
@@ -42,12 +41,6 @@
         <translation>Имя изображения:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="47"/>
-        <source>Image</source>
-        <comment>new image name</comment>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="65"/>
         <source>Enter font name</source>
         <translation>Введите имя шрифта</translation>
@@ -56,12 +49,6 @@
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="66"/>
         <source>Font name:</source>
         <translation>Имя шрифта:</translation>
-    </message>
-    <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="68"/>
-        <source>Font</source>
-        <comment>new font name</comment>
-        <translation></translation>
     </message>
     <message>
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="104"/>
@@ -107,67 +94,62 @@
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="334"/>
-        <source>Windows Bitmap (*.bmp);;Joint Photographic Experts Group (*.jpg *.jpeg);;Portable Network Graphics (*.png);;Portable Pixmap (*.ppm);;Tagged Image File Format (*.tiff);;X11 Bitmap (*.xbm);;X11 Bitmap (*.xpm)</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="342"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="344"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="539"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="542"/>
         <source>Failed to Start</source>
         <translation>Не удалось запустить</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="540"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="543"/>
         <source>The process failed to start. Either the invoked program is missing, or you may have insufficient permissions to invoke the program.</source>
         <translation>Не удалось запустить процесс. Возможно вызываемая программа отсутствует, или у вас недостаточно привелегий для вызова программы.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="543"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="546"/>
         <source>Crashed</source>
         <translation>Сбой</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="544"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="547"/>
         <source>The process crashed some time after starting successfully.</source>
         <translation>Произошёл сбой процесса после успешно произведённого запуска.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="551"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="554"/>
         <source>Read Error</source>
         <translation>Ошибка чтения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="552"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="555"/>
         <source>An error occurred when attempting to read from the process. For example, the process may not be running.</source>
         <translation>Возникла ошибка при попытке чтения из процесса. К примеру, процесс может быть не запущен.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="555"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="558"/>
         <source>Write Error</source>
         <translation>Ошибка записи</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="556"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="559"/>
         <source>An error occurred when attempting to write to the process. For example, the process may not be running, or it may have closed its input channel.</source>
         <translation>Возникла ошибка при попытке записи в процесс. К примеру, процесс может быть не запущен, или иметь закрытый входной канал.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="560"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="563"/>
         <source>Unknown Error</source>
         <translation>Неизвестная ошибка</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="561"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="564"/>
         <source>An unknown error occurred.</source>
         <translation>Возникла неизвестная ошибка.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="568"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="571"/>
         <source>Error running external tool</source>
         <translation>Ошибка при запуске внешней утилиты</translation>
     </message>
@@ -190,8 +172,8 @@ Project&apos;s home page: &lt;a href=&quot;http://code.google.com/p/lcd-image-co
 &lt;hr/&gt;
 Revision &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%1&quot;&gt;%1&lt;/a&gt; from &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
 Qt %3</source>
-        <translation>LCD Image Converter&lt;br/&gt;
-Утилита создания изображений и шрифтов &lt;br/&gt;в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
+        <translation type="unfinished">LCD Image Converter&lt;br/&gt;
+Утилита для создания изображений и шрифтов &lt;br/&gt;в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
 &lt;br/&gt;
 Автор: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
@@ -244,7 +226,7 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogexternaleditor.cpp" line="55"/>
-        <source>Any file (*.*)</source>
+        <source>All files (*.*)</source>
         <translation>Все файлы (*.*)</translation>
     </message>
     <message>
@@ -268,7 +250,7 @@ Qt: %3</translation>
     <message>
         <location filename="../controls/fonts/font-changed/dialogfontchanged.ui" line="29"/>
         <source>Save new font parameters and regenerate all characters</source>
-        <translation>Сохранить новын параметры шрифта и пересоздать все символы</translation>
+        <translation>Сохранить новые параметры шрифта и пересоздать все символы</translation>
     </message>
     <message>
         <location filename="../controls/fonts/font-changed/dialogfontchanged.ui" line="36"/>
@@ -478,7 +460,7 @@ Qt: %3</translation>
     <message>
         <location filename="../controls/setup/dialogpreview.ui" line="22"/>
         <source>Preview image:</source>
-        <translation>Изображени для предпросмотра:</translation>
+        <translation>Изображение для предпросмотра:</translation>
     </message>
 </context>
 <context>
@@ -558,12 +540,6 @@ Qt: %3</translation>
 <context>
     <name>FontDocument</name>
     <message>
-        <location filename="../classes/data/fontdocument.cpp" line="45"/>
-        <source>Font</source>
-        <comment>new font name</comment>
-        <translation>Font</translation>
-    </message>
-    <message>
         <location filename="../classes/data/fontdocument.cpp" line="345"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
@@ -576,12 +552,6 @@ Qt: %3</translation>
 </context>
 <context>
     <name>ImageDocument</name>
-    <message>
-        <location filename="../classes/data/imagedocument.cpp" line="46"/>
-        <source>Image</source>
-        <comment>new image name</comment>
-        <translation>Image</translation>
-    </message>
     <message>
         <location filename="../classes/data/imagedocument.cpp" line="222"/>
         <source>C Files (*.c);;All Files (*.*)</source>
@@ -902,16 +872,6 @@ Qt: %3</translation>
         <translation>Используемое</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/matrixpreviewmodel.cpp" line="75"/>
-        <source>AND</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/matrix/matrixpreviewmodel.cpp" line="78"/>
-        <source>OR</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../controls/setup/parts/matrix/matrixpreviewmodel.cpp" line="81"/>
         <source>Result</source>
         <translation>Результат</translation>
@@ -1221,21 +1181,6 @@ Qt: %3</translation>
         <translation>Порог</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="49"/>
-        <source>Diffuse Dither</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="50"/>
-        <source>Ordered Dither</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="51"/>
-        <source>Threshold Dither</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="53"/>
         <source>Top to Bottom</source>
         <translation>Сверху вниз</translation>
@@ -1333,7 +1278,6 @@ Qt: %3</translation>
         <translation>Шрифт:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="53"/>
         <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="67"/>
         <source>Any file (*.*)</source>
         <translation>Все файлы (*.*)</translation>
@@ -1342,6 +1286,11 @@ Qt: %3</translation>
         <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="54"/>
         <source>Open image template file</source>
         <translation>Открыть файл шаблона изображения</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="53"/>
+        <source>All files (*.*)</source>
+        <translation>Все файлы (*.*)</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="68"/>
