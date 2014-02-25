@@ -6,7 +6,9 @@
             <date>current</date>
         </commit>
         <description>Fixed:
- Broken image prepare sequence.
+ Broken image prepare sequence;
+ Russian translation;
+ Loading of images in some formats.
 
 Added:
  Optional characters sorting in 'Font Change...' dialog.</description>
