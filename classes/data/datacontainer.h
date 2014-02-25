@@ -23,6 +23,7 @@
 #include <QObject>
 
 #include <QMap>
+#include <QStringList>
 #include <QString>
 #include <QStringList>
 #include <QVariant>
@@ -48,6 +49,8 @@ public:
     QStringList keys() const;
     void remove(const QString &key);
 
+    void reorderTo(const QStringList *keys);
+
     bool historyInitialized() const;
     void historyInit();
     void stateSave();
@@ -64,6 +67,7 @@ private:
 
     QMap<QString, QImage *> mImageMap;
     QMap<QString, QVariant> mInfoMap;
+    QStringList mKeys;
     QImage *mDefaultImage;
     HistoryKeeper *mHistory;
 

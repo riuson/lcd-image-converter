@@ -64,6 +64,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     this->mBlocksFilterModel->setSourceModel(this->mBlocksModel);
 
     this->ui->listViewBlocks->setModel(this->mBlocksFilterModel);
+    this->mSortOrderUp = false;
 
     selectionModel = this->ui->listViewBlocks->selectionModel();
     this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(rangeChanged(QItemSelection,QItemSelection)));
@@ -245,30 +246,17 @@ void DialogFontSelect::applyFont()
     this->ui->labelRealHeight->setText(strHeight);
 }
 //-----------------------------------------------------------------------------
-QString DialogFontSelect::injectCharacters(const QString &original, const QString &value)
+QString DialogFontSelect::appendCharacters(const QString &original, const QString &value)
 {
-    // list of characters
-    QList<QChar> list;
-    for (int i = 0; i < original.length(); i++)
-    {
-        list.append(original.at(i));
-    }
+    QString result = original;
 
-    // combine
     for (int i = 0; i < value.length(); i++)
     {
         QChar c = value.at(i);
-        if (!list.contains(c))
-            list.append(c);
-    }
-
-    qSort(list);
-
-    // list to string
-    QString result = QString();
-    for (int i = 0; i < list.length(); i++)
-    {
-        result += list.at(i);
+        if (!result.contains(c))
+        {
+            result.append(c);
+        }
     }
 
     return result;
@@ -358,7 +346,7 @@ void DialogFontSelect::on_pushButtonAppendSelected_clicked()
     }
 
     QString original = this->editorText();
-    QString result = this->injectCharacters(original, selected);
+    QString result = this->appendCharacters(original, selected);
     this->setEditorText(result);
 }
 //-----------------------------------------------------------------------------
@@ -369,7 +357,7 @@ void DialogFontSelect::on_pushButtonAppendRange_clicked()
     {
         QString selected = dialog.resultString();
         QString original = this->editorText();
-        QString result = this->injectCharacters(original, selected);
+        QString result = this->appendCharacters(original, selected);
         this->setEditorText(result);
     }
 }
@@ -418,5 +406,35 @@ void DialogFontSelect::rangeChanged(const QItemSelection &selected, const QItemS
 void DialogFontSelect::on_lineEditUnicodeBlocksFilter_textChanged(const QString &text)
 {
     this->mBlocksFilterModel->setNameFilter(text);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_pushButtonSort_clicked()
+{
+    QString chars = this->editorText();
+    QList<QChar> list;
+    for (int i = 0; i < chars.length(); i++)
+    {
+        list.append(chars.at(i));
+    }
+    qSort(list);
+    chars = QString();
+
+    if (!this->mSortOrderUp)
+    {
+        for (int i = 0; i < list.length(); i++)
+        {
+            chars.append(list.at(i));
+        }
+    }
+    else
+    {
+        for (int i = list.length() - 1; i >= 0; i--)
+        {
+            chars.append(list.at(i));
+        }
+    }
+
+    this->mSortOrderUp = !this->mSortOrderUp;
+    this->setEditorText(chars);
 }
 //-----------------------------------------------------------------------------

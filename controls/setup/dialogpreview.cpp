@@ -63,7 +63,6 @@ void DialogPreview::updatePreview()
         if (!key.isEmpty())
         {
             this->mImageOriginal = QImage(*this->mData->image(key));
-            this->ui->labelOriginal->setPixmap(QPixmap::fromImage(this->mImageOriginal));
             QImage processed;
             ConverterHelper::createImagePreview(this->mPreset, &this->mImageOriginal, &processed);
             this->ui->labelPreview->setPixmap(QPixmap::fromImage(processed));

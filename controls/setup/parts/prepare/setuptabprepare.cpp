@@ -46,9 +46,9 @@ SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     this->ui->comboBoxConversionType->addItem(tr("Color"), ConversionTypeColor);
 
     this->ui->comboBoxMonochromeType->addItem(tr("Edge"), MonochromeTypeEdge);
-    this->ui->comboBoxMonochromeType->addItem(tr("Diffuse Dither"), MonochromeTypeDiffuseDither);
-    this->ui->comboBoxMonochromeType->addItem(tr("Ordered Dither"), MonochromeTypeOrderedDither);
-    this->ui->comboBoxMonochromeType->addItem(tr("Threshold Dither"), MonochromeTypeThresholdDither);
+    this->ui->comboBoxMonochromeType->addItem(QString("Diffuse Dither"), MonochromeTypeDiffuseDither);
+    this->ui->comboBoxMonochromeType->addItem(QString("Ordered Dither"), MonochromeTypeOrderedDither);
+    this->ui->comboBoxMonochromeType->addItem(QString("Threshold Dither"), MonochromeTypeThresholdDither);
 
     this->ui->comboBoxScanMain->addItem(tr("Top to Bottom"), QVariant(TopToBottom));
     this->ui->comboBoxScanMain->addItem(tr("Bottom to Top"), QVariant(BottomToTop));

@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
@@ -34,24 +34,6 @@
       </widget>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QPlainTextEdit" name="plainTextEdit">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <family>Monospace</family>
-      </font>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
    </item>
    <item>
     <widget class="QSplitter" name="splitter">
@@ -77,12 +59,12 @@
          <x>0</x>
          <y>0</y>
          <width>514</width>
-         <height>214</height>
+         <height>447</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QLabel" name="labelOriginal">
+         <widget class="QLabel" name="labelPreview">
           <property name="text">
            <string notr="true">TextLabel</string>
           </property>
@@ -103,18 +85,26 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>513</width>
-         <height>214</height>
+         <width>514</width>
+         <height>447</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QLabel" name="labelPreview">
-          <property name="text">
-           <string notr="true">TextLabel</string>
+         <widget class="QPlainTextEdit" name="plainTextEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+          <property name="font">
+           <font>
+            <family>Monospace</family>
+           </font>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -134,6 +124,9 @@
     </widget>
    </item>
   </layout>
+  <zorder>splitter</zorder>
+  <zorder>buttonBox</zorder>
+  <zorder>labelPreview</zorder>
  </widget>
  <resources/>
  <connections>

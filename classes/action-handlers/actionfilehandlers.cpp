@@ -44,7 +44,7 @@ void ActionFileHandlers::newImage_triggered()
                                          tr("Enter image name"),
                                          tr("Image name:"),
                                          QLineEdit::Normal,
-                                         tr("Image", "new image name"),
+                                         QString("Image"),
                                          &ok);
     if (ok)
     {
@@ -65,7 +65,7 @@ void ActionFileHandlers::newFont_triggered()
                                          tr("Enter font name"),
                                          tr("Font name:"),
                                          QLineEdit::Normal,
-                                         tr("Font", "new font name"),
+                                         QString("Font"),
                                          &ok);
     if (ok)
     {
@@ -261,9 +261,11 @@ void ActionFileHandlers::openFile(const QString &filename)
         }
         if (isImageBinary)
         {
-            QImage image;
-            if (image.load(filename))
+            QImage imageLoaded;
+            if (imageLoaded.load(filename))
             {
+                QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+
                 EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
                 this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
@@ -277,7 +279,7 @@ void ActionFileHandlers::openFile(const QString &filename)
                     while (iterator.hasNext())
                     {
                         QString key = iterator.next();
-                        ed->document()->dataContainer()->setImage(key, &image);
+                        ed->document()->dataContainer()->setImage(key, &imageConverted);
                     }
                 }
 

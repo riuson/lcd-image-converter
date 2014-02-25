@@ -59,11 +59,6 @@ public:
     const QString & convTypeName() const;
     const QString & monoTypeName() const;
 
-    void modificationsFromScan(
-            Rotate *rotate,
-            bool *flipHorizontal,
-            bool *flipVertical) const;
-
     bool load(QSettings *settings, int version);
     void save(QSettings *settings);
 

@@ -6,6 +6,19 @@
             <date>current</date>
         </commit>
         <description>Fixed:
+ Broken image prepare sequence;
+ Russian translation;
+ Loading of images in some formats.
+
+Added:
+ Optional characters sorting in 'Font Change...' dialog.</description>
+    </record>
+    <record>
+        <commit>
+            <sha1>c026d86327e5f04f3abec55993f611256557efd6</sha1>
+            <date>2013-10-28 21:32:36 +0600</date>
+        </commit>
+        <description>Fixed:
  Cells size to fit big characters (Font Select dialog).
 
 Added:

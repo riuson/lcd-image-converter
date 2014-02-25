@@ -43,7 +43,7 @@ ImageDocument::ImageDocument(QObject *parent) :
     this->mContainer->setImage(ImageDocument::DefaultKey, image);
     delete image;
 
-    this->setDocumentName(tr("Image", "new image name"));
+    this->setDocumentName(QString("Image"));
     this->setDocumentFilename("");
     this->setOutputFilename("");
     this->setChanged(true);

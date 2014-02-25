@@ -42,7 +42,7 @@ FontDocument::FontDocument(QObject *parent) :
     this->mContainer = new DataContainer(this);
     this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(mon_container_imagesChanged()));
 
-    this->setDocumentName(tr("Font", "new font name"));
+    this->setDocumentName(QString("Font"));
     this->setDocumentFilename("");
     this->setOutputFilename("");
     this->setChanged(true);
@@ -517,9 +517,11 @@ void FontDocument::setFontCharacters(const QString &chars,
 
     // generate new characters
     QStringList keys = this->mContainer->keys();
+    QStringList userOrdered;
     for (int i = 0; i < chars.count(); i++)
     {
         QString key = QString(chars.at(i));
+        userOrdered.append(key);
 
         // if character not exists, create it
         if (!keys.contains(key))
@@ -535,6 +537,8 @@ void FontDocument::setFontCharacters(const QString &chars,
             this->mContainer->setImage(key, new QImage(image));
         }
     }
+
+    this->mContainer->reorderTo(&userOrdered);
 
     this->mContainer->blockSignals(false);
 

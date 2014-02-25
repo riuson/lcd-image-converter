@@ -33,7 +33,7 @@ public:
     // also convert images to monochrome or grayscale (r = g = b = qGray(pixel))
     static void pixelsData(
             Preset *matrix,
-            QImage *image,
+            const QImage *image,
             QVector<quint32> *data,
             int *width,
             int *height);

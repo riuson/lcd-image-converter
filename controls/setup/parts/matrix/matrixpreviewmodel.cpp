@@ -72,10 +72,10 @@ QVariant MatrixPreviewModel::headerData(int section, Qt::Orientation orientation
                 result = tr("Used");
                 break;
             case MaskAnd:
-                result = tr("AND");
+                result = QString("AND");
                 break;
             case MaskOr:
-                result = tr("OR");
+                result = QString("OR");
                 break;
             case Result:
                 result = tr("Result");
