@@ -209,11 +209,10 @@ void ImageDocument::convert(bool request)
     QString outputFileName = this->outputFilename();
 
     // if file name not specified, show dialog
-    if (outputFileName.isEmpty())
-        request = true;
+    bool filenameNotSpecified = outputFileName.isEmpty();
 
     // show dialog
-    if (request)
+    if (request || filenameNotSpecified)
     {
         QFileDialog dialog(qobject_cast<QWidget *>(this->parent()));
         dialog.setAcceptMode(QFileDialog::AcceptSave);
@@ -222,6 +221,16 @@ void ImageDocument::convert(bool request)
         dialog.setNameFilter(tr("C Files (*.c);;All Files (*.*)"));
         dialog.setDefaultSuffix(QString("c"));
         dialog.setWindowTitle(tr("Save result file as"));
+
+        if (filenameNotSpecified)
+        {
+            dialog.selectFile(this->documentName());
+        }
+        else
+        {
+            dialog.selectFile(outputFileName);
+        }
+
         if (dialog.exec() == QDialog::Accepted)
         {
             outputFileName = dialog.selectedFiles().at(0);

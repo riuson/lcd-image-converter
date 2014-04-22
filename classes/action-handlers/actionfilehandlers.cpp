@@ -155,11 +155,20 @@ void ActionFileHandlers::saveAs_triggered()
     {
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.selectFile(editor->document()->documentFilename());
         dialog.setFileMode(QFileDialog::AnyFile);
         dialog.setNameFilter(tr("XML Files (*.xml)"));
         dialog.setDefaultSuffix(QString("xml"));
         dialog.setWindowTitle(tr("Save file as"));
+
+        if (editor->document()->documentFilename().isEmpty())
+        {
+            dialog.selectFile(editor->document()->documentName());
+        }
+        else
+        {
+            dialog.selectFile(editor->document()->documentFilename());
+        }
+
         if (dialog.exec() == QDialog::Accepted)
         {
             QString filename = dialog.selectedFiles().at(0);
