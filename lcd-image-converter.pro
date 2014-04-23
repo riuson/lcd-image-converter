@@ -42,6 +42,7 @@ SOURCES += main.cpp \
     classes/action-handlers/actionhelphandlers.cpp \
     classes/action-handlers/actionimagehandlers.cpp \
     classes/action-handlers/actionsetuphandlers.cpp \
+    classes/cmdline/cmdlineparser.cpp \
     classes/compression/rlecompressor.cpp \
     classes/data/datacontainer.cpp \
     classes/data/fontdocument.cpp \
@@ -115,6 +116,7 @@ HEADERS += \
     classes/action-handlers/actionhelphandlers.h \
     classes/action-handlers/actionimagehandlers.h \
     classes/action-handlers/actionsetuphandlers.h \
+    classes/cmdline/cmdlineparser.h \
     classes/compression/rlecompressor.h \
     classes/data/datacontainer.h \
     classes/data/fontdocument.h \
@@ -213,6 +215,7 @@ INCLUDEPATH += $$PWD \
     $$PWD/classes/action-handlers \
     $$PWD/classes/compression \
     $$PWD/classes/data \
+    $$PWD/classes/cmdline \
     $$PWD/classes/status \
     $$PWD/classes/parser \
     $$PWD/classes/parser/convert \

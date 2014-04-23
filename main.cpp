@@ -25,6 +25,7 @@
 
 #include "mainwindow.h"
 #include "revisioninfo.h"
+#include "cmdlineparser.h"
 //-----------------------------------------------------------------------------
 void setupApplication(QApplication *app)
 {
@@ -43,8 +44,16 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     setupApplication(&a);
 
-    MainWindow w;
-    w.show();
-    return a.exec();
+    CmdLineParser cmdParser;
+    if (cmdParser.hasArguments()) // gui mode
+    {
+        return cmdParser.process();
+    }
+    else // console mode
+    {
+        MainWindow w;
+        w.show();
+        return a.exec();
+    }
 }
 //-----------------------------------------------------------------------------
