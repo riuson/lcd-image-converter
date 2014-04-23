@@ -24,14 +24,25 @@
 #endif
 
 #include "mainwindow.h"
+#include "revisioninfo.h"
 //-----------------------------------------------------------------------------
-int main(int argc, char *argv[])
+void setupApplication(QApplication *app)
 {
     QCoreApplication::setApplicationName("lcd-image-converter");
     QCoreApplication::setOrganizationName("riuson");
+
+    QString version = QString("rev.%1 from %2").arg(RevisionInfo::hash(), RevisionInfo::date());
+    QCoreApplication::setApplicationVersion(version);
+
+    app->addLibraryPath(QApplication::applicationDirPath());
+    app->addLibraryPath(QApplication::applicationDirPath() + "/plugins");
+}
+//-----------------------------------------------------------------------------
+int main(int argc, char *argv[])
+{
     QApplication a(argc, argv);
-    a.addLibraryPath(QApplication::applicationDirPath());
-    a.addLibraryPath(QApplication::applicationDirPath() + "/plugins");
+    setupApplication(&a);
+
     MainWindow w;
     w.show();
     return a.exec();
