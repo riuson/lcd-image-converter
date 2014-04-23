@@ -29,3 +29,9 @@ chmod +x build.sh
 ./_linux/release/lcd-image-converter
 
 ================================================================================
+
+Additional packages on Ubuntu 14.04, Qt5:
+libqt5xmlpatterns5 qtxmlpatterns5-dbg libqt5xmlpatterns5-private-dev
+qtscript5-dev qttools5-dev-tools
+
+================================================================================
