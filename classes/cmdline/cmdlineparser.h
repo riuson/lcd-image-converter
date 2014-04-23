@@ -3,19 +3,21 @@
 //-----------------------------------------------------------------------------
 #include <QObject>
 //-----------------------------------------------------------------------------
-class CmdLineParser : public QObject
+class QCommandLineParser;
+class QCoreApplication;
+//-----------------------------------------------------------------------------
+class CmdLineParser
 {
-    Q_OBJECT
 public:
-    explicit CmdLineParser(QObject *parent = 0);
+    CmdLineParser(QCoreApplication *app);
 
     bool hasArguments() const;
     int process();
 
-signals:
+private:
+    const QCoreApplication *mApp;
 
-public slots:
-
+    void initializeParser(QCommandLineParser *parser);
 };
 //-----------------------------------------------------------------------------
 #endif // CMDLINEPARSER_H

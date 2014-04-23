@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     setupApplication(&a);
 
-    CmdLineParser cmdParser;
+    CmdLineParser cmdParser(&a);
     if (cmdParser.hasArguments()) // gui mode
     {
         return cmdParser.process();
