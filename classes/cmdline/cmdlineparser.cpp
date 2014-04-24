@@ -3,23 +3,47 @@
 #include <QCommandLineParser>
 #include <QDebug>
 //-----------------------------------------------------------------------------
-CmdLineParser::CmdLineParser(QCoreApplication *app)
+namespace CommandLine {
+//-----------------------------------------------------------------------------
+CmdLineParser::CmdLineParser(const QCoreApplication *app)
 {
     this->mApp = app;
-}
-//-----------------------------------------------------------------------------
-bool CmdLineParser::hasArguments() const
-{
-    QStringList arguments = this->mApp->arguments();
-    return (arguments.length() > 1);
-}
-//-----------------------------------------------------------------------------
-int CmdLineParser::process()
-{
-    QCommandLineParser parser;
-    this->initializeParser(&parser);
+    this->mParser = new QCommandLineParser();
 
-    return 1;
+    this->initializeParser(this->mParser);
+}
+//-----------------------------------------------------------------------------
+CmdLineParser::~CmdLineParser()
+{
+    delete this->mParser;
+}
+//-----------------------------------------------------------------------------
+Mode CmdLineParser::mode() const
+{
+    QString value = this->mParser->value("mode");
+
+    if (value == "convert")
+    {
+        return ModeConvert;
+    }
+
+    return ModeUndefined;
+}
+//-----------------------------------------------------------------------------
+DocumentType CmdLineParser::documentType() const
+{
+    QString value = this->mParser->value("type");
+
+    if (value == "image")
+    {
+        return DocumentTypeImage;
+    }
+    else if (value == "font")
+    {
+        return DocumentTypeFont;
+    }
+
+    return DocumentTypeUndefined;
 }
 //-----------------------------------------------------------------------------
 void CmdLineParser::initializeParser(QCommandLineParser *parser)
@@ -72,5 +96,7 @@ void CmdLineParser::initializeParser(QCommandLineParser *parser)
 
     // process arguments
     parser->process(*this->mApp);
+}
+//-----------------------------------------------------------------------------
 }
 //-----------------------------------------------------------------------------

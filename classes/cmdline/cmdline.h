@@ -1,30 +1,25 @@
-#ifndef CMDLINEPARSER_H
-#define CMDLINEPARSER_H
+#ifndef CMDLINE_H
+#define CMDLINE_H
 //-----------------------------------------------------------------------------
-#include "cmdoptions.h"
-#include <QObject>
-//-----------------------------------------------------------------------------
-class QCommandLineParser;
 class QCoreApplication;
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
-class CmdLineParser
+class CmdLineParser;
+//-----------------------------------------------------------------------------
+class CmdLine
 {
 public:
-    CmdLineParser(const QCoreApplication *app);
-    ~CmdLineParser();
+    CmdLine(const QCoreApplication *app);
+    ~CmdLine();
 
-    Mode mode() const;
-    DocumentType documentType() const;
-
+    bool needProcess() const;
+    int process();
 private:
     const QCoreApplication *mApp;
-    QCommandLineParser *mParser;
-
-    void initializeParser(QCommandLineParser *parser);
+    CmdLineParser *mParser;
 };
 //-----------------------------------------------------------------------------
 }
 //-----------------------------------------------------------------------------
-#endif // CMDLINEPARSER_H
+#endif // CMDLINE_H

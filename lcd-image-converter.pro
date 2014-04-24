@@ -42,6 +42,7 @@ SOURCES += main.cpp \
     classes/action-handlers/actionhelphandlers.cpp \
     classes/action-handlers/actionimagehandlers.cpp \
     classes/action-handlers/actionsetuphandlers.cpp \
+    classes/cmdline/cmdline.cpp \
     classes/cmdline/cmdlineparser.cpp \
     classes/compression/rlecompressor.cpp \
     classes/data/datacontainer.cpp \
@@ -116,7 +117,9 @@ HEADERS += \
     classes/action-handlers/actionhelphandlers.h \
     classes/action-handlers/actionimagehandlers.h \
     classes/action-handlers/actionsetuphandlers.h \
+    classes/cmdline/cmdline.h \
     classes/cmdline/cmdlineparser.h \
+    classes/cmdline/cmdoptions.h \
     classes/compression/rlecompressor.h \
     classes/data/datacontainer.h \
     classes/data/fontdocument.h \
