@@ -46,6 +46,31 @@ DocumentType CmdLineParser::documentType() const
     return DocumentTypeUndefined;
 }
 //-----------------------------------------------------------------------------
+QString CmdLineParser::inputFilename() const
+{
+    return this->mParser->value("input");
+}
+//-----------------------------------------------------------------------------
+QString CmdLineParser::outputFilename() const
+{
+    return this->mParser->value("output");
+}
+//-----------------------------------------------------------------------------
+QString CmdLineParser::templateFilename() const
+{
+    return this->mParser->value("template");
+}
+//-----------------------------------------------------------------------------
+QString CmdLineParser::presetName() const
+{
+    return this->mParser->value("preset");
+}
+//-----------------------------------------------------------------------------
+QString CmdLineParser::documentName() const
+{
+    return this->mParser->value("doc-name");
+}
+//-----------------------------------------------------------------------------
 void CmdLineParser::initializeParser(QCommandLineParser *parser)
 {
     parser->setApplicationDescription("Tool to create image and font source files for embedded applications.");

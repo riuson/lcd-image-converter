@@ -17,6 +17,11 @@ public:
 
     Mode mode() const;
     DocumentType documentType() const;
+    QString inputFilename() const;
+    QString outputFilename() const;
+    QString templateFilename() const;
+    QString presetName() const;
+    QString documentName() const;
 
 private:
     const QCoreApplication *mApp;
