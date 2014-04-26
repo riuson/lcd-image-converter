@@ -2,6 +2,7 @@
 #define CMDLINE_H
 //-----------------------------------------------------------------------------
 class QCoreApplication;
+class QString;
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
@@ -18,6 +19,13 @@ public:
 private:
     const QCoreApplication *mApp;
     CmdLineParser *mParser;
+
+    int convertBinaryImage(
+            const QString &inputFilename,
+            const QString &outputFilename,
+            const QString &templateFilename,
+            const QString &presetName,
+            const QString &documentName);
 };
 //-----------------------------------------------------------------------------
 }
