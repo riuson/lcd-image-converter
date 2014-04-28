@@ -5,14 +5,13 @@
 #include <QObject>
 //-----------------------------------------------------------------------------
 class QCommandLineParser;
-class QCoreApplication;
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
 class CmdLineParser
 {
 public:
-    CmdLineParser(const QCoreApplication *app);
+    CmdLineParser(const QStringList &args);
     ~CmdLineParser();
 
     Mode mode() const;
@@ -24,7 +23,7 @@ public:
     QString documentName() const;
 
 private:
-    const QCoreApplication *mApp;
+    const QStringList *mArguments;
     QCommandLineParser *mParser;
 
     void initializeParser(QCommandLineParser *parser);

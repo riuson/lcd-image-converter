@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
-CmdLineParser::CmdLineParser(const QCoreApplication *app)
+CmdLineParser::CmdLineParser(const QStringList &args)
 {
-    this->mApp = app;
+    this->mArguments = &args;
     this->mParser = new QCommandLineParser();
 
     this->initializeParser(this->mParser);
@@ -120,7 +120,7 @@ void CmdLineParser::initializeParser(QCommandLineParser *parser)
     parser->addOption(templateOption);
 
     // process arguments
-    parser->process(*this->mApp);
+    parser->process(*this->mArguments);
 }
 //-----------------------------------------------------------------------------
 }

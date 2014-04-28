@@ -1,8 +1,8 @@
 #ifndef CMDLINE_H
 #define CMDLINE_H
 //-----------------------------------------------------------------------------
-class QCoreApplication;
 class QString;
+class QStringList;
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
@@ -11,13 +11,12 @@ class CmdLineParser;
 class CmdLine
 {
 public:
-    CmdLine(const QCoreApplication *app);
+    CmdLine(const QStringList &arguments);
     ~CmdLine();
 
     bool needProcess() const;
     int process();
 private:
-    const QCoreApplication *mApp;
     CmdLineParser *mParser;
 
     int convertBinaryImage(

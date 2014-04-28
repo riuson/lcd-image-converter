@@ -7,14 +7,14 @@
 #include <QDebug>
 #include <QFile>
 #include <QString>
+#include <QStringList>
 #include <QImage>
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
-CmdLine::CmdLine(const QCoreApplication *app)
+CmdLine::CmdLine(const QStringList &arguments)
 {
-    this->mApp = app;
-    this->mParser = new CmdLineParser(this->mApp);
+    this->mParser = new CmdLineParser(arguments);
 }
 //-----------------------------------------------------------------------------
 CmdLine::~CmdLine()
