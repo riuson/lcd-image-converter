@@ -14,17 +14,12 @@ public:
     CmdLineParser(const QStringList &args);
     ~CmdLineParser();
 
-    Mode mode() const;
-    DocumentType documentType() const;
-    QString inputFilename() const;
-    QString outputFilename() const;
-    QString templateFilename() const;
-    QString presetName() const;
-    QString documentName() const;
+    const QObject *parsedArguments() const;
 
 private:
     const QStringList *mArguments;
     QCommandLineParser *mParser;
+    QObject *mParsedArguments;
 
     void initializeParser(QCommandLineParser *parser);
 };

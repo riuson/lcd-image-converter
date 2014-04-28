@@ -44,6 +44,7 @@ SOURCES += main.cpp \
     classes/action-handlers/actionsetuphandlers.cpp \
     classes/cmdline/cmdline.cpp \
     classes/cmdline/cmdlineparser.cpp \
+    classes/cmdline/convertimagearguments.cpp \
     classes/compression/rlecompressor.cpp \
     classes/data/datacontainer.cpp \
     classes/data/fontdocument.cpp \
@@ -120,6 +121,7 @@ HEADERS += \
     classes/cmdline/cmdline.h \
     classes/cmdline/cmdlineparser.h \
     classes/cmdline/cmdoptions.h \
+    classes/cmdline/convertimagearguments.h \
     classes/compression/rlecompressor.h \
     classes/data/datacontainer.h \
     classes/data/fontdocument.h \

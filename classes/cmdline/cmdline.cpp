@@ -4,6 +4,7 @@
 #include "parser.h"
 #include "imagedocument.h"
 #include "datacontainer.h"
+#include "convertimagearguments.h"
 #include <QDebug>
 #include <QFile>
 #include <QString>
@@ -24,7 +25,7 @@ CmdLine::~CmdLine()
 //-----------------------------------------------------------------------------
 bool CmdLine::needProcess() const
 {
-    if (this->mParser->mode() == ModeConvert)
+    if (this->mParser->parsedArguments() != NULL)
     {
         return true;
     }
@@ -34,15 +35,16 @@ bool CmdLine::needProcess() const
 //-----------------------------------------------------------------------------
 int CmdLine::process()
 {
-    if (this->mParser->mode() == ModeConvert)
+    if (this->mParser->parsedArguments() != NULL)
     {
-        if (this->mParser->documentType() == DocumentTypeImage)
+        const ConvertImageArguments *arguments = qobject_cast<const ConvertImageArguments *>(this->mParser->parsedArguments());
+        if (arguments != NULL)
         {
-            QString inputFilename = this->mParser->inputFilename();
-            QString outputFilename = this->mParser->outputFilename();
-            QString templateFilename = this->mParser->templateFilename();
-            QString presetName = this->mParser->presetName();
-            QString documentName = this->mParser->documentName();
+            QString inputFilename = arguments->inputFilename();
+            QString outputFilename = arguments->outputFilename();
+            QString templateFilename = arguments->templateFilename();
+            QString presetName = arguments->presetName();
+            QString documentName = arguments->documentName();
 
             return this->convertBinaryImage(inputFilename, outputFilename, templateFilename, presetName, documentName);
         }
