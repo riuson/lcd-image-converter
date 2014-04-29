@@ -52,7 +52,7 @@ int CmdLine::process()
 {
     int result = 1;
 
-    bool parsed = this->mParser->parse(*this->mArguments);
+    this->mParser->parse(*this->mArguments);
 
     QString modeName = this->mParser->value("mode");
 
@@ -67,12 +67,13 @@ int CmdLine::process()
 
     if (mode != NULL)
     {
-        if (parsed)
+        if (mode->collectArguments())
         {
-            if (mode->collectArguments())
-            {
-                result = mode->process();
-            }
+            result = mode->process();
+        }
+        else
+        {
+            qDebug() << "Argumenths missing";
         }
 
         delete mode;
