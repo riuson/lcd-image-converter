@@ -1,29 +1,26 @@
-#ifndef CMDLINEPARSER_H
-#define CMDLINEPARSER_H
+#ifndef MODEPARSERBASE_H
+#define MODEPARSERBASE_H
 //-----------------------------------------------------------------------------
-#include "cmdoptions.h"
 #include <QObject>
 //-----------------------------------------------------------------------------
 class QCommandLineParser;
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
-class CmdLineParser
+class ModeParserBase : public QObject
 {
+    Q_OBJECT
 public:
-    CmdLineParser(const QStringList &args);
-    ~CmdLineParser();
+    explicit ModeParserBase(QCommandLineParser *parser, QObject *parent = 0);
 
-    const QObject *parsedArguments() const;
+    virtual void fillParser() const = 0;
+    virtual bool collectArguments() = 0;
+    virtual int process() = 0;
 
-private:
-    const QStringList *mArguments;
+protected:
     QCommandLineParser *mParser;
-    QObject *mParsedArguments;
-
-    void initializeParser(QCommandLineParser *parser);
 };
 //-----------------------------------------------------------------------------
 }
 //-----------------------------------------------------------------------------
-#endif // CMDLINEPARSER_H
+#endif // MODEPARSERBASE_H

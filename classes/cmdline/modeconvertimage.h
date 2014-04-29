@@ -1,26 +1,22 @@
 #ifndef CONVERTIMAGEARGUMENTS_H
 #define CONVERTIMAGEARGUMENTS_H
 //-----------------------------------------------------------------------------
+#include "modeparserbase.h"
 #include <QObject>
-//-----------------------------------------------------------------------------
-class QCommandLineParser;
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
-class ConvertImageArguments : public QObject
+class ModeConvertImage : public ModeParserBase
 {
     Q_OBJECT
 public:
-    explicit ConvertImageArguments(QCommandLineParser *parser, QObject *parent = 0);
+    explicit ModeConvertImage(QCommandLineParser *parser, QObject *parent = 0);
 
-    static void fillParser(QCommandLineParser *parser);
     static QString modeName();
 
-    QString inputFilename() const;
-    QString outputFilename() const;
-    QString templateFilename() const;
-    QString documentName() const;
-    QString presetName() const;
+    void fillParser() const;
+    bool collectArguments();
+    int process();
 
 private:
     QString mInputFilename;

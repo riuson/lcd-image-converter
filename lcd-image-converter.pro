@@ -43,8 +43,8 @@ SOURCES += main.cpp \
     classes/action-handlers/actionimagehandlers.cpp \
     classes/action-handlers/actionsetuphandlers.cpp \
     classes/cmdline/cmdline.cpp \
-    classes/cmdline/cmdlineparser.cpp \
-    classes/cmdline/convertimagearguments.cpp \
+    classes/cmdline/modeconvertimage.cpp \
+    classes/cmdline/modeparserbase.cpp \
     classes/compression/rlecompressor.cpp \
     classes/data/datacontainer.cpp \
     classes/data/fontdocument.cpp \
@@ -119,9 +119,9 @@ HEADERS += \
     classes/action-handlers/actionimagehandlers.h \
     classes/action-handlers/actionsetuphandlers.h \
     classes/cmdline/cmdline.h \
-    classes/cmdline/cmdlineparser.h \
     classes/cmdline/cmdoptions.h \
-    classes/cmdline/convertimagearguments.h \
+    classes/cmdline/modeconvertimage.h \
+    classes/cmdline/modeparserbase.h \
     classes/compression/rlecompressor.h \
     classes/data/datacontainer.h \
     classes/data/fontdocument.h \
@@ -189,8 +189,7 @@ HEADERS += \
     controls/updates/dialogupdates.h \
     interfaces/idocument.h \
     interfaces/ieditor.h \
-    interfaces/imainwindow.h \
-    interfaces/iparsermode.h
+    interfaces/imainwindow.h
 
 FORMS += \
     controls/about/dialogabout.ui \

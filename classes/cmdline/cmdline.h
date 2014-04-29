@@ -1,30 +1,30 @@
 #ifndef CMDLINE_H
 #define CMDLINE_H
 //-----------------------------------------------------------------------------
+#include <QObject>
+//-----------------------------------------------------------------------------
 class QString;
 class QStringList;
+class QCommandLineParser;
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
-class CmdLineParser;
+class ModeParserBase;
 //-----------------------------------------------------------------------------
-class CmdLine
+class CmdLine : public QObject
 {
+    Q_OBJECT
 public:
-    CmdLine(const QStringList &arguments);
-    ~CmdLine();
+    explicit CmdLine(const QStringList &arguments, QObject *parent = 0);
+    virtual ~CmdLine();
 
     bool needProcess() const;
     int process();
 private:
-    CmdLineParser *mParser;
+    QCommandLineParser *mParser;
+    const QStringList *mArguments;
 
-    int convertImage(
-            const QString &inputFilename,
-            const QString &outputFilename,
-            const QString &templateFilename,
-            const QString &presetName,
-            const QString &documentName);
+    CommandLine::ModeParserBase *createMode(const QString &name, QCommandLineParser *parser);
 };
 //-----------------------------------------------------------------------------
 }

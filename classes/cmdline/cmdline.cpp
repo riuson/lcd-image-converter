@@ -1,31 +1,46 @@
 #include "cmdline.h"
-#include "cmdlineparser.h"
 #include "preset.h"
 #include "parser.h"
 #include "imagedocument.h"
 #include "datacontainer.h"
-#include "convertimagearguments.h"
+#include "modeconvertimage.h"
 #include <QDebug>
 #include <QFile>
 #include <QString>
 #include <QStringList>
 #include <QImage>
+#include <QCommandLineParser>
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
-CmdLine::CmdLine(const QStringList &arguments)
+CmdLine::CmdLine(const QStringList &arguments, QObject *parent) :
+    QObject(parent)
 {
-    this->mParser = new CmdLineParser(arguments);
+    this->mArguments = new QStringList(arguments);
+    this->mParser = new QCommandLineParser();
+
+    // information block
+    this->mParser->setApplicationDescription("Tool to create image and font source files for embedded applications.");
+    this->mParser->addHelpOption();
+    this->mParser->addVersionOption();
+
+    // required option:
+    // --mode=convert-image
+    QCommandLineOption optionMode(QStringList() << "m" << "mode",
+                QCoreApplication::translate("CmdLineParser", "Conversion mode for application, \"convert-image\"."),
+                QCoreApplication::translate("CmdLineParser", "mode"));
+    this->mParser->addOption(optionMode);
 }
 //-----------------------------------------------------------------------------
 CmdLine::~CmdLine()
 {
     delete this->mParser;
+    delete this->mArguments;
 }
 //-----------------------------------------------------------------------------
 bool CmdLine::needProcess() const
 {
-    if (this->mParser->parsedArguments() != NULL)
+    if (this->mArguments->length() > 1)
     {
         return true;
     }
@@ -35,63 +50,50 @@ bool CmdLine::needProcess() const
 //-----------------------------------------------------------------------------
 int CmdLine::process()
 {
-    if (this->mParser->parsedArguments() != NULL)
-    {
-        const ConvertImageArguments *arguments = qobject_cast<const ConvertImageArguments *>(this->mParser->parsedArguments());
-        if (arguments != NULL)
-        {
-            QString inputFilename = arguments->inputFilename();
-            QString outputFilename = arguments->outputFilename();
-            QString templateFilename = arguments->templateFilename();
-            QString presetName = arguments->presetName();
-            QString documentName = arguments->documentName();
+    int result = 1;
 
-            return this->convertImage(inputFilename, outputFilename, templateFilename, presetName, documentName);
-        }
+    bool parsed = this->mParser->parse(*this->mArguments);
+
+    QString modeName = this->mParser->value("mode");
+
+    ModeParserBase *mode = this->createMode(modeName, this->mParser);
+
+    if (mode != NULL)
+    {
+        mode->fillParser();
     }
 
-    return 1;
-}
-//-----------------------------------------------------------------------------
-int CmdLine::convertImage(const QString &inputFilename, const QString &outputFilename, const QString &templateFilename, const QString &presetName, const QString &documentName)
-{
-    if (QFile::exists(inputFilename) && QFile::exists(templateFilename))
+    this->mParser->process(*this->mArguments);
+
+    if (mode != NULL)
     {
-        QString docNameWS = documentName;
-        docNameWS.remove(QRegExp("\\s"));
-        if (!docNameWS.isEmpty())
+        if (parsed)
         {
-            if (Preset::presetsList().contains(presetName))
+            if (mode->collectArguments())
             {
-                Preset::setCurrentName(presetName);
-
-                QImage imageLoaded;
-                if (imageLoaded.load(inputFilename))
-                {
-                    QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
-
-                    ImageDocument imageDocument;
-                    QStringList keys = imageDocument.dataContainer()->keys();
-
-                    QStringListIterator iterator(keys);
-                    while (iterator.hasNext())
-                    {
-                        QString key = iterator.next();
-                        imageDocument.dataContainer()->setImage(key, &imageConverted);
-
-                        imageDocument.setDocumentName(docNameWS);
-                        imageDocument.dataContainer()->setInfo("converted filename", QVariant(outputFilename));
-
-                        imageDocument.convert(false);
-
-                        return 0;
-                    }
-                }
+                result = mode->process();
             }
         }
+
+        delete mode;
     }
 
-    return 1;
+    if (result != 0)
+    {
+        this->mParser->showHelp(1);
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+ModeParserBase *CmdLine::createMode(const QString &name, QCommandLineParser *parser)
+{
+    if (name == ModeConvertImage::modeName())
+    {
+        return new ModeConvertImage(parser, this);
+    }
+
+    return NULL;
 }
 //-----------------------------------------------------------------------------
 }
