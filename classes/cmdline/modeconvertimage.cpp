@@ -63,10 +63,10 @@ bool ModeConvertImage::collectArguments()
     this->mPresetName = this->mParser->value("preset-name");
 
     return (!this->mInputFilename.isEmpty() &&
-            this->mOuputFilename.isEmpty() &&
-            this->mTemplateFilename.isEmpty() &&
-            this->mDocumentName.isEmpty() &&
-            this->mPresetName.isEmpty());
+            !this->mOuputFilename.isEmpty() &&
+            !this->mTemplateFilename.isEmpty() &&
+            !this->mDocumentName.isEmpty() &&
+            !this->mPresetName.isEmpty());
 }
 //-----------------------------------------------------------------------------
 int ModeConvertImage::process()
