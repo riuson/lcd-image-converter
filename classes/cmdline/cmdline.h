@@ -19,7 +19,7 @@ public:
 private:
     CmdLineParser *mParser;
 
-    int convertBinaryImage(
+    int convertImage(
             const QString &inputFilename,
             const QString &outputFilename,
             const QString &templateFilename,

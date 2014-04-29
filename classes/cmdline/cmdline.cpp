@@ -46,14 +46,14 @@ int CmdLine::process()
             QString presetName = arguments->presetName();
             QString documentName = arguments->documentName();
 
-            return this->convertBinaryImage(inputFilename, outputFilename, templateFilename, presetName, documentName);
+            return this->convertImage(inputFilename, outputFilename, templateFilename, presetName, documentName);
         }
     }
 
     return 1;
 }
 //-----------------------------------------------------------------------------
-int CmdLine::convertBinaryImage(const QString &inputFilename, const QString &outputFilename, const QString &templateFilename, const QString &presetName, const QString &documentName)
+int CmdLine::convertImage(const QString &inputFilename, const QString &outputFilename, const QString &templateFilename, const QString &presetName, const QString &documentName)
 {
     if (QFile::exists(inputFilename) && QFile::exists(templateFilename))
     {
@@ -83,6 +83,8 @@ int CmdLine::convertBinaryImage(const QString &inputFilename, const QString &out
                         imageDocument.dataContainer()->setInfo("converted filename", QVariant(outputFilename));
 
                         imageDocument.convert(false);
+
+                        return 0;
                     }
                 }
             }
