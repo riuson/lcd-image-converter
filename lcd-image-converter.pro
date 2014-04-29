@@ -189,7 +189,8 @@ HEADERS += \
     controls/updates/dialogupdates.h \
     interfaces/idocument.h \
     interfaces/ieditor.h \
-    interfaces/imainwindow.h
+    interfaces/imainwindow.h \
+    interfaces/iparsermode.h
 
 FORMS += \
     controls/about/dialogabout.ui \
