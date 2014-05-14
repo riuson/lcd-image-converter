@@ -1,15 +1,28 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-06-22T13:10:53
 # -------------------------------------------------
-OBJECTS_DIR         = .obj
-MOC_DIR             = .moc
-UI_DIR              = .uic
+OUTDIR              = ./_build
+
+unix:OUTDIR         = $$OUTDIR/linux
+win32:OUTDIR        = $$OUTDIR/windows
+
+CONFIG(debug, debug|release) {
+    OUTDIR          = $$OUTDIR/debug
+} else {
+    OUTDIR          = $$OUTDIR/release
+}
+
+OBJECTS_DIR         = $$OUTDIR/.obj
+MOC_DIR             = $$OUTDIR/.moc
+UI_DIR              = $$OUTDIR/.uic
+RCC_DIR             = $$OUTDIR/.rcc
+
 QT += xml xmlpatterns network script
 TARGET = lcd-image-converter
 TEMPLATE = app
 
-unix:DESTDIR        = ./_linux
-win32:DESTDIR       = ./_windows
+DESTDIR             = $$OUTDIR/output
+QMAKE_LIBDIR       += $$DESTDIR
 
 greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
@@ -17,12 +30,8 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 }
 
 CONFIG(debug, debug|release) {
-    DESTDIR         = $$DESTDIR/debug
     DEFINES        += DEBUG_VERSION
-    QMAKE_LIBDIR   += $$DESTDIR
-} else {
-    DESTDIR         = $$DESTDIR/release
-    QMAKE_LIBDIR   += $$DESTDIR
+    TARGET          = $$join(TARGET,,,-debug)
 }
 
 SOURCES += main.cpp \
