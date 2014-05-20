@@ -136,13 +136,14 @@ void DataContainer::reorderTo(const QStringList *keys)
 {
     if (this->mKeys.length() == keys->length())
     {
+        // all 'keys' contains in 'mKeys'
         bool exists = true;
         for (int i = 0; i < keys->length(); i++)
         {
             QString key = keys->at(i);
             if (!this->mKeys.contains(key))
             {
-                exists = true;
+                exists = false;
                 break;
             }
         }
