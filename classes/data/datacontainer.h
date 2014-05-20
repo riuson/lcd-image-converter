@@ -47,7 +47,7 @@ public:
     void clear();
     int count() const;
     QStringList keys() const;
-    void remove(const QString &key);
+    void removeImage(const QString &key);
 
     void reorderTo(const QStringList *keys);
 

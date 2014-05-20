@@ -121,7 +121,7 @@ QStringList DataContainer::keys() const
     return result;
 }
 //-----------------------------------------------------------------------------
-void DataContainer::remove(const QString &key)
+void DataContainer::removeImage(const QString &key)
 {
     if (this->mKeys.contains(key))
     {

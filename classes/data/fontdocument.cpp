@@ -541,7 +541,7 @@ void FontDocument::setFontCharacters(const QString &chars,
             QString a = it.next();
             if (!chars.contains(a))
             {
-                this->mContainer->remove(a);
+                this->mContainer->removeImage(a);
             }
         }
     }
