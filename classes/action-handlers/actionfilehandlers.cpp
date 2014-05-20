@@ -189,7 +189,7 @@ void ActionFileHandlers::convert_triggered()
     IEditor *editor = this->mMainWindow->currentEditor();
     if (editor != NULL)
     {
-        editor->document()->convert(true);
+        this->convertDocument(editor->document(), true);
     }
 }
 //-----------------------------------------------------------------------------
@@ -204,7 +204,7 @@ void ActionFileHandlers::convertAll_triggered()
         IEditor *editor = dynamic_cast<IEditor *> (list.at(i));
         if (editor != NULL)
         {
-            editor->document()->convert(false);
+            this->convertDocument(editor->document(), false);
         }
     }
 }
@@ -321,6 +321,66 @@ void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
     ed->document()->setDocumentName(name);
 
     emit this->tabCreated(ed);
+}
+//-----------------------------------------------------------------------------
+void ActionFileHandlers::convertDocument(IDocument *document, bool request)
+{
+    // converter output file name
+    QString outputFileName = document->outputFilename();
+
+    // if file name not specified, show dialog
+    bool filenameNotSpecified = outputFileName.isEmpty();
+
+    // show dialog
+    if (request || filenameNotSpecified)
+    {
+        QFileDialog dialog(qobject_cast<QWidget *>(this->parent()));
+        dialog.setAcceptMode(QFileDialog::AcceptSave);
+        dialog.selectFile(outputFileName);
+        dialog.setFileMode(QFileDialog::AnyFile);
+        dialog.setNameFilter(tr("C Files (*.c);;All Files (*.*)"));
+        dialog.setDefaultSuffix(QString("c"));
+        dialog.setWindowTitle(tr("Save result file as"));
+
+        if (filenameNotSpecified)
+        {
+            dialog.selectFile(document->documentName());
+        }
+        else
+        {
+            dialog.selectFile(outputFileName);
+        }
+
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            outputFileName = dialog.selectedFiles().at(0);
+        }
+        else
+        {
+            outputFileName = "";
+        }
+    }
+
+    // if file name specified, save result
+    if (!outputFileName.isEmpty())
+    {
+        QFile file(outputFileName);
+        if (file.open(QFile::WriteOnly))
+        {
+            QString result = document->convert();
+
+            file.write(result.toUtf8());
+            file.close();
+
+            if (document->outputFilename() != outputFileName)
+            {
+                document->beginChanges();
+                document->setOutputFilename(outputFileName);
+                ///TODO: need set 'Changed' flag
+                document->endChanges();
+            }
+        }
+    }
 }
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::documentChanged()

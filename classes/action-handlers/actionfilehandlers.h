@@ -26,6 +26,7 @@
 //-----------------------------------------------------------------------------
 class QImage;
 class IMainWindow;
+class IDocument;
 //-----------------------------------------------------------------------------
 class ActionFileHandlers : public ActionHandlersBase
 {
@@ -51,6 +52,10 @@ public slots:
     void convertAll_triggered();
     void openFile(const QString &filename);
     void openImage(QImage *image, const QString &documentName);
+
+private:
+    void convertDocument(IDocument *document, bool request);
+
 private slots:
     void documentChanged();
 };

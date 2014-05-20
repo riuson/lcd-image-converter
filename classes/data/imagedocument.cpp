@@ -183,12 +183,26 @@ void ImageDocument::setDocumentName(const QString &value)
     }
 }
 //-----------------------------------------------------------------------------
+QString ImageDocument::outputFilename() const
+{
+    QVariant result = this->mContainer->info("converted filename");
+    return result.toString();
+}
+//-----------------------------------------------------------------------------
+void ImageDocument::setOutputFilename(const QString &value)
+{
+    if (this->outputFilename() != value)
+    {
+        this->mContainer->setInfo("converted filename", QVariant(value));
+    }
+}
+//-----------------------------------------------------------------------------
 DataContainer *ImageDocument::dataContainer()
 {
     return this->mContainer;
 }
 //-----------------------------------------------------------------------------
-void ImageDocument::convert(bool request)
+QString ImageDocument::convert()
 {
     Tags tags;
 
@@ -204,7 +218,7 @@ void ImageDocument::convert(bool request)
 
     Parser parser(this, Parser::TypeImage);
     QString result = parser.convert(this, tags);
-
+/*
     // converter output file name
     QString outputFileName = this->outputFilename();
 
@@ -261,6 +275,8 @@ void ImageDocument::convert(bool request)
             }
         }
     }
+*/
+    return result;
 }
 //-----------------------------------------------------------------------------
 void ImageDocument::beginChanges()
@@ -305,20 +321,6 @@ void ImageDocument::setDocumentFilename(const QString &value)
     if (this->documentFilename() != value)
     {
         this->mContainer->setInfo("filename", QVariant(value));
-    }
-}
-//-----------------------------------------------------------------------------
-QString ImageDocument::outputFilename() const
-{
-    QVariant result = this->mContainer->info("converted filename");
-    return result.toString();
-}
-//-----------------------------------------------------------------------------
-void ImageDocument::setOutputFilename(const QString &value)
-{
-    if (this->outputFilename() != value)
-    {
-        this->mContainer->setInfo("converted filename", QVariant(value));
     }
 }
 //-----------------------------------------------------------------------------

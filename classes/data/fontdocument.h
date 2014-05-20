@@ -40,8 +40,10 @@ public:
     QString documentFilename() const;
     QString documentName() const;
     void setDocumentName(const QString &value);
+    QString outputFilename() const;
+    void setOutputFilename(const QString &value);
     DataContainer *dataContainer();
-    void convert(bool request);
+    QString convert();
 
     void beginChanges();
     void endChanges();
@@ -67,9 +69,6 @@ private:
     DataContainer *mContainer;
 
     void setDocumentFilename(const QString &value);
-
-    QString outputFilename() const;
-    void setOutputFilename(const QString &value);
 
     QFont usedFont() const;
     void setUsedFont(const QFont &value);

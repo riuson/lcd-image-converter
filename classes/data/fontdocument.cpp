@@ -295,12 +295,29 @@ void FontDocument::setDocumentName(const QString &value)
     }
 }
 //-----------------------------------------------------------------------------
+QString FontDocument::outputFilename() const
+{
+    QVariant result = this->mContainer->info("converted filename");
+    return result.toString();
+}
+//-----------------------------------------------------------------------------
+void FontDocument::setOutputFilename(const QString &value)
+{
+    if (this->outputFilename() != value)
+    {
+        //this->beginChanges();
+        this->mContainer->setInfo("converted filename", QVariant(value));
+        //this->setChanged(true);
+        //document->endChanges();
+    }
+}
+//-----------------------------------------------------------------------------
 DataContainer *FontDocument::dataContainer()
 {
     return this->mContainer;
 }
 //-----------------------------------------------------------------------------
-void FontDocument::convert(bool request)
+QString FontDocument::convert()
 {
     Tags tags;
 
@@ -327,7 +344,7 @@ void FontDocument::convert(bool request)
 
     Parser parser(this, Parser::TypeFont);
     QString result = parser.convert(this, tags);
-
+/*
     // converter output file name
     QString outputFileName = this->outputFilename();
 
@@ -384,6 +401,8 @@ void FontDocument::convert(bool request)
             }
         }
     }
+*/
+    return result;
 }
 //-----------------------------------------------------------------------------
 void FontDocument::beginChanges()
@@ -559,20 +578,6 @@ void FontDocument::setDocumentFilename(const QString &value)
     if (this->documentFilename() != value)
     {
         this->mContainer->setInfo("filename", QVariant(value));
-    }
-}
-//-----------------------------------------------------------------------------
-QString FontDocument::outputFilename() const
-{
-    QVariant result = this->mContainer->info("converted filename");
-    return result.toString();
-}
-//-----------------------------------------------------------------------------
-void FontDocument::setOutputFilename(const QString &value)
-{
-    if (this->outputFilename() != value)
-    {
-        this->mContainer->setInfo("converted filename", QVariant(value));
     }
 }
 //-----------------------------------------------------------------------------
