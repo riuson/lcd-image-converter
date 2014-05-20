@@ -37,9 +37,11 @@ ImageDocument::ImageDocument(QObject *parent) :
     QObject(parent)
 {
     this->mContainer = new DataContainer(this);
-    this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(mon_container_imagesChanged()));
+    this->connect(this->mContainer, SIGNAL(dataChanged(bool)), SLOT(mon_container_dataChanged(bool)));
 
     this->mNestedChangesCounter = 0;
+
+    this->beginChanges();
 
     QImage *image = new QImage(":/images/template");
     this->mContainer->setImage(ImageDocument::DefaultKey, image);
@@ -48,6 +50,8 @@ ImageDocument::ImageDocument(QObject *parent) :
     this->setDocumentName(QString("Image"));
     this->setDocumentFilename("");
     this->setOutputFilename("");
+
+    this->endChanges(true);
 }
 //-----------------------------------------------------------------------------
 ImageDocument::~ImageDocument()
@@ -297,12 +301,19 @@ void ImageDocument::endChanges(bool suppress)
     {
         if (--this->mNestedChangesCounter == 0)
         {
+            bool changed = this->mContainer->changed();
+
             if (suppress)
             {
                 this->mContainer->setChanged(false);
+                changed = false;
             }
 
-            this->mContainer->stateSave();
+            if (changed)
+            {
+                this->mContainer->stateSave();
+            }
+
             emit this->documentChanged();
         }
     }
@@ -340,10 +351,15 @@ void ImageDocument::setDocumentFilename(const QString &value)
     }
 }
 //-----------------------------------------------------------------------------
-void ImageDocument::mon_container_imagesChanged()
+void ImageDocument::mon_container_dataChanged(bool historyStateMoved)
 {
     if (this->mNestedChangesCounter == 0)
     {
+        if (!historyStateMoved)
+        {
+            this->mContainer->stateSave();
+        }
+
         emit this->documentChanged();
     }
 }

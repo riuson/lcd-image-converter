@@ -59,7 +59,7 @@ private:
     void setDocumentFilename(const QString &value);
 
 private slots:
-    void mon_container_imagesChanged();
+    void mon_container_dataChanged(bool historyStateMoved);
 
 signals:
     void documentChanged();

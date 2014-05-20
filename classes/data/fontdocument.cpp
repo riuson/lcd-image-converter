@@ -40,7 +40,7 @@ FontDocument::FontDocument(QObject *parent) :
     QObject(parent)
 {
     this->mContainer = new DataContainer(this);
-    this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(mon_container_imagesChanged()));
+    this->connect(this->mContainer, SIGNAL(dataChanged(bool)), SLOT(mon_container_dataChanged(bool)));
 
     this->mNestedChangesCounter = 0;
 
@@ -698,10 +698,15 @@ QImage FontDocument::drawCharacter(const QChar value, const QFont &font, const Q
     return result;
 }
 //-----------------------------------------------------------------------------
-void FontDocument::mon_container_imagesChanged()
+void FontDocument::mon_container_dataChanged(bool historyStateMoved)
 {
     if (this->mNestedChangesCounter == 0)
     {
+        if (!historyStateMoved)
+        {
+            this->mContainer->stateSave();
+        }
+
         emit this->documentChanged();
     }
 }

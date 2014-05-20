@@ -72,7 +72,7 @@ private:
     HistoryKeeper *mHistory;
 
 signals:
-    void imagesChanged();
+    void dataChanged(bool historyStateMoved);
 };
 //-----------------------------------------------------------------------------
 #endif // DATACONTAINER_H
