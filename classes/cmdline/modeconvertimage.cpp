@@ -71,16 +71,20 @@ bool ModeConvertImage::collectArguments()
 //-----------------------------------------------------------------------------
 int ModeConvertImage::process()
 {
+    // check input and template files exists
     if (QFile::exists(this->mInputFilename) && QFile::exists(this->mTemplateFilename))
     {
+        // check dodocument name
         QString docNameWS = this->mDocumentName;
         docNameWS.remove(QRegExp("\\s"));
         if (!docNameWS.isEmpty())
         {
+            // check preset exists
             if (Preset::presetsList().contains(this->mPresetName))
             {
                 Preset::setCurrentName(this->mPresetName);
 
+                // load image from input file
                 QImage imageLoaded;
                 if (imageLoaded.load(this->mInputFilename))
                 {
@@ -89,6 +93,7 @@ int ModeConvertImage::process()
                     ImageDocument imageDocument;
                     QStringList keys = imageDocument.dataContainer()->keys();
 
+                    // process all keys (1 in image document)
                     QStringListIterator iterator(keys);
                     while (iterator.hasNext())
                     {
@@ -98,8 +103,20 @@ int ModeConvertImage::process()
                         imageDocument.setDocumentName(docNameWS);
                         imageDocument.dataContainer()->setInfo("converted filename", QVariant(this->mOuputFilename));
 
-                        imageDocument.convert(false);
+                        // save to output file
+                        QFile file(this->mOuputFilename);
+                        if (file.open(QFile::WriteOnly))
+                        {
+                            QString result = imageDocument.convert();
 
+                            file.write(result.toUtf8());
+                            file.close();
+
+                            if (imageDocument.outputFilename() != this->mOuputFilename)
+                            {
+                                imageDocument.setOutputFilename(this->mOuputFilename);
+                            }
+                        }
                     }
 
                     return 0;
