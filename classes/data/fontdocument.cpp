@@ -42,10 +42,11 @@ FontDocument::FontDocument(QObject *parent) :
     this->mContainer = new DataContainer(this);
     this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(mon_container_imagesChanged()));
 
+    this->mNestedChangesCounter = 0;
+
     this->setDocumentName(QString("Font"));
     this->setDocumentFilename("");
     this->setOutputFilename("");
-    this->setChanged(true);
     this->setAntialiasing(false);
     this->setMonospaced(false);
 }
@@ -61,6 +62,8 @@ bool FontDocument::load(const QString &fileName)
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly))
     {
+        this->beginChanges();
+
         QDomDocument doc;
         QString errorMsg;
         QString converted;
@@ -157,7 +160,10 @@ bool FontDocument::load(const QString &fileName)
 
         this->setDocumentFilename(fileName);
         this->setOutputFilename(converted);
-        this->setChanged(false);
+
+        this->endChanges(true);
+
+        this->mContainer->historyInit();
     }
 
     return result;
@@ -259,10 +265,13 @@ bool FontDocument::save(const QString &fileName)
         QTextStream stream(&file);
         doc.save(stream, 4);
 
+        this->beginChanges();
+
         this->setDocumentFilename(fileName);
         file.close();
         result = true;
-        this->setChanged(false);
+
+        this->endChanges(true);
     }
 
     return result;
@@ -288,11 +297,7 @@ QString FontDocument::documentName() const
 //-----------------------------------------------------------------------------
 void FontDocument::setDocumentName(const QString &value)
 {
-    if (this->documentName() != value)
-    {
-        this->mContainer->setInfo("document name", value);
-        this->setChanged(true);
-    }
+    this->mContainer->setInfo("document name", value);
 }
 //-----------------------------------------------------------------------------
 QString FontDocument::outputFilename() const
@@ -303,13 +308,7 @@ QString FontDocument::outputFilename() const
 //-----------------------------------------------------------------------------
 void FontDocument::setOutputFilename(const QString &value)
 {
-    if (this->outputFilename() != value)
-    {
-        //this->beginChanges();
-        this->mContainer->setInfo("converted filename", QVariant(value));
-        //this->setChanged(true);
-        //document->endChanges();
-    }
+    this->mContainer->setInfo("converted filename", QVariant(value));
 }
 //-----------------------------------------------------------------------------
 DataContainer *FontDocument::dataContainer()
@@ -411,11 +410,25 @@ void FontDocument::beginChanges()
     {
         this->mContainer->historyInit();
     }
+
+    this->mNestedChangesCounter++;
 }
 //-----------------------------------------------------------------------------
-void FontDocument::endChanges()
+void FontDocument::endChanges(bool suppress)
 {
-    this->mContainer->stateSave();
+    if (this->mNestedChangesCounter > 0)
+    {
+        if (--this->mNestedChangesCounter == 0)
+        {
+            if (suppress)
+            {
+                this->mContainer->setChanged(false);
+            }
+
+            this->mContainer->stateSave();
+            emit this->documentChanged();
+        }
+    }
 }
 //-----------------------------------------------------------------------------
 bool FontDocument::canUndo()
@@ -495,6 +508,8 @@ void FontDocument::setFontCharacters(const QString &chars,
         regenerateAll = true;
     }
 
+    this->beginChanges();
+
     // create font with specified parameters
     QFont fontNew = fonts.font(fontFamily, _style, _size);
     fontNew.setPixelSize(_size);
@@ -570,7 +585,7 @@ void FontDocument::setFontCharacters(const QString &chars,
 
     this->mContainer->blockSignals(false);
 
-    this->setChanged(true);
+    this->endChanges(false);
 }
 //-----------------------------------------------------------------------------
 void FontDocument::setDocumentFilename(const QString &value)
@@ -683,14 +698,11 @@ QImage FontDocument::drawCharacter(const QChar value, const QFont &font, const Q
     return result;
 }
 //-----------------------------------------------------------------------------
-void FontDocument::setChanged(bool value)
-{
-    this->mContainer->setChanged(value);
-    emit this->documentChanged();
-}
-//-----------------------------------------------------------------------------
 void FontDocument::mon_container_imagesChanged()
 {
-    emit this->documentChanged();
+    if (this->mNestedChangesCounter == 0)
+    {
+        emit this->documentChanged();
+    }
 }
 //-----------------------------------------------------------------------------

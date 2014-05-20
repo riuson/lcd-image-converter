@@ -42,7 +42,7 @@ public:
     virtual QString convert() = 0;
 
     virtual void beginChanges() = 0;
-    virtual void endChanges() = 0;
+    virtual void endChanges(bool suppress) = 0;
     virtual bool canUndo() = 0;
     virtual bool canRedo() = 0;
     virtual void undo() = 0;

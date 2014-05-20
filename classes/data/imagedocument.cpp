@@ -39,6 +39,8 @@ ImageDocument::ImageDocument(QObject *parent) :
     this->mContainer = new DataContainer(this);
     this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(mon_container_imagesChanged()));
 
+    this->mNestedChangesCounter = 0;
+
     QImage *image = new QImage(":/images/template");
     this->mContainer->setImage(ImageDocument::DefaultKey, image);
     delete image;
@@ -46,7 +48,6 @@ ImageDocument::ImageDocument(QObject *parent) :
     this->setDocumentName(QString("Image"));
     this->setDocumentFilename("");
     this->setOutputFilename("");
-    this->setChanged(true);
 }
 //-----------------------------------------------------------------------------
 ImageDocument::~ImageDocument()
@@ -59,6 +60,8 @@ bool ImageDocument::load(const QString &fileName)
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly))
     {
+        this->beginChanges();
+
         QDomDocument doc;
         QString errorMsg;
         QString converted;
@@ -104,7 +107,10 @@ bool ImageDocument::load(const QString &fileName)
 
         this->setDocumentFilename(fileName);
         this->setOutputFilename(converted);
-        this->setChanged(false);
+
+        this->endChanges(true);
+
+        this->mContainer->historyInit();
     }
     return result;
 }
@@ -148,10 +154,13 @@ bool ImageDocument::save(const QString &fileName)
         QTextStream stream(&file);
         doc.save(stream, 4);
 
+        this->beginChanges();
+
         this->setDocumentFilename(fileName);
         file.close();
         result = true;
-        this->setChanged(false);
+
+        this->endChanges(true);
     }
     return result;
 }
@@ -176,11 +185,7 @@ QString ImageDocument::documentName() const
 //-----------------------------------------------------------------------------
 void ImageDocument::setDocumentName(const QString &value)
 {
-    if (this->documentName() != value)
-    {
-        this->mContainer->setInfo("document name", value);
-        this->setChanged(true);
-    }
+    this->mContainer->setInfo("document name", value);
 }
 //-----------------------------------------------------------------------------
 QString ImageDocument::outputFilename() const
@@ -191,10 +196,7 @@ QString ImageDocument::outputFilename() const
 //-----------------------------------------------------------------------------
 void ImageDocument::setOutputFilename(const QString &value)
 {
-    if (this->outputFilename() != value)
-    {
-        this->mContainer->setInfo("converted filename", QVariant(value));
-    }
+    this->mContainer->setInfo("converted filename", QVariant(value));
 }
 //-----------------------------------------------------------------------------
 DataContainer *ImageDocument::dataContainer()
@@ -285,11 +287,25 @@ void ImageDocument::beginChanges()
     {
         this->mContainer->historyInit();
     }
+
+    this->mNestedChangesCounter++;
 }
 //-----------------------------------------------------------------------------
-void ImageDocument::endChanges()
+void ImageDocument::endChanges(bool suppress)
 {
-    this->mContainer->stateSave();
+    if (this->mNestedChangesCounter > 0)
+    {
+        if (--this->mNestedChangesCounter == 0)
+        {
+            if (suppress)
+            {
+                this->mContainer->setChanged(false);
+            }
+
+            this->mContainer->stateSave();
+            emit this->documentChanged();
+        }
+    }
 }
 //-----------------------------------------------------------------------------
 bool ImageDocument::canUndo()
@@ -324,14 +340,11 @@ void ImageDocument::setDocumentFilename(const QString &value)
     }
 }
 //-----------------------------------------------------------------------------
-void ImageDocument::setChanged(bool value)
-{
-    this->mContainer->setChanged(value);
-    emit this->documentChanged();
-}
-//-----------------------------------------------------------------------------
 void ImageDocument::mon_container_imagesChanged()
 {
-    emit this->documentChanged();
+    if (this->mNestedChangesCounter == 0)
+    {
+        emit this->documentChanged();
+    }
 }
 //-----------------------------------------------------------------------------

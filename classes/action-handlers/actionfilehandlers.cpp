@@ -129,9 +129,7 @@ void ActionFileHandlers::rename_triggered()
                                              &ok);
         if (ok)
         {
-            editor->document()->beginChanges();
             editor->document()->setDocumentName(name);
-            editor->document()->endChanges();
         }
     }
 }
@@ -374,10 +372,7 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
 
             if (document->outputFilename() != outputFileName)
             {
-                document->beginChanges();
                 document->setOutputFilename(outputFileName);
-                ///TODO: need set 'Changed' flag
-                document->endChanges();
             }
         }
     }

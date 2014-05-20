@@ -80,9 +80,27 @@ QVariant DataContainer::info(const QString &key) const
 //-----------------------------------------------------------------------------
 void DataContainer::setInfo(const QString &key, const QVariant &value)
 {
+    bool changed = false;
+
     //TODO: may be need to compare old and new values?
+    if (this->mInfoMap.contains(key))
+    {
+        if (this->mInfoMap.value(key) != value)
+        {
+            changed = true;
+        }
+    }
+    else
+    {
+        changed = true;
+    }
+
     this->mInfoMap.insert(key, value);
-    this->setChanged(true);
+
+    if (changed)
+    {
+        this->setChanged(true);
+    }
 }
 //-----------------------------------------------------------------------------
 void DataContainer::clear()

@@ -71,11 +71,7 @@ void ActionFontHandlers::fontChange_triggered()
             monospaced = dialog.monospaced();
             antialiasing = dialog.antialiasing();
 
-            this->editor()->document()->beginChanges();
-
             etf->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
-
-            this->editor()->document()->endChanges();
         }
     }
 }
@@ -98,7 +94,7 @@ void ActionFontHandlers::fontInverse_triggered()
             this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->editor()->document()->endChanges();
+        this->editor()->document()->endChanges(false);
     }
 }
 //-----------------------------------------------------------------------------
@@ -130,7 +126,7 @@ void ActionFontHandlers::fontResize_triggered()
                     this->editor()->document()->dataContainer()->setImage(key, &result);
                 }
 
-                this->editor()->document()->endChanges();
+                this->editor()->document()->endChanges(false);
             }
         }
     }
@@ -186,7 +182,7 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
                     doc->dataContainer()->setImage(key, &result);
                 }
 
-                doc->endChanges();
+                doc->endChanges(false);
             }
         }
     }

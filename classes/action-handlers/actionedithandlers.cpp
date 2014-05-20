@@ -134,7 +134,7 @@ void ActionEditHandlers::paste_triggered()
                     this->editor()->document()->dataContainer()->setImage(key, &image);
                 }
 
-                this->editor()->document()->endChanges();
+                this->editor()->document()->endChanges(false);
             }
         }
     }

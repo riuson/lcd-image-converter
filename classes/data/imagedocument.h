@@ -44,7 +44,7 @@ public:
     QString convert();
 
     void beginChanges();
-    void endChanges();
+    void endChanges(bool suppress);
     bool canUndo();
     bool canRedo();
     void undo();
@@ -52,12 +52,11 @@ public:
 
 private:
     DataContainer *mContainer;
+    int mNestedChangesCounter;
 
     static const QString DefaultKey;
 
     void setDocumentFilename(const QString &value);
-
-    void setChanged(bool value);
 
 private slots:
     void mon_container_imagesChanged();

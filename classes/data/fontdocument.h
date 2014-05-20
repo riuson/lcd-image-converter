@@ -46,7 +46,7 @@ public:
     QString convert();
 
     void beginChanges();
-    void endChanges();
+    void endChanges(bool suppress);
     bool canUndo();
     bool canRedo();
     void undo();
@@ -67,6 +67,7 @@ public:
 
 private:
     DataContainer *mContainer;
+    int mNestedChangesCounter;
 
     void setDocumentFilename(const QString &value);
 
@@ -89,8 +90,6 @@ private:
                          const int width,
                          const int height,
                          const bool antialiasing);
-
-    void setChanged(bool value);
 
 private slots:
     void mon_container_imagesChanged();
