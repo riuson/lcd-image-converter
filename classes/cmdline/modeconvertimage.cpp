@@ -108,7 +108,7 @@ int ModeConvertImage::process()
                         if (file.open(QFile::WriteOnly))
                         {
                             Preset preset;
-                            preset.load(Preset::selectedName());
+                            preset.load(this->mPresetName);
 
                             // optional template file
                             if(!this->mTemplateFilename.isEmpty() && QFile::exists(this->mTemplateFilename))
