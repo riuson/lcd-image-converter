@@ -56,7 +56,7 @@ void ActionImageHandlers::flipHorizontal_triggered()
             this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->editor()->document()->endChanges();
+        this->editor()->document()->endChanges(false);
     }
 }
 //-----------------------------------------------------------------------------
@@ -78,7 +78,7 @@ void ActionImageHandlers::flipVertical_triggered()
             this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->editor()->document()->endChanges();
+        this->editor()->document()->endChanges(false);
     }
 }
 //-----------------------------------------------------------------------------
@@ -100,7 +100,7 @@ void ActionImageHandlers::rotate_90_Clockwise_triggered()
             this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->editor()->document()->endChanges();
+        this->editor()->document()->endChanges(false);
     }
 }
 //-----------------------------------------------------------------------------
@@ -122,7 +122,7 @@ void ActionImageHandlers::rotate_180_triggered()
             this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->editor()->document()->endChanges();
+        this->editor()->document()->endChanges(false);
     }
 }
 //-----------------------------------------------------------------------------
@@ -144,7 +144,7 @@ void ActionImageHandlers::rotate_90_Counter_Clockwise_triggered()
             this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->editor()->document()->endChanges();
+        this->editor()->document()->endChanges(false);
     }
 }
 //-----------------------------------------------------------------------------
@@ -166,7 +166,7 @@ void ActionImageHandlers::shift_left_triggered()
             this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->editor()->document()->endChanges();
+        this->editor()->document()->endChanges(false);
     }
 }
 //-----------------------------------------------------------------------------
@@ -188,7 +188,7 @@ void ActionImageHandlers::shift_right_triggered()
             this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->editor()->document()->endChanges();
+        this->editor()->document()->endChanges(false);
     }
 }
 //-----------------------------------------------------------------------------
@@ -210,7 +210,7 @@ void ActionImageHandlers::shift_up_triggered()
             this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->editor()->document()->endChanges();
+        this->editor()->document()->endChanges(false);
     }
 }
 //-----------------------------------------------------------------------------
@@ -232,7 +232,7 @@ void ActionImageHandlers::shift_down_triggered()
             this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->editor()->document()->endChanges();
+        this->editor()->document()->endChanges(false);
     }
 }
 //-----------------------------------------------------------------------------
@@ -255,7 +255,7 @@ void ActionImageHandlers::inverse_triggered()
             this->editor()->document()->dataContainer()->setImage(key, &result);
         }
 
-        this->editor()->document()->endChanges();
+        this->editor()->document()->endChanges(false);
     }
 }
 //-----------------------------------------------------------------------------
@@ -287,7 +287,7 @@ void ActionImageHandlers::resize_triggered()
                     this->editor()->document()->dataContainer()->setImage(key, &result);
                 }
 
-                this->editor()->document()->endChanges();
+                this->editor()->document()->endChanges(false);
             }
         }
     }
@@ -321,7 +321,7 @@ void ActionImageHandlers::import_triggered()
                 this->editor()->document()->dataContainer()->setImage(key, &imageConverted);
             }
 
-            this->editor()->document()->endChanges();
+            this->editor()->document()->endChanges(false);
         }
     }
 }
@@ -481,7 +481,7 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
                     QFile::remove(filename);
                 }
 
-                this->editor()->document()->endChanges();
+                this->editor()->document()->endChanges(false);
             }
         }
     }

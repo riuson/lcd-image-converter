@@ -36,11 +36,13 @@ public:
     virtual QString documentFilename() const = 0;
     virtual QString documentName() const = 0;
     virtual void setDocumentName(const QString &value) = 0;
+    virtual QString outputFilename() const = 0;
+    virtual void setOutputFilename(const QString &value) = 0;
     virtual DataContainer *dataContainer() = 0;
-    virtual void convert(bool request) = 0;
+    virtual QString convert() = 0;
 
     virtual void beginChanges() = 0;
-    virtual void endChanges() = 0;
+    virtual void endChanges(bool suppress) = 0;
     virtual bool canUndo() = 0;
     virtual bool canRedo() = 0;
     virtual void undo() = 0;
