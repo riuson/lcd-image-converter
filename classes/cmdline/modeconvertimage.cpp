@@ -38,7 +38,7 @@ void ModeConvertImage::fillParser() const
 
     // --template=/temp/image.tmpl
     QCommandLineOption templateOption(QStringList() << "template",
-                QCoreApplication::translate("CmdLineParser", "Full <path> to template file, used in conversion."),
+                QCoreApplication::translate("CmdLineParser", "Full <path> to template file, used in conversion. [Optional]"),
                 QCoreApplication::translate("CmdLineParser", "path"));
     this->mParser->addOption(templateOption);
 
