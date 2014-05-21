@@ -75,6 +75,8 @@ void ActionFileHandlers::newFont_triggered()
             EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
             this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
+            ed->document()->beginChanges();
+
             QString chars = dialog.characters();
             int size;
             QString family, style;
@@ -92,6 +94,9 @@ void ActionFileHandlers::newFont_triggered()
 
             name = this->mMainWindow->findAvailableName(name);
             ed->document()->setDocumentName(name);
+
+            ed->document()->endChanges(true);
+            ed->document()->dataContainer()->historyInit();
         }
     }
 }

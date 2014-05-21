@@ -52,6 +52,7 @@ ImageDocument::ImageDocument(QObject *parent) :
     this->setOutputFilename("");
 
     this->endChanges(true);
+    this->mContainer->historyInit();
 }
 //-----------------------------------------------------------------------------
 ImageDocument::~ImageDocument()

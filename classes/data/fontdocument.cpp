@@ -44,11 +44,16 @@ FontDocument::FontDocument(QObject *parent) :
 
     this->mNestedChangesCounter = 0;
 
+    this->beginChanges();
+
     this->setDocumentName(QString("Font"));
     this->setDocumentFilename("");
     this->setOutputFilename("");
     this->setAntialiasing(false);
     this->setMonospaced(false);
+
+    this->endChanges(true);
+    this->mContainer->historyInit();
 }
 //-----------------------------------------------------------------------------
 FontDocument::~FontDocument()
@@ -420,12 +425,19 @@ void FontDocument::endChanges(bool suppress)
     {
         if (--this->mNestedChangesCounter == 0)
         {
+            bool changed = this->mContainer->changed();
+
             if (suppress)
             {
                 this->mContainer->setChanged(false);
+                changed = false;
             }
 
-            this->mContainer->stateSave();
+            if (changed)
+            {
+                this->mContainer->stateSave();
+            }
+
             emit this->documentChanged();
         }
     }
@@ -619,10 +631,7 @@ QString FontDocument::usedStyle() const
 //-----------------------------------------------------------------------------
 void FontDocument::setUsedStyle(const QString &value)
 {
-    if (this->usedStyle() != value)
-    {
-        this->mContainer->setInfo("style", value);
-    }
+    this->mContainer->setInfo("style", value);
 }
 //-----------------------------------------------------------------------------
 bool FontDocument::monospaced() const
@@ -632,10 +641,7 @@ bool FontDocument::monospaced() const
 //-----------------------------------------------------------------------------
 void FontDocument::setMonospaced(const bool value)
 {
-    if (this->monospaced() != value)
-    {
-        this->mContainer->setInfo("monospaced", value);
-    }
+    this->mContainer->setInfo("monospaced", value);
 }
 //-----------------------------------------------------------------------------
 bool FontDocument::antialiasing() const
@@ -645,10 +651,7 @@ bool FontDocument::antialiasing() const
 //-----------------------------------------------------------------------------
 void FontDocument::setAntialiasing(const bool value)
 {
-    if (this->antialiasing() != value)
-    {
-        this->mContainer->setInfo("antialiasing", value);
-    }
+    this->mContainer->setInfo("antialiasing", value);
 }
 //-----------------------------------------------------------------------------
 QImage FontDocument::drawCharacter(const QChar value, const QFont &font, const QColor &foreground, const QColor &background, const int width, const int height, const bool antialiasing)
