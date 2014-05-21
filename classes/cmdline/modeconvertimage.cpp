@@ -2,6 +2,7 @@
 #include "imagedocument.h"
 #include "datacontainer.h"
 #include "preset.h"
+#include "templateoptions.h"
 #include <QCommandLineParser>
 #include <QDebug>
 #include <QFile>
@@ -64,7 +65,6 @@ bool ModeConvertImage::collectArguments()
 
     return (!this->mInputFilename.isEmpty() &&
             !this->mOuputFilename.isEmpty() &&
-            !this->mTemplateFilename.isEmpty() &&
             !this->mDocumentName.isEmpty() &&
             !this->mPresetName.isEmpty());
 }
@@ -72,7 +72,7 @@ bool ModeConvertImage::collectArguments()
 int ModeConvertImage::process()
 {
     // check input and template files exists
-    if (QFile::exists(this->mInputFilename) && QFile::exists(this->mTemplateFilename))
+    if (QFile::exists(this->mInputFilename))
     {
         // check dodocument name
         QString docNameWS = this->mDocumentName;
@@ -109,6 +109,12 @@ int ModeConvertImage::process()
                         {
                             Preset preset;
                             preset.load(Preset::selectedName());
+
+                            // optional template file
+                            if(!this->mTemplateFilename.isEmpty() && QFile::exists(this->mTemplateFilename))
+                            {
+                                preset.templates()->setImage(this->mTemplateFilename);
+                            }
 
                             QString result = imageDocument.convert(&preset);
 
