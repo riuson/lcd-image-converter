@@ -30,6 +30,7 @@
 #include "parser.h"
 #include "tags.h"
 #include "statusdata.h"
+#include "preset.h"
 //-----------------------------------------------------------------------------
 const QString ImageDocument::DefaultKey = QString("default");
 //-----------------------------------------------------------------------------
@@ -209,7 +210,7 @@ DataContainer *ImageDocument::dataContainer()
     return this->mContainer;
 }
 //-----------------------------------------------------------------------------
-QString ImageDocument::convert()
+QString ImageDocument::convert(Preset *preset)
 {
     Tags tags;
 
@@ -223,7 +224,7 @@ QString ImageDocument::convert()
 
     tags.setTagValue(Tags::DocumentDataType, "image");
 
-    Parser parser(this, Parser::TypeImage);
+    Parser parser(Parser::TypeImage, preset, this);
     QString result = parser.convert(this, tags);
 /*
     // converter output file name

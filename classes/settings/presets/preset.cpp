@@ -127,20 +127,25 @@ void Preset::remove(const QString &value)
     sett.endGroup();
 }
 //-----------------------------------------------------------------------------
-bool Preset::load(const QString &name)
+QString Preset::name() const
+{
+    return this->mName;
+}
+//-----------------------------------------------------------------------------
+bool Preset::load(const QString &presetName)
 {
     bool result = false;
 
-    if (!name.isEmpty())
+    if (!presetName.isEmpty())
     {
         this->mBlockChangesSignal = true;
 
         QSettings sett;
         sett.beginGroup("presets");
 
-        if (sett.childGroups().contains(name))
+        if (sett.childGroups().contains(presetName))
         {
-            sett.beginGroup(name);
+            sett.beginGroup(presetName);
 
             // get version of settings
             int version;
@@ -159,6 +164,8 @@ bool Preset::load(const QString &name)
             result &= this->mTemplates->load(&sett, version);
 
             sett.endGroup();
+
+            this->mName = presetName;
         }
         sett.endGroup();
 

@@ -107,7 +107,10 @@ int ModeConvertImage::process()
                         QFile file(this->mOuputFilename);
                         if (file.open(QFile::WriteOnly))
                         {
-                            QString result = imageDocument.convert();
+                            Preset preset;
+                            preset.load(Preset::currentName());
+
+                            QString result = imageDocument.convert(&preset);
 
                             file.write(result.toUtf8());
                             file.close();
