@@ -372,7 +372,7 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
         if (file.open(QFile::WriteOnly))
         {
             Preset preset;
-            preset.load(Preset::currentName());
+            preset.load(Preset::selectedName());
 
             QString result = document->convert(&preset);
 

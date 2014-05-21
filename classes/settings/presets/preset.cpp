@@ -98,7 +98,7 @@ QStringList Preset::presetsList()
     return names;
 }
 //-----------------------------------------------------------------------------
-QString Preset::currentName()
+QString Preset::selectedName()
 {
     QSettings sett;
     sett.beginGroup("presets");
@@ -108,7 +108,7 @@ QString Preset::currentName()
     return result;
 }
 //-----------------------------------------------------------------------------
-void Preset::setCurrentName(const QString &value)
+void Preset::setSelectedName(const QString &value)
 {
     QSettings sett;
     sett.beginGroup("presets");

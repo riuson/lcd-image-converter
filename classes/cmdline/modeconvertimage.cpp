@@ -82,7 +82,7 @@ int ModeConvertImage::process()
             // check preset exists
             if (Preset::presetsList().contains(this->mPresetName))
             {
-                Preset::setCurrentName(this->mPresetName);
+                Preset::setSelectedName(this->mPresetName);
 
                 // load image from input file
                 QImage imageLoaded;
@@ -108,7 +108,7 @@ int ModeConvertImage::process()
                         if (file.open(QFile::WriteOnly))
                         {
                             Preset preset;
-                            preset.load(Preset::currentName());
+                            preset.load(Preset::selectedName());
 
                             QString result = imageDocument.convert(&preset);
 

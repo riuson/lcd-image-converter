@@ -50,8 +50,8 @@ public:
     TemplateOptions *templates();
 
     static QStringList presetsList();
-    static QString currentName();
-    static void setCurrentName(const QString &value);
+    static QString selectedName();
+    static void setSelectedName(const QString &value);
     static void remove(const QString &value);
 
     QString name() const;
