@@ -208,39 +208,39 @@ FORMS += \
     controls/start/starttab.ui \
     controls/updates/dialogupdates.ui
 
-INCLUDEPATH += . \
-    ./classes \
-    ./classes/action-handlers \
-    ./classes/compression \
-    ./classes/data \
-    ./classes/status \
-    ./classes/parser \
-    ./classes/parser/convert \
-    ./classes/preview-models \
-    ./classes/settings \
-    ./classes/settings/presets \
-    ./controls \
-    ./controls/about \
-    ./controls/fonts/font-changed \
-    ./controls/fonts/font-editor \
-    ./controls/fonts/font-new \
-    ./controls/fonts/font-preview \
-    ./controls/fonts/font-range \
-    ./controls/images \
-    ./controls/main \
-    ./controls/resize \
-    ./controls/save-changes \
-    ./controls/start \
-    ./controls/setup \
-    ./controls/setup/parts \
-    ./controls/setup/parts/font \
-    ./controls/setup/parts/image \
-    ./controls/setup/parts/matrix \
-    ./controls/setup/parts/prepare \
-    ./controls/setup/parts/reordering \
-    ./controls/setup/parts/templates \
-    ./controls/updates \
-    ./interfaces
+INCLUDEPATH += $$PWD \
+    $$PWD/classes \
+    $$PWD/classes/action-handlers \
+    $$PWD/classes/compression \
+    $$PWD/classes/data \
+    $$PWD/classes/status \
+    $$PWD/classes/parser \
+    $$PWD/classes/parser/convert \
+    $$PWD/classes/preview-models \
+    $$PWD/classes/settings \
+    $$PWD/classes/settings/presets \
+    $$PWD/controls \
+    $$PWD/controls/about \
+    $$PWD/controls/fonts/font-changed \
+    $$PWD/controls/fonts/font-editor \
+    $$PWD/controls/fonts/font-new \
+    $$PWD/controls/fonts/font-preview \
+    $$PWD/controls/fonts/font-range \
+    $$PWD/controls/images \
+    $$PWD/controls/main \
+    $$PWD/controls/resize \
+    $$PWD/controls/save-changes \
+    $$PWD/controls/start \
+    $$PWD/controls/setup \
+    $$PWD/controls/setup/parts \
+    $$PWD/controls/setup/parts/font \
+    $$PWD/controls/setup/parts/image \
+    $$PWD/controls/setup/parts/matrix \
+    $$PWD/controls/setup/parts/prepare \
+    $$PWD/controls/setup/parts/reordering \
+    $$PWD/controls/setup/parts/templates \
+    $$PWD/controls/updates \
+    $$PWD/interfaces
 
 RESOURCES += \
     resources/resources.qrc
