@@ -5,6 +5,14 @@
             <sha1>current</sha1>
             <date>current</date>
         </commit>
+        <description>Added:
+ Command line mode for image conversion.</description>
+    </record>
+    <record>
+        <commit>
+            <sha1>6998b5ed23fbb240a14987e38d4563e8d4c8221e</sha1>
+            <date>2014-02-25 19:39:05 +0600</date>
+        </commit>
         <description>Fixed:
  Broken image prepare sequence;
  Russian translation;
@@ -12,6 +20,12 @@
 
 Added:
  Optional characters sorting in 'Font Change...' dialog.</description>
+        <downloads>
+            <item>
+                <name>Application for Windows (20.6 MB) on SourceForge</name>
+                <url>http://sourceforge.net/projects/lcd-image-converter/files</url>
+            </item>
+        </downloads>
     </record>
     <record>
         <commit>
@@ -33,12 +47,12 @@ Added:
  Copy and Paste operations;
  Alpha-channel support;
  User-defined script to specify pixel's scan order.</description>
- <downloads>
-     <item>
-         <name>Application for Windows (19.6 MB) on SourceForge</name>
-         <url>http://sourceforge.net/projects/lcd-image-converter/files</url>
-     </item>
- </downloads>
+      <downloads>
+          <item>
+              <name>Application for Windows (19.6 MB) on SourceForge</name>
+              <url>http://sourceforge.net/projects/lcd-image-converter/files</url>
+          </item>
+        </downloads>
     </record>
     <record>
         <commit>
