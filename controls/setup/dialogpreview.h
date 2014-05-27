@@ -25,7 +25,6 @@
 namespace Ui {
 class DialogPreview;
 }
-class Parser;
 class Preset;
 class DataContainer;
 //-----------------------------------------------------------------------------

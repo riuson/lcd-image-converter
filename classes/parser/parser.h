@@ -43,7 +43,7 @@ public:
         TypeFont
     };
 
-    Parser(QObject *parent, TemplateType templateType);
+    Parser(TemplateType templateType, Preset *preset, QObject *parent);
     virtual ~Parser();
 
     QString name();
@@ -51,7 +51,6 @@ public:
     QString convert(IDocument *document, Tags &tags) const;
 
 private:
-    QString mSelectedPresetName;
     Preset *mPreset;
     QString mTemplateFileName;
 

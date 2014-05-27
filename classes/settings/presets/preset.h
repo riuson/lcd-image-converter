@@ -50,12 +50,14 @@ public:
     TemplateOptions *templates();
 
     static QStringList presetsList();
-    static QString currentName();
-    static void setCurrentName(const QString &value);
+    static QString selectedName();
+    static void setSelectedName(const QString &value);
     static void remove(const QString &value);
 
-    bool load(const QString &name);
-    void save(const QString &name) const;
+    QString name() const;
+
+    bool load(const QString &presetName);
+    void save(const QString &presetName) const;
 
     void initMono(MonochromeType type, int edge = 0x80);
     void initGrayscale(int bits);
@@ -69,6 +71,7 @@ private:
     FontOptions *mFont;
     TemplateOptions *mTemplates;
     bool mBlockChangesSignal;
+    QString mName;
 
 signals:
     void changed();

@@ -31,6 +31,7 @@
 #include "imainwindow.h"
 #include "datacontainer.h"
 #include "idocument.h"
+#include "preset.h"
 //-----------------------------------------------------------------------------
 ActionFileHandlers::ActionFileHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -370,7 +371,10 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
         QFile file(outputFileName);
         if (file.open(QFile::WriteOnly))
         {
-            QString result = document->convert();
+            Preset preset;
+            preset.load(Preset::selectedName());
+
+            QString result = document->convert(&preset);
 
             file.write(result.toUtf8());
             file.close();

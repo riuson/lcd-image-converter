@@ -23,6 +23,8 @@
 #include <QObject>
 #include "idocument.h"
 //-----------------------------------------------------------------------------
+class Preset;
+//-----------------------------------------------------------------------------
 class ImageDocument : public QObject, public IDocument
 {
     Q_OBJECT
@@ -41,7 +43,7 @@ public:
     QString outputFilename() const;
     void setOutputFilename(const QString &value);
     DataContainer *dataContainer();
-    QString convert();
+    QString convert(Preset *preset);
 
     void beginChanges();
     void endChanges(bool suppress);

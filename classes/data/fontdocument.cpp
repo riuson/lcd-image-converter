@@ -35,6 +35,7 @@
 #include "dialogfontchanged.h"
 #include "bitmapeditoroptions.h"
 #include "fonthelper.h"
+#include "preset.h"
 //-----------------------------------------------------------------------------
 FontDocument::FontDocument(QObject *parent) :
     QObject(parent)
@@ -321,7 +322,7 @@ DataContainer *FontDocument::dataContainer()
     return this->mContainer;
 }
 //-----------------------------------------------------------------------------
-QString FontDocument::convert()
+QString FontDocument::convert(Preset *preset)
 {
     Tags tags;
 
@@ -346,7 +347,7 @@ QString FontDocument::convert()
     tags.setTagValue(Tags::FontAntiAliasing, antialiasing ? "yes" : "no");
     tags.setTagValue(Tags::FontWidthType, monospaced ? "monospaced" : "proportional");
 
-    Parser parser(this, Parser::TypeFont);
+    Parser parser(Parser::TypeFont, preset, this);
     QString result = parser.convert(this, tags);
 /*
     // converter output file name

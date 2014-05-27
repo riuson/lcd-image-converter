@@ -24,16 +24,36 @@
 #endif
 
 #include "mainwindow.h"
+#include "revisioninfo.h"
+#include "cmdline.h"
 //-----------------------------------------------------------------------------
-int main(int argc, char *argv[])
+void setupApplication(QApplication *app)
 {
     QCoreApplication::setApplicationName("lcd-image-converter");
     QCoreApplication::setOrganizationName("riuson");
+
+    QString version = QString("rev.%1 from %2").arg(RevisionInfo::hash(), RevisionInfo::date());
+    QCoreApplication::setApplicationVersion(version);
+
+    app->addLibraryPath(QApplication::applicationDirPath());
+    app->addLibraryPath(QApplication::applicationDirPath() + "/plugins");
+}
+//-----------------------------------------------------------------------------
+int main(int argc, char *argv[])
+{
     QApplication a(argc, argv);
-    a.addLibraryPath(QApplication::applicationDirPath());
-    a.addLibraryPath(QApplication::applicationDirPath() + "/plugins");
-    MainWindow w;
-    w.show();
-    return a.exec();
+    setupApplication(&a);
+
+    CommandLine::CmdLine cmd(a.arguments());
+    if (cmd.needProcess()) // if console mode
+    {
+        return cmd.process();
+    }
+    else // gui mode
+    {
+        MainWindow w;
+        w.show();
+        return a.exec();
+    }
 }
 //-----------------------------------------------------------------------------

@@ -26,6 +26,7 @@ class QImage;
 class QString;
 class DataContainer;
 class StatusData;
+class Preset;
 //-----------------------------------------------------------------------------
 class IDocument
 {
@@ -39,7 +40,7 @@ public:
     virtual QString outputFilename() const = 0;
     virtual void setOutputFilename(const QString &value) = 0;
     virtual DataContainer *dataContainer() = 0;
-    virtual QString convert() = 0;
+    virtual QString convert(Preset *preset) = 0;
 
     virtual void beginChanges() = 0;
     virtual void endChanges(bool suppress) = 0;

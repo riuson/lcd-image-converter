@@ -37,14 +37,14 @@
 #include "tags.h"
 #include "parsedimagedata.h"
 //-----------------------------------------------------------------------------
-Parser::Parser(QObject *parent, TemplateType templateType) :
+Parser::Parser(TemplateType templateType, Preset *preset, QObject *parent) :
         QObject(parent)
 {
-    this->mPreset = new Preset(this);
+    this->mPreset = preset;
 
-    this->mSelectedPresetName = Preset::currentName();
+    //this->mSelectedPresetName = Preset::currentName();
 
-    this->mPreset->load(this->mSelectedPresetName);
+    //this->mPreset->load(this->mSelectedPresetName);
 
     if (templateType == TypeImage)
         this->mTemplateFileName = this->mPreset->templates()->image();
@@ -54,12 +54,6 @@ Parser::Parser(QObject *parent, TemplateType templateType) :
 //-----------------------------------------------------------------------------
 Parser::~Parser()
 {
-    delete this->mPreset;
-}
-//-----------------------------------------------------------------------------
-QString Parser::name()
-{
-    return this->mSelectedPresetName;
 }
 //-----------------------------------------------------------------------------
 QString Parser::convert(IDocument *document, Tags &tags) const
@@ -329,7 +323,7 @@ void Parser::addMatrixInfo(Tags &tags) const
         tags.setTagValue(Tags::ImageRleCompression, "no");
 
     // preset name
-    tags.setTagValue(Tags::OutputPresetName, this->mSelectedPresetName);
+    tags.setTagValue(Tags::OutputPresetName, this->mPreset->name());
 
     // conversion type
     tags.setTagValue(Tags::PrepareConversionType, this->mPreset->prepare()->convTypeName());

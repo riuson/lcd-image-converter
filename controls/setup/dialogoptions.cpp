@@ -51,7 +51,7 @@ DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
     this->mSetupFont       = new SetupTabFont(this->mPreset, this);
     this->mSetupTemplates  = new SetupTabTemplates(this->mPreset, this);
 
-    QString selectedPreset = Preset::currentName();
+    QString selectedPreset = Preset::selectedName();
     int presetsCount = Preset::presetsList().length();
 
     // create default presets
@@ -255,7 +255,7 @@ void DialogOptions::done(int result)
                 }
 
                 this->mPreset->save(name);
-                Preset::setCurrentName(name);
+                Preset::setSelectedName(name);
 
                 QDialog::done(result);
                 break;
