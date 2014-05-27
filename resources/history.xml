@@ -5,7 +5,11 @@
             <sha1>current</sha1>
             <date>current</date>
         </commit>
-        <description>Added:
+        <description>Fixed:
+ Shadow Build support (partially);
+ Default document and file name for new documents.
+
+Added:
  Command line mode for image conversion.</description>
     </record>
     <record>
