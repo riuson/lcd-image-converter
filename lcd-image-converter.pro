@@ -1,15 +1,28 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-06-22T13:10:53
 # -------------------------------------------------
-OBJECTS_DIR         = .obj
-MOC_DIR             = .moc
-UI_DIR              = .uic
+OUTDIR              = ./_build
+
+unix:OUTDIR         = $$OUTDIR/linux
+win32:OUTDIR        = $$OUTDIR/windows
+
+CONFIG(debug, debug|release) {
+    OUTDIR          = $$OUTDIR/debug
+} else {
+    OUTDIR          = $$OUTDIR/release
+}
+
+OBJECTS_DIR         = $$OUTDIR/.obj
+MOC_DIR             = $$OUTDIR/.moc
+UI_DIR              = $$OUTDIR/.uic
+RCC_DIR             = $$OUTDIR/.rcc
+
 QT += xml xmlpatterns network script
 TARGET = lcd-image-converter
 TEMPLATE = app
 
-unix:DESTDIR        = ./_linux
-win32:DESTDIR       = ./_windows
+DESTDIR             = $$OUTDIR/output
+QMAKE_LIBDIR       += $$DESTDIR
 
 greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
@@ -17,12 +30,8 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 }
 
 CONFIG(debug, debug|release) {
-    DESTDIR         = $$DESTDIR/debug
     DEFINES        += DEBUG_VERSION
-    QMAKE_LIBDIR   += $$DESTDIR
-} else {
-    DESTDIR         = $$DESTDIR/release
-    QMAKE_LIBDIR   += $$DESTDIR
+    TARGET          = $$join(TARGET,,,-debug)
 }
 
 SOURCES += main.cpp \
@@ -199,39 +208,39 @@ FORMS += \
     controls/start/starttab.ui \
     controls/updates/dialogupdates.ui
 
-INCLUDEPATH += . \
-    ./classes \
-    ./classes/action-handlers \
-    ./classes/compression \
-    ./classes/data \
-    ./classes/status \
-    ./classes/parser \
-    ./classes/parser/convert \
-    ./classes/preview-models \
-    ./classes/settings \
-    ./classes/settings/presets \
-    ./controls \
-    ./controls/about \
-    ./controls/fonts/font-changed \
-    ./controls/fonts/font-editor \
-    ./controls/fonts/font-new \
-    ./controls/fonts/font-preview \
-    ./controls/fonts/font-range \
-    ./controls/images \
-    ./controls/main \
-    ./controls/resize \
-    ./controls/save-changes \
-    ./controls/start \
-    ./controls/setup \
-    ./controls/setup/parts \
-    ./controls/setup/parts/font \
-    ./controls/setup/parts/image \
-    ./controls/setup/parts/matrix \
-    ./controls/setup/parts/prepare \
-    ./controls/setup/parts/reordering \
-    ./controls/setup/parts/templates \
-    ./controls/updates \
-    ./interfaces
+INCLUDEPATH += $$PWD \
+    $$PWD/classes \
+    $$PWD/classes/action-handlers \
+    $$PWD/classes/compression \
+    $$PWD/classes/data \
+    $$PWD/classes/status \
+    $$PWD/classes/parser \
+    $$PWD/classes/parser/convert \
+    $$PWD/classes/preview-models \
+    $$PWD/classes/settings \
+    $$PWD/classes/settings/presets \
+    $$PWD/controls \
+    $$PWD/controls/about \
+    $$PWD/controls/fonts/font-changed \
+    $$PWD/controls/fonts/font-editor \
+    $$PWD/controls/fonts/font-new \
+    $$PWD/controls/fonts/font-preview \
+    $$PWD/controls/fonts/font-range \
+    $$PWD/controls/images \
+    $$PWD/controls/main \
+    $$PWD/controls/resize \
+    $$PWD/controls/save-changes \
+    $$PWD/controls/start \
+    $$PWD/controls/setup \
+    $$PWD/controls/setup/parts \
+    $$PWD/controls/setup/parts/font \
+    $$PWD/controls/setup/parts/image \
+    $$PWD/controls/setup/parts/matrix \
+    $$PWD/controls/setup/parts/prepare \
+    $$PWD/controls/setup/parts/reordering \
+    $$PWD/controls/setup/parts/templates \
+    $$PWD/controls/updates \
+    $$PWD/interfaces
 
 RESOURCES += \
     resources/resources.qrc
@@ -274,14 +283,12 @@ OTHER_FILES += \
 
 # generate version info file on each build, because file in other directory
 version.target = version-included.txt
-version.commands = @sh ./version-gen.sh
-version.depends = .git
+version.commands = @sh $$PWD/version-gen.sh $$PWD
 QMAKE_EXTRA_TARGETS += version
 PRE_TARGETDEPS += version-included.txt
 
 # compile translation
-translation_ru.target = ./resources/lcd-image-converter-ru.qm
-translation_ru.commands = @sh ./translation-compile.sh
-translation_ru.depends = .git
+translation_ru.target = $$PWD/resources/lcd-image-converter-ru.qm
+translation_ru.commands = @sh $$PWD/translation-compile.sh $$PWD
 QMAKE_EXTRA_TARGETS += translation_ru
-PRE_TARGETDEPS += ./resources/lcd-image-converter-ru.qm ./resources/lcd-image-converter-ru.ts
+PRE_TARGETDEPS += $$PWD/resources/lcd-image-converter-ru.qm $$PWD/resources/lcd-image-converter-ru.ts
