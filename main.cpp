@@ -17,15 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifdef USED_QT5
-#include <QtWidgets/QApplication>
+#include "qt-version-check.h"
+
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
+    #include <QtWidgets/QApplication>
 #else
-#include <QtGui/QApplication>
+    #include <QtGui/QApplication>
 #endif
 
 #include "mainwindow.h"
 #include "revisioninfo.h"
-#include "cmdline.h"
+
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
+    #include "cmdline.h"
+#endif
 //-----------------------------------------------------------------------------
 void setupApplication(QApplication *app)
 {
@@ -44,16 +49,17 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     setupApplication(&a);
 
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
     CommandLine::CmdLine cmd(a.arguments());
     if (cmd.needProcess()) // if console mode
     {
         return cmd.process();
     }
-    else // gui mode
-    {
-        MainWindow w;
-        w.show();
-        return a.exec();
-    }
+#endif
+
+    // gui mode
+    MainWindow w;
+    w.show();
+    return a.exec();
 }
 //-----------------------------------------------------------------------------

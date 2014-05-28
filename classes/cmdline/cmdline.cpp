@@ -1,3 +1,7 @@
+#include "qt-version-check.h"
+
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
+//-----------------------------------------------------------------------------
 #include "cmdline.h"
 #include "preset.h"
 #include "parser.h"
@@ -99,3 +103,4 @@ ModeParserBase *CmdLine::createMode(const QString &name, QCommandLineParser *par
 //-----------------------------------------------------------------------------
 }
 //-----------------------------------------------------------------------------
+#endif // QT_VERSION

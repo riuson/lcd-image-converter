@@ -27,8 +27,11 @@ QMAKE_LIBDIR       += $$DESTDIR
 
 greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
-  DEFINES += USED_QT5
 }
+
+DEFINES += QT_MAJOR_VERSION="$$QT_MAJOR_VERSION"
+DEFINES += QT_MINOR_VERSION="$$QT_MINOR_VERSION"
+DEFINES += QT_PATCH_VERSION="$$QT_PATCH_VERSION"
 
 CONFIG(debug, debug|release) {
     DEFINES        += DEBUG_VERSION
@@ -190,7 +193,8 @@ HEADERS += \
     controls/updates/dialogupdates.h \
     interfaces/idocument.h \
     interfaces/ieditor.h \
-    interfaces/imainwindow.h
+    interfaces/imainwindow.h \
+    qt-version-check.h
 
 FORMS += \
     controls/about/dialogabout.ui \

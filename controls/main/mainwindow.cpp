@@ -29,6 +29,7 @@
 #include <QLocale>
 #include <QIcon>
 
+#include "qt-version-check.h"
 #include "editortabimage.h"
 #include "editortabfont.h"
 #include "starttab.h"
@@ -52,9 +53,10 @@ MainWindow::MainWindow(QWidget *parent) :
         ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-#ifndef USED_QT5
+
+#if QT_VERSION_COMBINED < VERSION_COMBINE(5, 0, 0)
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-#endif
+#endif // QT_VERSION
 
     QIcon icon;
     icon.addFile(":/images/icon64", QSize(64, 64));

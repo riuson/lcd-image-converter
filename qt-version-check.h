@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2013 riuson
+ * Copyright (C) 2014 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,28 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef REORDERINGITEMDELEGATE_H
-#define REORDERINGITEMDELEGATE_H
+#ifndef QTVERSIONCHECK_H
+#define QTVERSIONCHECK_H
 //-----------------------------------------------------------------------------
-#include <QtGui>
-#include "qt-version-check.h"
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
-#include <QtWidgets>
-#endif // QT_VERSION
+#define VERSION_COMBINE(major, minor, patch) ((major << 16) | (minor << 8) | (patch))
+#define QT_VERSION_COMBINED (VERSION_COMBINE(QT_MAJOR_VERSION, QT_MINOR_VERSION, QT_PATCH_VERSION))
 //-----------------------------------------------------------------------------
-class ReorderingItemDelegate : public QItemDelegate
-{
-    Q_OBJECT
-public:
-    explicit ReorderingItemDelegate(QObject *parent = 0);
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-
-public:
-    QColor color() const;
-    void setColor(const QColor &value);
-private:
-    QColor mColor;
-};
-//-----------------------------------------------------------------------------
-#endif // REORDERINGITEMDELEGATE_H
+#endif // QTVERSIONCHECK_H
