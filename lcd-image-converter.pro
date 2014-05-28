@@ -20,7 +20,7 @@ RCC_DIR             = $$OUTDIR/.rcc
 QT += xml xmlpatterns network script
 TARGET = lcd-image-converter
 TEMPLATE = app
-CONFIG += console
+#CONFIG += console
 
 DESTDIR             = $$OUTDIR/output
 QMAKE_LIBDIR       += $$DESTDIR
