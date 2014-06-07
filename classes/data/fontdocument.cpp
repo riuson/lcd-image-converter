@@ -84,7 +84,8 @@ bool FontDocument::load(const QString &fileName)
             {
                 this->setDocumentName(root.attribute("name", fileName));
 
-                QString fontFamily, style;
+                QString fontFamily;
+                bool bold = false, italic = false;
                 int size = 0;
                 bool monospaced = false, antialiasing = false;
 
@@ -99,9 +100,13 @@ bool FontDocument::load(const QString &fileName)
                         {
                             fontFamily = e.text();
                         }
-                        else if (e.tagName() == "style")
+                        else if (e.tagName() == "bold")
                         {
-                            style = e.text();
+                            bold = (e.text() == "true");
+                        }
+                        else if (e.tagName() == "italic")
+                        {
+                            italic = (e.text() == "true");
                         }
                         else if (e.tagName() == "size")
                         {
@@ -151,11 +156,14 @@ bool FontDocument::load(const QString &fileName)
                 }
 
                 QFontDatabase fonts;
-                QFont font = fonts.font(fontFamily, style, size);
+                QFont font = fonts.font(fontFamily, "Regular", size);
                 font.setPixelSize(size);
+                font.setBold(bold);
+                font.setItalic(italic);
                 this->setUsedFont(font);
 
-                this->setUsedStyle(style);
+                this->setBold(bold);
+                this->setItalic(italic);
                 this->setMonospaced(monospaced);
                 this->setAntialiasing(antialiasing);
             }
@@ -186,10 +194,10 @@ bool FontDocument::save(const QString &fileName)
     QDomElement nodeRoot = doc.createElement("data");
     doc.appendChild(nodeRoot);
 
-    QString chars, fontFamily, style;
+    QString chars, fontFamily;
     int size;
-    bool monospaced, antialiasing;
-    this->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
+    bool monospaced, antialiasing, bold, italic;
+    this->fontCharacters(&chars, &fontFamily, &bold, &italic, &size, &monospaced, &antialiasing);
 
     nodeRoot.setAttribute("type", "font");
     nodeRoot.setAttribute("name", this->documentName());
@@ -204,11 +212,6 @@ bool FontDocument::save(const QString &fileName)
     nodeRoot.appendChild(nodeSize);
     nodeSize.appendChild(doc.createTextNode(QString("%1").arg(size)));
 
-    // style
-    QDomElement nodeStyle = doc.createElement("style");
-    nodeRoot.appendChild(nodeStyle);
-    nodeStyle.appendChild(doc.createTextNode(style));
-
     // monospaced or proportional
     QDomElement nodeWidthType = doc.createElement("widthType");
     nodeRoot.appendChild(nodeWidthType);
@@ -216,6 +219,22 @@ bool FontDocument::save(const QString &fileName)
         nodeWidthType.appendChild(doc.createTextNode("monospaced"));
     else
         nodeWidthType.appendChild(doc.createTextNode("proportional"));
+
+    // bold
+    QDomElement nodeBold = doc.createElement("bold");
+    nodeRoot.appendChild(nodeBold);
+    if (bold)
+        nodeBold.appendChild(doc.createTextNode("true"));
+    else
+        nodeBold.appendChild(doc.createTextNode("false"));
+
+    // italic
+    QDomElement nodeItalic = doc.createElement("italic");
+    nodeRoot.appendChild(nodeItalic);
+    if (italic)
+        nodeItalic.appendChild(doc.createTextNode("true"));
+    else
+        nodeItalic.appendChild(doc.createTextNode("false"));
 
     // antialiasing
     QDomElement nodeAntialiasing = doc.createElement("antialiasing");
@@ -334,15 +353,16 @@ QString FontDocument::convert(Preset *preset)
     tags.setTagValue(Tags::DocumentName, this->documentName());
     tags.setTagValue(Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
 
-    QString chars, fontFamily, style;
+    QString chars, fontFamily;
     int size;
-    bool monospaced, antialiasing;
-    this->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
+    bool monospaced, antialiasing, bold, italic;
+    this->fontCharacters(&chars, &fontFamily, &bold, &italic, &size, &monospaced, &antialiasing);
 
     tags.setTagValue(Tags::DocumentDataType, "font");
     tags.setTagValue(Tags::FontFamily, fontFamily);
     tags.setTagValue(Tags::FontSize, QString("%1").arg(size));
-    tags.setTagValue(Tags::FontStyle, style);
+    tags.setTagValue(Tags::FontBold, bold ? "yes" : "no");
+    tags.setTagValue(Tags::FontItalic, italic ? "yes" : "no");
     tags.setTagValue(Tags::FontString, FontHelper::escapeControlChars(chars));
     tags.setTagValue(Tags::FontAntiAliasing, antialiasing ? "yes" : "no");
     tags.setTagValue(Tags::FontWidthType, monospaced ? "monospaced" : "proportional");
@@ -470,7 +490,8 @@ void FontDocument::redo()
 //-----------------------------------------------------------------------------
 void FontDocument::fontCharacters(QString *chars,
                                   QString *fontFamily,
-                                  QString *_style,
+                                  bool *_bold,
+                                  bool *_italic,
                                   int *_size,
                                   bool *_monospaced,
                                   bool *_antialiasing)
@@ -479,14 +500,16 @@ void FontDocument::fontCharacters(QString *chars,
     *chars = charList.join("");
     *fontFamily = this->usedFont().family();
     *_size = this->usedFont().pixelSize();
-    *_style = this->usedStyle();
+    *_bold = this->bold();
+    *_italic = this->italic();
     *_monospaced = this->monospaced();
     *_antialiasing = this->antialiasing();
 }
 //-----------------------------------------------------------------------------
 void FontDocument::setFontCharacters(const QString &chars,
                                      const QString &fontFamily,
-                                     const QString &_style,
+                                     const bool &_bold,
+                                     const bool &_italic,
                                      const int _size,
                                      const bool _monospaced,
                                      const bool _antialiasing)
@@ -500,7 +523,8 @@ void FontDocument::setFontCharacters(const QString &chars,
     if (this->mContainer->count() > 1)
     {
         if (this->usedFont().family() != fontFamily ||
-            this->usedStyle() != _style ||
+            this->bold() != _bold ||
+            this->italic() != _italic ||
             this->usedFont().pixelSize() != _size ||
             this->monospaced() != _monospaced ||
             this->antialiasing() != _antialiasing)
@@ -524,7 +548,9 @@ void FontDocument::setFontCharacters(const QString &chars,
     this->beginChanges();
 
     // create font with specified parameters
-    QFont fontNew = fonts.font(fontFamily, _style, _size);
+    QFont fontNew = fonts.font(fontFamily, "Regular", _size);
+    fontNew.setBold(_bold);
+    fontNew.setItalic(_italic);
     fontNew.setPixelSize(_size);
 
     if (_antialiasing)
@@ -539,7 +565,8 @@ void FontDocument::setFontCharacters(const QString &chars,
 
         // save new font
         this->setUsedFont(fontNew);
-        this->setUsedStyle(_style);
+        this->setBold(_bold);
+        this->setItalic(_italic);
         this->setMonospaced(_monospaced);
         this->setAntialiasing(_antialiasing);
     }
@@ -625,14 +652,24 @@ void FontDocument::setUsedFont(const QFont &value)
     this->mContainer->setInfo("used font", value);
 }
 //-----------------------------------------------------------------------------
-QString FontDocument::usedStyle() const
+bool FontDocument::bold() const
 {
-    return this->mContainer->info("style").toString();
+    return this->mContainer->info("bold").toBool();
 }
 //-----------------------------------------------------------------------------
-void FontDocument::setUsedStyle(const QString &value)
+void FontDocument::setBold(bool value)
 {
-    this->mContainer->setInfo("style", value);
+    this->mContainer->setInfo("bold", value);
+}
+//-----------------------------------------------------------------------------
+bool FontDocument::italic() const
+{
+    return this->mContainer->info("italic").toBool();
+}
+//-----------------------------------------------------------------------------
+void FontDocument::setItalic(bool value)
+{
+    this->mContainer->setInfo("italic", value);
 }
 //-----------------------------------------------------------------------------
 bool FontDocument::monospaced() const
