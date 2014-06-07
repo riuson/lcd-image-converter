@@ -43,10 +43,14 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     this->ui->radioButtonMonospaced->setChecked(false);
     this->ui->radioButtonProportional->setChecked(false);
     this->ui->checkBoxAntialiasing->setChecked(false);
+    this->ui->checkBoxBold->setChecked(false);
+    this->ui->checkBoxItalic->setChecked(false);
 
     this->mSize = 14;
     this->mMonospaced = false;
     this->mAntialiasing = false;
+    this->mBold = false;
+    this->mItalic = false;
 
     QString defChars;
     for (int i = 0x20; i < 0x7f; i++)
@@ -98,6 +102,16 @@ bool DialogFontSelect::monospaced()
 bool DialogFontSelect::antialiasing()
 {
     return this->mAntialiasing;
+}
+//-----------------------------------------------------------------------------
+bool DialogFontSelect::bold()
+{
+    return this->mBold;
+}
+//-----------------------------------------------------------------------------
+bool DialogFontSelect::italic()
+{
+    return this->mItalic;
 }
 //-----------------------------------------------------------------------------
 QString DialogFontSelect::characters()
@@ -164,6 +178,16 @@ void DialogFontSelect::setAntialising(bool value)
     //this->applyFont();
 }
 //-----------------------------------------------------------------------------
+void DialogFontSelect::setBold(bool value)
+{
+    this->ui->checkBoxBold->setChecked(value);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::setItalic(bool value)
+{
+    this->ui->checkBoxItalic->setChecked(value);
+}
+//-----------------------------------------------------------------------------
 void DialogFontSelect::setCharacters(const QString &value)
 {
     this->mCharacters = value;
@@ -226,6 +250,8 @@ void DialogFontSelect::applyFont()
 {
     QFontDatabase fonts;
     QFont font = fonts.font(this->mFontFamily, this->mFontStyle, this->mSize);
+    font.setBold(this->mBold);
+    font.setItalic(this->mItalic);
     font.setPixelSize(this->mSize);
 
     this->ui->tableView->setFont(font);
@@ -316,6 +342,18 @@ void DialogFontSelect::on_radioButtonProportional_toggled(bool value)
 void DialogFontSelect::on_checkBoxAntialiasing_toggled(bool value)
 {
     this->mAntialiasing = value;
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_checkBoxBold_toggled(bool value)
+{
+    this->mBold = value;
+    this->applyFont();
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_checkBoxItalic_toggled(bool value)
+{
+    this->mItalic = value;
+    this->applyFont();
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_lineEdit_textChanged()
