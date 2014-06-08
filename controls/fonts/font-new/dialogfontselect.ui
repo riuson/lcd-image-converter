@@ -30,16 +30,6 @@
       <widget class="QFontComboBox" name="fontComboBox"/>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Style:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBoxStyle"/>
-     </item>
-     <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Size:</string>

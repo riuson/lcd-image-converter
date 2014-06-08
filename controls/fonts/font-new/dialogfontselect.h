@@ -40,7 +40,6 @@ public:
     ~DialogFontSelect();
 
     QString fontFamily();
-    Q_DECL_DEPRECATED QString fontStyle();
     int fontSize();
     bool monospaced();
     bool antialiasing();
@@ -49,7 +48,6 @@ public:
     QString characters();
 
     void setFontFamily(const QString &value);
-    Q_DECL_DEPRECATED void setFontStyle(const QString &value);
     void setFontSize(int value);
     void setMonospaced(bool value);
     void setAntialising(bool value);
@@ -64,7 +62,6 @@ private:
     bool mSortOrderUp;
 
     QString mFontFamily;
-    Q_DECL_DEPRECATED QString mFontStyle;
     int mSize;
     bool mMonospaced;
     bool mAntialiasing;
@@ -73,7 +70,6 @@ private:
     QString mCharacters;
 
     void updateFont();
-    Q_DECL_DEPRECATED void updateStyles();
     void updateSizes();
 
     void applyFont();
@@ -85,7 +81,6 @@ private slots:
     void on_fontComboBox_currentFontChanged(const QFont &font);
     void on_comboBoxSize_currentIndexChanged(const QString &text);
     void on_comboBoxSize_editTextChanged(const QString & text);
-    void on_comboBoxStyle_currentIndexChanged(const QString &text);
     void on_radioButtonProportional_toggled(bool value);
     void on_checkBoxAntialiasing_toggled(bool value);
     void on_checkBoxBold_toggled(bool value);
