@@ -40,17 +40,19 @@ public:
     ~DialogFontSelect();
 
     QString fontFamily();
-    QString fontStyle();
     int fontSize();
     bool monospaced();
     bool antialiasing();
+    bool bold();
+    bool italic();
     QString characters();
 
     void setFontFamily(const QString &value);
-    void setFontStyle(const QString &value);
     void setFontSize(int value);
     void setMonospaced(bool value);
     void setAntialising(bool value);
+    void setBold(bool value);
+    void setItalic(bool value);
     void setCharacters(const QString &value);
 private:
     Ui::DialogFontSelect *ui;
@@ -60,14 +62,14 @@ private:
     bool mSortOrderUp;
 
     QString mFontFamily;
-    QString mFontStyle;
     int mSize;
     bool mMonospaced;
     bool mAntialiasing;
+    bool mBold;
+    bool mItalic;
     QString mCharacters;
 
     void updateFont();
-    void updateStyles();
     void updateSizes();
 
     void applyFont();
@@ -79,9 +81,10 @@ private slots:
     void on_fontComboBox_currentFontChanged(const QFont &font);
     void on_comboBoxSize_currentIndexChanged(const QString &text);
     void on_comboBoxSize_editTextChanged(const QString & text);
-    void on_comboBoxStyle_currentIndexChanged(const QString &text);
     void on_radioButtonProportional_toggled(bool value);
     void on_checkBoxAntialiasing_toggled(bool value);
+    void on_checkBoxBold_toggled(bool value);
+    void on_checkBoxItalic_toggled(bool value);
     void on_lineEdit_textChanged();
     void on_tableView_doubleClicked(const QModelIndex &index);
     void on_pushButtonAppendSelected_clicked();

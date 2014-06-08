@@ -30,16 +30,6 @@
       <widget class="QFontComboBox" name="fontComboBox"/>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Style:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBoxStyle"/>
-     </item>
-     <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Size:</string>
@@ -91,6 +81,20 @@
       <widget class="QRadioButton" name="radioButtonMonospaced">
        <property name="text">
         <string>Monospaced</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxBold">
+       <property name="text">
+        <string>Bold</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxItalic">
+       <property name="text">
+        <string>Italic</string>
        </property>
       </widget>
      </item>
