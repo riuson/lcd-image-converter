@@ -7,7 +7,8 @@
         </commit>
         <description>Fixed:
  Shadow Build support (partially);
- Default document and file name for new documents.
+ Default document and file name for new documents;
+ Font styles.
 
 Added:
  Command line mode for image conversion.</description>
