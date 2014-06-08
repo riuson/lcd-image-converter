@@ -30,7 +30,7 @@
 class MatrixItemDelegate : public QItemDelegate
 {
 public:
-    MatrixItemDelegate(QObject *pobj);
+    MatrixItemDelegate(QObject *pobj = 0);
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
 public:
