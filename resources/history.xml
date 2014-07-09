@@ -11,7 +11,8 @@
  Font styles.
 
 Added:
- Command line mode for image conversion.</description>
+ Command line mode for image conversion;
+ Command line mode for hexadecimal to binary file conversion.</description>
     </record>
     <record>
         <commit>
