@@ -75,7 +75,7 @@ int ModeHex2Bin::process()
     if (QFile::exists(this->mInputFilename))
     {
         // check output file exists
-        if (QFile::exists(this->mOuputFilename))
+        //if (QFile::exists(this->mOuputFilename))
         {
             QFile inputFile(this->mInputFilename);
             if (inputFile.open(QIODevice::ReadOnly))
@@ -107,7 +107,7 @@ QByteArray ModeHex2Bin::hex2bin(QString &hexString)
 {
     QByteArray result;
 
-    DataBlockSize size = Data8;
+    int size = Data8;
 
     QTextStream stream(&hexString, QIODevice::ReadOnly);
     QString part;
@@ -118,22 +118,22 @@ QByteArray ModeHex2Bin::hex2bin(QString &hexString)
 
         if (part == "uint32")
         {
-            size = Data32;
+            size = 4;
             continue;
         }
         else if (part == "uint24")
         {
-            size = Data24;
+            size = 3;
             continue;
         }
         else if (part == "uint16")
         {
-            size = Data16;
+            size = 2;
             continue;
         }
         else if (part == "uint8")
         {
-            size = Data8;
+            size = 1;
             continue;
         }
 
@@ -141,14 +141,14 @@ QByteArray ModeHex2Bin::hex2bin(QString &hexString)
         quint32 value = part.toUInt(&ok, 10);
         if (ok) // decimal
         {
-            this->appendData(&result, (int)size, value);
+            this->appendData(&result, size, value);
         }
         else
         {
             value = part.toUInt(&ok, 16);
             if (ok)
             {
-                this->appendData(&result, (int)size, value);
+                this->appendData(&result, size, value);
             }
         }
     }
