@@ -46,7 +46,8 @@ private:
     QString mOuputFilename;
 
     QByteArray hex2bin(QString &hexString);
-    void appendData(QByteArray *array, int size, quint32 value);
+    void appendDataLE(QByteArray *array, int size, quint32 value);
+    void appendDataBE(QByteArray *array, int size, quint32 value);
 };
 //-----------------------------------------------------------------------------
 }

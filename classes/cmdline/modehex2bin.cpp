@@ -108,6 +108,7 @@ QByteArray ModeHex2Bin::hex2bin(QString &hexString)
     QByteArray result;
 
     int size = Data8;
+    bool le = true;
 
     QTextStream stream(&hexString, QIODevice::ReadOnly);
     QString part;
@@ -137,18 +138,43 @@ QByteArray ModeHex2Bin::hex2bin(QString &hexString)
             continue;
         }
 
+        if (part == "le")
+        {
+            le = true;
+            continue;
+        }
+        else if (part == "be")
+        {
+            le = false;
+            continue;
+        }
+
         bool ok;
         quint32 value = part.toUInt(&ok, 10);
         if (ok) // decimal
         {
-            this->appendData(&result, size, value);
+            if (le)
+            {
+                this->appendDataLE(&result, size, value);
+            }
+            else
+            {
+                this->appendDataBE(&result, size, value);
+            }
         }
         else
         {
             value = part.toUInt(&ok, 16);
             if (ok)
             {
-                this->appendData(&result, size, value);
+                if (le)
+                {
+                    this->appendDataLE(&result, size, value);
+                }
+                else
+                {
+                    this->appendDataBE(&result, size, value);
+                }
             }
         }
     }
@@ -156,12 +182,24 @@ QByteArray ModeHex2Bin::hex2bin(QString &hexString)
     return result;
 }
 //-----------------------------------------------------------------------------
-void ModeHex2Bin::appendData(QByteArray *array, int size, quint32 value)
+void ModeHex2Bin::appendDataLE(QByteArray *array, int size, quint32 value)
 {
     while (size --> 0)
     {
         quint8 a = value & 0xff;
         array->append(a);
+        value = value >> 8;
+    }
+}
+//-----------------------------------------------------------------------------
+void ModeHex2Bin::appendDataBE(QByteArray *array, int size, quint32 value)
+{
+    int index = array->length();
+
+    while (size --> 0)
+    {
+        quint8 a = value & 0xff;
+        array->insert(index, a);
         value = value >> 8;
     }
 }
