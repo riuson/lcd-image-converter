@@ -88,11 +88,11 @@ int ModeHex2Bin::process()
                 data = this->hex2bin(inputText);
 
                 // save to output file
-                QFile file(this->mOuputFilename);
-                if (file.open(QFile::WriteOnly))
+                QFile outputFile(this->mOuputFilename);
+                if (outputFile.open(QFile::WriteOnly))
                 {
-                    file.write(data);
-                    file.close();
+                    outputFile.write(data);
+                    outputFile.close();
                 }
             }
 
