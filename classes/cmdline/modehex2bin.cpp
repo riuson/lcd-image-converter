@@ -22,16 +22,12 @@
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
 //-----------------------------------------------------------------------------
 #include "modehex2bin.h"
-#include "imagedocument.h"
 #include "datacontainer.h"
-#include "preset.h"
-#include "templateoptions.h"
 #include <QCommandLineParser>
-#include <QDebug>
 #include <QFile>
 #include <QString>
 #include <QStringList>
-#include <QImage>
+#include <QTextStream>
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
@@ -107,7 +103,7 @@ QByteArray ModeHex2Bin::hex2bin(QString &hexString)
 {
     QByteArray result;
 
-    int size = Data8;
+    int size = 1;
     bool le = true;
 
     QTextStream stream(&hexString, QIODevice::ReadOnly);
