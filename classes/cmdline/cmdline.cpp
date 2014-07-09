@@ -27,6 +27,7 @@
 #include "imagedocument.h"
 #include "datacontainer.h"
 #include "modeconvertimage.h"
+#include "modehex2bin.h"
 #include <QDebug>
 #include <QFile>
 #include <QString>
@@ -50,7 +51,7 @@ CmdLine::CmdLine(const QStringList &arguments, QObject *parent) :
     // required option:
     // --mode=convert-image
     QCommandLineOption optionMode(QStringList() << "m" << "mode",
-                QCoreApplication::translate("CmdLineParser", "Conversion mode for application, \"convert-image\"."),
+                QCoreApplication::translate("CmdLineParser", "Conversion mode for application, \"convert-image\" or \"hex2bin\"."),
                 QCoreApplication::translate("CmdLineParser", "mode"));
     this->mParser->addOption(optionMode);
 }
@@ -115,6 +116,11 @@ ModeParserBase *CmdLine::createMode(const QString &name, QCommandLineParser *par
     if (name == ModeConvertImage::modeName())
     {
         return new ModeConvertImage(parser, this);
+    }
+
+    if (name == ModeHex2Bin::modeName())
+    {
+        return new ModeHex2Bin(parser, this);
     }
 
     return NULL;
