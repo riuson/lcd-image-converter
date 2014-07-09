@@ -48,6 +48,7 @@ SOURCES += main.cpp \
     classes/action-handlers/actionsetuphandlers.cpp \
     classes/cmdline/cmdline.cpp \
     classes/cmdline/modeconvertimage.cpp \
+    classes/cmdline/modehex2bin.cpp \
     classes/cmdline/modeparserbase.cpp \
     classes/compression/rlecompressor.cpp \
     classes/data/datacontainer.cpp \
@@ -125,6 +126,7 @@ HEADERS += \
     classes/cmdline/cmdline.h \
     classes/cmdline/cmdoptions.h \
     classes/cmdline/modeconvertimage.h \
+    classes/cmdline/modehex2bin.h \
     classes/cmdline/modeparserbase.h \
     classes/compression/rlecompressor.h \
     classes/data/datacontainer.h \
