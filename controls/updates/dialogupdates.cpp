@@ -28,6 +28,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QUrl>
+#include <QDomDocument>
 #include "revisioninfo.h"
 //-----------------------------------------------------------------------------
 DialogUpdates::DialogUpdates(QWidget *parent) :
@@ -212,6 +213,38 @@ bool DialogUpdates::transformHistory(const QString &xml, const QString &xsl, QSt
     return isSuccessfully;
 }
 //-----------------------------------------------------------------------------
+bool DialogUpdates::isLocalVersionOutdated(const QString &xml)
+{
+    QDomDocument doc;
+
+    if (doc.setContent(xml))
+    {
+        QXmlQuery query;
+        query.setFocus(xml);
+        query.setQuery("/data/record/commit/date/string()");
+
+        if (query.isValid())
+        {
+            QStringList dates;
+            query.evaluateTo(&dates);
+
+            QString revisionDate = RevisionInfo::date();
+
+            foreach (const QString &str, dates)
+            {
+                if (str.compare(revisionDate) > 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    return true;
+}
+//-----------------------------------------------------------------------------
 void DialogUpdates::networkReply(QNetworkReply* reply)
 {
     const int RESPONSE_OK = 200;
@@ -228,7 +261,11 @@ void DialogUpdates::networkReply(QNetworkReply* reply)
             {
                 //Assuming this is a human readable file replyString now contains the file
                 replyString = QString::fromUtf8(reply->readAll().data());
-                this->showUpdates(replyString);
+
+                if (this->isLocalVersionOutdated(replyString))
+                {
+                    this->showUpdates(replyString);
+                }
             }
             break;
         }
