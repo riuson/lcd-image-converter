@@ -271,7 +271,7 @@ void DialogUpdates::networkReply(QNetworkReply* reply)
         }
         default:
         {
-            QString message = QString("Check updates failed with HTTP code: %1").arg(httpStatusCode);
+            QString message = tr("Check updates failed with HTTP code: %1").arg(httpStatusCode);
             this->showError(message);
             break;
         }
@@ -279,7 +279,7 @@ void DialogUpdates::networkReply(QNetworkReply* reply)
     }
     else
     {
-        QString message = QString("Check updates failed with QNetworkReply message:<br/>%1").arg(reply->errorString());
+        QString message = tr("Check updates failed with QNetworkReply message:<br/>%1").arg(reply->errorString());
         this->showError(message);
     }
     reply->deleteLater();
