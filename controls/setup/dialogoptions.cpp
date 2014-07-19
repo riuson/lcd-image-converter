@@ -153,6 +153,9 @@ void DialogOptions::createPresetsDefault()
     matrix.initMono(MonochromeTypeDiffuseDither);
     matrix.save(tr("Monochrome"));
 
+    matrix.initGrayscale(4);
+    matrix.save(tr("Grayscale 4"));
+
     matrix.initGrayscale(8);
     matrix.save(tr("Grayscale 8"));
 
