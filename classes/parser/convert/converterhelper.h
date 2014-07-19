@@ -67,10 +67,11 @@ public:
             QVector<quint32> *data, int width, int height);
 
     static QString scanScript(Preset *preset);
+
+    static void makeGrayscale(QImage &image);
 private:
     static void makeMonochrome(QImage &image, int edge);
     // make r = g = b = qGray(pixel)
-    static void makeGrayscale(QImage &image);
     static void packDataRow(
             Preset *matrix,
             QVector<quint32> *inputData,

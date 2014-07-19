@@ -32,6 +32,7 @@
 #include "ieditor.h"
 #include "datacontainer.h"
 #include "bitmapeditoroptions.h"
+#include "converterhelper.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -290,6 +291,29 @@ void ActionImageHandlers::resize_triggered()
                 this->editor()->document()->endChanges(false);
             }
         }
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionImageHandlers::grayscale_triggered()
+{
+    if (this->editor() != NULL)
+    {
+        this->editor()->document()->beginChanges();
+
+        QStringList keys = this->editor()->selectedKeys();
+
+        QStringListIterator iterator(keys);
+        while (iterator.hasNext())
+        {
+            QString key = iterator.next();
+
+            const QImage *original = this->editor()->document()->dataContainer()->image(key);
+            QImage result(*original);
+            ConverterHelper::makeGrayscale(result);
+            this->editor()->document()->dataContainer()->setImage(key, &result);
+        }
+
+        this->editor()->document()->endChanges(false);
     }
 }
 //-----------------------------------------------------------------------------
