@@ -209,7 +209,6 @@ FORMS += \
     controls/images/widgetbitmapeditor.ui \
     controls/main/mainwindow.ui \
     controls/resize/dialogcanvasresize.ui \
-    controls/save-changes/dialogsavechanges.ui \
     controls/setup/dialogexternaleditor.ui \
     controls/setup/dialogoptions.ui \
     controls/setup/dialogpreview.ui \
