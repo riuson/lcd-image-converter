@@ -279,7 +279,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
     bool cancel = false;
     if (editor != NULL && editor->document()->changed())
     {
-        DialogSaveChanges dialog(this);
+        DialogSaveChanges dialog(editor->document()->documentName(), this);
         dialog.exec();
         switch (dialog.answer())
         {

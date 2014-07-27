@@ -20,19 +20,17 @@
 #ifndef DIALOGSAVECHANGES_H
 #define DIALOGSAVECHANGES_H
 //-----------------------------------------------------------------------------
-#include <QDialog>
+#include <QObject>
 //-----------------------------------------------------------------------------
-namespace Ui {
-    class DialogSaveChanges;
-}
+class QMessageBox;
 //-----------------------------------------------------------------------------
-class DialogSaveChanges : public QDialog
+class DialogSaveChanges : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit DialogSaveChanges(QWidget *parent = 0);
-    ~DialogSaveChanges();
+    explicit DialogSaveChanges(const QString &documentName, QWidget *parent = 0);
+    virtual ~DialogSaveChanges();
     enum SaveChangesResultCode
     {
         Save = 1,
@@ -41,15 +39,14 @@ public:
         Cancel = 0
     };
     int answer();
+    int exec();
 
 private:
-    Ui::DialogSaveChanges *ui;
     SaveChangesResultCode mAnswer;
+    QMessageBox *mBox;
+
 private slots:
-    void on_buttonSave_clicked();
-    void on_buttonSaveAs_clicked();
-    void on_buttonDontSave_clicked();
-    void on_buttonCancel_clicked();
+    void on_messageBox_finished(int result);
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGSAVECHANGES_H
