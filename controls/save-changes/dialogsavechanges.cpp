@@ -29,6 +29,7 @@ DialogSaveChanges::DialogSaveChanges(const QString &documentName, QWidget *paren
     this->mBox->setWindowTitle(tr("Save changes?"));
     this->mBox->setText(tr("Document '%1' have unsaved changes.").arg(documentName));
     this->mBox->setInformativeText(tr("Closing document without saving can cause loss of changes."));
+    this->mBox->setIcon(QMessageBox::Question);
 
     this->mBox->addButton(QMessageBox::Save);
     this->mBox->addButton(QMessageBox::Discard);
