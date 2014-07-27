@@ -494,36 +494,41 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogoptions.cpp" line="157"/>
+        <source>Grayscale 4</source>
+        <translation>Градации серого 4</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.cpp" line="160"/>
         <source>Grayscale 8</source>
         <translation>Градации серого 8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="160"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="163"/>
         <source>Color R4G5B4</source>
         <translation>Цветное R4G5B4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="163"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="166"/>
         <source>Color R5G6B5</source>
         <translation>Цветное R5G6B5</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="166"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="169"/>
         <source>Color R8G8B8</source>
         <translation>Цветное R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="202"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="205"/>
         <source>Enter preset name</source>
         <translation>Введите название предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="202"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="205"/>
         <source>Preset name:</source>
         <translation>Название предустановки:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="241"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="244"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
     </message>
@@ -544,49 +549,19 @@ Qt: %3</translation>
 <context>
     <name>DialogSaveChanges</name>
     <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="17"/>
+        <location filename="../controls/save-changes/dialogsavechanges.cpp" line="29"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
     </message>
     <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="23"/>
-        <source>Save</source>
-        <translation>Сохранить</translation>
+        <location filename="../controls/save-changes/dialogsavechanges.cpp" line="30"/>
+        <source>Document &apos;%1&apos; have unsaved changes.</source>
+        <translation>Документ &apos;%1&apos; имеет несохранённые изменения.</translation>
     </message>
     <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="26"/>
-        <source>Save changes to file</source>
-        <translation>Сохранить изменения в файл</translation>
-    </message>
-    <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="33"/>
-        <source>Save As...</source>
-        <translation>Сохранить как...</translation>
-    </message>
-    <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="36"/>
-        <source>Save to another file</source>
-        <translation>Сохранить в другой файл</translation>
-    </message>
-    <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="43"/>
-        <source>Don&apos;t save</source>
-        <translation>Не сохранять</translation>
-    </message>
-    <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="46"/>
-        <source>Close file and lost changes</source>
-        <translation>Забыть про изменения и закрыть файл</translation>
-    </message>
-    <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="53"/>
-        <source>Cancel</source>
-        <translation>Отменить</translation>
-    </message>
-    <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="56"/>
-        <source>Cancel closing</source>
-        <translation>Продолжить редактирование</translation>
+        <location filename="../controls/save-changes/dialogsavechanges.cpp" line="31"/>
+        <source>Closing document without saving can cause loss of changes.</source>
+        <translation>Закрытие документа без сохранения может привести к потере произведённых изменений.</translation>
     </message>
 </context>
 <context>
@@ -917,7 +892,7 @@ Qt: %3</translation>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="298"/>
+        <location filename="../controls/main/mainwindow.cpp" line="299"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
