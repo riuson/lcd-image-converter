@@ -8,7 +8,8 @@
         <description>Fixed:
  Shadow Build support (partially);
  Default document and file name for new documents;
- Font styles.
+ Font styles;
+ Save Changes dialog.
 
 Added:
  Command line mode for image conversion;
