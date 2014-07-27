@@ -285,27 +285,43 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
         {
         case DialogSaveChanges::Save:
             {
-                if (!editor->document()->save(editor->document()->documentFilename()))
-                    cancel = true;
-            }
-            break;
-        case DialogSaveChanges::SaveAs:
-            {
-                QFileDialog dialog(this);
-                dialog.setAcceptMode(QFileDialog::AcceptSave);
-                dialog.setFileMode(QFileDialog::AnyFile);
-                dialog.setNameFilter(tr("XML Files (*.xml)"));
-                dialog.setWindowTitle(tr("Save file as"));
-                if (dialog.exec() == QDialog::Accepted)
+                if (QFile::exists(editor->document()->documentFilename()))
                 {
-                    QString filename = dialog.selectedFiles().at(0);
-                    if (!editor->document()->save(filename))
-                        cancel = true;
+                    editor->document()->save(editor->document()->documentFilename());
                 }
                 else
-                    cancel = true;
+                {
+                    QFileDialog dialog(this->parentWidget());
+                    dialog.setAcceptMode(QFileDialog::AcceptSave);
+                    dialog.setFileMode(QFileDialog::AnyFile);
+                    dialog.setNameFilter(tr("XML Files (*.xml)"));
+                    dialog.setDefaultSuffix(QString("xml"));
+                    dialog.setWindowTitle(tr("Save file as"));
+
+                    if (editor->document()->documentFilename().isEmpty())
+                    {
+                        dialog.selectFile(editor->document()->documentName());
+                    }
+                    else
+                    {
+                        dialog.selectFile(editor->document()->documentFilename());
+                    }
+
+                    if (dialog.exec() == QDialog::Accepted)
+                    {
+                        QString filename = dialog.selectedFiles().at(0);
+                        if (!editor->document()->save(filename))
+                        {
+                            cancel = true;
+                        }
+                    }
+                    else
+                    {
+                        cancel = true;
+                    }
+                }
+                break;
             }
-            break;
         case DialogSaveChanges::DontSave:
             break;
         case DialogSaveChanges::Cancel:
