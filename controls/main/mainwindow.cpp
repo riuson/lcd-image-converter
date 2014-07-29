@@ -287,7 +287,10 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
             {
                 if (QFile::exists(editor->document()->documentFilename()))
                 {
-                    editor->document()->save(editor->document()->documentFilename());
+                    if (editor->document()->save(editor->document()->documentFilename()))
+                    {
+                        this->rememberFilename(editor->document()->documentFilename());
+                    }
                 }
                 else
                 {
@@ -310,7 +313,11 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
                     if (dialog.exec() == QDialog::Accepted)
                     {
                         QString filename = dialog.selectedFiles().at(0);
-                        if (!editor->document()->save(filename))
+                        if (editor->document()->save(filename))
+                        {
+                            this->rememberFilename(editor->document()->documentFilename());
+                        }
+                        else
                         {
                             cancel = true;
                         }
