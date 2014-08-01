@@ -22,7 +22,7 @@
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
 //-----------------------------------------------------------------------------
 #include "modeconvertfont.h"
-#include "imagedocument.h"
+#include "fontdocument.h"
 #include "datacontainer.h"
 #include "preset.h"
 #include "templateoptions.h"
@@ -47,11 +47,43 @@ QString ModeConvertFont::modeName()
 //-----------------------------------------------------------------------------
 void ModeConvertFont::fillParser() const
 {
-    // --input=/temp/1.png
-    QCommandLineOption inputOption(QStringList() << "i" << "input",
-                QCoreApplication::translate("CmdLineParser", "Full <path> to source image in binary format."),
-                QCoreApplication::translate("CmdLineParser", "path"));
-    this->mParser->addOption(inputOption);
+    // --family="Ubuntu"
+    QCommandLineOption familyOption(QStringList() << "family",
+                QCoreApplication::translate("CmdLineParser", "<Family> of new font."),
+                QCoreApplication::translate("CmdLineParser", "family"));
+    this->mParser->addOption(familyOption);
+
+    // --size=14
+    QCommandLineOption sizeOption(QStringList() << "size",
+                QCoreApplication::translate("CmdLineParser", "Font <size>."),
+                QCoreApplication::translate("CmdLineParser", "size"));
+    this->mParser->addOption(sizeOption);
+
+    // --mono
+    QCommandLineOption monoOption(QStringList() << "mono" << "monospaced",
+                QCoreApplication::translate("CmdLineParser", "Make monospaced font."));
+    this->mParser->addOption(monoOption);
+
+    // --bold
+    QCommandLineOption boldOption(QStringList() << "bold",
+                QCoreApplication::translate("CmdLineParser", "<Bold> font style."));
+    this->mParser->addOption(boldOption);
+
+    // --italic
+    QCommandLineOption italicOption(QStringList() << "italic",
+                QCoreApplication::translate("CmdLineParser", "<Italic> font style."));
+    this->mParser->addOption(italicOption);
+
+    // --antialiasing
+    QCommandLineOption antialiasingOption(QStringList() << "antialiasing",
+                QCoreApplication::translate("CmdLineParser", "Use antialiasing."));
+    this->mParser->addOption(antialiasingOption);
+
+    // --characters-list
+    QCommandLineOption charsOption(QStringList() << "chars-list",
+                QCoreApplication::translate("CmdLineParser", "Characters, what included to the font."),
+                QCoreApplication::translate("CmdLineParser", "characters"));
+    this->mParser->addOption(charsOption);
 
     // --output=/temp/1.c
     QCommandLineOption outputOption(QStringList() << "o" << "output",
@@ -80,13 +112,23 @@ void ModeConvertFont::fillParser() const
 //-----------------------------------------------------------------------------
 bool ModeConvertFont::collectArguments()
 {
-    this->mInputFilename = this->mParser->value("input");
+    this->mFontFamily = this->mParser->value("family");
+    bool sizeOk;
+    this->mFontSize = this->mParser->value("size").toInt(&sizeOk);
+    this->mFontMonospaced = this->mParser->isSet("monospaced");
+    this->mFontBold = this->mParser->isSet("bold");
+    this->mFontItalic = this->mParser->isSet("italic");
+    this->mFontAntiAliasing = this->mParser->isSet("antialiasing");
+    this->mFontCharactersList = this->mParser->value("chars-list");
+
     this->mOuputFilename = this->mParser->value("output");
     this->mTemplateFilename = this->mParser->value("template");
     this->mDocumentName = this->mParser->value("doc-name");
     this->mPresetName = this->mParser->value("preset-name");
 
-    return (!this->mInputFilename.isEmpty() &&
+    return (!this->mFontFamily.isEmpty() &&
+            sizeOk &&
+            !this->mFontCharactersList.isEmpty() &&
             !this->mOuputFilename.isEmpty() &&
             !this->mDocumentName.isEmpty() &&
             !this->mPresetName.isEmpty());
@@ -95,7 +137,7 @@ bool ModeConvertFont::collectArguments()
 int ModeConvertFont::process()
 {
     // check input and template files exists
-    if (QFile::exists(this->mInputFilename))
+    //if (QFile::exists(this->mInputFilename))
     {
         // check dodocument name
         QString docNameWS = this->mDocumentName;
@@ -107,47 +149,43 @@ int ModeConvertFont::process()
             {
                 Preset::setSelectedName(this->mPresetName);
 
-                // load image from input file
-                QImage imageLoaded;
-                if (imageLoaded.load(this->mInputFilename))
+                //if (!this->mFontCharactersList.isEmpty())
                 {
-                    QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+                    FontDocument fontDocument;
 
-                    ImageDocument imageDocument;
-                    QStringList keys = imageDocument.dataContainer()->keys();
+                    fontDocument.setFontCharacters(
+                                this->mFontCharactersList,
+                                this->mFontFamily,
+                                this->mFontBold,
+                                this->mFontItalic,
+                                this->mFontSize,
+                                this->mFontMonospaced,
+                                this->mFontAntiAliasing);
 
-                    // process all keys (1 in image document)
-                    QStringListIterator iterator(keys);
-                    while (iterator.hasNext())
+                    fontDocument.setDocumentName(docNameWS);
+                    fontDocument.dataContainer()->setInfo("converted filename", QVariant(this->mOuputFilename));
+
+                    // save to output file
+                    QFile file(this->mOuputFilename);
+                    if (file.open(QFile::WriteOnly))
                     {
-                        QString key = iterator.next();
-                        imageDocument.dataContainer()->setImage(key, &imageConverted);
+                        Preset preset;
+                        preset.load(this->mPresetName);
 
-                        imageDocument.setDocumentName(docNameWS);
-                        imageDocument.dataContainer()->setInfo("converted filename", QVariant(this->mOuputFilename));
-
-                        // save to output file
-                        QFile file(this->mOuputFilename);
-                        if (file.open(QFile::WriteOnly))
+                        // optional template file
+                        if(!this->mTemplateFilename.isEmpty() && QFile::exists(this->mTemplateFilename))
                         {
-                            Preset preset;
-                            preset.load(this->mPresetName);
+                            preset.templates()->setFont(this->mTemplateFilename);
+                        }
 
-                            // optional template file
-                            if(!this->mTemplateFilename.isEmpty() && QFile::exists(this->mTemplateFilename))
-                            {
-                                preset.templates()->setImage(this->mTemplateFilename);
-                            }
+                        QString result = fontDocument.convert(&preset);
 
-                            QString result = imageDocument.convert(&preset);
+                        file.write(result.toUtf8());
+                        file.close();
 
-                            file.write(result.toUtf8());
-                            file.close();
-
-                            if (imageDocument.outputFilename() != this->mOuputFilename)
-                            {
-                                imageDocument.setOutputFilename(this->mOuputFilename);
-                            }
+                        if (fontDocument.outputFilename() != this->mOuputFilename)
+                        {
+                            fontDocument.setOutputFilename(this->mOuputFilename);
                         }
                     }
 

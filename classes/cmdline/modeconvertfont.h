@@ -42,7 +42,14 @@ public:
     int process();
 
 private:
-    QString mInputFilename;
+    QString mFontFamily;
+    int mFontSize;
+    bool mFontMonospaced;
+    bool mFontBold;
+    bool mFontItalic;
+    bool mFontAntiAliasing;
+    QString mFontCharactersList;
+
     QString mOuputFilename;
     QString mTemplateFilename;
     QString mDocumentName;
