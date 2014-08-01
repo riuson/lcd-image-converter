@@ -50,6 +50,9 @@ private:
     bool mFontAntiAliasing;
     QString mFontCharactersList;
 
+    QString mFontCharactersEncoding;
+    QString mFontCharactersRange;
+
     QString mOuputFilename;
     QString mTemplateFilename;
     QString mDocumentName;

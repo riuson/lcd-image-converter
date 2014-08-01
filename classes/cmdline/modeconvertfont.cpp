@@ -79,11 +79,23 @@ void ModeConvertFont::fillParser() const
                 QCoreApplication::translate("CmdLineParser", "Use antialiasing."));
     this->mParser->addOption(antialiasingOption);
 
-    // --characters-list
-    QCommandLineOption charsOption(QStringList() << "chars-list",
+    // --chars-list
+    QCommandLineOption charsListOption(QStringList() << "chars-list",
                 QCoreApplication::translate("CmdLineParser", "Characters, what included to the font."),
                 QCoreApplication::translate("CmdLineParser", "characters"));
-    this->mParser->addOption(charsOption);
+    this->mParser->addOption(charsListOption);
+
+    // --chars-range
+    QCommandLineOption charsRangeOption(QStringList() << "chars-range",
+                QCoreApplication::translate("CmdLineParser", "Characters range, for example \"32-255\"."),
+                QCoreApplication::translate("CmdLineParser", "range"));
+    this->mParser->addOption(charsRangeOption);
+
+    // --chars-encoding
+    QCommandLineOption charsEncodingOption(QStringList() << "chars-encoding",
+                QCoreApplication::translate("CmdLineParser", "Characters encoding, for example \"UTF-8\"."),
+                QCoreApplication::translate("CmdLineParser", "encoding"));
+    this->mParser->addOption(charsEncodingOption);
 
     // --output=/temp/1.c
     QCommandLineOption outputOption(QStringList() << "o" << "output",
@@ -119,7 +131,11 @@ bool ModeConvertFont::collectArguments()
     this->mFontBold = this->mParser->isSet("bold");
     this->mFontItalic = this->mParser->isSet("italic");
     this->mFontAntiAliasing = this->mParser->isSet("antialiasing");
+
     this->mFontCharactersList = this->mParser->value("chars-list");
+    this->mFontCharactersRange = this->mParser->value("chars-range");
+
+    this->mFontCharactersEncoding = this->mParser->value("chars-encoding");
 
     this->mOuputFilename = this->mParser->value("output");
     this->mTemplateFilename = this->mParser->value("template");
@@ -128,7 +144,7 @@ bool ModeConvertFont::collectArguments()
 
     return (!this->mFontFamily.isEmpty() &&
             sizeOk &&
-            !this->mFontCharactersList.isEmpty() &&
+            (!this->mFontCharactersList.isEmpty() || (!this->mFontCharactersRange.isEmpty() && !this->mFontCharactersEncoding.isEmpty())) &&
             !this->mOuputFilename.isEmpty() &&
             !this->mDocumentName.isEmpty() &&
             !this->mPresetName.isEmpty());
