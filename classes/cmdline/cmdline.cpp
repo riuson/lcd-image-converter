@@ -52,7 +52,7 @@ CmdLine::CmdLine(const QStringList &arguments, QObject *parent) :
     // required option:
     // --mode=convert-image
     QCommandLineOption optionMode(QStringList() << "m" << "mode",
-                QCoreApplication::translate("CmdLineParser", "Conversion mode for application, \"convert-image\" or \"hex2bin\"."),
+                QCoreApplication::translate("CmdLineParser", "Conversion mode for application, \"convert-image\", \"convert-font\" or \"hex2bin\"."),
                 QCoreApplication::translate("CmdLineParser", "mode"));
     this->mParser->addOption(optionMode);
 }
