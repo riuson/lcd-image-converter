@@ -98,6 +98,11 @@ void ModeConvertFont::fillParser() const
                 QCoreApplication::translate("CmdLineParser", "encoding"));
     this->mParser->addOption(charsEncodingOption);
 
+    // --big-endian
+    QCommandLineOption endianessOption(QStringList() << "big-endian",
+                QCoreApplication::translate("CmdLineParser", "Use big-endian instead of little-endian."));
+    this->mParser->addOption(endianessOption);
+
     // --output=/temp/1.c
     QCommandLineOption outputOption(QStringList() << "o" << "output",
                 QCoreApplication::translate("CmdLineParser", "Full <path> to output result."),
@@ -137,6 +142,7 @@ bool ModeConvertFont::collectArguments()
     this->mFontCharactersRange = this->mParser->value("chars-range");
 
     this->mFontCharactersEncoding = this->mParser->value("chars-encoding");
+    this->mFontCharactersBigEndian = this->mParser->isSet("big-endian");
 
     this->mOuputFilename = this->mParser->value("output");
     this->mTemplateFilename = this->mParser->value("template");
@@ -167,7 +173,10 @@ int ModeConvertFont::process()
                 Preset::setSelectedName(this->mPresetName);
 
                 if (!this->mFontCharactersRange.isEmpty() && !this->mFontCharactersEncoding.isEmpty()) {
-                    this->mFontCharactersList = this->createCharsList(this->mFontCharactersRange, this->mFontCharactersEncoding, true);
+                    this->mFontCharactersList = this->createCharsList(
+                                this->mFontCharactersRange,
+                                this->mFontCharactersEncoding,
+                                this->mFontCharactersBigEndian);
                 }
                 //if (!this->mFontCharactersList.isEmpty())
                 {
