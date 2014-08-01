@@ -20,7 +20,7 @@ RCC_DIR             = $$OUTDIR/.rcc
 QT += xml xmlpatterns network script
 TARGET = lcd-image-converter
 TEMPLATE = app
-#CONFIG += console
+CONFIG += console
 
 DESTDIR             = $$OUTDIR/output
 QMAKE_LIBDIR       += $$DESTDIR
@@ -47,6 +47,7 @@ SOURCES += main.cpp \
     classes/action-handlers/actionimagehandlers.cpp \
     classes/action-handlers/actionsetuphandlers.cpp \
     classes/cmdline/cmdline.cpp \
+    classes/cmdline/modeconvertfont.cpp \
     classes/cmdline/modeconvertimage.cpp \
     classes/cmdline/modehex2bin.cpp \
     classes/cmdline/modeparserbase.cpp \
@@ -125,6 +126,7 @@ HEADERS += \
     classes/action-handlers/actionsetuphandlers.h \
     classes/cmdline/cmdline.h \
     classes/cmdline/cmdoptions.h \
+    classes/cmdline/modeconvertfont.h \
     classes/cmdline/modeconvertimage.h \
     classes/cmdline/modehex2bin.h \
     classes/cmdline/modeparserbase.h \

@@ -27,6 +27,7 @@
 #include "imagedocument.h"
 #include "datacontainer.h"
 #include "modeconvertimage.h"
+#include "modeconvertfont.h"
 #include "modehex2bin.h"
 #include <QDebug>
 #include <QFile>
@@ -116,6 +117,11 @@ ModeParserBase *CmdLine::createMode(const QString &name, QCommandLineParser *par
     if (name == ModeConvertImage::modeName())
     {
         return new ModeConvertImage(parser, this);
+    }
+
+    if (name == ModeConvertFont::modeName())
+    {
+        return new ModeConvertFont(parser, this);
     }
 
     if (name == ModeHex2Bin::modeName())
