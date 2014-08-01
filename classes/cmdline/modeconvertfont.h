@@ -57,6 +57,10 @@ private:
     QString mTemplateFilename;
     QString mDocumentName;
     QString mPresetName;
+
+    QString createCharsList(const QString &rangeStr,
+                            const QString &encoding,
+                            bool bigEndian) const;
 };
 //-----------------------------------------------------------------------------
 }

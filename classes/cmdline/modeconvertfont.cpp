@@ -31,7 +31,8 @@
 #include <QFile>
 #include <QString>
 #include <QStringList>
-#include <QImage>
+#include <QByteArray>
+#include <QTextCodec>
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
@@ -165,6 +166,9 @@ int ModeConvertFont::process()
             {
                 Preset::setSelectedName(this->mPresetName);
 
+                if (!this->mFontCharactersRange.isEmpty() && !this->mFontCharactersEncoding.isEmpty()) {
+                    this->mFontCharactersList = this->createCharsList(this->mFontCharactersRange, this->mFontCharactersEncoding, true);
+                }
                 //if (!this->mFontCharactersList.isEmpty())
                 {
                     FontDocument fontDocument;
@@ -212,6 +216,64 @@ int ModeConvertFont::process()
     }
 
     return 1;
+}
+//-----------------------------------------------------------------------------
+QString ModeConvertFont::createCharsList(const QString &rangeStr,
+                                         const QString &encoding,
+                                         bool bigEndian) const
+{
+    QString result;
+
+    QStringList rangeListStr = rangeStr.split(QRegExp("[\\.\\-\\ ]"), QString::SkipEmptyParts);
+
+    if (rangeListStr.size() == 2) {
+        bool ok;
+        int from = rangeListStr.at(0).toInt(&ok);
+
+        if (ok) {
+            int to = rangeListStr.at(1).toInt(&ok);
+
+            if (ok) {
+
+                // from dialogfontrange.cpp
+                if (from > to) {
+                    qSwap(from, to);
+                }
+
+                for (int i = from; i <= to; ++i)
+                {
+                    int code = i;
+                    if (code > 0)
+                    {
+                        QByteArray array;
+
+                        while (code != 0)
+                        {
+                            if (bigEndian)
+                                array.insert(0, (char)(code & 0xff));
+                            else
+                                array.append((char)(code & 0xff));
+
+                            code = code >> 8;
+                        }
+
+                        QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
+                        QString str = codec->toUnicode(array);
+                        result += str;
+                    }
+                    else
+                    {
+                        result += QChar(QChar::Null);
+                    }
+                }
+                // end from
+
+
+            }
+        }
+    }
+
+    return result;
 }
 //-----------------------------------------------------------------------------
 }
