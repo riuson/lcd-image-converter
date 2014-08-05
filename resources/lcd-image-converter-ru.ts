@@ -167,12 +167,12 @@
 <context>
     <name>CmdLineParser</name>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="54"/>
-        <source>Conversion mode for application, &quot;convert-image&quot; or &quot;hex2bin&quot;.</source>
+        <location filename="../classes/cmdline/cmdline.cpp" line="55"/>
+        <source>Conversion mode for application, &quot;convert-image&quot;, &quot;convert-font&quot; or &quot;hex2bin&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="55"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="56"/>
         <source>mode</source>
         <translation type="unfinished"></translation>
     </message>
@@ -182,6 +182,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="109"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="115"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="53"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="59"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="65"/>
@@ -191,27 +193,108 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="108"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="58"/>
         <source>Full &lt;path&gt; to output result.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="53"/>
+        <source>&lt;Family&gt; of new font.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="54"/>
+        <source>family</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="59"/>
+        <source>Font &lt;size&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="60"/>
+        <source>size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="65"/>
+        <source>Make monospaced font.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="70"/>
+        <source>&lt;Bold&gt; font style.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="75"/>
+        <source>&lt;Italic&gt; font style.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="80"/>
+        <source>Use antialiasing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="85"/>
+        <source>Characters, what included to the font.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="86"/>
+        <source>characters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="91"/>
+        <source>Characters range, for example &quot;32-255&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="92"/>
+        <source>range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="97"/>
+        <source>Characters encoding, for example &quot;UTF-8&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="98"/>
+        <source>encoding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="103"/>
+        <source>Use big-endian instead of little-endian.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="114"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="64"/>
         <source>Full &lt;path&gt; to template file, used in conversion. [Optional]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="120"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="70"/>
         <source>Document name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="121"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="127"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="71"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="77"/>
         <source>name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="126"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="76"/>
         <source>Output preset &lt;name&gt; from predefined presets in application settings.</source>
         <translation type="unfinished"></translation>
@@ -544,6 +627,11 @@ Qt: %3</translation>
         <location filename="../controls/setup/dialogpreview.ui" line="22"/>
         <source>Preview image:</source>
         <translation>Изображение для предпросмотра:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogpreview.ui" line="77"/>
+        <source>Scale:</source>
+        <translation>Масштаб:</translation>
     </message>
 </context>
 <context>
@@ -887,12 +975,12 @@ Qt: %3</translation>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="297"/>
+        <location filename="../controls/main/mainwindow.cpp" line="300"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="299"/>
+        <location filename="../controls/main/mainwindow.cpp" line="302"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
