@@ -25,6 +25,7 @@
 #include <QFont>
 #include "datacontainer.h"
 #include "converterhelper.h"
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 DialogPreview::DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidget *parent) :
     QDialog(parent),
@@ -34,6 +35,7 @@ DialogPreview::DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidg
 
     this->mData = dataContainer;
     this->mPreset = matrix;
+    this->mScale = 1;
 
     if (this->mData != NULL)
     {
@@ -65,8 +67,9 @@ void DialogPreview::updatePreview()
             this->mImageOriginal = QImage(*this->mData->image(key));
             QImage processed;
             ConverterHelper::createImagePreview(this->mPreset, &this->mImageOriginal, &processed);
-            this->ui->labelPreview->setPixmap(QPixmap::fromImage(processed));
+            //this->ui->labelPreview->setPixmap(QPixmap::fromImage(processed));
             this->mImageProcessed = processed;
+            this->updatePreviewScaled(&this->mImageProcessed, this->mScale);
 
             //BitmapData data;
             //this->mConverter->processImage(processed, &data);
@@ -101,8 +104,62 @@ void DialogPreview::updatePreview()
     }
 }
 //-----------------------------------------------------------------------------
+void DialogPreview::wheelEvent(QWheelEvent *event)
+{
+    if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier)
+    {
+        QPoint point = event->globalPos();
+        point = this->mapFromGlobal(point);
+
+        QRect labelRectPreview = this->ui->labelPreview->rect();
+        QPoint labelPoint = this->ui->labelPreview->pos();
+        labelRectPreview.moveTo(labelPoint);
+
+        if (labelRectPreview.contains(point.x(), point.y()))
+        {
+            if (event->orientation() == Qt::Vertical)
+            {
+                int scale = this->mScale;
+                if (event->delta() > 0)
+                    scale++;
+                else
+                    scale--;
+
+                this->setScale(scale);
+                this->ui->spinBoxScale->setValue(this->mScale);
+            }
+            event->accept();
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogPreview::setScale(int value)
+{
+    if (this->mScale != value)
+    {
+        if (value > 0 && value <= 50)
+        {
+            this->mScale = value;
+            this->updatePreviewScaled(&this->mImageProcessed, this->mScale);
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogPreview::updatePreviewScaled(const QImage *image, int scale)
+{
+    QImage imageScaled = BitmapHelper::scale(image, scale);
+    imageScaled = BitmapHelper::drawGrid(&imageScaled, scale);
+    QPixmap pixmapScaled = QPixmap::fromImage(imageScaled);
+    this->ui->labelPreview->setPixmap(pixmapScaled);
+}
+//-----------------------------------------------------------------------------
 void DialogPreview::on_comboBoxSampleKey_currentIndexChanged()
 {
     this->updatePreview();
+}
+//-----------------------------------------------------------------------------
+void DialogPreview::on_spinBoxScale_valueChanged(int value)
+{
+    this->setScale(value);
 }
 //-----------------------------------------------------------------------------
