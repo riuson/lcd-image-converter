@@ -689,8 +689,6 @@ void ConverterHelper::makeMonochrome(QImage &image, int edge)
 //-----------------------------------------------------------------------------
 void ConverterHelper::makeGrayscale(QImage &image)
 {
-    QPainter painter(&image);
-    painter.setRenderHint(QPainter::Antialiasing, false);
     for (int x = 0; x < image.width(); x++)
     {
         for (int y = 0; y < image.height(); y++)
@@ -699,8 +697,8 @@ void ConverterHelper::makeGrayscale(QImage &image)
             int gray = qGray(value);
             int alpha = qAlpha(value);
             QColor color = QColor(gray ,gray, gray, alpha);
-            painter.setPen(color);
-            painter.drawPoint(x, y);
+            value = color.rgba();
+            image.setPixel(x, y, value);
         }
     }
 }
