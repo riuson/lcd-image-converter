@@ -720,7 +720,7 @@ QImage FontDocument::drawCharacter(const QChar value, const QFont &font, const Q
         imageWidth = charWidth;
         imageHeight = charHeight;
     }
-    QImage result(imageWidth, imageHeight, QImage::Format_RGB32);
+    QImage result(imageWidth, imageHeight, QImage::Format_ARGB32);
 
     QPainter painter(&result);
     painter.setFont(font);
