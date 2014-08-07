@@ -624,12 +624,12 @@ Qt: %3</translation>
         <translation>Предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogpreview.ui" line="22"/>
+        <location filename="../controls/setup/dialogpreview.ui" line="28"/>
         <source>Preview image:</source>
         <translation>Изображение для предпросмотра:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogpreview.ui" line="77"/>
+        <location filename="../controls/setup/dialogpreview.ui" line="68"/>
         <source>Scale:</source>
         <translation>Масштаб:</translation>
     </message>
