@@ -454,19 +454,13 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
             }
 
             // apply mask
-            QPainter painter(&im);
-            painter.setRenderHint(QPainter::Antialiasing, false);
             for (int x = 0; x < im.width(); x++)
             {
                 for (int y = 0; y < im.height(); y++)
                 {
                     QRgb value = im.pixel(x, y);
                     value &= mask;
-                    int a = qAlpha(value);
-                    QColor color = QColor(value);
-                    color.setAlpha(a);
-                    painter.setPen(color);
-                    painter.drawPoint(x, y);
+                    im.setPixel(x, y, value);
                 }
             }
         }
