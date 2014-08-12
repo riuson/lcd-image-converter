@@ -39,7 +39,11 @@ class RleCompressor : public QObject
 public:
     explicit RleCompressor(QObject *parent = 0);
 
-    void compress(QVector<quint32> *input, DataBlockSize dataSize, QVector<quint32> *output);
+    void compress(
+            QVector<quint32> *input,
+            DataBlockSize dataSize,
+            QVector<quint32> *output,
+            quint32 minimalEqualsLength = 2);
 
 private:
     void collectSequences(

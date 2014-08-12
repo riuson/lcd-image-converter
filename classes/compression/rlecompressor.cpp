@@ -32,7 +32,8 @@ RleCompressor::RleCompressor(QObject *parent) :
 void RleCompressor::compress(
         QVector<quint32> *input,
         DataBlockSize dataSize,
-        QVector<quint32> *output)
+        QVector<quint32> *output,
+        quint32 minimalEqualsLength)
 {
     output->clear();
 
@@ -41,7 +42,7 @@ void RleCompressor::compress(
     this->collectSequences(input, &sequencesSource);
 
     QVector<RleSequence *> sequencesCombined;
-    this->combineSequences(&sequencesSource, 2, &sequencesCombined);
+    this->combineSequences(&sequencesSource, minimalEqualsLength, &sequencesCombined);
 
     for (int i = 0; i < sequencesCombined.size(); i++)
     {
