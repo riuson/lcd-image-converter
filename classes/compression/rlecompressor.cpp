@@ -263,9 +263,9 @@ void RleCompressor::flushSequence(
             //qDebug() << "all equals";
             //qDebug() << " count: " << queue->size();
             //qDebug() <<  " of : " << output->last();
-            for (quint32 shift = 0; shift < sequence->length(); shift += size)
+            for (quint32 shift = 0; shift < (quint32)sequence->length(); shift += size)
             {
-                int partSize = qMin(size, sequence->length() - shift);
+                int partSize = qMin(size, (quint32)(sequence->length() - shift));
                 this->flushSequencePart(sequence, shift, partSize, true, output);
             }
         }
@@ -273,9 +273,9 @@ void RleCompressor::flushSequence(
         {
             //qDebug() << "all non-equals";
             //qDebug() << " count: " << -queue->size();
-            for (quint32 shift = 0; shift < sequence->length(); shift += size)
+            for (quint32 shift = 0; shift < (quint32)sequence->length(); shift += size)
             {
-                int partSize = qMin(size, sequence->length() - shift);
+                int partSize = qMin(size, (quint32)(sequence->length() - shift));
                 this->flushSequencePart(sequence, shift, partSize, false, output);
             }
         }
