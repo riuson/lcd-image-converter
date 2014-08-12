@@ -52,6 +52,7 @@ SOURCES += main.cpp \
     classes/cmdline/modehex2bin.cpp \
     classes/cmdline/modeparserbase.cpp \
     classes/compression/rlecompressor.cpp \
+    classes/compression/rlesequence.cpp \
     classes/data/datacontainer.cpp \
     classes/data/fontdocument.cpp \
     classes/data/historykeeper.cpp \
@@ -131,6 +132,7 @@ HEADERS += \
     classes/cmdline/modehex2bin.h \
     classes/cmdline/modeparserbase.h \
     classes/compression/rlecompressor.h \
+    classes/compression/rlesequence.h \
     classes/data/datacontainer.h \
     classes/data/fontdocument.h \
     classes/data/historykeeper.h \

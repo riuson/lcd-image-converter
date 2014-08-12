@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2014 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,57 +17,67 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef RLE_H
-#define RLE_H
+#include "rlesequence.h"
+
+#include <QVector>
 //-----------------------------------------------------------------------------
-#include <QObject>
-//-----------------------------------------------------------------------------
-#include "conversion_options.h"
-//-----------------------------------------------------------------------------
-// Run-length encoding algorithm
-// http://en.wikipedia.org/wiki/Run-length_encoding
-//-----------------------------------------------------------------------------
-template <class T> class QVector;
-template <class T> class QQueue;
-//-----------------------------------------------------------------------------
-using namespace ConversionOptions;
-class RleSequence;
-//-----------------------------------------------------------------------------
-class RleCompressor : public QObject
+RleSequence::RleSequence()
 {
-    Q_OBJECT
-public:
-    explicit RleCompressor(QObject *parent = 0);
-
-    void compress(
-            QVector<quint32> *input,
-            DataBlockSize dataSize,
-            QVector<quint32> *output,
-            quint32 minimumOfEquals = 2);
-
-private:
-    void collectSequences(
-            const QVector<quint32> *input,
-            QVector<RleSequence *> *sequences);
-    void combineSequences(
-            const QVector<RleSequence *> *inputSequences,
-            quint32 minimumOfEquals,
-            QVector<RleSequence *> *outputSequences);
-    quint32 getMaxSize(DataBlockSize dataSize);
-    void flushSequence(
-            const RleSequence *sequence,
-            DataBlockSize dataSize,
-            QVector<quint32> *output);
-    void flushSequencePart(
-            const RleSequence *sequence,
-            quint32 start,
-            quint32 length,
-            QVector<quint32> *output);
-
-signals:
-
-public slots:
-
-};
+    this->mData = new QVector<quint32>();
+}
 //-----------------------------------------------------------------------------
-#endif // RLE_H
+RleSequence::RleSequence(const RleSequence *other)
+{
+    this->mData = new QVector<quint32>(*other->mData);
+}
+//-----------------------------------------------------------------------------
+RleSequence::~RleSequence()
+{
+    delete this->mData;
+}
+//-----------------------------------------------------------------------------
+void RleSequence::append(quint32 value)
+{
+    this->mData->append(value);
+}
+//-----------------------------------------------------------------------------
+void RleSequence::append(const RleSequence *sequence)
+{
+    for (int i = 0; i < sequence->size(); i++)
+    {
+        this->mData->append(sequence->at(i));
+    }
+}
+//-----------------------------------------------------------------------------
+quint32 RleSequence::at(quint32 index) const
+{
+    return this->mData->at(index);
+}
+//-----------------------------------------------------------------------------
+quint32 RleSequence::last() const
+{
+    return this->mData->last();
+}
+//-----------------------------------------------------------------------------
+quint32 RleSequence::size() const
+{
+    return this->mData->size();
+}
+//-----------------------------------------------------------------------------
+bool RleSequence::allEquals() const
+{
+    bool result = true;
+    quint32 first = this->mData->at(0);
+
+    for (int i = 1; i < this->mData->size(); i++)
+    {
+        if (this->mData->at(i) != first)
+        {
+            result = false;
+            break;
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2014 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,42 +17,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef SETUPTABIMAGE_H
-#define SETUPTABIMAGE_H
+#ifndef RLESEQUENCE_H
+#define RLESEQUENCE_H
 //-----------------------------------------------------------------------------
-#include <QWidget>
+#include <QObject>
 //-----------------------------------------------------------------------------
-namespace Ui {
-class SetupTabImage;
-}
+template <class T> class QVector;
 //-----------------------------------------------------------------------------
-class Preset;
-//-----------------------------------------------------------------------------
-class SetupTabImage : public QWidget
+class RleSequence
 {
-    Q_OBJECT
-
 public:
-    explicit SetupTabImage(Preset *preset, QWidget *parent = 0);
-    virtual ~SetupTabImage();
+    RleSequence();
+    RleSequence(const RleSequence *other);
+    ~RleSequence();
 
-public slots:
-    void matrixChanged();
+    void append(quint32 value);
+    void append(const RleSequence *sequence);
+    quint32 at(quint32 index) const;
+    quint32 last() const;
+    quint32 size() const;
+
+    bool allEquals() const;
 
 private:
-    Ui::SetupTabImage *ui;
-    Preset *mPreset;
+    QVector <quint32> *mData;
 
-private slots:
-    void on_checkBoxSplitToRows_toggled(bool value);
-    void on_radioButtonLittleEndian_toggled(bool value);
-    void on_comboBoxBlockSize_currentIndexChanged(int index);
-    void on_checkBoxCompressionRle_toggled(bool value);
-    void on_spinBoxRleMinLength_valueChanged(int value);
-    void on_checkBoxBlockDefaultOnes_toggled(bool value);
-    void on_lineEditPrefix_textEdited(const QString &value);
-    void on_lineEditSuffix_textEdited(const QString &value);
-    void on_lineEditDelimiter_textEdited(const QString &value);
 };
 //-----------------------------------------------------------------------------
-#endif // SETUPTABIMAGE_H
+#endif // RLESEQUENCE_H

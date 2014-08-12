@@ -64,6 +64,8 @@ void SetupTabImage::matrixChanged()
         this->ui->radioButtonBigEndian->setChecked(true);
 
     this->ui->checkBoxCompressionRle->setChecked(this->mPreset->image()->compressionRle());
+    this->ui->spinBoxRleMinLength->setValue(this->mPreset->image()->compressionRleMinLength());
+
     this->ui->checkBoxBlockDefaultOnes->setChecked(this->mPreset->image()->blockDefaultOnes());
 
     this->ui->lineEditPrefix->setText(this->mPreset->image()->blockPrefix());
@@ -98,6 +100,11 @@ void SetupTabImage::on_comboBoxBlockSize_currentIndexChanged(int index)
 void SetupTabImage::on_checkBoxCompressionRle_toggled(bool value)
 {
     this->mPreset->image()->setCompressionRle(value);
+}
+//-----------------------------------------------------------------------------
+void SetupTabImage::on_spinBoxRleMinLength_valueChanged(int value)
+{
+    this->mPreset->image()->setCompressionRleMinLength((quint32)value);
 }
 //-----------------------------------------------------------------------------
 void SetupTabImage::on_checkBoxBlockDefaultOnes_toggled(bool value)

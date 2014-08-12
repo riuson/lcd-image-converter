@@ -332,7 +332,7 @@ void ConverterHelper::compressData(
     if (matrix->image()->compressionRle())
     {
         RleCompressor compressor;
-        compressor.compress(inputData, matrix->image()->blockSize(), outputData);
+        compressor.compress(inputData, matrix->image()->blockSize(), outputData, matrix->image()->compressionRleMinLength());
         *outputWidth = outputData->size();
         *outputHeight = 1;
     }

@@ -13,13 +13,12 @@ public:
     explicit TestRle(QObject *parent = 0);
 
 private:
-    QVector<quint32> *mTestVector1;
-    QVector<quint32> *mTestVector2;
 
 private slots:
     void initTestCase();
 
-    void compress();
+    void compress2();
+    void compress5();
 
     void cleanupTestCase();
 };

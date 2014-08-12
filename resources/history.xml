@@ -15,7 +15,8 @@ Added:
  Command line mode for image conversion;
  Command line mode for font conversion;
  Command line mode for hexadecimal to binary file conversion;
- Menu option to convert color image to grayscale.</description>
+ Menu option to convert color image to grayscale;
+ Option for RLE minimal length of equal blocks.</description>
     </record>
     <record>
         <commit>
