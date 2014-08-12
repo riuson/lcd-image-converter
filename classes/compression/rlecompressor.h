@@ -44,10 +44,21 @@ private:
     typedef QQueue<quint32> Sequence;
 
     void flush(QVector<quint32> *output, QQueue<quint32> *queue);
-    bool allEquals(QQueue<quint32> *queue);
+    bool allEquals(const QQueue<quint32> *queue);
     void collectSequences(
             const QVector<quint32> *input,
             QQueue<Sequence *> *sequences);
+    quint32 getMaxSize(DataBlockSize dataSize);
+    void flushSequence(
+            const Sequence *sequence,
+            DataBlockSize dataSize,
+            QVector<quint32> *output);
+    void flushSequencePart(
+            const Sequence *sequence,
+            quint32 start,
+            quint32 length,
+            bool allEquals,
+            QVector<quint32> *output);
 
 signals:
 
