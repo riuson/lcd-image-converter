@@ -41,8 +41,13 @@ public:
     void compress(QVector<quint32> *input, DataBlockSize dataSize, QVector<quint32> *output);
 
 private:
+    typedef QQueue<quint32> Sequence;
+
     void flush(QVector<quint32> *output, QQueue<quint32> *queue);
     bool allEquals(QQueue<quint32> *queue);
+    void collectSequences(
+            const QVector<quint32> *input,
+            QQueue<Sequence *> *sequences);
 
 signals:
 

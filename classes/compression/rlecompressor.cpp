@@ -154,3 +154,55 @@ bool RleCompressor::allEquals(QQueue<quint32> *queue)
     return result;
 }
 //-----------------------------------------------------------------------------
+void RleCompressor::collectSequences(
+        const QVector<quint32> *input,
+        QQueue<Sequence *> *sequences)
+{
+    Sequence *temp = new Sequence;
+    temp->append(input->at(0));
+    quint32 index = 1;
+
+    while (index < (quint32)input->size())
+    {
+        quint32 value = input->at(index);
+
+        if (!temp->isEmpty())
+        {
+            //qDebug() << "new value: " << value;
+
+            if (temp->size() > 1)
+            {
+                // if new value not equals to previous
+                if (this->allEquals(temp) && temp->last() != value)
+                {
+                    //qDebug() << "new value not equals to previous";
+                    //qDebug() << " count: " << temp->size();
+                    //qDebug() <<  " of : " << output->last();
+                    sequences->append(temp);
+                    temp = new Sequence;
+                }
+                else
+                {
+                    // if new value equals to last in non-equals queue
+                    if (!this->allEquals(temp) && temp->last() == value)
+                    {
+                        //qDebug() << "new value equals to last in non-equals queue";
+                        //qDebug() << " count: " << -temp->size();
+                        temp->takeLast();
+                        sequences->append(temp);
+                        temp = new Sequence;
+                        temp->append(value);
+                    }
+                }
+            }
+        }
+
+        //qDebug() << "queue new value: " << value;
+        temp->append(value);
+
+        index++;
+    }
+
+    sequences->append(temp);
+}
+//-----------------------------------------------------------------------------
