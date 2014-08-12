@@ -211,6 +211,11 @@ void Preset::initMono(MonochromeType type, int edge)
     this->mMatrix->setMaskFill(0x000000ff);
     this->mImage->setBlockSize(Data8);
 
+    // alpha bits
+    {
+        this->mMatrix->operationAdd(0xff000000, 0, false);
+    }
+
     // bits shift
     {
         this->mMatrix->operationAdd(0x00000001, 0, false);
@@ -243,6 +248,11 @@ void Preset::initGrayscale(int bits)
     this->mMatrix->setMaskAnd(0xffffffff);
     this->mMatrix->setMaskOr(0x00000000);
     this->mMatrix->setMaskFill(0x0000ffff);
+
+    // alpha bits
+    {
+        this->mMatrix->operationAdd(0xff000000, 0, false);
+    }
 
     // bits shift
     {
@@ -288,6 +298,11 @@ void Preset::initColor(int redBits, int greenBits, int blueBits)
     this->mMatrix->setMaskAnd(0xffffffff);
     this->mMatrix->setMaskOr(0x00000000);
     this->mMatrix->setMaskFill(0xffffffff);
+
+    // alpha bits
+    {
+        this->mMatrix->operationAdd(0xff000000, 0, false);
+    }
 
     // red bits shift
     {
