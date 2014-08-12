@@ -35,79 +35,18 @@ void RleCompressor::compress(
 {
     output->clear();
 
-    quint32 size;
-    switch (dataSize)
+    QQueue<Sequence *> sequencesSource;
+
+    this->collectSequences(input, &sequencesSource);
+
+    QQueue<Sequence *> sequencesCombined;
+    this->combineSequences(&sequencesSource, 2, &sequencesCombined);
+
+    for (int i = 0; i < sequencesCombined.size(); i++)
     {
-    case Data8:
-        size = 0x7f;
-        break;
-    case Data16:
-        size = 0x7fff;
-        break;
-    case Data24:
-        size = 0x7fffff;
-        break;
-    case Data32:
-        size = 0x7fffffff;
-    default:
-        size = 127;
-        break;
+        Sequence *seq = sequencesCombined.at(i);
+        this->flushSequence(seq, dataSize, output);
     }
-
-    quint32 i = 1;
-    QQueue<quint32> queue;
-    queue.append(input->at(0));
-
-    while (i < (quint32)input->size())
-    {
-        quint32 value = input->at(i);
-
-        if (!queue.isEmpty())
-        {
-            //qDebug() << "new value: " << value;
-
-            if (queue.size() > 1)
-            {
-                // if new value not equals to previous
-                if (this->allEquals(&queue) && queue.last() != value)
-                {
-                    //qDebug() << "new value not equals to previous";
-                    output->append(queue.size());
-                    //qDebug() << " count: " << queue.size();
-                    *output << queue.dequeue();
-                    //qDebug() <<  " of : " << output->last();
-                    queue.clear();
-                }
-                else
-                {
-                    // if new value equals to last in non-equals queue
-                    if (!this->allEquals(&queue) && queue.last() == value)
-                    {
-                        //qDebug() << "new value equals to last in non-equals queue";
-                        queue.takeLast();
-                        output->append(-queue.size()); // minus
-                        //qDebug() << " count: " << -queue.size();
-                        while (!queue.isEmpty())
-                        {
-                            *output << queue.dequeue();
-                            //qDebug() <<  " of : " << output->last();
-                        }
-                        queue << value;
-                    }
-                }
-            }
-        }
-
-        if ((quint32)queue.size() >= size)
-            this->flush(output, &queue);
-
-        queue << value;
-        //qDebug() << "queue new value: " << value;
-
-        i++;
-    }
-
-    this->flush(output, &queue);
 }
 //-----------------------------------------------------------------------------
 void RleCompressor::flush(QVector<quint32> *output, QQueue<quint32> *queue)
