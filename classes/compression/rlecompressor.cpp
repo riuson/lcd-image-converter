@@ -33,7 +33,7 @@ void RleCompressor::compress(
         QVector<quint32> *input,
         DataBlockSize dataSize,
         QVector<quint32> *output,
-        quint32 minimalEqualsLength)
+        quint32 minimumOfEquals)
 {
     output->clear();
 
@@ -42,7 +42,7 @@ void RleCompressor::compress(
     this->collectSequences(input, &sequencesSource);
 
     QVector<RleSequence *> sequencesCombined;
-    this->combineSequences(&sequencesSource, minimalEqualsLength, &sequencesCombined);
+    this->combineSequences(&sequencesSource, minimumOfEquals, &sequencesCombined);
 
     for (int i = 0; i < sequencesCombined.size(); i++)
     {
@@ -81,7 +81,7 @@ void RleCompressor::collectSequences(
 //-----------------------------------------------------------------------------
 void RleCompressor::combineSequences(
         const QVector<RleSequence *> *inputSequences,
-        quint32 minimalEqualsLength,
+        quint32 minimumOfEquals,
         QVector<RleSequence *> *outputSequences)
 {
     RleSequence *temp = new RleSequence();
@@ -91,7 +91,7 @@ void RleCompressor::combineSequences(
         RleSequence *seq = inputSequences->at(i);
 
         // if number of equals values >= minimal
-        if (seq->size() >= minimalEqualsLength)
+        if (seq->size() >= minimumOfEquals)
         {
             // save previous
             outputSequences->append(temp);

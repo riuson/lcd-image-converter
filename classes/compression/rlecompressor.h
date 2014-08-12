@@ -43,7 +43,7 @@ public:
             QVector<quint32> *input,
             DataBlockSize dataSize,
             QVector<quint32> *output,
-            quint32 minimalEqualsLength = 2);
+            quint32 minimumOfEquals = 2);
 
 private:
     void collectSequences(
@@ -51,7 +51,7 @@ private:
             QVector<RleSequence *> *sequences);
     void combineSequences(
             const QVector<RleSequence *> *inputSequences,
-            quint32 minimalEqualsLength,
+            quint32 minimumOfEquals,
             QVector<RleSequence *> *outputSequences);
     quint32 getMaxSize(DataBlockSize dataSize);
     void flushSequence(
