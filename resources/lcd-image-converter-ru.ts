@@ -1104,22 +1104,34 @@ Qt: %3</translation>
         <translation>Сжатие RLE</translation>
     </message>
     <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="84"/>
+        <source> block(s)</source>
+        <translatorcomment>с 1 блока, 3 блоков</translatorcomment>
+        <translation> блока(ов)</translation>
+    </message>
+    <message>
         <location filename="../controls/setup/parts/image/setuptabimage.ui" line="87"/>
+        <source>from </source>
+        <translatorcomment>с 1 блока</translatorcomment>
+        <translation>с </translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="103"/>
         <source>Byte order:</source>
         <translation>Порядок байт:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="149"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="165"/>
         <source>Prefix:</source>
         <translation>Префикс:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="165"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="181"/>
         <source>Suffix:</source>
         <translation>Суффикс:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="181"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="197"/>
         <source>Delimiter:</source>
         <translation>Разделитель:</translation>
     </message>
