@@ -76,6 +76,22 @@
         </widget>
        </item>
        <item>
+        <widget class="QSpinBox" name="spinBoxRleMinLength">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="suffix">
+          <string> block(s)</string>
+         </property>
+         <property name="prefix">
+          <string>from </string>
+         </property>
+         <property name="minimum">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="label_3">
          <property name="font">
           <font>
@@ -231,5 +247,22 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>checkBoxCompressionRle</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>spinBoxRleMinLength</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>84</x>
+     <y>155</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>84</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
