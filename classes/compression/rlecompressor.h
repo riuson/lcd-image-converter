@@ -31,6 +31,7 @@ template <class T> class QVector;
 template <class T> class QQueue;
 //-----------------------------------------------------------------------------
 using namespace ConversionOptions;
+class RleSequence;
 //-----------------------------------------------------------------------------
 class RleCompressor : public QObject
 {
@@ -41,27 +42,22 @@ public:
     void compress(QVector<quint32> *input, DataBlockSize dataSize, QVector<quint32> *output);
 
 private:
-    typedef QQueue<quint32> Sequence;
-
-    void flush(QVector<quint32> *output, QQueue<quint32> *queue);
-    bool allEquals(const QQueue<quint32> *queue);
     void collectSequences(
             const QVector<quint32> *input,
-            QQueue<Sequence *> *sequences);
+            QVector<RleSequence *> *sequences);
     void combineSequences(
-            const QQueue<Sequence *> *inputSequences,
+            const QVector<RleSequence *> *inputSequences,
             quint32 minimalEqualsLength,
-            QQueue<Sequence *> *outputSequences);
+            QVector<RleSequence *> *outputSequences);
     quint32 getMaxSize(DataBlockSize dataSize);
     void flushSequence(
-            const Sequence *sequence,
+            const RleSequence *sequence,
             DataBlockSize dataSize,
             QVector<quint32> *output);
     void flushSequencePart(
-            const Sequence *sequence,
+            const RleSequence *sequence,
             quint32 start,
             quint32 length,
-            bool allEquals,
             QVector<quint32> *output);
 
 signals:

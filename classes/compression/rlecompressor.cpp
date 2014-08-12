@@ -21,6 +21,7 @@
 //-----------------------------------------------------------------------------
 #include <QVector>
 #include <QQueue>
+#include "rlesequence.h"
 //#include <QDebug>
 //-----------------------------------------------------------------------------
 RleCompressor::RleCompressor(QObject *parent) :
@@ -35,69 +36,25 @@ void RleCompressor::compress(
 {
     output->clear();
 
-    QQueue<Sequence *> sequencesSource;
+    QVector<RleSequence *> sequencesSource;
 
     this->collectSequences(input, &sequencesSource);
 
-    QQueue<Sequence *> sequencesCombined;
+    QVector<RleSequence *> sequencesCombined;
     this->combineSequences(&sequencesSource, 2, &sequencesCombined);
 
     for (int i = 0; i < sequencesCombined.size(); i++)
     {
-        Sequence *seq = sequencesCombined.at(i);
+        RleSequence *seq = sequencesCombined.at(i);
         this->flushSequence(seq, dataSize, output);
     }
 }
 //-----------------------------------------------------------------------------
-void RleCompressor::flush(QVector<quint32> *output, QQueue<quint32> *queue)
-{
-    if (!queue->isEmpty())
-    {
-        // if all equals
-        if (this->allEquals(queue))
-        {
-            //qDebug() << "all equals";
-            output->append(queue->size());
-            //qDebug() << " count: " << queue->size();
-            *output << queue->dequeue();
-            //qDebug() <<  " of : " << output->last();
-            queue->clear();
-        }
-        else
-        {
-            // if all non-equals
-            if (!this->allEquals(queue))
-            {
-                //qDebug() << "all non-equals";
-                output->append(-queue->size()); // minus
-                //qDebug() << " count: " << -queue->size();
-                while (!queue->isEmpty())
-                {
-                    *output << queue->dequeue();
-                    //qDebug() <<  " of : " << output->last();
-                }
-            }
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-bool RleCompressor::allEquals(const QQueue<quint32> *queue)
-{
-    bool result = true;
-    quint32 first = queue->at(0);
-    for (int i = 1; i < queue->size(); i++)
-    {
-        if (queue->at(i) != first)
-            result = false;
-    }
-    return result;
-}
-//-----------------------------------------------------------------------------
 void RleCompressor::collectSequences(
         const QVector<quint32> *input,
-        QQueue<Sequence *> *sequences)
+        QVector<RleSequence *> *sequences)
 {
-    Sequence *temp = new Sequence();
+    RleSequence *temp = new RleSequence();
     temp->append(input->at(0));
     quint32 index = 1;
 
@@ -111,7 +68,7 @@ void RleCompressor::collectSequences(
             // save last sequence
             sequences->append(temp);
             // and create new
-            temp = new Sequence();
+            temp = new RleSequence();
         }
 
         temp->append(value);
@@ -122,40 +79,32 @@ void RleCompressor::collectSequences(
 }
 //-----------------------------------------------------------------------------
 void RleCompressor::combineSequences(
-        const QQueue<Sequence *> *inputSequences,
+        const QVector<RleSequence *> *inputSequences,
         quint32 minimalEqualsLength,
-        QQueue<Sequence *> *outputSequences)
+        QVector<RleSequence *> *outputSequences)
 {
-    Sequence *temp = new Sequence();
+    RleSequence *temp = new RleSequence();
 
     for (int i = 0; i < inputSequences->size(); i++)
     {
-        Sequence *seq = inputSequences->at(i);
+        RleSequence *seq = inputSequences->at(i);
 
         // if number of equals values >= minimal
-        if ((quint32)seq->size() >= minimalEqualsLength)
+        if (seq->size() >= minimalEqualsLength)
         {
             // save previous
             outputSequences->append(temp);
 
-            // copy
-            temp = new Sequence();
-            for (int j = 0; j < seq->size(); j++)
-            {
-                temp->append(seq->at(j));
-            }
-            // save
+            // copy and save
+            temp = new RleSequence(seq);
             outputSequences->append(temp);
 
             // create new
-            temp = new Sequence();
+            temp = new RleSequence();
         }
         else
         {
-            for (int j = 0; j < seq->size(); j++)
-            {
-                temp->append(seq->at(j));
-            }
+            temp->append(seq);
         }
     }
 
@@ -188,47 +137,46 @@ quint32 RleCompressor::getMaxSize(DataBlockSize dataSize)
 }
 //-----------------------------------------------------------------------------
 void RleCompressor::flushSequence(
-        const Sequence *sequence,
+        const RleSequence *sequence,
         DataBlockSize dataSize,
         QVector<quint32> *output)
 {
-    if (!sequence->isEmpty())
+    if (sequence->size() > 0)
     {
         quint32 size = this->getMaxSize(dataSize);
 
         // if all equals
-        if (this->allEquals(sequence))
+        if (sequence->allEquals())
         {
             //qDebug() << "all equals";
             //qDebug() << " count: " << queue->size();
             //qDebug() <<  " of : " << output->last();
-            for (quint32 shift = 0; shift < (quint32)sequence->length(); shift += size)
+            for (quint32 shift = 0; shift < sequence->size(); shift += size)
             {
-                int partSize = qMin(size, (quint32)(sequence->length() - shift));
-                this->flushSequencePart(sequence, shift, partSize, true, output);
+                int partSize = qMin(size, sequence->size() - shift);
+                this->flushSequencePart(sequence, shift, partSize, output);
             }
         }
         else // if all non-equals
         {
             //qDebug() << "all non-equals";
             //qDebug() << " count: " << -queue->size();
-            for (quint32 shift = 0; shift < (quint32)sequence->length(); shift += size)
+            for (quint32 shift = 0; shift < sequence->size(); shift += size)
             {
-                int partSize = qMin(size, (quint32)(sequence->length() - shift));
-                this->flushSequencePart(sequence, shift, partSize, false, output);
+                int partSize = qMin(size, sequence->size() - shift);
+                this->flushSequencePart(sequence, shift, partSize, output);
             }
         }
     }
 }
 //-----------------------------------------------------------------------------
 void RleCompressor::flushSequencePart(
-        const Sequence *sequence,
+        const RleSequence *sequence,
         quint32 start,
         quint32 length,
-        bool allEquals,
         QVector<quint32> *output)
 {
-    if (allEquals)
+    if (sequence->size() > 1 && sequence->allEquals())
     {
         output->append(length);
         output->append(sequence->at(start));
