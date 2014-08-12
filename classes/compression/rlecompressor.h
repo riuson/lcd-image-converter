@@ -48,6 +48,10 @@ private:
     void collectSequences(
             const QVector<quint32> *input,
             QQueue<Sequence *> *sequences);
+    void combineSequences(
+            const QQueue<Sequence *> *inputSequences,
+            quint32 minimalEqualsLength,
+            QQueue<Sequence *> *outputSequences);
     quint32 getMaxSize(DataBlockSize dataSize);
     void flushSequence(
             const Sequence *sequence,

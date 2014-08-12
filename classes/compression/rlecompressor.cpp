@@ -182,6 +182,47 @@ void RleCompressor::collectSequences(
     sequences->append(temp);
 }
 //-----------------------------------------------------------------------------
+void RleCompressor::combineSequences(
+        const QQueue<Sequence *> *inputSequences,
+        quint32 minimalEqualsLength,
+        QQueue<Sequence *> *outputSequences)
+{
+    Sequence *temp = new Sequence();
+
+    for (int i = 0; i < inputSequences->size(); i++)
+    {
+        Sequence *seq = inputSequences->at(i);
+
+        // if number of equals values >= minimal
+        if ((quint32)seq->size() >= minimalEqualsLength)
+        {
+            // save previous
+            outputSequences->append(temp);
+
+            // copy
+            temp = new Sequence();
+            for (int j = 0; j < seq->size(); j++)
+            {
+                temp->append(seq->at(j));
+            }
+            // save
+            outputSequences->append(temp);
+
+            // create new
+            temp = new Sequence();
+        }
+        else
+        {
+            for (int j = 0; j < seq->size(); j++)
+            {
+                temp->append(seq->at(j));
+            }
+        }
+    }
+
+    outputSequences->append(temp);
+}
+//-----------------------------------------------------------------------------
 quint32 RleCompressor::getMaxSize(DataBlockSize dataSize)
 {
     quint32 result;
