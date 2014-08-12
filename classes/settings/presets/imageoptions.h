@@ -39,6 +39,7 @@ public:
     DataBlockSize blockSize() const;
     bool blockDefaultOnes() const;
     bool compressionRle() const;
+    quint32 compressionRleMinLength() const;
     QString blockPrefix() const;
     QString blockSuffix() const;
     QString blockDelimiter() const;
@@ -48,6 +49,7 @@ public:
     void setBlockSize(DataBlockSize value);
     void setBlockDefaultOnes(bool value);
     void setCompressionRle(bool value);
+    void setCompressionRleMinLength(quint32 value);
     void setBlockPrefix(const QString &value);
     void setBlockSuffix(const QString &value);
     void setBlockDelimiter(const QString &value);
@@ -61,6 +63,7 @@ private:
     DataBlockSize mBlockSize;
     bool mBlockDefaultOnes;
     bool mCompressionRle;
+    quint32 mCompressionRleMinLength;
     QString mBlockPrefix;
     QString mBlockSuffix;
     QString mBlockDelimiter;
