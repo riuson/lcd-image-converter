@@ -49,6 +49,9 @@ void RleCompressor::compress(
         RleSequence *seq = sequencesCombined.at(i);
         this->flushSequence(seq, dataSize, output);
     }
+
+    qDeleteAll(sequencesSource);
+    qDeleteAll(sequencesCombined);
 }
 //-----------------------------------------------------------------------------
 void RleCompressor::collectSequences(
