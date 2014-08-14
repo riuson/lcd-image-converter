@@ -9,7 +9,8 @@
  Shadow Build support (partially);
  Default document and file name for new documents;
  Font styles;
- Save Changes dialog.
+ Save Changes dialog;
+ 'AntiAliasing' option in saved font document.
 
 Added:
  Command line mode for image conversion;

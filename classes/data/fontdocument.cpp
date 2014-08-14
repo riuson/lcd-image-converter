@@ -239,7 +239,7 @@ bool FontDocument::save(const QString &fileName)
     // antialiasing
     QDomElement nodeAntialiasing = doc.createElement("antialiasing");
     nodeRoot.appendChild(nodeAntialiasing);
-    if (monospaced)
+    if (antialiasing)
         nodeAntialiasing.appendChild(doc.createTextNode("true"));
     else
         nodeAntialiasing.appendChild(doc.createTextNode("false"));
