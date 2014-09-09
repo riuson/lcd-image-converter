@@ -10,7 +10,8 @@
  Default document and file name for new documents;
  Font styles;
  Save Changes dialog;
- 'AntiAliasing' option in saved font document.
+ 'AntiAliasing' option in saved font document;
+ Encodings list sorted in New Font -> Append Range.
 
 Added:
  Command line mode for image conversion;
