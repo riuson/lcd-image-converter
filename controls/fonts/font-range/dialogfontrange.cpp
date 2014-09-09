@@ -38,10 +38,14 @@ DialogFontRange::DialogFontRange(QWidget *parent) :
 
     this->mResultString = QString();
 
-    this->ui->comboBoxEncoding->addItems(FontOptions::encodings());
-    int index = this->ui->comboBoxEncoding->findText("system", Qt::MatchFixedString);
-    if (index >= 0)
+    QStringList encodings = FontOptions::encodings();
+    qSort(encodings);
+    this->ui->comboBoxEncoding->addItems(encodings);
+    int index = this->ui->comboBoxEncoding->findText("UTF-8", Qt::MatchFixedString);
+
+    if (index >= 0) {
         this->ui->comboBoxEncoding->setCurrentIndex(index);
+    }
 }
 //-----------------------------------------------------------------------------
 DialogFontRange::~DialogFontRange()
