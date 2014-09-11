@@ -51,42 +51,42 @@
         <translation>Имя шрифта:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="111"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="110"/>
         <source>XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Файлы XML (*.xml);;Файлы изображений (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="112"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="111"/>
         <source>Open xml or image file</source>
         <translation>Открыть xml документ или изображение</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="132"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="131"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="133"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="132"/>
         <source>New name:</source>
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="164"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="163"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="166"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="165"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="346"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="345"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="348"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="347"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -182,8 +182,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="109"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="115"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="104"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="110"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="53"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="59"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="65"/>
@@ -193,7 +193,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="108"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="103"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="58"/>
         <source>Full &lt;path&gt; to output result.</source>
         <translation type="unfinished"></translation>
@@ -225,76 +225,71 @@
     </message>
     <message>
         <location filename="../classes/cmdline/modeconvertfont.cpp" line="70"/>
-        <source>&lt;Bold&gt; font style.</source>
+        <source>Font &lt;style&gt;, Regular, Bold, Italic or Bold Italic.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../classes/cmdline/modeconvertfont.cpp" line="75"/>
-        <source>&lt;Italic&gt; font style.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="80"/>
         <source>Use antialiasing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="85"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="80"/>
         <source>Characters, what included to the font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="86"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="81"/>
         <source>characters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="91"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="86"/>
         <source>Characters range, for example &quot;32-255&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="92"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="87"/>
         <source>range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="97"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="92"/>
         <source>Characters encoding, for example &quot;UTF-8&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="98"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="93"/>
         <source>encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="103"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="98"/>
         <source>Use big-endian instead of little-endian.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="114"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="109"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="64"/>
         <source>Full &lt;path&gt; to template file, used in conversion. [Optional]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="120"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="115"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="70"/>
         <source>Document name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="121"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="127"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="116"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="122"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="71"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="77"/>
         <source>name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="126"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="121"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="76"/>
         <source>Output preset &lt;name&gt; from predefined presets in application settings.</source>
         <translation type="unfinished"></translation>
@@ -484,61 +479,57 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="35"/>
+        <source>Style:</source>
+        <translatorcomment>Стиль шрифта</translatorcomment>
+        <translation>Стиль:</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="45"/>
         <source>Size:</source>
         <translation>Размер:</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="49"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="59"/>
         <source>RealHeight</source>
         <translation>Высота</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="73"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="83"/>
         <source>Proportional</source>
         <translation>Пропорциональный</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="83"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="93"/>
         <source>Monospaced</source>
         <translation>Моноширинный</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="90"/>
-        <source>Bold</source>
-        <translation>Жирный</translation>
-    </message>
-    <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="97"/>
-        <source>Italic</source>
-        <translation>Курсив</translation>
-    </message>
-    <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="104"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="100"/>
         <source>Antialiasing</source>
         <translation>Сглаживание</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="136"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="132"/>
         <source>Enter filter...</source>
         <translation>Введите фильтр...</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="165"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="161"/>
         <source>Append Selected</source>
         <translation>Добавить выбранные</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="172"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="168"/>
         <source>Append Range...</source>
         <translation>Добавить диапазон...</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="179"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="175"/>
         <source>Sort</source>
         <translation>Отсортировать</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="236"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="245"/>
         <source>Real height: %1</source>
         <translation>Высота: %1</translation>
     </message>
