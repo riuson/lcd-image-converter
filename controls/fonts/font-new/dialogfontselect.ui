@@ -95,20 +95,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBoxBold">
-       <property name="text">
-        <string>Bold</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="checkBoxItalic">
-       <property name="text">
-        <string>Italic</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QCheckBox" name="checkBoxAntialiasing">
        <property name="text">
         <string>Antialiasing</string>
