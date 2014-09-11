@@ -40,7 +40,7 @@ public:
     ~DialogFontSelect();
 
     QString fontFamily();
-    Q_DECL_DEPRECATED QString fontStyle();
+    QString fontStyle();
     int fontSize();
     bool monospaced();
     bool antialiasing();
@@ -49,7 +49,7 @@ public:
     QString characters();
 
     void setFontFamily(const QString &value);
-    Q_DECL_DEPRECATED void setFontStyle(const QString &value);
+    void setFontStyle(const QString &value);
     void setFontSize(int value);
     void setMonospaced(bool value);
     void setAntialising(bool value);
@@ -64,7 +64,7 @@ private:
     bool mSortOrderUp;
 
     QString mFontFamily;
-    Q_DECL_DEPRECATED QString mFontStyle;
+    QString mFontStyle;
     int mSize;
     bool mMonospaced;
     bool mAntialiasing;
@@ -73,7 +73,7 @@ private:
     QString mCharacters;
 
     void updateFont();
-    Q_DECL_DEPRECATED void updateStyles();
+    void updateStyles();
     void updateSizes();
 
     void applyFont();
