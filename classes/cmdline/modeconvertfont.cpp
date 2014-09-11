@@ -65,15 +65,10 @@ void ModeConvertFont::fillParser() const
                 QCoreApplication::translate("CmdLineParser", "Make monospaced font."));
     this->mParser->addOption(monoOption);
 
-    // --bold
-    QCommandLineOption boldOption(QStringList() << "bold",
-                QCoreApplication::translate("CmdLineParser", "<Bold> font style."));
-    this->mParser->addOption(boldOption);
-
-    // --italic
-    QCommandLineOption italicOption(QStringList() << "italic",
-                QCoreApplication::translate("CmdLineParser", "<Italic> font style."));
-    this->mParser->addOption(italicOption);
+    // --style
+    QCommandLineOption styleOption(QStringList() << "style",
+                QCoreApplication::translate("CmdLineParser", "Font <style>, Regular, Bold, Italic or Bold Italic."));
+    this->mParser->addOption(styleOption);
 
     // --antialiasing
     QCommandLineOption antialiasingOption(QStringList() << "antialiasing",
@@ -134,8 +129,7 @@ bool ModeConvertFont::collectArguments()
     bool sizeOk;
     this->mFontSize = this->mParser->value("size").toInt(&sizeOk);
     this->mFontMonospaced = this->mParser->isSet("monospaced");
-    this->mFontBold = this->mParser->isSet("bold");
-    this->mFontItalic = this->mParser->isSet("italic");
+    this->mFontStyle = this->mParser->value("style");
     this->mFontAntiAliasing = this->mParser->isSet("antialiasing");
 
     this->mFontCharactersList = this->mParser->value("chars-list");
@@ -185,8 +179,7 @@ int ModeConvertFont::process()
                     fontDocument.setFontCharacters(
                                 this->mFontCharactersList,
                                 this->mFontFamily,
-                                this->mFontBold,
-                                this->mFontItalic,
+                                this->mFontStyle,
                                 this->mFontSize,
                                 this->mFontMonospaced,
                                 this->mFontAntiAliasing);
