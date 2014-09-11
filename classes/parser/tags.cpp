@@ -151,10 +151,8 @@ void Tags::initTagsMap()
     this->mTagNameMap->insert("fontFamily",       FontFamily);
     this->mTagNameMap->insert("fnt_size",         FontSize);
     this->mTagNameMap->insert("fontSize",         FontSize);
-    //this->mTagNameMap->insert("fnt_style",        FontStyle); // replaced by fnt_bold & fnt_string
-    //this->mTagNameMap->insert("fontStyle",        FontStyle);
-    this->mTagNameMap->insert("fnt_bold",         FontBold);
-    this->mTagNameMap->insert("fnt_italic",       FontItalic);
+    this->mTagNameMap->insert("fnt_style",        FontStyle);
+    this->mTagNameMap->insert("fontStyle",        FontStyle);
     this->mTagNameMap->insert("fnt_string",       FontString);
     this->mTagNameMap->insert("string",           FontString);
     this->mTagNameMap->insert("fnt_width_type",   FontWidthType);

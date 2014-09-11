@@ -56,15 +56,13 @@ public:
 
     void fontCharacters(QString *chars,
                         QString *fontFamily,
-                        bool *_bold,
-                        bool *_italic,
+                        QString *_style,
                         int *_size,
                         bool *_monospaced,
                         bool *_antialiasing);
     void setFontCharacters(const QString &chars,
                            const QString &fontFamily,
-                           const bool &_bold,
-                           const bool &_italic,
+                           const QString &_style,
                            const int _size,
                            const bool _monospaced,
                            const bool _antialiasing);
@@ -78,11 +76,8 @@ private:
     QFont usedFont() const;
     void setUsedFont(const QFont &value);
 
-    bool bold() const;
-    void setBold(bool value);
-
-    bool italic() const;
-    void setItalic(bool value);
+    QString usedStyle() const;
+    void setUsedStyle(const QString &value);
 
     bool monospaced() const;
     void setMonospaced(const bool value);

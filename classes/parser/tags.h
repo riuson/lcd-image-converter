@@ -59,8 +59,7 @@ public:
 
         FontFamily,
         FontSize,
-        FontBold,
-        FontItalic,
+        FontStyle,
         FontString,
         FontWidthType,
         FontAntiAliasing,

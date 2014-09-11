@@ -54,15 +54,13 @@ public:
 
     void setFontCharacters(const QString &chars,
                            const QString &fontFamily,
-                           const bool &_bold,
-                           const bool &_italic,
+                           Q_DECL_DEPRECATED const QString &_style,
                            const int _size,
                            const bool _monospaced,
                            const bool _antialiasing);
     void fontCharacters(QString *chars,
                         QString *fontFamily,
-                        bool *_bold,
-                        bool *_italic,
+                        Q_DECL_DEPRECATED QString *_style,
                         int *_size,
                         bool *_monospaced,
                         bool *_antialiasing);
