@@ -60,7 +60,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     this->setEditorText(defChars);
 
     this->mFontFamily = this->ui->fontComboBox->currentFont().family();
-    this->updateSizes();
+    this->updateStyles();
 
     this->mBlocksModel = new UnicodeBlocksModel(this);
 
@@ -82,6 +82,11 @@ DialogFontSelect::~DialogFontSelect()
 QString DialogFontSelect::fontFamily()
 {
     return this->mFontFamily;
+}
+//-----------------------------------------------------------------------------
+QString DialogFontSelect::fontStyle()
+{
+    return this->mFontStyle;
 }
 //-----------------------------------------------------------------------------
 int DialogFontSelect::fontSize()
@@ -117,11 +122,26 @@ QString DialogFontSelect::characters()
 void DialogFontSelect::setFontFamily(const QString &value)
 {
     QFontDatabase fonts;
-    QFont f = fonts.font(value, "Regular", this->mSize);
+    QString style = this->mFontStyle;
+    QFont f = fonts.font(value, style, this->mSize);
     f.setPixelSize(this->mSize);
     //this->mFontFamily = value;
     this->ui->fontComboBox->setCurrentFont(f);
-    this->mFontFamily = f.family();
+
+    this->updateStyles();
+    this->updateSizes();
+
+    this->applyFont();
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::setFontStyle(const QString &value)
+{
+    this->mFontStyle = value;
+    int index = this->ui->comboBoxStyle->findText(value);
+    if (index >= 0)
+        this->ui->comboBoxStyle->setCurrentIndex(index);
+    else
+        this->ui->comboBoxStyle->setCurrentIndex(0);
 
     this->updateSizes();
 
@@ -182,6 +202,21 @@ void DialogFontSelect::updateFont()
     //this->ui->fontComboBox->setCurrentFont(font);
 }
 //-----------------------------------------------------------------------------
+void DialogFontSelect::updateStyles()
+{
+    QString style = this->mFontStyle;
+    this->ui->comboBoxStyle->clear();
+
+    QFontDatabase fonts;
+    QStringList stylesList = fonts.styles(this->mFontFamily);
+    this->ui->comboBoxStyle->addItems(stylesList);
+    int index = stylesList.indexOf(style);
+    if (index >= 0)
+        this->ui->comboBoxStyle->setCurrentIndex(stylesList.indexOf(style));
+    else
+        this->ui->comboBoxStyle->setCurrentIndex(0);
+}
+//-----------------------------------------------------------------------------
 void DialogFontSelect::updateSizes()
 {
     int a = this->mSize;
@@ -190,8 +225,8 @@ void DialogFontSelect::updateSizes()
     QFontDatabase fonts;
 
     QList<int> sizes;
-    if (fonts.isSmoothlyScalable(this->mFontFamily))
-        sizes = fonts.smoothSizes(this->mFontFamily, "Regular");
+    if (fonts.isSmoothlyScalable(this->mFontFamily, this->mFontStyle))
+        sizes = fonts.smoothSizes(this->mFontFamily, this->mFontStyle);
     else
         sizes = fonts.standardSizes();
     this->ui->comboBoxSize->clear();
@@ -214,7 +249,7 @@ void DialogFontSelect::updateSizes()
 void DialogFontSelect::applyFont()
 {
     QFontDatabase fonts;
-    QFont font = fonts.font(this->mFontFamily, "Regular", this->mSize);
+    QFont font = fonts.font(this->mFontFamily, this->mFontStyle, this->mSize);
     font.setBold(this->mBold);
     font.setItalic(this->mItalic);
     font.setPixelSize(this->mSize);
@@ -267,6 +302,7 @@ void DialogFontSelect::on_fontComboBox_currentFontChanged(const QFont &font)
 {
     this->mFontFamily = font.family();
 
+    this->updateStyles();
     this->updateSizes();
 
     this->applyFont();
@@ -287,6 +323,15 @@ void DialogFontSelect::on_comboBoxSize_currentIndexChanged(const QString &text)
 void DialogFontSelect::on_comboBoxSize_editTextChanged(const QString &text)
 {
     this->on_comboBoxSize_currentIndexChanged(text);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_comboBoxStyle_currentIndexChanged(const QString &text)
+{
+    this->mFontStyle = text;
+
+    this->updateSizes();
+
+    this->applyFont();
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_radioButtonProportional_toggled(bool value)
