@@ -434,7 +434,10 @@ void MainWindow::openRecentFile()
 {
     QAction *action = qobject_cast<QAction *>(sender());
     if (action)
-        this->mFileHandlers->openFile(action->data().toString());
+    {
+        QStringList files = QStringList() << action->data().toString();
+        this->mFileHandlers->openFiles(files);
+    }
 }
 //-----------------------------------------------------------------------------
 void MainWindow::rememberFilename(const QString &filename)
