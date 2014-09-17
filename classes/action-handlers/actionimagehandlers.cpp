@@ -323,26 +323,42 @@ void ActionImageHandlers::import_triggered()
     {
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptOpen);
-        dialog.setFileMode(QFileDialog::ExistingFile);
+        dialog.setFileMode(QFileDialog::ExistingFiles);
         dialog.setNameFilter(tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
         dialog.setWindowTitle(tr("Open image file"));
 
         if (dialog.exec() == QDialog::Accepted)
         {
+            QStringList filenames = dialog.selectedFiles();
+
             this->editor()->document()->beginChanges();
 
             QStringList keys = this->editor()->selectedKeys();
 
-            QStringListIterator iterator(keys);
-            while (iterator.hasNext())
+            if (filenames.length() == 1)
             {
-                QString key = iterator.next();
+                QStringListIterator iterator(keys);
+                while (iterator.hasNext())
+                {
+                    QString key = iterator.next();
 
-                QImage imageLoaded;
-                imageLoaded.load(dialog.selectedFiles().at(0));
-                QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+                    QImage imageLoaded;
+                    imageLoaded.load(dialog.selectedFiles().at(0));
+                    QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
 
-                this->editor()->document()->dataContainer()->setImage(key, &imageConverted);
+                    this->editor()->document()->dataContainer()->setImage(key, &imageConverted);
+                }
+            }
+            else if (filenames.length() > 1)
+            {
+                for (int i = 0; i < keys.length() && i < filenames.length(); i++)
+                {
+                    QImage imageLoaded;
+                    imageLoaded.load(filenames.at(i));
+                    QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+
+                    this->editor()->document()->dataContainer()->setImage(keys.at(i), &imageConverted);
+                }
             }
 
             this->editor()->document()->endChanges(false);
