@@ -331,13 +331,14 @@ void ActionImageHandlers::import_triggered()
         {
             QStringList filenames = dialog.selectedFiles();
 
-            this->editor()->document()->beginChanges();
-
             QStringList keys = this->editor()->selectedKeys();
 
             if (filenames.length() == 1)
             {
                 QStringListIterator iterator(keys);
+
+                this->editor()->document()->beginChanges();
+
                 while (iterator.hasNext())
                 {
                     QString key = iterator.next();
@@ -348,20 +349,49 @@ void ActionImageHandlers::import_triggered()
 
                     this->editor()->document()->dataContainer()->setImage(key, &imageConverted);
                 }
+
+                this->editor()->document()->endChanges(false);
             }
             else if (filenames.length() > 1)
             {
-                for (int i = 0; i < keys.length() && i < filenames.length(); i++)
-                {
-                    QImage imageLoaded;
-                    imageLoaded.load(filenames.at(i));
-                    QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+                bool ok = true;
 
-                    this->editor()->document()->dataContainer()->setImage(keys.at(i), &imageConverted);
+                if (filenames.length() != keys.length())
+                {
+                    QString msg = tr("Selected %1 file(s) and %2 character(s).\nWill be imported only a minimal amount: %3.").\
+                            arg(filenames.length()).\
+                            arg(keys.length()).\
+                            arg(qMin(filenames.length(), keys.length()));
+
+                    QMessageBox box(this->mMainWindow->parentWidget());
+                    box.setIcon(QMessageBox::Warning);
+                    box.setInformativeText(msg);
+                    box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+                    box.setText(tr("Selected a different number of files and characters."));
+                    box.setWindowTitle(tr("Warning"));
+
+                    if (box.exec() != QMessageBox::Ok)
+                    {
+                        ok = false;
+                    }
+                }
+
+                if (ok)
+                {
+                    this->editor()->document()->beginChanges();
+
+                    for (int i = 0; i < keys.length() && i < filenames.length(); i++)
+                    {
+                        QImage imageLoaded;
+                        imageLoaded.load(filenames.at(i));
+                        QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+
+                        this->editor()->document()->dataContainer()->setImage(keys.at(i), &imageConverted);
+                    }
+
+                    this->editor()->document()->endChanges(false);
                 }
             }
-
-            this->editor()->document()->endChanges(false);
         }
     }
 }
