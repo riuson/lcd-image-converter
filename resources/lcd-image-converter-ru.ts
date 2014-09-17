@@ -61,32 +61,32 @@
         <translation>Открыть xml документ или изображение</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="132"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="129"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="133"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="130"/>
         <source>New name:</source>
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="164"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="161"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="166"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="163"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="346"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="400"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="348"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="402"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -104,62 +104,79 @@
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="368"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="361"/>
+        <source>Selected %1 file(s) and %2 character(s).
+Will be imported only a minimal amount: %3.</source>
+        <translation>Выбрано %1 файл(ов) и %2 символ(ов).
+Будет импортировано только минимальное количество: %3.</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="370"/>
+        <source>Selected a different number of files and characters.</source>
+        <translation>Выбрано разное количество файлов и символов.</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="371"/>
+        <source>Warning</source>
+        <translation>Внимание</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="414"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="566"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="612"/>
         <source>Failed to Start</source>
         <translation>Не удалось запустить</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="567"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="613"/>
         <source>The process failed to start. Either the invoked program is missing, or you may have insufficient permissions to invoke the program.</source>
         <translation>Не удалось запустить процесс. Возможно вызываемая программа отсутствует, или у вас недостаточно привелегий для вызова программы.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="570"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="616"/>
         <source>Crashed</source>
         <translation>Сбой</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="571"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="617"/>
         <source>The process crashed some time after starting successfully.</source>
         <translation>Произошёл сбой процесса после успешно произведённого запуска.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="578"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="624"/>
         <source>Read Error</source>
         <translation>Ошибка чтения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="579"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="625"/>
         <source>An error occurred when attempting to read from the process. For example, the process may not be running.</source>
         <translation>Возникла ошибка при попытке чтения из процесса. К примеру, процесс может быть не запущен.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="582"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="628"/>
         <source>Write Error</source>
         <translation>Ошибка записи</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="583"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="629"/>
         <source>An error occurred when attempting to write to the process. For example, the process may not be running, or it may have closed its input channel.</source>
         <translation>Возникла ошибка при попытке записи в процесс. К примеру, процесс может быть не запущен, или иметь закрытый входной канал.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="587"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="633"/>
         <source>Unknown Error</source>
         <translation>Неизвестная ошибка</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="588"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="634"/>
         <source>An unknown error occurred.</source>
         <translation>Возникла неизвестная ошибка.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="595"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="641"/>
         <source>Error running external tool</source>
         <translation>Ошибка при запуске внешней утилиты</translation>
     </message>
