@@ -343,7 +343,7 @@ void ActionImageHandlers::import_triggered()
                     QString key = iterator.next();
 
                     QImage imageLoaded;
-                    imageLoaded.load(dialog.selectedFiles().at(0));
+                    imageLoaded.load(filenames.at(0));
                     QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
 
                     this->editor()->document()->dataContainer()->setImage(key, &imageConverted);
