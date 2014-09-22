@@ -295,6 +295,8 @@ void EditorTabFont::mon_documentChanged()
         this->mon_documentChangedSignificantly();
         this->mLastImagesCount = this->mDocument->dataContainer()->count();
     }
+
+    this->resizeToContents();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_documentChangedSignificantly()
