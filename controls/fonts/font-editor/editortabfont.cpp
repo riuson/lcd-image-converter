@@ -124,8 +124,7 @@ IEditor::EditorType EditorTabFont::type() const
 //-----------------------------------------------------------------------------
 void EditorTabFont::setFontCharacters(const QString &chars,
                                       const QString &fontFamily,
-                                      const bool &_bold,
-                                      const bool &_italic,
+                                      const QString &_style,
                                       const int _size,
                                       const bool _monospaced,
                                       const bool _antialiasing)
@@ -133,8 +132,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
     this->mDocument->setFontCharacters(
                 chars,
                 fontFamily,
-                _bold,
-                _italic,
+                _style,
                 _size,
                 _monospaced,
                 _antialiasing);
@@ -151,8 +149,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
 //-----------------------------------------------------------------------------
 void EditorTabFont::fontCharacters(QString *chars,
                                    QString *fontFamily,
-                                   bool *_bold,
-                                   bool *_italic,
+                                   QString *_style,
                                    int *_size,
                                    bool *_monospaced,
                                    bool *_antialiasing)
@@ -160,8 +157,7 @@ void EditorTabFont::fontCharacters(QString *chars,
     this->mDocument->fontCharacters(
                 chars,
                 fontFamily,
-                _bold,
-                _italic,
+                _style,
                 _size,
                 _monospaced,
                 _antialiasing);
@@ -379,8 +375,7 @@ void EditorTabFont::resizeToContents()
 <data type="font" name="Font">
     <family>Ubuntu</family>
     <size>12</size>
-    <bold>true</bold>
-    <italic>false</italic>
+    <style>Normal</style>
     <widthType>proportional</widthType>
     <antialiasing>false</antialiasing>
     <string> !"#$%&amp;'()*+,-./0123456789:;&lt;=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~АБВ</string>

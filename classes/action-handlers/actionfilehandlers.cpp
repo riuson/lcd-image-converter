@@ -80,17 +80,16 @@ void ActionFileHandlers::newFont_triggered()
 
             QString chars = dialog.characters();
             int size;
-            QString family;
-            bool monospaced, antialiasing, bold, italic;
+            QString family, style;
+            bool monospaced, antialiasing;
 
             family = dialog.fontFamily();
-            bold = dialog.bold();
-            italic = dialog.italic();
+            style = dialog.fontStyle();
             size = dialog.fontSize();
             monospaced = dialog.monospaced();
             antialiasing = dialog.antialiasing();
 
-            ed->setFontCharacters(chars, family, bold, italic, size, monospaced, antialiasing);
+            ed->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
 
             emit this->tabCreated(ed);
 

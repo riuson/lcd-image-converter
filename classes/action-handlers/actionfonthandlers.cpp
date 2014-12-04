@@ -43,16 +43,16 @@ void ActionFontHandlers::fontChange_triggered()
 {
     if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab()))
     {
-        QString chars, fontFamily;
+        QString chars, fontFamily, style;
         int size;
-        bool monospaced, antialiasing, bold, italic;
-        etf->fontCharacters(&chars, &fontFamily, &bold, &italic, &size, &monospaced, &antialiasing);
+        bool monospaced, antialiasing;
+        etf->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
 
         DialogFontSelect dialog(this->mMainWindow->parentWidget());
         dialog.setCharacters(chars);
+        //dialog.selectFont(fontFamily, style, size, monospaced, antialiasing);
         dialog.setFontFamily(fontFamily);
-        dialog.setBold(bold);
-        dialog.setItalic(italic);
+        dialog.setFontStyle(style);
         dialog.setFontSize(size);
         dialog.setMonospaced(monospaced);
         dialog.setAntialising(antialiasing);
@@ -61,17 +61,17 @@ void ActionFontHandlers::fontChange_triggered()
         {
             QString chars = dialog.characters();
             int size;
-            QString family;
-            bool monospaced, antialiasing, bold, italic;
+            QString family, style;
+            bool monospaced, antialiasing;
 
+            //dialog.selectedFont(&family, &style, &size, &monospaced, &antialiasing);
             family = dialog.fontFamily();
-            bold = dialog.bold();
-            italic = dialog.italic();
+            style = dialog.fontStyle();
             size = dialog.fontSize();
             monospaced = dialog.monospaced();
             antialiasing = dialog.antialiasing();
 
-            etf->setFontCharacters(chars, family, bold, italic, size, monospaced, antialiasing);
+            etf->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
         }
     }
 }
