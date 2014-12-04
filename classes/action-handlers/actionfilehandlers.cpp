@@ -115,10 +115,7 @@ void ActionFileHandlers::open_triggered()
     {
         QStringList filenames = dialog.selectedFiles();
 
-        for (int i = 0; i < filenames.length(); i++)
-        {
-            this->openFile(filenames.at(i));
-        }
+        this->openFiles(filenames);
     }
 }
 //-----------------------------------------------------------------------------
@@ -214,94 +211,93 @@ void ActionFileHandlers::convertAll_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ActionFileHandlers::openFile(const QString &filename)
+void ActionFileHandlers::openFiles(const QStringList &filenames)
 {
-    bool isImage = false;
-    bool isFont = false;
-    bool isImageBinary = false;
-
-    QFileInfo info(filename);
-    if (info.exists())
+    // binary image
+    QStringList filesBinaryImage;
     {
-        if (info.suffix().toLower() == "xml")
+        QStringList imageExtensions;
+        imageExtensions << "bmp" << "gif" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "ppm" << "tiff" << "xbm" << "xpm";
+
+        foreach (const QString &filename, filenames)
         {
-            QFile file(filename);
-            if (file.open(QIODevice::ReadWrite))
+            QFileInfo info(filename);
+
+            if (info.exists() && imageExtensions.contains(info.suffix().toLower()))
             {
-                QTextStream stream(&file);
-                QRegExp regImage("<data.+type=\"image\"", Qt::CaseInsensitive);
-                QRegExp regFont("<data.+type=\"font\"", Qt::CaseInsensitive);
-                while (!stream.atEnd())
-                {
-                    QString readedLine = stream.readLine();
-                    if (readedLine.contains(regImage))
-                    {
-                        isImage = true;
-                        break;
-                    }
-                    if (readedLine.contains(regFont))
-                    {
-                        isFont = true;
-                        break;
-                    }
-                }
-                file.close();
-
-                emit this->rememberFilename(filename);
-            }
-        }
-        else
-        {
-            QStringList imageExtensions;
-            imageExtensions << "bmp" << "gif" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "ppm" << "tiff" << "xbm" << "xpm";
-            if (imageExtensions.contains(info.suffix().toLower()))
-                isImageBinary = true;
-        }
-        if (isImage)
-        {
-            EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
-            this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
-
-            emit this->tabCreated(ed);
-            ed->document()->load(filename);
-        }
-        if (isFont)
-        {
-            EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
-            this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
-
-            emit this->tabCreated(ed);
-            ed->document()->load(filename);
-        }
-        if (isImageBinary)
-        {
-            QImage imageLoaded;
-            if (imageLoaded.load(filename))
-            {
-                QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
-
-                EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
-                this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
-
-                QString name = this->mMainWindow->findAvailableName(info.baseName());
-
-                // assign image
-                {
-                    QStringList keys = ed->selectedKeys();
-
-                    QStringListIterator iterator(keys);
-                    while (iterator.hasNext())
-                    {
-                        QString key = iterator.next();
-                        ed->document()->dataContainer()->setImage(key, &imageConverted);
-                    }
-                }
-
-                emit this->tabCreated(ed);
-                ed->document()->setDocumentName(name);
+                filesBinaryImage << filename;
             }
         }
     }
+
+    // document image
+    QStringList filesDocumentImage;
+    {
+        foreach (const QString &filename, filenames)
+        {
+            QFileInfo info(filename);
+
+            if (info.exists() && info.suffix().toLower() == "xml")
+            {
+                QFile file(filename);
+                if (file.open(QIODevice::ReadWrite))
+                {
+                    QTextStream stream(&file);
+                    QRegExp regImage("<data.+type=\"image\"", Qt::CaseInsensitive);
+                    while (!stream.atEnd())
+                    {
+                        QString readedLine = stream.readLine();
+                        if (readedLine.contains(regImage))
+                        {
+                            filesDocumentImage << filename;
+                            break;
+                        }
+                    }
+                    file.close();
+                }
+            }
+        }
+    }
+
+    // document font
+    QStringList filesDocumentFont;
+    {
+        foreach (const QString &filename, filenames)
+        {
+            QFileInfo info(filename);
+
+            if (info.exists() && info.suffix().toLower() == "xml")
+            {
+                QFile file(filename);
+                if (file.open(QIODevice::ReadWrite))
+                {
+                    QTextStream stream(&file);
+                    QRegExp regFont("<data.+type=\"font\"", Qt::CaseInsensitive);
+                    while (!stream.atEnd())
+                    {
+                        QString readedLine = stream.readLine();
+                        if (readedLine.contains(regFont))
+                        {
+                            filesDocumentFont << filename;
+                            break;
+                        }
+                    }
+                    file.close();
+                }
+            }
+        }
+    }
+
+
+    this->openBinaryImage(filesBinaryImage);
+    this->openImage(filesDocumentImage);
+    this->openFont(filesDocumentFont);
+}
+//-----------------------------------------------------------------------------
+void ActionFileHandlers::openFile(const QString &filename)
+{
+    QStringList files = QStringList() << filename;
+    this->openFiles(files);
 }
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
@@ -326,6 +322,64 @@ void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
     ed->document()->setDocumentName(name);
 
     emit this->tabCreated(ed);
+}
+//-----------------------------------------------------------------------------
+void ActionFileHandlers::openBinaryImage(const QStringList &filenames)
+{
+    foreach (const QString &filename, filenames)
+    {
+        QFileInfo info(filename);
+
+        QImage imageLoaded;
+        if (info.exists() && imageLoaded.load(filename))
+        {
+            QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+
+            EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
+            this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
+
+            QString name = this->mMainWindow->findAvailableName(info.baseName());
+
+            // assign image
+            {
+                QStringList keys = ed->selectedKeys();
+
+                QStringListIterator iterator(keys);
+                while (iterator.hasNext())
+                {
+                    QString key = iterator.next();
+                    ed->document()->dataContainer()->setImage(key, &imageConverted);
+                }
+            }
+
+            emit this->tabCreated(ed);
+            ed->document()->setDocumentName(name);
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionFileHandlers::openImage(const QStringList &filenames)
+{
+    foreach (const QString &filename, filenames)
+    {
+        EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
+        this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
+
+        emit this->tabCreated(ed);
+        ed->document()->load(filename);
+    }
+}
+//-----------------------------------------------------------------------------
+void ActionFileHandlers::openFont(const QStringList &filenames)
+{
+    foreach (const QString &filename, filenames)
+    {
+        EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
+        this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
+
+        emit this->tabCreated(ed);
+        ed->document()->load(filename);
+    }
 }
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::convertDocument(IDocument *document, bool request)

@@ -323,29 +323,75 @@ void ActionImageHandlers::import_triggered()
     {
         QFileDialog dialog(this->mMainWindow->parentWidget());
         dialog.setAcceptMode(QFileDialog::AcceptOpen);
-        dialog.setFileMode(QFileDialog::ExistingFile);
+        dialog.setFileMode(QFileDialog::ExistingFiles);
         dialog.setNameFilter(tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
         dialog.setWindowTitle(tr("Open image file"));
 
         if (dialog.exec() == QDialog::Accepted)
         {
-            this->editor()->document()->beginChanges();
+            QStringList filenames = dialog.selectedFiles();
 
             QStringList keys = this->editor()->selectedKeys();
 
-            QStringListIterator iterator(keys);
-            while (iterator.hasNext())
+            if (filenames.length() == 1)
             {
-                QString key = iterator.next();
+                QStringListIterator iterator(keys);
 
-                QImage imageLoaded;
-                imageLoaded.load(dialog.selectedFiles().at(0));
-                QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+                this->editor()->document()->beginChanges();
 
-                this->editor()->document()->dataContainer()->setImage(key, &imageConverted);
+                while (iterator.hasNext())
+                {
+                    QString key = iterator.next();
+
+                    QImage imageLoaded;
+                    imageLoaded.load(filenames.at(0));
+                    QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+
+                    this->editor()->document()->dataContainer()->setImage(key, &imageConverted);
+                }
+
+                this->editor()->document()->endChanges(false);
             }
+            else if (filenames.length() > 1)
+            {
+                bool ok = true;
 
-            this->editor()->document()->endChanges(false);
+                if (filenames.length() != keys.length())
+                {
+                    QString msg = tr("Selected %1 file(s) and %2 character(s).\nWill be imported only a minimal amount: %3.").\
+                            arg(filenames.length()).\
+                            arg(keys.length()).\
+                            arg(qMin(filenames.length(), keys.length()));
+
+                    QMessageBox box(this->mMainWindow->parentWidget());
+                    box.setIcon(QMessageBox::Warning);
+                    box.setInformativeText(msg);
+                    box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+                    box.setText(tr("Selected a different number of files and characters."));
+                    box.setWindowTitle(tr("Warning"));
+
+                    if (box.exec() != QMessageBox::Ok)
+                    {
+                        ok = false;
+                    }
+                }
+
+                if (ok)
+                {
+                    this->editor()->document()->beginChanges();
+
+                    for (int i = 0; i < keys.length() && i < filenames.length(); i++)
+                    {
+                        QImage imageLoaded;
+                        imageLoaded.load(filenames.at(i));
+                        QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+
+                        this->editor()->document()->dataContainer()->setImage(keys.at(i), &imageConverted);
+                    }
+
+                    this->editor()->document()->endChanges(false);
+                }
+            }
         }
     }
 }
