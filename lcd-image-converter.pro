@@ -276,6 +276,7 @@ OTHER_FILES += \
     resources/lcd-image-converter-ru.ts \
     win-res.rc \
     README \
+    readme.md \
     resources/history.xml \
     resources/history.xsl \
     resources/history.css \
