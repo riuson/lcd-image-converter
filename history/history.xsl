@@ -43,13 +43,10 @@
 						<xsl:text>record-old</xsl:text>
 					</xsl:attribute>
 				</xsl:when>
-			</xsl:choose><p>
-				<xsl:apply-templates select="commit"/>
-			</p><p>
-				<xsl:apply-templates select="description"/>
-			</p><p>
-				<xsl:apply-templates select="downloads"/>
-			</p>
+			</xsl:choose>
+			<xsl:apply-templates select="commit"/>
+			<xsl:apply-templates select="description"/>
+			<xsl:apply-templates select="downloads"/>
 		</div>
 	</xsl:template>
 	

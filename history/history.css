@@ -7,10 +7,11 @@ div.record {
   background: whitesmoke;
   
   margin: 20px auto;
-  padding: 10px;
+  padding: 0px;
   text-align: left;
+  border: 1px solid silver;
   /* border-radius */
-  border-radius: 5px;
+  border-radius: 5px 5px 5px 5px;
 }
 
 div.commit
@@ -24,19 +25,15 @@ div.commit
   padding: 10px;
   
   /* border-radius */
-  border-radius: 5px;
+  border-radius: 5px 5px 0px 0px;
 }
 
 div.description
 {
   color: navy;
   white-space: pre;
-  border: 1px solid silver;
-  
-  padding: 10px;
 
-  /* border-radius */
-  border-radius: 5px;
+  padding: 10px;
 }
 
 div.downloads
@@ -46,7 +43,7 @@ div.downloads
   padding: 10px;
   
   /* border-radius */
-  border-radius: 5px;
+  border-radius: 0px 0px 5px 5px;
 }
 
 div.header
