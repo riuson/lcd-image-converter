@@ -43,7 +43,7 @@ DialogAbout::DialogAbout(QWidget *parent) :
     // show revision info
     {
         QString about = this->ui->labelInfo->text();
-        QString formattedAbout = QString(about).arg(RevisionInfo::hash(), RevisionInfo::date());
+        QString formattedAbout = QString(about).arg(RevisionInfo::hash(), RevisionInfo::hash_abbr(), RevisionInfo::date());
         this->ui->labelInfo->setText(formattedAbout);
     }
 
