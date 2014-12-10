@@ -113,7 +113,7 @@ void DialogUpdates::showUpdates()
     QNetworkAccessManager* mNetworkManager = new QNetworkAccessManager(this);
     this->connect(mNetworkManager, SIGNAL(finished(QNetworkReply*)), SLOT(networkReply(QNetworkReply*)));
 
-    QUrl url("http://wiki.lcd-image-converter.googlecode.com/git/history.xml");
+    QUrl url("http://lcd-image-converter.riuson.com/history/history.xml");
     QNetworkReply* reply = mNetworkManager->get(QNetworkRequest(url));
     Q_UNUSED(reply);
 }

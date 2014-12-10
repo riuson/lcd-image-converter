@@ -49,8 +49,8 @@ void ActionHelpHandlers::updates_triggered()
     dialog.exec();
 }
 //-----------------------------------------------------------------------------
-void ActionHelpHandlers::wiki_triggered()
+void ActionHelpHandlers::homepage_triggered()
 {
-     QDesktopServices::openUrl(QUrl("http://code.google.com/p/lcd-image-converter/w/list", QUrl::TolerantMode));
+     QDesktopServices::openUrl(QUrl("http://www.riuson.com/lcd-image-converter", QUrl::TolerantMode));
 }
 //-----------------------------------------------------------------------------

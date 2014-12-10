@@ -28,6 +28,16 @@
 //-----------------------------------------------------------------------------
 const QString &RevisionInfo::hash()
 {
+#ifdef GIT_REVISION
+    static const QString result = QString(GIT_REVISION);
+#else
+    static const QString result = QString("unknown");
+#endif
+    return result;
+}
+//-----------------------------------------------------------------------------
+const QString &RevisionInfo::hash_abbr()
+{
 #ifdef GIT_REVISION_ABBR
     static const QString result = QString(GIT_REVISION_ABBR);
 #else

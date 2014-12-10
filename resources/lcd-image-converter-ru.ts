@@ -336,20 +336,20 @@ Tool to create image and font source files for embedded applications.&lt;br/&gt;
 &lt;br/&gt;
 Author: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
-Project&apos;s home page: &lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
+Project&apos;s home page: &lt;a href=&quot;http://www.riuson.com/lcd-image-converter&quot;&gt;http://www.riuson.com/lcd-image-converter&lt;/a&gt;
 &lt;hr/&gt;
-Revision &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%1&quot;&gt;%1&lt;/a&gt; from &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
-Qt %3</source>
+Revision &lt;a href=&quot;https://github.com/riuson/lcd-image-converter/commit/%1&quot;&gt;%2&lt;/a&gt; from &lt;i&gt;%3&lt;/i&gt;&lt;br/&gt;
+Qt %4</source>
         <translation>LCD Image Converter&lt;br/&gt;
 Утилита для создания изображений и шрифтов &lt;br/&gt;в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
 &lt;br/&gt;
 Автор: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
 Страница проекта:
-&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
+&lt;a href=&quot;http://www.riuson.com/lcd-image-converter&quot;&gt;http://www.riuson.com/lcd-image-converter&lt;/a&gt;
 &lt;hr/&gt;
-Ревизия &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%1&quot;&gt;%1&lt;/a&gt; от &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
-Qt: %3</translation>
+Ревизия &lt;a href=&quot;https://github.com/riuson/lcd-image-converter/commit/%1&quot;&gt;%2&lt;/a&gt; от &lt;i&gt;%3&lt;/i&gt;&lt;br/&gt;
+Qt: %4</translation>
     </message>
 </context>
 <context>
@@ -869,6 +869,11 @@ Qt: %3</translation>
         <translation>О программе...</translation>
     </message>
     <message>
+        <location filename="../controls/main/mainwindow.ui" line="322"/>
+        <source>Home Page...</source>
+        <translation>Домашняя страница...</translation>
+    </message>
+    <message>
         <location filename="../controls/main/mainwindow.ui" line="327"/>
         <source>To Image</source>
         <translation>В изображение</translation>
@@ -959,11 +964,6 @@ Qt: %3</translation>
         <location filename="../controls/main/mainwindow.ui" line="317"/>
         <source>Preview...</source>
         <translation>Предпросмотр...</translation>
-    </message>
-    <message>
-        <location filename="../controls/main/mainwindow.ui" line="322"/>
-        <source>Wiki...</source>
-        <translation>Вики...</translation>
     </message>
     <message>
         <location filename="../controls/main/mainwindow.ui" line="271"/>
@@ -1505,8 +1505,8 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/start/starttab.ui" line="111"/>
-        <source>&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;Project&apos;s home page&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;Страница проекта&lt;/a&gt;</translation>
+        <source>&lt;a href=&quot;http://www.riuson.com/lcd-image-converter&quot;&gt;Project&apos;s home page&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;http://www.riuson.com/lcd-image-converter&quot;&gt;Страница проекта&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
