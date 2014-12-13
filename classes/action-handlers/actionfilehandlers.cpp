@@ -366,6 +366,7 @@ void ActionFileHandlers::openImage(const QStringList &filenames)
 
         emit this->tabCreated(ed);
         ed->document()->load(filename);
+        emit this->rememberFilename(filename);
     }
 }
 //-----------------------------------------------------------------------------
@@ -378,6 +379,7 @@ void ActionFileHandlers::openFont(const QStringList &filenames)
 
         emit this->tabCreated(ed);
         ed->document()->load(filename);
+        emit this->rememberFilename(filename);
     }
 }
 //-----------------------------------------------------------------------------
