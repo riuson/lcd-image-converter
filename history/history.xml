@@ -3,6 +3,33 @@
 <data type="history" title="Changes history">
     <record>
         <commit>
+            <sha1>ff449e0c73a0ed4c77e835441f7593daca6e3da1</sha1>
+            <date>2014-12-14 12:47:27 +0500</date>
+        </commit>
+        <description>Fixed:
+ Shadow Build support (partially);
+ Default document and file name for new documents;
+ Save Changes dialog;
+ 'AntiAliasing' option in saved font document;
+ Encodings list sorted in New Font -> Append Range.
+
+Added:
+ Command line mode for image conversion;
+ Command line mode for font conversion;
+ Command line mode for hexadecimal to binary file conversion;
+ Import multimple images to font;
+ Menu option to convert color image to grayscale;
+ Option for RLE minimal length of equal blocks;
+ Scaling in settings preview.</description>
+        <downloads>
+            <item>
+                <name>Application for Windows (21.4 MB) on SourceForge</name>
+                <url>http://sourceforge.net/projects/lcd-image-converter/files/lcd-image-converter-20141214.zip/download</url>
+            </item>
+        </downloads>
+    </record>
+    <record>
+        <commit>
             <sha1>6998b5ed23fbb240a14987e38d4563e8d4c8221e</sha1>
             <date>2014-02-25 19:39:05 +0600</date>
         </commit>
