@@ -18,7 +18,8 @@ Added:
  Command line mode for hexadecimal to binary file conversion;
  Import multimple images to font;
  Menu option to convert color image to grayscale;
- Option for RLE minimal length of equal blocks.</description>
+ Option for RLE minimal length of equal blocks;
+ Scaling in settings preview.</description>
     </record>
     <record>
         <commit>
