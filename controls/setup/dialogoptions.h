@@ -28,7 +28,6 @@ class DialogOptions;
 //-----------------------------------------------------------------------------
 class Preset;
 class DataContainer;
-class Parser;
 class DialogPreview;
 class SetupTabPrepare;
 class SetupTabMatrix;

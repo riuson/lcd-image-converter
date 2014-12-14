@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<TS version="2.1" language="ru_RU">
 <context>
     <name>ActionEditHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="77"/>
+        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="78"/>
         <source>More than 1 image(s) selected. But only one will be copied - &quot;%1&quot;.</source>
         <comment>Warning about image copy</comment>
         <translatorcomment>Предупреждение о копировании изображения</translatorcomment>
         <translation>Выбрано более одного изображения. Но скопировано будет только - &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="81"/>
+        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="82"/>
         <source>Copy - Attention</source>
         <translation>Копирование - Предупреждение</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="114"/>
+        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="115"/>
         <source>More than 1 image(s) selected. All of them will be overwritten.</source>
         <comment>Warning about image paste</comment>
         <translatorcomment>Предупреждение о вставке изображения</translatorcomment>
         <translation>Выбрано более одного изображения. Все они будут заменены.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="118"/>
+        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="119"/>
         <source>Paste - Attention</source>
         <translation>Вставка - Предупреждение</translation>
     </message>
@@ -31,42 +31,42 @@
 <context>
     <name>ActionFileHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="44"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="45"/>
         <source>Enter image name</source>
         <translation>Введите имя изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="45"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="46"/>
         <source>Image name:</source>
         <translation>Имя изображения:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="65"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="66"/>
         <source>Enter font name</source>
         <translation>Введите имя шрифта</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="66"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="67"/>
         <source>Font name:</source>
         <translation>Имя шрифта:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="104"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="110"/>
         <source>XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Файлы XML (*.xml);;Файлы изображений (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="105"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="111"/>
         <source>Open xml or image file</source>
         <translation>Открыть xml документ или изображение</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="125"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="128"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="126"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="129"/>
         <source>New name:</source>
         <translation>Новое имя:</translation>
     </message>
@@ -80,78 +80,246 @@
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
+    <message>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="399"/>
+        <source>C Files (*.c);;All Files (*.*)</source>
+        <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="401"/>
+        <source>Save result file as</source>
+        <translation>Сохранить результат как</translation>
+    </message>
 </context>
 <context>
     <name>ActionImageHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="303"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="327"/>
         <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="304"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="328"/>
         <source>Open image file</source>
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="344"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="361"/>
+        <source>Selected %1 file(s) and %2 character(s).
+Will be imported only a minimal amount: %3.</source>
+        <translation>Выбрано %1 файл(ов) и %2 символ(ов).
+Будет импортировано только минимальное количество: %3.</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="370"/>
+        <source>Selected a different number of files and characters.</source>
+        <translation>Выбрано разное количество файлов и символов.</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="371"/>
+        <source>Warning</source>
+        <translation>Внимание</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="414"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="542"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="612"/>
         <source>Failed to Start</source>
         <translation>Не удалось запустить</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="543"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="613"/>
         <source>The process failed to start. Either the invoked program is missing, or you may have insufficient permissions to invoke the program.</source>
         <translation>Не удалось запустить процесс. Возможно вызываемая программа отсутствует, или у вас недостаточно привелегий для вызова программы.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="546"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="616"/>
         <source>Crashed</source>
         <translation>Сбой</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="547"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="617"/>
         <source>The process crashed some time after starting successfully.</source>
         <translation>Произошёл сбой процесса после успешно произведённого запуска.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="554"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="624"/>
         <source>Read Error</source>
         <translation>Ошибка чтения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="555"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="625"/>
         <source>An error occurred when attempting to read from the process. For example, the process may not be running.</source>
         <translation>Возникла ошибка при попытке чтения из процесса. К примеру, процесс может быть не запущен.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="558"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="628"/>
         <source>Write Error</source>
         <translation>Ошибка записи</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="559"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="629"/>
         <source>An error occurred when attempting to write to the process. For example, the process may not be running, or it may have closed its input channel.</source>
         <translation>Возникла ошибка при попытке записи в процесс. К примеру, процесс может быть не запущен, или иметь закрытый входной канал.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="563"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="633"/>
         <source>Unknown Error</source>
         <translation>Неизвестная ошибка</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="564"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="634"/>
         <source>An unknown error occurred.</source>
         <translation>Возникла неизвестная ошибка.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="571"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="641"/>
         <source>Error running external tool</source>
         <translation>Ошибка при запуске внешней утилиты</translation>
+    </message>
+</context>
+<context>
+    <name>CmdLineParser</name>
+    <message>
+        <location filename="../classes/cmdline/cmdline.cpp" line="55"/>
+        <source>Conversion mode for application, &quot;convert-image&quot;, &quot;convert-font&quot; or &quot;hex2bin&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/cmdline.cpp" line="56"/>
+        <source>mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="52"/>
+        <source>Full &lt;path&gt; to source image in binary format.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="104"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="110"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="53"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="59"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="65"/>
+        <location filename="../classes/cmdline/modehex2bin.cpp" line="49"/>
+        <location filename="../classes/cmdline/modehex2bin.cpp" line="55"/>
+        <source>path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="103"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="58"/>
+        <source>Full &lt;path&gt; to output result.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="53"/>
+        <source>&lt;Family&gt; of new font.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="54"/>
+        <source>family</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="59"/>
+        <source>Font &lt;size&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="60"/>
+        <source>size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="65"/>
+        <source>Make monospaced font.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="70"/>
+        <source>Font &lt;style&gt;, Regular, Bold, Italic or Bold Italic.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="75"/>
+        <source>Use antialiasing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="80"/>
+        <source>Characters, what included to the font.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="81"/>
+        <source>characters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="86"/>
+        <source>Characters range, for example &quot;32-255&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="87"/>
+        <source>range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="92"/>
+        <source>Characters encoding, for example &quot;UTF-8&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="93"/>
+        <source>encoding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="98"/>
+        <source>Use big-endian instead of little-endian.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="109"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="64"/>
+        <source>Full &lt;path&gt; to template file, used in conversion. [Optional]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="115"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="70"/>
+        <source>Document name.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="116"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="122"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="71"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="77"/>
+        <source>name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="121"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="76"/>
+        <source>Output preset &lt;name&gt; from predefined presets in application settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modehex2bin.cpp" line="48"/>
+        <source>Full &lt;path&gt; to image in *.C format.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modehex2bin.cpp" line="54"/>
+        <source>Full &lt;path&gt; to output binary result.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -168,20 +336,20 @@ Tool to create image and font source files for embedded applications.&lt;br/&gt;
 &lt;br/&gt;
 Author: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
-Project&apos;s home page: &lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
+Project&apos;s home page: &lt;a href=&quot;http://www.riuson.com/lcd-image-converter&quot;&gt;http://www.riuson.com/lcd-image-converter&lt;/a&gt;
 &lt;hr/&gt;
-Revision &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%1&quot;&gt;%1&lt;/a&gt; from &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
-Qt %3</source>
-        <translation type="unfinished">LCD Image Converter&lt;br/&gt;
+Revision &lt;a href=&quot;https://github.com/riuson/lcd-image-converter/commit/%1&quot;&gt;%2&lt;/a&gt; from &lt;i&gt;%3&lt;/i&gt;&lt;br/&gt;
+Qt %4</source>
+        <translation>LCD Image Converter&lt;br/&gt;
 Утилита для создания изображений и шрифтов &lt;br/&gt;в формате исходников &quot;C&quot; для встраиваемых приложений.&lt;br/&gt;
 &lt;br/&gt;
 Автор: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
 Страница проекта:
-&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
+&lt;a href=&quot;http://www.riuson.com/lcd-image-converter&quot;&gt;http://www.riuson.com/lcd-image-converter&lt;/a&gt;
 &lt;hr/&gt;
-Ревизия &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%1&quot;&gt;%1&lt;/a&gt; от &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
-Qt: %3</translation>
+Ревизия &lt;a href=&quot;https://github.com/riuson/lcd-image-converter/commit/%1&quot;&gt;%2&lt;/a&gt; от &lt;i&gt;%3&lt;/i&gt;&lt;br/&gt;
+Qt: %4</translation>
     </message>
 </context>
 <context>
@@ -329,6 +497,7 @@ Qt: %3</translation>
     <message>
         <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="35"/>
         <source>Style:</source>
+        <translatorcomment>Стиль шрифта</translatorcomment>
         <translation>Стиль:</translation>
     </message>
     <message>
@@ -416,36 +585,41 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/setup/dialogoptions.cpp" line="157"/>
+        <source>Grayscale 4</source>
+        <translation>Градации серого 4</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogoptions.cpp" line="160"/>
         <source>Grayscale 8</source>
         <translation>Градации серого 8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="160"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="163"/>
         <source>Color R4G5B4</source>
         <translation>Цветное R4G5B4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="163"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="166"/>
         <source>Color R5G6B5</source>
         <translation>Цветное R5G6B5</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="166"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="169"/>
         <source>Color R8G8B8</source>
         <translation>Цветное R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="202"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="205"/>
         <source>Enter preset name</source>
         <translation>Введите название предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="202"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="205"/>
         <source>Preset name:</source>
         <translation>Название предустановки:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="241"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="244"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
     </message>
@@ -458,57 +632,32 @@ Qt: %3</translation>
         <translation>Предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogpreview.ui" line="22"/>
+        <location filename="../controls/setup/dialogpreview.ui" line="28"/>
         <source>Preview image:</source>
         <translation>Изображение для предпросмотра:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/dialogpreview.ui" line="68"/>
+        <source>Scale:</source>
+        <translation>Масштаб:</translation>
     </message>
 </context>
 <context>
     <name>DialogSaveChanges</name>
     <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="17"/>
+        <location filename="../controls/save-changes/dialogsavechanges.cpp" line="29"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
     </message>
     <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="23"/>
-        <source>Save</source>
-        <translation>Сохранить</translation>
+        <location filename="../controls/save-changes/dialogsavechanges.cpp" line="30"/>
+        <source>Document &apos;%1&apos; have unsaved changes.</source>
+        <translation>Документ &apos;%1&apos; имеет несохранённые изменения.</translation>
     </message>
     <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="26"/>
-        <source>Save changes to file</source>
-        <translation>Сохранить изменения в файл</translation>
-    </message>
-    <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="33"/>
-        <source>Save As...</source>
-        <translation>Сохранить как...</translation>
-    </message>
-    <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="36"/>
-        <source>Save to another file</source>
-        <translation>Сохранить в другой файл</translation>
-    </message>
-    <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="43"/>
-        <source>Don&apos;t save</source>
-        <translation>Не сохранять</translation>
-    </message>
-    <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="46"/>
-        <source>Close file and lost changes</source>
-        <translation>Забыть про изменения и закрыть файл</translation>
-    </message>
-    <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="53"/>
-        <source>Cancel</source>
-        <translation>Отменить</translation>
-    </message>
-    <message>
-        <location filename="../controls/save-changes/dialogsavechanges.ui" line="56"/>
-        <source>Cancel closing</source>
-        <translation>Продолжить редактирование</translation>
+        <location filename="../controls/save-changes/dialogsavechanges.cpp" line="31"/>
+        <source>Closing document without saving can cause loss of changes.</source>
+        <translation>Закрытие документа без сохранения может привести к потере произведённых изменений.</translation>
     </message>
 </context>
 <context>
@@ -517,6 +666,16 @@ Qt: %3</translation>
         <location filename="../controls/updates/dialogupdates.ui" line="14"/>
         <source>Updates</source>
         <translation>Обновления</translation>
+    </message>
+    <message>
+        <location filename="../controls/updates/dialogupdates.cpp" line="274"/>
+        <source>Check updates failed with HTTP code: %1</source>
+        <translation>Проверка обновлений не удалась, код HTTP: %1</translation>
+    </message>
+    <message>
+        <location filename="../controls/updates/dialogupdates.cpp" line="282"/>
+        <source>Check updates failed with QNetworkReply message:&lt;br/&gt;%1</source>
+        <translation>Проверка обновлений не удалась, сообщение QNetworkReply:&lt;br/&gt;%1</translation>
     </message>
 </context>
 <context>
@@ -535,32 +694,6 @@ Qt: %3</translation>
         <source>Form</source>
         <translatorcomment>не ипользуется</translatorcomment>
         <translation></translation>
-    </message>
-</context>
-<context>
-    <name>FontDocument</name>
-    <message>
-        <location filename="../classes/data/fontdocument.cpp" line="345"/>
-        <source>C Files (*.c);;All Files (*.*)</source>
-        <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
-    </message>
-    <message>
-        <location filename="../classes/data/fontdocument.cpp" line="347"/>
-        <source>Save result file as</source>
-        <translation>Сохранить результат как</translation>
-    </message>
-</context>
-<context>
-    <name>ImageDocument</name>
-    <message>
-        <location filename="../classes/data/imagedocument.cpp" line="222"/>
-        <source>C Files (*.c);;All Files (*.*)</source>
-        <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
-    </message>
-    <message>
-        <location filename="../classes/data/imagedocument.cpp" line="224"/>
-        <source>Save result file as</source>
-        <translation>Сохранить результат как</translation>
     </message>
 </context>
 <context>
@@ -613,243 +746,249 @@ Qt: %3</translation>
         <translation>Сдвиг</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="100"/>
+        <location filename="../controls/main/mainwindow.ui" line="101"/>
         <source>Font</source>
         <translation>Шрифт</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="112"/>
+        <location filename="../controls/main/mainwindow.ui" line="113"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="121"/>
+        <location filename="../controls/main/mainwindow.ui" line="122"/>
         <source>Options</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="125"/>
+        <location filename="../controls/main/mainwindow.ui" line="126"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="135"/>
+        <location filename="../controls/main/mainwindow.ui" line="136"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="153"/>
+        <location filename="../controls/main/mainwindow.ui" line="154"/>
         <source>New Image...</source>
         <translation>Новое изображение...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="158"/>
+        <location filename="../controls/main/mainwindow.ui" line="159"/>
         <source>New Font...</source>
         <translation>Новый шрифт...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="163"/>
+        <location filename="../controls/main/mainwindow.ui" line="164"/>
         <source>Open...</source>
         <translation>Открыть...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="171"/>
+        <location filename="../controls/main/mainwindow.ui" line="172"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="179"/>
+        <location filename="../controls/main/mainwindow.ui" line="180"/>
         <source>Save As...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="187"/>
+        <location filename="../controls/main/mainwindow.ui" line="188"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="195"/>
+        <location filename="../controls/main/mainwindow.ui" line="196"/>
         <source>Quit</source>
         <translation>Выйти</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="203"/>
+        <location filename="../controls/main/mainwindow.ui" line="204"/>
         <source>Flip Horizontal</source>
         <translation>Отразить по горизонтали</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="208"/>
+        <location filename="../controls/main/mainwindow.ui" line="209"/>
         <source>Flip Vertical</source>
         <translation>Отразить по вертикали</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="213"/>
+        <location filename="../controls/main/mainwindow.ui" line="214"/>
         <source>90 Clockwise</source>
         <translation>90 по часовой</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="221"/>
+        <location filename="../controls/main/mainwindow.ui" line="222"/>
         <source>180</source>
         <translation>180</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="226"/>
+        <location filename="../controls/main/mainwindow.ui" line="227"/>
         <source>90 Counter-Clockwise</source>
         <translation>90 против часовой</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="234"/>
-        <location filename="../controls/main/mainwindow.ui" line="280"/>
+        <location filename="../controls/main/mainwindow.ui" line="235"/>
+        <location filename="../controls/main/mainwindow.ui" line="281"/>
         <source>Inverse</source>
         <translation>Инвертировать</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="242"/>
+        <location filename="../controls/main/mainwindow.ui" line="243"/>
         <source>Convert...</source>
         <translation>Преобразовать...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="250"/>
-        <location filename="../controls/main/mainwindow.ui" line="293"/>
+        <location filename="../controls/main/mainwindow.ui" line="251"/>
+        <location filename="../controls/main/mainwindow.ui" line="294"/>
         <source>Conversion...</source>
         <translation>Преобразование...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="255"/>
+        <location filename="../controls/main/mainwindow.ui" line="256"/>
         <source>Import...</source>
         <translation>Импортировать...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="260"/>
+        <location filename="../controls/main/mainwindow.ui" line="261"/>
         <source>Export...</source>
         <translation>Экспортировать...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="265"/>
-        <location filename="../controls/main/mainwindow.ui" line="275"/>
+        <location filename="../controls/main/mainwindow.ui" line="266"/>
+        <location filename="../controls/main/mainwindow.ui" line="276"/>
         <source>Resize...</source>
         <translation>Изменение размеров...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="285"/>
+        <location filename="../controls/main/mainwindow.ui" line="286"/>
         <source>About...</source>
         <translation>О программе...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="326"/>
+        <location filename="../controls/main/mainwindow.ui" line="322"/>
+        <source>Home Page...</source>
+        <translation>Домашняя страница...</translation>
+    </message>
+    <message>
+        <location filename="../controls/main/mainwindow.ui" line="327"/>
         <source>To Image</source>
         <translation>В изображение</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="331"/>
+        <location filename="../controls/main/mainwindow.ui" line="332"/>
         <source>Convert All</source>
         <translation>Преобразовать все</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="336"/>
+        <location filename="../controls/main/mainwindow.ui" line="337"/>
         <source>Edit in external tool...</source>
         <translation>Открыть во внешнем редакторе...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="347"/>
+        <location filename="../controls/main/mainwindow.ui" line="348"/>
         <source>External editor...</source>
         <translation>Внешний редактор...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="352"/>
+        <location filename="../controls/main/mainwindow.ui" line="353"/>
         <source>Left</source>
         <translation>Влево</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="360"/>
+        <location filename="../controls/main/mainwindow.ui" line="361"/>
         <source>Right</source>
         <translation>Вправо</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="368"/>
+        <location filename="../controls/main/mainwindow.ui" line="369"/>
         <source>Up</source>
         <translation>Вверх</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="376"/>
+        <location filename="../controls/main/mainwindow.ui" line="377"/>
         <source>Down</source>
         <translation>Вниз</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="384"/>
+        <location filename="../controls/main/mainwindow.ui" line="385"/>
         <source>Undo</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="392"/>
+        <location filename="../controls/main/mainwindow.ui" line="393"/>
         <source>Redo</source>
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="400"/>
+        <location filename="../controls/main/mainwindow.ui" line="401"/>
         <source>Updates...</source>
         <translation>Обновления...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="405"/>
+        <location filename="../controls/main/mainwindow.ui" line="406"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="413"/>
+        <location filename="../controls/main/mainwindow.ui" line="414"/>
         <source>Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="421"/>
+        <location filename="../controls/main/mainwindow.ui" line="422"/>
         <source>About Qt...</source>
         <translation>О Qt...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="306"/>
+        <location filename="../controls/main/mainwindow.ui" line="427"/>
+        <source>To Grayscale</source>
+        <translatorcomment>Преобразовать изображение из цветного в градации серого</translatorcomment>
+        <translation>В градации серого</translation>
+    </message>
+    <message>
+        <location filename="../controls/main/mainwindow.ui" line="307"/>
         <source>Rename...</source>
         <translation>Переименовать...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="311"/>
+        <location filename="../controls/main/mainwindow.ui" line="312"/>
         <source>Optimize height...</source>
         <translatorcomment>Определение наименьшей высоты знакоместа</translatorcomment>
         <translation>Подобрать высоту...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="316"/>
+        <location filename="../controls/main/mainwindow.ui" line="317"/>
         <source>Preview...</source>
         <translation>Предпросмотр...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="321"/>
-        <source>Wiki...</source>
-        <translation>Вики...</translation>
-    </message>
-    <message>
-        <location filename="../controls/main/mainwindow.ui" line="270"/>
+        <location filename="../controls/main/mainwindow.ui" line="271"/>
         <source>Change...</source>
         <translation>Изменить...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="301"/>
+        <location filename="../controls/main/mainwindow.ui" line="302"/>
         <source>English</source>
         <translatorcomment>не переводить</translatorcomment>
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="82"/>
+        <location filename="../controls/main/mainwindow.cpp" line="84"/>
         <source>langName</source>
         <translatorcomment>название языка в который переводим</translatorcomment>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="294"/>
+        <location filename="../controls/main/mainwindow.cpp" line="300"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="295"/>
+        <location filename="../controls/main/mainwindow.cpp" line="302"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -973,22 +1112,34 @@ Qt: %3</translation>
         <translation>Сжатие RLE</translation>
     </message>
     <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="84"/>
+        <source> block(s)</source>
+        <translatorcomment>с 1 блока, 3 блоков</translatorcomment>
+        <translation> блока(ов)</translation>
+    </message>
+    <message>
         <location filename="../controls/setup/parts/image/setuptabimage.ui" line="87"/>
+        <source>from </source>
+        <translatorcomment>с 1 блока</translatorcomment>
+        <translation>с </translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="103"/>
         <source>Byte order:</source>
         <translation>Порядок байт:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="149"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="165"/>
         <source>Prefix:</source>
         <translation>Префикс:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="165"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="181"/>
         <source>Suffix:</source>
         <translation>Суффикс:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="181"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="197"/>
         <source>Delimiter:</source>
         <translation>Разделитель:</translation>
     </message>
@@ -1031,67 +1182,67 @@ Qt: %3</translation>
         <translation>Тип:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="42"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="43"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="43"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="44"/>
         <source>Grayscale</source>
         <translation>Градации серого</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="44"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="45"/>
         <source>Color</source>
         <translation>Цветное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="122"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="123"/>
         <source>Source</source>
         <translation>Исходник</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="124"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="125"/>
         <source>Add &quot;Left Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг влево&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="125"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="126"/>
         <source>Add &quot;Right Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг вправо&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="145"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="146"/>
         <source>Operation</source>
         <translation>Операция</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="155"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="156"/>
         <source>Shift left</source>
         <translation>Сдвиг влево</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="156"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="157"/>
         <source>Shift right</source>
         <translation>Сдвиг вправо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="157"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="158"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="182"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="183"/>
         <source>Mask</source>
         <translation>Маска</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="203"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="204"/>
         <source>Set 1</source>
         <translation>Установить в 1</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="206"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="207"/>
         <source>Set 0</source>
         <translation>Сбросить в 0</translation>
     </message>
@@ -1354,8 +1505,8 @@ Qt: %3</translation>
     </message>
     <message>
         <location filename="../controls/start/starttab.ui" line="111"/>
-        <source>&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;Project&apos;s home page&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;Страница проекта&lt;/a&gt;</translation>
+        <source>&lt;a href=&quot;http://www.riuson.com/lcd-image-converter&quot;&gt;Project&apos;s home page&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;http://www.riuson.com/lcd-image-converter&quot;&gt;Страница проекта&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

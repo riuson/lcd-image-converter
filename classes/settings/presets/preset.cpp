@@ -98,7 +98,7 @@ QStringList Preset::presetsList()
     return names;
 }
 //-----------------------------------------------------------------------------
-QString Preset::currentName()
+QString Preset::selectedName()
 {
     QSettings sett;
     sett.beginGroup("presets");
@@ -108,7 +108,7 @@ QString Preset::currentName()
     return result;
 }
 //-----------------------------------------------------------------------------
-void Preset::setCurrentName(const QString &value)
+void Preset::setSelectedName(const QString &value)
 {
     QSettings sett;
     sett.beginGroup("presets");
@@ -127,20 +127,25 @@ void Preset::remove(const QString &value)
     sett.endGroup();
 }
 //-----------------------------------------------------------------------------
-bool Preset::load(const QString &name)
+QString Preset::name() const
+{
+    return this->mName;
+}
+//-----------------------------------------------------------------------------
+bool Preset::load(const QString &presetName)
 {
     bool result = false;
 
-    if (!name.isEmpty())
+    if (!presetName.isEmpty())
     {
         this->mBlockChangesSignal = true;
 
         QSettings sett;
         sett.beginGroup("presets");
 
-        if (sett.childGroups().contains(name))
+        if (sett.childGroups().contains(presetName))
         {
-            sett.beginGroup(name);
+            sett.beginGroup(presetName);
 
             // get version of settings
             int version;
@@ -159,6 +164,8 @@ bool Preset::load(const QString &name)
             result &= this->mTemplates->load(&sett, version);
 
             sett.endGroup();
+
+            this->mName = presetName;
         }
         sett.endGroup();
 
@@ -204,6 +211,11 @@ void Preset::initMono(MonochromeType type, int edge)
     this->mMatrix->setMaskFill(0x000000ff);
     this->mImage->setBlockSize(Data8);
 
+    // alpha bits
+    {
+        this->mMatrix->operationAdd(0xff000000, 0, false);
+    }
+
     // bits shift
     {
         this->mMatrix->operationAdd(0x00000001, 0, false);
@@ -236,6 +248,11 @@ void Preset::initGrayscale(int bits)
     this->mMatrix->setMaskAnd(0xffffffff);
     this->mMatrix->setMaskOr(0x00000000);
     this->mMatrix->setMaskFill(0x0000ffff);
+
+    // alpha bits
+    {
+        this->mMatrix->operationAdd(0xff000000, 0, false);
+    }
 
     // bits shift
     {
@@ -281,6 +298,11 @@ void Preset::initColor(int redBits, int greenBits, int blueBits)
     this->mMatrix->setMaskAnd(0xffffffff);
     this->mMatrix->setMaskOr(0x00000000);
     this->mMatrix->setMaskFill(0xffffffff);
+
+    // alpha bits
+    {
+        this->mMatrix->operationAdd(0xff000000, 0, false);
+    }
 
     // red bits shift
     {

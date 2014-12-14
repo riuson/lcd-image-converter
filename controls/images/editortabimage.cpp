@@ -134,15 +134,9 @@ void EditorTabImage::mon_documentChanged()
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_imageChanged()
 {
-    this->mDocument->beginChanges();
-
     QStringList keys = this->mDocument->dataContainer()->keys();
     const QImage *image = this->mEditor->image();
     this->mDocument->dataContainer()->setImage(keys.at(0), image);
-
-    this->mDocument->endChanges();
-
-    emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::mon_editor_mouseMove(QPoint point)

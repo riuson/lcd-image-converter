@@ -39,11 +39,15 @@ HistoryKeeper::~HistoryKeeper()
 //-----------------------------------------------------------------------------
 void HistoryKeeper::init(const QStringList *keys, const QMap<QString, QImage *> *images, const QMap<QString, QVariant> *info)
 {
-    this->mCurrentIndex = 0;
-    this->removeAfter(this->mCurrentIndex);
+    // clear all
+    this->removeAfter(-1);
 
+    // initialize by current state
     HistoryRecord *record = new HistoryRecord(keys, images, info, this);
     this->mHistory->append(record);
+
+    // first recorded state
+    this->mCurrentIndex = 0;
 }
 //-----------------------------------------------------------------------------
 void HistoryKeeper::store(
@@ -117,6 +121,11 @@ bool HistoryKeeper::canRestoreNext() const
 //-----------------------------------------------------------------------------
 void HistoryKeeper::removeAfter(int index)
 {
+    if (index < -1)
+    {
+        index = -1;
+    }
+
     for (int i = this->mHistory->length() - 1; i > index; i--)
     {
         HistoryRecord *record = this->mHistory->at(i);

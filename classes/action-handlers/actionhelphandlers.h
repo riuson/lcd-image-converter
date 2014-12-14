@@ -38,7 +38,7 @@ public slots:
     void about_application_triggered();
     void about_qt_triggered();
     void updates_triggered();
-    void wiki_triggered();
+    void homepage_triggered();
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONHELPHANDLERS_H

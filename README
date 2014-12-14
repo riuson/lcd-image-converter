@@ -3,7 +3,7 @@ Tool to create bitmaps and fonts for embedded applications, v.2
 This program allows you to create bitmaps and fonts, and transform them to "C"
 source format for embedded applications.
 
-Home page: http://code.google.com/p/lcd-image-converter/
+Home page: http://www.riuson.com/lcd-image-converter
 Mailto:    riuson@gmail.com
 
 ================================================================================
@@ -27,5 +27,11 @@ chmod +x build.sh
 ./build.sh
 # run
 ./_linux/release/lcd-image-converter
+
+================================================================================
+
+Additional packages on Ubuntu 14.04, Qt5:
+libqt5xmlpatterns5 libqt5xmlpatterns5-dev libqt5xmlpatterns5-private-dev
+qtscript5-dev qttools5-dev-tools
 
 ================================================================================

@@ -17,21 +17,47 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifdef USED_QT5
-#include <QtWidgets/QApplication>
+#include "qt-version-check.h"
+
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
+    #include <QtWidgets/QApplication>
 #else
-#include <QtGui/QApplication>
+    #include <QtGui/QApplication>
 #endif
 
 #include "mainwindow.h"
+#include "revisioninfo.h"
+
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
+    #include "cmdline.h"
+#endif
 //-----------------------------------------------------------------------------
-int main(int argc, char *argv[])
+void setupApplication(QApplication *app)
 {
     QCoreApplication::setApplicationName("lcd-image-converter");
     QCoreApplication::setOrganizationName("riuson");
+
+    QString version = QString("rev.%1 from %2").arg(RevisionInfo::hash(), RevisionInfo::date());
+    QCoreApplication::setApplicationVersion(version);
+
+    app->addLibraryPath(QApplication::applicationDirPath());
+    app->addLibraryPath(QApplication::applicationDirPath() + "/plugins");
+}
+//-----------------------------------------------------------------------------
+int main(int argc, char *argv[])
+{
     QApplication a(argc, argv);
-    a.addLibraryPath(QApplication::applicationDirPath());
-    a.addLibraryPath(QApplication::applicationDirPath() + "/plugins");
+    setupApplication(&a);
+
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
+    CommandLine::CmdLine cmd(a.arguments());
+    if (cmd.needProcess()) // if console mode
+    {
+        return cmd.process();
+    }
+#endif
+
+    // gui mode
     MainWindow w;
     w.show();
     return a.exec();

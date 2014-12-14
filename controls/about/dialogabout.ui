@@ -43,10 +43,10 @@ Tool to create image and font source files for embedded applications.&lt;br/&gt;
 &lt;br/&gt;
 Author: 
 &lt;a href=&quot;mailto:riuson@gmail.com?subject=lcd-image-converter&amp;&quot;&gt;riuson@gmail.com&lt;/a&gt;&lt;br/&gt;
-Project's home page: &lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;http://code.google.com/p/lcd-image-converter&lt;/a&gt;
+Project's home page: &lt;a href=&quot;http://www.riuson.com/lcd-image-converter&quot;&gt;http://www.riuson.com/lcd-image-converter&lt;/a&gt;
 &lt;hr/&gt;
-Revision &lt;a href=&quot;http://code.google.com/p/lcd-image-converter/source/detail?r=%1&quot;&gt;%1&lt;/a&gt; from &lt;i&gt;%2&lt;/i&gt;&lt;br/&gt;
-Qt %3</string>
+Revision &lt;a href=&quot;https://github.com/riuson/lcd-image-converter/commit/%1&quot;&gt;%2&lt;/a&gt; from &lt;i&gt;%3&lt;/i&gt;&lt;br/&gt;
+Qt %4</string>
        </property>
        <property name="openExternalLinks">
         <bool>true</bool>

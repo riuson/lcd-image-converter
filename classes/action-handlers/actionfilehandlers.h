@@ -26,6 +26,7 @@
 //-----------------------------------------------------------------------------
 class QImage;
 class IMainWindow;
+class IDocument;
 //-----------------------------------------------------------------------------
 class ActionFileHandlers : public ActionHandlersBase
 {
@@ -49,8 +50,16 @@ public slots:
     void close_triggered();
     void convert_triggered();
     void convertAll_triggered();
+    void openFiles(const QStringList &filenames);
     void openFile(const QString &filename);
     void openImage(QImage *image, const QString &documentName);
+
+private:
+    void openBinaryImage(const QStringList &filenames);
+    void openImage(const QStringList &filenames);
+    void openFont(const QStringList &filenames);
+    void convertDocument(IDocument *document, bool request);
+
 private slots:
     void documentChanged();
 };

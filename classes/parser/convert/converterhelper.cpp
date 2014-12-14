@@ -332,7 +332,7 @@ void ConverterHelper::compressData(
     if (matrix->image()->compressionRle())
     {
         RleCompressor compressor;
-        compressor.compress(inputData, matrix->image()->blockSize(), outputData);
+        compressor.compress(inputData, matrix->image()->blockSize(), outputData, matrix->image()->compressionRleMinLength());
         *outputWidth = outputData->size();
         *outputHeight = 1;
     }
@@ -454,19 +454,13 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
             }
 
             // apply mask
-            QPainter painter(&im);
-            painter.setRenderHint(QPainter::Antialiasing, false);
             for (int x = 0; x < im.width(); x++)
             {
                 for (int y = 0; y < im.height(); y++)
                 {
                     QRgb value = im.pixel(x, y);
                     value &= mask;
-                    int a = qAlpha(value);
-                    QColor color = QColor(value);
-                    color.setAlpha(a);
-                    painter.setPen(color);
-                    painter.drawPoint(x, y);
+                    im.setPixel(x, y, value);
                 }
             }
         }
@@ -695,8 +689,6 @@ void ConverterHelper::makeMonochrome(QImage &image, int edge)
 //-----------------------------------------------------------------------------
 void ConverterHelper::makeGrayscale(QImage &image)
 {
-    QPainter painter(&image);
-    painter.setRenderHint(QPainter::Antialiasing, false);
     for (int x = 0; x < image.width(); x++)
     {
         for (int y = 0; y < image.height(); y++)
@@ -705,8 +697,8 @@ void ConverterHelper::makeGrayscale(QImage &image)
             int gray = qGray(value);
             int alpha = qAlpha(value);
             QColor color = QColor(gray ,gray, gray, alpha);
-            painter.setPen(color);
-            painter.drawPoint(x, y);
+            value = color.rgba();
+            image.setPixel(x, y, value);
         }
     }
 }

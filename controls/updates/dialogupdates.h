@@ -44,6 +44,7 @@ private:
     void showUpdates(const QString &xml);
     void showError(const QString &message);
     bool transformHistory(const QString &xml, const QString &xsl, QString *html);
+    bool isLocalVersionOutdated(const QString &xml);
 
 private slots:
     void networkReply(QNetworkReply* reply);

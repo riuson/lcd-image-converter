@@ -65,7 +65,7 @@
     <xsl:text>Revision: </xsl:text>
     <a class="revision">
       <xsl:attribute name="href">
-        <xsl:text>http://code.google.com/p/lcd-image-converter/source/detail?r=</xsl:text>
+        <xsl:text>https://github.com/riuson/lcd-image-converter/commit/</xsl:text>
         <xsl:value-of select="sha1"/>
       </xsl:attribute>
       <xsl:value-of select="substring(sha1, 1, 7)"/>

@@ -291,6 +291,8 @@ void EditorTabFont::mon_documentChanged()
         this->mon_documentChangedSignificantly();
         this->mLastImagesCount = this->mDocument->dataContainer()->count();
     }
+
+    this->resizeToContents();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_documentChangedSignificantly()
@@ -315,12 +317,8 @@ void EditorTabFont::mon_documentChangedSignificantly()
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_imageChanged()
 {
-    this->mDocument->beginChanges();
-
     const QImage *image = this->mEditor->image();
     this->mDocument->dataContainer()->setImage(this->currentKey(), image);
-
-    this->mDocument->endChanges();
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::mon_editor_mouseMove(QPoint point)

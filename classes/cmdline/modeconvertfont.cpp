@@ -1,0 +1,283 @@
+/*
+ * LCD Image Converter. Converts images and fonts for embedded applications.
+ * Copyright (C) 2014 riuson
+ * mailto: riuson@gmail.com
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/
+ */
+
+#include <qt-version-check.h>
+
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
+//-----------------------------------------------------------------------------
+#include "modeconvertfont.h"
+#include "fontdocument.h"
+#include "datacontainer.h"
+#include "preset.h"
+#include "templateoptions.h"
+#include <QCommandLineParser>
+#include <QDebug>
+#include <QFile>
+#include <QString>
+#include <QStringList>
+#include <QByteArray>
+#include <QTextCodec>
+//-----------------------------------------------------------------------------
+namespace CommandLine {
+//-----------------------------------------------------------------------------
+ModeConvertFont::ModeConvertFont(QCommandLineParser *parser, QObject *parent) :
+    ModeParserBase(parser, parent)
+{
+}
+//-----------------------------------------------------------------------------
+QString ModeConvertFont::modeName()
+{
+    return "convert-font";
+}
+//-----------------------------------------------------------------------------
+void ModeConvertFont::fillParser() const
+{
+    // --family="Ubuntu"
+    QCommandLineOption familyOption(QStringList() << "family",
+                QCoreApplication::translate("CmdLineParser", "<Family> of new font."),
+                QCoreApplication::translate("CmdLineParser", "family"));
+    this->mParser->addOption(familyOption);
+
+    // --size=14
+    QCommandLineOption sizeOption(QStringList() << "size",
+                QCoreApplication::translate("CmdLineParser", "Font <size>."),
+                QCoreApplication::translate("CmdLineParser", "size"));
+    this->mParser->addOption(sizeOption);
+
+    // --mono
+    QCommandLineOption monoOption(QStringList() << "mono" << "monospaced",
+                QCoreApplication::translate("CmdLineParser", "Make monospaced font."));
+    this->mParser->addOption(monoOption);
+
+    // --style
+    QCommandLineOption styleOption(QStringList() << "style",
+                QCoreApplication::translate("CmdLineParser", "Font <style>, Regular, Bold, Italic or Bold Italic."));
+    this->mParser->addOption(styleOption);
+
+    // --antialiasing
+    QCommandLineOption antialiasingOption(QStringList() << "antialiasing",
+                QCoreApplication::translate("CmdLineParser", "Use antialiasing."));
+    this->mParser->addOption(antialiasingOption);
+
+    // --chars-list
+    QCommandLineOption charsListOption(QStringList() << "chars-list",
+                QCoreApplication::translate("CmdLineParser", "Characters, what included to the font."),
+                QCoreApplication::translate("CmdLineParser", "characters"));
+    this->mParser->addOption(charsListOption);
+
+    // --chars-range
+    QCommandLineOption charsRangeOption(QStringList() << "chars-range",
+                QCoreApplication::translate("CmdLineParser", "Characters range, for example \"32-255\"."),
+                QCoreApplication::translate("CmdLineParser", "range"));
+    this->mParser->addOption(charsRangeOption);
+
+    // --chars-encoding
+    QCommandLineOption charsEncodingOption(QStringList() << "chars-encoding",
+                QCoreApplication::translate("CmdLineParser", "Characters encoding, for example \"UTF-8\"."),
+                QCoreApplication::translate("CmdLineParser", "encoding"));
+    this->mParser->addOption(charsEncodingOption);
+
+    // --big-endian
+    QCommandLineOption endianessOption(QStringList() << "big-endian",
+                QCoreApplication::translate("CmdLineParser", "Use big-endian instead of little-endian."));
+    this->mParser->addOption(endianessOption);
+
+    // --output=/temp/1.c
+    QCommandLineOption outputOption(QStringList() << "o" << "output",
+                QCoreApplication::translate("CmdLineParser", "Full <path> to output result."),
+                QCoreApplication::translate("CmdLineParser", "path"));
+    this->mParser->addOption(outputOption);
+
+    // --template=/temp/image.tmpl
+    QCommandLineOption templateOption(QStringList() << "template",
+                QCoreApplication::translate("CmdLineParser", "Full <path> to template file, used in conversion. [Optional]"),
+                QCoreApplication::translate("CmdLineParser", "path"));
+    this->mParser->addOption(templateOption);
+
+    // --doc-name=testImage
+    QCommandLineOption documentNameOption(QStringList() << "doc-name",
+                QCoreApplication::translate("CmdLineParser", "Document name."),
+                QCoreApplication::translate("CmdLineParser", "name"));
+    this->mParser->addOption(documentNameOption);
+
+    // --preset-name=lcdR4G5B4
+    QCommandLineOption presetOption(QStringList() << "preset-name",
+                QCoreApplication::translate("CmdLineParser", "Output preset <name> from predefined presets in application settings."),
+                QCoreApplication::translate("CmdLineParser", "name"));
+    this->mParser->addOption(presetOption);
+}
+//-----------------------------------------------------------------------------
+bool ModeConvertFont::collectArguments()
+{
+    this->mFontFamily = this->mParser->value("family");
+    bool sizeOk;
+    this->mFontSize = this->mParser->value("size").toInt(&sizeOk);
+    this->mFontMonospaced = this->mParser->isSet("monospaced");
+    this->mFontStyle = this->mParser->value("style");
+    this->mFontAntiAliasing = this->mParser->isSet("antialiasing");
+
+    this->mFontCharactersList = this->mParser->value("chars-list");
+    this->mFontCharactersRange = this->mParser->value("chars-range");
+
+    this->mFontCharactersEncoding = this->mParser->value("chars-encoding");
+    this->mFontCharactersBigEndian = this->mParser->isSet("big-endian");
+
+    this->mOuputFilename = this->mParser->value("output");
+    this->mTemplateFilename = this->mParser->value("template");
+    this->mDocumentName = this->mParser->value("doc-name");
+    this->mPresetName = this->mParser->value("preset-name");
+
+    return (!this->mFontFamily.isEmpty() &&
+            sizeOk &&
+            (!this->mFontCharactersList.isEmpty() || (!this->mFontCharactersRange.isEmpty() && !this->mFontCharactersEncoding.isEmpty())) &&
+            !this->mOuputFilename.isEmpty() &&
+            !this->mDocumentName.isEmpty() &&
+            !this->mPresetName.isEmpty());
+}
+//-----------------------------------------------------------------------------
+int ModeConvertFont::process()
+{
+    // check input and template files exists
+    //if (QFile::exists(this->mInputFilename))
+    {
+        // check dodocument name
+        QString docNameWS = this->mDocumentName;
+        docNameWS.remove(QRegExp("\\s"));
+        if (!docNameWS.isEmpty())
+        {
+            // check preset exists
+            if (Preset::presetsList().contains(this->mPresetName))
+            {
+                Preset::setSelectedName(this->mPresetName);
+
+                if (!this->mFontCharactersRange.isEmpty() && !this->mFontCharactersEncoding.isEmpty()) {
+                    this->mFontCharactersList = this->createCharsList(
+                                this->mFontCharactersRange,
+                                this->mFontCharactersEncoding,
+                                this->mFontCharactersBigEndian);
+                }
+                //if (!this->mFontCharactersList.isEmpty())
+                {
+                    FontDocument fontDocument;
+
+                    fontDocument.setFontCharacters(
+                                this->mFontCharactersList,
+                                this->mFontFamily,
+                                this->mFontStyle,
+                                this->mFontSize,
+                                this->mFontMonospaced,
+                                this->mFontAntiAliasing);
+
+                    fontDocument.setDocumentName(docNameWS);
+                    fontDocument.dataContainer()->setInfo("converted filename", QVariant(this->mOuputFilename));
+
+                    // save to output file
+                    QFile file(this->mOuputFilename);
+                    if (file.open(QFile::WriteOnly))
+                    {
+                        Preset preset;
+                        preset.load(this->mPresetName);
+
+                        // optional template file
+                        if(!this->mTemplateFilename.isEmpty() && QFile::exists(this->mTemplateFilename))
+                        {
+                            preset.templates()->setFont(this->mTemplateFilename);
+                        }
+
+                        QString result = fontDocument.convert(&preset);
+
+                        file.write(result.toUtf8());
+                        file.close();
+
+                        if (fontDocument.outputFilename() != this->mOuputFilename)
+                        {
+                            fontDocument.setOutputFilename(this->mOuputFilename);
+                        }
+                    }
+
+                    return 0;
+                }
+            }
+        }
+    }
+
+    return 1;
+}
+//-----------------------------------------------------------------------------
+QString ModeConvertFont::createCharsList(const QString &rangeStr,
+                                         const QString &encoding,
+                                         bool bigEndian) const
+{
+    QString result;
+
+    QStringList rangeListStr = rangeStr.split(QRegExp("[\\.\\-\\ ]"), QString::SkipEmptyParts);
+
+    if (rangeListStr.size() == 2) {
+        bool ok;
+        int from = rangeListStr.at(0).toInt(&ok);
+
+        if (ok) {
+            int to = rangeListStr.at(1).toInt(&ok);
+
+            if (ok) {
+
+                // from dialogfontrange.cpp
+                if (from > to) {
+                    qSwap(from, to);
+                }
+
+                for (int i = from; i <= to; ++i)
+                {
+                    int code = i;
+                    if (code > 0)
+                    {
+                        QByteArray array;
+
+                        while (code != 0)
+                        {
+                            if (bigEndian)
+                                array.insert(0, (char)(code & 0xff));
+                            else
+                                array.append((char)(code & 0xff));
+
+                            code = code >> 8;
+                        }
+
+                        QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
+                        QString str = codec->toUnicode(array);
+                        result += str;
+                    }
+                    else
+                    {
+                        result += QChar(QChar::Null);
+                    }
+                }
+                // end from
+
+
+            }
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+}
+//-----------------------------------------------------------------------------
+#endif // QT_VERSION

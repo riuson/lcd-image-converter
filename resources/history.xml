@@ -6,12 +6,39 @@
             <date>current</date>
         </commit>
         <description>Fixed:
+ Shadow Build support (partially);
+ Default document and file name for new documents;
+ Save Changes dialog;
+ 'AntiAliasing' option in saved font document;
+ Encodings list sorted in New Font -> Append Range.
+
+Added:
+ Command line mode for image conversion;
+ Command line mode for font conversion;
+ Command line mode for hexadecimal to binary file conversion;
+ Import multimple images to font;
+ Menu option to convert color image to grayscale;
+ Option for RLE minimal length of equal blocks;
+ Scaling in settings preview.</description>
+    </record>
+    <record>
+        <commit>
+            <sha1>6998b5ed23fbb240a14987e38d4563e8d4c8221e</sha1>
+            <date>2014-02-25 19:39:05 +0600</date>
+        </commit>
+        <description>Fixed:
  Broken image prepare sequence;
  Russian translation;
  Loading of images in some formats.
 
 Added:
  Optional characters sorting in 'Font Change...' dialog.</description>
+        <downloads>
+            <item>
+                <name>Application for Windows (20.6 MB) on SourceForge</name>
+                <url>http://sourceforge.net/projects/lcd-image-converter/files</url>
+            </item>
+        </downloads>
     </record>
     <record>
         <commit>
@@ -33,12 +60,12 @@ Added:
  Copy and Paste operations;
  Alpha-channel support;
  User-defined script to specify pixel's scan order.</description>
- <downloads>
-     <item>
-         <name>Application for Windows (19.6 MB) on SourceForge</name>
-         <url>http://sourceforge.net/projects/lcd-image-converter/files</url>
-     </item>
- </downloads>
+      <downloads>
+          <item>
+              <name>Application for Windows (19.6 MB) on SourceForge</name>
+              <url>http://sourceforge.net/projects/lcd-image-converter/files</url>
+          </item>
+        </downloads>
     </record>
     <record>
         <commit>

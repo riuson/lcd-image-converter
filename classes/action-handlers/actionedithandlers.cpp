@@ -18,12 +18,13 @@
  */
 
 #include "actionedithandlers.h"
+#include "qt-version-check.h"
 
-#ifdef USED_QT5
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
 #include <QtWidgets/QApplication>
 #else
 #include <QtGui/QApplication>
-#endif
+#endif // QT_VERSION
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -134,7 +135,7 @@ void ActionEditHandlers::paste_triggered()
                     this->editor()->document()->dataContainer()->setImage(key, &image);
                 }
 
-                this->editor()->document()->endChanges();
+                this->editor()->document()->endChanges(false);
             }
         }
     }

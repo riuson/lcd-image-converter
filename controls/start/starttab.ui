@@ -108,7 +108,7 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>&lt;a href=&quot;http://code.google.com/p/lcd-image-converter&quot;&gt;Project's home page&lt;/a&gt;</string>
+          <string>&lt;a href=&quot;http://www.riuson.com/lcd-image-converter&quot;&gt;Project's home page&lt;/a&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>

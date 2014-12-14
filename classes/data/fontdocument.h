@@ -25,6 +25,8 @@
 
 #include "idocument.h"
 //-----------------------------------------------------------------------------
+class Preset;
+//-----------------------------------------------------------------------------
 class FontDocument : public QObject, public IDocument
 {
     Q_OBJECT
@@ -40,11 +42,13 @@ public:
     QString documentFilename() const;
     QString documentName() const;
     void setDocumentName(const QString &value);
+    QString outputFilename() const;
+    void setOutputFilename(const QString &value);
     DataContainer *dataContainer();
-    void convert(bool request);
+    QString convert(Preset *preset);
 
     void beginChanges();
-    void endChanges();
+    void endChanges(bool suppress);
     bool canUndo();
     bool canRedo();
     void undo();
@@ -65,11 +69,9 @@ public:
 
 private:
     DataContainer *mContainer;
+    int mNestedChangesCounter;
 
     void setDocumentFilename(const QString &value);
-
-    QString outputFilename() const;
-    void setOutputFilename(const QString &value);
 
     QFont usedFont() const;
     void setUsedFont(const QFont &value);
@@ -91,10 +93,8 @@ private:
                          const int height,
                          const bool antialiasing);
 
-    void setChanged(bool value);
-
 private slots:
-    void mon_container_imagesChanged();
+    void mon_container_dataChanged(bool historyStateMoved);
 
 signals:
     void documentChanged();

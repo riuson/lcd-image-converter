@@ -29,6 +29,7 @@
 #include <QLocale>
 #include <QIcon>
 
+#include "qt-version-check.h"
 #include "editortabimage.h"
 #include "editortabfont.h"
 #include "starttab.h"
@@ -52,9 +53,10 @@ MainWindow::MainWindow(QWidget *parent) :
         ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-#ifndef USED_QT5
+
+#if QT_VERSION_COMBINED < VERSION_COMBINE(5, 0, 0)
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-#endif
+#endif // QT_VERSION
 
     QIcon icon;
     icon.addFile(":/images/icon64", QSize(64, 64));
@@ -224,6 +226,7 @@ void MainWindow::createHandlers()
     this->mImageHandlers->connect(this->ui->actionImageShiftDown, SIGNAL(triggered()), SLOT(shift_down_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageInverse, SIGNAL(triggered()), SLOT(inverse_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageResize, SIGNAL(triggered()), SLOT(resize_triggered()));
+    this->mImageHandlers->connect(this->ui->actionImageTo_Grayscale, SIGNAL(triggered()), SLOT(grayscale_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageImport, SIGNAL(triggered()), SLOT(import_triggered()));
     this->mImageHandlers->connect(this->ui->actionImageExport, SIGNAL(triggered()), SLOT(export_triggered()));
     this->mImageHandlers->connect(this->ui->actionEdit_in_external_tool, SIGNAL(triggered()), SLOT(edit_in_external_tool_triggered()));
@@ -244,7 +247,7 @@ void MainWindow::createHandlers()
     this->mHelpHandlers->connect(this->ui->actionAboutApp, SIGNAL(triggered()), SLOT(about_application_triggered()));
     this->mHelpHandlers->connect(this->ui->actionAboutQt, SIGNAL(triggered()), SLOT(about_qt_triggered()));
     this->mHelpHandlers->connect(this->ui->actionUpdates, SIGNAL(triggered()), SLOT(updates_triggered()));
-    this->mHelpHandlers->connect(this->ui->actionWiki, SIGNAL(triggered()), SLOT(wiki_triggered()));
+    this->mHelpHandlers->connect(this->ui->actionHomePage, SIGNAL(triggered()), SLOT(homepage_triggered()));
 
     this->mFileHandlers->connect(this->mFontHandlers, SIGNAL(imageCreated(QImage*,QString)), SLOT(openImage(QImage*,QString)));
 }
@@ -276,33 +279,56 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
     bool cancel = false;
     if (editor != NULL && editor->document()->changed())
     {
-        DialogSaveChanges dialog(this);
+        DialogSaveChanges dialog(editor->document()->documentName(), this);
         dialog.exec();
         switch (dialog.answer())
         {
         case DialogSaveChanges::Save:
             {
-                if (!editor->document()->save(editor->document()->documentFilename()))
-                    cancel = true;
-            }
-            break;
-        case DialogSaveChanges::SaveAs:
-            {
-                QFileDialog dialog(this);
-                dialog.setAcceptMode(QFileDialog::AcceptSave);
-                dialog.setFileMode(QFileDialog::AnyFile);
-                dialog.setNameFilter(tr("XML Files (*.xml)"));
-                dialog.setWindowTitle(tr("Save file as"));
-                if (dialog.exec() == QDialog::Accepted)
+                if (QFile::exists(editor->document()->documentFilename()))
                 {
-                    QString filename = dialog.selectedFiles().at(0);
-                    if (!editor->document()->save(filename))
-                        cancel = true;
+                    if (editor->document()->save(editor->document()->documentFilename()))
+                    {
+                        this->rememberFilename(editor->document()->documentFilename());
+                    }
                 }
                 else
-                    cancel = true;
+                {
+                    QFileDialog dialog(this->parentWidget());
+                    dialog.setAcceptMode(QFileDialog::AcceptSave);
+                    dialog.setFileMode(QFileDialog::AnyFile);
+                    dialog.setNameFilter(tr("XML Files (*.xml)"));
+                    dialog.setDefaultSuffix(QString("xml"));
+                    dialog.setWindowTitle(tr("Save file as"));
+
+                    if (editor->document()->documentFilename().isEmpty())
+                    {
+                        dialog.selectFile(editor->document()->documentName());
+                    }
+                    else
+                    {
+                        dialog.selectFile(editor->document()->documentFilename());
+                    }
+
+                    if (dialog.exec() == QDialog::Accepted)
+                    {
+                        QString filename = dialog.selectedFiles().at(0);
+                        if (editor->document()->save(filename))
+                        {
+                            this->rememberFilename(editor->document()->documentFilename());
+                        }
+                        else
+                        {
+                            cancel = true;
+                        }
+                    }
+                    else
+                    {
+                        cancel = true;
+                    }
+                }
+                break;
             }
-            break;
         case DialogSaveChanges::DontSave:
             break;
         case DialogSaveChanges::Cancel:
@@ -408,7 +434,10 @@ void MainWindow::openRecentFile()
 {
     QAction *action = qobject_cast<QAction *>(sender());
     if (action)
-        this->mFileHandlers->openFile(action->data().toString());
+    {
+        QStringList files = QStringList() << action->data().toString();
+        this->mFileHandlers->openFiles(files);
+    }
 }
 //-----------------------------------------------------------------------------
 void MainWindow::rememberFilename(const QString &filename)

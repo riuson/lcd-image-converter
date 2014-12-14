@@ -32,7 +32,7 @@ ImagesModel::ImagesModel(DataContainer *container, Qt::Orientation orientation, 
 
     this->setCrop(0, 0, 0, 0);
 
-    this->connect(this->mContainer, SIGNAL(imagesChanged()), SLOT(imagesChanged()));
+    this->connect(this->mContainer, SIGNAL(dataChanged(bool)), SLOT(imagesChanged()));
 }
 //-----------------------------------------------------------------------------
 int ImagesModel::rowCount(const QModelIndex &parent) const

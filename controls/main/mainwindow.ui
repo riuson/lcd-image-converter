@@ -36,7 +36,7 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHello">
@@ -90,6 +90,7 @@
     <addaction name="menuRotate"/>
     <addaction name="actionImageResize"/>
     <addaction name="actionImageInverse"/>
+    <addaction name="actionImageTo_Grayscale"/>
     <addaction name="separator"/>
     <addaction name="actionImageImport"/>
     <addaction name="actionImageExport"/>
@@ -111,7 +112,7 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionWiki"/>
+    <addaction name="actionHomePage"/>
     <addaction name="actionUpdates"/>
     <addaction name="actionAboutQt"/>
     <addaction name="actionAboutApp"/>
@@ -316,9 +317,9 @@
     <string>Preview...</string>
    </property>
   </action>
-  <action name="actionWiki">
+  <action name="actionHomePage">
    <property name="text">
-    <string>Wiki...</string>
+    <string>Home Page...</string>
    </property>
   </action>
   <action name="actionFontToImage">
@@ -419,6 +420,11 @@
   <action name="actionAboutQt">
    <property name="text">
     <string>About Qt...</string>
+   </property>
+  </action>
+  <action name="actionImageTo_Grayscale">
+   <property name="text">
+    <string>To Grayscale</string>
    </property>
   </action>
  </widget>

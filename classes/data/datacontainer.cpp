@@ -66,7 +66,7 @@ void DataContainer::setImage(const QString &key, const QImage *image)
     this->mImageMap.insert(key, imageNew);
 
     this->setChanged(true);
-    emit this->imagesChanged();
+    emit this->dataChanged(false);
 }
 //-----------------------------------------------------------------------------
 QVariant DataContainer::info(const QString &key) const
@@ -80,9 +80,27 @@ QVariant DataContainer::info(const QString &key) const
 //-----------------------------------------------------------------------------
 void DataContainer::setInfo(const QString &key, const QVariant &value)
 {
+    bool changed = false;
+
     //TODO: may be need to compare old and new values?
-    this->mInfoMap.insert(key, value);
-    this->setChanged(true);
+    if (this->mInfoMap.contains(key))
+    {
+        if (this->mInfoMap.value(key) != value)
+        {
+            changed = true;
+        }
+    }
+    else
+    {
+        changed = true;
+    }
+
+    if (changed)
+    {
+        this->mInfoMap.insert(key, value);
+        this->setChanged(true);
+        emit this->dataChanged(false);
+    }
 }
 //-----------------------------------------------------------------------------
 void DataContainer::clear()
@@ -103,7 +121,7 @@ QStringList DataContainer::keys() const
     return result;
 }
 //-----------------------------------------------------------------------------
-void DataContainer::remove(const QString &key)
+void DataContainer::removeImage(const QString &key)
 {
     if (this->mKeys.contains(key))
     {
@@ -111,6 +129,9 @@ void DataContainer::remove(const QString &key)
         this->mImageMap.remove(key);
         this->mKeys.removeOne(key);
         delete imageOld;
+
+        this->setChanged(true);
+        emit this->dataChanged(false);
     }
 }
 //-----------------------------------------------------------------------------
@@ -118,13 +139,14 @@ void DataContainer::reorderTo(const QStringList *keys)
 {
     if (this->mKeys.length() == keys->length())
     {
+        // all 'keys' contains in 'mKeys'
         bool exists = true;
         for (int i = 0; i < keys->length(); i++)
         {
             QString key = keys->at(i);
             if (!this->mKeys.contains(key))
             {
-                exists = true;
+                exists = false;
                 break;
             }
         }
@@ -155,15 +177,17 @@ void DataContainer::stateSave()
 void DataContainer::stateUndo()
 {
     this->mHistory->restorePrevious(&this->mKeys, &this->mImageMap, &this->mInfoMap);
+    this->setChanged(true);
 
-    emit this->imagesChanged();
+    emit this->dataChanged(true);
 }
 //-----------------------------------------------------------------------------
 void DataContainer::stateRedo()
 {
     this->mHistory->restoreNext(&this->mKeys, &this->mImageMap, &this->mInfoMap);
+    this->setChanged(true);
 
-    emit this->imagesChanged();
+    emit this->dataChanged(true);
 }
 //-----------------------------------------------------------------------------
 bool DataContainer::canUndo() const

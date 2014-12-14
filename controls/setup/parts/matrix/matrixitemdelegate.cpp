@@ -19,7 +19,7 @@
 
 #include "matrixitemdelegate.h"
 //-----------------------------------------------------------------------------
-MatrixItemDelegate::MatrixItemDelegate(QObject *pobj = 0) : QItemDelegate(pobj)
+MatrixItemDelegate::MatrixItemDelegate(QObject *pobj) : QItemDelegate(pobj)
 {
     this->mColor= QColor("gold");
 }

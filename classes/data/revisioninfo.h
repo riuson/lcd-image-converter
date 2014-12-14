@@ -26,6 +26,7 @@ class RevisionInfo
 {
 public:
     static const QString & hash();
+    static const QString & hash_abbr();
     static const QString & date();
     static const QString & version();
 };

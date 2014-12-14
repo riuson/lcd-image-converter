@@ -21,15 +21,16 @@
 #define MATRIXITEMDELEGATE_H
 //-----------------------------------------------------------------------------
 #include <QtGui>
+#include "qt-version-check.h"
 
-#ifdef USED_QT5
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
 #include <QtWidgets>
-#endif
+#endif // QT_VERSION
 //-----------------------------------------------------------------------------
 class MatrixItemDelegate : public QItemDelegate
 {
 public:
-    MatrixItemDelegate(QObject *pobj);
+    MatrixItemDelegate(QObject *pobj = 0);
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
 public:
