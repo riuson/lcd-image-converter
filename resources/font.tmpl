@@ -42,7 +42,8 @@ $(start_block_images_table)
 static const uint$(img_data_block_size)_t image_data_$(doc_name_ws)_0x$(out_char_code)[$(out_blocks_count)] = {
     $(out_image_data)
 };
-static const tImage $(doc_name_ws)_0x$(out_char_code) = { image_data_$(doc_name_ws)_0x$(out_char_code), $(out_image_width), $(out_image_height)};
+static const tImage $(doc_name_ws)_0x$(out_char_code) = { image_data_$(doc_name_ws)_0x$(out_char_code),
+    $(out_image_width), $(out_image_height), $(img_data_block_size)};
 $(end_block_images_table)
 
 static const tChar $(doc_name_ws)_array[] = {
