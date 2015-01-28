@@ -3,6 +3,8 @@
 //-----------------------------------------------------------------------------
 #include <QObject>
 #include "iimageeditor.h"
+
+class QColor;
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -36,6 +38,8 @@ public slots:
 
 private:
     WindowEditor *mWidget;
+    QColor *mForeColor;
+    QColor *mBackColor;
 };
 }
 //-----------------------------------------------------------------------------
