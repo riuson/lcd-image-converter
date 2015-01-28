@@ -199,6 +199,7 @@ HEADERS += \
     controls/updates/dialogupdates.h \
     interfaces/idocument.h \
     interfaces/ieditor.h \
+    interfaces/iimageeditor.h \
     interfaces/imainwindow.h \
     qt-version-check.h
 
