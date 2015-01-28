@@ -60,6 +60,7 @@ SOURCES += main.cpp \
     classes/data/imagedocument.cpp \
     classes/data/imagesmodel.cpp \
     classes/data/revisioninfo.cpp \
+    classes/imageeditor/editor.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
     classes/parser/convert/converterhelper.cpp \
@@ -93,6 +94,7 @@ SOURCES += main.cpp \
     controls/fonts/font-new/unicodeblocksfiltermodel.cpp \
     controls/fonts/font-preview/dialogfontpreview.cpp \
     controls/fonts/font-range/dialogfontrange.cpp \
+    controls/imageeditor/widgeteditor.cpp \
     controls/images/editortabimage.cpp \
     controls/images/widgetbitmapeditor.cpp \
     controls/main/mainwindow.cpp \
@@ -140,6 +142,7 @@ HEADERS += \
     classes/data/imagedocument.h \
     classes/data/imagesmodel.h \
     classes/data/revisioninfo.h \
+    classes/imageeditor/editor.h \
     classes/parser/convert/bitmaphelper.h \
     classes/parser/convert/bitstream.h \
     classes/parser/convert/conversion_options.h \
@@ -174,6 +177,7 @@ HEADERS += \
     controls/fonts/font-new/unicodeblocksfiltermodel.h \
     controls/fonts/font-preview/dialogfontpreview.h \
     controls/fonts/font-range/dialogfontrange.h \
+    controls/imageeditor/widgeteditor.h \
     controls/images/editortabimage.h \
     controls/images/widgetbitmapeditor.h \
     controls/main/mainwindow.h \
@@ -224,7 +228,8 @@ FORMS += \
     controls/setup/parts/reordering/setuptabreordering.ui \
     controls/setup/parts/templates/setuptabtemplates.ui \
     controls/start/starttab.ui \
-    controls/updates/dialogupdates.ui
+    controls/updates/dialogupdates.ui \
+    controls/imageeditor/widgeteditor.ui
 
 INCLUDEPATH += $$PWD \
     $$PWD/classes \
@@ -232,6 +237,7 @@ INCLUDEPATH += $$PWD \
     $$PWD/classes/compression \
     $$PWD/classes/data \
     $$PWD/classes/cmdline \
+    $$PWD/classes/imageeditor \
     $$PWD/classes/status \
     $$PWD/classes/parser \
     $$PWD/classes/parser/convert \
@@ -246,6 +252,7 @@ INCLUDEPATH += $$PWD \
     $$PWD/controls/fonts/font-preview \
     $$PWD/controls/fonts/font-range \
     $$PWD/controls/images \
+    $$PWD/controls/imageeditor \
     $$PWD/controls/main \
     $$PWD/controls/resize \
     $$PWD/controls/save-changes \

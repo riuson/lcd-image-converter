@@ -17,37 +17,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IIMAGEEDITOR_H
-#define IIMAGEEDITOR_H
+#ifndef WIDGETEDITOR_H
+#define WIDGETEDITOR_H
 //-----------------------------------------------------------------------------
-class QImage;
-class QColor;
-class QPoint;
-class QWidget;
+#include <QWidget>
+#include "iimageeditor.h"
+//-----------------------------------------------------------------------------
+namespace Ui {
+class WidgetEditor;
+}
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
-class IImageEditor
+class WidgetEditor : public QWidget
 {
+    Q_OBJECT
+
 public:
-    virtual ~IImageEditor() { }
+    explicit WidgetEditor(QWidget *parent = 0);
+    ~WidgetEditor();
 
-    virtual QWidget *widget() const = 0;
+    const QImage *image() const;
+    void setImage(const QImage *_value);
 
-    virtual const QImage *image() const = 0;
-    virtual void setImage(const QImage *_value) = 0;
+    const QColor foreColor() const;
+    void setForeColor(QColor value) const;
 
-    virtual const QColor *foreColor() const = 0;
-    virtual const QColor *backColor() const = 0;
+    const QColor backColor() const;
+    void setBackColor(QColor value) const;
 
 signals:
-    virtual void imageChanged(const QImage *_image) = 0;
-    virtual void scaleChanged(int _scale) = 0;
-    virtual void mouseMoved(const QPoint *_point) = 0;
+    void imageChanged(const QImage *_image);
+    void scaleChanged(int _scale);
+    void mouseMoved(const QPoint *_point);
+
+private:
+    Ui::WidgetEditor *ui;
 };
 }
-Q_DECLARE_INTERFACE (ImageEditor::IImageEditor,
-                     "riuson.lcd-image-converter/1.0"
-                     )
 //-----------------------------------------------------------------------------
-#endif // IIMAGEEDITOR_H
+#endif // WIDGETIMAGEEDITOR_H
