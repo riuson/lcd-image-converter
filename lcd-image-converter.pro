@@ -143,6 +143,7 @@ HEADERS += \
     classes/data/imagesmodel.h \
     classes/data/revisioninfo.h \
     classes/imageeditor/editor.h \
+    classes/imageeditor/iimageeditor.h \
     classes/parser/convert/bitmaphelper.h \
     classes/parser/convert/bitstream.h \
     classes/parser/convert/conversion_options.h \
@@ -203,7 +204,6 @@ HEADERS += \
     controls/updates/dialogupdates.h \
     interfaces/idocument.h \
     interfaces/ieditor.h \
-    interfaces/iimageeditor.h \
     interfaces/imainwindow.h \
     qt-version-check.h
 
