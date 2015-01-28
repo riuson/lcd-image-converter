@@ -1,0 +1,5 @@
+#ifndef IEDITORTOOL_H
+#define IEDITORTOOL_H
+
+#endif // IEDITORTOOL_H
+
