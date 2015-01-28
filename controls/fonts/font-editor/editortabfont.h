@@ -29,7 +29,6 @@ namespace Ui {
 }
 //-----------------------------------------------------------------------------
 class DataContainer;
-class WidgetBitmapEditor;
 class QSplitter;
 class ImagesModel;
 class QItemSelection;
@@ -37,6 +36,11 @@ class QModelIndex;
 class StatusData;
 class FontDocument;
 class IDocument;
+
+namespace ImageEditor
+{
+class Editor;
+}
 //-----------------------------------------------------------------------------
 class EditorTabFont : public QWidget, public IEditor
 {
@@ -71,7 +75,8 @@ protected:
 
 private:
     Ui::EditorTabFont *ui;
-    WidgetBitmapEditor *mEditor;
+    QWidget *mEditorWidget;
+    ImageEditor::Editor *mEditorObject;
     FontDocument *mDocument;
     QSplitter *mSplitter;
     ImagesModel *mModel;
@@ -89,8 +94,8 @@ private:
 private slots:
     void mon_documentChanged();
     void mon_documentChangedSignificantly();
-    void mon_editor_imageChanged();
-    void mon_editor_mouseMove(QPoint point);
+    void mon_editor_imageChanged(const QImage *value);
+    void mon_editor_mouseMove(const QPoint *point);
     void mon_editor_scaleChanged(int scale);
     void currentChanged(const QModelIndex &current, const QModelIndex &previous);
     void updateTableFont();

@@ -29,11 +29,15 @@ namespace Ui {
 }
 //-----------------------------------------------------------------------------
 class QImage;
-class WidgetBitmapEditor;
 class DataContainer;
 class StatusData;
 class ImageDocument;
 class IDocument;
+
+namespace ImageEditor
+{
+class Editor;
+}
 //-----------------------------------------------------------------------------
 class EditorTabImage : public QWidget, public IEditor
 {
@@ -54,7 +58,8 @@ protected:
 
 private:
     Ui::EditorTabImage *ui;
-    WidgetBitmapEditor *mEditor;
+    QWidget *mEditorWidget;
+    ImageEditor::Editor *mEditorObject;
     ImageDocument *mDocument;
     StatusData *mStatusData;
 
@@ -64,8 +69,8 @@ private:
 
 private slots:
     void mon_documentChanged();
-    void mon_editor_imageChanged();
-    void mon_editor_mouseMove(QPoint point);
+    void mon_editor_imageChanged(const QImage *value);
+    void mon_editor_mouseMove(const QPoint *point);
     void mon_editor_scaleChanged(int scale);
 signals:
     void documentChanged();
