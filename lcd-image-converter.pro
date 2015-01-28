@@ -144,6 +144,7 @@ HEADERS += \
     classes/data/revisioninfo.h \
     classes/imageeditor/editor.h \
     classes/imageeditor/iimageeditor.h \
+    classes/imageeditor/iimageeditortool.h \
     classes/parser/convert/bitmaphelper.h \
     classes/parser/convert/bitstream.h \
     classes/parser/convert/conversion_options.h \
