@@ -94,7 +94,7 @@ SOURCES += main.cpp \
     controls/fonts/font-new/unicodeblocksfiltermodel.cpp \
     controls/fonts/font-preview/dialogfontpreview.cpp \
     controls/fonts/font-range/dialogfontrange.cpp \
-    controls/imageeditor/widgeteditor.cpp \
+    controls/imageeditor/windoweditor.cpp \
     controls/images/editortabimage.cpp \
     controls/images/widgetbitmapeditor.cpp \
     controls/main/mainwindow.cpp \
@@ -177,7 +177,7 @@ HEADERS += \
     controls/fonts/font-new/unicodeblocksfiltermodel.h \
     controls/fonts/font-preview/dialogfontpreview.h \
     controls/fonts/font-range/dialogfontrange.h \
-    controls/imageeditor/widgeteditor.h \
+    controls/imageeditor/windoweditor.h \
     controls/images/editortabimage.h \
     controls/images/widgetbitmapeditor.h \
     controls/main/mainwindow.h \
@@ -214,6 +214,7 @@ FORMS += \
     controls/fonts/font-new/dialogfontselect.ui \
     controls/fonts/font-preview/dialogfontpreview.ui \
     controls/fonts/font-range/dialogfontrange.ui \
+    controls/imageeditor/windoweditor.ui \
     controls/images/editortabimage.ui \
     controls/images/widgetbitmapeditor.ui \
     controls/main/mainwindow.ui \
@@ -228,8 +229,7 @@ FORMS += \
     controls/setup/parts/reordering/setuptabreordering.ui \
     controls/setup/parts/templates/setuptabtemplates.ui \
     controls/start/starttab.ui \
-    controls/updates/dialogupdates.ui \
-    controls/imageeditor/widgeteditor.ui
+    controls/updates/dialogupdates.ui
 
 INCLUDEPATH += $$PWD \
     $$PWD/classes \

@@ -1,12 +1,12 @@
 #include "editor.h"
-#include "widgeteditor.h"
+#include "windoweditor.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
 Editor::Editor(QObject *parent) : QObject(parent)
 {
-    this->mWidget = new WidgetEditor();
+    this->mWidget = new WindowEditor();
 }
 //-----------------------------------------------------------------------------
 Editor::~Editor()

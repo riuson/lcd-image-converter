@@ -6,7 +6,7 @@
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
-class WidgetEditor;
+class WindowEditor;
 
 class Editor : public QObject, public IImageEditor
 {
@@ -35,7 +35,7 @@ signals:
 public slots:
 
 private:
-    WidgetEditor *mWidget;
+    WindowEditor *mWidget;
 };
 }
 //-----------------------------------------------------------------------------
