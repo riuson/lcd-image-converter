@@ -57,7 +57,7 @@ public slots:
 
 signals:
     void imageChanged();
-    void mouseMove(QPoint point);
+    void mouseMove(const QPoint *point);
     void scaleSchanged(int scale);
 };
 //-----------------------------------------------------------------------------

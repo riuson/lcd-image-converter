@@ -9,6 +9,9 @@ namespace ImageEditor
 Editor::Editor(QObject *parent) : QObject(parent)
 {
     this->mWidget = new WindowEditor();
+    this->connect(this->mWidget, SIGNAL(imageChanged()), SLOT(on_imageChanged()));
+    this->connect(this->mWidget, SIGNAL(mouseMove(const QPoint *)), SLOT(on_mouseMove(const QPoint*)));
+    this->connect(this->mWidget, SIGNAL(scaleSchanged(int)), SLOT(on_scaleSchanged(int)));
     this->mForeColor = new QColor();
     this->mBackColor = new QColor();
 }
@@ -43,6 +46,26 @@ const QColor *Editor::foreColor() const
 const QColor *Editor::backColor() const
 {
     return this->mBackColor;
+}
+//-----------------------------------------------------------------------------
+int Editor::scale() const
+{
+    return this->mWidget->scale();
+}
+//-----------------------------------------------------------------------------
+void Editor::on_imageChanged()
+{
+    emit this->imageChanged(this->image());
+}
+//-----------------------------------------------------------------------------
+void Editor::on_mouseMove(const QPoint *point)
+{
+    emit this->mouseMoved(point);
+}
+//-----------------------------------------------------------------------------
+void Editor::on_scaleSchanged(int scale)
+{
+    emit this->scaleChanged(scale);
 }
 //-----------------------------------------------------------------------------
 } // end of namespace

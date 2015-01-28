@@ -27,6 +27,8 @@ public:
     const QColor *foreColor() const;
     const QColor *backColor() const;
 
+    int scale() const;
+
 signals:
     void imageChanged(const QImage *_image);
     void scaleChanged(int _scale);
@@ -40,6 +42,12 @@ private:
     WindowEditor *mWidget;
     QColor *mForeColor;
     QColor *mBackColor;
+
+private slots:
+    void on_imageChanged();
+    void on_mouseMove(const QPoint *point);
+    void on_scaleSchanged(int scale);
+
 };
 }
 //-----------------------------------------------------------------------------

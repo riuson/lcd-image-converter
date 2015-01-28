@@ -16,6 +16,10 @@ WindowEditor::WindowEditor(QWidget *parent) :
     ui(new Ui::WindowEditor)
 {
     ui->setupUi(this);
+
+    this->ui->label->installEventFilter(this);
+
+    this->mScale = 10;
 }
 //-----------------------------------------------------------------------------
 WindowEditor::~WindowEditor()
@@ -57,7 +61,7 @@ bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
             {
                 // show coordinates
                 QPoint mouseCoordinates(xreal, yreal);
-                emit this->mouseMove(mouseCoordinates);
+                emit this->mouseMove(&mouseCoordinates);
 
                 // get buttons
                 bool buttonLeft = (me->buttons() & Qt::LeftButton) == Qt::LeftButton;
@@ -78,7 +82,7 @@ bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
             else
             {
                 QPoint mouseCoordinates(-1, -1);
-                emit this->mouseMove(mouseCoordinates);
+                emit this->mouseMove(&mouseCoordinates);
             }
         }
         event->accept();
