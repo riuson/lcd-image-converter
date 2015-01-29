@@ -21,13 +21,16 @@
 #include "windoweditor.h"
 
 #include <QColor>
+#include "toolsmanager.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
 Editor::Editor(QObject *parent) : QObject(parent)
 {
+    this->mTools = new ToolsManager(this);
     this->mWidget = new WindowEditor();
+    this->mWidget->setTools(this->mTools);
     this->connect(this->mWidget, SIGNAL(imageChanged()), SLOT(on_imageChanged()));
     this->connect(this->mWidget, SIGNAL(mouseMove(const QPoint *)), SLOT(on_mouseMove(const QPoint*)));
     this->connect(this->mWidget, SIGNAL(scaleSchanged(int)), SLOT(on_scaleSchanged(int)));
@@ -40,6 +43,7 @@ Editor::~Editor()
     delete this->mWidget;
     delete this->mForeColor;
     delete this->mBackColor;
+    delete this->mTools;
 }
 //-----------------------------------------------------------------------------
 QWidget *Editor::widget() const

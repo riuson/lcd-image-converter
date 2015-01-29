@@ -4,9 +4,12 @@
 #include <QMouseEvent>
 #include <QColorDialog>
 #include <QPainter>
+#include <QIcon>
 
 #include "bitmaphelper.h"
 #include "bitmapeditoroptions.h"
+#include "toolsmanager.h"
+#include "iimageeditortool.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -156,6 +159,17 @@ QColor WindowEditor::color2() const
 int WindowEditor::scale() const
 {
     return this->mScale;
+}
+//-----------------------------------------------------------------------------
+void WindowEditor::setTools(ToolsManager *tools)
+{
+    this->mTools = tools;
+
+    for (int i = 0; i < this->mTools->tools()->length(); i++)
+    {
+        IImageEditorTool *tool = this->mTools->tools()->at(i);
+        QAction *toolAction = this->ui->toolBarTools->addAction(*tool->icon(), tool->title());
+    }
 }
 //-----------------------------------------------------------------------------
 void WindowEditor::updateImageScaled(int scale)

@@ -36,6 +36,8 @@ public:
     explicit ToolsManager(QObject *parent = 0);
     ~ToolsManager();
 
+    const QList <IImageEditorTool *> *tools() const;
+
 private:
     QList <IImageEditorTool *> *mTools;
 

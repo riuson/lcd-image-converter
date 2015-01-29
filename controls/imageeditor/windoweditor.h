@@ -28,6 +28,7 @@ class WindowEditor;
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
+class ToolsManager;
 //-----------------------------------------------------------------------------
 class WindowEditor : public QMainWindow
 {
@@ -43,6 +44,8 @@ public:
     QColor color1() const;
     QColor color2() const;
     int scale() const;
+
+    void setTools(ToolsManager *tools);
 
 protected:
     void changeEvent(QEvent *e);
@@ -60,6 +63,7 @@ private:
     QPixmap mPixmapColor1;
     QPixmap mPixmapColor2;
     bool mFlagChanged;
+    ToolsManager *mTools;
 
     void updateImageScaled(int scale);
     void drawPixel(int x, int y, const QColor &color);

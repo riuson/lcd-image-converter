@@ -28,6 +28,7 @@ class QColor;
 namespace ImageEditor
 {
 class WindowEditor;
+class ToolsManager;
 
 class Editor : public QObject, public IImageEditor
 {
@@ -61,6 +62,7 @@ private:
     WindowEditor *mWidget;
     QColor *mForeColor;
     QColor *mBackColor;
+    ToolsManager *mTools;
 
 private slots:
     void on_imageChanged();

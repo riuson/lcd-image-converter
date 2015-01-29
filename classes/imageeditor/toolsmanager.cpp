@@ -39,6 +39,11 @@ ToolsManager::~ToolsManager()
     delete this->mTools;
 }
 //-----------------------------------------------------------------------------
+const QList<IImageEditorTool *> *ToolsManager::tools() const
+{
+    return this->mTools;
+}
+//-----------------------------------------------------------------------------
 void ToolsManager::InitializeTools()
 {
     IImageEditorTool *tool = new ToolPen(this);
