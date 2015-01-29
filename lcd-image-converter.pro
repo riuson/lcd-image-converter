@@ -17,7 +17,7 @@ MOC_DIR             = $$OUTDIR/.moc
 UI_DIR              = $$OUTDIR/.uic
 RCC_DIR             = $$OUTDIR/.rcc
 
-QT += xml xmlpatterns network script
+QT += xml xmlpatterns network script svg
 TARGET = lcd-image-converter
 TEMPLATE = app
 #CONFIG += console
@@ -61,6 +61,8 @@ SOURCES += main.cpp \
     classes/data/imagesmodel.cpp \
     classes/data/revisioninfo.cpp \
     classes/imageeditor/editor.cpp \
+    classes/imageeditor/toolsmanager.cpp \
+    classes/imageeditor/toolpen.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
     classes/parser/convert/converterhelper.cpp \
@@ -145,6 +147,8 @@ HEADERS += \
     classes/imageeditor/editor.h \
     classes/imageeditor/iimageeditor.h \
     classes/imageeditor/iimageeditortool.h \
+    classes/imageeditor/toolsmanager.h \
+    classes/imageeditor/toolpen.h \
     classes/parser/convert/bitmaphelper.h \
     classes/parser/convert/bitstream.h \
     classes/parser/convert/conversion_options.h \

@@ -17,44 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IIMAGEEDITORTOOL_H
-#define IIMAGEEDITORTOOL_H
-//-----------------------------------------------------------------------------
-class QString;
-class QPixmap;
-class QAction;
-class QWidget;
-class QMouseEvent;
-template <class T1> class QList;
+#include "toolsmanager.h"
+
+#include <QList>
+#include "iimageeditortool.h"
+#include "toolpen.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
-class IImageEditorTool
+ToolsManager::ToolsManager(QObject *parent) : QObject(parent)
 {
-public:
-    virtual ~IImageEditorTool() { }
+    this->mTools = new QList<IImageEditorTool *> ();
 
-    virtual const QString title() const = 0;
-    virtual const QString tooltip() const = 0;
-    virtual const QPixmap *pixmap() const = 0;
-    virtual const QList<QAction *> *actions() const = 0;
-    virtual const QList<QWidget *> *widgets() const = 0;
-
-public slots:
-    virtual void mousePress(const QMouseEvent *event) = 0;
-    virtual void mouseMove(const QMouseEvent *event) = 0;
-    virtual void mouseRelease(const QMouseEvent *event) = 0;
-
-signals:
-    virtual void started() = 0;
-    virtual void completed() = 0;
-};
+    this->InitializeTools();
+}
+//-----------------------------------------------------------------------------
+ToolsManager::~ToolsManager()
+{
+    qDeleteAll(*this->mTools);
+    delete this->mTools;
+}
+//-----------------------------------------------------------------------------
+void ToolsManager::InitializeTools()
+{
+    IImageEditorTool *tool = new ToolPen(this);
+    this->mTools->append(tool);
+}
 //-----------------------------------------------------------------------------
 } // end of namespace
-Q_DECLARE_INTERFACE (ImageEditor::IImageEditorTool,
-                     "riuson.lcd-image-converter/1.0"
-                     )
 //-----------------------------------------------------------------------------
-#endif // IIMAGEEDITORTOOL_H
-

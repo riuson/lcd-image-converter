@@ -17,44 +17,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IIMAGEEDITORTOOL_H
-#define IIMAGEEDITORTOOL_H
+#ifndef TOOLSMANAGER_H
+#define TOOLSMANAGER_H
 //-----------------------------------------------------------------------------
-class QString;
-class QPixmap;
-class QAction;
-class QWidget;
-class QMouseEvent;
+#include <QObject>
+//-----------------------------------------------------------------------------
 template <class T1> class QList;
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
-class IImageEditorTool
+class IImageEditorTool;
+//-----------------------------------------------------------------------------
+class ToolsManager : public QObject
 {
+    Q_OBJECT
 public:
-    virtual ~IImageEditorTool() { }
+    explicit ToolsManager(QObject *parent = 0);
+    ~ToolsManager();
 
-    virtual const QString title() const = 0;
-    virtual const QString tooltip() const = 0;
-    virtual const QPixmap *pixmap() const = 0;
-    virtual const QList<QAction *> *actions() const = 0;
-    virtual const QList<QWidget *> *widgets() const = 0;
+private:
+    QList <IImageEditorTool *> *mTools;
 
-public slots:
-    virtual void mousePress(const QMouseEvent *event) = 0;
-    virtual void mouseMove(const QMouseEvent *event) = 0;
-    virtual void mouseRelease(const QMouseEvent *event) = 0;
+    void InitializeTools();
 
 signals:
-    virtual void started() = 0;
-    virtual void completed() = 0;
+
+public slots:
 };
 //-----------------------------------------------------------------------------
 } // end of namespace
-Q_DECLARE_INTERFACE (ImageEditor::IImageEditorTool,
-                     "riuson.lcd-image-converter/1.0"
-                     )
 //-----------------------------------------------------------------------------
-#endif // IIMAGEEDITORTOOL_H
-
+#endif // TOOLSMANAGER_H

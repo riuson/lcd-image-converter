@@ -43,4 +43,7 @@
         <file alias="t2b_f">scan_scripts/scan_top2bottom_forward.js</file>
         <file alias="t2b_f_b">scan_scripts/scan_top2bottom_forward_band.js</file>
     </qresource>
+    <qresource prefix="/images/icons/tools">
+        <file alias="tool_pen.svg">icons/tools/tool_pen.svg</file>
+    </qresource>
 </RCC>

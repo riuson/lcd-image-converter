@@ -17,44 +17,48 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IIMAGEEDITORTOOL_H
-#define IIMAGEEDITORTOOL_H
+#ifndef TOOLPEN_H
+#define TOOLPEN_H
 //-----------------------------------------------------------------------------
-class QString;
+#include <QObject>
+#include "iimageeditortool.h"
+
 class QPixmap;
-class QAction;
-class QWidget;
-class QMouseEvent;
-template <class T1> class QList;
+
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
-class IImageEditorTool
+class ToolPen : public QObject, public IImageEditorTool
 {
-public:
-    virtual ~IImageEditorTool() { }
+    Q_OBJECT
+    Q_INTERFACES(ImageEditor::IImageEditorTool)
 
-    virtual const QString title() const = 0;
-    virtual const QString tooltip() const = 0;
-    virtual const QPixmap *pixmap() const = 0;
-    virtual const QList<QAction *> *actions() const = 0;
-    virtual const QList<QWidget *> *widgets() const = 0;
+public:
+    explicit ToolPen(QObject *parent = 0);
+    ~ToolPen();
+
+    const QString title() const;
+    const QString tooltip() const;
+    const QPixmap *pixmap() const;
+    const QList<QAction *> *actions() const;
+    const QList<QWidget *> *widgets() const;
 
 public slots:
-    virtual void mousePress(const QMouseEvent *event) = 0;
-    virtual void mouseMove(const QMouseEvent *event) = 0;
-    virtual void mouseRelease(const QMouseEvent *event) = 0;
+    void mousePress(const QMouseEvent *event);
+    void mouseMove(const QMouseEvent *event);
+    void mouseRelease(const QMouseEvent *event);
 
 signals:
-    virtual void started() = 0;
-    virtual void completed() = 0;
+    void started();
+    void completed();
+
+private:
+    QPixmap *mPixmap;
+    QList<QAction *> *mActions;
+    QList<QWidget *> *mWidgets;
 };
 //-----------------------------------------------------------------------------
 } // end of namespace
-Q_DECLARE_INTERFACE (ImageEditor::IImageEditorTool,
-                     "riuson.lcd-image-converter/1.0"
-                     )
 //-----------------------------------------------------------------------------
-#endif // IIMAGEEDITORTOOL_H
-
+#endif // TOOLPEN_H
