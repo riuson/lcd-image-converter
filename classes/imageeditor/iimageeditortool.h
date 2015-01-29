@@ -21,7 +21,7 @@
 #define IIMAGEEDITORTOOL_H
 //-----------------------------------------------------------------------------
 class QString;
-class QPixmap;
+class QIcon;
 class QAction;
 class QWidget;
 class QMouseEvent;
@@ -37,7 +37,7 @@ public:
 
     virtual const QString title() const = 0;
     virtual const QString tooltip() const = 0;
-    virtual const QPixmap *pixmap() const = 0;
+    virtual const QIcon *icon() const = 0;
     virtual const QList<QAction *> *actions() const = 0;
     virtual const QList<QWidget *> *widgets() const = 0;
 

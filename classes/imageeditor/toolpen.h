@@ -23,7 +23,7 @@
 #include <QObject>
 #include "iimageeditortool.h"
 
-class QPixmap;
+class QIcon;
 
 //-----------------------------------------------------------------------------
 namespace ImageEditor
@@ -40,7 +40,7 @@ public:
 
     const QString title() const;
     const QString tooltip() const;
-    const QPixmap *pixmap() const;
+    const QIcon *icon() const;
     const QList<QAction *> *actions() const;
     const QList<QWidget *> *widgets() const;
 
@@ -54,7 +54,7 @@ signals:
     void completed();
 
 private:
-    QPixmap *mPixmap;
+    QIcon *mIcon;
     QList<QAction *> *mActions;
     QList<QWidget *> *mWidgets;
 };

@@ -24,6 +24,7 @@
 #include <QList>
 #include <QAction>
 #include <QWidget>
+#include <QColor>
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -31,9 +32,12 @@ namespace ImageEditor
 ToolPen::ToolPen(QObject *parent) : QObject(parent)
 {
     QSvgRenderer renderer(QString(":/images/icons/tools/tool_pen.svg"), this);
-    this->mPixmap = new QPixmap(16, 16);
-    QPainter painter(this->mPixmap);
-    renderer.render(&painter, this->mPixmap->rect());
+
+    QImage image(16, 16, QImage::Format_ARGB32);
+    image.fill(0x00ffffff);
+    QPainter painter(&image);
+    renderer.render(&painter);
+    this->mIcon = new QIcon(QPixmap::fromImage(image));
 
     this->mActions = new QList<QAction *>();
     this->mWidgets = new QList<QWidget *>();
@@ -41,7 +45,7 @@ ToolPen::ToolPen(QObject *parent) : QObject(parent)
 //-----------------------------------------------------------------------------
 ToolPen::~ToolPen()
 {
-    delete this->mPixmap;
+    delete this->mIcon;
     qDeleteAll(*this->mActions);
     qDeleteAll(*this->mWidgets);
     delete this->mActions;
@@ -58,9 +62,9 @@ const QString ToolPen::tooltip() const
     return tr("Draw pixels");
 }
 //-----------------------------------------------------------------------------
-const QPixmap *ToolPen::pixmap() const
+const QIcon *ToolPen::icon() const
 {
-    return this->mPixmap;
+    return this->mIcon;
 }
 //-----------------------------------------------------------------------------
 const QList<QAction *> *ToolPen::actions() const
