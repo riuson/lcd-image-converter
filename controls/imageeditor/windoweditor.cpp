@@ -164,12 +164,8 @@ int WindowEditor::scale() const
 void WindowEditor::setTools(ToolsManager *tools)
 {
     this->mTools = tools;
-
-    for (int i = 0; i < this->mTools->tools()->length(); i++)
-    {
-        IImageEditorTool *tool = this->mTools->tools()->at(i);
-        QAction *toolAction = this->ui->toolBarTools->addAction(*tool->icon(), tool->title());
-    }
+    QList<QAction *> actions = QList<QAction *> (*this->mTools->toolsActions());
+    this->ui->toolBarTools->addActions(actions);
 }
 //-----------------------------------------------------------------------------
 void WindowEditor::updateImageScaled(int scale)

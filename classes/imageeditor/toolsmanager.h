@@ -22,6 +22,7 @@
 //-----------------------------------------------------------------------------
 #include <QObject>
 //-----------------------------------------------------------------------------
+class QAction;
 template <class T1> class QList;
 //-----------------------------------------------------------------------------
 namespace ImageEditor
@@ -37,11 +38,14 @@ public:
     ~ToolsManager();
 
     const QList <IImageEditorTool *> *tools() const;
+    const QList<QAction *> *toolsActions() const;
 
 private:
     QList <IImageEditorTool *> *mTools;
+    QList <QAction *> *mToolsActions;
 
     void InitializeTools();
+    void initializeActions();
 
 signals:
 
