@@ -63,6 +63,7 @@ SOURCES += main.cpp \
     classes/imageeditor/editor.cpp \
     classes/imageeditor/toolsmanager.cpp \
     classes/imageeditor/toolpen.cpp \
+    classes/imageeditor/toolzoom.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
     classes/parser/convert/converterhelper.cpp \
@@ -149,6 +150,7 @@ HEADERS += \
     classes/imageeditor/iimageeditortool.h \
     classes/imageeditor/toolsmanager.h \
     classes/imageeditor/toolpen.h \
+    classes/imageeditor/toolzoom.h \
     classes/parser/convert/bitmaphelper.h \
     classes/parser/convert/bitstream.h \
     classes/parser/convert/conversion_options.h \

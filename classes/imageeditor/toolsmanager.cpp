@@ -23,6 +23,7 @@
 #include <QAction>
 #include "iimageeditortool.h"
 #include "toolpen.h"
+#include "toolzoom.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -57,8 +58,8 @@ const QList<QAction *> *ToolsManager::toolsActions() const
 //-----------------------------------------------------------------------------
 void ToolsManager::InitializeTools()
 {
-    IImageEditorTool *tool = new ToolPen(this);
-    this->mTools->append(tool);
+    this->mTools->append(new ToolPen(this));
+    this->mTools->append(new ToolZoom(this));
 }
 //-----------------------------------------------------------------------------
 void ToolsManager::initializeActions()

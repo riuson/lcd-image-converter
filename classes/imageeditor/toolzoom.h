@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef TOOLPEN_H
-#define TOOLPEN_H
+#ifndef TOOLZOOM_H
+#define TOOLZOOM_H
 //-----------------------------------------------------------------------------
 #include <QObject>
 #include "iimageeditortool.h"
@@ -28,14 +28,14 @@ class QIcon;
 namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
-class ToolPen : public QObject, public IImageEditorTool
+class ToolZoom : public QObject, public IImageEditorTool
 {
     Q_OBJECT
     Q_INTERFACES(ImageEditor::IImageEditorTool)
 
 public:
-    explicit ToolPen(QObject *parent = 0);
-    ~ToolPen();
+    explicit ToolZoom(QObject *parent = 0);
+    ~ToolZoom();
 
     const QString title() const;
     const QString tooltip() const;
@@ -60,4 +60,4 @@ private:
 //-----------------------------------------------------------------------------
 } // end of namespace
 //-----------------------------------------------------------------------------
-#endif // TOOLPEN_H
+#endif // TOOLZOOM_H

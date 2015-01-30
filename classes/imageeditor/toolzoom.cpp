@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "toolpen.h"
+#include "toolzoom.h"
 #include <QtSvg/QSvgRenderer>
 #include <QPainter>
 #include <QList>
@@ -28,9 +28,9 @@
 namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
-ToolPen::ToolPen(QObject *parent) : QObject(parent)
+ToolZoom::ToolZoom(QObject *parent) : QObject(parent)
 {
-    QSvgRenderer renderer(QString(":/images/icons/tools/tool_pen.svg"), this);
+    QSvgRenderer renderer(QString(":/images/icons/tools/tool_zoom.svg"), this);
 
     QImage image(16, 16, QImage::Format_ARGB32);
     image.fill(0x00ffffff);
@@ -42,7 +42,7 @@ ToolPen::ToolPen(QObject *parent) : QObject(parent)
     this->mWidgets = new QList<QWidget *>();
 }
 //-----------------------------------------------------------------------------
-ToolPen::~ToolPen()
+ToolZoom::~ToolZoom()
 {
     delete this->mIcon;
     qDeleteAll(*this->mActions);
@@ -51,42 +51,42 @@ ToolPen::~ToolPen()
     delete this->mWidgets;
 }
 //-----------------------------------------------------------------------------
-const QString ToolPen::title() const
+const QString ToolZoom::title() const
 {
-    return tr("Pen");
+    return tr("Zoom");
 }
 //-----------------------------------------------------------------------------
-const QString ToolPen::tooltip() const
+const QString ToolZoom::tooltip() const
 {
-    return tr("Draw pixels");
+    return tr("Zoom image");
 }
 //-----------------------------------------------------------------------------
-const QIcon *ToolPen::icon() const
+const QIcon *ToolZoom::icon() const
 {
     return this->mIcon;
 }
 //-----------------------------------------------------------------------------
-const QList<QAction *> *ToolPen::actions() const
+const QList<QAction *> *ToolZoom::actions() const
 {
     return this->mActions;
 }
 //-----------------------------------------------------------------------------
-const QList<QWidget *> *ToolPen::widgets() const
+const QList<QWidget *> *ToolZoom::widgets() const
 {
     return this->mWidgets;
 }
 //-----------------------------------------------------------------------------
-void ToolPen::mousePress(const QMouseEvent *event)
+void ToolZoom::mousePress(const QMouseEvent *event)
 {
 
 }
 //-----------------------------------------------------------------------------
-void ToolPen::mouseMove(const QMouseEvent *event)
+void ToolZoom::mouseMove(const QMouseEvent *event)
 {
 
 }
 //-----------------------------------------------------------------------------
-void ToolPen::mouseRelease(const QMouseEvent *event)
+void ToolZoom::mouseRelease(const QMouseEvent *event)
 {
 
 }
