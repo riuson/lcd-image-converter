@@ -67,7 +67,43 @@ void ToolsManager::initializeActions()
     {
         IImageEditorTool *tool = this->mTools->at(i);
         QAction *toolAction = new QAction(*tool->icon(), tool->title(), this);
+        toolAction->setData(QVariant(i)); // index of the tool
+        toolAction->setCheckable(true);
+        this->connect(toolAction, SIGNAL(triggered()), SLOT(on_toolAction_triggered()));
         this->mToolsActions->append(toolAction);
+    }
+}
+//-----------------------------------------------------------------------------
+void ToolsManager::selectTool(IImageEditorTool *tool)
+{
+    for (int i = 0; i < this->mTools->length(); i++)
+    {
+        if (this->mTools->at(i) == tool)
+        {
+            this->mToolsActions->at(i)->setChecked(true);
+            this->mSelectedTool = tool;
+        }
+        else
+        {
+            this->mToolsActions->at(i)->setChecked(false);
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+void ToolsManager::on_toolAction_triggered()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+
+    if (action != NULL)
+    {
+        bool ok;
+        int toolIndex = action->data().toInt(&ok);
+
+        if (ok)
+        {
+            IImageEditorTool *tool = this->mTools->at(toolIndex);
+            this->selectTool(tool);
+        }
     }
 }
 //-----------------------------------------------------------------------------

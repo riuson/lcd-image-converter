@@ -40,16 +40,21 @@ public:
     const QList <IImageEditorTool *> *tools() const;
     const QList<QAction *> *toolsActions() const;
 
-private:
-    QList <IImageEditorTool *> *mTools;
-    QList <QAction *> *mToolsActions;
-
-    void InitializeTools();
-    void initializeActions();
+public slots:
 
 signals:
 
-public slots:
+private:
+    QList <IImageEditorTool *> *mTools;
+    QList <QAction *> *mToolsActions;
+    IImageEditorTool *mSelectedTool;
+
+    void InitializeTools();
+    void initializeActions();
+    void selectTool(IImageEditorTool *tool);
+
+private slots:
+    void on_toolAction_triggered();
 };
 //-----------------------------------------------------------------------------
 } // end of namespace
