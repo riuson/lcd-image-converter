@@ -40,10 +40,12 @@ Editor::Editor(QObject *parent) : QObject(parent)
 //-----------------------------------------------------------------------------
 Editor::~Editor()
 {
-    delete this->mWidget;
     delete this->mForeColor;
     delete this->mBackColor;
+
+    // delete widgets of tools before editor widget
     delete this->mTools;
+    delete this->mWidget;
 }
 //-----------------------------------------------------------------------------
 QWidget *Editor::widget() const
