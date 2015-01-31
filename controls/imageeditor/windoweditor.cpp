@@ -212,11 +212,6 @@ void WindowEditor::drawPixel(int x, int y, const QColor &color)
     this->updateImageScaled(this->mScale);
 }
 //-----------------------------------------------------------------------------
-void WindowEditor::on_spinBoxScale_valueChanged(int value)
-{
-    this->setScale(value);
-}
-//-----------------------------------------------------------------------------
 void WindowEditor::on_pushButtonColor1_clicked()
 {
     QColorDialog dialog(this->mColor1, this);
