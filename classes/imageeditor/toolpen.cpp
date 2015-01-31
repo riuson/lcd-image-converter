@@ -24,6 +24,7 @@
 #include <QAction>
 #include <QWidget>
 #include <QColor>
+#include <QSpinBox>
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -40,6 +41,10 @@ ToolPen::ToolPen(QObject *parent) : QObject(parent)
 
     this->mActions = new QList<QAction *>();
     this->mWidgets = new QList<QWidget *>();
+
+    this->mSize = 1;
+
+    this->initializeWidgets();
 }
 //-----------------------------------------------------------------------------
 ToolPen::~ToolPen()
@@ -89,6 +94,24 @@ void ToolPen::mouseMove(const QMouseEvent *event)
 void ToolPen::mouseRelease(const QMouseEvent *event)
 {
 
+}
+//-----------------------------------------------------------------------------
+void ToolPen::on_spinBoxSize_valueChanged(int value)
+{
+    this->mSize = value;
+}
+//-----------------------------------------------------------------------------
+void ToolPen::initializeWidgets()
+{
+    {
+        QSpinBox *spinBoxSize = new QSpinBox();
+        spinBoxSize->setMinimum(1);
+        spinBoxSize->setSuffix(QString("px"));
+        spinBoxSize->setValue(this->mSize);
+        this->connect(spinBoxSize, SIGNAL(valueChanged(int)), SLOT(on_spinBoxSize_valueChanged(int)));
+
+        this->mWidgets->append(spinBoxSize);
+    }
 }
 //-----------------------------------------------------------------------------
 } // end of namespace

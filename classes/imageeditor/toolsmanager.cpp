@@ -77,18 +77,23 @@ void ToolsManager::initializeActions()
 //-----------------------------------------------------------------------------
 void ToolsManager::selectTool(IImageEditorTool *tool)
 {
+    int toolIndex = -1;
+
     for (int i = 0; i < this->mTools->length(); i++)
     {
         if (this->mTools->at(i) == tool)
         {
             this->mToolsActions->at(i)->setChecked(true);
             this->mSelectedTool = tool;
+            toolIndex = i;
         }
         else
         {
             this->mToolsActions->at(i)->setChecked(false);
         }
     }
+
+    emit this->toolChanged(toolIndex);
 }
 //-----------------------------------------------------------------------------
 void ToolsManager::on_toolAction_triggered()

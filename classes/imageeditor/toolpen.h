@@ -48,6 +48,8 @@ public slots:
     void mouseMove(const QMouseEvent *event);
     void mouseRelease(const QMouseEvent *event);
 
+    void on_spinBoxSize_valueChanged(int value);
+
 signals:
     void started();
     void completed();
@@ -56,6 +58,9 @@ private:
     QIcon *mIcon;
     QList<QAction *> *mActions;
     QList<QWidget *> *mWidgets;
+    int mSize;
+
+    void initializeWidgets();
 };
 //-----------------------------------------------------------------------------
 } // end of namespace

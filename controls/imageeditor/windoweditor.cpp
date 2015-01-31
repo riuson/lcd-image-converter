@@ -166,6 +166,7 @@ void WindowEditor::setTools(ToolsManager *tools)
     this->mTools = tools;
     QList<QAction *> actions = QList<QAction *> (*this->mTools->toolsActions());
     this->ui->toolBarTools->addActions(actions);
+    this->connect(this->mTools, SIGNAL(toolChanged(int)), SLOT(toolChanged(int)));
 }
 //-----------------------------------------------------------------------------
 void WindowEditor::updateImageScaled(int scale)
@@ -240,6 +241,23 @@ void WindowEditor::setColor1(const QColor value)
 void WindowEditor::setColor2(const QColor value)
 {
     this->mColor2 = value;
+}
+//-----------------------------------------------------------------------------
+void WindowEditor::toolChanged(int toolIndex)
+{
+    this->ui->toolBarOptions->clear();
+    this->ui->toolBarOptions->addActions(*this->mTools->tools()->at(toolIndex)->actions());
+
+    for (int i = 0; i < this->mTools->tools()->at(toolIndex)->widgets()->length(); i++)
+    {
+        QWidget *widget = this->mTools->tools()->at(toolIndex)->widgets()->at(i);
+
+        // toolbar takes ownership on widget
+        // so widget will be deleted on toolbar deleting
+        QAction *widgetAction = this->ui->toolBarOptions->addWidget(widget);
+
+        widgetAction->setVisible(true);
+    }
 }
 //-----------------------------------------------------------------------------
 }

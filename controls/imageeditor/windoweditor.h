@@ -77,6 +77,7 @@ public slots:
     void setScale(int value);
     void setColor1(const QColor value);
     void setColor2(const QColor value);
+    void toolChanged(int toolIndex);
 
 signals:
     void imageChanged();

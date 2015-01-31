@@ -43,6 +43,7 @@ public:
 public slots:
 
 signals:
+    void toolChanged(int toolIndex);
 
 private:
     QList <IImageEditorTool *> *mTools;

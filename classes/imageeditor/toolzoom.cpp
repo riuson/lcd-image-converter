@@ -24,6 +24,7 @@
 #include <QAction>
 #include <QWidget>
 #include <QColor>
+#include <QSpinBox>
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -40,6 +41,10 @@ ToolZoom::ToolZoom(QObject *parent) : QObject(parent)
 
     this->mActions = new QList<QAction *>();
     this->mWidgets = new QList<QWidget *>();
+
+    this->mZoom = 1;
+
+    this->initializeWidgets();
 }
 //-----------------------------------------------------------------------------
 ToolZoom::~ToolZoom()
@@ -89,6 +94,24 @@ void ToolZoom::mouseMove(const QMouseEvent *event)
 void ToolZoom::mouseRelease(const QMouseEvent *event)
 {
 
+}
+//-----------------------------------------------------------------------------
+void ToolZoom::on_spinBoxZoom_valueChanged(int value)
+{
+    this->mZoom = value;
+}
+//-----------------------------------------------------------------------------
+void ToolZoom::initializeWidgets()
+{
+    {
+        QSpinBox *spinBoxZoom = new QSpinBox();
+        spinBoxZoom->setMinimum(1);
+        spinBoxZoom->setSuffix(QString("x"));
+        spinBoxZoom->setValue(this->mZoom);
+        this->connect(spinBoxZoom, SIGNAL(valueChanged(int)), SLOT(on_spinBoxZoom_valueChanged(int)));
+
+        this->mWidgets->append(spinBoxZoom);
+    }
 }
 //-----------------------------------------------------------------------------
 } // end of namespace
