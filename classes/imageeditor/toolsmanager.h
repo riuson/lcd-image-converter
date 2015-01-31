@@ -54,7 +54,7 @@ private:
     IImageEditorTool *mSelectedTool;
     ToolZoom *mZoomer;
 
-    void InitializeTools();
+    void initializeTools();
     void initializeActions();
     void selectTool(IImageEditorTool *tool);
 

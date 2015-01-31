@@ -33,7 +33,7 @@ ToolsManager::ToolsManager(QObject *parent) : QObject(parent)
     this->mTools = new QList<IImageEditorTool *> ();
     this->mToolsActions = new QList<QAction *> ();
 
-    this->InitializeTools();
+    this->initializeTools();
     this->initializeActions();
 }
 //-----------------------------------------------------------------------------
@@ -61,7 +61,7 @@ void ToolsManager::setZoom(int value)
     this->mZoomer->changeZoom(value);
 }
 //-----------------------------------------------------------------------------
-void ToolsManager::InitializeTools()
+void ToolsManager::initializeTools()
 {
     this->mTools->append(new ToolPen(this));
 
