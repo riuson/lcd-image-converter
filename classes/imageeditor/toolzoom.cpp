@@ -25,6 +25,7 @@
 #include <QWidget>
 #include <QColor>
 #include <QSpinBox>
+#include <QSettings>
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -44,11 +45,13 @@ ToolZoom::ToolZoom(QObject *parent) : QObject(parent)
 
     this->mZoom = 1;
 
+    this->loadSettings();
     this->initializeWidgets();
 }
 //-----------------------------------------------------------------------------
 ToolZoom::~ToolZoom()
 {
+    this->saveSettings();
     delete this->mIcon;
     qDeleteAll(*this->mActions);
     qDeleteAll(*this->mWidgets);
@@ -79,6 +82,11 @@ const QList<QAction *> *ToolZoom::actions() const
 const QList<QWidget *> *ToolZoom::widgets() const
 {
     return this->mWidgets;
+}
+//-----------------------------------------------------------------------------
+int ToolZoom::zoom() const
+{
+    return this->mZoom;
 }
 //-----------------------------------------------------------------------------
 void ToolZoom::mousePress(const QMouseEvent *event)
@@ -116,6 +124,40 @@ void ToolZoom::initializeWidgets()
 
         this->mWidgets->append(this->mSpinBoxZoom);
     }
+}
+//-----------------------------------------------------------------------------
+void ToolZoom::loadSettings()
+{
+    QSettings sett;
+    sett.beginGroup("window-image-editor");
+    sett.beginGroup("tools");
+    sett.beginGroup("zoom");
+
+    bool ok;
+    int value = sett.value("zoom", QVariant(1)).toInt(&ok);
+
+    if (ok)
+    {
+        this->mZoom = value;
+    }
+
+    sett.endGroup();
+    sett.endGroup();
+    sett.endGroup();
+}
+//-----------------------------------------------------------------------------
+void ToolZoom::saveSettings() const
+{
+    QSettings sett;
+    sett.beginGroup("window-image-editor");
+    sett.beginGroup("tools");
+    sett.beginGroup("zoom");
+
+    sett.setValue("zoom", this->mZoom);
+
+    sett.endGroup();
+    sett.endGroup();
+    sett.endGroup();
 }
 //-----------------------------------------------------------------------------
 void ToolZoom::on_spinBoxZoom_valueChanged(int value)

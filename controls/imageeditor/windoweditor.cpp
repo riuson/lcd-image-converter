@@ -42,8 +42,6 @@ WindowEditor::WindowEditor(QWidget *parent) :
 
     this->ui->label->installEventFilter(this);
 
-    this->mScale = 10;
-
     this->restoreState(ImageEditorOptions::toolbarsState(), 0);
 }
 //-----------------------------------------------------------------------------

@@ -44,6 +44,8 @@ public:
     const QList<QAction *> *actions() const;
     const QList<QWidget *> *widgets() const;
 
+    int zoom() const;
+
 public slots:
     void mousePress(const QMouseEvent *event);
     void mouseMove(const QMouseEvent *event);
@@ -64,6 +66,8 @@ private:
 
 
     void initializeWidgets();
+    void loadSettings();
+    void saveSettings() const;
 
 private slots:
     void on_spinBoxZoom_valueChanged(int value);

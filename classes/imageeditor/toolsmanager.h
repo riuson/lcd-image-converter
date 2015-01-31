@@ -41,6 +41,8 @@ public:
     const QList <IImageEditorTool *> *tools() const;
     const QList<QAction *> *toolsActions() const;
 
+    int zoom() const;
+
 public slots:
     void setZoom(int value);
 
