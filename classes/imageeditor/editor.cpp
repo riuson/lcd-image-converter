@@ -31,14 +31,14 @@ Editor::Editor(QObject *parent) : QObject(parent)
     this->mTools = new ToolsManager(this);
     this->mWidget = new WindowEditor();
     this->mWidget->setTools(this->mTools);
-    this->mWidget->setScale(this->mTools->zoom());
+    this->mWidget->setScale(this->mTools->scale());
     this->connect(this->mWidget, SIGNAL(imageChanged()), SLOT(on_imageChanged()));
     this->connect(this->mWidget, SIGNAL(mouseMove(const QPoint *)), SLOT(on_mouseMove(const QPoint*)));
     this->connect(this->mWidget, SIGNAL(scaleSchanged(int)), SLOT(on_scaleSchanged(int)));
     this->mForeColor = new QColor();
     this->mBackColor = new QColor();
 
-    this->connect(this->mTools, SIGNAL(zoomChanged(int)), SLOT(on_scaleSchanged(int)));
+    this->connect(this->mTools, SIGNAL(scaleChanged(int)), SLOT(on_scaleSchanged(int)));
 }
 //-----------------------------------------------------------------------------
 Editor::~Editor()
@@ -95,7 +95,7 @@ void Editor::on_scaleSchanged(int scale)
 {
     emit this->scaleChanged(scale);
     this->mWidget->setScale(scale);
-    this->mTools->setZoom(scale);
+    this->mTools->setScale(scale);
 }
 //-----------------------------------------------------------------------------
 } // end of namespace

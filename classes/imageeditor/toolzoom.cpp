@@ -43,7 +43,7 @@ ToolZoom::ToolZoom(QObject *parent) : QObject(parent)
     this->mActions = new QList<QAction *>();
     this->mWidgets = new QList<QWidget *>();
 
-    this->mZoom = 1;
+    this->mScale = 1;
 
     this->loadSettings();
     this->initializeWidgets();
@@ -84,9 +84,9 @@ const QList<QWidget *> *ToolZoom::widgets() const
     return this->mWidgets;
 }
 //-----------------------------------------------------------------------------
-int ToolZoom::zoom() const
+int ToolZoom::scale() const
 {
-    return this->mZoom;
+    return this->mScale;
 }
 //-----------------------------------------------------------------------------
 void ToolZoom::mousePress(const QMouseEvent *event)
@@ -104,25 +104,25 @@ void ToolZoom::mouseRelease(const QMouseEvent *event)
 
 }
 //-----------------------------------------------------------------------------
-void ToolZoom::changeZoom(int value)
+void ToolZoom::setScale(int value)
 {
-    if (this->mZoom != value)
+    if (this->mScale != value)
     {
-        this->mZoom = value;
-        this->mSpinBoxZoom->setValue(value);
+        this->mScale = value;
+        this->mSpinBoxScale->setValue(value);
     }
 }
 //-----------------------------------------------------------------------------
 void ToolZoom::initializeWidgets()
 {
     {
-        this->mSpinBoxZoom = new QSpinBox();
-        this->mSpinBoxZoom->setMinimum(1);
-        this->mSpinBoxZoom->setSuffix(QString("x"));
-        this->mSpinBoxZoom->setValue(this->mZoom);
-        this->connect(this->mSpinBoxZoom, SIGNAL(valueChanged(int)), SLOT(on_spinBoxZoom_valueChanged(int)));
+        this->mSpinBoxScale = new QSpinBox();
+        this->mSpinBoxScale->setMinimum(1);
+        this->mSpinBoxScale->setSuffix(QString("x"));
+        this->mSpinBoxScale->setValue(this->mScale);
+        this->connect(this->mSpinBoxScale, SIGNAL(valueChanged(int)), SLOT(on_spinBoxScale_valueChanged(int)));
 
-        this->mWidgets->append(this->mSpinBoxZoom);
+        this->mWidgets->append(this->mSpinBoxScale);
     }
 }
 //-----------------------------------------------------------------------------
@@ -134,11 +134,11 @@ void ToolZoom::loadSettings()
     sett.beginGroup("zoom");
 
     bool ok;
-    int value = sett.value("zoom", QVariant(1)).toInt(&ok);
+    int value = sett.value("scale", QVariant(1)).toInt(&ok);
 
     if (ok)
     {
-        this->mZoom = value;
+        this->mScale = value;
     }
 
     sett.endGroup();
@@ -153,19 +153,19 @@ void ToolZoom::saveSettings() const
     sett.beginGroup("tools");
     sett.beginGroup("zoom");
 
-    sett.setValue("zoom", this->mZoom);
+    sett.setValue("scale", this->mScale);
 
     sett.endGroup();
     sett.endGroup();
     sett.endGroup();
 }
 //-----------------------------------------------------------------------------
-void ToolZoom::on_spinBoxZoom_valueChanged(int value)
+void ToolZoom::on_spinBoxScale_valueChanged(int value)
 {
-    if (value != this->mZoom)
+    if (value != this->mScale)
     {
-        this->mZoom = value;
-        emit this->zoomChanged(value);
+        this->mScale = value;
+        emit this->scaleChanged(value);
     }
 }
 //-----------------------------------------------------------------------------

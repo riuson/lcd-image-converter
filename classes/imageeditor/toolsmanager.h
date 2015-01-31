@@ -41,14 +41,14 @@ public:
     const QList <IImageEditorTool *> *tools() const;
     const QList<QAction *> *toolsActions() const;
 
-    int zoom() const;
+    int scale() const;
 
 public slots:
-    void setZoom(int value);
+    void setScale(int value);
 
 signals:
     void toolChanged(int toolIndex);
-    void zoomChanged(int value);
+    void scaleChanged(int value);
 
 private:
     QList <IImageEditorTool *> *mTools;

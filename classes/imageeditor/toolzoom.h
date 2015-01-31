@@ -44,25 +44,25 @@ public:
     const QList<QAction *> *actions() const;
     const QList<QWidget *> *widgets() const;
 
-    int zoom() const;
+    int scale() const;
 
 public slots:
     void mousePress(const QMouseEvent *event);
     void mouseMove(const QMouseEvent *event);
     void mouseRelease(const QMouseEvent *event);
-    void changeZoom(int value);
+    void setScale(int value);
 
 signals:
     void started();
     void completed();
-    void zoomChanged(int value);
+    void scaleChanged(int value);
 
 private:
     QIcon *mIcon;
-    QSpinBox *mSpinBoxZoom;
+    QSpinBox *mSpinBoxScale;
     QList<QAction *> *mActions;
     QList<QWidget *> *mWidgets;
-    int mZoom;
+    int mScale;
 
 
     void initializeWidgets();
@@ -70,7 +70,7 @@ private:
     void saveSettings() const;
 
 private slots:
-    void on_spinBoxZoom_valueChanged(int value);
+    void on_spinBoxScale_valueChanged(int value);
 };
 //-----------------------------------------------------------------------------
 } // end of namespace
