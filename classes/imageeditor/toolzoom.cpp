@@ -96,21 +96,34 @@ void ToolZoom::mouseRelease(const QMouseEvent *event)
 
 }
 //-----------------------------------------------------------------------------
-void ToolZoom::on_spinBoxZoom_valueChanged(int value)
+void ToolZoom::changeZoom(int value)
 {
-    this->mZoom = value;
+    if (this->mZoom != value)
+    {
+        this->mZoom = value;
+        this->mSpinBoxZoom->setValue(value);
+    }
 }
 //-----------------------------------------------------------------------------
 void ToolZoom::initializeWidgets()
 {
     {
-        QSpinBox *spinBoxZoom = new QSpinBox();
-        spinBoxZoom->setMinimum(1);
-        spinBoxZoom->setSuffix(QString("x"));
-        spinBoxZoom->setValue(this->mZoom);
-        this->connect(spinBoxZoom, SIGNAL(valueChanged(int)), SLOT(on_spinBoxZoom_valueChanged(int)));
+        this->mSpinBoxZoom = new QSpinBox();
+        this->mSpinBoxZoom->setMinimum(1);
+        this->mSpinBoxZoom->setSuffix(QString("x"));
+        this->mSpinBoxZoom->setValue(this->mZoom);
+        this->connect(this->mSpinBoxZoom, SIGNAL(valueChanged(int)), SLOT(on_spinBoxZoom_valueChanged(int)));
 
-        this->mWidgets->append(spinBoxZoom);
+        this->mWidgets->append(this->mSpinBoxZoom);
+    }
+}
+//-----------------------------------------------------------------------------
+void ToolZoom::on_spinBoxZoom_valueChanged(int value)
+{
+    if (value != this->mZoom)
+    {
+        this->mZoom = value;
+        emit this->zoomChanged(value);
     }
 }
 //-----------------------------------------------------------------------------

@@ -24,6 +24,7 @@
 #include "iimageeditortool.h"
 
 class QIcon;
+class QSpinBox;
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -47,20 +48,25 @@ public slots:
     void mousePress(const QMouseEvent *event);
     void mouseMove(const QMouseEvent *event);
     void mouseRelease(const QMouseEvent *event);
-
-    void on_spinBoxZoom_valueChanged(int value);
+    void changeZoom(int value);
 
 signals:
     void started();
     void completed();
+    void zoomChanged(int value);
 
 private:
     QIcon *mIcon;
+    QSpinBox *mSpinBoxZoom;
     QList<QAction *> *mActions;
     QList<QWidget *> *mWidgets;
     int mZoom;
 
+
     void initializeWidgets();
+
+private slots:
+    void on_spinBoxZoom_valueChanged(int value);
 };
 //-----------------------------------------------------------------------------
 } // end of namespace

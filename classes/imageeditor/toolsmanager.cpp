@@ -56,10 +56,18 @@ const QList<QAction *> *ToolsManager::toolsActions() const
     return this->mToolsActions;
 }
 //-----------------------------------------------------------------------------
+void ToolsManager::setZoom(int value)
+{
+    this->mZoomer->changeZoom(value);
+}
+//-----------------------------------------------------------------------------
 void ToolsManager::InitializeTools()
 {
     this->mTools->append(new ToolPen(this));
-    this->mTools->append(new ToolZoom(this));
+
+    this->mZoomer = new ToolZoom(this);
+    this->connect(this->mZoomer, SIGNAL(zoomChanged(int)), SIGNAL(zoomChanged(int)));
+    this->mTools->append(this->mZoomer);
 }
 //-----------------------------------------------------------------------------
 void ToolsManager::initializeActions()

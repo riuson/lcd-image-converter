@@ -36,6 +36,8 @@ Editor::Editor(QObject *parent) : QObject(parent)
     this->connect(this->mWidget, SIGNAL(scaleSchanged(int)), SLOT(on_scaleSchanged(int)));
     this->mForeColor = new QColor();
     this->mBackColor = new QColor();
+
+    this->connect(this->mTools, SIGNAL(zoomChanged(int)), SLOT(on_scaleSchanged(int)));
 }
 //-----------------------------------------------------------------------------
 Editor::~Editor()
@@ -91,6 +93,8 @@ void Editor::on_mouseMove(const QPoint *point)
 void Editor::on_scaleSchanged(int scale)
 {
     emit this->scaleChanged(scale);
+    this->mWidget->setScale(scale);
+    this->mTools->setZoom(scale);
 }
 //-----------------------------------------------------------------------------
 } // end of namespace

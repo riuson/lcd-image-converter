@@ -29,6 +29,7 @@ namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
 class IImageEditorTool;
+class ToolZoom;
 //-----------------------------------------------------------------------------
 class ToolsManager : public QObject
 {
@@ -41,14 +42,17 @@ public:
     const QList<QAction *> *toolsActions() const;
 
 public slots:
+    void setZoom(int value);
 
 signals:
     void toolChanged(int toolIndex);
+    void zoomChanged(int value);
 
 private:
     QList <IImageEditorTool *> *mTools;
     QList <QAction *> *mToolsActions;
     IImageEditorTool *mSelectedTool;
+    ToolZoom *mZoomer;
 
     void InitializeTools();
     void initializeActions();
