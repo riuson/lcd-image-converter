@@ -75,6 +75,7 @@ SOURCES += main.cpp \
     classes/settings/bitmapeditoroptions.cpp \
     classes/settings/externaltooloptions.cpp \
     classes/settings/fonteditoroptions.cpp \
+    classes/settings/imageeditoroptions.cpp \
     classes/settings/languageoptions.cpp \
     classes/settings/presets/fontoptions.cpp \
     classes/settings/presets/imageoptions.cpp \
@@ -163,6 +164,7 @@ HEADERS += \
     classes/settings/bitmapeditoroptions.h \
     classes/settings/externaltooloptions.h \
     classes/settings/fonteditoroptions.h \
+    classes/settings/imageeditoroptions.h \
     classes/settings/languageoptions.h \
     classes/settings/presets/fontoptions.h \
     classes/settings/presets/imageoptions.h \

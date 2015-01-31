@@ -29,6 +29,7 @@
 #include "bitmapeditoroptions.h"
 #include "toolsmanager.h"
 #include "iimageeditortool.h"
+#include "imageeditoroptions.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -42,10 +43,14 @@ WindowEditor::WindowEditor(QWidget *parent) :
     this->ui->label->installEventFilter(this);
 
     this->mScale = 10;
+
+    this->restoreState(ImageEditorOptions::toolbarsState(), 0);
 }
 //-----------------------------------------------------------------------------
 WindowEditor::~WindowEditor()
 {
+    ImageEditorOptions::setToolbarsState(this->saveState(0));
+
     delete ui;
 }
 //-----------------------------------------------------------------------------
