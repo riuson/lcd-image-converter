@@ -238,17 +238,14 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::setScale(int value)
 {
-    if (value > 0 && value <= 50)
+    if (this->mScale != value)
     {
-        if (this->mScale != value)
-        {
-            this->mScale = value;
-            this->updateImageScaled(this->mScale);
+        this->mScale = value;
+        this->updateImageScaled(this->mScale);
 
-            BitmapEditorOptions::setScale(value);
+        BitmapEditorOptions::setScale(value);
 
-            emit this->scaleSchanged(this->mScale);
-        }
+        emit this->scaleSchanged(this->mScale);
     }
 }
 //-----------------------------------------------------------------------------

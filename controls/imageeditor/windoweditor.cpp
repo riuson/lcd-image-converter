@@ -58,7 +58,7 @@ void WindowEditor::changeEvent(QEvent *e)
     switch (e->type()) {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
-        this->updateImageScaled(this->mScale);
+        this->updateImageScaled(this->mTools->scale());
         break;
     default:
         break;
@@ -78,8 +78,8 @@ bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
         // get coordinates
         int xscaled = me->pos().x();
         int yscaled = me->pos().y();
-        int xreal = xscaled / this->mScale;
-        int yreal = yscaled / this->mScale;
+        int xreal = xscaled / this->mTools->scale();
+        int yreal = yscaled / this->mTools->scale();
         if (!this->mImageOriginal.isNull())
         {
             if (xreal < this->mImageOriginal.width() && yreal < this->mImageOriginal.height())
@@ -142,14 +142,13 @@ void WindowEditor::wheelEvent(QWheelEvent *event)
         {
             if (event->orientation() == Qt::Vertical)
             {
-                int scale = this->mScale;
+                int scale = this->mTools->scale();
                 if (event->delta() > 0)
                     scale++;
                 else
                     scale--;
 
-                this->setScale(scale);
-                //this->ui->spinBoxScale->setValue(this->mScale);
+                emit this->scaleChanged(scale);
             }
             event->accept();
         }
@@ -165,7 +164,7 @@ const QImage *WindowEditor::image() const
 void WindowEditor::setImage(const QImage *value)
 {
     this->mImageOriginal = QImage(*value);
-    this->updateImageScaled(this->mScale);
+    this->updateImageScaled(this->mTools->scale());
 }
 //-----------------------------------------------------------------------------
 QColor WindowEditor::color1() const
@@ -178,11 +177,6 @@ QColor WindowEditor::color2() const
     return this->mColor2;
 }
 //-----------------------------------------------------------------------------
-int WindowEditor::scale() const
-{
-    return this->mScale;
-}
-//-----------------------------------------------------------------------------
 void WindowEditor::setTools(ToolsManager *tools)
 {
     this->mTools = tools;
@@ -191,12 +185,12 @@ void WindowEditor::setTools(ToolsManager *tools)
     this->connect(this->mTools, SIGNAL(toolChanged(int)), SLOT(toolChanged(int)));
 }
 //-----------------------------------------------------------------------------
-void WindowEditor::updateImageScaled(int scale)
+void WindowEditor::updateImageScaled(int value)
 {
     if (!this->mImageOriginal.isNull())
     {
-        this->mImageScaled = BitmapHelper::scale(&this->mImageOriginal, scale);
-        this->mImageScaled = BitmapHelper::drawGrid(&this->mImageScaled, scale);
+        this->mImageScaled = BitmapHelper::scale(&this->mImageOriginal, value);
+        this->mImageScaled = BitmapHelper::drawGrid(&this->mImageScaled, value);
         this->mPixmapScaled = QPixmap::fromImage(this->mImageScaled);
 
         this->ui->label->setPixmap(this->mPixmapScaled);
@@ -207,7 +201,7 @@ void WindowEditor::drawPixel(int x, int y, const QColor &color)
 {
     QImage image = this->mImageOriginal;
     this->mImageOriginal = BitmapHelper::drawPixel(&image, x, y, color);
-    this->updateImageScaled(this->mScale);
+    this->updateImageScaled(this->mTools->scale());
 }
 //-----------------------------------------------------------------------------
 void WindowEditor::on_pushButtonColor1_clicked()
@@ -236,17 +230,9 @@ void WindowEditor::on_pushButtonColor2_clicked()
 //-----------------------------------------------------------------------------
 void WindowEditor::setScale(int value)
 {
-    if (value > 0 && value <= 50)
+    if (this->mImageOriginal.size() * value != this->mImageScaled.size())
     {
-        if (this->mScale != value)
-        {
-            this->mScale = value;
-            this->updateImageScaled(this->mScale);
-
-            BitmapEditorOptions::setScale(value);
-
-            emit this->scaleSchanged(this->mScale);
-        }
+        this->updateImageScaled(value);
     }
 }
 //-----------------------------------------------------------------------------

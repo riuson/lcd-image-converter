@@ -42,7 +42,7 @@ public:
     QWidget *widget() const;
 
     const QImage *image() const;
-    void setImage(const QImage *_value);
+    void setImage(const QImage *value);
 
     const QColor *foreColor() const;
     const QColor *backColor() const;
@@ -50,9 +50,9 @@ public:
     int scale() const;
 
 signals:
-    void imageChanged(const QImage *_image);
-    void scaleChanged(int _scale);
-    void mouseMoved(const QPoint *_point);
+    void imageChanged(const QImage *value);
+    void scaleChanged(int value);
+    void mouseMoved(const QPoint *value);
 
 signals:
 
@@ -67,7 +67,7 @@ private:
 private slots:
     void on_imageChanged();
     void on_mouseMove(const QPoint *point);
-    void on_scaleSchanged(int scale);
+    void on_scaleChanged(int value);
 
 };
 }

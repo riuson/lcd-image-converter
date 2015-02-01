@@ -106,7 +106,7 @@ void ToolZoom::mouseRelease(const QMouseEvent *event)
 //-----------------------------------------------------------------------------
 void ToolZoom::setScale(int value)
 {
-    if (this->mScale != value)
+    if (this->mScale != value && value >= this->mSpinBoxScale->minimum() && value <= this->mSpinBoxScale->maximum())
     {
         this->mScale = value;
         this->mSpinBoxScale->setValue(value);
@@ -118,6 +118,7 @@ void ToolZoom::initializeWidgets()
     {
         this->mSpinBoxScale = new QSpinBox();
         this->mSpinBoxScale->setMinimum(1);
+        this->mSpinBoxScale->setMaximum(50);
         this->mSpinBoxScale->setSuffix(QString("x"));
         this->mSpinBoxScale->setValue(this->mScale);
         this->connect(this->mSpinBoxScale, SIGNAL(valueChanged(int)), SLOT(on_spinBoxScale_valueChanged(int)));

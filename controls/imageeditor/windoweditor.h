@@ -43,7 +43,6 @@ public:
 
     QColor color1() const;
     QColor color2() const;
-    int scale() const;
 
     void setTools(ToolsManager *tools);
 
@@ -57,7 +56,6 @@ private:
     QImage mImageOriginal;
     QImage mImageScaled;
     QPixmap mPixmapScaled;
-    int mScale;
     QColor mColor1;
     QColor mColor2;
     QPixmap mPixmapColor1;
@@ -65,7 +63,7 @@ private:
     bool mFlagChanged;
     ToolsManager *mTools;
 
-    void updateImageScaled(int scale);
+    void updateImageScaled(int value);
     void drawPixel(int x, int y, const QColor &color);
 
 private slots:
@@ -81,7 +79,7 @@ public slots:
 signals:
     void imageChanged();
     void mouseMove(const QPoint *point);
-    void scaleSchanged(int scale);
+    void scaleChanged(int scale);
 };
 //-----------------------------------------------------------------------------
 } // end of namespace

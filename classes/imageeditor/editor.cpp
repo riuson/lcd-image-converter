@@ -34,11 +34,11 @@ Editor::Editor(QObject *parent) : QObject(parent)
     this->mWidget->setScale(this->mTools->scale());
     this->connect(this->mWidget, SIGNAL(imageChanged()), SLOT(on_imageChanged()));
     this->connect(this->mWidget, SIGNAL(mouseMove(const QPoint *)), SLOT(on_mouseMove(const QPoint*)));
-    this->connect(this->mWidget, SIGNAL(scaleSchanged(int)), SLOT(on_scaleSchanged(int)));
+    this->connect(this->mWidget, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
     this->mForeColor = new QColor();
     this->mBackColor = new QColor();
 
-    this->connect(this->mTools, SIGNAL(scaleChanged(int)), SLOT(on_scaleSchanged(int)));
+    this->connect(this->mTools, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
 }
 //-----------------------------------------------------------------------------
 Editor::~Editor()
@@ -61,9 +61,9 @@ const QImage *Editor::image() const
     return this->mWidget->image();
 }
 //-----------------------------------------------------------------------------
-void Editor::setImage(const QImage *_value)
+void Editor::setImage(const QImage *value)
 {
-    this->mWidget->setImage(_value);
+    this->mWidget->setImage(value);
 }
 //-----------------------------------------------------------------------------
 const QColor *Editor::foreColor() const
@@ -78,7 +78,7 @@ const QColor *Editor::backColor() const
 //-----------------------------------------------------------------------------
 int Editor::scale() const
 {
-    return this->mWidget->scale();
+    return this->mTools->scale();
 }
 //-----------------------------------------------------------------------------
 void Editor::on_imageChanged()
@@ -91,11 +91,14 @@ void Editor::on_mouseMove(const QPoint *point)
     emit this->mouseMoved(point);
 }
 //-----------------------------------------------------------------------------
-void Editor::on_scaleSchanged(int scale)
+void Editor::on_scaleChanged(int value)
 {
-    emit this->scaleChanged(scale);
-    this->mWidget->setScale(scale);
-    this->mTools->setScale(scale);
+    if (value > 0)
+    {
+        this->mTools->setScale(value);
+        this->mWidget->setScale(this->mTools->scale());
+        emit this->scaleChanged(this->mTools->scale());
+    }
 }
 //-----------------------------------------------------------------------------
 } // end of namespace
