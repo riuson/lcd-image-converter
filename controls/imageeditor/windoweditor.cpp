@@ -43,6 +43,7 @@ WindowEditor::WindowEditor(QWidget *parent) :
     this->ui->label->installEventFilter(this);
 
     this->restoreState(ImageEditorOptions::toolbarsState(), 0);
+    this->mSelectedTool = NULL;
 }
 //-----------------------------------------------------------------------------
 WindowEditor::~WindowEditor()
@@ -68,62 +69,57 @@ void WindowEditor::changeEvent(QEvent *e)
 bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
 {
     bool result = false;
-    if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress)
+
+    if (this->mSelectedTool != NULL)
     {
-        if (event->type() == QEvent::MouseButtonPress)
+        if (event->type() == QEvent::MouseButtonDblClick ||
+                event->type() == QEvent::MouseButtonPress ||
+                event->type() == QEvent::MouseButtonRelease ||
+                event->type() == QEvent::MouseMove)
         {
-            this->mFlagChanged = false;
-        }
-        QMouseEvent *me = dynamic_cast<QMouseEvent *>(event);
-        // get coordinates
-        int xscaled = me->pos().x();
-        int yscaled = me->pos().y();
-        int xreal = xscaled / this->mTools->scale();
-        int yreal = yscaled / this->mTools->scale();
-        if (!this->mImageOriginal.isNull())
-        {
-            if (xreal < this->mImageOriginal.width() && yreal < this->mImageOriginal.height())
+            QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(event);
+
+            int xscaled = mouseEvent->pos().x();
+            int yscaled = mouseEvent->pos().y();
+            int xreal = xscaled / this->mTools->scale();
+            int yreal = yscaled / this->mTools->scale();
+            QPoint mousePosition(xreal, yreal);
+
+            if (xreal >= 0 && yreal >= 0 && xreal < this->mImageOriginal.width() && yreal < this->mImageOriginal.height())
             {
-                // show coordinates
-                QPoint mouseCoordinates(xreal, yreal);
-                emit this->mouseMove(&mouseCoordinates);
+                QMouseEvent *mouseEventScaled = new QMouseEvent(
+                            mouseEvent->type(),
+                            mousePosition,
+                            mouseEvent->button(),
+                            mouseEvent->buttons(),
+                            mouseEvent->modifiers());
 
-                // get buttons
-                bool buttonLeft = (me->buttons() & Qt::LeftButton) == Qt::LeftButton;
-                bool buttonRight = (me->buttons() & Qt::RightButton) == Qt::RightButton;
+                result = this->mSelectedTool->processMouse(mouseEventScaled, &this->mImageOriginal);
 
-                // draw on pixmap
-                if (buttonLeft)
+                if (mouseEventScaled->isAccepted())
                 {
-                    this->drawPixel(xreal, yreal, this->mColor1);
-                    this->mFlagChanged = true;
+                    mouseEvent->accept();
                 }
-                if(buttonRight)
-                {
-                    this->drawPixel(xreal, yreal, this->mColor2);
-                    this->mFlagChanged = true;
-                }
+
+                delete mouseEventScaled;
             }
             else
             {
-                QPoint mouseCoordinates(-1, -1);
-                emit this->mouseMove(&mouseCoordinates);
+                mousePosition.setX(-1);
+                mousePosition.setY(-1);
+            }
+
+            emit this->mouseMove(&mousePosition);
+
+            if (result)
+            {
+                return result;
             }
         }
-        event->accept();
     }
-    else if (event->type() == QEvent::MouseButtonRelease)
-    {
-        if (this->mFlagChanged)
-        {
-            emit this->imageChanged();
-        }
-        this->mFlagChanged = false;
-    }
-    else
-    {
-        result = QObject::eventFilter(obj, event);
-    }
+
+    result = QObject::eventFilter(obj, event);
+
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -167,16 +163,6 @@ void WindowEditor::setImage(const QImage *value)
     this->updateImageScaled(this->mTools->scale());
 }
 //-----------------------------------------------------------------------------
-QColor WindowEditor::color1() const
-{
-    return this->mColor1;
-}
-//-----------------------------------------------------------------------------
-QColor WindowEditor::color2() const
-{
-    return this->mColor2;
-}
-//-----------------------------------------------------------------------------
 void WindowEditor::setTools(ToolsManager *tools)
 {
     this->mTools = tools;
@@ -197,6 +183,15 @@ void WindowEditor::updateImageScaled(int value)
     }
 }
 //-----------------------------------------------------------------------------
+void WindowEditor::updateImageScaled(const QImage &image, int scale)
+{
+    this->mImageScaled = BitmapHelper::scale(&image, scale);
+    this->mImageScaled = BitmapHelper::drawGrid(&this->mImageScaled, scale);
+    this->mPixmapScaled = QPixmap::fromImage(this->mImageScaled);
+
+    this->ui->label->setPixmap(this->mPixmapScaled);
+}
+//-----------------------------------------------------------------------------
 void WindowEditor::drawPixel(int x, int y, const QColor &color)
 {
     QImage image = this->mImageOriginal;
@@ -206,25 +201,51 @@ void WindowEditor::drawPixel(int x, int y, const QColor &color)
 //-----------------------------------------------------------------------------
 void WindowEditor::on_pushButtonColor1_clicked()
 {
-    QColorDialog dialog(this->mColor1, this);
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        this->mColor1 = dialog.selectedColor();
-        BitmapEditorOptions::setColor1(this->mColor1);
-        this->mPixmapColor1.fill(this->mColor1);
-        //this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
-    }
+    //QColorDialog dialog(this->mColor1, this);
+    //if (dialog.exec() == QDialog::Accepted)
+    //{
+    //    this->mColor1 = dialog.selectedColor();
+    //    BitmapEditorOptions::setColor1(this->mColor1);
+    //    this->mPixmapColor1.fill(this->mColor1);
+    //    //this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
+    //}
 }
 //-----------------------------------------------------------------------------
 void WindowEditor::on_pushButtonColor2_clicked()
 {
-    QColorDialog dialog(this->mColor2, this);
-    if (dialog.exec() == QDialog::Accepted)
+    //QColorDialog dialog(this->mColor2, this);
+    //if (dialog.exec() == QDialog::Accepted)
+    //{
+    //    this->mColor2 = dialog.selectedColor();
+    //    BitmapEditorOptions::setColor2(this->mColor2);
+    //    this->mPixmapColor2.fill(this->mColor2);
+    //    //this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
+    //}
+}
+//-----------------------------------------------------------------------------
+void WindowEditor::on_tool_started(const QImage *value)
+{
+    QImage image = *value;
+    this->updateImageScaled(image, this->mTools->scale());
+}
+//-----------------------------------------------------------------------------
+void WindowEditor::on_tool_processing(const QImage *value)
+{
+    QImage image = *value;
+    this->updateImageScaled(image, this->mTools->scale());
+}
+//-----------------------------------------------------------------------------
+void WindowEditor::on_tool_completed(const QImage *value, bool changed)
+{
+    if (changed)
     {
-        this->mColor2 = dialog.selectedColor();
-        BitmapEditorOptions::setColor2(this->mColor2);
-        this->mPixmapColor2.fill(this->mColor2);
-        //this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
+        this->mImageOriginal = *value;
+        this->updateImageScaled(this->mTools->scale());
+        emit this->imageChanged();
+    }
+    else
+    {
+        this->updateImageScaled(this->mTools->scale());
     }
 }
 //-----------------------------------------------------------------------------
@@ -236,24 +257,30 @@ void WindowEditor::setScale(int value)
     }
 }
 //-----------------------------------------------------------------------------
-void WindowEditor::setColor1(const QColor value)
-{
-    this->mColor1 = value;
-}
-//-----------------------------------------------------------------------------
-void WindowEditor::setColor2(const QColor value)
-{
-    this->mColor2 = value;
-}
-//-----------------------------------------------------------------------------
 void WindowEditor::toolChanged(int toolIndex)
 {
     this->ui->toolBarOptions->clear();
-    this->ui->toolBarOptions->addActions(*this->mTools->tools()->at(toolIndex)->actions());
 
-    for (int i = 0; i < this->mTools->tools()->at(toolIndex)->widgets()->length(); i++)
+    IImageEditorTool *tool = this->mSelectedTool;
+
+    if (this->mSelectedTool != NULL)
     {
-        QWidget *widget = this->mTools->tools()->at(toolIndex)->widgets()->at(i);
+        this->disconnect(SLOT(on_tool_started(const QImage*)));
+        this->disconnect(SLOT(on_tool_processing(const QImage*)));
+        this->disconnect(SLOT(on_tool_completed(const QImage*,bool)));
+    }
+
+    tool = this->mTools->tools()->at(toolIndex);
+    this->ui->toolBarOptions->addActions(*tool->actions());
+    this->mSelectedTool = tool;
+
+    this->connect(dynamic_cast<QObject *>(tool), SIGNAL(started(const QImage*)), SLOT(on_tool_started(const QImage*)));
+    this->connect(dynamic_cast<QObject *>(tool), SIGNAL(processing(const QImage*)), SLOT(on_tool_processing(const QImage*)));
+    this->connect(dynamic_cast<QObject *>(tool), SIGNAL(completed(const QImage*,bool)), SLOT(on_tool_completed(const QImage*,bool)));
+
+    for (int i = 0; i < tool->widgets()->length(); i++)
+    {
+        QWidget *widget = tool->widgets()->at(i);
 
         // toolbar takes ownership on widget
         // so widget will be deleted on toolbar deleting

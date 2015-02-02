@@ -25,6 +25,7 @@ class QIcon;
 class QAction;
 class QWidget;
 class QMouseEvent;
+class QImage;
 template <class T1> class QList;
 //-----------------------------------------------------------------------------
 namespace ImageEditor
@@ -42,13 +43,13 @@ public:
     virtual const QList<QWidget *> *widgets() const = 0;
 
 public slots:
-    virtual void mousePress(const QMouseEvent *event) = 0;
-    virtual void mouseMove(const QMouseEvent *event) = 0;
-    virtual void mouseRelease(const QMouseEvent *event) = 0;
+    virtual bool processMouse(QMouseEvent *event,
+                              const QImage *imageOriginal) = 0;
 
 signals:
-    virtual void started() = 0;
-    virtual void completed() = 0;
+    virtual void started(const QImage *value) = 0;
+    virtual void processing(const QImage *value) = 0;
+    virtual void completed(const QImage *value, bool changed) = 0;
 };
 //-----------------------------------------------------------------------------
 } // end of namespace

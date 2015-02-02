@@ -29,6 +29,7 @@ class WindowEditor;
 namespace ImageEditor
 {
 class ToolsManager;
+class IImageEditorTool;
 //-----------------------------------------------------------------------------
 class WindowEditor : public QMainWindow
 {
@@ -40,9 +41,6 @@ public:
 
     const QImage *image() const;
     void setImage(const QImage *value);
-
-    QColor color1() const;
-    QColor color2() const;
 
     void setTools(ToolsManager *tools);
 
@@ -56,24 +54,24 @@ private:
     QImage mImageOriginal;
     QImage mImageScaled;
     QPixmap mPixmapScaled;
-    QColor mColor1;
-    QColor mColor2;
     QPixmap mPixmapColor1;
     QPixmap mPixmapColor2;
-    bool mFlagChanged;
     ToolsManager *mTools;
+    IImageEditorTool *mSelectedTool;
 
     void updateImageScaled(int value);
+    void updateImageScaled(const QImage &image, int scale);
     void drawPixel(int x, int y, const QColor &color);
 
 private slots:
     void on_pushButtonColor1_clicked();
     void on_pushButtonColor2_clicked();
+    void on_tool_started(const QImage *value);
+    void on_tool_processing(const QImage *value);
+    void on_tool_completed(const QImage *value, bool changed);
 
 public slots:
     void setScale(int value);
-    void setColor1(const QColor value);
-    void setColor2(const QColor value);
     void toolChanged(int toolIndex);
 
 signals:

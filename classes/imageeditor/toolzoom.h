@@ -47,14 +47,14 @@ public:
     int scale() const;
 
 public slots:
-    void mousePress(const QMouseEvent *event);
-    void mouseMove(const QMouseEvent *event);
-    void mouseRelease(const QMouseEvent *event);
+    bool processMouse(QMouseEvent *event,
+                      const QImage *imageOriginal);
     void setScale(int value);
 
 signals:
-    void started();
-    void completed();
+    void started(const QImage *value);
+    void processing(const QImage *value);
+    void completed(const QImage *value, bool changed);
     void scaleChanged(int value);
 
 private:

@@ -21,6 +21,8 @@
 #define TOOLPEN_H
 //-----------------------------------------------------------------------------
 #include <QObject>
+#include <QImage>
+#include <QColor>
 #include "iimageeditortool.h"
 
 class QIcon;
@@ -44,23 +46,28 @@ public:
     const QList<QWidget *> *widgets() const;
 
 public slots:
-    void mousePress(const QMouseEvent *event);
-    void mouseMove(const QMouseEvent *event);
-    void mouseRelease(const QMouseEvent *event);
+    bool processMouse(QMouseEvent *event,
+                      const QImage *imageOriginal);
 
     void on_spinBoxSize_valueChanged(int value);
 
 signals:
-    void started();
-    void completed();
+    void started(const QImage *value);
+    void processing(const QImage *value);
+    void completed(const QImage *value, bool changed);
 
 private:
     QIcon *mIcon;
     QList<QAction *> *mActions;
     QList<QWidget *> *mWidgets;
     int mSize;
+    bool mFlagChanged;
+    QImage mInternalImage;
+    QColor mColor1;
+    QColor mColor2;
 
     void initializeWidgets();
+    void drawPixel(int x, int y, const QColor &color);
 };
 //-----------------------------------------------------------------------------
 } // end of namespace

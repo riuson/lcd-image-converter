@@ -26,6 +26,7 @@
 #include <QColor>
 #include <QSpinBox>
 #include <QSettings>
+#include <QMouseEvent>
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -89,17 +90,8 @@ int ToolZoom::scale() const
     return this->mScale;
 }
 //-----------------------------------------------------------------------------
-void ToolZoom::mousePress(const QMouseEvent *event)
-{
-
-}
-//-----------------------------------------------------------------------------
-void ToolZoom::mouseMove(const QMouseEvent *event)
-{
-
-}
-//-----------------------------------------------------------------------------
-void ToolZoom::mouseRelease(const QMouseEvent *event)
+bool ToolZoom::processMouse(QMouseEvent *event,
+                            const QImage *imageOriginal)
 {
 
 }

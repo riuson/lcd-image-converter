@@ -25,12 +25,17 @@
 #include <QWidget>
 #include <QColor>
 #include <QSpinBox>
+#include <QMouseEvent>
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
 ToolPen::ToolPen(QObject *parent) : QObject(parent)
 {
+    this->mColor1 = QColor();
+    this->mColor2 = QColor();
+
     QSvgRenderer renderer(QString(":/images/icons/tools/tool_pen.svg"), this);
 
     QImage image(16, 16, QImage::Format_ARGB32);
@@ -81,19 +86,59 @@ const QList<QWidget *> *ToolPen::widgets() const
     return this->mWidgets;
 }
 //-----------------------------------------------------------------------------
-void ToolPen::mousePress(const QMouseEvent *event)
+bool ToolPen::processMouse(QMouseEvent *event,
+                           const QImage *imageOriginal)
 {
+    if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress)
+    {
+        if (event->type() == QEvent::MouseButtonPress)
+        {
+            this->mFlagChanged = false;
+        }
 
-}
-//-----------------------------------------------------------------------------
-void ToolPen::mouseMove(const QMouseEvent *event)
-{
+        // get coordinates
+        if (imageOriginal != NULL)
+        {
+            if (event->x() < imageOriginal->width() && event->y() < imageOriginal->height())
+            {
+                // get buttons
+                bool buttonLeft = (event->buttons() & Qt::LeftButton) == Qt::LeftButton;
+                bool buttonRight = (event->buttons() & Qt::RightButton) == Qt::RightButton;
 
-}
-//-----------------------------------------------------------------------------
-void ToolPen::mouseRelease(const QMouseEvent *event)
-{
+                // draw on pixmap
+                if (buttonLeft)
+                {
+                    if (!this->mFlagChanged)
+                    {
+                        this->mInternalImage = *imageOriginal;
+                    }
 
+                    this->drawPixel(event->x(), event->y(), this->mColor1);
+                    this->mFlagChanged = true;
+                    emit this->processing(&this->mInternalImage);
+                }
+
+                if(buttonRight)
+                {
+                    if (!this->mFlagChanged)
+                    {
+                        this->mInternalImage = *imageOriginal;
+                    }
+
+                    this->drawPixel(event->x(), event->y(), this->mColor2);
+                    this->mFlagChanged = true;
+                    emit this->processing(&this->mInternalImage);
+                }
+            }
+        }
+        event->accept();
+    }
+    else if (event->type() == QEvent::MouseButtonRelease)
+    {
+        emit this->completed(&this->mInternalImage, this->mFlagChanged);
+    }
+
+    return true;
 }
 //-----------------------------------------------------------------------------
 void ToolPen::on_spinBoxSize_valueChanged(int value)
@@ -112,6 +157,12 @@ void ToolPen::initializeWidgets()
 
         this->mWidgets->append(spinBoxSize);
     }
+}
+//-----------------------------------------------------------------------------
+void ToolPen::drawPixel(int x, int y, const QColor &color)
+{
+    QImage image = this->mInternalImage;
+    this->mInternalImage = BitmapHelper::drawPixel(&image, x, y, color);
 }
 //-----------------------------------------------------------------------------
 } // end of namespace
