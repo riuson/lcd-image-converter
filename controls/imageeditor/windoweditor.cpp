@@ -199,30 +199,6 @@ void WindowEditor::drawPixel(int x, int y, const QColor &color)
     this->updateImageScaled(this->mTools->scale());
 }
 //-----------------------------------------------------------------------------
-void WindowEditor::on_pushButtonColor1_clicked()
-{
-    //QColorDialog dialog(this->mColor1, this);
-    //if (dialog.exec() == QDialog::Accepted)
-    //{
-    //    this->mColor1 = dialog.selectedColor();
-    //    BitmapEditorOptions::setColor1(this->mColor1);
-    //    this->mPixmapColor1.fill(this->mColor1);
-    //    //this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
-    //}
-}
-//-----------------------------------------------------------------------------
-void WindowEditor::on_pushButtonColor2_clicked()
-{
-    //QColorDialog dialog(this->mColor2, this);
-    //if (dialog.exec() == QDialog::Accepted)
-    //{
-    //    this->mColor2 = dialog.selectedColor();
-    //    BitmapEditorOptions::setColor2(this->mColor2);
-    //    this->mPixmapColor2.fill(this->mColor2);
-    //    //this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
-    //}
-}
-//-----------------------------------------------------------------------------
 void WindowEditor::on_tool_started(const QImage *value)
 {
     QImage image = *value;

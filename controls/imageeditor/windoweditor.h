@@ -54,8 +54,6 @@ private:
     QImage mImageOriginal;
     QImage mImageScaled;
     QPixmap mPixmapScaled;
-    QPixmap mPixmapColor1;
-    QPixmap mPixmapColor2;
     ToolsManager *mTools;
     IImageEditorTool *mSelectedTool;
 
@@ -64,8 +62,6 @@ private:
     void drawPixel(int x, int y, const QColor &color);
 
 private slots:
-    void on_pushButtonColor1_clicked();
-    void on_pushButtonColor2_clicked();
     void on_tool_started(const QImage *value);
     void on_tool_processing(const QImage *value);
     void on_tool_completed(const QImage *value, bool changed);

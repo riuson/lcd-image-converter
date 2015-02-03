@@ -26,6 +26,7 @@
 #include "iimageeditortool.h"
 
 class QIcon;
+class QAction;
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -49,8 +50,6 @@ public slots:
     bool processMouse(QMouseEvent *event,
                       const QImage *imageOriginal);
 
-    void on_spinBoxSize_valueChanged(int value);
-
 signals:
     void started(const QImage *value);
     void processing(const QImage *value);
@@ -63,11 +62,20 @@ private:
     int mSize;
     bool mFlagChanged;
     QImage mInternalImage;
-    QColor mColor1;
-    QColor mColor2;
+    QColor mForeColor;
+    QColor mBackColor;
+    QAction *mActionForeColor;
+    QAction *mActionBackColor;
 
     void initializeWidgets();
+    void loadSettings();
+    void saveSettings() const;
     void drawPixel(int x, int y, const QColor &color);
+
+private slots:
+    void on_spinBoxSize_valueChanged(int value);
+    void on_buttonForeColor_triggered();
+    void on_buttonBackColor_triggered();
 };
 //-----------------------------------------------------------------------------
 } // end of namespace
