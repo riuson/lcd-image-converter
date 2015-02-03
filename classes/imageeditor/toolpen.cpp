@@ -199,6 +199,13 @@ void ToolPen::loadSettings()
         this->mBackColor = QColor("white");
     }
 
+    int b = sett.value("size", QVariant(1)).toInt(&ok);
+
+    if (ok)
+    {
+        this->mSize = b;
+    }
+
     sett.endGroup();
     sett.endGroup();
     sett.endGroup();
@@ -217,6 +224,8 @@ void ToolPen::saveSettings() const
     a = this->mBackColor.rgb();
     sett.setValue("backColor", QVariant(a));
 
+    sett.setValue("size", QVariant(this->mSize));
+
     sett.endGroup();
     sett.endGroup();
     sett.endGroup();
@@ -225,7 +234,21 @@ void ToolPen::saveSettings() const
 void ToolPen::drawPixel(int x, int y, const QColor &color)
 {
     QImage image = this->mInternalImage;
-    this->mInternalImage = BitmapHelper::drawPixel(&image, x, y, color);
+    QPixmap pixmap = QPixmap::fromImage(this->mInternalImage);
+    QPainter painter(&pixmap);
+
+    if (this->mSize == 1)
+    {
+        painter.setPen(color);
+        painter.drawPoint(x, y);
+    }
+    else
+    {
+        QRect rect = QRect(x, y, this->mSize, this->mSize);
+        painter.fillRect(rect, color);
+    }
+
+    this->mInternalImage = pixmap.toImage();
 }
 //-----------------------------------------------------------------------------
 void ToolPen::on_spinBoxSize_valueChanged(int value)
