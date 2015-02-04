@@ -82,8 +82,10 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 //-----------------------------------------------------------------------------
 EditorTabFont::~EditorTabFont()
 {
+    this->mEditorWidget->setParent(NULL);
     delete ui;
     delete this->mModel;
+    delete this->mEditorObject;
 }
 //-----------------------------------------------------------------------------
 IDocument *EditorTabFont::document() const

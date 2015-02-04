@@ -62,7 +62,9 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 //-----------------------------------------------------------------------------
 EditorTabImage::~EditorTabImage()
 {
+    this->mEditorWidget->setParent(NULL);
     delete ui;
+    delete this->mEditorObject;
 }
 //-----------------------------------------------------------------------------
 IDocument *EditorTabImage::document() const
