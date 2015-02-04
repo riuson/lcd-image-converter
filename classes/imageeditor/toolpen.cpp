@@ -149,11 +149,13 @@ void ToolPen::initializeWidgets()
     spinBoxSize->setMinimum(1);
     spinBoxSize->setSuffix(QString("px"));
     spinBoxSize->setValue(this->mSize);
+    spinBoxSize->setToolTip(tr("Size"));
     this->connect(spinBoxSize, SIGNAL(valueChanged(int)), SLOT(on_spinBoxSize_valueChanged(int)));
     this->mWidgets->append(spinBoxSize);
 
     this->mActionForeColor = new QAction(this);
     this->mActionForeColor->setText(tr("Fore Color"));
+    this->mActionForeColor->setToolTip(tr("Fore Color"));
     this->connect(this->mActionForeColor, SIGNAL(triggered()), SLOT(on_buttonForeColor_triggered()));
     QPixmap pixmapForeColor = QPixmap(24, 24);
     pixmapForeColor.fill(this->mForeColor);
@@ -162,6 +164,7 @@ void ToolPen::initializeWidgets()
 
     this->mActionBackColor = new QAction(this);
     this->mActionBackColor->setText(tr("Back Color"));
+    this->mActionBackColor->setToolTip(tr("Back Color"));
     this->connect(this->mActionBackColor, SIGNAL(triggered()), SLOT(on_buttonBackColor_triggered()));
     QPixmap pixmapBackColor = QPixmap(24, 24);
     pixmapBackColor.fill(this->mBackColor);

@@ -115,6 +115,7 @@ void ToolZoom::initializeWidgets()
         this->mSpinBoxScale->setMaximum(50);
         this->mSpinBoxScale->setSuffix(QString("x"));
         this->mSpinBoxScale->setValue(this->mScale);
+        this->mSpinBoxScale->setToolTip(tr("Scale value"));
         this->connect(this->mSpinBoxScale, SIGNAL(valueChanged(int)), SLOT(on_spinBoxScale_valueChanged(int)));
 
         this->mWidgets->append(this->mSpinBoxScale);

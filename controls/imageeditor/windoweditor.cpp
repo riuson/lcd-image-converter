@@ -260,7 +260,7 @@ void WindowEditor::toolChanged(int toolIndex)
         // toolbar takes ownership on widget
         // so widget will be deleted on toolbar deleting
         QAction *widgetAction = this->ui->toolBarOptions->addWidget(widget);
-
+        widgetAction->setToolTip(widget->toolTip());
         widgetAction->setVisible(true);
     }
 }
