@@ -53,6 +53,7 @@ public:
     static QImage scale(const QImage *source, int scale);
     static QImage drawGrid(const QImage *source, int scale);
     static QImage drawPixel(const QImage *source, int x, int y, const QColor &color);
+    static QColor detectBackgroundColor(const QImage *image);
 };
 //-----------------------------------------------------------------------------
 #endif // BITMAPHELPER_H
