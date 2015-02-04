@@ -40,6 +40,7 @@ WindowEditor::WindowEditor(QWidget *parent) :
     ui->setupUi(this);
 
     this->ui->label->installEventFilter(this);
+    this->ui->toolBarOptions->hide();
 
     this->restoreState(ImageEditorOptions::toolbarsState(), 0);
     this->mSelectedTool = NULL;
@@ -47,6 +48,9 @@ WindowEditor::WindowEditor(QWidget *parent) :
 //-----------------------------------------------------------------------------
 WindowEditor::~WindowEditor()
 {
+    if (this->ui->toolBarOptions->actions().length() == 0)
+        this->ui->toolBarOptions->hide();
+
     ImageEditorOptions::setToolbarsState(this->saveState(0));
 
     delete ui;
@@ -168,6 +172,12 @@ void WindowEditor::setTools(ToolsManager *tools)
     QList<QAction *> actions = QList<QAction *> (*this->mTools->toolsActions());
     this->ui->toolBarTools->addActions(actions);
     this->connect(this->mTools, SIGNAL(toolChanged(int)), SLOT(toolChanged(int)));
+    this->ui->toolBarOptions->hide();
+
+    if (this->ui->toolBarTools->actions().length() > 0)
+    {
+        this->ui->toolBarTools->actions().at(0)->activate(QAction::Trigger);
+    }
 }
 //-----------------------------------------------------------------------------
 void WindowEditor::updateImageScaled(int value)
@@ -263,6 +273,8 @@ void WindowEditor::toolChanged(int toolIndex)
         widgetAction->setToolTip(widget->toolTip());
         widgetAction->setVisible(true);
     }
+
+    this->ui->toolBarOptions->setVisible(this->ui->toolBarOptions->actions().length() > 0);
 }
 //-----------------------------------------------------------------------------
 }
