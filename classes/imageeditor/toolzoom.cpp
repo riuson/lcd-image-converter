@@ -18,7 +18,6 @@
  */
 
 #include "toolzoom.h"
-#include <QtSvg/QSvgRenderer>
 #include <QPainter>
 #include <QList>
 #include <QAction>
@@ -27,19 +26,14 @@
 #include <QSpinBox>
 #include <QSettings>
 #include <QMouseEvent>
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
 ToolZoom::ToolZoom(QObject *parent) : QObject(parent)
 {
-    QSvgRenderer renderer(QString(":/images/icons/tools/tool_zoom.svg"), this);
-
-    QImage image(16, 16, QImage::Format_ARGB32);
-    image.fill(0x00ffffff);
-    QPainter painter(&image);
-    renderer.render(&painter);
-    this->mIcon = new QIcon(QPixmap::fromImage(image));
+    this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_zoom.svg"), 24)));
 
     this->mActions = new QList<QAction *>();
     this->mWidgets = new QList<QWidget *>();

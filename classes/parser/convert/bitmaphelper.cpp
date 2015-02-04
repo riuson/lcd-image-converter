@@ -21,6 +21,7 @@
 #include "limits"
 //-----------------------------------------------------------------------------
 #include <QPainter>
+#include <QtSvg/QSvgRenderer>
 //-----------------------------------------------------------------------------
 QImage BitmapHelper::rotate90(const QImage *source)
 {
@@ -276,5 +277,17 @@ QColor BitmapHelper::detectBackgroundColor(const QImage *image)
     {
         return color4;
     }
+}
+//-----------------------------------------------------------------------------
+QImage BitmapHelper::fromSvg(const QString &path, int size)
+{
+    QSvgRenderer renderer(path);
+
+    QImage image(size, size, QImage::Format_ARGB32);
+    image.fill(0x00ffffff);
+    QPainter painter(&image);
+    renderer.render(&painter);
+
+    return image;
 }
 //-----------------------------------------------------------------------------
