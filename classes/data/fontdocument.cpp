@@ -33,7 +33,7 @@
 #include "tags.h"
 #include "parser.h"
 #include "dialogfontchanged.h"
-#include "bitmapeditoroptions.h"
+#include "fonteditoroptions.h"
 #include "fonthelper.h"
 #include "preset.h"
 //-----------------------------------------------------------------------------
@@ -585,8 +585,8 @@ void FontDocument::setFontCharacters(const QString &chars,
             keys.append(key);
             QImage image = this->drawCharacter(chars.at(i),
                                                fontNew,
-                                               BitmapEditorOptions::color1(),
-                                               BitmapEditorOptions::color2(),
+                                               FontEditorOptions::foreColor(),
+                                               FontEditorOptions::backColor(),
                                                width,
                                                height,
                                                _antialiasing);

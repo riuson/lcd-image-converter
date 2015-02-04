@@ -21,6 +21,7 @@
 #define FONTEDITOROPTIONS_H
 //-----------------------------------------------------------------------------
 #include <QObject>
+#include <QColor>
 //-----------------------------------------------------------------------------
 class FontEditorOptions : public QObject
 {
@@ -28,6 +29,11 @@ class FontEditorOptions : public QObject
 public:
     static int scale();
     static void setScale(int value);
+
+    static QColor foreColor();
+    static QColor backColor();
+    static void setForeColor(const QColor &value);
+    static void setBackColor(const QColor &value);
 };
 //-----------------------------------------------------------------------------
 #endif // FONTEDITOROPTIONS_H
