@@ -62,9 +62,9 @@ private:
     void drawPixel(int x, int y, const QColor &color);
 
 private slots:
-    void on_tool_started(const QImage *value);
-    void on_tool_processing(const QImage *value);
-    void on_tool_completed(const QImage *value, bool changed);
+    void tool_started(const QImage *value);
+    void tool_processing(const QImage *value);
+    void tool_completed(const QImage *value, bool changed);
 
 public slots:
     void setScale(int value);

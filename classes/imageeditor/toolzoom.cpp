@@ -93,7 +93,9 @@ int ToolZoom::scale() const
 bool ToolZoom::processMouse(QMouseEvent *event,
                             const QImage *imageOriginal)
 {
-
+    Q_UNUSED(event)
+    Q_UNUSED(imageOriginal)
+    return false;
 }
 //-----------------------------------------------------------------------------
 void ToolZoom::setScale(int value)

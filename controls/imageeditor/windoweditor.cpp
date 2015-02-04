@@ -198,19 +198,19 @@ void WindowEditor::drawPixel(int x, int y, const QColor &color)
     this->updateImageScaled(this->mTools->scale());
 }
 //-----------------------------------------------------------------------------
-void WindowEditor::on_tool_started(const QImage *value)
+void WindowEditor::tool_started(const QImage *value)
 {
     QImage image = *value;
     this->updateImageScaled(image, this->mTools->scale());
 }
 //-----------------------------------------------------------------------------
-void WindowEditor::on_tool_processing(const QImage *value)
+void WindowEditor::tool_processing(const QImage *value)
 {
     QImage image = *value;
     this->updateImageScaled(image, this->mTools->scale());
 }
 //-----------------------------------------------------------------------------
-void WindowEditor::on_tool_completed(const QImage *value, bool changed)
+void WindowEditor::tool_completed(const QImage *value, bool changed)
 {
     if (changed)
     {
@@ -240,18 +240,18 @@ void WindowEditor::toolChanged(int toolIndex)
 
     if (this->mSelectedTool != NULL)
     {
-        this->disconnect(SLOT(on_tool_started(const QImage*)));
-        this->disconnect(SLOT(on_tool_processing(const QImage*)));
-        this->disconnect(SLOT(on_tool_completed(const QImage*,bool)));
+        QObject::disconnect(dynamic_cast<QObject *>(tool), SIGNAL(started(const QImage*)));
+        QObject::disconnect(dynamic_cast<QObject *>(tool), SIGNAL(processing(const QImage*)));
+        QObject::disconnect(dynamic_cast<QObject *>(tool), SIGNAL(completed(const QImage*,bool)));
     }
 
     tool = this->mTools->tools()->at(toolIndex);
     this->ui->toolBarOptions->addActions(*tool->actions());
     this->mSelectedTool = tool;
 
-    this->connect(dynamic_cast<QObject *>(tool), SIGNAL(started(const QImage*)), SLOT(on_tool_started(const QImage*)));
-    this->connect(dynamic_cast<QObject *>(tool), SIGNAL(processing(const QImage*)), SLOT(on_tool_processing(const QImage*)));
-    this->connect(dynamic_cast<QObject *>(tool), SIGNAL(completed(const QImage*,bool)), SLOT(on_tool_completed(const QImage*,bool)));
+    this->connect(dynamic_cast<QObject *>(tool), SIGNAL(started(const QImage*)), SLOT(tool_started(const QImage*)));
+    this->connect(dynamic_cast<QObject *>(tool), SIGNAL(processing(const QImage*)), SLOT(tool_processing(const QImage*)));
+    this->connect(dynamic_cast<QObject *>(tool), SIGNAL(completed(const QImage*,bool)), SLOT(tool_completed(const QImage*,bool)));
 
     for (int i = 0; i < tool->widgets()->length(); i++)
     {
