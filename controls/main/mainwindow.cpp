@@ -47,6 +47,7 @@
 #include "actionhelphandlers.h"
 #include "ieditor.h"
 #include "idocument.h"
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -59,7 +60,13 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif // QT_VERSION
 
     QIcon icon;
-    icon.addFile(":/images/icon64", QSize(64, 64));
+    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 16)));
+    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 24)));
+    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 32)));
+    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 48)));
+    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 64)));
+    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 128)));
+    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 256)));
     this->setWindowIcon(icon);
 
     this->updateMenuState();
