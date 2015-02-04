@@ -21,7 +21,6 @@
 #include <QPixmap>
 #include "datacontainer.h"
 #include "bitmaphelper.h"
-#include "bitmapeditoroptions.h"
 //-----------------------------------------------------------------------------
 ImagesModel::ImagesModel(DataContainer *container, Qt::Orientation orientation, QObject *parent) :
     QAbstractItemModel(parent)

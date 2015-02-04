@@ -31,7 +31,6 @@
 #include "idocument.h"
 #include "datacontainer.h"
 #include "limits"
-#include "bitmapeditoroptions.h"
 #include "dialogcanvasresize.h"
 //-----------------------------------------------------------------------------
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :

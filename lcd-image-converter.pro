@@ -72,7 +72,6 @@ SOURCES += main.cpp \
     classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
     classes/parser/tags.cpp \
-    classes/settings/bitmapeditoroptions.cpp \
     classes/settings/externaltooloptions.cpp \
     classes/settings/fonteditoroptions.cpp \
     classes/settings/imageeditoroptions.cpp \
@@ -161,7 +160,6 @@ HEADERS += \
     classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
     classes/parser/tags.h \
-    classes/settings/bitmapeditoroptions.h \
     classes/settings/externaltooloptions.h \
     classes/settings/fonteditoroptions.h \
     classes/settings/imageeditoroptions.h \

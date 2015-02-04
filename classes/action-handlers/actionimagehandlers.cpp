@@ -31,7 +31,6 @@
 #include "idocument.h"
 #include "ieditor.h"
 #include "datacontainer.h"
-#include "bitmapeditoroptions.h"
 #include "converterhelper.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :

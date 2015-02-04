@@ -25,7 +25,6 @@
 #include <QPainter>
 
 #include "bitmaphelper.h"
-#include "bitmapeditoroptions.h"
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
     QWidget(parent),
@@ -33,12 +32,12 @@ WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->mScale = BitmapEditorOptions::scale();
+    this->mScale = 1;
 
     this->ui->label->installEventFilter(this);
 
-    this->mColor1 = BitmapEditorOptions::color1();
-    this->mColor2 = BitmapEditorOptions::color2();
+    this->mColor1 = QColor();
+    this->mColor2 = QColor();
 
     this->mPixmapColor1 = QPixmap(16, 16);
     this->mPixmapColor2 = QPixmap(16, 16);
@@ -218,7 +217,7 @@ void WidgetBitmapEditor::on_pushButtonColor1_clicked()
     if (dialog.exec() == QDialog::Accepted)
     {
         this->mColor1 = dialog.selectedColor();
-        BitmapEditorOptions::setColor1(this->mColor1);
+        //BitmapEditorOptions::setColor1(this->mColor1);
         this->mPixmapColor1.fill(this->mColor1);
         this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
     }
@@ -230,7 +229,7 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
     if (dialog.exec() == QDialog::Accepted)
     {
         this->mColor2 = dialog.selectedColor();
-        BitmapEditorOptions::setColor2(this->mColor2);
+        //BitmapEditorOptions::setColor2(this->mColor2);
         this->mPixmapColor2.fill(this->mColor2);
         this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
     }
@@ -243,7 +242,7 @@ void WidgetBitmapEditor::setScale(int value)
         this->mScale = value;
         this->updateImageScaled(this->mScale);
 
-        BitmapEditorOptions::setScale(value);
+        //BitmapEditorOptions::setScale(value);
 
         emit this->scaleSchanged(this->mScale);
     }

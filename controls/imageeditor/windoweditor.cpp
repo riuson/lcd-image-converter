@@ -26,7 +26,6 @@
 #include <QIcon>
 
 #include "bitmaphelper.h"
-#include "bitmapeditoroptions.h"
 #include "toolsmanager.h"
 #include "iimageeditortool.h"
 #include "imageeditoroptions.h"
