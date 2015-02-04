@@ -90,6 +90,8 @@ private slots:
     void rangeChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void on_lineEditUnicodeBlocksFilter_textChanged(const QString & text);
     void on_pushButtonSort_clicked();
+    void on_toolButtonForeColor_clicked();
+    void on_toolButtonBackColor_clicked();
 };
 
 #endif // DIALOGFONTSELECT_H
