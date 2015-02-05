@@ -81,12 +81,12 @@
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="399"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="401"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="401"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="403"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -94,89 +94,89 @@
 <context>
     <name>ActionImageHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="327"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="326"/>
         <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="328"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="327"/>
         <source>Open image file</source>
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="361"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="360"/>
         <source>Selected %1 file(s) and %2 character(s).
 Will be imported only a minimal amount: %3.</source>
         <translation>Выбрано %1 файл(ов) и %2 символ(ов).
 Будет импортировано только минимальное количество: %3.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="370"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="369"/>
         <source>Selected a different number of files and characters.</source>
         <translation>Выбрано разное количество файлов и символов.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="371"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="370"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="414"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="413"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="612"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="611"/>
         <source>Failed to Start</source>
         <translation>Не удалось запустить</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="613"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="612"/>
         <source>The process failed to start. Either the invoked program is missing, or you may have insufficient permissions to invoke the program.</source>
         <translation>Не удалось запустить процесс. Возможно вызываемая программа отсутствует, или у вас недостаточно привелегий для вызова программы.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="616"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="615"/>
         <source>Crashed</source>
         <translation>Сбой</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="617"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="616"/>
         <source>The process crashed some time after starting successfully.</source>
         <translation>Произошёл сбой процесса после успешно произведённого запуска.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="624"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="623"/>
         <source>Read Error</source>
         <translation>Ошибка чтения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="625"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="624"/>
         <source>An error occurred when attempting to read from the process. For example, the process may not be running.</source>
         <translation>Возникла ошибка при попытке чтения из процесса. К примеру, процесс может быть не запущен.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="628"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="627"/>
         <source>Write Error</source>
         <translation>Ошибка записи</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="629"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="628"/>
         <source>An error occurred when attempting to write to the process. For example, the process may not be running, or it may have closed its input channel.</source>
         <translation>Возникла ошибка при попытке записи в процесс. К примеру, процесс может быть не запущен, или иметь закрытый входной канал.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="633"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="632"/>
         <source>Unknown Error</source>
         <translation>Неизвестная ошибка</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="634"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="633"/>
         <source>An unknown error occurred.</source>
         <translation>Возникла неизвестная ошибка.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="641"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="640"/>
         <source>Error running external tool</source>
         <translation>Ошибка при запуске внешней утилиты</translation>
     </message>
@@ -330,7 +330,7 @@ Will be imported only a minimal amount: %3.</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../controls/about/dialogabout.ui" line="41"/>
+        <location filename="../controls/about/dialogabout.ui" line="56"/>
         <source>LCD Image Converter&lt;br/&gt;
 Tool to create image and font source files for embedded applications.&lt;br/&gt;
 &lt;br/&gt;
@@ -526,27 +526,39 @@ Qt: %4</translation>
         <translation>Сглаживание</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="132"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="107"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="110"/>
+        <source>Fore Color</source>
+        <translation>Цвет переднего плана</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="117"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="120"/>
+        <source>Back Color</source>
+        <translation>Цвет заднего плана</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="152"/>
         <source>Enter filter...</source>
         <translation>Введите фильтр...</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="161"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="181"/>
         <source>Append Selected</source>
         <translation>Добавить выбранные</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="168"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="188"/>
         <source>Append Range...</source>
         <translation>Добавить диапазон...</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="175"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="195"/>
         <source>Sort</source>
         <translation>Отсортировать</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="245"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="255"/>
         <source>Real height: %1</source>
         <translation>Высота: %1</translation>
     </message>
@@ -668,12 +680,12 @@ Qt: %4</translation>
         <translation>Обновления</translation>
     </message>
     <message>
-        <location filename="../controls/updates/dialogupdates.cpp" line="274"/>
+        <location filename="../controls/updates/dialogupdates.cpp" line="281"/>
         <source>Check updates failed with HTTP code: %1</source>
         <translation>Проверка обновлений не удалась, код HTTP: %1</translation>
     </message>
     <message>
-        <location filename="../controls/updates/dialogupdates.cpp" line="282"/>
+        <location filename="../controls/updates/dialogupdates.cpp" line="289"/>
         <source>Check updates failed with QNetworkReply message:&lt;br/&gt;%1</source>
         <translation>Проверка обновлений не удалась, сообщение QNetworkReply:&lt;br/&gt;%1</translation>
     </message>
@@ -697,16 +709,64 @@ Qt: %4</translation>
     </message>
 </context>
 <context>
+    <name>ImageEditor::ToolPen</name>
+    <message>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="61"/>
+        <source>Pen</source>
+        <translation>Карандаш</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="66"/>
+        <source>Draw pixels</source>
+        <translation>Рисование точек</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="145"/>
+        <source>Size</source>
+        <translation>Размер точки</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="150"/>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="151"/>
+        <source>Fore Color</source>
+        <translation>Цвет переднего плана</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="159"/>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="160"/>
+        <source>Back Color</source>
+        <translation>Цвет заднего плана</translation>
+    </message>
+</context>
+<context>
+    <name>ImageEditor::ToolZoom</name>
+    <message>
+        <location filename="../classes/imageeditor/toolzoom.cpp" line="59"/>
+        <source>Zoom</source>
+        <translation>Лупа</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolzoom.cpp" line="64"/>
+        <source>Zoom image</source>
+        <translation>Измение масштаба изображения</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolzoom.cpp" line="112"/>
+        <source>Scale value</source>
+        <translation>Значение масштаба</translation>
+    </message>
+</context>
+<context>
     <name>ImagesModel</name>
     <message>
-        <location filename="../classes/data/imagesmodel.cpp" line="85"/>
-        <location filename="../classes/data/imagesmodel.cpp" line="111"/>
+        <location filename="../classes/data/imagesmodel.cpp" line="84"/>
+        <location filename="../classes/data/imagesmodel.cpp" line="110"/>
         <source>Character</source>
         <translation>Символ</translation>
     </message>
     <message>
-        <location filename="../classes/data/imagesmodel.cpp" line="91"/>
-        <location filename="../classes/data/imagesmodel.cpp" line="117"/>
+        <location filename="../classes/data/imagesmodel.cpp" line="90"/>
+        <location filename="../classes/data/imagesmodel.cpp" line="116"/>
         <source>Preview</source>
         <comment>character preview</comment>
         <translation>Предпросмотр</translation>
@@ -977,18 +1037,18 @@ Qt: %4</translation>
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="84"/>
+        <location filename="../controls/main/mainwindow.cpp" line="91"/>
         <source>langName</source>
         <translatorcomment>название языка в который переводим</translatorcomment>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="300"/>
+        <location filename="../controls/main/mainwindow.cpp" line="307"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="302"/>
+        <location filename="../controls/main/mainwindow.cpp" line="309"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -1568,6 +1628,19 @@ Qt: %4</translation>
         <location filename="../controls/images/widgetbitmapeditor.ui" line="91"/>
         <source>Color 2</source>
         <translation>Цвет 2</translation>
+    </message>
+</context>
+<context>
+    <name>WindowEditor</name>
+    <message>
+        <location filename="../controls/imageeditor/windoweditor.ui" line="60"/>
+        <source>Tools</source>
+        <translation>Инструменты</translation>
+    </message>
+    <message>
+        <location filename="../controls/imageeditor/windoweditor.ui" line="74"/>
+        <source>Options</source>
+        <translation>Настройки</translation>
     </message>
 </context>
 </TS>

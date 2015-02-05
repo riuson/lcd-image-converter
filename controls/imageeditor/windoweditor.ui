@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string notr="true">Image Editor</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -42,7 +42,7 @@
            <bool>true</bool>
           </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string notr="true">TextLabel</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -57,7 +57,7 @@
   </widget>
   <widget class="QToolBar" name="toolBarTools">
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>Tools</string>
    </property>
    <property name="floatable">
     <bool>false</bool>
@@ -71,7 +71,7 @@
   </widget>
   <widget class="QToolBar" name="toolBarOptions">
    <property name="windowTitle">
-    <string>toolBar_2</string>
+    <string>Options</string>
    </property>
    <property name="allowedAreas">
     <set>Qt::AllToolBarAreas</set>
