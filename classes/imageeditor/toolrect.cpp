@@ -170,32 +170,32 @@ void ToolRect::initializeWidgets()
     this->mActionBackColor->setIcon(QIcon(pixmapBackColor));
     this->mActions->append(this->mActionBackColor);
 
-    this->mActionRectBorder = new QAction(this);
-    this->mActionRectBorder->setCheckable(true);
-    this->mActionRectBorder->setChecked(this->mOutlineMode == Border);
-    this->mActionRectBorder->setText(tr("Border"));
-    this->mActionRectBorder->setToolTip(tr("Border only"));
-    this->mActionRectBorder->setData(QVariant((int)Border));
-    this->connect(this->mActionRectBorder, SIGNAL(triggered()), SLOT(on_buttonRertBorderFill_triggered()));
-    this->mActions->append(this->mActionRectBorder);
+    this->mActionRectOutline = new QAction(this);
+    this->mActionRectOutline->setCheckable(true);
+    this->mActionRectOutline->setChecked(this->mOutlineMode == Outline);
+    this->mActionRectOutline->setText(tr("Outline"));
+    this->mActionRectOutline->setToolTip(tr("Outline only"));
+    this->mActionRectOutline->setData(QVariant((int)Outline));
+    this->connect(this->mActionRectOutline, SIGNAL(triggered()), SLOT(on_buttonRertFilledOutline_triggered()));
+    this->mActions->append(this->mActionRectOutline);
 
-    this->mActionRectBorderFill = new QAction(this);
-    this->mActionRectBorderFill->setCheckable(true);
-    this->mActionRectBorderFill->setChecked(this->mOutlineMode == BorderFilled);
-    this->mActionRectBorderFill->setText(tr("Border & Fill"));
-    this->mActionRectBorderFill->setToolTip(tr("Border & Fill"));
-    this->mActionRectBorderFill->setData(QVariant((int)BorderFilled));
-    this->connect(this->mActionRectBorderFill, SIGNAL(triggered()), SLOT(on_buttonRertBorderFill_triggered()));
-    this->mActions->append(this->mActionRectBorderFill);
+    this->mActionRectFilledOutline = new QAction(this);
+    this->mActionRectFilledOutline->setCheckable(true);
+    this->mActionRectFilledOutline->setChecked(this->mOutlineMode == FilledOutline);
+    this->mActionRectFilledOutline->setText(tr("Filled Outline"));
+    this->mActionRectFilledOutline->setToolTip(tr("Filled with Outline"));
+    this->mActionRectFilledOutline->setData(QVariant((int)FilledOutline));
+    this->connect(this->mActionRectFilledOutline, SIGNAL(triggered()), SLOT(on_buttonRertFilledOutline_triggered()));
+    this->mActions->append(this->mActionRectFilledOutline);
 
-    this->mActionRectFill = new QAction(this);
-    this->mActionRectFill->setCheckable(true);
-    this->mActionRectFill->setChecked(this->mOutlineMode == Filled);
-    this->mActionRectFill->setText(tr("Filled"));
-    this->mActionRectFill->setToolTip(tr("Filled"));
-    this->mActionRectFill->setData(QVariant((int)Filled));
-    this->connect(this->mActionRectFill, SIGNAL(triggered()), SLOT(on_buttonRertBorderFill_triggered()));
-    this->mActions->append(this->mActionRectFill);
+    this->mActionRectFilled = new QAction(this);
+    this->mActionRectFilled->setCheckable(true);
+    this->mActionRectFilled->setChecked(this->mOutlineMode == Filled);
+    this->mActionRectFilled->setText(tr("Filled"));
+    this->mActionRectFilled->setToolTip(tr("Filled"));
+    this->mActionRectFilled->setData(QVariant((int)Filled));
+    this->connect(this->mActionRectFilled, SIGNAL(triggered()), SLOT(on_buttonRertFilledOutline_triggered()));
+    this->mActions->append(this->mActionRectFilled);
 }
 //-----------------------------------------------------------------------------
 void ToolRect::loadSettings()
@@ -235,7 +235,7 @@ void ToolRect::loadSettings()
         this->mSize = b;
     }
 
-    b = sett.value("outlineMode", QVariant((int)Border)).toInt(&ok);
+    b = sett.value("outlineMode", QVariant((int)Outline)).toInt(&ok);
 
     if (ok)
     {
@@ -283,7 +283,7 @@ void ToolRect::drawRect(const QRect &rect, OutlineMode mode, int borderWidth, bo
         fc = this->mBackColor;
     }
 
-    if (mode == Filled || mode == BorderFilled)
+    if (mode == Filled || mode == FilledOutline)
     {
         painter.setRenderHint(QPainter::Antialiasing, false);
         //painter.setRenderHint(QPainter::Antialiasing);
@@ -291,7 +291,7 @@ void ToolRect::drawRect(const QRect &rect, OutlineMode mode, int borderWidth, bo
         painter.fillRect(rect, bc);
     }
 
-    if (mode == Border || mode == BorderFilled)
+    if (mode == Outline || mode == FilledOutline)
     {
         QPen pen(fc, borderWidth);
         painter.setRenderHint(QPainter::Antialiasing, false);
@@ -335,7 +335,7 @@ void ToolRect::on_buttonBackColor_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ToolRect::on_buttonRertBorderFill_triggered()
+void ToolRect::on_buttonRertFilledOutline_triggered()
 {
     QAction *action = qobject_cast<QAction *>(sender());
 
@@ -349,9 +349,9 @@ void ToolRect::on_buttonRertBorderFill_triggered()
             OutlineMode mode = (OutlineMode)a;
             this->mOutlineMode = mode;
 
-            this->mActionRectBorder->setChecked(this->mOutlineMode == Border);
-            this->mActionRectBorderFill->setChecked(this->mOutlineMode == BorderFilled);
-            this->mActionRectFill->setChecked(this->mOutlineMode == Filled);
+            this->mActionRectOutline->setChecked(this->mOutlineMode == Outline);
+            this->mActionRectFilledOutline->setChecked(this->mOutlineMode == FilledOutline);
+            this->mActionRectFilled->setChecked(this->mOutlineMode == Filled);
         }
     }
 }

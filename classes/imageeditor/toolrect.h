@@ -59,9 +59,9 @@ signals:
 private:
     enum OutlineMode
     {
-        Border = 1,
+        Outline = 1,
         Filled = 2,
-        BorderFilled = 4
+        FilledOutline = 4
     };
 
     QIcon *mIcon;
@@ -75,9 +75,9 @@ private:
     QColor mBackColor;
     QAction *mActionForeColor;
     QAction *mActionBackColor;
-    QAction *mActionRectBorder;
-    QAction *mActionRectBorderFill;
-    QAction *mActionRectFill;
+    QAction *mActionRectOutline;
+    QAction *mActionRectFilledOutline;
+    QAction *mActionRectFilled;
     QPoint mStartPoint;
     OutlineMode mOutlineMode;
 
@@ -90,7 +90,7 @@ private slots:
     void on_spinBoxSize_valueChanged(int value);
     void on_buttonForeColor_triggered();
     void on_buttonBackColor_triggered();
-    void on_buttonRertBorderFill_triggered();
+    void on_buttonRertFilledOutline_triggered();
 };
 //-----------------------------------------------------------------------------
 } // end of namespace
