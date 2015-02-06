@@ -45,5 +45,6 @@
     <qresource prefix="/images/icons/tools">
         <file alias="tool_pen.svg">icons/tools/tool_pen.svg</file>
         <file alias="tool_zoom.svg">icons/tools/tool_zoom.svg</file>
+        <file alias="tool_rect.svg">icons/tools/tool_rect.svg</file>
     </qresource>
 </RCC>

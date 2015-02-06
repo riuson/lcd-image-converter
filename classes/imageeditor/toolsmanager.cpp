@@ -23,6 +23,7 @@
 #include <QAction>
 #include "iimageeditortool.h"
 #include "toolpen.h"
+#include "toolrect.h"
 #include "toolzoom.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
@@ -69,6 +70,7 @@ void ToolsManager::setScale(int value)
 void ToolsManager::initializeTools()
 {
     this->mTools->append(new ToolPen(this));
+    this->mTools->append(new ToolRect(this));
 
     this->mZoomer = new ToolZoom(this);
     this->connect(this->mZoomer, SIGNAL(scaleChanged(int)), SIGNAL(scaleChanged(int)));

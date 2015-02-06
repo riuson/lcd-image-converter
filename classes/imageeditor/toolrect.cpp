@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "toolpen.h"
+#include "toolrect.h"
 #include <QPainter>
 #include <QList>
 #include <QAction>
@@ -33,9 +33,9 @@
 namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
-ToolPen::ToolPen(QObject *parent) : QObject(parent)
+ToolRect::ToolRect(QObject *parent) : QObject(parent)
 {
-    this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_pen.svg"), 24)));
+    this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect.svg"), 24)));
 
     this->mActions = new QList<QAction *>();
     this->mWidgets = new QList<QWidget *>();
@@ -46,7 +46,7 @@ ToolPen::ToolPen(QObject *parent) : QObject(parent)
     this->initializeWidgets();
 }
 //-----------------------------------------------------------------------------
-ToolPen::~ToolPen()
+ToolRect::~ToolRect()
 {
     this->saveSettings();
     delete this->mIcon;
@@ -56,32 +56,32 @@ ToolPen::~ToolPen()
     delete this->mWidgets;
 }
 //-----------------------------------------------------------------------------
-const QString ToolPen::title() const
+const QString ToolRect::title() const
 {
-    return tr("Pen");
+    return tr("Rect");
 }
 //-----------------------------------------------------------------------------
-const QString ToolPen::tooltip() const
+const QString ToolRect::tooltip() const
 {
-    return tr("Draw pixels");
+    return tr("Draw rectangle");
 }
 //-----------------------------------------------------------------------------
-const QIcon *ToolPen::icon() const
+const QIcon *ToolRect::icon() const
 {
     return this->mIcon;
 }
 //-----------------------------------------------------------------------------
-const QList<QAction *> *ToolPen::actions() const
+const QList<QAction *> *ToolRect::actions() const
 {
     return this->mActions;
 }
 //-----------------------------------------------------------------------------
-const QList<QWidget *> *ToolPen::widgets() const
+const QList<QWidget *> *ToolRect::widgets() const
 {
     return this->mWidgets;
 }
 //-----------------------------------------------------------------------------
-bool ToolPen::processMouse(QMouseEvent *event,
+bool ToolRect::processMouse(QMouseEvent *event,
                            const QImage *imageOriginal)
 {
     if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress)
@@ -105,10 +105,13 @@ bool ToolPen::processMouse(QMouseEvent *event,
                 {
                     if (!this->mFlagChanged)
                     {
-                        this->mInternalImage = *imageOriginal;
+                        this->mOriginalImage = *imageOriginal;
+                        this->mStartPoint = event->pos();
                     }
 
-                    this->drawPixel(event->x(), event->y(), this->mForeColor);
+                    QRect rect;
+                    rect.setCoords(this->mStartPoint.x(), this->mStartPoint.y(), event->x(), event->y());
+                    this->drawRect(rect, false);
                     this->mFlagChanged = true;
                     emit this->processing(&this->mInternalImage);
                 }
@@ -117,10 +120,13 @@ bool ToolPen::processMouse(QMouseEvent *event,
                 {
                     if (!this->mFlagChanged)
                     {
-                        this->mInternalImage = *imageOriginal;
+                        this->mOriginalImage = *imageOriginal;
+                        this->mStartPoint = event->pos();
                     }
 
-                    this->drawPixel(event->x(), event->y(), this->mBackColor);
+                    QRect rect;
+                    rect.setCoords(this->mStartPoint.x(), this->mStartPoint.y(), event->x(), event->y());
+                    this->drawRect(rect, true);
                     this->mFlagChanged = true;
                     emit this->processing(&this->mInternalImage);
                 }
@@ -136,7 +142,7 @@ bool ToolPen::processMouse(QMouseEvent *event,
     return true;
 }
 //-----------------------------------------------------------------------------
-void ToolPen::initializeWidgets()
+void ToolRect::initializeWidgets()
 {
     QSpinBox *spinBoxSize = new QSpinBox();
     spinBoxSize->setMinimum(1);
@@ -165,12 +171,12 @@ void ToolPen::initializeWidgets()
     this->mActions->append(this->mActionBackColor);
 }
 //-----------------------------------------------------------------------------
-void ToolPen::loadSettings()
+void ToolRect::loadSettings()
 {
     QSettings sett;
     sett.beginGroup("window-image-editor");
     sett.beginGroup("tools");
-    sett.beginGroup("pen");
+    sett.beginGroup("rect");
 
     bool ok;
     unsigned int a = sett.value("foreColor", QVariant("none")).toUInt(&ok);
@@ -207,12 +213,12 @@ void ToolPen::loadSettings()
     sett.endGroup();
 }
 //-----------------------------------------------------------------------------
-void ToolPen::saveSettings() const
+void ToolRect::saveSettings() const
 {
     QSettings sett;
     sett.beginGroup("window-image-editor");
     sett.beginGroup("tools");
-    sett.beginGroup("pen");
+    sett.beginGroup("rect");
 
     unsigned int a = this->mForeColor.rgb();
     sett.setValue("foreColor", QVariant(a));
@@ -227,32 +233,28 @@ void ToolPen::saveSettings() const
     sett.endGroup();
 }
 //-----------------------------------------------------------------------------
-void ToolPen::drawPixel(int x, int y, const QColor &color)
+void ToolRect::drawRect(const QRect &rect, bool inverted)
 {
-    QImage image = this->mInternalImage;
+    QImage image = this->mOriginalImage;
     QPixmap pixmap = QPixmap::fromImage(image);
     QPainter painter(&pixmap);
 
-    if (this->mSize == 1)
-    {
-        painter.setPen(color);
-        painter.drawPoint(x, y);
-    }
-    else
-    {
-        QRect rect = QRect(x, y, this->mSize, this->mSize);
-        painter.fillRect(rect, color);
-    }
+    QPen pen(QBrush(!inverted ? this->mForeColor : this->mBackColor), this->mSize);
+    painter.setRenderHint(QPainter::Antialiasing, false);
+    //painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing, false);
+    painter.setPen(pen);
+    painter.drawRect(rect);
 
     this->mInternalImage = pixmap.toImage();
 }
 //-----------------------------------------------------------------------------
-void ToolPen::on_spinBoxSize_valueChanged(int value)
+void ToolRect::on_spinBoxSize_valueChanged(int value)
 {
     this->mSize = value;
 }
 //-----------------------------------------------------------------------------
-void ToolPen::on_buttonForeColor_triggered()
+void ToolRect::on_buttonForeColor_triggered()
 {
     QColorDialog dialog(this->mForeColor);
 
@@ -265,7 +267,7 @@ void ToolPen::on_buttonForeColor_triggered()
     }
 }
 //-----------------------------------------------------------------------------
-void ToolPen::on_buttonBackColor_triggered()
+void ToolRect::on_buttonBackColor_triggered()
 {
     QColorDialog dialog(this->mBackColor);
 
