@@ -35,7 +35,7 @@ namespace ImageEditor
 //-----------------------------------------------------------------------------
 ToolPen::ToolPen(QObject *parent) : QObject(parent)
 {
-    this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_pen.svg"), 24)));
+    this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_pen"), 24)));
 
     this->mActions = new QList<QAction *>();
     this->mWidgets = new QList<QWidget *>();

@@ -35,7 +35,7 @@ namespace ImageEditor
 //-----------------------------------------------------------------------------
 ToolRect::ToolRect(QObject *parent) : QObject(parent)
 {
-    this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect.svg"), 24)));
+    this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect"), 24)));
 
     this->mActions = new QList<QAction *>();
     this->mWidgets = new QList<QWidget *>();
@@ -177,6 +177,7 @@ void ToolRect::initializeWidgets()
     this->mActionRectOutline->setToolTip(tr("Outline only"));
     this->mActionRectOutline->setData(QVariant((int)Outline));
     this->connect(this->mActionRectOutline, SIGNAL(triggered()), SLOT(on_buttonRertFilledOutline_triggered()));
+    this->mActionRectOutline->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_outline"), 24))));
     this->mActions->append(this->mActionRectOutline);
 
     this->mActionRectFilledOutline = new QAction(this);
@@ -186,6 +187,7 @@ void ToolRect::initializeWidgets()
     this->mActionRectFilledOutline->setToolTip(tr("Filled with Outline"));
     this->mActionRectFilledOutline->setData(QVariant((int)FilledOutline));
     this->connect(this->mActionRectFilledOutline, SIGNAL(triggered()), SLOT(on_buttonRertFilledOutline_triggered()));
+    this->mActionRectFilledOutline->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_filled_outline"), 24))));
     this->mActions->append(this->mActionRectFilledOutline);
 
     this->mActionRectFilled = new QAction(this);
@@ -195,6 +197,7 @@ void ToolRect::initializeWidgets()
     this->mActionRectFilled->setToolTip(tr("Filled"));
     this->mActionRectFilled->setData(QVariant((int)Filled));
     this->connect(this->mActionRectFilled, SIGNAL(triggered()), SLOT(on_buttonRertFilledOutline_triggered()));
+    this->mActionRectFilled->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_filled"), 24))));
     this->mActions->append(this->mActionRectFilled);
 }
 //-----------------------------------------------------------------------------
