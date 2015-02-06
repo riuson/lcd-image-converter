@@ -148,7 +148,7 @@ void ToolRect::initializeWidgets()
     spinBoxSize->setMinimum(1);
     spinBoxSize->setSuffix(QString("px"));
     spinBoxSize->setValue(this->mSize);
-    spinBoxSize->setToolTip(tr("Size"));
+    spinBoxSize->setToolTip(tr("Border Width"));
     this->connect(spinBoxSize, SIGNAL(valueChanged(int)), SLOT(on_spinBoxSize_valueChanged(int)));
     this->mWidgets->append(spinBoxSize);
 

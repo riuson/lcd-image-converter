@@ -739,6 +739,63 @@ Qt: %4</translation>
     </message>
 </context>
 <context>
+    <name>ImageEditor::ToolRect</name>
+    <message>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="61"/>
+        <source>Rect</source>
+        <translation>Прямоугольник</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="66"/>
+        <source>Draw rectangle</source>
+        <translation>Рисовать прямоугольник</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="151"/>
+        <source>Border Width</source>
+        <translatorcomment>Ширина линии границы</translatorcomment>
+        <translation>Ширина границы</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="156"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="157"/>
+        <source>Fore Color</source>
+        <translation>Цвет переднего плана</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="165"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="166"/>
+        <source>Back Color</source>
+        <translation>Цвет заднего плана</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="176"/>
+        <source>Outline</source>
+        <translation>Границы</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="177"/>
+        <source>Outline only</source>
+        <translation>Только границы</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="186"/>
+        <source>Filled Outline</source>
+        <translation>Заливка и Границы</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="187"/>
+        <source>Filled with Outline</source>
+        <translation>Заливка с границами</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="196"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="197"/>
+        <source>Filled</source>
+        <translation>Заливка</translation>
+    </message>
+</context>
+<context>
     <name>ImageEditor::ToolZoom</name>
     <message>
         <location filename="../classes/imageeditor/toolzoom.cpp" line="59"/>
