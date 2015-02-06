@@ -57,6 +57,13 @@ signals:
     void completed(const QImage *value, bool changed);
 
 private:
+    enum OutlineMode
+    {
+        Border = 1,
+        Filled = 2,
+        BorderFilled = 4
+    };
+
     QIcon *mIcon;
     QList<QAction *> *mActions;
     QList<QWidget *> *mWidgets;
@@ -68,17 +75,22 @@ private:
     QColor mBackColor;
     QAction *mActionForeColor;
     QAction *mActionBackColor;
+    QAction *mActionRectBorder;
+    QAction *mActionRectBorderFill;
+    QAction *mActionRectFill;
     QPoint mStartPoint;
+    OutlineMode mOutlineMode;
 
     void initializeWidgets();
     void loadSettings();
     void saveSettings() const;
-    void drawRect(const QRect &rect, bool inverted);
+    void drawRect(const QRect &rect, OutlineMode mode, int borderWidth, bool inverted);
 
 private slots:
     void on_spinBoxSize_valueChanged(int value);
     void on_buttonForeColor_triggered();
     void on_buttonBackColor_triggered();
+    void on_buttonRertBorderFill_triggered();
 };
 //-----------------------------------------------------------------------------
 } // end of namespace
