@@ -740,6 +740,19 @@ Qt: %4</translation>
     </message>
 </context>
 <context>
+    <name>ImageEditor::ToolFill</name>
+    <message>
+        <location filename="../classes/imageeditor/toolfill.cpp" line="64"/>
+        <source>Fill</source>
+        <translation>Заливка</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolfill.cpp" line="69"/>
+        <source>Fill area</source>
+        <translation>Заливка площади</translation>
+    </message>
+</context>
+<context>
     <name>ImageEditor::ToolLine</name>
     <message>
         <location filename="../classes/imageeditor/toolline.cpp" line="63"/>
