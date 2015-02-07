@@ -250,9 +250,14 @@ void WindowEditor::toolChanged(int toolIndex)
 
     if (this->mSelectedTool != NULL)
     {
-        QObject::disconnect(dynamic_cast<QObject *>(tool), SIGNAL(started(const QImage*)));
-        QObject::disconnect(dynamic_cast<QObject *>(tool), SIGNAL(processing(const QImage*)));
-        QObject::disconnect(dynamic_cast<QObject *>(tool), SIGNAL(completed(const QImage*,bool)));
+        QObject *obj = dynamic_cast<QObject *>(tool);
+
+        if (tool != NULL)
+        {
+            obj->disconnect(SIGNAL(started(const QImage*)), this, SLOT(tool_started(const QImage*)));
+            obj->disconnect(SIGNAL(processing(const QImage*)), this, SLOT(tool_processing(const QImage*)));
+            obj->disconnect(SIGNAL(completed(const QImage*,bool)), this, SLOT(tool_completed(const QImage*,bool)));
+        }
     }
 
     tool = this->mTools->tools()->at(toolIndex);
