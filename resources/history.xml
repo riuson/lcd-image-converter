@@ -6,6 +6,18 @@
             <date>current</date>
         </commit>
         <description>Fixed:
+ Templates.
+
+Added:
+ Simple drawing tools (rect, point, fill, line).
+        </description>
+    </record>
+    <record>
+        <commit>
+            <sha1>ff449e0c73a0ed4c77e835441f7593daca6e3da1</sha1>
+            <date>2014-12-14 12:47:27 +0500</date>
+        </commit>
+        <description>Fixed:
  Shadow Build support (partially);
  Default document and file name for new documents;
  Save Changes dialog;
