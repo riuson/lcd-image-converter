@@ -49,5 +49,7 @@
         <file alias="tool_rect_filled">icons/tools/tool_rect_filled.svg</file>
         <file alias="tool_rect_filled_outline">icons/tools/tool_rect_filled_outline.svg</file>
         <file alias="tool_rect_outline">icons/tools/tool_rect_outline.svg</file>
+        <file alias="tool_color">icons/tools/tool_color.svg</file>
+        <file alias="tool_color_swap">icons/tools/tool_color_swap.svg</file>
     </qresource>
 </RCC>

@@ -61,6 +61,7 @@ SOURCES += main.cpp \
     classes/data/imagesmodel.cpp \
     classes/data/revisioninfo.cpp \
     classes/imageeditor/editor.cpp \
+    classes/imageeditor/toolcolor.cpp \
     classes/imageeditor/toolsmanager.cpp \
     classes/imageeditor/toolpen.cpp \
     classes/imageeditor/toolrect.cpp \
@@ -149,6 +150,7 @@ HEADERS += \
     classes/imageeditor/editor.h \
     classes/imageeditor/iimageeditor.h \
     classes/imageeditor/iimageeditortool.h \
+    classes/imageeditor/toolcolor.h \
     classes/imageeditor/toolsmanager.h \
     classes/imageeditor/toolpen.h \
     classes/imageeditor/toolrect.h \

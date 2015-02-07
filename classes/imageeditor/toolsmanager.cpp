@@ -25,6 +25,7 @@
 #include "toolpen.h"
 #include "toolrect.h"
 #include "toolzoom.h"
+#include "toolcolor.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -62,6 +63,16 @@ int ToolsManager::scale() const
     return this->mZoomer->scale();
 }
 //-----------------------------------------------------------------------------
+const QColor ToolsManager::foreColor() const
+{
+    return this->mColors->foreColor();
+}
+//-----------------------------------------------------------------------------
+const QColor ToolsManager::backColor() const
+{
+    return this->mColors->backColor();
+}
+//-----------------------------------------------------------------------------
 void ToolsManager::setScale(int value)
 {
     this->mZoomer->setScale(value);
@@ -71,6 +82,9 @@ void ToolsManager::initializeTools()
 {
     this->mTools->append(new ToolPen(this));
     this->mTools->append(new ToolRect(this));
+
+    this->mColors = new ToolColor(this);
+    this->mTools->append(this->mColors);
 
     this->mZoomer = new ToolZoom(this);
     this->connect(this->mZoomer, SIGNAL(scaleChanged(int)), SIGNAL(scaleChanged(int)));

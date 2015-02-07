@@ -17,57 +17,70 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef TOOLSMANAGER_H
-#define TOOLSMANAGER_H
+#ifndef TOOLCOLOR_H
+#define TOOLCOLOR_H
 //-----------------------------------------------------------------------------
 #include <QObject>
-//-----------------------------------------------------------------------------
+#include <QImage>
+#include <QColor>
+#include "iimageeditortool.h"
+
+class QIcon;
 class QAction;
-template <class T1> class QList;
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
+class IImageEditorParams;
 //-----------------------------------------------------------------------------
-class IImageEditorTool;
-class ToolZoom;
-class ToolColor;
-//-----------------------------------------------------------------------------
-class ToolsManager : public QObject
+class ToolColor : public QObject, public IImageEditorTool
 {
     Q_OBJECT
+    Q_INTERFACES(ImageEditor::IImageEditorTool)
+
 public:
-    explicit ToolsManager(QObject *parent = 0);
-    ~ToolsManager();
+    explicit ToolColor(IImageEditorParams *parameters, QObject *parent = 0);
+    ~ToolColor();
 
-    const QList <IImageEditorTool *> *tools() const;
-    const QList<QAction *> *toolsActions() const;
+    const QString title() const;
+    const QString tooltip() const;
+    const QIcon *icon() const;
+    const QList<QAction *> *actions() const;
+    const QList<QWidget *> *widgets() const;
 
-    int scale() const;
     const QColor foreColor() const;
     const QColor backColor() const;
 
 public slots:
-    void setScale(int value);
+    bool processMouse(QMouseEvent *event,
+                      const QImage *imageOriginal);
 
 signals:
-    void toolChanged(int toolIndex);
-    void scaleChanged(int value);
+    void started(const QImage *value);
+    void processing(const QImage *value);
+    void completed(const QImage *value, bool changed);
 
 private:
-    QList <IImageEditorTool *> *mTools;
-    QList <QAction *> *mToolsActions;
-    IImageEditorTool *mSelectedTool;
-    ToolZoom *mZoomer;
-    ToolColor *mColors;
+    IImageEditorParams *mParameters;
+    QIcon *mIcon;
+    QList<QAction *> *mActions;
+    QList<QWidget *> *mWidgets;
+    QColor mForeColor;
+    QColor mBackColor;
+    QAction *mActionForeColor;
+    QAction *mActionBackColor;
+    QAction *mActionSwapColors;
 
-    void initializeTools();
-    void initializeActions();
-    void selectTool(IImageEditorTool *tool);
+    void initializeWidgets();
+    void loadSettings();
+    void saveSettings() const;
+    void updateColorIcons();
 
 private slots:
-    void on_toolAction_triggered();
+    void on_buttonForeColor_triggered();
+    void on_buttonBackColor_triggered();
+    void on_buttonSwapColors_triggered();
 };
 //-----------------------------------------------------------------------------
 } // end of namespace
 //-----------------------------------------------------------------------------
-#endif // TOOLSMANAGER_H
+#endif // TOOLCOLOR_H
