@@ -709,88 +709,113 @@ Qt: %4</translation>
     </message>
 </context>
 <context>
-    <name>ImageEditor::ToolPen</name>
+    <name>ImageEditor::ToolColor</name>
     <message>
-        <location filename="../classes/imageeditor/toolpen.cpp" line="61"/>
-        <source>Pen</source>
-        <translation>Карандаш</translation>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="61"/>
+        <source>Color</source>
+        <translation>Цвет</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolpen.cpp" line="66"/>
-        <source>Draw pixels</source>
-        <translation>Рисование точек</translation>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="66"/>
+        <source>Select color</source>
+        <translation>Выбор цвета</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolpen.cpp" line="145"/>
-        <source>Size</source>
-        <translation>Размер точки</translation>
-    </message>
-    <message>
-        <location filename="../classes/imageeditor/toolpen.cpp" line="150"/>
-        <location filename="../classes/imageeditor/toolpen.cpp" line="151"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="140"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="141"/>
         <source>Fore Color</source>
         <translation>Цвет переднего плана</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolpen.cpp" line="159"/>
-        <location filename="../classes/imageeditor/toolpen.cpp" line="160"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="146"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="147"/>
         <source>Back Color</source>
         <translation>Цвет заднего плана</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="152"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="153"/>
+        <source>Swap Colors</source>
+        <translation>Обменять цвета</translation>
+    </message>
+</context>
+<context>
+    <name>ImageEditor::ToolLine</name>
+    <message>
+        <location filename="../classes/imageeditor/toolline.cpp" line="63"/>
+        <source>Line</source>
+        <translation>Линия</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolline.cpp" line="68"/>
+        <source>Draw line</source>
+        <translation>Рисование линии</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolline.cpp" line="153"/>
+        <source>Line Width</source>
+        <translation>Толщина линии</translation>
+    </message>
+</context>
+<context>
+    <name>ImageEditor::ToolPen</name>
+    <message>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="63"/>
+        <source>Pen</source>
+        <translation>Карандаш</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="68"/>
+        <source>Draw pixels</source>
+        <translation>Рисование точек</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="147"/>
+        <source>Size</source>
+        <translation>Размер точки</translation>
     </message>
 </context>
 <context>
     <name>ImageEditor::ToolRect</name>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="61"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="63"/>
         <source>Rect</source>
         <translation>Прямоугольник</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="66"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="68"/>
         <source>Draw rectangle</source>
-        <translation>Рисовать прямоугольник</translation>
+        <translation>Рисование прямоугольника</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="151"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="153"/>
         <source>Border Width</source>
         <translatorcomment>Ширина линии границы</translatorcomment>
         <translation>Ширина границы</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="156"/>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="157"/>
-        <source>Fore Color</source>
-        <translation>Цвет переднего плана</translation>
-    </message>
-    <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="165"/>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="166"/>
-        <source>Back Color</source>
-        <translation>Цвет заднего плана</translation>
-    </message>
-    <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="176"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="160"/>
         <source>Outline</source>
         <translation>Границы</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="177"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="161"/>
         <source>Outline only</source>
         <translation>Только границы</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="186"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="170"/>
         <source>Filled Outline</source>
         <translation>Заливка и Границы</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="187"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="171"/>
         <source>Filled with Outline</source>
         <translation>Заливка с границами</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="196"/>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="197"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="180"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="181"/>
         <source>Filled</source>
         <translation>Заливка</translation>
     </message>
@@ -798,17 +823,17 @@ Qt: %4</translation>
 <context>
     <name>ImageEditor::ToolZoom</name>
     <message>
-        <location filename="../classes/imageeditor/toolzoom.cpp" line="59"/>
+        <location filename="../classes/imageeditor/toolzoom.cpp" line="60"/>
         <source>Zoom</source>
         <translation>Лупа</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolzoom.cpp" line="64"/>
+        <location filename="../classes/imageeditor/toolzoom.cpp" line="65"/>
         <source>Zoom image</source>
         <translation>Измение масштаба изображения</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolzoom.cpp" line="112"/>
+        <location filename="../classes/imageeditor/toolzoom.cpp" line="113"/>
         <source>Scale value</source>
         <translation>Значение масштаба</translation>
     </message>
