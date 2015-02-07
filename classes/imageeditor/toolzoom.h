@@ -28,6 +28,7 @@ class QSpinBox;
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
+class IImageEditorParams;
 //-----------------------------------------------------------------------------
 class ToolZoom : public QObject, public IImageEditorTool
 {
@@ -35,7 +36,7 @@ class ToolZoom : public QObject, public IImageEditorTool
     Q_INTERFACES(ImageEditor::IImageEditorTool)
 
 public:
-    explicit ToolZoom(QObject *parent = 0);
+    explicit ToolZoom(IImageEditorParams *parameters, QObject *parent = 0);
     ~ToolZoom();
 
     const QString title() const;
@@ -58,6 +59,7 @@ signals:
     void scaleChanged(int value);
 
 private:
+    IImageEditorParams *mParameters;
     QIcon *mIcon;
     QSpinBox *mSpinBoxScale;
     QList<QAction *> *mActions;

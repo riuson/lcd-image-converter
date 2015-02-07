@@ -30,6 +30,7 @@ class QAction;
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
+class IImageEditorParams;
 //-----------------------------------------------------------------------------
 class ToolPen : public QObject, public IImageEditorTool
 {
@@ -37,7 +38,7 @@ class ToolPen : public QObject, public IImageEditorTool
     Q_INTERFACES(ImageEditor::IImageEditorTool)
 
 public:
-    explicit ToolPen(QObject *parent = 0);
+    explicit ToolPen(IImageEditorParams *parameters, QObject *parent = 0);
     ~ToolPen();
 
     const QString title() const;
@@ -56,16 +57,13 @@ signals:
     void completed(const QImage *value, bool changed);
 
 private:
+    IImageEditorParams *mParameters;
     QIcon *mIcon;
     QList<QAction *> *mActions;
     QList<QWidget *> *mWidgets;
     int mSize;
     bool mFlagChanged;
     QImage mInternalImage;
-    QColor mForeColor;
-    QColor mBackColor;
-    QAction *mActionForeColor;
-    QAction *mActionBackColor;
 
     void initializeWidgets();
     void loadSettings();
@@ -74,8 +72,6 @@ private:
 
 private slots:
     void on_spinBoxSize_valueChanged(int value);
-    void on_buttonForeColor_triggered();
-    void on_buttonBackColor_triggered();
 };
 //-----------------------------------------------------------------------------
 } // end of namespace

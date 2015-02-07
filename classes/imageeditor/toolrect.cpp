@@ -29,12 +29,14 @@
 #include <QSettings>
 #include <QColorDialog>
 #include "bitmaphelper.h"
+#include "iimageeditorparams.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
-ToolRect::ToolRect(QObject *parent) : QObject(parent)
+ToolRect::ToolRect(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
+    this->mParameters = parameters;
     this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect"), 24)));
 
     this->mActions = new QList<QAction *>();
@@ -152,24 +154,6 @@ void ToolRect::initializeWidgets()
     this->connect(spinBoxSize, SIGNAL(valueChanged(int)), SLOT(on_spinBoxSize_valueChanged(int)));
     this->mWidgets->append(spinBoxSize);
 
-    this->mActionForeColor = new QAction(this);
-    this->mActionForeColor->setText(tr("Fore Color"));
-    this->mActionForeColor->setToolTip(tr("Fore Color"));
-    this->connect(this->mActionForeColor, SIGNAL(triggered()), SLOT(on_buttonForeColor_triggered()));
-    QPixmap pixmapForeColor = QPixmap(24, 24);
-    pixmapForeColor.fill(this->mForeColor);
-    this->mActionForeColor->setIcon(QIcon(pixmapForeColor));
-    this->mActions->append(this->mActionForeColor);
-
-    this->mActionBackColor = new QAction(this);
-    this->mActionBackColor->setText(tr("Back Color"));
-    this->mActionBackColor->setToolTip(tr("Back Color"));
-    this->connect(this->mActionBackColor, SIGNAL(triggered()), SLOT(on_buttonBackColor_triggered()));
-    QPixmap pixmapBackColor = QPixmap(24, 24);
-    pixmapBackColor.fill(this->mBackColor);
-    this->mActionBackColor->setIcon(QIcon(pixmapBackColor));
-    this->mActions->append(this->mActionBackColor);
-
     this->mActionRectOutline = new QAction(this);
     this->mActionRectOutline->setCheckable(true);
     this->mActionRectOutline->setChecked(this->mOutlineMode == Outline);
@@ -209,40 +193,18 @@ void ToolRect::loadSettings()
     sett.beginGroup("rect");
 
     bool ok;
-    unsigned int a = sett.value("foreColor", QVariant("none")).toUInt(&ok);
+    int a = sett.value("size", QVariant(1)).toInt(&ok);
 
     if (ok)
     {
-        this->mForeColor = QColor(QRgb(a));
-    }
-    else
-    {
-        this->mForeColor = QColor("black");
+        this->mSize = a;
     }
 
-    a = sett.value("backColor", QVariant("none")).toUInt(&ok);
+    a = sett.value("outlineMode", QVariant((int)Outline)).toInt(&ok);
 
     if (ok)
     {
-        this->mBackColor = QColor(QRgb(a));
-    }
-    else
-    {
-        this->mBackColor = QColor("white");
-    }
-
-    int b = sett.value("size", QVariant(1)).toInt(&ok);
-
-    if (ok)
-    {
-        this->mSize = b;
-    }
-
-    b = sett.value("outlineMode", QVariant((int)Outline)).toInt(&ok);
-
-    if (ok)
-    {
-        this->mOutlineMode = (OutlineMode)b;
+        this->mOutlineMode = (OutlineMode)a;
     }
 
     sett.endGroup();
@@ -256,12 +218,6 @@ void ToolRect::saveSettings() const
     sett.beginGroup("window-image-editor");
     sett.beginGroup("tools");
     sett.beginGroup("rect");
-
-    unsigned int a = this->mForeColor.rgb();
-    sett.setValue("foreColor", QVariant(a));
-
-    a = this->mBackColor.rgb();
-    sett.setValue("backColor", QVariant(a));
 
     sett.setValue("size", QVariant(this->mSize));
     sett.setValue("outlineMode", QVariant((int)this->mOutlineMode));
@@ -277,13 +233,13 @@ void ToolRect::drawRect(const QRect &rect, OutlineMode mode, int borderWidth, bo
     QPixmap pixmap = QPixmap::fromImage(image);
     QPainter painter(&pixmap);
 
-    QColor fc = this->mForeColor;
-    QColor bc = this->mBackColor;
+    QColor fc = this->mParameters->foreColor();
+    QColor bc = this->mParameters->backColor();
 
     if (inverted)
     {
-        bc = this->mForeColor;
-        fc = this->mBackColor;
+        bc = this->mParameters->foreColor();
+        fc = this->mParameters->backColor();
     }
 
     if (mode == Filled || mode == FilledOutline)
@@ -310,32 +266,6 @@ void ToolRect::drawRect(const QRect &rect, OutlineMode mode, int borderWidth, bo
 void ToolRect::on_spinBoxSize_valueChanged(int value)
 {
     this->mSize = value;
-}
-//-----------------------------------------------------------------------------
-void ToolRect::on_buttonForeColor_triggered()
-{
-    QColorDialog dialog(this->mForeColor);
-
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        this->mForeColor = dialog.selectedColor();
-        QPixmap pixmapForeColor = QPixmap(24, 24);
-        pixmapForeColor.fill(this->mForeColor);
-        this->mActionForeColor->setIcon(QIcon(pixmapForeColor));
-    }
-}
-//-----------------------------------------------------------------------------
-void ToolRect::on_buttonBackColor_triggered()
-{
-    QColorDialog dialog(this->mBackColor);
-
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        this->mBackColor = dialog.selectedColor();
-        QPixmap pixmapBackColor = QPixmap(24, 24);
-        pixmapBackColor.fill(this->mBackColor);
-        this->mActionBackColor->setIcon(QIcon(pixmapBackColor));
-    }
 }
 //-----------------------------------------------------------------------------
 void ToolRect::on_buttonRertFilledOutline_triggered()

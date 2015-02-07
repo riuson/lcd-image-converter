@@ -29,12 +29,14 @@
 #include <QSettings>
 #include <QColorDialog>
 #include "bitmaphelper.h"
+#include "iimageeditorparams.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
-ToolPen::ToolPen(QObject *parent) : QObject(parent)
+ToolPen::ToolPen(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
+    this->mParameters = parameters;
     this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_pen"), 24)));
 
     this->mActions = new QList<QAction *>();
@@ -108,7 +110,7 @@ bool ToolPen::processMouse(QMouseEvent *event,
                         this->mInternalImage = *imageOriginal;
                     }
 
-                    this->drawPixel(event->x(), event->y(), this->mForeColor);
+                    this->drawPixel(event->x(), event->y(), this->mParameters->foreColor());
                     this->mFlagChanged = true;
                     emit this->processing(&this->mInternalImage);
                 }
@@ -120,7 +122,7 @@ bool ToolPen::processMouse(QMouseEvent *event,
                         this->mInternalImage = *imageOriginal;
                     }
 
-                    this->drawPixel(event->x(), event->y(), this->mBackColor);
+                    this->drawPixel(event->x(), event->y(), this->mParameters->backColor());
                     this->mFlagChanged = true;
                     emit this->processing(&this->mInternalImage);
                 }
@@ -145,24 +147,6 @@ void ToolPen::initializeWidgets()
     spinBoxSize->setToolTip(tr("Size"));
     this->connect(spinBoxSize, SIGNAL(valueChanged(int)), SLOT(on_spinBoxSize_valueChanged(int)));
     this->mWidgets->append(spinBoxSize);
-
-    this->mActionForeColor = new QAction(this);
-    this->mActionForeColor->setText(tr("Fore Color"));
-    this->mActionForeColor->setToolTip(tr("Fore Color"));
-    this->connect(this->mActionForeColor, SIGNAL(triggered()), SLOT(on_buttonForeColor_triggered()));
-    QPixmap pixmapForeColor = QPixmap(24, 24);
-    pixmapForeColor.fill(this->mForeColor);
-    this->mActionForeColor->setIcon(QIcon(pixmapForeColor));
-    this->mActions->append(this->mActionForeColor);
-
-    this->mActionBackColor = new QAction(this);
-    this->mActionBackColor->setText(tr("Back Color"));
-    this->mActionBackColor->setToolTip(tr("Back Color"));
-    this->connect(this->mActionBackColor, SIGNAL(triggered()), SLOT(on_buttonBackColor_triggered()));
-    QPixmap pixmapBackColor = QPixmap(24, 24);
-    pixmapBackColor.fill(this->mBackColor);
-    this->mActionBackColor->setIcon(QIcon(pixmapBackColor));
-    this->mActions->append(this->mActionBackColor);
 }
 //-----------------------------------------------------------------------------
 void ToolPen::loadSettings()
@@ -173,33 +157,11 @@ void ToolPen::loadSettings()
     sett.beginGroup("pen");
 
     bool ok;
-    unsigned int a = sett.value("foreColor", QVariant("none")).toUInt(&ok);
+    int a = sett.value("size", QVariant(1)).toInt(&ok);
 
     if (ok)
     {
-        this->mForeColor = QColor(QRgb(a));
-    }
-    else
-    {
-        this->mForeColor = QColor("black");
-    }
-
-    a = sett.value("backColor", QVariant("none")).toUInt(&ok);
-
-    if (ok)
-    {
-        this->mBackColor = QColor(QRgb(a));
-    }
-    else
-    {
-        this->mBackColor = QColor("white");
-    }
-
-    int b = sett.value("size", QVariant(1)).toInt(&ok);
-
-    if (ok)
-    {
-        this->mSize = b;
+        this->mSize = a;
     }
 
     sett.endGroup();
@@ -213,12 +175,6 @@ void ToolPen::saveSettings() const
     sett.beginGroup("window-image-editor");
     sett.beginGroup("tools");
     sett.beginGroup("pen");
-
-    unsigned int a = this->mForeColor.rgb();
-    sett.setValue("foreColor", QVariant(a));
-
-    a = this->mBackColor.rgb();
-    sett.setValue("backColor", QVariant(a));
 
     sett.setValue("size", QVariant(this->mSize));
 
@@ -250,32 +206,6 @@ void ToolPen::drawPixel(int x, int y, const QColor &color)
 void ToolPen::on_spinBoxSize_valueChanged(int value)
 {
     this->mSize = value;
-}
-//-----------------------------------------------------------------------------
-void ToolPen::on_buttonForeColor_triggered()
-{
-    QColorDialog dialog(this->mForeColor);
-
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        this->mForeColor = dialog.selectedColor();
-        QPixmap pixmapForeColor = QPixmap(24, 24);
-        pixmapForeColor.fill(this->mForeColor);
-        this->mActionForeColor->setIcon(QIcon(pixmapForeColor));
-    }
-}
-//-----------------------------------------------------------------------------
-void ToolPen::on_buttonBackColor_triggered()
-{
-    QColorDialog dialog(this->mBackColor);
-
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        this->mBackColor = dialog.selectedColor();
-        QPixmap pixmapBackColor = QPixmap(24, 24);
-        pixmapBackColor.fill(this->mBackColor);
-        this->mActionBackColor->setIcon(QIcon(pixmapBackColor));
-    }
 }
 //-----------------------------------------------------------------------------
 } // end of namespace

@@ -80,13 +80,13 @@ void ToolsManager::setScale(int value)
 //-----------------------------------------------------------------------------
 void ToolsManager::initializeTools()
 {
-    this->mTools->append(new ToolPen(this));
-    this->mTools->append(new ToolRect(this));
+    this->mTools->append(new ToolPen(this, this));
+    this->mTools->append(new ToolRect(this, this));
 
-    this->mColors = new ToolColor(this);
+    this->mColors = new ToolColor(this, this);
     this->mTools->append(this->mColors);
 
-    this->mZoomer = new ToolZoom(this);
+    this->mZoomer = new ToolZoom(this, this);
     this->connect(this->mZoomer, SIGNAL(scaleChanged(int)), SIGNAL(scaleChanged(int)));
     this->mTools->append(this->mZoomer);
 }

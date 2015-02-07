@@ -31,6 +31,7 @@ class QAction;
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
+class IImageEditorParams;
 //-----------------------------------------------------------------------------
 class ToolRect : public QObject, public IImageEditorTool
 {
@@ -38,7 +39,7 @@ class ToolRect : public QObject, public IImageEditorTool
     Q_INTERFACES(ImageEditor::IImageEditorTool)
 
 public:
-    explicit ToolRect(QObject *parent = 0);
+    explicit ToolRect(IImageEditorParams *parameters, QObject *parent = 0);
     ~ToolRect();
 
     const QString title() const;
@@ -64,6 +65,7 @@ private:
         FilledOutline = 4
     };
 
+    IImageEditorParams *mParameters;
     QIcon *mIcon;
     QList<QAction *> *mActions;
     QList<QWidget *> *mWidgets;
@@ -71,10 +73,6 @@ private:
     bool mFlagChanged;
     QImage mOriginalImage;
     QImage mInternalImage;
-    QColor mForeColor;
-    QColor mBackColor;
-    QAction *mActionForeColor;
-    QAction *mActionBackColor;
     QAction *mActionRectOutline;
     QAction *mActionRectFilledOutline;
     QAction *mActionRectFilled;
@@ -88,8 +86,6 @@ private:
 
 private slots:
     void on_spinBoxSize_valueChanged(int value);
-    void on_buttonForeColor_triggered();
-    void on_buttonBackColor_triggered();
     void on_buttonRertFilledOutline_triggered();
 };
 //-----------------------------------------------------------------------------

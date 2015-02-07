@@ -149,6 +149,7 @@ HEADERS += \
     classes/data/revisioninfo.h \
     classes/imageeditor/editor.h \
     classes/imageeditor/iimageeditor.h \
+    classes/imageeditor/iimageeditorparams.h \
     classes/imageeditor/iimageeditortool.h \
     classes/imageeditor/toolcolor.h \
     classes/imageeditor/toolsmanager.h \

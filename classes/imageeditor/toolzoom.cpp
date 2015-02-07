@@ -31,8 +31,9 @@
 namespace ImageEditor
 {
 //-----------------------------------------------------------------------------
-ToolZoom::ToolZoom(QObject *parent) : QObject(parent)
+ToolZoom::ToolZoom(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
+    this->mParameters = parameters;
     this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_zoom"), 24)));
 
     this->mActions = new QList<QAction *>();

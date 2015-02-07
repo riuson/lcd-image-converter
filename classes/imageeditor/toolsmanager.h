@@ -21,6 +21,7 @@
 #define TOOLSMANAGER_H
 //-----------------------------------------------------------------------------
 #include <QObject>
+#include "iimageeditorparams.h"
 //-----------------------------------------------------------------------------
 class QAction;
 template <class T1> class QList;
@@ -32,9 +33,11 @@ class IImageEditorTool;
 class ToolZoom;
 class ToolColor;
 //-----------------------------------------------------------------------------
-class ToolsManager : public QObject
+class ToolsManager : public QObject, public IImageEditorParams
 {
     Q_OBJECT
+    Q_INTERFACES(ImageEditor::IImageEditorParams)
+
 public:
     explicit ToolsManager(QObject *parent = 0);
     ~ToolsManager();
