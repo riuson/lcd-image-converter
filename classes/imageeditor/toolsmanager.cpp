@@ -23,6 +23,7 @@
 #include <QAction>
 #include "iimageeditortool.h"
 #include "toolpen.h"
+#include "toolline.h"
 #include "toolrect.h"
 #include "toolzoom.h"
 #include "toolcolor.h"
@@ -87,6 +88,7 @@ void ToolsManager::setScale(int value)
 void ToolsManager::initializeTools()
 {
     this->mTools->append(new ToolPen(this, this));
+    this->mTools->append(new ToolLine(this, this));
     this->mTools->append(new ToolRect(this, this));
 
     this->mColors = new ToolColor(this, this);
