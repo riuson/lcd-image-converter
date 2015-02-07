@@ -29,6 +29,7 @@
 #include <QSettings>
 #include <QColorDialog>
 #include "bitmaphelper.h"
+#include "iimageeditorparams.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -223,7 +224,7 @@ void ToolColor::updateColorIcons()
 //-----------------------------------------------------------------------------
 void ToolColor::on_buttonForeColor_triggered()
 {
-    QColorDialog dialog(this->mForeColor);
+    QColorDialog dialog(this->mForeColor, this->mParameters->parentWidget());
 
     if (dialog.exec() == QDialog::Accepted)
     {
@@ -234,7 +235,7 @@ void ToolColor::on_buttonForeColor_triggered()
 //-----------------------------------------------------------------------------
 void ToolColor::on_buttonBackColor_triggered()
 {
-    QColorDialog dialog(this->mBackColor);
+    QColorDialog dialog(this->mBackColor, this->mParameters->parentWidget());
 
     if (dialog.exec() == QDialog::Accepted)
     {

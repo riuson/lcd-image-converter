@@ -32,6 +32,7 @@ namespace ImageEditor
 //-----------------------------------------------------------------------------
 ToolsManager::ToolsManager(QObject *parent) : QObject(parent)
 {
+    this->mParentWidget = qobject_cast<QWidget *>(parent);
     this->mTools = new QList<IImageEditorTool *> ();
     this->mToolsActions = new QList<QAction *> ();
 
@@ -71,6 +72,11 @@ const QColor ToolsManager::foreColor() const
 const QColor ToolsManager::backColor() const
 {
     return this->mColors->backColor();
+}
+//-----------------------------------------------------------------------------
+QWidget *ToolsManager::parentWidget() const
+{
+    return this->mParentWidget;
 }
 //-----------------------------------------------------------------------------
 void ToolsManager::setScale(int value)

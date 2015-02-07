@@ -48,6 +48,7 @@ public:
     int scale() const;
     const QColor foreColor() const;
     const QColor backColor() const;
+    QWidget *parentWidget() const;
 
 public slots:
     void setScale(int value);
@@ -62,6 +63,7 @@ private:
     IImageEditorTool *mSelectedTool;
     ToolZoom *mZoomer;
     ToolColor *mColors;
+    QWidget *mParentWidget;
 
     void initializeTools();
     void initializeActions();

@@ -28,8 +28,8 @@ namespace ImageEditor
 //-----------------------------------------------------------------------------
 Editor::Editor(QObject *parent) : QObject(parent)
 {
-    this->mTools = new ToolsManager(this);
     this->mWidget = new WindowEditor();
+    this->mTools = new ToolsManager(this->mWidget);
     this->mWidget->setTools(this->mTools);
     this->mWidget->setScale(this->mTools->scale());
     this->connect(this->mWidget, SIGNAL(imageChanged()), SLOT(on_imageChanged()));

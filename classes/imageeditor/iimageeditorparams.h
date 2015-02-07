@@ -35,6 +35,7 @@ public:
     virtual int scale() const = 0;
     virtual const QColor foreColor() const = 0;
     virtual const QColor backColor() const = 0;
+    virtual QWidget *parentWidget() const = 0;
 };
 }
 Q_DECLARE_INTERFACE (ImageEditor::IImageEditorParams,
