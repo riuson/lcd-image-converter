@@ -38,7 +38,7 @@ namespace ImageEditor
 ToolFill::ToolFill(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
     this->mParameters = parameters;
-    this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_pen"), 24)));
+    this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_fill"), 24)));
 
     this->mActions = new QList<QAction *>();
     this->mWidgets = new QList<QWidget *>();
