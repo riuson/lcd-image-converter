@@ -35,17 +35,12 @@ Editor::Editor(QObject *parent) : QObject(parent)
     this->connect(this->mWidget, SIGNAL(imageChanged()), SLOT(on_imageChanged()));
     this->connect(this->mWidget, SIGNAL(mouseMove(const QPoint *)), SLOT(on_mouseMove(const QPoint*)));
     this->connect(this->mWidget, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
-    this->mForeColor = new QColor();
-    this->mBackColor = new QColor();
 
     this->connect(this->mTools, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
 }
 //-----------------------------------------------------------------------------
 Editor::~Editor()
 {
-    delete this->mForeColor;
-    delete this->mBackColor;
-
     // delete widgets of tools before editor widget
     delete this->mTools;
     delete this->mWidget;
@@ -64,16 +59,6 @@ const QImage *Editor::image() const
 void Editor::setImage(const QImage *value)
 {
     this->mWidget->setImage(value);
-}
-//-----------------------------------------------------------------------------
-const QColor *Editor::foreColor() const
-{
-    return this->mForeColor;
-}
-//-----------------------------------------------------------------------------
-const QColor *Editor::backColor() const
-{
-    return this->mBackColor;
 }
 //-----------------------------------------------------------------------------
 int Editor::scale() const

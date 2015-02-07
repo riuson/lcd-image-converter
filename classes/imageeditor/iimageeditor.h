@@ -37,9 +37,6 @@ public:
     virtual const QImage *image() const = 0;
     virtual void setImage(const QImage *_value) = 0;
 
-    virtual const QColor *foreColor() const = 0;
-    virtual const QColor *backColor() const = 0;
-
     virtual int scale() const = 0;
 
 signals:
