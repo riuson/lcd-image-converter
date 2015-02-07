@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2013 riuson
+ * Copyright (C) 2015 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef FONTEDITOROPTIONS_H
-#define FONTEDITOROPTIONS_H
+#ifndef IIMAGEEDITORPARAMS_H
+#define IIMAGEEDITORPARAMS_H
 //-----------------------------------------------------------------------------
-#include <QObject>
-#include <QColor>
+class QImage;
+class QColor;
+class QPoint;
+class QWidget;
 //-----------------------------------------------------------------------------
-class FontEditorOptions : public QObject
+namespace ImageEditor
 {
-    Q_OBJECT
+class IImageEditorParams
+{
 public:
-    static int scale();
-    static void setScale(int value);
+    virtual ~IImageEditorParams() { }
 
-    static QColor foreColor();
-    static QColor backColor();
-    static void setForeColor(const QColor &value);
-    static void setBackColor(const QColor &value);
+    virtual int scale() const = 0;
+    virtual const QColor foreColor() const = 0;
+    virtual const QColor backColor() const = 0;
+    virtual QWidget *parentWidget() const = 0;
 };
+}
+Q_DECLARE_INTERFACE (ImageEditor::IImageEditorParams,
+                     "riuson.lcd-image-converter/1.0"
+                     )
 //-----------------------------------------------------------------------------
-#endif // FONTEDITOROPTIONS_H
+#endif // IIMAGEEDITORPARAMS_H

@@ -31,7 +31,6 @@
 #include "idocument.h"
 #include "datacontainer.h"
 #include "limits"
-#include "bitmapeditoroptions.h"
 #include "dialogcanvasresize.h"
 //-----------------------------------------------------------------------------
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :
@@ -122,7 +121,7 @@ void ActionFontHandlers::fontResize_triggered()
                     QString key = iterator.next();
 
                     const QImage *original = this->editor()->document()->dataContainer()->image(key);
-                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapEditorOptions::color2());
+                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapHelper::detectBackgroundColor(original));
                     this->editor()->document()->dataContainer()->setImage(key, &result);
                 }
 
@@ -178,7 +177,7 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
                     QString key = iterator.next();
 
                     const QImage *original = doc->dataContainer()->image(key);
-                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapEditorOptions::color2());
+                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapHelper::detectBackgroundColor(original));
                     doc->dataContainer()->setImage(key, &result);
                 }
 

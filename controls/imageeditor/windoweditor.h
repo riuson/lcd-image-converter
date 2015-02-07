@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2010 riuson
+ * Copyright (C) 2015 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,64 +17,65 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef EDITORTABIMAGE_H
-#define EDITORTABIMAGE_H
+#ifndef WINDOWEDITOR_H
+#define WINDOWEDITOR_H
 //-----------------------------------------------------------------------------
-#include <QWidget>
-
-#include "ieditor.h"
+#include <QMainWindow>
 //-----------------------------------------------------------------------------
 namespace Ui {
-    class EditorTabImage;
+class WindowEditor;
 }
 //-----------------------------------------------------------------------------
-class QImage;
-class DataContainer;
-class StatusData;
-class ImageDocument;
-class IDocument;
-
 namespace ImageEditor
 {
-class Editor;
-}
+class ToolsManager;
+class IImageEditorTool;
 //-----------------------------------------------------------------------------
-class EditorTabImage : public QWidget, public IEditor
+class WindowEditor : public QMainWindow
 {
     Q_OBJECT
-    Q_INTERFACES(IEditor)
 
 public:
-    explicit EditorTabImage(QWidget *parent = 0);
-    ~EditorTabImage();
+    explicit WindowEditor(QWidget *parent = 0);
+    ~WindowEditor();
 
-    IDocument *document() const;
-    QStringList selectedKeys() const;
-    StatusData *statusData() const;
-    EditorType type() const;
+    const QImage *image() const;
+    void setImage(const QImage *value);
+
+    void setTools(ToolsManager *tools);
 
 protected:
     void changeEvent(QEvent *e);
+    bool eventFilter(QObject *obj, QEvent *event);
+    void wheelEvent(QWheelEvent *event);
 
 private:
-    Ui::EditorTabImage *ui;
-    QWidget *mEditorWidget;
-    ImageEditor::Editor *mEditorObject;
-    ImageDocument *mDocument;
-    StatusData *mStatusData;
+    Ui::WindowEditor *ui;
+    QImage mImageOriginal;
+    QImage mImageScaled;
+    QPixmap mPixmapScaled;
+    ToolsManager *mTools;
+    IImageEditorTool *mSelectedTool;
 
-    void initStatusData();
-    void updateStatus();
-    void updateSelectedImage();
+    void updateImageScaled(int value);
+    void updateImageScaled(const QImage &image, int scale);
+    void drawPixel(int x, int y, const QColor &color);
 
 private slots:
-    void mon_documentChanged();
-    void mon_editor_imageChanged(const QImage *value);
-    void mon_editor_mouseMove(const QPoint *point);
-    void mon_editor_scaleChanged(int scale);
+    void tool_started(const QImage *value);
+    void tool_processing(const QImage *value);
+    void tool_completed(const QImage *value, bool changed);
+
+public slots:
+    void setScale(int value);
+    void toolChanged(int toolIndex);
+
 signals:
-    void documentChanged();
-    void statusChanged();
+    void imageChanged();
+    void mouseMove(const QPoint *point);
+    void scaleChanged(int scale);
 };
 //-----------------------------------------------------------------------------
-#endif // EDITORTABIMAGE_H
+} // end of namespace
+//-----------------------------------------------------------------------------
+#endif // WINDOWEDITOR_H

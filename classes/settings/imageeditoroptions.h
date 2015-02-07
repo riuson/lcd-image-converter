@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2013 riuson
+ * Copyright (C) 2015 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef FONTEDITOROPTIONS_H
-#define FONTEDITOROPTIONS_H
+#ifndef IMAGEEDITOROPTIONS_H
+#define IMAGEEDITOROPTIONS_H
 //-----------------------------------------------------------------------------
 #include <QObject>
-#include <QColor>
+#include <QSize>
+#include <QPoint>
 //-----------------------------------------------------------------------------
-class FontEditorOptions : public QObject
+class ImageEditorOptions : public QObject
 {
     Q_OBJECT
-public:
-    static int scale();
-    static void setScale(int value);
 
-    static QColor foreColor();
-    static QColor backColor();
-    static void setForeColor(const QColor &value);
-    static void setBackColor(const QColor &value);
+public:
+    static QByteArray toolbarsState(void);
+    static void setToolbarsState(const QByteArray &value);
 };
 //-----------------------------------------------------------------------------
-#endif // FONTEDITOROPTIONS_H
+#endif // IMAGEEDITOROPTIONS_H

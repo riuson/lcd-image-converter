@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2015 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef BITMAPEDITOROPTIONS_H
-#define BITMAPEDITOROPTIONS_H
-//-----------------------------------------------------------------------------
-#include <QObject>
-#include <QColor>
-//-----------------------------------------------------------------------------
-class BitmapEditorOptions : public QObject
-{
-    Q_OBJECT
-public:
-    static int scale();
-    static void setScale(int value);
+#include "imageeditoroptions.h"
 
-    static QColor color1();
-    static QColor color2();
-    static void setColor1(const QColor &color);
-    static void setColor2(const QColor &color);
-};
+#include <QSettings>
+#include <QFile>
 //-----------------------------------------------------------------------------
-#endif // BITMAPEDITOROPTIONS_H
+QByteArray ImageEditorOptions::toolbarsState()
+{
+    QSettings sett;
+    sett.beginGroup("window-image-editor");
+    sett.beginGroup("toolbar-options");
+
+    QByteArray result = sett.value("state", QByteArray()).toByteArray();
+
+    sett.endGroup();
+    sett.endGroup();
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+void ImageEditorOptions::setToolbarsState(const QByteArray &value)
+{
+    QSettings sett;
+    sett.beginGroup("window-image-editor");
+    sett.beginGroup("toolbar-options");
+
+    sett.setValue("state", value);
+
+    sett.endGroup();
+    sett.endGroup();
+}
+//-----------------------------------------------------------------------------

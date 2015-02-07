@@ -1,8 +1,7 @@
 <RCC>
     <qresource prefix="/images">
         <file alias="template">template.png</file>
-        <file alias="icon64">icons/lcd-image-converter-64.png</file>
-        <file alias="icon96">icons/lcd-image-converter-96.png</file>
+        <file alias="lic_icon">icons/source/logo.svg</file>
     </qresource>
     <qresource prefix="/templates">
         <file alias="font_convert">font.tmpl</file>
@@ -42,5 +41,17 @@
         <file alias="t2b_b_b">scan_scripts/scan_top2bottom_backward_band.js</file>
         <file alias="t2b_f">scan_scripts/scan_top2bottom_forward.js</file>
         <file alias="t2b_f_b">scan_scripts/scan_top2bottom_forward_band.js</file>
+    </qresource>
+    <qresource prefix="/images/icons/tools">
+        <file alias="tool_pen">icons/tools/tool_pen.svg</file>
+        <file alias="tool_zoom">icons/tools/tool_zoom.svg</file>
+        <file alias="tool_rect">icons/tools/tool_rect.svg</file>
+        <file alias="tool_rect_filled">icons/tools/tool_rect_filled.svg</file>
+        <file alias="tool_rect_filled_outline">icons/tools/tool_rect_filled_outline.svg</file>
+        <file alias="tool_rect_outline">icons/tools/tool_rect_outline.svg</file>
+        <file alias="tool_color">icons/tools/tool_color.svg</file>
+        <file alias="tool_color_swap">icons/tools/tool_color_swap.svg</file>
+        <file alias="tool_line">icons/tools/tool_line.svg</file>
+        <file alias="tool_fill">icons/tools/tool_fill.svg</file>
     </qresource>
 </RCC>

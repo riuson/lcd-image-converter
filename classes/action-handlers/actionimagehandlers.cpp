@@ -31,7 +31,6 @@
 #include "idocument.h"
 #include "ieditor.h"
 #include "datacontainer.h"
-#include "bitmapeditoroptions.h"
 #include "converterhelper.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
@@ -284,7 +283,7 @@ void ActionImageHandlers::resize_triggered()
                     QString key = iterator.next();
 
                     const QImage *original = this->editor()->document()->dataContainer()->image(key);
-                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapEditorOptions::color2());
+                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapHelper::detectBackgroundColor(original));
                     this->editor()->document()->dataContainer()->setImage(key, &result);
                 }
 

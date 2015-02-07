@@ -27,11 +27,26 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>96</width>
+         <height>96</height>
+        </size>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>96</width>
+         <height>96</height>
+        </size>
+       </property>
        <property name="text">
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../resources/resources.qrc">:/images/icon96</pixmap>
+        <pixmap resource="../../resources/resources.qrc">:/images/lic_icon</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

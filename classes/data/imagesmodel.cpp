@@ -21,7 +21,6 @@
 #include <QPixmap>
 #include "datacontainer.h"
 #include "bitmaphelper.h"
-#include "bitmapeditoroptions.h"
 //-----------------------------------------------------------------------------
 ImagesModel::ImagesModel(DataContainer *container, Qt::Orientation orientation, QObject *parent) :
     QAbstractItemModel(parent)
@@ -294,7 +293,7 @@ QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) cons
         {
             const QImage *source = this->mContainer->image(key);
 
-            QImage cropped = BitmapHelper::crop(source, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapEditorOptions::color2());
+            QImage cropped = BitmapHelper::crop(source, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapHelper::detectBackgroundColor(source));
             QImage scaled = BitmapHelper::scale(&cropped, this->mScale);
             QImage grids = BitmapHelper::drawGrid(&scaled, this->mScale);
 

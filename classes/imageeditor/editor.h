@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2013 riuson
+ * Copyright (C) 2015 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,53 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef FONTEDITOROPTIONS_H
-#define FONTEDITOROPTIONS_H
+#ifndef EDITOR_H
+#define EDITOR_H
 //-----------------------------------------------------------------------------
 #include <QObject>
-#include <QColor>
+#include "iimageeditor.h"
+
+class QColor;
 //-----------------------------------------------------------------------------
-class FontEditorOptions : public QObject
+namespace ImageEditor
+{
+class WindowEditor;
+class ToolsManager;
+
+class Editor : public QObject, public IImageEditor
 {
     Q_OBJECT
-public:
-    static int scale();
-    static void setScale(int value);
+    Q_INTERFACES(ImageEditor::IImageEditor)
 
-    static QColor foreColor();
-    static QColor backColor();
-    static void setForeColor(const QColor &value);
-    static void setBackColor(const QColor &value);
+public:
+    explicit Editor(QObject *parent = 0);
+    ~Editor();
+
+    QWidget *widget() const;
+
+    const QImage *image() const;
+    void setImage(const QImage *value);
+
+    int scale() const;
+
+signals:
+    void imageChanged(const QImage *value);
+    void scaleChanged(int value);
+    void mouseMoved(const QPoint *value);
+
+signals:
+
+public slots:
+
+private:
+    WindowEditor *mWidget;
+    ToolsManager *mTools;
+
+private slots:
+    void on_imageChanged();
+    void on_mouseMove(const QPoint *point);
+    void on_scaleChanged(int value);
 };
+}
 //-----------------------------------------------------------------------------
-#endif // FONTEDITOROPTIONS_H
+#endif // EDITOR_H

@@ -21,6 +21,7 @@
 #include "limits"
 //-----------------------------------------------------------------------------
 #include <QPainter>
+#include <QtSvg/QSvgRenderer>
 //-----------------------------------------------------------------------------
 QImage BitmapHelper::rotate90(const QImage *source)
 {
@@ -155,7 +156,7 @@ QImage BitmapHelper::crop(const QImage *source, int left, int top, int right, in
 //-----------------------------------------------------------------------------
 void BitmapHelper::findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom)
 {
-    QRgb background = source->pixel(0, 0);
+    QRgb background = BitmapHelper::detectBackgroundColor(source).rgb();
     // max possible values by default
     int l = std::numeric_limits<int>::max();
     int t = std::numeric_limits<int>::max();
@@ -231,5 +232,62 @@ QImage BitmapHelper::drawPixel(const QImage *source, int x, int y, const QColor 
     painter.drawPoint(x, y);
 
     return pixmap.toImage();
+}
+//-----------------------------------------------------------------------------
+QColor BitmapHelper::detectBackgroundColor(const QImage *image)
+{
+    QColor color1 = image->pixel(0, 0);
+    QColor color2 = image->pixel(image->width() - 1, 0);
+    QColor color3 = image->pixel(0, image->height() - 1);
+    QColor color4 = image->pixel(image->width() - 1, image->height() - 1);
+
+    int c1 = 0, c2 = 0, c3 = 0, c4 = 0;
+
+    c1 += color1 == color2 ? 1 : 0;
+    c1 += color1 == color3 ? 1 : 0;
+    c1 += color1 == color4 ? 1 : 0;
+
+    c2 += color2 == color1 ? 1 : 0;
+    c2 += color2 == color3 ? 1 : 0;
+    c2 += color2 == color4 ? 1 : 0;
+
+    c3 += color3 == color1 ? 1 : 0;
+    c3 += color3 == color2 ? 1 : 0;
+    c3 += color3 == color4 ? 1 : 0;
+
+    c4 += color4 == color1 ? 1 : 0;
+    c4 += color4 == color2 ? 1 : 0;
+    c4 += color4 == color3 ? 1 : 0;
+
+    int cmax = qMax(qMax(c1, c2), qMax(c3, c4));
+
+    if (cmax == c1)
+    {
+        return color1;
+    }
+    else if (cmax == c2)
+    {
+        return color2;
+    }
+    else if (cmax == c3)
+    {
+        return color3;
+    }
+    else
+    {
+        return color4;
+    }
+}
+//-----------------------------------------------------------------------------
+QImage BitmapHelper::fromSvg(const QString &path, int size)
+{
+    QSvgRenderer renderer(path);
+
+    QImage image(size, size, QImage::Format_ARGB32);
+    image.fill(0x00ffffff);
+    QPainter painter(&image);
+    renderer.render(&painter);
+
+    return image;
 }
 //-----------------------------------------------------------------------------

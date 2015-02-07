@@ -102,6 +102,26 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="toolButtonForeColor">
+       <property name="toolTip">
+        <string>Fore Color</string>
+       </property>
+       <property name="text">
+        <string>Fore Color</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButtonBackColor">
+       <property name="toolTip">
+        <string>Back Color</string>
+       </property>
+       <property name="text">
+        <string>Back Color</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
