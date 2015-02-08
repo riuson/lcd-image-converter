@@ -32,6 +32,12 @@ Added:
  Menu option to convert color image to grayscale;
  Option for RLE minimal length of equal blocks;
  Scaling in settings preview.</description>
+        <downloads>
+            <item>
+                <name>Application for Windows (21.4 MB) on SourceForge</name>
+                <url>http://sourceforge.net/projects/lcd-image-converter/files</url>
+            </item>
+        </downloads>
     </record>
     <record>
         <commit>
