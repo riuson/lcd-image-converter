@@ -23,3 +23,7 @@ body {
 #menu a.active {
   color: white;
 }
+
+.header {
+  color: #ddd;
+}
