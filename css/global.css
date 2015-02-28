@@ -27,3 +27,50 @@ body {
 .header {
   color: #ddd;
 }
+
+/* Changes history */
+div.record {
+  background: #555555;
+  
+  margin: 20px auto;
+  padding: 0px;
+  text-align: left;
+  border: 1px solid #333333;
+  /* border-radius */
+  border-radius: 5px 5px 5px 5px;
+}
+
+div.record > div.commit
+{
+  font-style: italic;
+  font-weight: bold;
+  
+  background: #333333;
+  
+  padding: 10px;
+  
+  /* border-radius */
+  border-radius: 5px 5px 0px 0px;
+}
+
+div.record > div.description
+{
+  white-space: pre;
+  color: #eee;
+  padding: 10px;
+}
+
+div.record > div.downloads
+{
+  background: #333333;
+  
+  padding: 10px;
+  
+  /* border-radius */
+  border-radius: 0px 0px 5px 5px;
+}
+
+div.header
+{
+  
+}

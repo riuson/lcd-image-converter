@@ -1,0 +1,33 @@
+---
+layout: default
+title: ChangeLog
+subtitle: Log of changes
+weight: 3
+nredirect: http://lcd-image-converter.riuson.com/history/history.xml
+---
+<p>
+    <div id="history">
+        <div data-xml="history/history.xml" data-xslt="history/history.xsl"></div> 
+        <!--// 
+        <div data-xml="http://lcd-image-converter.riuson.com/history/history.xml" data-xslt="http://lcd-image-converter.riuson.com/history/history.xsl"></div>
+        //-->
+    </div>
+</p>
+
+<script type="text/javascript" src="js/m-xml.min.js"></script> 
+<script type="text/javascript">
+    magicXML.parse();
+
+    // remove html/body tags
+    var divHistory = document.getElementById("history");
+    
+    // get inner div
+    var divContent = divHistory.childNodes[1].childNodes[1];
+    
+    divContent.childNodes[0].outerHTML = "";
+    
+    divHistory.innerHTML = divContent.innerHTML;
+</script>
+<noscript>Your browser does not support JavaScript.<br/>
+<a href="http://lcd-image-converter.riuson.com/history/history.xml" target="_blank">Open history on other page</a></noscript>
+

@@ -12,7 +12,11 @@
             {% assign items = site.pages | sort: "weight" %}
             {% for p in items %}
             <li class="pure-menu-item">
-                <a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" href="{{ site.url }}{{ p.url }}">{{ p.title }}</a>
+                {% if p.redirect %}
+                    <a class="pure-menu-link" target="_blank" href="{{ p.redirect }}">{{ p.title }}</a>
+                {% else %}
+                    <a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" href="{{ site.url }}{{ p.url }}">{{ p.title }}</a>
+                {% endif %}
             </li>
             {% endfor %}
         </ul>
