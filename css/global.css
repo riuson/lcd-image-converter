@@ -15,3 +15,11 @@ body {
   background-color: #111111;
   background-size: 20px 20px;
 }
+
+#menu {
+  background: rgba(0,0,0,0.7);
+}
+
+#menu a.active {
+  color: white;
+}

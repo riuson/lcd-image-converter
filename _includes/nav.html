@@ -12,7 +12,7 @@
             {% assign items = site.pages | sort: "weight" %}
             {% for p in items %}
             <li class="pure-menu-item">
-                <a class="pure-menu-link" href="{{ site.baseurl }}{{ p.url }}">{{ p.title }}</a>
+                <a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" href="{{ site.url }}{{ p.url }}">{{ p.title }}</a>
             </li>
             {% endfor %}
         </ul>

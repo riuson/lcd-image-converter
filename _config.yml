@@ -1,6 +1,6 @@
 github: [Repository metadata]
 name: LCD Image Converter
-url:              http://lcd-image-converter.riuson.com/
+url:              http://lcd-image-converter.riuson.com
 baseurl:          /
 
 github:
