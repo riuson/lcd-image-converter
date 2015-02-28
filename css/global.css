@@ -70,7 +70,14 @@ div.record > div.downloads
   border-radius: 0px 0px 5px 5px;
 }
 
-div.header
-{
-  
+a {
+  color: white
+}
+
+a:hover , a:visited:hover {
+  color: #fa9e0e
+}
+
+a:visited {
+  color: silver;
 }
