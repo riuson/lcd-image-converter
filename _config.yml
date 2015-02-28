@@ -1,0 +1,14 @@
+github: [Repository metadata]
+name: LCD Image Converter
+url:              http://lcd-image-converter.riuson.com/
+baseurl:          /
+
+github:
+  repo:           https://github.com/riuson/lcd-image-converter
+
+author:
+  name:           'Vladimir N'
+  email:          riuson@gmail.com
+
+resources:
+  homepage:       http://www.riuson.com/lcd-image-converter
