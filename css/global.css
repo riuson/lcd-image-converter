@@ -81,3 +81,7 @@ a:hover , a:visited:hover {
 a:visited {
   color: silver;
 }
+
+iframe {
+  border: 0px;
+}

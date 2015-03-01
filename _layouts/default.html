@@ -7,14 +7,16 @@
     <div id="main">
         <div class="header">
             <h1>{{ page.title }}</h1>
+            {% if page.subtitle %}
             <h2>{{ page.subtitle }}</h2>
-        </div>
+            {% endif %}
+        </div> <!--// .header //-->
         <div class="content">
 
         {{ content }}
 
-        </div>
-    </div>
-</div>
+        </div> <!--// .content //-->
+    </div> <!--// #main //-->
+</div> <!--// #layout //-->
 
 {% include foot.html %}
