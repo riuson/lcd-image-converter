@@ -6,28 +6,50 @@ weight: 6
 nredirect: http://lcd-image-converter.riuson.com/history/history.xml
 ---
 <p>
-    <div id="history">
-        <div data-xml="history/history.xml" data-xslt="history/history.xsl"></div> 
-        <!--// 
-        <div data-xml="http://lcd-image-converter.riuson.com/history/history.xml" data-xslt="http://lcd-image-converter.riuson.com/history/history.xsl"></div>
-        //-->
-    </div>
+    <div id="history"/>
 </p>
 
-<script type="text/javascript" src="js/m-xml.min.js"></script> 
-<script type="text/javascript">
-    <!--// http://tomdavies.azurewebsites.net/magicxml/ //-->
-    magicXML.parse();
+<script>
+<!--// XML + XSL transform http://www.w3schools.com/xsl/xsl_client.asp //-->
 
-    // remove html/body tags
-    var divHistory = document.getElementById("history");
+function loadXMLDoc(filename)
+{
+    if (window.ActiveXObject)
+    {
+        xhttp = new ActiveXObject("Msxml2.XMLHTTP");
+    }
+    else
+    {
+        xhttp = new XMLHttpRequest();
+    }
     
-    // get inner div
-    var divContent = divHistory.childNodes[1].childNodes[1];
-    
-    divContent.childNodes[0].outerHTML = "";
-    
-    divHistory.innerHTML = divContent.innerHTML;
+    xhttp.open("GET", filename, false);
+    try {xhttp.responseType = "msxml-document"} catch(err) {} // Helping IE11
+    xhttp.send("");
+    return xhttp.responseXML;
+}
+
+function displayResult()
+{
+    var xml = loadXMLDoc("history/history.xml");
+    var xsl = loadXMLDoc("history/history_embed.xsl");
+    // code for IE
+    if (window.ActiveXObject || xhttp.responseType == "msxml-document")
+    {
+        var ex = xml.transformNode(xsl);
+        document.getElementById("history").innerHTML = ex;
+    }
+    // code for Chrome, Firefox, Opera, etc.
+    else if (document.implementation && document.implementation.createDocument)
+    {
+        var xsltProcessor = new XSLTProcessor();
+        xsltProcessor.importStylesheet(xsl);
+        var resultDocument = xsltProcessor.transformToFragment(xml, document);
+        document.getElementById("history").appendChild(resultDocument);
+    }
+}
+
+displayResult();
 </script>
 <noscript>Your browser does not support JavaScript.<br/>
 <a href="http://lcd-image-converter.riuson.com/history/history.xml" target="_blank">Open history on other page</a></noscript>
