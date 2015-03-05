@@ -17,11 +17,12 @@ body {
 }
 
 #menu {
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.5);
+  -webkit-backface-visibility: hidden;
 }
 
 #menu a.active {
-  color: white;
+  -webkit-backface-visibility: hidden;
 }
 
 .header {
