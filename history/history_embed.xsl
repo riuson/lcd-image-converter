@@ -37,6 +37,9 @@
 					<xsl:text>https://github.com/riuson/lcd-image-converter/commit/</xsl:text>
 					<xsl:value-of select="sha1"/>
 				</xsl:attribute>
+				<xsl:attribute name="target">
+					<xsl:text>_blank</xsl:text>
+				</xsl:attribute>
 				<xsl:value-of select="substring(sha1, 1, 7)"/>
 			</a>
 			<xsl:text> </xsl:text>
@@ -69,6 +72,9 @@
 				<a>
 					<xsl:attribute name="href">
 						<xsl:value-of select="url"/>
+					</xsl:attribute>
+					<xsl:attribute name="target">
+						<xsl:text>_blank</xsl:text>
 					</xsl:attribute>
 					<xsl:value-of select="name"/>
 				</a>

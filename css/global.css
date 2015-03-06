@@ -98,6 +98,11 @@ a:visited {
   color: silver;
 }
 
+a[target="_blank"]:after {
+    content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABmJLR0QAAAAAAAD5Q7t/AAAAZ0lEQVQY042O0Q2AMAhE7wxrOIMrOE2Zia7hJG6gk+CPTZC2ie+P410p8BPGwd03AGut9Yi5qlI+LfIEcLYHzMzbTuKQUVW2vbQgCqPykgMz81gspeydmKWXqxMHEkjew9MzZPb5zANEYiWKbAo0jAAAAABJRU5ErkJggg==");
+    margin: 5px;
+}
+
 iframe {
   border: 0px;
 }
