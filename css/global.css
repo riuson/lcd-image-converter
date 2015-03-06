@@ -29,6 +29,10 @@ body {
   -webkit-backface-visibility: hidden;
 }
 
+#menu a.active {
+  color: white;
+}
+
 @media (max-width: 48em) {
   #layout.active {
     position: relative;
