@@ -21,8 +21,19 @@ body {
   -webkit-backface-visibility: hidden;
 }
 
+#layout.active #menu {
+    background: rgba(0,0,0,0.9);
+}
+
 #menu a.active {
   -webkit-backface-visibility: hidden;
+}
+
+@media (max-width: 48em) {
+  #layout.active {
+    position: relative;
+    left: 0;
+  }
 }
 
 .header {
