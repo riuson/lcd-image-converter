@@ -25,7 +25,7 @@ body {
     background: rgba(0,0,0,0.9);
 }
 
-#menu a.active {
+.menu-link {
   -webkit-backface-visibility: hidden;
 }
 
