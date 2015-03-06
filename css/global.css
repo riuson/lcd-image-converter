@@ -67,9 +67,9 @@ div.record > div.commit
 
 div.record > div.description
 {
-  white-space: pre;
   color: #eee;
   padding: 10px;
+  text-indent: 1em;
 }
 
 div.record > div.downloads

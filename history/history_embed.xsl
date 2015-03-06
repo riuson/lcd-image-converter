@@ -49,12 +49,14 @@
 	
 	<xsl:template match="description">
 		<div class="description">
-        <!--//
+			<!--//
 			<xsl:call-template name="break">
 				<xsl:with-param name="text" select="text()" />
 			</xsl:call-template>
-            //-->
-            <xsl:value-of select="text()"/>
+			//-->
+			<p>
+				<xsl:value-of select="text()"/>
+			</p>
 		</div>
 	</xsl:template>
 	

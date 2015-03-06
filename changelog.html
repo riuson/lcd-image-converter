@@ -45,6 +45,17 @@ function displayResult()
         var resultDocument = xsltProcessor.transformToFragment(xml, document);
         document.getElementById("history").appendChild(resultDocument);
     }
+
+    var descriptionNodes = document.getElementById("history").getElementsByClassName("description");
+
+    for(i = 0; i < descriptionNodes.length; i++)
+    {
+      var descriptionNode = descriptionNodes[i];
+      var inner = descriptionNode.innerHTML;
+      inner = inner.replace(/(\r\n\r\n|\n\n|\r\r)/g,"</p><p>");
+      inner = inner.replace(/(\r\n|\n|\r)/g,"<br />");
+      descriptionNode.innerHTML = inner;
+    }
 }
 
 displayResult();
