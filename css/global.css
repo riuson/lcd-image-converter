@@ -1,11 +1,11 @@
 body {
   font-family: "Trebuchet MS", "Helvetica Neue", Arial, Helvetica, serif;
   font-size: 87.5%;
-  color: #cccccc;
+  color: #f5f5f5;
   line-height: 2em;
   
   /* http://lea.verou.me/css3patterns/#carbon */
-  background:
+  /* background:
   linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
   linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
   linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
@@ -13,16 +13,20 @@ body {
   linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
   linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
   background-color: #111111;
-  background-size: 20px 20px;
+  background-size: 20px 20px;*/
+  background-color: #67727a;
 }
 
 #menu {
-  background: rgba(0,0,0,0.5);
+  background-color: #67727a;
   -webkit-backface-visibility: hidden;
 }
 
+#menu a {
+  color: #f5f5f5;
+}
+
 #layout.active #menu {
-    background: rgba(0,0,0,0.9);
 }
 
 .menu-link {
@@ -30,7 +34,7 @@ body {
 }
 
 #menu a.active {
-  color: white;
+  background-color: #d75c37;
 }
 
 @media (max-width: 48em) {
@@ -41,17 +45,17 @@ body {
 }
 
 .header {
-  color: #ddd;
+  color: #f5f5f5;
 }
 
 /* Changes history */
 div.record {
-  background: #555555;
+  background: #c3d7df;
   
   margin: 20px auto;
   padding: 0px;
   text-align: left;
-  border: 1px solid #333333;
+  border: 1px solid #6991ac;
   /* border-radius */
   border-radius: 5px 5px 5px 5px;
 }
@@ -61,7 +65,7 @@ div.record > div.commit
   font-style: italic;
   font-weight: bold;
   
-  background: #333333;
+  background: #6991ac;
   
   padding: 10px;
   
@@ -71,14 +75,14 @@ div.record > div.commit
 
 div.record > div.description
 {
-  color: #eee;
   padding: 10px;
   text-indent: 1em;
+  color: #67727a;
 }
 
 div.record > div.downloads
 {
-  background: #333333;
+  background: #6991ac;
   
   padding: 10px;
   
@@ -87,15 +91,15 @@ div.record > div.downloads
 }
 
 a {
-  color: white
+  color: #f5f5f5;
 }
 
 a:hover , a:visited:hover {
-  color: #fa9e0e
+  color: white;
 }
 
 a:visited {
-  color: silver;
+  color: #f0f0f0;
 }
 
 a[target="_blank"]:after {
@@ -103,6 +107,28 @@ a[target="_blank"]:after {
     margin: 5px;
 }
 
+.header {
+    border-bottom: none;
+}
+
+#menu .pure-menu ul, #menu .pure-menu .menu-item-divided {
+    border-top: none;
+}
+
 iframe {
   border: 0px;
+}
+
+hr {
+    border: 0;
+    height: 2px;
+    margin:18px 0;
+    position:relative;
+    background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 10%, rgba(255,255,255,0.65) 50%, rgba(0,0,0,0) 90%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(10%,rgba(0,0,0,0)), color-stop(50%,rgba(255,255,255,0.65)), color-stop(90%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 10%,rgba(255,255,255,0.65) 50%,rgba(0,0,0,0) 90%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 10%,rgba(255,255,255,0.65) 50%,rgba(0,0,0,0) 90%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 10%,rgba(255,255,255,0.65) 50%,rgba(0,0,0,0) 90%,rgba(0,0,0,0) 100%); /* IE10+ */
+    background: linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 10%,rgba(255,255,255,0.65) 50%,rgba(0,0,0,0) 90%,rgba(0,0,0,0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
 }
