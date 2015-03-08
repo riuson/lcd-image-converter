@@ -86,7 +86,7 @@ appears on the left side of the page.
     left: 0;
     bottom: 0;
     z-index: 1000; /* so the menu or its navicon stays above all content */
-    background: #191818;
+    background: #6E6E7A;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -94,7 +94,7 @@ appears on the left side of the page.
     All anchors inside the menu should be styled like this.
     */
     #menu a {
-        color: #999;
+        color: #e5e5e5;
         border: none;
         padding: 0.6em 0 0.6em 0.6em;
     }
@@ -120,7 +120,8 @@ appears on the left side of the page.
         */
         #menu .pure-menu li a:hover,
         #menu .pure-menu li a:focus {
-            background: #333;
+            background: #e5e5e5;
+            color: #6e6e7a;
         }
 
     /*
@@ -128,13 +129,14 @@ appears on the left side of the page.
     */
     #menu .pure-menu-selected,
     #menu .pure-menu-heading {
-        background: #1f8dd6;
+        background: #7BC0FF;
     }
         /*
         This styles a link within a selected menu item `<li>`.
         */
         #menu .pure-menu-selected a {
-            color: #fff;
+            color: #6e6e7a;
+            background: white;
         }
 
     /*
@@ -142,7 +144,7 @@ appears on the left side of the page.
     */
     #menu .pure-menu-heading {
         font-size: 110%;
-        color: #fff;
+        color: #6E6E7A;
         margin: 0;
     }
 
@@ -162,8 +164,8 @@ small screens.
     display: block; /* show this only on small screens */
     top: 0;
     left: 0; /* "#menu width" */
-    background: #000;
-    background: rgba(0,0,0,0.7);
+    background: #7BC0FF;
+    background: rgba(123,192,255,0.7);
     font-size: 10px; /* change this value to increase/decrease button size */
     z-index: 10;
     width: 2em;
@@ -173,7 +175,7 @@ small screens.
 
     .menu-link:hover,
     .menu-link:focus {
-        background: #000;
+        background: #6E87B0;
     }
 
     .menu-link span {
@@ -242,7 +244,7 @@ Hides the menu at `48em`, but modify this based on your app's needs.
     */
     #layout.active {
         position: relative;
-        left: 150px;
+        left: 0px;
     }
 }
 
