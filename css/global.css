@@ -1,7 +1,7 @@
 body {
   font-family: "Trebuchet MS", "Helvetica Neue", Arial, Helvetica, serif;
   font-size: 87.5%;
-  color: #ecdfbd;
+  color: #f5f5f5;
   line-height: 2em;
   
   /* http://lea.verou.me/css3patterns/#carbon */
@@ -14,16 +14,16 @@ body {
   linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
   background-color: #111111;
   background-size: 20px 20px;*/
-  background-color: #3b3a35;
+  background-color: #67727a;
 }
 
 #menu {
-  background-color: #3e3448;
+  background-color: #67727a;
   -webkit-backface-visibility: hidden;
 }
 
 #menu a {
-  color: #ecdfbd;
+  color: #f5f5f5;
 }
 
 #layout.active #menu {
@@ -34,8 +34,7 @@ body {
 }
 
 #menu a.active {
-  color: white;
-  background-color: #fb6648;
+  background-color: #d75c37;
 }
 
 @media (max-width: 48em) {
@@ -46,17 +45,17 @@ body {
 }
 
 .header {
-  color: #ddd;
+  color: #f5f5f5;
 }
 
 /* Changes history */
 div.record {
-  background: rgba(75, 75, 75, 1);
+  background: #c3d7df;
   
   margin: 20px auto;
   padding: 0px;
   text-align: left;
-  border: 1px solid #333333;
+  border: 1px solid #6991ac;
   /* border-radius */
   border-radius: 5px 5px 5px 5px;
 }
@@ -66,7 +65,7 @@ div.record > div.commit
   font-style: italic;
   font-weight: bold;
   
-  background: rgba(51, 51, 51, 0.4);
+  background: #6991ac;
   
   padding: 10px;
   
@@ -78,11 +77,12 @@ div.record > div.description
 {
   padding: 10px;
   text-indent: 1em;
+  color: #67727a;
 }
 
 div.record > div.downloads
 {
-  background: rgba(51, 51, 51, 0.4);
+  background: #6991ac;
   
   padding: 10px;
   
@@ -91,15 +91,15 @@ div.record > div.downloads
 }
 
 a {
-  color: #ecdfbd;
+  color: #f5f5f5;
 }
 
 a:hover , a:visited:hover {
-  color: #fa9e0e
+  color: white;
 }
 
 a:visited {
-  color: silver;
+  color: #f0f0f0;
 }
 
 a[target="_blank"]:after {
