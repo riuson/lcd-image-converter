@@ -115,6 +115,10 @@ a[target="_blank"]:after {
     border-top: none;
 }
 
+.content-subhead {
+    color: #f5f5f5;
+}
+
 iframe {
   border: 0px;
 }
