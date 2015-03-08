@@ -111,6 +111,10 @@ a[target="_blank"]:after {
     border-bottom: none;
 }
 
+#menu .pure-menu ul, #menu .pure-menu .menu-item-divided {
+    border-top: none;
+}
+
 iframe {
   border: 0px;
 }
