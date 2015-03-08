@@ -1,11 +1,11 @@
 body {
   font-family: "Trebuchet MS", "Helvetica Neue", Arial, Helvetica, serif;
   font-size: 87.5%;
-  color: #cccccc;
+  color: #ecdfbd;
   line-height: 2em;
   
   /* http://lea.verou.me/css3patterns/#carbon */
-  background:
+  /* background:
   linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
   linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
   linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
@@ -13,16 +13,20 @@ body {
   linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
   linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
   background-color: #111111;
-  background-size: 20px 20px;
+  background-size: 20px 20px;*/
+  background-color: #3b3a35;
 }
 
 #menu {
-  background: rgba(0,0,0,0.5);
+  background-color: #3e3448;
   -webkit-backface-visibility: hidden;
 }
 
+#menu a {
+  color: #ecdfbd;
+}
+
 #layout.active #menu {
-    background: rgba(0,0,0,0.9);
 }
 
 .menu-link {
@@ -31,6 +35,7 @@ body {
 
 #menu a.active {
   color: white;
+  background-color: #fb6648;
 }
 
 @media (max-width: 48em) {
@@ -46,7 +51,7 @@ body {
 
 /* Changes history */
 div.record {
-  background: #555555;
+  background: rgba(75, 75, 75, 1);
   
   margin: 20px auto;
   padding: 0px;
@@ -61,7 +66,7 @@ div.record > div.commit
   font-style: italic;
   font-weight: bold;
   
-  background: #333333;
+  background: rgba(51, 51, 51, 0.4);
   
   padding: 10px;
   
@@ -71,14 +76,13 @@ div.record > div.commit
 
 div.record > div.description
 {
-  color: #eee;
   padding: 10px;
   text-indent: 1em;
 }
 
 div.record > div.downloads
 {
-  background: #333333;
+  background: rgba(51, 51, 51, 0.4);
   
   padding: 10px;
   
@@ -87,7 +91,7 @@ div.record > div.downloads
 }
 
 a {
-  color: white
+  color: #ecdfbd;
 }
 
 a:hover , a:visited:hover {
