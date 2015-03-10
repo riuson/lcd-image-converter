@@ -1,5 +1,5 @@
 ---
-id: 3.1
+wid: 3_1
 layout: wikipage
 title: Font Editor
 subtitle: Features of font  editor mode

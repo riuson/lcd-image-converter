@@ -8,13 +8,14 @@
     <div class="pure-menu">
         <a class="pure-menu-heading" href="#">Menu</a>
         {% assign lang_array = "en|ru" | split: "|" %}
-        {% assign items = site.wiki | sort: "id" | where:"lang",page.lang %}
+        {% assign items = site.wiki | sort: "wid" | where:"lang",page.lang %}
         {% include lang-switcher.html %}
         <ul class="pure-menu-list">
+            {{ page.id }}
             {% for p in items %}
-            <li class="pure-menu-item">
-                <a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" href="{{ relative-baseurl }}{{ p.url | replace_first:'/',''}}">{{ p.title }}</a>
-            </li>
+                <li class="pure-menu-item">
+                    <a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" href="{{ relative-baseurl }}{{ p.url | replace_first:'/',''}}">{{ p.title }}</a>
+                </li>
             {% endfor %}
         </ul>
     </div> <!--// .pure-menu //-->

@@ -1,5 +1,5 @@
 ---
-id: 1
+wid: 1_
 layout: wikipage
 title: Short manual
 subtitle: Short user manual

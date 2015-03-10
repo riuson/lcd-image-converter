@@ -1,4 +1,4 @@
-{% assign sameitems = site.wiki | where: "id",page.id %}
+{% assign sameitems = site.wiki | where: "wid",page.wid %}
 <ul class="pure-menu-list">
     {% for p in sameitems %}
     <li class="pure-menu-item">

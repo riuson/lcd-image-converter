@@ -1,5 +1,5 @@
 ---
-id: 2.1
+wid: 2_1
 layout: wikipage
 title: Image Editor
 subtitle: Features of image editor mode
