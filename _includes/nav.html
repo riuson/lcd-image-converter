@@ -12,11 +12,17 @@
             {% assign items = site.pages | sort: "weight" %}
             {% for p in items %}
             <li class="pure-menu-item">
+                {% capture pageurl %}{{ relative-baseurl }}{{ p.url }}{% endcapture %}
+                {% assign external = '' %}
                 {% if p.redirect %}
-                    <a class="pure-menu-link" target="_blank" href="{{ p.redirect }}">{{ p.title }}</a>
-                {% else %}
-                    <a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" href="{{ relative-baseurl }}{{ p.url | replace_first:'/',''}}">{{ p.title }}</a>
+                    {% assign pageurl = p.redirect %}
                 {% endif %}
+                {% assign pageurl = pageurl | replace_first:'/','' %}
+                {% if p.external %}
+                    {% assign pageurl = p.redirect %}
+                    {% assign external = 'target="_blank"' %}
+                {% endif %}
+                <a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" {{ external }} href="{{ pageurl }}">{{ p.title }}</a>
             </li>
             {% endfor %}
         </ul>
