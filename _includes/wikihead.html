@@ -24,7 +24,7 @@
 
     <link rel="stylesheet" href="{{ relative-baseurl }}css/global.css" >
     
-    {% assign sameitems = site.wiki | where: "wikiindex",page.wikiindex %}
+    {% assign sameitems = site.wiki | where: "id",page.id%}
     {% for item in sameitems %}
         {% if item.lang != page.lang %}
             <link rel="alternate" hreflang="{{item.lang}}" href="{{item.url}}" />

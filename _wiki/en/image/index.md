@@ -1,8 +1,8 @@
 ---
+id: 2.1
 layout: wikipage
 title: Image Editor
 subtitle: Features of image editor mode
-wikiindex: 2.1
 lang: en
 ---
 Available functions:

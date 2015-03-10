@@ -1,8 +1,8 @@
 ---
+id: 2.1
 layout: wikipage
 title: Изображения
 subtitle: Редактор изображений
-wikiindex: 2.1
 lang: ru
 ---
 Available functions:

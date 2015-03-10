@@ -1,8 +1,8 @@
 ---
+id: 1
 layout: wikipage
 title: Краткое руководство
 subtitle: Краткое описание пользования программой
-wikiindex: 1
 lang: ru
 ---
 Before you begin, you should determine:

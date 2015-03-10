@@ -1,8 +1,8 @@
 ---
+id: 1
 layout: wikipage
 title: Short manual
 subtitle: Short user manual
-wikiindex: 1
 lang: en
 ---
 Before you begin, you should determine:

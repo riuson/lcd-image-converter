@@ -8,8 +8,8 @@
     <div class="pure-menu">
         <a class="pure-menu-heading" href="#">Menu</a>
         {% assign lang_array = "en|ru" | split: "|" %}
-        {% assign items = site.wiki | sort: "wikiindex" | where:"lang",page.lang %}
-        {% assign sameitems = site.wiki | where: "wikiindex",page.wikiindex %}
+        {% assign items = site.wiki | sort: "id" | where:"lang",page.lang %}
+        {% assign sameitems = site.wiki | where: "id",page.id %}
         <ul class="pure-menu-list">
             {% for p in sameitems %}
             <li class="pure-menu-item">
