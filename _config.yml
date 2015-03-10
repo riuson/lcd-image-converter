@@ -11,3 +11,7 @@ resources:
   homepage:       http://www.riuson.com/lcd-image-converter
   repository:     https://github.com/riuson/lcd-image-converter
   downloads:      http://sourceforge.net/projects/lcd-image-converter/files
+
+collections:
+  wiki:
+    output: true
