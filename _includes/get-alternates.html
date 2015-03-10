@@ -1,0 +1,8 @@
+{% if page.lang %}
+    {% assign sameitems = site.wiki | where: "id",page.id%}
+    {% for item in sameitems %}
+        {% if item.lang != page.lang %}
+            <link rel="alternate" hreflang="{{item.lang}}" href="{{item.url}}" />
+        {% endif %}
+    {% endfor %}
+{% endif %}

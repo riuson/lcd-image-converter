@@ -9,15 +9,7 @@
         <a class="pure-menu-heading" href="#">Menu</a>
         {% assign lang_array = "en|ru" | split: "|" %}
         {% assign items = site.wiki | sort: "id" | where:"lang",page.lang %}
-        {% assign sameitems = site.wiki | where: "id",page.id %}
-        <ul class="pure-menu-list">
-            {% for p in sameitems %}
-            <li class="pure-menu-item">
-                <a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" href="{{ relative-baseurl }}{{ p.url | replace_first:'/',''}}">Switch to {{ p.lang }}</a>
-            </li>
-            {% endfor %}
-        </ul>
-
+        {% include lang-switcher.html %}
         <ul class="pure-menu-list">
             {% for p in items %}
             <li class="pure-menu-item">
