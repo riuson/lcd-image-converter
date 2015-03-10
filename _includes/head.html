@@ -6,17 +6,23 @@
     <meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
     <title>{{ page.title }}</title>
 
+    {% assign relative-baseurl = "" %}
+    {% assign canon = page.url | append: "page.html" | split: "/" %}
+    {% for item in canon offset:2 %}
+    {% assign relative-baseurl = relative-baseurl | append:"../" %}
+    {% endfor %}
+
     <!--// http://purecss.io/menus/ //-->
-    <link rel="stylesheet" href="css/pure-min.css">
+    <link rel="stylesheet" href="{{ relative-baseurl }}css/pure-min.css">
 
     <!--[if lte IE 8]>
-        <link rel="stylesheet" href="css/side-menu-old-ie.css">
+        <link rel="stylesheet" href="{{ site.baseurl }}/css/side-menu-old-ie.css">
     <![endif]-->
     <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="css/side-menu.css">
+        <link rel="stylesheet" href="{{ relative-baseurl }}css/side-menu.css">
     <!--<![endif]-->
 
-    <link rel="stylesheet" href="css/global.css" >
+    <link rel="stylesheet" href="{{ relative-baseurl }}css/global.css" >
   
 </head>
 <body>
