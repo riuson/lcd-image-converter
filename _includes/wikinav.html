@@ -13,11 +13,15 @@
         <ul class="pure-menu-list">
             {% assign pageChunks = page.url | split:"/" %}
             {% assign pageChunksSize = pageChunks | size %}
-            {% if pageChunksSize > 4 %}
+
             <li class="pure-menu-item">
+            {% if pageChunksSize > 4 %}
                 <a class="pure-menu-link " href="../">..</a>
-            </li>
+            {% else %}
+                <a class="pure-menu-link " href="../../wiki.html">..</a>
             {% endif %}
+            </li>
+
             {% for p in items %}
                 <span>
                 {% assign pChunks = p.url | split:"/" %}
