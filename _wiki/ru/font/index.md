@@ -1,5 +1,5 @@
 ---
-wid: 3_1
+wid: "3"
 layout: wikipage
 title: Шрифты
 subtitle: Редактор шрифтов

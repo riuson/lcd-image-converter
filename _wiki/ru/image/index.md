@@ -1,5 +1,5 @@
 ---
-wid: 2_1
+wid: "2"
 layout: wikipage
 title: Изображения
 subtitle: Редактор изображений
