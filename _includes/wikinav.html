@@ -11,11 +11,17 @@
         {% assign items = site.wiki | sort: "wid" | where:"lang",page.lang %}
         {% include lang-switcher.html %}
         <ul class="pure-menu-list">
-            {{ page.id }}
+            {% assign pageIds = page.wid | split:"_" %}
             {% for p in items %}
+                {% assign pIds = p.wid | split:"_" %}
+                {% assign pageIdSize = pageIds | size %}
+                {% assign pIdSize = pIds | size %}
+                {{ pageIdSize }} - {{ pIdSize }}
+                {% if pageIdSize == pIdSize %}
                 <li class="pure-menu-item">
                     <a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" href="{{ relative-baseurl }}{{ p.url | replace_first:'/',''}}">{{ p.title }}</a>
                 </li>
+                {% endif %}
             {% endfor %}
         </ul>
     </div> <!--// .pure-menu //-->
