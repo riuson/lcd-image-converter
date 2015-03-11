@@ -14,7 +14,7 @@ lang: ru
   *  Diffuse Dither;
   *  Ordered Dither;
   *  Threshold Dither;
-  *  Градации серого (функция qGray);
+  *  Градации серого (функция [qGray](http://qt-project.org/doc/qt-4.8/qcolor.html#qGray-2));
   *  Цветное (оставить без изменения);
 
 Также можно инвертировать цвета.
