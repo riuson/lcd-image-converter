@@ -11,16 +11,51 @@
         {% assign items = site.wiki | sort: "wid" | where:"lang",page.lang %}
         {% include lang-switcher.html %}
         <ul class="pure-menu-list">
-            {% assign pageIds = page.wid | split:"_" %}
+            {% assign pageChunks = page.url | split:"/" %}
+            {% assign pageChunksSize = pageChunks | size %}
             {% for p in items %}
-                {% assign pIds = p.wid | split:"_" %}
-                {% assign pageIdSize = pageIds | size %}
-                {% assign pIdSize = pIds | size %}
-                {{ pageIdSize }} - {{ pIdSize }}
-                {% if pageIdSize == pIdSize %}
-                <li class="pure-menu-item">
-                    <a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" href="{{ relative-baseurl }}{{ p.url | replace_first:'/',''}}">{{ p.title }}</a>
-                </li>
+                <span>
+                {% assign pChunks = p.url | split:"/" %}
+                {% assign pChunksSize = pChunks | size %}
+
+                {% if pageChunksSize > pChunksSize %}
+                    {% assign minSize = pChunksSize %}
+                {% else %}
+                    {% assign minSize = pageChunksSize %}
+                {% endif %}
+
+                {% assign length = minSize | minus: 1 %}
+
+                {% assign showPage = 1 %}
+                {% for chunkIndex in (0..length) %}
+                    {% if pChunks[chunkIndex] != pageChunks[chunkIndex] %}
+                        {% if showPage == 1 %}
+                            {% if chunkIndex < length %}
+                                {% assign showPage = 0 %}
+                            {% else if chunkIndex == length %}
+                                {% if pChunksSize == pageChunksSize %}
+                                    {% assign showPage = 1 %}
+                                {% else %}
+                                    {% assign nextChunkIndex = chunkIndex | plus: 1 %}
+                                    {% if pChunks[nextChunkIndex] == "index.html" %}
+                                        {% assign showPage = 1 %}
+                                    {% else %}
+                                        {% assign showPage = 0 %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                    <!--//
+                    a: {{ pChunks[chunkIndex] }}
+                    b: {{ pageChunks[chunkIndex] }}<br>
+                    //-->
+                {% endfor %}
+                </span>
+                {% if showPage == 1 %}
+                    <li class="pure-menu-item">
+                        <a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" href="{{ relative-baseurl }}{{ p.url | replace_first:'/',''}}">{{ p.title }}</a>
+                    </li>
                 {% endif %}
             {% endfor %}
         </ul>
