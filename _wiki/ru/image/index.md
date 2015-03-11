@@ -5,14 +5,14 @@ title: Изображения
 subtitle: Редактор изображений
 lang: ru
 ---
-Available functions:
+Доступные функции:
 
-  *  Draw image by mouse (left-click sets the point to Color 1, right-click resets the point to Color 2);
-  *  Rotate 90, 180, 270 degrees;
-  *  Shift;
-  *  Resize;
-  *  Inverse;
-  *  Import from files (bmp, gif, jpg, jpeg, png, pbm, pgm, ppm, tiff, xbm, xpm);
-  *  Export to files (bmp, jpg, png, ppm, tiff, xbm, xpm);
-  *  Display image in editor with 1x...50x scale;
-  *  Edit image with external tool (i.e. gimp).
+  *  Изменение состояния пикселей с помощью мыши (левая кнопка для цвета 1, правая для цвета 2);
+  *  Поворот на 90, 180, 270 градусов;
+  *  Сдвиг;
+  *  Изменение размеров;
+  *  Инверсия цветов;
+  *  Импорт из файлов графических форматов (bmp, gif, jpg, jpeg, png, pbm, pgm, ppm, tiff, xbm, xpm);
+  *  Экспорт в файлы (bmp, jpg, png, ppm, tiff, xbm, xpm);
+  *  Просмотр в редакторе в увеличении от 1 до 50 раз;
+  *  Редактирование с помощью внешнего редактора (например gimp).

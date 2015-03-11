@@ -5,32 +5,32 @@ title: Краткое руководство
 subtitle: Краткое описание пользования программой
 lang: ru
 ---
-Before you begin, you should determine:
+Перед началом работы следует определить:
 
-  *  Type of display - monochrome, grayscale, color;
-  *  Number of bits per pixel;
-  *  Orientation of Bytes in the memory of the display.
+  *  тип дисплея - монохромный, оттенки серого, цветной;
+  *  количество бит на пиксель;
+  *  ориентацию байт в памяти дисплея.
 
-If you need an image:
+Если нужно изображение:
 
-  *  Select the menu File - New Image;
-  *  Enter the name of the data structure;
-  *  Change the size of the image (Image - Resize), or import from an existing image file (Image - Import);
-  *  Make the necessary changes;
-  *  Save the file if you want to edit it in the future.
+  *  Выбрать в меню Файл - Новое изображение;
+  *  Ввести название структуры данных;
+  *  Изменить размер на нужный (Изображение - Изменение размеров), либо импортировать из существующего графического файла (Изображение - Импортировать);
+  *  Внести необходимые изменения;
+  *  Сохранить файл, если понадобится изменить его в будущем.
 
-Image Editor
+[Редактор изображений](./image/)
 
-If you need a font:
+Если нужен шрифт:
 
-  *  Select the menu File - New font;
-  *  Enter the name of the data structure;
-  *  Setup the font;
-  *  Make the necessary changes;
-  *  Save the file if you want to edit it in the future.
+  *  Выбрать в меню Файл - Новый шрифт;
+  *  Ввести название структуры данных;
+  *  Выбрать параметры шрифта;
+  *  Внести необходимые изменения;
+  *  Сохранить файл, если понадобится изменить его в будущем.
 
-Font Editor
+[Редактор шрифтов](./font/)
 
-Then choose the conversion settings and specify the path to the templates. These settings are saved when you restart the program, so it is sufficient to configure only once.
+Далее следует выбрать настройки преобразования и указать путь к шаблонам. Эти настройки сохраняются при перезапуске программы, так что настроить достаточно один раз.
 
-Now you can select the menu File - Convert and save the result as a "C" file.
+Теперь можно выбрать в меню Файл - Преобразовать, и сохранить результат в виде «С» файла.
