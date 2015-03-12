@@ -7,7 +7,7 @@
 <div id="menu">
     <div class="pure-menu">
         <a class="pure-menu-heading" href="#">Menu</a>
-
+        {% include lang-switcher.html %}
         <ul class="pure-menu-list">
             {% assign items = site.pages | sort: "weight" %}
             {% for p in items %}

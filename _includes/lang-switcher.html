@@ -1,0 +1,8 @@
+{% assign sameitems = site.wiki | where: "wid",page.wid %}
+<div class="menu-switcher">
+    {% for p in sameitems %}
+        <div>
+            <a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" href="{{ relative-baseurl }}{{ p.url | replace_first:'/',''}}">{{ p.lang }}</a>
+        </div>
+    {% endfor %}
+</div>

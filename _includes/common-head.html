@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LCD Image Converter site.">
+    {% assign relative-baseurl = "" %}
+    {% assign canon = page.url | append: "page.html" | split: "/" %}
+    {% for item in canon offset:2 %}
+    {% assign relative-baseurl = relative-baseurl | append:"../" %}
+    {% endfor %}
+
+    <!--// http://purecss.io/menus/ //-->
+    <link rel="stylesheet" href="{{ relative-baseurl }}css/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="{{ site.baseurl }}/css/side-menu-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="{{ relative-baseurl }}css/side-menu.css">
+    <!--<![endif]-->
+    <link rel="stylesheet" href="{{ relative-baseurl }}css/global.css" >
+  
+</head>
+<body>
