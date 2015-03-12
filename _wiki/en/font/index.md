@@ -1,18 +1,26 @@
 ---
 wid: "3"
 layout: wikipage
-title: Font Editor
-subtitle: Features of font  editor mode
+title: Font
+subtitle: Font editor
 lang: en
 ---
+Allow you to import and edit system font.
+
 Available functions:
 
-  *  Draw image by mouse (left-click sets the point to Color 1, right-click resets the point to Color 2);
-  *  Rotate 90, 180, 270 degrees;
-  *  Shift;
-  *  Resize;
-  *  Inverse;
-  *  Import from files (bmp, gif, jpg, jpeg, png, pbm, pgm, ppm, tiff, xbm, xpm);
-  *  Export to files (bmp, jpg, png, ppm, tiff, xbm, xpm);
-  *  Display image in editor with 1x...50x scale;
-  *  Edit image with external tool (i.e. gimp).
+  *  Import font from operating system, by specifying font family, size and style;
+  *  Add and remove characters to/from table;
+  *  Resize and inverse of all the characters, or selected (via the **Image** menu);
+  *  Unicode support;
+  *  Characters can be drawn by proportional or monospaced;
+  *  Antialiasing can be disabled, but not for all fonts;
+  *  Font preview;
+  *  Selected characters can be combined to one image;
+  *  Size of the character's preview in the table can be changed by **Ctrl + Wheel**;
+  *  Font can be stored to xml file and loaded from it later.
+
+For each selected character, all image editor's functions are accessible.
+
+Font editor window:
+![Window](font-editor-1.png "Window")

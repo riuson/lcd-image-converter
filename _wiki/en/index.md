@@ -2,7 +2,6 @@
 wid: "1"
 layout: wikipage
 title: Short manual
-subtitle: Short user manual
 lang: en
 ---
 Before you begin, you should determine:
@@ -19,7 +18,8 @@ If you need an image:
   *  Make the necessary changes;
   *  Save the file if you want to edit it in the future.
 
-Image Editor
+
+[Image Editor](./image/)
 
 If you need a font:
 
@@ -29,7 +29,8 @@ If you need a font:
   *  Make the necessary changes;
   *  Save the file if you want to edit it in the future.
 
-Font Editor
+
+[Font Editor](./font/)
 
 Then choose the conversion settings and specify the path to the templates. These settings are saved when you restart the program, so it is sufficient to configure only once.
 

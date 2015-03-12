@@ -1,8 +1,8 @@
 ---
 wid: "2"
 layout: wikipage
-title: Image Editor
-subtitle: Features of image editor mode
+title: Image
+subtitle: Image editor 
 lang: en
 ---
 Available functions:

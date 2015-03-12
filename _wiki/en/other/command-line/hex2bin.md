@@ -2,11 +2,11 @@
 wid: "7_2_3"
 layout: wikipage
 title: HEX 2 BIN 
-lang: ru
+lang: en
 ---
-# Способ вызова
+# How to call this mode
 
-Справка:
+Help for hex to bin conversion mode:
 
 ```
 $ ./lcd-image-converter --mode=hex2bin --help
@@ -22,15 +22,15 @@ Options:
   -o, --output <path>  Full <path> to output binary result.
 ```
 
-# Заготовки
+# Preset
 
-Настройки:
+Settings:
 
   *  Image -> Prefix = "0x"
   *  Image -> Suffix = ""
   *  Image -> Delimiter = " "
 
-Изменённый файл шаблона для изображения:
+Template file for image:
 
 ```
 $(start_block_images_table)
@@ -42,11 +42,11 @@ uint$(img_data_block_size) $(out_image_data)
 $(end_block_images_table)
 ```
 
-uint8, uint16, uint24, uint32 - размеры чисел.
+uint8, uint16, uint24, uint32 - data size.
 
-le, be - little endian и big endian.
+le, be - little endian and big endian.
 
-# Пример
+# Example
 
 ```
 $ ./lcd-image-converter --mode=hex2bin \
@@ -54,7 +54,7 @@ $ ./lcd-image-converter --mode=hex2bin \
     --output=/temp/colors.bin
 ```
 
-"C" файл после обычного преобразования:
+"C" file after conversion to sources:
 
 ```
 static const uint8_t image_data_colors[10] = {
@@ -72,7 +72,7 @@ static const uint8_t image_data_colors[10] = {
 const tImage colors = { image_data_colors, 10, 5};
 ```
 
-После преобразования с этим шаблоном:
+With modified template:
 
 ```
 le
@@ -91,7 +91,7 @@ uint8 0xd0
     0xf0
 ```
 
-Бинарник после преобразования из hex:
+Binary file after conversion from hex to bin::
 
 ```
 00000000: 0A 00 05 00 0A 00 D0 F0    90 F0 D0 B0 D0 F0 90 F0

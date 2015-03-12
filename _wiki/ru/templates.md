@@ -64,7 +64,7 @@ lang: ru
   *  Windows-1250 ... 1258
   *  ...
 
-Шаблон изображения
+[Шаблон изображения](https://github.com/riuson/lcd-image-converter/blob/master/resources/image.tmpl)
 ```
 $(start_block_header)
 /*******************************************************************************
@@ -104,7 +104,7 @@ const tImage $(doc_name_ws) = { image_data_$(doc_name_ws), $(out_image_width), $
 $(end_block_images_table)
 ```
 
-Шаблон шрифта
+[Шаблон шрифта](https://github.com/riuson/lcd-image-converter/blob/master/resources/font.tmpl)
 ```
 $(start_block_header)
 /*******************************************************************************
