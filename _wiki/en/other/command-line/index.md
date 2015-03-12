@@ -16,6 +16,7 @@ In this mode, a document's conversion can be performed without using of GUI, but
 
 Calling basic help:
 
+{% highlight bash %}
 ```
 $ ./lcd-image-converter --help
 Usage: ./lcd-image-converter [options]
@@ -27,3 +28,4 @@ Options:
   -m, --mode <mode>  Conversion mode for application, "convert-image",
                      "convert-font" or "hex2bin".
 ```
+{% endhighlight %}

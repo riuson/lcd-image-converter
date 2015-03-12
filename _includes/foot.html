@@ -1,32 +1,3 @@
-<script src="{{ relative-baseurl }}js/ui.js"></script>
-<!--//
-<script>
-function updateLinks()
-{
-  var links = document.links;
-
-  for (var i = 0, linksLength = links.length; i < linksLength; i++) {
-     if (links[i].hostname != window.location.hostname) {
-         links[i].target = '_blank';
-     } 
-  }
-}
-
-updateLinks();
-</script>
-//-->
-
-<script>
-function updateImagesStyle()
-{
-    var images = document.getElementsByTagName('img'); 
-    for(var i = 0; i < images.length; i++) {
-        var image = images[i];
-        image.setAttribute("class", "pure-img-responsive");
-    }
-}
-updateImagesStyle();
-</script>
-
+{% include page-scripts.html %}
 </body>
 </html>

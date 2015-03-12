@@ -6,6 +6,7 @@ lang: en
 ---
 Types definition
 
+{% highlight cpp %}
 ```
 typedef struct
 {
@@ -27,9 +28,11 @@ typedef struct
     const tChar *chars;
 } tFont;
 ```
+{% endhighlight %}
 
 Set pixel on the display
 
+{% highlight cpp %}
 ```
 void set_pixel(int x, int y, int color)
 {
@@ -45,9 +48,11 @@ void set_pixel(int x, int y, int color)
     }
 }
 ```
+{% endhighlight %}
 
 Draw image on the display
 
+{% highlight cpp %}
 ```
 void draw_bitmap_mono(int x, int y, const tImage *image)
 {
@@ -80,9 +85,11 @@ void draw_bitmap_mono(int x, int y, const tImage *image)
     }
 }
 ```
+{% endhighlight %}
 
 Draw image on the display (RLE)
 
+{% highlight cpp %}
 ```
 void draw_bitmap_mono_rle(int x, int y, const tImage *image)
 {
@@ -140,9 +147,11 @@ void draw_bitmap_mono_rle(int x, int y, const tImage *image)
     }
 }
 ```
+{% endhighlight %}
 
 Get character's data from font by its code
 
+{% highlight cpp %}
 ```
 const tChar *find_char_by_code(int code, const tFont *font)
 {
@@ -176,9 +185,11 @@ const tChar *find_char_by_code(int code, const tFont *font)
     return (0);
 }
 ```
+{% endhighlight %}
 
 Get UTF-8 code for next character in string
 
+{% highlight cpp %}
 ```
 int utf8_next_char(const char *str, int start, int *resultCode, int *nextIndex)
 {
@@ -256,9 +267,11 @@ int utf8_next_char(const char *str, int start, int *resultCode, int *nextIndex)
     return (result);
 }
 ```
+{% endhighlight %}
 
 Draw text
 
+{% highlight cpp %}
 ```
 void draw_string(const char *str, int x, int y, const tFont *font)
 {
@@ -284,3 +297,4 @@ void draw_string(const char *str, int x, int y, const tFont *font)
     }
 }
 ```
+{% endhighlight %}

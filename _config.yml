@@ -2,6 +2,8 @@ github: [Repository metadata]
 name: LCD Image Converter
 url:              http://lcd-image-converter.riuson.com
 baseurl:          http://lcd-image-converter.riuson.com
+syntax-highlighting:
+  enabled : true
 
 author:
   name:           'Vladimir N'

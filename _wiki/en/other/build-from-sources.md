@@ -7,9 +7,11 @@ lang: en
 ---
 Clone repository:
 
-`
+{% highlight bash %}
+```
 git clone https://riuson@code.google.com/p/lcd-image-converter/ 
-`
+```
+{% endhighlight %}
 
 Qt Creator:
 
@@ -19,6 +21,7 @@ Qt Creator:
 
 Console:
 
+{% highlight bash %}
 ```
 cd lcd-image-converter
 qmake
@@ -26,9 +29,11 @@ make
 # запустить приложение
 ./_linux/release/lcd-image-converter
 ```
+{% endhighlight %}
 
 Output example:
 
+{% highlight bash %}
 ```
 user@desktop:~/workspace/lcd-image-converter (git: develop)
 ➜ qmake
@@ -61,5 +66,6 @@ g++ -m64 -Wl,-O1 -o _linux/release/lcd-image-converter .obj/main.o .obj/bitmapco
 .obj/moc_dialogconvert.o .obj/moc_dialogsetup.o .obj/moc_parser.o .obj/qrc_resources.o    
 -L./_linux/release -L/usr/lib/x86_64-linux-gnu -lQtXmlPatterns -lQtXml -lQtGui -lQtCore -lpthread
 ```
+{% endhighlight %}
 
 [Full build log for revision be13e6f34980](build.log_.4f8e4f99.zip).

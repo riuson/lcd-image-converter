@@ -14,6 +14,7 @@ lang: ru
 
 Вызов общей справки:
 
+{% highlight bash %}
 ```
 $ ./lcd-image-converter --help
 Usage: ./lcd-image-converter [options]
@@ -25,3 +26,4 @@ Options:
   -m, --mode <mode>  Conversion mode for application, "convert-image",
                      "convert-font" or "hex2bin".
 ```
+{% endhighlight %}

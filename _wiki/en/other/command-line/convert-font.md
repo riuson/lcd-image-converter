@@ -8,6 +8,7 @@ lang: en
 
 Help for image conversion mode:
 
+{% highlight bash %}
 ```
 $ ./lcd-image-converter --mode=convert-font --help
 Usage: ./lcd-image-converter [options]
@@ -34,6 +35,7 @@ Options:
   --preset-name <name>         Output preset <name> from predefined presets in
                                application settings.
 ```
+{% endhighlight %}
 
 Preset. required in - preset-name, must be created in advance.
 
@@ -41,6 +43,7 @@ If option --template was omitted, application will use the template file specifi
 
 # Example
 
+{% highlight bash %}
 ```
 $ ./lcd-image-converter --mode=convert-font \
     --family=Ubuntu \
@@ -52,7 +55,9 @@ $ ./lcd-image-converter --mode=convert-font \
     --doc-name=test \
     --preset-name=Monochrome
 ```
+{% endhighlight %}
 
+{% highlight bash %}
 ```
 $ ./lcd-image-converter --mode=convert-font \
     --family=Ubuntu \
@@ -65,3 +70,4 @@ $ ./lcd-image-converter --mode=convert-font \
     --doc-name=test \
     --preset-name=Monochrome
 ```
+{% endhighlight %}

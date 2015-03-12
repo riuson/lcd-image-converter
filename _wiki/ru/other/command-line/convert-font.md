@@ -8,6 +8,7 @@ lang: ru
 
 Справка по режиму преобразования шрифта:
 
+{% highlight bash %}
 ```
 $ ./lcd-image-converter --mode=convert-font --help
 Usage: ./lcd-image-converter [options]
@@ -34,12 +35,14 @@ Options:
   --preset-name <name>         Output preset <name> from predefined presets in
                                application settings.
 ```
+{% endhighlight %}
 
 Заготовка, указываемая в --preset-name, должна быть создана заранее.
 Если параметр --template опущен, будет использован шаблон, указанный в самой заготовке.
 
 # Пример
 
+{% highlight bash %}
 ```
 $ ./lcd-image-converter --mode=convert-font \
     --family=Ubuntu \
@@ -51,7 +54,9 @@ $ ./lcd-image-converter --mode=convert-font \
     --doc-name=test \
     --preset-name=Monochrome
 ```
+{% endhighlight %}
 
+{% highlight bash %}
 ```
 $ ./lcd-image-converter --mode=convert-font \
     --family=Ubuntu \
@@ -64,3 +69,4 @@ $ ./lcd-image-converter --mode=convert-font \
     --doc-name=test \
     --preset-name=Monochrome
 ```
+{% endhighlight %}

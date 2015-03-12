@@ -6,6 +6,7 @@ lang: ru
 ---
 Определения структур
 
+{% highlight cpp %}
 ```
 typedef struct
 {
@@ -27,9 +28,11 @@ typedef struct
     const tChar *chars;
 } tFont;
 ```
+{% endhighlight %}
 
 Установка точки на дисплее
 
+{% highlight cpp %}
 ```
 void set_pixel(int x, int y, int color)
 {
@@ -45,9 +48,11 @@ void set_pixel(int x, int y, int color)
     }
 }
 ```
+{% endhighlight %}
 
 Вывод изображения
 
+{% highlight cpp %}
 ```
 void draw_bitmap_mono(int x, int y, const tImage *image)
 {
@@ -80,9 +85,11 @@ void draw_bitmap_mono(int x, int y, const tImage *image)
     }
 }
 ```
+{% endhighlight %}
 
 Вывод изображения (RLE)
 
+{% highlight cpp %}
 ```
 void draw_bitmap_mono_rle(int x, int y, const tImage *image)
 {
@@ -140,9 +147,11 @@ void draw_bitmap_mono_rle(int x, int y, const tImage *image)
     }
 }
 ```
+{% endhighlight %}
 
 Поиск символа в шрифте по коду
 
+{% highlight cpp %}
 ```
 const tChar *find_char_by_code(int code, const tFont *font)
 {
@@ -176,9 +185,11 @@ const tChar *find_char_by_code(int code, const tFont *font)
     return (0);
 }
 ```
+{% endhighlight %}
 
 Получение следующего кода символа в строке UTF-8
 
+{% highlight cpp %}
 ```
 int utf8_next_char(const char *str, int start, int *resultCode, int *nextIndex)
 {
@@ -256,9 +267,11 @@ int utf8_next_char(const char *str, int start, int *resultCode, int *nextIndex)
     return (result);
 }
 ```
+{% endhighlight %}
 
 Вывод строки
 
+{% highlight cpp %}
 ```
 void draw_string(const char *str, int x, int y, const tFont *font)
 {
@@ -284,3 +297,4 @@ void draw_string(const char *str, int x, int y, const tFont *font)
     }
 }
 ```
+{% endhighlight %}

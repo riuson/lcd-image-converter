@@ -66,6 +66,8 @@ List of used codecs:
   *  ...
 
 [Image template](https://github.com/riuson/lcd-image-converter/blob/master/resources/image.tmpl)
+
+{% highlight text %}
 ```
 $(start_block_header)
 /*******************************************************************************
@@ -104,8 +106,11 @@ const tImage $(doc_name_ws) = { image_data_$(doc_name_ws), $(out_image_width), $
     $(img_data_block_size) };
 $(end_block_images_table)
 ```
+{% endhighlight %}
 
 [Font template](https://github.com/riuson/lcd-image-converter/blob/master/resources/font.tmpl)
+
+{% highlight text %}
 ```
 $(start_block_header)
 /*******************************************************************************
@@ -166,3 +171,4 @@ $(start_block_font_def)
 const tFont $(doc_name_ws) = { $(out_images_count), $(doc_name_ws)_array };
 $(end_block_font_def)
 ```
+{% endhighlight %}

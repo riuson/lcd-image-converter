@@ -8,6 +8,7 @@ lang: ru
 
 Справка по режиму преобразования изображений:
 
+{% highlight bash %}
 ```
 $ ./lcd-image-converter --mode=convert-image --help
 Usage: ./lcd-image-converter [options]
@@ -26,6 +27,7 @@ Options:
   --preset-name <name>  Output preset <name> from predefined presets in
                         application settings.
 ```
+{% endhighlight %}
 
 Заготовка, указываемая в --preset-name, должна быть создана заранее.
 
@@ -33,6 +35,7 @@ Options:
 
 # Пример
 
+{% highlight bash %}
 ```
 $ ./lcd-image-converter --mode=convert-image \
     --doc-name=test \
@@ -41,3 +44,4 @@ $ ./lcd-image-converter --mode=convert-image \
     --output=/temp/box.c \
     --template=/temp/image.tmpl
 ```
+{% endhighlight %}
