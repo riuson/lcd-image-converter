@@ -91,3 +91,27 @@ hr {
     background: linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 10%,rgba(110,110,122,0.65) 50%,rgba(0,0,0,0) 90%,rgba(0,0,0,0) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
 }
+
+#menu .menu-switcher {
+  display: block;
+  color: green;
+  overflow: hidden;
+}
+#menu .menu-switcher div {
+  width: 50%;
+  float: left;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+#menu .menu-switcher a {
+  margin: 0;
+  padding: 0;
+  font-size: 87.5%;
+  line-height: 2em;
+}
+
+#menu .menu-switcher a:hover, #menu .menu-switcher a:focus {
+    color: #6E6E7A;
+}
