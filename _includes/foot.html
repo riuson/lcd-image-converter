@@ -16,5 +16,17 @@ updateLinks();
 </script>
 //-->
 
+<script>
+function updateImagesStyle()
+{
+    var images = document.getElementsByTagName('img'); 
+    for(var i = 0; i < images.length; i++) {
+        var image = images[i];
+        image.setAttribute("class", "pure-img-responsive");
+    }
+}
+updateImagesStyle();
+</script>
+
 </body>
 </html>
