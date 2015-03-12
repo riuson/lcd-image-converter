@@ -6,4 +6,3 @@ weight: 7
 external: 1
 redirect: https://github.com/riuson/lcd-image-converter/issues/new
 ---
-<p/>
