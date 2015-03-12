@@ -11,8 +11,8 @@ To create new image you can:
   *  Open menu File -> New Image ...;
   *  Open menu File -> Open..., select file filter Images, open existing image file in one of supported formats.
 
-![Create new](new-1.png "Create new")
+![Create new](new-1.png "Create new"){.pure-img-responsive}
 
 Then you are needed to enter name of the file. This name will be used in result file, the name of the data structure.
 
-![Naming](new-2.png "Naming")
+![Naming](new-2.png "Naming"){: .pure-img-responsive}
