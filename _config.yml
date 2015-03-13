@@ -17,3 +17,5 @@ resources:
 collections:
   wiki:
     output: true
+
+exclude: [runserver.bat, runserver.sh]
