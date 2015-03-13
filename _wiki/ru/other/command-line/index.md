@@ -15,8 +15,7 @@ lang: ru
 Вызов общей справки:
 
 {% highlight bash %}
-```
-$ ./lcd-image-converter --help
+```$ ./lcd-image-converter --help
 Usage: ./lcd-image-converter [options]
 Tool to create image and font source files for embedded applications.
 

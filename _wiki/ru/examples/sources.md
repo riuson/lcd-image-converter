@@ -7,8 +7,7 @@ lang: ru
 Определения структур
 
 {% highlight cpp %}
-```
-typedef struct
+```typedef struct
 {
     const unsigned char *data;
     uint16_t width;
@@ -33,8 +32,7 @@ typedef struct
 Установка точки на дисплее
 
 {% highlight cpp %}
-```
-void set_pixel(int x, int y, int color)
+```void set_pixel(int x, int y, int color)
 {
     if (color != 0)
     {
@@ -53,8 +51,7 @@ void set_pixel(int x, int y, int color)
 Вывод изображения
 
 {% highlight cpp %}
-```
-void draw_bitmap_mono(int x, int y, const tImage *image)
+```void draw_bitmap_mono(int x, int y, const tImage *image)
 {
     uint8_t value = 0;
     int x0, y0;
@@ -90,8 +87,7 @@ void draw_bitmap_mono(int x, int y, const tImage *image)
 Вывод изображения (RLE)
 
 {% highlight cpp %}
-```
-void draw_bitmap_mono_rle(int x, int y, const tImage *image)
+```void draw_bitmap_mono_rle(int x, int y, const tImage *image)
 {
     uint8_t value = 0;
     int x0, y0;
@@ -152,8 +148,7 @@ void draw_bitmap_mono_rle(int x, int y, const tImage *image)
 Поиск символа в шрифте по коду
 
 {% highlight cpp %}
-```
-const tChar *find_char_by_code(int code, const tFont *font)
+```const tChar *find_char_by_code(int code, const tFont *font)
 {
     int count = font->length;
     int first = 0;
@@ -190,8 +185,7 @@ const tChar *find_char_by_code(int code, const tFont *font)
 Получение следующего кода символа в строке UTF-8
 
 {% highlight cpp %}
-```
-int utf8_next_char(const char *str, int start, int *resultCode, int *nextIndex)
+```int utf8_next_char(const char *str, int start, int *resultCode, int *nextIndex)
 {
     int len = 0;
     int index = 0;
@@ -272,8 +266,7 @@ int utf8_next_char(const char *str, int start, int *resultCode, int *nextIndex)
 Вывод строки
 
 {% highlight cpp %}
-```
-void draw_string(const char *str, int x, int y, const tFont *font)
+```void draw_string(const char *str, int x, int y, const tFont *font)
 {
     int len = ustrlen(str);
     int index = 0;

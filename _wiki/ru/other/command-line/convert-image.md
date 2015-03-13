@@ -9,8 +9,7 @@ lang: ru
 Справка по режиму преобразования изображений:
 
 {% highlight bash %}
-```
-$ ./lcd-image-converter --mode=convert-image --help
+```$ ./lcd-image-converter --mode=convert-image --help
 Usage: ./lcd-image-converter [options]
 Tool to create image and font source files for embedded applications.
 
@@ -36,8 +35,7 @@ Options:
 # Пример
 
 {% highlight bash %}
-```
-$ ./lcd-image-converter --mode=convert-image \
+```$ ./lcd-image-converter --mode=convert-image \
     --doc-name=test \
     --preset-name=Monochrome \
     --input=/temp/box.png \

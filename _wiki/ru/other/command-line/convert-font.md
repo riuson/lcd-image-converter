@@ -9,8 +9,7 @@ lang: ru
 Справка по режиму преобразования шрифта:
 
 {% highlight bash %}
-```
-$ ./lcd-image-converter --mode=convert-font --help
+```$ ./lcd-image-converter --mode=convert-font --help
 Usage: ./lcd-image-converter [options]
 Tool to create image and font source files for embedded applications.
 
@@ -43,8 +42,7 @@ Options:
 # Пример
 
 {% highlight bash %}
-```
-$ ./lcd-image-converter --mode=convert-font \
+```$ ./lcd-image-converter --mode=convert-font \
     --family=Ubuntu \
     --size=14 \
     --mono \
@@ -57,8 +55,7 @@ $ ./lcd-image-converter --mode=convert-font \
 {% endhighlight %}
 
 {% highlight bash %}
-```
-$ ./lcd-image-converter --mode=convert-font \
+```$ ./lcd-image-converter --mode=convert-font \
     --family=Ubuntu \
     --size=14 \
     --mono \

@@ -8,8 +8,7 @@ lang: en
 Clone repository:
 
 {% highlight bash %}
-```
-git clone https://riuson@code.google.com/p/lcd-image-converter/ 
+```git clone https://riuson@code.google.com/p/lcd-image-converter/
 ```
 {% endhighlight %}
 
@@ -22,8 +21,7 @@ Qt Creator:
 Console:
 
 {% highlight bash %}
-```
-cd lcd-image-converter
+```cd lcd-image-converter
 qmake
 make
 # запустить приложение
@@ -34,8 +32,7 @@ make
 Output example:
 
 {% highlight bash %}
-```
-user@desktop:~/workspace/lcd-image-converter (git: develop)
+```user@desktop:~/workspace/lcd-image-converter (git: develop)
 ➜ qmake
 RCC: Error in 'resources/resources.qrc': Cannot find file 'lcd-image-converter-ru.qm'
 user@desktop:~/workspace/lcd-image-converter (git: develop)

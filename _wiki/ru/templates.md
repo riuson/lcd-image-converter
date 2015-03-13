@@ -67,8 +67,7 @@ lang: ru
 [Шаблон изображения](https://github.com/riuson/lcd-image-converter/blob/master/resources/image.tmpl)
 
 {% highlight text %}
-```
-$(start_block_header)
+```$(start_block_header)
 /*******************************************************************************
 * $(doc_data_type)
 * filename: $(doc_filename)
@@ -110,8 +109,7 @@ $(end_block_images_table)
 [Шаблон шрифта](https://github.com/riuson/lcd-image-converter/blob/master/resources/font.tmpl)
 
 {% highlight text %}
-```
-$(start_block_header)
+```$(start_block_header)
 /*******************************************************************************
 * $(doc_data_type)
 * filename: $(doc_filename)
