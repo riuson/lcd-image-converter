@@ -8,7 +8,7 @@ lang: ru
 Клонировать репозиторий:
 
 {% highlight bash %}
-```git clone https://riuson@code.google.com/p/lcd-image-converter/ 
+```git clone https://github.com/riuson/lcd-image-converter.git
 ```
 {% endhighlight %}
 
