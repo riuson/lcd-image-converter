@@ -24,7 +24,7 @@ Console:
 ```cd lcd-image-converter
 qmake
 make
-# запустить приложение
+# run application
 ./_linux/release/lcd-image-converter
 ```
 {% endhighlight %}
