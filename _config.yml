@@ -19,3 +19,7 @@ collections:
     output: true
 
 exclude: [runserver.bat, runserver.sh]
+
+gems:
+  - jekyll-sitemap
+
