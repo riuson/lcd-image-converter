@@ -1,0 +1,61 @@
+{% assign pageChunks = page.url | split:"/" %}
+{% assign pageChunksSize = pageChunks | size %}
+
+<li class="pure-menu-item">
+{% if pageChunksSize > 2 %}
+    {% capture subIndexName %}index.{{page.lang}}.html{% endcapture %}
+    <a class="pure-menu-link " href="../{{ subIndexName }}">..</a>
+{% endif %}
+</li>
+
+{% for p in items %}
+    {% assign pChunks = p.url | split:"/" %}
+    {% assign pChunksSize = pChunks | size %}
+
+    {% if pageChunksSize > pChunksSize %}
+        {% assign minSize = pChunksSize %}
+    {% else %}
+        {% assign minSize = pageChunksSize %}
+    {% endif %}
+
+    {% assign length = minSize | minus: 1 %}
+
+    {% assign showPage = 1 %}
+    {% for chunkIndex in (0..length) %}
+        {% if pChunks[chunkIndex] != pageChunks[chunkIndex] %}
+            {% if showPage == 1 %}
+                {% if chunkIndex < length %}
+                    {% assign showPage = 0 %}
+                {% else if chunkIndex == length %}
+                    {% if pChunksSize == pageChunksSize %}
+                        {% assign showPage = 1 %}
+                    {% else %}
+                        {% capture subIndexName %}index.{{page.lang}}.html{% endcapture %}
+                        {% assign nextChunkIndex = chunkIndex | plus: 1 %}
+                        {% if pChunks[nextChunkIndex] == subIndexName %}
+                            {% assign showPage = 1 %}
+                        {% else %}
+                            {% assign showPage = 0 %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    {% if showPage == 1 %}
+        <li class="pure-menu-item">
+            {% capture pageurl %}{{ relative-baseurl }}{{ p.url }}{% endcapture %}
+            {% assign external = '' %}
+            {% if p.redirect %}
+                {% assign pageurl = p.redirect %}
+            {% endif %}
+            {% assign pageurl = pageurl | replace_first:'/','' %}
+            {% if p.external %}
+                {% assign pageurl = p.redirect %}
+                {% assign external = 'target="_blank"' %}
+            {% endif %}
+            <a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" {{ external }} href="{{ pageurl }}">{{ p.title }}</a>
+            <!--//<a class="pure-menu-link {% if p.url == page.url %}active{% endif %}" href="{{ relative-baseurl }}{{ p.url | replace_first:'/',''}}">{{ p.title }}</a>//-->
+        </li>
+    {% endif %}
+{% endfor %}
