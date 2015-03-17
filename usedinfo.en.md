@@ -1,8 +1,10 @@
 ---
+wid: "root_usedinfo"
 layout: default
 title: Used Info
 subtitle: The information used in creating this site
 weight: 990
+lang: en
 ---
  * [Using Jekyll with Pages](https://help.github.com/articles/using-jekyll-with-pages)
  * [Get Started With GitHub Pages (Plus Bonus Jekyll)](http://24ways.org/2013/get-started-with-github-pages/)
