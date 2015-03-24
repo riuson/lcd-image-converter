@@ -22,4 +22,5 @@ exclude: [runserver.bat, runserver.sh]
 
 gems:
   - jekyll-sitemap
+  - jekyll-redirect-from
 

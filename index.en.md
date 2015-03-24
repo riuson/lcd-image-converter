@@ -4,6 +4,8 @@ layout: default
 title: About
 weight: 0
 lang: en
+redirect_from:
+  - /
 ---
 This application allows you to create bitmaps and fonts, and transform them to "C" source format for embedded applications.
 The transformation of the images to the source code is made by using templates. Therefore, by modifying the templates, you can change the format of the output within certain limits.
