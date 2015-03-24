@@ -1,7 +1,7 @@
 ---
 wid: "1"
 layout: wikipage
-title: Краткое руководство
+title: Справка
 subtitle: Краткое описание пользования программой
 lang: ru
 ---

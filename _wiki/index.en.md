@@ -1,7 +1,7 @@
 ---
 wid: "1"
 layout: wikipage
-title: Short manual
+title: Docs
 lang: en
 ---
 Before you begin, you should determine:
