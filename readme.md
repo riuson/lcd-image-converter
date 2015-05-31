@@ -9,8 +9,8 @@ source format for embedded applications.
 ## Web pages
 
 - [Home Page] (http://www.riuson.com/lcd-image-converter)
-- [GitHub] (https://riuson.github.io/lcd-image-converter)
-- [SourceForge Downloads] (http://sourceforge.net/projects/lcd-image-converter/files)
+- [GitHub] (https://github.com/riuson/lcd-image-converter)
+- [SourceForge Downloads (deprecated)] (http://sourceforge.net/projects/lcd-image-converter/files)
 - [Google Code (deprecated)] (https://code.google.com/p/lcd-image-converter)
 
 ##License
