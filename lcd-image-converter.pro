@@ -1,16 +1,15 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-06-22T13:10:53
 # -------------------------------------------------
-OUTDIR              = ./_build
-
-unix:OUTDIR         = $$OUTDIR/linux
-win32:OUTDIR        = $$OUTDIR/windows
+OUTDIR              = ./
 
 CONFIG(debug, debug|release) {
     OUTDIR          = $$OUTDIR/debug
 } else {
     OUTDIR          = $$OUTDIR/release
 }
+unix:OUTDIR         = $$OUTDIR/linux
+win32:OUTDIR        = $$OUTDIR/windows
 
 OBJECTS_DIR         = $$OUTDIR/.obj
 MOC_DIR             = $$OUTDIR/.moc
@@ -20,6 +19,8 @@ RCC_DIR             = $$OUTDIR/.rcc
 QT += xml xmlpatterns network script svg
 TARGET = lcd-image-converter
 TEMPLATE = app
+
+# Uncomment next line to enable console output on Windows.
 #CONFIG += console
 
 DESTDIR             = $$OUTDIR/output
