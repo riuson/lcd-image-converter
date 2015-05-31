@@ -19,6 +19,8 @@ RCC_DIR             = $$OUTDIR/.rcc
 QT += xml xmlpatterns network script svg
 TARGET = lcd-image-converter
 TEMPLATE = app
+
+# Uncomment next line to enable console output on Windows.
 #CONFIG += console
 
 DESTDIR             = $$OUTDIR/output
