@@ -21,6 +21,8 @@
 //-----------------------------------------------------------------------------
 #include <QSettings>
 #include <QBuffer>
+#include <QtXml>
+#include <QDomDocument>
 //-----------------------------------------------------------------------------
 PrepareOptions::PrepareOptions(QObject *parent) :
     QObject(parent)
@@ -355,5 +357,51 @@ void PrepareOptions::save(QSettings *settings)
     }
 
     settings->endGroup();
+}
+//-----------------------------------------------------------------------------
+void PrepareOptions::saveXmlElement(QDomElement *element)
+{
+    QDomElement nodePrepare = element->ownerDocument().createElement("prepare");
+    element->appendChild(nodePrepare);
+
+    QDomElement nodeConvType = element->ownerDocument().createElement("convType");
+    nodePrepare.appendChild(nodeConvType);
+    nodeConvType.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->convType())));
+
+    QDomElement nodeMonoType = element->ownerDocument().createElement("monoType");
+    nodePrepare.appendChild(nodeMonoType);
+    nodeMonoType.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->monoType())));
+
+    QDomElement nodeEdge = element->ownerDocument().createElement("edge");
+    nodePrepare.appendChild(nodeEdge);
+    nodeEdge.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->edge())));
+
+    QDomElement nodeScanMain = element->ownerDocument().createElement("scanMain");
+    nodePrepare.appendChild(nodeScanMain);
+    nodeScanMain.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->scanMain())));
+
+    QDomElement nodeScanSub = element->ownerDocument().createElement("scanSub");
+    nodePrepare.appendChild(nodeScanSub);
+    nodeScanSub.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->scanSub())));
+
+    QDomElement nodeInverse = element->ownerDocument().createElement("inverse");
+    nodePrepare.appendChild(nodeInverse);
+    nodeInverse.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->inverse())));
+
+    QDomElement nodeBandScanning = element->ownerDocument().createElement("bandScanning");
+    nodePrepare.appendChild(nodeBandScanning);
+    nodeBandScanning.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->bandScanning())));
+
+    QDomElement nodeBandWidth = element->ownerDocument().createElement("bandWidth");
+    nodePrepare.appendChild(nodeBandWidth);
+    nodeBandWidth.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->bandWidth())));
+
+    QDomElement nodeUseCustomScript = element->ownerDocument().createElement("useCustomScript");
+    nodePrepare.appendChild(nodeUseCustomScript);
+    nodeUseCustomScript.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->useCustomScript())));
+
+    QDomElement nodeCustomScript = element->ownerDocument().createElement("customScript");
+    nodePrepare.appendChild(nodeCustomScript);
+    nodeCustomScript.appendChild(element->ownerDocument().createCDATASection(this->mCustomScript));
 }
 //-----------------------------------------------------------------------------

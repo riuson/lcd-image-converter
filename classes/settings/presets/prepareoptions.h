@@ -25,6 +25,7 @@
 #include "conversion_options.h"
 //-----------------------------------------------------------------------------
 class QSettings;
+class QDomElement;
 //-----------------------------------------------------------------------------
 using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
@@ -61,6 +62,7 @@ public:
 
     bool load(QSettings *settings, int version);
     void save(QSettings *settings);
+    void saveXmlElement(QDomElement *element);
 
 private:
     ConversionType mConvType;
