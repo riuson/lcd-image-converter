@@ -71,6 +71,8 @@ private slots:
     void on_pushButtonPreview_clicked();
     void on_pushButtonPresetSaveAs_clicked();
     void on_pushButtonPresetRemove_clicked();
+    void on_pushButtonPresetImport_clicked();
+    void on_pushButtonPresetExport_clicked();
     void on_comboBoxPresets_currentIndexChanged(int index);
     void previewClosed();
 

@@ -219,6 +219,14 @@ void DialogOptions::on_pushButtonPresetRemove_clicked()
     this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
+void DialogOptions::on_pushButtonPresetImport_clicked()
+{
+}
+//-----------------------------------------------------------------------------
+void DialogOptions::on_pushButtonPresetExport_clicked()
+{
+}
+//-----------------------------------------------------------------------------
 void DialogOptions::on_comboBoxPresets_currentIndexChanged(int index)
 {
     QString name = this->ui->comboBoxPresets->itemText(index);
