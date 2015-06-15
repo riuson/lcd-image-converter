@@ -49,6 +49,11 @@ public:
     static const QStringList &encodings();
 
 private:
+    static const QString GroupName;
+    static const QString FieldBom;
+    static const QString FieldSortOrder;
+    static const QString FieldCodec;
+
     bool mBom;
     QString mEncoding;
     CharactersSortOrder mSortOrder;

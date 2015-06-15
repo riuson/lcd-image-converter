@@ -23,6 +23,11 @@
 #include <QSettings>
 #include <QTextCodec>
 //-----------------------------------------------------------------------------
+const QString FontOptions::GroupName = QString("font");
+const QString FontOptions::FieldBom = QString("bom");
+const QString FontOptions::FieldSortOrder = QString("sortOrder");
+const QString FontOptions::FieldCodec = QString("codec");
+//-----------------------------------------------------------------------------
 FontOptions::FontOptions(QObject *parent) :
     QObject(parent)
 {
@@ -92,19 +97,19 @@ bool FontOptions::load(QSettings *settings, int version)
     }
     else if (version == 2)
     {
-        settings->beginGroup("font");
+        settings->beginGroup(FontOptions::GroupName);
 
         quint32 uBom;
         quint32 uSortOrder;
         QString sEncoding;
 
-        uBom = settings->value("bom", int(0)).toInt(&result);
+        uBom = settings->value(FontOptions::FieldBom, int(0)).toInt(&result);
 
         if (result)
-            uSortOrder = settings->value("sortOrder", int(CharactersSortNone)).toInt(&result);
+            uSortOrder = settings->value(FontOptions::FieldSortOrder, int(CharactersSortNone)).toInt(&result);
 
         if (result)
-            sEncoding = settings->value("codec", QString("UTF-8")).toString();
+            sEncoding = settings->value(FontOptions::FieldCodec, QString("UTF-8")).toString();
 
         if (result)
         {
@@ -121,11 +126,11 @@ bool FontOptions::load(QSettings *settings, int version)
 //-----------------------------------------------------------------------------
 void FontOptions::save(QSettings *settings)
 {
-    settings->beginGroup("font");
+    settings->beginGroup(FontOptions::GroupName);
 
-    settings->setValue("bom", QString("%1").arg((int)this->bom()));
-    settings->setValue("sortOrder", QString("%1").arg((int)this->sortOrder()));
-    settings->setValue("codec",  this->encoding());
+    settings->setValue(FontOptions::FieldBom, QString("%1").arg((int)this->bom()));
+    settings->setValue(FontOptions::FieldSortOrder, QString("%1").arg((int)this->sortOrder()));
+    settings->setValue(FontOptions::FieldCodec,  this->encoding());
 
     settings->endGroup();
 }
