@@ -53,6 +53,16 @@ public:
     void save(QSettings *settings);
 
 private:
+    static const QString GroupName;
+    static const QString FieldMaskUsed;
+    static const QString FieldMaskAnd;
+    static const QString FieldMaskOr;
+    static const QString FieldMaskFill;
+    static const QString FieldOperations;
+    static const QString FieldMask;
+    static const QString FieldShift;
+    static const QString FieldLeft;
+
     quint32 mMaskUsed;
     quint32 mMaskAnd;
     quint32 mMaskOr;

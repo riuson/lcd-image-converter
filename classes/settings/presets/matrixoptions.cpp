@@ -22,6 +22,16 @@
 #include <QVector>
 #include <QSettings>
 //-----------------------------------------------------------------------------
+const QString MatrixOptions::GroupName = QString("matrix");
+const QString MatrixOptions::FieldMaskUsed = QString("maskUsed");
+const QString MatrixOptions::FieldMaskAnd = QString("maskAnd");
+const QString MatrixOptions::FieldMaskOr = QString("maskOr");
+const QString MatrixOptions::FieldMaskFill = QString("maskFill");
+const QString MatrixOptions::FieldOperations = QString("operations");
+const QString MatrixOptions::FieldMask = QString("mask");
+const QString MatrixOptions::FieldShift = QString("shift");
+const QString MatrixOptions::FieldLeft = QString("left");
+//-----------------------------------------------------------------------------
 MatrixOptions::MatrixOptions(QObject *parent) :
     QObject(parent)
 {
@@ -167,10 +177,10 @@ bool MatrixOptions::load(QSettings *settings, int version)
     {
         quint32 uMaskUsed = 0, uMaskAnd = 0, uMaskOr = 0, uMaskFill = 0;
 
-        QString sMaskUsed = settings->value("maskUsed", QString("ffffffff")).toString();
-        QString sMaskAnd  = settings->value("maskAnd",  QString("ffffffff")).toString();
-        QString sMaskOr   = settings->value("maskOr",   QString("00000000")).toString();
-        QString sMaskFill = settings->value("maskFill", QString("ffffffff")).toString();
+        QString sMaskUsed = settings->value(MatrixOptions::FieldMaskUsed, QString("ffffffff")).toString();
+        QString sMaskAnd  = settings->value(MatrixOptions::FieldMaskAnd,  QString("ffffffff")).toString();
+        QString sMaskOr   = settings->value(MatrixOptions::FieldMaskOr,   QString("00000000")).toString();
+        QString sMaskFill = settings->value(MatrixOptions::FieldMaskFill, QString("ffffffff")).toString();
 
         uMaskUsed = sMaskUsed.toUInt(&result, 16);
 
@@ -192,22 +202,22 @@ bool MatrixOptions::load(QSettings *settings, int version)
 
             this->operationsRemoveAll();
 
-            int iOperations = settings->beginReadArray("matrix");
+            int iOperations = settings->beginReadArray(MatrixOptions::GroupName);
             for (int i = 0; i < iOperations; i++)
             {
                 settings->setArrayIndex(i);
 
-                QString sMask = settings->value("mask", QString("00000000")).toString();
+                QString sMask = settings->value(MatrixOptions::FieldMask, QString("00000000")).toString();
                 quint32 uMask, uShift, uLeft;
 
                 if (result)
                     uMask = sMask.toUInt(&result, 16);
 
                 if (result)
-                    uShift = settings->value("shift", uint(0)).toUInt(&result);
+                    uShift = settings->value(MatrixOptions::FieldShift, uint(0)).toUInt(&result);
 
                 if (result)
-                    uLeft = settings->value("left", uint(0)).toUInt(&result);
+                    uLeft = settings->value(MatrixOptions::FieldLeft, uint(0)).toUInt(&result);
 
                 if (result)
                 {
@@ -219,14 +229,14 @@ bool MatrixOptions::load(QSettings *settings, int version)
     }
     else if (version == 2)
     {
-        settings->beginGroup("matrix");
+        settings->beginGroup(MatrixOptions::GroupName);
 
         quint32 uMaskUsed = 0, uMaskAnd = 0, uMaskOr = 0, uMaskFill = 0;
 
-        QString sMaskUsed = settings->value("maskUsed", QString("ffffffff")).toString();
-        QString sMaskAnd  = settings->value("maskAnd",  QString("ffffffff")).toString();
-        QString sMaskOr   = settings->value("maskOr",   QString("00000000")).toString();
-        QString sMaskFill = settings->value("maskFill", QString("ffffffff")).toString();
+        QString sMaskUsed = settings->value(MatrixOptions::FieldMaskUsed, QString("ffffffff")).toString();
+        QString sMaskAnd  = settings->value(MatrixOptions::FieldMaskAnd,  QString("ffffffff")).toString();
+        QString sMaskOr   = settings->value(MatrixOptions::FieldMaskOr,   QString("00000000")).toString();
+        QString sMaskFill = settings->value(MatrixOptions::FieldMaskFill, QString("ffffffff")).toString();
 
         uMaskUsed = sMaskUsed.toUInt(&result, 16);
 
@@ -248,22 +258,22 @@ bool MatrixOptions::load(QSettings *settings, int version)
 
             this->operationsRemoveAll();
 
-            int iOperations = settings->beginReadArray("operations");
+            int iOperations = settings->beginReadArray(MatrixOptions::FieldOperations);
             for (int i = 0; i < iOperations; i++)
             {
                 settings->setArrayIndex(i);
 
-                QString sMask = settings->value("mask", QString("00000000")).toString();
+                QString sMask = settings->value(MatrixOptions::FieldMask, QString("00000000")).toString();
                 quint32 uMask, uShift, uLeft;
 
                 if (result)
                     uMask = sMask.toUInt(&result, 16);
 
                 if (result)
-                    uShift = settings->value("shift", uint(0)).toUInt(&result);
+                    uShift = settings->value(MatrixOptions::FieldShift, uint(0)).toUInt(&result);
 
                 if (result)
-                    uLeft = settings->value("left", uint(0)).toUInt(&result);
+                    uLeft = settings->value(MatrixOptions::FieldLeft, uint(0)).toUInt(&result);
 
                 if (result)
                 {
@@ -281,14 +291,14 @@ bool MatrixOptions::load(QSettings *settings, int version)
 //-----------------------------------------------------------------------------
 void MatrixOptions::save(QSettings *settings)
 {
-    settings->beginGroup("matrix");
+    settings->beginGroup(MatrixOptions::GroupName);
 
-    settings->setValue("maskUsed", QString("%1").arg(this->maskUsed(), 8, 16, QChar('0')));
-    settings->setValue("maskAnd",  QString("%1").arg(this->maskAnd(),  8, 16, QChar('0')));
-    settings->setValue("maskOr",   QString("%1").arg(this->maskOr(),   8, 16, QChar('0')));
-    settings->setValue("maskFill", QString("%1").arg(this->maskFill(), 8, 16, QChar('0')));
+    settings->setValue(MatrixOptions::FieldMaskUsed, QString("%1").arg(this->maskUsed(), 8, 16, QChar('0')));
+    settings->setValue(MatrixOptions::FieldMaskAnd,  QString("%1").arg(this->maskAnd(),  8, 16, QChar('0')));
+    settings->setValue(MatrixOptions::FieldMaskOr,   QString("%1").arg(this->maskOr(),   8, 16, QChar('0')));
+    settings->setValue(MatrixOptions::FieldMaskFill, QString("%1").arg(this->maskFill(), 8, 16, QChar('0')));
 
-    settings->beginWriteArray("operations");
+    settings->beginWriteArray(MatrixOptions::FieldOperations);
 
     for (int i = 0; i < this->operationsCount(); i++)
     {
@@ -298,9 +308,9 @@ void MatrixOptions::save(QSettings *settings)
         this->operation(i, &uMask, &iShift, &bLeft);
 
         settings->setArrayIndex(i);
-        settings->setValue("mask",  QString("%1").arg(uMask, 8, 16, QChar('0')));
-        settings->setValue("shift", QString("%1").arg(iShift));
-        settings->setValue("left",  QString("%1").arg((int)bLeft));
+        settings->setValue(MatrixOptions::FieldMask,  QString("%1").arg(uMask, 8, 16, QChar('0')));
+        settings->setValue(MatrixOptions::FieldShift, QString("%1").arg(iShift));
+        settings->setValue(MatrixOptions::FieldLeft,  QString("%1").arg((int)bLeft));
     }
     settings->endArray();
 
