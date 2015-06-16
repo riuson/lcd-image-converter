@@ -41,6 +41,10 @@ public:
     void save(QSettings *settings);
 
 private:
+    static const QString GroupName;
+    static const QString FieldImages;
+    static const QString FieldFonts;
+
     QString mImageTemplate;
     QString mFontTemplate;
 
