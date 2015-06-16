@@ -21,6 +21,8 @@
 //-----------------------------------------------------------------------------
 #include <QVector>
 #include <QSettings>
+#include <QtXml>
+#include <QDomDocument>
 //-----------------------------------------------------------------------------
 const QString MatrixOptions::GroupName = QString("matrix");
 const QString MatrixOptions::FieldMaskUsed = QString("maskUsed");
@@ -28,6 +30,7 @@ const QString MatrixOptions::FieldMaskAnd = QString("maskAnd");
 const QString MatrixOptions::FieldMaskOr = QString("maskOr");
 const QString MatrixOptions::FieldMaskFill = QString("maskFill");
 const QString MatrixOptions::FieldOperations = QString("operations");
+const QString MatrixOptions::FieldOperation = QString("operation");
 const QString MatrixOptions::FieldMask = QString("mask");
 const QString MatrixOptions::FieldShift = QString("shift");
 const QString MatrixOptions::FieldLeft = QString("left");
@@ -315,5 +318,55 @@ void MatrixOptions::save(QSettings *settings)
     settings->endArray();
 
     settings->endGroup();
+}
+//-----------------------------------------------------------------------------
+void MatrixOptions::saveXmlElement(QDomElement *element)
+{
+    QDomElement nodeMatrix = element->ownerDocument().createElement(MatrixOptions::GroupName);
+    element->appendChild(nodeMatrix);
+
+    QDomElement nodeMaskUsed = element->ownerDocument().createElement(MatrixOptions::FieldMaskUsed);
+    nodeMatrix.appendChild(nodeMaskUsed);
+    nodeMaskUsed.appendChild(element->ownerDocument().createTextNode(QString("%1").arg(this->maskUsed(), 8, 16, QChar('0'))));
+
+    QDomElement nodeMaskAnd = element->ownerDocument().createElement(MatrixOptions::FieldMaskAnd);
+    nodeMatrix.appendChild(nodeMaskAnd);
+    nodeMaskAnd.appendChild(element->ownerDocument().createTextNode(QString("%1").arg(this->maskAnd(), 8, 16, QChar('0'))));
+
+    QDomElement nodeMaskOr = element->ownerDocument().createElement(MatrixOptions::FieldMaskOr);
+    nodeMatrix.appendChild(nodeMaskOr);
+    nodeMaskOr.appendChild(element->ownerDocument().createTextNode(QString("%1").arg(this->maskOr(), 8, 16, QChar('0'))));
+
+    QDomElement nodeMaskFill = element->ownerDocument().createElement(MatrixOptions::FieldMaskFill);
+    nodeMatrix.appendChild(nodeMaskFill);
+    nodeMaskFill.appendChild(element->ownerDocument().createTextNode(QString("%1").arg(this->maskFill(), 8, 16, QChar('0'))));
+
+    QDomElement nodeOperations = element->ownerDocument().createElement(MatrixOptions::FieldOperations);
+    nodeMatrix.appendChild(nodeOperations);
+    nodeOperations.setAttribute("count", this->operationsCount());
+
+    for (int i = 0; i < this->operationsCount(); i++)
+    {
+        quint32 uMask;
+        int iShift;
+        bool bLeft;
+        this->operation(i, &uMask, &iShift, &bLeft);
+
+        QDomElement nodeOperation = element->ownerDocument().createElement(MatrixOptions::FieldOperation);
+        nodeOperations.appendChild(nodeOperation);
+        nodeOperation.setAttribute("index", i);
+
+        QDomElement nodeMask = element->ownerDocument().createElement(MatrixOptions::FieldMask);
+        nodeOperation.appendChild(nodeMask);
+        nodeMask.appendChild(element->ownerDocument().createTextNode(QString("%1").arg(uMask, 8, 16, QChar('0'))));
+
+        QDomElement nodeShift = element->ownerDocument().createElement(MatrixOptions::FieldShift);
+        nodeOperation.appendChild(nodeShift);
+        nodeShift.appendChild(element->ownerDocument().createTextNode(QString("%1").arg(iShift)));
+
+        QDomElement nodeLeft = element->ownerDocument().createElement(MatrixOptions::FieldLeft);
+        nodeOperation.appendChild(nodeLeft);
+        nodeLeft.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)bLeft)));
+    }
 }
 //-----------------------------------------------------------------------------
