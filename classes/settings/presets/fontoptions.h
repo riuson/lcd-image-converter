@@ -26,6 +26,7 @@
 //-----------------------------------------------------------------------------
 class QStringList;
 class QSettings;
+class QDomElement;
 //-----------------------------------------------------------------------------
 using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
@@ -45,6 +46,7 @@ public:
 
     bool load(QSettings *settings, int version);
     void save(QSettings *settings);
+    void saveXmlElement(QDomElement *element);
 
     static const QStringList &encodings();
 

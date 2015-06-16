@@ -22,6 +22,8 @@
 #include <QStringList>
 #include <QSettings>
 #include <QTextCodec>
+#include <QtXml>
+#include <QDomDocument>
 //-----------------------------------------------------------------------------
 const QString FontOptions::GroupName = QString("font");
 const QString FontOptions::FieldBom = QString("bom");
@@ -133,6 +135,24 @@ void FontOptions::save(QSettings *settings)
     settings->setValue(FontOptions::FieldCodec,  this->encoding());
 
     settings->endGroup();
+}
+//-----------------------------------------------------------------------------
+void FontOptions::saveXmlElement(QDomElement *element)
+{
+    QDomElement nodeFont = element->ownerDocument().createElement(FontOptions::GroupName);
+    element->appendChild(nodeFont);
+
+    QDomElement nodeBom = element->ownerDocument().createElement(FontOptions::FieldBom);
+    nodeFont.appendChild(nodeBom);
+    nodeBom.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->bom())));
+
+    QDomElement nodeSortOrder = element->ownerDocument().createElement(FontOptions::FieldSortOrder);
+    nodeFont.appendChild(nodeSortOrder);
+    nodeSortOrder.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->sortOrder())));
+
+    QDomElement nodeCodec = element->ownerDocument().createElement(FontOptions::FieldCodec);
+    nodeFont.appendChild(nodeCodec);
+    nodeCodec.appendChild(element->ownerDocument().createTextNode(this->encoding()));
 }
 //-----------------------------------------------------------------------------
 const QStringList &FontOptions::encodings()
