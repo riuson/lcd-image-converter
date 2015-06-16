@@ -43,6 +43,12 @@ public:
     void save(QSettings *settings);
 
 private:
+    static const QString GroupName;
+    static const QString FieldOperations;
+    static const QString FieldMask;
+    static const QString FieldShift;
+    static const QString FieldLeft;
+
     QVector<quint32> *mOperations;
 
 signals:

@@ -22,6 +22,12 @@
 #include <QVector>
 #include <QSettings>
 //-----------------------------------------------------------------------------
+const QString ReorderingOptions::GroupName = QString("reordering");
+const QString ReorderingOptions::FieldOperations = QString("operations");
+const QString ReorderingOptions::FieldMask = QString("mask");
+const QString ReorderingOptions::FieldShift = QString("shift");
+const QString ReorderingOptions::FieldLeft = QString("left");
+//-----------------------------------------------------------------------------
 ReorderingOptions::ReorderingOptions(QObject *parent) :
     QObject(parent)
 {
@@ -110,26 +116,26 @@ bool ReorderingOptions::load(QSettings *settings, int version)
 
     if (version == 2)
     {
-        settings->beginGroup("reordering");
+        settings->beginGroup(ReorderingOptions::GroupName);
 
         this->operationsRemoveAll();
 
-        int iOperations = settings->beginReadArray("operations");
+        int iOperations = settings->beginReadArray(ReorderingOptions::FieldOperations);
         for (int i = 0; i < iOperations; i++)
         {
             settings->setArrayIndex(i);
 
-            QString sMask = settings->value("mask", QString("00000000")).toString();
+            QString sMask = settings->value(ReorderingOptions::FieldMask, QString("00000000")).toString();
             quint32 uMask, uShift, uLeft;
 
             if (result)
                 uMask = sMask.toUInt(&result, 16);
 
             if (result)
-                uShift = settings->value("shift", uint(0)).toUInt(&result);
+                uShift = settings->value(ReorderingOptions::FieldShift, uint(0)).toUInt(&result);
 
             if (result)
-                uLeft = settings->value("left", uint(0)).toUInt(&result);
+                uLeft = settings->value(ReorderingOptions::FieldLeft, uint(0)).toUInt(&result);
 
             if (result)
             {
@@ -146,9 +152,9 @@ bool ReorderingOptions::load(QSettings *settings, int version)
 //-----------------------------------------------------------------------------
 void ReorderingOptions::save(QSettings *settings)
 {
-    settings->beginGroup("reordering");
+    settings->beginGroup(ReorderingOptions::GroupName);
 
-    settings->beginWriteArray("operations");
+    settings->beginWriteArray(ReorderingOptions::FieldOperations);
 
     for (int i = 0; i < this->operationsCount(); i++)
     {
@@ -158,9 +164,9 @@ void ReorderingOptions::save(QSettings *settings)
         this->operation(i, &uMask, &iShift, &bLeft);
 
         settings->setArrayIndex(i);
-        settings->setValue("mask",  QString("%1").arg(uMask, 8, 16, QChar('0')));
-        settings->setValue("shift", QString("%1").arg(iShift));
-        settings->setValue("left",  QString("%1").arg((int)bLeft));
+        settings->setValue(ReorderingOptions::FieldMask,  QString("%1").arg(uMask, 8, 16, QChar('0')));
+        settings->setValue(ReorderingOptions::FieldShift, QString("%1").arg(iShift));
+        settings->setValue(ReorderingOptions::FieldLeft,  QString("%1").arg((int)bLeft));
     }
     settings->endArray();
 
