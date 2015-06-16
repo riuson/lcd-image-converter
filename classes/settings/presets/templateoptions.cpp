@@ -20,6 +20,8 @@
 #include "templateoptions.h"
 //-----------------------------------------------------------------------------
 #include <QSettings>
+#include <QtXml>
+#include <QDomDocument>
 //-----------------------------------------------------------------------------
 const QString TemplateOptions::GroupName = QString("templates");
 const QString TemplateOptions::FieldImages = QString("images");
@@ -96,5 +98,19 @@ void TemplateOptions::save(QSettings *settings)
     settings->setValue(TemplateOptions::FieldFonts, this->font());
 
     settings->endGroup();
+}
+//-----------------------------------------------------------------------------
+void TemplateOptions::saveXmlElement(QDomElement *element)
+{
+    QDomElement nodeTemplate = element->ownerDocument().createElement(TemplateOptions::GroupName);
+    element->appendChild(nodeTemplate);
+
+    QDomElement nodeImages = element->ownerDocument().createElement(TemplateOptions::FieldImages);
+    nodeTemplate.appendChild(nodeImages);
+    nodeImages.appendChild(element->ownerDocument().createTextNode(this->image()));
+
+    QDomElement nodeFonts = element->ownerDocument().createElement(TemplateOptions::FieldFonts);
+    nodeTemplate.appendChild(nodeFonts);
+    nodeFonts.appendChild(element->ownerDocument().createTextNode(this->font()));
 }
 //-----------------------------------------------------------------------------

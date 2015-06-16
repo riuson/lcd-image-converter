@@ -24,6 +24,7 @@
 #include <QString>
 //-----------------------------------------------------------------------------
 class QSettings;
+class QDomElement;
 //-----------------------------------------------------------------------------
 class TemplateOptions : public QObject
 {
@@ -39,6 +40,7 @@ public:
 
     bool load(QSettings *settings, int version);
     void save(QSettings *settings);
+    void saveXmlElement(QDomElement *element);
 
 private:
     static const QString GroupName;
