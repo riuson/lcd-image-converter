@@ -21,9 +21,12 @@
 //-----------------------------------------------------------------------------
 #include <QVector>
 #include <QSettings>
+#include <QtXml>
+#include <QDomDocument>
 //-----------------------------------------------------------------------------
 const QString ReorderingOptions::GroupName = QString("reordering");
 const QString ReorderingOptions::FieldOperations = QString("operations");
+const QString ReorderingOptions::FieldOperation = QString("operation");
 const QString ReorderingOptions::FieldMask = QString("mask");
 const QString ReorderingOptions::FieldShift = QString("shift");
 const QString ReorderingOptions::FieldLeft = QString("left");
@@ -171,5 +174,39 @@ void ReorderingOptions::save(QSettings *settings)
     settings->endArray();
 
     settings->endGroup();
+}
+//-----------------------------------------------------------------------------
+void ReorderingOptions::saveXmlElement(QDomElement *element)
+{
+    QDomElement nodeReordering = element->ownerDocument().createElement(ReorderingOptions::GroupName);
+    element->appendChild(nodeReordering);
+
+    QDomElement nodeOperations = element->ownerDocument().createElement(ReorderingOptions::FieldOperations);
+    nodeReordering.appendChild(nodeOperations);
+    nodeOperations.setAttribute("count", this->operationsCount());
+
+    for (int i = 0; i < this->operationsCount(); i++)
+    {
+        quint32 uMask;
+        int iShift;
+        bool bLeft;
+        this->operation(i, &uMask, &iShift, &bLeft);
+
+        QDomElement nodeOperation = element->ownerDocument().createElement(ReorderingOptions::FieldOperation);
+        nodeOperations.appendChild(nodeOperation);
+        nodeOperation.setAttribute("index", i);
+
+        QDomElement nodeMask = element->ownerDocument().createElement(ReorderingOptions::FieldMask);
+        nodeOperation.appendChild(nodeMask);
+        nodeMask.appendChild(element->ownerDocument().createTextNode(QString("%1").arg(uMask, 8, 16, QChar('0'))));
+
+        QDomElement nodeShift = element->ownerDocument().createElement(ReorderingOptions::FieldShift);
+        nodeOperation.appendChild(nodeShift);
+        nodeShift.appendChild(element->ownerDocument().createTextNode(QString("%1").arg(iShift)));
+
+        QDomElement nodeLeft = element->ownerDocument().createElement(ReorderingOptions::FieldLeft);
+        nodeOperation.appendChild(nodeLeft);
+        nodeLeft.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)bLeft)));
+    }
 }
 //-----------------------------------------------------------------------------
