@@ -24,6 +24,7 @@
 #include <QStringList>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QFileDialog>
 #include "datacontainer.h"
 #include "dialogpreview.h"
 #include "setuptabprepare.h"
@@ -225,6 +226,19 @@ void DialogOptions::on_pushButtonPresetImport_clicked()
 //-----------------------------------------------------------------------------
 void DialogOptions::on_pushButtonPresetExport_clicked()
 {
+    QFileDialog dialog(this->parentWidget());
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setNameFilter(tr("XML Files (*.xml)"));
+    dialog.setDefaultSuffix(QString("xml"));
+    dialog.setWindowTitle(tr("Save file as"));
+    dialog.selectFile(this->mPreset->name());
+
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        QString filename = dialog.selectedFiles().at(0);
+        this->mPreset->saveXML(filename);
+    }
 }
 //-----------------------------------------------------------------------------
 void DialogOptions::on_comboBoxPresets_currentIndexChanged(int index)

@@ -58,6 +58,7 @@ public:
 
     bool load(const QString &presetName);
     void save(const QString &presetName) const;
+    void saveXML(const QString &filename) const;
 
     void initMono(MonochromeType type, int edge = 0x80);
     void initGrayscale(int bits);

@@ -21,6 +21,8 @@
 //-----------------------------------------------------------------------------
 #include <QStringList>
 #include <QSettings>
+#include <QtXml>
+#include <QFile>
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "reorderingoptions.h"
@@ -195,6 +197,38 @@ void Preset::save(const QString &name) const
 
     sett.endGroup();
     sett.endGroup();
+}
+//-----------------------------------------------------------------------------
+void Preset::saveXML(const QString &filename) const
+{
+    QDomDocument doc;
+    doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\""));
+    QDomElement root = doc.createElement("preset");
+    doc.appendChild(root);
+    root.setAttribute("version", 3);
+
+    QDomElement nodeName = doc.createElement("name");
+    root.appendChild(nodeName);
+    nodeName.appendChild(doc.createTextNode(this->mName));
+
+    this->mPrepare->saveXmlElement(&root);
+    this->mMatrix->saveXmlElement(&root);
+    this->mReordering->saveXmlElement(&root);
+    this->mImage->saveXmlElement(&root);
+    this->mFont->saveXmlElement(&root);
+    this->mTemplates->saveXmlElement(&root);
+
+    QFile outFile(filename);
+    if(!outFile.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        qDebug( "Failed to open file for writing." );
+        return;
+    }
+
+    QTextStream stream(&outFile);
+    stream << doc.toString(2);
+
+    outFile.close();
 }
 //-----------------------------------------------------------------------------
 void Preset::initMono(MonochromeType type, int edge)
