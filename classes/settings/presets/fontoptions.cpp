@@ -126,6 +126,68 @@ bool FontOptions::load(QSettings *settings, int version)
     return result;
 }
 //-----------------------------------------------------------------------------
+bool FontOptions::loadXmlElement(QDomElement *element)
+{
+    bool result = false;
+
+    QDomNode nodeSett = element->firstChild();
+
+    while (!nodeSett.isNull()) {
+        QDomElement e = nodeSett.toElement();
+
+        if (e.tagName() == FontOptions::GroupName) {
+            break;
+        }
+
+        nodeSett = nodeSett.nextSibling();
+    }
+
+    if (nodeSett.isNull()) {
+        return result;
+    }
+
+    quint32 uBom = 0;
+    quint32 uSortOrder = int(CharactersSortNone);
+    QString sEncoding = "UTF-8";
+
+    QDomNode nodeValue = nodeSett.firstChild();
+
+    while (!nodeValue.isNull()) {
+        QDomElement e = nodeValue.toElement();
+
+        if (!e.isNull()) {
+            if (e.tagName() == FontOptions::FieldBom) {
+                QString str = e.text();
+                uBom = str.toInt(&result);
+            }
+
+            if (e.tagName() == FontOptions::FieldSortOrder) {
+                QString str = e.text();
+                uSortOrder = str.toInt(&result);
+            }
+
+            if (e.tagName() == FontOptions::FieldCodec) {
+                sEncoding = e.text();
+            }
+
+            if (!result) {
+                break;
+            }
+        }
+
+        nodeValue = nodeValue.nextSibling();
+    }
+
+    if (result)
+    {
+        this->setBom((bool)uBom);
+        this->setEncoding(sEncoding);
+        this->setSortOrder((CharactersSortOrder)uSortOrder);
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void FontOptions::save(QSettings *settings)
 {
     settings->beginGroup(FontOptions::GroupName);
