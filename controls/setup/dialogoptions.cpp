@@ -222,6 +222,17 @@ void DialogOptions::on_pushButtonPresetRemove_clicked()
 //-----------------------------------------------------------------------------
 void DialogOptions::on_pushButtonPresetImport_clicked()
 {
+    QFileDialog dialog(this->parentWidget());
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+    dialog.setNameFilter(tr("XML Files (*.xml)"));
+    dialog.setWindowTitle(tr("Open xml preset file"));
+
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        QString filename = dialog.selectedFiles().at(0);
+        this->mPreset->loadXML(filename);
+    }
 }
 //-----------------------------------------------------------------------------
 void DialogOptions::on_pushButtonPresetExport_clicked()

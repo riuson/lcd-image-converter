@@ -178,6 +178,30 @@ bool Preset::load(const QString &presetName)
     return result;
 }
 //-----------------------------------------------------------------------------
+bool Preset::loadXML(const QString &filename)
+{
+    QDomDocument doc;
+    QFile file(filename);
+
+    if (file.open(QIODevice::ReadOnly)) {
+        if (doc.setContent(&file)) {
+            QDomElement root = doc.documentElement();
+
+            this->mPrepare->loadXmlElement(&root);
+            this->mImage->loadXmlElement(&root);
+            this->mFont->loadXmlElement(&root);
+            this->mMatrix->loadXmlElement(&root);
+            this->mReordering->loadXmlElement(&root);
+            this->mTemplates->loadXmlElement(&root);
+        }
+
+        file.close();
+        return true;
+    }
+
+    return false;
+}
+//-----------------------------------------------------------------------------
 void Preset::save(const QString &name) const
 {
     QSettings sett;
