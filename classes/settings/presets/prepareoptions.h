@@ -61,6 +61,7 @@ public:
     const QString & monoTypeName() const;
 
     bool load(QSettings *settings, int version);
+    bool loadXmlElement(QDomElement *element);
     void save(QSettings *settings);
     void saveXmlElement(QDomElement *element);
 

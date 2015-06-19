@@ -347,6 +347,121 @@ bool PrepareOptions::load(QSettings *settings, int version)
     return result;
 }
 //-----------------------------------------------------------------------------
+bool PrepareOptions::loadXmlElement(QDomElement *element)
+{
+    bool result = false;
+
+    QDomNode nodeSett = element->firstChild();
+
+    while (!nodeSett.isNull()) {
+        QDomElement e = nodeSett.toElement();
+
+        if (e.tagName() == PrepareOptions::GroupName) {
+            break;
+        }
+
+        nodeSett = nodeSett.nextSibling();
+    }
+
+    if (nodeSett.isNull()) {
+        return result;
+    }
+
+    quint32 uConvType = 0, uMonoType = 0, uEdge = 0;
+    quint32 uScanMain = 0, uScanSub = 0, uInverse = 0;
+    quint32 uBandWidth = 1, uBandScanning = 0;
+    quint32 uUseCustomScript = 0;
+    QString sCustomScript;
+
+    QDomNode nodeValue = nodeSett.firstChild();
+
+    while (!nodeValue.isNull()) {
+        QDomElement e = nodeValue.toElement();
+
+        if (!e.isNull()) {
+            if (e.tagName() == PrepareOptions::FieldConvType) {
+                QString str = e.text();
+                uConvType = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldMonoType) {
+                QString str = e.text();
+                uMonoType = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldEdge) {
+                QString str = e.text();
+                uEdge = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldScanMain) {
+                QString str = e.text();
+                uScanMain = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldScanSub) {
+                QString str = e.text();
+                uScanSub = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldInverse) {
+                QString str = e.text();
+                uInverse = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldBandScanning) {
+                QString str = e.text();
+                uBandScanning = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldBandWidth) {
+                QString str = e.text();
+                uBandWidth = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldUseCustomScript) {
+                QString str = e.text();
+                uUseCustomScript = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldEdge) {
+                QString str = e.text();
+                uEdge = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldCustomScript) {
+                QDomNode cdataNode = e.firstChild();
+                if (cdataNode.isCDATASection()) {
+                    QDomCDATASection cdataSection = cdataNode.toCDATASection();
+                    sCustomScript = cdataSection.data();
+                }
+            }
+
+            if (!result) {
+                break;
+            }
+        }
+
+        nodeValue = nodeValue.nextSibling();
+    }
+
+    if (result)
+    {
+        this->setConvType((ConversionType)uConvType);
+        this->setMonoType((MonochromeType)uMonoType);
+        this->setEdge((int)uEdge);
+        this->setScanMain((ScanMainDirection)uScanMain);
+        this->setScanSub((ScanSubDirection)uScanSub);
+        this->setInverse((bool)uInverse);
+        this->setBandScanning((bool)uBandScanning);
+        this->setBandWidth((int)uBandWidth);
+        this->setUseCustomScript((bool)uUseCustomScript);
+        this->setCustomScript(sCustomScript);
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void PrepareOptions::save(QSettings *settings)
 {
     settings->beginGroup(PrepareOptions::GroupName);
