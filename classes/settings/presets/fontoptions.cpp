@@ -158,12 +158,12 @@ bool FontOptions::loadXmlElement(QDomElement *element)
         if (!e.isNull()) {
             if (e.tagName() == FontOptions::FieldBom) {
                 QString str = e.text();
-                uBom = str.toInt(&result);
+                uBom = str.toUInt(&result);
             }
 
             if (e.tagName() == FontOptions::FieldSortOrder) {
                 QString str = e.text();
-                uSortOrder = str.toInt(&result);
+                uSortOrder = str.toUInt(&result);
             }
 
             if (e.tagName() == FontOptions::FieldCodec) {
