@@ -221,6 +221,102 @@ bool ImageOptions::load(QSettings *settings, int version)
     return result;
 }
 //-----------------------------------------------------------------------------
+bool ImageOptions::loadXmlElement(QDomElement *element)
+{
+    bool result = false;
+
+    QDomNode nodeSett = element->firstChild();
+
+    while (!nodeSett.isNull()) {
+        QDomElement e = nodeSett.toElement();
+
+        if (e.tagName() == ImageOptions::GroupName) {
+            break;
+        }
+
+        nodeSett = nodeSett.nextSibling();
+    }
+
+    if (nodeSett.isNull()) {
+        return result;
+    }
+
+    quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0;
+    quint32 uCompressionRle = 0, uCompressionRleMinLength = 2;
+    QString sBlockPrefix = "0x", sBlockSuffix, sBlockDelimiter = ", ";
+
+    QDomNode nodeValue = nodeSett.firstChild();
+
+    while (!nodeValue.isNull()) {
+        QDomElement e = nodeValue.toElement();
+
+        if (!e.isNull()) {
+            if (e.tagName() == ImageOptions::FieldBlockSize) {
+                QString str = e.text();
+                uBlockSize = str.toUInt(&result);
+            }
+
+            if (e.tagName() == ImageOptions::FieldBytesOrder) {
+                QString str = e.text();
+                uBytesOrder = str.toUInt(&result);
+            }
+
+            if (e.tagName() == ImageOptions::FieldSplitToRows) {
+                QString str = e.text();
+                uSplitToRows = str.toUInt(&result);
+            }
+
+            if (e.tagName() == ImageOptions::FieldCompressionRle) {
+                QString str = e.text();
+                uCompressionRle = str.toUInt(&result);
+            }
+
+            if (e.tagName() == ImageOptions::FieldCompressionRleMinLength) {
+                QString str = e.text();
+                uCompressionRleMinLength = str.toUInt(&result);
+            }
+
+            if (e.tagName() == ImageOptions::FieldBlockDefaultOnes) {
+                QString str = e.text();
+                uBlockDefaultOnes = str.toUInt(&result);
+            }
+
+            if (e.tagName() == ImageOptions::FieldBlockPrefix) {
+                sBlockPrefix = e.text();
+            }
+
+            if (e.tagName() == ImageOptions::FieldBlockSuffix) {
+                sBlockSuffix = e.text();
+            }
+
+            if (e.tagName() == ImageOptions::FieldBlockDelimiter) {
+                sBlockDelimiter = e.text();
+            }
+
+            if (!result) {
+                break;
+            }
+        }
+
+        nodeValue = nodeValue.nextSibling();
+    }
+
+    if (result)
+    {
+        this->setBlockSize((DataBlockSize)uBlockSize);
+        this->setBlockDefaultOnes((bool)uBlockDefaultOnes);
+        this->setBytesOrder((BytesOrder)uBytesOrder);
+        this->setSplitToRows((bool)uSplitToRows);
+        this->setCompressionRle((bool)uCompressionRle);
+        this->setCompressionRleMinLength(uCompressionRleMinLength);
+        this->setBlockPrefix(sBlockPrefix);
+        this->setBlockSuffix(sBlockSuffix);
+        this->setBlockDelimiter(sBlockDelimiter);
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void ImageOptions::save(QSettings *settings)
 {
     settings->beginGroup(ImageOptions::GroupName);
