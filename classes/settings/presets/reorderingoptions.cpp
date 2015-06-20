@@ -153,6 +153,81 @@ bool ReorderingOptions::load(QSettings *settings, int version)
     return result;
 }
 //-----------------------------------------------------------------------------
+bool ReorderingOptions::loadXmlElement(QDomElement *element)
+{
+    bool result = false;
+
+    QDomNode nodeSett = element->firstChild();
+
+    while (!nodeSett.isNull()) {
+        QDomElement e = nodeSett.toElement();
+
+        if (e.tagName() == ReorderingOptions::GroupName) {
+            break;
+        }
+
+        nodeSett = nodeSett.nextSibling();
+    }
+
+    if (nodeSett.isNull()) {
+        return result;
+    }
+
+    QDomNode nodeValue = nodeSett.firstChild();
+
+    while (!nodeValue.isNull()) {
+        QDomElement e = nodeValue.toElement();
+
+        if (!e.isNull()) {
+            if (e.tagName() == ReorderingOptions::FieldOperations) {
+                QDomNode nodeOperation = e.firstChild();
+                this->operationsRemoveAll();
+
+                while (!nodeOperation.isNull()) {
+                    QDomNode nodeOperationData = nodeOperation.firstChild();
+                    quint32 uMask = 0, uShift = 0, uLeft = 0;
+
+                    while (!nodeOperationData.isNull()) {
+                        e = nodeOperationData.toElement();
+
+                        if (e.tagName() == ReorderingOptions::FieldMask) {
+                            QString str = e.text();
+                            uMask = str.toUInt(&result, 16);
+                        }
+
+                        if (e.tagName() == ReorderingOptions::FieldShift) {
+                            QString str = e.text();
+                            uShift = str.toUInt(&result);
+                        }
+
+                        if (e.tagName() == ReorderingOptions::FieldLeft) {
+                            QString str = e.text();
+                            uLeft = str.toUInt(&result);
+                        }
+
+                        if (!result) {
+                            break;
+                        }
+
+                        nodeOperationData = nodeOperationData.nextSibling();
+                    }
+
+                    this->operationAdd(uMask, uShift, uLeft != 0);
+                    nodeOperation = nodeOperation.nextSibling();
+                }
+            }
+
+            if (!result) {
+                break;
+            }
+        }
+
+        nodeValue = nodeValue.nextSibling();
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void ReorderingOptions::save(QSettings *settings)
 {
     settings->beginGroup(ReorderingOptions::GroupName);
