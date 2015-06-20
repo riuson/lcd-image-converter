@@ -90,6 +90,51 @@ bool TemplateOptions::load(QSettings *settings, int version)
     return result;
 }
 //-----------------------------------------------------------------------------
+bool TemplateOptions::loadXmlElement(QDomElement *element)
+{
+    QDomNode nodeSett = element->firstChild();
+
+    while (!nodeSett.isNull()) {
+        QDomElement e = nodeSett.toElement();
+
+        if (e.tagName() == TemplateOptions::GroupName) {
+            break;
+        }
+
+        nodeSett = nodeSett.nextSibling();
+    }
+
+    if (nodeSett.isNull()) {
+        return false;
+    }
+
+    QString sTemplateImage = QString(":/templates/image_convert");
+    QString sTemplateFont = QString(":/templates/font_convert");
+
+    QDomNode nodeValue = nodeSett.firstChild();
+
+    while (!nodeValue.isNull()) {
+        QDomElement e = nodeValue.toElement();
+
+        if (!e.isNull()) {
+            if (e.tagName() == TemplateOptions::FieldImages) {
+                sTemplateImage = e.text();
+            }
+
+            if (e.tagName() == TemplateOptions::FieldFonts) {
+                sTemplateFont = e.text();
+            }
+        }
+
+        nodeValue = nodeValue.nextSibling();
+    }
+
+    this->setImage(sTemplateImage);
+    this->setFont(sTemplateFont);
+
+    return true;
+}
+//-----------------------------------------------------------------------------
 void TemplateOptions::save(QSettings *settings)
 {
     settings->beginGroup(TemplateOptions::GroupName);
