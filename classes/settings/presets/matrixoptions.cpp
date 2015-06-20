@@ -292,6 +292,112 @@ bool MatrixOptions::load(QSettings *settings, int version)
     return result;
 }
 //-----------------------------------------------------------------------------
+bool MatrixOptions::loadXmlElement(QDomElement *element)
+{
+    bool result = false;
+
+    QDomNode nodeSett = element->firstChild();
+
+    while (!nodeSett.isNull()) {
+        QDomElement e = nodeSett.toElement();
+
+        if (e.tagName() == MatrixOptions::GroupName) {
+            break;
+        }
+
+        nodeSett = nodeSett.nextSibling();
+    }
+
+    if (nodeSett.isNull()) {
+        return result;
+    }
+
+    quint32 uMaskUsed = 0xffffffff, uMaskAnd = 0xffffffff, uMaskOr = 0, uMaskFill = 0xffffffff;
+
+
+    QDomNode nodeValue = nodeSett.firstChild();
+
+    while (!nodeValue.isNull()) {
+        QDomElement e = nodeValue.toElement();
+
+        if (!e.isNull()) {
+            if (e.tagName() == MatrixOptions::FieldMaskUsed) {
+                QString str = e.text();
+                uMaskUsed = str.toUInt(&result, 16);
+            }
+
+            if (e.tagName() == MatrixOptions::FieldMaskAnd) {
+                QString str = e.text();
+                uMaskAnd = str.toUInt(&result, 16);
+            }
+
+            if (e.tagName() == MatrixOptions::FieldMaskOr) {
+                QString str = e.text();
+                uMaskOr = str.toUInt(&result, 16);
+            }
+
+            if (e.tagName() == MatrixOptions::FieldMaskFill) {
+                QString str = e.text();
+                uMaskFill = str.toUInt(&result, 16);
+            }
+
+            if (e.tagName() == MatrixOptions::FieldOperations) {
+                QDomNode nodeOperation = e.firstChild();
+                this->operationsRemoveAll();
+
+                while (!nodeOperation.isNull()) {
+                    QDomNode nodeOperationData = nodeOperation.firstChild();
+                    quint32 uMask = 0, uShift = 0, uLeft = 0;
+
+                    while (!nodeOperationData.isNull()) {
+                        e = nodeOperationData.toElement();
+
+                        if (e.tagName() == MatrixOptions::FieldMask) {
+                            QString str = e.text();
+                            uMask = str.toUInt(&result, 16);
+                        }
+
+                        if (e.tagName() == MatrixOptions::FieldShift) {
+                            QString str = e.text();
+                            uShift = str.toUInt(&result);
+                        }
+
+                        if (e.tagName() == MatrixOptions::FieldLeft) {
+                            QString str = e.text();
+                            uLeft = str.toUInt(&result);
+                        }
+
+                        if (!result) {
+                            break;
+                        }
+
+                        nodeOperationData = nodeOperationData.nextSibling();
+                    }
+
+                    this->operationAdd(uMask, uShift, uLeft != 0);
+                    nodeOperation = nodeOperation.nextSibling();
+                }
+            }
+
+            if (!result) {
+                break;
+            }
+        }
+
+        nodeValue = nodeValue.nextSibling();
+    }
+
+    if (result)
+    {
+        this->setMaskUsed(uMaskUsed);
+        this->setMaskAnd(uMaskAnd);
+        this->setMaskOr(uMaskOr);
+        this->setMaskFill(uMaskFill);
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void MatrixOptions::save(QSettings *settings)
 {
     settings->beginGroup(MatrixOptions::GroupName);
