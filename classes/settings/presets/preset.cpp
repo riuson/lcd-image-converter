@@ -186,6 +186,22 @@ bool Preset::loadXML(const QString &filename)
     if (file.open(QIODevice::ReadOnly)) {
         if (doc.setContent(&file)) {
             QDomElement root = doc.documentElement();
+            QDomNode nodeName = root.firstChild();
+
+            while (!nodeName.isNull()) {
+                QDomElement e = nodeName.toElement();
+
+                if (e.tagName() == "name") {
+                    this->mName = e.text();
+                    break;
+                }
+
+                nodeName = nodeName.nextSibling();
+            }
+
+            if (nodeName.isNull()) {
+                return false;
+            }
 
             this->mPrepare->loadXmlElement(root);
             this->mImage->loadXmlElement(root);
