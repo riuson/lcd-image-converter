@@ -170,6 +170,28 @@ void DialogOptions::createPresetsDefault()
     matrix.save(tr("Color R8G8B8"));
 }
 //-----------------------------------------------------------------------------
+bool DialogOptions::checkOverwrite(const QString &originalName, QString *resultName) const
+{
+    QStringList existingNames = Preset::presetsList();
+
+    if (!existingNames.contains(originalName)) {
+        *resultName = originalName;
+        return true;
+    }
+
+    QInputDialog dialog(this->parentWidget());
+    QObject::connect(&dialog, SIGNAL(textValueChanged(QString)), this, SLOT(presetOverwiteNameChanged(QString)));
+    dialog.setWindowTitle(tr("Import - Attention"));
+    dialog.setTextValue(originalName);
+
+    if (dialog.exec() == QDialog::Accepted) {
+        *resultName = dialog.textValue();
+        return true;
+    }
+
+    return false;
+}
+//-----------------------------------------------------------------------------
 void DialogOptions::presetChanged()
 {
     if (this->mData != NULL)
@@ -234,7 +256,12 @@ void DialogOptions::on_pushButtonPresetImport_clicked()
 
         Preset *importedPreset = new Preset(this);
         importedPreset->loadXML(filename);
-        importedPreset->save(importedPreset->name());
+        QString resultPresetName;
+
+        if (this->checkOverwrite(importedPreset->name(), &resultPresetName)) {
+            importedPreset->save(resultPresetName);
+        }
+
         delete importedPreset;
 
         this->fillPresetsList();
@@ -270,6 +297,20 @@ void DialogOptions::previewClosed()
     {
         delete this->mPreview;
         this->mPreview = NULL;
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogOptions::presetOverwiteNameChanged(const QString &value)
+{
+    QInputDialog *dialog = qobject_cast<QInputDialog *>(sender());
+    QStringList existingNames = Preset::presetsList();
+
+    if (existingNames.contains(value)) {
+        QString message = tr("Preset with name \"%1\" already exists. Continue with overwrite?", "Warning about preset overwrite").arg(value);
+        dialog->setLabelText(message);
+    } else {
+        QString message = tr("Preset with name \"%1\" doesn't exists. All OK.", "Warning about preset overwrite").arg(value);
+        dialog->setLabelText(message);
     }
 }
 //-----------------------------------------------------------------------------
