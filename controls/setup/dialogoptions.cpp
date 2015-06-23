@@ -231,7 +231,13 @@ void DialogOptions::on_pushButtonPresetImport_clicked()
     if (dialog.exec() == QDialog::Accepted)
     {
         QString filename = dialog.selectedFiles().at(0);
-        this->mPreset->loadXML(filename);
+
+        Preset *importedPreset = new Preset(this);
+        importedPreset->loadXML(filename);
+        importedPreset->save(importedPreset->name());
+        delete importedPreset;
+
+        this->fillPresetsList();
     }
 }
 //-----------------------------------------------------------------------------
