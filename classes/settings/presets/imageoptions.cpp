@@ -221,11 +221,11 @@ bool ImageOptions::load(QSettings *settings, int version)
     return result;
 }
 //-----------------------------------------------------------------------------
-bool ImageOptions::loadXmlElement(QDomElement *element)
+bool ImageOptions::loadXmlElement(QDomElement element)
 {
     bool result = false;
 
-    QDomNode nodeSett = element->firstChild();
+    QDomNode nodeSett = element.firstChild();
 
     while (!nodeSett.isNull()) {
         QDomElement e = nodeSett.toElement();
@@ -334,45 +334,45 @@ void ImageOptions::save(QSettings *settings)
     settings->endGroup();
 }
 //-----------------------------------------------------------------------------
-void ImageOptions::saveXmlElement(QDomElement *element)
+void ImageOptions::saveXmlElement(QDomElement element)
 {
-    QDomElement nodeImage = element->ownerDocument().createElement(ImageOptions::GroupName);
-    element->appendChild(nodeImage);
+    QDomElement nodeImage = element.ownerDocument().createElement(ImageOptions::GroupName);
+    element.appendChild(nodeImage);
 
-    QDomElement nodeBytesOrder = element->ownerDocument().createElement(ImageOptions::FieldBytesOrder);
+    QDomElement nodeBytesOrder = element.ownerDocument().createElement(ImageOptions::FieldBytesOrder);
     nodeImage.appendChild(nodeBytesOrder);
-    nodeBytesOrder.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->bytesOrder())));
+    nodeBytesOrder.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->bytesOrder())));
 
-    QDomElement nodeBlockSize = element->ownerDocument().createElement(ImageOptions::FieldBlockSize);
+    QDomElement nodeBlockSize = element.ownerDocument().createElement(ImageOptions::FieldBlockSize);
     nodeImage.appendChild(nodeBlockSize);
-    nodeBlockSize.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->blockSize())));
+    nodeBlockSize.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->blockSize())));
 
-    QDomElement nodeBlockDefaultOnes = element->ownerDocument().createElement(ImageOptions::FieldBlockDefaultOnes);
+    QDomElement nodeBlockDefaultOnes = element.ownerDocument().createElement(ImageOptions::FieldBlockDefaultOnes);
     nodeImage.appendChild(nodeBlockDefaultOnes);
-    nodeBlockDefaultOnes.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->blockDefaultOnes())));
+    nodeBlockDefaultOnes.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->blockDefaultOnes())));
 
-    QDomElement nodeSplitToRows = element->ownerDocument().createElement(ImageOptions::FieldSplitToRows);
+    QDomElement nodeSplitToRows = element.ownerDocument().createElement(ImageOptions::FieldSplitToRows);
     nodeImage.appendChild(nodeSplitToRows);
-    nodeSplitToRows.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->splitToRows())));
+    nodeSplitToRows.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->splitToRows())));
 
-    QDomElement nodeCompressionRle = element->ownerDocument().createElement(ImageOptions::FieldCompressionRle);
+    QDomElement nodeCompressionRle = element.ownerDocument().createElement(ImageOptions::FieldCompressionRle);
     nodeImage.appendChild(nodeCompressionRle);
-    nodeCompressionRle.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->compressionRle())));
+    nodeCompressionRle.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->compressionRle())));
 
-    QDomElement nodeCompressionRleMinLength = element->ownerDocument().createElement(ImageOptions::FieldCompressionRleMinLength);
+    QDomElement nodeCompressionRleMinLength = element.ownerDocument().createElement(ImageOptions::FieldCompressionRleMinLength);
     nodeImage.appendChild(nodeCompressionRleMinLength);
-    nodeCompressionRleMinLength.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->compressionRleMinLength())));
+    nodeCompressionRleMinLength.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->compressionRleMinLength())));
 
-    QDomElement nodeBlockPrefix = element->ownerDocument().createElement(ImageOptions::FieldBlockPrefix);
+    QDomElement nodeBlockPrefix = element.ownerDocument().createElement(ImageOptions::FieldBlockPrefix);
     nodeImage.appendChild(nodeBlockPrefix);
-    nodeBlockPrefix.appendChild(element->ownerDocument().createTextNode(this->blockPrefix()));
+    nodeBlockPrefix.appendChild(element.ownerDocument().createTextNode(this->blockPrefix()));
 
-    QDomElement nodeBlockSuffix = element->ownerDocument().createElement(ImageOptions::FieldBlockSuffix);
+    QDomElement nodeBlockSuffix = element.ownerDocument().createElement(ImageOptions::FieldBlockSuffix);
     nodeImage.appendChild(nodeBlockSuffix);
-    nodeBlockSuffix.appendChild(element->ownerDocument().createTextNode(this->blockSuffix()));
+    nodeBlockSuffix.appendChild(element.ownerDocument().createTextNode(this->blockSuffix()));
 
-    QDomElement nodeBlockDelimiter = element->ownerDocument().createElement(ImageOptions::FieldBlockDelimiter);
+    QDomElement nodeBlockDelimiter = element.ownerDocument().createElement(ImageOptions::FieldBlockDelimiter);
     nodeImage.appendChild(nodeBlockDelimiter);
-    nodeBlockDelimiter.appendChild(element->ownerDocument().createTextNode(this->blockDelimiter()));
+    nodeBlockDelimiter.appendChild(element.ownerDocument().createTextNode(this->blockDelimiter()));
 }
 //-----------------------------------------------------------------------------

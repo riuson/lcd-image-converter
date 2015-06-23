@@ -90,9 +90,9 @@ bool TemplateOptions::load(QSettings *settings, int version)
     return result;
 }
 //-----------------------------------------------------------------------------
-bool TemplateOptions::loadXmlElement(QDomElement *element)
+bool TemplateOptions::loadXmlElement(QDomElement element)
 {
-    QDomNode nodeSett = element->firstChild();
+    QDomNode nodeSett = element.firstChild();
 
     while (!nodeSett.isNull()) {
         QDomElement e = nodeSett.toElement();
@@ -145,17 +145,17 @@ void TemplateOptions::save(QSettings *settings)
     settings->endGroup();
 }
 //-----------------------------------------------------------------------------
-void TemplateOptions::saveXmlElement(QDomElement *element)
+void TemplateOptions::saveXmlElement(QDomElement element)
 {
-    QDomElement nodeTemplate = element->ownerDocument().createElement(TemplateOptions::GroupName);
-    element->appendChild(nodeTemplate);
+    QDomElement nodeTemplate = element.ownerDocument().createElement(TemplateOptions::GroupName);
+    element.appendChild(nodeTemplate);
 
-    QDomElement nodeImages = element->ownerDocument().createElement(TemplateOptions::FieldImages);
+    QDomElement nodeImages = element.ownerDocument().createElement(TemplateOptions::FieldImages);
     nodeTemplate.appendChild(nodeImages);
-    nodeImages.appendChild(element->ownerDocument().createTextNode(this->image()));
+    nodeImages.appendChild(element.ownerDocument().createTextNode(this->image()));
 
-    QDomElement nodeFonts = element->ownerDocument().createElement(TemplateOptions::FieldFonts);
+    QDomElement nodeFonts = element.ownerDocument().createElement(TemplateOptions::FieldFonts);
     nodeTemplate.appendChild(nodeFonts);
-    nodeFonts.appendChild(element->ownerDocument().createTextNode(this->font()));
+    nodeFonts.appendChild(element.ownerDocument().createTextNode(this->font()));
 }
 //-----------------------------------------------------------------------------

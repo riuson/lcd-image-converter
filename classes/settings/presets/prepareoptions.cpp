@@ -347,11 +347,11 @@ bool PrepareOptions::load(QSettings *settings, int version)
     return result;
 }
 //-----------------------------------------------------------------------------
-bool PrepareOptions::loadXmlElement(QDomElement *element)
+bool PrepareOptions::loadXmlElement(QDomElement element)
 {
     bool result = false;
 
-    QDomNode nodeSett = element->firstChild();
+    QDomNode nodeSett = element.firstChild();
 
     while (!nodeSett.isNull()) {
         QDomElement e = nodeSett.toElement();
@@ -486,49 +486,49 @@ void PrepareOptions::save(QSettings *settings)
     settings->endGroup();
 }
 //-----------------------------------------------------------------------------
-void PrepareOptions::saveXmlElement(QDomElement *element)
+void PrepareOptions::saveXmlElement(QDomElement element)
 {
-    QDomElement nodePrepare = element->ownerDocument().createElement(PrepareOptions::GroupName);
-    element->appendChild(nodePrepare);
+    QDomElement nodePrepare = element.ownerDocument().createElement(PrepareOptions::GroupName);
+    element.appendChild(nodePrepare);
 
-    QDomElement nodeConvType = element->ownerDocument().createElement(PrepareOptions::FieldConvType);
+    QDomElement nodeConvType = element.ownerDocument().createElement(PrepareOptions::FieldConvType);
     nodePrepare.appendChild(nodeConvType);
-    nodeConvType.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->convType())));
+    nodeConvType.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->convType())));
 
-    QDomElement nodeMonoType = element->ownerDocument().createElement(PrepareOptions::FieldMonoType);
+    QDomElement nodeMonoType = element.ownerDocument().createElement(PrepareOptions::FieldMonoType);
     nodePrepare.appendChild(nodeMonoType);
-    nodeMonoType.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->monoType())));
+    nodeMonoType.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->monoType())));
 
-    QDomElement nodeEdge = element->ownerDocument().createElement(PrepareOptions::FieldEdge);
+    QDomElement nodeEdge = element.ownerDocument().createElement(PrepareOptions::FieldEdge);
     nodePrepare.appendChild(nodeEdge);
-    nodeEdge.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->edge())));
+    nodeEdge.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->edge())));
 
-    QDomElement nodeScanMain = element->ownerDocument().createElement(PrepareOptions::FieldScanMain);
+    QDomElement nodeScanMain = element.ownerDocument().createElement(PrepareOptions::FieldScanMain);
     nodePrepare.appendChild(nodeScanMain);
-    nodeScanMain.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->scanMain())));
+    nodeScanMain.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->scanMain())));
 
-    QDomElement nodeScanSub = element->ownerDocument().createElement(PrepareOptions::FieldScanSub);
+    QDomElement nodeScanSub = element.ownerDocument().createElement(PrepareOptions::FieldScanSub);
     nodePrepare.appendChild(nodeScanSub);
-    nodeScanSub.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->scanSub())));
+    nodeScanSub.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->scanSub())));
 
-    QDomElement nodeInverse = element->ownerDocument().createElement(PrepareOptions::FieldInverse);
+    QDomElement nodeInverse = element.ownerDocument().createElement(PrepareOptions::FieldInverse);
     nodePrepare.appendChild(nodeInverse);
-    nodeInverse.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->inverse())));
+    nodeInverse.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->inverse())));
 
-    QDomElement nodeBandScanning = element->ownerDocument().createElement(PrepareOptions::FieldBandScanning);
+    QDomElement nodeBandScanning = element.ownerDocument().createElement(PrepareOptions::FieldBandScanning);
     nodePrepare.appendChild(nodeBandScanning);
-    nodeBandScanning.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->bandScanning())));
+    nodeBandScanning.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->bandScanning())));
 
-    QDomElement nodeBandWidth = element->ownerDocument().createElement(PrepareOptions::FieldBandWidth);
+    QDomElement nodeBandWidth = element.ownerDocument().createElement(PrepareOptions::FieldBandWidth);
     nodePrepare.appendChild(nodeBandWidth);
-    nodeBandWidth.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->bandWidth())));
+    nodeBandWidth.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->bandWidth())));
 
-    QDomElement nodeUseCustomScript = element->ownerDocument().createElement(PrepareOptions::FieldUseCustomScript);
+    QDomElement nodeUseCustomScript = element.ownerDocument().createElement(PrepareOptions::FieldUseCustomScript);
     nodePrepare.appendChild(nodeUseCustomScript);
-    nodeUseCustomScript.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)this->useCustomScript())));
+    nodeUseCustomScript.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->useCustomScript())));
 
-    QDomElement nodeCustomScript = element->ownerDocument().createElement(PrepareOptions::FieldCustomScript);
+    QDomElement nodeCustomScript = element.ownerDocument().createElement(PrepareOptions::FieldCustomScript);
     nodePrepare.appendChild(nodeCustomScript);
-    nodeCustomScript.appendChild(element->ownerDocument().createCDATASection(this->mCustomScript));
+    nodeCustomScript.appendChild(element.ownerDocument().createCDATASection(this->mCustomScript));
 }
 //-----------------------------------------------------------------------------

@@ -187,12 +187,12 @@ bool Preset::loadXML(const QString &filename)
         if (doc.setContent(&file)) {
             QDomElement root = doc.documentElement();
 
-            this->mPrepare->loadXmlElement(&root);
-            this->mImage->loadXmlElement(&root);
-            this->mFont->loadXmlElement(&root);
-            this->mMatrix->loadXmlElement(&root);
-            this->mReordering->loadXmlElement(&root);
-            this->mTemplates->loadXmlElement(&root);
+            this->mPrepare->loadXmlElement(root);
+            this->mImage->loadXmlElement(root);
+            this->mFont->loadXmlElement(root);
+            this->mMatrix->loadXmlElement(root);
+            this->mReordering->loadXmlElement(root);
+            this->mTemplates->loadXmlElement(root);
         }
 
         file.close();
@@ -235,12 +235,12 @@ void Preset::saveXML(const QString &filename) const
     root.appendChild(nodeName);
     nodeName.appendChild(doc.createTextNode(this->mName));
 
-    this->mPrepare->saveXmlElement(&root);
-    this->mMatrix->saveXmlElement(&root);
-    this->mReordering->saveXmlElement(&root);
-    this->mImage->saveXmlElement(&root);
-    this->mFont->saveXmlElement(&root);
-    this->mTemplates->saveXmlElement(&root);
+    this->mPrepare->saveXmlElement(root);
+    this->mMatrix->saveXmlElement(root);
+    this->mReordering->saveXmlElement(root);
+    this->mImage->saveXmlElement(root);
+    this->mFont->saveXmlElement(root);
+    this->mTemplates->saveXmlElement(root);
 
     QFile outFile(filename);
     if(!outFile.open(QIODevice::WriteOnly | QIODevice::Text))

@@ -56,9 +56,9 @@ public:
     void setBlockDelimiter(const QString &value);
 
     bool load(QSettings *settings, int version);
-    bool loadXmlElement(QDomElement *element);
+    bool loadXmlElement(QDomElement element);
     void save(QSettings *settings);
-    void saveXmlElement(QDomElement *element);
+    void saveXmlElement(QDomElement element);
 
 private:
     static const QString GroupName;

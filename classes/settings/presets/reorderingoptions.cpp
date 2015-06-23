@@ -153,11 +153,11 @@ bool ReorderingOptions::load(QSettings *settings, int version)
     return result;
 }
 //-----------------------------------------------------------------------------
-bool ReorderingOptions::loadXmlElement(QDomElement *element)
+bool ReorderingOptions::loadXmlElement(QDomElement element)
 {
     bool result = false;
 
-    QDomNode nodeSett = element->firstChild();
+    QDomNode nodeSett = element.firstChild();
 
     while (!nodeSett.isNull()) {
         QDomElement e = nodeSett.toElement();
@@ -251,12 +251,12 @@ void ReorderingOptions::save(QSettings *settings)
     settings->endGroup();
 }
 //-----------------------------------------------------------------------------
-void ReorderingOptions::saveXmlElement(QDomElement *element)
+void ReorderingOptions::saveXmlElement(QDomElement element)
 {
-    QDomElement nodeReordering = element->ownerDocument().createElement(ReorderingOptions::GroupName);
-    element->appendChild(nodeReordering);
+    QDomElement nodeReordering = element.ownerDocument().createElement(ReorderingOptions::GroupName);
+    element.appendChild(nodeReordering);
 
-    QDomElement nodeOperations = element->ownerDocument().createElement(ReorderingOptions::FieldOperations);
+    QDomElement nodeOperations = element.ownerDocument().createElement(ReorderingOptions::FieldOperations);
     nodeReordering.appendChild(nodeOperations);
     nodeOperations.setAttribute("count", this->operationsCount());
 
@@ -267,21 +267,21 @@ void ReorderingOptions::saveXmlElement(QDomElement *element)
         bool bLeft;
         this->operation(i, &uMask, &iShift, &bLeft);
 
-        QDomElement nodeOperation = element->ownerDocument().createElement(ReorderingOptions::FieldOperation);
+        QDomElement nodeOperation = element.ownerDocument().createElement(ReorderingOptions::FieldOperation);
         nodeOperations.appendChild(nodeOperation);
         nodeOperation.setAttribute("index", i);
 
-        QDomElement nodeMask = element->ownerDocument().createElement(ReorderingOptions::FieldMask);
+        QDomElement nodeMask = element.ownerDocument().createElement(ReorderingOptions::FieldMask);
         nodeOperation.appendChild(nodeMask);
-        nodeMask.appendChild(element->ownerDocument().createTextNode(QString("%1").arg(uMask, 8, 16, QChar('0'))));
+        nodeMask.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(uMask, 8, 16, QChar('0'))));
 
-        QDomElement nodeShift = element->ownerDocument().createElement(ReorderingOptions::FieldShift);
+        QDomElement nodeShift = element.ownerDocument().createElement(ReorderingOptions::FieldShift);
         nodeOperation.appendChild(nodeShift);
-        nodeShift.appendChild(element->ownerDocument().createTextNode(QString("%1").arg(iShift)));
+        nodeShift.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(iShift)));
 
-        QDomElement nodeLeft = element->ownerDocument().createElement(ReorderingOptions::FieldLeft);
+        QDomElement nodeLeft = element.ownerDocument().createElement(ReorderingOptions::FieldLeft);
         nodeOperation.appendChild(nodeLeft);
-        nodeLeft.appendChild(element->ownerDocument().createTextNode(QString("%1").arg((int)bLeft)));
+        nodeLeft.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)bLeft)));
     }
 }
 //-----------------------------------------------------------------------------
