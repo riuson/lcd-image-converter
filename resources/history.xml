@@ -9,7 +9,8 @@
  Templates.
 
 Added:
- Simple drawing tools (rect, point, fill, line).
+ Simple drawing tools (rect, point, fill, line);
+ Import/export presets to xml files.
         </description>
     </record>
     <record>
