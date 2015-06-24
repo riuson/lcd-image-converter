@@ -24,6 +24,7 @@
 #include <QStringList>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QFileDialog>
 #include "datacontainer.h"
 #include "dialogpreview.h"
 #include "setuptabprepare.h"
@@ -169,6 +170,28 @@ void DialogOptions::createPresetsDefault()
     matrix.save(tr("Color R8G8B8"));
 }
 //-----------------------------------------------------------------------------
+bool DialogOptions::checkOverwrite(const QString &originalName, QString *resultName) const
+{
+    QStringList existingNames = Preset::presetsList();
+
+    if (!existingNames.contains(originalName)) {
+        *resultName = originalName;
+        return true;
+    }
+
+    QInputDialog dialog(this->parentWidget());
+    QObject::connect(&dialog, SIGNAL(textValueChanged(QString)), this, SLOT(presetOverwiteNameChanged(QString)));
+    dialog.setWindowTitle(tr("Import - Attention"));
+    dialog.setTextValue(originalName);
+
+    if (dialog.exec() == QDialog::Accepted) {
+        *resultName = dialog.textValue();
+        return true;
+    }
+
+    return false;
+}
+//-----------------------------------------------------------------------------
 void DialogOptions::presetChanged()
 {
     if (this->mData != NULL)
@@ -219,6 +242,49 @@ void DialogOptions::on_pushButtonPresetRemove_clicked()
     this->fillPresetsList();
 }
 //-----------------------------------------------------------------------------
+void DialogOptions::on_pushButtonPresetImport_clicked()
+{
+    QFileDialog dialog(this->parentWidget());
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+    dialog.setNameFilter(tr("XML Files (*.xml)"));
+    dialog.setWindowTitle(tr("Open xml preset file"));
+
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        QString filename = dialog.selectedFiles().at(0);
+
+        Preset *importedPreset = new Preset(this);
+        importedPreset->loadXML(filename);
+        QString resultPresetName;
+
+        if (this->checkOverwrite(importedPreset->name(), &resultPresetName)) {
+            importedPreset->save(resultPresetName);
+        }
+
+        delete importedPreset;
+
+        this->fillPresetsList();
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogOptions::on_pushButtonPresetExport_clicked()
+{
+    QFileDialog dialog(this->parentWidget());
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setNameFilter(tr("XML Files (*.xml)"));
+    dialog.setDefaultSuffix(QString("xml"));
+    dialog.setWindowTitle(tr("Save file as"));
+    dialog.selectFile(this->mPreset->name());
+
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        QString filename = dialog.selectedFiles().at(0);
+        this->mPreset->saveXML(filename);
+    }
+}
+//-----------------------------------------------------------------------------
 void DialogOptions::on_comboBoxPresets_currentIndexChanged(int index)
 {
     QString name = this->ui->comboBoxPresets->itemText(index);
@@ -231,6 +297,20 @@ void DialogOptions::previewClosed()
     {
         delete this->mPreview;
         this->mPreview = NULL;
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogOptions::presetOverwiteNameChanged(const QString &value)
+{
+    QInputDialog *dialog = qobject_cast<QInputDialog *>(sender());
+    QStringList existingNames = Preset::presetsList();
+
+    if (existingNames.contains(value)) {
+        QString message = tr("Preset with name \"%1\" already exists. Continue with overwrite?", "Warning about preset overwrite").arg(value);
+        dialog->setLabelText(message);
+    } else {
+        QString message = tr("Preset with name \"%1\" doesn't exists. All OK.", "Warning about preset overwrite").arg(value);
+        dialog->setLabelText(message);
     }
 }
 //-----------------------------------------------------------------------------

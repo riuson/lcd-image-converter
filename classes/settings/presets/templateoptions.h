@@ -24,6 +24,7 @@
 #include <QString>
 //-----------------------------------------------------------------------------
 class QSettings;
+class QDomElement;
 //-----------------------------------------------------------------------------
 class TemplateOptions : public QObject
 {
@@ -38,9 +39,15 @@ public:
     void setFont(const QString &filename);
 
     bool load(QSettings *settings, int version);
+    bool loadXmlElement(QDomElement element);
     void save(QSettings *settings);
+    void saveXmlElement(QDomElement element);
 
 private:
+    static const QString GroupName;
+    static const QString FieldImages;
+    static const QString FieldFonts;
+
     QString mImageTemplate;
     QString mFontTemplate;
 

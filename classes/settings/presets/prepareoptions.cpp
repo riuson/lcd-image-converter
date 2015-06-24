@@ -21,6 +21,20 @@
 //-----------------------------------------------------------------------------
 #include <QSettings>
 #include <QBuffer>
+#include <QtXml>
+#include <QDomDocument>
+//-----------------------------------------------------------------------------
+const QString PrepareOptions::GroupName = QString("prepare");
+const QString PrepareOptions::FieldConvType = QString("convType");
+const QString PrepareOptions::FieldMonoType = QString("monoType");
+const QString PrepareOptions::FieldEdge = QString("edge");
+const QString PrepareOptions::FieldScanMain = QString("scanMain");
+const QString PrepareOptions::FieldScanSub = QString("scanSub");
+const QString PrepareOptions::FieldInverse = QString("inverse");
+const QString PrepareOptions::FieldBandScanning = QString("bandScanning");
+const QString PrepareOptions::FieldBandWidth = QString("bandWidth");
+const QString PrepareOptions::FieldUseCustomScript = QString("useCustomScript");
+const QString PrepareOptions::FieldCustomScript = QString("customScript");
 //-----------------------------------------------------------------------------
 PrepareOptions::PrepareOptions(QObject *parent) :
     QObject(parent)
@@ -273,35 +287,35 @@ bool PrepareOptions::load(QSettings *settings, int version)
         quint32 uUseCustomScript = 0;
         QString sCustomScript;
 
-        uConvType = settings->value("convType", int(0)).toUInt(&result);
+        uConvType = settings->value(PrepareOptions::FieldConvType, int(0)).toUInt(&result);
 
         if (result)
-            uMonoType = settings->value("monoType", int(0)).toUInt(&result);
+            uMonoType = settings->value(PrepareOptions::FieldMonoType, int(0)).toUInt(&result);
 
         if (result)
-            uEdge = settings->value("edge", int(0)).toUInt(&result);
+            uEdge = settings->value(PrepareOptions::FieldEdge, int(0)).toUInt(&result);
 
         if (result)
-            uScanMain = settings->value("scanMain", int(0)).toUInt(&result);
+            uScanMain = settings->value(PrepareOptions::FieldScanMain, int(0)).toUInt(&result);
 
         if (result)
-            uScanSub = settings->value("scanSub", int(0)).toUInt(&result);
+            uScanSub = settings->value(PrepareOptions::FieldScanSub, int(0)).toUInt(&result);
 
         if (result)
-            uInverse = settings->value("inverse", int(0)).toUInt(&result);
+            uInverse = settings->value(PrepareOptions::FieldInverse, int(0)).toUInt(&result);
 
         if (result)
-            uBandScanning = settings->value("bandScanning", false).toBool();
+            uBandScanning = settings->value(PrepareOptions::FieldBandScanning, false).toBool();
 
         if (result)
-            uBandWidth = settings->value("bandWidth", int(1)).toUInt(&result);
+            uBandWidth = settings->value(PrepareOptions::FieldBandWidth, int(1)).toUInt(&result);
 
         if (result)
-            uUseCustomScript = settings->value("useCustomScript", false).toBool();
+            uUseCustomScript = settings->value(PrepareOptions::FieldUseCustomScript, false).toBool();
 
         if (result)
         {
-            QString str = settings->value("customScript", QString()).toString();
+            QString str = settings->value(PrepareOptions::FieldCustomScript, QString()).toString();
             QByteArray ba = QByteArray::fromBase64(str.toLatin1());
             QBuffer buffer(&ba);
             sCustomScript = QString::fromUtf8(buffer.data());
@@ -323,7 +337,7 @@ bool PrepareOptions::load(QSettings *settings, int version)
     }
     else if (version == 2)
     {
-        settings->beginGroup("prepare");
+        settings->beginGroup(PrepareOptions::GroupName);
 
         result = this->load(settings, 1);
 
@@ -333,19 +347,134 @@ bool PrepareOptions::load(QSettings *settings, int version)
     return result;
 }
 //-----------------------------------------------------------------------------
+bool PrepareOptions::loadXmlElement(QDomElement element)
+{
+    bool result = false;
+
+    QDomNode nodeSett = element.firstChild();
+
+    while (!nodeSett.isNull()) {
+        QDomElement e = nodeSett.toElement();
+
+        if (e.tagName() == PrepareOptions::GroupName) {
+            break;
+        }
+
+        nodeSett = nodeSett.nextSibling();
+    }
+
+    if (nodeSett.isNull()) {
+        return result;
+    }
+
+    quint32 uConvType = 0, uMonoType = 0, uEdge = 0;
+    quint32 uScanMain = 0, uScanSub = 0, uInverse = 0;
+    quint32 uBandWidth = 1, uBandScanning = 0;
+    quint32 uUseCustomScript = 0;
+    QString sCustomScript;
+
+    QDomNode nodeValue = nodeSett.firstChild();
+
+    while (!nodeValue.isNull()) {
+        QDomElement e = nodeValue.toElement();
+
+        if (!e.isNull()) {
+            if (e.tagName() == PrepareOptions::FieldConvType) {
+                QString str = e.text();
+                uConvType = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldMonoType) {
+                QString str = e.text();
+                uMonoType = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldEdge) {
+                QString str = e.text();
+                uEdge = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldScanMain) {
+                QString str = e.text();
+                uScanMain = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldScanSub) {
+                QString str = e.text();
+                uScanSub = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldInverse) {
+                QString str = e.text();
+                uInverse = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldBandScanning) {
+                QString str = e.text();
+                uBandScanning = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldBandWidth) {
+                QString str = e.text();
+                uBandWidth = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldUseCustomScript) {
+                QString str = e.text();
+                uUseCustomScript = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldEdge) {
+                QString str = e.text();
+                uEdge = str.toUInt(&result);
+            }
+
+            if (e.tagName() == PrepareOptions::FieldCustomScript) {
+                QDomNode cdataNode = e.firstChild();
+                if (cdataNode.isCDATASection()) {
+                    QDomCDATASection cdataSection = cdataNode.toCDATASection();
+                    sCustomScript = cdataSection.data();
+                }
+            }
+
+            if (!result) {
+                break;
+            }
+        }
+
+        nodeValue = nodeValue.nextSibling();
+    }
+
+    if (result)
+    {
+        this->setConvType((ConversionType)uConvType);
+        this->setMonoType((MonochromeType)uMonoType);
+        this->setEdge((int)uEdge);
+        this->setScanMain((ScanMainDirection)uScanMain);
+        this->setScanSub((ScanSubDirection)uScanSub);
+        this->setInverse((bool)uInverse);
+        this->setBandScanning((bool)uBandScanning);
+        this->setBandWidth((int)uBandWidth);
+        this->setUseCustomScript((bool)uUseCustomScript);
+        this->setCustomScript(sCustomScript);
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void PrepareOptions::save(QSettings *settings)
 {
-    settings->beginGroup("prepare");
+    settings->beginGroup(PrepareOptions::GroupName);
 
-    settings->setValue("convType", QString("%1").arg((int)this->convType()));
-    settings->setValue("monoType", QString("%1").arg((int)this->monoType()));
-    settings->setValue("edge",     QString("%1").arg((int)this->edge()));
-    settings->setValue("scanMain", QString("%1").arg((int)this->scanMain()));
-    settings->setValue("scanSub",  QString("%1").arg((int)this->scanSub()));
-    settings->setValue("inverse",  QString("%1").arg((int)this->inverse()));
-    settings->setValue("bandScanning",    QString("%1").arg((int)this->bandScanning()));
-    settings->setValue("bandWidth",       QString("%1").arg((int)this->bandWidth()));
-    settings->setValue("useCustomScript", QString("%1").arg((int)this->useCustomScript()));
+    settings->setValue(PrepareOptions::FieldConvType, QString("%1").arg((int)this->convType()));
+    settings->setValue(PrepareOptions::FieldMonoType, QString("%1").arg((int)this->monoType()));
+    settings->setValue(PrepareOptions::FieldEdge,     QString("%1").arg((int)this->edge()));
+    settings->setValue(PrepareOptions::FieldScanMain, QString("%1").arg((int)this->scanMain()));
+    settings->setValue(PrepareOptions::FieldScanSub,  QString("%1").arg((int)this->scanSub()));
+    settings->setValue(PrepareOptions::FieldInverse,  QString("%1").arg((int)this->inverse()));
+    settings->setValue(PrepareOptions::FieldBandScanning,    QString("%1").arg((int)this->bandScanning()));
+    settings->setValue(PrepareOptions::FieldBandWidth,       QString("%1").arg((int)this->bandWidth()));
+    settings->setValue(PrepareOptions::FieldUseCustomScript, QString("%1").arg((int)this->useCustomScript()));
 
     {
         QByteArray array = this->mCustomScript.toUtf8();
@@ -355,5 +484,51 @@ void PrepareOptions::save(QSettings *settings)
     }
 
     settings->endGroup();
+}
+//-----------------------------------------------------------------------------
+void PrepareOptions::saveXmlElement(QDomElement element)
+{
+    QDomElement nodePrepare = element.ownerDocument().createElement(PrepareOptions::GroupName);
+    element.appendChild(nodePrepare);
+
+    QDomElement nodeConvType = element.ownerDocument().createElement(PrepareOptions::FieldConvType);
+    nodePrepare.appendChild(nodeConvType);
+    nodeConvType.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->convType())));
+
+    QDomElement nodeMonoType = element.ownerDocument().createElement(PrepareOptions::FieldMonoType);
+    nodePrepare.appendChild(nodeMonoType);
+    nodeMonoType.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->monoType())));
+
+    QDomElement nodeEdge = element.ownerDocument().createElement(PrepareOptions::FieldEdge);
+    nodePrepare.appendChild(nodeEdge);
+    nodeEdge.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->edge())));
+
+    QDomElement nodeScanMain = element.ownerDocument().createElement(PrepareOptions::FieldScanMain);
+    nodePrepare.appendChild(nodeScanMain);
+    nodeScanMain.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->scanMain())));
+
+    QDomElement nodeScanSub = element.ownerDocument().createElement(PrepareOptions::FieldScanSub);
+    nodePrepare.appendChild(nodeScanSub);
+    nodeScanSub.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->scanSub())));
+
+    QDomElement nodeInverse = element.ownerDocument().createElement(PrepareOptions::FieldInverse);
+    nodePrepare.appendChild(nodeInverse);
+    nodeInverse.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->inverse())));
+
+    QDomElement nodeBandScanning = element.ownerDocument().createElement(PrepareOptions::FieldBandScanning);
+    nodePrepare.appendChild(nodeBandScanning);
+    nodeBandScanning.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->bandScanning())));
+
+    QDomElement nodeBandWidth = element.ownerDocument().createElement(PrepareOptions::FieldBandWidth);
+    nodePrepare.appendChild(nodeBandWidth);
+    nodeBandWidth.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->bandWidth())));
+
+    QDomElement nodeUseCustomScript = element.ownerDocument().createElement(PrepareOptions::FieldUseCustomScript);
+    nodePrepare.appendChild(nodeUseCustomScript);
+    nodeUseCustomScript.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->useCustomScript())));
+
+    QDomElement nodeCustomScript = element.ownerDocument().createElement(PrepareOptions::FieldCustomScript);
+    nodePrepare.appendChild(nodeCustomScript);
+    nodeCustomScript.appendChild(element.ownerDocument().createCDATASection(this->mCustomScript));
 }
 //-----------------------------------------------------------------------------

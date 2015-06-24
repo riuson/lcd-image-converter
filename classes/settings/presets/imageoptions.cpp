@@ -20,6 +20,20 @@
 #include "imageoptions.h"
 //-----------------------------------------------------------------------------
 #include <QSettings>
+#include <QtXml>
+#include <QDomDocument>
+//-----------------------------------------------------------------------------
+const QString ImageOptions::GroupName = QString("image");
+const QString ImageOptions::FieldBytesOrder = QString("bytesOrder");
+const QString ImageOptions::FieldBlockSize = QString("blockSize");
+const QString ImageOptions::FieldBlockDefaultOnes = QString("blockDefaultOnes");
+const QString ImageOptions::FieldSplitToRows = QString("splitToRows");
+const QString ImageOptions::FieldCompressionRle = QString("compressionRle");
+const QString ImageOptions::FieldCompressionRleMinLength = QString("compressionRleMinLength");
+const QString ImageOptions::FieldBlockPrefix = QString("blockPrefix");
+const QString ImageOptions::FieldBandWidth = QString("bandWidth");
+const QString ImageOptions::FieldBlockSuffix = QString("blockSuffix");
+const QString ImageOptions::FieldBlockDelimiter = QString("blockDelimiter");
 //-----------------------------------------------------------------------------
 ImageOptions::ImageOptions(QObject *parent) :
     QObject(parent)
@@ -161,26 +175,26 @@ bool ImageOptions::load(QSettings *settings, int version)
         quint32 uCompressionRle = 0, uCompressionRleMinLength = 2;
         QString sBlockPrefix, sBlockSuffix, sBlockDelimiter;
 
-        uBlockSize = settings->value("blockSize", int(0)).toUInt(&result);
+        uBlockSize = settings->value(ImageOptions::FieldBlockSize, int(0)).toUInt(&result);
 
         if (result)
-            uBytesOrder = settings->value("bytesOrder", int(0)).toUInt(&result);
+            uBytesOrder = settings->value(ImageOptions::FieldBytesOrder, int(0)).toUInt(&result);
 
         if (result)
-            uSplitToRows = settings->value("splitToRows", int(1)).toUInt(&result);
+            uSplitToRows = settings->value(ImageOptions::FieldSplitToRows, int(1)).toUInt(&result);
 
         if (result)
-            uCompressionRle = settings->value("compressionRle", int(0)).toUInt(&result);
+            uCompressionRle = settings->value(ImageOptions::FieldCompressionRle, int(0)).toUInt(&result);
 
         if (result)
-            uCompressionRleMinLength = settings->value("compressionRleMinLength", int(2)).toUInt(&result);
+            uCompressionRleMinLength = settings->value(ImageOptions::FieldCompressionRleMinLength, int(2)).toUInt(&result);
 
         if (result)
-            uBlockDefaultOnes = settings->value("blockDefaultOnes", int(0)).toUInt(&result);
+            uBlockDefaultOnes = settings->value(ImageOptions::FieldBlockDefaultOnes, int(0)).toUInt(&result);
 
-        sBlockPrefix = settings->value("blockPrefix", "0x").toString();
-        sBlockSuffix = settings->value("blockSuffix", "").toString();
-        sBlockDelimiter = settings->value("blockDelimiter", ", ").toString();
+        sBlockPrefix = settings->value(ImageOptions::FieldBlockPrefix, "0x").toString();
+        sBlockSuffix = settings->value(ImageOptions::FieldBlockSuffix, "").toString();
+        sBlockDelimiter = settings->value(ImageOptions::FieldBlockDelimiter, ", ").toString();
 
         if (result)
         {
@@ -197,7 +211,7 @@ bool ImageOptions::load(QSettings *settings, int version)
     }
     else if (version == 2)
     {
-        settings->beginGroup("image");
+        settings->beginGroup(ImageOptions::GroupName);
 
         result = this->load(settings, 1);
 
@@ -207,20 +221,158 @@ bool ImageOptions::load(QSettings *settings, int version)
     return result;
 }
 //-----------------------------------------------------------------------------
+bool ImageOptions::loadXmlElement(QDomElement element)
+{
+    bool result = false;
+
+    QDomNode nodeSett = element.firstChild();
+
+    while (!nodeSett.isNull()) {
+        QDomElement e = nodeSett.toElement();
+
+        if (e.tagName() == ImageOptions::GroupName) {
+            break;
+        }
+
+        nodeSett = nodeSett.nextSibling();
+    }
+
+    if (nodeSett.isNull()) {
+        return result;
+    }
+
+    quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0;
+    quint32 uCompressionRle = 0, uCompressionRleMinLength = 2;
+    QString sBlockPrefix = "0x", sBlockSuffix, sBlockDelimiter = ", ";
+
+    QDomNode nodeValue = nodeSett.firstChild();
+
+    while (!nodeValue.isNull()) {
+        QDomElement e = nodeValue.toElement();
+
+        if (!e.isNull()) {
+            if (e.tagName() == ImageOptions::FieldBlockSize) {
+                QString str = e.text();
+                uBlockSize = str.toUInt(&result);
+            }
+
+            if (e.tagName() == ImageOptions::FieldBytesOrder) {
+                QString str = e.text();
+                uBytesOrder = str.toUInt(&result);
+            }
+
+            if (e.tagName() == ImageOptions::FieldSplitToRows) {
+                QString str = e.text();
+                uSplitToRows = str.toUInt(&result);
+            }
+
+            if (e.tagName() == ImageOptions::FieldCompressionRle) {
+                QString str = e.text();
+                uCompressionRle = str.toUInt(&result);
+            }
+
+            if (e.tagName() == ImageOptions::FieldCompressionRleMinLength) {
+                QString str = e.text();
+                uCompressionRleMinLength = str.toUInt(&result);
+            }
+
+            if (e.tagName() == ImageOptions::FieldBlockDefaultOnes) {
+                QString str = e.text();
+                uBlockDefaultOnes = str.toUInt(&result);
+            }
+
+            if (e.tagName() == ImageOptions::FieldBlockPrefix) {
+                sBlockPrefix = e.text();
+            }
+
+            if (e.tagName() == ImageOptions::FieldBlockSuffix) {
+                sBlockSuffix = e.text();
+            }
+
+            if (e.tagName() == ImageOptions::FieldBlockDelimiter) {
+                sBlockDelimiter = e.text();
+            }
+
+            if (!result) {
+                break;
+            }
+        }
+
+        nodeValue = nodeValue.nextSibling();
+    }
+
+    if (result)
+    {
+        this->setBlockSize((DataBlockSize)uBlockSize);
+        this->setBlockDefaultOnes((bool)uBlockDefaultOnes);
+        this->setBytesOrder((BytesOrder)uBytesOrder);
+        this->setSplitToRows((bool)uSplitToRows);
+        this->setCompressionRle((bool)uCompressionRle);
+        this->setCompressionRleMinLength(uCompressionRleMinLength);
+        this->setBlockPrefix(sBlockPrefix);
+        this->setBlockSuffix(sBlockSuffix);
+        this->setBlockDelimiter(sBlockDelimiter);
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void ImageOptions::save(QSettings *settings)
 {
-    settings->beginGroup("image");
+    settings->beginGroup(ImageOptions::GroupName);
 
-    settings->setValue("bytesOrder",       QString("%1").arg((int)this->bytesOrder()));
-    settings->setValue("blockSize",        QString("%1").arg((int)this->blockSize()));
-    settings->setValue("blockDefaultOnes", QString("%1").arg((int)this->blockDefaultOnes()));
-    settings->setValue("splitToRows",      QString("%1").arg((int)this->splitToRows()));
-    settings->setValue("compressionRle",   QString("%1").arg((int)this->compressionRle()));
-    settings->setValue("compressionRleMinLength",   QString("%1").arg((int)this->compressionRleMinLength()));
-    settings->setValue("blockPrefix",      this->blockPrefix());
-    settings->setValue("blockSuffix",      this->blockSuffix());
-    settings->setValue("blockDelimiter",   this->blockDelimiter());
+    settings->setValue(ImageOptions::FieldBytesOrder,       QString("%1").arg((int)this->bytesOrder()));
+    settings->setValue(ImageOptions::FieldBlockSize,        QString("%1").arg((int)this->blockSize()));
+    settings->setValue(ImageOptions::FieldBlockDefaultOnes, QString("%1").arg((int)this->blockDefaultOnes()));
+    settings->setValue(ImageOptions::FieldSplitToRows,      QString("%1").arg((int)this->splitToRows()));
+    settings->setValue(ImageOptions::FieldCompressionRle,   QString("%1").arg((int)this->compressionRle()));
+    settings->setValue(ImageOptions::FieldCompressionRleMinLength,   QString("%1").arg((int)this->compressionRleMinLength()));
+    settings->setValue(ImageOptions::FieldBlockPrefix,      this->blockPrefix());
+    settings->setValue(ImageOptions::FieldBlockSuffix,      this->blockSuffix());
+    settings->setValue(ImageOptions::FieldBlockDelimiter,   this->blockDelimiter());
 
     settings->endGroup();
+}
+//-----------------------------------------------------------------------------
+void ImageOptions::saveXmlElement(QDomElement element)
+{
+    QDomElement nodeImage = element.ownerDocument().createElement(ImageOptions::GroupName);
+    element.appendChild(nodeImage);
+
+    QDomElement nodeBytesOrder = element.ownerDocument().createElement(ImageOptions::FieldBytesOrder);
+    nodeImage.appendChild(nodeBytesOrder);
+    nodeBytesOrder.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->bytesOrder())));
+
+    QDomElement nodeBlockSize = element.ownerDocument().createElement(ImageOptions::FieldBlockSize);
+    nodeImage.appendChild(nodeBlockSize);
+    nodeBlockSize.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->blockSize())));
+
+    QDomElement nodeBlockDefaultOnes = element.ownerDocument().createElement(ImageOptions::FieldBlockDefaultOnes);
+    nodeImage.appendChild(nodeBlockDefaultOnes);
+    nodeBlockDefaultOnes.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->blockDefaultOnes())));
+
+    QDomElement nodeSplitToRows = element.ownerDocument().createElement(ImageOptions::FieldSplitToRows);
+    nodeImage.appendChild(nodeSplitToRows);
+    nodeSplitToRows.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->splitToRows())));
+
+    QDomElement nodeCompressionRle = element.ownerDocument().createElement(ImageOptions::FieldCompressionRle);
+    nodeImage.appendChild(nodeCompressionRle);
+    nodeCompressionRle.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->compressionRle())));
+
+    QDomElement nodeCompressionRleMinLength = element.ownerDocument().createElement(ImageOptions::FieldCompressionRleMinLength);
+    nodeImage.appendChild(nodeCompressionRleMinLength);
+    nodeCompressionRleMinLength.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->compressionRleMinLength())));
+
+    QDomElement nodeBlockPrefix = element.ownerDocument().createElement(ImageOptions::FieldBlockPrefix);
+    nodeImage.appendChild(nodeBlockPrefix);
+    nodeBlockPrefix.appendChild(element.ownerDocument().createTextNode(this->blockPrefix()));
+
+    QDomElement nodeBlockSuffix = element.ownerDocument().createElement(ImageOptions::FieldBlockSuffix);
+    nodeImage.appendChild(nodeBlockSuffix);
+    nodeBlockSuffix.appendChild(element.ownerDocument().createTextNode(this->blockSuffix()));
+
+    QDomElement nodeBlockDelimiter = element.ownerDocument().createElement(ImageOptions::FieldBlockDelimiter);
+    nodeImage.appendChild(nodeBlockDelimiter);
+    nodeBlockDelimiter.appendChild(element.ownerDocument().createTextNode(this->blockDelimiter()));
 }
 //-----------------------------------------------------------------------------

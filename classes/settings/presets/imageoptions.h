@@ -25,6 +25,7 @@
 #include "conversion_options.h"
 //-----------------------------------------------------------------------------
 class QSettings;
+class QDomElement;
 //-----------------------------------------------------------------------------
 using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
@@ -55,9 +56,23 @@ public:
     void setBlockDelimiter(const QString &value);
 
     bool load(QSettings *settings, int version);
+    bool loadXmlElement(QDomElement element);
     void save(QSettings *settings);
+    void saveXmlElement(QDomElement element);
 
 private:
+    static const QString GroupName;
+    static const QString FieldBytesOrder;
+    static const QString FieldBlockSize;
+    static const QString FieldBlockDefaultOnes;
+    static const QString FieldSplitToRows;
+    static const QString FieldCompressionRle;
+    static const QString FieldCompressionRleMinLength;
+    static const QString FieldBlockPrefix;
+    static const QString FieldBandWidth;
+    static const QString FieldBlockSuffix;
+    static const QString FieldBlockDelimiter;
+
     bool mSplitToRows;
     BytesOrder mBytesOrder;
     DataBlockSize mBlockSize;

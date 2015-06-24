@@ -26,6 +26,7 @@
 //-----------------------------------------------------------------------------
 class QStringList;
 class QSettings;
+class QDomElement;
 //-----------------------------------------------------------------------------
 using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
@@ -44,11 +45,18 @@ public:
     void setSortOrder(CharactersSortOrder value);
 
     bool load(QSettings *settings, int version);
+    bool loadXmlElement(QDomElement element);
     void save(QSettings *settings);
+    void saveXmlElement(QDomElement element);
 
     static const QStringList &encodings();
 
 private:
+    static const QString GroupName;
+    static const QString FieldBom;
+    static const QString FieldSortOrder;
+    static const QString FieldCodec;
+
     bool mBom;
     QString mEncoding;
     CharactersSortOrder mSortOrder;
