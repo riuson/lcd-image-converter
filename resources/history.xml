@@ -10,7 +10,8 @@
 
 Added:
  Simple drawing tools (rect, point, fill, line);
- Import/export presets to xml files.
+ Import/export presets to xml files;
+ Optional alpha-channel for font renderer.
         </description>
     </record>
     <record>
