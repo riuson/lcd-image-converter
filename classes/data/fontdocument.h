@@ -59,13 +59,15 @@ public:
                         QString *_style,
                         int *_size,
                         bool *_monospaced,
-                        bool *_antialiasing);
+                        bool *_antialiasing,
+                        bool *_alphaChannel);
     void setFontCharacters(const QString &chars,
                            const QString &fontFamily,
                            const QString &_style,
                            const int _size,
                            const bool _monospaced,
-                           const bool _antialiasing);
+                           const bool _antialiasing,
+                           const bool _alphaChannel);
 
 private:
     DataContainer *mContainer;
@@ -85,13 +87,17 @@ private:
     bool antialiasing() const;
     void setAntialiasing(const bool value);
 
+    bool alphaChannel() const;
+    void setAlphaChannel(const bool value);
+
     QImage drawCharacter(const QChar value,
                          const QFont &font,
                          const QColor &foreground,
                          const QColor &background,
                          const int width,
                          const int height,
-                         const bool antialiasing);
+                         const bool antialiasing,
+                         const bool alphaChannel);
 
 private slots:
     void mon_container_dataChanged(bool historyStateMoved);

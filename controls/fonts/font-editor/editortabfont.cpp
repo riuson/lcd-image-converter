@@ -130,7 +130,8 @@ void EditorTabFont::setFontCharacters(const QString &chars,
                                       const QString &_style,
                                       const int _size,
                                       const bool _monospaced,
-                                      const bool _antialiasing)
+                                      const bool _antialiasing,
+                                      const bool _alphaChannel)
 {
     this->mDocument->setFontCharacters(
                 chars,
@@ -138,7 +139,8 @@ void EditorTabFont::setFontCharacters(const QString &chars,
                 _style,
                 _size,
                 _monospaced,
-                _antialiasing);
+                _antialiasing,
+                _alphaChannel);
 
     this->updateTableFont();
     this->mModel->callReset();
@@ -155,7 +157,8 @@ void EditorTabFont::fontCharacters(QString *chars,
                                    QString *_style,
                                    int *_size,
                                    bool *_monospaced,
-                                   bool *_antialiasing)
+                                   bool *_antialiasing,
+                                   bool *_alphaChannel)
 {
     this->mDocument->fontCharacters(
                 chars,
@@ -163,7 +166,8 @@ void EditorTabFont::fontCharacters(QString *chars,
                 _style,
                 _size,
                 _monospaced,
-                _antialiasing);
+                _antialiasing,
+                _alphaChannel);
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::changeEvent(QEvent *e)

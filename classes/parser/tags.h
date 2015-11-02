@@ -63,6 +63,7 @@ public:
         FontString,
         FontWidthType,
         FontAntiAliasing,
+        FontAlphaChannel,
 
         TemplateFilename,
 

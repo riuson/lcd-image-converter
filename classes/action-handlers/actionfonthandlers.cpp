@@ -44,8 +44,8 @@ void ActionFontHandlers::fontChange_triggered()
     {
         QString chars, fontFamily, style;
         int size;
-        bool monospaced, antialiasing;
-        etf->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
+        bool monospaced, antialiasing, alphaChannel;
+        etf->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing, &alphaChannel);
 
         DialogFontSelect dialog(this->mMainWindow->parentWidget());
         dialog.setCharacters(chars);
@@ -55,6 +55,7 @@ void ActionFontHandlers::fontChange_triggered()
         dialog.setFontSize(size);
         dialog.setMonospaced(monospaced);
         dialog.setAntialising(antialiasing);
+        dialog.setAlphaChannel(alphaChannel);
 
         if (dialog.exec() == QDialog::Accepted)
         {
@@ -69,8 +70,9 @@ void ActionFontHandlers::fontChange_triggered()
             size = dialog.fontSize();
             monospaced = dialog.monospaced();
             antialiasing = dialog.antialiasing();
+            alphaChannel = dialog.alphaChannel();
 
-            etf->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
+            etf->setFontCharacters(chars, family, style, size, monospaced, antialiasing, alphaChannel);
         }
     }
 }

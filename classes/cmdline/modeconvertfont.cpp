@@ -182,7 +182,8 @@ int ModeConvertFont::process()
                                 this->mFontStyle,
                                 this->mFontSize,
                                 this->mFontMonospaced,
-                                this->mFontAntiAliasing);
+                                this->mFontAntiAliasing,
+                                this->mFontAlphaChannel);
 
                     fontDocument.setDocumentName(docNameWS);
                     fontDocument.dataContainer()->setInfo("converted filename", QVariant(this->mOuputFilename));

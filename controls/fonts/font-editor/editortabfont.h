@@ -61,13 +61,15 @@ public:
                            const QString &_style,
                            const int _size,
                            const bool _monospaced,
-                           const bool _antialiasing);
+                           const bool _antialiasing,
+                           const bool _alphaChannel);
     void fontCharacters(QString *chars,
                         QString *fontFamily,
                         QString *_style,
                         int *_size,
                         bool *_monospaced,
-                        bool *_antialiasing);
+                        bool *_antialiasing,
+                        bool *_alphaChannel);
 
 protected:
     void changeEvent(QEvent *e);
