@@ -76,6 +76,11 @@ void ModeConvertFont::fillParser() const
                 QCoreApplication::translate("CmdLineParser", "Use antialiasing."));
     this->mParser->addOption(antialiasingOption);
 
+    // --alpachannel
+    QCommandLineOption alphachannelOption(QStringList() << "alphachannel",
+                QCoreApplication::translate("CmdLineParser", "Use alpha channel."));
+    this->mParser->addOption(alphachannelOption);
+
     // --chars-list
     QCommandLineOption charsListOption(QStringList() << "chars-list",
                 QCoreApplication::translate("CmdLineParser", "Characters, what included to the font."),
@@ -132,6 +137,7 @@ bool ModeConvertFont::collectArguments()
     this->mFontMonospaced = this->mParser->isSet("monospaced");
     this->mFontStyle = this->mParser->value("style");
     this->mFontAntiAliasing = this->mParser->isSet("antialiasing");
+    this->mFontAlphaChannel = this->mParser->isSet("alphachannel");
 
     this->mFontCharactersList = this->mParser->value("chars-list");
     this->mFontCharactersRange = this->mParser->value("chars-range");
