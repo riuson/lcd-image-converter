@@ -32,6 +32,7 @@
 #include "datacontainer.h"
 #include "limits"
 #include "dialogcanvasresize.h"
+#include "tfontparameters.h"
 //-----------------------------------------------------------------------------
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -42,37 +43,21 @@ void ActionFontHandlers::fontChange_triggered()
 {
     if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab()))
     {
-        QString chars, fontFamily, style;
-        int size;
-        bool monospaced, antialiasing, alphaChannel;
-        etf->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing, &alphaChannel);
+        QString chars;
+        tFontParameters parameters;
+        etf->fontCharacters(&chars, &parameters);
 
         DialogFontSelect dialog(this->mMainWindow->parentWidget());
         dialog.setCharacters(chars);
-        //dialog.selectFont(fontFamily, style, size, monospaced, antialiasing);
-        dialog.setFontFamily(fontFamily);
-        dialog.setFontStyle(style);
-        dialog.setFontSize(size);
-        dialog.setMonospaced(monospaced);
-        dialog.setAntialising(antialiasing);
-        dialog.setAlphaChannel(alphaChannel);
+        dialog.setFontParameters(parameters);
 
         if (dialog.exec() == QDialog::Accepted)
         {
             QString chars = dialog.characters();
-            int size;
-            QString family, style;
-            bool monospaced, antialiasing;
 
-            //dialog.selectedFont(&family, &style, &size, &monospaced, &antialiasing);
-            family = dialog.fontFamily();
-            style = dialog.fontStyle();
-            size = dialog.fontSize();
-            monospaced = dialog.monospaced();
-            antialiasing = dialog.antialiasing();
-            alphaChannel = dialog.alphaChannel();
+            dialog.getFontParameters(&parameters);
 
-            etf->setFontCharacters(chars, family, style, size, monospaced, antialiasing, alphaChannel);
+            etf->setFontCharacters(chars, parameters);
         }
     }
 }

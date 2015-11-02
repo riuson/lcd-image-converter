@@ -26,6 +26,7 @@
 #include "idocument.h"
 //-----------------------------------------------------------------------------
 class Preset;
+struct tFontParameters;
 //-----------------------------------------------------------------------------
 class FontDocument : public QObject, public IDocument
 {
@@ -55,19 +56,9 @@ public:
     void redo();
 
     void fontCharacters(QString *chars,
-                        QString *fontFamily,
-                        QString *_style,
-                        int *_size,
-                        bool *_monospaced,
-                        bool *_antialiasing,
-                        bool *_alphaChannel);
+                        tFontParameters *parameters);
     void setFontCharacters(const QString &chars,
-                           const QString &fontFamily,
-                           const QString &_style,
-                           const int _size,
-                           const bool _monospaced,
-                           const bool _antialiasing,
-                           const bool _alphaChannel);
+                           const tFontParameters &parameters);
 
 private:
     DataContainer *mContainer;
@@ -105,5 +96,6 @@ private slots:
 signals:
     void documentChanged();
 };
+
 //-----------------------------------------------------------------------------
 #endif // FONTDOCUMENT_H

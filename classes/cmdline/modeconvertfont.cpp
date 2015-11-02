@@ -21,11 +21,6 @@
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
 //-----------------------------------------------------------------------------
-#include "modeconvertfont.h"
-#include "fontdocument.h"
-#include "datacontainer.h"
-#include "preset.h"
-#include "templateoptions.h"
 #include <QCommandLineParser>
 #include <QDebug>
 #include <QFile>
@@ -33,6 +28,12 @@
 #include <QStringList>
 #include <QByteArray>
 #include <QTextCodec>
+#include "modeconvertfont.h"
+#include "fontdocument.h"
+#include "datacontainer.h"
+#include "preset.h"
+#include "templateoptions.h"
+#include "tfontparameters.h"
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
@@ -176,14 +177,17 @@ int ModeConvertFont::process()
                 {
                     FontDocument fontDocument;
 
+                    tFontParameters parameters;
+                    parameters.family = this->mFontFamily;
+                    parameters.style = this->mFontStyle;
+                    parameters.size = this->mFontSize;
+                    parameters.monospaced = this->mFontMonospaced;
+                    parameters.antiAliasing = this->mFontAntiAliasing;
+                    parameters.alphaChannel = this->mFontAlphaChannel;
+
                     fontDocument.setFontCharacters(
                                 this->mFontCharactersList,
-                                this->mFontFamily,
-                                this->mFontStyle,
-                                this->mFontSize,
-                                this->mFontMonospaced,
-                                this->mFontAntiAliasing,
-                                this->mFontAlphaChannel);
+                                parameters);
 
                     fontDocument.setDocumentName(docNameWS);
                     fontDocument.dataContainer()->setInfo("converted filename", QVariant(this->mOuputFilename));

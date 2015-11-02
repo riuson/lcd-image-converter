@@ -36,6 +36,7 @@ class QModelIndex;
 class StatusData;
 class FontDocument;
 class IDocument;
+struct tFontParameters;
 
 namespace ImageEditor
 {
@@ -57,19 +58,9 @@ public:
     EditorType type() const;
 
     void setFontCharacters(const QString &chars,
-                           const QString &fontFamily,
-                           const QString &_style,
-                           const int _size,
-                           const bool _monospaced,
-                           const bool _antialiasing,
-                           const bool _alphaChannel);
+                           const tFontParameters &parameters);
     void fontCharacters(QString *chars,
-                        QString *fontFamily,
-                        QString *_style,
-                        int *_size,
-                        bool *_monospaced,
-                        bool *_antialiasing,
-                        bool *_alphaChannel);
+                        tFontParameters *parameters);
 
 protected:
     void changeEvent(QEvent *e);

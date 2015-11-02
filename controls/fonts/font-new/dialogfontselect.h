@@ -30,6 +30,7 @@ class QModelIndex;
 class QItemSelection;
 class UnicodeBlocksModel;
 class UnicodeBlocksFilterModel;
+struct tFontParameters;
 //-----------------------------------------------------------------------------
 class DialogFontSelect : public QDialog
 {
@@ -39,21 +40,11 @@ public:
     explicit DialogFontSelect(QWidget *parent = 0);
     ~DialogFontSelect();
 
-    QString fontFamily();
-    QString fontStyle();
-    int fontSize();
-    bool monospaced();
-    bool antialiasing();
-    bool alphaChannel();
     QString characters();
+    void getFontParameters(tFontParameters *parameters);
 
-    void setFontFamily(const QString &value);
-    void setFontStyle(const QString &value);
-    void setFontSize(int value);
-    void setMonospaced(bool value);
-    void setAntialising(bool value);
-    void setAlphaChannel(bool value);
     void setCharacters(const QString &value);
+    void setFontParameters(const tFontParameters &parameters);
 private:
     Ui::DialogFontSelect *ui;
     CharactersModel *mModel;

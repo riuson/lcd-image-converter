@@ -36,6 +36,7 @@
 #include "fonteditoroptions.h"
 #include "fonthelper.h"
 #include "preset.h"
+#include "tfontparameters.h"
 //-----------------------------------------------------------------------------
 FontDocument::FontDocument(QObject *parent) :
     QObject(parent)
@@ -191,10 +192,9 @@ bool FontDocument::save(const QString &fileName)
     QDomElement nodeRoot = doc.createElement("data");
     doc.appendChild(nodeRoot);
 
-    QString chars, fontFamily, style;
-    int size;
-    bool monospaced, antialiasing, alphaChannel;
-    this->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing, &alphaChannel);
+    QString chars;
+    tFontParameters parameters;
+    this->fontCharacters(&chars, &parameters);
 
     nodeRoot.setAttribute("type", "font");
     nodeRoot.setAttribute("name", this->documentName());
@@ -202,22 +202,22 @@ bool FontDocument::save(const QString &fileName)
     //font family
     QDomElement nodeFamily = doc.createElement("family");
     nodeRoot.appendChild(nodeFamily);
-    nodeFamily.appendChild(doc.createTextNode(fontFamily));
+    nodeFamily.appendChild(doc.createTextNode(parameters.family));
 
     // size
     QDomElement nodeSize = doc.createElement("size");
     nodeRoot.appendChild(nodeSize);
-    nodeSize.appendChild(doc.createTextNode(QString("%1").arg(size)));
+    nodeSize.appendChild(doc.createTextNode(QString("%1").arg(parameters.size)));
 
     // style
     QDomElement nodeStyle = doc.createElement("style");
     nodeRoot.appendChild(nodeStyle);
-    nodeStyle.appendChild(doc.createTextNode(style));
+    nodeStyle.appendChild(doc.createTextNode(parameters.style));
 
     // monospaced or proportional
     QDomElement nodeWidthType = doc.createElement("widthType");
     nodeRoot.appendChild(nodeWidthType);
-    if (monospaced)
+    if (parameters.monospaced)
         nodeWidthType.appendChild(doc.createTextNode("monospaced"));
     else
         nodeWidthType.appendChild(doc.createTextNode("proportional"));
@@ -225,7 +225,7 @@ bool FontDocument::save(const QString &fileName)
     // antialiasing
     QDomElement nodeAntialiasing = doc.createElement("antialiasing");
     nodeRoot.appendChild(nodeAntialiasing);
-    if (antialiasing)
+    if (parameters.antiAliasing)
         nodeAntialiasing.appendChild(doc.createTextNode("true"));
     else
         nodeAntialiasing.appendChild(doc.createTextNode("false"));
@@ -233,7 +233,7 @@ bool FontDocument::save(const QString &fileName)
     // alpha channel
     QDomElement nodeAlphaChannel = doc.createElement("alphaChannel");
     nodeRoot.appendChild(nodeAlphaChannel);
-    if (alphaChannel)
+    if (parameters.alphaChannel)
         nodeAlphaChannel.appendChild(doc.createTextNode("true"));
     else
         nodeAlphaChannel.appendChild(doc.createTextNode("false"));
@@ -347,19 +347,18 @@ QString FontDocument::convert(Preset *preset)
     tags.setTagValue(Tags::DocumentName, this->documentName());
     tags.setTagValue(Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
 
-    QString chars, fontFamily, style;
-    int size;
-    bool monospaced, antialiasing, alphaChannel;
-    this->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing, &alphaChannel);
+    QString chars;
+    tFontParameters parameters;
+    this->fontCharacters(&chars, &parameters);
 
     tags.setTagValue(Tags::DocumentDataType, "font");
-    tags.setTagValue(Tags::FontFamily, fontFamily);
-    tags.setTagValue(Tags::FontSize, QString("%1").arg(size));
-    tags.setTagValue(Tags::FontStyle, style);
+    tags.setTagValue(Tags::FontFamily, parameters.family);
+    tags.setTagValue(Tags::FontSize, QString("%1").arg(parameters.size));
+    tags.setTagValue(Tags::FontStyle, parameters.style);
     tags.setTagValue(Tags::FontString, FontHelper::escapeControlChars(chars));
-    tags.setTagValue(Tags::FontAntiAliasing, antialiasing ? "yes" : "no");
-    tags.setTagValue(Tags::FontAlphaChannel, alphaChannel ? "yes" : "no");
-    tags.setTagValue(Tags::FontWidthType, monospaced ? "monospaced" : "proportional");
+    tags.setTagValue(Tags::FontAntiAliasing, parameters.antiAliasing ? "yes" : "no");
+    tags.setTagValue(Tags::FontAlphaChannel, parameters.alphaChannel ? "yes" : "no");
+    tags.setTagValue(Tags::FontWidthType, parameters.monospaced ? "monospaced" : "proportional");
 
     Parser parser(Parser::TypeFont, preset, this);
     QString result = parser.convert(this, tags);
@@ -483,30 +482,20 @@ void FontDocument::redo()
 }
 //-----------------------------------------------------------------------------
 void FontDocument::fontCharacters(QString *chars,
-                                  QString *fontFamily,
-                                  QString *_style,
-                                  int *_size,
-                                  bool *_monospaced,
-                                  bool *_antialiasing,
-                                  bool *_alphaChannel)
+                                  tFontParameters *parameters)
 {
     QStringList charList(this->mContainer->keys());
     *chars = charList.join("");
-    *fontFamily = this->usedFont().family();
-    *_size = this->usedFont().pixelSize();
-    *_style = this->usedStyle();
-    *_monospaced = this->monospaced();
-    *_antialiasing = this->antialiasing();
-    *_alphaChannel = this->alphaChannel();
+    parameters->family = this->usedFont().family();
+    parameters->size = this->usedFont().pixelSize();
+    parameters->style = this->usedStyle();
+    parameters->monospaced = this->monospaced();
+    parameters->antiAliasing = this->antialiasing();
+    parameters->alphaChannel = this->alphaChannel();
 }
 //-----------------------------------------------------------------------------
 void FontDocument::setFontCharacters(const QString &chars,
-                                     const QString &fontFamily,
-                                     const QString &_style,
-                                     const int _size,
-                                     const bool _monospaced,
-                                     const bool _antialiasing,
-                                     const bool _alphaChannel)
+                                     const tFontParameters &parameters)
 {
     QFontDatabase fonts;
 
@@ -516,12 +505,12 @@ void FontDocument::setFontCharacters(const QString &chars,
 
     if (this->mContainer->count() > 1)
     {
-        if (this->usedFont().family() != fontFamily ||
-            this->usedStyle() != _style ||
-            this->usedFont().pixelSize() != _size ||
-            this->monospaced() != _monospaced ||
-            this->antialiasing() != _antialiasing ||
-            this->alphaChannel() != _alphaChannel)
+        if (this->usedFont().family() != parameters.family ||
+            this->usedStyle() != parameters.style ||
+            this->usedFont().pixelSize() != parameters.size ||
+            this->monospaced() != parameters.monospaced ||
+            this->antialiasing() != parameters.antiAliasing ||
+            this->alphaChannel() != parameters.alphaChannel)
         {
             DialogFontChanged dialog(qobject_cast<QWidget *>(this->parent()));
             if (dialog.exec() == QDialog::Accepted)
@@ -542,10 +531,10 @@ void FontDocument::setFontCharacters(const QString &chars,
     this->beginChanges();
 
     // create font with specified parameters
-    QFont fontNew = fonts.font(fontFamily, _style, _size);
-    fontNew.setPixelSize(_size);
+    QFont fontNew = fonts.font(parameters.family, parameters.style, parameters.size);
+    fontNew.setPixelSize(parameters.size);
 
-    if (_antialiasing)
+    if (parameters.antiAliasing)
         fontNew.setStyleStrategy(QFont::PreferAntialias);
     else
         fontNew.setStyleStrategy(QFont::NoAntialias);
@@ -557,10 +546,10 @@ void FontDocument::setFontCharacters(const QString &chars,
 
         // save new font
         this->setUsedFont(fontNew);
-        this->setUsedStyle(_style);
-        this->setMonospaced(_monospaced);
-        this->setAntialiasing(_antialiasing);
-        this->setAlphaChannel(_alphaChannel);
+        this->setUsedStyle(parameters.style);
+        this->setMonospaced(parameters.monospaced);
+        this->setAntialiasing(parameters.antiAliasing);
+        this->setAlphaChannel(parameters.alphaChannel);
     }
     else
     {
@@ -580,7 +569,7 @@ void FontDocument::setFontCharacters(const QString &chars,
 
     // find max size
     int width = 0, height = 0;
-    if (_monospaced)
+    if (parameters.monospaced)
     {
         QFontMetrics metrics(fontNew);
         for (int i = 0; i < chars.count(); i++)
@@ -608,8 +597,8 @@ void FontDocument::setFontCharacters(const QString &chars,
                                                FontEditorOptions::backColor(),
                                                width,
                                                height,
-                                               _antialiasing,
-                                               _alphaChannel);
+                                               parameters.antiAliasing,
+                                               parameters.alphaChannel);
             this->mContainer->setImage(key, new QImage(image));
         }
     }
