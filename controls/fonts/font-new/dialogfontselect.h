@@ -44,6 +44,7 @@ public:
     int fontSize();
     bool monospaced();
     bool antialiasing();
+    bool alphaChannel();
     QString characters();
 
     void setFontFamily(const QString &value);
@@ -51,6 +52,7 @@ public:
     void setFontSize(int value);
     void setMonospaced(bool value);
     void setAntialising(bool value);
+    void setAlphaChannel(bool value);
     void setCharacters(const QString &value);
 private:
     Ui::DialogFontSelect *ui;
@@ -64,6 +66,7 @@ private:
     int mSize;
     bool mMonospaced;
     bool mAntialiasing;
+    bool mAlphaChannel;
     QString mCharacters;
 
     void updateFont();
@@ -82,6 +85,7 @@ private slots:
     void on_comboBoxStyle_currentIndexChanged(const QString &text);
     void on_radioButtonProportional_toggled(bool value);
     void on_checkBoxAntialiasing_toggled(bool value);
+    void on_checkBoxAlphaChannel_toggled(bool value);
     void on_lineEdit_textChanged();
     void on_tableView_doubleClicked(const QModelIndex &index);
     void on_pushButtonAppendSelected_clicked();

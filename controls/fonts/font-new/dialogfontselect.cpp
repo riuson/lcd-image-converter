@@ -110,6 +110,11 @@ bool DialogFontSelect::antialiasing()
     return this->mAntialiasing;
 }
 //-----------------------------------------------------------------------------
+bool DialogFontSelect::alphaChannel()
+{
+    return this->mAlphaChannel;
+}
+//-----------------------------------------------------------------------------
 QString DialogFontSelect::characters()
 {
     return this->mCharacters;
@@ -172,6 +177,11 @@ void DialogFontSelect::setAntialising(bool value)
     //this->mAntialiasing = value;
     this->ui->checkBoxAntialiasing->setChecked(value);
     //this->applyFont();
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::setAlphaChannel(bool value)
+{
+    this->mAlphaChannel = value;
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::setCharacters(const QString &value)
@@ -326,6 +336,11 @@ void DialogFontSelect::on_radioButtonProportional_toggled(bool value)
 void DialogFontSelect::on_checkBoxAntialiasing_toggled(bool value)
 {
     this->mAntialiasing = value;
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_checkBoxAlphaChannel_toggled(bool value)
+{
+    this->mAlphaChannel = value;
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_lineEdit_textChanged()
