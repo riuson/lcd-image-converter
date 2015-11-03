@@ -42,6 +42,7 @@
 #include "fonteditoroptions.h"
 #include "fontdocument.h"
 #include "editor.h"
+#include "tfontparameters.h"
 //-----------------------------------------------------------------------------
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
@@ -126,19 +127,11 @@ IEditor::EditorType EditorTabFont::type() const
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::setFontCharacters(const QString &chars,
-                                      const QString &fontFamily,
-                                      const QString &_style,
-                                      const int _size,
-                                      const bool _monospaced,
-                                      const bool _antialiasing)
+                                      const tFontParameters &parameters)
 {
     this->mDocument->setFontCharacters(
                 chars,
-                fontFamily,
-                _style,
-                _size,
-                _monospaced,
-                _antialiasing);
+                parameters);
 
     this->updateTableFont();
     this->mModel->callReset();
@@ -151,19 +144,11 @@ void EditorTabFont::setFontCharacters(const QString &chars,
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::fontCharacters(QString *chars,
-                                   QString *fontFamily,
-                                   QString *_style,
-                                   int *_size,
-                                   bool *_monospaced,
-                                   bool *_antialiasing)
+                                   tFontParameters *parameters)
 {
     this->mDocument->fontCharacters(
                 chars,
-                fontFamily,
-                _style,
-                _size,
-                _monospaced,
-                _antialiasing);
+                parameters);
 }
 //-----------------------------------------------------------------------------
 void EditorTabFont::changeEvent(QEvent *e)

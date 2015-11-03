@@ -32,6 +32,7 @@
 #include "datacontainer.h"
 #include "idocument.h"
 #include "preset.h"
+#include "tfontparameters.h"
 //-----------------------------------------------------------------------------
 ActionFileHandlers::ActionFileHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -79,17 +80,11 @@ void ActionFileHandlers::newFont_triggered()
             ed->document()->beginChanges();
 
             QString chars = dialog.characters();
-            int size;
-            QString family, style;
-            bool monospaced, antialiasing;
+            tFontParameters parameters;
+            dialog.getFontParameters(&parameters);
 
-            family = dialog.fontFamily();
-            style = dialog.fontStyle();
-            size = dialog.fontSize();
-            monospaced = dialog.monospaced();
-            antialiasing = dialog.antialiasing();
-
-            ed->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
+            ed->setFontCharacters(chars,
+                                  parameters);
 
             emit this->tabCreated(ed);
 

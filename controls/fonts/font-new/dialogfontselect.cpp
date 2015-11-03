@@ -28,6 +28,7 @@
 #include "dialogfontrange.h"
 #include "fonthelper.h"
 #include "fonteditoroptions.h"
+#include "tfontparameters.h"
 //-----------------------------------------------------------------------------
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
     QDialog(parent),
@@ -49,6 +50,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     this->mSize = 14;
     this->mMonospaced = false;
     this->mAntialiasing = false;
+    this->mAlphaChannel = false;
 
     QString defChars;
     for (int i = 0x20; i < 0x7f; i++)
@@ -85,99 +87,75 @@ DialogFontSelect::~DialogFontSelect()
     delete ui;
 }
 //-----------------------------------------------------------------------------
-QString DialogFontSelect::fontFamily()
-{
-    return this->mFontFamily;
-}
-//-----------------------------------------------------------------------------
-QString DialogFontSelect::fontStyle()
-{
-    return this->mFontStyle;
-}
-//-----------------------------------------------------------------------------
-int DialogFontSelect::fontSize()
-{
-    return this->mSize;
-}
-//-----------------------------------------------------------------------------
-bool DialogFontSelect::monospaced()
-{
-    return this->mMonospaced;
-}
-//-----------------------------------------------------------------------------
-bool DialogFontSelect::antialiasing()
-{
-    return this->mAntialiasing;
-}
-//-----------------------------------------------------------------------------
 QString DialogFontSelect::characters()
 {
     return this->mCharacters;
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::setFontFamily(const QString &value)
+void DialogFontSelect::getFontParameters(tFontParameters *parameters)
 {
-    QFontDatabase fonts;
-    QString style = this->mFontStyle;
-    QFont f = fonts.font(value, style, this->mSize);
-    f.setPixelSize(this->mSize);
-    //this->mFontFamily = value;
-    this->ui->fontComboBox->setCurrentFont(f);
-
-    this->updateStyles();
-    this->updateSizes();
-
-    this->applyFont();
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::setFontStyle(const QString &value)
-{
-    this->mFontStyle = value;
-    int index = this->ui->comboBoxStyle->findText(value);
-    if (index >= 0)
-        this->ui->comboBoxStyle->setCurrentIndex(index);
-    else
-        this->ui->comboBoxStyle->setCurrentIndex(0);
-
-    this->updateSizes();
-
-    this->applyFont();
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::setFontSize(int value)
-{
-    this->mSize = value;
-
-    int index = this->ui->comboBoxSize->findText(QString("%1").arg(value));
-    if (index >= 0)
-        this->ui->comboBoxSize->setCurrentIndex(index);
-    else
-    {
-        QString str = QString("%1").arg(value);
-        this->ui->comboBoxSize->setEditText(str);
-    }
-
-    this->applyFont();
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::setMonospaced(bool value)
-{
-    //this->mMonospaced = value;
-    this->ui->radioButtonMonospaced->setChecked(value);
-    //this->applyFont();
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::setAntialising(bool value)
-{
-    //this->mAntialiasing = value;
-    this->ui->checkBoxAntialiasing->setChecked(value);
-    //this->applyFont();
+    parameters->family = this->mFontFamily;
+    parameters->style = this->mFontStyle;
+    parameters->size = this->mSize;
+    parameters->monospaced = this->mMonospaced;
+    parameters->antiAliasing = this->mAntialiasing;
+    parameters->alphaChannel = this->mAlphaChannel;
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::setCharacters(const QString &value)
 {
     this->mCharacters = value;
     this->setEditorText(value);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::setFontParameters(const tFontParameters &parameters)
+{
+    // Family
+    {
+        QFontDatabase fonts;
+        QString style = this->mFontStyle;
+        QFont f = fonts.font(parameters.family, style, this->mSize);
+        f.setPixelSize(this->mSize);
+        //this->mFontFamily = value;
+        this->ui->fontComboBox->setCurrentFont(f);
+
+        this->updateStyles();
+        this->updateSizes();
+
+        this->applyFont();
+    }
+    // Style
+    {
+        this->mFontStyle = parameters.style;
+        int index = this->ui->comboBoxStyle->findText(parameters.style);
+        if (index >= 0)
+            this->ui->comboBoxStyle->setCurrentIndex(index);
+        else
+            this->ui->comboBoxStyle->setCurrentIndex(0);
+
+        this->updateSizes();
+
+        this->applyFont();
+    }
+    // Size
+    {
+        this->mSize = parameters.size;
+
+        int index = this->ui->comboBoxSize->findText(QString("%1").arg(parameters.size));
+        if (index >= 0)
+            this->ui->comboBoxSize->setCurrentIndex(index);
+        else
+        {
+            QString str = QString("%1").arg(parameters.size);
+            this->ui->comboBoxSize->setEditText(str);
+        }
+
+        this->applyFont();
+    }
+
+    this->ui->radioButtonMonospaced->setChecked(parameters.monospaced);
+    this->ui->checkBoxAntialiasing->setChecked(parameters.antiAliasing);
+    this->ui->checkBoxAlphaChannel->setChecked(parameters.alphaChannel);
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::updateFont()
@@ -326,6 +304,11 @@ void DialogFontSelect::on_radioButtonProportional_toggled(bool value)
 void DialogFontSelect::on_checkBoxAntialiasing_toggled(bool value)
 {
     this->mAntialiasing = value;
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_checkBoxAlphaChannel_toggled(bool value)
+{
+    this->mAlphaChannel = value;
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_lineEdit_textChanged()

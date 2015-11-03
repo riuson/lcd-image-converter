@@ -102,6 +102,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QCheckBox" name="checkBoxAlphaChannel">
+       <property name="text">
+        <string>Alpha-channel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QToolButton" name="toolButtonForeColor">
        <property name="toolTip">
         <string>Fore Color</string>
@@ -255,8 +262,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>572</x>
-     <y>276</y>
+     <x>660</x>
+     <y>358</y>
     </hint>
     <hint type="destinationlabel">
      <x>335</x>
@@ -271,8 +278,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>572</x>
-     <y>276</y>
+     <x>660</x>
+     <y>358</y>
     </hint>
     <hint type="destinationlabel">
      <x>335</x>

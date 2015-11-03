@@ -150,6 +150,7 @@ HEADERS += \
     classes/data/imagedocument.h \
     classes/data/imagesmodel.h \
     classes/data/revisioninfo.h \
+    classes/data/tfontparameters.h \
     classes/imageeditor/editor.h \
     classes/imageeditor/iimageeditor.h \
     classes/imageeditor/iimageeditorparams.h \

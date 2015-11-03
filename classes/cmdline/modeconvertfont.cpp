@@ -21,11 +21,6 @@
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
 //-----------------------------------------------------------------------------
-#include "modeconvertfont.h"
-#include "fontdocument.h"
-#include "datacontainer.h"
-#include "preset.h"
-#include "templateoptions.h"
 #include <QCommandLineParser>
 #include <QDebug>
 #include <QFile>
@@ -33,6 +28,12 @@
 #include <QStringList>
 #include <QByteArray>
 #include <QTextCodec>
+#include "modeconvertfont.h"
+#include "fontdocument.h"
+#include "datacontainer.h"
+#include "preset.h"
+#include "templateoptions.h"
+#include "tfontparameters.h"
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
@@ -74,6 +75,11 @@ void ModeConvertFont::fillParser() const
     QCommandLineOption antialiasingOption(QStringList() << "antialiasing",
                 QCoreApplication::translate("CmdLineParser", "Use antialiasing."));
     this->mParser->addOption(antialiasingOption);
+
+    // --alpachannel
+    QCommandLineOption alphachannelOption(QStringList() << "alphachannel",
+                QCoreApplication::translate("CmdLineParser", "Use alpha channel."));
+    this->mParser->addOption(alphachannelOption);
 
     // --chars-list
     QCommandLineOption charsListOption(QStringList() << "chars-list",
@@ -131,6 +137,7 @@ bool ModeConvertFont::collectArguments()
     this->mFontMonospaced = this->mParser->isSet("monospaced");
     this->mFontStyle = this->mParser->value("style");
     this->mFontAntiAliasing = this->mParser->isSet("antialiasing");
+    this->mFontAlphaChannel = this->mParser->isSet("alphachannel");
 
     this->mFontCharactersList = this->mParser->value("chars-list");
     this->mFontCharactersRange = this->mParser->value("chars-range");
@@ -176,13 +183,17 @@ int ModeConvertFont::process()
                 {
                     FontDocument fontDocument;
 
+                    tFontParameters parameters;
+                    parameters.family = this->mFontFamily;
+                    parameters.style = this->mFontStyle;
+                    parameters.size = this->mFontSize;
+                    parameters.monospaced = this->mFontMonospaced;
+                    parameters.antiAliasing = this->mFontAntiAliasing;
+                    parameters.alphaChannel = this->mFontAlphaChannel;
+
                     fontDocument.setFontCharacters(
                                 this->mFontCharactersList,
-                                this->mFontFamily,
-                                this->mFontStyle,
-                                this->mFontSize,
-                                this->mFontMonospaced,
-                                this->mFontAntiAliasing);
+                                parameters);
 
                     fontDocument.setDocumentName(docNameWS);
                     fontDocument.dataContainer()->setInfo("converted filename", QVariant(this->mOuputFilename));
