@@ -16,7 +16,7 @@ MOC_DIR             = $$OUTDIR/.moc
 UI_DIR              = $$OUTDIR/.uic
 RCC_DIR             = $$OUTDIR/.rcc
 
-QT += xml xmlpatterns network script svg
+QT += xml xmlpatterns network svg
 TARGET = lcd-image-converter
 TEMPLATE = app
 
@@ -26,8 +26,19 @@ TEMPLATE = app
 DESTDIR             = $$OUTDIR/output
 QMAKE_LIBDIR       += $$DESTDIR
 
+# Widgets in Qt 5
 greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
+}
+
+# QtScript deprecated in Qt 5.5, replaced by QJSEngine
+greaterThan(QT_MAJOR_VERSION, 4) {
+  greaterThan(QT_MINOR_VERSION, 4) {
+    QT += qml
+  }
+  lessThan(QT_MINOR_VERSION, 5) {
+    QT += script
+  }
 }
 
 DEFINES += QT_MAJOR_VERSION="$$QT_MAJOR_VERSION"
