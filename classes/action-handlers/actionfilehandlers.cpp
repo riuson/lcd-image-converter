@@ -383,11 +383,17 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
     // converter output file name
     QString outputFileName = document->outputFilename();
 
+    // document file name
+    QString documentFileName = document->documentFilename();
+
     // if file name not specified, show dialog
-    bool filenameNotSpecified = outputFileName.isEmpty();
+    bool outputFilenameNotSpecified = outputFileName.isEmpty();
+
+    // if document not saved, do not save output file name
+    bool documentFilenameNotSpecified = documentFileName.isEmpty();
 
     // show dialog
-    if (request || filenameNotSpecified)
+    if (request || outputFilenameNotSpecified)
     {
         QFileDialog dialog(qobject_cast<QWidget *>(this->parent()));
         dialog.setAcceptMode(QFileDialog::AcceptSave);
@@ -397,7 +403,7 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
         dialog.setDefaultSuffix(QString("c"));
         dialog.setWindowTitle(tr("Save result file as"));
 
-        if (filenameNotSpecified)
+        if (outputFilenameNotSpecified)
         {
             dialog.selectFile(document->documentName());
         }
@@ -430,7 +436,7 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
             file.write(result.toUtf8());
             file.close();
 
-            if (document->outputFilename() != outputFileName)
+            if ((document->outputFilename() != outputFileName) && !documentFilenameNotSpecified)
             {
                 document->setOutputFilename(outputFileName);
             }
