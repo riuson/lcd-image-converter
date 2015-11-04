@@ -18,6 +18,13 @@
  */
 
 #include "converterhelper.h"
+#include "qt-version-check.h"
+//-----------------------------------------------------------------------------
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 5, 0)
+#define USE_JS_QJSENGINE
+#else
+#define USE_JS_QTSCRIPT
+#endif // QT_VERSION
 //-----------------------------------------------------------------------------
 #include <QStringList>
 #include <QImage>
@@ -25,9 +32,15 @@
 #include <QPainter>
 #include <QRegExp>
 #include <QVector>
-#include <QScriptEngine>
 #include <QFile>
 #include <QTextStream>
+
+#if defined(USE_JS_QTSCRIPT)
+#include <QScriptEngine>
+#elif defined(USE_JS_QJSENGINE)
+#include <QJSEngine>
+#endif
+
 #include "bitstream.h"
 #include "bitmaphelper.h"
 #include "preset.h"
@@ -158,6 +171,7 @@ void ConverterHelper::pixelsData(Preset *preset, const QImage *image, QVector<qu
 //-----------------------------------------------------------------------------
 void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script, QString *resultError)
 {
+#if defined(USE_JS_QTSCRIPT)
     // scanning with qt script
     QScriptEngine engine;
     QScriptValue imageValue = engine.newQObject(convImage,
@@ -178,6 +192,26 @@ void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script,
     {
         *resultError = QString();
     }
+#elif defined(USE_JS_QJSENGINE)
+    // scanning with qt script
+    QJSEngine engine;
+    QJSValue imageValue = engine.newQObject(convImage);
+    engine.globalObject().setProperty("image", imageValue);
+    QJSValue resultValue = engine.evaluate(script);
+    if (resultValue.isError())
+    {
+        int line = resultValue.property("lineNumber").toInt();
+        *resultError = QString("Uncaught exception at line %1 : %2").arg(line).arg(resultValue.toString());
+    }
+    else if (convImage->pointsCount() == 0)
+    {
+        *resultError = QString("Empty output");
+    }
+    else
+    {
+        *resultError = QString();
+    }
+#endif
 }
 //-----------------------------------------------------------------------------
 void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
