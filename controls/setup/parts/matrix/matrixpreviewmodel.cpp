@@ -517,10 +517,8 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, Q
 
     if (!active)
     {
-            *name = QVariant(QString("%1").arg(active ? 1 : 0));
-
-            if (!active)
-                *color = QVariant(QColor(50, 50, 50, 200));
+        *name = QVariant("0");
+        *color = QVariant(QColor(50, 50, 50, 200));
     }
     else
     {
