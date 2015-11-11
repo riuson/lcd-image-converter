@@ -142,7 +142,11 @@ void StatusManager::hideItem(StatusData::StatusType key)
     if (this->mList.contains(key))
     {
         QLabel *label = this->mList.value(key);
-        label->setVisible(false);
+
+        if (label != NULL)
+        {
+            label->setVisible(false);
+        }
     }
 }
 //-----------------------------------------------------------------------------
