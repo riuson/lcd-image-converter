@@ -78,7 +78,9 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
         {
             this->mFlagChanged = false;
         }
-        QMouseEvent *me = dynamic_cast<QMouseEvent *>(event);
+
+        QMouseEvent *me = static_cast<QMouseEvent *>(event);
+
         // get coordinates
         int xscaled = me->pos().x();
         int yscaled = me->pos().y();
