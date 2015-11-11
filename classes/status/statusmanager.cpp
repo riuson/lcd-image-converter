@@ -81,6 +81,12 @@ void StatusManager::updateItem(
         const StatusData *statuses)
 {
     QLabel *label = this->mList.value(key);
+
+    if (label == NULL)
+    {
+        return;
+    }
+
     label->setVisible(true);
 
     switch (key)
