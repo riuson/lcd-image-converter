@@ -32,7 +32,9 @@ Tags::Tags()
 Tags::~Tags()
 {
     this->mTagNameMap->clear();
+    this->mTagNameMap->clear();
 
+    delete this->mTagNameMap;
     delete this->mTagValues;
 }
 //-----------------------------------------------------------------------------
