@@ -367,27 +367,30 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
         const QString key = it.next();
         ParsedImageData *data = images->value(key);
 
-        bool ok;
-        int width = data->tags()->tagValue(Tags::OutputImageWidth).toInt(&ok);
-        if (ok)
+        if (data != NULL)
         {
-            int height = data->tags()->tagValue(Tags::OutputImageHeight).toInt(&ok);
+            bool ok;
+            int width = data->tags()->tagValue(Tags::OutputImageWidth).toInt(&ok);
             if (ok)
             {
-                int blocksCount = data->tags()->tagValue(Tags::OutputBlocksCount).toInt(&ok);
+                int height = data->tags()->tagValue(Tags::OutputImageHeight).toInt(&ok);
                 if (ok)
                 {
-                    if (width > maxWidth)
+                    int blocksCount = data->tags()->tagValue(Tags::OutputBlocksCount).toInt(&ok);
+                    if (ok)
                     {
-                        maxWidth = width;
-                    }
-                    if (height > maxHeight)
-                    {
-                        maxHeight = height;
-                    }
-                    if (blocksCount > maxBlocksCount)
-                    {
-                        maxBlocksCount = blocksCount;
+                        if (width > maxWidth)
+                        {
+                            maxWidth = width;
+                        }
+                        if (height > maxHeight)
+                        {
+                            maxHeight = height;
+                        }
+                        if (blocksCount > maxBlocksCount)
+                        {
+                            maxBlocksCount = blocksCount;
+                        }
                     }
                 }
             }
