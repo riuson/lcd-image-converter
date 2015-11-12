@@ -52,12 +52,12 @@ MatrixOptions::~MatrixOptions()
 //-----------------------------------------------------------------------------
 quint32 MatrixOptions::maskUsed() const
 {
-    return this->mMaskUsed;
+    return (this->mMaskUsed != 0) ? this->mMaskUsed : 1;
 }
 //-----------------------------------------------------------------------------
 quint32 MatrixOptions::maskAnd() const
 {
-    return this->mMaskAnd;
+    return (this->mMaskAnd != 0) ? this->mMaskAnd : 1;
 }
 //-----------------------------------------------------------------------------
 quint32 MatrixOptions::maskOr() const
@@ -67,7 +67,7 @@ quint32 MatrixOptions::maskOr() const
 //-----------------------------------------------------------------------------
 quint32 MatrixOptions::maskFill() const
 {
-    return this->mMaskFill;
+    return (this->mMaskFill != 0) ? this->mMaskFill : 1;
 }
 //-----------------------------------------------------------------------------
 void MatrixOptions::setMaskUsed(quint32 value)
@@ -86,7 +86,7 @@ void MatrixOptions::setMaskAnd(quint32 value)
 //-----------------------------------------------------------------------------
 void MatrixOptions::setMaskOr(quint32 value)
 {
-    this->mMaskOr = (value != 0) ? value : 1;
+    this->mMaskOr = value;
 
     emit this->changed();
 }

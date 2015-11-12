@@ -526,11 +526,6 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, Q
         int usedBitsCount = 0;
         quint32 mask = this->mPreset->matrix()->maskUsed();
 
-        if (mask == 0)
-        {
-            mask = 1;
-        }
-
         while (mask != 0)
         {
             if ((mask & 0x00000001) != 0)
@@ -542,11 +537,6 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, Q
         int fillBitIndex = -1;
 
         mask = this->mPreset->matrix()->maskFill();
-
-        if (mask == 0)
-        {
-            mask = 1;
-        }
 
         for (int i = 31; i >= bitIndex; i--)
         {
