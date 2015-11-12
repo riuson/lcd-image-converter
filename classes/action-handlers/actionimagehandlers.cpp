@@ -36,6 +36,7 @@
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
     ActionHandlersBase(parent)
 {
+    this->mRunningError = false;
 }
 //-----------------------------------------------------------------------------
 void ActionImageHandlers::flipHorizontal_triggered()

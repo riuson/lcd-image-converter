@@ -36,7 +36,6 @@ public:
 
 private:
     bool mRunningError;
-    QString mExternalTool;
 
 signals:
 
