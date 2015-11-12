@@ -43,6 +43,7 @@ WindowEditor::WindowEditor(QWidget *parent) :
     this->ui->toolBarOptions->hide();
 
     this->restoreState(ImageEditorOptions::toolbarsState(), 0);
+    this->mTools = NULL;
     this->mSelectedTool = NULL;
 }
 //-----------------------------------------------------------------------------
