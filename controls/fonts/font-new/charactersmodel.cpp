@@ -23,6 +23,10 @@
 CharactersModel::CharactersModel(QObject *parent) :
     QAbstractItemModel(parent)
 {
+    this->mDesiredCode1 = 0;
+    this->mDesiredCode2 = 0;
+    this->mResultCode1 = 0;
+    this->mResultCode2 = 0;
 }
 //-----------------------------------------------------------------------------
 int CharactersModel::rowCount(const QModelIndex &parent) const
