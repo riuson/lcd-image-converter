@@ -44,6 +44,7 @@ ToolFill::ToolFill(IImageEditorParams *parameters, QObject *parent) : QObject(pa
     this->mWidgets = new QList<QWidget *>();
 
     this->mSize = 1;
+    this->mFlagChanged = false;
 
     this->loadSettings();
     this->initializeWidgets();

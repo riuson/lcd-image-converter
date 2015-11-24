@@ -40,6 +40,22 @@ namespace CommandLine {
 ModeConvertFont::ModeConvertFont(QCommandLineParser *parser, QObject *parent) :
     ModeParserBase(parser, parent)
 {
+    this->mFontFamily = "Times";
+    this->mFontSize = 14;
+    this->mFontMonospaced = false;
+    this->mFontStyle = "Normal";
+    this->mFontAntiAliasing = false;
+    this->mFontAlphaChannel = false;
+    this->mFontCharactersList = "0123456789ABCDEFabcdef";
+
+    this->mFontCharactersEncoding = "UTF-8";
+    this->mFontCharactersRange = QString();
+    this->mFontCharactersBigEndian = false;
+
+    this->mOuputFilename = QString();
+    this->mTemplateFilename = QString();
+    this->mDocumentName = QString();
+    this->mPresetName = QString();
 }
 //-----------------------------------------------------------------------------
 QString ModeConvertFont::modeName()

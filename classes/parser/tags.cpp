@@ -32,6 +32,10 @@ Tags::Tags()
 Tags::~Tags()
 {
     this->mTagNameMap->clear();
+    this->mTagNameMap->clear();
+
+    delete this->mTagNameMap;
+    delete this->mTagValues;
 }
 //-----------------------------------------------------------------------------
 Tags::TagsEnum Tags::parseTag(const QString &key) const

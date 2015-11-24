@@ -43,6 +43,7 @@ WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
     this->mPixmapColor2 = QPixmap(16, 16);
     this->mPixmapColor1.fill(this->mColor1);
     this->mPixmapColor2.fill(this->mColor2);
+    this->mFlagChanged = false;
     this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
     this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
 
@@ -78,7 +79,9 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
         {
             this->mFlagChanged = false;
         }
-        QMouseEvent *me = dynamic_cast<QMouseEvent *>(event);
+
+        QMouseEvent *me = static_cast<QMouseEvent *>(event);
+
         // get coordinates
         int xscaled = me->pos().x();
         int yscaled = me->pos().y();

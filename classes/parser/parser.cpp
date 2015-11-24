@@ -165,19 +165,22 @@ QString Parser::parseImagesTable(const QString &templateString,
 
         ParsedImageData *data = images->value(key);
 
-        QString charCode = this->hexCode(key, encoding, useBom);
+        if (data != NULL)
+        {
+            QString charCode = this->hexCode(key, encoding, useBom);
 
-        tags.importValues(data->tags());
-        tags.setTagValue(Tags::OutputCharacterCode, charCode);
-        if (it.hasNext())
-            tags.setTagValue(Tags::OutputComma, ",");
-        else
-            tags.setTagValue(Tags::OutputComma, "");
+            tags.importValues(data->tags());
+            tags.setTagValue(Tags::OutputCharacterCode, charCode);
+            if (it.hasNext())
+                tags.setTagValue(Tags::OutputComma, ",");
+            else
+                tags.setTagValue(Tags::OutputComma, "");
 
-        tags.setTagValue(Tags::OutputCharacterText, FontHelper::escapeControlChars(key));
+            tags.setTagValue(Tags::OutputCharacterText, FontHelper::escapeControlChars(key));
 
-        QString imageString = this->parse(templateString, tags, doc, images);
-        result.append(imageString);
+            QString imageString = this->parse(templateString, tags, doc, images);
+            result.append(imageString);
+        }
     }
 
     return result;
@@ -364,27 +367,30 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
         const QString key = it.next();
         ParsedImageData *data = images->value(key);
 
-        bool ok;
-        int width = data->tags()->tagValue(Tags::OutputImageWidth).toInt(&ok);
-        if (ok)
+        if (data != NULL)
         {
-            int height = data->tags()->tagValue(Tags::OutputImageHeight).toInt(&ok);
+            bool ok;
+            int width = data->tags()->tagValue(Tags::OutputImageWidth).toInt(&ok);
             if (ok)
             {
-                int blocksCount = data->tags()->tagValue(Tags::OutputBlocksCount).toInt(&ok);
+                int height = data->tags()->tagValue(Tags::OutputImageHeight).toInt(&ok);
                 if (ok)
                 {
-                    if (width > maxWidth)
+                    int blocksCount = data->tags()->tagValue(Tags::OutputBlocksCount).toInt(&ok);
+                    if (ok)
                     {
-                        maxWidth = width;
-                    }
-                    if (height > maxHeight)
-                    {
-                        maxHeight = height;
-                    }
-                    if (blocksCount > maxBlocksCount)
-                    {
-                        maxBlocksCount = blocksCount;
+                        if (width > maxWidth)
+                        {
+                            maxWidth = width;
+                        }
+                        if (height > maxHeight)
+                        {
+                            maxHeight = height;
+                        }
+                        if (blocksCount > maxBlocksCount)
+                        {
+                            maxBlocksCount = blocksCount;
+                        }
                     }
                 }
             }

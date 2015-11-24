@@ -43,6 +43,7 @@ WindowEditor::WindowEditor(QWidget *parent) :
     this->ui->toolBarOptions->hide();
 
     this->restoreState(ImageEditorOptions::toolbarsState(), 0);
+    this->mTools = NULL;
     this->mSelectedTool = NULL;
 }
 //-----------------------------------------------------------------------------
@@ -80,7 +81,7 @@ bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
                 event->type() == QEvent::MouseButtonRelease ||
                 event->type() == QEvent::MouseMove)
         {
-            QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(event);
+            QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
 
             int xscaled = mouseEvent->pos().x();
             int yscaled = mouseEvent->pos().y();

@@ -132,6 +132,7 @@ quint32 RleCompressor::getMaxSize(DataBlockSize dataSize)
         break;
     case Data32:
         result = 0x7fffffff;
+        break;
     default:
         result = 127;
         break;
