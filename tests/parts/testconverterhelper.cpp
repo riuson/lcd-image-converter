@@ -1,11 +1,22 @@
 #include "testconverterhelper.h"
 //-----------------------------------------------------------------------------
 #include <QVector>
+#include "qt-version-check.h"
 #include "converterhelper.h"
 #include "preset.h"
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
+
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 5, 0)
+#define USE_JS_QJSENGINE
+#else
+#define USE_JS_QTSCRIPT
+#endif // QT_VERSION
+
+#if defined(USE_JS_QTSCRIPT)
+#include <QCoreApplication>
+#endif
 //-----------------------------------------------------------------------------
 TestConverterHelper::TestConverterHelper(QObject *parent) :
     QObject(parent)
@@ -266,6 +277,30 @@ void TestConverterHelper::dataToString()
     }
 }
 //-----------------------------------------------------------------------------
+void TestConverterHelper::jsengineSetProperty()
+{
+    int argc = 0;
+
+#if defined(USE_JS_QTSCRIPT)
+    QCoreApplication app(argc, NULL);
+#endif
+
+    {
+        QImage image;
+        TestConvImage cimage(&image, NULL);
+        cimage.setCondition(TestConvImage::CanBeDeleted);
+    }
+
+    {
+        QImage image;
+        TestConvImage cimage(&image, NULL);
+        cimage.setCondition(TestConvImage::CannotBedDeleted);
+        QString err;
+        ConverterHelper::collectPoints(&cimage, QString(), &err);
+        cimage.setCondition(TestConvImage::CanBeDeleted);
+    }
+}
+//-----------------------------------------------------------------------------
 void TestConverterHelper::cleanupTestCase()
 {
     delete this->mPreset;
@@ -440,5 +475,23 @@ void TestConverterHelper::prepareStringData(
     }
     result.truncate(result.length() - 2);
     *string = result;
+}
+//-----------------------------------------------------------------------------
+TestConvImage::TestConvImage(const QImage *image, QObject *parent) :
+    ConvImage(image, parent)
+{
+    this->mCondition = CanBeDeleted;
+}
+//-----------------------------------------------------------------------------
+TestConvImage::~TestConvImage()
+{
+    if (this->mCondition != CanBeDeleted) {
+        QFAIL("The object, passed to the script engine as property, was unexpectedly destroyed.");
+    }
+}
+//-----------------------------------------------------------------------------
+void TestConvImage::setCondition(TestConvImage::Condition value)
+{
+    this->mCondition = value;
 }
 //-----------------------------------------------------------------------------

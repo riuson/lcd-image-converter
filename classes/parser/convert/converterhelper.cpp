@@ -39,6 +39,7 @@
 #include <QScriptEngine>
 #elif defined(USE_JS_QJSENGINE)
 #include <QJSEngine>
+#include <QQmlEngine>
 #endif
 
 #include "bitstream.h"
@@ -196,6 +197,7 @@ void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script,
     // scanning with qt script
     QJSEngine engine;
     QJSValue imageValue = engine.newQObject(convImage);
+    QQmlEngine::setObjectOwnership(convImage, QQmlEngine::CppOwnership);
     engine.globalObject().setProperty("image", imageValue);
     QJSValue resultValue = engine.evaluate(script);
     if (resultValue.isError())

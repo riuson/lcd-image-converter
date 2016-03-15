@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QtTest/QtTest>
 #include "conversion_options.h"
+#include "convimage.h"
 //-----------------------------------------------------------------------------
 class Preset;
 //-----------------------------------------------------------------------------
@@ -30,7 +31,28 @@ private slots:
     void processPixels();
     void packData();
     void dataToString();
+    void jsengineSetProperty();
     void cleanupTestCase();
 };
+//-----------------------------------------------------------------------------
+class TestConvImage : public ConvImage
+{
+    Q_OBJECT
+public:
+    enum Condition
+    {
+        CanBeDeleted,
+        CannotBedDeleted
+    };
+
+    explicit TestConvImage(const QImage *image, QObject *parent = 0);
+    virtual ~TestConvImage();
+
+    void setCondition(Condition value);
+
+private:
+    Condition mCondition;
+};
+
 //-----------------------------------------------------------------------------
 #endif // TESTCONVERTERHELPER_H

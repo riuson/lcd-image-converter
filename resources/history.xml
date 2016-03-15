@@ -6,7 +6,8 @@
             <date>current</date>
         </commit>
         <description>Fixed:
- Templates.
+ Templates;
+ Preview with empty script.
 
 Added:
  Simple drawing tools (rect, point, fill, line);
