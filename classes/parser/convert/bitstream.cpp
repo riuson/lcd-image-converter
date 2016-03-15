@@ -46,7 +46,13 @@ void BitStream::init()
 //-----------------------------------------------------------------------------
 bool BitStream::eof() const
 {
-    return (this->mCurrentPixel >= this->mCount);
+    if (this->mStart + this->mCurrentPixel >= this->mData->size())
+        return true;
+
+    if (this->mCurrentPixel >= this->mCount)
+        return true;
+
+    return false;
 }
 //-----------------------------------------------------------------------------
 quint32 BitStream::next()
@@ -87,7 +93,7 @@ quint32 BitStream::next()
 //-----------------------------------------------------------------------------
 bool BitStream::nextBit()
 {
-    if (this->mStart + this->mCurrentPixel >= this->mData->size())
+    if (this->eof())
         return false;
 
     bool result = false;
@@ -111,7 +117,7 @@ bool BitStream::nextBit()
                 this->mMaskCurrent = this->mMaskSource;
                 this->mCurrentPixel++;
 
-                if (this->mStart + this->mCurrentPixel >= this->mData->size())
+                if (this->eof())
                     data = 0;
                 else
                     data = this->mData->at(this->mStart + this->mCurrentPixel);
