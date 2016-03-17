@@ -20,6 +20,7 @@
 #include "parsedimagedata.h"
 
 #include <QImage>
+#include <QSet>
 
 #include "tags.h"
 #include "converterhelper.h"
@@ -78,6 +79,10 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags
         // end of conversion
 
         this->mTags->setTagValue(Tags::OutputImageData, dataString);
+
+        // get hash
+        QString hashStr = QString("data: %1, width: %2, height: %3").arg(dataString).arg(image->width()).arg(image->height());
+        this->mHash = qHash(hashStr);
     }
 }
 //-----------------------------------------------------------------------------
@@ -89,5 +94,10 @@ ParsedImageData::~ParsedImageData()
 const Tags *ParsedImageData::tags() const
 {
     return this->mTags;
+}
+//-----------------------------------------------------------------------------
+uint ParsedImageData::hash() const
+{
+    return this->mHash;
 }
 //-----------------------------------------------------------------------------
