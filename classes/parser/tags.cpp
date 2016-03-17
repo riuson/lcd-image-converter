@@ -176,8 +176,10 @@ void Tags::initTagsMap()
     this->mTagNameMap->insert("bpp",              OutputBitsPerPixel);
     this->mTagNameMap->insert("out_char_code",    OutputCharacterCode);
     this->mTagNameMap->insert("charCode",         OutputCharacterCode);
+    this->mTagNameMap->insert("out_char_code_sim", OutputCharacterCodeSimilar);
     this->mTagNameMap->insert("out_char_text",    OutputCharacterText);
     this->mTagNameMap->insert("charText",         OutputCharacterText);
+    this->mTagNameMap->insert("out_char_text_sim", OutputCharacterTextSimilar);
     this->mTagNameMap->insert("out_image_data",   OutputImageData);
     this->mTagNameMap->insert("imageData",        OutputImageData);
     this->mTagNameMap->insert("out_images_count", OutputImagesCount);
