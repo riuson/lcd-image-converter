@@ -40,17 +40,24 @@ $(start_block_header)
 $(end_block_header)
 
 $(start_block_images_table)
+#if (0x0$(out_char_code_sim) == 0x0)
 static const uint$(img_data_block_size)_t image_data_$(doc_name_ws)_0x$(out_char_code)[$(out_blocks_count)] = {
     $(out_image_data)
 };
 static const tImage $(doc_name_ws)_0x$(out_char_code) = { image_data_$(doc_name_ws)_0x$(out_char_code),
     $(out_image_width), $(out_image_height), $(img_data_block_size)};
+#endif
 $(end_block_images_table)
 
 static const tChar $(doc_name_ws)_array[] = {
 $(start_block_images_table)
+#if (0x0$(out_char_code_sim) == 0x0)
   // character: '$(out_char_text)'
   {0x$(out_char_code), &$(doc_name_ws)_0x$(out_char_code)}$(out_comma)
+#else
+  // character: '$(out_char_text)' == '$(out_char_text_sim)'
+  {0x$(out_char_code), &$(doc_name_ws)_0x$(out_char_code_sim)}$(out_comma)
+#endif
 $(end_block_images_table)
 };
 
