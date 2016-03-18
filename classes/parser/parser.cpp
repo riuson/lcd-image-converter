@@ -153,6 +153,9 @@ QString Parser::parseImagesTable(const QString &templateString,
     QString encoding = this->mPreset->font()->encoding();
     CharactersSortOrder order = this->mPreset->font()->sortOrder();
 
+    // map of same character keys by hash
+    QMap<uint, QString> similarMap;
+
     QStringList keys = data->keys();
     QStringList sortedKeys = this->sortKeysWithEncoding(keys, encoding, useBom, order);
 
@@ -169,8 +172,23 @@ QString Parser::parseImagesTable(const QString &templateString,
         {
             QString charCode = this->hexCode(key, encoding, useBom);
 
+            // detect same characters
+            if (similarMap.contains(data->hash()))
+            {
+                QString similarKey = similarMap.value(data->hash());
+                tags.setTagValue(Tags::OutputCharacterCodeSimilar, this->hexCode(similarKey, encoding, useBom));
+                tags.setTagValue(Tags::OutputCharacterTextSimilar, FontHelper::escapeControlChars(similarKey));
+            }
+            else
+            {
+                similarMap.insert(data->hash(), key);
+                tags.setTagValue(Tags::OutputCharacterCodeSimilar, QString());
+                tags.setTagValue(Tags::OutputCharacterTextSimilar, QString());
+            }
+
             tags.importValues(data->tags());
             tags.setTagValue(Tags::OutputCharacterCode, charCode);
+
             if (it.hasNext())
                 tags.setTagValue(Tags::OutputComma, ",");
             else
