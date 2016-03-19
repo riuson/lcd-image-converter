@@ -7,7 +7,8 @@
         </commit>
         <description>Fixed:
  Templates;
- Preview with empty script.
+ Preview with empty script;
+ Image output for empty conversion data (image too small or skipped by custom algorithm).
 
 Added:
  Combine similar characters in images table;
