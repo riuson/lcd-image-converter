@@ -81,12 +81,12 @@
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="396"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="402"/>
         <source>C Files (*.c);;All Files (*.*)</source>
         <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="398"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="404"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -94,89 +94,89 @@
 <context>
     <name>ActionImageHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="326"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="327"/>
         <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="327"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="328"/>
         <source>Open image file</source>
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="360"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="361"/>
         <source>Selected %1 file(s) and %2 character(s).
 Will be imported only a minimal amount: %3.</source>
         <translation>Выбрано %1 файл(ов) и %2 символ(ов).
 Будет импортировано только минимальное количество: %3.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="369"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="370"/>
         <source>Selected a different number of files and characters.</source>
         <translation>Выбрано разное количество файлов и символов.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="370"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="371"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="413"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="414"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="611"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="612"/>
         <source>Failed to Start</source>
         <translation>Не удалось запустить</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="612"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="613"/>
         <source>The process failed to start. Either the invoked program is missing, or you may have insufficient permissions to invoke the program.</source>
         <translation>Не удалось запустить процесс. Возможно вызываемая программа отсутствует, или у вас недостаточно привелегий для вызова программы.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="615"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="616"/>
         <source>Crashed</source>
         <translation>Сбой</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="616"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="617"/>
         <source>The process crashed some time after starting successfully.</source>
         <translation>Произошёл сбой процесса после успешно произведённого запуска.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="623"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="624"/>
         <source>Read Error</source>
         <translation>Ошибка чтения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="624"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="625"/>
         <source>An error occurred when attempting to read from the process. For example, the process may not be running.</source>
         <translation>Возникла ошибка при попытке чтения из процесса. К примеру, процесс может быть не запущен.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="627"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="628"/>
         <source>Write Error</source>
         <translation>Ошибка записи</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="628"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="629"/>
         <source>An error occurred when attempting to write to the process. For example, the process may not be running, or it may have closed its input channel.</source>
         <translation>Возникла ошибка при попытке записи в процесс. К примеру, процесс может быть не запущен, или иметь закрытый входной канал.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="632"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="633"/>
         <source>Unknown Error</source>
         <translation>Неизвестная ошибка</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="633"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="634"/>
         <source>An unknown error occurred.</source>
         <translation>Возникла неизвестная ошибка.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="640"/>
+        <location filename="../classes/action-handlers/actionimagehandlers.cpp" line="641"/>
         <source>Error running external tool</source>
         <translation>Ошибка при запуске внешней утилиты</translation>
     </message>
@@ -199,8 +199,8 @@ Will be imported only a minimal amount: %3.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="110"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="116"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="126"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="132"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="53"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="59"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="65"/>
@@ -210,108 +210,108 @@ Will be imported only a minimal amount: %3.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="109"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="125"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="58"/>
         <source>Full &lt;path&gt; to output result.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="54"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="70"/>
         <source>&lt;Family&gt; of new font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="55"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="71"/>
         <source>family</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="60"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="76"/>
         <source>Font &lt;size&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="61"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="77"/>
         <source>size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="66"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="82"/>
         <source>Make monospaced font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="71"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="87"/>
         <source>Font &lt;style&gt;, Regular, Bold, Italic or Bold Italic.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="76"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="92"/>
         <source>Use antialiasing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="81"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="97"/>
         <source>Use alpha channel.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="86"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="102"/>
         <source>Characters, what included to the font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="87"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="103"/>
         <source>characters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="92"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="108"/>
         <source>Characters range, for example &quot;32-255&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="93"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="109"/>
         <source>range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="98"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="114"/>
         <source>Characters encoding, for example &quot;UTF-8&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="99"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="115"/>
         <source>encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="104"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="120"/>
         <source>Use big-endian instead of little-endian.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="115"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="131"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="64"/>
         <source>Full &lt;path&gt; to template file, used in conversion. [Optional]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="121"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="137"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="70"/>
         <source>Document name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="122"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="128"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="138"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="144"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="71"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="77"/>
         <source>name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="127"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="143"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="76"/>
         <source>Output preset &lt;name&gt; from predefined presets in application settings.</source>
         <translation type="unfinished"></translation>
@@ -797,12 +797,12 @@ Qt: %4</translation>
 <context>
     <name>ImageEditor::ToolFill</name>
     <message>
-        <location filename="../classes/imageeditor/toolfill.cpp" line="64"/>
+        <location filename="../classes/imageeditor/toolfill.cpp" line="65"/>
         <source>Fill</source>
         <translation>Заливка</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolfill.cpp" line="69"/>
+        <location filename="../classes/imageeditor/toolfill.cpp" line="70"/>
         <source>Fill area</source>
         <translation>Заливка площади</translation>
     </message>
@@ -1722,22 +1722,22 @@ Qt: %4</translation>
 <context>
     <name>StatusManager</name>
     <message>
-        <location filename="../classes/status/statusmanager.cpp" line="92"/>
+        <location filename="../classes/status/statusmanager.cpp" line="98"/>
         <source>Char: %1/%2</source>
         <translation>Символ: %1/%2</translation>
     </message>
     <message>
-        <location filename="../classes/status/statusmanager.cpp" line="99"/>
+        <location filename="../classes/status/statusmanager.cpp" line="105"/>
         <source>Cursor: %1,%2</source>
         <translation>Курсор: %1,%2</translation>
     </message>
     <message>
-        <location filename="../classes/status/statusmanager.cpp" line="106"/>
+        <location filename="../classes/status/statusmanager.cpp" line="112"/>
         <source>Scale: %1x</source>
         <translation>Масштаб: %1x</translation>
     </message>
     <message>
-        <location filename="../classes/status/statusmanager.cpp" line="113"/>
+        <location filename="../classes/status/statusmanager.cpp" line="119"/>
         <source>Size: %1x%2</source>
         <translation>Размер: %1x%2</translation>
     </message>
