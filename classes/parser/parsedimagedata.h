@@ -34,9 +34,11 @@ public:
     ~ParsedImageData();
 
     const Tags *tags() const;
+    uint hash() const;
 
 private:
     Tags *mTags;
+    uint mHash;
 };
 //-----------------------------------------------------------------------------
 #endif // PARSEDIMAGEDATA_H
