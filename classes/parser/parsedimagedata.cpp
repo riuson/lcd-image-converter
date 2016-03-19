@@ -84,6 +84,18 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags
         QString hashStr = QString("data: %1, width: %2, height: %3").arg(dataString).arg(image->width()).arg(image->height());
         this->mHash = qHash(hashStr);
     }
+    else
+    {
+        this->mTags->setTagValue(Tags::OutputImageWidth, QString("0"));
+        this->mTags->setTagValue(Tags::OutputImageHeight, QString("0"));
+
+        this->mTags->setTagValue(Tags::OutputBlocksCount, QString("0"));
+        this->mTags->setTagValue(Tags::OutputImageData, QString());
+
+        // get hash
+        QString hashStr = QString("empty, width: %1, height: %2").arg(image->width()).arg(image->height());
+        this->mHash = qHash(hashStr);
+    }
 }
 //-----------------------------------------------------------------------------
 ParsedImageData::~ParsedImageData()
