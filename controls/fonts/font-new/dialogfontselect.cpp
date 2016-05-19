@@ -29,12 +29,15 @@
 #include "fonthelper.h"
 #include "fonteditoroptions.h"
 #include "tfontparameters.h"
+#include "dialogfontselectdata.h"
 //-----------------------------------------------------------------------------
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogFontSelect)
 {
     ui->setupUi(this);
+
+    this->mData = new DialogFontSelectData(this);
 
     this->mModel = new CharactersModel(this);
     this->mModel->setCodesRange(0x0000, 0x00ff);

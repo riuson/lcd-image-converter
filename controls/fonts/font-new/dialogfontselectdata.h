@@ -42,6 +42,8 @@ public:
     void setCharacters(const QString &value);
     void setFontParameters(const tFontParameters &parameters);
 
+    CharactersModel *charactersModel();
+
 private:
     CharactersModel *mModel;
     UnicodeBlocksModel *mBlocksModel;
