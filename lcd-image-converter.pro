@@ -109,6 +109,7 @@ SOURCES += main.cpp \
     controls/fonts/font-editor/editortabfont.cpp \
     controls/fonts/font-new/charactersmodel.cpp \
     controls/fonts/font-new/dialogfontselect.cpp \
+    controls/fonts/font-new/dialogfontselectdata.cpp \
     controls/fonts/font-new/unicodeblocksmodel.cpp \
     controls/fonts/font-new/unicodeblocksfiltermodel.cpp \
     controls/fonts/font-preview/dialogfontpreview.cpp \
@@ -203,6 +204,7 @@ HEADERS += \
     controls/fonts/font-editor/editortabfont.h \
     controls/fonts/font-new/charactersmodel.h \
     controls/fonts/font-new/dialogfontselect.h \
+    controls/fonts/font-new/dialogfontselectdata.h \
     controls/fonts/font-new/unicodeblocksmodel.h \
     controls/fonts/font-new/unicodeblocksfiltermodel.h \
     controls/fonts/font-preview/dialogfontpreview.h \
