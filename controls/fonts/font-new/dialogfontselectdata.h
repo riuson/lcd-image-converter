@@ -43,7 +43,9 @@ public:
     void setFontParameters(const tFontParameters &parameters);
 
     CharactersModel *charactersModel();
+    UnicodeBlocksFilterModel *unicodeBlocksModel();
 
+    void appendCharacters(const QString &value);
 private:
     CharactersModel *mModel;
     UnicodeBlocksModel *mBlocksModel;
@@ -58,35 +60,27 @@ private:
     bool mAlphaChannel;
     QString mCharacters;
 
-    void updateFont();
-    void updateStyles();
-    void updateSizes();
-
-    void applyFont();
-    QString appendCharacters(const QString &original, const QString &value);
-    QString editorText();
-    void setEditorText(const QString &value);
+    void notifyFontChanged();
 
 signals:
+    void stylesListChanged(const QStringList &list, const QString &selected);
+    void sizesListChanged(const QList<int> &list, int selected);
+    void charactersListChanged(const QString &value);
+    void fontChanged(const QFont &value);
+    void monospacedChanged(bool value);
+    void antialiasingChanged(bool value);
+    void alphaChannelChanged(bool value);
 
 public slots:
-    void on_fontComboBox_currentFontChanged(const QFont &font);
-    void on_comboBoxSize_currentIndexChanged(const QString &text);
-    void on_comboBoxSize_editTextChanged(const QString & text);
-    void on_comboBoxStyle_currentIndexChanged(const QString &text);
-    void on_radioButtonProportional_toggled(bool value);
-    void on_checkBoxAntialiasing_toggled(bool value);
-    void on_checkBoxAlphaChannel_toggled(bool value);
-    void on_lineEdit_textChanged();
-    void on_tableView_doubleClicked(const QModelIndex &index);
-    void on_pushButtonAppendSelected_clicked();
-    void on_pushButtonAppendRange_clicked();
-    void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-    void rangeChanged(const QItemSelection &selected, const QItemSelection &deselected);
-    void on_lineEditUnicodeBlocksFilter_textChanged(const QString & text);
-    void on_pushButtonSort_clicked();
-    void on_toolButtonForeColor_clicked();
-    void on_toolButtonBackColor_clicked();
+    void setFont(const QFont &font);
+    void setStyle(const QString &style);
+    void setSize(const QString &text);
+    void setUnicodeBlocksFilter(const QString & text);
+    void setUnicodeRange(const QItemSelection &selected, const QItemSelection &deselected);
+    void setMonospaced(bool value);
+    void setAntialiasing(bool value);
+    void setAlphaChannel(bool value);
+    void resort();
 };
 //-----------------------------------------------------------------------------
 #endif // DIALOGFONTSELECTDATA_H
