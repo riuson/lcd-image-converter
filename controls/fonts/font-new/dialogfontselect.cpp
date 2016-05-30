@@ -84,7 +84,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     this->connect(this->mData, SIGNAL(monospacedChanged(bool)), SLOT(on_monospacedChanged(bool)));
 
     // Sort characters
-    this->connect(this->ui->pushButtonSort, SIGNAL(clicked(bool)), this->mData, SLOT(resort()));
+    this->connect(this->ui->toolButtonSort, SIGNAL(clicked(bool)), this->mData, SLOT(resort()));
 
     QPixmap pixmapForeColor = QPixmap(24, 24);
     pixmapForeColor.fill(FontEditorOptions::foreColor());
