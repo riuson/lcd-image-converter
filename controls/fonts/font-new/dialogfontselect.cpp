@@ -74,6 +74,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
 
     // Apply changed font to character's table
     this->connect(this->mData, SIGNAL(fontChanged(QFont)), SLOT(on_fontChanged(QFont)));
+    this->connect(this->mData, SIGNAL(fontMeasured(int,int,int)), SLOT(on_fontMeasured(int,int,int)));
 
     // Checkbox/RadioButton
     this->connect(this->ui->radioButtonMonospaced, SIGNAL(toggled(bool)), this->mData, SLOT(setMonospaced(bool)));
@@ -288,14 +289,17 @@ void DialogFontSelect::on_fontChanged(const QFont &value)
     this->ui->tableView->horizontalHeader()->setDefaultSectionSize(w);
     this->ui->tableView->verticalHeader()->show();
     this->ui->tableView->horizontalHeader()->show();
-
-    QString strHeight = tr("Real height: %1").arg(metrics.height());
-    this->ui->labelRealHeight->setText(strHeight);
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_monospacedChanged(bool value)
 {
     this->ui->radioButtonMonospaced->setChecked(value);
     this->ui->radioButtonProportional->setChecked(!value);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_fontMeasured(int count, int maxWidth, int maxHeight)
+{
+    this->ui->labelCharactersMaxSize->setText(tr("Max size (w × h): %1 × %2").arg(maxWidth).arg(maxHeight));
+    this->ui->labelCharactersCount->setText(tr("Count: %1").arg(count));
 }
 //-----------------------------------------------------------------------------

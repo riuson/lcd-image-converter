@@ -29,6 +29,7 @@
 #include "fonthelper.h"
 #include "fonteditoroptions.h"
 #include "tfontparameters.h"
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 DialogFontSelectData::DialogFontSelectData(QObject *parent) :
     QObject(parent)
@@ -86,6 +87,7 @@ void DialogFontSelectData::setCharacters(const QString &value)
 {
     this->mCharacters = value;
     emit this->charactersListChanged(this->mCharacters);
+    this->notifyFontChanged();
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelectData::setFontParameters(const tFontParameters &parameters)
@@ -126,6 +128,21 @@ void DialogFontSelectData::notifyFontChanged()
     QFont font = fonts.font(this->mFontFamily, this->mFontStyle, this->mSize);
     font.setPixelSize(this->mSize);
     emit this->fontChanged(font);
+
+
+    // find max size
+    QFontMetrics metrics(font);
+    QSize sz = QSize();
+    QString chars = this->characters();
+
+    for (int i = 0; i < chars.count(); i++)
+    {
+        QSize sz1 = BitmapHelper::getCharacterSize(metrics, chars.at(i));
+        sz.setWidth(qMax(sz.width(), sz1.width()));
+        sz.setHeight(qMax(sz.height(), sz1.height()));
+    }
+
+    emit this->fontMeasured(chars.count(), sz.width(), sz.height());
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelectData::setFont(const QFont &font)
@@ -137,6 +154,7 @@ void DialogFontSelectData::setFont(const QFont &font)
     QFontDatabase fonts;
     QStringList stylesList = fonts.styles(this->mFontFamily);
     emit this->stylesListChanged(stylesList, style);
+    this->notifyFontChanged();
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelectData::setStyle(const QString &style)
@@ -155,6 +173,7 @@ void DialogFontSelectData::setStyle(const QString &style)
         sizes = fonts.standardSizes();
 
     emit this->sizesListChanged(sizes, previousSize);
+    this->notifyFontChanged();
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelectData::setSize(const QString &text)
@@ -166,6 +185,7 @@ void DialogFontSelectData::setSize(const QString &text)
     else
         this->mSize = 5;
 
+    this->notifyFontChanged();
     this->notifyFontChanged();
 }
 //-----------------------------------------------------------------------------

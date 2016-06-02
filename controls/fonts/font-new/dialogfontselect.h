@@ -64,6 +64,7 @@ private slots:
     void on_charactersListChanged(const QString &value);
     void on_fontChanged(const QFont &value);
     void on_monospacedChanged(bool value);
+    void on_fontMeasured(int count, int maxWidth, int maxHeight);
 };
 
 #endif // DIALOGFONTSELECT_H

@@ -67,6 +67,7 @@ signals:
     void sizesListChanged(const QList<int> &list, int selected);
     void charactersListChanged(const QString &value);
     void fontChanged(const QFont &value);
+    void fontMeasured(int count, int maxWidth, int maxHeight);
     void monospacedChanged(bool value);
     void antialiasingChanged(bool value);
     void alphaChannelChanged(bool value);

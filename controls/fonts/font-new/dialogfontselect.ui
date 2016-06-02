@@ -280,9 +280,16 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_9">
         <item>
-         <widget class="QLabel" name="labelRealHeight">
+         <widget class="QLabel" name="labelCharactersMaxSize">
           <property name="text">
-           <string>RealHeight</string>
+           <string>Max size</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="labelCharactersCount">
+          <property name="text">
+           <string>Count</string>
           </property>
          </widget>
         </item>
