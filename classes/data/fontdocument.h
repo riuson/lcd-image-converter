@@ -81,15 +81,6 @@ private:
     bool alphaChannel() const;
     void setAlphaChannel(const bool value);
 
-    QImage drawCharacter(const QChar value,
-                         const QFont &font,
-                         const QColor &foreground,
-                         const QColor &background,
-                         const int width,
-                         const int height,
-                         const bool antialiasing,
-                         const bool alphaChannel);
-
 private slots:
     void mon_container_dataChanged(bool historyStateMoved);
 

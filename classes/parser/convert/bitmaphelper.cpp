@@ -291,3 +291,64 @@ QImage BitmapHelper::fromSvg(const QString &path, int size)
     return image;
 }
 //-----------------------------------------------------------------------------
+QImage BitmapHelper::drawCharacter(
+        const QChar value,
+        const QFont &font,
+        const QColor &foreground,
+        const QColor &background,
+        const int width,
+        const int height,
+        const bool antialiasing,
+        const bool alphaChannel)
+{
+    QFontMetrics fontMetrics(font);
+
+    int charWidth = fontMetrics.width(value);
+    int charHeight = fontMetrics.height();
+
+    // fix width of italic style
+    QRect r = fontMetrics.boundingRect(QString(value));
+    charWidth = qMax(qMax(r.left(), r.right()) + 1, charWidth);
+
+    // check for abnormal size
+    if ((charWidth > charHeight * 100) || (charWidth == 0))
+    {
+        if (value.isNull() || !value.isPrint())
+        {
+            charWidth = 1;
+        }
+    }
+
+    int imageWidth = width;
+    int imageHeight = height;
+
+    if (width == 0 || height == 0)
+    {
+        imageWidth = charWidth;
+        imageHeight = charHeight;
+    }
+
+    QImage result(imageWidth, imageHeight, QImage::Format_RGB32);
+
+    if (alphaChannel)
+    {
+        result = QImage(imageWidth, imageHeight, QImage::Format_ARGB32);
+    }
+
+    QPainter painter(&result);
+    painter.setFont(font);
+
+    painter.setRenderHint(QPainter::Antialiasing, antialiasing);
+    painter.setRenderHint(QPainter::TextAntialiasing, antialiasing);
+
+    painter.setPen(foreground);
+
+    painter.fillRect(result.rect(), background);
+
+    painter.drawText((imageWidth / 2) - (charWidth / 2),
+                     fontMetrics.ascent(),//+4
+                     QString(value));
+
+    return result;
+}
+//-----------------------------------------------------------------------------
