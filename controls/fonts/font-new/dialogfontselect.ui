@@ -103,8 +103,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>264</width>
-         <height>212</height>
+         <width>247</width>
+         <height>196</height>
         </rect>
        </property>
        <attribute name="label">
@@ -170,17 +170,17 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="pageImageOptions">
+      <widget class="QWidget" name="pageImageParameters">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>264</width>
-         <height>212</height>
+         <width>247</width>
+         <height>199</height>
         </rect>
        </property>
        <attribute name="label">
-        <string>Options</string>
+        <string>Parameters</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
