@@ -38,7 +38,7 @@
          <x>0</x>
          <y>0</y>
          <width>264</width>
-         <height>212</height>
+         <height>239</height>
         </rect>
        </property>
        <attribute name="label">
@@ -217,28 +217,28 @@
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="toolButtonForeColor">
-            <property name="toolTip">
-             <string>Fore Color</string>
+           <widget class="QPushButton" name="pushButtonForeColor">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
             <property name="text">
              <string>Fore Color</string>
-            </property>
-            <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="toolButtonBackColor">
-            <property name="toolTip">
-             <string>Back Color</string>
+           <widget class="QPushButton" name="pushButtonBackColor">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
             <property name="text">
              <string>Back Color</string>
-            </property>
-            <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
            </widget>
           </item>
@@ -269,48 +269,6 @@
            </spacer>
           </item>
          </layout>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="pageInfo">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>264</width>
-         <height>212</height>
-        </rect>
-       </property>
-       <attribute name="label">
-        <string>Info</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_9">
-        <item>
-         <widget class="QLabel" name="labelCharactersMaxSize">
-          <property name="text">
-           <string>Max size</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="labelCharactersCount">
-          <property name="text">
-           <string>Count</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>
@@ -345,6 +303,20 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="labelCharactersCount">
+       <property name="text">
+        <string>Count</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelCharactersMaxSize">
+       <property name="text">
+        <string>Max size</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
