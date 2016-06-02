@@ -85,15 +85,15 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     this->connect(this->mData, SIGNAL(monospacedChanged(bool)), SLOT(on_monospacedChanged(bool)));
 
     // Sort characters
-    this->connect(this->ui->toolButtonSort, SIGNAL(clicked(bool)), this->mData, SLOT(resort()));
+    this->connect(this->ui->pushButtonSort, SIGNAL(clicked(bool)), this->mData, SLOT(resort()));
 
     QPixmap pixmapForeColor = QPixmap(24, 24);
     pixmapForeColor.fill(FontEditorOptions::foreColor());
-    this->ui->toolButtonForeColor->setIcon(QIcon(pixmapForeColor));
+    this->ui->pushButtonForeColor->setIcon(QIcon(pixmapForeColor));
 
     QPixmap pixmapBackColor = QPixmap(24, 24);
     pixmapBackColor.fill(FontEditorOptions::backColor());
-    this->ui->toolButtonBackColor->setIcon(QIcon(pixmapBackColor));
+    this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
 
     this->mData->setFont(this->ui->fontComboBox->currentFont());
     this->ui->lineEdit->setText(this->mData->characters());
@@ -199,7 +199,7 @@ void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QI
     this->ui->pushButtonAppendSelected->setEnabled(hasNew);
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::on_toolButtonForeColor_clicked()
+void DialogFontSelect::on_pushButtonForeColor_clicked()
 {
     QColorDialog dialog(FontEditorOptions::foreColor(), this);
 
@@ -208,11 +208,11 @@ void DialogFontSelect::on_toolButtonForeColor_clicked()
         FontEditorOptions::setForeColor(dialog.selectedColor());
         QPixmap pixmapForeColor = QPixmap(24, 24);
         pixmapForeColor.fill(dialog.selectedColor());
-        this->ui->toolButtonForeColor->setIcon(QIcon(pixmapForeColor));
+        this->ui->pushButtonForeColor->setIcon(QIcon(pixmapForeColor));
     }
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::on_toolButtonBackColor_clicked()
+void DialogFontSelect::on_pushButtonBackColor_clicked()
 {
     QColorDialog dialog(FontEditorOptions::backColor(), this);
 
@@ -221,7 +221,7 @@ void DialogFontSelect::on_toolButtonBackColor_clicked()
         FontEditorOptions::setBackColor(dialog.selectedColor());
         QPixmap pixmapBackColor = QPixmap(24, 24);
         pixmapBackColor.fill(dialog.selectedColor());
-        this->ui->toolButtonBackColor->setIcon(QIcon(pixmapBackColor));
+        this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
     }
 }
 //-----------------------------------------------------------------------------

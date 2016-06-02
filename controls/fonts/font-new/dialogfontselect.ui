@@ -37,7 +37,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>195</width>
+         <width>264</width>
          <height>212</height>
         </rect>
        </property>
@@ -103,7 +103,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>195</width>
+         <width>264</width>
          <height>212</height>
         </rect>
        </property>
@@ -175,7 +175,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>195</width>
+         <width>264</width>
          <height>212</height>
         </rect>
        </property>
@@ -243,7 +243,13 @@
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="toolButtonSort">
+           <widget class="QPushButton" name="pushButtonSort">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text">
              <string>Sort</string>
             </property>
@@ -271,7 +277,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>195</width>
+         <width>264</width>
          <height>212</height>
         </rect>
        </property>

@@ -56,8 +56,8 @@ private slots:
     void on_pushButtonAppendSelected_clicked();
     void on_pushButtonAppendRange_clicked();
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-    void on_toolButtonForeColor_clicked();
-    void on_toolButtonBackColor_clicked();
+    void on_pushButtonForeColor_clicked();
+    void on_pushButtonBackColor_clicked();
 
     void on_stylesListChanged(const QStringList &list, const QString &selected);
     void on_sizesListChanged(const QList<int> &list, int selected);
