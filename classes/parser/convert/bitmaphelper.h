@@ -21,10 +21,13 @@
 #define BITMAPHELPER_H
 //-----------------------------------------------------------------------------
 #include <QImage>
+#include <QSize>
 //-----------------------------------------------------------------------------
 #include <conversion_options.h>
 //-----------------------------------------------------------------------------
 using namespace ConversionOptions;
+//-----------------------------------------------------------------------------
+class QFontMetrics;
 //-----------------------------------------------------------------------------
 typedef struct
 {
@@ -55,14 +58,16 @@ public:
     static QImage drawPixel(const QImage *source, int x, int y, const QColor &color);
     static QColor detectBackgroundColor(const QImage *image);
     static QImage fromSvg(const QString &path, int size);
-    static QImage drawCharacter(const QChar value,
-                                const QFont &font,
-                                const QColor &foreground,
-                                const QColor &background,
-                                const int width,
-                                const int height,
-                                const bool antialiasing,
-                                const bool alphaChannel);
+    static QSize getCharacterSize(const QFontMetrics &metrics, QChar value);
+    static QImage drawCharacter(
+            const QChar value,
+            const QFont &font,
+            const QColor &foreground,
+            const QColor &background,
+            const int width,
+            const int height,
+            const bool antialiasing,
+            const bool alphaChannel);
 };
 //-----------------------------------------------------------------------------
 #endif // BITMAPHELPER_H

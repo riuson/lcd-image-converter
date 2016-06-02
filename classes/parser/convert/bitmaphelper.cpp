@@ -291,6 +291,27 @@ QImage BitmapHelper::fromSvg(const QString &path, int size)
     return image;
 }
 //-----------------------------------------------------------------------------
+QSize BitmapHelper::getCharacterSize(const QFontMetrics &metrics, QChar value)
+{
+    int charWidth = metrics.width(value);
+    int charHeight = metrics.height();
+
+    // fix width of italic style
+    QRect r = metrics.boundingRect(QString(value));
+    charWidth = qMax(qMax(r.left(), r.right()) + 1, charWidth);
+
+    // check for abnormal size
+    if ((charWidth > charHeight * 100) || (charWidth == 0))
+    {
+        if (value.isNull() || !value.isPrint())
+        {
+            charWidth = 1;
+        }
+    }
+
+    return QSize(charWidth, charHeight);
+}
+//-----------------------------------------------------------------------------
 QImage BitmapHelper::drawCharacter(
         const QChar value,
         const QFont &font,
@@ -303,29 +324,15 @@ QImage BitmapHelper::drawCharacter(
 {
     QFontMetrics fontMetrics(font);
 
-    int charWidth = fontMetrics.width(value);
-    int charHeight = fontMetrics.height();
-
-    // fix width of italic style
-    QRect r = fontMetrics.boundingRect(QString(value));
-    charWidth = qMax(qMax(r.left(), r.right()) + 1, charWidth);
-
-    // check for abnormal size
-    if ((charWidth > charHeight * 100) || (charWidth == 0))
-    {
-        if (value.isNull() || !value.isPrint())
-        {
-            charWidth = 1;
-        }
-    }
+    QSize characterSize = BitmapHelper::getCharacterSize(fontMetrics, value);
 
     int imageWidth = width;
     int imageHeight = height;
 
     if (width == 0 || height == 0)
     {
-        imageWidth = charWidth;
-        imageHeight = charHeight;
+        imageWidth = characterSize.width();
+        imageHeight = characterSize.height();
     }
 
     QImage result(imageWidth, imageHeight, QImage::Format_RGB32);
@@ -345,7 +352,7 @@ QImage BitmapHelper::drawCharacter(
 
     painter.fillRect(result.rect(), background);
 
-    painter.drawText((imageWidth / 2) - (charWidth / 2),
+    painter.drawText((imageWidth / 2) - (characterSize.width() / 2),
                      fontMetrics.ascent(),//+4
                      QString(value));
 
