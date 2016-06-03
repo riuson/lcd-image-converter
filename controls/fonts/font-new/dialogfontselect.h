@@ -31,6 +31,7 @@ class QItemSelection;
 class UnicodeBlocksModel;
 class UnicodeBlocksFilterModel;
 struct tFontParameters;
+class DialogFontSelectData;
 //-----------------------------------------------------------------------------
 class DialogFontSelect : public QDialog
 {
@@ -41,52 +42,29 @@ public:
     ~DialogFontSelect();
 
     QString characters();
-    void getFontParameters(tFontParameters *parameters);
-
     void setCharacters(const QString &value);
+
+    void getFontParameters(tFontParameters *parameters);
     void setFontParameters(const tFontParameters &parameters);
 private:
     Ui::DialogFontSelect *ui;
-    CharactersModel *mModel;
-    UnicodeBlocksModel *mBlocksModel;
-    UnicodeBlocksFilterModel *mBlocksFilterModel;
-    bool mSortOrderUp;
-
-    QString mFontFamily;
-    QString mFontStyle;
-    int mSize;
-    bool mMonospaced;
-    bool mAntialiasing;
-    bool mAlphaChannel;
-    QString mCharacters;
-
-    void updateFont();
-    void updateStyles();
-    void updateSizes();
-
-    void applyFont();
-    QString appendCharacters(const QString &original, const QString &value);
-    QString editorText();
-    void setEditorText(const QString &value);
+    DialogFontSelectData *mData;
 
 private slots:
-    void on_fontComboBox_currentFontChanged(const QFont &font);
-    void on_comboBoxSize_currentIndexChanged(const QString &text);
-    void on_comboBoxSize_editTextChanged(const QString & text);
-    void on_comboBoxStyle_currentIndexChanged(const QString &text);
-    void on_radioButtonProportional_toggled(bool value);
-    void on_checkBoxAntialiasing_toggled(bool value);
-    void on_checkBoxAlphaChannel_toggled(bool value);
-    void on_lineEdit_textChanged();
+    void on_lineEdit_textChanged(const QString &value);
     void on_tableView_doubleClicked(const QModelIndex &index);
     void on_pushButtonAppendSelected_clicked();
     void on_pushButtonAppendRange_clicked();
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-    void rangeChanged(const QItemSelection &selected, const QItemSelection &deselected);
-    void on_lineEditUnicodeBlocksFilter_textChanged(const QString & text);
-    void on_pushButtonSort_clicked();
-    void on_toolButtonForeColor_clicked();
-    void on_toolButtonBackColor_clicked();
+    void on_pushButtonForeColor_clicked();
+    void on_pushButtonBackColor_clicked();
+
+    void on_stylesListChanged(const QStringList &list, const QString &selected);
+    void on_sizesListChanged(const QList<int> &list, int selected);
+    void on_charactersListChanged(const QString &value);
+    void on_fontChanged(const QFont &value);
+    void on_monospacedChanged(bool value);
+    void on_fontMeasured(int count, int maxWidth, int maxHeight);
 };
 
 #endif // DIALOGFONTSELECT_H

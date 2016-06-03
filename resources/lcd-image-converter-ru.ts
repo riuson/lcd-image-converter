@@ -495,82 +495,116 @@ Qt: %4</translation>
         <translation>Настройка шрифта</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="25"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="45"/>
+        <source>Source Font</source>
+        <translation>Исходный шрифт</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="53"/>
         <source>Font:</source>
         <translation>Семейство:</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="35"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="63"/>
         <source>Style:</source>
         <translatorcomment>Стиль шрифта</translatorcomment>
         <translation>Стиль:</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="45"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="73"/>
         <source>Size:</source>
         <translation>Размер:</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="59"/>
-        <source>RealHeight</source>
-        <translation>Высота</translation>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="183"/>
+        <source>Parameters</source>
+        <translation>Параметры</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="83"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="191"/>
         <source>Proportional</source>
         <translation>Пропорциональный</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="93"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="201"/>
         <source>Monospaced</source>
         <translation>Моноширинный</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="100"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="208"/>
         <source>Antialiasing</source>
         <translation>Сглаживание</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="107"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="215"/>
         <source>Alpha-channel</source>
         <translation>Альфа-канал</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="114"/>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="117"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="228"/>
         <source>Fore Color</source>
         <translation>Цвет переднего плана</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="124"/>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="127"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="241"/>
         <source>Back Color</source>
         <translation>Цвет заднего плана</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="159"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="138"/>
         <source>Enter filter...</source>
         <translation>Введите фильтр...</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="188"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="111"/>
+        <source>Characters</source>
+        <translation>Символы</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="125"/>
+        <source>Filter:</source>
+        <translation>Фильтр:</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="158"/>
         <source>Append Selected</source>
         <translation>Добавить выбранные</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="195"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="165"/>
         <source>Append Range...</source>
         <translation>Добавить диапазон...</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="202"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="254"/>
         <source>Sort</source>
         <translation>Отсортировать</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="233"/>
-        <source>Real height: %1</source>
-        <translation>Высота: %1</translation>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="283"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="286"/>
+        <source>Selected characters</source>
+        <translation>Выбранные символы</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="309"/>
+        <source>Count</source>
+        <translation>Количество</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="316"/>
+        <source>Max size</source>
+        <translation>Макс. размер</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="302"/>
+        <source>Max size (w × h): %1 × %2</source>
+        <translation>Макс размер (w × h): %1 × %2</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="303"/>
+        <source>Count: %1</source>
+        <translation>Количество: %1</translation>
     </message>
 </context>
 <context>

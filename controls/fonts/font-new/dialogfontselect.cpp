@@ -29,6 +29,7 @@
 #include "fonthelper.h"
 #include "fonteditoroptions.h"
 #include "tfontparameters.h"
+#include "dialogfontselectdata.h"
 //-----------------------------------------------------------------------------
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
     QDialog(parent),
@@ -36,9 +37,10 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->mModel = new CharactersModel(this);
-    this->mModel->setCodesRange(0x0000, 0x00ff);
-    this->ui->tableView->setModel(this->mModel);
+    this->mData = new DialogFontSelectData(this);
+
+    this->mData->charactersModel()->setCodesRange(0x0000, 0x00ff);
+    this->ui->tableView->setModel(this->mData->charactersModel());
 
     QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
     this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(selectionChanged(QItemSelection,QItemSelection)));
@@ -47,39 +49,54 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     this->ui->radioButtonProportional->setChecked(false);
     this->ui->checkBoxAntialiasing->setChecked(false);
 
-    this->mSize = 14;
-    this->mMonospaced = false;
-    this->mAntialiasing = false;
-    this->mAlphaChannel = false;
-
-    QString defChars;
-    for (int i = 0x20; i < 0x7f; i++)
-    {
-        defChars += QString(QChar(i));
-    }
-    this->setEditorText(defChars);
-
-    this->mFontFamily = this->ui->fontComboBox->currentFont().family();
-    this->updateStyles();
-
-    this->mBlocksModel = new UnicodeBlocksModel(this);
-
-    this->mBlocksFilterModel = new UnicodeBlocksFilterModel(this);
-    this->mBlocksFilterModel->setSourceModel(this->mBlocksModel);
-
-    this->ui->listViewBlocks->setModel(this->mBlocksFilterModel);
-    this->mSortOrderUp = false;
+    this->ui->listViewBlocks->setModel(this->mData->unicodeBlocksModel());
 
     selectionModel = this->ui->listViewBlocks->selectionModel();
-    this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(rangeChanged(QItemSelection,QItemSelection)));
+    this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this->mData, SLOT(setUnicodeRange(QItemSelection,QItemSelection)));
+
+    // Set font
+    this->connect(this->ui->fontComboBox, SIGNAL(currentFontChanged(QFont)), this->mData, SLOT(setFont(QFont)));
+    // Get styles
+    this->connect(this->mData, SIGNAL(stylesListChanged(QStringList,QString)), SLOT(on_stylesListChanged(QStringList,QString)));
+    // Set style
+    this->connect(this->ui->comboBoxStyle, SIGNAL(currentIndexChanged(QString)), this->mData, SLOT(setStyle(QString)));
+    // Get sizes
+    this->connect(this->mData, SIGNAL(sizesListChanged(QList<int>,int)), SLOT(on_sizesListChanged(QList<int>,int)));
+    // Set size
+    this->connect(this->ui->comboBoxSize, SIGNAL(currentIndexChanged(QString)), this->mData, SLOT(setSize(QString)));
+    this->connect(this->ui->comboBoxSize, SIGNAL(currentTextChanged(QString)), this->mData, SLOT(setSize(QString)));
+    // Set unicode blocks filter
+    this->connect(this->ui->lineEditUnicodeBlocksFilter, SIGNAL(textChanged(QString)), this->mData, SLOT(setUnicodeBlocksFilter(QString)));
+
+    // Character's line edit
+    this->connect(this->ui->lineEdit, SIGNAL(textChanged(QString)), SLOT(on_lineEdit_textChanged(QString)));
+    this->connect(this->mData, SIGNAL(charactersListChanged(QString)), SLOT(on_charactersListChanged(QString)));
+
+    // Apply changed font to character's table
+    this->connect(this->mData, SIGNAL(fontChanged(QFont)), SLOT(on_fontChanged(QFont)));
+    this->connect(this->mData, SIGNAL(fontMeasured(int,int,int)), SLOT(on_fontMeasured(int,int,int)));
+
+    // Checkbox/RadioButton
+    this->connect(this->ui->radioButtonMonospaced, SIGNAL(toggled(bool)), this->mData, SLOT(setMonospaced(bool)));
+    this->connect(this->ui->checkBoxAntialiasing, SIGNAL(toggled(bool)), this->mData, SLOT(setAntialiasing(bool)));
+    this->connect(this->ui->checkBoxAlphaChannel, SIGNAL(toggled(bool)), this->mData, SLOT(setAlphaChannel(bool)));
+    this->connect(this->mData, SIGNAL(alphaChannelChanged(bool)), this->ui->checkBoxAlphaChannel, SLOT(setChecked(bool)));
+    this->connect(this->mData, SIGNAL(antialiasingChanged(bool)), this->ui->checkBoxAntialiasing, SLOT(setChecked(bool)));
+    this->connect(this->mData, SIGNAL(monospacedChanged(bool)), SLOT(on_monospacedChanged(bool)));
+
+    // Sort characters
+    this->connect(this->ui->pushButtonSort, SIGNAL(clicked(bool)), this->mData, SLOT(resort()));
 
     QPixmap pixmapForeColor = QPixmap(24, 24);
     pixmapForeColor.fill(FontEditorOptions::foreColor());
-    this->ui->toolButtonForeColor->setIcon(QIcon(pixmapForeColor));
+    this->ui->pushButtonForeColor->setIcon(QIcon(pixmapForeColor));
 
     QPixmap pixmapBackColor = QPixmap(24, 24);
     pixmapBackColor.fill(FontEditorOptions::backColor());
-    this->ui->toolButtonBackColor->setIcon(QIcon(pixmapBackColor));
+    this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
+
+    this->mData->setFont(this->ui->fontComboBox->currentFont());
+    this->ui->lineEdit->setText(this->mData->characters());
 }
 //-----------------------------------------------------------------------------
 DialogFontSelect::~DialogFontSelect()
@@ -89,136 +106,179 @@ DialogFontSelect::~DialogFontSelect()
 //-----------------------------------------------------------------------------
 QString DialogFontSelect::characters()
 {
-    return this->mCharacters;
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::getFontParameters(tFontParameters *parameters)
-{
-    parameters->family = this->mFontFamily;
-    parameters->style = this->mFontStyle;
-    parameters->size = this->mSize;
-    parameters->monospaced = this->mMonospaced;
-    parameters->antiAliasing = this->mAntialiasing;
-    parameters->alphaChannel = this->mAlphaChannel;
+    return this->mData->characters();
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::setCharacters(const QString &value)
 {
-    this->mCharacters = value;
-    this->setEditorText(value);
+    this->mData->setCharacters(value);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::getFontParameters(tFontParameters *parameters)
+{
+    this->mData->getFontParameters(parameters);
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::setFontParameters(const tFontParameters &parameters)
 {
-    // Family
+    this->mData->setFontParameters(parameters);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_lineEdit_textChanged(const QString &value)
+{
+    QString stringNew = FontHelper::unescapeControlChars(value);
+    QString stringOld = this->mData->characters();
+
+    if (stringNew != stringOld)
     {
-        QFontDatabase fonts;
-        QString style = this->mFontStyle;
-        QFont f = fonts.font(parameters.family, style, this->mSize);
-        f.setPixelSize(this->mSize);
-        //this->mFontFamily = value;
-        this->ui->fontComboBox->setCurrentFont(f);
-
-        this->updateStyles();
-        this->updateSizes();
-
-        this->applyFont();
+        this->mData->setCharacters(stringNew);
     }
-    // Style
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_tableView_doubleClicked(const QModelIndex &index)
+{
+    QString selected = this->ui->tableView->model()->data(index, Qt::DisplayRole).toString();
+    this->mData->appendCharacters(selected);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_pushButtonAppendSelected_clicked()
+{
+    QString selected = QString();
+
+    QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
+
+    if (selectionModel->hasSelection())
     {
-        this->mFontStyle = parameters.style;
-        int index = this->ui->comboBoxStyle->findText(parameters.style);
-        if (index >= 0)
-            this->ui->comboBoxStyle->setCurrentIndex(index);
-        else
-            this->ui->comboBoxStyle->setCurrentIndex(0);
+        QModelIndexList indexes = selectionModel->selectedIndexes();
 
-        this->updateSizes();
-
-        this->applyFont();
-    }
-    // Size
-    {
-        this->mSize = parameters.size;
-
-        int index = this->ui->comboBoxSize->findText(QString("%1").arg(parameters.size));
-        if (index >= 0)
-            this->ui->comboBoxSize->setCurrentIndex(index);
-        else
+        for (int i = 0; i < indexes.count(); i++)
         {
-            QString str = QString("%1").arg(parameters.size);
-            this->ui->comboBoxSize->setEditText(str);
+            QString a = this->ui->tableView->model()->data(indexes.at(i), Qt::DisplayRole).toString();
+            selected += a;
         }
-
-        this->applyFont();
     }
 
-    this->ui->radioButtonMonospaced->setChecked(parameters.monospaced);
-    this->ui->checkBoxAntialiasing->setChecked(parameters.antiAliasing);
-    this->ui->checkBoxAlphaChannel->setChecked(parameters.alphaChannel);
+    this->mData->appendCharacters(selected);
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::updateFont()
+void DialogFontSelect::on_pushButtonAppendRange_clicked()
 {
-    //QFontDatabase fonts;
-    //QFont font = fonts.font(this->mFontFamily, this->mFontStyle, this->mSize);
-    //font.setPixelSize(this->mSize);
-    //this->ui->fontComboBox->setCurrentFont(font);
+    DialogFontRange dialog(this);
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        QString selected = dialog.resultString();
+        this->mData->appendCharacters(selected);
+    }
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::updateStyles()
+void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
-    QString style = this->mFontStyle;
-    this->ui->comboBoxStyle->clear();
+    Q_UNUSED(selected);
+    Q_UNUSED(deselected);
 
-    QFontDatabase fonts;
-    QStringList stylesList = fonts.styles(this->mFontFamily);
-    this->ui->comboBoxStyle->addItems(stylesList);
-    int index = stylesList.indexOf(style);
+    QString str = this->mData->characters();
+    QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
+    bool hasNew = false;
+
+    if (selectionModel->hasSelection())
+    {
+        QModelIndexList indexes = selectionModel->selectedIndexes();
+
+        for (int i = 0; i < indexes.count(); i++)
+        {
+            QString a = this->ui->tableView->model()->data(indexes.at(i), Qt::DisplayRole).toString();
+
+            if (!str.contains(a))
+            {
+                hasNew = true;
+                break;
+            }
+        }
+    }
+
+    this->ui->pushButtonAppendSelected->setEnabled(hasNew);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_pushButtonForeColor_clicked()
+{
+    QColorDialog dialog(FontEditorOptions::foreColor(), this);
+
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        FontEditorOptions::setForeColor(dialog.selectedColor());
+        QPixmap pixmapForeColor = QPixmap(24, 24);
+        pixmapForeColor.fill(dialog.selectedColor());
+        this->ui->pushButtonForeColor->setIcon(QIcon(pixmapForeColor));
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_pushButtonBackColor_clicked()
+{
+    QColorDialog dialog(FontEditorOptions::backColor(), this);
+
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        FontEditorOptions::setBackColor(dialog.selectedColor());
+        QPixmap pixmapBackColor = QPixmap(24, 24);
+        pixmapBackColor.fill(dialog.selectedColor());
+        this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_stylesListChanged(const QStringList &list, const QString &selected)
+{
+    this->ui->comboBoxStyle->clear();
+    this->ui->comboBoxStyle->addItems(list);
+
+    int index = list.indexOf(selected);
+
     if (index >= 0)
-        this->ui->comboBoxStyle->setCurrentIndex(stylesList.indexOf(style));
+        this->ui->comboBoxStyle->setCurrentIndex(index);
     else
         this->ui->comboBoxStyle->setCurrentIndex(0);
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::updateSizes()
+void DialogFontSelect::on_sizesListChanged(const QList<int> &list, int selected)
 {
-    int a = this->mSize;
-    //bool ok;
-
-    QFontDatabase fonts;
-
-    QList<int> sizes;
-    if (fonts.isSmoothlyScalable(this->mFontFamily, this->mFontStyle))
-        sizes = fonts.smoothSizes(this->mFontFamily, this->mFontStyle);
-    else
-        sizes = fonts.standardSizes();
-    this->ui->comboBoxSize->clear();
-    QListIterator<int> it(sizes);
+    int i = 0, previousSizeIndex = 0;
+    QListIterator<int> it(list);
     it.toFront();
-    int b = 0, c = 0;
+    this->ui->comboBoxSize->clear();
+
     while (it.hasNext())
     {
         int size = it.next();
+
         this->ui->comboBoxSize->addItem(QString("%1").arg(size), QVariant(size));
-        if (a == 14 && c == 0)
-            c = b;
-        if (size == a)
-            c = b;
-        b++;
+
+        if (selected == 14 && previousSizeIndex == 0)
+            previousSizeIndex = i;
+
+        if (size == selected)
+            previousSizeIndex = i;
+
+        i++;
     }
-    this->ui->comboBoxSize->setCurrentIndex(c);
+
+    this->ui->comboBoxSize->setCurrentIndex(previousSizeIndex);
 }
 //-----------------------------------------------------------------------------
-void DialogFontSelect::applyFont()
+void DialogFontSelect::on_charactersListChanged(const QString &value)
 {
-    QFontDatabase fonts;
-    QFont font = fonts.font(this->mFontFamily, this->mFontStyle, this->mSize);
-    font.setPixelSize(this->mSize);
+    QString stringNew = FontHelper::escapeControlChars(value);
+    QString stringOld = this->ui->lineEdit->text();
 
-    this->ui->tableView->setFont(font);
+    if (stringOld != stringNew)
+    {
+        this->ui->lineEdit->setText(stringNew);
+    }
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::on_fontChanged(const QFont &value)
+{
+    this->ui->tableView->setFont(value);
 
-    QFontMetrics metrics(font);
+    QFontMetrics metrics(value);
 
     int h = qMax(metrics.lineSpacing(), 15) + 2;
     int w = qMax(metrics.maxWidth(), 10);
@@ -229,231 +289,17 @@ void DialogFontSelect::applyFont()
     this->ui->tableView->horizontalHeader()->setDefaultSectionSize(w);
     this->ui->tableView->verticalHeader()->show();
     this->ui->tableView->horizontalHeader()->show();
-
-    QString strHeight = tr("Real height: %1").arg(metrics.height());
-    this->ui->labelRealHeight->setText(strHeight);
 }
 //-----------------------------------------------------------------------------
-QString DialogFontSelect::appendCharacters(const QString &original, const QString &value)
+void DialogFontSelect::on_monospacedChanged(bool value)
 {
-    QString result = original;
-
-    for (int i = 0; i < value.length(); i++)
-    {
-        QChar c = value.at(i);
-        if (!result.contains(c))
-        {
-            result.append(c);
-        }
-    }
-
-    return result;
+    this->ui->radioButtonMonospaced->setChecked(value);
+    this->ui->radioButtonProportional->setChecked(!value);
 }
 //-----------------------------------------------------------------------------
-QString DialogFontSelect::editorText()
+void DialogFontSelect::on_fontMeasured(int count, int maxWidth, int maxHeight)
 {
-    return FontHelper::unescapeControlChars(this->ui->lineEdit->text());
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::setEditorText(const QString &value)
-{
-    this->ui->lineEdit->setText(FontHelper::escapeControlChars(value));
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_fontComboBox_currentFontChanged(const QFont &font)
-{
-    this->mFontFamily = font.family();
-
-    this->updateStyles();
-    this->updateSizes();
-
-    this->applyFont();
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_comboBoxSize_currentIndexChanged(const QString &text)
-{
-    bool ok;
-    int a = text.toInt(&ok);
-    if (ok)
-        this->mSize = a;
-    else
-        this->mSize = 5;
-
-    this->applyFont();
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_comboBoxSize_editTextChanged(const QString &text)
-{
-    this->on_comboBoxSize_currentIndexChanged(text);
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_comboBoxStyle_currentIndexChanged(const QString &text)
-{
-    this->mFontStyle = text;
-
-    this->updateSizes();
-
-    this->applyFont();
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_radioButtonProportional_toggled(bool value)
-{
-    this->mMonospaced = !value;
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_checkBoxAntialiasing_toggled(bool value)
-{
-    this->mAntialiasing = value;
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_checkBoxAlphaChannel_toggled(bool value)
-{
-    this->mAlphaChannel = value;
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_lineEdit_textChanged()
-{
-    this->mCharacters = this->editorText();
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_tableView_doubleClicked(const QModelIndex &index)
-{
-    QString str = this->editorText();
-    QString a = this->mModel->data(index, Qt::DisplayRole).toString();
-    this->setEditorText(str + a);
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_pushButtonAppendSelected_clicked()
-{
-    QString selected = QString();
-
-    QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
-    if (selectionModel->hasSelection())
-    {
-        QModelIndexList indexes = selectionModel->selectedIndexes();
-        for (int i = 0; i < indexes.count(); i++)
-        {
-            QString a = this->mModel->data(indexes.at(i), Qt::DisplayRole).toString();
-            selected += a;
-        }
-    }
-
-    QString original = this->editorText();
-    QString result = this->appendCharacters(original, selected);
-    this->setEditorText(result);
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_pushButtonAppendRange_clicked()
-{
-    DialogFontRange dialog(this);
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        QString selected = dialog.resultString();
-        QString original = this->editorText();
-        QString result = this->appendCharacters(original, selected);
-        this->setEditorText(result);
-    }
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
-{
-    Q_UNUSED(selected);
-    Q_UNUSED(deselected);
-
-    QString str = this->editorText();
-    QItemSelectionModel *selectionModel = this->ui->tableView->selectionModel();
-    bool hasNew = false;
-    if (selectionModel->hasSelection())
-    {
-        QModelIndexList indexes = selectionModel->selectedIndexes();
-        for (int i = 0; i < indexes.count(); i++)
-        {
-            QString a = this->mModel->data(indexes.at(i), Qt::DisplayRole).toString();
-            if (!str.contains(a))
-            {
-                hasNew = true;
-                break;
-            }
-        }
-        this->ui->pushButtonAppendSelected->setEnabled(hasNew);
-    }
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::rangeChanged(const QItemSelection &selected, const QItemSelection &deselected)
-{
-    Q_UNUSED(deselected);
-
-    QModelIndexList indexes = selected.indexes();
-
-    if (indexes.length() > 0)
-    {
-        QAbstractItemModel *model = this->ui->listViewBlocks->model();
-        bool ok;
-        quint32 first = model->data(indexes.at(0), UnicodeBlocksModel::FirstCodeRole).toUInt(&ok);
-        quint32 last = model->data(indexes.at(0), UnicodeBlocksModel::LastCodeRole).toUInt(&ok);
-
-        this->mModel->setCodesRange(first, last);
-    }
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_lineEditUnicodeBlocksFilter_textChanged(const QString &text)
-{
-    this->mBlocksFilterModel->setNameFilter(text);
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_pushButtonSort_clicked()
-{
-    QString chars = this->editorText();
-    QList<QChar> list;
-    for (int i = 0; i < chars.length(); i++)
-    {
-        list.append(chars.at(i));
-    }
-    qSort(list);
-    chars = QString();
-
-    if (!this->mSortOrderUp)
-    {
-        for (int i = 0; i < list.length(); i++)
-        {
-            chars.append(list.at(i));
-        }
-    }
-    else
-    {
-        for (int i = list.length() - 1; i >= 0; i--)
-        {
-            chars.append(list.at(i));
-        }
-    }
-
-    this->mSortOrderUp = !this->mSortOrderUp;
-    this->setEditorText(chars);
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_toolButtonForeColor_clicked()
-{
-    QColorDialog dialog(FontEditorOptions::foreColor(), this);
-
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        FontEditorOptions::setForeColor(dialog.selectedColor());
-        QPixmap pixmapForeColor = QPixmap(24, 24);
-        pixmapForeColor.fill(dialog.selectedColor());
-        this->ui->toolButtonForeColor->setIcon(QIcon(pixmapForeColor));
-    }
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::on_toolButtonBackColor_clicked()
-{
-    QColorDialog dialog(FontEditorOptions::backColor(), this);
-
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        FontEditorOptions::setBackColor(dialog.selectedColor());
-        QPixmap pixmapBackColor = QPixmap(24, 24);
-        pixmapBackColor.fill(dialog.selectedColor());
-        this->ui->toolButtonBackColor->setIcon(QIcon(pixmapBackColor));
-    }
+    this->ui->labelCharactersMaxSize->setText(tr("Max size (w × h): %1 × %2").arg(maxWidth).arg(maxHeight));
+    this->ui->labelCharactersCount->setText(tr("Count: %1").arg(count));
 }
 //-----------------------------------------------------------------------------
