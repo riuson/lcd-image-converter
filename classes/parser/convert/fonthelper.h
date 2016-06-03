@@ -23,6 +23,7 @@
 #include <QObject>
 //-----------------------------------------------------------------------------
 #include <QImage>
+#include <QSize>
 //-----------------------------------------------------------------------------
 class DataContainer;
 //-----------------------------------------------------------------------------
@@ -35,6 +36,16 @@ public:
     static QImage drawString(const DataContainer *data, const QString &value);
     static QString escapeControlChars(const QString &value);
     static QString unescapeControlChars(const QString &value);
+    static QSize getCharacterSize(const QFontMetrics &metrics, QChar value);
+    static QImage drawCharacter(
+            const QChar value,
+            const QFont &font,
+            const QColor &foreground,
+            const QColor &background,
+            const int width,
+            const int height,
+            const bool antialiasing,
+            const bool alphaChannel);
 signals:
 
 public slots:

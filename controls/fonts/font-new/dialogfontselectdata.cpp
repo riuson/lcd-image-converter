@@ -137,7 +137,7 @@ void DialogFontSelectData::notifyFontChanged()
 
     for (int i = 0; i < chars.count(); i++)
     {
-        QSize sz1 = BitmapHelper::getCharacterSize(metrics, chars.at(i));
+        QSize sz1 = FontHelper::getCharacterSize(metrics, chars.at(i));
         sz.setWidth(qMax(sz.width(), sz1.width()));
         sz.setHeight(qMax(sz.height(), sz1.height()));
     }

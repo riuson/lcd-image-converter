@@ -37,7 +37,7 @@
 #include "fonthelper.h"
 #include "preset.h"
 #include "tfontparameters.h"
-#include "bitmaphelper.h"
+#include "fonthelper.h"
 //-----------------------------------------------------------------------------
 FontDocument::FontDocument(QObject *parent) :
     QObject(parent)
@@ -592,7 +592,7 @@ void FontDocument::setFontCharacters(const QString &chars,
         if (!keys.contains(key))
         {
             keys.append(key);
-            QImage image = BitmapHelper::drawCharacter(chars.at(i),
+            QImage image = FontHelper::drawCharacter(chars.at(i),
                                                fontNew,
                                                FontEditorOptions::foreColor(),
                                                FontEditorOptions::backColor(),
