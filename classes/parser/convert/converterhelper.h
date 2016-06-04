@@ -67,6 +67,7 @@ public:
             QVector<quint32> *data, int width, int height);
 
     static QString scanScript(Preset *preset);
+    static QString scanScriptTemplate();
 
     static void makeGrayscale(QImage &image);
 private:

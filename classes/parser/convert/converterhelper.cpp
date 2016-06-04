@@ -703,6 +703,21 @@ QString ConverterHelper::scanScript(Preset *preset)
     return result;
 }
 //-----------------------------------------------------------------------------
+QString ConverterHelper::scanScriptTemplate()
+{
+    QFile file_script(":/scan_scripts/template");
+    QString result = QString();
+
+    if (file_script.open(QIODevice::ReadOnly))
+    {
+        QTextStream stream(&file_script);
+        result = stream.readAll();
+        file_script.close();
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void ConverterHelper::makeMonochrome(QImage &image, int edge)
 {
     QPainter painter(&image);
