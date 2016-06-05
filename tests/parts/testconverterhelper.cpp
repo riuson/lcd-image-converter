@@ -279,9 +279,8 @@ void TestConverterHelper::dataToString()
 //-----------------------------------------------------------------------------
 void TestConverterHelper::jsengineSetProperty()
 {
-    int argc = 0;
-
 #if defined(USE_JS_QTSCRIPT)
+    int argc = 0;
     QCoreApplication app(argc, NULL);
 #endif
 
@@ -294,7 +293,7 @@ void TestConverterHelper::jsengineSetProperty()
     {
         QImage image;
         TestConvImage cimage(&image, NULL);
-        cimage.setCondition(TestConvImage::CannotBedDeleted);
+        cimage.setCondition(TestConvImage::CannotBeDeleted);
         QString err;
         ConverterHelper::collectPoints(&cimage, QString(), &err);
         cimage.setCondition(TestConvImage::CanBeDeleted);
@@ -312,7 +311,7 @@ void TestConverterHelper::breakInfiniteScript()
             }";
         QImage image = QImage(20, 20, QImage::Format_ARGB32);
         TestConvImage cimage(&image, NULL);
-        cimage.setCondition(TestConvImage::CannotBedDeleted);
+        cimage.setCondition(TestConvImage::CannotBeDeleted);
         QString err;
         ConverterHelper::collectPoints(&cimage, script, &err);
         cimage.setCondition(TestConvImage::CanBeDeleted);

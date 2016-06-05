@@ -43,7 +43,7 @@ public:
     enum Condition
     {
         CanBeDeleted,
-        CannotBedDeleted
+        CannotBeDeleted
     };
 
     explicit TestConvImage(const QImage *image, QObject *parent = 0);
