@@ -32,6 +32,7 @@ private slots:
     void packData();
     void dataToString();
     void jsengineSetProperty();
+    void breakInfiniteScript();
     void cleanupTestCase();
 };
 //-----------------------------------------------------------------------------
