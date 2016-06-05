@@ -8,7 +8,8 @@
         <description>Fixed:
  Templates;
  Preview with empty script;
- Image output for empty conversion data (image too small or skipped by custom algorithm).
+ Image output for empty conversion data (image too small or skipped by custom algorithm);
+ Workaroung for infinite loop then adding points.
 
 Added:
  Combine similar characters in images table;

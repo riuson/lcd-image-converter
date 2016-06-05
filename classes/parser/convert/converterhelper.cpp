@@ -198,9 +198,21 @@ void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script,
     QJSEngine engine;
     QJSValue imageValue = engine.newQObject(convImage);
     QQmlEngine::setObjectOwnership(convImage, QQmlEngine::CppOwnership);
+
     engine.globalObject().setProperty("image", imageValue);
-    QJSValue resultValue = engine.evaluate(script);
-    if (resultValue.isError())
+    QString scriptModified = script;
+
+    scriptModified = scriptModified.replace("image.addPoint", "addImagePoint");
+    QString scriptTemplate = ConverterHelper::scanScriptTemplate();
+    scriptModified = scriptTemplate.arg(scriptModified);
+
+    QJSValue resultValue = engine.evaluate(scriptModified);
+
+    if (convImage->needBreakScan())
+    {
+        *resultError = QString("Script abort requested. Points count: %1").arg(convImage->pointsCount());
+    }
+    else if (resultValue.isError())
     {
         int line = resultValue.property("lineNumber").toInt();
         *resultError = QString("Uncaught exception at line %1 : %2").arg(line).arg(resultValue.toString());
@@ -698,6 +710,21 @@ QString ConverterHelper::scanScript(Preset *preset)
                 file_script.close();
             }
         }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+QString ConverterHelper::scanScriptTemplate()
+{
+    QFile file_script(":/scan_scripts/template");
+    QString result = QString();
+
+    if (file_script.open(QIODevice::ReadOnly))
+    {
+        QTextStream stream(&file_script);
+        result = stream.readAll();
+        file_script.close();
     }
 
     return result;

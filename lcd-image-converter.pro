@@ -321,6 +321,7 @@ OTHER_FILES += \
     resources/history.css \
     resources/unicode_blocks.txt \
     resources/script_top2bottom_forward.js \
+    resources/scan_scripts/scan_template.js \
     resources/scan_scripts/scan_top2bottom_forward_band.js \
     resources/scan_scripts/scan_top2bottom_forward.js \
     resources/scan_scripts/scan_top2bottom_backward_band.js \

@@ -32,6 +32,7 @@ private slots:
     void packData();
     void dataToString();
     void jsengineSetProperty();
+    void breakInfiniteScript();
     void cleanupTestCase();
 };
 //-----------------------------------------------------------------------------
@@ -42,7 +43,7 @@ public:
     enum Condition
     {
         CanBeDeleted,
-        CannotBedDeleted
+        CannotBeDeleted
     };
 
     explicit TestConvImage(const QImage *image, QObject *parent = 0);

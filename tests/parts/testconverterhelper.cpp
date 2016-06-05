@@ -279,9 +279,8 @@ void TestConverterHelper::dataToString()
 //-----------------------------------------------------------------------------
 void TestConverterHelper::jsengineSetProperty()
 {
-    int argc = 0;
-
 #if defined(USE_JS_QTSCRIPT)
+    int argc = 0;
     QCoreApplication app(argc, NULL);
 #endif
 
@@ -294,11 +293,32 @@ void TestConverterHelper::jsengineSetProperty()
     {
         QImage image;
         TestConvImage cimage(&image, NULL);
-        cimage.setCondition(TestConvImage::CannotBedDeleted);
+        cimage.setCondition(TestConvImage::CannotBeDeleted);
         QString err;
         ConverterHelper::collectPoints(&cimage, QString(), &err);
         cimage.setCondition(TestConvImage::CanBeDeleted);
     }
+}
+//-----------------------------------------------------------------------------
+void TestConverterHelper::breakInfiniteScript()
+{
+#ifdef USE_JS_QJSENGINE
+    {
+        QString script = "for (var y = image.height - 1; y >= 0; y-=0) {\
+                for (var x = image.width - 1; x >= 0; x--) {\
+                    image.addPoint(x, y);\
+                }\
+            }";
+        QImage image = QImage(20, 20, QImage::Format_ARGB32);
+        TestConvImage cimage(&image, NULL);
+        cimage.setCondition(TestConvImage::CannotBeDeleted);
+        QString err;
+        ConverterHelper::collectPoints(&cimage, script, &err);
+        cimage.setCondition(TestConvImage::CanBeDeleted);
+
+        QVERIFY2(cimage.pointsCount() >= 100000, "Points count limit not reached. Value must be equals to 100k or 120% of width * height.");
+    }
+#endif
 }
 //-----------------------------------------------------------------------------
 void TestConverterHelper::cleanupTestCase()

@@ -77,6 +77,13 @@ int ConvImage::pointsCount() const
     return this->mPoints.size();
 }
 //-----------------------------------------------------------------------------
+bool ConvImage::needBreakScan() const
+{
+    // 120% of points or 100k
+    int maxCount = qMax((this->mImage->width() * this->mImage->height() * 120) / 100, 100000);
+    return this->pointsCount() > maxCount;
+}
+//-----------------------------------------------------------------------------
 int ConvImage::height() const
 {
     return this->mImage->height();
