@@ -64,6 +64,8 @@ public:
         FontWidthType,
         FontAntiAliasing,
         FontAlphaChannel,
+        FontAscent,
+        FontDescent,
 
         TemplateFilename,
 

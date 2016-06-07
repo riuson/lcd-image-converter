@@ -164,6 +164,8 @@ void Tags::initTagsMap()
     this->mTagNameMap->insert("fnt_antialiasing", FontAntiAliasing);
     this->mTagNameMap->insert("fontAntialiasing", FontAntiAliasing);
     this->mTagNameMap->insert("fnt_alphachannel", FontAlphaChannel);
+    this->mTagNameMap->insert("fnt_ascent",       FontAscent);
+    this->mTagNameMap->insert("fnt_descent",      FontDescent);
 
     this->mTagNameMap->insert("tmpl_filename", TemplateFilename);
     this->mTagNameMap->insert("templateFile",  TemplateFilename);

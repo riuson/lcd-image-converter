@@ -16,7 +16,8 @@ Added:
  Simple drawing tools (rect, point, fill, line);
  Import/export presets to xml files;
  Optional alpha-channel for font renderer;
- New dialog to select font.
+ New dialog to select font;
+ Font ascent/descent tags.
         </description>
     </record>
     <record>
