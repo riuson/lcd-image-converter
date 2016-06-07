@@ -352,6 +352,10 @@ QString FontDocument::convert(Preset *preset)
     tFontParameters parameters;
     this->fontCharacters(&chars, &parameters);
 
+    QFontDatabase fonts;
+    QFont font = fonts.font(parameters.family, parameters.style, parameters.size);
+    QFontMetrics metrics(font);
+
     tags.setTagValue(Tags::DocumentDataType, "font");
     tags.setTagValue(Tags::FontFamily, parameters.family);
     tags.setTagValue(Tags::FontSize, QString("%1").arg(parameters.size));
@@ -360,6 +364,8 @@ QString FontDocument::convert(Preset *preset)
     tags.setTagValue(Tags::FontAntiAliasing, parameters.antiAliasing ? "yes" : "no");
     tags.setTagValue(Tags::FontAlphaChannel, parameters.alphaChannel ? "yes" : "no");
     tags.setTagValue(Tags::FontWidthType, parameters.monospaced ? "monospaced" : "proportional");
+    tags.setTagValue(Tags::FontAscent, QString("%1").arg(metrics.ascent()));
+    tags.setTagValue(Tags::FontDescent, QString("%1").arg(metrics.descent()));
 
     Parser parser(Parser::TypeFont, preset, this);
     QString result = parser.convert(this, tags);
