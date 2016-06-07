@@ -226,64 +226,7 @@ QString ImageDocument::convert(Preset *preset)
 
     Parser parser(Parser::TypeImage, preset, this);
     QString result = parser.convert(this, tags);
-/*
-    // converter output file name
-    QString outputFileName = this->outputFilename();
 
-    // if file name not specified, show dialog
-    bool filenameNotSpecified = outputFileName.isEmpty();
-
-    // show dialog
-    if (request || filenameNotSpecified)
-    {
-        QFileDialog dialog(qobject_cast<QWidget *>(this->parent()));
-        dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.selectFile(outputFileName);
-        dialog.setFileMode(QFileDialog::AnyFile);
-        dialog.setNameFilter(tr("C Files (*.c);;All Files (*.*)"));
-        dialog.setDefaultSuffix(QString("c"));
-        dialog.setWindowTitle(tr("Save result file as"));
-
-        if (filenameNotSpecified)
-        {
-            dialog.selectFile(this->documentName());
-        }
-        else
-        {
-            dialog.selectFile(outputFileName);
-        }
-
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            outputFileName = dialog.selectedFiles().at(0);
-        }
-        else
-        {
-            outputFileName = "";
-        }
-    }
-
-    // if file name specified, save result
-    if (!outputFileName.isEmpty())
-    {
-        QFile file(outputFileName);
-        if (file.open(QFile::WriteOnly))
-        {
-            file.write(result.toUtf8());
-            file.close();
-
-            if (this->outputFilename() != outputFileName)
-            {
-                this->beginChanges();
-
-                this->setOutputFilename(outputFileName);
-                emit this->setChanged(true);
-
-                this->endChanges();
-            }
-        }
-    }
-*/
     return result;
 }
 //-----------------------------------------------------------------------------
