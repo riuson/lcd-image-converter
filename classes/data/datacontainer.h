@@ -44,6 +44,9 @@ public:
     QVariant commonInfo(const QString &infoKey) const;
     void setCommonInfo(const QString &infoKey, const QVariant &value);
 
+    QVariant imageInfo(const QString &imageKey, const QString &infoKey) const;
+    void setImageInfo(const QString &imageKey, const QString &infoKey, const QVariant &value);
+
     void clear();
     int count() const;
     QStringList keys() const;
@@ -65,6 +68,7 @@ public:
 private:
     static const QString DataChangedKey;
     static const QString CommonInfoKeyPrefix;
+    static const QString ImageInfoKeyPrefix;
 
     QMap<QString, QImage *> mImageMap;
     QMap<QString, QVariant> mInfoMap;

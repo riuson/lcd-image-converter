@@ -20,10 +20,12 @@
 #include "datacontainer.h"
 
 #include <QImage>
+#include <QtCore/QStringBuilder>
 #include "historykeeper.h"
 //-----------------------------------------------------------------------------
 const QString DataContainer::DataChangedKey = QString("data changed");
 const QString DataContainer::CommonInfoKeyPrefix = QString("common:");
+const QString DataContainer::ImageInfoKeyPrefix = QString("image:");
 //-----------------------------------------------------------------------------
 DataContainer::DataContainer(QObject *parent) :
     QObject(parent)
@@ -72,9 +74,9 @@ void DataContainer::setImage(const QString &imageKey, const QImage *image)
 //-----------------------------------------------------------------------------
 QVariant DataContainer::commonInfo(const QString &infoKey) const
 {
-    if (this->mInfoMap.contains(DataContainer::CommonInfoKeyPrefix + infoKey))
+    if (this->mInfoMap.contains(DataContainer::CommonInfoKeyPrefix % infoKey))
     {
-        return this->mInfoMap.value(DataContainer::CommonInfoKeyPrefix + infoKey);
+        return this->mInfoMap.value(DataContainer::CommonInfoKeyPrefix % infoKey);
     }
     return QVariant();
 }
@@ -84,9 +86,9 @@ void DataContainer::setCommonInfo(const QString &infoKey, const QVariant &value)
     bool changed = false;
 
     //TODO: may be need to compare old and new values?
-    if (this->mInfoMap.contains(DataContainer::CommonInfoKeyPrefix + infoKey))
+    if (this->mInfoMap.contains(DataContainer::CommonInfoKeyPrefix % infoKey))
     {
-        if (this->mInfoMap.value(DataContainer::CommonInfoKeyPrefix + infoKey) != value)
+        if (this->mInfoMap.value(DataContainer::CommonInfoKeyPrefix % infoKey) != value)
         {
             changed = true;
         }
@@ -98,7 +100,40 @@ void DataContainer::setCommonInfo(const QString &infoKey, const QVariant &value)
 
     if (changed)
     {
-        this->mInfoMap.insert(DataContainer::CommonInfoKeyPrefix + infoKey, value);
+        this->mInfoMap.insert(DataContainer::CommonInfoKeyPrefix % infoKey, value);
+        this->setChanged(true);
+        emit this->dataChanged(false);
+    }
+}
+//-----------------------------------------------------------------------------
+QVariant DataContainer::imageInfo(const QString &imageKey, const QString &infoKey) const
+{
+    if (this->mInfoMap.contains(DataContainer::ImageInfoKeyPrefix % imageKey % ":" % infoKey))
+    {
+        return this->mInfoMap.value(DataContainer::ImageInfoKeyPrefix % imageKey % ":" % infoKey);
+    }
+    return QVariant();
+}
+//-----------------------------------------------------------------------------
+void DataContainer::setImageInfo(const QString &imageKey, const QString &infoKey, const QVariant &value)
+{
+    bool changed = false;
+
+    if (this->mInfoMap.contains(DataContainer::ImageInfoKeyPrefix % imageKey % ":" % infoKey))
+    {
+        if (this->mInfoMap.value(DataContainer::ImageInfoKeyPrefix % imageKey % ":" % infoKey) != value)
+        {
+            changed = true;
+        }
+    }
+    else
+    {
+        changed = true;
+    }
+
+    if (changed)
+    {
+        this->mInfoMap.insert(DataContainer::ImageInfoKeyPrefix % imageKey % ":" % infoKey, value);
         this->setChanged(true);
         emit this->dataChanged(false);
     }
