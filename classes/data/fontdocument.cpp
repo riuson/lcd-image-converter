@@ -352,9 +352,6 @@ QString FontDocument::convert(Preset *preset)
     tFontParameters parameters;
     this->fontCharacters(&chars, &parameters);
 
-    QFontDatabase fonts;
-    QFont font = fonts.font(parameters.family, parameters.style, parameters.size);
-    QFontMetrics metrics(font);
 
     tags.setTagValue(Tags::DocumentDataType, "font");
     tags.setTagValue(Tags::FontFamily, parameters.family);
@@ -364,8 +361,37 @@ QString FontDocument::convert(Preset *preset)
     tags.setTagValue(Tags::FontAntiAliasing, parameters.antiAliasing ? "yes" : "no");
     tags.setTagValue(Tags::FontAlphaChannel, parameters.alphaChannel ? "yes" : "no");
     tags.setTagValue(Tags::FontWidthType, parameters.monospaced ? "monospaced" : "proportional");
-    tags.setTagValue(Tags::FontAscent, QString("%1").arg(metrics.ascent()));
-    tags.setTagValue(Tags::FontDescent, QString("%1").arg(metrics.descent()));
+
+    // ascent/descent
+    {
+        int ascent = 0;
+        int descent = 0;
+        bool ok = false;
+
+        // try get from info dictionary
+        if (!this->mContainer->commonInfo("ascent").isNull() && !this->mContainer->commonInfo("descent").isNull())
+        {
+            ascent = this->mContainer->commonInfo("ascent").toInt(&ok);
+
+            if (ok)
+            {
+                descent = this->mContainer->commonInfo("descent").toInt(&ok);
+            }
+        }
+
+        // fallback to current font metrics
+        if (!ok)
+        {
+            QFontDatabase fonts;
+            QFont font = fonts.font(parameters.family, parameters.style, parameters.size);
+            QFontMetrics metrics(font);
+            ascent = metrics.ascent();
+            descent = metrics.descent();
+        }
+
+        tags.setTagValue(Tags::FontAscent, QString("%1").arg(ascent));
+        tags.setTagValue(Tags::FontDescent, QString("%1").arg(descent));
+    }
 
     Parser parser(Parser::TypeFont, preset, this);
     QString result = parser.convert(this, tags);
