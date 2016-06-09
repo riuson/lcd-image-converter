@@ -519,9 +519,10 @@ void FontDocument::setFontCharacters(const QString &chars,
 
     // find max size
     int width = 0, height = 0;
+    QFontMetrics metrics(fontNew);
+
     if (parameters.monospaced)
     {
-        QFontMetrics metrics(fontNew);
         for (int i = 0; i < chars.count(); i++)
         {
             width = qMax(width, metrics.width(chars.at(i)));
@@ -550,6 +551,10 @@ void FontDocument::setFontCharacters(const QString &chars,
                                                parameters.antiAliasing,
                                                parameters.alphaChannel);
             this->mContainer->setImage(key, new QImage(image));
+            this->mContainer->setCommonInfo("ascent", metrics.ascent());
+            this->mContainer->setCommonInfo("descent", metrics.descent());
+            this->mContainer->setImageInfo(key, "ascent", metrics.ascent());
+            this->mContainer->setImageInfo(key, "descent", metrics.descent());
         }
     }
 
