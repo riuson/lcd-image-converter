@@ -69,7 +69,7 @@ void DataContainer::setImage(const QString &key, const QImage *image)
     emit this->dataChanged(false);
 }
 //-----------------------------------------------------------------------------
-QVariant DataContainer::info(const QString &key) const
+QVariant DataContainer::commonInfo(const QString &key) const
 {
     if (this->mInfoMap.contains(key))
     {
@@ -78,7 +78,7 @@ QVariant DataContainer::info(const QString &key) const
     return QVariant();
 }
 //-----------------------------------------------------------------------------
-void DataContainer::setInfo(const QString &key, const QVariant &value)
+void DataContainer::setCommonInfo(const QString &key, const QVariant &value)
 {
     bool changed = false;
 
@@ -202,7 +202,7 @@ bool DataContainer::canRedo() const
 //-----------------------------------------------------------------------------
 bool DataContainer::changed() const
 {
-    QVariant value = this->info(DataContainer::DataChangedKey);
+    QVariant value = this->commonInfo(DataContainer::DataChangedKey);
     if (!value.isNull())
     {
         return value.toBool();

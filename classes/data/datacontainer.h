@@ -41,8 +41,8 @@ public:
     const QImage *image(const QString &key) const;
     void setImage(const QString &key, const QImage *image);
 
-    QVariant info(const QString &key) const;
-    void setInfo(const QString &key, const QVariant &value);
+    QVariant commonInfo(const QString &key) const;
+    void setCommonInfo(const QString &key, const QVariant &value);
 
     void clear();
     int count() const;

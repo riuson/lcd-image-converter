@@ -305,30 +305,30 @@ bool FontDocument::changed() const
 //-----------------------------------------------------------------------------
 QString FontDocument::documentFilename() const
 {
-    QVariant result = this->mContainer->info("filename");
+    QVariant result = this->mContainer->commonInfo("filename");
     return result.toString();
 }
 //-----------------------------------------------------------------------------
 QString FontDocument::documentName() const
 {
-    QVariant result = this->mContainer->info("document name");
+    QVariant result = this->mContainer->commonInfo("document name");
     return result.toString();
 }
 //-----------------------------------------------------------------------------
 void FontDocument::setDocumentName(const QString &value)
 {
-    this->mContainer->setInfo("document name", value);
+    this->mContainer->setCommonInfo("document name", value);
 }
 //-----------------------------------------------------------------------------
 QString FontDocument::outputFilename() const
 {
-    QVariant result = this->mContainer->info("converted filename");
+    QVariant result = this->mContainer->commonInfo("converted filename");
     return result.toString();
 }
 //-----------------------------------------------------------------------------
 void FontDocument::setOutputFilename(const QString &value)
 {
-    this->mContainer->setInfo("converted filename", QVariant(value));
+    this->mContainer->setCommonInfo("converted filename", QVariant(value));
 }
 //-----------------------------------------------------------------------------
 DataContainer *FontDocument::dataContainer()
@@ -564,13 +564,13 @@ void FontDocument::setDocumentFilename(const QString &value)
 {
     if (this->documentFilename() != value)
     {
-        this->mContainer->setInfo("filename", QVariant(value));
+        this->mContainer->setCommonInfo("filename", QVariant(value));
     }
 }
 //-----------------------------------------------------------------------------
 QFont FontDocument::usedFont() const
 {
-    QVariant var = this->mContainer->info("used font");
+    QVariant var = this->mContainer->commonInfo("used font");
     if (!var.isNull())
     {
         QFont result = var.value<QFont>();
@@ -581,47 +581,47 @@ QFont FontDocument::usedFont() const
 //-----------------------------------------------------------------------------
 void FontDocument::setUsedFont(const QFont &value)
 {
-    this->mContainer->setInfo("used font", value);
+    this->mContainer->setCommonInfo("used font", value);
 }
 //-----------------------------------------------------------------------------
 QString FontDocument::usedStyle() const
 {
-    return this->mContainer->info("style").toString();
+    return this->mContainer->commonInfo("style").toString();
 }
 //-----------------------------------------------------------------------------
 void FontDocument::setUsedStyle(const QString &value)
 {
-    this->mContainer->setInfo("style", value);
+    this->mContainer->setCommonInfo("style", value);
 }
 //-----------------------------------------------------------------------------
 bool FontDocument::monospaced() const
 {
-    return this->mContainer->info("monospaced").toBool();
+    return this->mContainer->commonInfo("monospaced").toBool();
 }
 //-----------------------------------------------------------------------------
 void FontDocument::setMonospaced(const bool value)
 {
-    this->mContainer->setInfo("monospaced", value);
+    this->mContainer->setCommonInfo("monospaced", value);
 }
 //-----------------------------------------------------------------------------
 bool FontDocument::antialiasing() const
 {
-    return this->mContainer->info("antialiasing").toBool();
+    return this->mContainer->commonInfo("antialiasing").toBool();
 }
 //-----------------------------------------------------------------------------
 void FontDocument::setAntialiasing(const bool value)
 {
-    this->mContainer->setInfo("antialiasing", value);
+    this->mContainer->setCommonInfo("antialiasing", value);
 }
 //-----------------------------------------------------------------------------
 bool FontDocument::alphaChannel() const
 {
-    return this->mContainer->info("alphaChannel").toBool();
+    return this->mContainer->commonInfo("alphaChannel").toBool();
 }
 //-----------------------------------------------------------------------------
 void FontDocument::setAlphaChannel(const bool value)
 {
-    this->mContainer->setInfo("alphaChannel", value);
+    this->mContainer->setCommonInfo("alphaChannel", value);
 }
 //-----------------------------------------------------------------------------
 void FontDocument::mon_container_dataChanged(bool historyStateMoved)
