@@ -23,6 +23,7 @@
 #include "historykeeper.h"
 //-----------------------------------------------------------------------------
 const QString DataContainer::DataChangedKey = QString("data changed");
+const QString DataContainer::CommonInfoKeyPrefix = QString("common:");
 //-----------------------------------------------------------------------------
 DataContainer::DataContainer(QObject *parent) :
     QObject(parent)
@@ -71,9 +72,9 @@ void DataContainer::setImage(const QString &imageKey, const QImage *image)
 //-----------------------------------------------------------------------------
 QVariant DataContainer::commonInfo(const QString &infoKey) const
 {
-    if (this->mInfoMap.contains(infoKey))
+    if (this->mInfoMap.contains(DataContainer::CommonInfoKeyPrefix + infoKey))
     {
-        return this->mInfoMap.value(infoKey);
+        return this->mInfoMap.value(DataContainer::CommonInfoKeyPrefix + infoKey);
     }
     return QVariant();
 }
@@ -83,9 +84,9 @@ void DataContainer::setCommonInfo(const QString &infoKey, const QVariant &value)
     bool changed = false;
 
     //TODO: may be need to compare old and new values?
-    if (this->mInfoMap.contains(infoKey))
+    if (this->mInfoMap.contains(DataContainer::CommonInfoKeyPrefix + infoKey))
     {
-        if (this->mInfoMap.value(infoKey) != value)
+        if (this->mInfoMap.value(DataContainer::CommonInfoKeyPrefix + infoKey) != value)
         {
             changed = true;
         }
@@ -97,7 +98,7 @@ void DataContainer::setCommonInfo(const QString &infoKey, const QVariant &value)
 
     if (changed)
     {
-        this->mInfoMap.insert(infoKey, value);
+        this->mInfoMap.insert(DataContainer::CommonInfoKeyPrefix + infoKey, value);
         this->setChanged(true);
         emit this->dataChanged(false);
     }
@@ -202,11 +203,16 @@ bool DataContainer::canRedo() const
 //-----------------------------------------------------------------------------
 bool DataContainer::changed() const
 {
-    QVariant value = this->commonInfo(DataContainer::DataChangedKey);
-    if (!value.isNull())
+    if (this->mInfoMap.contains(DataContainer::DataChangedKey))
     {
-        return value.toBool();
+        QVariant value = this->mInfoMap.value(DataContainer::DataChangedKey, QVariant(false));
+
+        if (!value.isNull())
+        {
+            return value.toBool();
+        }
     }
+
     return false;
 }
 //-----------------------------------------------------------------------------

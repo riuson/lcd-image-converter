@@ -64,6 +64,7 @@ public:
 
 private:
     static const QString DataChangedKey;
+    static const QString CommonInfoKeyPrefix;
 
     QMap<QString, QImage *> mImageMap;
     QMap<QString, QVariant> mInfoMap;
