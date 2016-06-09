@@ -38,11 +38,11 @@ public:
     explicit DataContainer(QObject *parent = 0);
     virtual ~DataContainer();
 
-    const QImage *image(const QString &key) const;
-    void setImage(const QString &key, const QImage *image);
+    const QImage *image(const QString &imageKey) const;
+    void setImage(const QString &imageKey, const QImage *image);
 
-    QVariant commonInfo(const QString &key) const;
-    void setCommonInfo(const QString &key, const QVariant &value);
+    QVariant commonInfo(const QString &infoKey) const;
+    void setCommonInfo(const QString &infoKey, const QVariant &value);
 
     void clear();
     int count() const;

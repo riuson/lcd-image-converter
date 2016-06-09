@@ -40,11 +40,11 @@ DataContainer::~DataContainer()
     delete this->mHistory;
 }
 //-----------------------------------------------------------------------------
-const QImage *DataContainer::image(const QString &key) const
+const QImage *DataContainer::image(const QString &imageKey) const
 {
-    if (this->mKeys.contains(key))
+    if (this->mKeys.contains(imageKey))
     {
-        return this->mImageMap.value(key, this->mDefaultImage);
+        return this->mImageMap.value(imageKey, this->mDefaultImage);
     }
     else
     {
@@ -52,40 +52,40 @@ const QImage *DataContainer::image(const QString &key) const
     }
 }
 //-----------------------------------------------------------------------------
-void DataContainer::setImage(const QString &key, const QImage *image)
+void DataContainer::setImage(const QString &imageKey, const QImage *image)
 {
-    if (this->mKeys.contains(key))
+    if (this->mKeys.contains(imageKey))
     {
-        this->mImageMap.remove(key);
+        this->mImageMap.remove(imageKey);
     }
     else
     {
-        this->mKeys.append(key);
+        this->mKeys.append(imageKey);
     }
     QImage *imageNew = new QImage(*image);
-    this->mImageMap.insert(key, imageNew);
+    this->mImageMap.insert(imageKey, imageNew);
 
     this->setChanged(true);
     emit this->dataChanged(false);
 }
 //-----------------------------------------------------------------------------
-QVariant DataContainer::commonInfo(const QString &key) const
+QVariant DataContainer::commonInfo(const QString &infoKey) const
 {
-    if (this->mInfoMap.contains(key))
+    if (this->mInfoMap.contains(infoKey))
     {
-        return this->mInfoMap.value(key);
+        return this->mInfoMap.value(infoKey);
     }
     return QVariant();
 }
 //-----------------------------------------------------------------------------
-void DataContainer::setCommonInfo(const QString &key, const QVariant &value)
+void DataContainer::setCommonInfo(const QString &infoKey, const QVariant &value)
 {
     bool changed = false;
 
     //TODO: may be need to compare old and new values?
-    if (this->mInfoMap.contains(key))
+    if (this->mInfoMap.contains(infoKey))
     {
-        if (this->mInfoMap.value(key) != value)
+        if (this->mInfoMap.value(infoKey) != value)
         {
             changed = true;
         }
@@ -97,7 +97,7 @@ void DataContainer::setCommonInfo(const QString &key, const QVariant &value)
 
     if (changed)
     {
-        this->mInfoMap.insert(key, value);
+        this->mInfoMap.insert(infoKey, value);
         this->setChanged(true);
         emit this->dataChanged(false);
     }
