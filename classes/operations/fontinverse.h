@@ -33,9 +33,9 @@ class FontInverse : public QObject, public IOperation
 public:
     explicit FontInverse(QObject *parent = 0);
 
-    bool prepare(const IDocument *doc);
-    void applyDocument(IDocument *doc);
-    void applyItem(IDocument *doc, const QString &itemKey);
+    bool prepare(const IDocument *doc) Q_DECL_OVERRIDE;
+    void applyDocument(IDocument *doc) Q_DECL_OVERRIDE;
+    void applyItem(IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
 };
 
 }
