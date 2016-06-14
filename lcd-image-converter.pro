@@ -22,6 +22,7 @@ TEMPLATE = app
 
 # Uncomment next line to enable console output on Windows.
 #CONFIG += console
+CONFIG+=c++11
 
 DESTDIR             = $$OUTDIR/output
 QMAKE_LIBDIR       += $$DESTDIR
@@ -80,6 +81,7 @@ SOURCES += main.cpp \
     classes/imageeditor/toolpen.cpp \
     classes/imageeditor/toolrect.cpp \
     classes/imageeditor/toolzoom.cpp \
+    classes/operations/documentoperator.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
     classes/parser/convert/converterhelper.cpp \
@@ -174,6 +176,9 @@ HEADERS += \
     classes/imageeditor/toolpen.h \
     classes/imageeditor/toolrect.h \
     classes/imageeditor/toolzoom.h \
+    classes/operations/documentoperator.h \
+    classes/operations/ioperation.h \
+    classes/operations/operationarea.h \
     classes/parser/convert/bitmaphelper.h \
     classes/parser/convert/bitstream.h \
     classes/parser/convert/conversion_options.h \
@@ -269,6 +274,7 @@ INCLUDEPATH += $$PWD \
     $$PWD/classes/data \
     $$PWD/classes/cmdline \
     $$PWD/classes/imageeditor \
+    $$PWD/classes/operations \
     $$PWD/classes/status \
     $$PWD/classes/parser \
     $$PWD/classes/parser/convert \
