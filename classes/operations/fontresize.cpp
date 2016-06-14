@@ -52,7 +52,12 @@ bool FontResize::prepare(IDocument *doc)
     return false;
 }
 
-void FontResize::apply(IDocument *doc, const QString &itemKey)
+void FontResize::applyDocument(IDocument *doc)
+{
+    Q_UNUSED(doc)
+}
+
+void FontResize::applyItem(IDocument *doc, const QString &itemKey)
 {
     const QImage *original = doc->dataContainer()->image(itemKey);
     QImage result = BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapHelper::detectBackgroundColor(original));

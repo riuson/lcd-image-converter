@@ -36,7 +36,12 @@ bool FontInverse::prepare(IDocument *doc)
     return true;
 }
 
-void FontInverse::apply(IDocument *doc, const QString &itemKey)
+void FontInverse::applyDocument(IDocument *doc)
+{
+    Q_UNUSED(doc)
+}
+
+void FontInverse::applyItem(IDocument *doc, const QString &itemKey)
 {
     const QImage *original = doc->dataContainer()->image(itemKey);
     QImage result(*original);

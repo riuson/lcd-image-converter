@@ -34,6 +34,9 @@ void DocumentOperator::apply(IDocument *doc, IOperation &operation)
     if (operation.prepare(doc))
     {
         doc->beginChanges();
+
+        operation.applyDocument(doc);
+
         QStringList keys = doc->dataContainer()->keys();
         QListIterator<QString> it(keys);
         it.toFront();
@@ -41,7 +44,7 @@ void DocumentOperator::apply(IDocument *doc, IOperation &operation)
         while (it.hasNext())
         {
             QString key = it.next();
-            operation.apply(doc, key);
+            operation.applyItem(doc, key);
         }
 
         doc->endChanges(false);

@@ -75,10 +75,13 @@ bool FontMinimizeHeight::prepare(IDocument *doc)
     return false;
 }
 
-void FontMinimizeHeight::apply(IDocument *doc, const QString &itemKey)
+void FontMinimizeHeight::applyDocument(IDocument *doc)
 {
-    Q_UNUSED(itemKey)
+    Q_UNUSED(doc)
+}
 
+void FontMinimizeHeight::applyItem(IDocument *doc, const QString &itemKey)
+{
     const QImage *original = doc->dataContainer()->image(itemKey);
     QImage result = BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapHelper::detectBackgroundColor(original));
     doc->dataContainer()->setImage(itemKey, &result);

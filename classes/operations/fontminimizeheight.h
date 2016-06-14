@@ -35,7 +35,8 @@ public:
     explicit FontMinimizeHeight(QWidget *parentWidget = 0, QObject *parent = 0);
 
     bool prepare(IDocument *doc);
-    void apply(IDocument *doc, const QString &itemKey);
+    void applyDocument(IDocument *doc);
+    void applyItem(IDocument *doc, const QString &itemKey);
 
 private:
     QWidget *mParentWidget;

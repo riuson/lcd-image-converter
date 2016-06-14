@@ -30,7 +30,8 @@ public:
     virtual ~IOperation() { }
 
     virtual bool prepare(IDocument *doc) = 0;
-    virtual void apply(IDocument *doc, const QString &itemKey) = 0;
+    virtual void applyDocument(IDocument *doc) = 0;
+    virtual void applyItem(IDocument *doc, const QString &itemKey) = 0;
 };
 }
 Q_DECLARE_INTERFACE (Operations::IOperation,
