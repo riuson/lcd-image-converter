@@ -32,15 +32,8 @@ FontResize::FontResize(QWidget *parentWidget, QObject *parent)
     this->mParentWidget = parentWidget;
 }
 
-OperationArea FontResize::area() const
+bool FontResize::prepare(IDocument *doc)
 {
-    return OperationArea::Document;
-}
-
-void FontResize::apply(IDocument *doc, const QString &itemKey)
-{
-    Q_UNUSED(itemKey)
-
     QStringList keys = doc->dataContainer()->keys();
 
     DialogCanvasResize dialog(doc->dataContainer(), this->mParentWidget);
@@ -48,26 +41,22 @@ void FontResize::apply(IDocument *doc, const QString &itemKey)
 
     if (dialog.exec() == QDialog::Accepted)
     {
-        int left, top, right, bottom;
-        dialog.resizeInfo(&left, &top, &right, &bottom);
+        dialog.resizeInfo(&this->mLeft, &this->mTop, &this->mRight, &this->mBottom);
 
-        if (left != 0 || top != 0 || right != 0 || bottom != 0)
+        if (this->mLeft != 0 || this->mTop != 0 || this->mRight != 0 || this->mBottom != 0)
         {
-            doc->beginChanges();
-
-            QStringListIterator iterator(keys);
-            while (iterator.hasNext())
-            {
-                QString key = iterator.next();
-
-                const QImage *original = doc->dataContainer()->image(key);
-                QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapHelper::detectBackgroundColor(original));
-                doc->dataContainer()->setImage(key, &result);
-            }
-
-            doc->endChanges(false);
+            return true;
         }
     }
+
+    return false;
+}
+
+void FontResize::apply(IDocument *doc, const QString &itemKey)
+{
+    const QImage *original = doc->dataContainer()->image(itemKey);
+    QImage result = BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapHelper::detectBackgroundColor(original));
+    doc->dataContainer()->setImage(itemKey, &result);
 }
 
 }

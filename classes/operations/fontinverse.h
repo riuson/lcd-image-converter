@@ -33,8 +33,8 @@ class FontInverse : public QObject, public IOperation
 public:
     explicit FontInverse(QObject *parent = 0);
 
-    OperationArea area() const;
-    void apply(IDocument *doc, const QString &itemKey = QString());
+    bool prepare(IDocument *doc);
+    void apply(IDocument *doc, const QString &itemKey);
 };
 
 }

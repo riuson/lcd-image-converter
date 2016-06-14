@@ -184,7 +184,6 @@ HEADERS += \
     classes/operations/fontminimizeheight.h \
     classes/operations/fontresize.h \
     classes/operations/ioperation.h \
-    classes/operations/operationarea.h \
     classes/parser/convert/bitmaphelper.h \
     classes/parser/convert/bitstream.h \
     classes/parser/convert/conversion_options.h \

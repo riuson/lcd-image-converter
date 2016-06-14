@@ -29,9 +29,11 @@ FontInverse::FontInverse(QObject *parent)
 {
 }
 
-OperationArea FontInverse::area() const
+bool FontInverse::prepare(IDocument *doc)
 {
-    return OperationArea::Item;
+    Q_UNUSED(doc)
+
+    return true;
 }
 
 void FontInverse::apply(IDocument *doc, const QString &itemKey)

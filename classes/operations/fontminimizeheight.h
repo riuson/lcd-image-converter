@@ -34,11 +34,15 @@ class FontMinimizeHeight : public QObject, public IOperation
 public:
     explicit FontMinimizeHeight(QWidget *parentWidget = 0, QObject *parent = 0);
 
-    OperationArea area() const;
-    void apply(IDocument *doc, const QString &itemKey = QString());
+    bool prepare(IDocument *doc);
+    void apply(IDocument *doc, const QString &itemKey);
 
 private:
     QWidget *mParentWidget;
+    int mLeft;
+    int mTop;
+    int mRight;
+    int mBottom;
 };
 
 }

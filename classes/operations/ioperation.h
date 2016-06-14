@@ -20,8 +20,6 @@
 #ifndef IOPERATION_H
 #define IOPERATION_H
 
-#include "operationarea.h"
-
 class IDocument;
 
 namespace Operations
@@ -31,8 +29,8 @@ class IOperation
 public:
     virtual ~IOperation() { }
 
-    virtual OperationArea area() const = 0;
-    virtual void apply(IDocument *doc, const QString &itemKey = QString()) = 0;
+    virtual bool prepare(IDocument *doc) = 0;
+    virtual void apply(IDocument *doc, const QString &itemKey) = 0;
 };
 }
 Q_DECLARE_INTERFACE (Operations::IOperation,

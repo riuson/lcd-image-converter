@@ -20,7 +20,6 @@
 #include "documentoperator.h"
 #include "idocument.h"
 #include "ioperation.h"
-#include "operationarea.h"
 #include "datacontainer.h"
 
 namespace Operations {
@@ -32,15 +31,9 @@ DocumentOperator::DocumentOperator(QObject *parent)
 
 void DocumentOperator::apply(IDocument *doc, IOperation &operation)
 {
-    doc->beginChanges();
-
-    if ((operation.area() & Operations::OperationArea::Document) == Operations::OperationArea::Document)
+    if (operation.prepare(doc))
     {
-        operation.apply(doc);
-    }
-
-    if ((operation.area() & Operations::OperationArea::Item) == Operations::OperationArea::Item)
-    {
+        doc->beginChanges();
         QStringList keys = doc->dataContainer()->keys();
         QListIterator<QString> it(keys);
         it.toFront();
@@ -50,9 +43,9 @@ void DocumentOperator::apply(IDocument *doc, IOperation &operation)
             QString key = it.next();
             operation.apply(doc, key);
         }
-    }
 
-    doc->endChanges(false);
+        doc->endChanges(false);
+    }
 }
 
 }
