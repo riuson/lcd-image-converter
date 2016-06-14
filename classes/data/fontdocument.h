@@ -45,7 +45,7 @@ public:
     void setDocumentName(const QString &value);
     QString outputFilename() const;
     void setOutputFilename(const QString &value);
-    DataContainer *dataContainer();
+    DataContainer *dataContainer() const;
     QString convert(Preset *preset);
 
     void beginChanges();

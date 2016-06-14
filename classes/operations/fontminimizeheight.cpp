@@ -32,7 +32,7 @@ FontMinimizeHeight::FontMinimizeHeight(QWidget *parentWidget, QObject *parent)
     this->mParentWidget = parentWidget;
 }
 
-bool FontMinimizeHeight::prepare(IDocument *doc)
+bool FontMinimizeHeight::prepare(const IDocument *doc)
 {
     this->mLeft = std::numeric_limits<int>::max();
     this->mTop = std::numeric_limits<int>::max();

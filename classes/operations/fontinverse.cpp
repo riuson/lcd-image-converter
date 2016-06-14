@@ -29,7 +29,7 @@ FontInverse::FontInverse(QObject *parent)
 {
 }
 
-bool FontInverse::prepare(IDocument *doc)
+bool FontInverse::prepare(const IDocument *doc)
 {
     Q_UNUSED(doc)
 

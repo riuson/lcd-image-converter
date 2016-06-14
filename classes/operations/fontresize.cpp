@@ -32,7 +32,7 @@ FontResize::FontResize(QWidget *parentWidget, QObject *parent)
     this->mParentWidget = parentWidget;
 }
 
-bool FontResize::prepare(IDocument *doc)
+bool FontResize::prepare(const IDocument *doc)
 {
     QStringList keys = doc->dataContainer()->keys();
 

@@ -33,7 +33,7 @@ class FontInverse : public QObject, public IOperation
 public:
     explicit FontInverse(QObject *parent = 0);
 
-    bool prepare(IDocument *doc);
+    bool prepare(const IDocument *doc);
     void applyDocument(IDocument *doc);
     void applyItem(IDocument *doc, const QString &itemKey);
 };

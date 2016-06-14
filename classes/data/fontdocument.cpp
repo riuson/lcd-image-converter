@@ -331,7 +331,7 @@ void FontDocument::setOutputFilename(const QString &value)
     this->mContainer->setInfo("converted filename", QVariant(value));
 }
 //-----------------------------------------------------------------------------
-DataContainer *FontDocument::dataContainer()
+DataContainer *FontDocument::dataContainer() const
 {
     return this->mContainer;
 }

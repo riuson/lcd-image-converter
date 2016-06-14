@@ -205,7 +205,7 @@ void ImageDocument::setOutputFilename(const QString &value)
     this->mContainer->setInfo("converted filename", QVariant(value));
 }
 //-----------------------------------------------------------------------------
-DataContainer *ImageDocument::dataContainer()
+DataContainer *ImageDocument::dataContainer() const
 {
     return this->mContainer;
 }
