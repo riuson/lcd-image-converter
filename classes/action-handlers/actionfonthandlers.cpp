@@ -33,6 +33,8 @@
 #include "limits"
 #include "dialogcanvasresize.h"
 #include "tfontparameters.h"
+#include "documentoperator.h"
+#include "fontinverse.h"
 //-----------------------------------------------------------------------------
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -66,21 +68,9 @@ void ActionFontHandlers::fontInverse_triggered()
 {
     if (this->editor() != NULL)
     {
-        this->editor()->document()->beginChanges();;
-
-        QStringList keys = this->editor()->document()->dataContainer()->keys();
-        QListIterator<QString> it(keys);
-        it.toFront();
-        while (it.hasNext())
-        {
-            QString key = it.next();
-            const QImage *original = this->editor()->document()->dataContainer()->image(key);
-            QImage result(*original);
-            result.invertPixels();
-            this->editor()->document()->dataContainer()->setImage(key, &result);
-        }
-
-        this->editor()->document()->endChanges(false);
+        Operations::DocumentOperator docOp(this);
+        Operations::FontInverse fontInverse(this);
+        docOp.apply(this->editor()->document(), fontInverse);
     }
 }
 //-----------------------------------------------------------------------------

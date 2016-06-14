@@ -82,6 +82,7 @@ SOURCES += main.cpp \
     classes/imageeditor/toolrect.cpp \
     classes/imageeditor/toolzoom.cpp \
     classes/operations/documentoperator.cpp \
+    classes/operations/fontinverse.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
     classes/parser/convert/converterhelper.cpp \
@@ -177,6 +178,7 @@ HEADERS += \
     classes/imageeditor/toolrect.h \
     classes/imageeditor/toolzoom.h \
     classes/operations/documentoperator.h \
+    classes/operations/fontinverse.h \
     classes/operations/ioperation.h \
     classes/operations/operationarea.h \
     classes/parser/convert/bitmaphelper.h \
