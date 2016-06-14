@@ -30,12 +30,11 @@
 #include "imainwindow.h"
 #include "idocument.h"
 #include "datacontainer.h"
-#include "limits"
-#include "dialogcanvasresize.h"
 #include "tfontparameters.h"
 #include "documentoperator.h"
 #include "fontinverse.h"
 #include "fontminimizeheight.h"
+#include "fontresize.h"
 //-----------------------------------------------------------------------------
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -79,33 +78,9 @@ void ActionFontHandlers::fontResize_triggered()
 {
     if (this->editor() != NULL)
     {
-        QStringList keys = this->editor()->document()->dataContainer()->keys();
-
-        DialogCanvasResize dialog(this->editor()->document()->dataContainer(), this->mMainWindow->parentWidget());
-        dialog.selectKeys(keys);
-
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            int left, top, right, bottom;
-            dialog.resizeInfo(&left, &top, &right, &bottom);
-
-            if (left != 0 || top != 0 || right != 0 || bottom != 0)
-            {
-                this->editor()->document()->beginChanges();
-
-                QStringListIterator iterator(keys);
-                while (iterator.hasNext())
-                {
-                    QString key = iterator.next();
-
-                    const QImage *original = this->editor()->document()->dataContainer()->image(key);
-                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapHelper::detectBackgroundColor(original));
-                    this->editor()->document()->dataContainer()->setImage(key, &result);
-                }
-
-                this->editor()->document()->endChanges(false);
-            }
-        }
+        Operations::DocumentOperator docOp(this);
+        Operations::FontResize fontResize(this->mMainWindow->parentWidget(), this);
+        docOp.apply(this->editor()->document(), fontResize);
     }
 }
 //-----------------------------------------------------------------------------

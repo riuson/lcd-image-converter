@@ -84,6 +84,7 @@ SOURCES += main.cpp \
     classes/operations/documentoperator.cpp \
     classes/operations/fontinverse.cpp \
     classes/operations/fontminimizeheight.cpp \
+    classes/operations/fontresize.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
     classes/parser/convert/converterhelper.cpp \
@@ -181,6 +182,7 @@ HEADERS += \
     classes/operations/documentoperator.h \
     classes/operations/fontinverse.h \
     classes/operations/fontminimizeheight.h \
+    classes/operations/fontresize.h \
     classes/operations/ioperation.h \
     classes/operations/operationarea.h \
     classes/parser/convert/bitmaphelper.h \
