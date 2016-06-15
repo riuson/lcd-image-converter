@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IMAGEFLIPHORIZONTAL_H
-#define IMAGEFLIPHORIZONTAL_H
+#ifndef IMAGEFLIP_H
+#define IMAGEFLIP_H
 
 #include <QObject>
 #include "ioperation.h"
@@ -26,19 +26,25 @@
 namespace Operations
 {
 
-class ImageFlipHorizontal : public QObject, public IOperation
+class ImageFlip : public QObject, public IOperation
 {
     Q_OBJECT
     Q_INTERFACES(Operations::IOperation)
 
 public:
-    explicit ImageFlipHorizontal(QObject *parent = 0);
+    explicit ImageFlip(QObject *parent = 0);
 
     bool prepare(const IDocument *doc) Q_DECL_OVERRIDE;
     void applyDocument(IDocument *doc) Q_DECL_OVERRIDE;
     void applyItem(IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
+
+    void setOrientation(bool flipHorizontal, bool flipVertical);
+
+private:
+    bool mFlipHorizontal;
+    bool mFlipVertical;
 };
 
 }
 
-#endif // IMAGEFLIPHORIZONTAL_H
+#endif // IMAGEFLIP_H

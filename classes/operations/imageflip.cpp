@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "imagefliphorizontal.h"
+#include "imageflip.h"
 #include "idocument.h"
 #include "datacontainer.h"
 #include "bitmaphelper.h"
@@ -25,27 +25,46 @@
 namespace Operations
 {
 
-ImageFlipHorizontal::ImageFlipHorizontal(QObject *parent)
+ImageFlip::ImageFlip(QObject *parent)
     : QObject(parent)
 {
+    this->mFlipHorizontal = false;
+    this->mFlipVertical = false;
 }
 
-bool ImageFlipHorizontal::prepare(const IDocument *doc)
+bool ImageFlip::prepare(const IDocument *doc)
 {
     Q_UNUSED(doc)
     return true;
 }
 
-void ImageFlipHorizontal::applyDocument(IDocument *doc)
+void ImageFlip::applyDocument(IDocument *doc)
 {
     Q_UNUSED(doc)
 }
 
-void ImageFlipHorizontal::applyItem(IDocument *doc, const QString &itemKey)
+void ImageFlip::applyItem(IDocument *doc, const QString &itemKey)
 {
     const QImage *original = doc->dataContainer()->image(itemKey);
-    QImage result = BitmapHelper::flipHorizontal(original);
+    QImage result = *original;
+
+    if (this->mFlipHorizontal)
+    {
+        result = BitmapHelper::flipHorizontal(&result);
+    }
+
+    if (this->mFlipVertical)
+    {
+        result = BitmapHelper::flipVertical(&result);
+    }
+
     doc->dataContainer()->setImage(itemKey, &result);
+}
+
+void ImageFlip::setOrientation(bool flipHorizontal, bool flipVertical)
+{
+    this->mFlipHorizontal = flipHorizontal;
+    this->mFlipVertical = flipVertical;
 }
 
 }
