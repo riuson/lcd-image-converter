@@ -17,28 +17,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef DOCUMENTOPERATOR_H
-#define DOCUMENTOPERATOR_H
+#ifndef IMAGEFLIPHORIZONTAL_H
+#define IMAGEFLIPHORIZONTAL_H
 
 #include <QObject>
+#include "ioperation.h"
 
-class IDocument;
+namespace Operations
+{
 
-namespace Operations {
-class IOperation;
-
-class DocumentOperator : public QObject
+class ImageFlipHorizontal : public QObject, public IOperation
 {
     Q_OBJECT
-public:
-    explicit DocumentOperator(QObject *parent = 0);
-    void setKeys(const QStringList keys);
-    void apply(IDocument *doc, IOperation &operation);
+    Q_INTERFACES(Operations::IOperation)
 
-private:
-    QStringList mSelectedKeys;
+public:
+    explicit ImageFlipHorizontal(QObject *parent = 0);
+
+    bool prepare(const IDocument *doc) Q_DECL_OVERRIDE;
+    void applyDocument(IDocument *doc) Q_DECL_OVERRIDE;
+    void applyItem(IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
 };
 
 }
 
-#endif // DOCUMENTOPERATOR_H
+#endif // IMAGEFLIPHORIZONTAL_H

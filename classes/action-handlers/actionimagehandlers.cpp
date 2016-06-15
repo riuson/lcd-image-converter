@@ -32,6 +32,8 @@
 #include "ieditor.h"
 #include "datacontainer.h"
 #include "converterhelper.h"
+#include "documentoperator.h"
+#include "imagefliphorizontal.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -43,21 +45,12 @@ void ActionImageHandlers::flipHorizontal_triggered()
 {
     if (this->editor() != NULL)
     {
-        this->editor()->document()->beginChanges();
-
         QStringList keys = this->editor()->selectedKeys();
 
-        QStringListIterator iterator(keys);
-        while (iterator.hasNext())
-        {
-            QString key = iterator.next();
-
-            const QImage *original = this->editor()->document()->dataContainer()->image(key);
-            QImage result = BitmapHelper::flipHorizontal(original);
-            this->editor()->document()->dataContainer()->setImage(key, &result);
-        }
-
-        this->editor()->document()->endChanges(false);
+        Operations::DocumentOperator docOp(this);
+        docOp.setKeys(keys);
+        Operations::ImageFlipHorizontal imageFlipHorizontal(this);
+        docOp.apply(this->editor()->document(), imageFlipHorizontal);
     }
 }
 //-----------------------------------------------------------------------------

@@ -29,6 +29,11 @@ DocumentOperator::DocumentOperator(QObject *parent)
 {
 }
 
+void DocumentOperator::setKeys(const QStringList keys)
+{
+    this->mSelectedKeys = keys;
+}
+
 void DocumentOperator::apply(IDocument *doc, IOperation &operation)
 {
     if (operation.prepare(doc))
@@ -37,7 +42,7 @@ void DocumentOperator::apply(IDocument *doc, IOperation &operation)
 
         operation.applyDocument(doc);
 
-        QStringList keys = doc->dataContainer()->keys();
+        QStringList keys = this->mSelectedKeys.length() == 0 ? doc->dataContainer()->keys() : this->mSelectedKeys;
         QListIterator<QString> it(keys);
         it.toFront();
 

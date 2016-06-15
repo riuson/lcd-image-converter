@@ -17,28 +17,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef DOCUMENTOPERATOR_H
-#define DOCUMENTOPERATOR_H
+#include "imagefliphorizontal.h"
+#include "idocument.h"
+#include "datacontainer.h"
+#include "bitmaphelper.h"
 
-#include <QObject>
-
-class IDocument;
-
-namespace Operations {
-class IOperation;
-
-class DocumentOperator : public QObject
+namespace Operations
 {
-    Q_OBJECT
-public:
-    explicit DocumentOperator(QObject *parent = 0);
-    void setKeys(const QStringList keys);
-    void apply(IDocument *doc, IOperation &operation);
 
-private:
-    QStringList mSelectedKeys;
-};
-
+ImageFlipHorizontal::ImageFlipHorizontal(QObject *parent)
+    : QObject(parent)
+{
 }
 
-#endif // DOCUMENTOPERATOR_H
+bool ImageFlipHorizontal::prepare(const IDocument *doc)
+{
+    Q_UNUSED(doc)
+    return true;
+}
+
+void ImageFlipHorizontal::applyDocument(IDocument *doc)
+{
+    Q_UNUSED(doc)
+}
+
+void ImageFlipHorizontal::applyItem(IDocument *doc, const QString &itemKey)
+{
+    const QImage *original = doc->dataContainer()->image(itemKey);
+    QImage result = BitmapHelper::flipHorizontal(original);
+    doc->dataContainer()->setImage(itemKey, &result);
+}
+
+}
