@@ -34,6 +34,7 @@
 #include "converterhelper.h"
 #include "documentoperator.h"
 #include "imageflip.h"
+#include "imagerotate.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -73,21 +74,13 @@ void ActionImageHandlers::rotate_90_Clockwise_triggered()
 {
     if (this->editor() != NULL)
     {
-        this->editor()->document()->beginChanges();
-
         QStringList keys = this->editor()->selectedKeys();
 
-        QStringListIterator iterator(keys);
-        while (iterator.hasNext())
-        {
-            QString key = iterator.next();
-
-            const QImage *original = this->editor()->document()->dataContainer()->image(key);
-            QImage result = BitmapHelper::rotate90(original);
-            this->editor()->document()->dataContainer()->setImage(key, &result);
-        }
-
-        this->editor()->document()->endChanges(false);
+        Operations::DocumentOperator docOp(this);
+        docOp.setKeys(keys);
+        Operations::ImageRotate imageRotate(this);
+        imageRotate.setAngle(Operations::ImageRotate::Angle::A90);
+        docOp.apply(this->editor()->document(), imageRotate);
     }
 }
 //-----------------------------------------------------------------------------
@@ -95,21 +88,13 @@ void ActionImageHandlers::rotate_180_triggered()
 {
     if (this->editor() != NULL)
     {
-        this->editor()->document()->beginChanges();
-
         QStringList keys = this->editor()->selectedKeys();
 
-        QStringListIterator iterator(keys);
-        while (iterator.hasNext())
-        {
-            QString key = iterator.next();
-
-            const QImage *original = this->editor()->document()->dataContainer()->image(key);
-            QImage result = BitmapHelper::rotate180(original);
-            this->editor()->document()->dataContainer()->setImage(key, &result);
-        }
-
-        this->editor()->document()->endChanges(false);
+        Operations::DocumentOperator docOp(this);
+        docOp.setKeys(keys);
+        Operations::ImageRotate imageRotate(this);
+        imageRotate.setAngle(Operations::ImageRotate::Angle::A180);
+        docOp.apply(this->editor()->document(), imageRotate);
     }
 }
 //-----------------------------------------------------------------------------
@@ -117,21 +102,13 @@ void ActionImageHandlers::rotate_90_Counter_Clockwise_triggered()
 {
     if (this->editor() != NULL)
     {
-        this->editor()->document()->beginChanges();
-
         QStringList keys = this->editor()->selectedKeys();
 
-        QStringListIterator iterator(keys);
-        while (iterator.hasNext())
-        {
-            QString key = iterator.next();
-
-            const QImage *original = this->editor()->document()->dataContainer()->image(key);
-            QImage result = BitmapHelper::rotate270(original);
-            this->editor()->document()->dataContainer()->setImage(key, &result);
-        }
-
-        this->editor()->document()->endChanges(false);
+        Operations::DocumentOperator docOp(this);
+        docOp.setKeys(keys);
+        Operations::ImageRotate imageRotate(this);
+        imageRotate.setAngle(Operations::ImageRotate::Angle::A270);
+        docOp.apply(this->editor()->document(), imageRotate);
     }
 }
 //-----------------------------------------------------------------------------

@@ -86,6 +86,7 @@ SOURCES += main.cpp \
     classes/operations/fontminimizeheight.cpp \
     classes/operations/fontresize.cpp \
     classes/operations/imageflip.cpp \
+    classes/operations/imagerotate.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
     classes/parser/convert/converterhelper.cpp \
@@ -185,6 +186,7 @@ HEADERS += \
     classes/operations/fontminimizeheight.h \
     classes/operations/fontresize.h \
     classes/operations/imageflip.h \
+    classes/operations/imagerotate.h \
     classes/operations/ioperation.h \
     classes/parser/convert/bitmaphelper.h \
     classes/parser/convert/bitstream.h \
