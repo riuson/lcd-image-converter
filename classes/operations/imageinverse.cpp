@@ -37,9 +37,10 @@ bool ImageInverse::prepare(const IDocument *doc, const QStringList &keys)
     return true;
 }
 
-void ImageInverse::applyDocument(IDocument *doc)
+void ImageInverse::applyDocument(IDocument *doc, const QStringList &keys)
 {
     Q_UNUSED(doc)
+    Q_UNUSED(keys)
 }
 
 void ImageInverse::applyItem(IDocument *doc, const QString &itemKey)

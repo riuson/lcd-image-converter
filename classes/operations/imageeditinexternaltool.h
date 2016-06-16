@@ -17,38 +17,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "imagegrayscale.h"
-#include <QImage>
-#include "idocument.h"
-#include "datacontainer.h"
-#include "converterhelper.h"
+#ifndef IMAGEEDITINEXTERNALTOOL_H
+#define IMAGEEDITINEXTERNALTOOL_H
+
+#include <QObject>
+#include <QProcess>
+#include "ioperation.h"
 
 namespace Operations {
 
-ImageGrayscale::ImageGrayscale(QObject *parent) : QObject(parent)
+class ImageEditInExternalTool : public QObject, public IOperation
 {
-}
+    Q_OBJECT
+    Q_INTERFACES(Operations::IOperation)
 
-bool ImageGrayscale::prepare(const IDocument *doc, const QStringList &keys)
-{
-    Q_UNUSED(doc)
-    Q_UNUSED(keys)
+public:
+    explicit ImageEditInExternalTool(QWidget *parentWidget = 0, QObject *parent = 0);
 
-    return true;
-}
+    bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
+    void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
+    void applyItem(IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
 
-void ImageGrayscale::applyDocument(IDocument *doc, const QStringList &keys)
-{
-    Q_UNUSED(doc)
-    Q_UNUSED(keys)
-}
+private:
+    QWidget *mParentWidget;
+    bool mRunningError;
 
-void ImageGrayscale::applyItem(IDocument *doc, const QString &itemKey)
-{
-    const QImage *original = doc->dataContainer()->image(itemKey);
-    QImage result(*original);
-    ConverterHelper::makeGrayscale(result);
-    doc->dataContainer()->setImage(itemKey, &result);
-}
+private slots:
+    void processError(QProcess::ProcessError error);
+};
 
 }
+
+#endif // IMAGEEDITINEXTERNALTOOL_H

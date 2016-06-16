@@ -42,7 +42,7 @@ void DocumentOperator::apply(IDocument *doc, IOperation &operation)
     {
         doc->beginChanges();
 
-        operation.applyDocument(doc);
+        operation.applyDocument(doc, keys);
 
         QListIterator<QString> it(keys);
         it.toFront();

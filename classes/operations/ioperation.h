@@ -30,7 +30,7 @@ public:
     virtual ~IOperation() { }
 
     virtual bool prepare(const IDocument *doc, const QStringList &keys) = 0;
-    virtual void applyDocument(IDocument *doc) = 0;
+    virtual void applyDocument(IDocument *doc, const QStringList &keys) = 0;
     virtual void applyItem(IDocument *doc, const QString &itemKey) = 0;
 };
 }

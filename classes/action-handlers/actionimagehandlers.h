@@ -55,9 +55,6 @@ public slots:
     void import_triggered();
     void export_triggered();
     void edit_in_external_tool_triggered();
-
-private slots:
-    void process_error(QProcess::ProcessError error);
 };
 //-----------------------------------------------------------------------------
 #endif // ACTIONIMAGEHANDLERS_H

@@ -79,9 +79,10 @@ bool ImageImport::prepare(const IDocument *doc, const QStringList &keys)
     return false;
 }
 
-void ImageImport::applyDocument(IDocument *doc)
+void ImageImport::applyDocument(IDocument *doc, const QStringList &keys)
 {
     Q_UNUSED(doc)
+    Q_UNUSED(keys)
 }
 
 void ImageImport::applyItem(IDocument *doc, const QString &itemKey)

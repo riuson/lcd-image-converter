@@ -37,9 +37,10 @@ bool ImageShift::prepare(const IDocument *doc, const QStringList &keys)
     return true;
 }
 
-void ImageShift::applyDocument(IDocument *doc)
+void ImageShift::applyDocument(IDocument *doc, const QStringList &keys)
 {
     Q_UNUSED(doc)
+    Q_UNUSED(keys)
 }
 
 void ImageShift::applyItem(IDocument *doc, const QString &itemKey)

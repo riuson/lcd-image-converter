@@ -19,19 +19,8 @@
 
 #include "actionimagehandlers.h"
 
-#include <QFileDialog>
-#include <QFileInfo>
-#include <QDateTime>
-#include <QMessageBox>
-#include "widgetbitmapeditor.h"
-#include "dialogcanvasresize.h"
-#include "bitmaphelper.h"
-#include "externaltooloptions.h"
 #include "imainwindow.h"
-#include "idocument.h"
 #include "ieditor.h"
-#include "datacontainer.h"
-#include "converterhelper.h"
 #include "documentoperator.h"
 #include "imageflip.h"
 #include "imagerotate.h"
@@ -41,6 +30,7 @@
 #include "imagegrayscale.h"
 #include "imageimport.h"
 #include "imageexport.h"
+#include "imageeditinexternaltool.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -245,158 +235,10 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
     {
         QStringList keys = this->editor()->selectedKeys();
 
-        QMap<QString, QString> files;
-
-        // create map of file names
-        int counter = 0;
-        QStringListIterator iterator(keys);
-        while (iterator.hasNext())
-        {
-            QString key = iterator.next();
-            QDateTime time = QDateTime::currentDateTime();
-
-            QString filename = QDir::tempPath();
-            filename += "/";
-            filename += time.toString("yyyy-MM-dd-hh-mm-ss-zzz");
-            filename += "-";
-            filename += QString("%1").arg(counter++, 10, 10, QChar('0'));
-            filename += ".png";
-
-            files.insert(key, filename);
-        }
-
-        // time of last file
-        QDateTime lastTime = QDateTime::currentDateTime();
-
-        // save images to files
-        iterator.toFront();
-        while (iterator.hasNext())
-        {
-            QString key = iterator.next();
-
-            // get image
-            const QImage *image = this->editor()->document()->dataContainer()->image(key);
-
-            // save image to file
-            QString filename = files.value(key);
-            image->save(filename);
-
-            // get last time
-            QFileInfo info(filename);
-            lastTime = info.lastModified();
-        }
-
-
-        // fill parameters list
-        QStringList parameters;
-        iterator.toFront();
-        while (iterator.hasNext())
-        {
-            QString key = iterator.next();
-            QString filename = files.value(key);
-            parameters << filename;
-        }
-
-        // run external application with this files list as parameter
-        QProcess process(this);
-        this->connect(&process, SIGNAL(error(QProcess::ProcessError)), SLOT(process_error(QProcess::ProcessError)));
-        this->mRunningError = false;
-        process.start(ExternalToolOptions::imageEditor(), parameters);
-
-        // wait for external application finished
-        do
-        {
-            process.waitForFinished();
-        } while (process.state() == QProcess::Running);
-
-        if (!this->mRunningError)
-        {
-            // find changes
-            QStringList changedKeys;
-
-            iterator.toFront();
-            while (iterator.hasNext())
-            {
-                QString key = iterator.next();
-                QString filename = files.value(key);
-
-                QFileInfo info(filename);
-
-                // if file was modified
-                if (info.lastModified() > lastTime)
-                {
-                    changedKeys << key;
-                }
-                else
-                {
-                    QFile::remove(filename);
-                }
-            }
-
-            // load changed files
-            if (changedKeys.length() > 0)
-            {
-                this->editor()->document()->beginChanges();
-
-                iterator = QStringListIterator(changedKeys);
-                while (iterator.hasNext())
-                {
-                    QString key = iterator.next();
-                    QString filename = files.value(key);
-
-                    QImage imageLoaded;
-                    imageLoaded.load(filename);
-                    QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
-                    this->editor()->document()->dataContainer()->setImage(key, &imageConverted);
-
-                    QFile::remove(filename);
-                }
-
-                this->editor()->document()->endChanges(false);
-            }
-        }
+        Operations::DocumentOperator docOp(this);
+        docOp.setKeys(keys);
+        Operations::ImageEditInExternalTool imageEdit(this->mMainWindow->parentWidget(), this);
+        docOp.apply(this->editor()->document(), imageEdit);
     }
-}
-//-----------------------------------------------------------------------------
-void ActionImageHandlers::process_error(QProcess::ProcessError error)
-{
-    this->mRunningError = true;
-
-    QString message, description;
-
-    switch (error)
-    {
-    case QProcess::FailedToStart:
-        message = tr("Failed to Start");
-        description = tr("The process failed to start. Either the invoked program is missing, or you may have insufficient permissions to invoke the program.");
-        break;
-    case QProcess::Crashed:
-        message = tr("Crashed");
-        description = tr("The process crashed some time after starting successfully.");
-        break;
-        //case QProcess::Timedout:
-        //    message = tr("Timedout");
-        //    description = tr("The last waitFor...() function timed out. The state of QProcess is unchanged, and you can try calling waitFor...() again.");
-        //    break;
-    case QProcess::ReadError:
-        message = tr("Read Error");
-        description = tr("An error occurred when attempting to read from the process. For example, the process may not be running.");
-        break;
-    case QProcess::WriteError:
-        message = tr("Write Error");
-        description = tr("An error occurred when attempting to write to the process. For example, the process may not be running, or it may have closed its input channel.");
-        break;
-    case QProcess::UnknownError:
-    default:
-        message = tr("Unknown Error");
-        description = tr("An unknown error occurred.");
-        break;
-    }
-
-    QMessageBox box(this->mMainWindow->parentWidget());
-    box.setTextFormat(Qt::RichText);
-    box.setText(QString("<b>%1</b>: \"%2\"<br/>%3").arg(message, ExternalToolOptions::imageEditor(), description));
-    box.setWindowTitle(tr("Error running external tool"));
-    box.exec();
 }
 //-----------------------------------------------------------------------------

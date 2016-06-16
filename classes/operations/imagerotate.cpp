@@ -38,9 +38,10 @@ bool ImageRotate::prepare(const IDocument *doc, const QStringList &keys)
     return true;
 }
 
-void ImageRotate::applyDocument(IDocument *doc)
+void ImageRotate::applyDocument(IDocument *doc, const QStringList &keys)
 {
     Q_UNUSED(doc)
+    Q_UNUSED(keys)
 }
 
 void ImageRotate::applyItem(IDocument *doc, const QString &itemKey)

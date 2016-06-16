@@ -39,9 +39,10 @@ bool ImageFlip::prepare(const IDocument *doc, const QStringList &keys)
     return true;
 }
 
-void ImageFlip::applyDocument(IDocument *doc)
+void ImageFlip::applyDocument(IDocument *doc, const QStringList &keys)
 {
     Q_UNUSED(doc)
+    Q_UNUSED(keys)
 }
 
 void ImageFlip::applyItem(IDocument *doc, const QString &itemKey)

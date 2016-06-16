@@ -50,9 +50,10 @@ bool ImageResize::prepare(const IDocument *doc, const QStringList &keys)
     return false;
 }
 
-void ImageResize::applyDocument(IDocument *doc)
+void ImageResize::applyDocument(IDocument *doc, const QStringList &keys)
 {
     Q_UNUSED(doc)
+    Q_UNUSED(keys)
 }
 
 void ImageResize::applyItem(IDocument *doc, const QString &itemKey)

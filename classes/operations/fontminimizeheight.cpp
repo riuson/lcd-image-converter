@@ -74,9 +74,10 @@ bool FontMinimizeHeight::prepare(const IDocument *doc, const QStringList &keys)
     return false;
 }
 
-void FontMinimizeHeight::applyDocument(IDocument *doc)
+void FontMinimizeHeight::applyDocument(IDocument *doc, const QStringList &keys)
 {
     Q_UNUSED(doc)
+    Q_UNUSED(keys)
 }
 
 void FontMinimizeHeight::applyItem(IDocument *doc, const QString &itemKey)
