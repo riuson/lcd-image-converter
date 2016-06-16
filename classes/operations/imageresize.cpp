@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "fontresize.h"
+#include "imageresize.h"
 #include "dialogcanvasresize.h"
 #include "idocument.h"
 #include "datacontainer.h"
@@ -26,16 +26,14 @@
 namespace Operations
 {
 
-FontResize::FontResize(QWidget *parentWidget, QObject *parent)
+ImageResize::ImageResize(QWidget *parentWidget, QObject *parent)
     : QObject(parent)
 {
     this->mParentWidget = parentWidget;
 }
 
-bool FontResize::prepare(const IDocument *doc)
+bool ImageResize::prepare(const IDocument *doc, const QStringList &keys)
 {
-    QStringList keys = doc->dataContainer()->keys();
-
     DialogCanvasResize dialog(doc->dataContainer(), this->mParentWidget);
     dialog.selectKeys(keys);
 
@@ -52,12 +50,12 @@ bool FontResize::prepare(const IDocument *doc)
     return false;
 }
 
-void FontResize::applyDocument(IDocument *doc)
+void ImageResize::applyDocument(IDocument *doc)
 {
     Q_UNUSED(doc)
 }
 
-void FontResize::applyItem(IDocument *doc, const QString &itemKey)
+void ImageResize::applyItem(IDocument *doc, const QString &itemKey)
 {
     const QImage *original = doc->dataContainer()->image(itemKey);
     QImage result = BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapHelper::detectBackgroundColor(original));

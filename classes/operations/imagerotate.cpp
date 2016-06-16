@@ -31,9 +31,10 @@ ImageRotate::ImageRotate(QObject *parent)
     this->mAngle = Angle::None;
 }
 
-bool ImageRotate::prepare(const IDocument *doc)
+bool ImageRotate::prepare(const IDocument *doc, const QStringList &keys)
 {
     Q_UNUSED(doc)
+    Q_UNUSED(keys)
     return true;
 }
 

@@ -32,7 +32,7 @@ FontMinimizeHeight::FontMinimizeHeight(QWidget *parentWidget, QObject *parent)
     this->mParentWidget = parentWidget;
 }
 
-bool FontMinimizeHeight::prepare(const IDocument *doc)
+bool FontMinimizeHeight::prepare(const IDocument *doc, const QStringList &keys)
 {
     this->mLeft = std::numeric_limits<int>::max();
     this->mTop = std::numeric_limits<int>::max();
@@ -40,7 +40,6 @@ bool FontMinimizeHeight::prepare(const IDocument *doc)
     this->mBottom = 0;
 
     // find limits
-    QStringList keys = doc->dataContainer()->keys();
     QListIterator<QString> it(keys);
     it.toFront();
 

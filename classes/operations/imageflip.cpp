@@ -32,9 +32,10 @@ ImageFlip::ImageFlip(QObject *parent)
     this->mFlipVertical = false;
 }
 
-bool ImageFlip::prepare(const IDocument *doc)
+bool ImageFlip::prepare(const IDocument *doc, const QStringList &keys)
 {
     Q_UNUSED(doc)
+    Q_UNUSED(keys)
     return true;
 }
 

@@ -36,13 +36,14 @@ void DocumentOperator::setKeys(const QStringList keys)
 
 void DocumentOperator::apply(IDocument *doc, IOperation &operation)
 {
-    if (operation.prepare(doc))
+    QStringList keys = this->mSelectedKeys.length() == 0 ? doc->dataContainer()->keys() : this->mSelectedKeys;
+
+    if (operation.prepare(doc, keys))
     {
         doc->beginChanges();
 
         operation.applyDocument(doc);
 
-        QStringList keys = this->mSelectedKeys.length() == 0 ? doc->dataContainer()->keys() : this->mSelectedKeys;
         QListIterator<QString> it(keys);
         it.toFront();
 

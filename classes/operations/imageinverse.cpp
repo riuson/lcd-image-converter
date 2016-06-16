@@ -29,9 +29,10 @@ ImageInverse::ImageInverse(QObject *parent)
 {
 }
 
-bool ImageInverse::prepare(const IDocument *doc)
+bool ImageInverse::prepare(const IDocument *doc, const QStringList &keys)
 {
     Q_UNUSED(doc)
+    Q_UNUSED(keys)
 
     return true;
 }

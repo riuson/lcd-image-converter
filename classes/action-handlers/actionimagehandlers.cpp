@@ -37,6 +37,7 @@
 #include "imagerotate.h"
 #include "imageshift.h"
 #include "imageinverse.h"
+#include "imageresize.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -189,31 +190,10 @@ void ActionImageHandlers::resize_triggered()
     {
         QStringList keys = this->editor()->selectedKeys();
 
-        DialogCanvasResize dialog(this->editor()->document()->dataContainer(), this->mMainWindow->parentWidget());
-        dialog.selectKeys(keys);
-
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            int left, top, right, bottom;
-            dialog.resizeInfo(&left, &top, &right, &bottom);
-
-            if (left != 0 || top != 0 || right != 0 || bottom != 0)
-            {
-                this->editor()->document()->beginChanges();
-
-                QStringListIterator iterator(keys);
-                while (iterator.hasNext())
-                {
-                    QString key = iterator.next();
-
-                    const QImage *original = this->editor()->document()->dataContainer()->image(key);
-                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapHelper::detectBackgroundColor(original));
-                    this->editor()->document()->dataContainer()->setImage(key, &result);
-                }
-
-                this->editor()->document()->endChanges(false);
-            }
-        }
+        Operations::DocumentOperator docOp(this);
+        docOp.setKeys(keys);
+        Operations::ImageResize imageResize(this->mMainWindow->parentWidget(), this);
+        docOp.apply(this->editor()->document(), imageResize);
     }
 }
 //-----------------------------------------------------------------------------

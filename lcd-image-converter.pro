@@ -83,9 +83,9 @@ SOURCES += main.cpp \
     classes/imageeditor/toolzoom.cpp \
     classes/operations/documentoperator.cpp \
     classes/operations/fontminimizeheight.cpp \
-    classes/operations/fontresize.cpp \
     classes/operations/imageflip.cpp \
     classes/operations/imageinverse.cpp \
+    classes/operations/imageresize.cpp \
     classes/operations/imagerotate.cpp \
     classes/operations/imageshift.cpp \
     classes/parser/convert/bitmaphelper.cpp \
@@ -184,9 +184,9 @@ HEADERS += \
     classes/imageeditor/toolzoom.h \
     classes/operations/documentoperator.h \
     classes/operations/fontminimizeheight.h \
-    classes/operations/fontresize.h \
     classes/operations/imageflip.h \
     classes/operations/imageinverse.h \
+    classes/operations/imageresize.h \
     classes/operations/imagerotate.h \
     classes/operations/imageshift.h \
     classes/operations/ioperation.h \
