@@ -39,6 +39,7 @@
 #include "imageinverse.h"
 #include "imageresize.h"
 #include "imagegrayscale.h"
+#include "imageimport.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -215,78 +216,12 @@ void ActionImageHandlers::import_triggered()
 {
     if (this->editor() != NULL)
     {
-        QFileDialog dialog(this->mMainWindow->parentWidget());
-        dialog.setAcceptMode(QFileDialog::AcceptOpen);
-        dialog.setFileMode(QFileDialog::ExistingFiles);
-        dialog.setNameFilter(tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
-        dialog.setWindowTitle(tr("Open image file"));
+        QStringList keys = this->editor()->selectedKeys();
 
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            QStringList filenames = dialog.selectedFiles();
-
-            QStringList keys = this->editor()->selectedKeys();
-
-            if (filenames.length() == 1)
-            {
-                QStringListIterator iterator(keys);
-
-                this->editor()->document()->beginChanges();
-
-                while (iterator.hasNext())
-                {
-                    QString key = iterator.next();
-
-                    QImage imageLoaded;
-                    imageLoaded.load(filenames.at(0));
-                    QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
-
-                    this->editor()->document()->dataContainer()->setImage(key, &imageConverted);
-                }
-
-                this->editor()->document()->endChanges(false);
-            }
-            else if (filenames.length() > 1)
-            {
-                bool ok = true;
-
-                if (filenames.length() != keys.length())
-                {
-                    QString msg = tr("Selected %1 file(s) and %2 character(s).\nWill be imported only a minimal amount: %3.").\
-                            arg(filenames.length()).\
-                            arg(keys.length()).\
-                            arg(qMin(filenames.length(), keys.length()));
-
-                    QMessageBox box(this->mMainWindow->parentWidget());
-                    box.setIcon(QMessageBox::Warning);
-                    box.setInformativeText(msg);
-                    box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-                    box.setText(tr("Selected a different number of files and characters."));
-                    box.setWindowTitle(tr("Warning"));
-
-                    if (box.exec() != QMessageBox::Ok)
-                    {
-                        ok = false;
-                    }
-                }
-
-                if (ok)
-                {
-                    this->editor()->document()->beginChanges();
-
-                    for (int i = 0; i < keys.length() && i < filenames.length(); i++)
-                    {
-                        QImage imageLoaded;
-                        imageLoaded.load(filenames.at(i));
-                        QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
-
-                        this->editor()->document()->dataContainer()->setImage(keys.at(i), &imageConverted);
-                    }
-
-                    this->editor()->document()->endChanges(false);
-                }
-            }
-        }
+        Operations::DocumentOperator docOp(this);
+        docOp.setKeys(keys);
+        Operations::ImageImport imageImport(this->mMainWindow->parentWidget(), this);
+        docOp.apply(this->editor()->document(), imageImport);
     }
 }
 //-----------------------------------------------------------------------------

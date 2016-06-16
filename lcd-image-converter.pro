@@ -85,6 +85,7 @@ SOURCES += main.cpp \
     classes/operations/fontminimizeheight.cpp \
     classes/operations/imageflip.cpp \
     classes/operations/imagegrayscale.cpp \
+    classes/operations/imageimport.cpp \
     classes/operations/imageinverse.cpp \
     classes/operations/imageresize.cpp \
     classes/operations/imagerotate.cpp \
@@ -187,6 +188,7 @@ HEADERS += \
     classes/operations/fontminimizeheight.h \
     classes/operations/imageflip.h \
     classes/operations/imagegrayscale.h \
+    classes/operations/imageimport.h \
     classes/operations/imageinverse.h \
     classes/operations/imageresize.h \
     classes/operations/imagerotate.h \
