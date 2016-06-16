@@ -38,6 +38,7 @@
 #include "imageshift.h"
 #include "imageinverse.h"
 #include "imageresize.h"
+#include "imagegrayscale.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -201,22 +202,12 @@ void ActionImageHandlers::grayscale_triggered()
 {
     if (this->editor() != NULL)
     {
-        this->editor()->document()->beginChanges();
-
         QStringList keys = this->editor()->selectedKeys();
 
-        QStringListIterator iterator(keys);
-        while (iterator.hasNext())
-        {
-            QString key = iterator.next();
-
-            const QImage *original = this->editor()->document()->dataContainer()->image(key);
-            QImage result(*original);
-            ConverterHelper::makeGrayscale(result);
-            this->editor()->document()->dataContainer()->setImage(key, &result);
-        }
-
-        this->editor()->document()->endChanges(false);
+        Operations::DocumentOperator docOp(this);
+        docOp.setKeys(keys);
+        Operations::ImageGrayscale imageGrayscale(this);
+        docOp.apply(this->editor()->document(), imageGrayscale);
     }
 }
 //-----------------------------------------------------------------------------
