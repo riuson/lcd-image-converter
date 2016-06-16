@@ -83,6 +83,7 @@ SOURCES += main.cpp \
     classes/imageeditor/toolzoom.cpp \
     classes/operations/documentoperator.cpp \
     classes/operations/fontminimizeheight.cpp \
+    classes/operations/imageexport.cpp \
     classes/operations/imageflip.cpp \
     classes/operations/imagegrayscale.cpp \
     classes/operations/imageimport.cpp \
@@ -186,6 +187,7 @@ HEADERS += \
     classes/imageeditor/toolzoom.h \
     classes/operations/documentoperator.h \
     classes/operations/fontminimizeheight.h \
+    classes/operations/imageexport.h \
     classes/operations/imageflip.h \
     classes/operations/imagegrayscale.h \
     classes/operations/imageimport.h \

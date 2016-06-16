@@ -56,9 +56,6 @@ public slots:
     void export_triggered();
     void edit_in_external_tool_triggered();
 
-private:
-    void saveImages(const QString &filename, const QString &ext);
-
 private slots:
     void process_error(QProcess::ProcessError error);
 };

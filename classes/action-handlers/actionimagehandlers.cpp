@@ -40,6 +40,7 @@
 #include "imageresize.h"
 #include "imagegrayscale.h"
 #include "imageimport.h"
+#include "imageexport.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -229,41 +230,12 @@ void ActionImageHandlers::export_triggered()
 {
     if (this->editor() != NULL)
     {
-        QFileDialog dialog(this->mMainWindow->parentWidget());
-        dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.setFileMode(QFileDialog::AnyFile);
-        QString filter = QString("Windows Bitmap (*.bmp);;" \
-                            "Joint Photographic Experts Group (*.jpg *.jpeg);;" \
-                            "Portable Network Graphics (*.png);;" \
-                            "Portable Pixmap (*.ppm);;" \
-                            "Tagged Image File Format (*.tiff);;" \
-                            "X11 Bitmap (*.xbm);;" \
-                            "X11 Bitmap (*.xpm)");
-        dialog.setNameFilter(filter);
-        dialog.setWindowTitle(tr("Save image file"));
+        QStringList keys = this->editor()->selectedKeys();
 
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            filter = dialog.selectedNameFilter();
-            QString ext = "png";
-            if (filter.contains("bmp"))
-                ext = "bmp";
-            else if (filter.contains("jpg"))
-                ext = "jpg";
-            else if (filter.contains("png"))
-                ext = "png";
-            else if (filter.contains("ppm"))
-                ext = "ppm";
-            else if (filter.contains("tiff"))
-                ext = "tiff";
-            else if (filter.contains("xbm"))
-                ext = "xbm";
-            else if (filter.contains("xpm"))
-                ext = "xpm";
-
-            QString filename = dialog.selectedFiles().at(0);
-            this->saveImages(filename, ext);
-        }
+        Operations::DocumentOperator docOp(this);
+        docOp.setKeys(keys);
+        Operations::ImageExport imageExport(this->mMainWindow->parentWidget(), this);
+        docOp.apply(this->editor()->document(), imageExport);
     }
 }
 //-----------------------------------------------------------------------------
@@ -382,49 +354,6 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
 
                 this->editor()->document()->endChanges(false);
             }
-        }
-    }
-}
-//-----------------------------------------------------------------------------
-void ActionImageHandlers::saveImages(const QString &filename, const QString &ext)
-{
-    QStringList keys = this->editor()->selectedKeys();
-
-    if (keys.length() >= 1)
-    {
-        QString filename2 = filename;
-
-        QFileInfo info(filename2);
-
-        QString fileExt = info.suffix().toLower();
-
-        if (fileExt.isEmpty() || fileExt != ext)
-        {
-            filename2 += "." + ext;
-        }
-
-        if (keys.length() > 1)
-        {
-            filename2.chop(ext.length() + 1);
-
-            int counter = 0;
-            QStringListIterator iterator(keys);
-            while (iterator.hasNext())
-            {
-                QString key = iterator.next();
-
-                QString filename3 = filename2;
-                filename3 += ".";
-                filename3 += QString("%1").arg(counter++, 10, 10, QChar('0'));
-                filename3 += ".";
-                filename3 += ext;
-
-                this->editor()->document()->dataContainer()->image(key)->save(filename3);
-            }
-        }
-        else
-        {
-            this->editor()->document()->dataContainer()->image(keys.at(0))->save(filename2);
         }
     }
 }
