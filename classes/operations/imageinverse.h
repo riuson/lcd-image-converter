@@ -17,21 +17,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef FONTINVERSE_H
-#define FONTINVERSE_H
+#ifndef IMAGEINVERSE_H
+#define IMAGEINVERSE_H
 
 #include <QObject>
 #include "ioperation.h"
 
 namespace Operations {
 
-class FontInverse : public QObject, public IOperation
+class ImageInverse : public QObject, public IOperation
 {
     Q_OBJECT
     Q_INTERFACES(Operations::IOperation)
 
 public:
-    explicit FontInverse(QObject *parent = 0);
+    explicit ImageInverse(QObject *parent = 0);
 
     bool prepare(const IDocument *doc) Q_DECL_OVERRIDE;
     void applyDocument(IDocument *doc) Q_DECL_OVERRIDE;
@@ -40,4 +40,4 @@ public:
 
 }
 
-#endif // FONTINVERSE_H
+#endif // IMAGEINVERSE_H

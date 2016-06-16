@@ -17,31 +17,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "fontinverse.h"
+#include "imageinverse.h"
 #include <QImage>
 #include "idocument.h"
 #include "datacontainer.h"
 
 namespace Operations {
 
-FontInverse::FontInverse(QObject *parent)
+ImageInverse::ImageInverse(QObject *parent)
     : QObject(parent)
 {
 }
 
-bool FontInverse::prepare(const IDocument *doc)
+bool ImageInverse::prepare(const IDocument *doc)
 {
     Q_UNUSED(doc)
 
     return true;
 }
 
-void FontInverse::applyDocument(IDocument *doc)
+void ImageInverse::applyDocument(IDocument *doc)
 {
     Q_UNUSED(doc)
 }
 
-void FontInverse::applyItem(IDocument *doc, const QString &itemKey)
+void ImageInverse::applyItem(IDocument *doc, const QString &itemKey)
 {
     const QImage *original = doc->dataContainer()->image(itemKey);
     QImage result(*original);

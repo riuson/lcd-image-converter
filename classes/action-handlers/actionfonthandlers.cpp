@@ -32,7 +32,7 @@
 #include "datacontainer.h"
 #include "tfontparameters.h"
 #include "documentoperator.h"
-#include "fontinverse.h"
+#include "imageinverse.h"
 #include "fontminimizeheight.h"
 #include "fontresize.h"
 //-----------------------------------------------------------------------------
@@ -69,8 +69,8 @@ void ActionFontHandlers::fontInverse_triggered()
     if (this->editor() != NULL)
     {
         Operations::DocumentOperator docOp(this);
-        Operations::FontInverse fontInverse(this);
-        docOp.apply(this->editor()->document(), fontInverse);
+        Operations::ImageInverse imageInverse(this);
+        docOp.apply(this->editor()->document(), imageInverse);
     }
 }
 //-----------------------------------------------------------------------------
