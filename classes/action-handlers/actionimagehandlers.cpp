@@ -35,6 +35,7 @@
 #include "documentoperator.h"
 #include "imageflip.h"
 #include "imagerotate.h"
+#include "imageshift.h"
 //-----------------------------------------------------------------------------
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -116,21 +117,13 @@ void ActionImageHandlers::shift_left_triggered()
 {
     if (this->editor() != NULL)
     {
-        this->editor()->document()->beginChanges();
-
         QStringList keys = this->editor()->selectedKeys();
 
-        QStringListIterator iterator(keys);
-        while (iterator.hasNext())
-        {
-            QString key = iterator.next();
-
-            const QImage *original = this->editor()->document()->dataContainer()->image(key);
-            QImage result = BitmapHelper::shiftLeft(original);
-            this->editor()->document()->dataContainer()->setImage(key, &result);
-        }
-
-        this->editor()->document()->endChanges(false);
+        Operations::DocumentOperator docOp(this);
+        docOp.setKeys(keys);
+        Operations::ImageShift imageShift(this);
+        imageShift.setDirection(Operations::ImageShift::Direction::Left);
+        docOp.apply(this->editor()->document(), imageShift);
     }
 }
 //-----------------------------------------------------------------------------
@@ -138,21 +131,13 @@ void ActionImageHandlers::shift_right_triggered()
 {
     if (this->editor() != NULL)
     {
-        this->editor()->document()->beginChanges();
-
         QStringList keys = this->editor()->selectedKeys();
 
-        QStringListIterator iterator(keys);
-        while (iterator.hasNext())
-        {
-            QString key = iterator.next();
-
-            const QImage *original = this->editor()->document()->dataContainer()->image(key);
-            QImage result = BitmapHelper::shiftRight(original);
-            this->editor()->document()->dataContainer()->setImage(key, &result);
-        }
-
-        this->editor()->document()->endChanges(false);
+        Operations::DocumentOperator docOp(this);
+        docOp.setKeys(keys);
+        Operations::ImageShift imageShift(this);
+        imageShift.setDirection(Operations::ImageShift::Direction::Right);
+        docOp.apply(this->editor()->document(), imageShift);
     }
 }
 //-----------------------------------------------------------------------------
@@ -160,21 +145,13 @@ void ActionImageHandlers::shift_up_triggered()
 {
     if (this->editor() != NULL)
     {
-        this->editor()->document()->beginChanges();
-
         QStringList keys = this->editor()->selectedKeys();
 
-        QStringListIterator iterator(keys);
-        while (iterator.hasNext())
-        {
-            QString key = iterator.next();
-
-            const QImage *original = this->editor()->document()->dataContainer()->image(key);
-            QImage result = BitmapHelper::shiftUp(original);
-            this->editor()->document()->dataContainer()->setImage(key, &result);
-        }
-
-        this->editor()->document()->endChanges(false);
+        Operations::DocumentOperator docOp(this);
+        docOp.setKeys(keys);
+        Operations::ImageShift imageShift(this);
+        imageShift.setDirection(Operations::ImageShift::Direction::Up);
+        docOp.apply(this->editor()->document(), imageShift);
     }
 }
 //-----------------------------------------------------------------------------
@@ -182,21 +159,13 @@ void ActionImageHandlers::shift_down_triggered()
 {
     if (this->editor() != NULL)
     {
-        this->editor()->document()->beginChanges();
-
         QStringList keys = this->editor()->selectedKeys();
 
-        QStringListIterator iterator(keys);
-        while (iterator.hasNext())
-        {
-            QString key = iterator.next();
-
-            const QImage *original = this->editor()->document()->dataContainer()->image(key);
-            QImage result = BitmapHelper::shiftDown(original);
-            this->editor()->document()->dataContainer()->setImage(key, &result);
-        }
-
-        this->editor()->document()->endChanges(false);
+        Operations::DocumentOperator docOp(this);
+        docOp.setKeys(keys);
+        Operations::ImageShift imageShift(this);
+        imageShift.setDirection(Operations::ImageShift::Direction::Down);
+        docOp.apply(this->editor()->document(), imageShift);
     }
 }
 //-----------------------------------------------------------------------------
@@ -207,8 +176,8 @@ void ActionImageHandlers::inverse_triggered()
         this->editor()->document()->beginChanges();
 
         QStringList keys = this->editor()->selectedKeys();
-
         QStringListIterator iterator(keys);
+
         while (iterator.hasNext())
         {
             QString key = iterator.next();
