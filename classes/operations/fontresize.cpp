@@ -17,35 +17,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IMAGERESIZE_H
-#define IMAGERESIZE_H
-
-#include <QWidget>
-#include "ioperation.h"
+#include "fontresize.h"
+#include "idocument.h"
+#include "datacontainer.h"
 
 namespace Operations
 {
 
-class ImageResize : public QObject, public IOperation
+FontResize::FontResize(QWidget *parentWidget, QObject *parent)
+    : ImageResize(parentWidget, parent)
 {
-    Q_OBJECT
-    Q_INTERFACES(Operations::IOperation)
-
-public:
-    explicit ImageResize(QWidget *parentWidget = 0, QObject *parent = 0);
-
-    virtual bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-    virtual void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-    virtual void applyItem(IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
-
-protected:
-    QWidget *mParentWidget;
-    int mLeft;
-    int mTop;
-    int mRight;
-    int mBottom;
-};
-
 }
 
-#endif // IMAGERESIZE_H
+void FontResize::applyDocument(IDocument *doc, const QStringList &keys)
+{
+    Q_UNUSED(keys)
+
+    bool ok;
+    int ascent = doc->dataContainer()->commonInfo("ascent").toInt(&ok);
+
+    if (ok)
+    {
+        int descent = doc->dataContainer()->commonInfo("descent").toInt(&ok);
+
+        if (ok)
+        {
+            ascent += this->mTop;
+            descent += this->mBottom;
+
+            doc->dataContainer()->setCommonInfo("ascent", ascent);
+            doc->dataContainer()->setCommonInfo("descent", descent);
+        }
+    }
+}
+
+}

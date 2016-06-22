@@ -34,7 +34,7 @@
 #include "documentoperator.h"
 #include "imageinverse.h"
 #include "fontminimizeheight.h"
-#include "imageresize.h"
+#include "fontresize.h"
 //-----------------------------------------------------------------------------
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -79,8 +79,8 @@ void ActionFontHandlers::fontResize_triggered()
     if (this->editor() != NULL)
     {
         Operations::DocumentOperator docOp(this);
-        Operations::ImageResize imageResize(this->mMainWindow->parentWidget(), this);
-        docOp.apply(this->editor()->document(), imageResize);
+        Operations::FontResize fontResize(this->mMainWindow->parentWidget(), this);
+        docOp.apply(this->editor()->document(), fontResize);
     }
 }
 //-----------------------------------------------------------------------------

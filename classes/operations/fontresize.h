@@ -17,35 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IMAGERESIZE_H
-#define IMAGERESIZE_H
+#ifndef FONTRESIZE_H
+#define FONTRESIZE_H
 
-#include <QWidget>
-#include "ioperation.h"
+#include "imageresize.h"
 
 namespace Operations
 {
 
-class ImageResize : public QObject, public IOperation
+class FontResize : public ImageResize
 {
     Q_OBJECT
-    Q_INTERFACES(Operations::IOperation)
 
 public:
-    explicit ImageResize(QWidget *parentWidget = 0, QObject *parent = 0);
+    explicit FontResize(QWidget *parentWidget = 0, QObject *parent = 0);
 
-    virtual bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-    virtual void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-    virtual void applyItem(IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
-
-protected:
-    QWidget *mParentWidget;
-    int mLeft;
-    int mTop;
-    int mRight;
-    int mBottom;
+    void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
 };
 
 }
 
-#endif // IMAGERESIZE_H
+#endif // FONTRESIZE_H
