@@ -579,8 +579,6 @@ void FontDocument::setFontCharacters(const QString &chars,
             this->mContainer->setImage(key, new QImage(image));
             this->mContainer->setCommonInfo("ascent", metrics.ascent());
             this->mContainer->setCommonInfo("descent", metrics.descent());
-            this->mContainer->setImageInfo(key, "ascent", metrics.ascent());
-            this->mContainer->setImageInfo(key, "descent", metrics.descent());
         }
     }
 
