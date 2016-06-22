@@ -88,6 +88,7 @@ bool FontDocument::load(const QString &fileName)
 
                 QString fontFamily, style;
                 int size = 0;
+                int ascent = 0, descent = 0;
                 bool monospaced = false, antialiasing = false, alphaChannel = false;
 
                 QDomNode n = root.firstChild();
@@ -111,6 +112,20 @@ bool FontDocument::load(const QString &fileName)
                             int a = e.text().toInt(&ok);
                             if (ok)
                                 size = a;
+                        }
+                        else if (e.tagName() == "ascent")
+                        {
+                            bool ok;
+                            int a = e.text().toInt(&ok);
+                            if (ok)
+                                ascent = a;
+                        }
+                        else if (e.tagName() == "descent")
+                        {
+                            bool ok;
+                            int a = e.text().toInt(&ok);
+                            if (ok)
+                                descent = a;
                         }
                         else if (e.tagName() == "widthType")
                         {
@@ -165,6 +180,8 @@ bool FontDocument::load(const QString &fileName)
                 this->setMonospaced(monospaced);
                 this->setAntialiasing(antialiasing);
                 this->setAlphaChannel(alphaChannel);
+                this->setAscent(ascent);
+                this->setDescent(descent);
             }
         }
         file.close();
@@ -209,6 +226,16 @@ bool FontDocument::save(const QString &fileName)
     QDomElement nodeSize = doc.createElement("size");
     nodeRoot.appendChild(nodeSize);
     nodeSize.appendChild(doc.createTextNode(QString("%1").arg(parameters.size)));
+
+    // ascent
+    QDomElement nodeAscent = doc.createElement("ascent");
+    nodeRoot.appendChild(nodeAscent);
+    nodeAscent.appendChild(doc.createTextNode(QString("%1").arg(parameters.ascent)));
+
+    // descent
+    QDomElement nodeDescent = doc.createElement("descent");
+    nodeRoot.appendChild(nodeDescent);
+    nodeDescent.appendChild(doc.createTextNode(QString("%1").arg(parameters.descent)));
 
     // style
     QDomElement nodeStyle = doc.createElement("style");
