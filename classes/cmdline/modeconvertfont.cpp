@@ -212,7 +212,7 @@ int ModeConvertFont::process()
                                 parameters);
 
                     fontDocument.setDocumentName(docNameWS);
-                    fontDocument.dataContainer()->setInfo("converted filename", QVariant(this->mOuputFilename));
+                    fontDocument.dataContainer()->setCommonInfo("converted filename", QVariant(this->mOuputFilename));
 
                     // save to output file
                     QFile file(this->mOuputFilename);

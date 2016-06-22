@@ -11,6 +11,8 @@ struct tFontParameters
     bool monospaced;
     bool antiAliasing;
     bool alphaChannel;
+    int ascent;
+    int descent;
 };
 //-----------------------------------------------------------------------------
 #endif // TFONTPARAMETERS
