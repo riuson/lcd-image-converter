@@ -81,6 +81,12 @@ private:
     bool alphaChannel() const;
     void setAlphaChannel(const bool value);
 
+    int ascent() const;
+    void setAscent(int value);
+
+    int descent() const;
+    void setDescent(int value);
+
 private slots:
     void mon_container_dataChanged(bool historyStateMoved);
 

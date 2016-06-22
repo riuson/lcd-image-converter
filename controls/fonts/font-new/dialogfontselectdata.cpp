@@ -81,6 +81,16 @@ void DialogFontSelectData::getFontParameters(tFontParameters *parameters)
     parameters->monospaced = this->mMonospaced;
     parameters->antiAliasing = this->mAntialiasing;
     parameters->alphaChannel = this->mAlphaChannel;
+
+    // ascent/descent
+    {
+        QFontDatabase fonts;
+        QFont font = fonts.font(parameters->family, parameters->style, parameters->size);
+        QFontMetrics metrics(font);
+        parameters->ascent = metrics.ascent();
+        parameters->descent = metrics.descent();
+    }
+
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelectData::setCharacters(const QString &value)

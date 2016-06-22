@@ -361,37 +361,8 @@ QString FontDocument::convert(Preset *preset)
     tags.setTagValue(Tags::FontAntiAliasing, parameters.antiAliasing ? "yes" : "no");
     tags.setTagValue(Tags::FontAlphaChannel, parameters.alphaChannel ? "yes" : "no");
     tags.setTagValue(Tags::FontWidthType, parameters.monospaced ? "monospaced" : "proportional");
-
-    // ascent/descent
-    {
-        int ascent = 0;
-        int descent = 0;
-        bool ok = false;
-
-        // try get from info dictionary
-        if (!this->mContainer->commonInfo("ascent").isNull() && !this->mContainer->commonInfo("descent").isNull())
-        {
-            ascent = this->mContainer->commonInfo("ascent").toInt(&ok);
-
-            if (ok)
-            {
-                descent = this->mContainer->commonInfo("descent").toInt(&ok);
-            }
-        }
-
-        // fallback to current font metrics
-        if (!ok)
-        {
-            QFontDatabase fonts;
-            QFont font = fonts.font(parameters.family, parameters.style, parameters.size);
-            QFontMetrics metrics(font);
-            ascent = metrics.ascent();
-            descent = metrics.descent();
-        }
-
-        tags.setTagValue(Tags::FontAscent, QString("%1").arg(ascent));
-        tags.setTagValue(Tags::FontDescent, QString("%1").arg(descent));
-    }
+    tags.setTagValue(Tags::FontAscent, QString("%1").arg(parameters.ascent));
+    tags.setTagValue(Tags::FontDescent, QString("%1").arg(parameters.descent));
 
     Parser parser(Parser::TypeFont, preset, this);
     QString result = parser.convert(this, tags);
@@ -468,6 +439,8 @@ void FontDocument::fontCharacters(QString *chars,
     parameters->monospaced = this->monospaced();
     parameters->antiAliasing = this->antialiasing();
     parameters->alphaChannel = this->alphaChannel();
+    parameters->ascent = this->ascent();
+    parameters->descent = this->descent();
 }
 //-----------------------------------------------------------------------------
 void FontDocument::setFontCharacters(const QString &chars,
@@ -482,11 +455,13 @@ void FontDocument::setFontCharacters(const QString &chars,
     if (this->mContainer->count() > 1)
     {
         if (this->usedFont().family() != parameters.family ||
-            this->usedStyle() != parameters.style ||
-            this->usedFont().pixelSize() != parameters.size ||
-            this->monospaced() != parameters.monospaced ||
-            this->antialiasing() != parameters.antiAliasing ||
-            this->alphaChannel() != parameters.alphaChannel)
+                this->usedStyle() != parameters.style ||
+                this->usedFont().pixelSize() != parameters.size ||
+                this->monospaced() != parameters.monospaced ||
+                this->antialiasing() != parameters.antiAliasing ||
+                this->alphaChannel() != parameters.alphaChannel ||
+                this->ascent() != parameters.ascent ||
+                this->descent() != parameters.descent)
         {
             DialogFontChanged dialog(qobject_cast<QWidget *>(this->parent()));
             if (dialog.exec() == QDialog::Accepted)
@@ -526,6 +501,8 @@ void FontDocument::setFontCharacters(const QString &chars,
         this->setMonospaced(parameters.monospaced);
         this->setAntialiasing(parameters.antiAliasing);
         this->setAlphaChannel(parameters.alphaChannel);
+        this->setAscent(parameters.ascent);
+        this->setDescent(parameters.descent);
     }
     else
     {
@@ -569,16 +546,14 @@ void FontDocument::setFontCharacters(const QString &chars,
         {
             keys.append(key);
             QImage image = FontHelper::drawCharacter(chars.at(i),
-                                               fontNew,
-                                               FontEditorOptions::foreColor(),
-                                               FontEditorOptions::backColor(),
-                                               width,
-                                               height,
-                                               parameters.antiAliasing,
-                                               parameters.alphaChannel);
+                                                     fontNew,
+                                                     FontEditorOptions::foreColor(),
+                                                     FontEditorOptions::backColor(),
+                                                     width,
+                                                     height,
+                                                     parameters.antiAliasing,
+                                                     parameters.alphaChannel);
             this->mContainer->setImage(key, new QImage(image));
-            this->mContainer->setCommonInfo("ascent", metrics.ascent());
-            this->mContainer->setCommonInfo("descent", metrics.descent());
         }
     }
 
@@ -651,6 +626,26 @@ bool FontDocument::alphaChannel() const
 void FontDocument::setAlphaChannel(const bool value)
 {
     this->mContainer->setCommonInfo("alphaChannel", value);
+}
+//-----------------------------------------------------------------------------
+int FontDocument::ascent() const
+{
+    return this->mContainer->commonInfo("ascent").toInt();
+}
+//-----------------------------------------------------------------------------
+void FontDocument::setAscent(int value)
+{
+    this->mContainer->setCommonInfo("ascent", value);
+}
+//-----------------------------------------------------------------------------
+int FontDocument::descent() const
+{
+    return this->mContainer->commonInfo("descent").toInt();
+}
+//-----------------------------------------------------------------------------
+void FontDocument::setDescent(int value)
+{
+    this->mContainer->setCommonInfo("descent", value);
 }
 //-----------------------------------------------------------------------------
 void FontDocument::mon_container_dataChanged(bool historyStateMoved)
