@@ -76,8 +76,24 @@ bool FontMinimizeHeight::prepare(const IDocument *doc, const QStringList &keys)
 
 void FontMinimizeHeight::applyDocument(IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(doc)
     Q_UNUSED(keys)
+
+    bool ok;
+    int ascent = doc->dataContainer()->commonInfo("ascent").toInt(&ok);
+
+    if (ok)
+    {
+        int descent = doc->dataContainer()->commonInfo("descent").toInt(&ok);
+
+        if (ok)
+        {
+            ascent += this->mTop;
+            descent += this->mBottom;
+
+            doc->dataContainer()->setCommonInfo("ascent", ascent);
+            doc->dataContainer()->setCommonInfo("descent", descent);
+        }
+    }
 }
 
 void FontMinimizeHeight::applyItem(IDocument *doc, const QString &itemKey)
