@@ -153,9 +153,6 @@ QString Parser::parseImagesTable(const QString &templateString,
     QString encoding = this->mPreset->font()->encoding();
     CharactersSortOrder order = this->mPreset->font()->sortOrder();
 
-    // map of same character keys by hash
-    QMap<uint, QString> similarMap;
-
     QStringList keys = data->keys();
     QStringList sortedKeys = this->sortKeysWithEncoding(keys, encoding, useBom, order);
 
@@ -170,31 +167,12 @@ QString Parser::parseImagesTable(const QString &templateString,
 
         if (data != NULL)
         {
-            QString charCode = this->hexCode(key, encoding, useBom);
-
-            // detect same characters
-            if (similarMap.contains(data->hash()))
-            {
-                QString similarKey = similarMap.value(data->hash());
-                tags.setTagValue(Tags::OutputCharacterCodeSimilar, this->hexCode(similarKey, encoding, useBom));
-                tags.setTagValue(Tags::OutputCharacterTextSimilar, FontHelper::escapeControlChars(similarKey));
-            }
-            else
-            {
-                similarMap.insert(data->hash(), key);
-                tags.setTagValue(Tags::OutputCharacterCodeSimilar, QString());
-                tags.setTagValue(Tags::OutputCharacterTextSimilar, QString());
-            }
-
             tags.importValues(data->tags());
-            tags.setTagValue(Tags::OutputCharacterCode, charCode);
 
             if (it.hasNext())
                 tags.setTagValue(Tags::OutputComma, ",");
             else
                 tags.setTagValue(Tags::OutputComma, "");
-
-            tags.setTagValue(Tags::OutputCharacterText, FontHelper::escapeControlChars(key));
 
             QString imageString = this->parse(templateString, tags, doc, images);
             result.append(imageString);
@@ -424,16 +402,65 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
 void Parser::prepareImages(IDocument *doc, QMap<QString, ParsedImageData *> *images, const Tags &tags) const
 {
     DataContainer *data = doc->dataContainer();
-    QListIterator<QString> it(data->keys());
-    it.toFront();
 
-    while (it.hasNext())
+    // collect ParsedImageData
     {
-        const QString key = it.next();
-        QImage image = QImage(*data->image(key));
+        QListIterator<QString> it(data->keys());
+        it.toFront();
 
-        ParsedImageData *data = new ParsedImageData(this->mPreset, &image, tags);
-        images->insert(key, data);
+        while (it.hasNext())
+        {
+            const QString key = it.next();
+            QImage image = QImage(*data->image(key));
+
+            ParsedImageData *data = new ParsedImageData(this->mPreset, &image, tags);
+            images->insert(key, data);
+        }
+    }
+
+    // find duplicates
+    {
+        bool useBom = this->mPreset->font()->bom();
+        QString encoding = this->mPreset->font()->encoding();
+        CharactersSortOrder order = this->mPreset->font()->sortOrder();
+
+        // map of same character keys by hash
+        QMap<uint, QString> similarMap;
+
+        QStringList keys = data->keys();
+        QStringList sortedKeys = this->sortKeysWithEncoding(keys, encoding, useBom, order);
+
+        QListIterator<QString> it(sortedKeys);
+        it.toFront();
+
+        while (it.hasNext())
+        {
+            QString key = it.next();
+
+            ParsedImageData *imageData = images->value(key);
+
+            if (imageData != NULL)
+            {
+                QString charCode = this->hexCode(key, encoding, useBom);
+
+                // detect same characters
+                if (similarMap.contains(imageData->hash()))
+                {
+                    QString similarKey = similarMap.value(imageData->hash());
+                    imageData->tags()->setTagValue(Tags::OutputCharacterCodeSimilar, this->hexCode(similarKey, encoding, useBom));
+                    imageData->tags()->setTagValue(Tags::OutputCharacterTextSimilar, FontHelper::escapeControlChars(similarKey));
+                }
+                else
+                {
+                    similarMap.insert(imageData->hash(), key);
+                    imageData->tags()->setTagValue(Tags::OutputCharacterCodeSimilar, QString());
+                    imageData->tags()->setTagValue(Tags::OutputCharacterTextSimilar, QString());
+                }
+
+                imageData->tags()->setTagValue(Tags::OutputCharacterCode, charCode);
+                imageData->tags()->setTagValue(Tags::OutputCharacterText, FontHelper::escapeControlChars(key));
+            }
+        }
     }
 }
 //-----------------------------------------------------------------------------
