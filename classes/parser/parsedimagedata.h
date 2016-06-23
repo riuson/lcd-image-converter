@@ -33,7 +33,7 @@ public:
     explicit ParsedImageData(Preset *preset, const QImage *image, const Tags &tags, QObject *parent = 0);
     ~ParsedImageData();
 
-    const Tags *tags() const;
+    Tags *tags() const;
     uint hash() const;
 
 private:
