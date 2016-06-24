@@ -1,0 +1,21 @@
+language: cpp
+compiler: gcc
+
+dist: trusty
+sudo: required
+
+before_install:
+    - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+    - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+    - sudo apt-get update -qq
+
+install:
+    - sudo apt-get install -y --force-yes xbitmaps xterm python-software-properties build-essential g++-4.8 -y
+    - sudo apt-get install -y --force-yes xorg-dev libudev-dev libts-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev -y
+    - sudo apt-get install -y --force-yes libopenal-dev libogg-dev libvorbis-dev libaudiofile-dev libpng12-dev libfreetype6-dev -y
+    - sudo apt-get install -y --force-yes libsdl2-dev libusb-dev libdbus-1-dev zlib1g-dev libdirectfb-dev -y
+    - sudo apt-get install -y --force-yes qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libqt5gui5 qttools5-dev-tools qttools5-dev qtmultimedia5-dev
+    
+script:
+    - qmake -qt=qt5 lcd-image-converter.pro
+    - make -j4
