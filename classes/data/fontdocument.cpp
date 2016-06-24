@@ -29,6 +29,7 @@
 #include <QTextStream>
 #include <QPainter>
 #include <QWidget>
+#include <QTextCodec>
 #include "datacontainer.h"
 #include "tags.h"
 #include "parser.h"
@@ -38,6 +39,8 @@
 #include "preset.h"
 #include "tfontparameters.h"
 #include "fonthelper.h"
+#include "parsedimagedata.h"
+#include "fontoptions.h"
 //-----------------------------------------------------------------------------
 FontDocument::FontDocument(QObject *parent) :
     QObject(parent)
@@ -391,8 +394,12 @@ QString FontDocument::convert(Preset *preset)
     tags.setTagValue(Tags::FontAscent, QString("%1").arg(parameters.ascent));
     tags.setTagValue(Tags::FontDescent, QString("%1").arg(parameters.descent));
 
+    const QStringList orderedKeys = this->sortKeysWithEncoding(this->dataContainer()->keys(), preset);
+
+    QMap<QString, ParsedImageData *> images;
+    this->prepareImages(preset, orderedKeys, &images, tags);
     Parser parser(Parser::TypeFont, preset, this);
-    QString result = parser.convert(this, tags);
+    QString result = parser.convert(this, orderedKeys, &images, tags);
 
     return result;
 }
@@ -673,6 +680,194 @@ int FontDocument::descent() const
 void FontDocument::setDescent(int value)
 {
     this->mContainer->setCommonInfo("descent", value);
+}
+//-----------------------------------------------------------------------------
+void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, const Tags &tags) const
+{
+    DataContainer *data = this->dataContainer();
+
+    // collect ParsedImageData
+    {
+        QListIterator<QString> it(orderedKeys);
+        it.toFront();
+
+        while (it.hasNext())
+        {
+            const QString key = it.next();
+            QImage image = QImage(*data->image(key));
+
+            ParsedImageData *data = new ParsedImageData(preset, &image, tags);
+            images->insert(key, data);
+        }
+    }
+
+    // find duplicates
+    {
+        bool useBom = preset->font()->bom();
+        QString encoding = preset->font()->encoding();
+
+        // map of same character keys by hash
+        QMap<uint, QString> similarMap;
+
+        QListIterator<QString> it(orderedKeys);
+        it.toFront();
+
+        while (it.hasNext())
+        {
+            QString key = it.next();
+
+            ParsedImageData *imageData = images->value(key);
+
+            if (imageData != NULL)
+            {
+                QString charCode = this->hexCode(key, encoding, useBom);
+
+                // detect same characters
+                if (similarMap.contains(imageData->hash()))
+                {
+                    QString similarKey = similarMap.value(imageData->hash());
+                    imageData->tags()->setTagValue(Tags::OutputCharacterCodeSimilar, this->hexCode(similarKey, encoding, useBom));
+                    imageData->tags()->setTagValue(Tags::OutputCharacterTextSimilar, FontHelper::escapeControlChars(similarKey));
+                }
+                else
+                {
+                    similarMap.insert(imageData->hash(), key);
+                    imageData->tags()->setTagValue(Tags::OutputCharacterCodeSimilar, QString());
+                    imageData->tags()->setTagValue(Tags::OutputCharacterTextSimilar, QString());
+                }
+
+                imageData->tags()->setTagValue(Tags::OutputCharacterCode, charCode);
+                imageData->tags()->setTagValue(Tags::OutputCharacterText, FontHelper::escapeControlChars(key));
+            }
+        }
+    }
+}
+//-----------------------------------------------------------------------------
+QString FontDocument::hexCode(const QString &key, const QString &encoding, bool bom) const
+{
+    QString result;
+    QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
+
+    QChar ch = key.at(0);
+    QByteArray codeArray = codec->fromUnicode(&ch, 1);
+
+    quint64 code = 0;
+    for (int i = 0; i < codeArray.count() && i < 8; i++)
+    {
+        code = code << 8;
+        code |= (quint8)codeArray.at(i);
+    }
+
+    if (encoding.contains("UTF-16"))
+    {
+        // reorder bytes
+        quint64 a =
+                ((code & 0x000000000000ff00ULL) >> 8) |
+                ((code & 0x00000000000000ffULL) << 8);
+        code &= 0xffffffffffff0000ULL;
+        code |= a;
+
+        if (bom)
+        {
+            // 0xfeff00c1
+            result = QString("%1").arg(code, 8, 16, QChar('0'));
+        }
+        else
+        {
+            // 0x00c1
+            code &= 0x000000000000ffffULL;
+            result = QString("%1").arg(code, 4, 16, QChar('0'));
+        }
+    }
+    else if (encoding.contains("UTF-32"))
+    {
+        // reorder bytes
+        quint64 a =
+                ((code & 0x00000000ff000000ULL) >> 24) |
+                ((code & 0x0000000000ff0000ULL) >> 8) |
+                ((code & 0x000000000000ff00ULL) << 8) |
+                ((code & 0x00000000000000ffULL) << 24);
+        code &= 0xffffffff00000000ULL;
+        code |= a;
+
+        if (bom)
+        {
+            // 0x0000feff000000c1
+            result = QString("%1").arg(code, 16, 16, QChar('0'));
+        }
+        else
+        {
+            // 0x000000c1
+            code &= 0x00000000ffffffffULL;
+            result = QString("%1").arg(code, 8, 16, QChar('0'));
+        }
+    }
+    else
+    {
+        result = QString("%1").arg(code, codeArray.count() * 2, 16, QChar('0'));
+    }
+
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+bool caseInsensitiveLessThan(const QString &s1, const QString &s2)
+{
+    return s1.toLower() < s2.toLower();
+}
+//-----------------------------------------------------------------------------
+bool caseInsensitiveMoreThan(const QString &s1, const QString &s2)
+{
+    return s1.toLower() > s2.toLower();
+}
+//-----------------------------------------------------------------------------
+const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Preset *preset) const
+{
+
+    bool useBom = preset->font()->bom();
+    QString encoding = preset->font()->encoding();
+    CharactersSortOrder order = preset->font()->sortOrder();
+
+    if (order == CharactersSortNone)
+        return keys;
+
+    QMap <QString, QString> map;
+
+    QListIterator<QString> it(keys);
+    it.toFront();
+
+    while (it.hasNext())
+    {
+        const QString key = it.next();
+        const QString hex = this->hexCode(key, encoding, useBom);
+        map.insert(hex, key);
+    }
+
+    QStringList hexCodes = map.keys();
+
+    switch (order)
+    {
+    case CharactersSortAscending:
+        qSort(hexCodes.begin(), hexCodes.end(), caseInsensitiveLessThan);
+        break;
+    case CharactersSortDescending:
+        qSort(hexCodes.begin(), hexCodes.end(), caseInsensitiveMoreThan);
+        break;
+    default:
+        break;
+    }
+
+    QStringList result;
+    it = QListIterator<QString>(hexCodes);
+    it.toFront();
+
+    while (it.hasNext())
+    {
+        const QString key = it.next();
+        result.append(map.value(key));
+    }
+
+    return result;
 }
 //-----------------------------------------------------------------------------
 void FontDocument::mon_container_dataChanged(bool historyStateMoved)

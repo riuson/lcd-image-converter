@@ -31,6 +31,7 @@
 #include "tags.h"
 #include "statusdata.h"
 #include "preset.h"
+#include "parsedimagedata.h"
 //-----------------------------------------------------------------------------
 const QString ImageDocument::DefaultKey = QString("default");
 //-----------------------------------------------------------------------------
@@ -224,8 +225,10 @@ QString ImageDocument::convert(Preset *preset)
 
     tags.setTagValue(Tags::DocumentDataType, "image");
 
+    QMap<QString, ParsedImageData *> images;
+    this->prepareImages(preset, &images, tags);
     Parser parser(Parser::TypeImage, preset, this);
-    QString result = parser.convert(this, tags);
+    QString result = parser.convert(this, this->dataContainer()->keys(), &images, tags);
 
     return result;
 }
@@ -293,6 +296,26 @@ void ImageDocument::setDocumentFilename(const QString &value)
     if (this->documentFilename() != value)
     {
         this->mContainer->setCommonInfo("filename", QVariant(value));
+    }
+}
+//-----------------------------------------------------------------------------
+void ImageDocument::prepareImages(Preset *preset, QMap<QString, ParsedImageData *> *images, const Tags &tags) const
+{
+    DataContainer *data = this->dataContainer();
+
+    // collect ParsedImageData
+    {
+        QListIterator<QString> it(data->keys());
+        it.toFront();
+
+        while (it.hasNext())
+        {
+            const QString key = it.next();
+            QImage image = QImage(*data->image(key));
+
+            ParsedImageData *data = new ParsedImageData(preset, &image, tags);
+            images->insert(key, data);
+        }
     }
 }
 //-----------------------------------------------------------------------------

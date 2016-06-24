@@ -38,7 +38,7 @@
 #include "parsedimagedata.h"
 //-----------------------------------------------------------------------------
 Parser::Parser(TemplateType templateType, Preset *preset, QObject *parent) :
-        QObject(parent)
+    QObject(parent)
 {
     this->mPreset = preset;
 
@@ -56,7 +56,7 @@ Parser::~Parser()
 {
 }
 //-----------------------------------------------------------------------------
-QString Parser::convert(IDocument *document, Tags &tags) const
+QString Parser::convert(IDocument *document, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, Tags &tags) const
 {
     QString result;
 
@@ -80,14 +80,11 @@ QString Parser::convert(IDocument *document, Tags &tags) const
     tags.setTagValue(Tags::OutputDataIndent, prefix);
     tags.setTagValue(Tags::OutputDataEOL, suffix);
 
-    QMap<QString, ParsedImageData *> images;
-    this->prepareImages(document, &images, tags);
-
     this->addMatrixInfo(tags);
 
-    this->addImagesInfo(tags, &images);
+    this->addImagesInfo(tags, images);
 
-    result = this->parse(templateString, tags, document, &images);
+    result = this->parse(templateString, tags, document, orderedKeys, images);
 
     return result;
 }
@@ -95,6 +92,7 @@ QString Parser::convert(IDocument *document, Tags &tags) const
 QString Parser::parse(const QString &templateString,
                       Tags &tags,
                       IDocument *doc,
+                      const QStringList &orderedKeys,
                       QMap<QString, ParsedImageData *> *images) const
 {
     QString result;
@@ -114,13 +112,13 @@ QString Parser::parse(const QString &templateString,
         case Tags::BlocksHeaderStart:
         case Tags::BlocksFontDefinitionStart:
         {
-            QString temp = this->parse(content, tags, doc, images);
+            QString temp = this->parse(content, tags, doc, orderedKeys, images);
             result.append(temp);
             break;
         }
         case Tags::BlocksImagesTableStart:
         {
-            QString temp = this->parseImagesTable(content, tags, doc, images);
+            QString temp = this->parseImagesTable(content, tags, doc, orderedKeys, images);
             result.append(temp);
             break;
         }
@@ -144,19 +142,12 @@ QString Parser::parse(const QString &templateString,
 QString Parser::parseImagesTable(const QString &templateString,
                                  Tags &tags,
                                  IDocument *doc,
+                                 const QStringList &orderedKeys,
                                  QMap<QString, ParsedImageData *> *images) const
 {
     QString result;
 
-    DataContainer *data = doc->dataContainer();
-    bool useBom = this->mPreset->font()->bom();
-    QString encoding = this->mPreset->font()->encoding();
-    CharactersSortOrder order = this->mPreset->font()->sortOrder();
-
-    QStringList keys = data->keys();
-    QStringList sortedKeys = this->sortKeysWithEncoding(keys, encoding, useBom, order);
-
-    QListIterator<QString> it(sortedKeys);
+    QListIterator<QString> it(orderedKeys);
     it.toFront();
 
     while (it.hasNext())
@@ -174,7 +165,7 @@ QString Parser::parseImagesTable(const QString &templateString,
             else
                 tags.setTagValue(Tags::OutputComma, "");
 
-            QString imageString = this->parse(templateString, tags, doc, images);
+            QString imageString = this->parse(templateString, tags, doc, orderedKeys, images);
             result.append(imageString);
         }
     }
@@ -265,18 +256,18 @@ void Parser::addMatrixInfo(Tags &tags) const
     // scan main direction
     switch (this->mPreset->prepare()->scanMain())
     {
-        case TopToBottom:
-            tags.setTagValue(Tags::PrepareScanMain, "top_to_bottom");
-            break;
-        case BottomToTop:
-            tags.setTagValue(Tags::PrepareScanMain, "bottom_to_top");
-            break;
-        case LeftToRight:
-            tags.setTagValue(Tags::PrepareScanMain, "left_to_right");
-            break;
-        case RightToLeft:
-            tags.setTagValue(Tags::PrepareScanMain, "right_to_left");
-            break;
+    case TopToBottom:
+        tags.setTagValue(Tags::PrepareScanMain, "top_to_bottom");
+        break;
+    case BottomToTop:
+        tags.setTagValue(Tags::PrepareScanMain, "bottom_to_top");
+        break;
+    case LeftToRight:
+        tags.setTagValue(Tags::PrepareScanMain, "left_to_right");
+        break;
+    case RightToLeft:
+        tags.setTagValue(Tags::PrepareScanMain, "right_to_left");
+        break;
     }
 
     // scan sub direction
@@ -399,71 +390,6 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
     tags.setTagValue(Tags::OutputImagesMaxBlocksCount, QString("%1").arg(maxBlocksCount));
 }
 //-----------------------------------------------------------------------------
-void Parser::prepareImages(IDocument *doc, QMap<QString, ParsedImageData *> *images, const Tags &tags) const
-{
-    DataContainer *data = doc->dataContainer();
-
-    // collect ParsedImageData
-    {
-        QListIterator<QString> it(data->keys());
-        it.toFront();
-
-        while (it.hasNext())
-        {
-            const QString key = it.next();
-            QImage image = QImage(*data->image(key));
-
-            ParsedImageData *data = new ParsedImageData(this->mPreset, &image, tags);
-            images->insert(key, data);
-        }
-    }
-
-    // find duplicates
-    {
-        bool useBom = this->mPreset->font()->bom();
-        QString encoding = this->mPreset->font()->encoding();
-        CharactersSortOrder order = this->mPreset->font()->sortOrder();
-
-        // map of same character keys by hash
-        QMap<uint, QString> similarMap;
-
-        QStringList keys = data->keys();
-        QStringList sortedKeys = this->sortKeysWithEncoding(keys, encoding, useBom, order);
-
-        QListIterator<QString> it(sortedKeys);
-        it.toFront();
-
-        while (it.hasNext())
-        {
-            QString key = it.next();
-
-            ParsedImageData *imageData = images->value(key);
-
-            if (imageData != NULL)
-            {
-                QString charCode = this->hexCode(key, encoding, useBom);
-
-                // detect same characters
-                if (similarMap.contains(imageData->hash()))
-                {
-                    QString similarKey = similarMap.value(imageData->hash());
-                    imageData->tags()->setTagValue(Tags::OutputCharacterCodeSimilar, this->hexCode(similarKey, encoding, useBom));
-                    imageData->tags()->setTagValue(Tags::OutputCharacterTextSimilar, FontHelper::escapeControlChars(similarKey));
-                }
-                else
-                {
-                    similarMap.insert(imageData->hash(), key);
-                    imageData->tags()->setTagValue(Tags::OutputCharacterCodeSimilar, QString());
-                    imageData->tags()->setTagValue(Tags::OutputCharacterTextSimilar, QString());
-                }
-
-                imageData->tags()->setTagValue(Tags::OutputCharacterCode, charCode);
-                imageData->tags()->setTagValue(Tags::OutputCharacterText, FontHelper::escapeControlChars(key));
-            }
-        }
-    }
-}
-//-----------------------------------------------------------------------------
 void Parser::imageParticles(const QString &templateString, QString *prefix, QString *suffix) const
 {
     QString templateOutImageData;
@@ -508,63 +434,5 @@ void Parser::imageParticles(const QString &templateString, QString *prefix, QStr
             }
         }
     }
-}
-//-----------------------------------------------------------------------------
-bool caseInsensitiveLessThan(const QString &s1, const QString &s2)
-{
-    return s1.toLower() < s2.toLower();
-}
-//-----------------------------------------------------------------------------
-bool caseInsensitiveMoreThan(const QString &s1, const QString &s2)
-{
-    return s1.toLower() > s2.toLower();
-}
-//-----------------------------------------------------------------------------
-const QStringList Parser::sortKeysWithEncoding(
-        const QStringList &keys,
-        const QString &encoding,
-        bool useBom,
-        CharactersSortOrder order) const
-{
-    if (order == CharactersSortNone)
-        return keys;
-
-    QMap <QString, QString> map;
-
-    QListIterator<QString> it(keys);
-    it.toFront();
-
-    while (it.hasNext())
-    {
-        const QString key = it.next();
-        const QString hex = this->hexCode(key, encoding, useBom);
-        map.insert(hex, key);
-    }
-
-    QStringList hexCodes = map.keys();
-
-    switch (order)
-    {
-    case CharactersSortAscending:
-        qSort(hexCodes.begin(), hexCodes.end(), caseInsensitiveLessThan);
-        break;
-    case CharactersSortDescending:
-        qSort(hexCodes.begin(), hexCodes.end(), caseInsensitiveMoreThan);
-        break;
-    default:
-        break;
-    }
-
-    QStringList result;
-    it = QListIterator<QString>(hexCodes);
-    it.toFront();
-
-    while (it.hasNext())
-    {
-        const QString key = it.next();
-        result.append(map.value(key));
-    }
-
-    return result;
 }
 //-----------------------------------------------------------------------------
