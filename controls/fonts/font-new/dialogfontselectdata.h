@@ -25,6 +25,7 @@
 class CharactersModel;
 class QModelIndex;
 class QItemSelection;
+class QFont;
 class UnicodeBlocksModel;
 class UnicodeBlocksFilterModel;
 struct tFontParameters;

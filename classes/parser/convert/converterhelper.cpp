@@ -36,7 +36,7 @@
 #include <QTextStream>
 
 #if defined(USE_JS_QTSCRIPT)
-#include <QScriptEngine>
+#include <QtScript/QScriptEngine>
 #elif defined(USE_JS_QJSENGINE)
 #include <QJSEngine>
 #include <QQmlEngine>

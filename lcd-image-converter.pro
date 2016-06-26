@@ -41,6 +41,9 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     QT += script
   }
 }
+lessThan(QT_MAJOR_VERSION, 5) {
+  QT += script
+}
 
 DEFINES += QT_MAJOR_VERSION="$$QT_MAJOR_VERSION"
 DEFINES += QT_MINOR_VERSION="$$QT_MINOR_VERSION"

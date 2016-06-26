@@ -178,9 +178,9 @@ bool ToolFill::fillArea(int x, int y, const QColor &color)
     this->collectPointsAround(image, QPoint(x, y), keyColor, &vector1);
 
     int lastLength = 0;
-    while (vector1.length() > lastLength)
+    while (vector1.size() > lastLength)
     {
-        lastLength = vector1.length();
+        lastLength = vector1.size();
 
         for (int i = 0 ; i < lastLength; i++)
         {
@@ -189,13 +189,13 @@ bool ToolFill::fillArea(int x, int y, const QColor &color)
         }
     }
 
-    if (vector1.length() > 0)
+    if (vector1.size() > 0)
     {
         QPixmap pixmap = QPixmap::fromImage(image);
         QPainter painter(&pixmap);
         painter.setPen(color);
 
-        for (int i = 0 ; i < vector1.length(); i++)
+        for (int i = 0 ; i < vector1.size(); i++)
         {
             painter.drawPoint(vector1.at(i));
         }
