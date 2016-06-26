@@ -21,6 +21,7 @@
 #define DOCUMENTOPERATOR_H
 
 #include <QObject>
+#include <QStringList>
 
 class IDocument;
 

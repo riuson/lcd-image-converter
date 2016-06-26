@@ -33,9 +33,9 @@ class ImageInverse : public QObject, public IOperation
 public:
     explicit ImageInverse(QObject *parent = 0);
 
-    bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-    void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-    void applyItem(IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
+    bool prepare(const IDocument *doc, const QStringList &keys);
+    void applyDocument(IDocument *doc, const QStringList &keys);
+    void applyItem(IDocument *doc, const QString &itemKey);
 };
 
 }
