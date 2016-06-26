@@ -37,6 +37,68 @@
 #include "tags.h"
 #include "parsedimagedata.h"
 //-----------------------------------------------------------------------------
+/*
+ -- Algorithm --
+
+ Action handler :: convert()
+ Select filename to save
+ Load preset
+ IDocument::convert()
+ Save result string to file
+
+ Document :: convert()
+ Collect tags from document properties
+ Sort document keys by specified encoduing, bom and order
+ Prepare images data (ParsedImageData*) and save to list
+ Create parser instance
+ Pass document, sorted keys, image data and tags to parser::convert()
+ Return result string
+
+ Document :: prepareImages()
+ Collect ParsedImageDate list
+ Add tags of every particular image to its ParsedImageData
+ Find duplicates by image's hash and store in image's tags
+ Return list
+
+ Parser::convert()
+ Read template from file to string
+ Get data indent and eol from template
+ Parser::prepareImages()
+ Parser::addMatrixInfo()
+ Parser::addImagesInfo()
+ Result := Parser::parse()
+ return result string;
+
+ Parser::parse()
+ Loop get next tag and inner content
+   If tag found
+   Append substring from previous tag to result
+   If tag type == (Font Definion Start || Header Start)
+     Pass content to Parser::parse()
+   EndIf
+   If tag type == Images Table Start
+     Pass content to Parser::parseImagesTable()
+   EndIf
+   If tag type == Simple
+     Get value of the tag
+   EndIf
+   Append string to result
+ EndLoop
+ Append substring from last tag to end to result
+ Return updated tags list
+
+ Parser::parseImagesTable()
+ Sort images by encoding, bom and order
+ Loop
+   If can get next image key
+   Get ParsedImageData by key
+   Add tags from ParsedImageData to tags
+   Pass template substring from ImagesTable to Parser::parse()
+   Append parsed string to result
+ EndLoop
+ Return list of ParsedImageData
+ */
+//-----------------------------------------------------------------------------
 Parser::Parser(TemplateType templateType, Preset *preset, QObject *parent) :
     QObject(parent)
 {
