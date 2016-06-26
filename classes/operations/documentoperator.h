@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2013 riuson
+ * Copyright (C) 2016 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,28 +17,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef PARSEDIMAGEDATA_H
-#define PARSEDIMAGEDATA_H
-//-----------------------------------------------------------------------------
+#ifndef DOCUMENTOPERATOR_H
+#define DOCUMENTOPERATOR_H
+
 #include <QObject>
-//-----------------------------------------------------------------------------
-class QImage;
-class Tags;
-class Preset;
-//-----------------------------------------------------------------------------
-class ParsedImageData : public QObject
+
+class IDocument;
+
+namespace Operations {
+class IOperation;
+
+class DocumentOperator : public QObject
 {
     Q_OBJECT
 public:
-    explicit ParsedImageData(Preset *preset, const QImage *image, const Tags &tags, QObject *parent = 0);
-    ~ParsedImageData();
-
-    Tags *tags() const;
-    uint hash() const;
+    explicit DocumentOperator(QObject *parent = 0);
+    void setKeys(const QStringList keys);
+    void apply(IDocument *doc, IOperation &operation);
 
 private:
-    Tags *mTags;
-    uint mHash;
+    QStringList mSelectedKeys;
 };
-//-----------------------------------------------------------------------------
-#endif // PARSEDIMAGEDATA_H
+
+}
+
+#endif // DOCUMENTOPERATOR_H

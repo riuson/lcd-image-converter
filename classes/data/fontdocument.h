@@ -26,6 +26,8 @@
 #include "idocument.h"
 //-----------------------------------------------------------------------------
 class Preset;
+class ParsedImageData;
+class Tags;
 struct tFontParameters;
 //-----------------------------------------------------------------------------
 class FontDocument : public QObject, public IDocument
@@ -45,7 +47,7 @@ public:
     void setDocumentName(const QString &value);
     QString outputFilename() const;
     void setOutputFilename(const QString &value);
-    DataContainer *dataContainer();
+    DataContainer *dataContainer() const;
     QString convert(Preset *preset);
 
     void beginChanges();
@@ -80,6 +82,16 @@ private:
 
     bool alphaChannel() const;
     void setAlphaChannel(const bool value);
+
+    int ascent() const;
+    void setAscent(int value);
+
+    int descent() const;
+    void setDescent(int value);
+
+    void prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, ParsedImageData*> *images, const Tags &tags) const;
+    QString hexCode(const QString &key, const QString &encoding, bool bom) const;
+    const QStringList sortKeysWithEncoding(const QStringList &keys, Preset *preset) const;
 
 private slots:
     void mon_container_dataChanged(bool historyStateMoved);

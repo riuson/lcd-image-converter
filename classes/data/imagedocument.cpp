@@ -31,6 +31,7 @@
 #include "tags.h"
 #include "statusdata.h"
 #include "preset.h"
+#include "parsedimagedata.h"
 //-----------------------------------------------------------------------------
 const QString ImageDocument::DefaultKey = QString("default");
 //-----------------------------------------------------------------------------
@@ -179,33 +180,33 @@ bool ImageDocument::changed() const
 //-----------------------------------------------------------------------------
 QString ImageDocument::documentFilename() const
 {
-    QVariant result = this->mContainer->info("filename");
+    QVariant result = this->mContainer->commonInfo("filename");
     return result.toString();
 }
 //-----------------------------------------------------------------------------
 QString ImageDocument::documentName() const
 {
-    QVariant result = this->mContainer->info("document name");
+    QVariant result = this->mContainer->commonInfo("document name");
     return result.toString();
 }
 //-----------------------------------------------------------------------------
 void ImageDocument::setDocumentName(const QString &value)
 {
-    this->mContainer->setInfo("document name", value);
+    this->mContainer->setCommonInfo("document name", value);
 }
 //-----------------------------------------------------------------------------
 QString ImageDocument::outputFilename() const
 {
-    QVariant result = this->mContainer->info("converted filename");
+    QVariant result = this->mContainer->commonInfo("converted filename");
     return result.toString();
 }
 //-----------------------------------------------------------------------------
 void ImageDocument::setOutputFilename(const QString &value)
 {
-    this->mContainer->setInfo("converted filename", QVariant(value));
+    this->mContainer->setCommonInfo("converted filename", QVariant(value));
 }
 //-----------------------------------------------------------------------------
-DataContainer *ImageDocument::dataContainer()
+DataContainer *ImageDocument::dataContainer() const
 {
     return this->mContainer;
 }
@@ -224,8 +225,10 @@ QString ImageDocument::convert(Preset *preset)
 
     tags.setTagValue(Tags::DocumentDataType, "image");
 
+    QMap<QString, ParsedImageData *> images;
+    this->prepareImages(preset, &images, tags);
     Parser parser(Parser::TypeImage, preset, this);
-    QString result = parser.convert(this, tags);
+    QString result = parser.convert(this, this->dataContainer()->keys(), &images, tags);
 
     return result;
 }
@@ -292,7 +295,27 @@ void ImageDocument::setDocumentFilename(const QString &value)
 {
     if (this->documentFilename() != value)
     {
-        this->mContainer->setInfo("filename", QVariant(value));
+        this->mContainer->setCommonInfo("filename", QVariant(value));
+    }
+}
+//-----------------------------------------------------------------------------
+void ImageDocument::prepareImages(Preset *preset, QMap<QString, ParsedImageData *> *images, const Tags &tags) const
+{
+    DataContainer *data = this->dataContainer();
+
+    // collect ParsedImageData
+    {
+        QListIterator<QString> it(data->keys());
+        it.toFront();
+
+        while (it.hasNext())
+        {
+            const QString key = it.next();
+            QImage image = QImage(*data->image(key));
+
+            ParsedImageData *data = new ParsedImageData(preset, &image, tags);
+            images->insert(key, data);
+        }
     }
 }
 //-----------------------------------------------------------------------------
