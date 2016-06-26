@@ -103,7 +103,7 @@ ParsedImageData::~ParsedImageData()
     delete this->mTags;
 }
 //-----------------------------------------------------------------------------
-const Tags *ParsedImageData::tags() const
+Tags *ParsedImageData::tags() const
 {
     return this->mTags;
 }

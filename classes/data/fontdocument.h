@@ -26,6 +26,8 @@
 #include "idocument.h"
 //-----------------------------------------------------------------------------
 class Preset;
+class ParsedImageData;
+class Tags;
 struct tFontParameters;
 //-----------------------------------------------------------------------------
 class FontDocument : public QObject, public IDocument
@@ -86,6 +88,10 @@ private:
 
     int descent() const;
     void setDescent(int value);
+
+    void prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, ParsedImageData*> *images, const Tags &tags) const;
+    QString hexCode(const QString &key, const QString &encoding, bool bom) const;
+    const QStringList sortKeysWithEncoding(const QStringList &keys, Preset *preset) const;
 
 private slots:
     void mon_container_dataChanged(bool historyStateMoved);

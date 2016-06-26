@@ -24,6 +24,8 @@
 #include "idocument.h"
 //-----------------------------------------------------------------------------
 class Preset;
+class ParsedImageData;
+class Tags;
 //-----------------------------------------------------------------------------
 class ImageDocument : public QObject, public IDocument
 {
@@ -59,6 +61,8 @@ private:
     static const QString DefaultKey;
 
     void setDocumentFilename(const QString &value);
+
+    void prepareImages(Preset *preset, QMap<QString, ParsedImageData*> *images, const Tags &tags) const;
 
 private slots:
     void mon_container_dataChanged(bool historyStateMoved);
