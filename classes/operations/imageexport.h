@@ -21,6 +21,7 @@
 #define IMAGEEXPORT_H
 
 #include <QObject>
+#include <QStringList>
 #include "ioperation.h"
 
 namespace Operations {
@@ -33,9 +34,9 @@ class ImageExport : public QObject, public IOperation
 public:
     explicit ImageExport(QWidget *parentWidget = 0, QObject *parent = 0);
 
-    bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-    void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-    void applyItem(IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
+    bool prepare(const IDocument *doc, const QStringList &keys);
+    void applyDocument(IDocument *doc, const QStringList &keys);
+    void applyItem(IDocument *doc, const QString &itemKey);
 
 private:
     QWidget *mParentWidget;

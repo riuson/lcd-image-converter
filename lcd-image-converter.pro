@@ -23,6 +23,7 @@ TEMPLATE = app
 # Uncomment next line to enable console output on Windows.
 #CONFIG += console
 CONFIG+=c++11
+QMAKE_CXXFLAGS += -std=c++11
 
 DESTDIR             = $$OUTDIR/output
 QMAKE_LIBDIR       += $$DESTDIR
