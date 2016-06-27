@@ -28,6 +28,8 @@
 #include <QStringList>
 #include <QByteArray>
 #include <QTextCodec>
+#include <QFontDatabase>
+#include <QFontMetrics>
 #include "modeconvertfont.h"
 #include "fontdocument.h"
 #include "datacontainer.h"
@@ -206,6 +208,15 @@ int ModeConvertFont::process()
                     parameters.monospaced = this->mFontMonospaced;
                     parameters.antiAliasing = this->mFontAntiAliasing;
                     parameters.alphaChannel = this->mFontAlphaChannel;
+
+                    // get ascent/descent
+                    {
+                        QFontDatabase fonts;
+                        QFont font = fonts.font(parameters.family, parameters.style, parameters.size);
+                        QFontMetrics metrics(font);
+                        parameters.ascent = metrics.ascent();
+                        parameters.descent = metrics.descent();
+                    }
 
                     fontDocument.setFontCharacters(
                                 this->mFontCharactersList,

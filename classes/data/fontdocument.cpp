@@ -741,9 +741,10 @@ void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys,
             if (imageData != NULL)
             {
                 // detect same characters
-                if (similarMap.contains(imageData->hash()))
+                ParsedImageData *similarImageData = similarMap.value(imageData->hash(), NULL);
+
+                if (similarImageData != NULL)
                 {
-                    ParsedImageData *similarImageData = similarMap.value(imageData->hash());
                     QString similarCode = similarImageData->tags()->tagValue(Tags::OutputCharacterCode);
                     QString similarText = similarImageData->tags()->tagValue(Tags::OutputCharacterText);
                     imageData->tags()->setTagValue(Tags::OutputCharacterCodeSimilar, similarCode);

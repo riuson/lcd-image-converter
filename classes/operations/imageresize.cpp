@@ -30,6 +30,10 @@ ImageResize::ImageResize(QWidget *parentWidget, QObject *parent)
     : QObject(parent)
 {
     this->mParentWidget = parentWidget;
+    this->mLeft = 0;
+    this->mTop = 0;
+    this->mRight = 0;
+    this->mBottom = 0;
 }
 
 bool ImageResize::prepare(const IDocument *doc, const QStringList &keys)
