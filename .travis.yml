@@ -22,7 +22,7 @@ addons:
     project:
       name: "riuson/lcd-image-converter"
     notification_email: riuson@gmail.com
-    build_command_prepend: "./configure; make clean"
+    build_command_prepend: "/opt/qt56/bin/qmake lcd-image-converter.pro"
     build_command:   "make -j 4"
     branch_pattern: coverity_scan
 
