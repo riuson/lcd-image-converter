@@ -69,11 +69,14 @@ UnicodeBlocksModel::UnicodeBlocksModel(QObject *parent) :
 
             int index1 = expCode.indexIn(line, 0);
             QString cap1 = expCode.cap(1);
-            quint32 code1 = cap1.toUInt(&ok, 16);
+            quint64 code1 = cap1.toULong(&ok, 16);
 
             int index2 = expCode.indexIn(line, index1 + 1);
             QString cap2 = expCode.cap(1);
-            quint32 code2 = cap2.toUInt(&ok, 16);
+            quint64 code2 = cap2.toULong(&ok, 16);
+
+            if (code1 > 0xfffful || code2 > 0xfffful)
+                continue;
 
             index1 = line.indexOf("\t");
             index2 = line.indexOf("\t", index1 + 1);

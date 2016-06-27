@@ -9,7 +9,8 @@
  Templates;
  Preview with empty script;
  Image output for empty conversion data (image too small or skipped by custom algorithm);
- Workaroung for infinite loop then adding points.
+ Workaroung for infinite loop then adding points;
+ Use unicode characters only from 0x0000 to 0xffff.
 
 Added:
  Combine similar characters in images table;
