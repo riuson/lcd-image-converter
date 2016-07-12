@@ -1,4 +1,4 @@
-[![Travis Build Status](https://img.shields.io/travis/riuson/lcd-image-converter.svg?label=linux%2Fosx)](https://travis-ci.org/riuson/lcd-image-converter)
+[![Travis Build Status](https://img.shields.io/travis/riuson/lcd-image-converter.svg?label=linux)](https://travis-ci.org/riuson/lcd-image-converter)
 [![Coverity Scan](https://img.shields.io/coverity/scan/3997.svg?maxAge=2592000)](https://scan.coverity.com/projects/riuson-lcd-image-converter)
 
 # LCD Image Converter
