@@ -289,6 +289,13 @@ void DialogFontSelect::on_fontChanged(const QFont &value)
     this->ui->tableView->horizontalHeader()->setDefaultSectionSize(w);
     this->ui->tableView->verticalHeader()->show();
     this->ui->tableView->horizontalHeader()->show();
+
+    QFont currentFont = this->ui->fontComboBox->currentFont();
+
+    if ((currentFont.family() != value.family()))
+    {
+        this->ui->fontComboBox->setCurrentFont(value);
+    }
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_monospacedChanged(bool value)
