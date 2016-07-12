@@ -102,11 +102,6 @@ void DialogFontSelectData::setCharacters(const QString &value)
 //-----------------------------------------------------------------------------
 void DialogFontSelectData::setFontParameters(const tFontParameters &parameters)
 {
-    QFontDatabase fonts;
-    QString style = this->mFontStyle;
-    QFont f = fonts.font(parameters.family, style, this->mSize);
-    f.setPixelSize(this->mSize);
-
     this->mFontFamily = parameters.family;
     this->mFontStyle = parameters.style;
     this->mSize = parameters.size;

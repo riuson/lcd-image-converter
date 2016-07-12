@@ -170,7 +170,10 @@ QImage FontHelper::drawCharacter(
 
     if (alphaChannel)
     {
-        result = QImage(imageWidth, imageHeight, QImage::Format_ARGB32);
+        // make image with transparent background
+        QPixmap transparentPixmap(imageWidth, imageHeight);
+        transparentPixmap.fill(Qt::transparent);
+        result = transparentPixmap.toImage().convertToFormat(QImage::Format_ARGB32); //QImage(imageWidth, imageHeight, QImage::Format_ARGB32);
     }
 
     QPainter painter(&result);
@@ -179,9 +182,12 @@ QImage FontHelper::drawCharacter(
     painter.setRenderHint(QPainter::Antialiasing, antialiasing);
     painter.setRenderHint(QPainter::TextAntialiasing, antialiasing);
 
-    painter.setPen(foreground);
+    if (!alphaChannel)
+    {
+        painter.fillRect(result.rect(), background);
+    }
 
-    painter.fillRect(result.rect(), background);
+    painter.setPen(foreground);
 
     painter.drawText((imageWidth / 2) - (characterSize.width() / 2),
                      fontMetrics.ascent(),//+4
