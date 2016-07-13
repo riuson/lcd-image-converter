@@ -443,6 +443,9 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
                     }
                 }
             }
+
+            // apply imageParticles to outputImageData
+            data->tags()->setTagValue(Tags::OutputImageData, data->outputImageDataWithEOL(tags));
         }
     }
 
