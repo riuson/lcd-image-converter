@@ -49,6 +49,7 @@ public:
 private:
     Ui::DialogFontSelect *ui;
     DialogFontSelectData *mData;
+    void updateColorIcons();
 
 private slots:
     void on_lineEdit_textChanged(const QString &value);

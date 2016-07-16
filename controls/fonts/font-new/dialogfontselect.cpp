@@ -87,13 +87,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     // Sort characters
     this->connect(this->ui->pushButtonSort, SIGNAL(clicked(bool)), this->mData, SLOT(resort()));
 
-    QPixmap pixmapForeColor = QPixmap(24, 24);
-    pixmapForeColor.fill(FontEditorOptions::foreColor());
-    this->ui->pushButtonForeColor->setIcon(QIcon(pixmapForeColor));
-
-    QPixmap pixmapBackColor = QPixmap(24, 24);
-    pixmapBackColor.fill(FontEditorOptions::backColor());
-    this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
+    this->updateColorIcons();
 
     this->mData->setFont(this->ui->fontComboBox->currentFont());
     this->ui->lineEdit->setText(this->mData->characters());
@@ -122,6 +116,19 @@ void DialogFontSelect::getFontParameters(tFontParameters *parameters)
 void DialogFontSelect::setFontParameters(const tFontParameters &parameters)
 {
     this->mData->setFontParameters(parameters);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::updateColorIcons()
+{
+    QPixmap pixmapForeColor = QPixmap(24, 24);
+    pixmapForeColor.fill(FontEditorOptions::foreColor());
+    this->ui->pushButtonForeColor->setIcon(QIcon(pixmapForeColor));
+    this->ui->pushButtonForeColor->setText(tr("Fore Color: %1").arg((quint32)FontEditorOptions::foreColor().rgba(), 8, 16, QChar('0')));
+
+    QPixmap pixmapBackColor = QPixmap(24, 24);
+    pixmapBackColor.fill(FontEditorOptions::backColor());
+    this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
+    this->ui->pushButtonBackColor->setText(tr("Back Color: %1").arg((quint32)FontEditorOptions::backColor().rgba(), 8, 16, QChar('0')));
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_lineEdit_textChanged(const QString &value)
@@ -207,9 +214,7 @@ void DialogFontSelect::on_pushButtonForeColor_clicked()
     if (dialog.exec() == QDialog::Accepted)
     {
         FontEditorOptions::setForeColor(dialog.selectedColor());
-        QPixmap pixmapForeColor = QPixmap(24, 24);
-        pixmapForeColor.fill(dialog.selectedColor());
-        this->ui->pushButtonForeColor->setIcon(QIcon(pixmapForeColor));
+        this->updateColorIcons();
     }
 }
 //-----------------------------------------------------------------------------
@@ -221,9 +226,7 @@ void DialogFontSelect::on_pushButtonBackColor_clicked()
     if (dialog.exec() == QDialog::Accepted)
     {
         FontEditorOptions::setBackColor(dialog.selectedColor());
-        QPixmap pixmapBackColor = QPixmap(24, 24);
-        pixmapBackColor.fill(dialog.selectedColor());
-        this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
+        this->updateColorIcons();
     }
 }
 //-----------------------------------------------------------------------------
