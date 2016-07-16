@@ -225,6 +225,7 @@ void ToolColor::updateColorIcons()
 void ToolColor::on_buttonForeColor_triggered()
 {
     QColorDialog dialog(this->mForeColor, this->mParameters->parentWidget());
+    dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
     if (dialog.exec() == QDialog::Accepted)
     {
@@ -236,6 +237,7 @@ void ToolColor::on_buttonForeColor_triggered()
 void ToolColor::on_buttonBackColor_triggered()
 {
     QColorDialog dialog(this->mBackColor, this->mParameters->parentWidget());
+    dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
     if (dialog.exec() == QDialog::Accepted)
     {

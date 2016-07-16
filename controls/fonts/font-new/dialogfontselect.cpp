@@ -202,6 +202,7 @@ void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QI
 void DialogFontSelect::on_pushButtonForeColor_clicked()
 {
     QColorDialog dialog(FontEditorOptions::foreColor(), this);
+    dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
     if (dialog.exec() == QDialog::Accepted)
     {
@@ -215,6 +216,7 @@ void DialogFontSelect::on_pushButtonForeColor_clicked()
 void DialogFontSelect::on_pushButtonBackColor_clicked()
 {
     QColorDialog dialog(FontEditorOptions::backColor(), this);
+    dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
     if (dialog.exec() == QDialog::Accepted)
     {
