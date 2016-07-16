@@ -18,7 +18,7 @@
  */
 
 #include "fonteditoroptions.h"
-
+#include "bitmaphelper.h"
 #include <QVariant>
 #include <QSettings>
 #include <QRgb>
@@ -53,9 +53,10 @@ QColor FontEditorOptions::foreColor()
     sett.endGroup();
 
     QColor result = QColor("black");
+
     if (ok)
     {
-        result = QColor(QRgb(a));
+        result = BitmapHelper::fromRgba(QRgb(a));
     }
 
     return result;
@@ -70,9 +71,10 @@ QColor FontEditorOptions::backColor()
     sett.endGroup();
 
     QColor result = QColor("white");
+
     if (ok)
     {
-        result = QColor(QRgb(a));
+        result = BitmapHelper::fromRgba(QRgb(a));
     }
 
     return result;
@@ -80,7 +82,7 @@ QColor FontEditorOptions::backColor()
 //-----------------------------------------------------------------------------
 void FontEditorOptions::setForeColor(const QColor &value)
 {
-    unsigned int a = value.rgb();
+    unsigned int a = value.rgba();
 
     QSettings sett;
     sett.beginGroup("font-editor");
@@ -90,7 +92,7 @@ void FontEditorOptions::setForeColor(const QColor &value)
 //-----------------------------------------------------------------------------
 void FontEditorOptions::setBackColor(const QColor &value)
 {
-    unsigned int a = value.rgb();
+    unsigned int a = value.rgba();
 
     QSettings sett;
     sett.beginGroup("font-editor");

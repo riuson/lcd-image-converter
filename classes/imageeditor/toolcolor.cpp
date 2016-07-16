@@ -112,14 +112,14 @@ bool ToolColor::processMouse(QMouseEvent *event,
                 // draw on pixmap
                 if (buttonLeft)
                 {
-                    QColor color = QColor(imageOriginal->pixel(event->x(), event->y()));
+                    QColor color = BitmapHelper::fromRgba(imageOriginal->pixel(event->x(), event->y()));
                     this->mForeColor = color;
                     this->updateColorIcons();
                 }
 
                 if(buttonRight)
                 {
-                    QColor color = QColor(imageOriginal->pixel(event->x(), event->y()));
+                    QColor color = BitmapHelper::fromRgba(imageOriginal->pixel(event->x(), event->y()));
                     this->mBackColor = color;
                     this->updateColorIcons();
                 }
@@ -170,7 +170,7 @@ void ToolColor::loadSettings()
 
     if (ok)
     {
-        this->mForeColor = QColor(QRgb(a));
+        this->mForeColor = BitmapHelper::fromRgba(QRgb(a));
     }
     else
     {
@@ -181,7 +181,7 @@ void ToolColor::loadSettings()
 
     if (ok)
     {
-        this->mBackColor = QColor(QRgb(a));
+        this->mBackColor = BitmapHelper::fromRgba(QRgb(a));
     }
     else
     {
@@ -200,10 +200,10 @@ void ToolColor::saveSettings() const
     sett.beginGroup("tools");
     sett.beginGroup("color");
 
-    unsigned int a = this->mForeColor.rgb();
+    unsigned int a = this->mForeColor.rgba();
     sett.setValue("foreColor", QVariant(a));
 
-    a = this->mBackColor.rgb();
+    a = this->mBackColor.rgba();
     sett.setValue("backColor", QVariant(a));
 
     sett.endGroup();
