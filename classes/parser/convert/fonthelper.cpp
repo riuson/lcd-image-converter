@@ -150,8 +150,7 @@ QImage FontHelper::drawCharacter(
         const QColor &background,
         const int width,
         const int height,
-        const bool antialiasing,
-        const bool alphaChannel)
+        const bool antialiasing)
 {
     QFontMetrics fontMetrics(font);
 

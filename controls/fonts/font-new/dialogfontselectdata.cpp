@@ -40,7 +40,6 @@ DialogFontSelectData::DialogFontSelectData(QObject *parent) :
     this->mSize = 14;
     this->mMonospaced = false;
     this->mAntialiasing = false;
-    this->mAlphaChannel = false;
 
     QString defChars;
 
@@ -80,7 +79,6 @@ void DialogFontSelectData::getFontParameters(tFontParameters *parameters)
     parameters->size = this->mSize;
     parameters->monospaced = this->mMonospaced;
     parameters->antiAliasing = this->mAntialiasing;
-    parameters->alphaChannel = this->mAlphaChannel;
 
     // ascent/descent
     {
@@ -90,7 +88,6 @@ void DialogFontSelectData::getFontParameters(tFontParameters *parameters)
         parameters->ascent = metrics.ascent();
         parameters->descent = metrics.descent();
     }
-
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelectData::setCharacters(const QString &value)
@@ -106,13 +103,11 @@ void DialogFontSelectData::setFontParameters(const tFontParameters &parameters)
     this->mFontStyle = parameters.style;
     this->mSize = parameters.size;
 
-    this->mAlphaChannel = parameters.alphaChannel;
     this->mAntialiasing = parameters.antiAliasing;
     this->mMonospaced = parameters.monospaced;
 
     this->notifyFontChanged();
 
-    emit this->alphaChannelChanged(this->mAlphaChannel);
     emit this->antialiasingChanged(this->mAntialiasing);
     emit this->monospacedChanged(this->mMonospaced);
 }
@@ -241,11 +236,6 @@ void DialogFontSelectData::setMonospaced(bool value)
 void DialogFontSelectData::setAntialiasing(bool value)
 {
     this->mAntialiasing = value;
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelectData::setAlphaChannel(bool value)
-{
-    this->mAlphaChannel = value;
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelectData::resort()

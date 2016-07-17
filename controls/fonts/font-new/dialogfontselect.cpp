@@ -79,8 +79,6 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     // Checkbox/RadioButton
     this->connect(this->ui->radioButtonMonospaced, SIGNAL(toggled(bool)), this->mData, SLOT(setMonospaced(bool)));
     this->connect(this->ui->checkBoxAntialiasing, SIGNAL(toggled(bool)), this->mData, SLOT(setAntialiasing(bool)));
-    this->connect(this->ui->checkBoxAlphaChannel, SIGNAL(toggled(bool)), this->mData, SLOT(setAlphaChannel(bool)));
-    this->connect(this->mData, SIGNAL(alphaChannelChanged(bool)), this->ui->checkBoxAlphaChannel, SLOT(setChecked(bool)));
     this->connect(this->mData, SIGNAL(antialiasingChanged(bool)), this->ui->checkBoxAntialiasing, SLOT(setChecked(bool)));
     this->connect(this->mData, SIGNAL(monospacedChanged(bool)), SLOT(on_monospacedChanged(bool)));
 

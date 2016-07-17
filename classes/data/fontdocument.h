@@ -81,9 +81,6 @@ private:
     bool antialiasing() const;
     void setAntialiasing(const bool value);
 
-    bool alphaChannel() const;
-    void setAlphaChannel(const bool value);
-
     int ascent() const;
     void setAscent(int value);
 

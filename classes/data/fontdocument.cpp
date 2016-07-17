@@ -92,7 +92,7 @@ bool FontDocument::load(const QString &fileName)
                 QString fontFamily, style;
                 int size = 0;
                 int ascent = 0, descent = 0;
-                bool monospaced = false, antialiasing = false, alphaChannel = false;
+                bool monospaced = false, antialiasing = false;
 
                 QDomNode n = root.firstChild();
                 while (!n.isNull())
@@ -138,10 +138,6 @@ bool FontDocument::load(const QString &fileName)
                         {
                             antialiasing = (e.text() == "true");
                         }
-                        else if (e.tagName() == "alphaChannel")
-                        {
-                            alphaChannel = (e.text() == "true");
-                        }
                         else if (e.tagName() == "converted")
                         {
                             converted = e.text();
@@ -182,7 +178,6 @@ bool FontDocument::load(const QString &fileName)
                 this->setUsedStyle(style);
                 this->setMonospaced(monospaced);
                 this->setAntialiasing(antialiasing);
-                this->setAlphaChannel(alphaChannel);
                 this->setAscent(ascent);
                 this->setDescent(descent);
             }
@@ -260,14 +255,6 @@ bool FontDocument::save(const QString &fileName)
         nodeAntialiasing.appendChild(doc.createTextNode("true"));
     else
         nodeAntialiasing.appendChild(doc.createTextNode("false"));
-
-    // alpha channel
-    QDomElement nodeAlphaChannel = doc.createElement("alphaChannel");
-    nodeRoot.appendChild(nodeAlphaChannel);
-    if (parameters.alphaChannel)
-        nodeAlphaChannel.appendChild(doc.createTextNode("true"));
-    else
-        nodeAlphaChannel.appendChild(doc.createTextNode("false"));
 
     // string
     QDomElement nodeString = doc.createElement("string");
@@ -389,7 +376,6 @@ QString FontDocument::convert(Preset *preset)
     tags.setTagValue(Tags::FontStyle, parameters.style);
     tags.setTagValue(Tags::FontString, FontHelper::escapeControlChars(chars));
     tags.setTagValue(Tags::FontAntiAliasing, parameters.antiAliasing ? "yes" : "no");
-    tags.setTagValue(Tags::FontAlphaChannel, parameters.alphaChannel ? "yes" : "no");
     tags.setTagValue(Tags::FontWidthType, parameters.monospaced ? "monospaced" : "proportional");
     tags.setTagValue(Tags::FontAscent, QString("%1").arg(parameters.ascent));
     tags.setTagValue(Tags::FontDescent, QString("%1").arg(parameters.descent));
@@ -472,7 +458,6 @@ void FontDocument::fontCharacters(QString *chars,
     parameters->style = this->usedStyle();
     parameters->monospaced = this->monospaced();
     parameters->antiAliasing = this->antialiasing();
-    parameters->alphaChannel = this->alphaChannel();
     parameters->ascent = this->ascent();
     parameters->descent = this->descent();
 }
@@ -493,7 +478,6 @@ void FontDocument::setFontCharacters(const QString &chars,
                 this->usedFont().pixelSize() != parameters.size ||
                 this->monospaced() != parameters.monospaced ||
                 this->antialiasing() != parameters.antiAliasing ||
-                this->alphaChannel() != parameters.alphaChannel ||
                 this->ascent() != parameters.ascent ||
                 this->descent() != parameters.descent)
         {
@@ -534,7 +518,6 @@ void FontDocument::setFontCharacters(const QString &chars,
         this->setUsedStyle(parameters.style);
         this->setMonospaced(parameters.monospaced);
         this->setAntialiasing(parameters.antiAliasing);
-        this->setAlphaChannel(parameters.alphaChannel);
         this->setAscent(parameters.ascent);
         this->setDescent(parameters.descent);
     }
@@ -585,8 +568,7 @@ void FontDocument::setFontCharacters(const QString &chars,
                                                      FontEditorOptions::backColor(),
                                                      width,
                                                      height,
-                                                     parameters.antiAliasing,
-                                                     parameters.alphaChannel);
+                                                     parameters.antiAliasing);
             this->mContainer->setImage(key, new QImage(image));
         }
     }
@@ -650,16 +632,6 @@ bool FontDocument::antialiasing() const
 void FontDocument::setAntialiasing(const bool value)
 {
     this->mContainer->setCommonInfo("antialiasing", value);
-}
-//-----------------------------------------------------------------------------
-bool FontDocument::alphaChannel() const
-{
-    return this->mContainer->commonInfo("alphaChannel").toBool();
-}
-//-----------------------------------------------------------------------------
-void FontDocument::setAlphaChannel(const bool value)
-{
-    this->mContainer->setCommonInfo("alphaChannel", value);
 }
 //-----------------------------------------------------------------------------
 int FontDocument::ascent() const

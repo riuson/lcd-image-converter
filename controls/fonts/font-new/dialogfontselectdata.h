@@ -58,7 +58,6 @@ private:
     int mSize;
     bool mMonospaced;
     bool mAntialiasing;
-    bool mAlphaChannel;
     QString mCharacters;
 
     void notifyFontChanged();
@@ -71,7 +70,6 @@ signals:
     void fontMeasured(int count, int maxWidth, int maxHeight);
     void monospacedChanged(bool value);
     void antialiasingChanged(bool value);
-    void alphaChannelChanged(bool value);
 
 public slots:
     void setFont(const QFont &font);
@@ -81,7 +79,6 @@ public slots:
     void setUnicodeRange(const QItemSelection &selected, const QItemSelection &deselected);
     void setMonospaced(bool value);
     void setAntialiasing(bool value);
-    void setAlphaChannel(bool value);
     void resort();
 };
 //-----------------------------------------------------------------------------
