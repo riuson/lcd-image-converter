@@ -63,7 +63,7 @@ public:
 
     void initMono(MonochromeType type, int edge = 0x80);
     void initGrayscale(int bits);
-    void initColor(int redBits, int greenBits, int blueBits);
+    void initColor(int alphaBits, int redBits, int greenBits, int blueBits);
 
 private:
     PrepareOptions *mPrepare;
