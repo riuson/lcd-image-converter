@@ -92,7 +92,7 @@ const QColor ToolColor::backColor() const
 }
 //-----------------------------------------------------------------------------
 bool ToolColor::processMouse(QMouseEvent *event,
-                           const QImage *imageOriginal)
+                             const QImage *imageOriginal)
 {
     if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress)
     {
@@ -112,14 +112,14 @@ bool ToolColor::processMouse(QMouseEvent *event,
                 // draw on pixmap
                 if (buttonLeft)
                 {
-                    QColor color = QColor(imageOriginal->pixel(event->x(), event->y()));
+                    QColor color = BitmapHelper::fromRgba(imageOriginal->pixel(event->x(), event->y()));
                     this->mForeColor = color;
                     this->updateColorIcons();
                 }
 
                 if(buttonRight)
                 {
-                    QColor color = QColor(imageOriginal->pixel(event->x(), event->y()));
+                    QColor color = BitmapHelper::fromRgba(imageOriginal->pixel(event->x(), event->y()));
                     this->mBackColor = color;
                     this->updateColorIcons();
                 }
@@ -137,14 +137,10 @@ bool ToolColor::processMouse(QMouseEvent *event,
 void ToolColor::initializeWidgets()
 {
     this->mActionForeColor = new QAction(this);
-    this->mActionForeColor->setText(tr("Fore Color"));
-    this->mActionForeColor->setToolTip(tr("Fore Color"));
     this->connect(this->mActionForeColor, SIGNAL(triggered()), SLOT(on_buttonForeColor_triggered()));
     this->mActions->append(this->mActionForeColor);
 
     this->mActionBackColor = new QAction(this);
-    this->mActionBackColor->setText(tr("Back Color"));
-    this->mActionBackColor->setToolTip(tr("Back Color"));
     this->connect(this->mActionBackColor, SIGNAL(triggered()), SLOT(on_buttonBackColor_triggered()));
     this->mActions->append(this->mActionBackColor);
 
@@ -170,7 +166,7 @@ void ToolColor::loadSettings()
 
     if (ok)
     {
-        this->mForeColor = QColor(QRgb(a));
+        this->mForeColor = BitmapHelper::fromRgba(QRgb(a));
     }
     else
     {
@@ -181,7 +177,7 @@ void ToolColor::loadSettings()
 
     if (ok)
     {
-        this->mBackColor = QColor(QRgb(a));
+        this->mBackColor = BitmapHelper::fromRgba(QRgb(a));
     }
     else
     {
@@ -200,10 +196,10 @@ void ToolColor::saveSettings() const
     sett.beginGroup("tools");
     sett.beginGroup("color");
 
-    unsigned int a = this->mForeColor.rgb();
+    unsigned int a = this->mForeColor.rgba();
     sett.setValue("foreColor", QVariant(a));
 
-    a = this->mBackColor.rgb();
+    a = this->mBackColor.rgba();
     sett.setValue("backColor", QVariant(a));
 
     sett.endGroup();
@@ -216,15 +212,20 @@ void ToolColor::updateColorIcons()
     QPixmap pixmapForeColor = QPixmap(24, 24);
     pixmapForeColor.fill(this->mForeColor);
     this->mActionForeColor->setIcon(QIcon(pixmapForeColor));
+    this->mActionForeColor->setText(tr("Fore Color: %1").arg((quint32)this->mForeColor.rgba(), 8, 16, QChar('0')));
+    this->mActionForeColor->setToolTip(tr("Fore Color: %1").arg((quint32)this->mForeColor.rgba(), 8, 16, QChar('0')));
 
     QPixmap pixmapBackColor = QPixmap(24, 24);
     pixmapBackColor.fill(this->mBackColor);
     this->mActionBackColor->setIcon(QIcon(pixmapBackColor));
+    this->mActionBackColor->setText(tr("Back Color: %1").arg((quint32)this->mBackColor.rgba(), 8, 16, QChar('0')));
+    this->mActionBackColor->setToolTip(tr("Back Color: %1").arg((quint32)this->mBackColor.rgba(), 8, 16, QChar('0')));
 }
 //-----------------------------------------------------------------------------
 void ToolColor::on_buttonForeColor_triggered()
 {
     QColorDialog dialog(this->mForeColor, this->mParameters->parentWidget());
+    dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
     if (dialog.exec() == QDialog::Accepted)
     {
@@ -236,6 +237,7 @@ void ToolColor::on_buttonForeColor_triggered()
 void ToolColor::on_buttonBackColor_triggered()
 {
     QColorDialog dialog(this->mBackColor, this->mParameters->parentWidget());
+    dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
     if (dialog.exec() == QDialog::Accepted)
     {

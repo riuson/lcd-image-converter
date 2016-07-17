@@ -103,8 +103,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>247</width>
-         <height>196</height>
+         <width>264</width>
+         <height>239</height>
         </rect>
        </property>
        <attribute name="label">
@@ -175,8 +175,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>247</width>
-         <height>199</height>
+         <width>264</width>
+         <height>239</height>
         </rect>
        </property>
        <attribute name="label">
@@ -206,13 +206,6 @@
            <widget class="QCheckBox" name="checkBoxAntialiasing">
             <property name="text">
              <string>Antialiasing</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBoxAlphaChannel">
-            <property name="text">
-             <string>Alpha-channel</string>
             </property>
            </widget>
           </item>

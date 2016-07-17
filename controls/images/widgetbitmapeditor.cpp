@@ -217,6 +217,8 @@ void WidgetBitmapEditor::on_spinBoxScale_valueChanged(int value)
 void WidgetBitmapEditor::on_pushButtonColor1_clicked()
 {
     QColorDialog dialog(this->mColor1, this);
+    dialog.setOption(QColorDialog::ShowAlphaChannel, true);
+
     if (dialog.exec() == QDialog::Accepted)
     {
         this->mColor1 = dialog.selectedColor();
@@ -229,6 +231,8 @@ void WidgetBitmapEditor::on_pushButtonColor1_clicked()
 void WidgetBitmapEditor::on_pushButtonColor2_clicked()
 {
     QColorDialog dialog(this->mColor2, this);
+    dialog.setOption(QColorDialog::ShowAlphaChannel, true);
+
     if (dialog.exec() == QDialog::Accepted)
     {
         this->mColor2 = dialog.selectedColor();

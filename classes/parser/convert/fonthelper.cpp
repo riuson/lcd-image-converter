@@ -150,8 +150,7 @@ QImage FontHelper::drawCharacter(
         const QColor &background,
         const int width,
         const int height,
-        const bool antialiasing,
-        const bool alphaChannel)
+        const bool antialiasing)
 {
     QFontMetrics fontMetrics(font);
 
@@ -166,14 +165,13 @@ QImage FontHelper::drawCharacter(
         imageHeight = characterSize.height();
     }
 
-    QImage result(imageWidth, imageHeight, QImage::Format_RGB32);
+    QImage result;
 
-    if (alphaChannel)
     {
         // make image with transparent background
         QPixmap transparentPixmap(imageWidth, imageHeight);
         transparentPixmap.fill(Qt::transparent);
-        result = transparentPixmap.toImage().convertToFormat(QImage::Format_ARGB32); //QImage(imageWidth, imageHeight, QImage::Format_ARGB32);
+        result = transparentPixmap.toImage().convertToFormat(QImage::Format_ARGB32);
     }
 
     QPainter painter(&result);
@@ -182,10 +180,8 @@ QImage FontHelper::drawCharacter(
     painter.setRenderHint(QPainter::Antialiasing, antialiasing);
     painter.setRenderHint(QPainter::TextAntialiasing, antialiasing);
 
-    if (!alphaChannel)
-    {
-        painter.fillRect(result.rect(), background);
-    }
+    // fill image with specified background color
+    painter.fillRect(result.rect(), background);
 
     painter.setPen(foreground);
 

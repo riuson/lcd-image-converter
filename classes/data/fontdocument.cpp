@@ -41,6 +41,7 @@
 #include "fonthelper.h"
 #include "parsedimagedata.h"
 #include "fontoptions.h"
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 FontDocument::FontDocument(QObject *parent) :
     QObject(parent)
@@ -92,7 +93,9 @@ bool FontDocument::load(const QString &fileName)
                 QString fontFamily, style;
                 int size = 0;
                 int ascent = 0, descent = 0;
-                bool monospaced = false, antialiasing = false, alphaChannel = false;
+                bool monospaced = false, antialiasing = false;
+                QColor foreground = FontEditorOptions::foreColor();
+                QColor background = FontEditorOptions::backColor();
 
                 QDomNode n = root.firstChild();
                 while (!n.isNull())
@@ -138,9 +141,27 @@ bool FontDocument::load(const QString &fileName)
                         {
                             antialiasing = (e.text() == "true");
                         }
-                        else if (e.tagName() == "alphaChannel")
+                        else if (e.tagName() == "foreground")
                         {
-                            alphaChannel = (e.text() == "true");
+                            bool ok;
+                            QString str = e.text();
+                            qint32 a = str.toUInt(&ok, 16);
+
+                            if (ok)
+                            {
+                                foreground = BitmapHelper::fromRgba(QRgb(a));
+                            }
+                        }
+                        else if (e.tagName() == "background")
+                        {
+                            bool ok;
+                            QString str = e.text();
+                            qint32 a = str.toUInt(&ok, 16);
+
+                            if (ok)
+                            {
+                                background = BitmapHelper::fromRgba(QRgb(a));
+                            }
                         }
                         else if (e.tagName() == "converted")
                         {
@@ -182,7 +203,8 @@ bool FontDocument::load(const QString &fileName)
                 this->setUsedStyle(style);
                 this->setMonospaced(monospaced);
                 this->setAntialiasing(antialiasing);
-                this->setAlphaChannel(alphaChannel);
+                this->setForeground(foreground);
+                this->setBackground(background);
                 this->setAscent(ascent);
                 this->setDescent(descent);
             }
@@ -261,13 +283,15 @@ bool FontDocument::save(const QString &fileName)
     else
         nodeAntialiasing.appendChild(doc.createTextNode("false"));
 
-    // alpha channel
-    QDomElement nodeAlphaChannel = doc.createElement("alphaChannel");
-    nodeRoot.appendChild(nodeAlphaChannel);
-    if (parameters.alphaChannel)
-        nodeAlphaChannel.appendChild(doc.createTextNode("true"));
-    else
-        nodeAlphaChannel.appendChild(doc.createTextNode("false"));
+    // foreground
+    QDomElement nodeForeground = doc.createElement("foreground");
+    nodeRoot.appendChild(nodeForeground);
+    nodeForeground.appendChild(doc.createTextNode(QString("%1").arg((quint32)parameters.foreground.rgba(), 8, 16, QChar('0'))));
+
+    // background
+    QDomElement nodeBackground = doc.createElement("background");
+    nodeRoot.appendChild(nodeBackground);
+    nodeBackground.appendChild(doc.createTextNode(QString("%1").arg((quint32)parameters.background.rgba(), 8, 16, QChar('0'))));
 
     // string
     QDomElement nodeString = doc.createElement("string");
@@ -389,7 +413,6 @@ QString FontDocument::convert(Preset *preset)
     tags.setTagValue(Tags::FontStyle, parameters.style);
     tags.setTagValue(Tags::FontString, FontHelper::escapeControlChars(chars));
     tags.setTagValue(Tags::FontAntiAliasing, parameters.antiAliasing ? "yes" : "no");
-    tags.setTagValue(Tags::FontAlphaChannel, parameters.alphaChannel ? "yes" : "no");
     tags.setTagValue(Tags::FontWidthType, parameters.monospaced ? "monospaced" : "proportional");
     tags.setTagValue(Tags::FontAscent, QString("%1").arg(parameters.ascent));
     tags.setTagValue(Tags::FontDescent, QString("%1").arg(parameters.descent));
@@ -472,7 +495,8 @@ void FontDocument::fontCharacters(QString *chars,
     parameters->style = this->usedStyle();
     parameters->monospaced = this->monospaced();
     parameters->antiAliasing = this->antialiasing();
-    parameters->alphaChannel = this->alphaChannel();
+    parameters->foreground = this->foreground();
+    parameters->background = this->background();
     parameters->ascent = this->ascent();
     parameters->descent = this->descent();
 }
@@ -493,7 +517,8 @@ void FontDocument::setFontCharacters(const QString &chars,
                 this->usedFont().pixelSize() != parameters.size ||
                 this->monospaced() != parameters.monospaced ||
                 this->antialiasing() != parameters.antiAliasing ||
-                this->alphaChannel() != parameters.alphaChannel ||
+                this->foreground() != parameters.foreground ||
+                this->background() != parameters.background ||
                 this->ascent() != parameters.ascent ||
                 this->descent() != parameters.descent)
         {
@@ -534,9 +559,10 @@ void FontDocument::setFontCharacters(const QString &chars,
         this->setUsedStyle(parameters.style);
         this->setMonospaced(parameters.monospaced);
         this->setAntialiasing(parameters.antiAliasing);
-        this->setAlphaChannel(parameters.alphaChannel);
         this->setAscent(parameters.ascent);
         this->setDescent(parameters.descent);
+        this->setForeground(parameters.foreground);
+        this->setBackground(parameters.background);
     }
     else
     {
@@ -581,12 +607,11 @@ void FontDocument::setFontCharacters(const QString &chars,
             keys.append(key);
             QImage image = FontHelper::drawCharacter(chars.at(i),
                                                      fontNew,
-                                                     FontEditorOptions::foreColor(),
-                                                     FontEditorOptions::backColor(),
+                                                     parameters.foreground,
+                                                     parameters.background,
                                                      width,
                                                      height,
-                                                     parameters.antiAliasing,
-                                                     parameters.alphaChannel);
+                                                     parameters.antiAliasing);
             this->mContainer->setImage(key, new QImage(image));
         }
     }
@@ -652,14 +677,40 @@ void FontDocument::setAntialiasing(const bool value)
     this->mContainer->setCommonInfo("antialiasing", value);
 }
 //-----------------------------------------------------------------------------
-bool FontDocument::alphaChannel() const
+QColor FontDocument::foreground() const
 {
-    return this->mContainer->commonInfo("alphaChannel").toBool();
+    bool ok;
+    quint32 rgbValue = this->mContainer->commonInfo("foreground").toUInt(&ok);
+
+    if (ok)
+    {
+        return BitmapHelper::fromRgba(QRgb(rgbValue));
+    }
+
+    return FontEditorOptions::foreColor();
 }
 //-----------------------------------------------------------------------------
-void FontDocument::setAlphaChannel(const bool value)
+void FontDocument::setForeground(const QColor value)
 {
-    this->mContainer->setCommonInfo("alphaChannel", value);
+    this->mContainer->setCommonInfo("foreground", (quint32)value.rgba());
+}
+//-----------------------------------------------------------------------------
+QColor FontDocument::background() const
+{
+    bool ok;
+    quint32 rgbValue = this->mContainer->commonInfo("background").toUInt(&ok);
+
+    if (ok)
+    {
+        return BitmapHelper::fromRgba(QRgb(rgbValue));
+    }
+
+    return FontEditorOptions::backColor();
+}
+//-----------------------------------------------------------------------------
+void FontDocument::setBackground(const QColor value)
+{
+    this->mContainer->setCommonInfo("background", (quint32)value.rgba());
 }
 //-----------------------------------------------------------------------------
 int FontDocument::ascent() const

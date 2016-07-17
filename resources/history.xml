@@ -19,7 +19,9 @@ Added:
  Optional alpha-channel for font renderer;
  New dialog to select font;
  Font ascent/descent tags;
- Transparent character background when Alpha-channel selected.
+ Option 'alpha-channel' in font setup replaced by alpha component for foreground and background colors;
+ Support for transparent character background;
+ Set foreground and background colors with command line.
         </description>
     </record>
     <record>

@@ -21,6 +21,7 @@
 #define DIALOGFONTSELECTDATA_H
 //-----------------------------------------------------------------------------
 #include <QObject>
+#include <QColor>
 //-----------------------------------------------------------------------------
 class CharactersModel;
 class QModelIndex;
@@ -47,6 +48,10 @@ public:
     UnicodeBlocksFilterModel *unicodeBlocksModel();
 
     void appendCharacters(const QString &value);
+    const QColor &foreground() const;
+    void setForeground(const QColor &value);
+    const QColor &background() const;
+    void setBackground(const QColor &value);
 private:
     CharactersModel *mModel;
     UnicodeBlocksModel *mBlocksModel;
@@ -58,7 +63,8 @@ private:
     int mSize;
     bool mMonospaced;
     bool mAntialiasing;
-    bool mAlphaChannel;
+    QColor mForeground;
+    QColor mBackground;
     QString mCharacters;
 
     void notifyFontChanged();
@@ -71,7 +77,7 @@ signals:
     void fontMeasured(int count, int maxWidth, int maxHeight);
     void monospacedChanged(bool value);
     void antialiasingChanged(bool value);
-    void alphaChannelChanged(bool value);
+    void colorsChanged(const QColor &forecolor, const QColor &background);
 
 public slots:
     void setFont(const QFont &font);
@@ -81,7 +87,6 @@ public slots:
     void setUnicodeRange(const QItemSelection &selected, const QItemSelection &deselected);
     void setMonospaced(bool value);
     void setAntialiasing(bool value);
-    void setAlphaChannel(bool value);
     void resort();
 };
 //-----------------------------------------------------------------------------

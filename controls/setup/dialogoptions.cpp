@@ -160,14 +160,17 @@ void DialogOptions::createPresetsDefault()
     matrix.initGrayscale(8);
     matrix.save(tr("Grayscale 8"));
 
-    matrix.initColor(4, 5, 4);
+    matrix.initColor(0, 4, 5, 4);
     matrix.save(tr("Color R4G5B4"));
 
-    matrix.initColor(5, 6, 5);
+    matrix.initColor(0, 5, 6, 5);
     matrix.save(tr("Color R5G6B5"));
 
-    matrix.initColor(8, 8, 8);
+    matrix.initColor(0, 8, 8, 8);
     matrix.save(tr("Color R8G8B8"));
+
+    matrix.initColor(8, 8, 8, 8);
+    matrix.save(tr("Color A8R8G8B8"));
 }
 //-----------------------------------------------------------------------------
 bool DialogOptions::checkOverwrite(const QString &originalName, QString *resultName) const

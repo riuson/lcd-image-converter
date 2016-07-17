@@ -36,6 +36,7 @@
 #include "preset.h"
 #include "templateoptions.h"
 #include "tfontparameters.h"
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
@@ -47,7 +48,6 @@ ModeConvertFont::ModeConvertFont(QCommandLineParser *parser, QObject *parent) :
     this->mFontMonospaced = false;
     this->mFontStyle = "Normal";
     this->mFontAntiAliasing = false;
-    this->mFontAlphaChannel = false;
     this->mFontCharactersList = "0123456789ABCDEFabcdef";
 
     this->mFontCharactersEncoding = "UTF-8";
@@ -94,10 +94,15 @@ void ModeConvertFont::fillParser() const
                 QCoreApplication::translate("CmdLineParser", "Use antialiasing."));
     this->mParser->addOption(antialiasingOption);
 
-    // --alpachannel
-    QCommandLineOption alphachannelOption(QStringList() << "alphachannel",
-                QCoreApplication::translate("CmdLineParser", "Use alpha channel."));
-    this->mParser->addOption(alphachannelOption);
+    // --foreground
+    QCommandLineOption foregroundOption(QStringList() << "foreground",
+                QCoreApplication::translate("CmdLineParser", "Foreground color in hex format."));
+    this->mParser->addOption(foregroundOption);
+
+    // --background
+    QCommandLineOption backgroundOption(QStringList() << "background",
+                QCoreApplication::translate("CmdLineParser", "Background color in hex format."));
+    this->mParser->addOption(backgroundOption);
 
     // --chars-list
     QCommandLineOption charsListOption(QStringList() << "chars-list",
@@ -155,7 +160,8 @@ bool ModeConvertFont::collectArguments()
     this->mFontMonospaced = this->mParser->isSet("monospaced");
     this->mFontStyle = this->mParser->value("style");
     this->mFontAntiAliasing = this->mParser->isSet("antialiasing");
-    this->mFontAlphaChannel = this->mParser->isSet("alphachannel");
+    this->mForeground = this->mParser->value("foreground");
+    this->mBackground = this->mParser->value("background");
 
     this->mFontCharactersList = this->mParser->value("chars-list");
     this->mFontCharactersRange = this->mParser->value("chars-range");
@@ -207,7 +213,6 @@ int ModeConvertFont::process()
                     parameters.size = this->mFontSize;
                     parameters.monospaced = this->mFontMonospaced;
                     parameters.antiAliasing = this->mFontAntiAliasing;
-                    parameters.alphaChannel = this->mFontAlphaChannel;
 
                     // get ascent/descent
                     {
@@ -216,6 +221,36 @@ int ModeConvertFont::process()
                         QFontMetrics metrics(font);
                         parameters.ascent = metrics.ascent();
                         parameters.descent = metrics.descent();
+                    }
+
+                    // colors
+                    {
+                        bool colorOk;
+                        quint32 rgbValue;
+
+                        // foreground
+                        rgbValue = this->mForeground.toUInt(&colorOk, 16);
+
+                        if (colorOk)
+                        {
+                            parameters.foreground = BitmapHelper::fromRgba(QRgb(rgbValue));
+                        }
+                        else
+                        {
+                            parameters.foreground = QColor("black");
+                        }
+
+                        // background
+                        rgbValue = this->mBackground.toUInt(&colorOk, 16);
+
+                        if (colorOk)
+                        {
+                            parameters.background = BitmapHelper::fromRgba(QRgb(rgbValue));
+                        }
+                        else
+                        {
+                            parameters.background = QColor("white");
+                        }
                     }
 
                     fontDocument.setFontCharacters(

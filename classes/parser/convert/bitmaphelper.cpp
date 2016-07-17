@@ -156,7 +156,7 @@ QImage BitmapHelper::crop(const QImage *source, int left, int top, int right, in
 //-----------------------------------------------------------------------------
 void BitmapHelper::findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom)
 {
-    QRgb background = BitmapHelper::detectBackgroundColor(source).rgb();
+    QRgb background = BitmapHelper::detectBackgroundColor(source).rgba();
     // max possible values by default
     int l = std::numeric_limits<int>::max();
     int t = std::numeric_limits<int>::max();
@@ -236,10 +236,10 @@ QImage BitmapHelper::drawPixel(const QImage *source, int x, int y, const QColor 
 //-----------------------------------------------------------------------------
 QColor BitmapHelper::detectBackgroundColor(const QImage *image)
 {
-    QColor color1 = image->pixel(0, 0);
-    QColor color2 = image->pixel(image->width() - 1, 0);
-    QColor color3 = image->pixel(0, image->height() - 1);
-    QColor color4 = image->pixel(image->width() - 1, image->height() - 1);
+    QColor color1 = BitmapHelper::fromRgba(image->pixel(0, 0));
+    QColor color2 = BitmapHelper::fromRgba(image->pixel(image->width() - 1, 0));
+    QColor color3 = BitmapHelper::fromRgba(image->pixel(0, image->height() - 1));
+    QColor color4 = BitmapHelper::fromRgba(image->pixel(image->width() - 1, image->height() - 1));
 
     int c1 = 0, c2 = 0, c3 = 0, c4 = 0;
 
@@ -289,5 +289,10 @@ QImage BitmapHelper::fromSvg(const QString &path, int size)
     renderer.render(&painter);
 
     return image;
+}
+//-----------------------------------------------------------------------------
+QColor BitmapHelper::fromRgba(QRgb value)
+{
+    return QColor(qRed(value), qGreen(value), qBlue(value), qAlpha(value));
 }
 //-----------------------------------------------------------------------------

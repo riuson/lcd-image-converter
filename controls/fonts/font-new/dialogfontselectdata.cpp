@@ -40,7 +40,8 @@ DialogFontSelectData::DialogFontSelectData(QObject *parent) :
     this->mSize = 14;
     this->mMonospaced = false;
     this->mAntialiasing = false;
-    this->mAlphaChannel = false;
+    this->mForeground = FontEditorOptions::foreColor();
+    this->mBackground = FontEditorOptions::backColor();
 
     QString defChars;
 
@@ -56,12 +57,6 @@ DialogFontSelectData::DialogFontSelectData(QObject *parent) :
     this->mBlocksFilterModel->setSourceModel(this->mBlocksModel);
 
     this->mSortOrderUp = false;
-
-    QPixmap pixmapForeColor = QPixmap(24, 24);
-    pixmapForeColor.fill(FontEditorOptions::foreColor());
-
-    QPixmap pixmapBackColor = QPixmap(24, 24);
-    pixmapBackColor.fill(FontEditorOptions::backColor());
 }
 //-----------------------------------------------------------------------------
 DialogFontSelectData::~DialogFontSelectData()
@@ -80,7 +75,8 @@ void DialogFontSelectData::getFontParameters(tFontParameters *parameters)
     parameters->size = this->mSize;
     parameters->monospaced = this->mMonospaced;
     parameters->antiAliasing = this->mAntialiasing;
-    parameters->alphaChannel = this->mAlphaChannel;
+    parameters->foreground = this->mForeground;
+    parameters->background = this->mBackground;
 
     // ascent/descent
     {
@@ -90,7 +86,6 @@ void DialogFontSelectData::getFontParameters(tFontParameters *parameters)
         parameters->ascent = metrics.ascent();
         parameters->descent = metrics.descent();
     }
-
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelectData::setCharacters(const QString &value)
@@ -106,15 +101,16 @@ void DialogFontSelectData::setFontParameters(const tFontParameters &parameters)
     this->mFontStyle = parameters.style;
     this->mSize = parameters.size;
 
-    this->mAlphaChannel = parameters.alphaChannel;
     this->mAntialiasing = parameters.antiAliasing;
+    this->mForeground = parameters.foreground;
+    this->mBackground = parameters.background;
     this->mMonospaced = parameters.monospaced;
 
     this->notifyFontChanged();
 
-    emit this->alphaChannelChanged(this->mAlphaChannel);
     emit this->antialiasingChanged(this->mAntialiasing);
     emit this->monospacedChanged(this->mMonospaced);
+    emit this->colorsChanged(this->mForeground, this->mBackground);
 }
 //-----------------------------------------------------------------------------
 CharactersModel *DialogFontSelectData::charactersModel()
@@ -233,6 +229,28 @@ void DialogFontSelectData::appendCharacters(const QString &value)
     this->setCharacters(result);
 }
 //-----------------------------------------------------------------------------
+const QColor &DialogFontSelectData::foreground() const
+{
+    return this->mForeground;
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelectData::setForeground(const QColor &value)
+{
+    this->mForeground = value;
+    emit this->colorsChanged(this->mForeground, this->mBackground);
+}
+//-----------------------------------------------------------------------------
+const QColor &DialogFontSelectData::background() const
+{
+    return this->mBackground;
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelectData::setBackground(const QColor &value)
+{
+    this->mBackground = value;
+    emit this->colorsChanged(this->mForeground, this->mBackground);
+}
+//-----------------------------------------------------------------------------
 void DialogFontSelectData::setMonospaced(bool value)
 {
     this->mMonospaced = value;
@@ -241,11 +259,6 @@ void DialogFontSelectData::setMonospaced(bool value)
 void DialogFontSelectData::setAntialiasing(bool value)
 {
     this->mAntialiasing = value;
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelectData::setAlphaChannel(bool value)
-{
-    this->mAlphaChannel = value;
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelectData::resort()
