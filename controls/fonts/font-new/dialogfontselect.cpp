@@ -82,10 +82,13 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     this->connect(this->mData, SIGNAL(antialiasingChanged(bool)), this->ui->checkBoxAntialiasing, SLOT(setChecked(bool)));
     this->connect(this->mData, SIGNAL(monospacedChanged(bool)), SLOT(on_monospacedChanged(bool)));
 
+    // Colors
+    this->connect(this->mData, SIGNAL(colorsChanged(QColor,QColor)), SLOT(updateColorIcons(QColor,QColor)));
+
     // Sort characters
     this->connect(this->ui->pushButtonSort, SIGNAL(clicked(bool)), this->mData, SLOT(resort()));
 
-    this->updateColorIcons();
+    this->updateColorIcons(FontEditorOptions::foreColor(), FontEditorOptions::backColor());
 
     this->mData->setFont(this->ui->fontComboBox->currentFont());
     this->ui->lineEdit->setText(this->mData->characters());
@@ -114,19 +117,6 @@ void DialogFontSelect::getFontParameters(tFontParameters *parameters)
 void DialogFontSelect::setFontParameters(const tFontParameters &parameters)
 {
     this->mData->setFontParameters(parameters);
-}
-//-----------------------------------------------------------------------------
-void DialogFontSelect::updateColorIcons()
-{
-    QPixmap pixmapForeColor = QPixmap(24, 24);
-    pixmapForeColor.fill(FontEditorOptions::foreColor());
-    this->ui->pushButtonForeColor->setIcon(QIcon(pixmapForeColor));
-    this->ui->pushButtonForeColor->setText(tr("Fore Color: %1").arg((quint32)FontEditorOptions::foreColor().rgba(), 8, 16, QChar('0')));
-
-    QPixmap pixmapBackColor = QPixmap(24, 24);
-    pixmapBackColor.fill(FontEditorOptions::backColor());
-    this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
-    this->ui->pushButtonBackColor->setText(tr("Back Color: %1").arg((quint32)FontEditorOptions::backColor().rgba(), 8, 16, QChar('0')));
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_lineEdit_textChanged(const QString &value)
@@ -206,25 +196,25 @@ void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QI
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_pushButtonForeColor_clicked()
 {
-    QColorDialog dialog(FontEditorOptions::foreColor(), this);
+    QColorDialog dialog(this->mData->foreground(), this);
     dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
     if (dialog.exec() == QDialog::Accepted)
     {
         FontEditorOptions::setForeColor(dialog.selectedColor());
-        this->updateColorIcons();
+        this->mData->setForeground(dialog.selectedColor());
     }
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_pushButtonBackColor_clicked()
 {
-    QColorDialog dialog(FontEditorOptions::backColor(), this);
+    QColorDialog dialog(this->mData->background(), this);
     dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
     if (dialog.exec() == QDialog::Accepted)
     {
         FontEditorOptions::setBackColor(dialog.selectedColor());
-        this->updateColorIcons();
+        this->mData->setBackground(dialog.selectedColor());
     }
 }
 //-----------------------------------------------------------------------------
@@ -311,5 +301,18 @@ void DialogFontSelect::on_fontMeasured(int count, int maxWidth, int maxHeight)
 {
     this->ui->labelCharactersMaxSize->setText(tr("Max size (w × h): %1 × %2").arg(maxWidth).arg(maxHeight));
     this->ui->labelCharactersCount->setText(tr("Count: %1").arg(count));
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::updateColorIcons(const QColor &foreground, const QColor &background)
+{
+    QPixmap pixmapForeColor = QPixmap(24, 24);
+    pixmapForeColor.fill(foreground);
+    this->ui->pushButtonForeColor->setIcon(QIcon(pixmapForeColor));
+    this->ui->pushButtonForeColor->setText(tr("Fore Color: %1").arg((quint32)foreground.rgba(), 8, 16, QChar('0')));
+
+    QPixmap pixmapBackColor = QPixmap(24, 24);
+    pixmapBackColor.fill(background);
+    this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
+    this->ui->pushButtonBackColor->setText(tr("Back Color: %1").arg((quint32)background.rgba(), 8, 16, QChar('0')));
 }
 //-----------------------------------------------------------------------------

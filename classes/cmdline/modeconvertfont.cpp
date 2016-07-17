@@ -36,6 +36,7 @@
 #include "preset.h"
 #include "templateoptions.h"
 #include "tfontparameters.h"
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
@@ -93,6 +94,16 @@ void ModeConvertFont::fillParser() const
                 QCoreApplication::translate("CmdLineParser", "Use antialiasing."));
     this->mParser->addOption(antialiasingOption);
 
+    // --foreground
+    QCommandLineOption foregroundOption(QStringList() << "foreground",
+                QCoreApplication::translate("CmdLineParser", "Foreground color in hex format."));
+    this->mParser->addOption(foregroundOption);
+
+    // --background
+    QCommandLineOption backgroundOption(QStringList() << "background",
+                QCoreApplication::translate("CmdLineParser", "Background color in hex format."));
+    this->mParser->addOption(backgroundOption);
+
     // --chars-list
     QCommandLineOption charsListOption(QStringList() << "chars-list",
                 QCoreApplication::translate("CmdLineParser", "Characters, what included to the font."),
@@ -149,6 +160,8 @@ bool ModeConvertFont::collectArguments()
     this->mFontMonospaced = this->mParser->isSet("monospaced");
     this->mFontStyle = this->mParser->value("style");
     this->mFontAntiAliasing = this->mParser->isSet("antialiasing");
+    this->mForeground = this->mParser->value("foreground");
+    this->mBackground = this->mParser->value("background");
 
     this->mFontCharactersList = this->mParser->value("chars-list");
     this->mFontCharactersRange = this->mParser->value("chars-range");
@@ -208,6 +221,36 @@ int ModeConvertFont::process()
                         QFontMetrics metrics(font);
                         parameters.ascent = metrics.ascent();
                         parameters.descent = metrics.descent();
+                    }
+
+                    // colors
+                    {
+                        bool colorOk;
+                        quint32 rgbValue;
+
+                        // foreground
+                        rgbValue = this->mForeground.toUInt(&colorOk, 16);
+
+                        if (colorOk)
+                        {
+                            parameters.foreground = BitmapHelper::fromRgba(QRgb(rgbValue));
+                        }
+                        else
+                        {
+                            parameters.foreground = QColor("black");
+                        }
+
+                        // background
+                        rgbValue = this->mBackground.toUInt(&colorOk, 16);
+
+                        if (colorOk)
+                        {
+                            parameters.background = BitmapHelper::fromRgba(QRgb(rgbValue));
+                        }
+                        else
+                        {
+                            parameters.background = QColor("white");
+                        }
                     }
 
                     fontDocument.setFontCharacters(

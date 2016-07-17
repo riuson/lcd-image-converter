@@ -49,7 +49,6 @@ public:
 private:
     Ui::DialogFontSelect *ui;
     DialogFontSelectData *mData;
-    void updateColorIcons();
 
 private slots:
     void on_lineEdit_textChanged(const QString &value);
@@ -66,6 +65,7 @@ private slots:
     void on_fontChanged(const QFont &value);
     void on_monospacedChanged(bool value);
     void on_fontMeasured(int count, int maxWidth, int maxHeight);
+    void updateColorIcons(const QColor &foreground, const QColor &background);
 };
 
 #endif // DIALOGFONTSELECT_H

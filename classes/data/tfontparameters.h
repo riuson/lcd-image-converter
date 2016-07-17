@@ -2,6 +2,7 @@
 #define TFONTPARAMETERS
 
 #include <QObject>
+#include <QColor>
 //-----------------------------------------------------------------------------
 struct tFontParameters
 {
@@ -12,6 +13,8 @@ struct tFontParameters
     bool antiAliasing;
     int ascent;
     int descent;
+    QColor foreground;
+    QColor background;
 };
 //-----------------------------------------------------------------------------
 #endif // TFONTPARAMETERS

@@ -81,6 +81,12 @@ private:
     bool antialiasing() const;
     void setAntialiasing(const bool value);
 
+    QColor foreground() const;
+    void setForeground(const QColor value);
+
+    QColor background() const;
+    void setBackground(const QColor value);
+
     int ascent() const;
     void setAscent(int value);
 
