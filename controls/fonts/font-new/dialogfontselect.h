@@ -50,6 +50,9 @@ private:
     Ui::DialogFontSelect *ui;
     DialogFontSelectData *mData;
 
+    void loadSettings();
+    void saveSettings() const;
+
 private slots:
     void on_lineEdit_textChanged(const QString &value);
     void on_tableView_doubleClicked(const QModelIndex &index);

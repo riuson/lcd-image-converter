@@ -22,6 +22,7 @@
 
 #include <QTableWidgetSelectionRange>
 #include <QColorDialog>
+#include <QSettings>
 #include "charactersmodel.h"
 #include "unicodeblocksmodel.h"
 #include "unicodeblocksfiltermodel.h"
@@ -92,10 +93,13 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
 
     this->mData->setFont(this->ui->fontComboBox->currentFont());
     this->ui->lineEdit->setText(this->mData->characters());
+
+    this->loadSettings();
 }
 //-----------------------------------------------------------------------------
 DialogFontSelect::~DialogFontSelect()
 {
+    this->saveSettings();
     delete ui;
 }
 //-----------------------------------------------------------------------------
@@ -117,6 +121,40 @@ void DialogFontSelect::getFontParameters(tFontParameters *parameters)
 void DialogFontSelect::setFontParameters(const tFontParameters &parameters)
 {
     this->mData->setFontParameters(parameters);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::loadSettings()
+{
+    QSettings sett;
+    sett.beginGroup("dialog-font-select");
+    sett.beginGroup("toolbox");
+
+    bool ok;
+    int pageIndex = sett.value("pageIndex", QVariant("none")).toUInt(&ok);
+
+    if (ok)
+    {
+        if (pageIndex < this->ui->toolBox->count())
+        {
+            this->ui->toolBox->setCurrentIndex(pageIndex);
+        }
+    }
+
+    sett.endGroup();
+    sett.endGroup();
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::saveSettings() const
+{
+    QSettings sett;
+    sett.beginGroup("dialog-font-select");
+    sett.beginGroup("toolbox");
+
+    int pageIndex = this->ui->toolBox->currentIndex();
+    sett.setValue("pageIndex", QVariant(pageIndex));
+
+    sett.endGroup();
+    sett.endGroup();
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_lineEdit_textChanged(const QString &value)
