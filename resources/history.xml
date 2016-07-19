@@ -76,7 +76,11 @@ Added:
  Scaling in settings preview.]]></description>
         <downloads>
             <item>
-                <name>Application for Windows (21.4 MB) on SourceForge</name>
+                <name>Application for Windows on Home Page</name>
+                <url>http://www.riuson.com/lcd-image-converter/download</url>
+            </item>
+            <item>
+                <name>Application for Windows on SourceForge</name>
                 <url>http://sourceforge.net/projects/lcd-image-converter/files</url>
             </item>
         </downloads>
@@ -99,12 +103,6 @@ Added:
 
 Added:
  Optional characters sorting in 'Font Change...' dialog.]]></description>
-        <downloads>
-            <item>
-                <name>Application for Windows (20.6 MB) on SourceForge</name>
-                <url>http://sourceforge.net/projects/lcd-image-converter/files</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -140,12 +138,6 @@ Added:
  Copy and Paste operations;
  Alpha-channel support;
  User-defined script to specify pixel's scan order.]]></description>
-      <downloads>
-          <item>
-              <name>Application for Windows (19.6 MB) on SourceForge</name>
-              <url>http://sourceforge.net/projects/lcd-image-converter/files</url>
-          </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -159,16 +151,6 @@ Added:
         <description><![CDATA[Fixed:
  Feature 'Optimize height';
  Save font parameters for newly created font.]]></description>
-        <downloads>
-            <item>
-                <name>Application for Windows (7.7 MB) on Google Code</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20130316-ce530e158ca3.zip</url>
-            </item>
-            <item>
-                <name>Application for Windows (7.7 MB) on SourceForge</name>
-                <url>http://sourceforge.net/projects/lcd-image-converter/files/lcd-image-converter-20130316-ce530e158ca3.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -182,12 +164,6 @@ Added:
         <description><![CDATA[Fixed:
  Invalid status on first-time selection;
  Indent and EOL for the output image data.]]></description>
-        <downloads>
-            <item>
-                <name>Application for Windows (7.7 MB)</name>
-                <url>https://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20130313-559bd5a29c57.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -199,12 +175,6 @@ Added:
         </changes>
         <description><![CDATA[Fixed:
  Character's filter in resize dialog.]]></description>
-        <downloads>
-            <item>
-                <name>Application for Windows (7.7 MB)</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20130305-b1e5f171a1b6.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -224,12 +194,6 @@ Added:
  Changed 'Resize' dialog;
  Font preview's size can be changed by Ctrl+Wheel;
  A separate dialog box to check for updates.]]></description>
-        <downloads>
-            <item>
-                <name>Application for Windows (7.7 MB)</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20130210-e3845185e979.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -251,12 +215,6 @@ Added:
  Reordering bits;
  Scanning of the bands;
  Scaling by mouse wheel + Ctrl.]]></description>
-        <downloads>
-            <item>
-                <name>Application for Windows (7.7 MB)</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20130109-4e8c626a9ac0.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -272,12 +230,6 @@ Added:
 
 Added:
  Undo/Redo support.]]></description>
-        <downloads>
-            <item>
-                <name>Application for Windows (7.6 MB)</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20121223-b4efed4af0b9.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -326,16 +278,6 @@ Added:
  Changed characters list in font's editor;
  Version history in 'About' dialog;
  'Check updates' in 'About' dialog, by downloading history from project's home page]]></description>
-        <downloads>
-            <item>
-                <name>Application</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-20121105212131-d2c542188773.zip</url>
-            </item>
-            <item>
-                <name>Qt (4.8.1) runtime libraries for windows version from 2012-11-05</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=qt-4.8.1-runtime-libraries-d2c542188773.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -346,16 +288,6 @@ Added:
             <item category="changed">Conversion algorithm was fully changed to make it more universally and flexible. Please, read wiki for more information about it.</item>
         </changes>
         <description>Conversion algorithm was fully changed to make it more universally and flexible. Please, read wiki for more information about it.</description>
-        <downloads>
-            <item>
-                <name>Application</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-be13e6f34980.zip</url>
-            </item>
-            <item>
-                <name>Qt (4.7.3) runtime libraries for windows version</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=qt-4.7.3-runtime-libraries-0dc5abc4b1ec.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -379,16 +311,6 @@ Added:
  BOM (append/remove) option for unicode font output;
  Font preview dialog;
  Multi characters inserting in font select dialog.]]></description>
-        <downloads>
-            <item>
-                <name>Application</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-0421b4dc6c65.zip</url>
-            </item>
-            <item>
-                <name>Qt (4.7.3) runtime libraries for windows version</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=qt-4.7.3-runtime-libraries-0dc5abc4b1ec.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -400,16 +322,6 @@ Added:
         </changes>
         <description><![CDATA[Fixed:
  Empty items on start screen.]]></description>
-        <downloads>
-            <item>
-                <name>Application</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-de6afc93daac.zip</url>
-            </item>
-            <item>
-                <name>Qt (4.7.3) runtime libraries for windows version</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=qt-4.7.3-runtime-libraries-0dc5abc4b1ec.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -427,16 +339,6 @@ Added:
 Added:
  Start screen;
  Image files support in menu 'File->Open'.]]></description>
-        <downloads>
-            <item>
-                <name>Application</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-73cfc6dc557d.zip</url>
-            </item>
-            <item>
-                <name>Qt (4.7.3) runtime libraries for windows version</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=qt-4.7.3-runtime-libraries-0dc5abc4b1ec.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -464,16 +366,6 @@ Added:
  Conversion settings to output file;
  Grid for scale > 5x;
  'Recent files list' (menu).]]></description>
-        <downloads>
-            <item>
-                <name>Application</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-53c6001d2303.zip</url>
-            </item>
-            <item>
-                <name>Qt (4.7.3) runtime libraries for windows version</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=qt-4.7.3-runtime-libraries-0dc5abc4b1ec.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -484,16 +376,6 @@ Added:
             <item category="added">Added plugins for images, other than png and bmp.</item>
         </changes>
         <description>Added plugins for images, other than png and bmp</description>
-        <downloads>
-            <item>
-                <name>Application</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-0dc5abc4b1ec.zip</url>
-            </item>
-            <item>
-                <name>Qt (4.7.3) runtime libraries for windows version</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=qt-4.7.3-runtime-libraries-0dc5abc4b1ec.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -516,16 +398,6 @@ Added:
  Save scale value to settings;
  Feature 'Minimize font height';
  Translation for strings with degree sign.]]></description>
-        <downloads>
-            <item>
-                <name>Application</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-5d7a8e3fe7.zip</url>
-            </item>
-            <item>
-                <name>Qt (4.7.0) runtime libraries for windows version</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=qt-runtime-libs-7720317606%20.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -545,16 +417,6 @@ Added:
  Feature 'rename document';
  Compiled (binary) translation file removed from version control;
  Display real (maximum) height for selected font/style/size.]]></description>
-        <downloads>
-            <item>
-                <name>Application</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-a0b03bb84f.zip</url>
-            </item>
-            <item>
-                <name>Qt (4.7.0) runtime libraries for windows version</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=qt-runtime-libs-7720317606%20.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -578,16 +440,6 @@ Added:
 
 Added:
  Russian translation.]]></description>
-        <downloads>
-            <item>
-                <name>Application</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter-45835146e2.zip</url>
-            </item>
-            <item>
-                <name>Qt (4.7.0) runtime libraries for windows version</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=qt-runtime-libs-7720317606%20.zip</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -598,15 +450,5 @@ Added:
             <item category="added">First release</item>
         </changes>
         <description>First release</description>
-        <downloads>
-            <item>
-                <name>Application</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=lcd-image-converter%20436eb456f7.zip</url>
-            </item>
-            <item>
-                <name>Qt (4.7.0) runtime libraries for windows version</name>
-                <url>http://code.google.com/p/lcd-image-converter/downloads/detail?name=qt-runtime-libs-7720317606%20.zip</url>
-            </item>
-        </downloads>
     </record>
 </data>
