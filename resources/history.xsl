@@ -42,7 +42,14 @@
         <xsl:apply-templates select="commit"/>
       </p>
       <p>
-        <xsl:apply-templates select="changes"/>
+        <xsl:choose>
+          <xsl:when test="count(changes/item) > 0">
+            <xsl:apply-templates select="changes"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="description" />
+          </xsl:otherwise>
+        </xsl:choose>
       </p>
     </div>
   </xsl:template>
@@ -108,7 +115,13 @@
       </p>
     </xsl:if>
   </xsl:template>
-  <xsl:template match="description" />
+  <xsl:template match="description">
+    <span class="description">
+      <pre>
+        <xsl:value-of select="."/>
+      </pre>
+    </span>
+  </xsl:template>
   <xsl:template match="downloads">
     <span class="downloads">
       <xsl:text>Download: </xsl:text>
