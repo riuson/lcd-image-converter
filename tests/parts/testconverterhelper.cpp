@@ -14,9 +14,7 @@
 #define USE_JS_QTSCRIPT
 #endif // QT_VERSION
 
-#if defined(USE_JS_QTSCRIPT)
 #include <QCoreApplication>
-#endif
 //-----------------------------------------------------------------------------
 TestConverterHelper::TestConverterHelper(QObject *parent) :
     QObject(parent)
@@ -279,10 +277,8 @@ void TestConverterHelper::dataToString()
 //-----------------------------------------------------------------------------
 void TestConverterHelper::jsengineSetProperty()
 {
-#if defined(USE_JS_QTSCRIPT)
     int argc = 0;
     QCoreApplication app(argc, NULL);
-#endif
 
     {
         QImage image;
@@ -304,6 +300,9 @@ void TestConverterHelper::breakInfiniteScript()
 {
 #ifdef USE_JS_QJSENGINE
     {
+        int argc = 0;
+        QCoreApplication app(argc, NULL);
+
         QString script = "for (var y = image.height - 1; y >= 0; y-=0) {\
                 for (var x = image.width - 1; x >= 0; x--) {\
                     image.addPoint(x, y);\
