@@ -13,7 +13,7 @@ TestBitStream::TestBitStream(QObject *parent) :
 void TestBitStream::initTestCase()
 {
     this->mPreset = new Preset(this);
-    this->mPreset->initColor(5, 6, 5);
+    this->mPreset->initColor(0, 5, 6, 5);
     this->mPreset->matrix()->operationsRemoveAll();
     this->mPreset->matrix()->setMaskAnd(0xffffffff);
     this->mPreset->matrix()->setMaskOr(0x00000000);

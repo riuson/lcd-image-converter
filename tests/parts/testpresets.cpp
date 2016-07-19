@@ -18,7 +18,7 @@ void TestPresets::initTestCase()
 void TestPresets::loadSave()
 {
     Preset source;
-    source.initColor(5, 6, 5);
+    source.initColor(0, 5, 6, 5);
     source.prepare()->setScanMain(BottomToTop);
     source.prepare()->setScanSub(Backward);
     source.prepare()->setBandScanning(true);
@@ -32,7 +32,7 @@ void TestPresets::loadSave()
     source.image()->setBlockSuffix("suffix");
     source.image()->setBlockDelimiter("delimiter");
 
-    this->mOptions->initColor(5, 6, 5);
+    this->mOptions->initColor(0, 5, 6, 5);
     this->mOptions->prepare()->setScanMain(BottomToTop);
     this->mOptions->prepare()->setScanSub(Backward);
     this->mOptions->prepare()->setBandScanning(true);
