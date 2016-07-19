@@ -126,7 +126,7 @@ void TestPrepareOptions::bandWidth()
         }
         else
         {
-            QCOMPARE(this->mOptions->bandScanning(), 1);
+            QCOMPARE(this->mOptions->bandWidth(), 1);
         }
     }
 }
