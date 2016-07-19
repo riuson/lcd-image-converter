@@ -1,4 +1,4 @@
-QT       += testlib script
+QT       += testlib
 #QT       -= gui
 
 OBJECTS_DIR         = .obj
@@ -27,6 +27,9 @@ greaterThan(QT_MAJOR_VERSION, 4) {
   lessThan(QT_MINOR_VERSION, 5) {
     QT += script
   }
+}
+lessThan(QT_MAJOR_VERSION, 5) {
+  QT += script
 }
 
 DEFINES += QT_MAJOR_VERSION="$$QT_MAJOR_VERSION"
