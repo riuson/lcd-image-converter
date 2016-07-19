@@ -19,7 +19,7 @@
             <item category="changed">New dialog to setup font.</item>
             <item category="changed">Templates.</item>
             <item category="changed">Use unicode characters only from 0x0000 to 0xffff.</item>
-            <item category="changed"></item>
+            <item category="changed">Changelog xml file format.</item>
             <item category="removed">Removed option 'alpha-channel' in font document, with command line argument and template tags.</item>
         </changes>
         <description><![CDATA[Fixed:
