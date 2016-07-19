@@ -507,22 +507,22 @@ Qt: %4</translation>
         <translation>Макс. размер</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="302"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="340"/>
         <source>Max size (w × h): %1 × %2</source>
         <translation>Макс размер (w × h): %1 × %2</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="303"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="341"/>
         <source>Count: %1</source>
         <translation>Количество: %1</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="311"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="349"/>
         <source>Fore Color: %1</source>
         <translation>Цвет переднего плана: %1</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="316"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="354"/>
         <source>Back Color: %1</source>
         <translation>Цвет заднего плана: %1</translation>
     </message>
