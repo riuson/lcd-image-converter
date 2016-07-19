@@ -14,9 +14,7 @@
 #define USE_JS_QTSCRIPT
 #endif // QT_VERSION
 
-#if defined(USE_JS_QTSCRIPT)
 #include <QCoreApplication>
-#endif
 //-----------------------------------------------------------------------------
 TestConverterHelper::TestConverterHelper(QObject *parent) :
     QObject(parent)
@@ -31,7 +29,7 @@ void TestConverterHelper::initTestCase()
 void TestConverterHelper::processPixels()
 {
     const int count = 1000;
-    this->mPreset->initColor(5, 6, 5);
+    this->mPreset->initColor(0, 5, 6, 5);
     this->mPreset->matrix()->operationsRemoveAll();
     this->mPreset->image()->setBlockSize(Data32);
     this->mPreset->matrix()->setMaskUsed(0x00ffffff);
@@ -117,7 +115,7 @@ void TestConverterHelper::processPixels()
 //-----------------------------------------------------------------------------
 void TestConverterHelper::packData()
 {
-    this->mPreset->initColor(5, 6, 5);
+    this->mPreset->initColor(0, 5, 6, 5);
     this->mPreset->matrix()->operationsRemoveAll();
     this->mPreset->matrix()->setMaskAnd(0xffffffff);
     this->mPreset->matrix()->setMaskOr(0x00000000);
@@ -199,7 +197,7 @@ void TestConverterHelper::dataToString()
     }
 
     // configure matrix
-    this->mPreset->initColor(5, 6, 5);
+    this->mPreset->initColor(0, 5, 6, 5);
     this->mPreset->matrix()->operationsRemoveAll();
     this->mPreset->matrix()->setMaskAnd(0xffffffff);
     this->mPreset->matrix()->setMaskOr(0x00000000);
@@ -279,10 +277,8 @@ void TestConverterHelper::dataToString()
 //-----------------------------------------------------------------------------
 void TestConverterHelper::jsengineSetProperty()
 {
-#if defined(USE_JS_QTSCRIPT)
     int argc = 0;
     QCoreApplication app(argc, NULL);
-#endif
 
     {
         QImage image;
@@ -304,6 +300,9 @@ void TestConverterHelper::breakInfiniteScript()
 {
 #ifdef USE_JS_QJSENGINE
     {
+        int argc = 0;
+        QCoreApplication app(argc, NULL);
+
         QString script = "for (var y = image.height - 1; y >= 0; y-=0) {\
                 for (var x = image.width - 1; x >= 0; x--) {\
                     image.addPoint(x, y);\

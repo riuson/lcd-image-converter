@@ -43,7 +43,7 @@ void RleSequence::append(quint32 value)
 //-----------------------------------------------------------------------------
 void RleSequence::append(const RleSequence *sequence)
 {
-    for (int i = 0; i < sequence->size(); i++)
+    for (quint32 i = 0; i < sequence->size(); i++)
     {
         this->mData->append(sequence->at(i));
     }
