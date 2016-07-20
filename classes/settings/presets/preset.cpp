@@ -266,7 +266,7 @@ void Preset::saveXML(const QString &filename) const
     }
 
     QTextStream stream(&outFile);
-    stream << doc.toString(2);
+    doc.save(stream, 2);
 
     outFile.close();
 }
