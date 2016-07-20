@@ -37,15 +37,13 @@ public:
     static QString escapeControlChars(const QString &value);
     static QString unescapeControlChars(const QString &value);
     static QSize getCharacterSize(const QFontMetrics &metrics, QChar value);
-    static QImage drawCharacter(
-            const QChar value,
+    static QImage drawCharacter(const QChar value,
             const QFont &font,
             const QColor &foreground,
             const QColor &background,
             const int width,
             const int height,
-            const bool antialiasing,
-            const bool alphaChannel);
+            const bool antialiasing);
 signals:
 
 public slots:

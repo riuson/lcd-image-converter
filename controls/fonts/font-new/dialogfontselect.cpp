@@ -22,6 +22,7 @@
 
 #include <QTableWidgetSelectionRange>
 #include <QColorDialog>
+#include <QSettings>
 #include "charactersmodel.h"
 #include "unicodeblocksmodel.h"
 #include "unicodeblocksfiltermodel.h"
@@ -79,28 +80,26 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
     // Checkbox/RadioButton
     this->connect(this->ui->radioButtonMonospaced, SIGNAL(toggled(bool)), this->mData, SLOT(setMonospaced(bool)));
     this->connect(this->ui->checkBoxAntialiasing, SIGNAL(toggled(bool)), this->mData, SLOT(setAntialiasing(bool)));
-    this->connect(this->ui->checkBoxAlphaChannel, SIGNAL(toggled(bool)), this->mData, SLOT(setAlphaChannel(bool)));
-    this->connect(this->mData, SIGNAL(alphaChannelChanged(bool)), this->ui->checkBoxAlphaChannel, SLOT(setChecked(bool)));
     this->connect(this->mData, SIGNAL(antialiasingChanged(bool)), this->ui->checkBoxAntialiasing, SLOT(setChecked(bool)));
     this->connect(this->mData, SIGNAL(monospacedChanged(bool)), SLOT(on_monospacedChanged(bool)));
+
+    // Colors
+    this->connect(this->mData, SIGNAL(colorsChanged(QColor,QColor)), SLOT(updateColorIcons(QColor,QColor)));
 
     // Sort characters
     this->connect(this->ui->pushButtonSort, SIGNAL(clicked(bool)), this->mData, SLOT(resort()));
 
-    QPixmap pixmapForeColor = QPixmap(24, 24);
-    pixmapForeColor.fill(FontEditorOptions::foreColor());
-    this->ui->pushButtonForeColor->setIcon(QIcon(pixmapForeColor));
-
-    QPixmap pixmapBackColor = QPixmap(24, 24);
-    pixmapBackColor.fill(FontEditorOptions::backColor());
-    this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
+    this->updateColorIcons(FontEditorOptions::foreColor(), FontEditorOptions::backColor());
 
     this->mData->setFont(this->ui->fontComboBox->currentFont());
     this->ui->lineEdit->setText(this->mData->characters());
+
+    this->loadSettings();
 }
 //-----------------------------------------------------------------------------
 DialogFontSelect::~DialogFontSelect()
 {
+    this->saveSettings();
     delete ui;
 }
 //-----------------------------------------------------------------------------
@@ -122,6 +121,40 @@ void DialogFontSelect::getFontParameters(tFontParameters *parameters)
 void DialogFontSelect::setFontParameters(const tFontParameters &parameters)
 {
     this->mData->setFontParameters(parameters);
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::loadSettings()
+{
+    QSettings sett;
+    sett.beginGroup("dialog-font-select");
+    sett.beginGroup("toolbox");
+
+    bool ok;
+    int pageIndex = sett.value("pageIndex", QVariant("none")).toUInt(&ok);
+
+    if (ok)
+    {
+        if (pageIndex < this->ui->toolBox->count())
+        {
+            this->ui->toolBox->setCurrentIndex(pageIndex);
+        }
+    }
+
+    sett.endGroup();
+    sett.endGroup();
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::saveSettings() const
+{
+    QSettings sett;
+    sett.beginGroup("dialog-font-select");
+    sett.beginGroup("toolbox");
+
+    int pageIndex = this->ui->toolBox->currentIndex();
+    sett.setValue("pageIndex", QVariant(pageIndex));
+
+    sett.endGroup();
+    sett.endGroup();
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_lineEdit_textChanged(const QString &value)
@@ -201,27 +234,25 @@ void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QI
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_pushButtonForeColor_clicked()
 {
-    QColorDialog dialog(FontEditorOptions::foreColor(), this);
+    QColorDialog dialog(this->mData->foreground(), this);
+    dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
     if (dialog.exec() == QDialog::Accepted)
     {
         FontEditorOptions::setForeColor(dialog.selectedColor());
-        QPixmap pixmapForeColor = QPixmap(24, 24);
-        pixmapForeColor.fill(dialog.selectedColor());
-        this->ui->pushButtonForeColor->setIcon(QIcon(pixmapForeColor));
+        this->mData->setForeground(dialog.selectedColor());
     }
 }
 //-----------------------------------------------------------------------------
 void DialogFontSelect::on_pushButtonBackColor_clicked()
 {
-    QColorDialog dialog(FontEditorOptions::backColor(), this);
+    QColorDialog dialog(this->mData->background(), this);
+    dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
     if (dialog.exec() == QDialog::Accepted)
     {
         FontEditorOptions::setBackColor(dialog.selectedColor());
-        QPixmap pixmapBackColor = QPixmap(24, 24);
-        pixmapBackColor.fill(dialog.selectedColor());
-        this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
+        this->mData->setBackground(dialog.selectedColor());
     }
 }
 //-----------------------------------------------------------------------------
@@ -308,5 +339,18 @@ void DialogFontSelect::on_fontMeasured(int count, int maxWidth, int maxHeight)
 {
     this->ui->labelCharactersMaxSize->setText(tr("Max size (w × h): %1 × %2").arg(maxWidth).arg(maxHeight));
     this->ui->labelCharactersCount->setText(tr("Count: %1").arg(count));
+}
+//-----------------------------------------------------------------------------
+void DialogFontSelect::updateColorIcons(const QColor &foreground, const QColor &background)
+{
+    QPixmap pixmapForeColor = QPixmap(24, 24);
+    pixmapForeColor.fill(foreground);
+    this->ui->pushButtonForeColor->setIcon(QIcon(pixmapForeColor));
+    this->ui->pushButtonForeColor->setText(tr("Fore Color: %1").arg((quint32)foreground.rgba(), 8, 16, QChar('0')));
+
+    QPixmap pixmapBackColor = QPixmap(24, 24);
+    pixmapBackColor.fill(background);
+    this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
+    this->ui->pushButtonBackColor->setText(tr("Back Color: %1").arg((quint32)background.rgba(), 8, 16, QChar('0')));
 }
 //-----------------------------------------------------------------------------

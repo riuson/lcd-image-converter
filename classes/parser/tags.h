@@ -63,7 +63,6 @@ public:
         FontString,
         FontWidthType,
         FontAntiAliasing,
-        FontAlphaChannel,
         FontAscent,
         FontDescent,
 

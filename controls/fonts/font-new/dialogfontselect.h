@@ -50,6 +50,9 @@ private:
     Ui::DialogFontSelect *ui;
     DialogFontSelectData *mData;
 
+    void loadSettings();
+    void saveSettings() const;
+
 private slots:
     void on_lineEdit_textChanged(const QString &value);
     void on_tableView_doubleClicked(const QModelIndex &index);
@@ -65,6 +68,7 @@ private slots:
     void on_fontChanged(const QFont &value);
     void on_monospacedChanged(bool value);
     void on_fontMeasured(int count, int maxWidth, int maxHeight);
+    void updateColorIcons(const QColor &foreground, const QColor &background);
 };
 
 #endif // DIALOGFONTSELECT_H

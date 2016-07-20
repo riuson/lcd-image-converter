@@ -71,17 +71,17 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags
 
         this->mTags->setTagValue(Tags::OutputBlocksCount, QString("%1").arg(compressedData.size()));
 
-        QString dataString = ConverterHelper::dataToString(
+        this->mPreparedOutputImageData = ConverterHelper::dataToString(
                     preset,
                     &compressedData, compressedWidth, compressedHeight);
-        dataString.replace("\n", this->mTags->tagValue(Tags::OutputDataEOL) + this->mTags->tagValue(Tags::OutputDataIndent));
+        //dataString.replace("\n", this->mTags->tagValue(Tags::OutputDataEOL) + this->mTags->tagValue(Tags::OutputDataIndent));
 
         // end of conversion
 
-        this->mTags->setTagValue(Tags::OutputImageData, dataString);
+        //this->mTags->setTagValue(Tags::OutputImageData, dataString);
 
         // get hash
-        QString hashStr = QString("data: %1, width: %2, height: %3").arg(dataString).arg(image->width()).arg(image->height());
+        QString hashStr = QString("data: %1, width: %2, height: %3").arg(this->mPreparedOutputImageData).arg(image->width()).arg(image->height());
         this->mHash = qHash(hashStr);
     }
     else
@@ -90,7 +90,7 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags
         this->mTags->setTagValue(Tags::OutputImageHeight, QString("0"));
 
         this->mTags->setTagValue(Tags::OutputBlocksCount, QString("0"));
-        this->mTags->setTagValue(Tags::OutputImageData, QString());
+        this->mPreparedOutputImageData = QString();
 
         // get hash
         QString hashStr = QString("empty, width: %1, height: %2").arg(image->width()).arg(image->height());
@@ -111,5 +111,12 @@ Tags *ParsedImageData::tags() const
 uint ParsedImageData::hash() const
 {
     return this->mHash;
+}
+//-----------------------------------------------------------------------------
+const QString ParsedImageData::outputImageDataWithEOL(const Tags &tags) const
+{
+    QString result = this->mPreparedOutputImageData;
+    result.replace("\n", tags.tagValue(Tags::OutputDataEOL) + tags.tagValue(Tags::OutputDataIndent));
+    return result;
 }
 //-----------------------------------------------------------------------------

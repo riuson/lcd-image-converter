@@ -36,9 +36,12 @@ public:
     Tags *tags() const;
     uint hash() const;
 
+    const QString outputImageDataWithEOL(const Tags &tags) const;
+
 private:
     Tags *mTags;
     uint mHash;
+    QString mPreparedOutputImageData;
 };
 //-----------------------------------------------------------------------------
 #endif // PARSEDIMAGEDATA_H

@@ -57,6 +57,7 @@ public:
     static QImage drawPixel(const QImage *source, int x, int y, const QColor &color);
     static QColor detectBackgroundColor(const QImage *image);
     static QImage fromSvg(const QString &path, int size);
+    static QColor fromRgba(QRgb value);
 };
 //-----------------------------------------------------------------------------
 #endif // BITMAPHELPER_H

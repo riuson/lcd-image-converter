@@ -45,7 +45,13 @@ Tags::TagsEnum Tags::parseTag(const QString &key) const
 //-----------------------------------------------------------------------------
 const QString Tags::tagValue(Tags::TagsEnum key) const
 {
-    return this->mTagValues->value(key, QString("<value not defined>"));
+    //return this->mTagValues->value(key, QString("<value not defined>"));
+    QString res = this->mTagValues->value(key, QString("<value not defined>"));
+
+    if (res.contains("defined")) {
+
+    }
+    return res;
 }
 //-----------------------------------------------------------------------------
 void Tags::setTagValue(Tags::TagsEnum key, const QString &value)
@@ -163,7 +169,6 @@ void Tags::initTagsMap()
     this->mTagNameMap->insert("fontWidthType",    FontWidthType);
     this->mTagNameMap->insert("fnt_antialiasing", FontAntiAliasing);
     this->mTagNameMap->insert("fontAntialiasing", FontAntiAliasing);
-    this->mTagNameMap->insert("fnt_alphachannel", FontAlphaChannel);
     this->mTagNameMap->insert("fnt_ascent",       FontAscent);
     this->mTagNameMap->insert("fnt_descent",      FontDescent);
 
