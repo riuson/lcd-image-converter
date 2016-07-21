@@ -21,6 +21,8 @@
 //-----------------------------------------------------------------------------
 #include <QStringList>
 #include <QSettings>
+#include <QtXml>
+#include <QFile>
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "reorderingoptions.h"
@@ -176,6 +178,46 @@ bool Preset::load(const QString &presetName)
     return result;
 }
 //-----------------------------------------------------------------------------
+bool Preset::loadXML(const QString &filename)
+{
+    QDomDocument doc;
+    QFile file(filename);
+
+    if (file.open(QIODevice::ReadOnly)) {
+        if (doc.setContent(&file)) {
+            QDomElement root = doc.documentElement();
+            QDomNode nodeName = root.firstChild();
+
+            while (!nodeName.isNull()) {
+                QDomElement e = nodeName.toElement();
+
+                if (e.tagName() == "name") {
+                    this->mName = e.text();
+                    break;
+                }
+
+                nodeName = nodeName.nextSibling();
+            }
+
+            if (nodeName.isNull()) {
+                return false;
+            }
+
+            this->mPrepare->loadXmlElement(root);
+            this->mImage->loadXmlElement(root);
+            this->mFont->loadXmlElement(root);
+            this->mMatrix->loadXmlElement(root);
+            this->mReordering->loadXmlElement(root);
+            this->mTemplates->loadXmlElement(root);
+        }
+
+        file.close();
+        return true;
+    }
+
+    return false;
+}
+//-----------------------------------------------------------------------------
 void Preset::save(const QString &name) const
 {
     QSettings sett;
@@ -195,6 +237,38 @@ void Preset::save(const QString &name) const
 
     sett.endGroup();
     sett.endGroup();
+}
+//-----------------------------------------------------------------------------
+void Preset::saveXML(const QString &filename) const
+{
+    QDomDocument doc;
+    doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\""));
+    QDomElement root = doc.createElement("preset");
+    doc.appendChild(root);
+    root.setAttribute("version", 3);
+
+    QDomElement nodeName = doc.createElement("name");
+    root.appendChild(nodeName);
+    nodeName.appendChild(doc.createTextNode(this->mName));
+
+    this->mPrepare->saveXmlElement(root);
+    this->mMatrix->saveXmlElement(root);
+    this->mReordering->saveXmlElement(root);
+    this->mImage->saveXmlElement(root);
+    this->mFont->saveXmlElement(root);
+    this->mTemplates->saveXmlElement(root);
+
+    QFile outFile(filename);
+    if(!outFile.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        qDebug( "Failed to open file for writing." );
+        return;
+    }
+
+    QTextStream stream(&outFile);
+    doc.save(stream, 2);
+
+    outFile.close();
 }
 //-----------------------------------------------------------------------------
 void Preset::initMono(MonochromeType type, int edge)
@@ -268,11 +342,13 @@ void Preset::initGrayscale(int bits)
     emit this->changed();
 }
 //-----------------------------------------------------------------------------
-void Preset::initColor(int redBits, int greenBits, int blueBits)
+void Preset::initColor(int alphaBits, int redBits, int greenBits, int blueBits)
 {
     this->mMatrix->operationsRemoveAll();
     this->mReordering->operationsRemoveAll();
 
+    if (alphaBits > 8) alphaBits = 8;
+    if (alphaBits < 0) alphaBits = 0;
     if (redBits > 8) redBits = 8;
     if (redBits < 1) redBits = 1;
     if (greenBits > 8) greenBits = 8;
@@ -280,7 +356,7 @@ void Preset::initColor(int redBits, int greenBits, int blueBits)
     if (blueBits > 8) blueBits = 8;
     if (blueBits < 1) blueBits = 1;
 
-    int bits = redBits + greenBits + blueBits;
+    int bits = alphaBits + redBits + greenBits + blueBits;
 
     this->mPrepare->setConvType(ConversionTypeColor);
     this->mImage->setBlockSize(Data32);
@@ -290,7 +366,7 @@ void Preset::initColor(int redBits, int greenBits, int blueBits)
         quint64 mask64 = 0x00000000ffffffff;
         mask64 = mask64 << bits;
         mask64 = mask64 >> 32;
-        mask64 = mask64 & 0x0000000000ffffff; // 24 bits
+        mask64 = mask64 & 0x00000000ffffffff; // 32 bits
         quint32 mask = (quint32)mask64;
         this->mMatrix->setMaskUsed(mask);
     }
@@ -300,8 +376,16 @@ void Preset::initColor(int redBits, int greenBits, int blueBits)
     this->mMatrix->setMaskFill(0xffffffff);
 
     // alpha bits
+    if (alphaBits > 0)
     {
-        this->mMatrix->operationAdd(0xff000000, 0, false);
+        quint32 mask = 0x0000ff00;
+        mask = mask >> alphaBits;
+        mask = mask & 0x000000ff;
+        mask = mask << 24;
+
+        quint32 shift = 32 - bits;
+
+        this->mMatrix->operationAdd(mask, shift, false);
     }
 
     // red bits shift
@@ -311,7 +395,7 @@ void Preset::initColor(int redBits, int greenBits, int blueBits)
         mask = mask & 0x000000ff;
         mask = mask << 16;
 
-        quint32 shift = 24 - bits;
+        quint32 shift = 24 - redBits - greenBits - blueBits;
 
         this->mMatrix->operationAdd(mask, shift, false);
     }

@@ -38,11 +38,14 @@ public:
     explicit DataContainer(QObject *parent = 0);
     virtual ~DataContainer();
 
-    const QImage *image(const QString &key) const;
-    void setImage(const QString &key, const QImage *image);
+    const QImage *image(const QString &imageKey) const;
+    void setImage(const QString &imageKey, const QImage *image);
 
-    QVariant info(const QString &key) const;
-    void setInfo(const QString &key, const QVariant &value);
+    QVariant commonInfo(const QString &infoKey) const;
+    void setCommonInfo(const QString &infoKey, const QVariant &value);
+
+    QVariant imageInfo(const QString &imageKey, const QString &infoKey) const;
+    void setImageInfo(const QString &imageKey, const QString &infoKey, const QVariant &value);
 
     void clear();
     int count() const;
@@ -64,6 +67,8 @@ public:
 
 private:
     static const QString DataChangedKey;
+    static const QString CommonInfoKeyPrefix;
+    static const QString ImageInfoKeyPrefix;
 
     QMap<QString, QImage *> mImageMap;
     QMap<QString, QVariant> mInfoMap;

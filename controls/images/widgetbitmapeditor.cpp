@@ -25,7 +25,6 @@
 #include <QPainter>
 
 #include "bitmaphelper.h"
-#include "bitmapeditoroptions.h"
 //-----------------------------------------------------------------------------
 WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
     QWidget(parent),
@@ -33,17 +32,18 @@ WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->mScale = BitmapEditorOptions::scale();
+    this->mScale = 1;
 
     this->ui->label->installEventFilter(this);
 
-    this->mColor1 = BitmapEditorOptions::color1();
-    this->mColor2 = BitmapEditorOptions::color2();
+    this->mColor1 = QColor();
+    this->mColor2 = QColor();
 
     this->mPixmapColor1 = QPixmap(16, 16);
     this->mPixmapColor2 = QPixmap(16, 16);
     this->mPixmapColor1.fill(this->mColor1);
     this->mPixmapColor2.fill(this->mColor2);
+    this->mFlagChanged = false;
     this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
     this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
 
@@ -79,7 +79,9 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
         {
             this->mFlagChanged = false;
         }
-        QMouseEvent *me = dynamic_cast<QMouseEvent *>(event);
+
+        QMouseEvent *me = static_cast<QMouseEvent *>(event);
+
         // get coordinates
         int xscaled = me->pos().x();
         int yscaled = me->pos().y();
@@ -215,10 +217,12 @@ void WidgetBitmapEditor::on_spinBoxScale_valueChanged(int value)
 void WidgetBitmapEditor::on_pushButtonColor1_clicked()
 {
     QColorDialog dialog(this->mColor1, this);
+    dialog.setOption(QColorDialog::ShowAlphaChannel, true);
+
     if (dialog.exec() == QDialog::Accepted)
     {
         this->mColor1 = dialog.selectedColor();
-        BitmapEditorOptions::setColor1(this->mColor1);
+        //BitmapEditorOptions::setColor1(this->mColor1);
         this->mPixmapColor1.fill(this->mColor1);
         this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
     }
@@ -227,10 +231,12 @@ void WidgetBitmapEditor::on_pushButtonColor1_clicked()
 void WidgetBitmapEditor::on_pushButtonColor2_clicked()
 {
     QColorDialog dialog(this->mColor2, this);
+    dialog.setOption(QColorDialog::ShowAlphaChannel, true);
+
     if (dialog.exec() == QDialog::Accepted)
     {
         this->mColor2 = dialog.selectedColor();
-        BitmapEditorOptions::setColor2(this->mColor2);
+        //BitmapEditorOptions::setColor2(this->mColor2);
         this->mPixmapColor2.fill(this->mColor2);
         this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
     }
@@ -238,17 +244,14 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
 //-----------------------------------------------------------------------------
 void WidgetBitmapEditor::setScale(int value)
 {
-    if (value > 0 && value <= 50)
+    if (this->mScale != value)
     {
-        if (this->mScale != value)
-        {
-            this->mScale = value;
-            this->updateImageScaled(this->mScale);
+        this->mScale = value;
+        this->updateImageScaled(this->mScale);
 
-            BitmapEditorOptions::setScale(value);
+        //BitmapEditorOptions::setScale(value);
 
-            emit this->scaleSchanged(this->mScale);
-        }
+        emit this->scaleSchanged(this->mScale);
     }
 }
 //-----------------------------------------------------------------------------

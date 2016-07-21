@@ -25,6 +25,7 @@
 #include "conversion_options.h"
 //-----------------------------------------------------------------------------
 class QSettings;
+class QDomElement;
 //-----------------------------------------------------------------------------
 using namespace ConversionOptions;
 //-----------------------------------------------------------------------------
@@ -60,9 +61,23 @@ public:
     const QString & monoTypeName() const;
 
     bool load(QSettings *settings, int version);
+    bool loadXmlElement(QDomElement element);
     void save(QSettings *settings);
+    void saveXmlElement(QDomElement element);
 
 private:
+    static const QString GroupName;
+    static const QString FieldConvType;
+    static const QString FieldMonoType;
+    static const QString FieldEdge;
+    static const QString FieldScanMain;
+    static const QString FieldScanSub;
+    static const QString FieldInverse;
+    static const QString FieldBandScanning;
+    static const QString FieldBandWidth;
+    static const QString FieldUseCustomScript;
+    static const QString FieldCustomScript;
+
     ConversionType mConvType;
     MonochromeType mMonoType;
     int mEdge;

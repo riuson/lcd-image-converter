@@ -1,11 +1,20 @@
 #include "testconverterhelper.h"
 //-----------------------------------------------------------------------------
 #include <QVector>
+#include "qt-version-check.h"
 #include "converterhelper.h"
 #include "preset.h"
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
+
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 5, 0)
+#define USE_JS_QJSENGINE
+#else
+#define USE_JS_QTSCRIPT
+#endif // QT_VERSION
+
+#include <QCoreApplication>
 //-----------------------------------------------------------------------------
 TestConverterHelper::TestConverterHelper(QObject *parent) :
     QObject(parent)
@@ -20,7 +29,7 @@ void TestConverterHelper::initTestCase()
 void TestConverterHelper::processPixels()
 {
     const int count = 1000;
-    this->mPreset->initColor(5, 6, 5);
+    this->mPreset->initColor(0, 5, 6, 5);
     this->mPreset->matrix()->operationsRemoveAll();
     this->mPreset->image()->setBlockSize(Data32);
     this->mPreset->matrix()->setMaskUsed(0x00ffffff);
@@ -106,7 +115,7 @@ void TestConverterHelper::processPixels()
 //-----------------------------------------------------------------------------
 void TestConverterHelper::packData()
 {
-    this->mPreset->initColor(5, 6, 5);
+    this->mPreset->initColor(0, 5, 6, 5);
     this->mPreset->matrix()->operationsRemoveAll();
     this->mPreset->matrix()->setMaskAnd(0xffffffff);
     this->mPreset->matrix()->setMaskOr(0x00000000);
@@ -188,7 +197,7 @@ void TestConverterHelper::dataToString()
     }
 
     // configure matrix
-    this->mPreset->initColor(5, 6, 5);
+    this->mPreset->initColor(0, 5, 6, 5);
     this->mPreset->matrix()->operationsRemoveAll();
     this->mPreset->matrix()->setMaskAnd(0xffffffff);
     this->mPreset->matrix()->setMaskOr(0x00000000);
@@ -264,6 +273,51 @@ void TestConverterHelper::dataToString()
         QCOMPARE(test24, expected24);
         QCOMPARE(test32, expected32);
     }
+}
+//-----------------------------------------------------------------------------
+void TestConverterHelper::jsengineSetProperty()
+{
+    int argc = 0;
+    QCoreApplication app(argc, NULL);
+
+    {
+        QImage image;
+        TestConvImage cimage(&image, NULL);
+        cimage.setCondition(TestConvImage::CanBeDeleted);
+    }
+
+    {
+        QImage image;
+        TestConvImage cimage(&image, NULL);
+        cimage.setCondition(TestConvImage::CannotBeDeleted);
+        QString err;
+        ConverterHelper::collectPoints(&cimage, QString(), &err);
+        cimage.setCondition(TestConvImage::CanBeDeleted);
+    }
+}
+//-----------------------------------------------------------------------------
+void TestConverterHelper::breakInfiniteScript()
+{
+#ifdef USE_JS_QJSENGINE
+    {
+        int argc = 0;
+        QCoreApplication app(argc, NULL);
+
+        QString script = "for (var y = image.height - 1; y >= 0; y-=0) {\
+                for (var x = image.width - 1; x >= 0; x--) {\
+                    image.addPoint(x, y);\
+                }\
+            }";
+        QImage image = QImage(20, 20, QImage::Format_ARGB32);
+        TestConvImage cimage(&image, NULL);
+        cimage.setCondition(TestConvImage::CannotBeDeleted);
+        QString err;
+        ConverterHelper::collectPoints(&cimage, script, &err);
+        cimage.setCondition(TestConvImage::CanBeDeleted);
+
+        QVERIFY2(cimage.pointsCount() >= 100000, "Points count limit not reached. Value must be equals to 100k or 120% of width * height.");
+    }
+#endif
 }
 //-----------------------------------------------------------------------------
 void TestConverterHelper::cleanupTestCase()
@@ -440,5 +494,23 @@ void TestConverterHelper::prepareStringData(
     }
     result.truncate(result.length() - 2);
     *string = result;
+}
+//-----------------------------------------------------------------------------
+TestConvImage::TestConvImage(const QImage *image, QObject *parent) :
+    ConvImage(image, parent)
+{
+    this->mCondition = CanBeDeleted;
+}
+//-----------------------------------------------------------------------------
+TestConvImage::~TestConvImage()
+{
+    if (this->mCondition != CanBeDeleted) {
+        QFAIL("The object, passed to the script engine as property, was unexpectedly destroyed.");
+    }
+}
+//-----------------------------------------------------------------------------
+void TestConvImage::setCondition(TestConvImage::Condition value)
+{
+    this->mCondition = value;
 }
 //-----------------------------------------------------------------------------

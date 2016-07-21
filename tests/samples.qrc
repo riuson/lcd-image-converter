@@ -17,4 +17,7 @@
         <file alias="right">resources/samples/shift/right.png</file>
         <file alias="up">resources/samples/shift/up.png</file>
     </qresource>
+    <qresource prefix="/scan_scripts">
+        <file alias="template">../resources/scan_scripts/scan_template.js</file>
+    </qresource>
 </RCC>

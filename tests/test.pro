@@ -1,4 +1,4 @@
-QT       += testlib script
+QT       += testlib
 #QT       -= gui
 
 OBJECTS_DIR         = .obj
@@ -12,70 +12,95 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
+QT += xml xmlpatterns network svg
+
+# Widgets in Qt 5
+greaterThan(QT_MAJOR_VERSION, 4) {
+  QT += widgets
+}
+
+# QtScript deprecated in Qt 5.5, replaced by QJSEngine
+greaterThan(QT_MAJOR_VERSION, 4) {
+  greaterThan(QT_MINOR_VERSION, 4) {
+    QT += qml
+  }
+  lessThan(QT_MINOR_VERSION, 5) {
+    QT += script
+  }
+}
+lessThan(QT_MAJOR_VERSION, 5) {
+  QT += script
+}
+
+DEFINES += QT_MAJOR_VERSION="$$QT_MAJOR_VERSION"
+DEFINES += QT_MINOR_VERSION="$$QT_MINOR_VERSION"
+DEFINES += QT_PATCH_VERSION="$$QT_PATCH_VERSION"
+
 unix:DESTDIR        = ./_linux
 win32:DESTDIR       = ./_windows
 
 SOURCES += maintest.cpp \
     parts/testbitmaphelper.cpp \
-    ../classes/parser/convert/converterhelper.cpp \
+    parts/testbitstream.cpp \
+    parts/testconverterhelper.cpp \
+    parts/testfontoptions.cpp \
+    parts/testimageoptions.cpp \
+    parts/testmatrixoptions.cpp \
+    parts/testprepareoptions.cpp \
+    parts/testpresets.cpp \
+    parts/testreorderingoptions.cpp \
+    parts/testrle.cpp \
+    parts/testtemplateoptions.cpp \
+    ../classes/compression/rlecompressor.cpp \
+    ../classes/compression/rlesequence.cpp \
     ../classes/parser/convert/bitstream.cpp \
     ../classes/parser/convert/bitmaphelper.cpp \
-    parts/testconverterhelper.cpp \
-    parts/testbitstream.cpp \
-    parts/testprepareoptions.cpp \
+    ../classes/parser/convert/converterhelper.cpp \
+    ../classes/parser/convert/convimage.cpp \
     ../classes/settings/presets/preset.cpp \
     ../classes/settings/presets/prepareoptions.cpp \
     ../classes/settings/presets/matrixoptions.cpp \
     ../classes/settings/presets/imageoptions.cpp \
-    parts/testmatrixoptions.cpp \
-    parts/testimageoptions.cpp \
-    parts/testpresets.cpp \
-    parts/testfontoptions.cpp \
-    ../classes/settings/presets/templateoptions.cpp \
     ../classes/settings/presets/fontoptions.cpp \
-    parts/testtemplateoptions.cpp \
-    ../classes/compression/rlecompressor.cpp \
-    ../classes/compression/rlesequence.cpp \
-    parts/testrle.cpp \
     ../classes/settings/presets/reorderingoptions.cpp \
-    parts/testreorderingoptions.cpp \
-    ../classes/parser/convert/convimage.cpp
+    ../classes/settings/presets/templateoptions.cpp
 
 HEADERS += \
     parts/testbitmaphelper.h \
-    ../classes/parser/convert/converterhelper.h \
-    ../classes/convert/conversion_options.h \
+    parts/testbitstream.h \
+    parts/testconverterhelper.h \
+    parts/testfontoptions.h \
+    parts/testimageoptions.h \
+    parts/testmatrixoptions.h \
+    parts/testprepareoptions.h \
+    parts/testpresets.h \
+    parts/testreorderingoptions.h \
+    parts/testrle.h \
+    parts/testtemplateoptions.h \
+    ../classes/compression/rlecompressor.h \
+    ../classes/compression/rlesequence.h \
     ../classes/parser/convert/bitstream.h \
     ../classes/parser/convert/bitmaphelper.h \
-    parts/testconverterhelper.h \
-    parts/testbitstream.h \
-    parts/testprepareoptions.h \
+    ../classes/parser/convert/conversion_options.h \
+    ../classes/parser/convert/converterhelper.h \
+    ../classes/parser/convert/convimage.h \
     ../classes/settings/presets/preset.h \
     ../classes/settings/presets/prepareoptions.h \
     ../classes/settings/presets/matrixoptions.h \
     ../classes/settings/presets/imageoptions.h \
-    parts/testmatrixoptions.h \
-    parts/testimageoptions.h \
-    parts/testpresets.h \
-    parts/testfontoptions.h \
-    ../classes/settings/presets/templateoptions.h \
     ../classes/settings/presets/fontoptions.h \
-    parts/testtemplateoptions.h \
-    ../classes/compression/rlecompressor.h \
-    ../classes/compression/rlesequence.h \
-    parts/testrle.h \
     ../classes/settings/presets/reorderingoptions.h \
-    parts/testreorderingoptions.h \
-    ../classes/parser/convert/convimage.h
+    ../classes/settings/presets/templateoptions.h
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 INCLUDEPATH += . \
+    ../ \
     ./parts \
     ../classes \
+    ../classes/compression \
     ../classes/parser/convert \
-    ../classes/settings/presets \
-    ../classes/compression
+    ../classes/settings/presets
 
 RESOURCES += \
     samples.qrc

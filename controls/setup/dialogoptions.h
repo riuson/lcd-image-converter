@@ -66,13 +66,17 @@ private:
     void presetSaveAs(const QString &name);
     void presetRemove(const QString &name);
     void createPresetsDefault();
+    bool checkOverwrite(const QString &originalName, QString *resultName) const;
 private slots:
     void presetChanged();
     void on_pushButtonPreview_clicked();
     void on_pushButtonPresetSaveAs_clicked();
     void on_pushButtonPresetRemove_clicked();
+    void on_pushButtonPresetImport_clicked();
+    void on_pushButtonPresetExport_clicked();
     void on_comboBoxPresets_currentIndexChanged(int index);
     void previewClosed();
+    void presetOverwiteNameChanged(const QString &value);
 
 protected:
     void done(int result);

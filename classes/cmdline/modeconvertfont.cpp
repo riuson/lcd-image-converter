@@ -21,11 +21,6 @@
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
 //-----------------------------------------------------------------------------
-#include "modeconvertfont.h"
-#include "fontdocument.h"
-#include "datacontainer.h"
-#include "preset.h"
-#include "templateoptions.h"
 #include <QCommandLineParser>
 #include <QDebug>
 #include <QFile>
@@ -33,12 +28,36 @@
 #include <QStringList>
 #include <QByteArray>
 #include <QTextCodec>
+#include <QFontDatabase>
+#include <QFontMetrics>
+#include "modeconvertfont.h"
+#include "fontdocument.h"
+#include "datacontainer.h"
+#include "preset.h"
+#include "templateoptions.h"
+#include "tfontparameters.h"
+#include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
 namespace CommandLine {
 //-----------------------------------------------------------------------------
 ModeConvertFont::ModeConvertFont(QCommandLineParser *parser, QObject *parent) :
     ModeParserBase(parser, parent)
 {
+    this->mFontFamily = "Times";
+    this->mFontSize = 14;
+    this->mFontMonospaced = false;
+    this->mFontStyle = "Normal";
+    this->mFontAntiAliasing = false;
+    this->mFontCharactersList = "0123456789ABCDEFabcdef";
+
+    this->mFontCharactersEncoding = "UTF-8";
+    this->mFontCharactersRange = QString();
+    this->mFontCharactersBigEndian = false;
+
+    this->mOuputFilename = QString();
+    this->mTemplateFilename = QString();
+    this->mDocumentName = QString();
+    this->mPresetName = QString();
 }
 //-----------------------------------------------------------------------------
 QString ModeConvertFont::modeName()
@@ -74,6 +93,18 @@ void ModeConvertFont::fillParser() const
     QCommandLineOption antialiasingOption(QStringList() << "antialiasing",
                 QCoreApplication::translate("CmdLineParser", "Use antialiasing."));
     this->mParser->addOption(antialiasingOption);
+
+    // --foreground
+    QCommandLineOption foregroundOption(QStringList() << "foreground",
+                QCoreApplication::translate("CmdLineParser", "Foreground color in hex format."),
+                QCoreApplication::translate("CmdLineParser", "color"));
+    this->mParser->addOption(foregroundOption);
+
+    // --background
+    QCommandLineOption backgroundOption(QStringList() << "background",
+                QCoreApplication::translate("CmdLineParser", "Background color in hex format."),
+                QCoreApplication::translate("CmdLineParser", "color"));
+    this->mParser->addOption(backgroundOption);
 
     // --chars-list
     QCommandLineOption charsListOption(QStringList() << "chars-list",
@@ -131,6 +162,8 @@ bool ModeConvertFont::collectArguments()
     this->mFontMonospaced = this->mParser->isSet("monospaced");
     this->mFontStyle = this->mParser->value("style");
     this->mFontAntiAliasing = this->mParser->isSet("antialiasing");
+    this->mForeground = this->mParser->value("foreground");
+    this->mBackground = this->mParser->value("background");
 
     this->mFontCharactersList = this->mParser->value("chars-list");
     this->mFontCharactersRange = this->mParser->value("chars-range");
@@ -176,16 +209,58 @@ int ModeConvertFont::process()
                 {
                     FontDocument fontDocument;
 
+                    tFontParameters parameters;
+                    parameters.family = this->mFontFamily;
+                    parameters.style = this->mFontStyle;
+                    parameters.size = this->mFontSize;
+                    parameters.monospaced = this->mFontMonospaced;
+                    parameters.antiAliasing = this->mFontAntiAliasing;
+
+                    // get ascent/descent
+                    {
+                        QFontDatabase fonts;
+                        QFont font = fonts.font(parameters.family, parameters.style, parameters.size);
+                        QFontMetrics metrics(font);
+                        parameters.ascent = metrics.ascent();
+                        parameters.descent = metrics.descent();
+                    }
+
+                    // colors
+                    {
+                        bool colorOk;
+                        quint32 rgbValue;
+
+                        // foreground
+                        rgbValue = this->mForeground.toUInt(&colorOk, 16);
+
+                        if (colorOk)
+                        {
+                            parameters.foreground = BitmapHelper::fromRgba(QRgb(rgbValue));
+                        }
+                        else
+                        {
+                            parameters.foreground = QColor("black");
+                        }
+
+                        // background
+                        rgbValue = this->mBackground.toUInt(&colorOk, 16);
+
+                        if (colorOk)
+                        {
+                            parameters.background = BitmapHelper::fromRgba(QRgb(rgbValue));
+                        }
+                        else
+                        {
+                            parameters.background = QColor("white");
+                        }
+                    }
+
                     fontDocument.setFontCharacters(
                                 this->mFontCharactersList,
-                                this->mFontFamily,
-                                this->mFontStyle,
-                                this->mFontSize,
-                                this->mFontMonospaced,
-                                this->mFontAntiAliasing);
+                                parameters);
 
                     fontDocument.setDocumentName(docNameWS);
-                    fontDocument.dataContainer()->setInfo("converted filename", QVariant(this->mOuputFilename));
+                    fontDocument.dataContainer()->setCommonInfo("converted filename", QVariant(this->mOuputFilename));
 
                     // save to output file
                     QFile file(this->mOuputFilename);

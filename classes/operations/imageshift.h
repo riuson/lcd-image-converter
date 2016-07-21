@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2016 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef BITMAPEDITOROPTIONS_H
-#define BITMAPEDITOROPTIONS_H
-//-----------------------------------------------------------------------------
+#ifndef IMAGESHIFT_H
+#define IMAGESHIFT_H
+
 #include <QObject>
-#include <QColor>
-//-----------------------------------------------------------------------------
-class BitmapEditorOptions : public QObject
+#include "ioperation.h"
+
+namespace Operations
+{
+
+class ImageShift : public QObject, public IOperation
 {
     Q_OBJECT
-public:
-    static int scale();
-    static void setScale(int value);
+    Q_INTERFACES(Operations::IOperation)
 
-    static QColor color1();
-    static QColor color2();
-    static void setColor1(const QColor &color);
-    static void setColor2(const QColor &color);
+public:
+    enum class Direction
+    {
+        None,
+        Left,
+        Right,
+        Up,
+        Down
+    };
+
+    explicit ImageShift(QObject *parent = 0);
+
+    bool prepare(const IDocument *doc, const QStringList &keys);
+    void applyDocument(IDocument *doc, const QStringList &keys);
+    void applyItem(IDocument *doc, const QString &itemKey);
+
+    void setDirection(Direction direction);
+
+private:
+    Direction mDirection;
 };
-//-----------------------------------------------------------------------------
-#endif // BITMAPEDITOROPTIONS_H
+
+}
+
+#endif // IMAGESHIFT_H

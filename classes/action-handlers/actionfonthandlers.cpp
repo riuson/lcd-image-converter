@@ -30,9 +30,11 @@
 #include "imainwindow.h"
 #include "idocument.h"
 #include "datacontainer.h"
-#include "limits"
-#include "bitmapeditoroptions.h"
-#include "dialogcanvasresize.h"
+#include "tfontparameters.h"
+#include "documentoperator.h"
+#include "imageinverse.h"
+#include "fontminimizeheight.h"
+#include "fontresize.h"
 //-----------------------------------------------------------------------------
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -43,35 +45,21 @@ void ActionFontHandlers::fontChange_triggered()
 {
     if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab()))
     {
-        QString chars, fontFamily, style;
-        int size;
-        bool monospaced, antialiasing;
-        etf->fontCharacters(&chars, &fontFamily, &style, &size, &monospaced, &antialiasing);
+        QString chars;
+        tFontParameters parameters;
+        etf->fontCharacters(&chars, &parameters);
 
         DialogFontSelect dialog(this->mMainWindow->parentWidget());
         dialog.setCharacters(chars);
-        //dialog.selectFont(fontFamily, style, size, monospaced, antialiasing);
-        dialog.setFontFamily(fontFamily);
-        dialog.setFontStyle(style);
-        dialog.setFontSize(size);
-        dialog.setMonospaced(monospaced);
-        dialog.setAntialising(antialiasing);
+        dialog.setFontParameters(parameters);
 
         if (dialog.exec() == QDialog::Accepted)
         {
             QString chars = dialog.characters();
-            int size;
-            QString family, style;
-            bool monospaced, antialiasing;
 
-            //dialog.selectedFont(&family, &style, &size, &monospaced, &antialiasing);
-            family = dialog.fontFamily();
-            style = dialog.fontStyle();
-            size = dialog.fontSize();
-            monospaced = dialog.monospaced();
-            antialiasing = dialog.antialiasing();
+            dialog.getFontParameters(&parameters);
 
-            etf->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
+            etf->setFontCharacters(chars, parameters);
         }
     }
 }
@@ -80,21 +68,9 @@ void ActionFontHandlers::fontInverse_triggered()
 {
     if (this->editor() != NULL)
     {
-        this->editor()->document()->beginChanges();;
-
-        QStringList keys = this->editor()->document()->dataContainer()->keys();
-        QListIterator<QString> it(keys);
-        it.toFront();
-        while (it.hasNext())
-        {
-            QString key = it.next();
-            const QImage *original = this->editor()->document()->dataContainer()->image(key);
-            QImage result(*original);
-            result.invertPixels();
-            this->editor()->document()->dataContainer()->setImage(key, &result);
-        }
-
-        this->editor()->document()->endChanges(false);
+        Operations::DocumentOperator docOp(this);
+        Operations::ImageInverse imageInverse(this);
+        docOp.apply(this->editor()->document(), imageInverse);
     }
 }
 //-----------------------------------------------------------------------------
@@ -102,33 +78,9 @@ void ActionFontHandlers::fontResize_triggered()
 {
     if (this->editor() != NULL)
     {
-        QStringList keys = this->editor()->document()->dataContainer()->keys();
-
-        DialogCanvasResize dialog(this->editor()->document()->dataContainer(), this->mMainWindow->parentWidget());
-        dialog.selectKeys(keys);
-
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            int left, top, right, bottom;
-            dialog.resizeInfo(&left, &top, &right, &bottom);
-
-            if (left != 0 || top != 0 || right != 0 || bottom != 0)
-            {
-                this->editor()->document()->beginChanges();
-
-                QStringListIterator iterator(keys);
-                while (iterator.hasNext())
-                {
-                    QString key = iterator.next();
-
-                    const QImage *original = this->editor()->document()->dataContainer()->image(key);
-                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapEditorOptions::color2());
-                    this->editor()->document()->dataContainer()->setImage(key, &result);
-                }
-
-                this->editor()->document()->endChanges(false);
-            }
-        }
+        Operations::DocumentOperator docOp(this);
+        Operations::FontResize fontResize(this->mMainWindow->parentWidget(), this);
+        docOp.apply(this->editor()->document(), fontResize);
     }
 }
 //-----------------------------------------------------------------------------
@@ -136,55 +88,9 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
 {
     if (this->editor() != NULL)
     {
-        IDocument *doc = this->editor()->document();
-
-        int left = std::numeric_limits<int>::max();
-        int top = std::numeric_limits<int>::max();
-        int right = 0;
-        int bottom = 0;
-        int l, t, r, b;
-
-        // find limits
-        QStringList keys = doc->dataContainer()->keys();
-        QListIterator<QString> it(keys);
-        it.toFront();
-        while (it.hasNext())
-        {
-            QString key = it.next();
-            const QImage *original = doc->dataContainer()->image(key);
-
-            BitmapHelper::findEmptyArea(original, &l, &t, &r, &b);
-
-            left = qMin(left, l);
-            top = qMin(top, t);
-            right = qMin(right, r);
-            bottom = qMin(bottom, b);
-        }
-
-        DialogCanvasResize dialog(doc->dataContainer(), this->mMainWindow->parentWidget());
-        dialog.selectKeys(keys);
-        dialog.setResizeInfo(-left, -top, -right, -bottom);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            dialog.resizeInfo(&left, &top, &right, &bottom);
-
-            if (left != 0 || top != 0 || right != 0 || bottom != 0)
-            {
-                doc->beginChanges();
-
-                QStringListIterator iterator(keys);
-                while (iterator.hasNext())
-                {
-                    QString key = iterator.next();
-
-                    const QImage *original = doc->dataContainer()->image(key);
-                    QImage result = BitmapHelper::crop(original, left, top, right, bottom, BitmapEditorOptions::color2());
-                    doc->dataContainer()->setImage(key, &result);
-                }
-
-                doc->endChanges(false);
-            }
-        }
+        Operations::DocumentOperator docOp(this);
+        Operations::FontMinimizeHeight fontMinimizeHeight(this->mMainWindow->parentWidget(), this);
+        docOp.apply(this->editor()->document(), fontMinimizeHeight);
     }
 }
 //-----------------------------------------------------------------------------

@@ -1,3 +1,6 @@
+[![Travis Build Status](https://img.shields.io/travis/riuson/lcd-image-converter.svg?label=linux)](https://travis-ci.org/riuson/lcd-image-converter)
+[![Coverity Scan](https://img.shields.io/coverity/scan/3997.svg?maxAge=2592000)](https://scan.coverity.com/projects/riuson-lcd-image-converter)
+
 # LCD Image Converter
 Tool to create bitmaps and fonts for embedded applications, v.2
 This program allows you to create bitmaps and fonts, and transform them to "C"
@@ -9,9 +12,7 @@ source format for embedded applications.
 ## Web pages
 
 - [Home Page] (http://www.riuson.com/lcd-image-converter)
-- [GitHub] (https://riuson.github.io/lcd-image-converter)
-- [SourceForge Downloads] (http://sourceforge.net/projects/lcd-image-converter/files)
-- [Google Code (deprecated)] (https://code.google.com/p/lcd-image-converter)
+- [GitHub] (https://github.com/riuson/lcd-image-converter)
 
 ##License
 

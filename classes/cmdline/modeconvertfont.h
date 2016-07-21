@@ -47,6 +47,8 @@ private:
     bool mFontMonospaced;
     QString mFontStyle;
     bool mFontAntiAliasing;
+    QString mForeground;
+    QString mBackground;
     QString mFontCharactersList;
 
     QString mFontCharactersEncoding;

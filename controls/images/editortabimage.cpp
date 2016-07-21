@@ -28,12 +28,12 @@
 #include <QTextStream>
 #include <QFileDialog>
 
-#include "widgetbitmapeditor.h"
 #include "datacontainer.h"
 #include "parser.h"
 #include "tags.h"
 #include "statusdata.h"
 #include "imagedocument.h"
+#include "editor.h"
 //-----------------------------------------------------------------------------
 EditorTabImage::EditorTabImage(QWidget *parent) :
     QWidget(parent),
@@ -46,13 +46,14 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 
     this->mDocument = new ImageDocument(this);
 
-    this->mEditor = new WidgetBitmapEditor(this);
-    layout->addWidget(this->mEditor);
+    this->mEditorObject = new ImageEditor::Editor(this);
+    this->mEditorWidget = this->mEditorObject->widget();
+    layout->addWidget(this->mEditorWidget);
 
     this->connect(this->mDocument, SIGNAL(documentChanged()), SLOT(mon_documentChanged()));
-    this->connect(this->mEditor, SIGNAL(imageChanged()), SLOT(mon_editor_imageChanged()));
-    this->connect(this->mEditor, SIGNAL(mouseMove(QPoint)), SLOT(mon_editor_mouseMove(QPoint)));
-    this->connect(this->mEditor, SIGNAL(scaleSchanged(int)), SLOT(mon_editor_scaleChanged(int)));
+    this->connect(this->mEditorObject, SIGNAL(imageChanged(const QImage*)), SLOT(mon_editor_imageChanged(const QImage*)));
+    this->connect(this->mEditorObject, SIGNAL(mouseMoved(const QPoint*)), SLOT(mon_editor_mouseMove(const QPoint*)));
+    this->connect(this->mEditorObject, SIGNAL(scaleChanged(int)), SLOT(mon_editor_scaleChanged(int)));
 
     this->initStatusData();
 
@@ -61,7 +62,9 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 //-----------------------------------------------------------------------------
 EditorTabImage::~EditorTabImage()
 {
+    this->mEditorWidget->setParent(NULL);
     delete ui;
+    delete this->mEditorObject;
 }
 //-----------------------------------------------------------------------------
 IDocument *EditorTabImage::document() const
@@ -111,7 +114,7 @@ void EditorTabImage::updateStatus()
         const QImage *currentImage = this->mDocument->dataContainer()->image(keys.at(0));
         this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
     }
-    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditor->scale()));
+    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditorObject->scale()));
 }
 //-----------------------------------------------------------------------------
 void EditorTabImage::updateSelectedImage()
@@ -120,7 +123,7 @@ void EditorTabImage::updateSelectedImage()
     if (keys.length() > 0)
     {
         const QImage *image = this->mDocument->dataContainer()->image(keys.at(0));
-        this->mEditor->setImage(image);
+        this->mEditorObject->setImage(image);
     }
 
     this->updateStatus();
@@ -132,18 +135,17 @@ void EditorTabImage::mon_documentChanged()
     emit this->documentChanged();
 }
 //-----------------------------------------------------------------------------
-void EditorTabImage::mon_editor_imageChanged()
+void EditorTabImage::mon_editor_imageChanged(const QImage* value)
 {
     QStringList keys = this->mDocument->dataContainer()->keys();
-    const QImage *image = this->mEditor->image();
-    this->mDocument->dataContainer()->setImage(keys.at(0), image);
+    this->mDocument->dataContainer()->setImage(keys.at(0), value);
 }
 //-----------------------------------------------------------------------------
-void EditorTabImage::mon_editor_mouseMove(QPoint point)
+void EditorTabImage::mon_editor_mouseMove(const QPoint* point)
 {
-    if (point.x() >= 0 && point.y() >= 0)
+    if (point->x() >= 0 && point->y() >= 0)
     {
-        this->mStatusData->setData(StatusData::MouseCoordinates, QVariant(point));
+        this->mStatusData->setData(StatusData::MouseCoordinates, QVariant(*point));
     }
     else
     {

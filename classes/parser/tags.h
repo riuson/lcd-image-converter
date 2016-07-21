@@ -63,6 +63,8 @@ public:
         FontString,
         FontWidthType,
         FontAntiAliasing,
+        FontAscent,
+        FontDescent,
 
         TemplateFilename,
 
@@ -71,6 +73,8 @@ public:
         OutputBitsPerPixel,
         OutputCharacterCode,
         OutputCharacterText,
+        OutputCharacterCodeSimilar,
+        OutputCharacterTextSimilar,
         OutputImageData,
         OutputImagesCount,
         OutputComma,

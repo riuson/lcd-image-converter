@@ -18,6 +18,13 @@
  */
 
 #include "converterhelper.h"
+#include "qt-version-check.h"
+//-----------------------------------------------------------------------------
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 5, 0)
+#define USE_JS_QJSENGINE
+#else
+#define USE_JS_QTSCRIPT
+#endif // QT_VERSION
 //-----------------------------------------------------------------------------
 #include <QStringList>
 #include <QImage>
@@ -25,9 +32,16 @@
 #include <QPainter>
 #include <QRegExp>
 #include <QVector>
-#include <QScriptEngine>
 #include <QFile>
 #include <QTextStream>
+
+#if defined(USE_JS_QTSCRIPT)
+#include <QtScript/QScriptEngine>
+#elif defined(USE_JS_QJSENGINE)
+#include <QJSEngine>
+#include <QQmlEngine>
+#endif
+
 #include "bitstream.h"
 #include "bitmaphelper.h"
 #include "preset.h"
@@ -158,6 +172,7 @@ void ConverterHelper::pixelsData(Preset *preset, const QImage *image, QVector<qu
 //-----------------------------------------------------------------------------
 void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script, QString *resultError)
 {
+#if defined(USE_JS_QTSCRIPT)
     // scanning with qt script
     QScriptEngine engine;
     QScriptValue imageValue = engine.newQObject(convImage,
@@ -178,6 +193,39 @@ void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script,
     {
         *resultError = QString();
     }
+#elif defined(USE_JS_QJSENGINE)
+    // scanning with qt script
+    QJSEngine engine;
+    QJSValue imageValue = engine.newQObject(convImage);
+    QQmlEngine::setObjectOwnership(convImage, QQmlEngine::CppOwnership);
+
+    engine.globalObject().setProperty("image", imageValue);
+    QString scriptModified = script;
+
+    scriptModified = scriptModified.replace("image.addPoint", "addImagePoint");
+    QString scriptTemplate = ConverterHelper::scanScriptTemplate();
+    scriptModified = scriptTemplate.arg(scriptModified);
+
+    QJSValue resultValue = engine.evaluate(scriptModified);
+
+    if (convImage->needBreakScan())
+    {
+        *resultError = QString("Script abort requested. Points count: %1").arg(convImage->pointsCount());
+    }
+    else if (resultValue.isError())
+    {
+        int line = resultValue.property("lineNumber").toInt();
+        *resultError = QString("Uncaught exception at line %1 : %2").arg(line).arg(resultValue.toString());
+    }
+    else if (convImage->pointsCount() == 0)
+    {
+        *resultError = QString("Empty output");
+    }
+    else
+    {
+        *resultError = QString();
+    }
+#endif
 }
 //-----------------------------------------------------------------------------
 void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
@@ -662,6 +710,21 @@ QString ConverterHelper::scanScript(Preset *preset)
                 file_script.close();
             }
         }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+QString ConverterHelper::scanScriptTemplate()
+{
+    QFile file_script(":/scan_scripts/template");
+    QString result = QString();
+
+    if (file_script.open(QIODevice::ReadOnly))
+    {
+        QTextStream stream(&file_script);
+        result = stream.readAll();
+        file_script.close();
     }
 
     return result;

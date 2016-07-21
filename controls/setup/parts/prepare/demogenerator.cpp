@@ -38,6 +38,8 @@ DemoGenerator::DemoGenerator(Preset *preset, QObject *parent) :
     this->mProcessedImage = new QPixmap();
     this->mLastTick = QTime::currentTime();
     this->mAnimationTimeSeconds = 60;
+    this->mMax = 0;
+    this->mIndex = 0;
 }
 //-----------------------------------------------------------------------------
 DemoGenerator::~DemoGenerator()

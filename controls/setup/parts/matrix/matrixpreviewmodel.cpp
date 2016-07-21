@@ -517,16 +517,15 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, Q
 
     if (!active)
     {
-            *name = QVariant(QString("%1").arg(active ? 1 : 0));
-
-            if (!active)
-                *color = QVariant(QColor(50, 50, 50, 200));
+        *name = QVariant("0");
+        *color = QVariant(QColor(50, 50, 50, 200));
     }
     else
     {
         // count of active bits in "Used" mask
         int usedBitsCount = 0;
         quint32 mask = this->mPreset->matrix()->maskUsed();
+
         while (mask != 0)
         {
             if ((mask & 0x00000001) != 0)
@@ -536,7 +535,9 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, Q
 
         // index of current bit in active bits of "Fill" mask, from MSB
         int fillBitIndex = -1;
+
         mask = this->mPreset->matrix()->maskFill();
+
         for (int i = 31; i >= bitIndex; i--)
         {
             if ((mask & (0x00000001 << i)) != 0)

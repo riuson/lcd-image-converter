@@ -21,6 +21,15 @@
 //-----------------------------------------------------------------------------
 #include <QVector>
 #include <QSettings>
+#include <QtXml>
+#include <QDomDocument>
+//-----------------------------------------------------------------------------
+const QString ReorderingOptions::GroupName = QString("reordering");
+const QString ReorderingOptions::FieldOperations = QString("operations");
+const QString ReorderingOptions::FieldOperation = QString("operation");
+const QString ReorderingOptions::FieldMask = QString("mask");
+const QString ReorderingOptions::FieldShift = QString("shift");
+const QString ReorderingOptions::FieldLeft = QString("left");
 //-----------------------------------------------------------------------------
 ReorderingOptions::ReorderingOptions(QObject *parent) :
     QObject(parent)
@@ -110,26 +119,26 @@ bool ReorderingOptions::load(QSettings *settings, int version)
 
     if (version == 2)
     {
-        settings->beginGroup("reordering");
+        settings->beginGroup(ReorderingOptions::GroupName);
 
         this->operationsRemoveAll();
 
-        int iOperations = settings->beginReadArray("operations");
+        int iOperations = settings->beginReadArray(ReorderingOptions::FieldOperations);
         for (int i = 0; i < iOperations; i++)
         {
             settings->setArrayIndex(i);
 
-            QString sMask = settings->value("mask", QString("00000000")).toString();
+            QString sMask = settings->value(ReorderingOptions::FieldMask, QString("00000000")).toString();
             quint32 uMask, uShift, uLeft;
 
             if (result)
                 uMask = sMask.toUInt(&result, 16);
 
             if (result)
-                uShift = settings->value("shift", uint(0)).toUInt(&result);
+                uShift = settings->value(ReorderingOptions::FieldShift, uint(0)).toUInt(&result);
 
             if (result)
-                uLeft = settings->value("left", uint(0)).toUInt(&result);
+                uLeft = settings->value(ReorderingOptions::FieldLeft, uint(0)).toUInt(&result);
 
             if (result)
             {
@@ -144,11 +153,86 @@ bool ReorderingOptions::load(QSettings *settings, int version)
     return result;
 }
 //-----------------------------------------------------------------------------
+bool ReorderingOptions::loadXmlElement(QDomElement element)
+{
+    bool result = false;
+
+    QDomNode nodeSett = element.firstChild();
+
+    while (!nodeSett.isNull()) {
+        QDomElement e = nodeSett.toElement();
+
+        if (e.tagName() == ReorderingOptions::GroupName) {
+            break;
+        }
+
+        nodeSett = nodeSett.nextSibling();
+    }
+
+    if (nodeSett.isNull()) {
+        return result;
+    }
+
+    QDomNode nodeValue = nodeSett.firstChild();
+
+    while (!nodeValue.isNull()) {
+        QDomElement e = nodeValue.toElement();
+
+        if (!e.isNull()) {
+            if (e.tagName() == ReorderingOptions::FieldOperations) {
+                QDomNode nodeOperation = e.firstChild();
+                this->operationsRemoveAll();
+
+                while (!nodeOperation.isNull()) {
+                    QDomNode nodeOperationData = nodeOperation.firstChild();
+                    quint32 uMask = 0, uShift = 0, uLeft = 0;
+
+                    while (!nodeOperationData.isNull()) {
+                        e = nodeOperationData.toElement();
+
+                        if (e.tagName() == ReorderingOptions::FieldMask) {
+                            QString str = e.text();
+                            uMask = str.toUInt(&result, 16);
+                        }
+
+                        if (e.tagName() == ReorderingOptions::FieldShift) {
+                            QString str = e.text();
+                            uShift = str.toUInt(&result);
+                        }
+
+                        if (e.tagName() == ReorderingOptions::FieldLeft) {
+                            QString str = e.text();
+                            uLeft = str.toUInt(&result);
+                        }
+
+                        if (!result) {
+                            break;
+                        }
+
+                        nodeOperationData = nodeOperationData.nextSibling();
+                    }
+
+                    this->operationAdd(uMask, uShift, uLeft != 0);
+                    nodeOperation = nodeOperation.nextSibling();
+                }
+            }
+
+            if (!result) {
+                break;
+            }
+        }
+
+        nodeValue = nodeValue.nextSibling();
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void ReorderingOptions::save(QSettings *settings)
 {
-    settings->beginGroup("reordering");
+    settings->beginGroup(ReorderingOptions::GroupName);
 
-    settings->beginWriteArray("operations");
+    settings->beginWriteArray(ReorderingOptions::FieldOperations);
 
     for (int i = 0; i < this->operationsCount(); i++)
     {
@@ -158,12 +242,46 @@ void ReorderingOptions::save(QSettings *settings)
         this->operation(i, &uMask, &iShift, &bLeft);
 
         settings->setArrayIndex(i);
-        settings->setValue("mask",  QString("%1").arg(uMask, 8, 16, QChar('0')));
-        settings->setValue("shift", QString("%1").arg(iShift));
-        settings->setValue("left",  QString("%1").arg((int)bLeft));
+        settings->setValue(ReorderingOptions::FieldMask,  QString("%1").arg(uMask, 8, 16, QChar('0')));
+        settings->setValue(ReorderingOptions::FieldShift, QString("%1").arg(iShift));
+        settings->setValue(ReorderingOptions::FieldLeft,  QString("%1").arg((int)bLeft));
     }
     settings->endArray();
 
     settings->endGroup();
+}
+//-----------------------------------------------------------------------------
+void ReorderingOptions::saveXmlElement(QDomElement element)
+{
+    QDomElement nodeReordering = element.ownerDocument().createElement(ReorderingOptions::GroupName);
+    element.appendChild(nodeReordering);
+
+    QDomElement nodeOperations = element.ownerDocument().createElement(ReorderingOptions::FieldOperations);
+    nodeReordering.appendChild(nodeOperations);
+    nodeOperations.setAttribute("count", this->operationsCount());
+
+    for (int i = 0; i < this->operationsCount(); i++)
+    {
+        quint32 uMask;
+        int iShift;
+        bool bLeft;
+        this->operation(i, &uMask, &iShift, &bLeft);
+
+        QDomElement nodeOperation = element.ownerDocument().createElement(ReorderingOptions::FieldOperation);
+        nodeOperations.appendChild(nodeOperation);
+        nodeOperation.setAttribute("index", i);
+
+        QDomElement nodeMask = element.ownerDocument().createElement(ReorderingOptions::FieldMask);
+        nodeOperation.appendChild(nodeMask);
+        nodeMask.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(uMask, 8, 16, QChar('0'))));
+
+        QDomElement nodeShift = element.ownerDocument().createElement(ReorderingOptions::FieldShift);
+        nodeOperation.appendChild(nodeShift);
+        nodeShift.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(iShift)));
+
+        QDomElement nodeLeft = element.ownerDocument().createElement(ReorderingOptions::FieldLeft);
+        nodeOperation.appendChild(nodeLeft);
+        nodeLeft.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)bLeft)));
+    }
 }
 //-----------------------------------------------------------------------------

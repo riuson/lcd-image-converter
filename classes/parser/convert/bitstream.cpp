@@ -46,7 +46,13 @@ void BitStream::init()
 //-----------------------------------------------------------------------------
 bool BitStream::eof() const
 {
-    return (this->mCurrentPixel >= this->mCount);
+    if (this->mStart + this->mCurrentPixel >= this->mData->size())
+        return true;
+
+    if (this->mCurrentPixel >= this->mCount)
+        return true;
+
+    return false;
 }
 //-----------------------------------------------------------------------------
 quint32 BitStream::next()
@@ -58,8 +64,11 @@ quint32 BitStream::next()
     else
         result = 0;
 
+    // Number of bits
     int i = this->mBlockSize - 1;
+    // '1' bit - filled output bit
     quint32 fill = this->mPreset->matrix()->maskFill();
+
     while (i >= 0)
     {
         result = result << 1;
@@ -67,14 +76,17 @@ quint32 BitStream::next()
         if (this->mSetOnesByDefault)
             result |= 0x00000001;
 
+        // Loop until filled '1' bit
         if ((fill & (0x00000001 << i)) == 0)
         {
             i--;
             continue;
         }
 
+        // If bits available
         if (!this->eof())
         {
+            // Get next bit from stream and put to result
             if (this->nextBit())
                 result |= 0x00000001;
             else
@@ -87,31 +99,38 @@ quint32 BitStream::next()
 //-----------------------------------------------------------------------------
 bool BitStream::nextBit()
 {
-    if (this->mStart + this->mCurrentPixel >= this->mData->size())
+    if (this->eof())
         return false;
 
     bool result = false;
-
+    // Initial pixel data
     quint32 data = this->mData->at(this->mStart + this->mCurrentPixel);
+
+    // Loop bits...
     for (int i = 0; i < 32; i++)
     {
+        // From MSB to LSB
         quint32 mask = 0x80000000 >> i;
+
+        // If bit is used
         if (this->mMaskCurrent & mask)
         {
             result = (data & mask) != 0;
 
-            // reset processed pixel's bit in mask
+            // Reset processed pixel's bit in mask
             this->mMaskCurrent &= ~mask;
 
             this->mBitsReaded++;
 
-            // if pixel completed
+            // If pixel completed
             if (this->mMaskCurrent == 0)
             {
+                // Reload mask
                 this->mMaskCurrent = this->mMaskSource;
+                // Go to next pixel in source data array
                 this->mCurrentPixel++;
 
-                if (this->mStart + this->mCurrentPixel >= this->mData->size())
+                if (this->eof())
                     data = 0;
                 else
                     data = this->mData->at(this->mStart + this->mCurrentPixel);
@@ -120,6 +139,7 @@ bool BitStream::nextBit()
             break;
         }
     }
+
     return result;
 }
 //-----------------------------------------------------------------------------

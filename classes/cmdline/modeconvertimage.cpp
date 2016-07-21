@@ -124,7 +124,7 @@ int ModeConvertImage::process()
                         imageDocument.dataContainer()->setImage(key, &imageConverted);
 
                         imageDocument.setDocumentName(docNameWS);
-                        imageDocument.dataContainer()->setInfo("converted filename", QVariant(this->mOuputFilename));
+                        imageDocument.dataContainer()->setCommonInfo("converted filename", QVariant(this->mOuputFilename));
 
                         // save to output file
                         QFile file(this->mOuputFilename);

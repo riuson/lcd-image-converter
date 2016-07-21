@@ -25,7 +25,11 @@
 
 #include "idocument.h"
 //-----------------------------------------------------------------------------
+template <class T1, class T2> class QMap;
 class Preset;
+class ParsedImageData;
+class Tags;
+struct tFontParameters;
 //-----------------------------------------------------------------------------
 class FontDocument : public QObject, public IDocument
 {
@@ -44,7 +48,7 @@ public:
     void setDocumentName(const QString &value);
     QString outputFilename() const;
     void setOutputFilename(const QString &value);
-    DataContainer *dataContainer();
+    DataContainer *dataContainer() const;
     QString convert(Preset *preset);
 
     void beginChanges();
@@ -55,17 +59,9 @@ public:
     void redo();
 
     void fontCharacters(QString *chars,
-                        QString *fontFamily,
-                        QString *_style,
-                        int *_size,
-                        bool *_monospaced,
-                        bool *_antialiasing);
+                        tFontParameters *parameters);
     void setFontCharacters(const QString &chars,
-                           const QString &fontFamily,
-                           const QString &_style,
-                           const int _size,
-                           const bool _monospaced,
-                           const bool _antialiasing);
+                           const tFontParameters &parameters);
 
 private:
     DataContainer *mContainer;
@@ -85,13 +81,21 @@ private:
     bool antialiasing() const;
     void setAntialiasing(const bool value);
 
-    QImage drawCharacter(const QChar value,
-                         const QFont &font,
-                         const QColor &foreground,
-                         const QColor &background,
-                         const int width,
-                         const int height,
-                         const bool antialiasing);
+    QColor foreground() const;
+    void setForeground(const QColor value);
+
+    QColor background() const;
+    void setBackground(const QColor value);
+
+    int ascent() const;
+    void setAscent(int value);
+
+    int descent() const;
+    void setDescent(int value);
+
+    void prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, ParsedImageData*> *images, const Tags &tags) const;
+    QString hexCode(const QString &key, const QString &encoding, bool bom) const;
+    const QStringList sortKeysWithEncoding(const QStringList &keys, Preset *preset) const;
 
 private slots:
     void mon_container_dataChanged(bool historyStateMoved);
@@ -99,5 +103,6 @@ private slots:
 signals:
     void documentChanged();
 };
+
 //-----------------------------------------------------------------------------
 #endif // FONTDOCUMENT_H

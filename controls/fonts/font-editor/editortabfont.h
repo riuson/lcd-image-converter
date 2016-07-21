@@ -29,7 +29,6 @@ namespace Ui {
 }
 //-----------------------------------------------------------------------------
 class DataContainer;
-class WidgetBitmapEditor;
 class QSplitter;
 class ImagesModel;
 class QItemSelection;
@@ -37,6 +36,12 @@ class QModelIndex;
 class StatusData;
 class FontDocument;
 class IDocument;
+struct tFontParameters;
+
+namespace ImageEditor
+{
+class Editor;
+}
 //-----------------------------------------------------------------------------
 class EditorTabFont : public QWidget, public IEditor
 {
@@ -53,17 +58,9 @@ public:
     EditorType type() const;
 
     void setFontCharacters(const QString &chars,
-                           const QString &fontFamily,
-                           const QString &_style,
-                           const int _size,
-                           const bool _monospaced,
-                           const bool _antialiasing);
+                           const tFontParameters &parameters);
     void fontCharacters(QString *chars,
-                        QString *fontFamily,
-                        QString *_style,
-                        int *_size,
-                        bool *_monospaced,
-                        bool *_antialiasing);
+                        tFontParameters *parameters);
 
 protected:
     void changeEvent(QEvent *e);
@@ -71,7 +68,8 @@ protected:
 
 private:
     Ui::EditorTabFont *ui;
-    WidgetBitmapEditor *mEditor;
+    QWidget *mEditorWidget;
+    ImageEditor::Editor *mEditorObject;
     FontDocument *mDocument;
     QSplitter *mSplitter;
     ImagesModel *mModel;
@@ -89,8 +87,8 @@ private:
 private slots:
     void mon_documentChanged();
     void mon_documentChangedSignificantly();
-    void mon_editor_imageChanged();
-    void mon_editor_mouseMove(QPoint point);
+    void mon_editor_imageChanged(const QImage *value);
+    void mon_editor_mouseMove(const QPoint *point);
     void mon_editor_scaleChanged(int scale);
     void currentChanged(const QModelIndex &current, const QModelIndex &previous);
     void updateTableFont();

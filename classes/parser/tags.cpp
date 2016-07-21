@@ -32,6 +32,10 @@ Tags::Tags()
 Tags::~Tags()
 {
     this->mTagNameMap->clear();
+    this->mTagNameMap->clear();
+
+    delete this->mTagNameMap;
+    delete this->mTagValues;
 }
 //-----------------------------------------------------------------------------
 Tags::TagsEnum Tags::parseTag(const QString &key) const
@@ -41,7 +45,13 @@ Tags::TagsEnum Tags::parseTag(const QString &key) const
 //-----------------------------------------------------------------------------
 const QString Tags::tagValue(Tags::TagsEnum key) const
 {
-    return this->mTagValues->value(key, QString("<value not defined>"));
+    //return this->mTagValues->value(key, QString("<value not defined>"));
+    QString res = this->mTagValues->value(key, QString("<value not defined>"));
+
+    if (res.contains("defined")) {
+
+    }
+    return res;
 }
 //-----------------------------------------------------------------------------
 void Tags::setTagValue(Tags::TagsEnum key, const QString &value)
@@ -159,32 +169,36 @@ void Tags::initTagsMap()
     this->mTagNameMap->insert("fontWidthType",    FontWidthType);
     this->mTagNameMap->insert("fnt_antialiasing", FontAntiAliasing);
     this->mTagNameMap->insert("fontAntialiasing", FontAntiAliasing);
+    this->mTagNameMap->insert("fnt_ascent",       FontAscent);
+    this->mTagNameMap->insert("fnt_descent",      FontDescent);
 
     this->mTagNameMap->insert("tmpl_filename", TemplateFilename);
     this->mTagNameMap->insert("templateFile",  TemplateFilename);
 
-    this->mTagNameMap->insert("out_preset_name",  OutputPresetName);
-    this->mTagNameMap->insert("preset",           OutputPresetName);
-    this->mTagNameMap->insert("out_blocks_count", OutputBlocksCount);
-    this->mTagNameMap->insert("blocksCount",      OutputBlocksCount);
-    this->mTagNameMap->insert("out_bpp",          OutputBitsPerPixel);
-    this->mTagNameMap->insert("bpp",              OutputBitsPerPixel);
-    this->mTagNameMap->insert("out_char_code",    OutputCharacterCode);
-    this->mTagNameMap->insert("charCode",         OutputCharacterCode);
-    this->mTagNameMap->insert("out_char_text",    OutputCharacterText);
-    this->mTagNameMap->insert("charText",         OutputCharacterText);
-    this->mTagNameMap->insert("out_image_data",   OutputImageData);
-    this->mTagNameMap->insert("imageData",        OutputImageData);
-    this->mTagNameMap->insert("out_images_count", OutputImagesCount);
-    this->mTagNameMap->insert("imagesCount",      OutputImagesCount);
-    this->mTagNameMap->insert("out_comma",        OutputComma);
-    this->mTagNameMap->insert("comma",            OutputComma);
-    this->mTagNameMap->insert("out_data_indent",  OutputDataIndent);
-    this->mTagNameMap->insert("imageDataIndent",  OutputDataIndent);
-    this->mTagNameMap->insert("out_image_width",  OutputImageWidth);
-    this->mTagNameMap->insert("width",            OutputImageWidth);
-    this->mTagNameMap->insert("out_image_height", OutputImageHeight);
-    this->mTagNameMap->insert("height",           OutputImageHeight);
+    this->mTagNameMap->insert("out_preset_name",       OutputPresetName);
+    this->mTagNameMap->insert("preset",                OutputPresetName);
+    this->mTagNameMap->insert("out_blocks_count",      OutputBlocksCount);
+    this->mTagNameMap->insert("blocksCount",           OutputBlocksCount);
+    this->mTagNameMap->insert("out_bpp",               OutputBitsPerPixel);
+    this->mTagNameMap->insert("bpp",                   OutputBitsPerPixel);
+    this->mTagNameMap->insert("out_char_code",         OutputCharacterCode);
+    this->mTagNameMap->insert("charCode",              OutputCharacterCode);
+    this->mTagNameMap->insert("out_char_code_sim",     OutputCharacterCodeSimilar);
+    this->mTagNameMap->insert("out_char_text",         OutputCharacterText);
+    this->mTagNameMap->insert("charText",              OutputCharacterText);
+    this->mTagNameMap->insert("out_char_text_sim",     OutputCharacterTextSimilar);
+    this->mTagNameMap->insert("out_image_data",        OutputImageData);
+    this->mTagNameMap->insert("imageData",             OutputImageData);
+    this->mTagNameMap->insert("out_images_count",      OutputImagesCount);
+    this->mTagNameMap->insert("imagesCount",           OutputImagesCount);
+    this->mTagNameMap->insert("out_comma",             OutputComma);
+    this->mTagNameMap->insert("comma",                 OutputComma);
+    this->mTagNameMap->insert("out_data_indent",       OutputDataIndent);
+    this->mTagNameMap->insert("imageDataIndent",       OutputDataIndent);
+    this->mTagNameMap->insert("out_image_width",       OutputImageWidth);
+    this->mTagNameMap->insert("width",                 OutputImageWidth);
+    this->mTagNameMap->insert("out_image_height",      OutputImageHeight);
+    this->mTagNameMap->insert("height",                OutputImageHeight);
     this->mTagNameMap->insert("out_images_max_width",  OutputImagesMaxWidth);
     this->mTagNameMap->insert("out_images_max_height", OutputImagesMaxHeight);
     this->mTagNameMap->insert("out_images_max_blocks_count", OutputImagesMaxBlocksCount);

@@ -23,7 +23,10 @@
 #include <QObject>
 #include "idocument.h"
 //-----------------------------------------------------------------------------
+template <class T1, class T2> class QMap;
 class Preset;
+class ParsedImageData;
+class Tags;
 //-----------------------------------------------------------------------------
 class ImageDocument : public QObject, public IDocument
 {
@@ -42,7 +45,7 @@ public:
     void setDocumentName(const QString &value);
     QString outputFilename() const;
     void setOutputFilename(const QString &value);
-    DataContainer *dataContainer();
+    DataContainer *dataContainer() const;
     QString convert(Preset *preset);
 
     void beginChanges();
@@ -59,6 +62,8 @@ private:
     static const QString DefaultKey;
 
     void setDocumentFilename(const QString &value);
+
+    void prepareImages(Preset *preset, QMap<QString, ParsedImageData*> *images, const Tags &tags) const;
 
 private slots:
     void mon_container_dataChanged(bool historyStateMoved);

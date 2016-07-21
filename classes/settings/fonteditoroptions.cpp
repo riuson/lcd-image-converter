@@ -18,9 +18,10 @@
  */
 
 #include "fonteditoroptions.h"
-
+#include "bitmaphelper.h"
 #include <QVariant>
 #include <QSettings>
+#include <QRgb>
 //-----------------------------------------------------------------------------
 int FontEditorOptions::scale()
 {
@@ -40,6 +41,62 @@ void FontEditorOptions::setScale(int value)
     QSettings sett;
     sett.beginGroup("font-editor");
     sett.setValue("scale", QVariant(value));
+    sett.endGroup();
+}
+//-----------------------------------------------------------------------------
+QColor FontEditorOptions::foreColor()
+{
+    QSettings sett;
+    sett.beginGroup("font-editor");
+    bool ok;
+    unsigned int a = sett.value("foreColor", QVariant("none")).toUInt(&ok);
+    sett.endGroup();
+
+    QColor result = QColor("black");
+
+    if (ok)
+    {
+        result = BitmapHelper::fromRgba(QRgb(a));
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+QColor FontEditorOptions::backColor()
+{
+    QSettings sett;
+    sett.beginGroup("font-editor");
+    bool ok;
+    unsigned int a = sett.value("backColor", QVariant("none")).toUInt(&ok);
+    sett.endGroup();
+
+    QColor result = QColor("white");
+
+    if (ok)
+    {
+        result = BitmapHelper::fromRgba(QRgb(a));
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+void FontEditorOptions::setForeColor(const QColor &value)
+{
+    unsigned int a = value.rgba();
+
+    QSettings sett;
+    sett.beginGroup("font-editor");
+    sett.setValue("foreColor", QVariant(a));
+    sett.endGroup();
+}
+//-----------------------------------------------------------------------------
+void FontEditorOptions::setBackColor(const QColor &value)
+{
+    unsigned int a = value.rgba();
+
+    QSettings sett;
+    sett.beginGroup("font-editor");
+    sett.setValue("backColor", QVariant(a));
     sett.endGroup();
 }
 //-----------------------------------------------------------------------------

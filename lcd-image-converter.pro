@@ -1,32 +1,49 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-06-22T13:10:53
 # -------------------------------------------------
-OUTDIR              = ./_build
-
-unix:OUTDIR         = $$OUTDIR/linux
-win32:OUTDIR        = $$OUTDIR/windows
+OUTDIR              = ./
 
 CONFIG(debug, debug|release) {
     OUTDIR          = $$OUTDIR/debug
 } else {
     OUTDIR          = $$OUTDIR/release
 }
+unix:OUTDIR         = $$OUTDIR/linux
+win32:OUTDIR        = $$OUTDIR/windows
 
 OBJECTS_DIR         = $$OUTDIR/.obj
 MOC_DIR             = $$OUTDIR/.moc
 UI_DIR              = $$OUTDIR/.uic
 RCC_DIR             = $$OUTDIR/.rcc
 
-QT += xml xmlpatterns network script
+QT += xml xmlpatterns network svg
 TARGET = lcd-image-converter
 TEMPLATE = app
+
+# Uncomment next line to enable console output on Windows.
 #CONFIG += console
+CONFIG+=c++11
+QMAKE_CXXFLAGS += -std=c++11
 
 DESTDIR             = $$OUTDIR/output
 QMAKE_LIBDIR       += $$DESTDIR
 
+# Widgets in Qt 5
 greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
+}
+
+# QtScript deprecated in Qt 5.5, replaced by QJSEngine
+greaterThan(QT_MAJOR_VERSION, 4) {
+  greaterThan(QT_MINOR_VERSION, 4) {
+    QT += qml
+  }
+  lessThan(QT_MINOR_VERSION, 5) {
+    QT += script
+  }
+}
+lessThan(QT_MAJOR_VERSION, 5) {
+  QT += script
 }
 
 DEFINES += QT_MAJOR_VERSION="$$QT_MAJOR_VERSION"
@@ -60,6 +77,26 @@ SOURCES += main.cpp \
     classes/data/imagedocument.cpp \
     classes/data/imagesmodel.cpp \
     classes/data/revisioninfo.cpp \
+    classes/imageeditor/editor.cpp \
+    classes/imageeditor/toolcolor.cpp \
+    classes/imageeditor/toolfill.cpp \
+    classes/imageeditor/toolline.cpp \
+    classes/imageeditor/toolsmanager.cpp \
+    classes/imageeditor/toolpen.cpp \
+    classes/imageeditor/toolrect.cpp \
+    classes/imageeditor/toolzoom.cpp \
+    classes/operations/documentoperator.cpp \
+    classes/operations/fontminimizeheight.cpp \
+    classes/operations/fontresize.cpp \
+    classes/operations/imageeditinexternaltool.cpp \
+    classes/operations/imageexport.cpp \
+    classes/operations/imageflip.cpp \
+    classes/operations/imagegrayscale.cpp \
+    classes/operations/imageimport.cpp \
+    classes/operations/imageinverse.cpp \
+    classes/operations/imageresize.cpp \
+    classes/operations/imagerotate.cpp \
+    classes/operations/imageshift.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
     classes/parser/convert/converterhelper.cpp \
@@ -68,9 +105,9 @@ SOURCES += main.cpp \
     classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
     classes/parser/tags.cpp \
-    classes/settings/bitmapeditoroptions.cpp \
     classes/settings/externaltooloptions.cpp \
     classes/settings/fonteditoroptions.cpp \
+    classes/settings/imageeditoroptions.cpp \
     classes/settings/languageoptions.cpp \
     classes/settings/presets/fontoptions.cpp \
     classes/settings/presets/imageoptions.cpp \
@@ -89,10 +126,12 @@ SOURCES += main.cpp \
     controls/fonts/font-editor/editortabfont.cpp \
     controls/fonts/font-new/charactersmodel.cpp \
     controls/fonts/font-new/dialogfontselect.cpp \
+    controls/fonts/font-new/dialogfontselectdata.cpp \
     controls/fonts/font-new/unicodeblocksmodel.cpp \
     controls/fonts/font-new/unicodeblocksfiltermodel.cpp \
     controls/fonts/font-preview/dialogfontpreview.cpp \
     controls/fonts/font-range/dialogfontrange.cpp \
+    controls/imageeditor/windoweditor.cpp \
     controls/images/editortabimage.cpp \
     controls/images/widgetbitmapeditor.cpp \
     controls/main/mainwindow.cpp \
@@ -140,6 +179,31 @@ HEADERS += \
     classes/data/imagedocument.h \
     classes/data/imagesmodel.h \
     classes/data/revisioninfo.h \
+    classes/data/tfontparameters.h \
+    classes/imageeditor/editor.h \
+    classes/imageeditor/iimageeditor.h \
+    classes/imageeditor/iimageeditorparams.h \
+    classes/imageeditor/iimageeditortool.h \
+    classes/imageeditor/toolcolor.h \
+    classes/imageeditor/toolfill.h \
+    classes/imageeditor/toolline.h \
+    classes/imageeditor/toolsmanager.h \
+    classes/imageeditor/toolpen.h \
+    classes/imageeditor/toolrect.h \
+    classes/imageeditor/toolzoom.h \
+    classes/operations/documentoperator.h \
+    classes/operations/fontminimizeheight.h \
+    classes/operations/fontresize.h \
+    classes/operations/imageeditinexternaltool.h \
+    classes/operations/imageexport.h \
+    classes/operations/imageflip.h \
+    classes/operations/imagegrayscale.h \
+    classes/operations/imageimport.h \
+    classes/operations/imageinverse.h \
+    classes/operations/imageresize.h \
+    classes/operations/imagerotate.h \
+    classes/operations/imageshift.h \
+    classes/operations/ioperation.h \
     classes/parser/convert/bitmaphelper.h \
     classes/parser/convert/bitstream.h \
     classes/parser/convert/conversion_options.h \
@@ -149,9 +213,9 @@ HEADERS += \
     classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
     classes/parser/tags.h \
-    classes/settings/bitmapeditoroptions.h \
     classes/settings/externaltooloptions.h \
     classes/settings/fonteditoroptions.h \
+    classes/settings/imageeditoroptions.h \
     classes/settings/languageoptions.h \
     classes/settings/presets/fontoptions.h \
     classes/settings/presets/imageoptions.h \
@@ -170,10 +234,12 @@ HEADERS += \
     controls/fonts/font-editor/editortabfont.h \
     controls/fonts/font-new/charactersmodel.h \
     controls/fonts/font-new/dialogfontselect.h \
+    controls/fonts/font-new/dialogfontselectdata.h \
     controls/fonts/font-new/unicodeblocksmodel.h \
     controls/fonts/font-new/unicodeblocksfiltermodel.h \
     controls/fonts/font-preview/dialogfontpreview.h \
     controls/fonts/font-range/dialogfontrange.h \
+    controls/imageeditor/windoweditor.h \
     controls/images/editortabimage.h \
     controls/images/widgetbitmapeditor.h \
     controls/main/mainwindow.h \
@@ -209,6 +275,7 @@ FORMS += \
     controls/fonts/font-new/dialogfontselect.ui \
     controls/fonts/font-preview/dialogfontpreview.ui \
     controls/fonts/font-range/dialogfontrange.ui \
+    controls/imageeditor/windoweditor.ui \
     controls/images/editortabimage.ui \
     controls/images/widgetbitmapeditor.ui \
     controls/main/mainwindow.ui \
@@ -231,6 +298,8 @@ INCLUDEPATH += $$PWD \
     $$PWD/classes/compression \
     $$PWD/classes/data \
     $$PWD/classes/cmdline \
+    $$PWD/classes/imageeditor \
+    $$PWD/classes/operations \
     $$PWD/classes/status \
     $$PWD/classes/parser \
     $$PWD/classes/parser/convert \
@@ -245,6 +314,7 @@ INCLUDEPATH += $$PWD \
     $$PWD/controls/fonts/font-preview \
     $$PWD/controls/fonts/font-range \
     $$PWD/controls/images \
+    $$PWD/controls/imageeditor \
     $$PWD/controls/main \
     $$PWD/controls/resize \
     $$PWD/controls/save-changes \
@@ -282,6 +352,7 @@ OTHER_FILES += \
     resources/history.css \
     resources/unicode_blocks.txt \
     resources/script_top2bottom_forward.js \
+    resources/scan_scripts/scan_template.js \
     resources/scan_scripts/scan_top2bottom_forward_band.js \
     resources/scan_scripts/scan_top2bottom_forward.js \
     resources/scan_scripts/scan_top2bottom_backward_band.js \

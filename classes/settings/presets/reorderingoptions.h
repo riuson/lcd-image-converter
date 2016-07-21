@@ -24,6 +24,7 @@
 //-----------------------------------------------------------------------------
 template <class T> class QVector;
 class QSettings;
+class QDomElement;
 //-----------------------------------------------------------------------------
 class ReorderingOptions : public QObject
 {
@@ -40,9 +41,18 @@ public:
     void operationReplace(int index, quint32 mask, int shift, bool left);
 
     bool load(QSettings *settings, int version);
+    bool loadXmlElement(QDomElement element);
     void save(QSettings *settings);
+    void saveXmlElement(QDomElement element);
 
 private:
+    static const QString GroupName;
+    static const QString FieldOperations;
+    static const QString FieldOperation;
+    static const QString FieldMask;
+    static const QString FieldShift;
+    static const QString FieldLeft;
+
     QVector<quint32> *mOperations;
 
 signals:

@@ -32,6 +32,7 @@
 #include "datacontainer.h"
 #include "idocument.h"
 #include "preset.h"
+#include "tfontparameters.h"
 //-----------------------------------------------------------------------------
 ActionFileHandlers::ActionFileHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -79,17 +80,11 @@ void ActionFileHandlers::newFont_triggered()
             ed->document()->beginChanges();
 
             QString chars = dialog.characters();
-            int size;
-            QString family, style;
-            bool monospaced, antialiasing;
+            tFontParameters parameters;
+            dialog.getFontParameters(&parameters);
 
-            family = dialog.fontFamily();
-            style = dialog.fontStyle();
-            size = dialog.fontSize();
-            monospaced = dialog.monospaced();
-            antialiasing = dialog.antialiasing();
-
-            ed->setFontCharacters(chars, family, style, size, monospaced, antialiasing);
+            ed->setFontCharacters(chars,
+                                  parameters);
 
             emit this->tabCreated(ed);
 
@@ -388,11 +383,17 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
     // converter output file name
     QString outputFileName = document->outputFilename();
 
+    // document file name
+    QString documentFileName = document->documentFilename();
+
     // if file name not specified, show dialog
-    bool filenameNotSpecified = outputFileName.isEmpty();
+    bool outputFilenameNotSpecified = outputFileName.isEmpty();
+
+    // if document not saved, do not save output file name
+    bool documentFilenameNotSpecified = documentFileName.isEmpty();
 
     // show dialog
-    if (request || filenameNotSpecified)
+    if (request || outputFilenameNotSpecified)
     {
         QFileDialog dialog(qobject_cast<QWidget *>(this->parent()));
         dialog.setAcceptMode(QFileDialog::AcceptSave);
@@ -402,7 +403,7 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
         dialog.setDefaultSuffix(QString("c"));
         dialog.setWindowTitle(tr("Save result file as"));
 
-        if (filenameNotSpecified)
+        if (outputFilenameNotSpecified)
         {
             dialog.selectFile(document->documentName());
         }
@@ -435,7 +436,7 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
             file.write(result.toUtf8());
             file.close();
 
-            if (document->outputFilename() != outputFileName)
+            if ((document->outputFilename() != outputFileName) && !documentFilenameNotSpecified)
             {
                 document->setOutputFilename(outputFileName);
             }

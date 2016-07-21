@@ -31,6 +31,7 @@ DialogFontPreview::DialogFontPreview(QWidget *parent) :
 {
     ui->setupUi(this);
     this->mOriginalImage = QImage(":/images/template").scaled(20, 10);
+    this->mDocument = NULL;
 
     this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
 }
@@ -47,10 +48,13 @@ void DialogFontPreview::setDocument(IDocument *document)
 //-----------------------------------------------------------------------------
 void DialogFontPreview::on_lineEditText_textChanged(const QString &text)
 {
-    this->mOriginalImage = FontHelper::drawString(this->mDocument->dataContainer(), text);
+    if (this->mDocument != NULL)
+    {
+        this->mOriginalImage = FontHelper::drawString(this->mDocument->dataContainer(), text);
 
-    // update preview
-    this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
+        // update preview
+        this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
+    }
 }
 //-----------------------------------------------------------------------------
 void DialogFontPreview::on_spinBoxScale_valueChanged(int i)
