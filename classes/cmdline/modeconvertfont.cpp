@@ -96,12 +96,14 @@ void ModeConvertFont::fillParser() const
 
     // --foreground
     QCommandLineOption foregroundOption(QStringList() << "foreground",
-                QCoreApplication::translate("CmdLineParser", "Foreground color in hex format."));
+                QCoreApplication::translate("CmdLineParser", "Foreground color in hex format."),
+                QCoreApplication::translate("CmdLineParser", "color"));
     this->mParser->addOption(foregroundOption);
 
     // --background
     QCommandLineOption backgroundOption(QStringList() << "background",
-                QCoreApplication::translate("CmdLineParser", "Background color in hex format."));
+                QCoreApplication::translate("CmdLineParser", "Background color in hex format."),
+                QCoreApplication::translate("CmdLineParser", "color"));
     this->mParser->addOption(backgroundOption);
 
     // --chars-list
