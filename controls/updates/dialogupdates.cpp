@@ -235,11 +235,14 @@ bool DialogUpdates::isLocalVersionOutdated(const QString &xml)
             QStringList dates;
             query.evaluateTo(&dates);
 
-            QString revisionDate = RevisionInfo::date();
+            QString revisionDateString = RevisionInfo::date();
+            QDateTime revisionDate = QDateTime::fromString(revisionDateString, Qt::ISODate);
 
-            foreach (const QString &str, dates)
+            foreach (const QString &dateString, dates)
             {
-                if (str.compare(revisionDate) > 0)
+                QDateTime date = QDateTime::fromString(dateString, Qt::ISODate);
+
+                if (date > revisionDate)
                 {
                     return true;
                 }
