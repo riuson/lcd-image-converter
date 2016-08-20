@@ -2,8 +2,8 @@
 <data type="history" title="Changelog" version="2">
     <record>
         <commit>
-            <sha1>current</sha1>
-            <date>current</date>
+            <sha1>29a5a98e5a0f60508280fe90fd456ae32954303e</sha1>
+            <date>2016-07-21 21:57:05 +0500</date>
         </commit>
         <changes>
             <item category="added">Combine similar characters in images table.</item>
@@ -39,6 +39,12 @@ Added:
  Option 'alpha-channel' in font setup replaced by alpha component for foreground and background colors;
  Support for transparent character background;
  Set foreground and background colors with command line.]]></description>
+        <downloads>
+            <item>
+                <name>Application for Windows on Home Page</name>
+                <url>http://www.riuson.com/lcd-image-converter/download</url>
+            </item>
+        </downloads>
     </record>
     <record>
         <commit>
