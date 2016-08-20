@@ -22,29 +22,6 @@
             <item category="changed">Changelog xml file format.</item>
             <item category="removed">Removed option 'alpha-channel' in font document, with command line argument and template tags.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Templates;
- Preview with empty script;
- Image output for empty conversion data (image too small or skipped by custom algorithm);
- Workaroung for infinite loop then adding points;
- Use unicode characters only from 0x0000 to 0xffff.
-
-Added:
- Combine similar characters in images table;
- Simple drawing tools (rect, point, fill, line);
- Import/export presets to xml files;
- Optional alpha-channel for font renderer;
- New dialog to select font;
- Font ascent/descent tags;
- Option 'alpha-channel' in font setup replaced by alpha component for foreground and background colors;
- Support for transparent character background;
- Set foreground and background colors with command line.]]></description>
-        <downloads>
-            <item>
-                <name>Application for Windows on Home Page</name>
-                <url>http://www.riuson.com/lcd-image-converter/download</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -65,31 +42,6 @@ Added:
             <item category="fixed">'AntiAliasing' option in saved font document.</item>
             <item category="fixed">Encodings list sorted in New Font -> Append Range.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Shadow Build support (partially);
- Default document and file name for new documents;
- Save Changes dialog;
- 'AntiAliasing' option in saved font document;
- Encodings list sorted in New Font -> Append Range.
-
-Added:
- Command line mode for image conversion;
- Command line mode for font conversion;
- Command line mode for hexadecimal to binary file conversion;
- Import multimple images to font;
- Menu option to convert color image to grayscale;
- Option for RLE minimal length of equal blocks;
- Scaling in settings preview.]]></description>
-        <downloads>
-            <item>
-                <name>Application for Windows on Home Page</name>
-                <url>http://www.riuson.com/lcd-image-converter/download</url>
-            </item>
-            <item>
-                <name>Application for Windows on SourceForge</name>
-                <url>http://sourceforge.net/projects/lcd-image-converter/files</url>
-            </item>
-        </downloads>
     </record>
     <record>
         <commit>
@@ -102,13 +54,6 @@ Added:
             <item category="fixed">Russian translation.</item>
             <item category="fixed">Loading of images in some formats.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Broken image prepare sequence;
- Russian translation;
- Loading of images in some formats.
-
-Added:
- Optional characters sorting in 'Font Change...' dialog.]]></description>
     </record>
     <record>
         <commit>
@@ -129,21 +74,6 @@ Added:
             <item category="added">User-defined script to specify pixel's scan order.</item>
             <item category="fixed">Cells size to fit big characters (Font Select dialog).</item>
         </changes>
-        <description><![CDATA[Fixed:
- Cells size to fit big characters (Font Select dialog).
-
-Added:
- New encodings;
- Sorting table characters by codes;
- Dialog to select new characters by range;
- Ability to specify custom font size;
- Control characters (0x01...0x1f) support;
- New tag 'out_images_max_blocks_count';
- Optional value of trailing bits;
- Custom prefix, suffix and delimiter for data blocks;
- Copy and Paste operations;
- Alpha-channel support;
- User-defined script to specify pixel's scan order.]]></description>
     </record>
     <record>
         <commit>
@@ -154,9 +84,6 @@ Added:
             <item category="fixed">Feature 'Optimize height'.</item>
             <item category="fixed">Save font parameters for newly created font.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Feature 'Optimize height';
- Save font parameters for newly created font.]]></description>
     </record>
     <record>
         <commit>
@@ -167,9 +94,6 @@ Added:
             <item category="fixed">Invalid status on first-time selection.</item>
             <item category="fixed">Indent and EOL for the output image data.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Invalid status on first-time selection;
- Indent and EOL for the output image data.]]></description>
     </record>
     <record>
         <commit>
@@ -179,8 +103,6 @@ Added:
         <changes>
             <item category="fixed">Character's filter in resize dialog.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Character's filter in resize dialog.]]></description>
     </record>
     <record>
         <commit>
@@ -194,12 +116,6 @@ Added:
             <item category="added">Font preview's size can be changed by Ctrl+Wheel.</item>
             <item category="added">A separate dialog box to check for updates.</item>
         </changes>
-        <description><![CDATA[Added:
- Unicode blocks;
- New tag names;
- Changed 'Resize' dialog;
- Font preview's size can be changed by Ctrl+Wheel;
- A separate dialog box to check for updates.]]></description>
     </record>
     <record>
         <commit>
@@ -213,14 +129,6 @@ Added:
             <item category="fixed">Bug when editing template file paths.</item>
             <item category="fixed">A grid in the 'Font preview' dialog restored.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Bug when editing template file paths;
- A grid in the 'Font preview' dialog restored.
-
-Added:
- Reordering bits;
- Scanning of the bands;
- Scaling by mouse wheel + Ctrl.]]></description>
     </record>
     <record>
         <commit>
@@ -231,11 +139,6 @@ Added:
             <item category="added">Undo/Redo support.</item>
             <item category="fixed">Font regeneration algorithm was changed: possible add new character without changing others.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Font regeneration algorithm was changed: possible add new character without changing others.
-
-Added:
- Undo/Redo support.]]></description>
     </record>
     <record>
         <commit>
@@ -263,27 +166,6 @@ Added:
             <item category="fixed">Scan direction for settings more easy.</item>
             <item category="fixed">Changed template's variables format.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Italic font's drawing;
- Reading of configuration templates;
- Order of bytes for Unicode Little-Endian and Big-Endian;
- Font size changed from points to pixels, to avoid depending of the font size from screen's DPI.
- Scan direction for settings more easy;
- Changed template's variables format.
-
-Added:
- Dialog 'Setup' was changed.
- RLE compression;
- Feature to combine selected characters to one image;
- Opening many files at once;
- Output file name are now saved in document;
- Document's file are now selected by default in 'Save' dialog;
- Call of external tool to image editing;
- Shift image to up/down/left/right;
- Conversion for all opened documents at once;
- Changed characters list in font's editor;
- Version history in 'About' dialog;
- 'Check updates' in 'About' dialog, by downloading history from project's home page]]></description>
     </record>
     <record>
         <commit>
@@ -293,7 +175,6 @@ Added:
         <changes>
             <item category="changed">Conversion algorithm was fully changed to make it more universally and flexible. Please, read wiki for more information about it.</item>
         </changes>
-        <description>Conversion algorithm was fully changed to make it more universally and flexible. Please, read wiki for more information about it.</description>
     </record>
     <record>
         <commit>
@@ -308,15 +189,6 @@ Added:
             <item category="fixed">Bug with replacing character 'd' by default image.</item>
             <item category="fixed">Small changed in menu items text.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Unicode character codes;
- Bug with replacing character 'd' by default image;
- Small changed in menu items text.
-
-Added:
- BOM (append/remove) option for unicode font output;
- Font preview dialog;
- Multi characters inserting in font select dialog.]]></description>
     </record>
     <record>
         <commit>
@@ -326,8 +198,6 @@ Added:
         <changes>
             <item category="fixed">Empty items on start screen.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Empty items on start screen.]]></description>
     </record>
     <record>
         <commit>
@@ -339,12 +209,6 @@ Added:
             <item category="added">Image files support in menu 'File->Open'.</item>
             <item category="fixed">Missing items in recent files list.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Missing items in recent files list;
-
-Added:
- Start screen;
- Image files support in menu 'File->Open'.]]></description>
     </record>
     <record>
         <commit>
@@ -361,17 +225,6 @@ Added:
             <item category="fixed">Default (empty) file extension.</item>
             <item category="fixed">'Changed' flag for bitmaps (on rename) and fonts (on create).</item>
         </changes>
-        <description><![CDATA[Fixed:
- Disappear of the image when changing language;
- Default (empty) file extension;
- 'Changed' flag for bitmaps (on rename) and fonts (on create).
-
-Added:
- Version info;
- Icon;
- Conversion settings to output file;
- Grid for scale > 5x;
- 'Recent files list' (menu).]]></description>
     </record>
     <record>
         <commit>
@@ -381,7 +234,6 @@ Added:
         <changes>
             <item category="added">Added plugins for images, other than png and bmp.</item>
         </changes>
-        <description>Added plugins for images, other than png and bmp</description>
     </record>
     <record>
         <commit>
@@ -396,14 +248,6 @@ Added:
             <item category="added">Translation for strings with degree sign.</item>
             <item category="changed">Repository migrated from Mercurial to Git. Rev.5d7a8e3fe7 from hg is the equivalent of a rev.a3cc404de559 from git.</item>
         </changes>
-        <description><![CDATA[Repo migrated from hg to git.
-Rev.5d7a8e3fe7 from hg is the equivalent of a rev.a3cc404de559 from git.
-
-Added:
- Shortcuts;
- Save scale value to settings;
- Feature 'Minimize font height';
- Translation for strings with degree sign.]]></description>
     </record>
     <record>
         <commit>
@@ -416,13 +260,6 @@ Added:
             <item category="added">Display real (maximum) height for selected font/style/size.</item>
             <item category="fixed">Widget's layout on 'DialogConvert'.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Widget's layout on 'DialogConvert';
-
-Added:
- Feature 'rename document';
- Compiled (binary) translation file removed from version control;
- Display real (maximum) height for selected font/style/size.]]></description>
     </record>
     <record>
         <commit>
@@ -437,15 +274,6 @@ Added:
             <item category="fixed">No need to tranlsate new document's name.</item>
             <item category="fixed">Save width/height when image rotated.</item>
         </changes>
-        <description><![CDATA[Fixed:
- Saving settings on Windows XP;
- Rotation setup loss.
- Error in image template.
- No need to tranlsate new document's name.
- Save width/height when image rotated.
-
-Added:
- Russian translation.]]></description>
     </record>
     <record>
         <commit>
@@ -455,6 +283,5 @@ Added:
         <changes>
             <item category="added">First release</item>
         </changes>
-        <description>First release</description>
     </record>
 </data>
