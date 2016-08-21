@@ -51,6 +51,9 @@
           </xsl:otherwise>
         </xsl:choose>
       </p>
+      <p>
+        <xsl:apply-templates select="downloads" />
+      </p>
     </div>
   </xsl:template>
   <xsl:template match="commit">
@@ -102,17 +105,15 @@
       <h3>
         <xsl:value-of select="$title"/>
       </h3>
-      <p>
-        <ul>
-          <xsl:for-each select="child::item">
-            <xsl:if test="@category = $category">
-              <li>
-                <xsl:value-of select="."/>
-              </li>
-            </xsl:if>
-          </xsl:for-each>
-        </ul>
-      </p>
+      <ul>
+        <xsl:for-each select="child::item">
+          <xsl:if test="@category = $category">
+            <li>
+              <xsl:value-of select="."/>
+            </li>
+          </xsl:if>
+        </xsl:for-each>
+      </ul>
     </xsl:if>
   </xsl:template>
   <xsl:template match="description">
@@ -124,20 +125,22 @@
   </xsl:template>
   <xsl:template match="downloads">
     <span class="downloads">
-      <xsl:text>Download: </xsl:text>
       <br/>
-      <xsl:for-each select="child::item">
-        <xsl:text></xsl:text>
-        <a>
-          <xsl:attribute name="href">
-            <xsl:value-of select="url"/>
-          </xsl:attribute>
-          <xsl:value-of select="name"/>
-        </a>
-        <xsl:if test="not (position()=last())">
-          <br/>
-        </xsl:if>
-      </xsl:for-each>
+      <h3>
+        <xsl:text>Download</xsl:text>
+      </h3>
+      <ul>
+        <xsl:for-each select="child::item">
+          <li>
+            <a>
+              <xsl:attribute name="href">
+                <xsl:value-of select="url"/>
+              </xsl:attribute>
+              <xsl:value-of select="name"/>
+            </a>
+          </li>
+        </xsl:for-each>
+      </ul>
     </span>
   </xsl:template>
 </xsl:stylesheet>
