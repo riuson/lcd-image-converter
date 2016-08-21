@@ -28,6 +28,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QUrl>
+#include <QUrlQuery>
 #include <QDomDocument>
 #include "revisioninfo.h"
 #include "bitmaphelper.h"
@@ -120,8 +121,14 @@ void DialogUpdates::showUpdates()
     QNetworkAccessManager* mNetworkManager = new QNetworkAccessManager(this);
     this->connect(mNetworkManager, SIGNAL(finished(QNetworkReply*)), SLOT(networkReply(QNetworkReply*)));
 
-    QUrl url("http://lcd-image-converter.riuson.com/history/history.xml?version=2");
-    QNetworkReply* reply = mNetworkManager->get(QNetworkRequest(url));
+    QUrlQuery query;
+    query.addQueryItem("version", "2");
+
+    QUrl url("http://lcd-image-converter.riuson.com/history/history.xml");
+    url.setQuery(query.query());
+
+    QNetworkRequest request = QNetworkRequest(url);
+    QNetworkReply* reply = mNetworkManager->get(request);
     Q_UNUSED(reply);
 }
 //-----------------------------------------------------------------------------
