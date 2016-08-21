@@ -38,22 +38,16 @@
           </xsl:attribute>
         </xsl:when>
       </xsl:choose>
-      <p>
-        <xsl:apply-templates select="commit"/>
-      </p>
-      <p>
-        <xsl:choose>
-          <xsl:when test="count(changes/item) > 0">
-            <xsl:apply-templates select="changes"/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:apply-templates select="description" />
-          </xsl:otherwise>
-        </xsl:choose>
-      </p>
-      <p>
-        <xsl:apply-templates select="downloads" />
-      </p>
+      <xsl:apply-templates select="commit"/>
+      <xsl:choose>
+        <xsl:when test="count(changes/item) > 0">
+          <xsl:apply-templates select="changes"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates select="description" />
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:apply-templates select="downloads" />
     </div>
   </xsl:template>
   <xsl:template match="commit">
