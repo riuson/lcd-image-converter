@@ -20,6 +20,7 @@
 #include "dialogupdates.h"
 #include "ui_dialogupdates.h"
 
+#include "qt-version-check.h"
 #include <QTextStream>
 #include <QFile>
 #include <QXmlQuery>
@@ -28,7 +29,12 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QUrl>
+
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
+#define USE_URL_QUERY
 #include <QUrlQuery>
+#endif // QT_VERSION
+
 #include <QDomDocument>
 #include "revisioninfo.h"
 #include "bitmaphelper.h"
@@ -121,11 +127,15 @@ void DialogUpdates::showUpdates()
     QNetworkAccessManager* mNetworkManager = new QNetworkAccessManager(this);
     this->connect(mNetworkManager, SIGNAL(finished(QNetworkReply*)), SLOT(networkReply(QNetworkReply*)));
 
+    QUrl url("http://lcd-image-converter.riuson.com/history/history.xml");
+
+#ifdef USE_URL_QUERY
     QUrlQuery query;
     query.addQueryItem("version", "2");
-
-    QUrl url("http://lcd-image-converter.riuson.com/history/history.xml");
     url.setQuery(query.query());
+#else
+    url.addQueryItem("version", "2");
+#endif
 
     QNetworkRequest request = QNetworkRequest(url);
     QNetworkReply* reply = mNetworkManager->get(request);
