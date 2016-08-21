@@ -29,6 +29,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QUrl>
+#include <QDateTime>
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
 #define USE_URL_QUERY
