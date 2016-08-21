@@ -2,6 +2,15 @@
 <data type="history" title="Changelog" version="2">
     <record>
         <commit>
+            <sha1>current</sha1>
+            <date>current</date>
+        </commit>
+        <changes>
+            <item category="changed">Get changelog from server with versioning.</item>
+        </changes>
+    </record>
+    <record>
+        <commit>
             <sha1>29a5a98e5a0f60508280fe90fd456ae32954303e</sha1>
             <date>2016-07-21 21:57:05 +0500</date>
         </commit>
