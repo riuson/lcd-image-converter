@@ -21,6 +21,7 @@
 #define FILEDIALOGOPTIONS_H
 //-----------------------------------------------------------------------------
 #include <QObject>
+#include <QString>
 //-----------------------------------------------------------------------------
 class FileDialogOptions : public QObject
 {
@@ -32,6 +33,10 @@ public:
     static void setConvertDocument_filterIndex(int value);
     static int exportImage_filterIndex();
     static void setExportImage_filterIndex(int value);
+
+private:
+    static int getInteger(const QString &name);
+    static void setInteger(const QString &name, int value);
 };
 //-----------------------------------------------------------------------------
 #endif // FILEDIALOGOPTIONS_H

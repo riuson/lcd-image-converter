@@ -24,59 +24,41 @@
 //-----------------------------------------------------------------------------
 int FileDialogOptions::openDocument_filterIndex()
 {
-    bool ok;
-
-    QSettings sett;
-    sett.beginGroup("filedialogs");
-    int result = sett.value("openDocument_filterIndex", QVariant(0)).toInt(&ok);
-    sett.endGroup();
-
-    if (!ok) {
-        result = 0;
-    }
-
-    return result;
+    return FileDialogOptions::getInteger("openDocument_filterIndex");
 }
 //-----------------------------------------------------------------------------
 void FileDialogOptions::setOpenDocument_filterIndex(int value)
 {
-    QSettings sett;
-    sett.beginGroup("filedialogs");
-    sett.setValue("openDocument_filterIndex", QVariant(value));
-    sett.endGroup();
+    FileDialogOptions::setInteger("openDocument_filterIndex", value);
 }
 //-----------------------------------------------------------------------------
 int FileDialogOptions::convertDocument_filterIndex()
 {
-    bool ok;
-
-    QSettings sett;
-    sett.beginGroup("filedialogs");
-    int result = sett.value("convertDocument_filterIndex", QVariant(0)).toInt(&ok);
-    sett.endGroup();
-
-    if (!ok) {
-        result = 0;
-    }
-
-    return result;
+    return FileDialogOptions::getInteger("convertDocument_filterIndex");
 }
 //-----------------------------------------------------------------------------
 void FileDialogOptions::setConvertDocument_filterIndex(int value)
 {
-    QSettings sett;
-    sett.beginGroup("filedialogs");
-    sett.setValue("convertDocument_filterIndex", QVariant(value));
-    sett.endGroup();
+    FileDialogOptions::setInteger("convertDocument_filterIndex", value);
 }
 //-----------------------------------------------------------------------------
 int FileDialogOptions::exportImage_filterIndex()
+{
+    return FileDialogOptions::getInteger("exportImage_filterIndex");
+}
+//-----------------------------------------------------------------------------
+void FileDialogOptions::setExportImage_filterIndex(int value)
+{
+    FileDialogOptions::setInteger("exportImage_filterIndex", value);
+}
+//-----------------------------------------------------------------------------
+int FileDialogOptions::getInteger(const QString &name)
 {
     bool ok;
 
     QSettings sett;
     sett.beginGroup("filedialogs");
-    int result = sett.value("exportImage_filterIndex", QVariant(0)).toInt(&ok);
+    int result = sett.value(name, QVariant(0)).toInt(&ok);
     sett.endGroup();
 
     if (!ok) {
@@ -86,11 +68,11 @@ int FileDialogOptions::exportImage_filterIndex()
     return result;
 }
 //-----------------------------------------------------------------------------
-void FileDialogOptions::setExportImage_filterIndex(int value)
+void FileDialogOptions::setInteger(const QString &name, int value)
 {
     QSettings sett;
     sett.beginGroup("filedialogs");
-    sett.setValue("exportImage_filterIndex", QVariant(value));
+    sett.setValue(name, QVariant(value));
     sett.endGroup();
 }
 //-----------------------------------------------------------------------------
