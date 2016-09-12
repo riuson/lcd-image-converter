@@ -26,6 +26,7 @@
 #include <QTextStream>
 #include <QInputDialog>
 #include <QLineEdit>
+#include <QStringList>
 #include "parser.h"
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
@@ -33,6 +34,7 @@
 #include "idocument.h"
 #include "preset.h"
 #include "tfontparameters.h"
+#include "filedialogoptions.h"
 //-----------------------------------------------------------------------------
 ActionFileHandlers::ActionFileHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -102,12 +104,18 @@ void ActionFileHandlers::open_triggered()
     QFileDialog dialog(this->mMainWindow->parentWidget());
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setNameFilter(tr("XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
     dialog.setWindowTitle(tr("Open xml or image file"));
+
+    QStringList filters;
+    filters << tr("XML Files (*.xml)")
+            << tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)");
+    dialog.setNameFilters(filters);
+    dialog.selectNameFilter(filters.at(FileDialogOptions::openDocument_filterIndex()));
 
     if (dialog.exec() == QDialog::Accepted)
     {
         QStringList filenames = dialog.selectedFiles();
+        FileDialogOptions::setOpenDocument_filterIndex(filters.indexOf(dialog.selectedNameFilter()));
 
         this->openFiles(filenames);
     }
