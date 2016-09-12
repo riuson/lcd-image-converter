@@ -6,6 +6,7 @@
             <date>current</date>
         </commit>
         <changes>
+            <item category="added">Menu item 'File' -&gt; 'Close All'.</item>
             <item category="changed">Get changelog from server with versioning.</item>
         </changes>
     </record>
@@ -49,7 +50,7 @@
             <item category="fixed">Default document and file name for new documents.</item>
             <item category="fixed">Save Changes dialog.</item>
             <item category="fixed">'AntiAliasing' option in saved font document.</item>
-            <item category="fixed">Encodings list sorted in New Font -> Append Range.</item>
+            <item category="fixed">Encodings list sorted in New Font -&gt; Append Range.</item>
         </changes>
     </record>
     <record>
@@ -215,7 +216,7 @@
         </commit>
         <changes>
             <item category="added">Start screen.</item>
-            <item category="added">Image files support in menu 'File->Open'.</item>
+            <item category="added">Image files support in menu 'File-&gt;Open'.</item>
             <item category="fixed">Missing items in recent files list.</item>
         </changes>
     </record>
@@ -228,7 +229,7 @@
             <item category="added">Version info.</item>
             <item category="added">Icon.</item>
             <item category="added">Conversion settings to output file.</item>
-            <item category="added">Grid for scale > 5x.</item>
+            <item category="added">Grid for scale &gt; 5x.</item>
             <item category="added">'Recent files list' (menu).</item>
             <item category="fixed">Disappear of the image when changing language.</item>
             <item category="fixed">Default (empty) file extension.</item>
