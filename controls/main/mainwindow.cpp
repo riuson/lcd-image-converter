@@ -207,6 +207,7 @@ void MainWindow::createHandlers()
     this->mFileHandlers->connect(this->ui->actionSave, SIGNAL(triggered()), SLOT(save_triggered()));
     this->mFileHandlers->connect(this->ui->actionSave_As, SIGNAL(triggered()), SLOT(saveAs_triggered()));
     this->mFileHandlers->connect(this->ui->actionClose, SIGNAL(triggered()), SLOT(close_triggered()));
+    this->mFileHandlers->connect(this->ui->actionClose_All, SIGNAL(triggered()), SLOT(closeAll_triggered()));
     this->mFileHandlers->connect(this->ui->actionConvert, SIGNAL(triggered()), SLOT(convert_triggered()));
     this->mFileHandlers->connect(this->ui->actionConvert_All, SIGNAL(triggered()), SLOT(convertAll_triggered()));
     this->connect(this->ui->actionQuit, SIGNAL(triggered()), SLOT(close()));
@@ -277,6 +278,22 @@ void MainWindow::tabTextUpdate(QWidget *widget)
             this->ui->tabWidget->setTabToolTip(index, editor->document()->documentFilename());
         }
     }
+}
+//-----------------------------------------------------------------------------
+int MainWindow::editorsCount() const
+{
+    int result = 0;
+
+    for (int i = 0; i < this->ui->tabWidget->count(); i++)
+    {
+        IEditor *editor = qobject_cast<IEditor *>(this->ui->tabWidget->widget(i));
+
+        if (editor != nullptr) {
+            result++;
+        }
+    }
+
+    return result;
 }
 //-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
@@ -399,6 +416,7 @@ void MainWindow::updateMenuState()
     this->ui->actionSave->setEnabled(editorSelected);
     this->ui->actionSave_As->setEnabled(editorSelected);
     this->ui->actionClose->setEnabled(editorSelected);
+    this->ui->actionClose_All->setEnabled(editorSelected && (this->editorsCount() > 1));
     this->ui->actionConvert->setEnabled(editorSelected);
     this->ui->actionConvert_All->setEnabled(editorSelected);
 }
