@@ -48,6 +48,7 @@ public slots:
     void save_triggered();
     void saveAs_triggered();
     void close_triggered();
+    void closeAll_triggered();
     void convert_triggered();
     void convertAll_triggered();
     void openFiles(const QStringList &filenames);

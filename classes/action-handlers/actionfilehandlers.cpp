@@ -180,6 +180,18 @@ void ActionFileHandlers::close_triggered()
     emit closeRequest(this->mMainWindow->currentTab());
 }
 //-----------------------------------------------------------------------------
+void ActionFileHandlers::closeAll_triggered()
+{
+    QList<QWidget *> list;
+
+    this->mMainWindow->tabsList(&list);
+
+    for (int i = 0; i < list.count(); i++)
+    {
+        emit closeRequest(list.at(i));
+    }
+}
+//-----------------------------------------------------------------------------
 void ActionFileHandlers::convert_triggered()
 {
     IEditor *editor = this->mMainWindow->currentEditor();
