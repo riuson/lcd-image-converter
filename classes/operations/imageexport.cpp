@@ -20,8 +20,10 @@
 #include "imageexport.h"
 #include <QImage>
 #include <QFileDialog>
+#include <QStringList>
 #include "idocument.h"
 #include "datacontainer.h"
+#include "filedialogoptions.h"
 
 namespace Operations {
 
@@ -40,20 +42,25 @@ bool ImageExport::prepare(const IDocument *doc, const QStringList &keys)
     QFileDialog dialog(this->mParentWidget);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.setFileMode(QFileDialog::AnyFile);
-    QString filter = QString("Windows Bitmap (*.bmp);;" \
-                             "Joint Photographic Experts Group (*.jpg *.jpeg);;" \
-                             "Portable Network Graphics (*.png);;" \
-                             "Portable Pixmap (*.ppm);;" \
-                             "Tagged Image File Format (*.tiff);;" \
-                             "X11 Bitmap (*.xbm);;" \
-                             "X11 Bitmap (*.xpm)");
-    dialog.setNameFilter(filter);
     dialog.setWindowTitle(tr("Save image file"));
+
+    QStringList filters;
+    filters << "Windows Bitmap (*.bmp)" // Nothing to translate
+            << "Joint Photographic Experts Group (*.jpg *.jpeg)"
+            << "Portable Network Graphics (*.png)"
+            << "Portable Pixmap (*.ppm)"
+            << "Tagged Image File Format (*.tiff)"
+            << "X11 Bitmap (*.xbm)"
+            << "X11 Bitmap (*.xpm)";
+    dialog.setNameFilters(filters);
+    dialog.selectNameFilter(filters.at(FileDialogOptions::exportImage_filterIndex()));
 
     if (dialog.exec() == QDialog::Accepted)
     {
-        filter = dialog.selectedNameFilter();
+        QString filter = dialog.selectedNameFilter();
+        FileDialogOptions::setExportImage_filterIndex(filters.indexOf(filter));
         QString ext = "png";
+
         if (filter.contains("bmp"))
             ext = "bmp";
         else if (filter.contains("jpg"))

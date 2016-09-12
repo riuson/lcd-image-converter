@@ -30,6 +30,8 @@ public:
     static void setOpenDocument_filterIndex(int value);
     static int convertDocument_filterIndex();
     static void setConvertDocument_filterIndex(int value);
+    static int exportImage_filterIndex();
+    static void setExportImage_filterIndex(int value);
 };
 //-----------------------------------------------------------------------------
 #endif // FILEDIALOGOPTIONS_H
