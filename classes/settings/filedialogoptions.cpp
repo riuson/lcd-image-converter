@@ -46,3 +46,27 @@ void FileDialogOptions::setOpenDocument_filterIndex(int value)
     sett.endGroup();
 }
 //-----------------------------------------------------------------------------
+int FileDialogOptions::convertDocument_filterIndex()
+{
+    bool ok;
+
+    QSettings sett;
+    sett.beginGroup("filedialogs");
+    int result = sett.value("convertDocument_filterIndex", QVariant(0)).toInt(&ok);
+    sett.endGroup();
+
+    if (!ok) {
+        result = 0;
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+void FileDialogOptions::setConvertDocument_filterIndex(int value)
+{
+    QSettings sett;
+    sett.beginGroup("filedialogs");
+    sett.setValue("convertDocument_filterIndex", QVariant(value));
+    sett.endGroup();
+}
+//-----------------------------------------------------------------------------

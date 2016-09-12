@@ -28,6 +28,8 @@ class FileDialogOptions : public QObject
 public:
     static int openDocument_filterIndex();
     static void setOpenDocument_filterIndex(int value);
+    static int convertDocument_filterIndex();
+    static void setConvertDocument_filterIndex(int value);
 };
 //-----------------------------------------------------------------------------
 #endif // FILEDIALOGOPTIONS_H
