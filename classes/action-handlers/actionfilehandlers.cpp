@@ -103,6 +103,7 @@ void ActionFileHandlers::open_triggered()
 {
     QFileDialog dialog(this->mMainWindow->parentWidget());
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::OpenDocument));
     dialog.setFileMode(QFileDialog::ExistingFiles);
     dialog.setWindowTitle(tr("Open xml or image file"));
 
@@ -121,6 +122,7 @@ void ActionFileHandlers::open_triggered()
     if (dialog.exec() == QDialog::Accepted)
     {
         QStringList filenames = dialog.selectedFiles();
+        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::OpenDocument, dialog.directory().absolutePath());
         FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::OpenDocument, filters.indexOf(dialog.selectedNameFilter()));
 
         this->openFiles(filenames);
@@ -424,6 +426,7 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
         QFileDialog dialog(qobject_cast<QWidget *>(this->parent()));
         dialog.setAcceptMode(QFileDialog::AcceptSave);
         dialog.selectFile(outputFileName);
+        dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ConvertDocument));
         dialog.setFileMode(QFileDialog::AnyFile);
         dialog.setDefaultSuffix(QString("c"));
         dialog.setWindowTitle(tr("Save result file as"));
@@ -452,6 +455,7 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
         if (dialog.exec() == QDialog::Accepted)
         {
             outputFileName = dialog.selectedFiles().at(0);
+            FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ConvertDocument, dialog.directory().absolutePath());
             FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::ConvertDocument, filters.indexOf(dialog.selectedNameFilter()));
         }
         else

@@ -41,6 +41,7 @@ bool ImageExport::prepare(const IDocument *doc, const QStringList &keys)
 
     QFileDialog dialog(this->mParentWidget);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ExportImage));
     dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setWindowTitle(tr("Save image file"));
 
@@ -64,6 +65,7 @@ bool ImageExport::prepare(const IDocument *doc, const QStringList &keys)
     if (dialog.exec() == QDialog::Accepted)
     {
         QString filter = dialog.selectedNameFilter();
+        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ExportImage, dialog.directory().absolutePath());
         FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::ExportImage, filters.indexOf(filter));
         QString ext = "png";
 

@@ -21,6 +21,7 @@
 
 #include <QSettings>
 #include <QFile>
+#include <QDir>
 //-----------------------------------------------------------------------------
 int FileDialogOptions::filterIndex(FileDialogOptions::Dialogs dialog)
 {
@@ -41,6 +42,38 @@ void FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs dialog, int va
     if (FileDialogOptions::itemName(dialog, &dialogName))
     {
         return FileDialogOptions::setInteger(QString("%1_filterIndex").arg(dialogName), value);
+    }
+}
+//-----------------------------------------------------------------------------
+const QString FileDialogOptions::directory(FileDialogOptions::Dialogs dialog)
+{
+    QString dialogName;
+
+    if (FileDialogOptions::itemName(dialog, &dialogName))
+    {
+        QString result = FileDialogOptions::getString(QString("%1_directory").arg(dialogName));
+
+        if (!result.isEmpty())
+        {
+            QDir dir(result);
+
+            if (dir.exists())
+            {
+                return dir.absolutePath();
+            }
+        }
+    }
+
+    return QDir::homePath();
+}
+//-----------------------------------------------------------------------------
+void FileDialogOptions::setDirectory(FileDialogOptions::Dialogs dialog, const QString &value)
+{
+    QString dialogName;
+
+    if (FileDialogOptions::itemName(dialog, &dialogName))
+    {
+        return FileDialogOptions::setString(QString("%1_directory").arg(dialogName), value);
     }
 }
 //-----------------------------------------------------------------------------
@@ -81,6 +114,24 @@ int FileDialogOptions::getInteger(const QString &name)
 }
 //-----------------------------------------------------------------------------
 void FileDialogOptions::setInteger(const QString &name, int value)
+{
+    QSettings sett;
+    sett.beginGroup("filedialogs");
+    sett.setValue(name, QVariant(value));
+    sett.endGroup();
+}
+//-----------------------------------------------------------------------------
+const QString FileDialogOptions::getString(const QString &name)
+{
+    QSettings sett;
+    sett.beginGroup("filedialogs");
+    QString result = sett.value(name, QVariant(0)).toString();
+    sett.endGroup();
+
+    return result;
+}
+//-----------------------------------------------------------------------------
+void FileDialogOptions::setString(const QString &name, const QString &value)
 {
     QSettings sett;
     sett.beginGroup("filedialogs");
