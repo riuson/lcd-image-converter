@@ -27,14 +27,19 @@ class FileDialogOptions : public QObject
 {
     Q_OBJECT
 public:
-    static int openDocument_filterIndex();
-    static void setOpenDocument_filterIndex(int value);
-    static int convertDocument_filterIndex();
-    static void setConvertDocument_filterIndex(int value);
-    static int exportImage_filterIndex();
-    static void setExportImage_filterIndex(int value);
+    enum class Dialogs
+    {
+        None = 0,
+        OpenDocument = 1,
+        ConvertDocument = 2,
+        ExportImage = 3
+    };
+
+    static int filterIndex(Dialogs dialog);
+    static void setFilterIndex(Dialogs dialog, int value);
 
 private:
+    static bool itemName(Dialogs item, QString *name);
     static int getInteger(const QString &name);
     static void setInteger(const QString &name, int value);
 };

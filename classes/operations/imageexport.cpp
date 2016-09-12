@@ -53,12 +53,12 @@ bool ImageExport::prepare(const IDocument *doc, const QStringList &keys)
             << "X11 Bitmap (*.xbm)"
             << "X11 Bitmap (*.xpm)";
     dialog.setNameFilters(filters);
-    dialog.selectNameFilter(filters.at(FileDialogOptions::exportImage_filterIndex()));
+    dialog.selectNameFilter(filters.at(FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::ExportImage)));
 
     if (dialog.exec() == QDialog::Accepted)
     {
         QString filter = dialog.selectedNameFilter();
-        FileDialogOptions::setExportImage_filterIndex(filters.indexOf(filter));
+        FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::ExportImage, filters.indexOf(filter));
         QString ext = "png";
 
         if (filter.contains("bmp"))

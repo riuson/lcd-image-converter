@@ -110,12 +110,12 @@ void ActionFileHandlers::open_triggered()
     filters << tr("XML Files (*.xml)")
             << tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)");
     dialog.setNameFilters(filters);
-    dialog.selectNameFilter(filters.at(FileDialogOptions::openDocument_filterIndex()));
+    dialog.selectNameFilter(filters.at(FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::OpenDocument)));
 
     if (dialog.exec() == QDialog::Accepted)
     {
         QStringList filenames = dialog.selectedFiles();
-        FileDialogOptions::setOpenDocument_filterIndex(filters.indexOf(dialog.selectedNameFilter()));
+        FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::OpenDocument, filters.indexOf(dialog.selectedNameFilter()));
 
         this->openFiles(filenames);
     }
@@ -426,7 +426,7 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
         filters << tr("C Files (*.c)")
                 << tr("All Files (*.*)");
         dialog.setNameFilters(filters);
-        dialog.selectNameFilter(filters.at(FileDialogOptions::convertDocument_filterIndex()));
+        dialog.selectNameFilter(filters.at(FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::ConvertDocument)));
 
         if (outputFilenameNotSpecified)
         {
@@ -440,7 +440,7 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
         if (dialog.exec() == QDialog::Accepted)
         {
             outputFileName = dialog.selectedFiles().at(0);
-            FileDialogOptions::setConvertDocument_filterIndex(filters.indexOf(dialog.selectedNameFilter()));
+            FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::ConvertDocument, filters.indexOf(dialog.selectedNameFilter()));
         }
         else
         {

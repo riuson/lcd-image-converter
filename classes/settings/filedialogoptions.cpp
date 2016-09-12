@@ -22,34 +22,46 @@
 #include <QSettings>
 #include <QFile>
 //-----------------------------------------------------------------------------
-int FileDialogOptions::openDocument_filterIndex()
+int FileDialogOptions::filterIndex(FileDialogOptions::Dialogs dialog)
 {
-    return FileDialogOptions::getInteger("openDocument_filterIndex");
+    QString dialogName;
+
+    if (FileDialogOptions::itemName(dialog, &dialogName))
+    {
+        return FileDialogOptions::getInteger(QString("%1_filterIndex").arg(dialogName));
+    }
+
+    return 0;
 }
 //-----------------------------------------------------------------------------
-void FileDialogOptions::setOpenDocument_filterIndex(int value)
+void FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs dialog, int value)
 {
-    FileDialogOptions::setInteger("openDocument_filterIndex", value);
+    QString dialogName;
+
+    if (FileDialogOptions::itemName(dialog, &dialogName))
+    {
+        return FileDialogOptions::setInteger(QString("%1_filterIndex").arg(dialogName), value);
+    }
 }
 //-----------------------------------------------------------------------------
-int FileDialogOptions::convertDocument_filterIndex()
+bool FileDialogOptions::itemName(FileDialogOptions::Dialogs item, QString *name)
 {
-    return FileDialogOptions::getInteger("convertDocument_filterIndex");
-}
-//-----------------------------------------------------------------------------
-void FileDialogOptions::setConvertDocument_filterIndex(int value)
-{
-    FileDialogOptions::setInteger("convertDocument_filterIndex", value);
-}
-//-----------------------------------------------------------------------------
-int FileDialogOptions::exportImage_filterIndex()
-{
-    return FileDialogOptions::getInteger("exportImage_filterIndex");
-}
-//-----------------------------------------------------------------------------
-void FileDialogOptions::setExportImage_filterIndex(int value)
-{
-    FileDialogOptions::setInteger("exportImage_filterIndex", value);
+    QStringList names;
+    names << "none"
+          << "openDocument"
+          << "convertDocument"
+          << "exportImage";
+
+    int index = (int)item;
+
+    if (index == 0 || index >= names.count())
+    {
+        *name = QString();
+        return false;
+    }
+
+    *name = names.at(index);
+    return true;
 }
 //-----------------------------------------------------------------------------
 int FileDialogOptions::getInteger(const QString &name)
