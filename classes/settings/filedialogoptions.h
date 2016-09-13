@@ -30,14 +30,17 @@ public:
     enum class Dialogs
     {
         None = 0,
+
         OpenDocument,
+        SaveDocument,
         ConvertDocument,
+
+        ImportImage,
         ExportImage,
 
-        SaveDocument,
-        ImportImage,
         ImportPreset,
         ExportPreset,
+
         TemplateImage,
         TemplateFont
     };

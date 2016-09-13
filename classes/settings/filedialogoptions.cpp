@@ -22,6 +22,7 @@
 #include <QSettings>
 #include <QFile>
 #include <QDir>
+#include <QMap>
 //-----------------------------------------------------------------------------
 int FileDialogOptions::filterIndex(FileDialogOptions::Dialogs dialog)
 {
@@ -79,27 +80,24 @@ void FileDialogOptions::setDirectory(FileDialogOptions::Dialogs dialog, const QS
 //-----------------------------------------------------------------------------
 bool FileDialogOptions::itemName(FileDialogOptions::Dialogs item, QString *name)
 {
-    QStringList names;
-    names << "none"
-          << "openDocument"
-          << "convertDocument"
-          << "exportImage"
-          << "saveDocument"
-          << "importImage"
-          << "importPreset"
-          << "exportPreset"
-          << "templateImage"
-          << "templateFont";
+    QMap<Dialogs, QString> names;
+    names[Dialogs::OpenDocument] = "openDocument";
+    names[Dialogs::SaveDocument] =  "saveDocument";
+    names[Dialogs::ConvertDocument] = "convertDocument";
+    names[Dialogs::ImportImage] =  "importImage";
+    names[Dialogs::ExportImage] =  "exportImage";
+    names[Dialogs::ImportPreset] =  "importPreset";
+    names[Dialogs::ExportPreset] =  "exportPreset";
+    names[Dialogs::TemplateImage] =  "templateImage";
+    names[Dialogs::TemplateFont] =  "templateFont";
 
-    int index = (int)item;
-
-    if (index == 0 || index >= names.count())
+    if (!names.contains(item))
     {
         *name = QString();
         return false;
     }
 
-    *name = names.at(index);
+    *name = names[item];
     return true;
 }
 //-----------------------------------------------------------------------------
