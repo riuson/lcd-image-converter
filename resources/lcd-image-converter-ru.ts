@@ -31,62 +31,68 @@
 <context>
     <name>ActionFileHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="46"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="50"/>
         <source>Enter image name</source>
         <translation>Введите имя изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="47"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="51"/>
         <source>Image name:</source>
         <translation>Имя изображения:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="67"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="71"/>
         <source>Enter font name</source>
         <translation>Введите имя шрифта</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="68"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="72"/>
         <source>Font name:</source>
         <translation>Имя шрифта:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="105"/>
-        <source>XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
-        <translation>Файлы XML (*.xml);;Файлы изображений (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="449"/>
+        <source>C Files (*.c)</source>
+        <translation>Файлы C (*.c)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="106"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="450"/>
+        <source>All Files (*.*)</source>
+        <translation>Все файлы (*.*)</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="110"/>
         <source>Open xml or image file</source>
         <translation>Открыть xml документ или изображение</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="123"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="114"/>
+        <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
+        <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="141"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="124"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="142"/>
         <source>New name:</source>
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="155"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="113"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="173"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="157"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="175"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="414"/>
-        <source>C Files (*.c);;All Files (*.*)</source>
-        <translation>Файлы C (*.c);;Все файлы (*.*)</translation>
-    </message>
-    <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="416"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="446"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -571,87 +577,87 @@ Qt: %4</translation>
         <translation>Открыть предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="155"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="156"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="158"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="159"/>
         <source>Grayscale 4</source>
         <translation>Градации серого 4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="161"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="162"/>
         <source>Grayscale 8</source>
         <translation>Градации серого 8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="164"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="165"/>
         <source>Color R4G5B4</source>
         <translation>Цветное R4G5B4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="167"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="168"/>
         <source>Color R5G6B5</source>
         <translation>Цветное R5G6B5</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="170"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="171"/>
         <source>Color R8G8B8</source>
         <translation>Цветное R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="173"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="174"/>
         <source>Color A8R8G8B8</source>
         <translation>Цветное A8R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="187"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="188"/>
         <source>Import - Attention</source>
         <translation>Импорт - Внимание</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="231"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="232"/>
         <source>Enter preset name</source>
         <translation>Введите название предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="231"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="232"/>
         <source>Preset name:</source>
         <translation>Название предустановки:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="253"/>
-        <location filename="../controls/setup/dialogoptions.cpp" line="279"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="255"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="283"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="254"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="256"/>
         <source>Open xml preset file</source>
         <translation>Открыть xml файл предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="281"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="285"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="312"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="317"/>
         <source>Preset with name &quot;%1&quot; already exists. Continue with overwrite?</source>
         <comment>Warning about preset overwrite</comment>
         <translatorcomment>Предупреждение о перезаписи существующей предустановки</translatorcomment>
         <translation>Предустановка с именем &quot;%1&quot; уже существует. Продолжить с перезаписью?</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="315"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="320"/>
         <source>Preset with name &quot;%1&quot; doesn&apos;t exists. All OK.</source>
         <comment>Warning about preset overwrite</comment>
         <translatorcomment>Предупреждение о перезаписи существующей предустановки</translatorcomment>
         <translation>Предустановка с именем &quot;%1&quot; не существует. Можно продолжать.</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="327"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="332"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
     </message>
@@ -1144,18 +1150,18 @@ Qt: %4</translation>
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="91"/>
+        <location filename="../controls/main/mainwindow.cpp" line="92"/>
         <source>langName</source>
         <translatorcomment>название языка в который переводим</translatorcomment>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="324"/>
+        <location filename="../controls/main/mainwindow.cpp" line="325"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="326"/>
+        <location filename="../controls/main/mainwindow.cpp" line="327"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -1254,7 +1260,7 @@ Qt: %4</translation>
 <context>
     <name>Operations::ImageExport</name>
     <message>
-        <location filename="../classes/operations/imageexport.cpp" line="51"/>
+        <location filename="../classes/operations/imageexport.cpp" line="46"/>
         <source>Save image file</source>
         <translation>Сохранить файл изображения</translation>
     </message>
@@ -1262,29 +1268,29 @@ Qt: %4</translation>
 <context>
     <name>Operations::ImageImport</name>
     <message>
-        <location filename="../classes/operations/imageimport.cpp" line="43"/>
+        <location filename="../classes/operations/imageimport.cpp" line="45"/>
         <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../classes/operations/imageimport.cpp" line="44"/>
+        <location filename="../classes/operations/imageimport.cpp" line="46"/>
         <source>Open image file</source>
         <translation>Открыть файл изображения</translation>
     </message>
     <message>
-        <location filename="../classes/operations/imageimport.cpp" line="57"/>
+        <location filename="../classes/operations/imageimport.cpp" line="60"/>
         <source>Selected %1 file(s) and %2 character(s).
 Will be imported only a minimal amount: %3.</source>
         <translation>Выбрано %1 файл(ов) и %2 символ(ов).
 Будет импортировано только минимальное количество: %3.</translation>
     </message>
     <message>
-        <location filename="../classes/operations/imageimport.cpp" line="66"/>
+        <location filename="../classes/operations/imageimport.cpp" line="69"/>
         <source>Selected a different number of files and characters.</source>
         <translation>Выбрано разное количество файлов и символов.</translation>
     </message>
     <message>
-        <location filename="../classes/operations/imageimport.cpp" line="67"/>
+        <location filename="../classes/operations/imageimport.cpp" line="70"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
@@ -1692,22 +1698,22 @@ Will be imported only a minimal amount: %3.</source>
         <translation>Шрифт:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="67"/>
+        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="71"/>
         <source>Any file (*.*)</source>
         <translation>Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="54"/>
+        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="56"/>
         <source>Open image template file</source>
         <translation>Открыть файл шаблона изображения</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="53"/>
+        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="55"/>
         <source>All files (*.*)</source>
         <translation>Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="68"/>
+        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="72"/>
         <source>Open font template file</source>
         <translation>Открыть файл шаблона шрифта</translation>
     </message>

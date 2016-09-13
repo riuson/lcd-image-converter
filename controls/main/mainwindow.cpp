@@ -48,6 +48,7 @@
 #include "ieditor.h"
 #include "idocument.h"
 #include "bitmaphelper.h"
+#include "filedialogoptions.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -327,6 +328,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
 
                     if (editor->document()->documentFilename().isEmpty())
                     {
+                        dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::SaveDocument));
                         dialog.selectFile(editor->document()->documentName());
                     }
                     else
@@ -336,7 +338,9 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
 
                     if (dialog.exec() == QDialog::Accepted)
                     {
+                        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
                         QString filename = dialog.selectedFiles().at(0);
+
                         if (editor->document()->save(filename))
                         {
                             this->rememberFilename(editor->document()->documentFilename());
