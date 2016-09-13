@@ -23,6 +23,8 @@
 #include "editortabfont.h"
 #include "dialogfontselect.h"
 #include <QFileDialog>
+#include <QDir>
+#include <QFileInfo>
 #include <QTextStream>
 #include <QInputDialog>
 #include <QLineEdit>
@@ -172,6 +174,17 @@ void ActionFileHandlers::saveAs_triggered()
         dialog.setDefaultSuffix(QString("xml"));
         dialog.setWindowTitle(tr("Save file as"));
 
+        QFileInfo outputFile(editor->document()->documentFilename());
+
+        if (outputFile.exists())
+        {
+            dialog.setDirectory(outputFile.dir());
+        }
+        else
+        {
+            dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::SaveDocument));
+        }
+
         if (editor->document()->documentFilename().isEmpty())
         {
             dialog.selectFile(editor->document()->documentName());
@@ -183,6 +196,7 @@ void ActionFileHandlers::saveAs_triggered()
 
         if (dialog.exec() == QDialog::Accepted)
         {
+            FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
             QString filename = dialog.selectedFiles().at(0);
             editor->document()->save(filename);
 

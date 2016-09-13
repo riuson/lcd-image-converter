@@ -34,6 +34,7 @@
 #include "setuptabfont.h"
 #include "setuptabtemplates.h"
 #include "preset.h"
+#include "filedialogoptions.h"
 //-----------------------------------------------------------------------------
 DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
@@ -249,12 +250,14 @@ void DialogOptions::on_pushButtonPresetImport_clicked()
 {
     QFileDialog dialog(this->parentWidget());
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ImportPreset));
     dialog.setFileMode(QFileDialog::ExistingFiles);
     dialog.setNameFilter(tr("XML Files (*.xml)"));
     dialog.setWindowTitle(tr("Open xml preset file"));
 
     if (dialog.exec() == QDialog::Accepted)
     {
+        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ImportPreset, dialog.directory().absolutePath());
         QString filename = dialog.selectedFiles().at(0);
 
         Preset *importedPreset = new Preset(this);
@@ -275,6 +278,7 @@ void DialogOptions::on_pushButtonPresetExport_clicked()
 {
     QFileDialog dialog(this->parentWidget());
     dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ExportPreset));
     dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setNameFilter(tr("XML Files (*.xml)"));
     dialog.setDefaultSuffix(QString("xml"));
@@ -283,6 +287,7 @@ void DialogOptions::on_pushButtonPresetExport_clicked()
 
     if (dialog.exec() == QDialog::Accepted)
     {
+        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ExportPreset, dialog.directory().absolutePath());
         QString filename = dialog.selectedFiles().at(0);
         this->mPreset->saveXML(filename);
     }

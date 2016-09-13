@@ -83,7 +83,13 @@ bool FileDialogOptions::itemName(FileDialogOptions::Dialogs item, QString *name)
     names << "none"
           << "openDocument"
           << "convertDocument"
-          << "exportImage";
+          << "exportImage"
+          << "saveDocument"
+          << "importImage"
+          << "importPreset"
+          << "exportPreset"
+          << "templateImage"
+          << "templateFont";
 
     int index = (int)item;
 

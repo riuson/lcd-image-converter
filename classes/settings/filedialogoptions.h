@@ -30,9 +30,16 @@ public:
     enum class Dialogs
     {
         None = 0,
-        OpenDocument = 1,
-        ConvertDocument = 2,
-        ExportImage = 3
+        OpenDocument,
+        ConvertDocument,
+        ExportImage,
+
+        SaveDocument,
+        ImportImage,
+        ImportPreset,
+        ExportPreset,
+        TemplateImage,
+        TemplateFont
     };
 
     static int filterIndex(Dialogs dialog);
