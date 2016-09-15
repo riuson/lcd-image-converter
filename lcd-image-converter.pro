@@ -76,6 +76,7 @@ SOURCES += main.cpp \
     classes/data/historyrecord.cpp \
     classes/data/imagedocument.cpp \
     classes/data/imagesmodel.cpp \
+    classes/data/imagesscaledproxy.cpp \
     classes/data/revisioninfo.cpp \
     classes/imageeditor/editor.cpp \
     classes/imageeditor/toolcolor.cpp \
@@ -179,6 +180,7 @@ HEADERS += \
     classes/data/historyrecord.h \
     classes/data/imagedocument.h \
     classes/data/imagesmodel.h \
+    classes/data/imagesscaledproxy.h \
     classes/data/revisioninfo.h \
     classes/data/tfontparameters.h \
     classes/imageeditor/editor.h \
