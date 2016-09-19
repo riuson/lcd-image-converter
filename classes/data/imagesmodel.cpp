@@ -26,7 +26,6 @@ ImagesModel::ImagesModel(DataContainer *container, Qt::Orientation orientation, 
     QAbstractItemModel(parent)
 {
     this->mContainer = container;
-    this->mScale = 2;
     this->mOrientation = orientation;
 
     this->setCrop(0, 0, 0, 0);
@@ -154,7 +153,7 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
     {
         if (columnIndex == 1)
         {
-            result = this->containerValue(valueIndex, PixmapScaledCroppedRole);
+            result = this->containerValue(valueIndex, ImageRole);
         }
         break;
     }
@@ -162,10 +161,7 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
     {
         if (columnIndex == 1)
         {
-            QSize size = this->containerValueSize(valueIndex, PixmapScaledCroppedRole);
-            size.rheight() += 10;
-            size.rwidth() += 10;
-
+            QSize size = this->containerValueSize(valueIndex, ImageRole);
             result = size;
         }
         break;
@@ -181,9 +177,6 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
     case KeyRole:
     case KeyCodeRole:
     case ImageRole:
-    case ImageScaledRole:
-    case PixmapRole:
-    case PixmapScaledRole:
     {
         result = this->containerValue(valueIndex, (ImagesModelRoles)role);
         break;
@@ -191,6 +184,7 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
     default:
         break;
     }
+
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -214,26 +208,20 @@ void ImagesModel::callReset()
 //-----------------------------------------------------------------------------
 int ImagesModel::scale() const
 {
-    return this->mScale;
+    return 1;
 }
 //-----------------------------------------------------------------------------
 void ImagesModel::setScale(int value)
 {
-    if (value >= 1)
-    {
-        this->mScale = value;
-        emit this->scaleChanged();
-    }
+    Q_UNUSED(value)
 }
 //-----------------------------------------------------------------------------
 void ImagesModel::setCrop(int left, int top, int right, int bottom)
 {
-    this->mLeft = left;
-    this->mTop = top;
-    this->mRight = right;
-    this->mBottom = bottom;
-
-    this->imagesChanged();
+    Q_UNUSED(left)
+    Q_UNUSED(top)
+    Q_UNUSED(right)
+    Q_UNUSED(bottom)
 }
 //-----------------------------------------------------------------------------
 QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) const
@@ -263,50 +251,6 @@ QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) cons
             result = QImage(*source);
             break;
         }
-        case ImageScaledRole:
-        {
-            const QImage *source = this->mContainer->image(key);
-
-            QImage scaled = BitmapHelper::scale(source, this->mScale);
-            QImage grids = BitmapHelper::drawGrid(&scaled, this->mScale);
-
-            result = grids;
-            break;
-        }
-        case PixmapRole:
-        {
-            const QImage *source = this->mContainer->image(key);
-            result = QPixmap::fromImage(*source);
-            break;
-        }
-        case PixmapScaledRole:
-        {
-            const QImage *source = this->mContainer->image(key);
-
-            QImage scaled = BitmapHelper::scale(source, this->mScale);
-            QImage grids = BitmapHelper::drawGrid(&scaled, this->mScale);
-
-            result = QPixmap::fromImage(grids);
-            break;
-        }
-        case PixmapScaledCroppedRole:
-        {
-            const QImage *source = this->mContainer->image(key);
-
-            QColor backgroundColor = BitmapHelper::detectBackgroundColor(source);
-
-            if (backgroundColor.alpha() != 255)
-            {
-                backgroundColor = QColor("white");
-            }
-
-            QImage cropped = BitmapHelper::crop(source, this->mLeft, this->mTop, this->mRight, this->mBottom, backgroundColor);
-            QImage scaled = BitmapHelper::scale(&cropped, this->mScale);
-            QImage grids = BitmapHelper::drawGrid(&scaled, this->mScale);
-
-            result = QPixmap::fromImage(grids);
-            break;
-        }
         }
     }
 
@@ -326,37 +270,8 @@ QSize ImagesModel::containerValueSize(int imageIndex, ImagesModelRoles role) con
         switch (role)
         {
         case ImageRole:
-        case PixmapRole:
         {
             result = source->size();
-            break;
-        }
-        case ImageScaledRole:
-        case PixmapScaledRole:
-        {
-            result = source->size();
-            result.rheight() *= this->mScale;
-            result.rwidth() *= this->mScale;
-            break;
-        }
-        case PixmapScaledCroppedRole:
-        {
-            result = source->size();
-
-            result.rwidth() += this->mLeft + this->mRight;
-            result.rheight() += this->mTop + this->mBottom;
-
-            if (result.height() < 1)
-            {
-                result.setHeight(1);
-            }
-            if (result.width() < 1)
-            {
-                result.setWidth(1);
-            }
-
-            result.rheight() *= this->mScale;
-            result.rwidth() *= this->mScale;
             break;
         }
         default:

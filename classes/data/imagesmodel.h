@@ -32,11 +32,7 @@ public:
     {
         KeyRole = Qt::UserRole + 1,
         KeyCodeRole,
-        ImageRole,
-        ImageScaledRole,
-        PixmapRole,
-        PixmapScaledRole,
-        PixmapScaledCroppedRole
+        ImageRole
     };
 
     explicit ImagesModel(DataContainer *container, Qt::Orientation orientation = Qt::Vertical, QObject *parent = 0);
@@ -57,11 +53,6 @@ public:
 private:
     DataContainer *mContainer;
     Qt::Orientation mOrientation;
-    int mScale;
-    int mLeft;
-    int mRight;
-    int mTop;
-    int mBottom;
 
     QVariant containerValue(int imageIndex, ImagesModelRoles role) const;
     QSize containerValueSize(int imageIndex, ImagesModelRoles role) const;
