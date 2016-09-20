@@ -22,6 +22,7 @@
 
 #include <QItemSelectionModel>
 #include "imagesmodel.h"
+#include "imagesscaledproxy.h"
 #include "imagesfilterproxy.h"
 #include "resizesettings.h"
 //-----------------------------------------------------------------------------
@@ -35,8 +36,11 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
 
     this->mModel = new ImagesModel(container, Qt::Horizontal, this);
 
+    this->mScaledProxy = new ImagesScaledProxy(this);
+    this->mScaledProxy->setSourceModel(this->mModel);
+
     this->mFilter = new ImagesFilterProxy(this);
-    this->mFilter->setSourceModel(this->mModel);
+    this->mFilter->setSourceModel(this->mScaledProxy);
 
     this->ui->tableView->setModel(this->mFilter);
 
@@ -110,7 +114,7 @@ void DialogCanvasResize::spinBox_valueChanged(int value)
 //-----------------------------------------------------------------------------
 void DialogCanvasResize::on_spinBoxScale_valueChanged(int value)
 {
-    this->mModel->setScale(value);
+    this->mScaledProxy->setScale(value);
 
     this->resizeToContents();
 }

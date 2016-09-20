@@ -38,7 +38,6 @@ QVariant ImagesScaledProxy::data(const QModelIndex &index, int role) const
         return result;
 
     int columnIndex = index.column();
-    int valueIndex = index.row();
 
     switch (role)
     {
@@ -48,6 +47,7 @@ QVariant ImagesScaledProxy::data(const QModelIndex &index, int role) const
         {
             QImage imageSource = result.value<QImage>();
             QImage imageScaled = BitmapHelper::scale(&imageSource, this->mScale);
+            imageScaled = BitmapHelper::drawGrid(&imageScaled, this->mScale);
             result = imageScaled;
         }
         break;
