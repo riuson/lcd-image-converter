@@ -18,6 +18,7 @@
  */
 
 #include "imagesscaledproxy.h"
+#include "bitmaphelper.h"
 
 ImagesScaledProxy::ImagesScaledProxy(QObject *parent)
     : QSortFilterProxyModel(parent)
@@ -31,13 +32,41 @@ ImagesScaledProxy::~ImagesScaledProxy()
 
 QVariant ImagesScaledProxy::data(const QModelIndex &index, int role) const
 {
-    Q_UNUSED(role)
+    QVariant result = this->sourceModel()->data(index, role);
 
     if (!index.isValid())
-        return QVariant();
+        return result;
 
-    // FIXME: Implement me!
-    return QVariant();
+    int columnIndex = index.column();
+    int valueIndex = index.row();
+
+    switch (role)
+    {
+    case Qt::DecorationRole:
+    {
+        if (columnIndex == 1)
+        {
+            QImage imageSource = result.value<QImage>();
+            QImage imageScaled = BitmapHelper::scale(&imageSource, this->mScale);
+            result = imageScaled;
+        }
+        break;
+    }
+    case Qt::SizeHintRole:
+    {
+        if (columnIndex == 1)
+        {
+            QSize size = result.toSize();
+            size.scale(size.width() * this->mScale, size.height() * this->mScale, Qt::KeepAspectRatio);
+            result = size;
+        }
+        break;
+    }
+    default:
+        break;
+    }
+
+    return result;
 }
 
 int ImagesScaledProxy::scale() const
