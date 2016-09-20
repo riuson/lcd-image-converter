@@ -35,6 +35,7 @@
 
 #include "datacontainer.h"
 #include "imagesmodel.h"
+#include "imagesscaledproxy.h"
 #include "parser.h"
 #include "dialogfontchanged.h"
 #include "tags.h"
@@ -58,9 +59,14 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
     this->mLastImagesCount = 0;
 
     this->mModel = new ImagesModel(this->mDocument->dataContainer(), Qt::Vertical, this);
-    this->ui->tableViewCharacters->setModel(this->mModel);
-    this->connect(this->mModel, SIGNAL(scaleChanged()), SLOT(resizeToContents()));
-    this->mModel->setScale(FontEditorOptions::scale());
+
+    this->mScaledProxy = new ImagesScaledProxy(this);
+    this->mScaledProxy->setScale(FontEditorOptions::scale());
+    this->connect(this->mScaledProxy, SIGNAL(scaleChanged()), SLOT(resizeToContents()));
+
+    this->mScaledProxy->setSourceModel(this->mModel);
+
+    this->ui->tableViewCharacters->setModel(this->mScaledProxy);
 
     QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
     this->connect(selectionModel, SIGNAL(currentChanged(QModelIndex,QModelIndex)), SLOT(currentChanged(QModelIndex,QModelIndex)));
@@ -85,6 +91,7 @@ EditorTabFont::~EditorTabFont()
 {
     this->mEditorWidget->setParent(NULL);
     delete ui;
+    delete this->mScaledProxy;
     delete this->mModel;
     delete this->mEditorObject;
 }
@@ -180,13 +187,13 @@ void EditorTabFont::wheelEvent(QWheelEvent *event)
             {
                 if (event->delta() > 0)
                 {
-                    this->mModel->setScale(this->mModel->scale() + 1);
+                    this->mScaledProxy->setScale(this->mScaledProxy->scale() + 1);
                 }
                 else if (event->delta() < 0)
                 {
-                    this->mModel->setScale(this->mModel->scale() - 1);
+                    this->mScaledProxy->setScale(this->mScaledProxy->scale() - 1);
                 }
-                FontEditorOptions::setScale(this->mModel->scale());
+                FontEditorOptions::setScale(this->mScaledProxy->scale());
             }
             event->accept();
         }
