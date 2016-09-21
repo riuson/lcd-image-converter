@@ -58,7 +58,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
     this->mLastImagesCount = 0;
 
-    this->mModel = new ImagesModel(this->mDocument->dataContainer(), Qt::Vertical, this);
+    this->mModel = new ImagesModel(this->mDocument->dataContainer(), this);
 
     this->mScaledProxy = new ImagesScaledProxy(this);
     this->mScaledProxy->setScale(FontEditorOptions::scale());

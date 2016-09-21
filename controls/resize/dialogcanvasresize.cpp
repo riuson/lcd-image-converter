@@ -34,7 +34,7 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
 
     this->mContainer = container;
 
-    this->mModel = new ImagesModel(container, Qt::Horizontal, this);
+    this->mModel = new ImagesModel(container, this);
 
     this->mScaledProxy = new ImagesScaledProxy(this);
     this->mScaledProxy->setSourceModel(this->mModel);

@@ -22,11 +22,10 @@
 #include "datacontainer.h"
 #include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
-ImagesModel::ImagesModel(DataContainer *container, Qt::Orientation orientation, QObject *parent) :
+ImagesModel::ImagesModel(DataContainer *container, QObject *parent) :
     QAbstractItemModel(parent)
 {
     this->mContainer = container;
-    this->mOrientation = orientation;
 
     this->setCrop(0, 0, 0, 0);
 
@@ -37,28 +36,14 @@ int ImagesModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
-    if (this->mOrientation == Qt::Vertical)
-    {
-        return this->mContainer->count();
-    }
-    else
-    {
-        return 2;
-    }
+    return this->mContainer->count();
 }
 //-----------------------------------------------------------------------------
 int ImagesModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
-    if (this->mOrientation == Qt::Vertical)
-    {
-        return 2;
-    }
-    else
-    {
-        return this->mContainer->count();
-    }
+    return 2;
 }
 //-----------------------------------------------------------------------------
 QVariant ImagesModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -66,56 +51,27 @@ QVariant ImagesModel::headerData(int section, Qt::Orientation orientation, int r
     QVariant result;
     if (role == Qt::DisplayRole)
     {
-        if (this->mOrientation == Qt::Vertical)
+        if (orientation == Qt::Vertical)
         {
-            if (orientation == Qt::Vertical)
-            {
-                result = this->containerValue(section, KeyCodeRole);
-            }
-            else
-            {
-                switch (section)
-                {
-                case 0:
-                {
-                    if (this->rowCount(QModelIndex()) > 1)
-                    {
-                        result = tr("Character");
-                    }
-                    break;
-                }
-                case 1:
-                {
-                    result = tr("Preview", "character preview");
-                    break;
-                }
-                }
-            }
+            result = this->containerValue(section, KeyCodeRole);
         }
         else
         {
-            if (orientation == Qt::Horizontal)
+            switch (section)
             {
-                result = this->containerValue(section, KeyCodeRole);
+            case 0:
+            {
+                if (this->rowCount(QModelIndex()) > 1)
+                {
+                    result = tr("Character");
+                }
+                break;
             }
-            else
+            case 1:
             {
-                switch (section)
-                {
-                case 0:
-                {
-                    if (this->columnCount(QModelIndex()) > 1)
-                    {
-                        result = tr("Character");
-                    }
-                    break;
-                }
-                case 1:
-                {
-                    result = tr("Preview", "character preview");
-                    break;
-                }
-                }
+                result = tr("Preview", "character preview");
+                break;
+            }
             }
         }
     }
@@ -131,13 +87,6 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
 
     int columnIndex = index.column();
     int valueIndex = index.row();
-
-    // swap for horizontal
-    if (this->mOrientation == Qt::Horizontal)
-    {
-        columnIndex = index.row();
-        valueIndex = index.column();
-    }
 
     switch (role)
     {
