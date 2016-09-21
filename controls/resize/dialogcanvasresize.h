@@ -30,6 +30,7 @@ class QItemSelection;
 class DataContainer;
 class ImagesModel;
 class ImagesScaledProxy;
+class ImagesResizedProxy;
 class ImagesFilterProxy;
 //-----------------------------------------------------------------------------
 class DialogCanvasResize : public QDialog
@@ -50,6 +51,7 @@ private:
     DataContainer *mContainer;
     ImagesModel *mModel;
     ImagesScaledProxy *mScaledProxy;
+    ImagesResizedProxy *mResizedProxy;
     ImagesFilterProxy *mFilter;
 
     int mLeft;
