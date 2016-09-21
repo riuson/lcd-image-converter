@@ -46,10 +46,6 @@ public:
 
     void callReset();
 
-    int scale() const;
-    void setScale(int value);
-    void setCrop(int left, int top, int right, int bottom);
-
 private:
     DataContainer *mContainer;
 

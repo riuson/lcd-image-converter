@@ -27,8 +27,6 @@ ImagesModel::ImagesModel(DataContainer *container, QObject *parent) :
 {
     this->mContainer = container;
 
-    this->setCrop(0, 0, 0, 0);
-
     this->connect(this->mContainer, SIGNAL(dataChanged(bool)), SLOT(imagesChanged()));
 }
 //-----------------------------------------------------------------------------
@@ -153,24 +151,6 @@ void ImagesModel::callReset()
 {
     this->beginResetModel();
     this->endResetModel();
-}
-//-----------------------------------------------------------------------------
-int ImagesModel::scale() const
-{
-    return 1;
-}
-//-----------------------------------------------------------------------------
-void ImagesModel::setScale(int value)
-{
-    Q_UNUSED(value)
-}
-//-----------------------------------------------------------------------------
-void ImagesModel::setCrop(int left, int top, int right, int bottom)
-{
-    Q_UNUSED(left)
-    Q_UNUSED(top)
-    Q_UNUSED(right)
-    Q_UNUSED(bottom)
 }
 //-----------------------------------------------------------------------------
 QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) const
