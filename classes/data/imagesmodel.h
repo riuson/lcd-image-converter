@@ -32,7 +32,8 @@ public:
     {
         KeyRole = Qt::UserRole + 1,
         KeyCodeRole,
-        ImageRole
+        ImageRole,
+        ImageSizeRole
     };
 
     explicit ImagesModel(DataContainer *container, QObject *parent = 0);
@@ -50,7 +51,6 @@ private:
     DataContainer *mContainer;
 
     QVariant containerValue(int imageIndex, ImagesModelRoles role) const;
-    QSize containerValueSize(int imageIndex, ImagesModelRoles role) const;
 
 private slots:
     void imagesChanged();

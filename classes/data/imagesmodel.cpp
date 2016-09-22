@@ -108,8 +108,7 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
     {
         if (columnIndex == 1)
         {
-            QSize size = this->containerValueSize(valueIndex, ImageRole);
-            result = size;
+            result = this->containerValue(valueIndex, ImageSizeRole);
         }
         break;
     }
@@ -124,6 +123,7 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
     case KeyRole:
     case KeyCodeRole:
     case ImageRole:
+    case ImageSizeRole:
     {
         result = this->containerValue(valueIndex, (ImagesModelRoles)role);
         break;
@@ -180,31 +180,12 @@ QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) cons
             result = QImage(*source);
             break;
         }
-        }
-    }
-
-    return result;
-}
-//-----------------------------------------------------------------------------
-QSize ImagesModel::containerValueSize(int imageIndex, ImagesModelRoles role) const
-{
-    QSize result = QSize();
-
-    if (imageIndex >= 0 && imageIndex < this->mContainer->count())
-    {
-        QString key = this->mContainer->keys().at(imageIndex);
-
-        const QImage *source = this->mContainer->image(key);
-
-        switch (role)
+        case ImageSizeRole:
         {
-        case ImageRole:
-        {
+            const QImage *source = this->mContainer->image(key);
             result = source->size();
             break;
         }
-        default:
-            break;
         }
     }
 
