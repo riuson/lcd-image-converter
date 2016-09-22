@@ -29,7 +29,14 @@ class ImagesResizedProxy : public QSortFilterProxyModel
 public:
     explicit ImagesResizedProxy(QObject *parent = 0);
 
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QModelIndex index(int row, int column,
+                      const QModelIndex &parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex &index) const override;
+    QModelIndex mapFromSource(const QModelIndex &sourceIndex) const override;
+    QModelIndex mapToSource(const QModelIndex &proxyIndex) const override;
 
     void setCrop(int left, int top, int right, int bottom);
 
@@ -38,6 +45,8 @@ private:
     int mRight;
     int mTop;
     int mBottom;
+
+    const QSize resized(const QSize &value) const;
 };
 
 #endif // IMAGESRESIZEDPROXY_H
