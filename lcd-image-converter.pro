@@ -78,6 +78,7 @@ SOURCES += main.cpp \
     classes/data/imagesmodel.cpp \
     classes/data/imagesscaledproxy.cpp \
     classes/data/revisioninfo.cpp \
+    classes/data/transposeproxy.cpp \
     classes/imageeditor/editor.cpp \
     classes/imageeditor/toolcolor.cpp \
     classes/imageeditor/toolfill.cpp \
@@ -184,6 +185,7 @@ HEADERS += \
     classes/data/imagesscaledproxy.h \
     classes/data/revisioninfo.h \
     classes/data/tfontparameters.h \
+    classes/data/transposeproxy.h \
     classes/imageeditor/editor.h \
     classes/imageeditor/iimageeditor.h \
     classes/imageeditor/iimageeditorparams.h \

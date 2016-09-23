@@ -32,6 +32,7 @@ class ImagesModel;
 class ImagesScaledProxy;
 class ImagesResizedProxy;
 class ImagesFilterProxy;
+class TransposeProxy;
 //-----------------------------------------------------------------------------
 class DialogCanvasResize : public QDialog
 {
@@ -53,6 +54,7 @@ private:
     ImagesScaledProxy *mScaledProxy;
     ImagesResizedProxy *mResizedProxy;
     ImagesFilterProxy *mFilter;
+    TransposeProxy *mTranspose;
 
     int mLeft;
     int mTop;

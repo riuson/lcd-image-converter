@@ -25,6 +25,7 @@
 #include "imagesscaledproxy.h"
 #include "imagesresizedproxy.h"
 #include "imagesfilterproxy.h"
+#include "transposeproxy.h"
 #include "resizesettings.h"
 //-----------------------------------------------------------------------------
 DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent) :
@@ -46,7 +47,10 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
     this->mFilter = new ImagesFilterProxy(this);
     this->mFilter->setSourceModel(this->mScaledProxy);
 
-    this->ui->tableView->setModel(this->mFilter);
+    this->mTranspose = new TransposeProxy(this);
+    this->mTranspose->setSourceModel(this->mFilter);
+
+    this->ui->tableView->setModel(this->mTranspose);
 
     this->connect(this->ui->spinBoxLeft,   SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
     this->connect(this->ui->spinBoxTop,    SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
