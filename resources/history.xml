@@ -10,6 +10,8 @@
             <item category="added">Save last directory and filter index in dialogs.</item>
             <item category="added">Show original and new size in Resize dialog.</item>
             <item category="changed">Get changelog from server with versioning.</item>
+            <item category="fixed">Alpha-channel in Preview dialog for color presets.</item>
+            <item category="fixed">Save last scale value in Preview dialog.</item>
         </changes>
     </record>
     <record>
