@@ -867,17 +867,28 @@ Qt: %4</translation>
 <context>
     <name>ImagesModel</name>
     <message>
-        <location filename="../classes/data/imagesmodel.cpp" line="84"/>
-        <location filename="../classes/data/imagesmodel.cpp" line="110"/>
+        <location filename="../classes/data/imagesmodel.cpp" line="64"/>
         <source>Character</source>
         <translation>Символ</translation>
     </message>
     <message>
-        <location filename="../classes/data/imagesmodel.cpp" line="90"/>
-        <location filename="../classes/data/imagesmodel.cpp" line="116"/>
+        <location filename="../classes/data/imagesmodel.cpp" line="70"/>
         <source>Preview</source>
         <comment>character preview</comment>
         <translation>Предпросмотр</translation>
+    </message>
+</context>
+<context>
+    <name>ImagesResizedProxy</name>
+    <message>
+        <location filename="../controls/resize/imagesresizedproxy.cpp" line="46"/>
+        <source>Original size</source>
+        <translation>Исходный размер</translation>
+    </message>
+    <message>
+        <location filename="../controls/resize/imagesresizedproxy.cpp" line="51"/>
+        <source>New size</source>
+        <translation>Новый размер</translation>
     </message>
 </context>
 <context>
