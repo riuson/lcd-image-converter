@@ -151,14 +151,14 @@ QModelIndex ImagesResizedProxy::mapToSource(const QModelIndex &proxyIndex) const
 
 void ImagesResizedProxy::setCrop(int left, int top, int right, int bottom)
 {
+    emit this->beginResetModel();
+
     this->mLeft = left;
     this->mTop = top;
     this->mRight = right;
     this->mBottom = bottom;
 
-    QModelIndex indexFrom = this->index(0, 0, QModelIndex());
-    QModelIndex indexTo = this->index(this->rowCount() - 1, this->columnCount() - 1, QModelIndex());
-    emit this->dataChanged(indexFrom, indexTo);
+    emit this->endResetModel();
 }
 
 const QSize ImagesResizedProxy::resized(const QSize &value) const

@@ -78,7 +78,9 @@ void ImagesScaledProxy::setScale(int value)
 {
     if (value >= 1)
     {
+        emit this->beginResetModel();
         this->mScale = value;
+        emit this->endResetModel();
         emit this->scaleChanged();
     }
 }
