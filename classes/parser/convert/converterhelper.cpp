@@ -490,13 +490,20 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
                 quint32 opMask;
                 int opShift;
                 bool opLeft;
+
                 for (int i = 0; i < preset->matrix()->operationsCount(); i++)
                 {
                     preset->matrix()->operation(i, &opMask, &opShift, &opLeft);
                     mask |= opMask;
                 }
+
                 if (preset->matrix()->operationsCount() == 0)
                     mask = 0xffffffff;
+
+                // save alpha bits when alpha channel not used
+                if ((mask & 0xff000000) == 0)
+                    mask |= 0xff000000;
+
                 break;
             }
             }

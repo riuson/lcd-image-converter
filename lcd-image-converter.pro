@@ -107,6 +107,7 @@ SOURCES += main.cpp \
     classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
     classes/parser/tags.cpp \
+    classes/settings/conversionpreviewoptions.cpp \
     classes/settings/externaltooloptions.cpp \
     classes/settings/filedialogoptions.cpp \
     classes/settings/fonteditoroptions.cpp \
@@ -219,6 +220,7 @@ HEADERS += \
     classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
     classes/parser/tags.h \
+    classes/settings/conversionpreviewoptions.h \
     classes/settings/externaltooloptions.h \
     classes/settings/filedialogoptions.h \
     classes/settings/fonteditoroptions.h \
