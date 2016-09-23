@@ -8,6 +8,7 @@
         <changes>
             <item category="added">Menu item 'File' -&gt; 'Close All'.</item>
             <item category="added">Save last directory and filter index in dialogs.</item>
+            <item category="added">Show original and new size in Resize dialog.</item>
             <item category="changed">Get changelog from server with versioning.</item>
         </changes>
     </record>

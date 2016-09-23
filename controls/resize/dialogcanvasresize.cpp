@@ -22,7 +22,10 @@
 
 #include <QItemSelectionModel>
 #include "imagesmodel.h"
+#include "imagesscaledproxy.h"
+#include "imagesresizedproxy.h"
 #include "imagesfilterproxy.h"
+#include "transposeproxy.h"
 #include "resizesettings.h"
 //-----------------------------------------------------------------------------
 DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent) :
@@ -33,12 +36,21 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
 
     this->mContainer = container;
 
-    this->mModel = new ImagesModel(container, Qt::Horizontal, this);
+    this->mModel = new ImagesModel(container, this);
+
+    this->mResizedProxy = new ImagesResizedProxy(this);
+    this->mResizedProxy->setSourceModel(this->mModel);
+
+    this->mScaledProxy = new ImagesScaledProxy(this);
+    this->mScaledProxy->setSourceModel(this->mResizedProxy);
 
     this->mFilter = new ImagesFilterProxy(this);
-    this->mFilter->setSourceModel(this->mModel);
+    this->mFilter->setSourceModel(this->mScaledProxy);
 
-    this->ui->tableView->setModel(this->mFilter);
+    this->mTranspose = new TransposeProxy(this);
+    this->mTranspose->setSourceModel(this->mFilter);
+
+    this->ui->tableView->setModel(this->mTranspose);
 
     this->connect(this->ui->spinBoxLeft,   SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
     this->connect(this->ui->spinBoxTop,    SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
@@ -99,7 +111,7 @@ void DialogCanvasResize::spinBox_valueChanged(int value)
     this->mRight = this->ui->spinBoxRight->value();
     this->mBottom = this->ui->spinBoxBottom->value();
 
-    this->mModel->setCrop(
+    this->mResizedProxy->setCrop(
                 this->mLeft,
                 this->mTop,
                 this->mRight,
@@ -110,7 +122,7 @@ void DialogCanvasResize::spinBox_valueChanged(int value)
 //-----------------------------------------------------------------------------
 void DialogCanvasResize::on_spinBoxScale_valueChanged(int value)
 {
-    this->mModel->setScale(value);
+    this->mScaledProxy->setScale(value);
 
     this->resizeToContents();
 }

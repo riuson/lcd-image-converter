@@ -33,13 +33,10 @@ public:
         KeyRole = Qt::UserRole + 1,
         KeyCodeRole,
         ImageRole,
-        ImageScaledRole,
-        PixmapRole,
-        PixmapScaledRole,
-        PixmapScaledCroppedRole
+        ImageSizeRole
     };
 
-    explicit ImagesModel(DataContainer *container, Qt::Orientation orientation = Qt::Vertical, QObject *parent = 0);
+    explicit ImagesModel(DataContainer *container, QObject *parent = 0);
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
@@ -50,21 +47,10 @@ public:
 
     void callReset();
 
-    int scale() const;
-    void setScale(int value);
-    void setCrop(int left, int top, int right, int bottom);
-
 private:
     DataContainer *mContainer;
-    Qt::Orientation mOrientation;
-    int mScale;
-    int mLeft;
-    int mRight;
-    int mTop;
-    int mBottom;
 
     QVariant containerValue(int imageIndex, ImagesModelRoles role) const;
-    QSize containerValueSize(int imageIndex, ImagesModelRoles role) const;
 
 private slots:
     void imagesChanged();
