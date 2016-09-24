@@ -52,11 +52,26 @@
     </message>
     <message>
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="449"/>
-        <source>C Files (*.c)</source>
-        <translation>Файлы C (*.c)</translation>
+        <source>C source code (*.c)</source>
+        <translation>Исходные коды C</translation>
     </message>
     <message>
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="450"/>
+        <source>C++ source code (*.cpp)</source>
+        <translation>Исходные коды C++</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="451"/>
+        <source>C/C++ headers (*.h)</source>
+        <translation>Заголовочные файлы C/C++</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="452"/>
+        <source>C/C++ files (*.c *.cpp *.h)</source>
+        <translation>Файлы C/C++</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="453"/>
         <source>All Files (*.*)</source>
         <translation>Все файлы (*.*)</translation>
     </message>
