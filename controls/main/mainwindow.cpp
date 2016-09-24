@@ -48,6 +48,7 @@
 #include "ieditor.h"
 #include "idocument.h"
 #include "bitmaphelper.h"
+#include "filedialogoptions.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -207,6 +208,7 @@ void MainWindow::createHandlers()
     this->mFileHandlers->connect(this->ui->actionSave, SIGNAL(triggered()), SLOT(save_triggered()));
     this->mFileHandlers->connect(this->ui->actionSave_As, SIGNAL(triggered()), SLOT(saveAs_triggered()));
     this->mFileHandlers->connect(this->ui->actionClose, SIGNAL(triggered()), SLOT(close_triggered()));
+    this->mFileHandlers->connect(this->ui->actionClose_All, SIGNAL(triggered()), SLOT(closeAll_triggered()));
     this->mFileHandlers->connect(this->ui->actionConvert, SIGNAL(triggered()), SLOT(convert_triggered()));
     this->mFileHandlers->connect(this->ui->actionConvert_All, SIGNAL(triggered()), SLOT(convertAll_triggered()));
     this->connect(this->ui->actionQuit, SIGNAL(triggered()), SLOT(close()));
@@ -279,6 +281,22 @@ void MainWindow::tabTextUpdate(QWidget *widget)
     }
 }
 //-----------------------------------------------------------------------------
+int MainWindow::editorsCount() const
+{
+    int result = 0;
+
+    for (int i = 0; i < this->ui->tabWidget->count(); i++)
+    {
+        IEditor *editor = qobject_cast<IEditor *>(this->ui->tabWidget->widget(i));
+
+        if (editor != nullptr) {
+            result++;
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     QWidget *w = this->ui->tabWidget->widget(index);
@@ -310,6 +328,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
 
                     if (editor->document()->documentFilename().isEmpty())
                     {
+                        dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::SaveDocument));
                         dialog.selectFile(editor->document()->documentName());
                     }
                     else
@@ -319,7 +338,9 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
 
                     if (dialog.exec() == QDialog::Accepted)
                     {
+                        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
                         QString filename = dialog.selectedFiles().at(0);
+
                         if (editor->document()->save(filename))
                         {
                             this->rememberFilename(editor->document()->documentFilename());
@@ -399,6 +420,7 @@ void MainWindow::updateMenuState()
     this->ui->actionSave->setEnabled(editorSelected);
     this->ui->actionSave_As->setEnabled(editorSelected);
     this->ui->actionClose->setEnabled(editorSelected);
+    this->ui->actionClose_All->setEnabled(editorSelected && (this->editorsCount() > 1));
     this->ui->actionConvert->setEnabled(editorSelected);
     this->ui->actionConvert_All->setEnabled(editorSelected);
 }

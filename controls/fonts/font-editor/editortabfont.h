@@ -31,6 +31,7 @@ namespace Ui {
 class DataContainer;
 class QSplitter;
 class ImagesModel;
+class ImagesScaledProxy;
 class QItemSelection;
 class QModelIndex;
 class StatusData;
@@ -73,6 +74,7 @@ private:
     FontDocument *mDocument;
     QSplitter *mSplitter;
     ImagesModel *mModel;
+    ImagesScaledProxy *mScaledProxy;
     StatusData *mStatusData;
     int mLastImagesCount;
 

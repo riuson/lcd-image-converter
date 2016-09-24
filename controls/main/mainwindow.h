@@ -60,6 +60,7 @@ private:
     void checkStartPageVisible();
     void createHandlers();
     void tabTextUpdate(QWidget *widget);
+    int editorsCount() const;
 
     ActionFileHandlers *mFileHandlers;
     ActionEditHandlers *mEditHandlers;

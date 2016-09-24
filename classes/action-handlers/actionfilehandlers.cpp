@@ -23,9 +23,12 @@
 #include "editortabfont.h"
 #include "dialogfontselect.h"
 #include <QFileDialog>
+#include <QDir>
+#include <QFileInfo>
 #include <QTextStream>
 #include <QInputDialog>
 #include <QLineEdit>
+#include <QStringList>
 #include "parser.h"
 #include "widgetbitmapeditor.h"
 #include "imainwindow.h"
@@ -33,6 +36,7 @@
 #include "idocument.h"
 #include "preset.h"
 #include "tfontparameters.h"
+#include "filedialogoptions.h"
 //-----------------------------------------------------------------------------
 ActionFileHandlers::ActionFileHandlers(QObject *parent) :
     ActionHandlersBase(parent)
@@ -101,13 +105,27 @@ void ActionFileHandlers::open_triggered()
 {
     QFileDialog dialog(this->mMainWindow->parentWidget());
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::OpenDocument));
     dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setNameFilter(tr("XML Files (*.xml);;Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
     dialog.setWindowTitle(tr("Open xml or image file"));
+
+    QStringList filters;
+    filters << tr("XML Files (*.xml)")
+            << tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)");
+    dialog.setNameFilters(filters);
+    dialog.selectNameFilter(
+                filters.at(
+                    FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::OpenDocument) < filters.count()
+                    ?
+                        FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::OpenDocument)
+                      :
+                        0));
 
     if (dialog.exec() == QDialog::Accepted)
     {
         QStringList filenames = dialog.selectedFiles();
+        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::OpenDocument, dialog.directory().absolutePath());
+        FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::OpenDocument, filters.indexOf(dialog.selectedNameFilter()));
 
         this->openFiles(filenames);
     }
@@ -156,6 +174,17 @@ void ActionFileHandlers::saveAs_triggered()
         dialog.setDefaultSuffix(QString("xml"));
         dialog.setWindowTitle(tr("Save file as"));
 
+        QFileInfo outputFile(editor->document()->documentFilename());
+
+        if (outputFile.exists())
+        {
+            dialog.setDirectory(outputFile.dir());
+        }
+        else
+        {
+            dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::SaveDocument));
+        }
+
         if (editor->document()->documentFilename().isEmpty())
         {
             dialog.selectFile(editor->document()->documentName());
@@ -167,6 +196,7 @@ void ActionFileHandlers::saveAs_triggered()
 
         if (dialog.exec() == QDialog::Accepted)
         {
+            FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
             QString filename = dialog.selectedFiles().at(0);
             editor->document()->save(filename);
 
@@ -178,6 +208,18 @@ void ActionFileHandlers::saveAs_triggered()
 void ActionFileHandlers::close_triggered()
 {
     emit closeRequest(this->mMainWindow->currentTab());
+}
+//-----------------------------------------------------------------------------
+void ActionFileHandlers::closeAll_triggered()
+{
+    QList<QWidget *> list;
+
+    this->mMainWindow->tabsList(&list);
+
+    for (int i = 0; i < list.count(); i++)
+    {
+        emit closeRequest(list.at(i));
+    }
 }
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::convert_triggered()
@@ -398,10 +440,22 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
         QFileDialog dialog(qobject_cast<QWidget *>(this->parent()));
         dialog.setAcceptMode(QFileDialog::AcceptSave);
         dialog.selectFile(outputFileName);
+        dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ConvertDocument));
         dialog.setFileMode(QFileDialog::AnyFile);
-        dialog.setNameFilter(tr("C Files (*.c);;All Files (*.*)"));
         dialog.setDefaultSuffix(QString("c"));
         dialog.setWindowTitle(tr("Save result file as"));
+
+        QStringList filters;
+        filters << tr("C Files (*.c)")
+                << tr("All Files (*.*)");
+        dialog.setNameFilters(filters);
+        dialog.selectNameFilter(
+                    filters.at(
+                        FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::ConvertDocument) < filters.count()
+                        ?
+                            FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::ConvertDocument)
+                          :
+                            0));
 
         if (outputFilenameNotSpecified)
         {
@@ -415,6 +469,8 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
         if (dialog.exec() == QDialog::Accepted)
         {
             outputFileName = dialog.selectedFiles().at(0);
+            FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ConvertDocument, dialog.directory().absolutePath());
+            FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::ConvertDocument, filters.indexOf(dialog.selectedNameFilter()));
         }
         else
         {

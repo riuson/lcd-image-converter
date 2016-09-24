@@ -26,6 +26,7 @@
 #include "datacontainer.h"
 #include "converterhelper.h"
 #include "bitmaphelper.h"
+#include "conversionpreviewoptions.h"
 //-----------------------------------------------------------------------------
 DialogPreview::DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidget *parent) :
     QDialog(parent),
@@ -50,10 +51,13 @@ DialogPreview::DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidg
     QFont font("Monospace");
     font.setStyleHint(QFont::TypeWriter);
     this->ui->plainTextEdit->setFont(font);
+
+    this->ui->spinBoxScale->setValue(ConversionPreviewOptions::scale());
 }
 //-----------------------------------------------------------------------------
 DialogPreview::~DialogPreview()
 {
+    ConversionPreviewOptions::setScale(this->mScale);
     delete ui;
 }
 //-----------------------------------------------------------------------------

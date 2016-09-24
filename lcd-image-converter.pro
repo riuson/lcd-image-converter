@@ -76,7 +76,9 @@ SOURCES += main.cpp \
     classes/data/historyrecord.cpp \
     classes/data/imagedocument.cpp \
     classes/data/imagesmodel.cpp \
+    classes/data/imagesscaledproxy.cpp \
     classes/data/revisioninfo.cpp \
+    classes/data/transposeproxy.cpp \
     classes/imageeditor/editor.cpp \
     classes/imageeditor/toolcolor.cpp \
     classes/imageeditor/toolfill.cpp \
@@ -105,7 +107,9 @@ SOURCES += main.cpp \
     classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
     classes/parser/tags.cpp \
+    classes/settings/conversionpreviewoptions.cpp \
     classes/settings/externaltooloptions.cpp \
+    classes/settings/filedialogoptions.cpp \
     classes/settings/fonteditoroptions.cpp \
     classes/settings/imageeditoroptions.cpp \
     classes/settings/languageoptions.cpp \
@@ -138,6 +142,7 @@ SOURCES += main.cpp \
     controls/main/revisionlabel.cpp \
     controls/resize/dialogcanvasresize.cpp \
     controls/resize/imagesfilterproxy.cpp \
+    controls/resize/imagesresizedproxy.cpp \
     controls/save-changes/dialogsavechanges.cpp \
     controls/setup/dialogexternaleditor.cpp \
     controls/setup/dialogoptions.cpp \
@@ -178,8 +183,10 @@ HEADERS += \
     classes/data/historyrecord.h \
     classes/data/imagedocument.h \
     classes/data/imagesmodel.h \
+    classes/data/imagesscaledproxy.h \
     classes/data/revisioninfo.h \
     classes/data/tfontparameters.h \
+    classes/data/transposeproxy.h \
     classes/imageeditor/editor.h \
     classes/imageeditor/iimageeditor.h \
     classes/imageeditor/iimageeditorparams.h \
@@ -213,7 +220,9 @@ HEADERS += \
     classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
     classes/parser/tags.h \
+    classes/settings/conversionpreviewoptions.h \
     classes/settings/externaltooloptions.h \
+    classes/settings/filedialogoptions.h \
     classes/settings/fonteditoroptions.h \
     classes/settings/imageeditoroptions.h \
     classes/settings/languageoptions.h \
@@ -246,6 +255,7 @@ HEADERS += \
     controls/main/revisionlabel.h \
     controls/resize/dialogcanvasresize.h \
     controls/resize/imagesfilterproxy.h \
+    controls/resize/imagesresizedproxy.h \
     controls/save-changes/dialogsavechanges.h \
     controls/setup/dialogexternaleditor.h \
     controls/setup/dialogoptions.h \

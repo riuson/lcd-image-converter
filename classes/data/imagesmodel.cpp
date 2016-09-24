@@ -22,14 +22,10 @@
 #include "datacontainer.h"
 #include "bitmaphelper.h"
 //-----------------------------------------------------------------------------
-ImagesModel::ImagesModel(DataContainer *container, Qt::Orientation orientation, QObject *parent) :
+ImagesModel::ImagesModel(DataContainer *container, QObject *parent) :
     QAbstractItemModel(parent)
 {
     this->mContainer = container;
-    this->mScale = 2;
-    this->mOrientation = orientation;
-
-    this->setCrop(0, 0, 0, 0);
 
     this->connect(this->mContainer, SIGNAL(dataChanged(bool)), SLOT(imagesChanged()));
 }
@@ -38,28 +34,14 @@ int ImagesModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
-    if (this->mOrientation == Qt::Vertical)
-    {
-        return this->mContainer->count();
-    }
-    else
-    {
-        return 2;
-    }
+    return this->mContainer->count();
 }
 //-----------------------------------------------------------------------------
 int ImagesModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
-    if (this->mOrientation == Qt::Vertical)
-    {
-        return 2;
-    }
-    else
-    {
-        return this->mContainer->count();
-    }
+    return 2;
 }
 //-----------------------------------------------------------------------------
 QVariant ImagesModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -67,56 +49,27 @@ QVariant ImagesModel::headerData(int section, Qt::Orientation orientation, int r
     QVariant result;
     if (role == Qt::DisplayRole)
     {
-        if (this->mOrientation == Qt::Vertical)
+        if (orientation == Qt::Vertical)
         {
-            if (orientation == Qt::Vertical)
-            {
-                result = this->containerValue(section, KeyCodeRole);
-            }
-            else
-            {
-                switch (section)
-                {
-                case 0:
-                {
-                    if (this->rowCount(QModelIndex()) > 1)
-                    {
-                        result = tr("Character");
-                    }
-                    break;
-                }
-                case 1:
-                {
-                    result = tr("Preview", "character preview");
-                    break;
-                }
-                }
-            }
+            result = this->containerValue(section, KeyCodeRole);
         }
         else
         {
-            if (orientation == Qt::Horizontal)
+            switch (section)
             {
-                result = this->containerValue(section, KeyCodeRole);
+            case 0:
+            {
+                if (this->rowCount(QModelIndex()) > 1)
+                {
+                    result = tr("Character");
+                }
+                break;
             }
-            else
+            case 1:
             {
-                switch (section)
-                {
-                case 0:
-                {
-                    if (this->columnCount(QModelIndex()) > 1)
-                    {
-                        result = tr("Character");
-                    }
-                    break;
-                }
-                case 1:
-                {
-                    result = tr("Preview", "character preview");
-                    break;
-                }
-                }
+                result = tr("Preview", "character preview");
+                break;
+            }
             }
         }
     }
@@ -133,13 +86,6 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
     int columnIndex = index.column();
     int valueIndex = index.row();
 
-    // swap for horizontal
-    if (this->mOrientation == Qt::Horizontal)
-    {
-        columnIndex = index.row();
-        valueIndex = index.column();
-    }
-
     switch (role)
     {
     case Qt::DisplayRole:
@@ -154,7 +100,7 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
     {
         if (columnIndex == 1)
         {
-            result = this->containerValue(valueIndex, PixmapScaledCroppedRole);
+            result = this->containerValue(valueIndex, ImageRole);
         }
         break;
     }
@@ -162,11 +108,7 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
     {
         if (columnIndex == 1)
         {
-            QSize size = this->containerValueSize(valueIndex, PixmapScaledCroppedRole);
-            size.rheight() += 10;
-            size.rwidth() += 10;
-
-            result = size;
+            result = this->containerValue(valueIndex, ImageSizeRole);
         }
         break;
     }
@@ -181,9 +123,7 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
     case KeyRole:
     case KeyCodeRole:
     case ImageRole:
-    case ImageScaledRole:
-    case PixmapRole:
-    case PixmapScaledRole:
+    case ImageSizeRole:
     {
         result = this->containerValue(valueIndex, (ImagesModelRoles)role);
         break;
@@ -191,6 +131,7 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
     default:
         break;
     }
+
     return result;
 }
 //-----------------------------------------------------------------------------
@@ -210,30 +151,6 @@ void ImagesModel::callReset()
 {
     this->beginResetModel();
     this->endResetModel();
-}
-//-----------------------------------------------------------------------------
-int ImagesModel::scale() const
-{
-    return this->mScale;
-}
-//-----------------------------------------------------------------------------
-void ImagesModel::setScale(int value)
-{
-    if (value >= 1)
-    {
-        this->mScale = value;
-        emit this->scaleChanged();
-    }
-}
-//-----------------------------------------------------------------------------
-void ImagesModel::setCrop(int left, int top, int right, int bottom)
-{
-    this->mLeft = left;
-    this->mTop = top;
-    this->mRight = right;
-    this->mBottom = bottom;
-
-    this->imagesChanged();
 }
 //-----------------------------------------------------------------------------
 QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) const
@@ -263,104 +180,12 @@ QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) cons
             result = QImage(*source);
             break;
         }
-        case ImageScaledRole:
+        case ImageSizeRole:
         {
             const QImage *source = this->mContainer->image(key);
-
-            QImage scaled = BitmapHelper::scale(source, this->mScale);
-            QImage grids = BitmapHelper::drawGrid(&scaled, this->mScale);
-
-            result = grids;
-            break;
-        }
-        case PixmapRole:
-        {
-            const QImage *source = this->mContainer->image(key);
-            result = QPixmap::fromImage(*source);
-            break;
-        }
-        case PixmapScaledRole:
-        {
-            const QImage *source = this->mContainer->image(key);
-
-            QImage scaled = BitmapHelper::scale(source, this->mScale);
-            QImage grids = BitmapHelper::drawGrid(&scaled, this->mScale);
-
-            result = QPixmap::fromImage(grids);
-            break;
-        }
-        case PixmapScaledCroppedRole:
-        {
-            const QImage *source = this->mContainer->image(key);
-
-            QColor backgroundColor = BitmapHelper::detectBackgroundColor(source);
-
-            if (backgroundColor.alpha() != 255)
-            {
-                backgroundColor = QColor("white");
-            }
-
-            QImage cropped = BitmapHelper::crop(source, this->mLeft, this->mTop, this->mRight, this->mBottom, backgroundColor);
-            QImage scaled = BitmapHelper::scale(&cropped, this->mScale);
-            QImage grids = BitmapHelper::drawGrid(&scaled, this->mScale);
-
-            result = QPixmap::fromImage(grids);
-            break;
-        }
-        }
-    }
-
-    return result;
-}
-//-----------------------------------------------------------------------------
-QSize ImagesModel::containerValueSize(int imageIndex, ImagesModelRoles role) const
-{
-    QSize result = QSize();
-
-    if (imageIndex >= 0 && imageIndex < this->mContainer->count())
-    {
-        QString key = this->mContainer->keys().at(imageIndex);
-
-        const QImage *source = this->mContainer->image(key);
-
-        switch (role)
-        {
-        case ImageRole:
-        case PixmapRole:
-        {
             result = source->size();
             break;
         }
-        case ImageScaledRole:
-        case PixmapScaledRole:
-        {
-            result = source->size();
-            result.rheight() *= this->mScale;
-            result.rwidth() *= this->mScale;
-            break;
-        }
-        case PixmapScaledCroppedRole:
-        {
-            result = source->size();
-
-            result.rwidth() += this->mLeft + this->mRight;
-            result.rheight() += this->mTop + this->mBottom;
-
-            if (result.height() < 1)
-            {
-                result.setHeight(1);
-            }
-            if (result.width() < 1)
-            {
-                result.setWidth(1);
-            }
-
-            result.rheight() *= this->mScale;
-            result.rwidth() *= this->mScale;
-            break;
-        }
-        default:
-            break;
         }
     }
 

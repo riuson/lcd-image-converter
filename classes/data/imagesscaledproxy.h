@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2013 riuson
+ * Copyright (C) 2016 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,27 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IMAGESFILTERPROXY_H
-#define IMAGESFILTERPROXY_H
-//-----------------------------------------------------------------------------
+#ifndef IMAGESSCALEDPROXY_H
+#define IMAGESSCALEDPROXY_H
+
 #include <QSortFilterProxyModel>
-//-----------------------------------------------------------------------------
-class QStringList;
-//-----------------------------------------------------------------------------
-class ImagesFilterProxy : public QSortFilterProxyModel
+
+class ImagesScaledProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
+
 public:
-    explicit ImagesFilterProxy(QObject *parent = 0);
-    ~ImagesFilterProxy();
+    explicit ImagesScaledProxy(QObject *parent = 0);
+    ~ImagesScaledProxy();
 
-    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    void setFilter(const QStringList &keys);
+    int scale() const;
+    void setScale(int value);
 
 private:
-    QStringList *mKeys;
+    int mScale;
 
+signals:
+    void scaleChanged();
 };
-//-----------------------------------------------------------------------------
-#endif // IMAGESFILTERPROXY_H
+
+#endif // IMAGESSCALEDPROXY_H

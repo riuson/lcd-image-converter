@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2013 riuson
+ * Copyright (C) 2016 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,27 +17,45 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IMAGESFILTERPROXY_H
-#define IMAGESFILTERPROXY_H
+#ifndef FILEDIALOGOPTIONS_H
+#define FILEDIALOGOPTIONS_H
 //-----------------------------------------------------------------------------
-#include <QSortFilterProxyModel>
+#include <QObject>
+#include <QString>
 //-----------------------------------------------------------------------------
-class QStringList;
-//-----------------------------------------------------------------------------
-class ImagesFilterProxy : public QSortFilterProxyModel
+class FileDialogOptions : public QObject
 {
     Q_OBJECT
 public:
-    explicit ImagesFilterProxy(QObject *parent = 0);
-    ~ImagesFilterProxy();
+    enum class Dialogs
+    {
+        None = 0,
 
-    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+        OpenDocument,
+        SaveDocument,
+        ConvertDocument,
 
-    void setFilter(const QStringList &keys);
+        ImportImage,
+        ExportImage,
+
+        ImportPreset,
+        ExportPreset,
+
+        TemplateImage,
+        TemplateFont
+    };
+
+    static int filterIndex(Dialogs dialog);
+    static void setFilterIndex(Dialogs dialog, int value);
+    static const QString directory(Dialogs dialog);
+    static void setDirectory(Dialogs dialog, const QString &value);
 
 private:
-    QStringList *mKeys;
-
+    static bool itemName(Dialogs item, QString *name);
+    static int getInteger(const QString &name);
+    static void setInteger(const QString &name, int value);
+    static const QString getString(const QString &name);
+    static void setString(const QString &name, const QString &value);
 };
 //-----------------------------------------------------------------------------
-#endif // IMAGESFILTERPROXY_H
+#endif // FILEDIALOGOPTIONS_H

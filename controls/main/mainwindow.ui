@@ -56,6 +56,7 @@
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
     <addaction name="actionClose"/>
+    <addaction name="actionClose_All"/>
     <addaction name="separator"/>
     <addaction name="actionConvert"/>
     <addaction name="actionConvert_All"/>
@@ -425,6 +426,11 @@
   <action name="actionImageTo_Grayscale">
    <property name="text">
     <string>To Grayscale</string>
+   </property>
+  </action>
+  <action name="actionClose_All">
+   <property name="text">
+    <string>Close All</string>
    </property>
   </action>
  </widget>
