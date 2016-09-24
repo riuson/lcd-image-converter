@@ -140,6 +140,7 @@ SOURCES += main.cpp \
     controls/images/widgetbitmapeditor.cpp \
     controls/main/mainwindow.cpp \
     controls/main/revisionlabel.cpp \
+    controls/resize/columnsreorderproxy.cpp \
     controls/resize/dialogcanvasresize.cpp \
     controls/resize/imagesfilterproxy.cpp \
     controls/resize/imagesresizedproxy.cpp \
@@ -253,6 +254,7 @@ HEADERS += \
     controls/images/widgetbitmapeditor.h \
     controls/main/mainwindow.h \
     controls/main/revisionlabel.h \
+    controls/resize/columnsreorderproxy.h \
     controls/resize/dialogcanvasresize.h \
     controls/resize/imagesfilterproxy.h \
     controls/resize/imagesresizedproxy.h \
