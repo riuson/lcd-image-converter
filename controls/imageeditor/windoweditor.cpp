@@ -43,8 +43,14 @@ WindowEditor::WindowEditor(QWidget *parent) :
     this->ui->toolBarOptions->hide();
 
     this->restoreState(ImageEditorOptions::toolbarsState(), 0);
-    this->mTools = NULL;
+
     this->mSelectedTool = NULL;
+    this->createTools();
+
+    this->setScale(this->mTools->scale());
+
+    QImage templateImage(":/images/template");
+    this->setImage(&templateImage);
 }
 //-----------------------------------------------------------------------------
 WindowEditor::~WindowEditor()
@@ -54,6 +60,7 @@ WindowEditor::~WindowEditor()
 
     ImageEditorOptions::setToolbarsState(this->saveState(0));
 
+    delete this->mTools;
     delete ui;
 }
 //-----------------------------------------------------------------------------
@@ -167,18 +174,9 @@ void WindowEditor::setImage(const QImage *value)
     this->updateImageScaled(this->mTools->scale());
 }
 //-----------------------------------------------------------------------------
-void WindowEditor::setTools(ToolsManager *tools)
+int WindowEditor::scale() const
 {
-    this->mTools = tools;
-    QList<QAction *> actions = QList<QAction *> (*this->mTools->toolsActions());
-    this->ui->toolBarTools->addActions(actions);
-    this->connect(this->mTools, SIGNAL(toolChanged(int)), SLOT(toolChanged(int)));
-    this->ui->toolBarOptions->hide();
-
-    if (this->ui->toolBarTools->actions().length() > 0)
-    {
-        this->ui->toolBarTools->actions().at(0)->activate(QAction::Trigger);
-    }
+    return this->mTools->scale();
 }
 //-----------------------------------------------------------------------------
 void WindowEditor::updateImageScaled(int value)
@@ -207,6 +205,21 @@ void WindowEditor::drawPixel(int x, int y, const QColor &color)
     QImage image = this->mImageOriginal;
     this->mImageOriginal = BitmapHelper::drawPixel(&image, x, y, color);
     this->updateImageScaled(this->mTools->scale());
+}
+//-----------------------------------------------------------------------------
+void WindowEditor::createTools()
+{
+    this->mTools = new ToolsManager(this);
+    QList<QAction *> actions = QList<QAction *> (*this->mTools->toolsActions());
+    this->ui->toolBarTools->addActions(actions);
+    this->connect(this->mTools, SIGNAL(toolChanged(int)), SLOT(toolChanged(int)));
+    this->connect(this->mTools, SIGNAL(scaleChanged(int)), SLOT(setScale(int)));
+    this->ui->toolBarOptions->hide();
+
+    if (this->ui->toolBarTools->actions().length() > 0)
+    {
+        this->ui->toolBarTools->actions().at(0)->activate(QAction::Trigger);
+    }
 }
 //-----------------------------------------------------------------------------
 void WindowEditor::tool_started(const QImage *value)
@@ -239,6 +252,7 @@ void WindowEditor::setScale(int value)
 {
     if (this->mImageOriginal.size() * value != this->mImageScaled.size())
     {
+        this->mTools->setScale(value);
         this->updateImageScaled(value);
     }
 }
