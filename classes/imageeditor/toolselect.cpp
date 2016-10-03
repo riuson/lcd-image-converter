@@ -97,12 +97,33 @@ bool ToolSelect::processMouse(QMouseEvent *event,
         {
             if (event->x() < imageOriginal->width() && event->y() < imageOriginal->height())
             {
-                // get buttons
-                bool buttonLeft = (event->buttons() & Qt::LeftButton) == Qt::LeftButton;
-                bool buttonRight = (event->buttons() & Qt::RightButton) == Qt::RightButton;
+                // operation
+                Operation op = ToolSelect::None;
+
+                if ((event->buttons() & Qt::LeftButton) == Qt::LeftButton)
+                {
+                    op = ToolSelect::Append;
+                }
+
+                if ((event->buttons() & Qt::RightButton) == Qt::RightButton)
+                {
+                    op = ToolSelect::Subtract;
+                }
+
+                if (
+                        ((event->buttons() & Qt::RightButton) == Qt::RightButton) &&
+                        ((event->buttons() & Qt::LeftButton) == Qt::LeftButton))
+                {
+                    op = ToolSelect::Reset;
+                }
+
+                if ((event->buttons() & Qt::MiddleButton) == Qt::MiddleButton)
+                {
+                    op = ToolSelect::Reset;
+                }
 
                 // draw on pixmap
-                if (buttonLeft || buttonRight)
+                if (op != ToolSelect::None)
                 {
                     if (!this->mFlagChanged)
                     {
@@ -124,7 +145,7 @@ bool ToolSelect::processMouse(QMouseEvent *event,
                     QRect rect;
                     rect.setCoords(x1, y1, x2, y2);
 
-                    this->modifySelection(rect, buttonLeft ? ToolSelect::Append : ToolSelect::Subtract);
+                    this->modifySelection(rect, op);
 
                     this->mFlagChanged = true;
                     emit this->processing(&this->mInternalImage);
@@ -188,19 +209,33 @@ void ToolSelect::saveSettings() const
 //-----------------------------------------------------------------------------
 void ToolSelect::modifySelection(const QRect &rect, Operation op)
 {
-    if (op == ToolSelect::Append)
+    switch (op)
+    {
+    case ToolSelect::Append:
     {
         QPainterPath newPath;// = this->mSelectedPath;
         newPath.addRect(rect);
         newPath += this->mSelectedPath;
         this->mSelectedPath = newPath.simplified();
+        break;
     }
-    else
+    case ToolSelect::Subtract:
     {
         QPainterPath path;
         path.addRect(rect);
         QPainterPath newPath = this->mSelectedPath.subtracted(path);
         this->mSelectedPath = newPath.simplified();
+        break;
+    }
+    case ToolSelect::Reset:
+    {
+        this->mSelectedPath = QPainterPath();
+        break;
+    }
+    default:
+    {
+        break;
+    }
     }
 
     QImage image = this->mOriginalImage;

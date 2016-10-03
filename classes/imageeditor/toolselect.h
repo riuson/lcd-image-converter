@@ -62,8 +62,10 @@ signals:
 private:
     enum Operation
     {
+        None,
         Append,
-        Subtract
+        Subtract,
+        Reset
     };
 
     IImageEditorParams *mParameters;
