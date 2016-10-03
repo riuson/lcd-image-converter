@@ -207,9 +207,10 @@ void ToolSelect::modifySelection(const QRect &rect, Operation op)
     QPixmap pixmap = QPixmap::fromImage(image);
     QPainter painter(&pixmap);
 
-    QColor selectionColor = QColor(0, 0, 128, 128);
+    QColor selectionColor = QColor(255, 255, 255);
     QBrush selectionBrush(selectionColor);
 
+    painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
     painter.setRenderHint(QPainter::Antialiasing, false);
     painter.setRenderHint(QPainter::HighQualityAntialiasing, false);
     painter.setPen(selectionColor);
