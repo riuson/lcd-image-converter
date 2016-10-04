@@ -66,9 +66,9 @@ private slots:
     void tool_started(const QImage *value);
     void tool_processing(const QImage *value);
     void tool_completed(const QImage *value, bool changed);
+    void tool_scaleChanged(int value);
 
 public slots:
-    void setScale(int value);
     void toolChanged(int toolIndex);
 
 signals:

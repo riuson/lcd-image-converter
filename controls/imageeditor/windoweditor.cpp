@@ -47,7 +47,7 @@ WindowEditor::WindowEditor(QWidget *parent) :
     this->mSelectedTool = NULL;
     this->createTools();
 
-    this->setScale(this->mTools->scale());
+    this->updateImageScaled(this->mTools->scale());
 
     QImage templateImage(":/images/template");
     this->setImage(&templateImage);
@@ -155,7 +155,7 @@ void WindowEditor::wheelEvent(QWheelEvent *event)
                 else
                     scale--;
 
-                emit this->scaleChanged(scale);
+                this->mTools->setScale(scale);
             }
             event->accept();
         }
@@ -213,7 +213,7 @@ void WindowEditor::createTools()
     QList<QAction *> actions = QList<QAction *> (*this->mTools->toolsActions());
     this->ui->toolBarTools->addActions(actions);
     this->connect(this->mTools, SIGNAL(toolChanged(int)), SLOT(toolChanged(int)));
-    this->connect(this->mTools, SIGNAL(scaleChanged(int)), SLOT(setScale(int)));
+    this->connect(this->mTools, SIGNAL(scaleChanged(int)), SLOT(tool_scaleChanged(int)));
     this->ui->toolBarOptions->hide();
 
     if (this->ui->toolBarTools->actions().length() > 0)
@@ -248,13 +248,10 @@ void WindowEditor::tool_completed(const QImage *value, bool changed)
     }
 }
 //-----------------------------------------------------------------------------
-void WindowEditor::setScale(int value)
+void WindowEditor::tool_scaleChanged(int value)
 {
-    if (this->mImageOriginal.size() * value != this->mImageScaled.size())
-    {
-        this->mTools->setScale(value);
-        this->updateImageScaled(value);
-    }
+    this->updateImageScaled(value);
+    emit this->scaleChanged(value);
 }
 //-----------------------------------------------------------------------------
 void WindowEditor::toolChanged(int toolIndex)
