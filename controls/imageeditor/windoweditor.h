@@ -67,6 +67,7 @@ private slots:
     void tool_processing(const QImage *value);
     void tool_completed(const QImage *value, bool changed);
     void tool_scaleChanged(int value);
+    void tool_selectionChanged(const QPainterPath &value);
 
 public slots:
     void toolChanged(int toolIndex);

@@ -193,6 +193,7 @@ HEADERS += \
     classes/imageeditor/iimageeditor.h \
     classes/imageeditor/iimageeditorparams.h \
     classes/imageeditor/iimageeditortool.h \
+    classes/imageeditor/iimageselection.h \
     classes/imageeditor/toolcolor.h \
     classes/imageeditor/toolfill.h \
     classes/imageeditor/toolline.h \

@@ -82,6 +82,11 @@ const QList<QWidget *> *ToolSelect::widgets() const
     return this->mWidgets;
 }
 //-----------------------------------------------------------------------------
+const QPainterPath &ToolSelect::selectedPath() const
+{
+    return this->mSelectedPath;
+}
+//-----------------------------------------------------------------------------
 bool ToolSelect::processMouse(QMouseEvent *event,
                               const QImage *imageOriginal)
 {
@@ -148,7 +153,8 @@ bool ToolSelect::processMouse(QMouseEvent *event,
                     this->modifySelection(rect, op);
 
                     this->mFlagChanged = true;
-                    emit this->processing(&this->mInternalImage);
+                    //emit this->processing(&this->mInternalImage);
+                    emit this->selectionChanged(this->mSelectedPath);
                 }
             }
         }
@@ -156,8 +162,8 @@ bool ToolSelect::processMouse(QMouseEvent *event,
     }
     else if (event->type() == QEvent::MouseButtonRelease)
     {
-        emit this->completed(&this->mOriginalImage, false);
-        emit this->selectionChanged(&this->mSelectedPath);
+        //emit this->completed(&this->mOriginalImage, false);
+        emit this->selectionChanged(this->mSelectedPath);
     }
 
     return true;
@@ -237,23 +243,6 @@ void ToolSelect::modifySelection(const QRect &rect, Operation op)
         break;
     }
     }
-
-    QImage image = this->mOriginalImage;
-    QPixmap pixmap = QPixmap::fromImage(image);
-    QPainter painter(&pixmap);
-
-    QColor selectionColor = QColor(255, 255, 255);
-    QBrush selectionBrush(selectionColor);
-
-    painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
-    painter.setRenderHint(QPainter::Antialiasing, false);
-    painter.setRenderHint(QPainter::HighQualityAntialiasing, false);
-    painter.setPen(selectionColor);
-    painter.setBrush(selectionBrush);
-    //painter.drawPath(this->mSelectedPath);//, selectionBrush);
-    painter.fillPath(this->mSelectedPath, selectionBrush);
-
-    this->mInternalImage = pixmap.toImage();
 }
 //-----------------------------------------------------------------------------
 void ToolSelect::on_spinBoxSize_valueChanged(int value)

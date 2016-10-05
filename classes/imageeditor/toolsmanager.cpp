@@ -82,6 +82,11 @@ QWidget *ToolsManager::parentWidget() const
     return this->mParentWidget;
 }
 //-----------------------------------------------------------------------------
+const QPainterPath &ToolsManager::selectedPath() const
+{
+    return this->mSelectionTool->selectedPath();
+}
+//-----------------------------------------------------------------------------
 void ToolsManager::setScale(int value)
 {
     this->mZoomer->setScale(value);
@@ -89,7 +94,10 @@ void ToolsManager::setScale(int value)
 //-----------------------------------------------------------------------------
 void ToolsManager::initializeTools()
 {
-    this->mTools->append(new ToolSelect(this, this));
+    this->mSelectionTool = new ToolSelect(this, this);
+    this->connect(this->mSelectionTool, SIGNAL(selectionChanged(QPainterPath)), SIGNAL(selectionChanged(QPainterPath)));
+    this->mTools->append(this->mSelectionTool);
+
     this->mTools->append(new ToolPen(this, this));
     this->mTools->append(new ToolLine(this, this));
     this->mTools->append(new ToolRect(this, this));

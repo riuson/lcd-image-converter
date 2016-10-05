@@ -183,9 +183,13 @@ void WindowEditor::updateImageScaled(int value)
 {
     if (!this->mImageOriginal.isNull())
     {
-        this->mImageScaled = BitmapHelper::scale(&this->mImageOriginal, value);
-        this->mImageScaled = BitmapHelper::drawGrid(&this->mImageScaled, value);
-        this->mPixmapScaled = QPixmap::fromImage(this->mImageScaled);
+        QImage image = this->mImageOriginal;
+
+        image = BitmapHelper::drawSelection(&image, this->mTools->selectedPath());
+        image = BitmapHelper::scale(&image, value);
+        image = BitmapHelper::drawGrid(&image, value);
+        this->mImageScaled = image;
+        this->mPixmapScaled = QPixmap::fromImage(image);
 
         this->ui->label->setPixmap(this->mPixmapScaled);
     }
@@ -214,6 +218,7 @@ void WindowEditor::createTools()
     this->ui->toolBarTools->addActions(actions);
     this->connect(this->mTools, SIGNAL(toolChanged(int)), SLOT(toolChanged(int)));
     this->connect(this->mTools, SIGNAL(scaleChanged(int)), SLOT(tool_scaleChanged(int)));
+    this->connect(this->mTools, SIGNAL(selectionChanged(QPainterPath)), SLOT(tool_selectionChanged(QPainterPath)));
     this->ui->toolBarOptions->hide();
 
     if (this->ui->toolBarTools->actions().length() > 0)
@@ -252,6 +257,11 @@ void WindowEditor::tool_scaleChanged(int value)
 {
     this->updateImageScaled(value);
     emit this->scaleChanged(value);
+}
+//-----------------------------------------------------------------------------
+void WindowEditor::tool_selectionChanged(const QPainterPath &value)
+{
+    this->updateImageScaled(this->mTools->scale());
 }
 //-----------------------------------------------------------------------------
 void WindowEditor::toolChanged(int toolIndex)

@@ -26,6 +26,7 @@
 #include <QPoint>
 #include <QPainterPath>
 #include "iimageeditortool.h"
+#include "iimageselection.h"
 
 class QIcon;
 class QAction;
@@ -34,7 +35,7 @@ namespace ImageEditor
 {
 class IImageEditorParams;
 //-----------------------------------------------------------------------------
-class ToolSelect : public QObject, public IImageEditorTool
+class ToolSelect : public QObject, public IImageEditorTool, public IImageSelection
 {
     Q_OBJECT
     Q_INTERFACES(ImageEditor::IImageEditorTool)
@@ -49,6 +50,8 @@ public:
     const QList<QAction *> *actions() const;
     const QList<QWidget *> *widgets() const;
 
+    const QPainterPath &selectedPath() const;
+
 public slots:
     bool processMouse(QMouseEvent *event,
                       const QImage *imageOriginal);
@@ -57,7 +60,7 @@ signals:
     void started(const QImage *value);
     void processing(const QImage *value);
     void completed(const QImage *value, bool changed);
-    void selectionChanged(const QPainterPath *path);
+    void selectionChanged(const QPainterPath &value);
 
 private:
     enum Operation

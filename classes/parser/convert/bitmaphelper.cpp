@@ -21,6 +21,7 @@
 #include "limits"
 //-----------------------------------------------------------------------------
 #include <QPainter>
+#include <QPainterPath>
 #include <QtSvg/QSvgRenderer>
 //-----------------------------------------------------------------------------
 QImage BitmapHelper::rotate90(const QImage *source)
@@ -221,6 +222,26 @@ QImage BitmapHelper::drawGrid(const QImage *source, int scale)
     }
 
     return result;
+}
+//-----------------------------------------------------------------------------
+QImage BitmapHelper::drawSelection(const QImage *source, const QPainterPath &selectedPath)
+{
+    QImage image = *source;
+    QPixmap pixmap = QPixmap::fromImage(image);
+    QPainter painter(&pixmap);
+
+    QColor selectionColor = QColor(255, 255, 255);
+    QBrush selectionBrush(selectionColor);
+
+    painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
+    painter.setRenderHint(QPainter::Antialiasing, false);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing, false);
+    painter.setPen(selectionColor);
+    painter.setBrush(selectionBrush);
+    //painter.drawPath(this->mSelectedPath);//, selectionBrush);
+    painter.fillPath(selectedPath, selectionBrush);
+
+    return pixmap.toImage();
 }
 //-----------------------------------------------------------------------------
 QImage BitmapHelper::drawPixel(const QImage *source, int x, int y, const QColor &color)
