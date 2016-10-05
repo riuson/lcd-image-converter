@@ -77,18 +77,12 @@ private:
     QList<QWidget *> *mWidgets;
     //int mSize;
     bool mFlagChanged;
-    QImage mOriginalImage;
-    QImage mInternalImage;
     QPoint mStartPoint;
     QPainterPath mSelectedPath;
 
-    void initializeWidgets();
-    void loadSettings();
-    void saveSettings() const;
     void modifySelection(const QRect &rect, Operation op);
 
 private slots:
-    void on_spinBoxSize_valueChanged(int value);
 };
 //-----------------------------------------------------------------------------
 } // end of namespace

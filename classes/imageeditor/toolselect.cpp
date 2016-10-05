@@ -43,13 +43,10 @@ ToolSelect::ToolSelect(IImageEditorParams *parameters, QObject *parent) : QObjec
     this->mActions = new QList<QAction *>();
     this->mWidgets = new QList<QWidget *>();
 
-    this->loadSettings();
-    this->initializeWidgets();
 }
 //-----------------------------------------------------------------------------
 ToolSelect::~ToolSelect()
 {
-    this->saveSettings();
     delete this->mIcon;
     qDeleteAll(*this->mActions);
     qDeleteAll(*this->mWidgets);
@@ -132,7 +129,6 @@ bool ToolSelect::processMouse(QMouseEvent *event,
                 {
                     if (!this->mFlagChanged)
                     {
-                        this->mOriginalImage = *imageOriginal;
                         this->mStartPoint = event->pos();
                     }
 
@@ -169,50 +165,6 @@ bool ToolSelect::processMouse(QMouseEvent *event,
     return true;
 }
 //-----------------------------------------------------------------------------
-void ToolSelect::initializeWidgets()
-{
-    QSpinBox *spinBoxSize = new QSpinBox();
-    spinBoxSize->setMinimum(1);
-    spinBoxSize->setSuffix(QString("px"));
-    spinBoxSize->setToolTip(tr("Line Width"));
-    this->connect(spinBoxSize, SIGNAL(valueChanged(int)), SLOT(on_spinBoxSize_valueChanged(int)));
-    this->mWidgets->append(spinBoxSize);
-}
-//-----------------------------------------------------------------------------
-void ToolSelect::loadSettings()
-{
-    QSettings sett;
-    sett.beginGroup("window-image-editor");
-    sett.beginGroup("tools");
-    sett.beginGroup("select");
-
-    //bool ok;
-    //int a = sett.value("size", QVariant(1)).toInt(&ok);
-
-    //if (ok)
-    {
-        //this->mSize = a;
-    }
-
-    sett.endGroup();
-    sett.endGroup();
-    sett.endGroup();
-}
-//-----------------------------------------------------------------------------
-void ToolSelect::saveSettings() const
-{
-    QSettings sett;
-    sett.beginGroup("window-image-editor");
-    sett.beginGroup("tools");
-    sett.beginGroup("select");
-
-    //sett.setValue("size", QVariant(this->mSize));
-
-    sett.endGroup();
-    sett.endGroup();
-    sett.endGroup();
-}
-//-----------------------------------------------------------------------------
 void ToolSelect::modifySelection(const QRect &rect, Operation op)
 {
     switch (op)
@@ -243,10 +195,6 @@ void ToolSelect::modifySelection(const QRect &rect, Operation op)
         break;
     }
     }
-}
-//-----------------------------------------------------------------------------
-void ToolSelect::on_spinBoxSize_valueChanged(int value)
-{
 }
 //-----------------------------------------------------------------------------
 } // end of namespace
