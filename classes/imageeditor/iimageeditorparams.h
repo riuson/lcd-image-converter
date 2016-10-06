@@ -24,6 +24,7 @@ class QImage;
 class QColor;
 class QPoint;
 class QWidget;
+class QPainterPath;
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -36,6 +37,7 @@ public:
     virtual const QColor foreColor() const = 0;
     virtual const QColor backColor() const = 0;
     virtual QWidget *parentWidget() const = 0;
+    virtual const QPainterPath &selectedPath() const = 0;
 };
 }
 Q_DECLARE_INTERFACE (ImageEditor::IImageEditorParams,
