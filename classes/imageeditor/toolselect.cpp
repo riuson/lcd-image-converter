@@ -43,6 +43,7 @@ ToolSelect::ToolSelect(IImageEditorParams *parameters, QObject *parent) : QObjec
     this->mActions = new QList<QAction *>();
     this->mWidgets = new QList<QWidget *>();
 
+    this->initializeWidgets();
 }
 //-----------------------------------------------------------------------------
 ToolSelect::~ToolSelect()
@@ -99,58 +100,17 @@ bool ToolSelect::processMouse(QMouseEvent *event,
         {
             if (event->x() < imageOriginal->width() && event->y() < imageOriginal->height())
             {
-                // operation
-                Operation op = ToolSelect::None;
+                Qt::MouseButtons buttons = event->buttons();
+                int x = event->x();
+                int y = event->y();
 
-                if ((event->buttons() & Qt::LeftButton) == Qt::LeftButton)
+                switch (this->mToolMode)
                 {
-                    op = ToolSelect::Append;
-                }
-
-                if ((event->buttons() & Qt::RightButton) == Qt::RightButton)
-                {
-                    op = ToolSelect::Subtract;
-                }
-
-                if (
-                        ((event->buttons() & Qt::RightButton) == Qt::RightButton) &&
-                        ((event->buttons() & Qt::LeftButton) == Qt::LeftButton))
-                {
-                    op = ToolSelect::Reset;
-                }
-
-                if ((event->buttons() & Qt::MiddleButton) == Qt::MiddleButton)
-                {
-                    op = ToolSelect::Reset;
-                }
-
-                // draw on pixmap
-                if (op != ToolSelect::None)
-                {
-                    if (!this->mFlagChanged)
-                    {
-                        this->mStartPoint = event->pos();
-                    }
-
-                    int x1 = this->mStartPoint.x();
-                    int y1 = this->mStartPoint.y();
-                    int x2 = event->x();
-                    int y2 = event->y();
-
-                    if (x2 < x1)
-                        qSwap(x1, x2);
-
-                    if (y2 < y1)
-                        qSwap(y1, y2);
-
-                    QRect rect;
-                    rect.setCoords(x1, y1, x2, y2);
-
-                    this->modifySelection(rect, op);
-
-                    this->mFlagChanged = true;
-                    //emit this->processing(&this->mInternalImage);
-                    emit this->selectionChanged(this->mSelectedPath);
+                case SelectionEdit:
+                    this->processModeEdit(buttons, x, y);
+                    break;
+                case SelectionMove:
+                    break;
                 }
             }
         }
@@ -163,6 +123,30 @@ bool ToolSelect::processMouse(QMouseEvent *event,
     }
 
     return true;
+}
+//-----------------------------------------------------------------------------
+void ToolSelect::initializeWidgets()
+{
+    QActionGroup *group = new QActionGroup(this);
+
+    this->mActionEditSelection = new QAction(this);
+    this->mActionEditSelection->setCheckable(true);
+    this->mActionEditSelection->setToolTip(tr("Modify selection"));
+    this->mActionEditSelection->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_edit"), 24))));
+    this->connect(this->mActionEditSelection, SIGNAL(triggered()), SLOT(on_switchToSelectionEdit()));
+    this->mActions->append(this->mActionEditSelection);
+    group->addAction(this->mActionEditSelection);
+
+    this->mActionMoveSelection = new QAction(this);
+    this->mActionMoveSelection->setCheckable(true);
+    this->mActionMoveSelection->setToolTip(tr("Move selection"));
+    this->mActionMoveSelection->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_move"), 24))));
+    this->connect(this->mActionMoveSelection, SIGNAL(triggered()), SLOT(on_switchToSelectionMove()));
+    this->mActions->append(this->mActionMoveSelection);
+    group->addAction(this->mActionMoveSelection);
+
+    this->mActionEditSelection->setChecked(true);
+    this->mToolMode = SelectionEdit;
 }
 //-----------------------------------------------------------------------------
 void ToolSelect::modifySelection(const QRect &rect, Operation op)
@@ -195,6 +179,69 @@ void ToolSelect::modifySelection(const QRect &rect, Operation op)
         break;
     }
     }
+}
+//-----------------------------------------------------------------------------
+void ToolSelect::processModeEdit(Qt::MouseButtons buttons, int x, int y)
+{
+    Operation op = ToolSelect::None;
+
+    if ((buttons & Qt::LeftButton) == Qt::LeftButton)
+    {
+        op = ToolSelect::Append;
+    }
+
+    if ((buttons & Qt::RightButton) == Qt::RightButton)
+    {
+        op = ToolSelect::Subtract;
+    }
+
+    if (
+            ((buttons & Qt::RightButton) == Qt::RightButton) &&
+            ((buttons & Qt::LeftButton) == Qt::LeftButton))
+    {
+        op = ToolSelect::Reset;
+    }
+
+    if ((buttons & Qt::MiddleButton) == Qt::MiddleButton)
+    {
+        op = ToolSelect::Reset;
+    }
+
+    // draw on pixmap
+    if (op != ToolSelect::None)
+    {
+        if (!this->mFlagChanged)
+        {
+            this->mStartPoint = QPoint(x, y);
+        }
+
+        int x1 = this->mStartPoint.x();
+        int y1 = this->mStartPoint.y();
+        int x2 = x;
+        int y2 = y;
+
+        if (x2 < x1)
+            qSwap(x1, x2);
+
+        if (y2 < y1)
+            qSwap(y1, y2);
+
+        QRect rect;
+        rect.setCoords(x1, y1, x2, y2);
+        this->modifySelection(rect, op);
+        this->mFlagChanged = true;
+        emit this->selectionChanged(this->mSelectedPath);
+    }
+}
+//-----------------------------------------------------------------------------
+void ToolSelect::on_switchToSelectionEdit()
+{
+    this->mToolMode = SelectionEdit;
+}
+//-----------------------------------------------------------------------------
+void ToolSelect::on_switchToSelectionMove()
+{
+    this->mToolMode = SelectionMove;
 }
 //-----------------------------------------------------------------------------
 } // end of namespace

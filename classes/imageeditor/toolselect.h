@@ -71,18 +71,31 @@ private:
         Reset
     };
 
+    enum Mode
+    {
+        SelectionEdit,
+        SelectionMove
+    };
+
     IImageEditorParams *mParameters;
     QIcon *mIcon;
     QList<QAction *> *mActions;
     QList<QWidget *> *mWidgets;
-    //int mSize;
+    QAction *mActionEditSelection;
+    QAction *mActionMoveSelection;
+
     bool mFlagChanged;
     QPoint mStartPoint;
     QPainterPath mSelectedPath;
+    Mode mToolMode;
 
+    void initializeWidgets();
     void modifySelection(const QRect &rect, Operation op);
+    void processModeEdit(Qt::MouseButtons buttons, int x, int y);
 
 private slots:
+    void on_switchToSelectionEdit();
+    void on_switchToSelectionMove();
 };
 //-----------------------------------------------------------------------------
 } // end of namespace
