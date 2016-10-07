@@ -22,6 +22,7 @@
 //-----------------------------------------------------------------------------
 #include <QObject>
 #include "iimageeditorparams.h"
+#include "iimageselection.h"
 //-----------------------------------------------------------------------------
 class QAction;
 template <class T1> class QList;
@@ -32,8 +33,9 @@ namespace ImageEditor
 class IImageEditorTool;
 class ToolZoom;
 class ToolColor;
+class ToolSelect;
 //-----------------------------------------------------------------------------
-class ToolsManager : public QObject, public IImageEditorParams
+class ToolsManager : public QObject, public IImageEditorParams, public IImageSelection
 {
     Q_OBJECT
     Q_INTERFACES(ImageEditor::IImageEditorParams)
@@ -50,12 +52,15 @@ public:
     const QColor backColor() const;
     QWidget *parentWidget() const;
 
+    const QPainterPath &selectedPath() const;
+
 public slots:
     void setScale(int value);
 
 signals:
     void toolChanged(int toolIndex);
     void scaleChanged(int value);
+    void selectionChanged(const QPainterPath &value);
 
 private:
     QList <IImageEditorTool *> *mTools;
@@ -63,6 +68,7 @@ private:
     IImageEditorTool *mSelectedTool;
     ToolZoom *mZoomer;
     ToolColor *mColors;
+    ToolSelect *mSelectionTool;
     QWidget *mParentWidget;
 
     void initializeTools();

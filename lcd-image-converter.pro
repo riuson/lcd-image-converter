@@ -83,6 +83,7 @@ SOURCES += main.cpp \
     classes/imageeditor/toolcolor.cpp \
     classes/imageeditor/toolfill.cpp \
     classes/imageeditor/toolline.cpp \
+    classes/imageeditor/toolselect.cpp \
     classes/imageeditor/toolsmanager.cpp \
     classes/imageeditor/toolpen.cpp \
     classes/imageeditor/toolrect.cpp \
@@ -192,9 +193,11 @@ HEADERS += \
     classes/imageeditor/iimageeditor.h \
     classes/imageeditor/iimageeditorparams.h \
     classes/imageeditor/iimageeditortool.h \
+    classes/imageeditor/iimageselection.h \
     classes/imageeditor/toolcolor.h \
     classes/imageeditor/toolfill.h \
     classes/imageeditor/toolline.h \
+    classes/imageeditor/toolselect.h \
     classes/imageeditor/toolsmanager.h \
     classes/imageeditor/toolpen.h \
     classes/imageeditor/toolrect.h \

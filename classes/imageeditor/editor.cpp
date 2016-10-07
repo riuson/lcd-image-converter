@@ -29,20 +29,16 @@ namespace ImageEditor
 Editor::Editor(QObject *parent) : QObject(parent)
 {
     this->mWidget = new WindowEditor();
-    this->mTools = new ToolsManager(this->mWidget);
-    this->mWidget->setTools(this->mTools);
-    this->mWidget->setScale(this->mTools->scale());
     this->connect(this->mWidget, SIGNAL(imageChanged()), SLOT(on_imageChanged()));
     this->connect(this->mWidget, SIGNAL(mouseMove(const QPoint *)), SLOT(on_mouseMove(const QPoint*)));
     this->connect(this->mWidget, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
 
-    this->connect(this->mTools, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
+    this->connect(this->mWidget, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
 }
 //-----------------------------------------------------------------------------
 Editor::~Editor()
 {
     // delete widgets of tools before editor widget
-    delete this->mTools;
     delete this->mWidget;
 }
 //-----------------------------------------------------------------------------
@@ -63,7 +59,7 @@ void Editor::setImage(const QImage *value)
 //-----------------------------------------------------------------------------
 int Editor::scale() const
 {
-    return this->mTools->scale();
+    return this->mWidget->scale();
 }
 //-----------------------------------------------------------------------------
 void Editor::on_imageChanged()
@@ -80,9 +76,7 @@ void Editor::on_scaleChanged(int value)
 {
     if (value > 0)
     {
-        this->mTools->setScale(value);
-        this->mWidget->setScale(this->mTools->scale());
-        emit this->scaleChanged(this->mTools->scale());
+        emit this->scaleChanged(value);
     }
 }
 //-----------------------------------------------------------------------------

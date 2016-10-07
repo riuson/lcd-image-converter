@@ -862,6 +862,29 @@ Qt: %4</translation>
     </message>
 </context>
 <context>
+    <name>ImageEditor::ToolSelect</name>
+    <message>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="60"/>
+        <source>Select</source>
+        <translation>Выбор</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="65"/>
+        <source>Select area</source>
+        <translation>Выбор участка</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="135"/>
+        <source>Modify selection</source>
+        <translation>Изменение выбора</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="143"/>
+        <source>Move selection</source>
+        <translation>Перемещение выбора</translation>
+    </message>
+</context>
+<context>
     <name>ImageEditor::ToolZoom</name>
     <message>
         <location filename="../classes/imageeditor/toolzoom.cpp" line="60"/>
@@ -874,7 +897,7 @@ Qt: %4</translation>
         <translation>Измение масштаба изображения</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolzoom.cpp" line="113"/>
+        <location filename="../classes/imageeditor/toolzoom.cpp" line="112"/>
         <source>Scale value</source>
         <translation>Значение масштаба</translation>
     </message>

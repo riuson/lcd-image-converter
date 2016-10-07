@@ -10,6 +10,7 @@
             <item category="added">Save last directory and filter index in dialogs.</item>
             <item category="added">Show original and new size in Resize dialog.</item>
             <item category="added">Filters *.cpp and *.h in save conversion results dialog.</item>
+            <item category="added">Selection tool (mouse left, middle and right buttons).</item>
             <item category="changed">Get changelog from server with versioning.</item>
             <item category="fixed">Alpha-channel in Preview dialog for color presets.</item>
             <item category="fixed">Save last scale value in Preview dialog.</item>
