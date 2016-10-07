@@ -110,6 +110,7 @@ bool ToolSelect::processMouse(QMouseEvent *event,
                     this->processModeEdit(buttons, x, y);
                     break;
                 case SelectionMove:
+                    this->processModeMove(buttons, x, y);
                     break;
                 }
             }
@@ -229,6 +230,35 @@ void ToolSelect::processModeEdit(Qt::MouseButtons buttons, int x, int y)
         QRect rect;
         rect.setCoords(x1, y1, x2, y2);
         this->modifySelection(rect, op);
+        this->mFlagChanged = true;
+        emit this->selectionChanged(this->mSelectedPath);
+    }
+}
+//-----------------------------------------------------------------------------
+void ToolSelect::processModeMove(Qt::MouseButtons buttons, int x, int y)
+{
+    if (this->mSelectedPath.isEmpty())
+    {
+        return;
+    }
+
+    if ((buttons & Qt::LeftButton) == Qt::LeftButton)
+    {
+        if (!this->mFlagChanged)
+        {
+            this->mStartPoint = QPoint(x, y);
+            this->mSelectedPathInternal = this->mSelectedPath;
+        }
+
+        int x1 = this->mStartPoint.x();
+        int y1 = this->mStartPoint.y();
+        int x2 = x;
+        int y2 = y;
+
+        QPainterPath path = this->mSelectedPathInternal;
+        QPoint offset = QPoint(x2 - x1, y2 - y1);
+        this->mSelectedPath = path.translated(offset);
+
         this->mFlagChanged = true;
         emit this->selectionChanged(this->mSelectedPath);
     }

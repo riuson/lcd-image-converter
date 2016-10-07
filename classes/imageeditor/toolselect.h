@@ -88,10 +88,12 @@ private:
     QPoint mStartPoint;
     QPainterPath mSelectedPath;
     Mode mToolMode;
+    QPainterPath mSelectedPathInternal;
 
     void initializeWidgets();
     void modifySelection(const QRect &rect, Operation op);
     void processModeEdit(Qt::MouseButtons buttons, int x, int y);
+    void processModeMove(Qt::MouseButtons buttons, int x, int y);
 
 private slots:
     void on_switchToSelectionEdit();
