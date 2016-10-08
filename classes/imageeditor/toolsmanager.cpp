@@ -29,6 +29,7 @@
 #include "toolzoom.h"
 #include "toolfill.h"
 #include "toolcolor.h"
+#include "toolmove.h"
 //-----------------------------------------------------------------------------
 namespace ImageEditor
 {
@@ -102,6 +103,7 @@ void ToolsManager::initializeTools()
     this->mTools->append(new ToolLine(this, this));
     this->mTools->append(new ToolRect(this, this));
     this->mTools->append(new ToolFill(this, this));
+    this->mTools->append(new ToolMove(this, this));
 
     this->mColors = new ToolColor(this, this);
     this->mTools->append(this->mColors);
