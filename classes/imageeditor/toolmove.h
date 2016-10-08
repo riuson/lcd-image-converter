@@ -82,9 +82,8 @@ private:
     QImage mImageInternal;
 
     void initializeWidgets();
-    void processMoveCut(Qt::MouseButtons buttons, int x, int y);
-    void processMoveCopy(Qt::MouseButtons buttons, int x, int y);
-    void processMoveCircular(Qt::MouseButtons buttons, int x, int y);
+    void processMoveCutOrCopy(Qt::MouseButtons buttons, const QImage *imageOriginal, int x, int y, bool cut);
+    void processMoveCircular(Qt::MouseButtons buttons, const QImage *imageOriginal, int x, int y);
 
 private slots:
     void on_switchToMoveCut();

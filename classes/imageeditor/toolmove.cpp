@@ -78,7 +78,7 @@ const QList<QWidget *> *ToolMove::widgets() const
 }
 //-----------------------------------------------------------------------------
 bool ToolMove::processMouse(QMouseEvent *event,
-                              const QImage *imageOriginal)
+                            const QImage *imageOriginal)
 {
     if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress)
     {
@@ -99,13 +99,13 @@ bool ToolMove::processMouse(QMouseEvent *event,
                 switch (this->mToolMode)
                 {
                 case MoveCut:
-                    this->processMoveCut(buttons, x, y);
+                    this->processMoveCutOrCopy(buttons, imageOriginal, x, y, true);
                     break;
                 case MoveCopy:
-                    this->processMoveCopy(buttons, x, y);
+                    this->processMoveCutOrCopy(buttons, imageOriginal, x, y, false);
                     break;
                 case MoveCircular:
-                    this->processMoveCircular(buttons, x, y);
+                    this->processMoveCircular(buttons, imageOriginal, x, y);
                     break;
                 }
             }
@@ -114,7 +114,7 @@ bool ToolMove::processMouse(QMouseEvent *event,
     }
     else if (event->type() == QEvent::MouseButtonRelease)
     {
-        //emit this->completed(&this->mOriginalImage, false);
+        emit this->completed(&this->mImageInternal, this->mFlagChanged);
     }
 
     return true;
@@ -152,16 +152,14 @@ void ToolMove::initializeWidgets()
     this->mToolMode = MoveCut;
 }
 //-----------------------------------------------------------------------------
-void ToolMove::processMoveCut(Qt::MouseButtons buttons, int x, int y)
+void ToolMove::processMoveCutOrCopy(Qt::MouseButtons buttons, const QImage *imageOriginal, int x, int y, bool cut)
 {
-}
-//-----------------------------------------------------------------------------
-void ToolMove::processMoveCopy(Qt::MouseButtons buttons, int x, int y)
-{
-    /*
-    if (this->mSelectedPath.isEmpty())
+    QPainterPath selectedPath = this->mParameters->selectedPath();
+
+    if (selectedPath.isEmpty())
     {
-        return;
+        selectedPath = QPainterPath();
+        selectedPath.addRect(imageOriginal->rect());
     }
 
     if ((buttons & Qt::LeftButton) == Qt::LeftButton)
@@ -169,25 +167,47 @@ void ToolMove::processMoveCopy(Qt::MouseButtons buttons, int x, int y)
         if (!this->mFlagChanged)
         {
             this->mStartPoint = QPoint(x, y);
-            this->mSelectedPathInternal = this->mSelectedPath;
+            this->mImageOriginal = QImage(*imageOriginal);
         }
 
-        int x1 = this->mStartPoint.x();
-        int y1 = this->mStartPoint.y();
-        int x2 = x;
-        int y2 = y;
+        QPixmap pixmapBase = QPixmap::fromImage(this->mImageOriginal);
+        QPixmap pixmapMoved = QPixmap(pixmapBase);
 
-        QPainterPath path = this->mSelectedPathInternal;
-        QPoint offset = QPoint(x2 - x1, y2 - y1);
-        this->mSelectedPath = path.translated(offset);
+        if (cut)
+        {
+            QPainter painter(&pixmapBase);
+            painter.setCompositionMode(QPainter::CompositionMode_Source);
+
+            QBrush brush(this->mParameters->backColor());
+            painter.fillPath(selectedPath, brush);
+        }
+
+        QPixmap pixmapResult = pixmapBase;
+
+        {
+            int x1 = this->mStartPoint.x();
+            int y1 = this->mStartPoint.y();
+            int x2 = x;
+            int y2 = y;
+
+            QPoint offset = QPoint(x2 - x1, y2 - y1);
+            QPainterPath clipPath = selectedPath.translated(offset);
+
+            QPainter painter(&pixmapResult);
+            painter.setCompositionMode(QPainter::CompositionMode_Source);
+            painter.setClipPath(clipPath);
+
+            painter.drawPixmap(offset.x(), offset.y(), pixmapMoved);
+        }
+
+        this->mImageInternal = pixmapResult.toImage();
 
         this->mFlagChanged = true;
-        emit this->selectionChanged(this->mSelectedPath);
+        emit this->processing(&this->mImageInternal);
     }
-    */
 }
 //-----------------------------------------------------------------------------
-void ToolMove::processMoveCircular(Qt::MouseButtons buttons, int x, int y)
+void ToolMove::processMoveCircular(Qt::MouseButtons buttons, const QImage *imageOriginal, int x, int y)
 {
 
 }
