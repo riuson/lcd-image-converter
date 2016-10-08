@@ -23,12 +23,9 @@
 #include <QAction>
 #include <QWidget>
 #include <QColor>
-#include <QSpinBox>
 #include <QMouseEvent>
 #include <QToolButton>
 #include <QSettings>
-#include <QColorDialog>
-#include <QDebug>
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
 //-----------------------------------------------------------------------------

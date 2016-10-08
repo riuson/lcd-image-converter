@@ -39,6 +39,7 @@ class ToolsManager : public QObject, public IImageEditorParams, public IImageSel
 {
     Q_OBJECT
     Q_INTERFACES(ImageEditor::IImageEditorParams)
+    Q_INTERFACES(ImageEditor::IImageSelection)
 
 public:
     explicit ToolsManager(QObject *parent = 0);

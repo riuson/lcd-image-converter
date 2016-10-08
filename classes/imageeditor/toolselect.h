@@ -39,6 +39,7 @@ class ToolSelect : public QObject, public IImageEditorTool, public IImageSelecti
 {
     Q_OBJECT
     Q_INTERFACES(ImageEditor::IImageEditorTool)
+    Q_INTERFACES(ImageEditor::IImageSelection)
 
 public:
     explicit ToolSelect(IImageEditorParams *parameters, QObject *parent = 0);
