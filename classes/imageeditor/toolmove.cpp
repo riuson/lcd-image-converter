@@ -127,7 +127,7 @@ void ToolMove::initializeWidgets()
     this->mActionMoveCut = new QAction(this);
     this->mActionMoveCut->setCheckable(true);
     this->mActionMoveCut->setToolTip(tr("Cut & Move"));
-    this->mActionMoveCut->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_edit"), 24))));
+    this->mActionMoveCut->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_cut"), 24))));
     this->connect(this->mActionMoveCut, SIGNAL(triggered()), SLOT(on_switchToMoveCut()));
     this->mActions->append(this->mActionMoveCut);
     group->addAction(this->mActionMoveCut);
@@ -135,7 +135,7 @@ void ToolMove::initializeWidgets()
     this->mActionMoveCopy = new QAction(this);
     this->mActionMoveCopy->setCheckable(true);
     this->mActionMoveCopy->setToolTip(tr("Copy & Move"));
-    this->mActionMoveCopy->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_move"), 24))));
+    this->mActionMoveCopy->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_copy"), 24))));
     this->connect(this->mActionMoveCopy, SIGNAL(triggered()), SLOT(on_switchToMoveCopy()));
     this->mActions->append(this->mActionMoveCopy);
     group->addAction(this->mActionMoveCopy);
@@ -143,7 +143,7 @@ void ToolMove::initializeWidgets()
     this->mActionMoveCircular = new QAction(this);
     this->mActionMoveCircular->setCheckable(true);
     this->mActionMoveCircular->setToolTip(tr("Move circular"));
-    this->mActionMoveCircular->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_move"), 24))));
+    this->mActionMoveCircular->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_circular"), 24))));
     this->connect(this->mActionMoveCircular, SIGNAL(triggered()), SLOT(on_switchToMoveCircular()));
     this->mActions->append(this->mActionMoveCircular);
     group->addAction(this->mActionMoveCircular);
