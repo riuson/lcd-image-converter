@@ -142,7 +142,7 @@ void ToolMove::initializeWidgets()
 
     this->mActionMoveCircular = new QAction(this);
     this->mActionMoveCircular->setCheckable(true);
-    this->mActionMoveCircular->setToolTip(tr("Move circular"));
+    this->mActionMoveCircular->setToolTip(tr("Move circular (rectancular area only)"));
     this->mActionMoveCircular->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_circular"), 24))));
     this->connect(this->mActionMoveCircular, SIGNAL(triggered()), SLOT(on_switchToMoveCircular()));
     this->mActions->append(this->mActionMoveCircular);

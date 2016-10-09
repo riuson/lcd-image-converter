@@ -822,8 +822,8 @@ Qt: %4</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolmove.cpp" line="145"/>
-        <source>Move circular</source>
-        <translation>Циклический сдвиг</translation>
+        <source>Move circular (rectancular area only)</source>
+        <translation>Циклический сдвиг (только для прямоугольных областей)</translation>
     </message>
 </context>
 <context>
