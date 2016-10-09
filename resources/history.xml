@@ -15,6 +15,7 @@
             <item category="changed">Get changelog from server with versioning.</item>
             <item category="fixed">Alpha-channel in Preview dialog for color presets.</item>
             <item category="fixed">Save last scale value in Preview dialog.</item>
+            <item category="fixed">Preserve spaces for image suffix/prefix/delimiter in preset xml export/import.</item>
         </changes>
     </record>
     <record>
