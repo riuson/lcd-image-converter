@@ -209,7 +209,102 @@ void ToolMove::processMoveCutOrCopy(Qt::MouseButtons buttons, const QImage *imag
 //-----------------------------------------------------------------------------
 void ToolMove::processMoveCircular(Qt::MouseButtons buttons, const QImage *imageOriginal, int x, int y)
 {
+    QPainterPath selectedPath = this->mParameters->selectedPath();
+    QRectF r;
 
+    if (selectedPath.isEmpty())
+    {
+        r = imageOriginal->rect();
+    }
+    else
+    {
+        r = selectedPath.boundingRect().toRect();
+    }
+
+    if (r.width() <= 1 && r.height() <= 1)
+    {
+        return;
+    }
+
+    if ((buttons & Qt::LeftButton) == Qt::LeftButton)
+    {
+        if (!this->mFlagChanged)
+        {
+            this->mStartPoint = QPoint(x, y);
+            this->mImageOriginal = QImage(*imageOriginal);
+        }
+
+        QPixmap pixmapBase = QPixmap::fromImage(this->mImageOriginal);
+        QPixmap pixmapMoved = QPixmap(pixmapBase);
+
+        QPixmap pixmapResult = pixmapBase;
+
+        {
+            /*
+              ┌──────────────────────────────┬──────────────────────────────┐
+              │    selection                 │                              │
+              │     (x0,y0)                  │                              │
+              │        ╔═════════════════════╪════════╗                     │
+              │        ║      mouse          │        ║                     │
+              │       h║     (x1,y1)         │        ║                     │
+              │       e║        ●············│        ║                     │
+              │       i║        ⁞            │dy      ║                     │
+              │       g║        ⁞            │        ║                     │
+              ├───────h╫─────────────────────●────────╫─────────────────────┤
+              │       t║             dx      │(x2,y2) ║                     │
+              │        ║                     │        ║                     │
+              │        ╚═════════════════════╪════════╝                     │
+              │                     width    │                              │
+              │                              │                              │
+              │                              │                              │
+              │                              │                              │
+              │                              │                              │
+              └──────────────────────────────┴──────────────────────────────┘
+             */
+            int w = r.width();
+            int h = r.height();
+
+            int x0 = r.x();
+            int y0 = r.y();
+            int x1 = this->mStartPoint.x();
+            int y1 = this->mStartPoint.y();
+            int x2 = x;
+            int y2 = y;
+
+            int dx = (x2 - x1) % w;
+            int dy = (y2 - y1) % h;
+
+            if (dx < 0)
+                dx = w + dx;
+
+            if (dy < 0)
+                dy = h + dy;
+
+            QPainter painter(&pixmapResult);
+            painter.setCompositionMode(QPainter::CompositionMode_Source);
+
+            // top left
+            painter.setClipRect(x0, y0, dx, dy);
+            painter.drawPixmap(-(w - dx), -(h - dy), pixmapMoved);
+
+            // top right
+            painter.setClipRect(x0 + dx, y0, w - dx, dy);
+            painter.drawPixmap(dx, -(h - dy), pixmapMoved);
+
+            // bottom left
+            painter.setClipRect(x0, y0 + dy, dx, h - dy);
+            painter.drawPixmap(-(w - dx), dy, pixmapMoved);
+
+            // bottom right
+            painter.setClipRect(x0 + dx, y0 + dy, w - dx, h - dy);
+            painter.drawPixmap(dx, dy, pixmapMoved);
+        }
+
+        this->mImageInternal = pixmapResult.toImage();
+
+        this->mFlagChanged = true;
+        emit this->processing(&this->mImageInternal);
+    }
 }
 //-----------------------------------------------------------------------------
 void ToolMove::on_switchToMoveCut()
