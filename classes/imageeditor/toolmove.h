@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef TOOLSELECT_H
-#define TOOLSELECT_H
+#ifndef TOOLMOVE_H
+#define TOOLMOVE_H
 //-----------------------------------------------------------------------------
 #include <QObject>
 #include <QImage>
@@ -26,7 +26,6 @@
 #include <QPoint>
 #include <QPainterPath>
 #include "iimageeditortool.h"
-#include "iimageselection.h"
 
 class QIcon;
 class QAction;
@@ -35,23 +34,20 @@ namespace ImageEditor
 {
 class IImageEditorParams;
 //-----------------------------------------------------------------------------
-class ToolSelect : public QObject, public IImageEditorTool, public IImageSelection
+class ToolMove : public QObject, public IImageEditorTool
 {
     Q_OBJECT
     Q_INTERFACES(ImageEditor::IImageEditorTool)
-    Q_INTERFACES(ImageEditor::IImageSelection)
 
 public:
-    explicit ToolSelect(IImageEditorParams *parameters, QObject *parent = 0);
-    ~ToolSelect();
+    explicit ToolMove(IImageEditorParams *parameters, QObject *parent = 0);
+    ~ToolMove();
 
     const QString title() const;
     const QString tooltip() const;
     const QIcon *icon() const;
     const QList<QAction *> *actions() const;
     const QList<QWidget *> *widgets() const;
-
-    const QPainterPath &selectedPath() const;
 
 public slots:
     bool processMouse(QMouseEvent *event,
@@ -61,46 +57,40 @@ signals:
     void started(const QImage *value);
     void processing(const QImage *value);
     void completed(const QImage *value, bool changed);
-    void selectionChanged(const QPainterPath &value);
 
 private:
-    enum Operation
-    {
-        None,
-        Append,
-        Subtract,
-        Reset
-    };
 
     enum Mode
     {
-        SelectionEdit,
-        SelectionMove
+        MoveCut,
+        MoveCopy,
+        MoveCircular
     };
 
     IImageEditorParams *mParameters;
     QIcon *mIcon;
     QList<QAction *> *mActions;
     QList<QWidget *> *mWidgets;
-    QAction *mActionEditSelection;
-    QAction *mActionMoveSelection;
+    QAction *mActionMoveCut;
+    QAction *mActionMoveCopy;
+    QAction *mActionMoveCircular;
 
     bool mFlagChanged;
     QPoint mStartPoint;
-    QPainterPath mSelectedPath;
     Mode mToolMode;
-    QPainterPath mSelectedPathInternal;
+    QImage mImageOriginal;
+    QImage mImageInternal;
 
     void initializeWidgets();
-    void modifySelection(const QRect &rect, Operation op);
-    void processModeEdit(Qt::MouseButtons buttons, int x, int y);
-    void processModeMove(Qt::MouseButtons buttons, int x, int y);
+    void processMoveCutOrCopy(Qt::MouseButtons buttons, const QImage *imageOriginal, int x, int y, bool cut);
+    void processMoveCircular(Qt::MouseButtons buttons, const QImage *imageOriginal, int x, int y);
 
 private slots:
-    void on_switchToSelectionEdit();
-    void on_switchToSelectionMove();
+    void on_switchToMoveCut();
+    void on_switchToMoveCopy();
+    void on_switchToMoveCircular();
 };
 //-----------------------------------------------------------------------------
 } // end of namespace
 //-----------------------------------------------------------------------------
-#endif // TOOLSELECT_H
+#endif // TOOLMOVE_H

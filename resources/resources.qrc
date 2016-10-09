@@ -57,5 +57,8 @@
         <file alias="tool_select">icons/tools/tool_select.svg</file>
         <file alias="tool_select_edit">icons/tools/tool_select_edit.svg</file>
         <file alias="tool_select_move">icons/tools/tool_select_move.svg</file>
+        <file alias="tool_move_circular">icons/tools/tool_move_circular.svg</file>
+        <file alias="tool_move_copy">icons/tools/tool_move_copy.svg</file>
+        <file alias="tool_move_cut">icons/tools/tool_move_cut.svg</file>
     </qresource>
 </RCC>
