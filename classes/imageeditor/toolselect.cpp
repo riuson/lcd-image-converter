@@ -155,7 +155,7 @@ void ToolSelect::modifySelection(const QRect &rect, Operation op)
     {
         QPainterPath newPath;// = this->mSelectedPath;
         newPath.addRect(rect);
-        newPath += this->mSelectedPath;
+        newPath += this->mSelectedPathInternal;
         this->mSelectedPath = newPath.simplified();
         break;
     }
@@ -163,7 +163,7 @@ void ToolSelect::modifySelection(const QRect &rect, Operation op)
     {
         QPainterPath path;
         path.addRect(rect);
-        QPainterPath newPath = this->mSelectedPath.subtracted(path);
+        QPainterPath newPath = this->mSelectedPathInternal.subtracted(path);
         this->mSelectedPath = newPath.simplified();
         break;
     }
@@ -211,6 +211,7 @@ void ToolSelect::processModeEdit(Qt::MouseButtons buttons, int x, int y)
         if (!this->mFlagChanged)
         {
             this->mStartPoint = QPoint(x, y);
+            this->mSelectedPathInternal = this->mSelectedPath;
         }
 
         int x1 = this->mStartPoint.x();
