@@ -139,6 +139,11 @@ void DialogOptions::presetSaveAs(const QString &name)
 {
     this->mPreset->save(name);
     this->fillPresetsList();
+
+    int presetIndex = this->ui->comboBoxPresets->findText(name);
+
+    if (presetIndex >= 0)
+        this->ui->comboBoxPresets->setCurrentIndex(presetIndex);
 }
 //-----------------------------------------------------------------------------
 void DialogOptions::presetRemove(const QString &name)

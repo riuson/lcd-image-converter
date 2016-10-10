@@ -24,11 +24,11 @@
 #include <QVector>
 #include <QPoint>
 #include <QTime>
+#include <QPixmap>
 //-----------------------------------------------------------------------------
 class Preset;
 class QTimer;
 class QImage;
-class QPixmap;
 //-----------------------------------------------------------------------------
 class DemoGenerator : public QObject
 {
@@ -56,12 +56,13 @@ private:
     int mMax;
     int mIndex;
     QImage *mSourceImage;
-    QPixmap *mProcessedImage;
+    QPixmap mSourcePixmap;
+    QPixmap mProcessedPixmap;
     QTime mLastTick;
     int mAnimationTimeSeconds;
 
 signals:
-    void pixmapChanged(const QPixmap *pixmap);
+    void pixmapChanged(const QPixmap &pixmap);
     void errorHandled(const QString &message);
 
 private slots:
