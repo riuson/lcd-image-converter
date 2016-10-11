@@ -16,6 +16,7 @@
             <item category="fixed">Alpha-channel in Preview dialog for color presets.</item>
             <item category="fixed">Save last scale value in Preview dialog.</item>
             <item category="fixed">Preserve spaces for image suffix/prefix/delimiter in preset xml export/import.</item>
+            <item category="fixed">Some optimization in JS script evaluation and in dialog Options -&gt; Conversion.</item>
         </changes>
     </record>
     <record>
