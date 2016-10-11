@@ -282,15 +282,36 @@ bool ImageOptions::loadXmlElement(QDomElement element)
             }
 
             if (e.tagName() == ImageOptions::FieldBlockPrefix) {
-                sBlockPrefix = e.text();
+                QDomNode cdataNode = e.firstChild();
+
+                if (cdataNode.isCDATASection()) {
+                    QDomCDATASection cdataSection = cdataNode.toCDATASection();
+                    sBlockPrefix = cdataSection.data();
+                } else {
+                    sBlockPrefix = e.text();
+                }
             }
 
             if (e.tagName() == ImageOptions::FieldBlockSuffix) {
-                sBlockSuffix = e.text();
+                QDomNode cdataNode = e.firstChild();
+
+                if (cdataNode.isCDATASection()) {
+                    QDomCDATASection cdataSection = cdataNode.toCDATASection();
+                    sBlockSuffix = cdataSection.data();
+                } else {
+                    sBlockSuffix = e.text();
+                }
             }
 
             if (e.tagName() == ImageOptions::FieldBlockDelimiter) {
-                sBlockDelimiter = e.text();
+                QDomNode cdataNode = e.firstChild();
+
+                if (cdataNode.isCDATASection()) {
+                    QDomCDATASection cdataSection = cdataNode.toCDATASection();
+                    sBlockDelimiter = cdataSection.data();
+                } else {
+                    sBlockDelimiter = e.text();
+                }
             }
 
             if (!result) {
@@ -365,14 +386,14 @@ void ImageOptions::saveXmlElement(QDomElement element)
 
     QDomElement nodeBlockPrefix = element.ownerDocument().createElement(ImageOptions::FieldBlockPrefix);
     nodeImage.appendChild(nodeBlockPrefix);
-    nodeBlockPrefix.appendChild(element.ownerDocument().createTextNode(this->blockPrefix()));
+    nodeBlockPrefix.appendChild(element.ownerDocument().createCDATASection(this->blockPrefix()));
 
     QDomElement nodeBlockSuffix = element.ownerDocument().createElement(ImageOptions::FieldBlockSuffix);
     nodeImage.appendChild(nodeBlockSuffix);
-    nodeBlockSuffix.appendChild(element.ownerDocument().createTextNode(this->blockSuffix()));
+    nodeBlockSuffix.appendChild(element.ownerDocument().createCDATASection(this->blockSuffix()));
 
     QDomElement nodeBlockDelimiter = element.ownerDocument().createElement(ImageOptions::FieldBlockDelimiter);
     nodeImage.appendChild(nodeBlockDelimiter);
-    nodeBlockDelimiter.appendChild(element.ownerDocument().createTextNode(this->blockDelimiter()));
+    nodeBlockDelimiter.appendChild(element.ownerDocument().createCDATASection(this->blockDelimiter()));
 }
 //-----------------------------------------------------------------------------

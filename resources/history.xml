@@ -9,9 +9,14 @@
             <item category="added">Menu item 'File' -&gt; 'Close All'.</item>
             <item category="added">Save last directory and filter index in dialogs.</item>
             <item category="added">Show original and new size in Resize dialog.</item>
+            <item category="added">Filters *.cpp and *.h in save conversion results dialog.</item>
+            <item category="added">Selection tool (mouse left, middle and right buttons).</item>
+            <item category="added">Moving tool for selected area or entire image.</item>
             <item category="changed">Get changelog from server with versioning.</item>
             <item category="fixed">Alpha-channel in Preview dialog for color presets.</item>
             <item category="fixed">Save last scale value in Preview dialog.</item>
+            <item category="fixed">Preserve spaces for image suffix/prefix/delimiter in preset xml export/import.</item>
+            <item category="fixed">Some optimization in JS script evaluation and in dialog Options -&gt; Conversion.</item>
         </changes>
     </record>
     <record>

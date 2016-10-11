@@ -446,7 +446,10 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
         dialog.setWindowTitle(tr("Save result file as"));
 
         QStringList filters;
-        filters << tr("C Files (*.c)")
+        filters << tr("C source code (*.c)")
+                << tr("C++ source code (*.cpp)")
+                << tr("C/C++ headers (*.h)")
+                << tr("C/C++ files (*.c *.cpp *.h)")
                 << tr("All Files (*.*)");
         dialog.setNameFilters(filters);
         dialog.selectNameFilter(

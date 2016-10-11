@@ -97,7 +97,6 @@ void ToolZoom::setScale(int value)
 {
     if (this->mScale != value && value >= this->mSpinBoxScale->minimum() && value <= this->mSpinBoxScale->maximum())
     {
-        this->mScale = value;
         this->mSpinBoxScale->setValue(value);
     }
 }

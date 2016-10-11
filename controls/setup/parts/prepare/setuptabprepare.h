@@ -64,7 +64,7 @@ private slots:
     void on_plainTextEditCustomScript_textChanged();
     void updateState();
     void updateScript();
-    void demoPixmapChanged(const QPixmap *pixmap);
+    void demoPixmapChanged(const QPixmap &pixmap);
     void demoScriptError(const QString &value);
     void on_spinBoxAnimationTime_valueChanged(int value);
     void on_spinBoxAnimationInterval_valueChanged(int value);

@@ -42,7 +42,7 @@ public:
     const QImage *image() const;
     void setImage(const QImage *value);
 
-    void setTools(ToolsManager *tools);
+    int scale() const;
 
 protected:
     void changeEvent(QEvent *e);
@@ -60,14 +60,16 @@ private:
     void updateImageScaled(int value);
     void updateImageScaled(const QImage &image, int scale);
     void drawPixel(int x, int y, const QColor &color);
+    void createTools();
 
 private slots:
     void tool_started(const QImage *value);
     void tool_processing(const QImage *value);
     void tool_completed(const QImage *value, bool changed);
+    void tool_scaleChanged(int value);
+    void tool_selectionChanged(const QPainterPath &value);
 
 public slots:
-    void setScale(int value);
     void toolChanged(int toolIndex);
 
 signals:

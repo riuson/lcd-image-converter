@@ -27,6 +27,7 @@ ConvImage::ConvImage(const QImage *image, QObject *parent) :
     this->mImage = image;
     this->mBandSize = 1;
     this->mUseBands = false;
+    this->mScanTerminated = false;
 }
 //-----------------------------------------------------------------------------
 ConvImage::~ConvImage()
@@ -77,11 +78,14 @@ int ConvImage::pointsCount() const
     return this->mPoints.size();
 }
 //-----------------------------------------------------------------------------
-bool ConvImage::needBreakScan() const
+bool ConvImage::scanTerminated() const
 {
-    // 120% of points or 100k
-    int maxCount = qMax((this->mImage->width() * this->mImage->height() * 120) / 100, 100000);
-    return this->pointsCount() > maxCount;
+    return this->mScanTerminated;
+}
+//-----------------------------------------------------------------------------
+void ConvImage::setScanTerminated(bool value)
+{
+    this->mScanTerminated = value;
 }
 //-----------------------------------------------------------------------------
 int ConvImage::height() const

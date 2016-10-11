@@ -61,7 +61,7 @@ private:
     SetupTabFont       *mSetupFont;
     SetupTabTemplates  *mSetupTemplates;
 
-    void fillPresetsList();
+    void fillPresetsList(const QString &defaultName = QString());
     void presetLoad(const QString &name);
     void presetSaveAs(const QString &name);
     void presetRemove(const QString &name);

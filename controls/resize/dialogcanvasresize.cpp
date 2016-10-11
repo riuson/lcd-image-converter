@@ -26,6 +26,7 @@
 #include "imagesresizedproxy.h"
 #include "imagesfilterproxy.h"
 #include "transposeproxy.h"
+#include "columnsreorderproxy.h"
 #include "resizesettings.h"
 //-----------------------------------------------------------------------------
 DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent) :
@@ -47,8 +48,12 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
     this->mFilter = new ImagesFilterProxy(this);
     this->mFilter->setSourceModel(this->mScaledProxy);
 
+    this->mReorderProxy = new ColumnsReorderProxy();
+    this->mReorderProxy->setSourceModel(this->mFilter);
+    this->mReorderProxy->setReorder(1, 3);
+
     this->mTranspose = new TransposeProxy(this);
-    this->mTranspose->setSourceModel(this->mFilter);
+    this->mTranspose->setSourceModel(this->mReorderProxy);
 
     this->ui->tableView->setModel(this->mTranspose);
 

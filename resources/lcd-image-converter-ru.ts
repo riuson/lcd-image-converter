@@ -52,11 +52,26 @@
     </message>
     <message>
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="449"/>
-        <source>C Files (*.c)</source>
-        <translation>Файлы C (*.c)</translation>
+        <source>C source code (*.c)</source>
+        <translation>Исходные коды C</translation>
     </message>
     <message>
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="450"/>
+        <source>C++ source code (*.cpp)</source>
+        <translation>Исходные коды C++</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="451"/>
+        <source>C/C++ headers (*.h)</source>
+        <translation>Заголовочные файлы C/C++</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="452"/>
+        <source>C/C++ files (*.c *.cpp *.h)</source>
+        <translation>Файлы C/C++</translation>
+    </message>
+    <message>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="453"/>
         <source>All Files (*.*)</source>
         <translation>Все файлы (*.*)</translation>
     </message>
@@ -577,87 +592,87 @@ Qt: %4</translation>
         <translation>Открыть предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="156"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="181"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="159"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="184"/>
         <source>Grayscale 4</source>
         <translation>Градации серого 4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="162"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="187"/>
         <source>Grayscale 8</source>
         <translation>Градации серого 8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="165"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="190"/>
         <source>Color R4G5B4</source>
         <translation>Цветное R4G5B4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="168"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="193"/>
         <source>Color R5G6B5</source>
         <translation>Цветное R5G6B5</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="171"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="196"/>
         <source>Color R8G8B8</source>
         <translation>Цветное R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="174"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="199"/>
         <source>Color A8R8G8B8</source>
         <translation>Цветное A8R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="188"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="213"/>
         <source>Import - Attention</source>
         <translation>Импорт - Внимание</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="232"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="257"/>
         <source>Enter preset name</source>
         <translation>Введите название предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="232"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="257"/>
         <source>Preset name:</source>
         <translation>Название предустановки:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="255"/>
-        <location filename="../controls/setup/dialogoptions.cpp" line="283"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="280"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="308"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="256"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="281"/>
         <source>Open xml preset file</source>
         <translation>Открыть xml файл предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="285"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="310"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="317"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="342"/>
         <source>Preset with name &quot;%1&quot; already exists. Continue with overwrite?</source>
         <comment>Warning about preset overwrite</comment>
         <translatorcomment>Предупреждение о перезаписи существующей предустановки</translatorcomment>
         <translation>Предустановка с именем &quot;%1&quot; уже существует. Продолжить с перезаписью?</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="320"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="345"/>
         <source>Preset with name &quot;%1&quot; doesn&apos;t exists. All OK.</source>
         <comment>Warning about preset overwrite</comment>
         <translatorcomment>Предупреждение о перезаписи существующей предустановки</translatorcomment>
         <translation>Предустановка с именем &quot;%1&quot; не существует. Можно продолжать.</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="332"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="357"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
     </message>
@@ -784,6 +799,34 @@ Qt: %4</translation>
     </message>
 </context>
 <context>
+    <name>ImageEditor::ToolMove</name>
+    <message>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="57"/>
+        <source>Move</source>
+        <translation>Перемещение</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="62"/>
+        <source>Move entire image or selection</source>
+        <translation>Перемещение всего изображеня или выделенной частие</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="129"/>
+        <source>Cut &amp; Move</source>
+        <translation>Вырезать и переместить</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="137"/>
+        <source>Copy &amp; Move</source>
+        <translation>Скопировать и переместить</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="145"/>
+        <source>Move circular (rectancular area only)</source>
+        <translation>Циклический сдвиг (только для прямоугольных областей)</translation>
+    </message>
+</context>
+<context>
     <name>ImageEditor::ToolPen</name>
     <message>
         <location filename="../classes/imageeditor/toolpen.cpp" line="63"/>
@@ -847,6 +890,29 @@ Qt: %4</translation>
     </message>
 </context>
 <context>
+    <name>ImageEditor::ToolSelect</name>
+    <message>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="57"/>
+        <source>Select</source>
+        <translation>Выбор</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="62"/>
+        <source>Select area</source>
+        <translation>Выбор участка</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="132"/>
+        <source>Modify selection</source>
+        <translation>Изменение выбора</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="140"/>
+        <source>Move selection</source>
+        <translation>Перемещение выбора</translation>
+    </message>
+</context>
+<context>
     <name>ImageEditor::ToolZoom</name>
     <message>
         <location filename="../classes/imageeditor/toolzoom.cpp" line="60"/>
@@ -859,7 +925,7 @@ Qt: %4</translation>
         <translation>Измение масштаба изображения</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolzoom.cpp" line="113"/>
+        <location filename="../classes/imageeditor/toolzoom.cpp" line="112"/>
         <source>Scale value</source>
         <translation>Значение масштаба</translation>
     </message>

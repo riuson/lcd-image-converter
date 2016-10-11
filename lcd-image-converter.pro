@@ -83,6 +83,8 @@ SOURCES += main.cpp \
     classes/imageeditor/toolcolor.cpp \
     classes/imageeditor/toolfill.cpp \
     classes/imageeditor/toolline.cpp \
+    classes/imageeditor/toolmove.cpp \
+    classes/imageeditor/toolselect.cpp \
     classes/imageeditor/toolsmanager.cpp \
     classes/imageeditor/toolpen.cpp \
     classes/imageeditor/toolrect.cpp \
@@ -140,6 +142,7 @@ SOURCES += main.cpp \
     controls/images/widgetbitmapeditor.cpp \
     controls/main/mainwindow.cpp \
     controls/main/revisionlabel.cpp \
+    controls/resize/columnsreorderproxy.cpp \
     controls/resize/dialogcanvasresize.cpp \
     controls/resize/imagesfilterproxy.cpp \
     controls/resize/imagesresizedproxy.cpp \
@@ -191,9 +194,12 @@ HEADERS += \
     classes/imageeditor/iimageeditor.h \
     classes/imageeditor/iimageeditorparams.h \
     classes/imageeditor/iimageeditortool.h \
+    classes/imageeditor/iimageselection.h \
     classes/imageeditor/toolcolor.h \
     classes/imageeditor/toolfill.h \
     classes/imageeditor/toolline.h \
+    classes/imageeditor/toolmove.h \
+    classes/imageeditor/toolselect.h \
     classes/imageeditor/toolsmanager.h \
     classes/imageeditor/toolpen.h \
     classes/imageeditor/toolrect.h \
@@ -253,6 +259,7 @@ HEADERS += \
     controls/images/widgetbitmapeditor.h \
     controls/main/mainwindow.h \
     controls/main/revisionlabel.h \
+    controls/resize/columnsreorderproxy.h \
     controls/resize/dialogcanvasresize.h \
     controls/resize/imagesfilterproxy.h \
     controls/resize/imagesresizedproxy.h \
