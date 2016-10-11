@@ -35,7 +35,8 @@ DemoGenerator::DemoGenerator(Preset *preset, QObject *parent) :
     this->mTimer = new QTimer(this);
     this->connect(this->mTimer, SIGNAL(timeout()), SLOT(timeout()));
     this->mSourceImage = new QImage(":/demos/scanning_background");
-    this->mProcessedImage = new QPixmap();
+    this->mSourcePixmap = QPixmap::fromImage(*this->mSourceImage);
+    this->mProcessedPixmap = QPixmap();
     this->mLastTick = QTime::currentTime();
     this->mAnimationTimeSeconds = 60;
     this->mMax = 0;
@@ -138,22 +139,22 @@ void DemoGenerator::timeout()
 
     QPoint point = this->mPoints.at(this->mIndex);
 
-    QPixmap *pixmap = new QPixmap(QPixmap::fromImage(*this->mSourceImage));
-    QPainter painter(pixmap);
-    painter.setPen(QColor("silver"));
-    if (point.x() >= 0 && point.x() < pixmap->width())
+    QPixmap pixmap = this->mSourcePixmap;
+    QPainter painter(&pixmap);
+    painter.setPen(QColor(0, 0, 0));
+
+    if (point.x() >= 0 && point.x() < pixmap.width())
     {
-        if (point.y() >= 0 && point.y() < pixmap->height())
+        if (point.y() >= 0 && point.y() < pixmap.height())
         {
-            painter.drawLine(point.x(), 0, point.x(), pixmap->height());
-            painter.drawLine(0, point.y(), pixmap->width(), point.y());
+            painter.drawLine(point.x(), 0, point.x(), pixmap.height());
+            painter.drawLine(0, point.y(), pixmap.width(), point.y());
         }
     }
 
-    delete this->mProcessedImage;
-    this->mProcessedImage = pixmap;
+    this->mProcessedPixmap = pixmap;
 
-    emit this->pixmapChanged(this->mProcessedImage);
+    emit this->pixmapChanged(this->mProcessedPixmap);
 
     this->mLastTick = current;
 }

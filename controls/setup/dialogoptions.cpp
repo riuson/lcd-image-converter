@@ -111,20 +111,40 @@ DialogOptions::~DialogOptions()
     delete this->mPreset;
 }
 //-----------------------------------------------------------------------------
-void DialogOptions::fillPresetsList()
+void DialogOptions::fillPresetsList(const QString &defaultName)
 {
+    this->disconnect(this->ui->comboBoxPresets, SIGNAL(currentIndexChanged(int)), this, SLOT(on_comboBoxPresets_currentIndexChanged(int)));
+
     QString current = this->ui->comboBoxPresets->currentText();
 
     this->ui->comboBoxPresets->clear();
 
     QStringList names = Preset::presetsList();
-
     this->ui->comboBoxPresets->addItems(names);
 
-    if (names.contains(current))
+    bool defaultLoaded = false;
+
+    if (!defaultName.isEmpty())
     {
-        this->ui->comboBoxPresets->setCurrentIndex(names.indexOf(current));
+        if (names.contains(defaultName))
+        {
+            this->ui->comboBoxPresets->setCurrentIndex(names.indexOf(defaultName));
+            this->presetLoad(defaultName);
+            defaultLoaded = true;
+        }
     }
+
+    if (!defaultLoaded)
+    {
+        if (names.contains(current))
+        {
+            this->ui->comboBoxPresets->setCurrentIndex(names.indexOf(current));
+            this->presetLoad(current);
+        }
+
+    }
+
+    this->connect(this->ui->comboBoxPresets, SIGNAL(currentIndexChanged(int)), SLOT(on_comboBoxPresets_currentIndexChanged(int)));
 }
 //-----------------------------------------------------------------------------
 void DialogOptions::presetLoad(const QString &name)
@@ -139,6 +159,11 @@ void DialogOptions::presetSaveAs(const QString &name)
 {
     this->mPreset->save(name);
     this->fillPresetsList();
+
+    int presetIndex = this->ui->comboBoxPresets->findText(name);
+
+    if (presetIndex >= 0)
+        this->ui->comboBoxPresets->setCurrentIndex(presetIndex);
 }
 //-----------------------------------------------------------------------------
 void DialogOptions::presetRemove(const QString &name)
@@ -270,7 +295,7 @@ void DialogOptions::on_pushButtonPresetImport_clicked()
 
         delete importedPreset;
 
-        this->fillPresetsList();
+        this->fillPresetsList(resultPresetName);
     }
 }
 //-----------------------------------------------------------------------------

@@ -37,7 +37,7 @@ public:
     Q_PROPERTY(int width READ width)
     Q_PROPERTY(int bandSize READ bandSize)
     Q_PROPERTY(bool useBands READ useBands)
-    Q_PROPERTY(bool needBreakScan READ needBreakScan)
+    Q_PROPERTY(bool scanTerminated READ scanTerminated WRITE setScanTerminated)
 
     int bandSize() const;
     void setBandSize(int value);
@@ -51,13 +51,15 @@ public:
     QPoint pointAt(int index) const;
     int pointsCount() const;
 
-    bool needBreakScan() const;
+    bool scanTerminated() const;
+    void setScanTerminated(bool value);
 
 private:
     const QImage *mImage;
     int mBandSize;
     bool mUseBands;
     QVector<QPoint> mPoints;
+    bool mScanTerminated;
 
     int height() const;
     int width() const;

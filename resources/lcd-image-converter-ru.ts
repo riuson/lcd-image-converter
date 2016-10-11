@@ -592,87 +592,87 @@ Qt: %4</translation>
         <translation>Открыть предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="156"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="181"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="159"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="184"/>
         <source>Grayscale 4</source>
         <translation>Градации серого 4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="162"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="187"/>
         <source>Grayscale 8</source>
         <translation>Градации серого 8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="165"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="190"/>
         <source>Color R4G5B4</source>
         <translation>Цветное R4G5B4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="168"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="193"/>
         <source>Color R5G6B5</source>
         <translation>Цветное R5G6B5</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="171"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="196"/>
         <source>Color R8G8B8</source>
         <translation>Цветное R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="174"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="199"/>
         <source>Color A8R8G8B8</source>
         <translation>Цветное A8R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="188"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="213"/>
         <source>Import - Attention</source>
         <translation>Импорт - Внимание</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="232"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="257"/>
         <source>Enter preset name</source>
         <translation>Введите название предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="232"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="257"/>
         <source>Preset name:</source>
         <translation>Название предустановки:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="255"/>
-        <location filename="../controls/setup/dialogoptions.cpp" line="283"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="280"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="308"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="256"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="281"/>
         <source>Open xml preset file</source>
         <translation>Открыть xml файл предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="285"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="310"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="317"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="342"/>
         <source>Preset with name &quot;%1&quot; already exists. Continue with overwrite?</source>
         <comment>Warning about preset overwrite</comment>
         <translatorcomment>Предупреждение о перезаписи существующей предустановки</translatorcomment>
         <translation>Предустановка с именем &quot;%1&quot; уже существует. Продолжить с перезаписью?</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="320"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="345"/>
         <source>Preset with name &quot;%1&quot; doesn&apos;t exists. All OK.</source>
         <comment>Warning about preset overwrite</comment>
         <translatorcomment>Предупреждение о перезаписи существующей предустановки</translatorcomment>
         <translation>Предустановка с именем &quot;%1&quot; не существует. Можно продолжать.</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="332"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="357"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
     </message>
