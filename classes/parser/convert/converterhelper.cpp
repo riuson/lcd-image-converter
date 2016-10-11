@@ -203,7 +203,10 @@ void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script,
     engine.globalObject().setProperty("image", imageValue);
     QString scriptModified = script;
 
-    scriptModified = scriptModified.replace("image.addPoint", "addImagePoint");
+    scriptModified = scriptModified
+            .replace("image.addPoint", "addImagePoint")
+            .replace("image.width", "__internal_image_width")
+            .replace("image.height", "__internal_image_height");
     QString scriptTemplate = ConverterHelper::scanScriptTemplate();
     scriptModified = scriptTemplate.arg(scriptModified);
 
