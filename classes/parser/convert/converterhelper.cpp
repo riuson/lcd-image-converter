@@ -34,6 +34,7 @@
 #include <QVector>
 #include <QFile>
 #include <QTextStream>
+#include <QTextStream>
 
 #if defined(USE_JS_QTSCRIPT)
 #include <QtScript/QScriptEngine>
@@ -206,16 +207,36 @@ void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script,
     QString scriptTemplate = ConverterHelper::scanScriptTemplate();
     scriptModified = scriptTemplate.arg(scriptModified);
 
+    int startPosition = 0;
+
+    {
+        QTextStream stream(&scriptTemplate, QIODevice::ReadOnly);
+        QString scriptLine;
+        int counter = 0;
+
+        do
+        {
+            scriptLine = stream.readLine();
+
+            if (scriptLine.contains("%1")){
+                startPosition = counter;
+                break;
+            }
+
+            counter++;
+        } while (!scriptLine.isNull());
+    }
+
     QJSValue resultValue = engine.evaluate(scriptModified);
 
-    if (convImage->needBreakScan())
+    if (convImage->scanTerminated())
     {
         *resultError = QString("Script abort requested. Points count: %1").arg(convImage->pointsCount());
     }
     else if (resultValue.isError())
     {
         int line = resultValue.property("lineNumber").toInt();
-        *resultError = QString("Uncaught exception at line %1 : %2").arg(line).arg(resultValue.toString());
+        *resultError = QString("Uncaught exception at line %1 : %2").arg(line - startPosition).arg(resultValue.toString());
     }
     else if (convImage->pointsCount() == 0)
     {
