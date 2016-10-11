@@ -111,7 +111,7 @@ DialogOptions::~DialogOptions()
     delete this->mPreset;
 }
 //-----------------------------------------------------------------------------
-void DialogOptions::fillPresetsList()
+void DialogOptions::fillPresetsList(const QString &defaultName)
 {
     this->disconnect(this->ui->comboBoxPresets, SIGNAL(currentIndexChanged(int)), this, SLOT(on_comboBoxPresets_currentIndexChanged(int)));
 
@@ -120,13 +120,28 @@ void DialogOptions::fillPresetsList()
     this->ui->comboBoxPresets->clear();
 
     QStringList names = Preset::presetsList();
-
     this->ui->comboBoxPresets->addItems(names);
 
-    if (names.contains(current))
+    bool defaultLoaded = false;
+
+    if (!defaultName.isEmpty())
     {
-        this->ui->comboBoxPresets->setCurrentIndex(names.indexOf(current));
-        this->presetLoad(current);
+        if (names.contains(defaultName))
+        {
+            this->ui->comboBoxPresets->setCurrentIndex(names.indexOf(defaultName));
+            this->presetLoad(defaultName);
+            defaultLoaded = true;
+        }
+    }
+
+    if (!defaultLoaded)
+    {
+        if (names.contains(current))
+        {
+            this->ui->comboBoxPresets->setCurrentIndex(names.indexOf(current));
+            this->presetLoad(current);
+        }
+
     }
 
     this->connect(this->ui->comboBoxPresets, SIGNAL(currentIndexChanged(int)), SLOT(on_comboBoxPresets_currentIndexChanged(int)));
@@ -280,7 +295,7 @@ void DialogOptions::on_pushButtonPresetImport_clicked()
 
         delete importedPreset;
 
-        this->fillPresetsList();
+        this->fillPresetsList(resultPresetName);
     }
 }
 //-----------------------------------------------------------------------------
