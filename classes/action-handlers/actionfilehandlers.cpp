@@ -28,6 +28,7 @@
 #include <QTextStream>
 #include <QInputDialog>
 #include <QLineEdit>
+#include <QMap>
 #include <QStringList>
 #include "parser.h"
 #include "widgetbitmapeditor.h"
@@ -249,6 +250,19 @@ void ActionFileHandlers::convertAll_triggered()
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::openFiles(const QStringList &filenames)
 {
+    QList<QWidget*> existingTabs;
+    this->mMainWindow->tabsList(&existingTabs);
+    QMap<QString, QWidget *> existingFilesInEditors;
+    QString lastExistingFile;
+
+    for (int i = 0; i < existingTabs.count(); i++)
+    {
+        IEditor *editor = dynamic_cast<IEditor *> (existingTabs.at(i));
+
+        if (editor != NULL)
+            existingFilesInEditors.insert(editor->document()->documentFilename(), existingTabs.at(i));
+    }
+
     // binary image
     QStringList filesBinaryImage;
     {
@@ -273,7 +287,7 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
         {
             QFileInfo info(filename);
 
-            if (info.exists() && info.suffix().toLower() == "xml")
+            if (info.exists() && info.suffix().toLower() == "xml" && !existingFilesInEditors.contains(filename))
             {
                 QFile file(filename);
                 if (file.open(QIODevice::ReadWrite))
@@ -292,6 +306,10 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
                     file.close();
                 }
             }
+            else if (existingFilesInEditors.keys().contains(filename))
+            {
+                lastExistingFile = filename;
+            }
         }
     }
 
@@ -302,7 +320,7 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
         {
             QFileInfo info(filename);
 
-            if (info.exists() && info.suffix().toLower() == "xml")
+            if (info.exists() && info.suffix().toLower() == "xml" && !existingFilesInEditors.contains(filename))
             {
                 QFile file(filename);
                 if (file.open(QIODevice::ReadWrite))
@@ -321,6 +339,10 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
                     file.close();
                 }
             }
+            else if (existingFilesInEditors.keys().contains(filename))
+            {
+                lastExistingFile = filename;
+            }
         }
     }
 
@@ -328,6 +350,9 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
     this->openBinaryImage(filesBinaryImage);
     this->openImage(filesDocumentImage);
     this->openFont(filesDocumentFont);
+
+    if (existingFilesInEditors.contains(lastExistingFile))
+        this->tabSelect(existingFilesInEditors.value(lastExistingFile));
 }
 //-----------------------------------------------------------------------------
 void ActionFileHandlers::openFile(const QString &filename)

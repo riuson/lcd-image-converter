@@ -51,8 +51,8 @@
 #include "filedialogoptions.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
-        QMainWindow(parent),
-        ui(new Ui::MainWindow)
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -216,6 +216,7 @@ void MainWindow::createHandlers()
     this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
     this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*)), SLOT(tabChanged(QWidget*)));
     this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget*)), SLOT(tabCreated(QWidget*)));
+    this->connect(this->mFileHandlers, SIGNAL(tabSelect(QWidget*)), SLOT(setCurrentTab(QWidget*)));
 
     this->mEditHandlers = new ActionEditHandlers(this);
     this->mEditHandlers->connect(this->ui->actionEditUndo, SIGNAL(triggered()), SLOT(undo_triggered()));
@@ -309,54 +310,54 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
         switch (dialog.answer())
         {
         case DialogSaveChanges::Save:
+        {
+            if (QFile::exists(editor->document()->documentFilename()))
             {
-                if (QFile::exists(editor->document()->documentFilename()))
+                if (editor->document()->save(editor->document()->documentFilename()))
                 {
-                    if (editor->document()->save(editor->document()->documentFilename()))
-                    {
-                        this->rememberFilename(editor->document()->documentFilename());
-                    }
+                    this->rememberFilename(editor->document()->documentFilename());
+                }
+            }
+            else
+            {
+                QFileDialog dialog(this->parentWidget());
+                dialog.setAcceptMode(QFileDialog::AcceptSave);
+                dialog.setFileMode(QFileDialog::AnyFile);
+                dialog.setNameFilter(tr("XML Files (*.xml)"));
+                dialog.setDefaultSuffix(QString("xml"));
+                dialog.setWindowTitle(tr("Save file as"));
+
+                if (editor->document()->documentFilename().isEmpty())
+                {
+                    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::SaveDocument));
+                    dialog.selectFile(editor->document()->documentName());
                 }
                 else
                 {
-                    QFileDialog dialog(this->parentWidget());
-                    dialog.setAcceptMode(QFileDialog::AcceptSave);
-                    dialog.setFileMode(QFileDialog::AnyFile);
-                    dialog.setNameFilter(tr("XML Files (*.xml)"));
-                    dialog.setDefaultSuffix(QString("xml"));
-                    dialog.setWindowTitle(tr("Save file as"));
+                    dialog.selectFile(editor->document()->documentFilename());
+                }
 
-                    if (editor->document()->documentFilename().isEmpty())
-                    {
-                        dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::SaveDocument));
-                        dialog.selectFile(editor->document()->documentName());
-                    }
-                    else
-                    {
-                        dialog.selectFile(editor->document()->documentFilename());
-                    }
+                if (dialog.exec() == QDialog::Accepted)
+                {
+                    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
+                    QString filename = dialog.selectedFiles().at(0);
 
-                    if (dialog.exec() == QDialog::Accepted)
+                    if (editor->document()->save(filename))
                     {
-                        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
-                        QString filename = dialog.selectedFiles().at(0);
-
-                        if (editor->document()->save(filename))
-                        {
-                            this->rememberFilename(editor->document()->documentFilename());
-                        }
-                        else
-                        {
-                            cancel = true;
-                        }
+                        this->rememberFilename(editor->document()->documentFilename());
                     }
                     else
                     {
                         cancel = true;
                     }
                 }
-                break;
+                else
+                {
+                    cancel = true;
+                }
             }
+            break;
+        }
         case DialogSaveChanges::DontSave:
             break;
         case DialogSaveChanges::Cancel:
@@ -384,6 +385,11 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         IEditor *editor = this->currentEditor();
         this->mStatusManager->updateData(editor->statusData());
     }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::setCurrentTab(QWidget *widget)
+{
+    this->ui->tabWidget->setCurrentWidget(widget);
 }
 //-----------------------------------------------------------------------------
 void MainWindow::actionLanguage_triggered()

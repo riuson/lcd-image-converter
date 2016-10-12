@@ -31,83 +31,83 @@
 <context>
     <name>ActionFileHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="50"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="51"/>
         <source>Enter image name</source>
         <translation>Введите имя изображения</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="51"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="52"/>
         <source>Image name:</source>
         <translation>Имя изображения:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="71"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="72"/>
         <source>Enter font name</source>
         <translation>Введите имя шрифта</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="72"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="73"/>
         <source>Font name:</source>
         <translation>Имя шрифта:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="449"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="474"/>
         <source>C source code (*.c)</source>
         <translation>Исходные коды C</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="450"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="475"/>
         <source>C++ source code (*.cpp)</source>
         <translation>Исходные коды C++</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="451"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="476"/>
         <source>C/C++ headers (*.h)</source>
         <translation>Заголовочные файлы C/C++</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="452"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="477"/>
         <source>C/C++ files (*.c *.cpp *.h)</source>
         <translation>Файлы C/C++</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="453"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="478"/>
         <source>All Files (*.*)</source>
         <translation>Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="110"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="111"/>
         <source>Open xml or image file</source>
         <translation>Открыть xml документ или изображение</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="114"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="115"/>
         <source>Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Изображения (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="141"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="142"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="142"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="143"/>
         <source>New name:</source>
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="113"/>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="173"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="114"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="174"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="175"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="176"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="446"/>
+        <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="471"/>
         <source>Save result file as</source>
         <translation>Сохранить результат как</translation>
     </message>
@@ -1233,12 +1233,12 @@ Qt: %4</translation>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="325"/>
+        <location filename="../controls/main/mainwindow.cpp" line="326"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="327"/>
+        <location filename="../controls/main/mainwindow.cpp" line="328"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
