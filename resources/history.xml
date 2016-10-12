@@ -13,6 +13,7 @@
             <item category="added">Selection tool (mouse left, middle and right buttons).</item>
             <item category="added">Moving tool for selected area or entire image.</item>
             <item category="changed">Get changelog from server with versioning.</item>
+            <item category="changed">Processing of mouse movements also outside the borders of the image.</item>
             <item category="fixed">Alpha-channel in Preview dialog for color presets.</item>
             <item category="fixed">Save last scale value in Preview dialog.</item>
             <item category="fixed">Preserve spaces for image suffix/prefix/delimiter in preset xml export/import.</item>
