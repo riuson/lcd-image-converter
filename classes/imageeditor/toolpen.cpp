@@ -190,6 +190,9 @@ void ToolPen::drawPixel(int x, int y, const QColor &color)
     QPixmap pixmap = QPixmap::fromImage(image);
     QPainter painter(&pixmap);
 
+    if (!this->mParameters->selectedPath().isEmpty())
+        painter.setClipPath(this->mParameters->selectedPath());
+
     if (this->mSize == 1)
     {
         painter.setPen(color);

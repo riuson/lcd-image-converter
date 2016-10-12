@@ -236,6 +236,9 @@ void ToolRect::drawRect(const QRect &rect, OutlineMode mode, int borderWidth, bo
     QColor fc = this->mParameters->foreColor();
     QColor bc = this->mParameters->backColor();
 
+    if (!this->mParameters->selectedPath().isEmpty())
+        painter.setClipPath(this->mParameters->selectedPath());
+
     if (inverted)
     {
         bc = this->mParameters->foreColor();

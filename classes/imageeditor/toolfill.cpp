@@ -196,6 +196,9 @@ bool ToolFill::fillArea(int x, int y, const QColor &color)
         QPainter painter(&pixmap);
         painter.setPen(color);
 
+        if (!this->mParameters->selectedPath().isEmpty())
+            painter.setClipPath(this->mParameters->selectedPath());
+
         for (int i = 0 ; i < vector1.size(); i++)
         {
             painter.drawPoint(vector1.at(i));

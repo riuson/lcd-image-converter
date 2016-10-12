@@ -195,6 +195,9 @@ void ToolLine::drawLine(const QRect &rect, int borderWidth, bool inverted)
     QPixmap pixmap = QPixmap::fromImage(image);
     QPainter painter(&pixmap);
 
+    if (!this->mParameters->selectedPath().isEmpty())
+        painter.setClipPath(this->mParameters->selectedPath());
+
     QColor fc = this->mParameters->foreColor();
     QColor bc = this->mParameters->backColor();
 
