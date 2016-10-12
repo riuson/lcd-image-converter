@@ -83,8 +83,11 @@ const QPainterPath &ToolSelect::selectedPath() const
 }
 //-----------------------------------------------------------------------------
 bool ToolSelect::processMouse(QMouseEvent *event,
-                              const QImage *imageOriginal)
+                              const QImage *imageOriginal,
+                              bool inRect)
 {
+    Q_UNUSED(inRect)
+
     if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress)
     {
         if (event->type() == QEvent::MouseButtonPress)
@@ -95,21 +98,18 @@ bool ToolSelect::processMouse(QMouseEvent *event,
         // get coordinates
         if (imageOriginal != NULL)
         {
-            if (event->x() < imageOriginal->width() && event->y() < imageOriginal->height())
-            {
-                Qt::MouseButtons buttons = event->buttons();
-                int x = event->x();
-                int y = event->y();
+            Qt::MouseButtons buttons = event->buttons();
+            int x = event->x();
+            int y = event->y();
 
-                switch (this->mToolMode)
-                {
-                case SelectionEdit:
-                    this->processModeEdit(buttons, x, y);
-                    break;
-                case SelectionMove:
-                    this->processModeMove(buttons, x, y);
-                    break;
-                }
+            switch (this->mToolMode)
+            {
+            case SelectionEdit:
+                this->processModeEdit(buttons, x, y);
+                break;
+            case SelectionMove:
+                this->processModeMove(buttons, x, y);
+                break;
             }
         }
         event->accept();

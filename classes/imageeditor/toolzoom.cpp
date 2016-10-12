@@ -86,10 +86,12 @@ int ToolZoom::scale() const
 }
 //-----------------------------------------------------------------------------
 bool ToolZoom::processMouse(QMouseEvent *event,
-                            const QImage *imageOriginal)
+                            const QImage *imageOriginal,
+                            bool inRect)
 {
     Q_UNUSED(event)
     Q_UNUSED(imageOriginal)
+    Q_UNUSED(inRect)
     return false;
 }
 //-----------------------------------------------------------------------------

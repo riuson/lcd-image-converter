@@ -86,7 +86,8 @@ const QList<QWidget *> *ToolFill::widgets() const
 }
 //-----------------------------------------------------------------------------
 bool ToolFill::processMouse(QMouseEvent *event,
-                           const QImage *imageOriginal)
+                            const QImage *imageOriginal,
+                            bool inRect)
 {
     if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress)
     {
@@ -95,7 +96,7 @@ bool ToolFill::processMouse(QMouseEvent *event,
             // get coordinates
             if (imageOriginal != NULL)
             {
-                if (event->x() < imageOriginal->width() && event->y() < imageOriginal->height())
+                if (inRect)
                 {
                     // get buttons
                     bool buttonLeft = (event->buttons() & Qt::LeftButton) == Qt::LeftButton;

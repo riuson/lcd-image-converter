@@ -49,7 +49,8 @@ public:
 
 public slots:
     bool processMouse(QMouseEvent *event,
-                      const QImage *imageOriginal);
+                      const QImage *imageOriginal,
+                      bool inRect);
     void setScale(int value);
 
 signals:

@@ -84,8 +84,11 @@ const QList<QWidget *> *ToolLine::widgets() const
 }
 //-----------------------------------------------------------------------------
 bool ToolLine::processMouse(QMouseEvent *event,
-                           const QImage *imageOriginal)
+                            const QImage *imageOriginal,
+                            bool inRect)
 {
+    Q_UNUSED(inRect)
+
     if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress)
     {
         if (event->type() == QEvent::MouseButtonPress)
@@ -96,42 +99,39 @@ bool ToolLine::processMouse(QMouseEvent *event,
         // get coordinates
         if (imageOriginal != NULL)
         {
-            if (event->x() < imageOriginal->width() && event->y() < imageOriginal->height())
+            // get buttons
+            bool buttonLeft = (event->buttons() & Qt::LeftButton) == Qt::LeftButton;
+            bool buttonRight = (event->buttons() & Qt::RightButton) == Qt::RightButton;
+
+            // draw on pixmap
+            if (buttonLeft)
             {
-                // get buttons
-                bool buttonLeft = (event->buttons() & Qt::LeftButton) == Qt::LeftButton;
-                bool buttonRight = (event->buttons() & Qt::RightButton) == Qt::RightButton;
-
-                // draw on pixmap
-                if (buttonLeft)
+                if (!this->mFlagChanged)
                 {
-                    if (!this->mFlagChanged)
-                    {
-                        this->mOriginalImage = *imageOriginal;
-                        this->mStartPoint = event->pos();
-                    }
-
-                    QRect rect;
-                    rect.setCoords(this->mStartPoint.x(), this->mStartPoint.y(), event->x(), event->y());
-                    this->drawLine(rect, this->mSize, false);
-                    this->mFlagChanged = true;
-                    emit this->processing(&this->mInternalImage);
+                    this->mOriginalImage = *imageOriginal;
+                    this->mStartPoint = event->pos();
                 }
 
-                if(buttonRight)
-                {
-                    if (!this->mFlagChanged)
-                    {
-                        this->mOriginalImage = *imageOriginal;
-                        this->mStartPoint = event->pos();
-                    }
+                QRect rect;
+                rect.setCoords(this->mStartPoint.x(), this->mStartPoint.y(), event->x(), event->y());
+                this->drawLine(rect, this->mSize, false);
+                this->mFlagChanged = true;
+                emit this->processing(&this->mInternalImage);
+            }
 
-                    QRect rect;
-                    rect.setCoords(this->mStartPoint.x(), this->mStartPoint.y(), event->x(), event->y());
-                    this->drawLine(rect, this->mSize, true);
-                    this->mFlagChanged = true;
-                    emit this->processing(&this->mInternalImage);
+            if(buttonRight)
+            {
+                if (!this->mFlagChanged)
+                {
+                    this->mOriginalImage = *imageOriginal;
+                    this->mStartPoint = event->pos();
                 }
+
+                QRect rect;
+                rect.setCoords(this->mStartPoint.x(), this->mStartPoint.y(), event->x(), event->y());
+                this->drawLine(rect, this->mSize, true);
+                this->mFlagChanged = true;
+                emit this->processing(&this->mInternalImage);
             }
         }
         event->accept();
