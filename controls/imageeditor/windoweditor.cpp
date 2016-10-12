@@ -96,25 +96,23 @@ bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
             int yreal = yscaled / this->mTools->scale();
             QPoint mousePosition(xreal, yreal);
 
-            if (xreal >= 0 && yreal >= 0 && xreal < this->mImageOriginal.width() && yreal < this->mImageOriginal.height())
+            bool inRect = this->mImageOriginal.rect().contains(mousePosition, false);
+
+            QMouseEvent mouseEventScaled = QMouseEvent(
+                        mouseEvent->type(),
+                        mousePosition,
+                        mouseEvent->button(),
+                        mouseEvent->buttons(),
+                        mouseEvent->modifiers());
+
+            result = this->mSelectedTool->processMouse(&mouseEventScaled, &this->mImageOriginal, inRect);
+
+            if (mouseEventScaled.isAccepted())
             {
-                QMouseEvent *mouseEventScaled = new QMouseEvent(
-                            mouseEvent->type(),
-                            mousePosition,
-                            mouseEvent->button(),
-                            mouseEvent->buttons(),
-                            mouseEvent->modifiers());
-
-                result = this->mSelectedTool->processMouse(mouseEventScaled, &this->mImageOriginal);
-
-                if (mouseEventScaled->isAccepted())
-                {
-                    mouseEvent->accept();
-                }
-
-                delete mouseEventScaled;
+                mouseEvent->accept();
             }
-            else
+
+            if (!inRect)
             {
                 mousePosition.setX(-1);
                 mousePosition.setY(-1);

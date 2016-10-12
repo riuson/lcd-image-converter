@@ -84,7 +84,8 @@ const QList<QWidget *> *ToolPen::widgets() const
 }
 //-----------------------------------------------------------------------------
 bool ToolPen::processMouse(QMouseEvent *event,
-                           const QImage *imageOriginal)
+                           const QImage *imageOriginal,
+                           bool inRect)
 {
     if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress)
     {
@@ -96,7 +97,7 @@ bool ToolPen::processMouse(QMouseEvent *event,
         // get coordinates
         if (imageOriginal != NULL)
         {
-            if (event->x() < imageOriginal->width() && event->y() < imageOriginal->height())
+            if (inRect)
             {
                 // get buttons
                 bool buttonLeft = (event->buttons() & Qt::LeftButton) == Qt::LeftButton;
@@ -188,6 +189,9 @@ void ToolPen::drawPixel(int x, int y, const QColor &color)
     QImage image = this->mInternalImage;
     QPixmap pixmap = QPixmap::fromImage(image);
     QPainter painter(&pixmap);
+
+    if (!this->mParameters->selectedPath().isEmpty())
+        painter.setClipPath(this->mParameters->selectedPath());
 
     if (this->mSize == 1)
     {

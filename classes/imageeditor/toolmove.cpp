@@ -78,8 +78,11 @@ const QList<QWidget *> *ToolMove::widgets() const
 }
 //-----------------------------------------------------------------------------
 bool ToolMove::processMouse(QMouseEvent *event,
-                            const QImage *imageOriginal)
+                            const QImage *imageOriginal,
+                            bool inRect)
 {
+    Q_UNUSED(inRect)
+
     if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress)
     {
         if (event->type() == QEvent::MouseButtonPress)
@@ -90,24 +93,21 @@ bool ToolMove::processMouse(QMouseEvent *event,
         // get coordinates
         if (imageOriginal != NULL)
         {
-            if (event->x() < imageOriginal->width() && event->y() < imageOriginal->height())
-            {
-                Qt::MouseButtons buttons = event->buttons();
-                int x = event->x();
-                int y = event->y();
+            Qt::MouseButtons buttons = event->buttons();
+            int x = event->x();
+            int y = event->y();
 
-                switch (this->mToolMode)
-                {
-                case MoveCut:
-                    this->processMoveCutOrCopy(buttons, imageOriginal, x, y, true);
-                    break;
-                case MoveCopy:
-                    this->processMoveCutOrCopy(buttons, imageOriginal, x, y, false);
-                    break;
-                case MoveCircular:
-                    this->processMoveCircular(buttons, imageOriginal, x, y);
-                    break;
-                }
+            switch (this->mToolMode)
+            {
+            case MoveCut:
+                this->processMoveCutOrCopy(buttons, imageOriginal, x, y, true);
+                break;
+            case MoveCopy:
+                this->processMoveCutOrCopy(buttons, imageOriginal, x, y, false);
+                break;
+            case MoveCircular:
+                this->processMoveCircular(buttons, imageOriginal, x, y);
+                break;
             }
         }
         event->accept();

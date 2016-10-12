@@ -44,7 +44,8 @@ public:
 
 public slots:
     virtual bool processMouse(QMouseEvent *event,
-                              const QImage *imageOriginal) = 0;
+                              const QImage *imageOriginal,
+                              bool inRect) = 0;
 
 signals:
     virtual void started(const QImage *value) = 0;
