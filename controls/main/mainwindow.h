@@ -72,6 +72,7 @@ private:
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
     void on_tabWidget_currentChanged(int index);
+    void setCurrentTab(QWidget *widget);
     void actionLanguage_triggered();
 
     void updateMenuState();

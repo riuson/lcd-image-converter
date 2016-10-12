@@ -39,6 +39,7 @@ signals:
     void closeRequest(QWidget *tab);
     void tabChanged(QWidget *w);
     void tabCreated(QWidget *w);
+    void tabSelect(QWidget *w);
 
 public slots:
     void newImage_triggered();
