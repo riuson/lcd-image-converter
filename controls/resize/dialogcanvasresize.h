@@ -29,7 +29,11 @@ class DialogCanvasResize;
 class QItemSelection;
 class DataContainer;
 class ImagesModel;
+class ImagesScaledProxy;
+class ImagesResizedProxy;
 class ImagesFilterProxy;
+class ColumnsReorderProxy;
+class TransposeProxy;
 //-----------------------------------------------------------------------------
 class DialogCanvasResize : public QDialog
 {
@@ -48,7 +52,11 @@ private:
 
     DataContainer *mContainer;
     ImagesModel *mModel;
+    ImagesScaledProxy *mScaledProxy;
+    ImagesResizedProxy *mResizedProxy;
     ImagesFilterProxy *mFilter;
+    ColumnsReorderProxy *mReorderProxy;
+    TransposeProxy *mTranspose;
 
     int mLeft;
     int mTop;

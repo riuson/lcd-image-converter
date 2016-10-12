@@ -86,10 +86,12 @@ int ToolZoom::scale() const
 }
 //-----------------------------------------------------------------------------
 bool ToolZoom::processMouse(QMouseEvent *event,
-                            const QImage *imageOriginal)
+                            const QImage *imageOriginal,
+                            bool inRect)
 {
     Q_UNUSED(event)
     Q_UNUSED(imageOriginal)
+    Q_UNUSED(inRect)
     return false;
 }
 //-----------------------------------------------------------------------------
@@ -97,7 +99,6 @@ void ToolZoom::setScale(int value)
 {
     if (this->mScale != value && value >= this->mSpinBoxScale->minimum() && value <= this->mSpinBoxScale->maximum())
     {
-        this->mScale = value;
         this->mSpinBoxScale->setValue(value);
     }
 }

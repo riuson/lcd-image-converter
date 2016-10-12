@@ -38,7 +38,7 @@ SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     this->mPixmapScanning = QPixmap();
     this->mPixmapScanPreview = QPixmap();
     this->mDemoGen = new DemoGenerator(this->mPreset, this);
-    this->connect(this->mDemoGen, SIGNAL(pixmapChanged(const QPixmap*)), SLOT(demoPixmapChanged(const QPixmap*)));
+    this->connect(this->mDemoGen, SIGNAL(pixmapChanged(const QPixmap&)), SLOT(demoPixmapChanged(const QPixmap&)));
     this->connect(this->mDemoGen, SIGNAL(errorHandled(QString)), SLOT(demoScriptError(QString)));
 
     this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
@@ -235,9 +235,9 @@ void SetupTabPrepare::updateScript()
     this->mDemoGen->setScript(script);
 }
 //-----------------------------------------------------------------------------
-void SetupTabPrepare::demoPixmapChanged(const QPixmap *pixmap)
+void SetupTabPrepare::demoPixmapChanged(const QPixmap &pixmap)
 {
-    this->mPixmapScanPreview = QPixmap(*pixmap);
+    this->mPixmapScanPreview = pixmap;
 
     this->ui->labelScanPreview->setPixmap(this->mPixmapScanPreview);
     this->ui->spinBoxAnimationTime->setEnabled(true);

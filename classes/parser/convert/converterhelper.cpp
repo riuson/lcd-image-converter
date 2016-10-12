@@ -34,6 +34,7 @@
 #include <QVector>
 #include <QFile>
 #include <QTextStream>
+#include <QTextStream>
 
 #if defined(USE_JS_QTSCRIPT)
 #include <QtScript/QScriptEngine>
@@ -202,20 +203,43 @@ void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script,
     engine.globalObject().setProperty("image", imageValue);
     QString scriptModified = script;
 
-    scriptModified = scriptModified.replace("image.addPoint", "addImagePoint");
+    scriptModified = scriptModified
+            .replace("image.addPoint", "addImagePoint")
+            .replace("image.width", "__internal_image_width")
+            .replace("image.height", "__internal_image_height");
     QString scriptTemplate = ConverterHelper::scanScriptTemplate();
     scriptModified = scriptTemplate.arg(scriptModified);
 
+    int startPosition = 0;
+
+    {
+        QTextStream stream(&scriptTemplate, QIODevice::ReadOnly);
+        QString scriptLine;
+        int counter = 0;
+
+        do
+        {
+            scriptLine = stream.readLine();
+
+            if (scriptLine.contains("%1")){
+                startPosition = counter;
+                break;
+            }
+
+            counter++;
+        } while (!scriptLine.isNull());
+    }
+
     QJSValue resultValue = engine.evaluate(scriptModified);
 
-    if (convImage->needBreakScan())
+    if (convImage->scanTerminated())
     {
         *resultError = QString("Script abort requested. Points count: %1").arg(convImage->pointsCount());
     }
     else if (resultValue.isError())
     {
         int line = resultValue.property("lineNumber").toInt();
-        *resultError = QString("Uncaught exception at line %1 : %2").arg(line).arg(resultValue.toString());
+        *resultError = QString("Uncaught exception at line %1 : %2").arg(line - startPosition).arg(resultValue.toString());
     }
     else if (convImage->pointsCount() == 0)
     {
@@ -490,13 +514,20 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
                 quint32 opMask;
                 int opShift;
                 bool opLeft;
+
                 for (int i = 0; i < preset->matrix()->operationsCount(); i++)
                 {
                     preset->matrix()->operation(i, &opMask, &opShift, &opLeft);
                     mask |= opMask;
                 }
+
                 if (preset->matrix()->operationsCount() == 0)
                     mask = 0xffffffff;
+
+                // save alpha bits when alpha channel not used
+                if ((mask & 0xff000000) == 0)
+                    mask |= 0xff000000;
+
                 break;
             }
             }

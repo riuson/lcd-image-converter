@@ -48,10 +48,11 @@
 #include "ieditor.h"
 #include "idocument.h"
 #include "bitmaphelper.h"
+#include "filedialogoptions.h"
 //-----------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
-        QMainWindow(parent),
-        ui(new Ui::MainWindow)
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -207,6 +208,7 @@ void MainWindow::createHandlers()
     this->mFileHandlers->connect(this->ui->actionSave, SIGNAL(triggered()), SLOT(save_triggered()));
     this->mFileHandlers->connect(this->ui->actionSave_As, SIGNAL(triggered()), SLOT(saveAs_triggered()));
     this->mFileHandlers->connect(this->ui->actionClose, SIGNAL(triggered()), SLOT(close_triggered()));
+    this->mFileHandlers->connect(this->ui->actionClose_All, SIGNAL(triggered()), SLOT(closeAll_triggered()));
     this->mFileHandlers->connect(this->ui->actionConvert, SIGNAL(triggered()), SLOT(convert_triggered()));
     this->mFileHandlers->connect(this->ui->actionConvert_All, SIGNAL(triggered()), SLOT(convertAll_triggered()));
     this->connect(this->ui->actionQuit, SIGNAL(triggered()), SLOT(close()));
@@ -214,6 +216,7 @@ void MainWindow::createHandlers()
     this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
     this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*)), SLOT(tabChanged(QWidget*)));
     this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget*)), SLOT(tabCreated(QWidget*)));
+    this->connect(this->mFileHandlers, SIGNAL(tabSelect(QWidget*)), SLOT(setCurrentTab(QWidget*)));
 
     this->mEditHandlers = new ActionEditHandlers(this);
     this->mEditHandlers->connect(this->ui->actionEditUndo, SIGNAL(triggered()), SLOT(undo_triggered()));
@@ -279,6 +282,22 @@ void MainWindow::tabTextUpdate(QWidget *widget)
     }
 }
 //-----------------------------------------------------------------------------
+int MainWindow::editorsCount() const
+{
+    int result = 0;
+
+    for (int i = 0; i < this->ui->tabWidget->count(); i++)
+    {
+        IEditor *editor = qobject_cast<IEditor *>(this->ui->tabWidget->widget(i));
+
+        if (editor != nullptr) {
+            result++;
+        }
+    }
+
+    return result;
+}
+//-----------------------------------------------------------------------------
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     QWidget *w = this->ui->tabWidget->widget(index);
@@ -291,51 +310,54 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
         switch (dialog.answer())
         {
         case DialogSaveChanges::Save:
+        {
+            if (QFile::exists(editor->document()->documentFilename()))
             {
-                if (QFile::exists(editor->document()->documentFilename()))
+                if (editor->document()->save(editor->document()->documentFilename()))
                 {
-                    if (editor->document()->save(editor->document()->documentFilename()))
-                    {
-                        this->rememberFilename(editor->document()->documentFilename());
-                    }
+                    this->rememberFilename(editor->document()->documentFilename());
+                }
+            }
+            else
+            {
+                QFileDialog dialog(this->parentWidget());
+                dialog.setAcceptMode(QFileDialog::AcceptSave);
+                dialog.setFileMode(QFileDialog::AnyFile);
+                dialog.setNameFilter(tr("XML Files (*.xml)"));
+                dialog.setDefaultSuffix(QString("xml"));
+                dialog.setWindowTitle(tr("Save file as"));
+
+                if (editor->document()->documentFilename().isEmpty())
+                {
+                    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::SaveDocument));
+                    dialog.selectFile(editor->document()->documentName());
                 }
                 else
                 {
-                    QFileDialog dialog(this->parentWidget());
-                    dialog.setAcceptMode(QFileDialog::AcceptSave);
-                    dialog.setFileMode(QFileDialog::AnyFile);
-                    dialog.setNameFilter(tr("XML Files (*.xml)"));
-                    dialog.setDefaultSuffix(QString("xml"));
-                    dialog.setWindowTitle(tr("Save file as"));
+                    dialog.selectFile(editor->document()->documentFilename());
+                }
 
-                    if (editor->document()->documentFilename().isEmpty())
-                    {
-                        dialog.selectFile(editor->document()->documentName());
-                    }
-                    else
-                    {
-                        dialog.selectFile(editor->document()->documentFilename());
-                    }
+                if (dialog.exec() == QDialog::Accepted)
+                {
+                    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
+                    QString filename = dialog.selectedFiles().at(0);
 
-                    if (dialog.exec() == QDialog::Accepted)
+                    if (editor->document()->save(filename))
                     {
-                        QString filename = dialog.selectedFiles().at(0);
-                        if (editor->document()->save(filename))
-                        {
-                            this->rememberFilename(editor->document()->documentFilename());
-                        }
-                        else
-                        {
-                            cancel = true;
-                        }
+                        this->rememberFilename(editor->document()->documentFilename());
                     }
                     else
                     {
                         cancel = true;
                     }
                 }
-                break;
+                else
+                {
+                    cancel = true;
+                }
             }
+            break;
+        }
         case DialogSaveChanges::DontSave:
             break;
         case DialogSaveChanges::Cancel:
@@ -363,6 +385,11 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         IEditor *editor = this->currentEditor();
         this->mStatusManager->updateData(editor->statusData());
     }
+}
+//-----------------------------------------------------------------------------
+void MainWindow::setCurrentTab(QWidget *widget)
+{
+    this->ui->tabWidget->setCurrentWidget(widget);
 }
 //-----------------------------------------------------------------------------
 void MainWindow::actionLanguage_triggered()
@@ -399,6 +426,7 @@ void MainWindow::updateMenuState()
     this->ui->actionSave->setEnabled(editorSelected);
     this->ui->actionSave_As->setEnabled(editorSelected);
     this->ui->actionClose->setEnabled(editorSelected);
+    this->ui->actionClose_All->setEnabled(editorSelected && (this->editorsCount() > 1));
     this->ui->actionConvert->setEnabled(editorSelected);
     this->ui->actionConvert_All->setEnabled(editorSelected);
 }

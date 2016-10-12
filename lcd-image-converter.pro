@@ -76,11 +76,15 @@ SOURCES += main.cpp \
     classes/data/historyrecord.cpp \
     classes/data/imagedocument.cpp \
     classes/data/imagesmodel.cpp \
+    classes/data/imagesscaledproxy.cpp \
     classes/data/revisioninfo.cpp \
+    classes/data/transposeproxy.cpp \
     classes/imageeditor/editor.cpp \
     classes/imageeditor/toolcolor.cpp \
     classes/imageeditor/toolfill.cpp \
     classes/imageeditor/toolline.cpp \
+    classes/imageeditor/toolmove.cpp \
+    classes/imageeditor/toolselect.cpp \
     classes/imageeditor/toolsmanager.cpp \
     classes/imageeditor/toolpen.cpp \
     classes/imageeditor/toolrect.cpp \
@@ -105,7 +109,9 @@ SOURCES += main.cpp \
     classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
     classes/parser/tags.cpp \
+    classes/settings/conversionpreviewoptions.cpp \
     classes/settings/externaltooloptions.cpp \
+    classes/settings/filedialogoptions.cpp \
     classes/settings/fonteditoroptions.cpp \
     classes/settings/imageeditoroptions.cpp \
     classes/settings/languageoptions.cpp \
@@ -136,8 +142,10 @@ SOURCES += main.cpp \
     controls/images/widgetbitmapeditor.cpp \
     controls/main/mainwindow.cpp \
     controls/main/revisionlabel.cpp \
+    controls/resize/columnsreorderproxy.cpp \
     controls/resize/dialogcanvasresize.cpp \
     controls/resize/imagesfilterproxy.cpp \
+    controls/resize/imagesresizedproxy.cpp \
     controls/save-changes/dialogsavechanges.cpp \
     controls/setup/dialogexternaleditor.cpp \
     controls/setup/dialogoptions.cpp \
@@ -178,15 +186,20 @@ HEADERS += \
     classes/data/historyrecord.h \
     classes/data/imagedocument.h \
     classes/data/imagesmodel.h \
+    classes/data/imagesscaledproxy.h \
     classes/data/revisioninfo.h \
     classes/data/tfontparameters.h \
+    classes/data/transposeproxy.h \
     classes/imageeditor/editor.h \
     classes/imageeditor/iimageeditor.h \
     classes/imageeditor/iimageeditorparams.h \
     classes/imageeditor/iimageeditortool.h \
+    classes/imageeditor/iimageselection.h \
     classes/imageeditor/toolcolor.h \
     classes/imageeditor/toolfill.h \
     classes/imageeditor/toolline.h \
+    classes/imageeditor/toolmove.h \
+    classes/imageeditor/toolselect.h \
     classes/imageeditor/toolsmanager.h \
     classes/imageeditor/toolpen.h \
     classes/imageeditor/toolrect.h \
@@ -213,7 +226,9 @@ HEADERS += \
     classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
     classes/parser/tags.h \
+    classes/settings/conversionpreviewoptions.h \
     classes/settings/externaltooloptions.h \
+    classes/settings/filedialogoptions.h \
     classes/settings/fonteditoroptions.h \
     classes/settings/imageeditoroptions.h \
     classes/settings/languageoptions.h \
@@ -244,8 +259,10 @@ HEADERS += \
     controls/images/widgetbitmapeditor.h \
     controls/main/mainwindow.h \
     controls/main/revisionlabel.h \
+    controls/resize/columnsreorderproxy.h \
     controls/resize/dialogcanvasresize.h \
     controls/resize/imagesfilterproxy.h \
+    controls/resize/imagesresizedproxy.h \
     controls/save-changes/dialogsavechanges.h \
     controls/setup/dialogexternaleditor.h \
     controls/setup/dialogoptions.h \

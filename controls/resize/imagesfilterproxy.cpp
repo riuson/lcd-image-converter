@@ -32,9 +32,9 @@ ImagesFilterProxy::~ImagesFilterProxy()
     delete this->mKeys;
 }
 //-----------------------------------------------------------------------------
-bool ImagesFilterProxy::filterAcceptsColumn(int source_column, const QModelIndex &source_parent) const
+bool ImagesFilterProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-    QModelIndex index = this->sourceModel()->index(0, source_column, source_parent);
+    QModelIndex index = this->sourceModel()->index(source_row, 0, source_parent);
     QString name = this->sourceModel()->data(index).toString();
 
     return (this->mKeys->contains(name, Qt::CaseSensitive));

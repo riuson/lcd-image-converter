@@ -34,6 +34,7 @@
 #include "setuptabfont.h"
 #include "setuptabtemplates.h"
 #include "preset.h"
+#include "filedialogoptions.h"
 //-----------------------------------------------------------------------------
 DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
@@ -110,20 +111,40 @@ DialogOptions::~DialogOptions()
     delete this->mPreset;
 }
 //-----------------------------------------------------------------------------
-void DialogOptions::fillPresetsList()
+void DialogOptions::fillPresetsList(const QString &defaultName)
 {
+    this->disconnect(this->ui->comboBoxPresets, SIGNAL(currentIndexChanged(int)), this, SLOT(on_comboBoxPresets_currentIndexChanged(int)));
+
     QString current = this->ui->comboBoxPresets->currentText();
 
     this->ui->comboBoxPresets->clear();
 
     QStringList names = Preset::presetsList();
-
     this->ui->comboBoxPresets->addItems(names);
 
-    if (names.contains(current))
+    bool defaultLoaded = false;
+
+    if (!defaultName.isEmpty())
     {
-        this->ui->comboBoxPresets->setCurrentIndex(names.indexOf(current));
+        if (names.contains(defaultName))
+        {
+            this->ui->comboBoxPresets->setCurrentIndex(names.indexOf(defaultName));
+            this->presetLoad(defaultName);
+            defaultLoaded = true;
+        }
     }
+
+    if (!defaultLoaded)
+    {
+        if (names.contains(current))
+        {
+            this->ui->comboBoxPresets->setCurrentIndex(names.indexOf(current));
+            this->presetLoad(current);
+        }
+
+    }
+
+    this->connect(this->ui->comboBoxPresets, SIGNAL(currentIndexChanged(int)), SLOT(on_comboBoxPresets_currentIndexChanged(int)));
 }
 //-----------------------------------------------------------------------------
 void DialogOptions::presetLoad(const QString &name)
@@ -138,6 +159,11 @@ void DialogOptions::presetSaveAs(const QString &name)
 {
     this->mPreset->save(name);
     this->fillPresetsList();
+
+    int presetIndex = this->ui->comboBoxPresets->findText(name);
+
+    if (presetIndex >= 0)
+        this->ui->comboBoxPresets->setCurrentIndex(presetIndex);
 }
 //-----------------------------------------------------------------------------
 void DialogOptions::presetRemove(const QString &name)
@@ -249,12 +275,14 @@ void DialogOptions::on_pushButtonPresetImport_clicked()
 {
     QFileDialog dialog(this->parentWidget());
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ImportPreset));
     dialog.setFileMode(QFileDialog::ExistingFiles);
     dialog.setNameFilter(tr("XML Files (*.xml)"));
     dialog.setWindowTitle(tr("Open xml preset file"));
 
     if (dialog.exec() == QDialog::Accepted)
     {
+        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ImportPreset, dialog.directory().absolutePath());
         QString filename = dialog.selectedFiles().at(0);
 
         Preset *importedPreset = new Preset(this);
@@ -267,7 +295,7 @@ void DialogOptions::on_pushButtonPresetImport_clicked()
 
         delete importedPreset;
 
-        this->fillPresetsList();
+        this->fillPresetsList(resultPresetName);
     }
 }
 //-----------------------------------------------------------------------------
@@ -275,6 +303,7 @@ void DialogOptions::on_pushButtonPresetExport_clicked()
 {
     QFileDialog dialog(this->parentWidget());
     dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ExportPreset));
     dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setNameFilter(tr("XML Files (*.xml)"));
     dialog.setDefaultSuffix(QString("xml"));
@@ -283,6 +312,7 @@ void DialogOptions::on_pushButtonPresetExport_clicked()
 
     if (dialog.exec() == QDialog::Accepted)
     {
+        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ExportPreset, dialog.directory().absolutePath());
         QString filename = dialog.selectedFiles().at(0);
         this->mPreset->saveXML(filename);
     }

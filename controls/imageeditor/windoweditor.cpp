@@ -43,8 +43,14 @@ WindowEditor::WindowEditor(QWidget *parent) :
     this->ui->toolBarOptions->hide();
 
     this->restoreState(ImageEditorOptions::toolbarsState(), 0);
-    this->mTools = NULL;
+
     this->mSelectedTool = NULL;
+    this->createTools();
+
+    this->updateImageScaled(this->mTools->scale());
+
+    QImage templateImage(":/images/template");
+    this->setImage(&templateImage);
 }
 //-----------------------------------------------------------------------------
 WindowEditor::~WindowEditor()
@@ -54,6 +60,7 @@ WindowEditor::~WindowEditor()
 
     ImageEditorOptions::setToolbarsState(this->saveState(0));
 
+    delete this->mTools;
     delete ui;
 }
 //-----------------------------------------------------------------------------
@@ -89,25 +96,23 @@ bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
             int yreal = yscaled / this->mTools->scale();
             QPoint mousePosition(xreal, yreal);
 
-            if (xreal >= 0 && yreal >= 0 && xreal < this->mImageOriginal.width() && yreal < this->mImageOriginal.height())
+            bool inRect = this->mImageOriginal.rect().contains(mousePosition, false);
+
+            QMouseEvent mouseEventScaled = QMouseEvent(
+                        mouseEvent->type(),
+                        mousePosition,
+                        mouseEvent->button(),
+                        mouseEvent->buttons(),
+                        mouseEvent->modifiers());
+
+            result = this->mSelectedTool->processMouse(&mouseEventScaled, &this->mImageOriginal, inRect);
+
+            if (mouseEventScaled.isAccepted())
             {
-                QMouseEvent *mouseEventScaled = new QMouseEvent(
-                            mouseEvent->type(),
-                            mousePosition,
-                            mouseEvent->button(),
-                            mouseEvent->buttons(),
-                            mouseEvent->modifiers());
-
-                result = this->mSelectedTool->processMouse(mouseEventScaled, &this->mImageOriginal);
-
-                if (mouseEventScaled->isAccepted())
-                {
-                    mouseEvent->accept();
-                }
-
-                delete mouseEventScaled;
+                mouseEvent->accept();
             }
-            else
+
+            if (!inRect)
             {
                 mousePosition.setX(-1);
                 mousePosition.setY(-1);
@@ -148,7 +153,7 @@ void WindowEditor::wheelEvent(QWheelEvent *event)
                 else
                     scale--;
 
-                emit this->scaleChanged(scale);
+                this->mTools->setScale(scale);
             }
             event->accept();
         }
@@ -167,27 +172,22 @@ void WindowEditor::setImage(const QImage *value)
     this->updateImageScaled(this->mTools->scale());
 }
 //-----------------------------------------------------------------------------
-void WindowEditor::setTools(ToolsManager *tools)
+int WindowEditor::scale() const
 {
-    this->mTools = tools;
-    QList<QAction *> actions = QList<QAction *> (*this->mTools->toolsActions());
-    this->ui->toolBarTools->addActions(actions);
-    this->connect(this->mTools, SIGNAL(toolChanged(int)), SLOT(toolChanged(int)));
-    this->ui->toolBarOptions->hide();
-
-    if (this->ui->toolBarTools->actions().length() > 0)
-    {
-        this->ui->toolBarTools->actions().at(0)->activate(QAction::Trigger);
-    }
+    return this->mTools->scale();
 }
 //-----------------------------------------------------------------------------
 void WindowEditor::updateImageScaled(int value)
 {
     if (!this->mImageOriginal.isNull())
     {
-        this->mImageScaled = BitmapHelper::scale(&this->mImageOriginal, value);
-        this->mImageScaled = BitmapHelper::drawGrid(&this->mImageScaled, value);
-        this->mPixmapScaled = QPixmap::fromImage(this->mImageScaled);
+        QImage image = this->mImageOriginal;
+
+        image = BitmapHelper::drawSelection(&image, this->mTools->selectedPath());
+        image = BitmapHelper::scale(&image, value);
+        image = BitmapHelper::drawGrid(&image, value);
+        this->mImageScaled = image;
+        this->mPixmapScaled = QPixmap::fromImage(image);
 
         this->ui->label->setPixmap(this->mPixmapScaled);
     }
@@ -207,6 +207,22 @@ void WindowEditor::drawPixel(int x, int y, const QColor &color)
     QImage image = this->mImageOriginal;
     this->mImageOriginal = BitmapHelper::drawPixel(&image, x, y, color);
     this->updateImageScaled(this->mTools->scale());
+}
+//-----------------------------------------------------------------------------
+void WindowEditor::createTools()
+{
+    this->mTools = new ToolsManager(this);
+    QList<QAction *> actions = QList<QAction *> (*this->mTools->toolsActions());
+    this->ui->toolBarTools->addActions(actions);
+    this->connect(this->mTools, SIGNAL(toolChanged(int)), SLOT(toolChanged(int)));
+    this->connect(this->mTools, SIGNAL(scaleChanged(int)), SLOT(tool_scaleChanged(int)));
+    this->connect(this->mTools, SIGNAL(selectionChanged(QPainterPath)), SLOT(tool_selectionChanged(QPainterPath)));
+    this->ui->toolBarOptions->hide();
+
+    if (this->ui->toolBarTools->actions().length() > 0)
+    {
+        this->ui->toolBarTools->actions().at(0)->activate(QAction::Trigger);
+    }
 }
 //-----------------------------------------------------------------------------
 void WindowEditor::tool_started(const QImage *value)
@@ -235,12 +251,15 @@ void WindowEditor::tool_completed(const QImage *value, bool changed)
     }
 }
 //-----------------------------------------------------------------------------
-void WindowEditor::setScale(int value)
+void WindowEditor::tool_scaleChanged(int value)
 {
-    if (this->mImageOriginal.size() * value != this->mImageScaled.size())
-    {
-        this->updateImageScaled(value);
-    }
+    this->updateImageScaled(value);
+    emit this->scaleChanged(value);
+}
+//-----------------------------------------------------------------------------
+void WindowEditor::tool_selectionChanged(const QPainterPath &value)
+{
+    this->updateImageScaled(this->mTools->scale());
 }
 //-----------------------------------------------------------------------------
 void WindowEditor::toolChanged(int toolIndex)
