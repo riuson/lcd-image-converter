@@ -762,20 +762,20 @@ Qt: %4</translation>
         <translation>Выбор цвета</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolcolor.cpp" line="215"/>
         <location filename="../classes/imageeditor/toolcolor.cpp" line="216"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="217"/>
         <source>Fore Color: %1</source>
         <translation>Цвет переднего плана: %1</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolcolor.cpp" line="221"/>
         <location filename="../classes/imageeditor/toolcolor.cpp" line="222"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="223"/>
         <source>Back Color: %1</source>
         <translation>Цвет заднего плана: %1</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolcolor.cpp" line="148"/>
         <location filename="../classes/imageeditor/toolcolor.cpp" line="149"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="150"/>
         <source>Swap Colors</source>
         <translation>Обменять цвета</translation>
     </message>
@@ -839,7 +839,7 @@ Qt: %4</translation>
         <translation>Рисование точек</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolpen.cpp" line="147"/>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="148"/>
         <source>Size</source>
         <translation>Размер точки</translation>
     </message>
@@ -925,7 +925,7 @@ Qt: %4</translation>
         <translation>Измение масштаба изображения</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolzoom.cpp" line="112"/>
+        <location filename="../classes/imageeditor/toolzoom.cpp" line="114"/>
         <source>Scale value</source>
         <translation>Значение масштаба</translation>
     </message>
