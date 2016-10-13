@@ -19,11 +19,11 @@
 
 #ifndef IMAGESMODEL_H
 #define IMAGESMODEL_H
-//-----------------------------------------------------------------------------
+
 #include <QAbstractItemModel>
-//-----------------------------------------------------------------------------
+
 class DataContainer;
-//-----------------------------------------------------------------------------
+
 class ImagesModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -61,5 +61,5 @@ signals:
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // IMAGESMODEL_H

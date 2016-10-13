@@ -19,13 +19,13 @@
 
 #ifndef DIALOGOPTIONS_H
 #define DIALOGOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QDialog>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
 class DialogOptions;
 }
-//-----------------------------------------------------------------------------
+
 class Preset;
 class DataContainer;
 class DialogPreview;
@@ -35,7 +35,7 @@ class SetupTabReordering;
 class SetupTabImage;
 class SetupTabFont;
 class SetupTabTemplates;
-//-----------------------------------------------------------------------------
+
 class DialogOptions : public QDialog
 {
     Q_OBJECT
@@ -81,5 +81,5 @@ private slots:
 protected:
     void done(int result);
 };
-//-----------------------------------------------------------------------------
+
 #endif // DIALOGOPTIONS_H

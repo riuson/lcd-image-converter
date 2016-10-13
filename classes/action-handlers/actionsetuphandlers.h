@@ -19,13 +19,13 @@
 
 #ifndef ACTIONSETUPHANDLERS_H
 #define ACTIONSETUPHANDLERS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 
 #include "actionhandlersbase.h"
-//-----------------------------------------------------------------------------
+
 class IMainWindow;
-//-----------------------------------------------------------------------------
+
 class ActionSetupHandlers : public ActionHandlersBase
 {
     Q_OBJECT
@@ -38,5 +38,5 @@ public slots:
     void conversion_triggered();
     void external_editor_triggered();
 };
-//-----------------------------------------------------------------------------
+
 #endif // ACTIONSETUPHANDLERS_H

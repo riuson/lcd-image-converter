@@ -19,10 +19,10 @@
 
 #ifndef DIALOGFONTSELECTDATA_H
 #define DIALOGFONTSELECTDATA_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QColor>
-//-----------------------------------------------------------------------------
+
 class CharactersModel;
 class QModelIndex;
 class QItemSelection;
@@ -30,7 +30,7 @@ class QFont;
 class UnicodeBlocksModel;
 class UnicodeBlocksFilterModel;
 struct tFontParameters;
-//-----------------------------------------------------------------------------
+
 class DialogFontSelectData : public QObject
 {
     Q_OBJECT
@@ -89,5 +89,5 @@ public slots:
     void setAntialiasing(bool value);
     void resort();
 };
-//-----------------------------------------------------------------------------
+
 #endif // DIALOGFONTSELECTDATA_H

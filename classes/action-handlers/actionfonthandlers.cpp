@@ -35,12 +35,12 @@
 #include "imageinverse.h"
 #include "fontminimizeheight.h"
 #include "fontresize.h"
-//-----------------------------------------------------------------------------
+
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :
     ActionHandlersBase(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void ActionFontHandlers::fontChange_triggered()
 {
     if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab()))
@@ -63,7 +63,7 @@ void ActionFontHandlers::fontChange_triggered()
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFontHandlers::fontInverse_triggered()
 {
     if (this->editor() != NULL)
@@ -73,7 +73,7 @@ void ActionFontHandlers::fontInverse_triggered()
         docOp.apply(this->editor()->document(), imageInverse);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFontHandlers::fontResize_triggered()
 {
     if (this->editor() != NULL)
@@ -83,7 +83,7 @@ void ActionFontHandlers::fontResize_triggered()
         docOp.apply(this->editor()->document(), fontResize);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFontHandlers::fontMinimizeHeight_triggered()
 {
     if (this->editor() != NULL)
@@ -93,7 +93,7 @@ void ActionFontHandlers::fontMinimizeHeight_triggered()
         docOp.apply(this->editor()->document(), fontMinimizeHeight);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFontHandlers::fontPreview_triggered()
 {
     IEditor *editor = this->editor();
@@ -107,7 +107,7 @@ void ActionFontHandlers::fontPreview_triggered()
         dialog.exec();
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFontHandlers::fontToImage_triggered()
 {
     IEditor *editor = this->editor();
@@ -121,4 +121,4 @@ void ActionFontHandlers::fontToImage_triggered()
         emit this->imageCreated(&image, "image_" + editor->document()->documentName());
     }
 }
-//-----------------------------------------------------------------------------
+

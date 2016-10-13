@@ -19,15 +19,15 @@
 
 #ifndef ACTIONFONTHANDLERS_H
 #define ACTIONFONTHANDLERS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 
 #include "actionhandlersbase.h"
-//-----------------------------------------------------------------------------
+
 class QImage;
 class IMainWindow;
 class WidgetBitmapEditor;
-//-----------------------------------------------------------------------------
+
 class ActionFontHandlers : public ActionHandlersBase
 {
     Q_OBJECT
@@ -45,5 +45,5 @@ public slots:
     void fontPreview_triggered();
     void fontToImage_triggered();
 };
-//-----------------------------------------------------------------------------
+
 #endif // ACTIONFONTHANDLERS_H

@@ -1,17 +1,17 @@
 #include "testrle.h"
-//-----------------------------------------------------------------------------
+
 #include <QVector>
 #include "rlecompressor.h"
-//-----------------------------------------------------------------------------
+
 TestRle::TestRle(QObject *parent) :
     QObject(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestRle::initTestCase()
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestRle::compress2()
 {
     QVector<quint32> testVector1, testVector2;
@@ -64,7 +64,7 @@ void TestRle::compress2()
         QCOMPARE(test.at(i), testVector2.at(i));
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestRle::compress5()
 {
     QVector<quint32> testVector1, testVector2;
@@ -112,8 +112,8 @@ void TestRle::compress5()
         QCOMPARE(test.at(i), testVector2.at(i));
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestRle::cleanupTestCase()
 {
 }
-//-----------------------------------------------------------------------------
+

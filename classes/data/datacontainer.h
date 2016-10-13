@@ -27,10 +27,10 @@
 #include <QString>
 #include <QStringList>
 #include <QVariant>
-//-----------------------------------------------------------------------------
+
 class QImage;
 class HistoryKeeper;
-//-----------------------------------------------------------------------------
+
 class DataContainer : public QObject
 {
     Q_OBJECT
@@ -79,5 +79,5 @@ private:
 signals:
     void dataChanged(bool historyStateMoved);
 };
-//-----------------------------------------------------------------------------
+
 #endif // DATACONTAINER_H

@@ -28,10 +28,10 @@
 #include <QSettings>
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 ToolMove::ToolMove(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
     this->mParameters = parameters;
@@ -42,7 +42,7 @@ ToolMove::ToolMove(IImageEditorParams *parameters, QObject *parent) : QObject(pa
 
     this->initializeWidgets();
 }
-//-----------------------------------------------------------------------------
+
 ToolMove::~ToolMove()
 {
     delete this->mIcon;
@@ -51,32 +51,32 @@ ToolMove::~ToolMove()
     delete this->mActions;
     delete this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolMove::title() const
 {
     return tr("Move");
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolMove::tooltip() const
 {
     return tr("Move entire image or selection");
 }
-//-----------------------------------------------------------------------------
+
 const QIcon *ToolMove::icon() const
 {
     return this->mIcon;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QAction *> *ToolMove::actions() const
 {
     return this->mActions;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QWidget *> *ToolMove::widgets() const
 {
     return this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 bool ToolMove::processMouse(QMouseEvent *event,
                             const QImage *imageOriginal,
                             bool inRect)
@@ -119,7 +119,7 @@ bool ToolMove::processMouse(QMouseEvent *event,
 
     return true;
 }
-//-----------------------------------------------------------------------------
+
 void ToolMove::initializeWidgets()
 {
     QActionGroup *group = new QActionGroup(this);
@@ -151,7 +151,7 @@ void ToolMove::initializeWidgets()
     this->mActionMoveCut->setChecked(true);
     this->mToolMode = MoveCut;
 }
-//-----------------------------------------------------------------------------
+
 void ToolMove::processMoveCutOrCopy(Qt::MouseButtons buttons, const QImage *imageOriginal, int x, int y, bool cut)
 {
     QPainterPath selectedPath = this->mParameters->selectedPath();
@@ -206,7 +206,7 @@ void ToolMove::processMoveCutOrCopy(Qt::MouseButtons buttons, const QImage *imag
         emit this->processing(&this->mImageInternal);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ToolMove::processMoveCircular(Qt::MouseButtons buttons, const QImage *imageOriginal, int x, int y)
 {
     QPainterPath selectedPath = this->mParameters->selectedPath();
@@ -306,21 +306,21 @@ void ToolMove::processMoveCircular(Qt::MouseButtons buttons, const QImage *image
         emit this->processing(&this->mImageInternal);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ToolMove::on_switchToMoveCut()
 {
     this->mToolMode = MoveCut;
 }
-//-----------------------------------------------------------------------------
+
 void ToolMove::on_switchToMoveCopy()
 {
     this->mToolMode = MoveCopy;
 }
-//-----------------------------------------------------------------------------
+
 void ToolMove::on_switchToMoveCircular()
 {
     this->mToolMode = MoveCircular;
 }
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+

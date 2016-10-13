@@ -41,12 +41,12 @@
 #include "imainwindow.h"
 #include "datacontainer.h"
 #include "idocument.h"
-//-----------------------------------------------------------------------------
+
 ActionEditHandlers::ActionEditHandlers(QObject *parent) :
     ActionHandlersBase(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void ActionEditHandlers::undo_triggered()
 {
     if (this->editor() != NULL)
@@ -54,7 +54,7 @@ void ActionEditHandlers::undo_triggered()
         this->editor()->document()->undo();
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionEditHandlers::redo_triggered()
 {
     if (this->editor() != NULL)
@@ -62,7 +62,7 @@ void ActionEditHandlers::redo_triggered()
         this->editor()->document()->redo();
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionEditHandlers::copy_triggered()
 {
     if (this->editor() != NULL)
@@ -96,7 +96,7 @@ void ActionEditHandlers::copy_triggered()
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionEditHandlers::paste_triggered()
 {
     if (this->editor() != NULL)
@@ -140,4 +140,4 @@ void ActionEditHandlers::paste_triggered()
         }
     }
 }
-//-----------------------------------------------------------------------------
+

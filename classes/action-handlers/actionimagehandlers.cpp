@@ -31,13 +31,13 @@
 #include "imageimport.h"
 #include "imageexport.h"
 #include "imageeditinexternaltool.h"
-//-----------------------------------------------------------------------------
+
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
     ActionHandlersBase(parent)
 {
     this->mRunningError = false;
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::flipHorizontal_triggered()
 {
     if (this->editor() != NULL)
@@ -51,7 +51,7 @@ void ActionImageHandlers::flipHorizontal_triggered()
         docOp.apply(this->editor()->document(), imageFlip);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::flipVertical_triggered()
 {
     if (this->editor() != NULL)
@@ -65,7 +65,7 @@ void ActionImageHandlers::flipVertical_triggered()
         docOp.apply(this->editor()->document(), imageFlip);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::rotate_90_Clockwise_triggered()
 {
     if (this->editor() != NULL)
@@ -79,7 +79,7 @@ void ActionImageHandlers::rotate_90_Clockwise_triggered()
         docOp.apply(this->editor()->document(), imageRotate);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::rotate_180_triggered()
 {
     if (this->editor() != NULL)
@@ -93,7 +93,7 @@ void ActionImageHandlers::rotate_180_triggered()
         docOp.apply(this->editor()->document(), imageRotate);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::rotate_90_Counter_Clockwise_triggered()
 {
     if (this->editor() != NULL)
@@ -107,7 +107,7 @@ void ActionImageHandlers::rotate_90_Counter_Clockwise_triggered()
         docOp.apply(this->editor()->document(), imageRotate);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::shift_left_triggered()
 {
     if (this->editor() != NULL)
@@ -121,7 +121,7 @@ void ActionImageHandlers::shift_left_triggered()
         docOp.apply(this->editor()->document(), imageShift);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::shift_right_triggered()
 {
     if (this->editor() != NULL)
@@ -135,7 +135,7 @@ void ActionImageHandlers::shift_right_triggered()
         docOp.apply(this->editor()->document(), imageShift);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::shift_up_triggered()
 {
     if (this->editor() != NULL)
@@ -149,7 +149,7 @@ void ActionImageHandlers::shift_up_triggered()
         docOp.apply(this->editor()->document(), imageShift);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::shift_down_triggered()
 {
     if (this->editor() != NULL)
@@ -163,7 +163,7 @@ void ActionImageHandlers::shift_down_triggered()
         docOp.apply(this->editor()->document(), imageShift);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::inverse_triggered()
 {
     if (this->editor() != NULL)
@@ -176,7 +176,7 @@ void ActionImageHandlers::inverse_triggered()
         docOp.apply(this->editor()->document(), imageInverse);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::resize_triggered()
 {
     if (this->editor() != NULL)
@@ -189,7 +189,7 @@ void ActionImageHandlers::resize_triggered()
         docOp.apply(this->editor()->document(), imageResize);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::grayscale_triggered()
 {
     if (this->editor() != NULL)
@@ -202,7 +202,7 @@ void ActionImageHandlers::grayscale_triggered()
         docOp.apply(this->editor()->document(), imageGrayscale);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::import_triggered()
 {
     if (this->editor() != NULL)
@@ -215,7 +215,7 @@ void ActionImageHandlers::import_triggered()
         docOp.apply(this->editor()->document(), imageImport);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::export_triggered()
 {
     if (this->editor() != NULL)
@@ -228,7 +228,7 @@ void ActionImageHandlers::export_triggered()
         docOp.apply(this->editor()->document(), imageExport);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionImageHandlers::edit_in_external_tool_triggered()
 {
     if (this->editor() != NULL)
@@ -241,4 +241,4 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
         docOp.apply(this->editor()->document(), imageEdit);
     }
 }
-//-----------------------------------------------------------------------------
+

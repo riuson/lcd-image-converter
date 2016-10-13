@@ -19,20 +19,20 @@
 
 #ifndef SETUPTABPREPARE_H
 #define SETUPTABPREPARE_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
-//-----------------------------------------------------------------------------
+
 #include "conversion_options.h"
-//-----------------------------------------------------------------------------
+
 namespace Ui {
 class SetupTabPrepare;
 }
-//-----------------------------------------------------------------------------
+
 class Preset;
 class DemoGenerator;
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
-//-----------------------------------------------------------------------------
+
 class SetupTabPrepare : public QWidget
 {
     Q_OBJECT
@@ -69,5 +69,5 @@ private slots:
     void on_spinBoxAnimationTime_valueChanged(int value);
     void on_spinBoxAnimationInterval_valueChanged(int value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // SETUPTABPREPARE_H

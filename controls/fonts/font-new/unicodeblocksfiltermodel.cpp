@@ -18,13 +18,13 @@
  */
 
 #include "unicodeblocksfiltermodel.h"
-//-----------------------------------------------------------------------------
+
 UnicodeBlocksFilterModel::UnicodeBlocksFilterModel(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
     this->mName = QString();
 }
-//-----------------------------------------------------------------------------
+
 bool UnicodeBlocksFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     if (this->mName.isEmpty())
@@ -35,7 +35,7 @@ bool UnicodeBlocksFilterModel::filterAcceptsRow(int source_row, const QModelInde
 
     return (name.contains(this->mName, Qt::CaseInsensitive));
 }
-//-----------------------------------------------------------------------------
+
 void UnicodeBlocksFilterModel::setNameFilter(const QString &name)
 {
     this->beginResetModel();
@@ -44,4 +44,4 @@ void UnicodeBlocksFilterModel::setNameFilter(const QString &name)
 
     this->endResetModel();
 }
-//-----------------------------------------------------------------------------
+

@@ -1,5 +1,5 @@
 #include "testconverterhelper.h"
-//-----------------------------------------------------------------------------
+
 #include <QVector>
 #include "qt-version-check.h"
 #include "converterhelper.h"
@@ -15,17 +15,17 @@
 #endif // QT_VERSION
 
 #include <QCoreApplication>
-//-----------------------------------------------------------------------------
+
 TestConverterHelper::TestConverterHelper(QObject *parent) :
     QObject(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestConverterHelper::initTestCase()
 {
     this->mPreset = new Preset(this);
 }
-//-----------------------------------------------------------------------------
+
 void TestConverterHelper::processPixels()
 {
     const int count = 1000;
@@ -112,7 +112,7 @@ void TestConverterHelper::processPixels()
         QCOMPARE(sample.at(i), source.at(i));
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestConverterHelper::packData()
 {
     this->mPreset->initColor(0, 5, 6, 5);
@@ -180,7 +180,7 @@ void TestConverterHelper::packData()
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestConverterHelper::dataToString()
 {
     const int count = 10;
@@ -274,7 +274,7 @@ void TestConverterHelper::dataToString()
         QCOMPARE(test32, expected32);
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestConverterHelper::jsengineSetProperty()
 {
     int argc = 0;
@@ -295,7 +295,7 @@ void TestConverterHelper::jsengineSetProperty()
         cimage.setCondition(TestConvImage::CanBeDeleted);
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestConverterHelper::breakInfiniteScript()
 {
 #ifdef USE_JS_QJSENGINE
@@ -319,12 +319,12 @@ void TestConverterHelper::breakInfiniteScript()
     }
 #endif
 }
-//-----------------------------------------------------------------------------
+
 void TestConverterHelper::cleanupTestCase()
 {
     delete this->mPreset;
 }
-//-----------------------------------------------------------------------------
+
 void TestConverterHelper::preparePackData(
         quint32 maskUsed, quint32 maskFill,
         QVector<quint32> *source, int width, int height,
@@ -434,7 +434,7 @@ void TestConverterHelper::preparePackData(
     *widthOut = packedRowWidth;
     *heightOut = height;
 }
-//-----------------------------------------------------------------------------
+
 void TestConverterHelper::prepareStringData(
         QVector<quint32> *source, int width, int height,
         bool splitToRows,
@@ -495,22 +495,22 @@ void TestConverterHelper::prepareStringData(
     result.truncate(result.length() - 2);
     *string = result;
 }
-//-----------------------------------------------------------------------------
+
 TestConvImage::TestConvImage(const QImage *image, QObject *parent) :
     ConvImage(image, parent)
 {
     this->mCondition = CanBeDeleted;
 }
-//-----------------------------------------------------------------------------
+
 TestConvImage::~TestConvImage()
 {
     if (this->mCondition != CanBeDeleted) {
         QFAIL("The object, passed to the script engine as property, was unexpectedly destroyed.");
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestConvImage::setCondition(TestConvImage::Condition value)
 {
     this->mCondition = value;
 }
-//-----------------------------------------------------------------------------
+

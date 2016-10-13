@@ -18,12 +18,12 @@
  */
 
 #include "recentlist.h"
-//-----------------------------------------------------------------------------
+
 #include <QStringList>
 #include <QStringListIterator>
 #include <QSettings>
 #include <QFileInfo>
-//-----------------------------------------------------------------------------
+
 RecentList::RecentList(QObject *parent) :
     QObject(parent)
 {
@@ -42,7 +42,7 @@ RecentList::RecentList(QObject *parent) :
     }
     sett.endArray();
 }
-//-----------------------------------------------------------------------------
+
 RecentList::~RecentList()
 {
     // save to settings
@@ -59,7 +59,7 @@ RecentList::~RecentList()
 
     delete this->mFiles;
 }
-//-----------------------------------------------------------------------------
+
 void RecentList::add(const QString &filename)
 {
     if (this->mFiles->contains(filename))
@@ -74,9 +74,9 @@ void RecentList::add(const QString &filename)
 
     emit this->listChanged();
 }
-//-----------------------------------------------------------------------------
+
 const QStringList * RecentList::files() const
 {
     return this->mFiles;
 }
-//-----------------------------------------------------------------------------
+

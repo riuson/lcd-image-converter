@@ -20,7 +20,7 @@
 #include <qt-version-check.h>
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-//-----------------------------------------------------------------------------
+
 #include <QCommandLineParser>
 #include <QDebug>
 #include <QFile>
@@ -37,9 +37,9 @@
 #include "templateoptions.h"
 #include "tfontparameters.h"
 #include "bitmaphelper.h"
-//-----------------------------------------------------------------------------
+
 namespace CommandLine {
-//-----------------------------------------------------------------------------
+
 ModeConvertFont::ModeConvertFont(QCommandLineParser *parser, QObject *parent) :
     ModeParserBase(parser, parent)
 {
@@ -59,12 +59,12 @@ ModeConvertFont::ModeConvertFont(QCommandLineParser *parser, QObject *parent) :
     this->mDocumentName = QString();
     this->mPresetName = QString();
 }
-//-----------------------------------------------------------------------------
+
 QString ModeConvertFont::modeName()
 {
     return "convert-font";
 }
-//-----------------------------------------------------------------------------
+
 void ModeConvertFont::fillParser() const
 {
     // --family="Ubuntu"
@@ -153,7 +153,7 @@ void ModeConvertFont::fillParser() const
                 QCoreApplication::translate("CmdLineParser", "name"));
     this->mParser->addOption(presetOption);
 }
-//-----------------------------------------------------------------------------
+
 bool ModeConvertFont::collectArguments()
 {
     this->mFontFamily = this->mParser->value("family");
@@ -183,7 +183,7 @@ bool ModeConvertFont::collectArguments()
             !this->mDocumentName.isEmpty() &&
             !this->mPresetName.isEmpty());
 }
-//-----------------------------------------------------------------------------
+
 int ModeConvertFont::process()
 {
     // check input and template files exists
@@ -294,7 +294,7 @@ int ModeConvertFont::process()
 
     return 1;
 }
-//-----------------------------------------------------------------------------
+
 QString ModeConvertFont::createCharsList(const QString &rangeStr,
                                          const QString &encoding,
                                          bool bigEndian) const
@@ -352,7 +352,7 @@ QString ModeConvertFont::createCharsList(const QString &rangeStr,
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 }
-//-----------------------------------------------------------------------------
+
 #endif // QT_VERSION

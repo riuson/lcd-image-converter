@@ -22,13 +22,13 @@
 #include <QMap>
 #include <QHash>
 #include <QRegExp>
-//-----------------------------------------------------------------------------
+
 Tags::Tags()
 {
     this->initTagsMap();
     this->mTagValues = new QMap<TagsEnum, QString>();
 }
-//-----------------------------------------------------------------------------
+
 Tags::~Tags()
 {
     this->mTagNameMap->clear();
@@ -37,12 +37,12 @@ Tags::~Tags()
     delete this->mTagNameMap;
     delete this->mTagValues;
 }
-//-----------------------------------------------------------------------------
+
 Tags::TagsEnum Tags::parseTag(const QString &key) const
 {
     return this->mTagNameMap->value(key, Unknown);
 }
-//-----------------------------------------------------------------------------
+
 const QString Tags::tagValue(Tags::TagsEnum key) const
 {
     //return this->mTagValues->value(key, QString("<value not defined>"));
@@ -53,12 +53,12 @@ const QString Tags::tagValue(Tags::TagsEnum key) const
     }
     return res;
 }
-//-----------------------------------------------------------------------------
+
 void Tags::setTagValue(Tags::TagsEnum key, const QString &value)
 {
     this->mTagValues->insert(key, value);
 }
-//-----------------------------------------------------------------------------
+
 void Tags::importValues(const Tags *other)
 {
     QListIterator<TagsEnum> it(other->mTagValues->keys());
@@ -70,7 +70,7 @@ void Tags::importValues(const Tags *other)
         this->setTagValue(tag, other->tagValue(tag));
     }
 }
-//-----------------------------------------------------------------------------
+
 bool Tags::find(const QString &text, int startIndex, int *resultIndex, int *nextIndex, TagsEnum *key, QString *content)
 {
     *resultIndex = -1;
@@ -112,7 +112,7 @@ bool Tags::find(const QString &text, int startIndex, int *resultIndex, int *next
     }
     return false;
 }
-//-----------------------------------------------------------------------------
+
 void Tags::initTagsMap()
 {
     this->mTagNameMap = new QHash<QString, TagsEnum>();
@@ -210,4 +210,4 @@ void Tags::initTagsMap()
     this->mTagNameMap->insert("start_block_font_def",     BlocksFontDefinitionStart);
     this->mTagNameMap->insert("end_block_font_def",       BlocksFontDefinitionEnd);
 }
-//-----------------------------------------------------------------------------
+

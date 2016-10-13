@@ -22,7 +22,7 @@
 
 #include <QFileDialog>
 #include "externaltooloptions.h"
-//-----------------------------------------------------------------------------
+
 DialogExternalEditor::DialogExternalEditor(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogExternalEditor)
@@ -31,12 +31,12 @@ DialogExternalEditor::DialogExternalEditor(QWidget *parent) :
 
     this->ui->lineEdit->setText(ExternalToolOptions::imageEditor());
 }
-//-----------------------------------------------------------------------------
+
 DialogExternalEditor::~DialogExternalEditor()
 {
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void DialogExternalEditor::done(int result)
 {
     if (result == QDialog::Accepted)
@@ -45,7 +45,7 @@ void DialogExternalEditor::done(int result)
     }
     QDialog::done(result);
 }
-//-----------------------------------------------------------------------------
+
 void DialogExternalEditor::on_pushButtonBrowse_clicked()
 {
     QFileDialog dialog(this);
@@ -60,4 +60,4 @@ void DialogExternalEditor::on_pushButtonBrowse_clicked()
         this->ui->lineEdit->setText(dialog.selectedFiles().at(0));
     }
 }
-//-----------------------------------------------------------------------------
+

@@ -19,7 +19,7 @@
 
 #ifndef TOOLFILL_H
 #define TOOLFILL_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QImage>
 #include <QColor>
@@ -28,11 +28,11 @@
 class QIcon;
 class QAction;
 template <class T1> class QVector;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class IImageEditorParams;
-//-----------------------------------------------------------------------------
+
 class ToolFill : public QObject, public IImageEditorTool
 {
     Q_OBJECT
@@ -77,7 +77,7 @@ private:
 private slots:
     void on_spinBoxSize_valueChanged(int value);
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+
 #endif // TOOLFILL_H

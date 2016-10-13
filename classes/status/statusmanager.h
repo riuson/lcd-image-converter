@@ -19,14 +19,14 @@
 
 #ifndef STATUSMANAGER_H
 #define STATUSMANAGER_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QMap>
 #include "statusdata.h"
-//-----------------------------------------------------------------------------
+
 class QStatusBar;
 class QLabel;
-//-----------------------------------------------------------------------------
+
 class StatusManager : public QObject
 {
     Q_OBJECT
@@ -50,5 +50,5 @@ signals:
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // STATUSMANAGER_H

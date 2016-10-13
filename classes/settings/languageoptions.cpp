@@ -21,7 +21,7 @@
 
 #include <QSettings>
 #include <QFile>
-//-----------------------------------------------------------------------------
+
 const QString LanguageOptions::locale()
 {
     QSettings sett;
@@ -31,7 +31,7 @@ const QString LanguageOptions::locale()
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool LanguageOptions::setLocale(const QString &value)
 {
     bool isSuccessfully = false;
@@ -52,4 +52,4 @@ bool LanguageOptions::setLocale(const QString &value)
 
     return isSuccessfully;
 }
-//-----------------------------------------------------------------------------
+

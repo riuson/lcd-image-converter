@@ -19,13 +19,13 @@
 
 #ifndef DIALOGFONTCHANGED_H
 #define DIALOGFONTCHANGED_H
-//-----------------------------------------------------------------------------
+
 #include <QDialog>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
 class DialogFontChanged;
 }
-//-----------------------------------------------------------------------------
+
 class DialogFontChanged : public QDialog
 {
     Q_OBJECT
@@ -46,5 +46,5 @@ private  slots:
     void on_buttonGenerateNewOnly_clicked();
     void on_buttonCancel_clicked();
 };
-//-----------------------------------------------------------------------------
+
 #endif // DIALOGFONTCHANGED_H

@@ -1,17 +1,17 @@
 #include "testtemplateoptions.h"
-//-----------------------------------------------------------------------------
+
 #include "templateoptions.h"
-//-----------------------------------------------------------------------------
+
 TestTemplateOptions::TestTemplateOptions(QObject *parent) :
     QObject(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestTemplateOptions::initTestCase()
 {
     this->mOptions = new TemplateOptions(this);
 }
-//-----------------------------------------------------------------------------
+
 void TestTemplateOptions::image()
 {
     // 1
@@ -22,7 +22,7 @@ void TestTemplateOptions::image()
     this->mOptions->setImage("test2");
     QCOMPARE(this->mOptions->image(), QString("test2"));
 }
-//-----------------------------------------------------------------------------
+
 void TestTemplateOptions::font()
 {
     // 1
@@ -33,9 +33,9 @@ void TestTemplateOptions::font()
     this->mOptions->setFont("test4");
     QCOMPARE(this->mOptions->font(), QString("test4"));
 }
-//-----------------------------------------------------------------------------
+
 void TestTemplateOptions::cleanupTestCase()
 {
     delete this->mOptions;
 }
-//-----------------------------------------------------------------------------
+

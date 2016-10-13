@@ -18,7 +18,7 @@
  */
 
 #include "imagedocument.h"
-//-----------------------------------------------------------------------------
+
 #include <QDomDocument>
 #include <QDomProcessingInstruction>
 #include <QBuffer>
@@ -32,9 +32,9 @@
 #include "statusdata.h"
 #include "preset.h"
 #include "parsedimagedata.h"
-//-----------------------------------------------------------------------------
+
 const QString ImageDocument::DefaultKey = QString("default");
-//-----------------------------------------------------------------------------
+
 ImageDocument::ImageDocument(QObject *parent) :
     QObject(parent)
 {
@@ -56,11 +56,11 @@ ImageDocument::ImageDocument(QObject *parent) :
     this->endChanges(true);
     this->mContainer->historyInit();
 }
-//-----------------------------------------------------------------------------
+
 ImageDocument::~ImageDocument()
 {
 }
-//-----------------------------------------------------------------------------
+
 bool ImageDocument::load(const QString &fileName)
 {
     bool result = false;
@@ -121,7 +121,7 @@ bool ImageDocument::load(const QString &fileName)
     }
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool ImageDocument::save(const QString &fileName)
 {
     bool result = false;
@@ -171,46 +171,46 @@ bool ImageDocument::save(const QString &fileName)
     }
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool ImageDocument::changed() const
 {
     bool result = this->mContainer->changed();
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QString ImageDocument::documentFilename() const
 {
     QVariant result = this->mContainer->commonInfo("filename");
     return result.toString();
 }
-//-----------------------------------------------------------------------------
+
 QString ImageDocument::documentName() const
 {
     QVariant result = this->mContainer->commonInfo("document name");
     return result.toString();
 }
-//-----------------------------------------------------------------------------
+
 void ImageDocument::setDocumentName(const QString &value)
 {
     this->mContainer->setCommonInfo("document name", value);
 }
-//-----------------------------------------------------------------------------
+
 QString ImageDocument::outputFilename() const
 {
     QVariant result = this->mContainer->commonInfo("converted filename");
     return result.toString();
 }
-//-----------------------------------------------------------------------------
+
 void ImageDocument::setOutputFilename(const QString &value)
 {
     this->mContainer->setCommonInfo("converted filename", QVariant(value));
 }
-//-----------------------------------------------------------------------------
+
 DataContainer *ImageDocument::dataContainer() const
 {
     return this->mContainer;
 }
-//-----------------------------------------------------------------------------
+
 QString ImageDocument::convert(Preset *preset)
 {
     Tags tags;
@@ -232,7 +232,7 @@ QString ImageDocument::convert(Preset *preset)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void ImageDocument::beginChanges()
 {
     if (!this->mContainer->historyInitialized())
@@ -242,7 +242,7 @@ void ImageDocument::beginChanges()
 
     this->mNestedChangesCounter++;
 }
-//-----------------------------------------------------------------------------
+
 void ImageDocument::endChanges(bool suppress)
 {
     if (this->mNestedChangesCounter > 0)
@@ -266,31 +266,31 @@ void ImageDocument::endChanges(bool suppress)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 bool ImageDocument::canUndo()
 {
     return this->mContainer->canUndo();
 }
-//-----------------------------------------------------------------------------
+
 bool ImageDocument::canRedo()
 {
     return this->mContainer->canRedo();
 }
-//-----------------------------------------------------------------------------
+
 void ImageDocument::undo()
 {
     this->mContainer->stateUndo();
 
     emit this->documentChanged();
 }
-//-----------------------------------------------------------------------------
+
 void ImageDocument::redo()
 {
     this->mContainer->stateRedo();
 
     emit this->documentChanged();
 }
-//-----------------------------------------------------------------------------
+
 void ImageDocument::setDocumentFilename(const QString &value)
 {
     if (this->documentFilename() != value)
@@ -298,7 +298,7 @@ void ImageDocument::setDocumentFilename(const QString &value)
         this->mContainer->setCommonInfo("filename", QVariant(value));
     }
 }
-//-----------------------------------------------------------------------------
+
 void ImageDocument::prepareImages(Preset *preset, QMap<QString, ParsedImageData *> *images, const Tags &tags) const
 {
     DataContainer *data = this->dataContainer();
@@ -318,7 +318,7 @@ void ImageDocument::prepareImages(Preset *preset, QMap<QString, ParsedImageData 
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ImageDocument::mon_container_dataChanged(bool historyStateMoved)
 {
     if (this->mNestedChangesCounter == 0)
@@ -331,4 +331,4 @@ void ImageDocument::mon_container_dataChanged(bool historyStateMoved)
         emit this->documentChanged();
     }
 }
-//-----------------------------------------------------------------------------
+

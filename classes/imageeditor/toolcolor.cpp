@@ -30,10 +30,10 @@
 #include <QColorDialog>
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 ToolColor::ToolColor(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
     this->mParameters = parameters;
@@ -45,7 +45,7 @@ ToolColor::ToolColor(IImageEditorParams *parameters, QObject *parent) : QObject(
     this->loadSettings();
     this->initializeWidgets();
 }
-//-----------------------------------------------------------------------------
+
 ToolColor::~ToolColor()
 {
     this->saveSettings();
@@ -55,42 +55,42 @@ ToolColor::~ToolColor()
     delete this->mActions;
     delete this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolColor::title() const
 {
     return tr("Color");
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolColor::tooltip() const
 {
     return tr("Select color");
 }
-//-----------------------------------------------------------------------------
+
 const QIcon *ToolColor::icon() const
 {
     return this->mIcon;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QAction *> *ToolColor::actions() const
 {
     return this->mActions;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QWidget *> *ToolColor::widgets() const
 {
     return this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 const QColor ToolColor::foreColor() const
 {
     return this->mForeColor;
 }
-//-----------------------------------------------------------------------------
+
 const QColor ToolColor::backColor() const
 {
     return this->mBackColor;
 }
-//-----------------------------------------------------------------------------
+
 bool ToolColor::processMouse(QMouseEvent *event,
                              const QImage *imageOriginal,
                              bool inRect)
@@ -134,7 +134,7 @@ bool ToolColor::processMouse(QMouseEvent *event,
 
     return true;
 }
-//-----------------------------------------------------------------------------
+
 void ToolColor::initializeWidgets()
 {
     this->mActionForeColor = new QAction(this);
@@ -154,7 +154,7 @@ void ToolColor::initializeWidgets()
 
     this->updateColorIcons();
 }
-//-----------------------------------------------------------------------------
+
 void ToolColor::loadSettings()
 {
     QSettings sett;
@@ -189,7 +189,7 @@ void ToolColor::loadSettings()
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void ToolColor::saveSettings() const
 {
     QSettings sett;
@@ -207,7 +207,7 @@ void ToolColor::saveSettings() const
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void ToolColor::updateColorIcons()
 {
     QPixmap pixmapForeColor = QPixmap(24, 24);
@@ -222,7 +222,7 @@ void ToolColor::updateColorIcons()
     this->mActionBackColor->setText(tr("Back Color: %1").arg((quint32)this->mBackColor.rgba(), 8, 16, QChar('0')));
     this->mActionBackColor->setToolTip(tr("Back Color: %1").arg((quint32)this->mBackColor.rgba(), 8, 16, QChar('0')));
 }
-//-----------------------------------------------------------------------------
+
 void ToolColor::on_buttonForeColor_triggered()
 {
     QColorDialog dialog(this->mForeColor, this->mParameters->parentWidget());
@@ -234,7 +234,7 @@ void ToolColor::on_buttonForeColor_triggered()
         this->updateColorIcons();
     }
 }
-//-----------------------------------------------------------------------------
+
 void ToolColor::on_buttonBackColor_triggered()
 {
     QColorDialog dialog(this->mBackColor, this->mParameters->parentWidget());
@@ -246,7 +246,7 @@ void ToolColor::on_buttonBackColor_triggered()
         this->updateColorIcons();
     }
 }
-//-----------------------------------------------------------------------------
+
 void ToolColor::on_buttonSwapColors_triggered()
 {
     QColor color = this->mForeColor;
@@ -254,6 +254,6 @@ void ToolColor::on_buttonSwapColors_triggered()
     this->mBackColor = color;
     this->updateColorIcons();
 }
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+

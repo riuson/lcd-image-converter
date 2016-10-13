@@ -19,20 +19,20 @@
 
 #ifndef PARSER_H
 #define PARSER_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QMap>
 #include <QRegExp>
-//-----------------------------------------------------------------------------
+
 #include "conversion_options.h"
-//-----------------------------------------------------------------------------
+
 class IDocument;
 class IDataContainer;
 class Preset;
 class Tags;
 class QImage;
 class ParsedImageData;
-//-----------------------------------------------------------------------------
+
 class Parser : public QObject
 {
     Q_OBJECT
@@ -63,5 +63,5 @@ private:
     bool findNextTag(int startIndex, int *resultIndex, Tags);
     void imageParticles(const QString &templateString, QString *prefix, QString *suffix) const;
 };
-//-----------------------------------------------------------------------------
+
 #endif // PARSER_H

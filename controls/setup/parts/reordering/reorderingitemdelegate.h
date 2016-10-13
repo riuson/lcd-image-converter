@@ -19,14 +19,14 @@
 
 #ifndef REORDERINGITEMDELEGATE_H
 #define REORDERINGITEMDELEGATE_H
-//-----------------------------------------------------------------------------
+
 #include <QtGui>
 #include "qt-version-check.h"
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
 #include <QtWidgets>
 #endif // QT_VERSION
-//-----------------------------------------------------------------------------
+
 class ReorderingItemDelegate : public QItemDelegate
 {
     Q_OBJECT
@@ -40,5 +40,5 @@ public:
 private:
     QColor mColor;
 };
-//-----------------------------------------------------------------------------
+
 #endif // REORDERINGITEMDELEGATE_H

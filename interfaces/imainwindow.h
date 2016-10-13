@@ -19,7 +19,7 @@
 
 #ifndef IMAINWINDOW_H
 #define IMAINWINDOW_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 
 class QString;
@@ -27,7 +27,7 @@ class QWidget;
 class IEditor;
 
 template <class T> class QList;
-//-----------------------------------------------------------------------------
+
 class IMainWindow
 {
 public:
@@ -40,5 +40,5 @@ public:
 Q_DECLARE_INTERFACE (IMainWindow,
                      "riuson.lcd-image-converter/1.0"
                      )
-//-----------------------------------------------------------------------------
+
 #endif // IDOCUMENT_H

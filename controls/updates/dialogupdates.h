@@ -19,15 +19,15 @@
 
 #ifndef DIALOGUPDATES_H
 #define DIALOGUPDATES_H
-//-----------------------------------------------------------------------------
+
 #include <QDialog>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
     class DialogUpdates;
 }
-//-----------------------------------------------------------------------------
+
 class QNetworkReply;
-//-----------------------------------------------------------------------------
+
 class DialogUpdates : public QDialog
 {
     Q_OBJECT
@@ -49,5 +49,5 @@ private:
 private slots:
     void networkReply(QNetworkReply* reply);
 };
-//-----------------------------------------------------------------------------
+
 #endif // DIALOGUPDATES_H

@@ -19,7 +19,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-//-----------------------------------------------------------------------------
+
 #include <QList>
 #include <QFileDialog>
 #include <QInputDialog>
@@ -49,7 +49,7 @@
 #include "idocument.h"
 #include "bitmaphelper.h"
 #include "filedialogoptions.h"
-//-----------------------------------------------------------------------------
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -108,7 +108,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->checkStartPageVisible();
 }
-//-----------------------------------------------------------------------------
+
 MainWindow::~MainWindow()
 {
     delete this->mRecentList;
@@ -120,7 +120,7 @@ MainWindow::~MainWindow()
     delete this->mSetupHandlers;
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
@@ -132,7 +132,7 @@ void MainWindow::changeEvent(QEvent *e)
         break;
     }
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::selectLocale(const QString &localeName)
 {
     if (LanguageOptions::setLocale(localeName))
@@ -155,7 +155,7 @@ void MainWindow::selectLocale(const QString &localeName)
         a->setChecked(b == localeName);
     }
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::checkStartPageVisible()
 {
     // show startpage if no other tabs
@@ -197,7 +197,7 @@ void MainWindow::checkStartPageVisible()
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::createHandlers()
 {
     this->mFileHandlers = new ActionFileHandlers(this);
@@ -261,7 +261,7 @@ void MainWindow::createHandlers()
 
     this->mFileHandlers->connect(this->mFontHandlers, SIGNAL(imageCreated(QImage*,QString)), SLOT(openImage(QImage*,QString)));
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::tabTextUpdate(QWidget *widget)
 {
     int index = this->ui->tabWidget->indexOf(widget);
@@ -281,7 +281,7 @@ void MainWindow::tabTextUpdate(QWidget *widget)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 int MainWindow::editorsCount() const
 {
     int result = 0;
@@ -297,7 +297,7 @@ int MainWindow::editorsCount() const
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     QWidget *w = this->ui->tabWidget->widget(index);
@@ -372,7 +372,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
         delete w;
     }
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
     Q_UNUSED(index);
@@ -386,19 +386,19 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         this->mStatusManager->updateData(editor->statusData());
     }
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::setCurrentTab(QWidget *widget)
 {
     this->ui->tabWidget->setCurrentWidget(widget);
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::actionLanguage_triggered()
 {
     QAction *action = qobject_cast<QAction *>(sender());
     QString name = action->data().toString();
     this->selectLocale(name);
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::updateMenuState()
 {
     IEditor *editor = this->currentEditor();
@@ -430,7 +430,7 @@ void MainWindow::updateMenuState()
     this->ui->actionConvert->setEnabled(editorSelected);
     this->ui->actionConvert_All->setEnabled(editorSelected);
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::updateRecentList()
 {
     QList<QAction *> actions = this->ui->menuRecent->actions();
@@ -464,7 +464,7 @@ void MainWindow::updateRecentList()
     else
         this->ui->menuRecent->setEnabled(false);
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::openRecentFile()
 {
     QAction *action = qobject_cast<QAction *>(sender());
@@ -474,25 +474,25 @@ void MainWindow::openRecentFile()
         this->mFileHandlers->openFiles(files);
     }
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::rememberFilename(const QString &filename)
 {
     this->mRecentList->add(filename);
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::closeRequest(QWidget *tab)
 {
     int index = this->ui->tabWidget->indexOf(tab);
     if (index >= 0)
         this->on_tabWidget_tabCloseRequested(index);
 }
-//-----------------------------------------------------------------------------
+
 IEditor *MainWindow::currentEditor()
 {
     IEditor *result = qobject_cast<IEditor *>(this->currentTab());
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QWidget *MainWindow::currentTab()
 {
     int index = this->ui->tabWidget->currentIndex();
@@ -503,7 +503,7 @@ QWidget *MainWindow::currentTab()
     }
     return NULL;
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::tabsList(QList<QWidget *> *list)
 {
     if (list != NULL)
@@ -515,12 +515,12 @@ void MainWindow::tabsList(QList<QWidget *> *list)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 QWidget *MainWindow::parentWidget()
 {
     return this;
 }
-//-----------------------------------------------------------------------------
+
 QString MainWindow::findAvailableName(const QString &prefix)
 {
     QString result = prefix;
@@ -547,7 +547,7 @@ QString MainWindow::findAvailableName(const QString &prefix)
     }
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::tabChanged(QWidget *tab)
 {
     int index = this->ui->tabWidget->indexOf(tab);
@@ -556,7 +556,7 @@ void MainWindow::tabChanged(QWidget *tab)
         this->tabTextUpdate(tab);
     }
 }
-//-----------------------------------------------------------------------------
+
 int MainWindow::tabCreated(QWidget *newTab)
 {
     int index = this->ui->tabWidget->addTab(newTab, "");
@@ -572,7 +572,7 @@ int MainWindow::tabCreated(QWidget *newTab)
 
     return index;
 }
-//-----------------------------------------------------------------------------
+
 void MainWindow::statusChanged()
 {
     QWidget *widget = qobject_cast<QWidget *>(sender());
@@ -585,4 +585,4 @@ void MainWindow::statusChanged()
         }
     }
 }
-//-----------------------------------------------------------------------------
+

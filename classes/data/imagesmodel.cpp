@@ -21,7 +21,7 @@
 #include <QPixmap>
 #include "datacontainer.h"
 #include "bitmaphelper.h"
-//-----------------------------------------------------------------------------
+
 ImagesModel::ImagesModel(DataContainer *container, QObject *parent) :
     QAbstractItemModel(parent)
 {
@@ -29,21 +29,21 @@ ImagesModel::ImagesModel(DataContainer *container, QObject *parent) :
 
     this->connect(this->mContainer, SIGNAL(dataChanged(bool)), SLOT(imagesChanged()));
 }
-//-----------------------------------------------------------------------------
+
 int ImagesModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
     return this->mContainer->count();
 }
-//-----------------------------------------------------------------------------
+
 int ImagesModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
     return 2;
 }
-//-----------------------------------------------------------------------------
+
 QVariant ImagesModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     QVariant result;
@@ -75,7 +75,7 @@ QVariant ImagesModel::headerData(int section, Qt::Orientation orientation, int r
     }
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QVariant ImagesModel::data(const QModelIndex &index, int role) const
 {
     QVariant result = QVariant();
@@ -134,25 +134,25 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QModelIndex ImagesModel::index(int row, int column, const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return this->createIndex(row, column);
 }
-//-----------------------------------------------------------------------------
+
 QModelIndex ImagesModel::parent(const QModelIndex &index) const
 {
     Q_UNUSED(index)
     return QModelIndex();
 }
-//-----------------------------------------------------------------------------
+
 void ImagesModel::callReset()
 {
     this->beginResetModel();
     this->endResetModel();
 }
-//-----------------------------------------------------------------------------
+
 QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) const
 {
     QVariant result;
@@ -191,11 +191,11 @@ QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) cons
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void ImagesModel::imagesChanged()
 {
     emit this->dataChanged(
                 this->index(0, 0),
                 this->index(this->rowCount(QModelIndex()) - 1, this->columnCount(QModelIndex()) - 1));
 }
-//-----------------------------------------------------------------------------
+

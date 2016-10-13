@@ -19,14 +19,14 @@
 
 #ifndef HISTORYRECORD_H
 #define HISTORYRECORD_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QString>
 #include <QImage>
 #include <QVariant>
 #include <QMap>
 #include <QStringList>
-//-----------------------------------------------------------------------------
+
 class HistoryRecord : public QObject
 {
     Q_OBJECT
@@ -52,5 +52,5 @@ signals:
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // HISTORYRECORD_H

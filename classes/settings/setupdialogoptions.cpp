@@ -21,7 +21,7 @@
 
 #include <QSettings>
 #include <QVariant>
-//-----------------------------------------------------------------------------
+
 int SetupDialogOptions::animationTotalTime()
 {
     QSettings sett;
@@ -35,7 +35,7 @@ int SetupDialogOptions::animationTotalTime()
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void SetupDialogOptions::setAnimationTime(int value)
 {
     QSettings sett;
@@ -43,7 +43,7 @@ void SetupDialogOptions::setAnimationTime(int value)
     sett.setValue("animationTotalTime", QVariant(value));
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 int SetupDialogOptions::animationInterval()
 {
     QSettings sett;
@@ -57,7 +57,7 @@ int SetupDialogOptions::animationInterval()
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void SetupDialogOptions::setAnimationInterval(int value)
 {
     QSettings sett;
@@ -65,4 +65,4 @@ void SetupDialogOptions::setAnimationInterval(int value)
     sett.setValue("animationInterval", QVariant(value));
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+

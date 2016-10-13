@@ -31,7 +31,7 @@
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
     #include "cmdline.h"
 #endif
-//-----------------------------------------------------------------------------
+
 void setupApplication(QApplication *app)
 {
     QCoreApplication::setApplicationName("lcd-image-converter");
@@ -43,7 +43,7 @@ void setupApplication(QApplication *app)
     app->addLibraryPath(QApplication::applicationDirPath());
     app->addLibraryPath(QApplication::applicationDirPath() + "/plugins");
 }
-//-----------------------------------------------------------------------------
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -62,4 +62,4 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();
 }
-//-----------------------------------------------------------------------------
+

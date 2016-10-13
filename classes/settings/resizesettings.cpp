@@ -21,7 +21,7 @@
 
 #include <QVariant>
 #include <QSettings>
-//-----------------------------------------------------------------------------
+
 int ResizeSettings::scale()
 {
     QSettings sett;
@@ -34,7 +34,7 @@ int ResizeSettings::scale()
         return result;
     return 1;
 }
-//-----------------------------------------------------------------------------
+
 void ResizeSettings::setScale(int value)
 {
     QSettings sett;
@@ -42,4 +42,4 @@ void ResizeSettings::setScale(int value)
     sett.setValue("scale", QVariant(value));
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+

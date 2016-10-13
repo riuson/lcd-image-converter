@@ -19,7 +19,7 @@
 
 #include "charactersmodel.h"
 #include <QPalette>
-//-----------------------------------------------------------------------------
+
 CharactersModel::CharactersModel(QObject *parent) :
     QAbstractItemModel(parent)
 {
@@ -28,7 +28,7 @@ CharactersModel::CharactersModel(QObject *parent) :
     this->mResultCode1 = 0;
     this->mResultCode2 = 0;
 }
-//-----------------------------------------------------------------------------
+
 int CharactersModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
@@ -37,14 +37,14 @@ int CharactersModel::rowCount(const QModelIndex &parent) const
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 int CharactersModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
 
     return 16;
 }
-//-----------------------------------------------------------------------------
+
 QVariant CharactersModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     QVariant result;
@@ -64,7 +64,7 @@ QVariant CharactersModel::headerData(int section, Qt::Orientation orientation, i
     }
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QVariant CharactersModel::data(const QModelIndex &index, int role) const
 {
     QVariant result = QVariant();
@@ -97,19 +97,19 @@ QVariant CharactersModel::data(const QModelIndex &index, int role) const
     }
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QModelIndex CharactersModel::index(int row, int column, const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return this->createIndex(row, column);
 }
-//-----------------------------------------------------------------------------
+
 QModelIndex CharactersModel::parent(const QModelIndex &index) const
 {
     Q_UNUSED(index)
     return QModelIndex();
 }
-//-----------------------------------------------------------------------------
+
 void CharactersModel::setCodesRange(quint32 first, quint32 last)
 {
     this->beginResetModel();
@@ -122,6 +122,6 @@ void CharactersModel::setCodesRange(quint32 first, quint32 last)
 
     this->endResetModel();
 }
-//-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
+
+

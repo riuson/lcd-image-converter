@@ -19,13 +19,13 @@
 
 #ifndef IEDITOR_H
 #define IEDITOR_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 class StatusData;
 class DataContainer;
 class IDocument;
-//-----------------------------------------------------------------------------
+
 class IEditor
 {
 public:
@@ -43,5 +43,5 @@ public:
 Q_DECLARE_INTERFACE (IEditor,
                      "riuson.lcd-image-converter/1.0"
                      )
-//-----------------------------------------------------------------------------
+
 #endif // IEDITOR_H

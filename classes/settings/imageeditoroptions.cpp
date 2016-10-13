@@ -21,7 +21,7 @@
 
 #include <QSettings>
 #include <QFile>
-//-----------------------------------------------------------------------------
+
 QByteArray ImageEditorOptions::toolbarsState()
 {
     QSettings sett;
@@ -35,7 +35,7 @@ QByteArray ImageEditorOptions::toolbarsState()
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void ImageEditorOptions::setToolbarsState(const QByteArray &value)
 {
     QSettings sett;
@@ -47,4 +47,4 @@ void ImageEditorOptions::setToolbarsState(const QByteArray &value)
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+

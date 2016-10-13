@@ -19,7 +19,7 @@
 
 #ifndef TOOLSELECT_H
 #define TOOLSELECT_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QImage>
 #include <QColor>
@@ -30,11 +30,11 @@
 
 class QIcon;
 class QAction;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class IImageEditorParams;
-//-----------------------------------------------------------------------------
+
 class ToolSelect : public QObject, public IImageEditorTool, public IImageSelection
 {
     Q_OBJECT
@@ -101,7 +101,7 @@ private slots:
     void on_switchToSelectionEdit();
     void on_switchToSelectionMove();
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+
 #endif // TOOLSELECT_H

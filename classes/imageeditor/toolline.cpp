@@ -30,10 +30,10 @@
 #include <QColorDialog>
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 ToolLine::ToolLine(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
     this->mParameters = parameters;
@@ -47,7 +47,7 @@ ToolLine::ToolLine(IImageEditorParams *parameters, QObject *parent) : QObject(pa
     this->loadSettings();
     this->initializeWidgets();
 }
-//-----------------------------------------------------------------------------
+
 ToolLine::~ToolLine()
 {
     this->saveSettings();
@@ -57,32 +57,32 @@ ToolLine::~ToolLine()
     delete this->mActions;
     delete this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolLine::title() const
 {
     return tr("Line");
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolLine::tooltip() const
 {
     return tr("Draw line");
 }
-//-----------------------------------------------------------------------------
+
 const QIcon *ToolLine::icon() const
 {
     return this->mIcon;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QAction *> *ToolLine::actions() const
 {
     return this->mActions;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QWidget *> *ToolLine::widgets() const
 {
     return this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 bool ToolLine::processMouse(QMouseEvent *event,
                             const QImage *imageOriginal,
                             bool inRect)
@@ -143,7 +143,7 @@ bool ToolLine::processMouse(QMouseEvent *event,
 
     return true;
 }
-//-----------------------------------------------------------------------------
+
 void ToolLine::initializeWidgets()
 {
     QSpinBox *spinBoxSize = new QSpinBox();
@@ -154,7 +154,7 @@ void ToolLine::initializeWidgets()
     this->connect(spinBoxSize, SIGNAL(valueChanged(int)), SLOT(on_spinBoxSize_valueChanged(int)));
     this->mWidgets->append(spinBoxSize);
 }
-//-----------------------------------------------------------------------------
+
 void ToolLine::loadSettings()
 {
     QSettings sett;
@@ -174,7 +174,7 @@ void ToolLine::loadSettings()
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void ToolLine::saveSettings() const
 {
     QSettings sett;
@@ -188,7 +188,7 @@ void ToolLine::saveSettings() const
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void ToolLine::drawLine(const QRect &rect, int borderWidth, bool inverted)
 {
     QImage image = this->mOriginalImage;
@@ -216,11 +216,11 @@ void ToolLine::drawLine(const QRect &rect, int borderWidth, bool inverted)
 
     this->mInternalImage = pixmap.toImage();
 }
-//-----------------------------------------------------------------------------
+
 void ToolLine::on_spinBoxSize_valueChanged(int value)
 {
     this->mSize = value;
 }
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+

@@ -18,17 +18,17 @@
  */
 
 #include "fonthelper.h"
-//-----------------------------------------------------------------------------
+
 #include <QPixmap>
 #include <QPainter>
 #include <QRegExp>
 #include "datacontainer.h"
-//-----------------------------------------------------------------------------
+
 FontHelper::FontHelper(QObject *parent) :
     QObject(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 QImage FontHelper::drawString(const DataContainer *data, const QString &value)
 {
     int width = 0, height = 0;
@@ -68,7 +68,7 @@ QImage FontHelper::drawString(const DataContainer *data, const QString &value)
 
     return previewPixmap.toImage();
 }
-//-----------------------------------------------------------------------------
+
 QString FontHelper::escapeControlChars(const QString &value)
 {
     QString result;
@@ -98,7 +98,7 @@ QString FontHelper::escapeControlChars(const QString &value)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QString FontHelper::unescapeControlChars(const QString &value)
 {
     QRegExp reg("\\\\x([abcdef\\d]{4})", Qt::CaseInsensitive);
@@ -121,7 +121,7 @@ QString FontHelper::unescapeControlChars(const QString &value)
     } while(index >= 0);
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QSize FontHelper::getCharacterSize(const QFontMetrics &metrics, QChar value)
 {
     int charWidth = metrics.width(value);
@@ -142,7 +142,7 @@ QSize FontHelper::getCharacterSize(const QFontMetrics &metrics, QChar value)
 
     return QSize(charWidth, charHeight);
 }
-//-----------------------------------------------------------------------------
+
 QImage FontHelper::drawCharacter(
         const QChar value,
         const QFont &font,
@@ -191,4 +191,4 @@ QImage FontHelper::drawCharacter(
 
     return result;
 }
-//-----------------------------------------------------------------------------
+

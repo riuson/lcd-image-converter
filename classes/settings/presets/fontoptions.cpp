@@ -18,18 +18,18 @@
  */
 
 #include "fontoptions.h"
-//-----------------------------------------------------------------------------
+
 #include <QStringList>
 #include <QSettings>
 #include <QTextCodec>
 #include <QtXml>
 #include <QDomDocument>
-//-----------------------------------------------------------------------------
+
 const QString FontOptions::GroupName = QString("font");
 const QString FontOptions::FieldBom = QString("bom");
 const QString FontOptions::FieldSortOrder = QString("sortOrder");
 const QString FontOptions::FieldCodec = QString("codec");
-//-----------------------------------------------------------------------------
+
 FontOptions::FontOptions(QObject *parent) :
     QObject(parent)
 {
@@ -37,29 +37,29 @@ FontOptions::FontOptions(QObject *parent) :
     this->mEncoding = FontOptions::encodings().at(0);
     this->mSortOrder = CharactersSortAscending;
 }
-//-----------------------------------------------------------------------------
+
 bool FontOptions::bom() const
 {
     return this->mBom;
 }
-//-----------------------------------------------------------------------------
+
 const QString &FontOptions::encoding() const
 {
     return this->mEncoding;
 }
-//-----------------------------------------------------------------------------
+
 CharactersSortOrder FontOptions::sortOrder() const
 {
     return this->mSortOrder;
 }
-//-----------------------------------------------------------------------------
+
 void FontOptions::setBom(bool value)
 {
     this->mBom = value;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void FontOptions::setEncoding(const QString &value)
 {
     if (FontOptions::encodings().contains(value))
@@ -69,14 +69,14 @@ void FontOptions::setEncoding(const QString &value)
         emit this->changed();
     }
 }
-//-----------------------------------------------------------------------------
+
 void FontOptions::setSortOrder(CharactersSortOrder value)
 {
     this->mSortOrder = value;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 bool FontOptions::load(QSettings *settings, int version)
 {
     bool result = false;
@@ -125,7 +125,7 @@ bool FontOptions::load(QSettings *settings, int version)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool FontOptions::loadXmlElement(QDomElement element)
 {
     bool result = false;
@@ -187,7 +187,7 @@ bool FontOptions::loadXmlElement(QDomElement element)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void FontOptions::save(QSettings *settings)
 {
     settings->beginGroup(FontOptions::GroupName);
@@ -198,7 +198,7 @@ void FontOptions::save(QSettings *settings)
 
     settings->endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void FontOptions::saveXmlElement(QDomElement element)
 {
     QDomElement nodeFont = element.ownerDocument().createElement(FontOptions::GroupName);
@@ -216,7 +216,7 @@ void FontOptions::saveXmlElement(QDomElement element)
     nodeFont.appendChild(nodeCodec);
     nodeCodec.appendChild(element.ownerDocument().createTextNode(this->encoding()));
 }
-//-----------------------------------------------------------------------------
+
 const QStringList &FontOptions::encodings()
 {
     static QStringList result;
@@ -232,4 +232,4 @@ const QStringList &FontOptions::encodings()
     }
     return result;
 }
-//-----------------------------------------------------------------------------
+

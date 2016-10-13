@@ -19,10 +19,10 @@
 
 #include "setuptabfont.h"
 #include "ui_setuptabfont.h"
-//-----------------------------------------------------------------------------
+
 #include "preset.h"
 #include "fontoptions.h"
-//-----------------------------------------------------------------------------
+
 SetupTabFont::SetupTabFont(Preset *preset, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SetupTabFont)
@@ -49,12 +49,12 @@ SetupTabFont::SetupTabFont(Preset *preset, QWidget *parent) :
 
     this->matrixChanged();
 }
-//-----------------------------------------------------------------------------
+
 SetupTabFont::~SetupTabFont()
 {
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabFont::matrixChanged()
 {
     int index = this->ui->comboBoxEncoding->findText(this->mPreset->font()->encoding());
@@ -67,7 +67,7 @@ void SetupTabFont::matrixChanged()
 
     this->ui->checkBoxBom->setChecked(this->mPreset->font()->bom());
 }
-//-----------------------------------------------------------------------------
+
 const QString SetupTabFont::sortingName(CharactersSortOrder value) const
 {
     QString result;
@@ -90,17 +90,17 @@ const QString SetupTabFont::sortingName(CharactersSortOrder value) const
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabFont::on_checkBoxBom_toggled(bool value)
 {
     this->mPreset->font()->setBom(value);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabFont::on_comboBoxEncoding_currentIndexChanged(const QString &value)
 {
     this->mPreset->font()->setEncoding(value);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabFont::on_comboBoxSorting_currentIndexChanged(int index)
 {
     bool ok = false;
@@ -108,4 +108,4 @@ void SetupTabFont::on_comboBoxSorting_currentIndexChanged(int index)
     if (ok)
         this->mPreset->font()->setSortOrder(order);
 }
-//-----------------------------------------------------------------------------
+

@@ -26,7 +26,7 @@
 #include "converterhelper.h"
 #include "preset.h"
 #include "imageoptions.h"
-//-----------------------------------------------------------------------------
+
 ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags &tags, QObject *parent) :
     QObject(parent)
 {
@@ -97,26 +97,26 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags
         this->mHash = qHash(hashStr);
     }
 }
-//-----------------------------------------------------------------------------
+
 ParsedImageData::~ParsedImageData()
 {
     delete this->mTags;
 }
-//-----------------------------------------------------------------------------
+
 Tags *ParsedImageData::tags() const
 {
     return this->mTags;
 }
-//-----------------------------------------------------------------------------
+
 uint ParsedImageData::hash() const
 {
     return this->mHash;
 }
-//-----------------------------------------------------------------------------
+
 const QString ParsedImageData::outputImageDataWithEOL(const Tags &tags) const
 {
     QString result = this->mPreparedOutputImageData;
     result.replace("\n", tags.tagValue(Tags::OutputDataEOL) + tags.tagValue(Tags::OutputDataIndent));
     return result;
 }
-//-----------------------------------------------------------------------------
+

@@ -1,17 +1,17 @@
 #include "testimageoptions.h"
-//-----------------------------------------------------------------------------
+
 #include "imageoptions.h"
-//-----------------------------------------------------------------------------
+
 TestImageOptions::TestImageOptions(QObject *parent) :
     QObject(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestImageOptions::initTestCase()
 {
     this->mOptions = new ImageOptions(this);
 }
-//-----------------------------------------------------------------------------
+
 void TestImageOptions::bytesOrder()
 {
     // 1
@@ -22,7 +22,7 @@ void TestImageOptions::bytesOrder()
     this->mOptions->setBytesOrder(BytesOrderLittleEndian);
     QCOMPARE(this->mOptions->bytesOrder(), BytesOrderLittleEndian);
 }
-//-----------------------------------------------------------------------------
+
 void TestImageOptions::blockSize()
 {
     // 1
@@ -41,7 +41,7 @@ void TestImageOptions::blockSize()
     this->mOptions->setBlockSize(Data32);
     QCOMPARE(this->mOptions->blockSize(), Data32);
 }
-//-----------------------------------------------------------------------------
+
 void TestImageOptions::blockDefaultOnes()
 {
     // 1
@@ -56,7 +56,7 @@ void TestImageOptions::blockDefaultOnes()
     this->mOptions->setBlockDefaultOnes(false);
     QCOMPARE(this->mOptions->blockDefaultOnes(), false);
 }
-//-----------------------------------------------------------------------------
+
 void TestImageOptions::splitToRows()
 {
     // 1
@@ -67,7 +67,7 @@ void TestImageOptions::splitToRows()
     this->mOptions->setSplitToRows(true);
     QCOMPARE(this->mOptions->splitToRows(), true);
 }
-//-----------------------------------------------------------------------------
+
 void TestImageOptions::compressionRle()
 {
     // 1
@@ -78,7 +78,7 @@ void TestImageOptions::compressionRle()
     this->mOptions->setCompressionRle(true);
     QCOMPARE(this->mOptions->compressionRle(), true);
 }
-//-----------------------------------------------------------------------------
+
 void TestImageOptions::blockPrefix()
 {
     // 1
@@ -93,7 +93,7 @@ void TestImageOptions::blockPrefix()
     this->mOptions->setBlockPrefix("prefix3");
     QCOMPARE(this->mOptions->blockPrefix(), QString("prefix3"));
 }
-//-----------------------------------------------------------------------------
+
 void TestImageOptions::blockSuffix()
 {
     // 1
@@ -108,7 +108,7 @@ void TestImageOptions::blockSuffix()
     this->mOptions->setBlockSuffix("suffix3");
     QCOMPARE(this->mOptions->blockSuffix(), QString("suffix3"));
 }
-//-----------------------------------------------------------------------------
+
 void TestImageOptions::blockDelimiter()
 {
     // 1
@@ -123,9 +123,9 @@ void TestImageOptions::blockDelimiter()
     this->mOptions->setBlockDelimiter("delimiter3");
     QCOMPARE(this->mOptions->blockDelimiter(), QString("delimiter3"));
 }
-//-----------------------------------------------------------------------------
+
 void TestImageOptions::cleanupTestCase()
 {
     delete this->mOptions;
 }
-//-----------------------------------------------------------------------------
+

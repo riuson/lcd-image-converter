@@ -20,7 +20,7 @@
 #include "qt-version-check.h"
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-//-----------------------------------------------------------------------------
+
 #include "cmdline.h"
 #include "preset.h"
 #include "parser.h"
@@ -35,9 +35,9 @@
 #include <QStringList>
 #include <QImage>
 #include <QCommandLineParser>
-//-----------------------------------------------------------------------------
+
 namespace CommandLine {
-//-----------------------------------------------------------------------------
+
 CmdLine::CmdLine(const QStringList &arguments, QObject *parent) :
     QObject(parent)
 {
@@ -56,13 +56,13 @@ CmdLine::CmdLine(const QStringList &arguments, QObject *parent) :
                 QCoreApplication::translate("CmdLineParser", "mode"));
     this->mParser->addOption(optionMode);
 }
-//-----------------------------------------------------------------------------
+
 CmdLine::~CmdLine()
 {
     delete this->mParser;
     delete this->mArguments;
 }
-//-----------------------------------------------------------------------------
+
 bool CmdLine::needProcess() const
 {
     if (this->mArguments->length() > 1)
@@ -72,7 +72,7 @@ bool CmdLine::needProcess() const
 
     return false;
 }
-//-----------------------------------------------------------------------------
+
 int CmdLine::process()
 {
     int result = 1;
@@ -111,7 +111,7 @@ int CmdLine::process()
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 ModeParserBase *CmdLine::createMode(const QString &name, QCommandLineParser *parser)
 {
     if (name == ModeConvertImage::modeName())
@@ -131,7 +131,7 @@ ModeParserBase *CmdLine::createMode(const QString &name, QCommandLineParser *par
 
     return NULL;
 }
-//-----------------------------------------------------------------------------
+
 }
-//-----------------------------------------------------------------------------
+
 #endif // QT_VERSION

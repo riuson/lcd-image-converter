@@ -19,17 +19,17 @@
 
 #ifndef TOOLZOOM_H
 #define TOOLZOOM_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include "iimageeditortool.h"
 
 class QIcon;
 class QSpinBox;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class IImageEditorParams;
-//-----------------------------------------------------------------------------
+
 class ToolZoom : public QObject, public IImageEditorTool
 {
     Q_OBJECT
@@ -75,7 +75,7 @@ private:
 private slots:
     void on_spinBoxScale_valueChanged(int value);
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+
 #endif // TOOLZOOM_H

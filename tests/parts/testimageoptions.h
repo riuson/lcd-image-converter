@@ -1,11 +1,11 @@
 #ifndef TESTIMAGEOPTIONS_H
 #define TESTIMAGEOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QtTest/QtTest>
-//-----------------------------------------------------------------------------
+
 class ImageOptions;
-//-----------------------------------------------------------------------------
+
 class TestImageOptions : public QObject
 {
     Q_OBJECT
@@ -29,5 +29,5 @@ private slots:
 
     void cleanupTestCase();
 };
-//-----------------------------------------------------------------------------
+
 #endif // TESTIMAGEOPTIONS_H

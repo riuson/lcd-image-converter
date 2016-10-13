@@ -30,10 +30,10 @@
 #include <QColorDialog>
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 ToolPen::ToolPen(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
     this->mParameters = parameters;
@@ -47,7 +47,7 @@ ToolPen::ToolPen(IImageEditorParams *parameters, QObject *parent) : QObject(pare
     this->loadSettings();
     this->initializeWidgets();
 }
-//-----------------------------------------------------------------------------
+
 ToolPen::~ToolPen()
 {
     this->saveSettings();
@@ -57,32 +57,32 @@ ToolPen::~ToolPen()
     delete this->mActions;
     delete this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolPen::title() const
 {
     return tr("Pen");
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolPen::tooltip() const
 {
     return tr("Draw pixels");
 }
-//-----------------------------------------------------------------------------
+
 const QIcon *ToolPen::icon() const
 {
     return this->mIcon;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QAction *> *ToolPen::actions() const
 {
     return this->mActions;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QWidget *> *ToolPen::widgets() const
 {
     return this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 bool ToolPen::processMouse(QMouseEvent *event,
                            const QImage *imageOriginal,
                            bool inRect)
@@ -138,7 +138,7 @@ bool ToolPen::processMouse(QMouseEvent *event,
 
     return true;
 }
-//-----------------------------------------------------------------------------
+
 void ToolPen::initializeWidgets()
 {
     QSpinBox *spinBoxSize = new QSpinBox();
@@ -149,7 +149,7 @@ void ToolPen::initializeWidgets()
     this->connect(spinBoxSize, SIGNAL(valueChanged(int)), SLOT(on_spinBoxSize_valueChanged(int)));
     this->mWidgets->append(spinBoxSize);
 }
-//-----------------------------------------------------------------------------
+
 void ToolPen::loadSettings()
 {
     QSettings sett;
@@ -169,7 +169,7 @@ void ToolPen::loadSettings()
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void ToolPen::saveSettings() const
 {
     QSettings sett;
@@ -183,7 +183,7 @@ void ToolPen::saveSettings() const
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void ToolPen::drawPixel(int x, int y, const QColor &color)
 {
     QImage image = this->mInternalImage;
@@ -206,11 +206,11 @@ void ToolPen::drawPixel(int x, int y, const QColor &color)
 
     this->mInternalImage = pixmap.toImage();
 }
-//-----------------------------------------------------------------------------
+
 void ToolPen::on_spinBoxSize_valueChanged(int value)
 {
     this->mSize = value;
 }
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+

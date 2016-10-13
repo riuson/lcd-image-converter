@@ -1,15 +1,15 @@
 #include "testbitstream.h"
-//-----------------------------------------------------------------------------
+
 #include "preset.h"
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
-//-----------------------------------------------------------------------------
+
 TestBitStream::TestBitStream(QObject *parent) :
     QObject(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestBitStream::initTestCase()
 {
     this->mPreset = new Preset(this);
@@ -20,7 +20,7 @@ void TestBitStream::initTestCase()
 
     this->mPreset->image()->setBlockSize(Data32);
 }
-//-----------------------------------------------------------------------------
+
 void TestBitStream::streaming()
 {
     this->mPreset->matrix()->setMaskUsed(0x00ffffff);
@@ -47,12 +47,12 @@ void TestBitStream::streaming()
         QCOMPARE(sample.at(i), expected.at(i));
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestBitStream::cleanupTestCase()
 {
     delete this->mPreset;
 }
-//-----------------------------------------------------------------------------
+
 void TestBitStream::preparePackData(
         quint32 maskUsed, quint32 maskFill,
         QVector<quint32> *source, QVector<quint32> *packed)
@@ -102,4 +102,4 @@ void TestBitStream::preparePackData(
         packed->append(value);
     }
 }
-//-----------------------------------------------------------------------------
+

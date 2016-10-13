@@ -19,22 +19,22 @@
 
 #ifndef TOOLSMANAGER_H
 #define TOOLSMANAGER_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include "iimageeditorparams.h"
 #include "iimageselection.h"
-//-----------------------------------------------------------------------------
+
 class QAction;
 template <class T1> class QList;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 class IImageEditorTool;
 class ToolZoom;
 class ToolColor;
 class ToolSelect;
-//-----------------------------------------------------------------------------
+
 class ToolsManager : public QObject, public IImageEditorParams, public IImageSelection
 {
     Q_OBJECT
@@ -79,7 +79,7 @@ private:
 private slots:
     void on_toolAction_triggered();
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+
 #endif // TOOLSMANAGER_H

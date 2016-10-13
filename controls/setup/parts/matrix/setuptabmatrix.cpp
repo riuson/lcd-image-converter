@@ -19,7 +19,7 @@
 
 #include "setuptabmatrix.h"
 #include "ui_setuptabmatrix.h"
-//-----------------------------------------------------------------------------
+
 #include "qt-version-check.h"
 #include "matrixpreviewmodel.h"
 #include "matrixitemdelegate.h"
@@ -31,7 +31,7 @@
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
 #include <QtWidgets>
 #endif // QT_VERSION
-//-----------------------------------------------------------------------------
+
 SetupTabMatrix::SetupTabMatrix(Preset *preset, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SetupTabMatrix)
@@ -55,7 +55,7 @@ SetupTabMatrix::SetupTabMatrix(Preset *preset, QWidget *parent) :
     this->mMatrixItemDelegate = new MatrixItemDelegate(this);
     this->ui->tableViewOperations->setItemDelegate(this->mMatrixItemDelegate);
 }
-//-----------------------------------------------------------------------------
+
 SetupTabMatrix::~SetupTabMatrix()
 {
     if (this->mMenu != NULL)
@@ -66,7 +66,7 @@ SetupTabMatrix::~SetupTabMatrix()
 
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabMatrix::matrixChanged()
 {
     int index = this->ui->comboBoxConversionType->findData(this->mPreset->prepare()->convType());
@@ -80,7 +80,7 @@ void SetupTabMatrix::matrixChanged()
     this->ui->tableViewOperations->resizeRowsToContents();
     this->ui->tableViewOperations->resizeColumnsToContents();
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabMatrix::on_comboBoxConversionType_currentIndexChanged(int index)
 {
     QVariant data = this->ui->comboBoxConversionType->itemData(index);
@@ -91,7 +91,7 @@ void SetupTabMatrix::on_comboBoxConversionType_currentIndexChanged(int index)
         this->mPreset->prepare()->setConvType((ConversionType)a);
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabMatrix::on_tableViewOperations_customContextMenuRequested(const QPoint &point)
 {
     QModelIndex index = this->ui->tableViewOperations->indexAt(point);
@@ -217,7 +217,7 @@ void SetupTabMatrix::on_tableViewOperations_customContextMenuRequested(const QPo
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabMatrix::operationAdd()
 {
     QAction *a = qobject_cast<QAction *>(sender());
@@ -244,7 +244,7 @@ void SetupTabMatrix::operationAdd()
         this->mPreset->matrix()->operationAdd(mask, shift, left);
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabMatrix::operationShift()
 {
     QAction *a = qobject_cast<QAction *>(sender());
@@ -296,7 +296,7 @@ void SetupTabMatrix::operationShift()
         this->mPreset->matrix()->operationReplace(index, mask, shift, left);
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabMatrix::operationRemove()
 {
     QAction *a = qobject_cast<QAction *>(sender());
@@ -309,7 +309,7 @@ void SetupTabMatrix::operationRemove()
         this->mPreset->matrix()->operationRemove(index);
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabMatrix::maskReset()
 {
     QAction *a = qobject_cast<QAction *>(sender());
@@ -367,4 +367,4 @@ void SetupTabMatrix::maskReset()
         }
     }
 }
-//-----------------------------------------------------------------------------
+

@@ -19,14 +19,14 @@
 
 #include "setuptabreordering.h"
 #include "ui_setuptabreordering.h"
-//-----------------------------------------------------------------------------
+
 #include "reorderingpreviewmodel.h"
 #include "reorderingitemdelegate.h"
 #include "preset.h"
 #include "prepareoptions.h"
 #include "reorderingoptions.h"
 #include "imageoptions.h"
-//-----------------------------------------------------------------------------
+
 SetupTabReordering::SetupTabReordering(Preset *preset, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SetupTabReordering)
@@ -46,7 +46,7 @@ SetupTabReordering::SetupTabReordering(Preset *preset, QWidget *parent) :
     this->mReorderingItemDelegate = new ReorderingItemDelegate(this);
     this->ui->tableViewOperations->setItemDelegate(this->mReorderingItemDelegate);
 }
-//-----------------------------------------------------------------------------
+
 SetupTabReordering::~SetupTabReordering()
 {
     if (this->mMenu != NULL)
@@ -57,7 +57,7 @@ SetupTabReordering::~SetupTabReordering()
 
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabReordering::matrixChanged()
 {
     this->mReorderingModel->callReset();
@@ -67,13 +67,13 @@ void SetupTabReordering::matrixChanged()
     this->ui->tableViewOperations->resizeRowsToContents();
     this->ui->tableViewOperations->resizeColumnsToContents();
 }
-//-----------------------------------------------------------------------------
+
 int SetupTabReordering::maxBitIndex() const
 {
     int result = (((int)this->mPreset->image()->blockSize()) * 8) + 7;
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabReordering::on_tableViewOperations_customContextMenuRequested(const QPoint &point)
 {
     QModelIndex index = this->ui->tableViewOperations->indexAt(point);
@@ -162,7 +162,7 @@ void SetupTabReordering::on_tableViewOperations_customContextMenuRequested(const
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabReordering::operationAdd()
 {
     QAction *a = qobject_cast<QAction *>(sender());
@@ -189,7 +189,7 @@ void SetupTabReordering::operationAdd()
         this->mPreset->reordering()->operationAdd(mask, shift, left);
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabReordering::operationShift()
 {
     QAction *a = qobject_cast<QAction *>(sender());
@@ -241,7 +241,7 @@ void SetupTabReordering::operationShift()
         this->mPreset->reordering()->operationReplace(index, mask, shift, left);
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabReordering::operationRemove()
 {
     QAction *a = qobject_cast<QAction *>(sender());
@@ -254,4 +254,4 @@ void SetupTabReordering::operationRemove()
         this->mPreset->reordering()->operationRemove(index);
     }
 }
-//-----------------------------------------------------------------------------
+

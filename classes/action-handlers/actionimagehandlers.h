@@ -19,15 +19,15 @@
 
 #ifndef ACTIONIMAGEHANDLERS_H
 #define ACTIONIMAGEHANDLERS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QProcess>
 
 #include "actionhandlersbase.h"
-//-----------------------------------------------------------------------------
+
 class IMainWindow;
 class WidgetBitmapEditor;
-//-----------------------------------------------------------------------------
+
 class ActionImageHandlers : public ActionHandlersBase
 {
     Q_OBJECT
@@ -56,5 +56,5 @@ public slots:
     void export_triggered();
     void edit_in_external_tool_triggered();
 };
-//-----------------------------------------------------------------------------
+
 #endif // ACTIONIMAGEHANDLERS_H

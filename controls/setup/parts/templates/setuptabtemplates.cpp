@@ -19,12 +19,12 @@
 
 #include "setuptabtemplates.h"
 #include "ui_setuptabtemplates.h"
-//-----------------------------------------------------------------------------
+
 #include <QFileDialog>
 #include "preset.h"
 #include "templateoptions.h"
 #include "filedialogoptions.h"
-//-----------------------------------------------------------------------------
+
 SetupTabTemplates::SetupTabTemplates(Preset *preset, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SetupTabTemplates)
@@ -34,18 +34,18 @@ SetupTabTemplates::SetupTabTemplates(Preset *preset, QWidget *parent) :
 
     this->matrixChanged();
 }
-//-----------------------------------------------------------------------------
+
 SetupTabTemplates::~SetupTabTemplates()
 {
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabTemplates::matrixChanged()
 {
     this->ui->lineEditImage->setText(this->mPreset->templates()->image());
     this->ui->lineEditFont->setText(this->mPreset->templates()->font());
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabTemplates::on_pushButtonBrowseImage_clicked()
 {
     QFileDialog dialog(this);
@@ -61,7 +61,7 @@ void SetupTabTemplates::on_pushButtonBrowseImage_clicked()
         this->mPreset->templates()->setImage(dialog.selectedFiles().at(0));
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabTemplates::on_pushButtonBrowseFont_clicked()
 {
     QFileDialog dialog(this);
@@ -77,7 +77,7 @@ void SetupTabTemplates::on_pushButtonBrowseFont_clicked()
         this->mPreset->templates()->setFont(dialog.selectedFiles().at(0));
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabTemplates::on_lineEditImage_editingFinished()
 {
     const QString value = this->ui->lineEditImage->text();
@@ -87,7 +87,7 @@ void SetupTabTemplates::on_lineEditImage_editingFinished()
     else
         this->mPreset->templates()->setImage(":/templates/image_convert");
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabTemplates::on_lineEditFont_editingFinished()
 {
     const QString value = this->ui->lineEditFont->text();
@@ -97,4 +97,4 @@ void SetupTabTemplates::on_lineEditFont_editingFinished()
     else
         this->mPreset->templates()->setFont(":/templates/font_convert");
 }
-//-----------------------------------------------------------------------------
+

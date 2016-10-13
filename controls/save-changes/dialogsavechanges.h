@@ -19,11 +19,11 @@
 
 #ifndef DIALOGSAVECHANGES_H
 #define DIALOGSAVECHANGES_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 class QMessageBox;
-//-----------------------------------------------------------------------------
+
 class DialogSaveChanges : public QObject
 {
     Q_OBJECT
@@ -48,5 +48,5 @@ private:
 private slots:
     void on_messageBox_finished(int result);
 };
-//-----------------------------------------------------------------------------
+
 #endif // DIALOGSAVECHANGES_H

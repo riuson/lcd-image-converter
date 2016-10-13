@@ -19,13 +19,13 @@
 
 #ifndef CONVERTERHELPER_H
 #define CONVERTERHELPER_H
-//-----------------------------------------------------------------------------
+
 #include "preset.h"
-//-----------------------------------------------------------------------------
+
 class QImage;
 class Preset;
 class ConvImage;
-//-----------------------------------------------------------------------------
+
 class ConverterHelper
 {
 public:
@@ -82,5 +82,5 @@ private:
             int *rowLength);
     static quint32 toBigEndian(Preset *matrix, quint32 value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // CONVERTERHELPER_H

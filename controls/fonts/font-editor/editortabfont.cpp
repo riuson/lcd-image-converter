@@ -19,7 +19,7 @@
 
 #include "editortabfont.h"
 #include "ui_editortabfont.h"
-//-----------------------------------------------------------------------------
+
 #include <QSplitter>
 #include <QDomDocument>
 #include <QDomProcessingInstruction>
@@ -44,7 +44,7 @@
 #include "fontdocument.h"
 #include "editor.h"
 #include "tfontparameters.h"
-//-----------------------------------------------------------------------------
+
 EditorTabFont::EditorTabFont(QWidget *parent) :
         QWidget(parent),
         ui(new Ui::EditorTabFont)
@@ -86,7 +86,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
     this->initStatusData();
 }
-//-----------------------------------------------------------------------------
+
 EditorTabFont::~EditorTabFont()
 {
     this->mEditorWidget->setParent(NULL);
@@ -95,12 +95,12 @@ EditorTabFont::~EditorTabFont()
     delete this->mModel;
     delete this->mEditorObject;
 }
-//-----------------------------------------------------------------------------
+
 IDocument *EditorTabFont::document() const
 {
     return qobject_cast<IDocument *>(this->mDocument);
 }
-//-----------------------------------------------------------------------------
+
 QStringList EditorTabFont::selectedKeys() const
 {
     QStringList result;
@@ -122,17 +122,17 @@ QStringList EditorTabFont::selectedKeys() const
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 StatusData *EditorTabFont::statusData() const
 {
     return this->mStatusData;
 }
-//-----------------------------------------------------------------------------
+
 IEditor::EditorType EditorTabFont::type() const
 {
     return EditorFont;
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::setFontCharacters(const QString &chars,
                                       const tFontParameters &parameters)
 {
@@ -149,7 +149,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
     this->resizeToContents();
     this->updateStatus();
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::fontCharacters(QString *chars,
                                    tFontParameters *parameters)
 {
@@ -157,7 +157,7 @@ void EditorTabFont::fontCharacters(QString *chars,
                 chars,
                 parameters);
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
@@ -169,7 +169,7 @@ void EditorTabFont::changeEvent(QEvent *e)
         break;
     }
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::wheelEvent(QWheelEvent *event)
 {
     if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier)
@@ -199,7 +199,7 @@ void EditorTabFont::wheelEvent(QWheelEvent *event)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::initStatusData()
 {
     this->mStatusData = new StatusData(this);
@@ -207,7 +207,7 @@ void EditorTabFont::initStatusData()
 
     this->updateStatus();
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::updateStatus()
 {
     const QImage *currentImage = this->mDocument->dataContainer()->image(this->currentKey());
@@ -224,7 +224,7 @@ void EditorTabFont::updateStatus()
         this->mStatusData->setData(StatusData::ImageIndex, current);
     }
 }
-//-----------------------------------------------------------------------------
+
 QString EditorTabFont::currentKey() const
 {
     QString result;
@@ -257,7 +257,7 @@ QString EditorTabFont::currentKey() const
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::updateSelectedImage()
 {
     QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
@@ -275,7 +275,7 @@ void EditorTabFont::updateSelectedImage()
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::mon_documentChanged()
 {
     this->updateSelectedImage();
@@ -289,7 +289,7 @@ void EditorTabFont::mon_documentChanged()
 
     this->resizeToContents();
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::mon_documentChangedSignificantly()
 {
     this->mModel->callReset();
@@ -309,12 +309,12 @@ void EditorTabFont::mon_documentChangedSignificantly()
         this->mEditorObject->setImage(&empty);
     }
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::mon_editor_imageChanged(const QImage *value)
 {
     this->mDocument->dataContainer()->setImage(this->currentKey(), value);
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::mon_editor_mouseMove(const QPoint *point)
 {
     if (point->x() >= 0 && point->y() >= 0)
@@ -326,12 +326,12 @@ void EditorTabFont::mon_editor_mouseMove(const QPoint *point)
         this->mStatusData->removeData(StatusData::MouseCoordinates);
     }
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::mon_editor_scaleChanged(int scale)
 {
     this->mStatusData->setData(StatusData::Scale, QVariant(scale));
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
     Q_UNUSED(previous);
@@ -351,18 +351,18 @@ void EditorTabFont::currentChanged(const QModelIndex &current, const QModelIndex
         this->updateStatus();
     }
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::updateTableFont()
 {
     this->resizeToContents();
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabFont::resizeToContents()
 {
     this->ui->tableViewCharacters->resizeColumnsToContents();
     this->ui->tableViewCharacters->resizeRowsToContents();
 }
-//-----------------------------------------------------------------------------
+
 /*
  Storage data format:
 <?xml version="1.0" encoding="utf-8"?>

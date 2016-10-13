@@ -20,7 +20,7 @@
 #include "externaltooloptions.h"
 
 #include <QSettings>
-//-----------------------------------------------------------------------------
+
 const QString ExternalToolOptions::imageEditor()
 {
     QSettings sett;
@@ -30,7 +30,7 @@ const QString ExternalToolOptions::imageEditor()
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void ExternalToolOptions::setImageEditor(const QString &value)
 {
     QSettings sett;
@@ -38,4 +38,4 @@ void ExternalToolOptions::setImageEditor(const QString &value)
     sett.setValue("imageEditor", QVariant(value));
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+

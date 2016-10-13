@@ -19,10 +19,10 @@
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-//-----------------------------------------------------------------------------
+
 #include <QMainWindow>
 #include "imainwindow.h"
-//-----------------------------------------------------------------------------
+
 namespace Ui {
     class MainWindow;
 }
@@ -37,7 +37,7 @@ class ActionImageHandlers;
 class ActionFontHandlers;
 class ActionSetupHandlers;
 class ActionHelpHandlers;
-//-----------------------------------------------------------------------------
+
 class MainWindow : public QMainWindow, public IMainWindow
 {
     Q_OBJECT
@@ -91,5 +91,5 @@ public:
     QWidget *parentWidget();
     QString findAvailableName(const QString &prefix);
 };
-//-----------------------------------------------------------------------------
+
 #endif // MAINWINDOW_H

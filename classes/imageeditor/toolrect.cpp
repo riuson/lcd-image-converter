@@ -30,10 +30,10 @@
 #include <QColorDialog>
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 ToolRect::ToolRect(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
     this->mParameters = parameters;
@@ -47,7 +47,7 @@ ToolRect::ToolRect(IImageEditorParams *parameters, QObject *parent) : QObject(pa
     this->loadSettings();
     this->initializeWidgets();
 }
-//-----------------------------------------------------------------------------
+
 ToolRect::~ToolRect()
 {
     this->saveSettings();
@@ -57,32 +57,32 @@ ToolRect::~ToolRect()
     delete this->mActions;
     delete this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolRect::title() const
 {
     return tr("Rect");
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolRect::tooltip() const
 {
     return tr("Draw rectangle");
 }
-//-----------------------------------------------------------------------------
+
 const QIcon *ToolRect::icon() const
 {
     return this->mIcon;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QAction *> *ToolRect::actions() const
 {
     return this->mActions;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QWidget *> *ToolRect::widgets() const
 {
     return this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 bool ToolRect::processMouse(QMouseEvent *event,
                             const QImage *imageOriginal,
                             bool inRect)
@@ -143,7 +143,7 @@ bool ToolRect::processMouse(QMouseEvent *event,
 
     return true;
 }
-//-----------------------------------------------------------------------------
+
 void ToolRect::initializeWidgets()
 {
     QSpinBox *spinBoxSize = new QSpinBox();
@@ -184,7 +184,7 @@ void ToolRect::initializeWidgets()
     this->mActionRectFilled->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_filled"), 24))));
     this->mActions->append(this->mActionRectFilled);
 }
-//-----------------------------------------------------------------------------
+
 void ToolRect::loadSettings()
 {
     QSettings sett;
@@ -211,7 +211,7 @@ void ToolRect::loadSettings()
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void ToolRect::saveSettings() const
 {
     QSettings sett;
@@ -226,7 +226,7 @@ void ToolRect::saveSettings() const
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void ToolRect::drawRect(const QRect &rect, OutlineMode mode, int borderWidth, bool inverted)
 {
     QImage image = this->mOriginalImage;
@@ -265,12 +265,12 @@ void ToolRect::drawRect(const QRect &rect, OutlineMode mode, int borderWidth, bo
 
     this->mInternalImage = pixmap.toImage();
 }
-//-----------------------------------------------------------------------------
+
 void ToolRect::on_spinBoxSize_valueChanged(int value)
 {
     this->mSize = value;
 }
-//-----------------------------------------------------------------------------
+
 void ToolRect::on_buttonRertFilledOutline_triggered()
 {
     QAction *action = qobject_cast<QAction *>(sender());
@@ -291,6 +291,6 @@ void ToolRect::on_buttonRertFilledOutline_triggered()
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+

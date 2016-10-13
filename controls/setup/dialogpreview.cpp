@@ -19,7 +19,7 @@
 
 #include "dialogpreview.h"
 #include "ui_dialogpreview.h"
-//-----------------------------------------------------------------------------
+
 #include <QList>
 #include <QRegExp>
 #include <QFont>
@@ -27,7 +27,7 @@
 #include "converterhelper.h"
 #include "bitmaphelper.h"
 #include "conversionpreviewoptions.h"
-//-----------------------------------------------------------------------------
+
 DialogPreview::DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogPreview)
@@ -54,13 +54,13 @@ DialogPreview::DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidg
 
     this->ui->spinBoxScale->setValue(ConversionPreviewOptions::scale());
 }
-//-----------------------------------------------------------------------------
+
 DialogPreview::~DialogPreview()
 {
     ConversionPreviewOptions::setScale(this->mScale);
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void DialogPreview::updatePreview()
 {
     if (this->mData != NULL)
@@ -107,7 +107,7 @@ void DialogPreview::updatePreview()
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogPreview::wheelEvent(QWheelEvent *event)
 {
     if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier)
@@ -136,7 +136,7 @@ void DialogPreview::wheelEvent(QWheelEvent *event)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogPreview::setScale(int value)
 {
     if (this->mScale != value)
@@ -148,7 +148,7 @@ void DialogPreview::setScale(int value)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogPreview::updatePreviewScaled(const QImage *image, int scale)
 {
     QImage imageScaled = BitmapHelper::scale(image, scale);
@@ -156,14 +156,14 @@ void DialogPreview::updatePreviewScaled(const QImage *image, int scale)
     QPixmap pixmapScaled = QPixmap::fromImage(imageScaled);
     this->ui->labelPreview->setPixmap(pixmapScaled);
 }
-//-----------------------------------------------------------------------------
+
 void DialogPreview::on_comboBoxSampleKey_currentIndexChanged()
 {
     this->updatePreview();
 }
-//-----------------------------------------------------------------------------
+
 void DialogPreview::on_spinBoxScale_valueChanged(int value)
 {
     this->setScale(value);
 }
-//-----------------------------------------------------------------------------
+

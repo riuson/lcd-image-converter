@@ -22,18 +22,18 @@
 #include <QImage>
 #include <QtCore/QStringBuilder>
 #include "historykeeper.h"
-//-----------------------------------------------------------------------------
+
 const QString DataContainer::DataChangedKey = QString("data changed");
 const QString DataContainer::CommonInfoKeyPrefix = QString("common:");
 const QString DataContainer::ImageInfoKeyPrefix = QString("image:");
-//-----------------------------------------------------------------------------
+
 DataContainer::DataContainer(QObject *parent) :
     QObject(parent)
 {
     this->mDefaultImage = new QImage(":/images/template");
     this->mHistory = new HistoryKeeper(this);
 }
-//-----------------------------------------------------------------------------
+
 DataContainer::~DataContainer()
 {
     qDeleteAll(this->mImageMap);
@@ -42,7 +42,7 @@ DataContainer::~DataContainer()
 
     delete this->mHistory;
 }
-//-----------------------------------------------------------------------------
+
 const QImage *DataContainer::image(const QString &imageKey) const
 {
     if (this->mKeys.contains(imageKey))
@@ -54,7 +54,7 @@ const QImage *DataContainer::image(const QString &imageKey) const
         return this->mDefaultImage;
     }
 }
-//-----------------------------------------------------------------------------
+
 void DataContainer::setImage(const QString &imageKey, const QImage *image)
 {
     if (this->mKeys.contains(imageKey))
@@ -71,7 +71,7 @@ void DataContainer::setImage(const QString &imageKey, const QImage *image)
     this->setChanged(true);
     emit this->dataChanged(false);
 }
-//-----------------------------------------------------------------------------
+
 QVariant DataContainer::commonInfo(const QString &infoKey) const
 {
     if (this->mInfoMap.contains(DataContainer::CommonInfoKeyPrefix % infoKey))
@@ -80,7 +80,7 @@ QVariant DataContainer::commonInfo(const QString &infoKey) const
     }
     return QVariant();
 }
-//-----------------------------------------------------------------------------
+
 void DataContainer::setCommonInfo(const QString &infoKey, const QVariant &value)
 {
     bool changed = false;
@@ -105,7 +105,7 @@ void DataContainer::setCommonInfo(const QString &infoKey, const QVariant &value)
         emit this->dataChanged(false);
     }
 }
-//-----------------------------------------------------------------------------
+
 QVariant DataContainer::imageInfo(const QString &imageKey, const QString &infoKey) const
 {
     if (this->mInfoMap.contains(DataContainer::ImageInfoKeyPrefix % imageKey % ":" % infoKey))
@@ -114,7 +114,7 @@ QVariant DataContainer::imageInfo(const QString &imageKey, const QString &infoKe
     }
     return QVariant();
 }
-//-----------------------------------------------------------------------------
+
 void DataContainer::setImageInfo(const QString &imageKey, const QString &infoKey, const QVariant &value)
 {
     bool changed = false;
@@ -138,25 +138,25 @@ void DataContainer::setImageInfo(const QString &imageKey, const QString &infoKey
         emit this->dataChanged(false);
     }
 }
-//-----------------------------------------------------------------------------
+
 void DataContainer::clear()
 {
     qDeleteAll(this->mImageMap);
     this->mKeys.clear();
     this->mImageMap.clear();
 }
-//-----------------------------------------------------------------------------
+
 int DataContainer::count() const
 {
     return this->mKeys.count();
 }
-//-----------------------------------------------------------------------------
+
 QStringList DataContainer::keys() const
 {
     QStringList result(this->mKeys);
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void DataContainer::removeImage(const QString &key)
 {
     if (this->mKeys.contains(key))
@@ -170,7 +170,7 @@ void DataContainer::removeImage(const QString &key)
         emit this->dataChanged(false);
     }
 }
-//-----------------------------------------------------------------------------
+
 void DataContainer::reorderTo(const QStringList *keys)
 {
     if (this->mKeys.length() == keys->length())
@@ -194,22 +194,22 @@ void DataContainer::reorderTo(const QStringList *keys)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 bool DataContainer::historyInitialized() const
 {
     return this->mHistory->initialized();
 }
-//-----------------------------------------------------------------------------
+
 void DataContainer::historyInit()
 {
     this->mHistory->init(&this->mKeys, &this->mImageMap, &this->mInfoMap);
 }
-//-----------------------------------------------------------------------------
+
 void DataContainer::stateSave()
 {
     this->mHistory->store(&this->mKeys, &this->mImageMap, &this->mInfoMap);
 }
-//-----------------------------------------------------------------------------
+
 void DataContainer::stateUndo()
 {
     this->mHistory->restorePrevious(&this->mKeys, &this->mImageMap, &this->mInfoMap);
@@ -217,7 +217,7 @@ void DataContainer::stateUndo()
 
     emit this->dataChanged(true);
 }
-//-----------------------------------------------------------------------------
+
 void DataContainer::stateRedo()
 {
     this->mHistory->restoreNext(&this->mKeys, &this->mImageMap, &this->mInfoMap);
@@ -225,17 +225,17 @@ void DataContainer::stateRedo()
 
     emit this->dataChanged(true);
 }
-//-----------------------------------------------------------------------------
+
 bool DataContainer::canUndo() const
 {
     return this->mHistory->canRestorePrevious();
 }
-//-----------------------------------------------------------------------------
+
 bool DataContainer::canRedo() const
 {
     return this->mHistory->canRestoreNext();
 }
-//-----------------------------------------------------------------------------
+
 bool DataContainer::changed() const
 {
     if (this->mInfoMap.contains(DataContainer::DataChangedKey))
@@ -250,9 +250,9 @@ bool DataContainer::changed() const
 
     return false;
 }
-//-----------------------------------------------------------------------------
+
 void DataContainer::setChanged(bool value)
 {
     this->mInfoMap.insert(DataContainer::DataChangedKey, value);
 }
-//-----------------------------------------------------------------------------
+

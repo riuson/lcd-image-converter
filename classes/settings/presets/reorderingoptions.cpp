@@ -18,35 +18,35 @@
  */
 
 #include "reorderingoptions.h"
-//-----------------------------------------------------------------------------
+
 #include <QVector>
 #include <QSettings>
 #include <QtXml>
 #include <QDomDocument>
-//-----------------------------------------------------------------------------
+
 const QString ReorderingOptions::GroupName = QString("reordering");
 const QString ReorderingOptions::FieldOperations = QString("operations");
 const QString ReorderingOptions::FieldOperation = QString("operation");
 const QString ReorderingOptions::FieldMask = QString("mask");
 const QString ReorderingOptions::FieldShift = QString("shift");
 const QString ReorderingOptions::FieldLeft = QString("left");
-//-----------------------------------------------------------------------------
+
 ReorderingOptions::ReorderingOptions(QObject *parent) :
     QObject(parent)
 {
     this->mOperations = new QVector<quint32>();
 }
-//-----------------------------------------------------------------------------
+
 ReorderingOptions::~ReorderingOptions()
 {
     delete this->mOperations;
 }
-//-----------------------------------------------------------------------------
+
 int ReorderingOptions::operationsCount() const
 {
     return (this->mOperations->size()) / 2;
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingOptions::operation(int index, quint32 *mask, int *shift, bool *left) const
 {
     *mask = 0;
@@ -62,7 +62,7 @@ void ReorderingOptions::operation(int index, quint32 *mask, int *shift, bool *le
         *left = (this->mOperations->at(index + 1) & 0x80000000) != 0;
     }
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingOptions::operationAdd(quint32 mask, int shift, bool left)
 {
     shift = qAbs(shift);
@@ -75,7 +75,7 @@ void ReorderingOptions::operationAdd(quint32 mask, int shift, bool left)
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingOptions::operationRemove(int index)
 {
     if (index < this->operationsCount())
@@ -87,7 +87,7 @@ void ReorderingOptions::operationRemove(int index)
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingOptions::operationsRemoveAll()
 {
     for (int i = this->operationsCount() - 1; i >= 0; i--)
@@ -95,7 +95,7 @@ void ReorderingOptions::operationsRemoveAll()
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingOptions::operationReplace(int index, quint32 mask, int shift, bool left)
 {
     if (index < this->operationsCount())
@@ -112,7 +112,7 @@ void ReorderingOptions::operationReplace(int index, quint32 mask, int shift, boo
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 bool ReorderingOptions::load(QSettings *settings, int version)
 {
     bool result = true;// this option not implemented in versions < 2013-01-04
@@ -152,7 +152,7 @@ bool ReorderingOptions::load(QSettings *settings, int version)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool ReorderingOptions::loadXmlElement(QDomElement element)
 {
     bool result = false;
@@ -227,7 +227,7 @@ bool ReorderingOptions::loadXmlElement(QDomElement element)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingOptions::save(QSettings *settings)
 {
     settings->beginGroup(ReorderingOptions::GroupName);
@@ -250,7 +250,7 @@ void ReorderingOptions::save(QSettings *settings)
 
     settings->endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingOptions::saveXmlElement(QDomElement element)
 {
     QDomElement nodeReordering = element.ownerDocument().createElement(ReorderingOptions::GroupName);
@@ -284,4 +284,4 @@ void ReorderingOptions::saveXmlElement(QDomElement element)
         nodeLeft.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)bLeft)));
     }
 }
-//-----------------------------------------------------------------------------
+

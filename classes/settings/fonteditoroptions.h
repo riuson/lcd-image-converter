@@ -19,10 +19,10 @@
 
 #ifndef FONTEDITOROPTIONS_H
 #define FONTEDITOROPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QColor>
-//-----------------------------------------------------------------------------
+
 class FontEditorOptions : public QObject
 {
     Q_OBJECT
@@ -35,5 +35,5 @@ public:
     static void setForeColor(const QColor &value);
     static void setBackColor(const QColor &value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // FONTEDITOROPTIONS_H

@@ -22,7 +22,7 @@
 
 #include <QObject>
 #include <QColor>
-//-----------------------------------------------------------------------------
+
 struct tFontParameters
 {
     QString family;
@@ -35,6 +35,6 @@ struct tFontParameters
     QColor foreground;
     QColor background;
 };
-//-----------------------------------------------------------------------------
+
 #endif // TFONTPARAMETERS
 

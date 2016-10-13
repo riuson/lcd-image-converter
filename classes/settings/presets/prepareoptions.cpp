@@ -18,12 +18,12 @@
  */
 
 #include "prepareoptions.h"
-//-----------------------------------------------------------------------------
+
 #include <QSettings>
 #include <QBuffer>
 #include <QtXml>
 #include <QDomDocument>
-//-----------------------------------------------------------------------------
+
 const QString PrepareOptions::GroupName = QString("prepare");
 const QString PrepareOptions::FieldConvType = QString("convType");
 const QString PrepareOptions::FieldMonoType = QString("monoType");
@@ -35,7 +35,7 @@ const QString PrepareOptions::FieldBandScanning = QString("bandScanning");
 const QString PrepareOptions::FieldBandWidth = QString("bandWidth");
 const QString PrepareOptions::FieldUseCustomScript = QString("useCustomScript");
 const QString PrepareOptions::FieldCustomScript = QString("customScript");
-//-----------------------------------------------------------------------------
+
 PrepareOptions::PrepareOptions(QObject *parent) :
     QObject(parent)
 {
@@ -50,7 +50,7 @@ PrepareOptions::PrepareOptions(QObject *parent) :
     this->mUseCustomScript = false;
     this->mCustomScript = QString();
 }
-//-----------------------------------------------------------------------------
+
 ConversionType PrepareOptions::convType() const
 {
     if (this->mConvType <= ConversionTypeColor)
@@ -59,7 +59,7 @@ ConversionType PrepareOptions::convType() const
     }
     return ConversionTypeColor;
 }
-//-----------------------------------------------------------------------------
+
 MonochromeType PrepareOptions::monoType() const
 {
     if (this->mMonoType <= MonochromeTypeThresholdDither)
@@ -68,7 +68,7 @@ MonochromeType PrepareOptions::monoType() const
     }
     return MonochromeTypeThresholdDither;
 }
-//-----------------------------------------------------------------------------
+
 int PrepareOptions::edge() const
 {
     if (this->mEdge <= 255)
@@ -77,7 +77,7 @@ int PrepareOptions::edge() const
     }
     return 128;
 }
-//-----------------------------------------------------------------------------
+
 ScanMainDirection PrepareOptions::scanMain() const
 {
     if (this->mScanMain <= RightToLeft)
@@ -86,7 +86,7 @@ ScanMainDirection PrepareOptions::scanMain() const
     }
     return TopToBottom;
 }
-//-----------------------------------------------------------------------------
+
 ScanSubDirection PrepareOptions::scanSub() const
 {
     if (this->mScanSub <= Backward)
@@ -95,34 +95,34 @@ ScanSubDirection PrepareOptions::scanSub() const
     }
     return Forward;
 }
-//-----------------------------------------------------------------------------
+
 bool PrepareOptions::inverse() const
 {
     return this->mInverse;
 }
-//-----------------------------------------------------------------------------
+
 bool PrepareOptions::bandScanning() const
 {
     return this->mBandScanning;
 }
-//-----------------------------------------------------------------------------
+
 int PrepareOptions::bandWidth() const
 {
     if (this->mBandWidth < 1)
         return 1;
     return this->mBandWidth;
 }
-//-----------------------------------------------------------------------------
+
 bool PrepareOptions::useCustomScript() const
 {
     return this->mUseCustomScript;
 }
-//-----------------------------------------------------------------------------
+
 QString PrepareOptions::customScript() const
 {
     return this->mCustomScript;
 }
-//-----------------------------------------------------------------------------
+
 void PrepareOptions::setConvType(ConversionType value)
 {
     if (this->mConvType != value)
@@ -134,7 +134,7 @@ void PrepareOptions::setConvType(ConversionType value)
         emit this->changed();
     }
 }
-//-----------------------------------------------------------------------------
+
 void PrepareOptions::setMonoType(MonochromeType value)
 {
     if (this->mMonoType != value)
@@ -146,7 +146,7 @@ void PrepareOptions::setMonoType(MonochromeType value)
         emit this->changed();
     }
 }
-//-----------------------------------------------------------------------------
+
 void PrepareOptions::setEdge(int value)
 {
     if (this->mEdge != value)
@@ -158,7 +158,7 @@ void PrepareOptions::setEdge(int value)
         emit this->changed();
     }
 }
-//-----------------------------------------------------------------------------
+
 void PrepareOptions::setScanMain(ScanMainDirection value)
 {
     if (this->mScanMain != value)
@@ -170,7 +170,7 @@ void PrepareOptions::setScanMain(ScanMainDirection value)
         emit this->changed();
     }
 }
-//-----------------------------------------------------------------------------
+
 void PrepareOptions::setScanSub(ScanSubDirection value)
 {
     if (this->mScanSub != value)
@@ -180,7 +180,7 @@ void PrepareOptions::setScanSub(ScanSubDirection value)
         emit this->changed();
     }
 }
-//-----------------------------------------------------------------------------
+
 void PrepareOptions::setInverse(bool value)
 {
     if (this->mInverse != value)
@@ -190,7 +190,7 @@ void PrepareOptions::setInverse(bool value)
         emit this->changed();
     }
 }
-//-----------------------------------------------------------------------------
+
 void PrepareOptions::setBandScanning(bool value)
 {
     if (this->mBandScanning != value)
@@ -199,7 +199,7 @@ void PrepareOptions::setBandScanning(bool value)
         emit this->changed();
     }
 }
-//-----------------------------------------------------------------------------
+
 void PrepareOptions::setBandWidth(int value)
 {
     if (this->mBandWidth != value && value > 0)
@@ -209,7 +209,7 @@ void PrepareOptions::setBandWidth(int value)
         emit this->changed();
     }
 }
-//-----------------------------------------------------------------------------
+
 void PrepareOptions::setUseCustomScript(bool value)
 {
     if (this->mUseCustomScript != value)
@@ -218,7 +218,7 @@ void PrepareOptions::setUseCustomScript(bool value)
         emit this->changed();
     }
 }
-//-----------------------------------------------------------------------------
+
 void PrepareOptions::setCustomScript(const QString &value)
 {
     if (this->mCustomScript != value)
@@ -227,7 +227,7 @@ void PrepareOptions::setCustomScript(const QString &value)
         emit this->changed();
     }
 }
-//-----------------------------------------------------------------------------
+
 const QString & PrepareOptions::convTypeName() const
 {
     static const QString names[] =
@@ -249,7 +249,7 @@ const QString & PrepareOptions::convTypeName() const
         return names[3];
     }
 }
-//-----------------------------------------------------------------------------
+
 const QString & PrepareOptions::monoTypeName() const
 {
     static const QString names[] =
@@ -274,7 +274,7 @@ const QString & PrepareOptions::monoTypeName() const
         return names[4];
     }
 }
-//-----------------------------------------------------------------------------
+
 bool PrepareOptions::load(QSettings *settings, int version)
 {
     bool result = false;
@@ -346,7 +346,7 @@ bool PrepareOptions::load(QSettings *settings, int version)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool PrepareOptions::loadXmlElement(QDomElement element)
 {
     bool result = false;
@@ -461,7 +461,7 @@ bool PrepareOptions::loadXmlElement(QDomElement element)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void PrepareOptions::save(QSettings *settings)
 {
     settings->beginGroup(PrepareOptions::GroupName);
@@ -485,7 +485,7 @@ void PrepareOptions::save(QSettings *settings)
 
     settings->endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void PrepareOptions::saveXmlElement(QDomElement element)
 {
     QDomElement nodePrepare = element.ownerDocument().createElement(PrepareOptions::GroupName);
@@ -531,4 +531,4 @@ void PrepareOptions::saveXmlElement(QDomElement element)
     nodePrepare.appendChild(nodeCustomScript);
     nodeCustomScript.appendChild(element.ownerDocument().createCDATASection(this->mCustomScript));
 }
-//-----------------------------------------------------------------------------
+

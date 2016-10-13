@@ -20,7 +20,7 @@
 #include <qt-version-check.h>
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-//-----------------------------------------------------------------------------
+
 #include "modeconvertimage.h"
 #include "imagedocument.h"
 #include "datacontainer.h"
@@ -32,19 +32,19 @@
 #include <QString>
 #include <QStringList>
 #include <QImage>
-//-----------------------------------------------------------------------------
+
 namespace CommandLine {
-//-----------------------------------------------------------------------------
+
 ModeConvertImage::ModeConvertImage(QCommandLineParser *parser, QObject *parent) :
     ModeParserBase(parser, parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 QString ModeConvertImage::modeName()
 {
     return "convert-image";
 }
-//-----------------------------------------------------------------------------
+
 void ModeConvertImage::fillParser() const
 {
     // --input=/temp/1.png
@@ -77,7 +77,7 @@ void ModeConvertImage::fillParser() const
                 QCoreApplication::translate("CmdLineParser", "name"));
     this->mParser->addOption(presetOption);
 }
-//-----------------------------------------------------------------------------
+
 bool ModeConvertImage::collectArguments()
 {
     this->mInputFilename = this->mParser->value("input");
@@ -91,7 +91,7 @@ bool ModeConvertImage::collectArguments()
             !this->mDocumentName.isEmpty() &&
             !this->mPresetName.isEmpty());
 }
-//-----------------------------------------------------------------------------
+
 int ModeConvertImage::process()
 {
     // check input and template files exists
@@ -159,7 +159,7 @@ int ModeConvertImage::process()
 
     return 1;
 }
-//-----------------------------------------------------------------------------
+
 }
-//-----------------------------------------------------------------------------
+
 #endif // QT_VERSION

@@ -18,7 +18,7 @@
  */
 
 #include "parser.h"
-//-----------------------------------------------------------------------------
+
 #include <QFile>
 #include <QTextStream>
 #include <QTextCodec>
@@ -36,7 +36,7 @@
 #include "templateoptions.h"
 #include "tags.h"
 #include "parsedimagedata.h"
-//-----------------------------------------------------------------------------
+
 /*
  -- Algorithm --
 
@@ -98,7 +98,7 @@
  EndLoop
  Return list of ParsedImageData
  */
-//-----------------------------------------------------------------------------
+
 Parser::Parser(TemplateType templateType, Preset *preset, QObject *parent) :
     QObject(parent)
 {
@@ -113,11 +113,11 @@ Parser::Parser(TemplateType templateType, Preset *preset, QObject *parent) :
     else
         this->mTemplateFileName = this->mPreset->templates()->font();
 }
-//-----------------------------------------------------------------------------
+
 Parser::~Parser()
 {
 }
-//-----------------------------------------------------------------------------
+
 QString Parser::convert(IDocument *document, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, Tags &tags) const
 {
     QString result;
@@ -150,7 +150,7 @@ QString Parser::convert(IDocument *document, const QStringList &orderedKeys, QMa
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QString Parser::parse(const QString &templateString,
                       Tags &tags,
                       IDocument *doc,
@@ -200,7 +200,7 @@ QString Parser::parse(const QString &templateString,
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QString Parser::parseImagesTable(const QString &templateString,
                                  Tags &tags,
                                  IDocument *doc,
@@ -234,7 +234,7 @@ QString Parser::parseImagesTable(const QString &templateString,
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QString Parser::hexCode(const QString &key, const QString &encoding, bool bom) const
 {
     QString result;
@@ -302,7 +302,7 @@ QString Parser::hexCode(const QString &key, const QString &encoding, bool bom) c
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void Parser::addMatrixInfo(Tags &tags) const
 {
     // byte order
@@ -403,7 +403,7 @@ void Parser::addMatrixInfo(Tags &tags) const
     }
     tags.setTagValue(Tags::OutputBitsPerPixel, QString("%1").arg(bitsPerPixel));
 }
-//-----------------------------------------------------------------------------
+
 void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images) const
 {
     QListIterator<QString> it(images->keys());
@@ -454,7 +454,7 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
     tags.setTagValue(Tags::OutputImagesMaxHeight, QString("%1").arg(maxHeight));
     tags.setTagValue(Tags::OutputImagesMaxBlocksCount, QString("%1").arg(maxBlocksCount));
 }
-//-----------------------------------------------------------------------------
+
 void Parser::imageParticles(const QString &templateString, QString *prefix, QString *suffix) const
 {
     QString templateOutImageData;
@@ -500,4 +500,4 @@ void Parser::imageParticles(const QString &templateString, QString *prefix, QStr
         }
     }
 }
-//-----------------------------------------------------------------------------
+

@@ -19,16 +19,16 @@
 
 #ifndef MATRIXPREVIEWMODEL_H
 #define MATRIXPREVIEWMODEL_H
-//-----------------------------------------------------------------------------
+
 #include <QAbstractItemModel>
-//-----------------------------------------------------------------------------
+
 #include <QVariant>
 #include "conversion_options.h"
-//-----------------------------------------------------------------------------
+
 class Preset;
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
-//-----------------------------------------------------------------------------
+
 class MatrixPreviewModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -83,5 +83,5 @@ signals:
 public slots:
     void callReset();
 };
-//-----------------------------------------------------------------------------
+
 #endif // MATRIXPREVIEWMODEL_H

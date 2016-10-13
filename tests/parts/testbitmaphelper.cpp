@@ -1,14 +1,14 @@
 #include "testbitmaphelper.h"
-//-----------------------------------------------------------------------------
+
 TestBitmapHelper::TestBitmapHelper(QObject *parent) :
     QObject(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestBitmapHelper::initTestCase()
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestBitmapHelper::rotate90()
 {
     QImage original = QImage(":/rotate/0");
@@ -17,7 +17,7 @@ void TestBitmapHelper::rotate90()
 
     this->compareSizeAndPixels(&expected, &test);
 }
-//-----------------------------------------------------------------------------
+
 void TestBitmapHelper::rotate180()
 {
     QImage original = QImage(":/rotate/0");
@@ -26,7 +26,7 @@ void TestBitmapHelper::rotate180()
 
     this->compareSizeAndPixels(&expected, &test);
 }
-//-----------------------------------------------------------------------------
+
 void TestBitmapHelper::rotate270()
 {
     QImage original = QImage(":/rotate/0");
@@ -35,7 +35,7 @@ void TestBitmapHelper::rotate270()
 
     this->compareSizeAndPixels(&expected, &test);
 }
-//-----------------------------------------------------------------------------
+
 void TestBitmapHelper::shiftUp()
 {
     QImage original = QImage(":/shift/original");
@@ -44,7 +44,7 @@ void TestBitmapHelper::shiftUp()
 
     this->compareSizeAndPixels(&expected, &test);
 }
-//-----------------------------------------------------------------------------
+
 void TestBitmapHelper::shiftRight()
 {
     QImage original = QImage(":/shift/original");
@@ -53,7 +53,7 @@ void TestBitmapHelper::shiftRight()
 
     this->compareSizeAndPixels(&expected, &test);
 }
-//-----------------------------------------------------------------------------
+
 void TestBitmapHelper::shiftDown()
 {
     QImage original = QImage(":/shift/original");
@@ -62,7 +62,7 @@ void TestBitmapHelper::shiftDown()
 
     this->compareSizeAndPixels(&expected, &test);
 }
-//-----------------------------------------------------------------------------
+
 void TestBitmapHelper::shiftLeft()
 {
     QImage original = QImage(":/shift/original");
@@ -71,7 +71,7 @@ void TestBitmapHelper::shiftLeft()
 
     this->compareSizeAndPixels(&expected, &test);
 }
-//-----------------------------------------------------------------------------
+
 void TestBitmapHelper::flipHorizontal()
 {
     QImage original = QImage(":/flip/0");
@@ -80,7 +80,7 @@ void TestBitmapHelper::flipHorizontal()
 
     this->compareSizeAndPixels(&expected, &test);
 }
-//-----------------------------------------------------------------------------
+
 void TestBitmapHelper::flipVertical()
 {
     QImage original = QImage(":/flip/0");
@@ -89,11 +89,11 @@ void TestBitmapHelper::flipVertical()
 
     this->compareSizeAndPixels(&expected, &test);
 }
-//-----------------------------------------------------------------------------
+
 void TestBitmapHelper::cleanupTestCase()
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestBitmapHelper::compareSizeAndPixels(const QImage *actual, const QImage *expected) const
 {
     QCOMPARE (actual->size(), expected->size());
@@ -108,4 +108,4 @@ void TestBitmapHelper::compareSizeAndPixels(const QImage *actual, const QImage *
         }
     }
 }
-//-----------------------------------------------------------------------------
+

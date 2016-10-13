@@ -19,7 +19,7 @@
 
 #ifndef TOOLLINE_H
 #define TOOLLINE_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QImage>
 #include <QColor>
@@ -28,11 +28,11 @@
 
 class QIcon;
 class QAction;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class IImageEditorParams;
-//-----------------------------------------------------------------------------
+
 class ToolLine : public QObject, public IImageEditorTool
 {
     Q_OBJECT
@@ -77,7 +77,7 @@ private:
 private slots:
     void on_spinBoxSize_valueChanged(int value);
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+
 #endif // TOOLLINE_H

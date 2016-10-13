@@ -19,15 +19,15 @@
 
 #ifndef ACTIONFILEHANDLERS_H
 #define ACTIONFILEHANDLERS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 
 #include "actionhandlersbase.h"
-//-----------------------------------------------------------------------------
+
 class QImage;
 class IMainWindow;
 class IDocument;
-//-----------------------------------------------------------------------------
+
 class ActionFileHandlers : public ActionHandlersBase
 {
     Q_OBJECT
@@ -65,5 +65,5 @@ private:
 private slots:
     void documentChanged();
 };
-//-----------------------------------------------------------------------------
+
 #endif // ACTIONFILEHANDLERS_H

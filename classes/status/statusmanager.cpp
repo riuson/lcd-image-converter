@@ -21,7 +21,7 @@
 
 #include <QStatusBar>
 #include "revisionlabel.h"
-//-----------------------------------------------------------------------------
+
 StatusManager::StatusManager(QStatusBar *statusBar, QObject *parent) :
     QObject(parent)
 {
@@ -34,11 +34,11 @@ StatusManager::StatusManager(QStatusBar *statusBar, QObject *parent) :
 
     this->mBar->addWidget(new RevisionLabel(this->mBar));
 }
-//-----------------------------------------------------------------------------
+
 StatusManager::~StatusManager()
 {
 }
-//-----------------------------------------------------------------------------
+
 void StatusManager::updateData(const StatusData *statuses)
 {
     // update
@@ -65,7 +65,7 @@ void StatusManager::updateData(const StatusData *statuses)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void StatusManager::hideAll()
 {
     QList<StatusData::StatusType> keys = this->mList.keys();
@@ -75,7 +75,7 @@ void StatusManager::hideAll()
         this->hideItem(key);
     }
 }
-//-----------------------------------------------------------------------------
+
 void StatusManager::updateItem(
         StatusData::StatusType key,
         const StatusData *statuses)
@@ -127,7 +127,7 @@ void StatusManager::updateItem(
     }
     }
 }
-//-----------------------------------------------------------------------------
+
 void StatusManager::addItem(StatusData::StatusType key)
 {
     QLabel *label = new QLabel(this->mBar);
@@ -136,7 +136,7 @@ void StatusManager::addItem(StatusData::StatusType key)
     label->setVisible(false);
     label->setMinimumWidth(50);
 }
-//-----------------------------------------------------------------------------
+
 void StatusManager::hideItem(StatusData::StatusType key)
 {
     if (this->mList.contains(key))
@@ -149,4 +149,4 @@ void StatusManager::hideItem(StatusData::StatusType key)
         }
     }
 }
-//-----------------------------------------------------------------------------
+

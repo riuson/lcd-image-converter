@@ -19,10 +19,10 @@
 
 #ifndef FILEDIALOGOPTIONS_H
 #define FILEDIALOGOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QString>
-//-----------------------------------------------------------------------------
+
 class FileDialogOptions : public QObject
 {
     Q_OBJECT
@@ -57,5 +57,5 @@ private:
     static const QString getString(const QString &name);
     static void setString(const QString &name, const QString &value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // FILEDIALOGOPTIONS_H

@@ -19,7 +19,7 @@
 
 #ifndef TOOLMOVE_H
 #define TOOLMOVE_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QImage>
 #include <QColor>
@@ -29,11 +29,11 @@
 
 class QIcon;
 class QAction;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class IImageEditorParams;
-//-----------------------------------------------------------------------------
+
 class ToolMove : public QObject, public IImageEditorTool
 {
     Q_OBJECT
@@ -91,7 +91,7 @@ private slots:
     void on_switchToMoveCopy();
     void on_switchToMoveCircular();
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+
 #endif // TOOLMOVE_H

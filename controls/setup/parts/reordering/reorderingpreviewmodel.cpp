@@ -18,13 +18,13 @@
  */
 
 #include "reorderingpreviewmodel.h"
-//-----------------------------------------------------------------------------
+
 #include <QColor>
 #include "preset.h"
 #include "prepareoptions.h"
 #include "reorderingoptions.h"
 #include "imageoptions.h"
-//-----------------------------------------------------------------------------
+
 ReorderingPreviewModel::ReorderingPreviewModel(Preset *preset, QObject *parent) :
     QAbstractItemModel(parent)
 {
@@ -32,7 +32,7 @@ ReorderingPreviewModel::ReorderingPreviewModel(Preset *preset, QObject *parent) 
 
     this->connect(this->mPreset, SIGNAL(changed()), SLOT(callReset()));
 }
-//-----------------------------------------------------------------------------
+
 int ReorderingPreviewModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
@@ -41,13 +41,13 @@ int ReorderingPreviewModel::rowCount(const QModelIndex &parent) const
     result += 2; // source, result
     return result;
 }
-//-----------------------------------------------------------------------------
+
 int ReorderingPreviewModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return this->maxBitIndex() + 1;
 }
-//-----------------------------------------------------------------------------
+
 QVariant ReorderingPreviewModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     QVariant result = QAbstractItemModel::headerData(section, orientation, role);
@@ -78,7 +78,7 @@ QVariant ReorderingPreviewModel::headerData(int section, Qt::Orientation orienta
     }
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QVariant ReorderingPreviewModel::data(const QModelIndex &index, int role) const
 {
     QVariant result;
@@ -171,7 +171,7 @@ QVariant ReorderingPreviewModel::data(const QModelIndex &index, int role) const
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool ReorderingPreviewModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     Q_UNUSED(index);
@@ -179,19 +179,19 @@ bool ReorderingPreviewModel::setData(const QModelIndex &index, const QVariant &v
     Q_UNUSED(role);
     return false;
 }
-//-----------------------------------------------------------------------------
+
 QModelIndex ReorderingPreviewModel::index(int row, int column, const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return this->createIndex(row, column);
 }
-//-----------------------------------------------------------------------------
+
 QModelIndex ReorderingPreviewModel::parent(const QModelIndex &index) const
 {
     Q_UNUSED(index)
     return QModelIndex();
 }
-//-----------------------------------------------------------------------------
+
 Qt::ItemFlags ReorderingPreviewModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags flags = QAbstractItemModel::flags(index);
@@ -205,7 +205,7 @@ Qt::ItemFlags ReorderingPreviewModel::flags(const QModelIndex &index) const
     }
     return flags;
 }
-//-----------------------------------------------------------------------------
+
 ReorderingPreviewModel::RowType ReorderingPreviewModel::rowType(int row) const
 {
     ReorderingPreviewModel::RowType result = Operation;
@@ -218,7 +218,7 @@ ReorderingPreviewModel::RowType ReorderingPreviewModel::rowType(int row) const
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingPreviewModel::getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const
 {
     int bits = (((int)this->mPreset->image()->blockSize()) * 8) + 8;
@@ -232,7 +232,7 @@ void ReorderingPreviewModel::getBitType(int bitIndex, ConversionType *convType, 
         *partIndex = bitIndex;
     }
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const
 {
     *name = QVariant();
@@ -272,7 +272,7 @@ void ReorderingPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVa
         this->sourceBitProperties(bitIndex, name, color);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const
 {
     *name = QVariant();
@@ -293,16 +293,16 @@ void ReorderingPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, Q
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 int ReorderingPreviewModel::maxBitIndex() const
 {
     int result = (((int)this->mPreset->image()->blockSize()) * 8) + 7;
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingPreviewModel::callReset()
 {
     this->beginResetModel();
     this->endResetModel();
 }
-//-----------------------------------------------------------------------------
+

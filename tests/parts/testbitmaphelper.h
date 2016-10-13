@@ -1,10 +1,10 @@
 #ifndef TESTBITMAPHELPER_H
 #define TESTBITMAPHELPER_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QtTest/QtTest>
 #include "bitmaphelper.h"
-//-----------------------------------------------------------------------------
+
 class TestBitmapHelper : public QObject
 {
     Q_OBJECT
@@ -27,5 +27,5 @@ private slots:
     void flipVertical();
     void cleanupTestCase();
 };
-//-----------------------------------------------------------------------------
+
 #endif // TESTBITMAPHELPER_H

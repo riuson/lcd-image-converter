@@ -20,7 +20,7 @@
 #include <qt-version-check.h>
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-//-----------------------------------------------------------------------------
+
 #include "modehex2bin.h"
 #include "datacontainer.h"
 #include <QCommandLineParser>
@@ -28,19 +28,19 @@
 #include <QString>
 #include <QStringList>
 #include <QTextStream>
-//-----------------------------------------------------------------------------
+
 namespace CommandLine {
-//-----------------------------------------------------------------------------
+
 ModeHex2Bin::ModeHex2Bin(QCommandLineParser *parser, QObject *parent) :
     ModeParserBase(parser, parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 QString ModeHex2Bin::modeName()
 {
     return "hex2bin";
 }
-//-----------------------------------------------------------------------------
+
 void ModeHex2Bin::fillParser() const
 {
     // --input=/temp/1.c
@@ -55,7 +55,7 @@ void ModeHex2Bin::fillParser() const
                 QCoreApplication::translate("CmdLineParser", "path"));
     this->mParser->addOption(outputOption);
 }
-//-----------------------------------------------------------------------------
+
 bool ModeHex2Bin::collectArguments()
 {
     this->mInputFilename = this->mParser->value("input");
@@ -64,7 +64,7 @@ bool ModeHex2Bin::collectArguments()
     return (!this->mInputFilename.isEmpty() &&
             !this->mOuputFilename.isEmpty());
 }
-//-----------------------------------------------------------------------------
+
 int ModeHex2Bin::process()
 {
     // check input file exists
@@ -98,7 +98,7 @@ int ModeHex2Bin::process()
 
     return 1;
 }
-//-----------------------------------------------------------------------------
+
 QByteArray ModeHex2Bin::hex2bin(QString &hexString)
 {
     QByteArray result;
@@ -177,7 +177,7 @@ QByteArray ModeHex2Bin::hex2bin(QString &hexString)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void ModeHex2Bin::appendDataLE(QByteArray *array, int size, quint32 value)
 {
     while (size --> 0)
@@ -187,7 +187,7 @@ void ModeHex2Bin::appendDataLE(QByteArray *array, int size, quint32 value)
         value = value >> 8;
     }
 }
-//-----------------------------------------------------------------------------
+
 void ModeHex2Bin::appendDataBE(QByteArray *array, int size, quint32 value)
 {
     int index = array->length();
@@ -199,7 +199,7 @@ void ModeHex2Bin::appendDataBE(QByteArray *array, int size, quint32 value)
         value = value >> 8;
     }
 }
-//-----------------------------------------------------------------------------
+
 }
-//-----------------------------------------------------------------------------
+
 #endif // QT_VERSION

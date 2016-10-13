@@ -1,10 +1,10 @@
 #ifndef TESTBITSTREAM_H
 #define TESTBITSTREAM_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QtTest/QtTest>
 #include "bitstream.h"
-//-----------------------------------------------------------------------------
+
 class TestBitStream : public QObject
 {
     Q_OBJECT
@@ -22,5 +22,5 @@ private slots:
     void streaming();
     void cleanupTestCase();
 };
-//-----------------------------------------------------------------------------
+
 #endif // TESTBITSTREAM_H

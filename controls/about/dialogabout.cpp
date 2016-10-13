@@ -24,7 +24,7 @@
 #include <QFile>
 #include "revisioninfo.h"
 #include "bitmaphelper.h"
-//-----------------------------------------------------------------------------
+
 DialogAbout::DialogAbout(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogAbout)
@@ -64,12 +64,12 @@ DialogAbout::DialogAbout(QWidget *parent) :
     // focus on Close button
     this->ui->buttonBox->setFocus();
 }
-//-----------------------------------------------------------------------------
+
 DialogAbout::~DialogAbout()
 {
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void DialogAbout::showLicense()
 {
     QFile file_license(":/text/gpl3");
@@ -82,4 +82,4 @@ void DialogAbout::showLicense()
         this->ui->textBrowser->setText(license);
     }
 }
-//-----------------------------------------------------------------------------
+

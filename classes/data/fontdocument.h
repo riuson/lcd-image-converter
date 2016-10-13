@@ -19,18 +19,18 @@
 
 #ifndef FONTDOCUMENT_H
 #define FONTDOCUMENT_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QFont>
 
 #include "idocument.h"
-//-----------------------------------------------------------------------------
+
 template <class T1, class T2> class QMap;
 class Preset;
 class ParsedImageData;
 class Tags;
 struct tFontParameters;
-//-----------------------------------------------------------------------------
+
 class FontDocument : public QObject, public IDocument
 {
     Q_OBJECT
@@ -104,5 +104,5 @@ signals:
     void documentChanged();
 };
 
-//-----------------------------------------------------------------------------
+
 #endif // FONTDOCUMENT_H

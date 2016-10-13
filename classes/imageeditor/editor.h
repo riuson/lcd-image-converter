@@ -19,12 +19,12 @@
 
 #ifndef EDITOR_H
 #define EDITOR_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include "iimageeditor.h"
 
 class QColor;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class WindowEditor;
@@ -63,5 +63,5 @@ private slots:
     void on_scaleChanged(int value);
 };
 }
-//-----------------------------------------------------------------------------
+
 #endif // EDITOR_H

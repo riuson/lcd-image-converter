@@ -19,7 +19,7 @@
 
 #ifndef IDOCUMENT_H
 #define IDOCUMENT_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 
 class QImage;
@@ -27,7 +27,7 @@ class QString;
 class DataContainer;
 class StatusData;
 class Preset;
-//-----------------------------------------------------------------------------
+
 class IDocument
 {
 public:
@@ -52,5 +52,5 @@ public:
 Q_DECLARE_INTERFACE (IDocument,
                      "riuson.lcd-image-converter/1.0"
                      )
-//-----------------------------------------------------------------------------
+
 #endif // IDOCUMENT_H

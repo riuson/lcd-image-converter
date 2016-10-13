@@ -28,10 +28,10 @@
 #include <QSettings>
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 ToolSelect::ToolSelect(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
     this->mParameters = parameters;
@@ -42,7 +42,7 @@ ToolSelect::ToolSelect(IImageEditorParams *parameters, QObject *parent) : QObjec
 
     this->initializeWidgets();
 }
-//-----------------------------------------------------------------------------
+
 ToolSelect::~ToolSelect()
 {
     delete this->mIcon;
@@ -51,37 +51,37 @@ ToolSelect::~ToolSelect()
     delete this->mActions;
     delete this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolSelect::title() const
 {
     return tr("Select");
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolSelect::tooltip() const
 {
     return tr("Select area");
 }
-//-----------------------------------------------------------------------------
+
 const QIcon *ToolSelect::icon() const
 {
     return this->mIcon;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QAction *> *ToolSelect::actions() const
 {
     return this->mActions;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QWidget *> *ToolSelect::widgets() const
 {
     return this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 const QPainterPath &ToolSelect::selectedPath() const
 {
     return this->mSelectedPath;
 }
-//-----------------------------------------------------------------------------
+
 bool ToolSelect::processMouse(QMouseEvent *event,
                               const QImage *imageOriginal,
                               bool inRect)
@@ -122,7 +122,7 @@ bool ToolSelect::processMouse(QMouseEvent *event,
 
     return true;
 }
-//-----------------------------------------------------------------------------
+
 void ToolSelect::initializeWidgets()
 {
     QActionGroup *group = new QActionGroup(this);
@@ -146,7 +146,7 @@ void ToolSelect::initializeWidgets()
     this->mActionEditSelection->setChecked(true);
     this->mToolMode = SelectionEdit;
 }
-//-----------------------------------------------------------------------------
+
 void ToolSelect::modifySelection(const QRect &rect, Operation op)
 {
     switch (op)
@@ -178,7 +178,7 @@ void ToolSelect::modifySelection(const QRect &rect, Operation op)
     }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ToolSelect::processModeEdit(Qt::MouseButtons buttons, int x, int y)
 {
     Operation op = ToolSelect::None;
@@ -232,7 +232,7 @@ void ToolSelect::processModeEdit(Qt::MouseButtons buttons, int x, int y)
         emit this->selectionChanged(this->mSelectedPath);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ToolSelect::processModeMove(Qt::MouseButtons buttons, int x, int y)
 {
     if (this->mSelectedPath.isEmpty())
@@ -261,16 +261,16 @@ void ToolSelect::processModeMove(Qt::MouseButtons buttons, int x, int y)
         emit this->selectionChanged(this->mSelectedPath);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ToolSelect::on_switchToSelectionEdit()
 {
     this->mToolMode = SelectionEdit;
 }
-//-----------------------------------------------------------------------------
+
 void ToolSelect::on_switchToSelectionMove()
 {
     this->mToolMode = SelectionMove;
 }
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+

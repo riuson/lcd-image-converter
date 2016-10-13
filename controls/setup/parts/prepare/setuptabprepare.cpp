@@ -19,7 +19,7 @@
 
 #include "setuptabprepare.h"
 #include "ui_setuptabprepare.h"
-//-----------------------------------------------------------------------------
+
 #include "preset.h"
 #include "prepareoptions.h"
 #include "matrixoptions.h"
@@ -28,7 +28,7 @@
 #include "converterhelper.h"
 #include "demogenerator.h"
 #include "setupdialogoptions.h"
-//-----------------------------------------------------------------------------
+
 SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SetupTabPrepare)
@@ -63,13 +63,13 @@ SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
 
     this->matrixChanged();
 }
-//-----------------------------------------------------------------------------
+
 SetupTabPrepare::~SetupTabPrepare()
 {
     delete this->mDemoGen;
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::matrixChanged()
 {
     int index = this->ui->comboBoxConversionType->findData(this->mPreset->prepare()->convType());
@@ -102,7 +102,7 @@ void SetupTabPrepare::matrixChanged()
 
     this->updateScript();
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::on_comboBoxConversionType_currentIndexChanged(int index)
 {
     QVariant data = this->ui->comboBoxConversionType->itemData(index);
@@ -114,7 +114,7 @@ void SetupTabPrepare::on_comboBoxConversionType_currentIndexChanged(int index)
         this->updateState();
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::on_comboBoxMonochromeType_currentIndexChanged(int index)
 {
     QVariant data = this->ui->comboBoxMonochromeType->itemData(index);
@@ -126,7 +126,7 @@ void SetupTabPrepare::on_comboBoxMonochromeType_currentIndexChanged(int index)
         this->updateState();
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::on_comboBoxScanMain_currentIndexChanged(int index)
 {
     QVariant data = this->ui->comboBoxScanMain->itemData(index);
@@ -138,7 +138,7 @@ void SetupTabPrepare::on_comboBoxScanMain_currentIndexChanged(int index)
         this->mPreset->prepare()->setScanMain(dir);
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::on_comboBoxScanSub_currentIndexChanged(int index)
 {
     QVariant data = this->ui->comboBoxScanSub->itemData(index);
@@ -150,34 +150,34 @@ void SetupTabPrepare::on_comboBoxScanSub_currentIndexChanged(int index)
         this->mPreset->prepare()->setScanSub(dir);
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::on_checkBoxInverse_toggled(bool value)
 {
     this->mPreset->prepare()->setInverse(value);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::on_horizontalScrollBarEdge_valueChanged(int value)
 {
     this->mPreset->prepare()->setEdge(value);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::on_checkBoxBands_toggled(bool value)
 {
     this->mPreset->prepare()->setBandScanning(value);
     this->updateState();
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::on_spinBoxBandWidth_valueChanged(int value)
 {
     this->mPreset->prepare()->setBandWidth(value);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::on_checkBoxUseCustomScript_toggled(bool value)
 {
     this->mPreset->prepare()->setUseCustomScript(value);
     this->updateState();
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::on_plainTextEditCustomScript_textChanged()
 {
     if (this->mPreset->prepare()->useCustomScript())
@@ -186,7 +186,7 @@ void SetupTabPrepare::on_plainTextEditCustomScript_textChanged()
         this->mPreset->prepare()->setCustomScript(str);
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::updateState()
 {
     // conversion type
@@ -225,7 +225,7 @@ void SetupTabPrepare::updateState()
     // use custom script
     this->ui->plainTextEditCustomScript->setReadOnly(!this->mPreset->prepare()->useCustomScript());
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::updateScript()
 {
     QString script = ConverterHelper::scanScript(this->mPreset);
@@ -234,7 +234,7 @@ void SetupTabPrepare::updateScript()
 
     this->mDemoGen->setScript(script);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::demoPixmapChanged(const QPixmap &pixmap)
 {
     this->mPixmapScanPreview = pixmap;
@@ -245,7 +245,7 @@ void SetupTabPrepare::demoPixmapChanged(const QPixmap &pixmap)
 
     this->ui->labelErrorMessage->hide();
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::demoScriptError(const QString &value)
 {
     this->ui->spinBoxAnimationTime->setEnabled(false);
@@ -254,16 +254,16 @@ void SetupTabPrepare::demoScriptError(const QString &value)
     this->ui->labelErrorMessage->setText(value);
     this->ui->labelErrorMessage->show();
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::on_spinBoxAnimationTime_valueChanged(int value)
 {
     this->mDemoGen->setAnimationTime(value);
     SetupDialogOptions::setAnimationTime(value);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabPrepare::on_spinBoxAnimationInterval_valueChanged(int value)
 {
     this->mDemoGen->setAnimationInterval(value);
     SetupDialogOptions::setAnimationInterval(value);
 }
-//-----------------------------------------------------------------------------
+

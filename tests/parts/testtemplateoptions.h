@@ -1,11 +1,11 @@
 #ifndef TESTTEMPLATEOPTIONS_H
 #define TESTTEMPLATEOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QtTest/QtTest>
-//-----------------------------------------------------------------------------
+
 class TemplateOptions;
-//-----------------------------------------------------------------------------
+
 class TestTemplateOptions : public QObject
 {
     Q_OBJECT
@@ -23,5 +23,5 @@ private slots:
 
     void cleanupTestCase();
 };
-//-----------------------------------------------------------------------------
+
 #endif // TESTTEMPLATEOPTIONS_H

@@ -19,12 +19,12 @@
 
 #ifndef STATUSDATA_H
 #define STATUSDATA_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QVariant>
 #include <QMap>
 #include <QList>
-//-----------------------------------------------------------------------------
+
 class StatusData : public QObject
 {
     Q_OBJECT
@@ -52,5 +52,5 @@ private:
 signals:
     void changed();
 };
-//-----------------------------------------------------------------------------
+
 #endif // STATUSDATA_H

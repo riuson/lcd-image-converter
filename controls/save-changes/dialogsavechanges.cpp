@@ -20,7 +20,7 @@
 #include "dialogsavechanges.h"
 
 #include <QMessageBox>
-//-----------------------------------------------------------------------------
+
 DialogSaveChanges::DialogSaveChanges(const QString &documentName, QWidget *parent)
 {
     this->mBox = new QMessageBox(parent);
@@ -37,22 +37,22 @@ DialogSaveChanges::DialogSaveChanges(const QString &documentName, QWidget *paren
 
     this->mAnswer = Cancel;
 }
-//-----------------------------------------------------------------------------
+
 DialogSaveChanges::~DialogSaveChanges()
 {
     delete this->mBox;
 }
-//-----------------------------------------------------------------------------
+
 int DialogSaveChanges::answer()
 {
     return this->mAnswer;
 }
-//-----------------------------------------------------------------------------
+
 int DialogSaveChanges::exec()
 {
     return this->mBox->exec();
 }
-//-----------------------------------------------------------------------------
+
 void DialogSaveChanges::on_messageBox_finished(int result)
 {
     switch (result)
@@ -79,4 +79,4 @@ void DialogSaveChanges::on_messageBox_finished(int result)
         }
     }
 }
-//-----------------------------------------------------------------------------
+

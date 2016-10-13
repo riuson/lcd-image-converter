@@ -18,11 +18,11 @@
  */
 
 #include "imageoptions.h"
-//-----------------------------------------------------------------------------
+
 #include <QSettings>
 #include <QtXml>
 #include <QDomDocument>
-//-----------------------------------------------------------------------------
+
 const QString ImageOptions::GroupName = QString("image");
 const QString ImageOptions::FieldBytesOrder = QString("bytesOrder");
 const QString ImageOptions::FieldBlockSize = QString("blockSize");
@@ -34,7 +34,7 @@ const QString ImageOptions::FieldBlockPrefix = QString("blockPrefix");
 const QString ImageOptions::FieldBandWidth = QString("bandWidth");
 const QString ImageOptions::FieldBlockSuffix = QString("blockSuffix");
 const QString ImageOptions::FieldBlockDelimiter = QString("blockDelimiter");
-//-----------------------------------------------------------------------------
+
 ImageOptions::ImageOptions(QObject *parent) :
     QObject(parent)
 {
@@ -48,17 +48,17 @@ ImageOptions::ImageOptions(QObject *parent) :
     this->mBlockSuffix = "";
     this->mBlockDelimiter = ", ";
 }
-//-----------------------------------------------------------------------------
+
 bool ImageOptions::splitToRows() const
 {
     return this->mSplitToRows;
 }
-//-----------------------------------------------------------------------------
+
 BytesOrder ImageOptions::bytesOrder() const
 {
     return this->mBytesOrder;
 }
-//-----------------------------------------------------------------------------
+
 DataBlockSize ImageOptions::blockSize() const
 {
     if (this->mBlockSize <= Data32)
@@ -67,44 +67,44 @@ DataBlockSize ImageOptions::blockSize() const
     }
     return Data32;
 }
-//-----------------------------------------------------------------------------
+
 bool ImageOptions::blockDefaultOnes() const
 {
     return this->mBlockDefaultOnes;
 }
-//-----------------------------------------------------------------------------
+
 bool ImageOptions::compressionRle() const
 {
     return this->mCompressionRle;
 }
-//-----------------------------------------------------------------------------
+
 quint32 ImageOptions::compressionRleMinLength() const
 {
     return this->mCompressionRleMinLength;
 }
-//-----------------------------------------------------------------------------
+
 QString ImageOptions::blockPrefix() const
 {
     return this->mBlockPrefix;
 }
-//-----------------------------------------------------------------------------
+
 QString ImageOptions::blockSuffix() const
 {
     return this->mBlockSuffix;
 }
-//-----------------------------------------------------------------------------
+
 QString ImageOptions::blockDelimiter() const
 {
     return this->mBlockDelimiter;
 }
-//-----------------------------------------------------------------------------
+
 void ImageOptions::setSplitToRows(bool value)
 {
     this->mSplitToRows = value;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void ImageOptions::setBytesOrder(BytesOrder value)
 {
     if (value < BytesOrderLittleEndian || value > BytesOrderBigEndian)
@@ -113,7 +113,7 @@ void ImageOptions::setBytesOrder(BytesOrder value)
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void ImageOptions::setBlockSize(DataBlockSize value)
 {
     if (value < Data8 || value > Data32)
@@ -122,49 +122,49 @@ void ImageOptions::setBlockSize(DataBlockSize value)
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void ImageOptions::setBlockDefaultOnes(bool value)
 {
     this->mBlockDefaultOnes = value;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void ImageOptions::setCompressionRle(bool value)
 {
     this->mCompressionRle = value;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void ImageOptions::setCompressionRleMinLength(quint32 value)
 {
     this->mCompressionRleMinLength = value;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void ImageOptions::setBlockPrefix(const QString &value)
 {
     this->mBlockPrefix = value;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void ImageOptions::setBlockSuffix(const QString &value)
 {
     this->mBlockSuffix = value;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void ImageOptions::setBlockDelimiter(const QString &value)
 {
     this->mBlockDelimiter = value;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 bool ImageOptions::load(QSettings *settings, int version)
 {
     bool result = false;
@@ -220,7 +220,7 @@ bool ImageOptions::load(QSettings *settings, int version)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool ImageOptions::loadXmlElement(QDomElement element)
 {
     bool result = false;
@@ -337,7 +337,7 @@ bool ImageOptions::loadXmlElement(QDomElement element)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void ImageOptions::save(QSettings *settings)
 {
     settings->beginGroup(ImageOptions::GroupName);
@@ -354,7 +354,7 @@ void ImageOptions::save(QSettings *settings)
 
     settings->endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void ImageOptions::saveXmlElement(QDomElement element)
 {
     QDomElement nodeImage = element.ownerDocument().createElement(ImageOptions::GroupName);
@@ -396,4 +396,4 @@ void ImageOptions::saveXmlElement(QDomElement element)
     nodeImage.appendChild(nodeBlockDelimiter);
     nodeBlockDelimiter.appendChild(element.ownerDocument().createCDATASection(this->blockDelimiter()));
 }
-//-----------------------------------------------------------------------------
+

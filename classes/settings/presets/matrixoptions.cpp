@@ -18,12 +18,12 @@
  */
 
 #include "matrixoptions.h"
-//-----------------------------------------------------------------------------
+
 #include <QVector>
 #include <QSettings>
 #include <QtXml>
 #include <QDomDocument>
-//-----------------------------------------------------------------------------
+
 const QString MatrixOptions::GroupName = QString("matrix");
 const QString MatrixOptions::FieldMaskUsed = QString("maskUsed");
 const QString MatrixOptions::FieldMaskAnd = QString("maskAnd");
@@ -34,7 +34,7 @@ const QString MatrixOptions::FieldOperation = QString("operation");
 const QString MatrixOptions::FieldMask = QString("mask");
 const QString MatrixOptions::FieldShift = QString("shift");
 const QString MatrixOptions::FieldLeft = QString("left");
-//-----------------------------------------------------------------------------
+
 MatrixOptions::MatrixOptions(QObject *parent) :
     QObject(parent)
 {
@@ -44,65 +44,65 @@ MatrixOptions::MatrixOptions(QObject *parent) :
     this->mMaskOr = 0x00000000;
     this->mMaskFill = 0xffffffff;
 }
-//-----------------------------------------------------------------------------
+
 MatrixOptions::~MatrixOptions()
 {
     delete this->mOperations;
 }
-//-----------------------------------------------------------------------------
+
 quint32 MatrixOptions::maskUsed() const
 {
     return (this->mMaskUsed != 0) ? this->mMaskUsed : 1;
 }
-//-----------------------------------------------------------------------------
+
 quint32 MatrixOptions::maskAnd() const
 {
     return (this->mMaskAnd != 0) ? this->mMaskAnd : 1;
 }
-//-----------------------------------------------------------------------------
+
 quint32 MatrixOptions::maskOr() const
 {
     return this->mMaskOr;
 }
-//-----------------------------------------------------------------------------
+
 quint32 MatrixOptions::maskFill() const
 {
     return (this->mMaskFill != 0) ? this->mMaskFill : 1;
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::setMaskUsed(quint32 value)
 {
     this->mMaskUsed = (value != 0) ? value : 1;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::setMaskAnd(quint32 value)
 {
     this->mMaskAnd = (value != 0) ? value : 1;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::setMaskOr(quint32 value)
 {
     this->mMaskOr = value;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::setMaskFill(quint32 value)
 {
     this->mMaskFill = (value != 0) ? value : 0xffffffff;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 int MatrixOptions::operationsCount() const
 {
     return (this->mOperations->size()) / 2;
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::operation(int index, quint32 *mask, int *shift, bool *left) const
 {
     *mask = 0;
@@ -118,7 +118,7 @@ void MatrixOptions::operation(int index, quint32 *mask, int *shift, bool *left) 
         *left = (this->mOperations->at(index + 1) & 0x80000000) != 0;
     }
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::operationAdd(quint32 mask, int shift, bool left)
 {
     shift = qAbs(shift);
@@ -131,7 +131,7 @@ void MatrixOptions::operationAdd(quint32 mask, int shift, bool left)
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::operationRemove(int index)
 {
     if (index < this->operationsCount())
@@ -143,7 +143,7 @@ void MatrixOptions::operationRemove(int index)
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::operationsRemoveAll()
 {
     for (int i = this->operationsCount() - 1; i >= 0; i--)
@@ -151,7 +151,7 @@ void MatrixOptions::operationsRemoveAll()
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::operationReplace(int index, quint32 mask, int shift, bool left)
 {
     if (index < this->operationsCount())
@@ -168,7 +168,7 @@ void MatrixOptions::operationReplace(int index, quint32 mask, int shift, bool le
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 bool MatrixOptions::load(QSettings *settings, int version)
 {
     bool result = false;
@@ -288,7 +288,7 @@ bool MatrixOptions::load(QSettings *settings, int version)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool MatrixOptions::loadXmlElement(QDomElement element)
 {
     bool result = false;
@@ -394,7 +394,7 @@ bool MatrixOptions::loadXmlElement(QDomElement element)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::save(QSettings *settings)
 {
     settings->beginGroup(MatrixOptions::GroupName);
@@ -422,7 +422,7 @@ void MatrixOptions::save(QSettings *settings)
 
     settings->endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::saveXmlElement(QDomElement element)
 {
     QDomElement nodeMatrix = element.ownerDocument().createElement(MatrixOptions::GroupName);
@@ -472,4 +472,4 @@ void MatrixOptions::saveXmlElement(QDomElement element)
         nodeLeft.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)bLeft)));
     }
 }
-//-----------------------------------------------------------------------------
+

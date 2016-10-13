@@ -1,11 +1,11 @@
 #ifndef TESTPRESETS_H
 #define TESTPRESETS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QtTest/QtTest>
-//-----------------------------------------------------------------------------
+
 class Preset;
-//-----------------------------------------------------------------------------
+
 class TestPresets : public QObject
 {
     Q_OBJECT
@@ -22,5 +22,5 @@ private slots:
 
     void cleanupTestCase();
 };
-//-----------------------------------------------------------------------------
+
 #endif // TESTPRESETS_H

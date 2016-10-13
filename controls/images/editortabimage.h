@@ -19,15 +19,15 @@
 
 #ifndef EDITORTABIMAGE_H
 #define EDITORTABIMAGE_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
 
 #include "ieditor.h"
-//-----------------------------------------------------------------------------
+
 namespace Ui {
     class EditorTabImage;
 }
-//-----------------------------------------------------------------------------
+
 class QImage;
 class DataContainer;
 class StatusData;
@@ -38,7 +38,7 @@ namespace ImageEditor
 {
 class Editor;
 }
-//-----------------------------------------------------------------------------
+
 class EditorTabImage : public QWidget, public IEditor
 {
     Q_OBJECT
@@ -76,5 +76,5 @@ signals:
     void documentChanged();
     void statusChanged();
 };
-//-----------------------------------------------------------------------------
+
 #endif // EDITORTABIMAGE_H

@@ -19,13 +19,13 @@
 
 #ifndef DIALOGCANVASRESIZE_H
 #define DIALOGCANVASRESIZE_H
-//-----------------------------------------------------------------------------
+
 #include <QDialog>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
 class DialogCanvasResize;
 }
-//-----------------------------------------------------------------------------
+
 class QItemSelection;
 class DataContainer;
 class ImagesModel;
@@ -34,7 +34,7 @@ class ImagesResizedProxy;
 class ImagesFilterProxy;
 class ColumnsReorderProxy;
 class TransposeProxy;
-//-----------------------------------------------------------------------------
+
 class DialogCanvasResize : public QDialog
 {
     Q_OBJECT
@@ -69,5 +69,5 @@ private slots:
     void on_pushButtonReset_clicked();
     void resizeToContents();
 };
-//-----------------------------------------------------------------------------
+
 #endif // DIALOGCANVASRESIZE_H

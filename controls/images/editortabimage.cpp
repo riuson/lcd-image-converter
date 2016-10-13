@@ -19,7 +19,7 @@
 
 #include "editortabimage.h"
 #include "ui_editortabimage.h"
-//-----------------------------------------------------------------------------
+
 #include <QHBoxLayout>
 #include <QDomDocument>
 #include <QDomProcessingInstruction>
@@ -34,7 +34,7 @@
 #include "statusdata.h"
 #include "imagedocument.h"
 #include "editor.h"
-//-----------------------------------------------------------------------------
+
 EditorTabImage::EditorTabImage(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::EditorTabImage)
@@ -59,34 +59,34 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 
     this->updateSelectedImage();
 }
-//-----------------------------------------------------------------------------
+
 EditorTabImage::~EditorTabImage()
 {
     this->mEditorWidget->setParent(NULL);
     delete ui;
     delete this->mEditorObject;
 }
-//-----------------------------------------------------------------------------
+
 IDocument *EditorTabImage::document() const
 {
     return qobject_cast<IDocument *>(this->mDocument);
 }
-//-----------------------------------------------------------------------------
+
 QStringList EditorTabImage::selectedKeys() const
 {
     return this->mDocument->dataContainer()->keys();
 }
-//-----------------------------------------------------------------------------
+
 StatusData *EditorTabImage::statusData() const
 {
     return this->mStatusData;
 }
-//-----------------------------------------------------------------------------
+
 IEditor::EditorType EditorTabImage::type() const
 {
     return EditorImage;
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabImage::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
@@ -98,14 +98,14 @@ void EditorTabImage::changeEvent(QEvent *e)
         break;
     }
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabImage::initStatusData()
 {
     this->mStatusData = new StatusData(this);
     this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
     this->updateStatus();
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabImage::updateStatus()
 {
     QStringList keys = this->mDocument->dataContainer()->keys();
@@ -116,7 +116,7 @@ void EditorTabImage::updateStatus()
     }
     this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditorObject->scale()));
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabImage::updateSelectedImage()
 {
     QStringList keys = this->mDocument->dataContainer()->keys();
@@ -128,19 +128,19 @@ void EditorTabImage::updateSelectedImage()
 
     this->updateStatus();
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabImage::mon_documentChanged()
 {
     this->updateSelectedImage();
     emit this->documentChanged();
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabImage::mon_editor_imageChanged(const QImage* value)
 {
     QStringList keys = this->mDocument->dataContainer()->keys();
     this->mDocument->dataContainer()->setImage(keys.at(0), value);
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabImage::mon_editor_mouseMove(const QPoint* point)
 {
     if (point->x() >= 0 && point->y() >= 0)
@@ -152,12 +152,12 @@ void EditorTabImage::mon_editor_mouseMove(const QPoint* point)
         this->mStatusData->removeData(StatusData::MouseCoordinates);
     }
 }
-//-----------------------------------------------------------------------------
+
 void EditorTabImage::mon_editor_scaleChanged(int scale)
 {
     this->mStatusData->setData(StatusData::Scale, QVariant(scale));
 }
-//-----------------------------------------------------------------------------
+
 /*
  Storage data format:
 <?xml version="1.0" encoding="utf-8"?>

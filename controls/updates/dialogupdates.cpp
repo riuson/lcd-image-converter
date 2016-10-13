@@ -39,7 +39,7 @@
 #include <QDomDocument>
 #include "revisioninfo.h"
 #include "bitmaphelper.h"
-//-----------------------------------------------------------------------------
+
 DialogUpdates::DialogUpdates(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogUpdates)
@@ -70,12 +70,12 @@ DialogUpdates::DialogUpdates(QWidget *parent) :
     // start download history.xml from network
     this->showUpdates();
 }
-//-----------------------------------------------------------------------------
+
 DialogUpdates::~DialogUpdates()
 {
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void DialogUpdates::showHistory()
 {
     // XML file
@@ -122,7 +122,7 @@ void DialogUpdates::showHistory()
         this->ui->textBrowser->setHtml(html);
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogUpdates::showUpdates()
 {
     QNetworkAccessManager* mNetworkManager = new QNetworkAccessManager(this);
@@ -142,7 +142,7 @@ void DialogUpdates::showUpdates()
     QNetworkReply* reply = mNetworkManager->get(request);
     Q_UNUSED(reply);
 }
-//-----------------------------------------------------------------------------
+
 void DialogUpdates::showUpdates(const QString &xml)
 {
     // XSL file
@@ -177,13 +177,13 @@ void DialogUpdates::showUpdates(const QString &xml)
         this->ui->textBrowser->setHtml(html);
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogUpdates::showError(const QString &message)
 {
     this->ui->labelStatus->setText(message);
     this->ui->labelStatus->setVisible(true);
 }
-//-----------------------------------------------------------------------------
+
 bool DialogUpdates::transformHistory(const QString &xml, const QString &xsl, QString *html)
 {
     bool isSuccessfully = false;
@@ -237,7 +237,7 @@ bool DialogUpdates::transformHistory(const QString &xml, const QString &xsl, QSt
 
     return isSuccessfully;
 }
-//-----------------------------------------------------------------------------
+
 bool DialogUpdates::isLocalVersionOutdated(const QString &xml)
 {
     QDomDocument doc;
@@ -272,7 +272,7 @@ bool DialogUpdates::isLocalVersionOutdated(const QString &xml)
 
     return true;
 }
-//-----------------------------------------------------------------------------
+
 void DialogUpdates::networkReply(QNetworkReply* reply)
 {
     const int RESPONSE_OK = 200;

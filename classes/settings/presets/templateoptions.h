@@ -19,13 +19,13 @@
 
 #ifndef TEMPLATEOPTIONS_H
 #define TEMPLATEOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QString>
-//-----------------------------------------------------------------------------
+
 class QSettings;
 class QDomElement;
-//-----------------------------------------------------------------------------
+
 class TemplateOptions : public QObject
 {
     Q_OBJECT
@@ -57,5 +57,5 @@ signals:
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // TEMPLATEOPTIONS_H

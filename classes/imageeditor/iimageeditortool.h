@@ -19,7 +19,7 @@
 
 #ifndef IIMAGEEDITORTOOL_H
 #define IIMAGEEDITORTOOL_H
-//-----------------------------------------------------------------------------
+
 class QString;
 class QIcon;
 class QAction;
@@ -27,10 +27,10 @@ class QWidget;
 class QMouseEvent;
 class QImage;
 template <class T1> class QList;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 class IImageEditorTool
 {
 public:
@@ -52,11 +52,11 @@ signals:
     virtual void processing(const QImage *value) = 0;
     virtual void completed(const QImage *value, bool changed) = 0;
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
 Q_DECLARE_INTERFACE (ImageEditor::IImageEditorTool,
                      "riuson.lcd-image-converter/1.0"
                      )
-//-----------------------------------------------------------------------------
+
 #endif // IIMAGEEDITORTOOL_H
 

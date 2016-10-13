@@ -19,7 +19,7 @@
 
 #ifndef HISTORYKEEPER_H
 #define HISTORYKEEPER_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QString>
 #include <QImage>
@@ -27,9 +27,9 @@
 #include <QList>
 #include <QMap>
 #include <QStringList>
-//-----------------------------------------------------------------------------
+
 class HistoryRecord;
-//-----------------------------------------------------------------------------
+
 class HistoryKeeper : public QObject
 {
     Q_OBJECT
@@ -69,5 +69,5 @@ private:
             QMap<QString, QImage *> *images,
             QMap<QString, QVariant> *info);
 };
-//-----------------------------------------------------------------------------
+
 #endif // HISTORYKEEPER_H

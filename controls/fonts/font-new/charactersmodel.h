@@ -19,10 +19,10 @@
 
 #ifndef CHARACTERSMODEL_H
 #define CHARACTERSMODEL_H
-//-----------------------------------------------------------------------------
+
 #include <QAbstractItemModel>
 #include <QVariant>
-//-----------------------------------------------------------------------------
+
 class CharactersModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -50,5 +50,5 @@ signals:
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // CHARACTERSMODEL_H

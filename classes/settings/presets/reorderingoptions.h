@@ -19,13 +19,13 @@
 
 #ifndef REORDERINGOPTIONS_H
 #define REORDERINGOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 template <class T> class QVector;
 class QSettings;
 class QDomElement;
-//-----------------------------------------------------------------------------
+
 class ReorderingOptions : public QObject
 {
     Q_OBJECT
@@ -61,5 +61,5 @@ signals:
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // REORDERINGOPTIONS_H

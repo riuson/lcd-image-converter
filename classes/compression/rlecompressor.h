@@ -19,20 +19,20 @@
 
 #ifndef RLE_H
 #define RLE_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 #include "conversion_options.h"
-//-----------------------------------------------------------------------------
+
 // Run-length encoding algorithm
 // http://en.wikipedia.org/wiki/Run-length_encoding
-//-----------------------------------------------------------------------------
+
 template <class T> class QVector;
 template <class T> class QQueue;
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
 class RleSequence;
-//-----------------------------------------------------------------------------
+
 class RleCompressor : public QObject
 {
     Q_OBJECT
@@ -69,5 +69,5 @@ signals:
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // RLE_H

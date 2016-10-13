@@ -19,13 +19,13 @@
 
 #ifndef IIMAGEEDITORPARAMS_H
 #define IIMAGEEDITORPARAMS_H
-//-----------------------------------------------------------------------------
+
 class QImage;
 class QColor;
 class QPoint;
 class QWidget;
 class QPainterPath;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class IImageEditorParams
@@ -43,5 +43,5 @@ public:
 Q_DECLARE_INTERFACE (ImageEditor::IImageEditorParams,
                      "riuson.lcd-image-converter/1.0"
                      )
-//-----------------------------------------------------------------------------
+
 #endif // IIMAGEEDITORPARAMS_H

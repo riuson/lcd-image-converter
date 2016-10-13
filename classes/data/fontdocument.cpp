@@ -42,7 +42,7 @@
 #include "parsedimagedata.h"
 #include "fontoptions.h"
 #include "bitmaphelper.h"
-//-----------------------------------------------------------------------------
+
 FontDocument::FontDocument(QObject *parent) :
     QObject(parent)
 {
@@ -62,11 +62,11 @@ FontDocument::FontDocument(QObject *parent) :
     this->endChanges(true);
     this->mContainer->historyInit();
 }
-//-----------------------------------------------------------------------------
+
 FontDocument::~FontDocument()
 {
 }
-//-----------------------------------------------------------------------------
+
 bool FontDocument::load(const QString &fileName)
 {
     bool result = false;
@@ -223,7 +223,7 @@ bool FontDocument::load(const QString &fileName)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool FontDocument::save(const QString &fileName)
 {
     bool result = false;
@@ -350,46 +350,46 @@ bool FontDocument::save(const QString &fileName)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool FontDocument::changed() const
 {
     bool result = this->mContainer->changed();
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QString FontDocument::documentFilename() const
 {
     QVariant result = this->mContainer->commonInfo("filename");
     return result.toString();
 }
-//-----------------------------------------------------------------------------
+
 QString FontDocument::documentName() const
 {
     QVariant result = this->mContainer->commonInfo("document name");
     return result.toString();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::setDocumentName(const QString &value)
 {
     this->mContainer->setCommonInfo("document name", value);
 }
-//-----------------------------------------------------------------------------
+
 QString FontDocument::outputFilename() const
 {
     QVariant result = this->mContainer->commonInfo("converted filename");
     return result.toString();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::setOutputFilename(const QString &value)
 {
     this->mContainer->setCommonInfo("converted filename", QVariant(value));
 }
-//-----------------------------------------------------------------------------
+
 DataContainer *FontDocument::dataContainer() const
 {
     return this->mContainer;
 }
-//-----------------------------------------------------------------------------
+
 QString FontDocument::convert(Preset *preset)
 {
     Tags tags;
@@ -426,7 +426,7 @@ QString FontDocument::convert(Preset *preset)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::beginChanges()
 {
     if (!this->mContainer->historyInitialized())
@@ -436,7 +436,7 @@ void FontDocument::beginChanges()
 
     this->mNestedChangesCounter++;
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::endChanges(bool suppress)
 {
     if (this->mNestedChangesCounter > 0)
@@ -460,31 +460,31 @@ void FontDocument::endChanges(bool suppress)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 bool FontDocument::canUndo()
 {
     return this->mContainer->canUndo();
 }
-//-----------------------------------------------------------------------------
+
 bool FontDocument::canRedo()
 {
     return this->mContainer->canRedo();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::undo()
 {
     this->mContainer->stateUndo();
 
     emit this->documentChanged();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::redo()
 {
     this->mContainer->stateRedo();
 
     emit this->documentChanged();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::fontCharacters(QString *chars,
                                   tFontParameters *parameters)
 {
@@ -500,7 +500,7 @@ void FontDocument::fontCharacters(QString *chars,
     parameters->ascent = this->ascent();
     parameters->descent = this->descent();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::setFontCharacters(const QString &chars,
                                      const tFontParameters &parameters)
 {
@@ -622,7 +622,7 @@ void FontDocument::setFontCharacters(const QString &chars,
 
     this->endChanges(false);
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::setDocumentFilename(const QString &value)
 {
     if (this->documentFilename() != value)
@@ -630,7 +630,7 @@ void FontDocument::setDocumentFilename(const QString &value)
         this->mContainer->setCommonInfo("filename", QVariant(value));
     }
 }
-//-----------------------------------------------------------------------------
+
 QFont FontDocument::usedFont() const
 {
     QVariant var = this->mContainer->commonInfo("used font");
@@ -641,42 +641,42 @@ QFont FontDocument::usedFont() const
     }
     return QFont();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::setUsedFont(const QFont &value)
 {
     this->mContainer->setCommonInfo("used font", value);
 }
-//-----------------------------------------------------------------------------
+
 QString FontDocument::usedStyle() const
 {
     return this->mContainer->commonInfo("style").toString();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::setUsedStyle(const QString &value)
 {
     this->mContainer->setCommonInfo("style", value);
 }
-//-----------------------------------------------------------------------------
+
 bool FontDocument::monospaced() const
 {
     return this->mContainer->commonInfo("monospaced").toBool();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::setMonospaced(const bool value)
 {
     this->mContainer->setCommonInfo("monospaced", value);
 }
-//-----------------------------------------------------------------------------
+
 bool FontDocument::antialiasing() const
 {
     return this->mContainer->commonInfo("antialiasing").toBool();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::setAntialiasing(const bool value)
 {
     this->mContainer->setCommonInfo("antialiasing", value);
 }
-//-----------------------------------------------------------------------------
+
 QColor FontDocument::foreground() const
 {
     bool ok;
@@ -689,12 +689,12 @@ QColor FontDocument::foreground() const
 
     return FontEditorOptions::foreColor();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::setForeground(const QColor value)
 {
     this->mContainer->setCommonInfo("foreground", (quint32)value.rgba());
 }
-//-----------------------------------------------------------------------------
+
 QColor FontDocument::background() const
 {
     bool ok;
@@ -707,32 +707,32 @@ QColor FontDocument::background() const
 
     return FontEditorOptions::backColor();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::setBackground(const QColor value)
 {
     this->mContainer->setCommonInfo("background", (quint32)value.rgba());
 }
-//-----------------------------------------------------------------------------
+
 int FontDocument::ascent() const
 {
     return this->mContainer->commonInfo("ascent").toInt();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::setAscent(int value)
 {
     this->mContainer->setCommonInfo("ascent", value);
 }
-//-----------------------------------------------------------------------------
+
 int FontDocument::descent() const
 {
     return this->mContainer->commonInfo("descent").toInt();
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::setDescent(int value)
 {
     this->mContainer->setCommonInfo("descent", value);
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, const Tags &tags) const
 {
     DataContainer *data = this->dataContainer();
@@ -811,7 +811,7 @@ void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys,
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 QString FontDocument::hexCode(const QString &key, const QString &encoding, bool bom) const
 {
     QString result;
@@ -879,17 +879,17 @@ QString FontDocument::hexCode(const QString &key, const QString &encoding, bool 
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool caseInsensitiveLessThan(const QString &s1, const QString &s2)
 {
     return s1.toLower() < s2.toLower();
 }
-//-----------------------------------------------------------------------------
+
 bool caseInsensitiveMoreThan(const QString &s1, const QString &s2)
 {
     return s1.toLower() > s2.toLower();
 }
-//-----------------------------------------------------------------------------
+
 const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Preset *preset) const
 {
 
@@ -938,7 +938,7 @@ const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Pr
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void FontDocument::mon_container_dataChanged(bool historyStateMoved)
 {
     if (this->mNestedChangesCounter == 0)
@@ -951,4 +951,4 @@ void FontDocument::mon_container_dataChanged(bool historyStateMoved)
         emit this->documentChanged();
     }
 }
-//-----------------------------------------------------------------------------
+

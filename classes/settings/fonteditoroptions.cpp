@@ -22,7 +22,7 @@
 #include <QVariant>
 #include <QSettings>
 #include <QRgb>
-//-----------------------------------------------------------------------------
+
 int FontEditorOptions::scale()
 {
     QSettings sett;
@@ -35,7 +35,7 @@ int FontEditorOptions::scale()
         return result;
     return 1;
 }
-//-----------------------------------------------------------------------------
+
 void FontEditorOptions::setScale(int value)
 {
     QSettings sett;
@@ -43,7 +43,7 @@ void FontEditorOptions::setScale(int value)
     sett.setValue("scale", QVariant(value));
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 QColor FontEditorOptions::foreColor()
 {
     QSettings sett;
@@ -61,7 +61,7 @@ QColor FontEditorOptions::foreColor()
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QColor FontEditorOptions::backColor()
 {
     QSettings sett;
@@ -79,7 +79,7 @@ QColor FontEditorOptions::backColor()
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void FontEditorOptions::setForeColor(const QColor &value)
 {
     unsigned int a = value.rgba();
@@ -89,7 +89,7 @@ void FontEditorOptions::setForeColor(const QColor &value)
     sett.setValue("foreColor", QVariant(a));
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void FontEditorOptions::setBackColor(const QColor &value)
 {
     unsigned int a = value.rgba();
@@ -99,4 +99,4 @@ void FontEditorOptions::setBackColor(const QColor &value)
     sett.setValue("backColor", QVariant(a));
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+

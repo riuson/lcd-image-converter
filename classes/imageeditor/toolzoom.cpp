@@ -27,10 +27,10 @@
 #include <QSettings>
 #include <QMouseEvent>
 #include "bitmaphelper.h"
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 ToolZoom::ToolZoom(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
     this->mParameters = parameters;
@@ -44,7 +44,7 @@ ToolZoom::ToolZoom(IImageEditorParams *parameters, QObject *parent) : QObject(pa
     this->loadSettings();
     this->initializeWidgets();
 }
-//-----------------------------------------------------------------------------
+
 ToolZoom::~ToolZoom()
 {
     this->saveSettings();
@@ -54,37 +54,37 @@ ToolZoom::~ToolZoom()
     delete this->mActions;
     delete this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolZoom::title() const
 {
     return tr("Zoom");
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolZoom::tooltip() const
 {
     return tr("Zoom image");
 }
-//-----------------------------------------------------------------------------
+
 const QIcon *ToolZoom::icon() const
 {
     return this->mIcon;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QAction *> *ToolZoom::actions() const
 {
     return this->mActions;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QWidget *> *ToolZoom::widgets() const
 {
     return this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 int ToolZoom::scale() const
 {
     return this->mScale;
 }
-//-----------------------------------------------------------------------------
+
 bool ToolZoom::processMouse(QMouseEvent *event,
                             const QImage *imageOriginal,
                             bool inRect)
@@ -94,7 +94,7 @@ bool ToolZoom::processMouse(QMouseEvent *event,
     Q_UNUSED(inRect)
     return false;
 }
-//-----------------------------------------------------------------------------
+
 void ToolZoom::setScale(int value)
 {
     if (this->mScale != value && value >= this->mSpinBoxScale->minimum() && value <= this->mSpinBoxScale->maximum())
@@ -102,7 +102,7 @@ void ToolZoom::setScale(int value)
         this->mSpinBoxScale->setValue(value);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ToolZoom::initializeWidgets()
 {
     {
@@ -117,7 +117,7 @@ void ToolZoom::initializeWidgets()
         this->mWidgets->append(this->mSpinBoxScale);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ToolZoom::loadSettings()
 {
     QSettings sett;
@@ -137,7 +137,7 @@ void ToolZoom::loadSettings()
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void ToolZoom::saveSettings() const
 {
     QSettings sett;
@@ -151,7 +151,7 @@ void ToolZoom::saveSettings() const
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void ToolZoom::on_spinBoxScale_valueChanged(int value)
 {
     if (value != this->mScale)
@@ -160,6 +160,6 @@ void ToolZoom::on_spinBoxScale_valueChanged(int value)
         emit this->scaleChanged(value);
     }
 }
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+

@@ -19,12 +19,12 @@
 
 #include "setuptabimage.h"
 #include "ui_setuptabimage.h"
-//-----------------------------------------------------------------------------
+
 #include "preset.h"
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
-//-----------------------------------------------------------------------------
+
 SetupTabImage::SetupTabImage(Preset *preset, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SetupTabImage)
@@ -39,12 +39,12 @@ SetupTabImage::SetupTabImage(Preset *preset, QWidget *parent) :
 
     this->matrixChanged();
 }
-//-----------------------------------------------------------------------------
+
 SetupTabImage::~SetupTabImage()
 {
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabImage::matrixChanged()
 {
     this->ui->checkBoxSplitToRows->setChecked(this->mPreset->image()->splitToRows());
@@ -72,12 +72,12 @@ void SetupTabImage::matrixChanged()
     this->ui->lineEditSuffix->setText(this->mPreset->image()->blockSuffix());
     this->ui->lineEditDelimiter->setText(this->mPreset->image()->blockDelimiter());
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabImage::on_checkBoxSplitToRows_toggled(bool value)
 {
     this->mPreset->image()->setSplitToRows(value);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabImage::on_radioButtonLittleEndian_toggled(bool value)
 {
     if (value)
@@ -85,7 +85,7 @@ void SetupTabImage::on_radioButtonLittleEndian_toggled(bool value)
     else
         this->mPreset->image()->setBytesOrder(BytesOrderBigEndian);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabImage::on_comboBoxBlockSize_currentIndexChanged(int index)
 {
     QVariant data = this->ui->comboBoxBlockSize->itemData(index);
@@ -96,34 +96,34 @@ void SetupTabImage::on_comboBoxBlockSize_currentIndexChanged(int index)
         this->mPreset->image()->setBlockSize((DataBlockSize)a);
     }
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabImage::on_checkBoxCompressionRle_toggled(bool value)
 {
     this->mPreset->image()->setCompressionRle(value);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabImage::on_spinBoxRleMinLength_valueChanged(int value)
 {
     this->mPreset->image()->setCompressionRleMinLength((quint32)value);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabImage::on_checkBoxBlockDefaultOnes_toggled(bool value)
 {
     this->mPreset->image()->setBlockDefaultOnes(value);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabImage::on_lineEditPrefix_textEdited(const QString &value)
 {
     this->mPreset->image()->setBlockPrefix(value);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabImage::on_lineEditSuffix_textEdited(const QString &value)
 {
     this->mPreset->image()->setBlockSuffix(value);
 }
-//-----------------------------------------------------------------------------
+
 void SetupTabImage::on_lineEditDelimiter_textEdited(const QString &value)
 {
     this->mPreset->image()->setBlockDelimiter(value);
 }
-//-----------------------------------------------------------------------------
+

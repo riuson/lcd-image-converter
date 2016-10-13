@@ -18,13 +18,13 @@
  */
 
 #include "bitstream.h"
-//-----------------------------------------------------------------------------
+
 #include <QVector>
 #include "preset.h"
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
-//-----------------------------------------------------------------------------
+
 BitStream::BitStream(Preset *preset, QVector<quint32> *data, int start, int count)
 {
     this->mPreset = preset;
@@ -34,7 +34,7 @@ BitStream::BitStream(Preset *preset, QVector<quint32> *data, int start, int coun
 
     this->init();
 }
-//-----------------------------------------------------------------------------
+
 void BitStream::init()
 {
     this->mCurrentPixel = 0;
@@ -43,7 +43,7 @@ void BitStream::init()
     this->mBitsReaded = 0;
     this->mSetOnesByDefault = this->mPreset->image()->blockDefaultOnes();
 }
-//-----------------------------------------------------------------------------
+
 bool BitStream::eof() const
 {
     if (this->mStart + this->mCurrentPixel >= this->mData->size())
@@ -54,7 +54,7 @@ bool BitStream::eof() const
 
     return false;
 }
-//-----------------------------------------------------------------------------
+
 quint32 BitStream::next()
 {
     quint32 result;
@@ -96,7 +96,7 @@ quint32 BitStream::next()
     }
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool BitStream::nextBit()
 {
     if (this->eof())
@@ -142,7 +142,7 @@ bool BitStream::nextBit()
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 int BitStream::remain() const
 {
     int result = 0;
@@ -153,4 +153,4 @@ int BitStream::remain() const
     }
     return result;
 }
-//-----------------------------------------------------------------------------
+

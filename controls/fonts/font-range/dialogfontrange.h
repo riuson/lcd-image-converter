@@ -19,13 +19,13 @@
 
 #ifndef DIALOGFONTRANGE_H
 #define DIALOGFONTRANGE_H
-//-----------------------------------------------------------------------------
+
 #include <QDialog>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
 class DialogFontRange;
 }
-//-----------------------------------------------------------------------------
+
 class DialogFontRange : public QDialog
 {
     Q_OBJECT
@@ -45,5 +45,5 @@ private slots:
     void updatePreview(const QString &encoding, int from, int to, bool bigEndian);
     void on_plainTextEditPreview_textChanged();
 };
-//-----------------------------------------------------------------------------
+
 #endif // DIALOGFONTRANGE_H

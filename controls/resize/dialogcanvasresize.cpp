@@ -28,7 +28,7 @@
 #include "transposeproxy.h"
 #include "columnsreorderproxy.h"
 #include "resizesettings.h"
-//-----------------------------------------------------------------------------
+
 DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogCanvasResize)
@@ -71,21 +71,21 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
     this->ui->spinBoxScale->setValue(scale);
     this->on_spinBoxScale_valueChanged(scale);
 }
-//-----------------------------------------------------------------------------
+
 DialogCanvasResize::~DialogCanvasResize()
 {
     ResizeSettings::setScale(this->ui->spinBoxScale->value());
 
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::selectKeys(const QStringList &keys)
 {
     this->mFilter->setFilter(keys);
 
     this->resizeToContents();
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::resizeInfo(int *left, int *top, int *right, int *bottom) const
 {
     *left = this->mLeft;
@@ -93,7 +93,7 @@ void DialogCanvasResize::resizeInfo(int *left, int *top, int *right, int *bottom
     *right = this->mRight;
     *bottom = this->mBottom;
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::setResizeInfo(int left, int top, int right, int bottom)
 {
     this->mLeft = left;
@@ -106,7 +106,7 @@ void DialogCanvasResize::setResizeInfo(int left, int top, int right, int bottom)
     this->ui->spinBoxRight->setValue(right);
     this->ui->spinBoxBottom->setValue(bottom);
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::spinBox_valueChanged(int value)
 {
     Q_UNUSED(value);
@@ -124,14 +124,14 @@ void DialogCanvasResize::spinBox_valueChanged(int value)
 
     this->resizeToContents();
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::on_spinBoxScale_valueChanged(int value)
 {
     this->mScaledProxy->setScale(value);
 
     this->resizeToContents();
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::on_pushButtonReset_clicked()
 {
     this->ui->spinBoxLeft->setValue(0);
@@ -139,10 +139,10 @@ void DialogCanvasResize::on_pushButtonReset_clicked()
     this->ui->spinBoxRight->setValue(0);
     this->ui->spinBoxBottom->setValue(0);
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::resizeToContents()
 {
     this->ui->tableView->resizeRowsToContents();
     this->ui->tableView->resizeColumnsToContents();
 }
-//-----------------------------------------------------------------------------
+

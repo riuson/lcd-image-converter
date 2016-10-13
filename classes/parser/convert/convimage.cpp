@@ -18,9 +18,9 @@
  */
 
 #include "convimage.h"
-//-----------------------------------------------------------------------------
+
 #include <QImage>
-//-----------------------------------------------------------------------------
+
 ConvImage::ConvImage(const QImage *image, QObject *parent) :
     QObject(parent)
 {
@@ -29,41 +29,41 @@ ConvImage::ConvImage(const QImage *image, QObject *parent) :
     this->mUseBands = false;
     this->mScanTerminated = false;
 }
-//-----------------------------------------------------------------------------
+
 ConvImage::~ConvImage()
 {
 }
-//-----------------------------------------------------------------------------
+
 int ConvImage::bandSize() const
 {
     return this->mBandSize;
 }
-//-----------------------------------------------------------------------------
+
 void ConvImage::setBandSize(int value)
 {
     this->mBandSize = value;
 }
-//-----------------------------------------------------------------------------
+
 bool ConvImage::useBands() const
 {
     return this->mUseBands;
 }
-//-----------------------------------------------------------------------------
+
 void ConvImage::setUseBands(bool value)
 {
     this->mUseBands= value;
 }
-//-----------------------------------------------------------------------------
+
 void ConvImage::addPoint(int x, int y)
 {
     this->mPoints.append(QPoint(x, y));
 }
-//-----------------------------------------------------------------------------
+
 void ConvImage::clearPoints()
 {
     this->mPoints.clear();
 }
-//-----------------------------------------------------------------------------
+
 QPoint ConvImage::pointAt(int index) const
 {
     if (index < this->mPoints.size())
@@ -72,29 +72,29 @@ QPoint ConvImage::pointAt(int index) const
     }
     return QPoint();
 }
-//-----------------------------------------------------------------------------
+
 int ConvImage::pointsCount() const
 {
     return this->mPoints.size();
 }
-//-----------------------------------------------------------------------------
+
 bool ConvImage::scanTerminated() const
 {
     return this->mScanTerminated;
 }
-//-----------------------------------------------------------------------------
+
 void ConvImage::setScanTerminated(bool value)
 {
     this->mScanTerminated = value;
 }
-//-----------------------------------------------------------------------------
+
 int ConvImage::height() const
 {
     return this->mImage->height();
 }
-//-----------------------------------------------------------------------------
+
 int ConvImage::width() const
 {
     return this->mImage->width();
 }
-//-----------------------------------------------------------------------------
+

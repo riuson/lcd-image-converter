@@ -1,17 +1,17 @@
 #include "testreorderingoptions.h"
-//-----------------------------------------------------------------------------
+
 #include "reorderingoptions.h"
-//-----------------------------------------------------------------------------
+
 TestReorderingOptions::TestReorderingOptions(QObject *parent) :
     QObject(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestReorderingOptions::initTestCase()
 {
     this->mOptions = new ReorderingOptions(this);
 }
-//-----------------------------------------------------------------------------
+
 void TestReorderingOptions::operationsCount()
 {
     this->mOptions->operationsRemoveAll();
@@ -22,7 +22,7 @@ void TestReorderingOptions::operationsCount()
     this->mOptions->operationAdd(0x23131315, 1, true);
     QCOMPARE(this->mOptions->operationsCount(), 2);
 }
-//-----------------------------------------------------------------------------
+
 void TestReorderingOptions::operation()
 {
     this->mOptions->operationsRemoveAll();
@@ -58,7 +58,7 @@ void TestReorderingOptions::operation()
         expectedLeft = !expectedLeft;
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestReorderingOptions::operationAdd()
 {
     this->mOptions->operationsRemoveAll();
@@ -94,7 +94,7 @@ void TestReorderingOptions::operationAdd()
         expectedLeft = !expectedLeft;
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestReorderingOptions::operationRemove()
 {
     this->mOptions->operationsRemoveAll();
@@ -117,7 +117,7 @@ void TestReorderingOptions::operationRemove()
     QCOMPARE(actualShift, 3);
     QCOMPARE(actualLeft, true);
 }
-//-----------------------------------------------------------------------------
+
 void TestReorderingOptions::operationRemoveAll()
 {
     this->mOptions->operationsRemoveAll();
@@ -135,7 +135,7 @@ void TestReorderingOptions::operationRemoveAll()
     this->mOptions->operationsRemoveAll();
     QCOMPARE(this->mOptions->operationsCount(), 0);
 }
-//-----------------------------------------------------------------------------
+
 void TestReorderingOptions::operationReplace()
 {
     this->mOptions->operationsRemoveAll();
@@ -173,9 +173,9 @@ void TestReorderingOptions::operationReplace()
     QCOMPARE(shift, 7);
     QCOMPARE(left, false);
 }
-//-----------------------------------------------------------------------------
+
 void TestReorderingOptions::cleanupTestCase()
 {
     delete this->mOptions;
 }
-//-----------------------------------------------------------------------------
+

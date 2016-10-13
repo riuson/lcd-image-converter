@@ -19,7 +19,7 @@
 
 #ifndef TOOLRECT_H
 #define TOOLRECT_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QImage>
 #include <QColor>
@@ -28,11 +28,11 @@
 
 class QIcon;
 class QAction;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class IImageEditorParams;
-//-----------------------------------------------------------------------------
+
 class ToolRect : public QObject, public IImageEditorTool
 {
     Q_OBJECT
@@ -89,7 +89,7 @@ private slots:
     void on_spinBoxSize_valueChanged(int value);
     void on_buttonRertFilledOutline_triggered();
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+
 #endif // TOOLRECT_H

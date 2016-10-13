@@ -18,13 +18,13 @@
  */
 
 #include "reorderingitemdelegate.h"
-//-----------------------------------------------------------------------------
+
 ReorderingItemDelegate::ReorderingItemDelegate(QObject *parent) :
     QItemDelegate(parent)
 {
     this->mColor= QColor("gold");
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingItemDelegate::paint(QPainter *painter,
                                  const QStyleOptionViewItem &option,
                                  const QModelIndex &index) const
@@ -50,14 +50,14 @@ void ReorderingItemDelegate::paint(QPainter *painter,
     }
     QItemDelegate::paint(painter, option, index);
 }
-//-----------------------------------------------------------------------------
+
 QColor ReorderingItemDelegate::color() const
 {
     return this->mColor;
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingItemDelegate::setColor(const QColor &value)
 {
     this->mColor = value;
 }
-//-----------------------------------------------------------------------------
+

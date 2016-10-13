@@ -19,15 +19,15 @@
 
 #ifndef SETUPTABTEMPLATES_H
 #define SETUPTABTEMPLATES_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
 class SetupTabTemplates;
 }
-//-----------------------------------------------------------------------------
+
 class Preset;
-//-----------------------------------------------------------------------------
+
 class SetupTabTemplates : public QWidget
 {
     Q_OBJECT
@@ -47,5 +47,5 @@ private slots:
     void on_lineEditImage_editingFinished();
     void on_lineEditFont_editingFinished();
 };
-//-----------------------------------------------------------------------------
+
 #endif // SETUPTABTEMPLATES_H

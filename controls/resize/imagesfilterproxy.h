@@ -19,11 +19,11 @@
 
 #ifndef IMAGESFILTERPROXY_H
 #define IMAGESFILTERPROXY_H
-//-----------------------------------------------------------------------------
+
 #include <QSortFilterProxyModel>
-//-----------------------------------------------------------------------------
+
 class QStringList;
-//-----------------------------------------------------------------------------
+
 class ImagesFilterProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
@@ -39,5 +39,5 @@ private:
     QStringList *mKeys;
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // IMAGESFILTERPROXY_H

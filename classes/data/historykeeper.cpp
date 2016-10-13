@@ -23,20 +23,20 @@
 #include <QStringListIterator>
 #include <QDebug>
 #include "historyrecord.h"
-//-----------------------------------------------------------------------------
+
 HistoryKeeper::HistoryKeeper(QObject *parent) :
     QObject(parent)
 {
     this->mHistory = new QList<HistoryRecord *>();
     this->mCurrentIndex = -1;
 }
-//-----------------------------------------------------------------------------
+
 HistoryKeeper::~HistoryKeeper()
 {
     qDeleteAll(*this->mHistory);
     this->mHistory->clear();
 }
-//-----------------------------------------------------------------------------
+
 void HistoryKeeper::init(const QStringList *keys, const QMap<QString, QImage *> *images, const QMap<QString, QVariant> *info)
 {
     // clear all
@@ -49,7 +49,7 @@ void HistoryKeeper::init(const QStringList *keys, const QMap<QString, QImage *> 
     // first recorded state
     this->mCurrentIndex = 0;
 }
-//-----------------------------------------------------------------------------
+
 void HistoryKeeper::store(
         const QStringList *keys,
         const QMap<QString, QImage *> *images,
@@ -67,7 +67,7 @@ void HistoryKeeper::store(
     this->mHistory->append(record);
     this->mCurrentIndex++;
 }
-//-----------------------------------------------------------------------------
+
 void HistoryKeeper::restorePrevious(
         QStringList *keys,
         QMap<QString, QImage *> *images,
@@ -85,7 +85,7 @@ void HistoryKeeper::restorePrevious(
         this->restoreAt(this->mCurrentIndex, keys, images, info);
     }
 }
-//-----------------------------------------------------------------------------
+
 void HistoryKeeper::restoreNext(
         QStringList *keys,
         QMap<QString, QImage *> *images,
@@ -103,22 +103,22 @@ void HistoryKeeper::restoreNext(
         this->restoreAt(this->mCurrentIndex, keys, images, info);
     }
 }
-//-----------------------------------------------------------------------------
+
 bool HistoryKeeper::initialized() const
 {
     return (this->mCurrentIndex >= 0);
 }
-//-----------------------------------------------------------------------------
+
 bool HistoryKeeper::canRestorePrevious() const
 {
     return (this->mCurrentIndex > 0);
 }
-//-----------------------------------------------------------------------------
+
 bool HistoryKeeper::canRestoreNext() const
 {
     return (this->mCurrentIndex < (this->mHistory->length() - 1));
 }
-//-----------------------------------------------------------------------------
+
 void HistoryKeeper::removeAfter(int index)
 {
     if (index < -1)
@@ -133,7 +133,7 @@ void HistoryKeeper::removeAfter(int index)
         delete record;
     }
 }
-//-----------------------------------------------------------------------------
+
 void HistoryKeeper::restoreAt(
         int index,
         QStringList *keys,
@@ -169,4 +169,4 @@ void HistoryKeeper::restoreAt(
          info->insert(key, value);
     }
 }
-//-----------------------------------------------------------------------------
+

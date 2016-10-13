@@ -19,13 +19,13 @@
 
 #ifndef ACTIONHANDLERSBASE_H
 #define ACTIONHANDLERSBASE_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 class IMainWindow;
 class WidgetBitmapEditor;
 class IEditor;
-//-----------------------------------------------------------------------------
+
 class ActionHandlersBase : public QObject
 {
     Q_OBJECT
@@ -41,5 +41,5 @@ signals:
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // ACTIONHANDLERSBASE_H

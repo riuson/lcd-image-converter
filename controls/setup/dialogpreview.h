@@ -19,15 +19,15 @@
 
 #ifndef DIALOGPREVIEW_H
 #define DIALOGPREVIEW_H
-//-----------------------------------------------------------------------------
+
 #include <QDialog>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
 class DialogPreview;
 }
 class Preset;
 class DataContainer;
-//-----------------------------------------------------------------------------
+
 class DialogPreview : public QDialog
 {
     Q_OBJECT
@@ -55,5 +55,5 @@ private slots:
     void on_comboBoxSampleKey_currentIndexChanged();
     void on_spinBoxScale_valueChanged(int value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // DIALOGPREVIEW_H

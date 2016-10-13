@@ -19,13 +19,13 @@
 
 #ifndef PARSEDIMAGEDATA_H
 #define PARSEDIMAGEDATA_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 class QImage;
 class Tags;
 class Preset;
-//-----------------------------------------------------------------------------
+
 class ParsedImageData : public QObject
 {
     Q_OBJECT
@@ -43,5 +43,5 @@ private:
     uint mHash;
     QString mPreparedOutputImageData;
 };
-//-----------------------------------------------------------------------------
+
 #endif // PARSEDIMAGEDATA_H

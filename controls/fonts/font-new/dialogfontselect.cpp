@@ -31,7 +31,7 @@
 #include "fonteditoroptions.h"
 #include "tfontparameters.h"
 #include "dialogfontselectdata.h"
-//-----------------------------------------------------------------------------
+
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogFontSelect)
@@ -96,33 +96,33 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
 
     this->loadSettings();
 }
-//-----------------------------------------------------------------------------
+
 DialogFontSelect::~DialogFontSelect()
 {
     this->saveSettings();
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 QString DialogFontSelect::characters()
 {
     return this->mData->characters();
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::setCharacters(const QString &value)
 {
     this->mData->setCharacters(value);
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::getFontParameters(tFontParameters *parameters)
 {
     this->mData->getFontParameters(parameters);
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::setFontParameters(const tFontParameters &parameters)
 {
     this->mData->setFontParameters(parameters);
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::loadSettings()
 {
     QSettings sett;
@@ -143,7 +143,7 @@ void DialogFontSelect::loadSettings()
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::saveSettings() const
 {
     QSettings sett;
@@ -156,7 +156,7 @@ void DialogFontSelect::saveSettings() const
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::on_lineEdit_textChanged(const QString &value)
 {
     QString stringNew = FontHelper::unescapeControlChars(value);
@@ -167,13 +167,13 @@ void DialogFontSelect::on_lineEdit_textChanged(const QString &value)
         this->mData->setCharacters(stringNew);
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::on_tableView_doubleClicked(const QModelIndex &index)
 {
     QString selected = this->ui->tableView->model()->data(index, Qt::DisplayRole).toString();
     this->mData->appendCharacters(selected);
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::on_pushButtonAppendSelected_clicked()
 {
     QString selected = QString();
@@ -193,7 +193,7 @@ void DialogFontSelect::on_pushButtonAppendSelected_clicked()
 
     this->mData->appendCharacters(selected);
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::on_pushButtonAppendRange_clicked()
 {
     DialogFontRange dialog(this);
@@ -203,7 +203,7 @@ void DialogFontSelect::on_pushButtonAppendRange_clicked()
         this->mData->appendCharacters(selected);
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     Q_UNUSED(selected);
@@ -231,7 +231,7 @@ void DialogFontSelect::selectionChanged(const QItemSelection &selected, const QI
 
     this->ui->pushButtonAppendSelected->setEnabled(hasNew);
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::on_pushButtonForeColor_clicked()
 {
     QColorDialog dialog(this->mData->foreground(), this);
@@ -243,7 +243,7 @@ void DialogFontSelect::on_pushButtonForeColor_clicked()
         this->mData->setForeground(dialog.selectedColor());
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::on_pushButtonBackColor_clicked()
 {
     QColorDialog dialog(this->mData->background(), this);
@@ -255,7 +255,7 @@ void DialogFontSelect::on_pushButtonBackColor_clicked()
         this->mData->setBackground(dialog.selectedColor());
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::on_stylesListChanged(const QStringList &list, const QString &selected)
 {
     this->ui->comboBoxStyle->clear();
@@ -268,7 +268,7 @@ void DialogFontSelect::on_stylesListChanged(const QStringList &list, const QStri
     else
         this->ui->comboBoxStyle->setCurrentIndex(0);
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::on_sizesListChanged(const QList<int> &list, int selected)
 {
     int i = 0, previousSizeIndex = 0;
@@ -293,7 +293,7 @@ void DialogFontSelect::on_sizesListChanged(const QList<int> &list, int selected)
 
     this->ui->comboBoxSize->setCurrentIndex(previousSizeIndex);
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::on_charactersListChanged(const QString &value)
 {
     QString stringNew = FontHelper::escapeControlChars(value);
@@ -304,7 +304,7 @@ void DialogFontSelect::on_charactersListChanged(const QString &value)
         this->ui->lineEdit->setText(stringNew);
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::on_fontChanged(const QFont &value)
 {
     this->ui->tableView->setFont(value);
@@ -328,19 +328,19 @@ void DialogFontSelect::on_fontChanged(const QFont &value)
         this->ui->fontComboBox->setCurrentFont(value);
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::on_monospacedChanged(bool value)
 {
     this->ui->radioButtonMonospaced->setChecked(value);
     this->ui->radioButtonProportional->setChecked(!value);
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::on_fontMeasured(int count, int maxWidth, int maxHeight)
 {
     this->ui->labelCharactersMaxSize->setText(tr("Max size (w × h): %1 × %2").arg(maxWidth).arg(maxHeight));
     this->ui->labelCharactersCount->setText(tr("Count: %1").arg(count));
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelect::updateColorIcons(const QColor &foreground, const QColor &background)
 {
     QPixmap pixmapForeColor = QPixmap(24, 24);
@@ -353,4 +353,4 @@ void DialogFontSelect::updateColorIcons(const QColor &foreground, const QColor &
     this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
     this->ui->pushButtonBackColor->setText(tr("Back Color: %1").arg((quint32)background.rgba(), 8, 16, QChar('0')));
 }
-//-----------------------------------------------------------------------------
+

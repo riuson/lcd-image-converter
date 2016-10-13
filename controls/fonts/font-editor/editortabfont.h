@@ -19,15 +19,15 @@
 
 #ifndef EDITORTABFONT_H
 #define EDITORTABFONT_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
 
 #include "ieditor.h"
-//-----------------------------------------------------------------------------
+
 namespace Ui {
     class EditorTabFont;
 }
-//-----------------------------------------------------------------------------
+
 class DataContainer;
 class QSplitter;
 class ImagesModel;
@@ -43,7 +43,7 @@ namespace ImageEditor
 {
 class Editor;
 }
-//-----------------------------------------------------------------------------
+
 class EditorTabFont : public QWidget, public IEditor
 {
     Q_OBJECT
@@ -99,5 +99,5 @@ signals:
     void documentChanged();
     void statusChanged();
 };
-//-----------------------------------------------------------------------------
+
 #endif // EDITORTABFONT_H

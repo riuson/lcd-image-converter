@@ -19,18 +19,18 @@
 
 #ifndef SETUPTABREORDERING_H
 #define SETUPTABREORDERING_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
 class SetupTabReordering;
 }
-//-----------------------------------------------------------------------------
+
 class Preset;
 class ReorderingPreviewModel;
 class ReorderingItemDelegate;
 class QMenu;
-//-----------------------------------------------------------------------------
+
 class SetupTabReordering : public QWidget
 {
     Q_OBJECT
@@ -57,5 +57,5 @@ private slots:
     void operationShift();
     void operationRemove();
 };
-//-----------------------------------------------------------------------------
+
 #endif // SETUPTABREORDERING_H

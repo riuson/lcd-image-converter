@@ -19,16 +19,16 @@
 
 #ifndef BITMAPHELPER_H
 #define BITMAPHELPER_H
-//-----------------------------------------------------------------------------
+
 #include <QImage>
-//-----------------------------------------------------------------------------
+
 #include <conversion_options.h>
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
-//-----------------------------------------------------------------------------
+
 class QFontMetrics;
 class QPainterPath;
-//-----------------------------------------------------------------------------
+
 typedef struct
 {
     int width;
@@ -37,7 +37,7 @@ typedef struct
     int offsetY;
     bool center;
 } tResizeInfo;
-//-----------------------------------------------------------------------------
+
 class BitmapHelper
 {
 public:
@@ -61,5 +61,5 @@ public:
     static QImage fromSvg(const QString &path, int size);
     static QColor fromRgba(QRgb value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // BITMAPHELPER_H

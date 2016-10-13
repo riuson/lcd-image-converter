@@ -20,15 +20,15 @@
 #include <qt-version-check.h>
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-//-----------------------------------------------------------------------------
+
 #ifndef CONVERTFONTARGUMENTS_H
 #define CONVERTFONTARGUMENTS_H
-//-----------------------------------------------------------------------------
+
 #include "modeparserbase.h"
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 namespace CommandLine {
-//-----------------------------------------------------------------------------
+
 class ModeConvertFont : public ModeParserBase
 {
     Q_OBJECT
@@ -64,9 +64,9 @@ private:
                             const QString &encoding,
                             bool bigEndian) const;
 };
-//-----------------------------------------------------------------------------
+
 }
-//-----------------------------------------------------------------------------
+
 #endif // CONVERTFONTARGUMENTS_H
-//-----------------------------------------------------------------------------
+
 #endif // QT_VERSION

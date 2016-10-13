@@ -18,12 +18,12 @@
  */
 
 #include "matrixitemdelegate.h"
-//-----------------------------------------------------------------------------
+
 MatrixItemDelegate::MatrixItemDelegate(QObject *pobj) : QItemDelegate(pobj)
 {
     this->mColor= QColor("gold");
 }
-//-----------------------------------------------------------------------------
+
 void MatrixItemDelegate::paint(QPainter *painter,
                                  const QStyleOptionViewItem &option,
                                  const QModelIndex &index) const
@@ -49,14 +49,14 @@ void MatrixItemDelegate::paint(QPainter *painter,
     }
     QItemDelegate::paint(painter, option, index);
 }
-//-----------------------------------------------------------------------------
+
 QColor MatrixItemDelegate::color() const
 {
     return this->mColor;
 }
-//-----------------------------------------------------------------------------
+
 void MatrixItemDelegate::setColor(const QColor &value)
 {
     this->mColor = value;
 }
-//-----------------------------------------------------------------------------
+

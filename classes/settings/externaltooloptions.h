@@ -19,9 +19,9 @@
 
 #ifndef EXTERNALTOOLOPTIONS_H
 #define EXTERNALTOOLOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 class ExternalToolOptions : public QObject
 {
     Q_OBJECT
@@ -29,5 +29,5 @@ public:
     static const QString imageEditor();
     static void setImageEditor(const QString &value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // EXTERNALTOOLOPTIONS_H

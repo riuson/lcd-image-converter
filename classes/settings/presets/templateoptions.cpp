@@ -18,46 +18,46 @@
  */
 
 #include "templateoptions.h"
-//-----------------------------------------------------------------------------
+
 #include <QSettings>
 #include <QtXml>
 #include <QDomDocument>
-//-----------------------------------------------------------------------------
+
 const QString TemplateOptions::GroupName = QString("templates");
 const QString TemplateOptions::FieldImages = QString("images");
 const QString TemplateOptions::FieldFonts = QString("fonts");
-//-----------------------------------------------------------------------------
+
 TemplateOptions::TemplateOptions(QObject *parent) :
     QObject(parent)
 {
     this->mImageTemplate = ":/templates/image_convert";
     this->mFontTemplate = ":/templates/font_convert";
 }
-//-----------------------------------------------------------------------------
+
 const QString &TemplateOptions::image() const
 {
     return this->mImageTemplate;
 }
-//-----------------------------------------------------------------------------
+
 const QString &TemplateOptions::font() const
 {
     return this->mFontTemplate;
 }
-//-----------------------------------------------------------------------------
+
 void TemplateOptions::setImage(const QString &filename)
 {
     this->mImageTemplate = filename;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void TemplateOptions::setFont(const QString &filename)
 {
     this->mFontTemplate = filename;
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 bool TemplateOptions::load(QSettings *settings, int version)
 {
     bool result = false;
@@ -89,7 +89,7 @@ bool TemplateOptions::load(QSettings *settings, int version)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool TemplateOptions::loadXmlElement(QDomElement element)
 {
     QDomNode nodeSett = element.firstChild();
@@ -134,7 +134,7 @@ bool TemplateOptions::loadXmlElement(QDomElement element)
 
     return true;
 }
-//-----------------------------------------------------------------------------
+
 void TemplateOptions::save(QSettings *settings)
 {
     settings->beginGroup(TemplateOptions::GroupName);
@@ -144,7 +144,7 @@ void TemplateOptions::save(QSettings *settings)
 
     settings->endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void TemplateOptions::saveXmlElement(QDomElement element)
 {
     QDomElement nodeTemplate = element.ownerDocument().createElement(TemplateOptions::GroupName);
@@ -158,4 +158,4 @@ void TemplateOptions::saveXmlElement(QDomElement element)
     nodeTemplate.appendChild(nodeFonts);
     nodeFonts.appendChild(element.ownerDocument().createTextNode(this->font()));
 }
-//-----------------------------------------------------------------------------
+

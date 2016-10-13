@@ -19,12 +19,12 @@
 
 #ifndef IIMAGEEDITOR_H
 #define IIMAGEEDITOR_H
-//-----------------------------------------------------------------------------
+
 class QImage;
 class QColor;
 class QPoint;
 class QWidget;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class IImageEditor
@@ -48,5 +48,5 @@ signals:
 Q_DECLARE_INTERFACE (ImageEditor::IImageEditor,
                      "riuson.lcd-image-converter/1.0"
                      )
-//-----------------------------------------------------------------------------
+
 #endif // IIMAGEEDITOR_H

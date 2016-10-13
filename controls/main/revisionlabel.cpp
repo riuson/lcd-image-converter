@@ -18,9 +18,9 @@
  */
 
 #include "revisionlabel.h"
-//-----------------------------------------------------------------------------
+
 #include "revisioninfo.h"
-//-----------------------------------------------------------------------------
+
 RevisionLabel::RevisionLabel(QWidget *parent) :
     QLabel(parent)
 {
@@ -28,4 +28,4 @@ RevisionLabel::RevisionLabel(QWidget *parent) :
 
     this->setForegroundRole(QPalette::Midlight);
 }
-//-----------------------------------------------------------------------------
+

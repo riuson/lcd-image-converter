@@ -19,19 +19,19 @@
 
 #ifndef SETUPTABFONT_H
 #define SETUPTABFONT_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
-//-----------------------------------------------------------------------------
+
 #include "conversion_options.h"
-//-----------------------------------------------------------------------------
+
 namespace Ui {
 class SetupTabFont;
 }
-//-----------------------------------------------------------------------------
+
 class Preset;
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
-//-----------------------------------------------------------------------------
+
 class SetupTabFont : public QWidget
 {
     Q_OBJECT
@@ -54,5 +54,5 @@ private slots:
     void on_comboBoxEncoding_currentIndexChanged(const QString &value);
     void on_comboBoxSorting_currentIndexChanged(int index);
 };
-//-----------------------------------------------------------------------------
+
 #endif // SETUPTABFONT_H

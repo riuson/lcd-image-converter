@@ -19,11 +19,11 @@
 
 #ifndef PRESET_H
 #define PRESET_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 #include "conversion_options.h"
-//-----------------------------------------------------------------------------
+
 class PrepareOptions;
 class MatrixOptions;
 class ReorderingOptions;
@@ -32,9 +32,9 @@ class FontOptions;
 class TemplateOptions;
 class QString;
 class QStringList;
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
-//-----------------------------------------------------------------------------
+
 class Preset : public QObject
 {
     Q_OBJECT
@@ -84,5 +84,5 @@ private slots:
     void partsChanged();
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // PRESET_H

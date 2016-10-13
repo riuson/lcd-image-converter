@@ -1,11 +1,11 @@
 #ifndef TESTPREPAREOPTIONS_H
 #define TESTPREPAREOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QtTest/QtTest>
-//-----------------------------------------------------------------------------
+
 class PrepareOptions;
-//-----------------------------------------------------------------------------
+
 class TestPrepareOptions : public QObject
 {
     Q_OBJECT
@@ -29,5 +29,5 @@ private slots:
 
     void cleanupTestCase();
 };
-//-----------------------------------------------------------------------------
+
 #endif // TESTPREPAREOPTIONS_H

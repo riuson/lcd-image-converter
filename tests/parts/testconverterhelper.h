@@ -1,15 +1,15 @@
 #ifndef TESTCONVERTERHELPER_H
 #define TESTCONVERTERHELPER_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QtTest/QtTest>
 #include "conversion_options.h"
 #include "convimage.h"
-//-----------------------------------------------------------------------------
+
 class Preset;
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
-//-----------------------------------------------------------------------------
+
 class TestConverterHelper : public QObject
 {
     Q_OBJECT
@@ -35,7 +35,7 @@ private slots:
     void breakInfiniteScript();
     void cleanupTestCase();
 };
-//-----------------------------------------------------------------------------
+
 class TestConvImage : public ConvImage
 {
     Q_OBJECT
@@ -55,5 +55,5 @@ private:
     Condition mCondition;
 };
 
-//-----------------------------------------------------------------------------
+
 #endif // TESTCONVERTERHELPER_H

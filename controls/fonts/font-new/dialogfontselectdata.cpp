@@ -30,7 +30,7 @@
 #include "fonteditoroptions.h"
 #include "tfontparameters.h"
 #include "bitmaphelper.h"
-//-----------------------------------------------------------------------------
+
 DialogFontSelectData::DialogFontSelectData(QObject *parent) :
     QObject(parent)
 {
@@ -58,16 +58,16 @@ DialogFontSelectData::DialogFontSelectData(QObject *parent) :
 
     this->mSortOrderUp = false;
 }
-//-----------------------------------------------------------------------------
+
 DialogFontSelectData::~DialogFontSelectData()
 {
 }
-//-----------------------------------------------------------------------------
+
 QString DialogFontSelectData::characters()
 {
     return this->mCharacters;
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::getFontParameters(tFontParameters *parameters)
 {
     parameters->family = this->mFontFamily;
@@ -87,14 +87,14 @@ void DialogFontSelectData::getFontParameters(tFontParameters *parameters)
         parameters->descent = metrics.descent();
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::setCharacters(const QString &value)
 {
     this->mCharacters = value;
     emit this->charactersListChanged(this->mCharacters);
     this->notifyFontChanged();
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::setFontParameters(const tFontParameters &parameters)
 {
     this->mFontFamily = parameters.family;
@@ -112,17 +112,17 @@ void DialogFontSelectData::setFontParameters(const tFontParameters &parameters)
     emit this->monospacedChanged(this->mMonospaced);
     emit this->colorsChanged(this->mForeground, this->mBackground);
 }
-//-----------------------------------------------------------------------------
+
 CharactersModel *DialogFontSelectData::charactersModel()
 {
     return this->mModel;
 }
-//-----------------------------------------------------------------------------
+
 UnicodeBlocksFilterModel *DialogFontSelectData::unicodeBlocksModel()
 {
     return this->mBlocksFilterModel;
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::notifyFontChanged()
 {
     QFontDatabase fonts;
@@ -145,7 +145,7 @@ void DialogFontSelectData::notifyFontChanged()
 
     emit this->fontMeasured(chars.count(), sz.width(), sz.height());
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::setFont(const QFont &font)
 {
     this->mFontFamily = font.family();
@@ -157,7 +157,7 @@ void DialogFontSelectData::setFont(const QFont &font)
     emit this->stylesListChanged(stylesList, style);
     this->notifyFontChanged();
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::setStyle(const QString &style)
 {
     this->mFontStyle = style;
@@ -176,7 +176,7 @@ void DialogFontSelectData::setStyle(const QString &style)
     emit this->sizesListChanged(sizes, previousSize);
     this->notifyFontChanged();
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::setSize(const QString &text)
 {
     bool ok;
@@ -189,12 +189,12 @@ void DialogFontSelectData::setSize(const QString &text)
     this->notifyFontChanged();
     this->notifyFontChanged();
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::setUnicodeBlocksFilter(const QString &text)
 {
     this->mBlocksFilterModel->setNameFilter(text);
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::setUnicodeRange(const QItemSelection &selected, const QItemSelection &deselected)
 {
     Q_UNUSED(deselected);
@@ -211,7 +211,7 @@ void DialogFontSelectData::setUnicodeRange(const QItemSelection &selected, const
         this->mModel->setCodesRange(first, last);
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::appendCharacters(const QString &value)
 {
     QString result = this->characters();
@@ -228,39 +228,39 @@ void DialogFontSelectData::appendCharacters(const QString &value)
 
     this->setCharacters(result);
 }
-//-----------------------------------------------------------------------------
+
 const QColor &DialogFontSelectData::foreground() const
 {
     return this->mForeground;
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::setForeground(const QColor &value)
 {
     this->mForeground = value;
     emit this->colorsChanged(this->mForeground, this->mBackground);
 }
-//-----------------------------------------------------------------------------
+
 const QColor &DialogFontSelectData::background() const
 {
     return this->mBackground;
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::setBackground(const QColor &value)
 {
     this->mBackground = value;
     emit this->colorsChanged(this->mForeground, this->mBackground);
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::setMonospaced(bool value)
 {
     this->mMonospaced = value;
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::setAntialiasing(bool value)
 {
     this->mAntialiasing = value;
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontSelectData::resort()
 {
     QString chars = this->characters();
@@ -292,4 +292,4 @@ void DialogFontSelectData::resort()
     this->mSortOrderUp = !this->mSortOrderUp;
     this->setCharacters(chars);
 }
-//-----------------------------------------------------------------------------
+

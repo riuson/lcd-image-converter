@@ -20,15 +20,15 @@
 #include <qt-version-check.h>
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-//-----------------------------------------------------------------------------
+
 #ifndef MODEHEX2BIN_H
 #define MODEHEX2BIN_H
-//-----------------------------------------------------------------------------
+
 #include "modeparserbase.h"
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 namespace CommandLine {
-//-----------------------------------------------------------------------------
+
 class ModeHex2Bin : public ModeParserBase
 {
     Q_OBJECT
@@ -49,9 +49,9 @@ private:
     void appendDataLE(QByteArray *array, int size, quint32 value);
     void appendDataBE(QByteArray *array, int size, quint32 value);
 };
-//-----------------------------------------------------------------------------
+
 }
-//-----------------------------------------------------------------------------
+
 #endif // MODEHEX2BIN_H
-//-----------------------------------------------------------------------------
+
 #endif // QT_VERSION

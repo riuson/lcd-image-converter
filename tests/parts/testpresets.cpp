@@ -1,20 +1,20 @@
 #include "testpresets.h"
-//-----------------------------------------------------------------------------
+
 #include "preset.h"
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
-//-----------------------------------------------------------------------------
+
 TestPresets::TestPresets(QObject *parent) :
     QObject(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestPresets::initTestCase()
 {
     this->mOptions = new Preset(this);
 }
-//-----------------------------------------------------------------------------
+
 void TestPresets::loadSave()
 {
     Preset source;
@@ -90,9 +90,9 @@ void TestPresets::loadSave()
     QCOMPARE(this->mOptions->image()->blockSuffix(),       source.image()->blockSuffix());
     QCOMPARE(this->mOptions->image()->blockDelimiter(),    source.image()->blockDelimiter());
 }
-//-----------------------------------------------------------------------------
+
 void TestPresets::cleanupTestCase()
 {
     delete this->mOptions;
 }
-//-----------------------------------------------------------------------------
+

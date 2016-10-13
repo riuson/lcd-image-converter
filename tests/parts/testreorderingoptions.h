@@ -1,11 +1,11 @@
 #ifndef TESTREORDERINGOPTIONS_H
 #define TESTREORDERINGOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QtTest/QtTest>
-//-----------------------------------------------------------------------------
+
 class ReorderingOptions;
-//-----------------------------------------------------------------------------
+
 class TestReorderingOptions : public QObject
 {
     Q_OBJECT
@@ -27,5 +27,5 @@ private slots:
 
     void cleanupTestCase();
 };
-//-----------------------------------------------------------------------------
+
 #endif // TESTREORDERINGOPTIONS_H

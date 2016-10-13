@@ -19,18 +19,18 @@
 
 #ifndef WINDOWEDITOR_H
 #define WINDOWEDITOR_H
-//-----------------------------------------------------------------------------
+
 #include <QMainWindow>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
 class WindowEditor;
 }
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class ToolsManager;
 class IImageEditorTool;
-//-----------------------------------------------------------------------------
+
 class WindowEditor : public QMainWindow
 {
     Q_OBJECT
@@ -77,7 +77,7 @@ signals:
     void mouseMove(const QPoint *point);
     void scaleChanged(int scale);
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+
 #endif // WINDOWEDITOR_H

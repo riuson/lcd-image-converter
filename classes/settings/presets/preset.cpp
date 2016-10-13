@@ -18,7 +18,7 @@
  */
 
 #include "preset.h"
-//-----------------------------------------------------------------------------
+
 #include <QStringList>
 #include <QSettings>
 #include <QtXml>
@@ -29,7 +29,7 @@
 #include "imageoptions.h"
 #include "fontoptions.h"
 #include "templateoptions.h"
-//-----------------------------------------------------------------------------
+
 Preset::Preset(QObject *parent) :
     QObject(parent)
 {
@@ -49,7 +49,7 @@ Preset::Preset(QObject *parent) :
     this->connect(this->mFont,       SIGNAL(changed()), SLOT(partsChanged()));
     this->connect(this->mTemplates,  SIGNAL(changed()), SLOT(partsChanged()));
 }
-//-----------------------------------------------------------------------------
+
 Preset::~Preset()
 {
     delete this->mTemplates;
@@ -59,37 +59,37 @@ Preset::~Preset()
     delete this->mMatrix;
     delete this->mPrepare;
 }
-//-----------------------------------------------------------------------------
+
 PrepareOptions *Preset::prepare()
 {
     return this->mPrepare;
 }
-//-----------------------------------------------------------------------------
+
 MatrixOptions *Preset::matrix()
 {
     return this->mMatrix;
 }
-//-----------------------------------------------------------------------------
+
 ReorderingOptions *Preset::reordering()
 {
     return this->mReordering;
 }
-//-----------------------------------------------------------------------------
+
 ImageOptions *Preset::image()
 {
     return this->mImage;
 }
-//-----------------------------------------------------------------------------
+
 FontOptions *Preset::font()
 {
     return this->mFont;
 }
-//-----------------------------------------------------------------------------
+
 TemplateOptions *Preset::templates()
 {
     return this->mTemplates;
 }
-//-----------------------------------------------------------------------------
+
 QStringList Preset::presetsList()
 {
     QSettings sett;
@@ -99,7 +99,7 @@ QStringList Preset::presetsList()
 
     return names;
 }
-//-----------------------------------------------------------------------------
+
 QString Preset::selectedName()
 {
     QSettings sett;
@@ -109,7 +109,7 @@ QString Preset::selectedName()
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void Preset::setSelectedName(const QString &value)
 {
     QSettings sett;
@@ -117,7 +117,7 @@ void Preset::setSelectedName(const QString &value)
     sett.setValue("selected", QVariant(value));
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void Preset::remove(const QString &value)
 {
     QSettings sett;
@@ -128,12 +128,12 @@ void Preset::remove(const QString &value)
 
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 QString Preset::name() const
 {
     return this->mName;
 }
-//-----------------------------------------------------------------------------
+
 bool Preset::load(const QString &presetName)
 {
     bool result = false;
@@ -177,7 +177,7 @@ bool Preset::load(const QString &presetName)
     }
     return result;
 }
-//-----------------------------------------------------------------------------
+
 bool Preset::loadXML(const QString &filename)
 {
     QDomDocument doc;
@@ -217,7 +217,7 @@ bool Preset::loadXML(const QString &filename)
 
     return false;
 }
-//-----------------------------------------------------------------------------
+
 void Preset::save(const QString &name) const
 {
     QSettings sett;
@@ -238,7 +238,7 @@ void Preset::save(const QString &name) const
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void Preset::saveXML(const QString &filename) const
 {
     QDomDocument doc;
@@ -270,7 +270,7 @@ void Preset::saveXML(const QString &filename) const
 
     outFile.close();
 }
-//-----------------------------------------------------------------------------
+
 void Preset::initMono(MonochromeType type, int edge)
 {
     this->mMatrix->operationsRemoveAll();
@@ -297,7 +297,7 @@ void Preset::initMono(MonochromeType type, int edge)
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void Preset::initGrayscale(int bits)
 {
     this->mMatrix->operationsRemoveAll();
@@ -341,7 +341,7 @@ void Preset::initGrayscale(int bits)
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void Preset::initColor(int alphaBits, int redBits, int greenBits, int blueBits)
 {
     this->mMatrix->operationsRemoveAll();
@@ -425,10 +425,10 @@ void Preset::initColor(int alphaBits, int redBits, int greenBits, int blueBits)
 
     emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void Preset::partsChanged()
 {
     if (!this->mBlockChangesSignal)
         emit this->changed();
 }
-//-----------------------------------------------------------------------------
+

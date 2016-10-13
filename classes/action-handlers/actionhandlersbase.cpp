@@ -21,16 +21,16 @@
 
 #include "ieditor.h"
 #include "imainwindow.h"
-//-----------------------------------------------------------------------------
+
 ActionHandlersBase::ActionHandlersBase(QObject *parent) :
     QObject(parent)
 {
     this->mMainWindow = qobject_cast<IMainWindow *>(parent);
 }
-//-----------------------------------------------------------------------------
+
 IEditor *ActionHandlersBase::editor()
 {
     IEditor *editor = this->mMainWindow->currentEditor();
     return editor;
 }
-//-----------------------------------------------------------------------------
+

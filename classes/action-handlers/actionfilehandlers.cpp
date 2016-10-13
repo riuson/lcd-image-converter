@@ -38,12 +38,12 @@
 #include "preset.h"
 #include "tfontparameters.h"
 #include "filedialogoptions.h"
-//-----------------------------------------------------------------------------
+
 ActionFileHandlers::ActionFileHandlers(QObject *parent) :
     ActionHandlersBase(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::newImage_triggered()
 {
     bool ok;
@@ -64,7 +64,7 @@ void ActionFileHandlers::newImage_triggered()
         ed->document()->setDocumentName(name);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::newFont_triggered()
 {
     bool ok;
@@ -101,7 +101,7 @@ void ActionFileHandlers::newFont_triggered()
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::open_triggered()
 {
     QFileDialog dialog(this->mMainWindow->parentWidget());
@@ -131,7 +131,7 @@ void ActionFileHandlers::open_triggered()
         this->openFiles(filenames);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::rename_triggered()
 {
     bool ok;
@@ -150,7 +150,7 @@ void ActionFileHandlers::rename_triggered()
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::save_triggered()
 {
     IEditor *editor = this->editor();
@@ -162,7 +162,7 @@ void ActionFileHandlers::save_triggered()
             this->saveAs_triggered();
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::saveAs_triggered()
 {
     IEditor *editor = this->editor();
@@ -205,12 +205,12 @@ void ActionFileHandlers::saveAs_triggered()
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::close_triggered()
 {
     emit closeRequest(this->mMainWindow->currentTab());
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::closeAll_triggered()
 {
     QList<QWidget *> list;
@@ -222,7 +222,7 @@ void ActionFileHandlers::closeAll_triggered()
         emit closeRequest(list.at(i));
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::convert_triggered()
 {
     IEditor *editor = this->mMainWindow->currentEditor();
@@ -231,7 +231,7 @@ void ActionFileHandlers::convert_triggered()
         this->convertDocument(editor->document(), true);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::convertAll_triggered()
 {
     QList<QWidget *> list;
@@ -247,7 +247,7 @@ void ActionFileHandlers::convertAll_triggered()
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::openFiles(const QStringList &filenames)
 {
     QList<QWidget*> existingTabs;
@@ -354,13 +354,13 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
     if (existingFilesInEditors.contains(lastExistingFile))
         this->tabSelect(existingFilesInEditors.value(lastExistingFile));
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::openFile(const QString &filename)
 {
     QStringList files = QStringList() << filename;
     this->openFiles(files);
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
 {
     EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
@@ -384,7 +384,7 @@ void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
 
     emit this->tabCreated(ed);
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::openBinaryImage(const QStringList &filenames)
 {
     foreach (const QString &filename, filenames)
@@ -418,7 +418,7 @@ void ActionFileHandlers::openBinaryImage(const QStringList &filenames)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::openImage(const QStringList &filenames)
 {
     foreach (const QString &filename, filenames)
@@ -431,7 +431,7 @@ void ActionFileHandlers::openImage(const QStringList &filenames)
         emit this->rememberFilename(filename);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::openFont(const QStringList &filenames)
 {
     foreach (const QString &filename, filenames)
@@ -444,7 +444,7 @@ void ActionFileHandlers::openFont(const QStringList &filenames)
         emit this->rememberFilename(filename);
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::convertDocument(IDocument *document, bool request)
 {
     // converter output file name
@@ -527,10 +527,10 @@ void ActionFileHandlers::convertDocument(IDocument *document, bool request)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ActionFileHandlers::documentChanged()
 {
     QWidget *w = qobject_cast<QWidget *>(sender());
     emit this->tabChanged(w);
 }
-//-----------------------------------------------------------------------------
+

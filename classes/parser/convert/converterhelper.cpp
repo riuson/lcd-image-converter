@@ -19,13 +19,13 @@
 
 #include "converterhelper.h"
 #include "qt-version-check.h"
-//-----------------------------------------------------------------------------
+
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 5, 0)
 #define USE_JS_QJSENGINE
 #else
 #define USE_JS_QTSCRIPT
 #endif // QT_VERSION
-//-----------------------------------------------------------------------------
+
 #include <QStringList>
 #include <QImage>
 #include <QColor>
@@ -52,7 +52,7 @@
 #include "imageoptions.h"
 #include "rlecompressor.h"
 #include "convimage.h"
-//-----------------------------------------------------------------------------
+
 void ConverterHelper::pixelsData(Preset *preset, const QImage *image, QVector<quint32> *data, int *width, int *height)
 {
     if (image != NULL && data != NULL && width != NULL && height != NULL)
@@ -170,7 +170,7 @@ void ConverterHelper::pixelsData(Preset *preset, const QImage *image, QVector<qu
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script, QString *resultError)
 {
 #if defined(USE_JS_QTSCRIPT)
@@ -251,7 +251,7 @@ void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script,
     }
 #endif
 }
-//-----------------------------------------------------------------------------
+
 void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
 {
     if (preset != NULL && data != NULL)
@@ -282,7 +282,7 @@ void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ConverterHelper::packData(
         Preset *preset,
         QVector<quint32> *inputData, int inputWidth, int inputHeight,
@@ -358,7 +358,7 @@ void ConverterHelper::packData(
         *outputHeight = 1;
     }
 }
-//-----------------------------------------------------------------------------
+
 void ConverterHelper::reorder(
         Preset *preset,
         QVector<quint32> *inputData,
@@ -393,7 +393,7 @@ void ConverterHelper::reorder(
     *outputWidth = inputWidth;
     *outputHeight = inputHeight;
 }
-//-----------------------------------------------------------------------------
+
 void ConverterHelper::compressData(
         Preset *matrix,
         QVector<quint32> *inputData,
@@ -416,7 +416,7 @@ void ConverterHelper::compressData(
         *outputHeight = inputHeight;
     }
 }
-//-----------------------------------------------------------------------------
+
 void ConverterHelper::prepareImage(Preset *preset, const QImage *source, QImage *result)
 {
     if (source != NULL)
@@ -429,7 +429,7 @@ void ConverterHelper::prepareImage(Preset *preset, const QImage *source, QImage 
         *result = im;
     }
 }
-//-----------------------------------------------------------------------------
+
 void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage *result)
 {
     if (source != NULL)
@@ -547,7 +547,7 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
         *result = im;
     }
 }
-//-----------------------------------------------------------------------------
+
 static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
 {
     QChar temp[10];
@@ -599,7 +599,7 @@ static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
 
     return QString(temp);
 }
-//-----------------------------------------------------------------------------
+
 QString ConverterHelper::dataToString(
         Preset *preset,
         QVector<quint32> *data, int width, int height)
@@ -660,7 +660,7 @@ QString ConverterHelper::dataToString(
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QString ConverterHelper::scanScript(Preset *preset)
 {
     QString result;
@@ -745,7 +745,7 @@ QString ConverterHelper::scanScript(Preset *preset)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 QString ConverterHelper::scanScriptTemplate()
 {
     QFile file_script(":/scan_scripts/template");
@@ -760,7 +760,7 @@ QString ConverterHelper::scanScriptTemplate()
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void ConverterHelper::makeMonochrome(QImage &image, int edge)
 {
     QPainter painter(&image);
@@ -780,7 +780,7 @@ void ConverterHelper::makeMonochrome(QImage &image, int edge)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ConverterHelper::makeGrayscale(QImage &image)
 {
     for (int x = 0; x < image.width(); x++)
@@ -796,7 +796,7 @@ void ConverterHelper::makeGrayscale(QImage &image)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ConverterHelper::packDataRow(Preset *preset, QVector<quint32> *inputData, int start, int count, QVector<quint32> *outputData, int *rowLength)
 {
     *rowLength = 0;
@@ -815,7 +815,7 @@ void ConverterHelper::packDataRow(Preset *preset, QVector<quint32> *inputData, i
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 quint32 ConverterHelper::toBigEndian(Preset *preset, quint32 value)
 {
     quint8 src1, src2, src3, src4;
@@ -850,4 +850,4 @@ quint32 ConverterHelper::toBigEndian(Preset *preset, quint32 value)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+

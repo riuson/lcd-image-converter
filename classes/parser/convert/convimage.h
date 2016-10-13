@@ -19,13 +19,13 @@
 
 #ifndef CONVIMAGE_H
 #define CONVIMAGE_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QVector>
 #include <QPoint>
-//-----------------------------------------------------------------------------
+
 class QImage;
-//-----------------------------------------------------------------------------
+
 class ConvImage : public QObject
 {
     Q_OBJECT
@@ -64,5 +64,5 @@ private:
     int height() const;
     int width() const;
 };
-//-----------------------------------------------------------------------------
+
 #endif // CONVIMAGE_H

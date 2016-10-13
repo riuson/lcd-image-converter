@@ -1,11 +1,11 @@
 #ifndef TESTMATRIXOPTIONS_H
 #define TESTMATRIXOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QtTest/QtTest>
-//-----------------------------------------------------------------------------
+
 class MatrixOptions;
-//-----------------------------------------------------------------------------
+
 class TestMatrixOptions : public QObject
 {
     Q_OBJECT
@@ -28,5 +28,5 @@ private slots:
 
     void cleanupTestCase();
 };
-//-----------------------------------------------------------------------------
+
 #endif // TESTMATRIXOPTIONS_H

@@ -20,27 +20,27 @@
 #include "rlesequence.h"
 
 #include <QVector>
-//-----------------------------------------------------------------------------
+
 RleSequence::RleSequence()
 {
     this->mData = new QVector<quint32>();
 }
-//-----------------------------------------------------------------------------
+
 RleSequence::RleSequence(const RleSequence *other)
 {
     this->mData = new QVector<quint32>(*other->mData);
 }
-//-----------------------------------------------------------------------------
+
 RleSequence::~RleSequence()
 {
     delete this->mData;
 }
-//-----------------------------------------------------------------------------
+
 void RleSequence::append(quint32 value)
 {
     this->mData->append(value);
 }
-//-----------------------------------------------------------------------------
+
 void RleSequence::append(const RleSequence *sequence)
 {
     for (quint32 i = 0; i < sequence->size(); i++)
@@ -48,22 +48,22 @@ void RleSequence::append(const RleSequence *sequence)
         this->mData->append(sequence->at(i));
     }
 }
-//-----------------------------------------------------------------------------
+
 quint32 RleSequence::at(quint32 index) const
 {
     return this->mData->at(index);
 }
-//-----------------------------------------------------------------------------
+
 quint32 RleSequence::last() const
 {
     return this->mData->last();
 }
-//-----------------------------------------------------------------------------
+
 quint32 RleSequence::size() const
 {
     return this->mData->size();
 }
-//-----------------------------------------------------------------------------
+
 bool RleSequence::allEquals() const
 {
     bool result = true;
@@ -80,4 +80,4 @@ bool RleSequence::allEquals() const
 
     return result;
 }
-//-----------------------------------------------------------------------------
+

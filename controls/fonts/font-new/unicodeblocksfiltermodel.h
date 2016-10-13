@@ -19,9 +19,9 @@
 
 #ifndef UNICODEBLOCKSFILTERMODEL_H
 #define UNICODEBLOCKSFILTERMODEL_H
-//-----------------------------------------------------------------------------
+
 #include <QSortFilterProxyModel>
-//-----------------------------------------------------------------------------
+
 class UnicodeBlocksFilterModel : public QSortFilterProxyModel
 {
     Q_OBJECT
@@ -39,5 +39,5 @@ signals:
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // UNICODEBLOCKSFILTERMODEL_H

@@ -1,17 +1,17 @@
 #include "testprepareoptions.h"
-//-----------------------------------------------------------------------------
+
 #include "prepareoptions.h"
-//-----------------------------------------------------------------------------
+
 TestPrepareOptions::TestPrepareOptions(QObject *parent) :
     QObject(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestPrepareOptions::initTestCase()
 {
     this->mOptions = new PrepareOptions(this);
 }
-//-----------------------------------------------------------------------------
+
 void TestPrepareOptions::convType()
 {
     // 1
@@ -26,7 +26,7 @@ void TestPrepareOptions::convType()
     this->mOptions->setConvType(ConversionTypeColor);
     QCOMPARE(this->mOptions->convType(), ConversionTypeColor);
 }
-//-----------------------------------------------------------------------------
+
 void TestPrepareOptions::monoType()
 {
     // 1
@@ -45,7 +45,7 @@ void TestPrepareOptions::monoType()
     this->mOptions->setMonoType(MonochromeTypeThresholdDither);
     QCOMPARE(this->mOptions->monoType(), MonochromeTypeThresholdDither);
 }
-//-----------------------------------------------------------------------------
+
 void TestPrepareOptions::edge()
 {
     for (int i = -512; i < 512; i++)
@@ -62,7 +62,7 @@ void TestPrepareOptions::edge()
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestPrepareOptions::scanMain()
 {
     // 1
@@ -81,7 +81,7 @@ void TestPrepareOptions::scanMain()
     this->mOptions->setScanMain(RightToLeft);
     QCOMPARE(this->mOptions->scanMain(), RightToLeft);
 }
-//-----------------------------------------------------------------------------
+
 void TestPrepareOptions::scanSub()
 {
     // 1
@@ -92,7 +92,7 @@ void TestPrepareOptions::scanSub()
     this->mOptions->setScanSub(Backward);
     QCOMPARE(this->mOptions->scanSub(), Backward);
 }
-//-----------------------------------------------------------------------------
+
 void TestPrepareOptions::inverse()
 {
     // 1
@@ -103,7 +103,7 @@ void TestPrepareOptions::inverse()
     this->mOptions->setInverse(true);
     QCOMPARE(this->mOptions->inverse(), true);
 }
-//-----------------------------------------------------------------------------
+
 void TestPrepareOptions::bandScanning()
 {
     // 1
@@ -114,7 +114,7 @@ void TestPrepareOptions::bandScanning()
     this->mOptions->setBandScanning(true);
     QCOMPARE(this->mOptions->bandScanning(), true);
 }
-//-----------------------------------------------------------------------------
+
 void TestPrepareOptions::bandWidth()
 {
     for (int i = -512; i < 512; i++)
@@ -130,9 +130,9 @@ void TestPrepareOptions::bandWidth()
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestPrepareOptions::cleanupTestCase()
 {
     delete this->mOptions;
 }
-//-----------------------------------------------------------------------------
+

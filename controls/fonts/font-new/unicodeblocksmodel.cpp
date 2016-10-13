@@ -22,33 +22,33 @@
 #include <QTextStream>
 #include <QFile>
 #include <QRegExp>
-//-----------------------------------------------------------------------------
+
 UnicodeBlock::UnicodeBlock(const QString &name, quint32 firstCode, quint32 lastCode)
 {
     this->mName = name;
     this->mFirstCode = firstCode;
     this->mLastCode = lastCode;
 }
-//-----------------------------------------------------------------------------
+
 const QString &UnicodeBlock::name() const
 {
     return this->mName;
 }
-//-----------------------------------------------------------------------------
+
 quint32 UnicodeBlock::firstCode() const
 {
     return this->mFirstCode;
 }
-//-----------------------------------------------------------------------------
+
 quint32 UnicodeBlock::lastCode() const
 {
     return this->mLastCode;
 }
-//-----------------------------------------------------------------------------
 
 
 
-//-----------------------------------------------------------------------------
+
+
 UnicodeBlocksModel::UnicodeBlocksModel(QObject *parent) :
     QAbstractListModel(parent)
 {
@@ -97,7 +97,7 @@ UnicodeBlocksModel::UnicodeBlocksModel(QObject *parent) :
     UnicodeBlock *firstBlock = new UnicodeBlock(tr("All"), min, max);
     this->mList.insert(0, firstBlock);
 }
-//-----------------------------------------------------------------------------
+
 QVariant UnicodeBlocksModel::data(const QModelIndex &index, int role) const
 {
     QVariant result = QVariant();
@@ -122,11 +122,11 @@ QVariant UnicodeBlocksModel::data(const QModelIndex &index, int role) const
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 int UnicodeBlocksModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
 
     return this->mList.length();
 }
-//-----------------------------------------------------------------------------
+

@@ -19,15 +19,15 @@
 
 #ifndef SETUPTABIMAGE_H
 #define SETUPTABIMAGE_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
 class SetupTabImage;
 }
-//-----------------------------------------------------------------------------
+
 class Preset;
-//-----------------------------------------------------------------------------
+
 class SetupTabImage : public QWidget
 {
     Q_OBJECT
@@ -54,5 +54,5 @@ private slots:
     void on_lineEditSuffix_textEdited(const QString &value);
     void on_lineEditDelimiter_textEdited(const QString &value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // SETUPTABIMAGE_H

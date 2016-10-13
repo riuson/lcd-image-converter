@@ -19,7 +19,7 @@
 
 #include "dialogoptions.h"
 #include "ui_dialogoptions.h"
-//-----------------------------------------------------------------------------
+
 #include <QList>
 #include <QStringList>
 #include <QInputDialog>
@@ -35,7 +35,7 @@
 #include "setuptabtemplates.h"
 #include "preset.h"
 #include "filedialogoptions.h"
-//-----------------------------------------------------------------------------
+
 DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogOptions)
@@ -95,7 +95,7 @@ DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
     this->ui->tabWidgetSetupParts->addTab(this->mSetupFont, this->mSetupFont->windowTitle());
     this->ui->tabWidgetSetupParts->addTab(this->mSetupTemplates, this->mSetupTemplates->windowTitle());
 }
-//-----------------------------------------------------------------------------
+
 DialogOptions::~DialogOptions()
 {
     if (this->mPreview != NULL)
@@ -110,7 +110,7 @@ DialogOptions::~DialogOptions()
     delete ui;
     delete this->mPreset;
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::fillPresetsList(const QString &defaultName)
 {
     this->disconnect(this->ui->comboBoxPresets, SIGNAL(currentIndexChanged(int)), this, SLOT(on_comboBoxPresets_currentIndexChanged(int)));
@@ -146,7 +146,7 @@ void DialogOptions::fillPresetsList(const QString &defaultName)
 
     this->connect(this->ui->comboBoxPresets, SIGNAL(currentIndexChanged(int)), SLOT(on_comboBoxPresets_currentIndexChanged(int)));
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::presetLoad(const QString &name)
 {
     if (this->mPreset->load(name))
@@ -154,7 +154,7 @@ void DialogOptions::presetLoad(const QString &name)
         // update gui
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::presetSaveAs(const QString &name)
 {
     this->mPreset->save(name);
@@ -165,14 +165,14 @@ void DialogOptions::presetSaveAs(const QString &name)
     if (presetIndex >= 0)
         this->ui->comboBoxPresets->setCurrentIndex(presetIndex);
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::presetRemove(const QString &name)
 {
     Preset::remove(name);
 
     this->fillPresetsList();
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::createPresetsDefault()
 {
     Preset matrix(this);
@@ -198,7 +198,7 @@ void DialogOptions::createPresetsDefault()
     matrix.initColor(8, 8, 8, 8);
     matrix.save(tr("Color A8R8G8B8"));
 }
-//-----------------------------------------------------------------------------
+
 bool DialogOptions::checkOverwrite(const QString &originalName, QString *resultName) const
 {
     QStringList existingNames = Preset::presetsList();
@@ -220,7 +220,7 @@ bool DialogOptions::checkOverwrite(const QString &originalName, QString *resultN
 
     return false;
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::presetChanged()
 {
     if (this->mData != NULL)
@@ -230,7 +230,7 @@ void DialogOptions::presetChanged()
     }
     this->mPresetChanged = true;
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::on_pushButtonPreview_clicked()
 {
     if (this->mPreview == NULL)
@@ -242,7 +242,7 @@ void DialogOptions::on_pushButtonPreview_clicked()
 
     this->mPreview->show();
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::on_pushButtonPresetSaveAs_clicked()
 {
     QStringList names = Preset::presetsList();
@@ -262,7 +262,7 @@ void DialogOptions::on_pushButtonPresetSaveAs_clicked()
 
     this->fillPresetsList();
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::on_pushButtonPresetRemove_clicked()
 {
     QString name = this->ui->comboBoxPresets->currentText();
@@ -270,7 +270,7 @@ void DialogOptions::on_pushButtonPresetRemove_clicked()
 
     this->fillPresetsList();
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::on_pushButtonPresetImport_clicked()
 {
     QFileDialog dialog(this->parentWidget());
@@ -298,7 +298,7 @@ void DialogOptions::on_pushButtonPresetImport_clicked()
         this->fillPresetsList(resultPresetName);
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::on_pushButtonPresetExport_clicked()
 {
     QFileDialog dialog(this->parentWidget());
@@ -317,13 +317,13 @@ void DialogOptions::on_pushButtonPresetExport_clicked()
         this->mPreset->saveXML(filename);
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::on_comboBoxPresets_currentIndexChanged(int index)
 {
     QString name = this->ui->comboBoxPresets->itemText(index);
     this->presetLoad(name);
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::previewClosed()
 {
     if (this->mPreview != NULL)
@@ -332,7 +332,7 @@ void DialogOptions::previewClosed()
         this->mPreview = NULL;
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::presetOverwiteNameChanged(const QString &value)
 {
     QInputDialog *dialog = qobject_cast<QInputDialog *>(sender());
@@ -346,7 +346,7 @@ void DialogOptions::presetOverwiteNameChanged(const QString &value)
         dialog->setLabelText(message);
     }
 }
-//-----------------------------------------------------------------------------
+
 void DialogOptions::done(int result)
 {
     if (result == QDialog::Accepted)
@@ -403,4 +403,4 @@ void DialogOptions::done(int result)
         return;
     }
 }
-//-----------------------------------------------------------------------------
+

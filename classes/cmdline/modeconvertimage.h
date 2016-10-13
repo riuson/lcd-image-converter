@@ -20,15 +20,15 @@
 #include <qt-version-check.h>
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-//-----------------------------------------------------------------------------
+
 #ifndef CONVERTIMAGEARGUMENTS_H
 #define CONVERTIMAGEARGUMENTS_H
-//-----------------------------------------------------------------------------
+
 #include "modeparserbase.h"
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 namespace CommandLine {
-//-----------------------------------------------------------------------------
+
 class ModeConvertImage : public ModeParserBase
 {
     Q_OBJECT
@@ -48,9 +48,9 @@ private:
     QString mDocumentName;
     QString mPresetName;
 };
-//-----------------------------------------------------------------------------
+
 }
-//-----------------------------------------------------------------------------
+
 #endif // CONVERTIMAGEARGUMENTS_H
-//-----------------------------------------------------------------------------
+
 #endif // QT_VERSION

@@ -19,18 +19,18 @@
 
 #ifndef SETUPTABMATRIX_H
 #define SETUPTABMATRIX_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
 class SetupTabMatrix;
 }
-//-----------------------------------------------------------------------------
+
 class Preset;
 class MatrixPreviewModel;
 class MatrixItemDelegate;
 class QMenu;
-//-----------------------------------------------------------------------------
+
 class SetupTabMatrix : public QWidget
 {
     Q_OBJECT
@@ -57,5 +57,5 @@ private slots:
     void operationRemove();
     void maskReset();
 };
-//-----------------------------------------------------------------------------
+
 #endif // SETUPTABMATRIX_H

@@ -23,7 +23,7 @@
 #include <QFile>
 #include <QDir>
 #include <QMap>
-//-----------------------------------------------------------------------------
+
 int FileDialogOptions::filterIndex(FileDialogOptions::Dialogs dialog)
 {
     QString dialogName;
@@ -35,7 +35,7 @@ int FileDialogOptions::filterIndex(FileDialogOptions::Dialogs dialog)
 
     return 0;
 }
-//-----------------------------------------------------------------------------
+
 void FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs dialog, int value)
 {
     QString dialogName;
@@ -45,7 +45,7 @@ void FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs dialog, int va
         return FileDialogOptions::setInteger(QString("%1_filterIndex").arg(dialogName), value);
     }
 }
-//-----------------------------------------------------------------------------
+
 const QString FileDialogOptions::directory(FileDialogOptions::Dialogs dialog)
 {
     QString dialogName;
@@ -67,7 +67,7 @@ const QString FileDialogOptions::directory(FileDialogOptions::Dialogs dialog)
 
     return QDir::homePath();
 }
-//-----------------------------------------------------------------------------
+
 void FileDialogOptions::setDirectory(FileDialogOptions::Dialogs dialog, const QString &value)
 {
     QString dialogName;
@@ -77,7 +77,7 @@ void FileDialogOptions::setDirectory(FileDialogOptions::Dialogs dialog, const QS
         return FileDialogOptions::setString(QString("%1_directory").arg(dialogName), value);
     }
 }
-//-----------------------------------------------------------------------------
+
 bool FileDialogOptions::itemName(FileDialogOptions::Dialogs item, QString *name)
 {
     QMap<Dialogs, QString> names;
@@ -100,7 +100,7 @@ bool FileDialogOptions::itemName(FileDialogOptions::Dialogs item, QString *name)
     *name = names[item];
     return true;
 }
-//-----------------------------------------------------------------------------
+
 int FileDialogOptions::getInteger(const QString &name)
 {
     bool ok;
@@ -116,7 +116,7 @@ int FileDialogOptions::getInteger(const QString &name)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void FileDialogOptions::setInteger(const QString &name, int value)
 {
     QSettings sett;
@@ -124,7 +124,7 @@ void FileDialogOptions::setInteger(const QString &name, int value)
     sett.setValue(name, QVariant(value));
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 const QString FileDialogOptions::getString(const QString &name)
 {
     QSettings sett;
@@ -134,7 +134,7 @@ const QString FileDialogOptions::getString(const QString &name)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void FileDialogOptions::setString(const QString &name, const QString &value)
 {
     QSettings sett;
@@ -142,4 +142,4 @@ void FileDialogOptions::setString(const QString &name, const QString &value)
     sett.setValue(name, QVariant(value));
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+

@@ -19,13 +19,13 @@
 
 #ifndef MATRIXOPTIONS_H
 #define MATRIXOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 template <class T> class QVector;
 class QSettings;
 class QDomElement;
-//-----------------------------------------------------------------------------
+
 class MatrixOptions : public QObject
 {
     Q_OBJECT
@@ -79,5 +79,5 @@ signals:
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // MATRIXOPTIONS_H

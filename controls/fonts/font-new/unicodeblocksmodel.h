@@ -19,10 +19,10 @@
 
 #ifndef QUNICODEBLOCKSMODEL_H
 #define QUNICODEBLOCKSMODEL_H
-//-----------------------------------------------------------------------------
+
 #include <QAbstractListModel>
 #include <QList>
-//-----------------------------------------------------------------------------
+
 class UnicodeBlock
 {
 public:
@@ -36,7 +36,7 @@ private:
     quint32 mFirstCode;
     quint32 mLastCode;
 };
-//-----------------------------------------------------------------------------
+
 class UnicodeBlocksModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -60,5 +60,5 @@ signals:
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // QUNICODEBLOCKSMODEL_H

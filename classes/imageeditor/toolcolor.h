@@ -19,7 +19,7 @@
 
 #ifndef TOOLCOLOR_H
 #define TOOLCOLOR_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QImage>
 #include <QColor>
@@ -27,11 +27,11 @@
 
 class QIcon;
 class QAction;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class IImageEditorParams;
-//-----------------------------------------------------------------------------
+
 class ToolColor : public QObject, public IImageEditorTool
 {
     Q_OBJECT
@@ -81,7 +81,7 @@ private slots:
     void on_buttonBackColor_triggered();
     void on_buttonSwapColors_triggered();
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+
 #endif // TOOLCOLOR_H

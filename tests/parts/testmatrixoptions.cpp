@@ -1,17 +1,17 @@
 #include "testmatrixoptions.h"
-//-----------------------------------------------------------------------------
+
 #include "matrixoptions.h"
-//-----------------------------------------------------------------------------
+
 TestMatrixOptions::TestMatrixOptions(QObject *parent) :
     QObject(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestMatrixOptions::initTestCase()
 {
     this->mOptions = new MatrixOptions(this);
 }
-//-----------------------------------------------------------------------------
+
 void TestMatrixOptions::mask()
 {
     quint32 value1 = 0x12345678;
@@ -39,7 +39,7 @@ void TestMatrixOptions::mask()
         value4 = value4 >> 4;
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestMatrixOptions::operationsCount()
 {
     this->mOptions->operationsRemoveAll();
@@ -50,7 +50,7 @@ void TestMatrixOptions::operationsCount()
     this->mOptions->operationAdd(0x23131315, 1, true);
     QCOMPARE(this->mOptions->operationsCount(), 2);
 }
-//-----------------------------------------------------------------------------
+
 void TestMatrixOptions::operation()
 {
     this->mOptions->operationsRemoveAll();
@@ -86,7 +86,7 @@ void TestMatrixOptions::operation()
         expectedLeft = !expectedLeft;
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestMatrixOptions::operationAdd()
 {
     this->mOptions->operationsRemoveAll();
@@ -122,7 +122,7 @@ void TestMatrixOptions::operationAdd()
         expectedLeft = !expectedLeft;
     }
 }
-//-----------------------------------------------------------------------------
+
 void TestMatrixOptions::operationRemove()
 {
     this->mOptions->operationsRemoveAll();
@@ -145,7 +145,7 @@ void TestMatrixOptions::operationRemove()
     QCOMPARE(actualShift, 3);
     QCOMPARE(actualLeft, true);
 }
-//-----------------------------------------------------------------------------
+
 void TestMatrixOptions::operationRemoveAll()
 {
     this->mOptions->operationsRemoveAll();
@@ -163,7 +163,7 @@ void TestMatrixOptions::operationRemoveAll()
     this->mOptions->operationsRemoveAll();
     QCOMPARE(this->mOptions->operationsCount(), 0);
 }
-//-----------------------------------------------------------------------------
+
 void TestMatrixOptions::operationReplace()
 {
     this->mOptions->operationsRemoveAll();
@@ -201,9 +201,9 @@ void TestMatrixOptions::operationReplace()
     QCOMPARE(shift, 7);
     QCOMPARE(left, false);
 }
-//-----------------------------------------------------------------------------
+
 void TestMatrixOptions::cleanupTestCase()
 {
     delete this->mOptions;
 }
-//-----------------------------------------------------------------------------
+

@@ -19,16 +19,16 @@
 
 #ifndef REORDERINGPREVIEWMODEL_H
 #define REORDERINGPREVIEWMODEL_H
-//-----------------------------------------------------------------------------
+
 #include <QAbstractItemModel>
-//-----------------------------------------------------------------------------
+
 #include <QVariant>
 #include "conversion_options.h"
-//-----------------------------------------------------------------------------
+
 class Preset;
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
-//-----------------------------------------------------------------------------
+
 class ReorderingPreviewModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -71,5 +71,5 @@ signals:
 public slots:
     void callReset();
 };
-//-----------------------------------------------------------------------------
+
 #endif // REORDERINGPREVIEWMODEL_H

@@ -29,10 +29,10 @@
 #include "toolsmanager.h"
 #include "iimageeditortool.h"
 #include "imageeditoroptions.h"
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 WindowEditor::WindowEditor(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::WindowEditor)
@@ -52,7 +52,7 @@ WindowEditor::WindowEditor(QWidget *parent) :
     QImage templateImage(":/images/template");
     this->setImage(&templateImage);
 }
-//-----------------------------------------------------------------------------
+
 WindowEditor::~WindowEditor()
 {
     if (this->ui->toolBarOptions->actions().length() == 0)
@@ -63,7 +63,7 @@ WindowEditor::~WindowEditor()
     delete this->mTools;
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void WindowEditor::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
@@ -76,7 +76,7 @@ void WindowEditor::changeEvent(QEvent *e)
         break;
     }
 }
-//-----------------------------------------------------------------------------
+
 bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
 {
     bool result = false;
@@ -131,7 +131,7 @@ bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void WindowEditor::wheelEvent(QWheelEvent *event)
 {
     if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier)
@@ -159,24 +159,24 @@ void WindowEditor::wheelEvent(QWheelEvent *event)
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 const QImage *WindowEditor::image() const
 {
     const QImage *result = &this->mImageOriginal;
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void WindowEditor::setImage(const QImage *value)
 {
     this->mImageOriginal = QImage(*value);
     this->updateImageScaled(this->mTools->scale());
 }
-//-----------------------------------------------------------------------------
+
 int WindowEditor::scale() const
 {
     return this->mTools->scale();
 }
-//-----------------------------------------------------------------------------
+
 void WindowEditor::updateImageScaled(int value)
 {
     if (!this->mImageOriginal.isNull())
@@ -192,7 +192,7 @@ void WindowEditor::updateImageScaled(int value)
         this->ui->label->setPixmap(this->mPixmapScaled);
     }
 }
-//-----------------------------------------------------------------------------
+
 void WindowEditor::updateImageScaled(const QImage &image, int scale)
 {
     this->mImageScaled = BitmapHelper::scale(&image, scale);
@@ -201,14 +201,14 @@ void WindowEditor::updateImageScaled(const QImage &image, int scale)
 
     this->ui->label->setPixmap(this->mPixmapScaled);
 }
-//-----------------------------------------------------------------------------
+
 void WindowEditor::drawPixel(int x, int y, const QColor &color)
 {
     QImage image = this->mImageOriginal;
     this->mImageOriginal = BitmapHelper::drawPixel(&image, x, y, color);
     this->updateImageScaled(this->mTools->scale());
 }
-//-----------------------------------------------------------------------------
+
 void WindowEditor::createTools()
 {
     this->mTools = new ToolsManager(this);
@@ -224,19 +224,19 @@ void WindowEditor::createTools()
         this->ui->toolBarTools->actions().at(0)->activate(QAction::Trigger);
     }
 }
-//-----------------------------------------------------------------------------
+
 void WindowEditor::tool_started(const QImage *value)
 {
     QImage image = *value;
     this->updateImageScaled(image, this->mTools->scale());
 }
-//-----------------------------------------------------------------------------
+
 void WindowEditor::tool_processing(const QImage *value)
 {
     QImage image = *value;
     this->updateImageScaled(image, this->mTools->scale());
 }
-//-----------------------------------------------------------------------------
+
 void WindowEditor::tool_completed(const QImage *value, bool changed)
 {
     if (changed)
@@ -250,18 +250,18 @@ void WindowEditor::tool_completed(const QImage *value, bool changed)
         this->updateImageScaled(this->mTools->scale());
     }
 }
-//-----------------------------------------------------------------------------
+
 void WindowEditor::tool_scaleChanged(int value)
 {
     this->updateImageScaled(value);
     emit this->scaleChanged(value);
 }
-//-----------------------------------------------------------------------------
+
 void WindowEditor::tool_selectionChanged(const QPainterPath &value)
 {
     this->updateImageScaled(this->mTools->scale());
 }
-//-----------------------------------------------------------------------------
+
 void WindowEditor::toolChanged(int toolIndex)
 {
     this->ui->toolBarOptions->clear();
@@ -301,6 +301,6 @@ void WindowEditor::toolChanged(int toolIndex)
 
     this->ui->toolBarOptions->setVisible(this->ui->toolBarOptions->actions().length() > 0);
 }
-//-----------------------------------------------------------------------------
+
 }
-//-----------------------------------------------------------------------------
+

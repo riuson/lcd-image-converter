@@ -18,7 +18,7 @@
  */
 
 #include "demogenerator.h"
-//-----------------------------------------------------------------------------
+
 #include <QTimer>
 #include <QImage>
 #include <QPixmap>
@@ -27,7 +27,7 @@
 #include "converterhelper.h"
 #include "convimage.h"
 #include "prepareoptions.h"
-//-----------------------------------------------------------------------------
+
 DemoGenerator::DemoGenerator(Preset *preset, QObject *parent) :
     QObject(parent)
 {
@@ -42,14 +42,14 @@ DemoGenerator::DemoGenerator(Preset *preset, QObject *parent) :
     this->mMax = 0;
     this->mIndex = 0;
 }
-//-----------------------------------------------------------------------------
+
 DemoGenerator::~DemoGenerator()
 {
     this->stopAnimation();
     delete this->mTimer;
     delete this->mSourceImage;
 }
-//-----------------------------------------------------------------------------
+
 void DemoGenerator::setScript(const QString &value)
 {
     // stop
@@ -89,22 +89,22 @@ void DemoGenerator::setScript(const QString &value)
 
     delete convImage;
 }
-//-----------------------------------------------------------------------------
+
 void DemoGenerator::startAnimation()
 {
     this->mTimer->start();
 }
-//-----------------------------------------------------------------------------
+
 void DemoGenerator::stopAnimation()
 {
     this->mTimer->stop();
 }
-//-----------------------------------------------------------------------------
+
 int DemoGenerator::animationTime() const
 {
     return this->mAnimationTimeSeconds;
 }
-//-----------------------------------------------------------------------------
+
 void DemoGenerator::setAnimationTime(int value)
 {
     if (value > 1)
@@ -112,17 +112,17 @@ void DemoGenerator::setAnimationTime(int value)
         this->mAnimationTimeSeconds = value;
     }
 }
-//-----------------------------------------------------------------------------
+
 int DemoGenerator::animationInterval() const
 {
     return this->mTimer->interval();
 }
-//-----------------------------------------------------------------------------
+
 void DemoGenerator::setAnimationInterval(int value)
 {
     this->mTimer->setInterval(value);
 }
-//-----------------------------------------------------------------------------
+
 void DemoGenerator::timeout()
 {
     QTime current = QTime::currentTime();
@@ -158,4 +158,4 @@ void DemoGenerator::timeout()
 
     this->mLastTick = current;
 }
-//-----------------------------------------------------------------------------
+

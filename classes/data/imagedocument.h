@@ -19,15 +19,15 @@
 
 #ifndef IMAGEDOCUMENT_H
 #define IMAGEDOCUMENT_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include "idocument.h"
-//-----------------------------------------------------------------------------
+
 template <class T1, class T2> class QMap;
 class Preset;
 class ParsedImageData;
 class Tags;
-//-----------------------------------------------------------------------------
+
 class ImageDocument : public QObject, public IDocument
 {
     Q_OBJECT
@@ -71,5 +71,5 @@ private slots:
 signals:
     void documentChanged();
 };
-//-----------------------------------------------------------------------------
+
 #endif // IMAGEDOCUMENT_H

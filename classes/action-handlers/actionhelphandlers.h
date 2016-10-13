@@ -19,13 +19,13 @@
 
 #ifndef ACTIONHELPHANDLERS_H
 #define ACTIONHELPHANDLERS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 
 #include "actionhandlersbase.h"
-//-----------------------------------------------------------------------------
+
 class IMainWindow;
-//-----------------------------------------------------------------------------
+
 class ActionHelpHandlers : public ActionHandlersBase
 {
     Q_OBJECT
@@ -40,5 +40,5 @@ public slots:
     void updates_triggered();
     void homepage_triggered();
 };
-//-----------------------------------------------------------------------------
+
 #endif // ACTIONHELPHANDLERS_H

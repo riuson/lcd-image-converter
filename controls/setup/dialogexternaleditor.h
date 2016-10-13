@@ -19,13 +19,13 @@
 
 #ifndef DIALOGEXTERNALEDITOR_H
 #define DIALOGEXTERNALEDITOR_H
-//-----------------------------------------------------------------------------
+
 #include <QDialog>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
 class DialogExternalEditor;
 }
-//-----------------------------------------------------------------------------
+
 class DialogExternalEditor : public QDialog
 {
     Q_OBJECT
@@ -43,5 +43,5 @@ private slots:
 protected:
     void done(int result);
 };
-//-----------------------------------------------------------------------------
+
 #endif // DIALOGEXTERNALEDITOR_H

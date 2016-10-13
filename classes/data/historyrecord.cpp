@@ -20,7 +20,7 @@
 #include "historyrecord.h"
 
 #include <QStringListIterator>
-//-----------------------------------------------------------------------------
+
 HistoryRecord::HistoryRecord(
         const QStringList *_keys,
         const QMap<QString, QImage *> *_images,
@@ -52,7 +52,7 @@ HistoryRecord::HistoryRecord(
          this->mInfoMap.insert(key, value);
     }
 }
-//-----------------------------------------------------------------------------
+
 HistoryRecord::~HistoryRecord()
 {
     qDeleteAll(this->mImageMap);
@@ -60,19 +60,19 @@ HistoryRecord::~HistoryRecord()
     this->mImageMap.clear();
     this->mInfoMap.clear();
 }
-//-----------------------------------------------------------------------------
+
 const QStringList *HistoryRecord::keys() const
 {
     return &this->mKeys;
 }
-//-----------------------------------------------------------------------------
+
 const QMap<QString, QImage *> *HistoryRecord::images() const
 {
     return &this->mImageMap;
 }
-//-----------------------------------------------------------------------------
+
 const QMap<QString, QVariant> *HistoryRecord::info() const
 {
     return &this->mInfoMap;
 }
-//-----------------------------------------------------------------------------
+

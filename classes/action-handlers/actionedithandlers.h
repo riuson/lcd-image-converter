@@ -19,14 +19,14 @@
 
 #ifndef ACTIONEDITHANDLERS_H
 #define ACTIONEDITHANDLERS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 
 #include "actionhandlersbase.h"
-//-----------------------------------------------------------------------------
+
 class QImage;
 class IMainWindow;
-//-----------------------------------------------------------------------------
+
 class ActionEditHandlers : public ActionHandlersBase
 {
     Q_OBJECT
@@ -39,5 +39,5 @@ public slots:
     void copy_triggered();
     void paste_triggered();
 };
-//-----------------------------------------------------------------------------
+
 #endif // ACTIONEDITHANDLERS_H

@@ -19,13 +19,13 @@
 
 #ifndef WIDGETBITMAPEDITOR_H
 #define WIDGETBITMAPEDITOR_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
     class WidgetBitmapEditor;
 }
-//-----------------------------------------------------------------------------
+
 class WidgetBitmapEditor : public QWidget
 {
     Q_OBJECT
@@ -75,5 +75,5 @@ signals:
     void mouseMove(QPoint point);
     void scaleSchanged(int scale);
 };
-//-----------------------------------------------------------------------------
+
 #endif // WIDGETBITMAPEDITOR_H

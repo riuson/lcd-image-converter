@@ -19,7 +19,7 @@
 
 #include "dialogfontchanged.h"
 #include "ui_dialogfontchanged.h"
-//-----------------------------------------------------------------------------
+
 DialogFontChanged::DialogFontChanged(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogFontChanged)
@@ -28,17 +28,17 @@ DialogFontChanged::DialogFontChanged(QWidget *parent) :
 
     this->mRegenerateAll = false;
 }
-//-----------------------------------------------------------------------------
+
 DialogFontChanged::~DialogFontChanged()
 {
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 bool DialogFontChanged::regenerateAll() const
 {
     return this->mRegenerateAll;
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontChanged::on_buttonRegenerateAll_clicked()
 {
     this->mRegenerateAll = true;
@@ -46,7 +46,7 @@ void DialogFontChanged::on_buttonRegenerateAll_clicked()
     //this->close();
     this->accept();
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontChanged::on_buttonGenerateNewOnly_clicked()
 {
     this->mRegenerateAll = false;
@@ -54,11 +54,11 @@ void DialogFontChanged::on_buttonGenerateNewOnly_clicked()
     //this->close();
     this->accept();
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontChanged::on_buttonCancel_clicked()
 {
     //this->setResult(QDialog::Rejected);
     //this->close();
     this->reject();
 }
-//-----------------------------------------------------------------------------
+

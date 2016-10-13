@@ -22,10 +22,10 @@
 
 #include <QColor>
 #include "toolsmanager.h"
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 Editor::Editor(QObject *parent) : QObject(parent)
 {
     this->mWidget = new WindowEditor();
@@ -35,43 +35,43 @@ Editor::Editor(QObject *parent) : QObject(parent)
 
     this->connect(this->mWidget, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
 }
-//-----------------------------------------------------------------------------
+
 Editor::~Editor()
 {
     // delete widgets of tools before editor widget
     delete this->mWidget;
 }
-//-----------------------------------------------------------------------------
+
 QWidget *Editor::widget() const
 {
     return this->mWidget;
 }
-//-----------------------------------------------------------------------------
+
 const QImage *Editor::image() const
 {
     return this->mWidget->image();
 }
-//-----------------------------------------------------------------------------
+
 void Editor::setImage(const QImage *value)
 {
     this->mWidget->setImage(value);
 }
-//-----------------------------------------------------------------------------
+
 int Editor::scale() const
 {
     return this->mWidget->scale();
 }
-//-----------------------------------------------------------------------------
+
 void Editor::on_imageChanged()
 {
     emit this->imageChanged(this->image());
 }
-//-----------------------------------------------------------------------------
+
 void Editor::on_mouseMove(const QPoint *point)
 {
     emit this->mouseMoved(point);
 }
-//-----------------------------------------------------------------------------
+
 void Editor::on_scaleChanged(int value)
 {
     if (value > 0)
@@ -79,6 +79,6 @@ void Editor::on_scaleChanged(int value)
         emit this->scaleChanged(value);
     }
 }
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+

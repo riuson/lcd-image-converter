@@ -19,14 +19,14 @@
 
 #ifndef MATRIXITEMDELEGATE_H
 #define MATRIXITEMDELEGATE_H
-//-----------------------------------------------------------------------------
+
 #include <QtGui>
 #include "qt-version-check.h"
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
 #include <QtWidgets>
 #endif // QT_VERSION
-//-----------------------------------------------------------------------------
+
 class MatrixItemDelegate : public QItemDelegate
 {
 public:
@@ -39,5 +39,5 @@ public:
 private:
     QColor mColor;
 };
-//-----------------------------------------------------------------------------
+
 #endif // MATRIXITEMDELEGATE_H

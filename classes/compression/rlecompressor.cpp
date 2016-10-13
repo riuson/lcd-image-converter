@@ -18,17 +18,17 @@
  */
 
 #include "rlecompressor.h"
-//-----------------------------------------------------------------------------
+
 #include <QVector>
 #include <QQueue>
 #include "rlesequence.h"
 //#include <QDebug>
-//-----------------------------------------------------------------------------
+
 RleCompressor::RleCompressor(QObject *parent) :
     QObject(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void RleCompressor::compress(
         QVector<quint32> *input,
         DataBlockSize dataSize,
@@ -53,7 +53,7 @@ void RleCompressor::compress(
     qDeleteAll(sequencesSource);
     qDeleteAll(sequencesCombined);
 }
-//-----------------------------------------------------------------------------
+
 void RleCompressor::collectSequences(
         const QVector<quint32> *input,
         QVector<RleSequence *> *sequences)
@@ -81,7 +81,7 @@ void RleCompressor::collectSequences(
 
     sequences->append(temp);
 }
-//-----------------------------------------------------------------------------
+
 void RleCompressor::combineSequences(
         const QVector<RleSequence *> *inputSequences,
         quint32 minimumOfEquals,
@@ -114,7 +114,7 @@ void RleCompressor::combineSequences(
 
     outputSequences->append(temp);
 }
-//-----------------------------------------------------------------------------
+
 quint32 RleCompressor::getMaxSize(DataBlockSize dataSize)
 {
     quint32 result;
@@ -140,7 +140,7 @@ quint32 RleCompressor::getMaxSize(DataBlockSize dataSize)
 
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void RleCompressor::flushSequence(
         const RleSequence *sequence,
         DataBlockSize dataSize,
@@ -174,7 +174,7 @@ void RleCompressor::flushSequence(
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void RleCompressor::flushSequencePart(
         const RleSequence *sequence,
         quint32 start,
@@ -196,4 +196,4 @@ void RleCompressor::flushSequencePart(
         }
     }
 }
-//-----------------------------------------------------------------------------
+

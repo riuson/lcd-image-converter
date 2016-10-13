@@ -1,11 +1,11 @@
 #ifndef TESTRLE_H
 #define TESTRLE_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QtTest/QtTest>
-//-----------------------------------------------------------------------------
+
 template <class T> class QVector;
-//-----------------------------------------------------------------------------
+
 class TestRle : public QObject
 {
     Q_OBJECT
@@ -22,5 +22,5 @@ private slots:
 
     void cleanupTestCase();
 };
-//-----------------------------------------------------------------------------
+
 #endif // TESTRLE_H

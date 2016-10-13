@@ -19,17 +19,17 @@
 
 #ifndef DEMOGENERATOR_H
 #define DEMOGENERATOR_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QVector>
 #include <QPoint>
 #include <QTime>
 #include <QPixmap>
-//-----------------------------------------------------------------------------
+
 class Preset;
 class QTimer;
 class QImage;
-//-----------------------------------------------------------------------------
+
 class DemoGenerator : public QObject
 {
     Q_OBJECT
@@ -68,5 +68,5 @@ signals:
 private slots:
     void timeout();
 };
-//-----------------------------------------------------------------------------
+
 #endif // DEMOGENERATOR_H

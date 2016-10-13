@@ -31,10 +31,10 @@
 #include <QVector>
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 ToolFill::ToolFill(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
     this->mParameters = parameters;
@@ -49,7 +49,7 @@ ToolFill::ToolFill(IImageEditorParams *parameters, QObject *parent) : QObject(pa
     this->loadSettings();
     this->initializeWidgets();
 }
-//-----------------------------------------------------------------------------
+
 ToolFill::~ToolFill()
 {
     this->saveSettings();
@@ -59,32 +59,32 @@ ToolFill::~ToolFill()
     delete this->mActions;
     delete this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolFill::title() const
 {
     return tr("Fill");
 }
-//-----------------------------------------------------------------------------
+
 const QString ToolFill::tooltip() const
 {
     return tr("Fill area");
 }
-//-----------------------------------------------------------------------------
+
 const QIcon *ToolFill::icon() const
 {
     return this->mIcon;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QAction *> *ToolFill::actions() const
 {
     return this->mActions;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QWidget *> *ToolFill::widgets() const
 {
     return this->mWidgets;
 }
-//-----------------------------------------------------------------------------
+
 bool ToolFill::processMouse(QMouseEvent *event,
                             const QImage *imageOriginal,
                             bool inRect)
@@ -141,11 +141,11 @@ bool ToolFill::processMouse(QMouseEvent *event,
 
     return true;
 }
-//-----------------------------------------------------------------------------
+
 void ToolFill::initializeWidgets()
 {
 }
-//-----------------------------------------------------------------------------
+
 void ToolFill::loadSettings()
 {
     QSettings sett;
@@ -157,7 +157,7 @@ void ToolFill::loadSettings()
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void ToolFill::saveSettings() const
 {
     QSettings sett;
@@ -169,7 +169,7 @@ void ToolFill::saveSettings() const
     sett.endGroup();
     sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 bool ToolFill::fillArea(int x, int y, const QColor &color)
 {
     QImage image = this->mInternalImage;
@@ -211,7 +211,7 @@ bool ToolFill::fillArea(int x, int y, const QColor &color)
 
     return false;
 }
-//-----------------------------------------------------------------------------
+
 void ToolFill::collectPointsAround(const QImage &image, const QPoint &point, const QRgb &color, QVector<QPoint> *vector)
 {
     int x = point.x();
@@ -227,7 +227,7 @@ void ToolFill::collectPointsAround(const QImage &image, const QPoint &point, con
     this->collectPoint(image, QPoint(x - 0, y + 1), color, vector);
     //this->collectPoint(image, QPoint(x + 1, y + 1), color, vector);
 }
-//-----------------------------------------------------------------------------
+
 void ToolFill::collectPoint(const QImage &image, const QPoint &point, const QRgb &color, QVector<QPoint> *vector)
 {
     if (point.x() >= 0 && point.y() >= 0 && point.x() < image.width() && point.y() < image.height())
@@ -241,11 +241,11 @@ void ToolFill::collectPoint(const QImage &image, const QPoint &point, const QRgb
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 void ToolFill::on_spinBoxSize_valueChanged(int value)
 {
     this->mSize = value;
 }
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+

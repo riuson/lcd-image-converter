@@ -21,7 +21,7 @@
 #include "ui_starttab.h"
 
 #include <QFileInfo>
-//-----------------------------------------------------------------------------
+
 StartTab::StartTab(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::StartTab)
@@ -34,12 +34,12 @@ StartTab::StartTab(QWidget *parent) :
 
     this->mRecentFilesList = NULL;
 }
-//-----------------------------------------------------------------------------
+
 StartTab::~StartTab()
 {
     delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void StartTab::setRecentFiles(const QStringList *list)
 {
     this->mRecentFilesList = list;
@@ -61,13 +61,13 @@ void StartTab::setRecentFiles(const QStringList *list)
     else
         this->ui->labelRecentFiles->hide();
 }
-//-----------------------------------------------------------------------------
+
 const QString StartTab::tabName() const
 {
     QString result = tr("Start");
     return result;
 }
-//-----------------------------------------------------------------------------
+
 void StartTab::changeEvent(QEvent *e)
 {
     QWidget::changeEvent(e);
@@ -96,4 +96,4 @@ void StartTab::changeEvent(QEvent *e)
         break;
     }
 }
-//-----------------------------------------------------------------------------
+

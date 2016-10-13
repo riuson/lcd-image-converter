@@ -19,9 +19,9 @@
 
 #ifndef DIALOGFONTSELECT_H
 #define DIALOGFONTSELECT_H
-//-----------------------------------------------------------------------------
+
 #include <QDialog>
-//-----------------------------------------------------------------------------
+
 namespace Ui {
     class DialogFontSelect;
 }
@@ -32,7 +32,7 @@ class UnicodeBlocksModel;
 class UnicodeBlocksFilterModel;
 struct tFontParameters;
 class DialogFontSelectData;
-//-----------------------------------------------------------------------------
+
 class DialogFontSelect : public QDialog
 {
     Q_OBJECT
@@ -72,4 +72,4 @@ private slots:
 };
 
 #endif // DIALOGFONTSELECT_H
-//-----------------------------------------------------------------------------
+

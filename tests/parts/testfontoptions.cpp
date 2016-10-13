@@ -1,18 +1,18 @@
 #include "testfontoptions.h"
-//-----------------------------------------------------------------------------
+
 #include <QStringList>
 #include "fontoptions.h"
-//-----------------------------------------------------------------------------
+
 TestFontOptions::TestFontOptions(QObject *parent) :
     QObject(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void TestFontOptions::initTestCase()
 {
     this->mOptions = new FontOptions(this);
 }
-//-----------------------------------------------------------------------------
+
 void TestFontOptions::bom()
 {
     // 1
@@ -23,7 +23,7 @@ void TestFontOptions::bom()
     this->mOptions->setBom(true);
     QCOMPARE(this->mOptions->bom(), true);
 }
-//-----------------------------------------------------------------------------
+
 void TestFontOptions::encoding()
 {
     QStringList list = FontOptions::encodings();
@@ -35,9 +35,9 @@ void TestFontOptions::encoding()
     this->mOptions->setEncoding("other");
     QVERIFY(this->mOptions->encoding() != "other");
 }
-//-----------------------------------------------------------------------------
+
 void TestFontOptions::cleanupTestCase()
 {
     delete this->mOptions;
 }
-//-----------------------------------------------------------------------------
+

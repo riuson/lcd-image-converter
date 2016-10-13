@@ -1,11 +1,11 @@
 #ifndef TESTFONTOPTIONS_H
 #define TESTFONTOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QtTest/QtTest>
-//-----------------------------------------------------------------------------
+
 class FontOptions;
-//-----------------------------------------------------------------------------
+
 class TestFontOptions : public QObject
 {
     Q_OBJECT

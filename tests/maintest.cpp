@@ -10,7 +10,7 @@
 #include "testtemplateoptions.h"
 #include "testpresets.h"
 #include "testrle.h"
-//-----------------------------------------------------------------------------
+
 int main(void)
 {
     TestBitmapHelper tbh;
@@ -48,4 +48,4 @@ int main(void)
 
     return 0;
 }
-//-----------------------------------------------------------------------------
+
