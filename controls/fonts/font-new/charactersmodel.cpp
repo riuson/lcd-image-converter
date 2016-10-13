@@ -123,5 +123,3 @@ void CharactersModel::setCodesRange(quint32 first, quint32 last)
     this->endResetModel();
 }
 
-
-

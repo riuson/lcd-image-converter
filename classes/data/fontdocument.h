@@ -104,5 +104,4 @@ signals:
     void documentChanged();
 };
 
-
 #endif // FONTDOCUMENT_H

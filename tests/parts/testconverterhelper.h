@@ -55,5 +55,4 @@ private:
     Condition mCondition;
 };
 
-
 #endif // TESTCONVERTERHELPER_H

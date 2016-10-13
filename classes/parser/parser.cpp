@@ -299,7 +299,6 @@ QString Parser::hexCode(const QString &key, const QString &encoding, bool bom) c
         result = QString("%1").arg(code, codeArray.count() * 2, 16, QChar('0'));
     }
 
-
     return result;
 }
 
@@ -345,7 +344,6 @@ void Parser::addMatrixInfo(Tags &tags) const
         tags.setTagValue(Tags::PrepareUseBands, "no");
     int bandWidth = this->mPreset->prepare()->bandWidth();
     tags.setTagValue(Tags::PrepareBandWidth, QString("%1").arg(bandWidth));
-
 
     // inversion
     if (this->mPreset->prepare()->inverse())

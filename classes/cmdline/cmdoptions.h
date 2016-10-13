@@ -35,8 +35,6 @@ enum DocumentType
     DocumentTypeFont
 };
 
-
-
 }
 
 #endif // CMDOPTIONS_H

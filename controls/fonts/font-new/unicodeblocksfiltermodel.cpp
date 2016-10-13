@@ -32,7 +32,6 @@ bool UnicodeBlocksFilterModel::filterAcceptsRow(int source_row, const QModelInde
     QModelIndex index = this->sourceModel()->index(source_row, 0, source_parent);
     QString name = this->sourceModel()->data(index).toString();
 
-
     return (name.contains(this->mName, Qt::CaseInsensitive));
 }
 

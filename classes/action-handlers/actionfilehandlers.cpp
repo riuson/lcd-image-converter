@@ -346,7 +346,6 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
         }
     }
 
-
     this->openBinaryImage(filesBinaryImage);
     this->openImage(filesDocumentImage);
     this->openFont(filesDocumentFont);

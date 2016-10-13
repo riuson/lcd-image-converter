@@ -29,4 +29,3 @@ ModeParserBase::ModeParserBase(QCommandLineParser *parser, QObject *parent) :
 
 }
 
-

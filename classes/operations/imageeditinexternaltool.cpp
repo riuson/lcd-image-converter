@@ -87,7 +87,6 @@ void ImageEditInExternalTool::applyDocument(IDocument *doc, const QStringList &k
         lastTime = info.lastModified();
     }
 
-
     // fill parameters list
     QStringList parameters;
     iterator.toFront();

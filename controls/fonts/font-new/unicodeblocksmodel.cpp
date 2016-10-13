@@ -45,10 +45,6 @@ quint32 UnicodeBlock::lastCode() const
     return this->mLastCode;
 }
 
-
-
-
-
 UnicodeBlocksModel::UnicodeBlocksModel(QObject *parent) :
     QAbstractListModel(parent)
 {

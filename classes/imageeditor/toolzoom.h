@@ -67,7 +67,6 @@ private:
     QList<QWidget *> *mWidgets;
     int mScale;
 
-
     void initializeWidgets();
     void loadSettings();
     void saveSettings() const;

@@ -406,7 +406,6 @@ QString FontDocument::convert(Preset *preset)
     tFontParameters parameters;
     this->fontCharacters(&chars, &parameters);
 
-
     tags.setTagValue(Tags::DocumentDataType, "font");
     tags.setTagValue(Tags::FontFamily, parameters.family);
     tags.setTagValue(Tags::FontSize, QString("%1").arg(parameters.size));
@@ -875,7 +874,6 @@ QString FontDocument::hexCode(const QString &key, const QString &encoding, bool 
     {
         result = QString("%1").arg(code, codeArray.count() * 2, 16, QChar('0'));
     }
-
 
     return result;
 }

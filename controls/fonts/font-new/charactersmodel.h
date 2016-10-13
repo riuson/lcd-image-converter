@@ -44,7 +44,6 @@ private:
     quint32 mResultCode1;
     quint32 mResultCode2;
 
-
 signals:
 
 public slots:

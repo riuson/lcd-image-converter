@@ -345,7 +345,6 @@ QString ModeConvertFont::createCharsList(const QString &rangeStr,
                 }
                 // end from
 
-
             }
         }
     }

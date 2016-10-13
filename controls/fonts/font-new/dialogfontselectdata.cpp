@@ -130,7 +130,6 @@ void DialogFontSelectData::notifyFontChanged()
     font.setPixelSize(this->mSize);
     emit this->fontChanged(font);
 
-
     // find max size
     QFontMetrics metrics(font);
     QSize sz = QSize();

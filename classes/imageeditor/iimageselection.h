@@ -42,5 +42,4 @@ Q_DECLARE_INTERFACE (ImageEditor::IImageSelection,
                      "riuson.lcd-image-converter/1.0"
                      )
 
-
 #endif // IIMAGESELECTION_H

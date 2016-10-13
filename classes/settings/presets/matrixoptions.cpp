@@ -311,7 +311,6 @@ bool MatrixOptions::loadXmlElement(QDomElement element)
 
     quint32 uMaskUsed = 0xffffffff, uMaskAnd = 0xffffffff, uMaskOr = 0, uMaskFill = 0xffffffff;
 
-
     QDomNode nodeValue = nodeSett.firstChild();
 
     while (!nodeValue.isNull()) {
