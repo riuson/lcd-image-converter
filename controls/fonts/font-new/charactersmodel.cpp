@@ -60,6 +60,14 @@ QVariant CharactersModel::headerData(int section, Qt::Orientation orientation, i
     }
   }
 
+  if (role == Qt::TextAlignmentRole) {
+    if (orientation == Qt::Vertical) {
+      result = (int)Qt::Alignment(Qt::AlignRight | Qt::AlignVCenter);
+    } else if (orientation == Qt::Horizontal) {
+      result = Qt::AlignCenter;
+    }
+  }
+
   return result;
 }
 
@@ -86,6 +94,10 @@ QVariant CharactersModel::data(const QModelIndex &index, int role) const
         result = palette.color(QPalette::Disabled, QPalette::Window);
       }
     }
+  }
+
+  if (role == Qt::TextAlignmentRole) {
+    result = Qt::AlignCenter;
   }
 
   return result;
