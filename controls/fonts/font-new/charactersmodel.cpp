@@ -54,7 +54,7 @@ QVariant CharactersModel::headerData(int section, Qt::Orientation orientation, i
       int row = (section) * 16;
       row += this->mResultCode1;
 
-      result = QString("%1").arg(row, 8, 16);
+      result = QString("%1").arg(row, 0, 16);
     } else {
       result = QString("%1").arg((section), 2, 16);
     }
