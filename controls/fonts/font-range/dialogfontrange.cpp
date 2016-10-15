@@ -25,87 +25,85 @@
 #include <QTextCodec>
 
 DialogFontRange::DialogFontRange(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DialogFontRange)
+  QDialog(parent),
+  ui(new Ui::DialogFontRange)
 {
-    ui->setupUi(this);
+  ui->setupUi(this);
 
-    this->connect(this->ui->comboBoxEncoding, SIGNAL(currentIndexChanged(QString)), SLOT(updatePreview()));
-    this->connect(this->ui->spinBoxFrom, SIGNAL(valueChanged(int)), SLOT(updatePreview()));
-    this->connect(this->ui->spinBoxTo, SIGNAL(valueChanged(int)), SLOT(updatePreview()));
-    this->connect(this->ui->radioButtonBigEndian, SIGNAL(toggled(bool)), SLOT(updatePreview()));
-    this->connect(this->ui->radioButtonLittleEndian, SIGNAL(toggled(bool)), SLOT(updatePreview()));
+  this->connect(this->ui->comboBoxEncoding, SIGNAL(currentIndexChanged(QString)), SLOT(updatePreview()));
+  this->connect(this->ui->spinBoxFrom, SIGNAL(valueChanged(int)), SLOT(updatePreview()));
+  this->connect(this->ui->spinBoxTo, SIGNAL(valueChanged(int)), SLOT(updatePreview()));
+  this->connect(this->ui->radioButtonBigEndian, SIGNAL(toggled(bool)), SLOT(updatePreview()));
+  this->connect(this->ui->radioButtonLittleEndian, SIGNAL(toggled(bool)), SLOT(updatePreview()));
 
-    this->mResultString = QString();
+  this->mResultString = QString();
 
-    QStringList encodings = FontOptions::encodings();
-    qSort(encodings);
-    this->ui->comboBoxEncoding->addItems(encodings);
-    int index = this->ui->comboBoxEncoding->findText("UTF-8", Qt::MatchFixedString);
+  QStringList encodings = FontOptions::encodings();
+  qSort(encodings);
+  this->ui->comboBoxEncoding->addItems(encodings);
+  int index = this->ui->comboBoxEncoding->findText("UTF-8", Qt::MatchFixedString);
 
-    if (index >= 0) {
-        this->ui->comboBoxEncoding->setCurrentIndex(index);
-    }
+  if (index >= 0) {
+    this->ui->comboBoxEncoding->setCurrentIndex(index);
+  }
 }
 
 DialogFontRange::~DialogFontRange()
 {
-    delete ui;
+  delete ui;
 }
 
 const QString &DialogFontRange::resultString() const
 {
-    return this->mResultString;
+  return this->mResultString;
 }
 
 void DialogFontRange::updatePreview()
 {
-    QString encoding = this->ui->comboBoxEncoding->currentText();
-    int from = this->ui->spinBoxFrom->value();
-    int to = this->ui->spinBoxTo->value();
-    bool bigEndian = this->ui->radioButtonBigEndian->isChecked();
-    this->updatePreview(encoding, from, to, bigEndian);
+  QString encoding = this->ui->comboBoxEncoding->currentText();
+  int from = this->ui->spinBoxFrom->value();
+  int to = this->ui->spinBoxTo->value();
+  bool bigEndian = this->ui->radioButtonBigEndian->isChecked();
+  this->updatePreview(encoding, from, to, bigEndian);
 }
 
 void DialogFontRange::updatePreview(const QString &encoding, int from, int to, bool bigEndian)
 {
-    QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
-    QString result;
+  QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
+  QString result;
 
-    if (from > to)
-        qSwap(from, to);
+  if (from > to) {
+    qSwap(from, to);
+  }
 
-    for (int i = from; i <= to; ++i)
-    {
-        int code = i;
-        if (code > 0)
-        {
-            QByteArray array;
+  for (int i = from; i <= to; ++i) {
+    int code = i;
 
-            while (code != 0)
-            {
-                if (bigEndian)
-                    array.insert(0, (char)(code & 0xff));
-                else
-                    array.append((char)(code & 0xff));
+    if (code > 0) {
+      QByteArray array;
 
-                code = code >> 8;
-            }
-
-            QString str = codec->toUnicode(array);
-            result += str;
+      while (code != 0) {
+        if (bigEndian) {
+          array.insert(0, (char)(code & 0xff));
+        } else {
+          array.append((char)(code & 0xff));
         }
-        else
-        {
-            result += QChar(QChar::Null);
-        }
+
+        code = code >> 8;
+      }
+
+      QString str = codec->toUnicode(array);
+      result += str;
+    } else {
+      result += QChar(QChar::Null);
     }
+  }
 
-    this->ui->plainTextEditPreview->setPlainText(FontHelper::escapeControlChars(result));
+  this->ui->plainTextEditPreview->setPlainText(FontHelper::escapeControlChars(result));
 }
 
 void DialogFontRange::on_plainTextEditPreview_textChanged()
 {
-    this->mResultString = FontHelper::unescapeControlChars(this->ui->plainTextEditPreview->toPlainText());
+  this->mResultString = FontHelper::unescapeControlChars(this->ui->plainTextEditPreview->toPlainText());
 }
 

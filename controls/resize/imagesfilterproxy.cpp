@@ -22,31 +22,31 @@
 #include <QStringList>
 
 ImagesFilterProxy::ImagesFilterProxy(QObject *parent) :
-    QSortFilterProxyModel(parent)
+  QSortFilterProxyModel(parent)
 {
-    this->mKeys = new QStringList();
+  this->mKeys = new QStringList();
 }
 
 ImagesFilterProxy::~ImagesFilterProxy()
 {
-    delete this->mKeys;
+  delete this->mKeys;
 }
 
 bool ImagesFilterProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-    QModelIndex index = this->sourceModel()->index(source_row, 0, source_parent);
-    QString name = this->sourceModel()->data(index).toString();
+  QModelIndex index = this->sourceModel()->index(source_row, 0, source_parent);
+  QString name = this->sourceModel()->data(index).toString();
 
-    return (this->mKeys->contains(name, Qt::CaseSensitive));
+  return (this->mKeys->contains(name, Qt::CaseSensitive));
 }
 
 void ImagesFilterProxy::setFilter(const QStringList &keys)
 {
-    emit this->beginResetModel();
+  emit this->beginResetModel();
 
-    this->mKeys->clear();
-    this->mKeys->append(keys);
+  this->mKeys->clear();
+  this->mKeys->append(keys);
 
-    emit this->endResetModel();
+  emit this->endResetModel();
 }
 

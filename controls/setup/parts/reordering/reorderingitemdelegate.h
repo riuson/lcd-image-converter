@@ -29,16 +29,16 @@
 
 class ReorderingItemDelegate : public QItemDelegate
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ReorderingItemDelegate(QObject *parent = 0);
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  explicit ReorderingItemDelegate(QObject *parent = 0);
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
 public:
-    QColor color() const;
-    void setColor(const QColor &value);
+  QColor color() const;
+  void setColor(const QColor &value);
 private:
-    QColor mColor;
+  QColor mColor;
 };
 
 #endif // REORDERINGITEMDELEGATE_H

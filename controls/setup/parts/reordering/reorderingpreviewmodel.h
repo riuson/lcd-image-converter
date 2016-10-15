@@ -31,45 +31,43 @@ using namespace ConversionOptions;
 
 class ReorderingPreviewModel : public QAbstractItemModel
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    enum RowType
-    {
-        Source,
-        Operation,
-        Result
-    };
+  enum RowType {
+    Source,
+    Operation,
+    Result
+  };
 
-    explicit ReorderingPreviewModel(Preset *preset, QObject *parent = 0);
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
-    QModelIndex parent(const QModelIndex &child) const;
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    RowType rowType(int row) const;
+  explicit ReorderingPreviewModel(Preset *preset, QObject *parent = 0);
+  int rowCount(const QModelIndex &parent) const;
+  int columnCount(const QModelIndex &parent) const;
+  QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+  QVariant data(const QModelIndex &index, int role) const;
+  bool setData(const QModelIndex &index, const QVariant &value, int role);
+  QModelIndex index(int row, int column, const QModelIndex &parent) const;
+  QModelIndex parent(const QModelIndex &child) const;
+  Qt::ItemFlags flags(const QModelIndex &index) const;
+  RowType rowType(int row) const;
 
 private:
-    Preset *mPreset;
+  Preset *mPreset;
 
-    enum ColorType
-    {
-        Empty,
-        //for used bits
-        Gray
-    };
+  enum ColorType {
+    Empty,
+    //for used bits
+    Gray
+  };
 
-    void getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const;
-    void resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
-    void sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const;
-    int maxBitIndex() const;
+  void getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const;
+  void resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
+  void sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const;
+  int maxBitIndex() const;
 
 signals:
 
 public slots:
-    void callReset();
+  void callReset();
 };
 
 #endif // REORDERINGPREVIEWMODEL_H

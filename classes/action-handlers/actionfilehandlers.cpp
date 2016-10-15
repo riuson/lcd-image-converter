@@ -40,496 +40,468 @@
 #include "filedialogoptions.h"
 
 ActionFileHandlers::ActionFileHandlers(QObject *parent) :
-    ActionHandlersBase(parent)
+  ActionHandlersBase(parent)
 {
 }
 
 void ActionFileHandlers::newImage_triggered()
 {
-    bool ok;
-    QString name = QInputDialog::getText(this->mMainWindow->parentWidget(),
-                                         tr("Enter image name"),
-                                         tr("Image name:"),
-                                         QLineEdit::Normal,
-                                         QString("Image"),
-                                         &ok);
-    if (ok)
-    {
-        EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
-        this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
+  bool ok;
+  QString name = QInputDialog::getText(this->mMainWindow->parentWidget(),
+                                       tr("Enter image name"),
+                                       tr("Image name:"),
+                                       QLineEdit::Normal,
+                                       QString("Image"),
+                                       &ok);
 
-        emit this->tabCreated(ed);
+  if (ok) {
+    EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
+    this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
-        name = this->mMainWindow->findAvailableName(name);
-        ed->document()->setDocumentName(name);
-    }
+    emit this->tabCreated(ed);
+
+    name = this->mMainWindow->findAvailableName(name);
+    ed->document()->setDocumentName(name);
+  }
 }
 
 void ActionFileHandlers::newFont_triggered()
 {
-    bool ok;
-    QString name = QInputDialog::getText(this->mMainWindow->parentWidget(),
-                                         tr("Enter font name"),
-                                         tr("Font name:"),
-                                         QLineEdit::Normal,
-                                         QString("Font"),
-                                         &ok);
-    if (ok)
-    {
-        DialogFontSelect dialog(this->mMainWindow->parentWidget());
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
-            this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
+  bool ok;
+  QString name = QInputDialog::getText(this->mMainWindow->parentWidget(),
+                                       tr("Enter font name"),
+                                       tr("Font name:"),
+                                       QLineEdit::Normal,
+                                       QString("Font"),
+                                       &ok);
 
-            ed->document()->beginChanges();
+  if (ok) {
+    DialogFontSelect dialog(this->mMainWindow->parentWidget());
 
-            QString chars = dialog.characters();
-            tFontParameters parameters;
-            dialog.getFontParameters(&parameters);
+    if (dialog.exec() == QDialog::Accepted) {
+      EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
+      this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
-            ed->setFontCharacters(chars,
-                                  parameters);
+      ed->document()->beginChanges();
 
-            emit this->tabCreated(ed);
+      QString chars = dialog.characters();
+      tFontParameters parameters;
+      dialog.getFontParameters(&parameters);
 
-            name = this->mMainWindow->findAvailableName(name);
-            ed->document()->setDocumentName(name);
+      ed->setFontCharacters(chars,
+                            parameters);
 
-            ed->document()->endChanges(true);
-            ed->document()->dataContainer()->historyInit();
-        }
+      emit this->tabCreated(ed);
+
+      name = this->mMainWindow->findAvailableName(name);
+      ed->document()->setDocumentName(name);
+
+      ed->document()->endChanges(true);
+      ed->document()->dataContainer()->historyInit();
     }
+  }
 }
 
 void ActionFileHandlers::open_triggered()
 {
-    QFileDialog dialog(this->mMainWindow->parentWidget());
-    dialog.setAcceptMode(QFileDialog::AcceptOpen);
-    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::OpenDocument));
-    dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setWindowTitle(tr("Open xml or image file"));
+  QFileDialog dialog(this->mMainWindow->parentWidget());
+  dialog.setAcceptMode(QFileDialog::AcceptOpen);
+  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::OpenDocument));
+  dialog.setFileMode(QFileDialog::ExistingFiles);
+  dialog.setWindowTitle(tr("Open xml or image file"));
 
-    QStringList filters;
-    filters << tr("XML Files (*.xml)")
-            << tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)");
-    dialog.setNameFilters(filters);
-    dialog.selectNameFilter(
-                filters.at(
-                    FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::OpenDocument) < filters.count()
-                    ?
-                        FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::OpenDocument)
-                      :
-                        0));
+  QStringList filters;
+  filters << tr("XML Files (*.xml)")
+          << tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)");
+  dialog.setNameFilters(filters);
+  dialog.selectNameFilter(
+    filters.at(
+      FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::OpenDocument) < filters.count()
+      ?
+      FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::OpenDocument)
+      :
+      0));
 
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        QStringList filenames = dialog.selectedFiles();
-        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::OpenDocument, dialog.directory().absolutePath());
-        FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::OpenDocument, filters.indexOf(dialog.selectedNameFilter()));
+  if (dialog.exec() == QDialog::Accepted) {
+    QStringList filenames = dialog.selectedFiles();
+    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::OpenDocument, dialog.directory().absolutePath());
+    FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::OpenDocument, filters.indexOf(dialog.selectedNameFilter()));
 
-        this->openFiles(filenames);
-    }
+    this->openFiles(filenames);
+  }
 }
 
 void ActionFileHandlers::rename_triggered()
 {
-    bool ok;
-    IEditor *editor = this->editor();
-    if (editor != NULL)
-    {
-        QString name = QInputDialog::getText(this->mMainWindow->parentWidget(),
-                                             tr("Rename"),
-                                             tr("New name:"),
-                                             QLineEdit::Normal,
-                                             editor->document()->documentName(),
-                                             &ok);
-        if (ok)
-        {
-            editor->document()->setDocumentName(name);
-        }
+  bool ok;
+  IEditor *editor = this->editor();
+
+  if (editor != NULL) {
+    QString name = QInputDialog::getText(this->mMainWindow->parentWidget(),
+                                         tr("Rename"),
+                                         tr("New name:"),
+                                         QLineEdit::Normal,
+                                         editor->document()->documentName(),
+                                         &ok);
+
+    if (ok) {
+      editor->document()->setDocumentName(name);
     }
+  }
 }
 
 void ActionFileHandlers::save_triggered()
 {
-    IEditor *editor = this->editor();
-    if (editor != NULL)
-    {
-        if (QFile::exists(editor->document()->documentFilename()))
-            editor->document()->save(editor->document()->documentFilename());
-        else
-            this->saveAs_triggered();
+  IEditor *editor = this->editor();
+
+  if (editor != NULL) {
+    if (QFile::exists(editor->document()->documentFilename())) {
+      editor->document()->save(editor->document()->documentFilename());
+    } else {
+      this->saveAs_triggered();
     }
+  }
 }
 
 void ActionFileHandlers::saveAs_triggered()
 {
-    IEditor *editor = this->editor();
-    if (editor != NULL)
-    {
-        QFileDialog dialog(this->mMainWindow->parentWidget());
-        dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.setFileMode(QFileDialog::AnyFile);
-        dialog.setNameFilter(tr("XML Files (*.xml)"));
-        dialog.setDefaultSuffix(QString("xml"));
-        dialog.setWindowTitle(tr("Save file as"));
+  IEditor *editor = this->editor();
 
-        QFileInfo outputFile(editor->document()->documentFilename());
+  if (editor != NULL) {
+    QFileDialog dialog(this->mMainWindow->parentWidget());
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setNameFilter(tr("XML Files (*.xml)"));
+    dialog.setDefaultSuffix(QString("xml"));
+    dialog.setWindowTitle(tr("Save file as"));
 
-        if (outputFile.exists())
-        {
-            dialog.setDirectory(outputFile.dir());
-        }
-        else
-        {
-            dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::SaveDocument));
-        }
+    QFileInfo outputFile(editor->document()->documentFilename());
 
-        if (editor->document()->documentFilename().isEmpty())
-        {
-            dialog.selectFile(editor->document()->documentName());
-        }
-        else
-        {
-            dialog.selectFile(editor->document()->documentFilename());
-        }
-
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
-            QString filename = dialog.selectedFiles().at(0);
-            editor->document()->save(filename);
-
-            emit this->rememberFilename(filename);
-        }
+    if (outputFile.exists()) {
+      dialog.setDirectory(outputFile.dir());
+    } else {
+      dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::SaveDocument));
     }
+
+    if (editor->document()->documentFilename().isEmpty()) {
+      dialog.selectFile(editor->document()->documentName());
+    } else {
+      dialog.selectFile(editor->document()->documentFilename());
+    }
+
+    if (dialog.exec() == QDialog::Accepted) {
+      FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
+      QString filename = dialog.selectedFiles().at(0);
+      editor->document()->save(filename);
+
+      emit this->rememberFilename(filename);
+    }
+  }
 }
 
 void ActionFileHandlers::close_triggered()
 {
-    emit closeRequest(this->mMainWindow->currentTab());
+  emit closeRequest(this->mMainWindow->currentTab());
 }
 
 void ActionFileHandlers::closeAll_triggered()
 {
-    QList<QWidget *> list;
+  QList<QWidget *> list;
 
-    this->mMainWindow->tabsList(&list);
+  this->mMainWindow->tabsList(&list);
 
-    for (int i = 0; i < list.count(); i++)
-    {
-        emit closeRequest(list.at(i));
-    }
+  for (int i = 0; i < list.count(); i++) {
+    emit closeRequest(list.at(i));
+  }
 }
 
 void ActionFileHandlers::convert_triggered()
 {
-    IEditor *editor = this->mMainWindow->currentEditor();
-    if (editor != NULL)
-    {
-        this->convertDocument(editor->document(), true);
-    }
+  IEditor *editor = this->mMainWindow->currentEditor();
+
+  if (editor != NULL) {
+    this->convertDocument(editor->document(), true);
+  }
 }
 
 void ActionFileHandlers::convertAll_triggered()
 {
-    QList<QWidget *> list;
+  QList<QWidget *> list;
 
-    this->mMainWindow->tabsList(&list);
+  this->mMainWindow->tabsList(&list);
 
-    for (int i = 0; i < list.count(); i++)
-    {
-        IEditor *editor = dynamic_cast<IEditor *> (list.at(i));
-        if (editor != NULL)
-        {
-            this->convertDocument(editor->document(), false);
-        }
+  for (int i = 0; i < list.count(); i++) {
+    IEditor *editor = dynamic_cast<IEditor *> (list.at(i));
+
+    if (editor != NULL) {
+      this->convertDocument(editor->document(), false);
     }
+  }
 }
 
 void ActionFileHandlers::openFiles(const QStringList &filenames)
 {
-    QList<QWidget*> existingTabs;
-    this->mMainWindow->tabsList(&existingTabs);
-    QMap<QString, QWidget *> existingFilesInEditors;
-    QString lastExistingFile;
+  QList<QWidget *> existingTabs;
+  this->mMainWindow->tabsList(&existingTabs);
+  QMap<QString, QWidget *> existingFilesInEditors;
+  QString lastExistingFile;
 
-    for (int i = 0; i < existingTabs.count(); i++)
-    {
-        IEditor *editor = dynamic_cast<IEditor *> (existingTabs.at(i));
+  for (int i = 0; i < existingTabs.count(); i++) {
+    IEditor *editor = dynamic_cast<IEditor *> (existingTabs.at(i));
 
-        if (editor != NULL)
-            existingFilesInEditors.insert(editor->document()->documentFilename(), existingTabs.at(i));
+    if (editor != NULL) {
+      existingFilesInEditors.insert(editor->document()->documentFilename(), existingTabs.at(i));
     }
+  }
 
-    // binary image
-    QStringList filesBinaryImage;
-    {
-        QStringList imageExtensions;
-        imageExtensions << "bmp" << "gif" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "ppm" << "tiff" << "xbm" << "xpm";
+  // binary image
+  QStringList filesBinaryImage;
+  {
+    QStringList imageExtensions;
+    imageExtensions << "bmp" << "gif" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "ppm" << "tiff" << "xbm" << "xpm";
 
-        foreach (const QString &filename, filenames)
-        {
-            QFileInfo info(filename);
+    foreach (const QString & filename, filenames) {
+      QFileInfo info(filename);
 
-            if (info.exists() && imageExtensions.contains(info.suffix().toLower()))
-            {
-                filesBinaryImage << filename;
+      if (info.exists() && imageExtensions.contains(info.suffix().toLower())) {
+        filesBinaryImage << filename;
+      }
+    }
+  }
+
+  // document image
+  QStringList filesDocumentImage;
+  {
+    foreach (const QString & filename, filenames) {
+      QFileInfo info(filename);
+
+      if (info.exists() && info.suffix().toLower() == "xml" && !existingFilesInEditors.contains(filename)) {
+        QFile file(filename);
+
+        if (file.open(QIODevice::ReadWrite)) {
+          QTextStream stream(&file);
+          QRegExp regImage("<data.+type=\"image\"", Qt::CaseInsensitive);
+
+          while (!stream.atEnd()) {
+            QString readedLine = stream.readLine();
+
+            if (readedLine.contains(regImage)) {
+              filesDocumentImage << filename;
+              break;
             }
+          }
+
+          file.close();
         }
+      } else if (existingFilesInEditors.keys().contains(filename)) {
+        lastExistingFile = filename;
+      }
     }
+  }
 
-    // document image
-    QStringList filesDocumentImage;
-    {
-        foreach (const QString &filename, filenames)
-        {
-            QFileInfo info(filename);
+  // document font
+  QStringList filesDocumentFont;
+  {
+    foreach (const QString & filename, filenames) {
+      QFileInfo info(filename);
 
-            if (info.exists() && info.suffix().toLower() == "xml" && !existingFilesInEditors.contains(filename))
-            {
-                QFile file(filename);
-                if (file.open(QIODevice::ReadWrite))
-                {
-                    QTextStream stream(&file);
-                    QRegExp regImage("<data.+type=\"image\"", Qt::CaseInsensitive);
-                    while (!stream.atEnd())
-                    {
-                        QString readedLine = stream.readLine();
-                        if (readedLine.contains(regImage))
-                        {
-                            filesDocumentImage << filename;
-                            break;
-                        }
-                    }
-                    file.close();
-                }
+      if (info.exists() && info.suffix().toLower() == "xml" && !existingFilesInEditors.contains(filename)) {
+        QFile file(filename);
+
+        if (file.open(QIODevice::ReadWrite)) {
+          QTextStream stream(&file);
+          QRegExp regFont("<data.+type=\"font\"", Qt::CaseInsensitive);
+
+          while (!stream.atEnd()) {
+            QString readedLine = stream.readLine();
+
+            if (readedLine.contains(regFont)) {
+              filesDocumentFont << filename;
+              break;
             }
-            else if (existingFilesInEditors.keys().contains(filename))
-            {
-                lastExistingFile = filename;
-            }
+          }
+
+          file.close();
         }
+      } else if (existingFilesInEditors.keys().contains(filename)) {
+        lastExistingFile = filename;
+      }
     }
+  }
 
-    // document font
-    QStringList filesDocumentFont;
-    {
-        foreach (const QString &filename, filenames)
-        {
-            QFileInfo info(filename);
+  this->openBinaryImage(filesBinaryImage);
+  this->openImage(filesDocumentImage);
+  this->openFont(filesDocumentFont);
 
-            if (info.exists() && info.suffix().toLower() == "xml" && !existingFilesInEditors.contains(filename))
-            {
-                QFile file(filename);
-                if (file.open(QIODevice::ReadWrite))
-                {
-                    QTextStream stream(&file);
-                    QRegExp regFont("<data.+type=\"font\"", Qt::CaseInsensitive);
-                    while (!stream.atEnd())
-                    {
-                        QString readedLine = stream.readLine();
-                        if (readedLine.contains(regFont))
-                        {
-                            filesDocumentFont << filename;
-                            break;
-                        }
-                    }
-                    file.close();
-                }
-            }
-            else if (existingFilesInEditors.keys().contains(filename))
-            {
-                lastExistingFile = filename;
-            }
-        }
-    }
-
-    this->openBinaryImage(filesBinaryImage);
-    this->openImage(filesDocumentImage);
-    this->openFont(filesDocumentFont);
-
-    if (existingFilesInEditors.contains(lastExistingFile))
-        this->tabSelect(existingFilesInEditors.value(lastExistingFile));
+  if (existingFilesInEditors.contains(lastExistingFile)) {
+    this->tabSelect(existingFilesInEditors.value(lastExistingFile));
+  }
 }
 
 void ActionFileHandlers::openFile(const QString &filename)
 {
-    QStringList files = QStringList() << filename;
-    this->openFiles(files);
+  QStringList files = QStringList() << filename;
+  this->openFiles(files);
 }
 
 void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
 {
-    EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
-    this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
+  EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
+  this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
-    QString name = this->mMainWindow->findAvailableName(documentName);
+  QString name = this->mMainWindow->findAvailableName(documentName);
 
-    // assign image
-    {
-        QStringList keys = ed->selectedKeys();
+  // assign image
+  {
+    QStringList keys = ed->selectedKeys();
 
-        QStringListIterator iterator(keys);
-        while (iterator.hasNext())
-        {
-            QString key = iterator.next();
-            ed->document()->dataContainer()->setImage(key, image);
-        }
+    QStringListIterator iterator(keys);
+
+    while (iterator.hasNext()) {
+      QString key = iterator.next();
+      ed->document()->dataContainer()->setImage(key, image);
     }
+  }
 
-    ed->document()->setDocumentName(name);
+  ed->document()->setDocumentName(name);
 
-    emit this->tabCreated(ed);
+  emit this->tabCreated(ed);
 }
 
 void ActionFileHandlers::openBinaryImage(const QStringList &filenames)
 {
-    foreach (const QString &filename, filenames)
-    {
-        QFileInfo info(filename);
+  foreach (const QString & filename, filenames) {
+    QFileInfo info(filename);
 
-        QImage imageLoaded;
-        if (info.exists() && imageLoaded.load(filename))
-        {
-            QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+    QImage imageLoaded;
 
-            EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
-            this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
+    if (info.exists() && imageLoaded.load(filename)) {
+      QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
 
-            QString name = this->mMainWindow->findAvailableName(info.baseName());
+      EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
+      this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
-            // assign image
-            {
-                QStringList keys = ed->selectedKeys();
+      QString name = this->mMainWindow->findAvailableName(info.baseName());
 
-                QStringListIterator iterator(keys);
-                while (iterator.hasNext())
-                {
-                    QString key = iterator.next();
-                    ed->document()->dataContainer()->setImage(key, &imageConverted);
-                }
-            }
+      // assign image
+      {
+        QStringList keys = ed->selectedKeys();
 
-            emit this->tabCreated(ed);
-            ed->document()->setDocumentName(name);
+        QStringListIterator iterator(keys);
+
+        while (iterator.hasNext()) {
+          QString key = iterator.next();
+          ed->document()->dataContainer()->setImage(key, &imageConverted);
         }
+      }
+
+      emit this->tabCreated(ed);
+      ed->document()->setDocumentName(name);
     }
+  }
 }
 
 void ActionFileHandlers::openImage(const QStringList &filenames)
 {
-    foreach (const QString &filename, filenames)
-    {
-        EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
-        this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
+  foreach (const QString & filename, filenames) {
+    EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
+    this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
-        emit this->tabCreated(ed);
-        ed->document()->load(filename);
-        emit this->rememberFilename(filename);
-    }
+    emit this->tabCreated(ed);
+    ed->document()->load(filename);
+    emit this->rememberFilename(filename);
+  }
 }
 
 void ActionFileHandlers::openFont(const QStringList &filenames)
 {
-    foreach (const QString &filename, filenames)
-    {
-        EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
-        this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
+  foreach (const QString & filename, filenames) {
+    EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
+    this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
-        emit this->tabCreated(ed);
-        ed->document()->load(filename);
-        emit this->rememberFilename(filename);
-    }
+    emit this->tabCreated(ed);
+    ed->document()->load(filename);
+    emit this->rememberFilename(filename);
+  }
 }
 
 void ActionFileHandlers::convertDocument(IDocument *document, bool request)
 {
-    // converter output file name
-    QString outputFileName = document->outputFilename();
+  // converter output file name
+  QString outputFileName = document->outputFilename();
 
-    // document file name
-    QString documentFileName = document->documentFilename();
+  // document file name
+  QString documentFileName = document->documentFilename();
 
-    // if file name not specified, show dialog
-    bool outputFilenameNotSpecified = outputFileName.isEmpty();
+  // if file name not specified, show dialog
+  bool outputFilenameNotSpecified = outputFileName.isEmpty();
 
-    // if document not saved, do not save output file name
-    bool documentFilenameNotSpecified = documentFileName.isEmpty();
+  // if document not saved, do not save output file name
+  bool documentFilenameNotSpecified = documentFileName.isEmpty();
 
-    // show dialog
-    if (request || outputFilenameNotSpecified)
-    {
-        QFileDialog dialog(qobject_cast<QWidget *>(this->parent()));
-        dialog.setAcceptMode(QFileDialog::AcceptSave);
-        dialog.selectFile(outputFileName);
-        dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ConvertDocument));
-        dialog.setFileMode(QFileDialog::AnyFile);
-        dialog.setDefaultSuffix(QString("c"));
-        dialog.setWindowTitle(tr("Save result file as"));
+  // show dialog
+  if (request || outputFilenameNotSpecified) {
+    QFileDialog dialog(qobject_cast<QWidget *>(this->parent()));
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.selectFile(outputFileName);
+    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ConvertDocument));
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setDefaultSuffix(QString("c"));
+    dialog.setWindowTitle(tr("Save result file as"));
 
-        QStringList filters;
-        filters << tr("C source code (*.c)")
-                << tr("C++ source code (*.cpp)")
-                << tr("C/C++ headers (*.h)")
-                << tr("C/C++ files (*.c *.cpp *.h)")
-                << tr("All Files (*.*)");
-        dialog.setNameFilters(filters);
-        dialog.selectNameFilter(
-                    filters.at(
-                        FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::ConvertDocument) < filters.count()
-                        ?
-                            FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::ConvertDocument)
-                          :
-                            0));
+    QStringList filters;
+    filters << tr("C source code (*.c)")
+            << tr("C++ source code (*.cpp)")
+            << tr("C/C++ headers (*.h)")
+            << tr("C/C++ files (*.c *.cpp *.h)")
+            << tr("All Files (*.*)");
+    dialog.setNameFilters(filters);
+    dialog.selectNameFilter(
+      filters.at(
+        FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::ConvertDocument) < filters.count()
+        ?
+        FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::ConvertDocument)
+        :
+        0));
 
-        if (outputFilenameNotSpecified)
-        {
-            dialog.selectFile(document->documentName());
-        }
-        else
-        {
-            dialog.selectFile(outputFileName);
-        }
-
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            outputFileName = dialog.selectedFiles().at(0);
-            FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ConvertDocument, dialog.directory().absolutePath());
-            FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::ConvertDocument, filters.indexOf(dialog.selectedNameFilter()));
-        }
-        else
-        {
-            outputFileName = "";
-        }
+    if (outputFilenameNotSpecified) {
+      dialog.selectFile(document->documentName());
+    } else {
+      dialog.selectFile(outputFileName);
     }
 
-    // if file name specified, save result
-    if (!outputFileName.isEmpty())
-    {
-        QFile file(outputFileName);
-        if (file.open(QFile::WriteOnly))
-        {
-            Preset preset;
-            preset.load(Preset::selectedName());
-
-            QString result = document->convert(&preset);
-
-            file.write(result.toUtf8());
-            file.close();
-
-            if ((document->outputFilename() != outputFileName) && !documentFilenameNotSpecified)
-            {
-                document->setOutputFilename(outputFileName);
-            }
-        }
+    if (dialog.exec() == QDialog::Accepted) {
+      outputFileName = dialog.selectedFiles().at(0);
+      FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ConvertDocument, dialog.directory().absolutePath());
+      FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::ConvertDocument, filters.indexOf(dialog.selectedNameFilter()));
+    } else {
+      outputFileName = "";
     }
+  }
+
+  // if file name specified, save result
+  if (!outputFileName.isEmpty()) {
+    QFile file(outputFileName);
+
+    if (file.open(QFile::WriteOnly)) {
+      Preset preset;
+      preset.load(Preset::selectedName());
+
+      QString result = document->convert(&preset);
+
+      file.write(result.toUtf8());
+      file.close();
+
+      if ((document->outputFilename() != outputFileName) && !documentFilenameNotSpecified) {
+        document->setOutputFilename(outputFileName);
+      }
+    }
+  }
 }
 
 void ActionFileHandlers::documentChanged()
 {
-    QWidget *w = qobject_cast<QWidget *>(sender());
-    emit this->tabChanged(w);
+  QWidget *w = qobject_cast<QWidget *>(sender());
+  emit this->tabChanged(w);
 }
 

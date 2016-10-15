@@ -22,22 +22,23 @@
 
 #include <QDialog>
 
-namespace Ui {
-    class DialogAbout;
+namespace Ui
+{
+class DialogAbout;
 }
 
 class DialogAbout : public QDialog
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit DialogAbout(QWidget *parent = 0);
-    ~DialogAbout();
+  explicit DialogAbout(QWidget *parent = 0);
+  ~DialogAbout();
 
 private:
-    Ui::DialogAbout *ui;
+  Ui::DialogAbout *ui;
 
-    void showLicense();
+  void showLicense();
 };
 
 #endif // DIALOGABOUT_H

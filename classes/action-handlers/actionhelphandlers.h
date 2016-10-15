@@ -28,17 +28,17 @@ class IMainWindow;
 
 class ActionHelpHandlers : public ActionHandlersBase
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ActionHelpHandlers(QObject *parent = 0);
+  explicit ActionHelpHandlers(QObject *parent = 0);
 
 signals:
 
 public slots:
-    void about_application_triggered();
-    void about_qt_triggered();
-    void updates_triggered();
-    void homepage_triggered();
+  void about_application_triggered();
+  void about_qt_triggered();
+  void updates_triggered();
+  void homepage_triggered();
 };
 
 #endif // ACTIONHELPHANDLERS_H

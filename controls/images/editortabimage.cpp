@@ -36,126 +36,126 @@
 #include "editor.h"
 
 EditorTabImage::EditorTabImage(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::EditorTabImage)
+  QWidget(parent),
+  ui(new Ui::EditorTabImage)
 {
-    ui->setupUi(this);
+  ui->setupUi(this);
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    this->setLayout(layout);
+  QHBoxLayout *layout = new QHBoxLayout(this);
+  this->setLayout(layout);
 
-    this->mDocument = new ImageDocument(this);
+  this->mDocument = new ImageDocument(this);
 
-    this->mEditorObject = new ImageEditor::Editor(this);
-    this->mEditorWidget = this->mEditorObject->widget();
-    layout->addWidget(this->mEditorWidget);
+  this->mEditorObject = new ImageEditor::Editor(this);
+  this->mEditorWidget = this->mEditorObject->widget();
+  layout->addWidget(this->mEditorWidget);
 
-    this->connect(this->mDocument, SIGNAL(documentChanged()), SLOT(mon_documentChanged()));
-    this->connect(this->mEditorObject, SIGNAL(imageChanged(const QImage*)), SLOT(mon_editor_imageChanged(const QImage*)));
-    this->connect(this->mEditorObject, SIGNAL(mouseMoved(const QPoint*)), SLOT(mon_editor_mouseMove(const QPoint*)));
-    this->connect(this->mEditorObject, SIGNAL(scaleChanged(int)), SLOT(mon_editor_scaleChanged(int)));
+  this->connect(this->mDocument, SIGNAL(documentChanged()), SLOT(mon_documentChanged()));
+  this->connect(this->mEditorObject, SIGNAL(imageChanged(const QImage *)), SLOT(mon_editor_imageChanged(const QImage *)));
+  this->connect(this->mEditorObject, SIGNAL(mouseMoved(const QPoint *)), SLOT(mon_editor_mouseMove(const QPoint *)));
+  this->connect(this->mEditorObject, SIGNAL(scaleChanged(int)), SLOT(mon_editor_scaleChanged(int)));
 
-    this->initStatusData();
+  this->initStatusData();
 
-    this->updateSelectedImage();
+  this->updateSelectedImage();
 }
 
 EditorTabImage::~EditorTabImage()
 {
-    this->mEditorWidget->setParent(NULL);
-    delete ui;
-    delete this->mEditorObject;
+  this->mEditorWidget->setParent(NULL);
+  delete ui;
+  delete this->mEditorObject;
 }
 
 IDocument *EditorTabImage::document() const
 {
-    return qobject_cast<IDocument *>(this->mDocument);
+  return qobject_cast<IDocument *>(this->mDocument);
 }
 
 QStringList EditorTabImage::selectedKeys() const
 {
-    return this->mDocument->dataContainer()->keys();
+  return this->mDocument->dataContainer()->keys();
 }
 
 StatusData *EditorTabImage::statusData() const
 {
-    return this->mStatusData;
+  return this->mStatusData;
 }
 
 IEditor::EditorType EditorTabImage::type() const
 {
-    return EditorImage;
+  return EditorImage;
 }
 
 void EditorTabImage::changeEvent(QEvent *e)
 {
-    QWidget::changeEvent(e);
-    switch (e->type()) {
+  QWidget::changeEvent(e);
+
+  switch (e->type()) {
     case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
+      ui->retranslateUi(this);
+      break;
+
     default:
-        break;
-    }
+      break;
+  }
 }
 
 void EditorTabImage::initStatusData()
 {
-    this->mStatusData = new StatusData(this);
-    this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
-    this->updateStatus();
+  this->mStatusData = new StatusData(this);
+  this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
+  this->updateStatus();
 }
 
 void EditorTabImage::updateStatus()
 {
-    QStringList keys = this->mDocument->dataContainer()->keys();
-    if (keys.length() > 0)
-    {
-        const QImage *currentImage = this->mDocument->dataContainer()->image(keys.at(0));
-        this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
-    }
-    this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditorObject->scale()));
+  QStringList keys = this->mDocument->dataContainer()->keys();
+
+  if (keys.length() > 0) {
+    const QImage *currentImage = this->mDocument->dataContainer()->image(keys.at(0));
+    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+  }
+
+  this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditorObject->scale()));
 }
 
 void EditorTabImage::updateSelectedImage()
 {
-    QStringList keys = this->mDocument->dataContainer()->keys();
-    if (keys.length() > 0)
-    {
-        const QImage *image = this->mDocument->dataContainer()->image(keys.at(0));
-        this->mEditorObject->setImage(image);
-    }
+  QStringList keys = this->mDocument->dataContainer()->keys();
 
-    this->updateStatus();
+  if (keys.length() > 0) {
+    const QImage *image = this->mDocument->dataContainer()->image(keys.at(0));
+    this->mEditorObject->setImage(image);
+  }
+
+  this->updateStatus();
 }
 
 void EditorTabImage::mon_documentChanged()
 {
-    this->updateSelectedImage();
-    emit this->documentChanged();
+  this->updateSelectedImage();
+  emit this->documentChanged();
 }
 
-void EditorTabImage::mon_editor_imageChanged(const QImage* value)
+void EditorTabImage::mon_editor_imageChanged(const QImage *value)
 {
-    QStringList keys = this->mDocument->dataContainer()->keys();
-    this->mDocument->dataContainer()->setImage(keys.at(0), value);
+  QStringList keys = this->mDocument->dataContainer()->keys();
+  this->mDocument->dataContainer()->setImage(keys.at(0), value);
 }
 
-void EditorTabImage::mon_editor_mouseMove(const QPoint* point)
+void EditorTabImage::mon_editor_mouseMove(const QPoint *point)
 {
-    if (point->x() >= 0 && point->y() >= 0)
-    {
-        this->mStatusData->setData(StatusData::MouseCoordinates, QVariant(*point));
-    }
-    else
-    {
-        this->mStatusData->removeData(StatusData::MouseCoordinates);
-    }
+  if (point->x() >= 0 && point->y() >= 0) {
+    this->mStatusData->setData(StatusData::MouseCoordinates, QVariant(*point));
+  } else {
+    this->mStatusData->removeData(StatusData::MouseCoordinates);
+  }
 }
 
 void EditorTabImage::mon_editor_scaleChanged(int scale)
 {
-    this->mStatusData->setData(StatusData::Scale, QVariant(scale));
+  this->mStatusData->setData(StatusData::Scale, QVariant(scale));
 }
 
 /*

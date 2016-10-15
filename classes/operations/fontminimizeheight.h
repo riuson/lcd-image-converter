@@ -28,22 +28,22 @@ namespace Operations
 
 class FontMinimizeHeight : public QObject, public IOperation
 {
-    Q_OBJECT
-    Q_INTERFACES(Operations::IOperation)
+  Q_OBJECT
+  Q_INTERFACES(Operations::IOperation)
 
 public:
-    explicit FontMinimizeHeight(QWidget *parentWidget = 0, QObject *parent = 0);
+  explicit FontMinimizeHeight(QWidget *parentWidget = 0, QObject *parent = 0);
 
-    bool prepare(const IDocument *doc, const QStringList &keys);
-    void applyDocument(IDocument *doc, const QStringList &keys);
-    void applyItem(IDocument *doc, const QString &itemKey);
+  bool prepare(const IDocument *doc, const QStringList &keys);
+  void applyDocument(IDocument *doc, const QStringList &keys);
+  void applyItem(IDocument *doc, const QString &itemKey);
 
 private:
-    QWidget *mParentWidget;
-    int mLeft;
-    int mTop;
-    int mRight;
-    int mBottom;
+  QWidget *mParentWidget;
+  int mLeft;
+  int mTop;
+  int mRight;
+  int mBottom;
 };
 
 }

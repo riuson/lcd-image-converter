@@ -25,90 +25,83 @@
 #include "datacontainer.h"
 #include "filedialogoptions.h"
 
-namespace Operations {
+namespace Operations
+{
 
 ImageImport::ImageImport(QWidget *parentWidget, QObject *parent) :
-    QObject(parent)
+  QObject(parent)
 {
-    this->mParentWidget = parentWidget;
-    this->mImportIndex = 0;
+  this->mParentWidget = parentWidget;
+  this->mImportIndex = 0;
 }
 
 bool ImageImport::prepare(const IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(doc)
+  Q_UNUSED(doc)
 
-    QFileDialog dialog(this->mParentWidget);
-    dialog.setAcceptMode(QFileDialog::AcceptOpen);
-    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ImportImage));
-    dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setNameFilter(tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
-    dialog.setWindowTitle(tr("Open image file"));
+  QFileDialog dialog(this->mParentWidget);
+  dialog.setAcceptMode(QFileDialog::AcceptOpen);
+  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ImportImage));
+  dialog.setFileMode(QFileDialog::ExistingFiles);
+  dialog.setNameFilter(tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
+  dialog.setWindowTitle(tr("Open image file"));
 
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ImportImage, dialog.directory().absolutePath());
-        this->mSelectedFiles = dialog.selectedFiles();
+  if (dialog.exec() == QDialog::Accepted) {
+    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ImportImage, dialog.directory().absolutePath());
+    this->mSelectedFiles = dialog.selectedFiles();
 
-        if (this->mSelectedFiles.length() > 0)
-        {
-            this->mImportIndex = 0;
+    if (this->mSelectedFiles.length() > 0) {
+      this->mImportIndex = 0;
 
-            // check for items-files count equals
-            if (this->mSelectedFiles.length() != keys.length())
-            {
-                QString msg = tr("Selected %1 file(s) and %2 character(s).\nWill be imported only a minimal amount: %3.").\
-                        arg(this->mSelectedFiles.length()).\
-                        arg(keys.length()).\
-                        arg(qMin(this->mSelectedFiles.length(), keys.length()));
+      // check for items-files count equals
+      if (this->mSelectedFiles.length() != keys.length()) {
+        QString msg = tr("Selected %1 file(s) and %2 character(s).\nWill be imported only a minimal amount: %3.").\
+                      arg(this->mSelectedFiles.length()).\
+                      arg(keys.length()).\
+                      arg(qMin(this->mSelectedFiles.length(), keys.length()));
 
-                QMessageBox box(this->mParentWidget);
-                box.setIcon(QMessageBox::Warning);
-                box.setInformativeText(msg);
-                box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-                box.setText(tr("Selected a different number of files and characters."));
-                box.setWindowTitle(tr("Warning"));
+        QMessageBox box(this->mParentWidget);
+        box.setIcon(QMessageBox::Warning);
+        box.setInformativeText(msg);
+        box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+        box.setText(tr("Selected a different number of files and characters."));
+        box.setWindowTitle(tr("Warning"));
 
-                if (box.exec() != QMessageBox::Ok)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+        if (box.exec() != QMessageBox::Ok) {
+          return false;
         }
-    }
+      }
 
-    return false;
+      return true;
+    }
+  }
+
+  return false;
 }
 
 void ImageImport::applyDocument(IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(doc)
-    Q_UNUSED(keys)
+  Q_UNUSED(doc)
+  Q_UNUSED(keys)
 }
 
 void ImageImport::applyItem(IDocument *doc, const QString &itemKey)
 {
-    if (this->mSelectedFiles.length() == 1)
-    {
-        QImage imageLoaded;
-        imageLoaded.load(this->mSelectedFiles.at(0));
-        QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+  if (this->mSelectedFiles.length() == 1) {
+    QImage imageLoaded;
+    imageLoaded.load(this->mSelectedFiles.at(0));
+    QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
 
-        doc->dataContainer()->setImage(itemKey, &imageConverted);
-    }
-    else if (this->mSelectedFiles.length() > 1)
-    {
-        if (this->mImportIndex < this->mSelectedFiles.length())
-        {
-            QImage imageLoaded;
-            imageLoaded.load(this->mSelectedFiles.at(this->mImportIndex++));
-            QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
+    doc->dataContainer()->setImage(itemKey, &imageConverted);
+  } else if (this->mSelectedFiles.length() > 1) {
+    if (this->mImportIndex < this->mSelectedFiles.length()) {
+      QImage imageLoaded;
+      imageLoaded.load(this->mSelectedFiles.at(this->mImportIndex++));
+      QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
 
-            doc->dataContainer()->setImage(itemKey, &imageConverted);
-        }
+      doc->dataContainer()->setImage(itemKey, &imageConverted);
     }
+  }
 }
 
 }

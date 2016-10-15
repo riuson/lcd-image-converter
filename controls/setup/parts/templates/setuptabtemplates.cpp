@@ -26,75 +26,75 @@
 #include "filedialogoptions.h"
 
 SetupTabTemplates::SetupTabTemplates(Preset *preset, QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::SetupTabTemplates)
+  QWidget(parent),
+  ui(new Ui::SetupTabTemplates)
 {
-    ui->setupUi(this);
-    this->mPreset = preset;
+  ui->setupUi(this);
+  this->mPreset = preset;
 
-    this->matrixChanged();
+  this->matrixChanged();
 }
 
 SetupTabTemplates::~SetupTabTemplates()
 {
-    delete ui;
+  delete ui;
 }
 
 void SetupTabTemplates::matrixChanged()
 {
-    this->ui->lineEditImage->setText(this->mPreset->templates()->image());
-    this->ui->lineEditFont->setText(this->mPreset->templates()->font());
+  this->ui->lineEditImage->setText(this->mPreset->templates()->image());
+  this->ui->lineEditFont->setText(this->mPreset->templates()->font());
 }
 
 void SetupTabTemplates::on_pushButtonBrowseImage_clicked()
 {
-    QFileDialog dialog(this);
-    dialog.setAcceptMode(QFileDialog::AcceptOpen);
-    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::TemplateImage));
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setNameFilter(tr("All files (*.*)"));
-    dialog.setWindowTitle(tr("Open image template file"));
+  QFileDialog dialog(this);
+  dialog.setAcceptMode(QFileDialog::AcceptOpen);
+  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::TemplateImage));
+  dialog.setFileMode(QFileDialog::ExistingFile);
+  dialog.setNameFilter(tr("All files (*.*)"));
+  dialog.setWindowTitle(tr("Open image template file"));
 
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::TemplateImage, dialog.directory().absolutePath());
-        this->mPreset->templates()->setImage(dialog.selectedFiles().at(0));
-    }
+  if (dialog.exec() == QDialog::Accepted) {
+    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::TemplateImage, dialog.directory().absolutePath());
+    this->mPreset->templates()->setImage(dialog.selectedFiles().at(0));
+  }
 }
 
 void SetupTabTemplates::on_pushButtonBrowseFont_clicked()
 {
-    QFileDialog dialog(this);
-    dialog.setAcceptMode(QFileDialog::AcceptOpen);
-    dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::TemplateFont));
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setNameFilter(tr("Any file (*.*)"));
-    dialog.setWindowTitle(tr("Open font template file"));
+  QFileDialog dialog(this);
+  dialog.setAcceptMode(QFileDialog::AcceptOpen);
+  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::TemplateFont));
+  dialog.setFileMode(QFileDialog::ExistingFile);
+  dialog.setNameFilter(tr("Any file (*.*)"));
+  dialog.setWindowTitle(tr("Open font template file"));
 
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::TemplateFont, dialog.directory().absolutePath());
-        this->mPreset->templates()->setFont(dialog.selectedFiles().at(0));
-    }
+  if (dialog.exec() == QDialog::Accepted) {
+    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::TemplateFont, dialog.directory().absolutePath());
+    this->mPreset->templates()->setFont(dialog.selectedFiles().at(0));
+  }
 }
 
 void SetupTabTemplates::on_lineEditImage_editingFinished()
 {
-    const QString value = this->ui->lineEditImage->text();
+  const QString value = this->ui->lineEditImage->text();
 
-    if (!value.isEmpty())
-        this->mPreset->templates()->setImage(value);
-    else
-        this->mPreset->templates()->setImage(":/templates/image_convert");
+  if (!value.isEmpty()) {
+    this->mPreset->templates()->setImage(value);
+  } else {
+    this->mPreset->templates()->setImage(":/templates/image_convert");
+  }
 }
 
 void SetupTabTemplates::on_lineEditFont_editingFinished()
 {
-    const QString value = this->ui->lineEditFont->text();
+  const QString value = this->ui->lineEditFont->text();
 
-    if (!value.isEmpty())
-        this->mPreset->templates()->setFont(value);
-    else
-        this->mPreset->templates()->setFont(":/templates/font_convert");
+  if (!value.isEmpty()) {
+    this->mPreset->templates()->setFont(value);
+  } else {
+    this->mPreset->templates()->setFont(":/templates/font_convert");
+  }
 }
 

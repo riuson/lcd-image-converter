@@ -7,20 +7,20 @@
 
 class TestBitStream : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit TestBitStream(QObject *parent = 0);
+  explicit TestBitStream(QObject *parent = 0);
 
 private:
-    Preset *mPreset;
-    void preparePackData(
-            quint32 maskUsed, quint32 maskFill,
-            QVector<quint32> *source, QVector<quint32> *packed);
+  Preset *mPreset;
+  void preparePackData(
+    quint32 maskUsed, quint32 maskFill,
+    QVector<quint32> *source, QVector<quint32> *packed);
 
 private slots:
-    void initTestCase();
-    void streaming();
-    void cleanupTestCase();
+  void initTestCase();
+  void streaming();
+  void cleanupTestCase();
 };
 
 #endif // TESTBITSTREAM_H

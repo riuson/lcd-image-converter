@@ -27,15 +27,15 @@ namespace Operations
 class IOperation
 {
 public:
-    virtual ~IOperation() { }
+  virtual ~IOperation() { }
 
-    virtual bool prepare(const IDocument *doc, const QStringList &keys) = 0;
-    virtual void applyDocument(IDocument *doc, const QStringList &keys) = 0;
-    virtual void applyItem(IDocument *doc, const QString &itemKey) = 0;
+  virtual bool prepare(const IDocument *doc, const QStringList &keys) = 0;
+  virtual void applyDocument(IDocument *doc, const QStringList &keys) = 0;
+  virtual void applyItem(IDocument *doc, const QString &itemKey) = 0;
 };
 }
 Q_DECLARE_INTERFACE (Operations::IOperation,
                      "riuson.lcd-image-converter/1.0"
-                     )
+                    )
 
 #endif // IOPERATION_H

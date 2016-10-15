@@ -33,75 +33,75 @@ struct tFontParameters;
 
 class FontDocument : public QObject, public IDocument
 {
-    Q_OBJECT
-    Q_INTERFACES(IDocument)
+  Q_OBJECT
+  Q_INTERFACES(IDocument)
 
 public:
-    explicit FontDocument(QObject *parent = 0);
-    ~FontDocument();
+  explicit FontDocument(QObject *parent = 0);
+  ~FontDocument();
 
-    bool load(const QString &fileName);
-    bool save(const QString &fileName);
-    bool changed() const;
-    QString documentFilename() const;
-    QString documentName() const;
-    void setDocumentName(const QString &value);
-    QString outputFilename() const;
-    void setOutputFilename(const QString &value);
-    DataContainer *dataContainer() const;
-    QString convert(Preset *preset);
+  bool load(const QString &fileName);
+  bool save(const QString &fileName);
+  bool changed() const;
+  QString documentFilename() const;
+  QString documentName() const;
+  void setDocumentName(const QString &value);
+  QString outputFilename() const;
+  void setOutputFilename(const QString &value);
+  DataContainer *dataContainer() const;
+  QString convert(Preset *preset);
 
-    void beginChanges();
-    void endChanges(bool suppress);
-    bool canUndo();
-    bool canRedo();
-    void undo();
-    void redo();
+  void beginChanges();
+  void endChanges(bool suppress);
+  bool canUndo();
+  bool canRedo();
+  void undo();
+  void redo();
 
-    void fontCharacters(QString *chars,
-                        tFontParameters *parameters);
-    void setFontCharacters(const QString &chars,
-                           const tFontParameters &parameters);
+  void fontCharacters(QString *chars,
+                      tFontParameters *parameters);
+  void setFontCharacters(const QString &chars,
+                         const tFontParameters &parameters);
 
 private:
-    DataContainer *mContainer;
-    int mNestedChangesCounter;
+  DataContainer *mContainer;
+  int mNestedChangesCounter;
 
-    void setDocumentFilename(const QString &value);
+  void setDocumentFilename(const QString &value);
 
-    QFont usedFont() const;
-    void setUsedFont(const QFont &value);
+  QFont usedFont() const;
+  void setUsedFont(const QFont &value);
 
-    QString usedStyle() const;
-    void setUsedStyle(const QString &value);
+  QString usedStyle() const;
+  void setUsedStyle(const QString &value);
 
-    bool monospaced() const;
-    void setMonospaced(const bool value);
+  bool monospaced() const;
+  void setMonospaced(const bool value);
 
-    bool antialiasing() const;
-    void setAntialiasing(const bool value);
+  bool antialiasing() const;
+  void setAntialiasing(const bool value);
 
-    QColor foreground() const;
-    void setForeground(const QColor value);
+  QColor foreground() const;
+  void setForeground(const QColor value);
 
-    QColor background() const;
-    void setBackground(const QColor value);
+  QColor background() const;
+  void setBackground(const QColor value);
 
-    int ascent() const;
-    void setAscent(int value);
+  int ascent() const;
+  void setAscent(int value);
 
-    int descent() const;
-    void setDescent(int value);
+  int descent() const;
+  void setDescent(int value);
 
-    void prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, ParsedImageData*> *images, const Tags &tags) const;
-    QString hexCode(const QString &key, const QString &encoding, bool bom) const;
-    const QStringList sortKeysWithEncoding(const QStringList &keys, Preset *preset) const;
+  void prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, const Tags &tags) const;
+  QString hexCode(const QString &key, const QString &encoding, bool bom) const;
+  const QStringList sortKeysWithEncoding(const QStringList &keys, Preset *preset) const;
 
 private slots:
-    void mon_container_dataChanged(bool historyStateMoved);
+  void mon_container_dataChanged(bool historyStateMoved);
 
 signals:
-    void documentChanged();
+  void documentChanged();
 };
 
 #endif // FONTDOCUMENT_H

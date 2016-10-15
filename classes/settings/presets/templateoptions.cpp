@@ -28,134 +28,131 @@ const QString TemplateOptions::FieldImages = QString("images");
 const QString TemplateOptions::FieldFonts = QString("fonts");
 
 TemplateOptions::TemplateOptions(QObject *parent) :
-    QObject(parent)
+  QObject(parent)
 {
-    this->mImageTemplate = ":/templates/image_convert";
-    this->mFontTemplate = ":/templates/font_convert";
+  this->mImageTemplate = ":/templates/image_convert";
+  this->mFontTemplate = ":/templates/font_convert";
 }
 
 const QString &TemplateOptions::image() const
 {
-    return this->mImageTemplate;
+  return this->mImageTemplate;
 }
 
 const QString &TemplateOptions::font() const
 {
-    return this->mFontTemplate;
+  return this->mFontTemplate;
 }
 
 void TemplateOptions::setImage(const QString &filename)
 {
-    this->mImageTemplate = filename;
+  this->mImageTemplate = filename;
 
-    emit this->changed();
+  emit this->changed();
 }
 
 void TemplateOptions::setFont(const QString &filename)
 {
-    this->mFontTemplate = filename;
+  this->mFontTemplate = filename;
 
-    emit this->changed();
+  emit this->changed();
 }
 
 bool TemplateOptions::load(QSettings *settings, int version)
 {
-    bool result = false;
+  bool result = false;
 
-    if (version == 1)
-    {
-        QString sTemplateImage = settings->value("imageTemplate", QString(":/templates/image_convert")).toString();
-        QString sTemplateFont = settings->value("fontTemplate", QString(":/templates/font_convert")).toString();
-
-        this->setImage(sTemplateImage);
-        this->setFont(sTemplateFont);
-
-        result = true;
-    }
-    else if (version == 2)
-    {
-        settings->beginGroup(TemplateOptions::GroupName);
-
-        QString sTemplateImage = settings->value(TemplateOptions::FieldImages, QString(":/templates/image_convert")).toString();
-        QString sTemplateFont = settings->value(TemplateOptions::FieldFonts, QString(":/templates/font_convert")).toString();
-
-        this->setImage(sTemplateImage);
-        this->setFont(sTemplateFont);
-
-        result = true;
-
-        settings->endGroup();
-    }
-
-    return result;
-}
-
-bool TemplateOptions::loadXmlElement(QDomElement element)
-{
-    QDomNode nodeSett = element.firstChild();
-
-    while (!nodeSett.isNull()) {
-        QDomElement e = nodeSett.toElement();
-
-        if (e.tagName() == TemplateOptions::GroupName) {
-            break;
-        }
-
-        nodeSett = nodeSett.nextSibling();
-    }
-
-    if (nodeSett.isNull()) {
-        return false;
-    }
-
-    QString sTemplateImage = QString(":/templates/image_convert");
-    QString sTemplateFont = QString(":/templates/font_convert");
-
-    QDomNode nodeValue = nodeSett.firstChild();
-
-    while (!nodeValue.isNull()) {
-        QDomElement e = nodeValue.toElement();
-
-        if (!e.isNull()) {
-            if (e.tagName() == TemplateOptions::FieldImages) {
-                sTemplateImage = e.text();
-            }
-
-            if (e.tagName() == TemplateOptions::FieldFonts) {
-                sTemplateFont = e.text();
-            }
-        }
-
-        nodeValue = nodeValue.nextSibling();
-    }
+  if (version == 1) {
+    QString sTemplateImage = settings->value("imageTemplate", QString(":/templates/image_convert")).toString();
+    QString sTemplateFont = settings->value("fontTemplate", QString(":/templates/font_convert")).toString();
 
     this->setImage(sTemplateImage);
     this->setFont(sTemplateFont);
 
-    return true;
+    result = true;
+  } else if (version == 2) {
+    settings->beginGroup(TemplateOptions::GroupName);
+
+    QString sTemplateImage = settings->value(TemplateOptions::FieldImages, QString(":/templates/image_convert")).toString();
+    QString sTemplateFont = settings->value(TemplateOptions::FieldFonts, QString(":/templates/font_convert")).toString();
+
+    this->setImage(sTemplateImage);
+    this->setFont(sTemplateFont);
+
+    result = true;
+
+    settings->endGroup();
+  }
+
+  return result;
+}
+
+bool TemplateOptions::loadXmlElement(QDomElement element)
+{
+  QDomNode nodeSett = element.firstChild();
+
+  while (!nodeSett.isNull()) {
+    QDomElement e = nodeSett.toElement();
+
+    if (e.tagName() == TemplateOptions::GroupName) {
+      break;
+    }
+
+    nodeSett = nodeSett.nextSibling();
+  }
+
+  if (nodeSett.isNull()) {
+    return false;
+  }
+
+  QString sTemplateImage = QString(":/templates/image_convert");
+  QString sTemplateFont = QString(":/templates/font_convert");
+
+  QDomNode nodeValue = nodeSett.firstChild();
+
+  while (!nodeValue.isNull()) {
+    QDomElement e = nodeValue.toElement();
+
+    if (!e.isNull()) {
+      if (e.tagName() == TemplateOptions::FieldImages) {
+        sTemplateImage = e.text();
+      }
+
+      if (e.tagName() == TemplateOptions::FieldFonts) {
+        sTemplateFont = e.text();
+      }
+    }
+
+    nodeValue = nodeValue.nextSibling();
+  }
+
+  this->setImage(sTemplateImage);
+  this->setFont(sTemplateFont);
+
+  return true;
 }
 
 void TemplateOptions::save(QSettings *settings)
 {
-    settings->beginGroup(TemplateOptions::GroupName);
+  settings->beginGroup(TemplateOptions::GroupName);
 
-    settings->setValue(TemplateOptions::FieldImages, this->image());
-    settings->setValue(TemplateOptions::FieldFonts, this->font());
+  settings->setValue(TemplateOptions::FieldImages, this->image());
+  settings->setValue(TemplateOptions::FieldFonts, this->font());
 
-    settings->endGroup();
+  settings->endGroup();
 }
 
 void TemplateOptions::saveXmlElement(QDomElement element)
 {
-    QDomElement nodeTemplate = element.ownerDocument().createElement(TemplateOptions::GroupName);
-    element.appendChild(nodeTemplate);
+  QDomElement nodeTemplate = element.ownerDocument().createElement(TemplateOptions::GroupName);
+  element.appendChild(nodeTemplate);
 
-    QDomElement nodeImages = element.ownerDocument().createElement(TemplateOptions::FieldImages);
-    nodeTemplate.appendChild(nodeImages);
-    nodeImages.appendChild(element.ownerDocument().createTextNode(this->image()));
+  QDomElement nodeImages = element.ownerDocument().createElement(TemplateOptions::FieldImages);
+  nodeTemplate.appendChild(nodeImages);
+  nodeImages.appendChild(element.ownerDocument().createTextNode(this->image()));
 
-    QDomElement nodeFonts = element.ownerDocument().createElement(TemplateOptions::FieldFonts);
-    nodeTemplate.appendChild(nodeFonts);
-    nodeFonts.appendChild(element.ownerDocument().createTextNode(this->font()));
+  QDomElement nodeFonts = element.ownerDocument().createElement(TemplateOptions::FieldFonts);
+  nodeTemplate.appendChild(nodeFonts);
+  nodeFonts.appendChild(element.ownerDocument().createTextNode(this->font()));
 }
 

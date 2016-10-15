@@ -30,46 +30,46 @@ class Tags;
 
 class ImageDocument : public QObject, public IDocument
 {
-    Q_OBJECT
-    Q_INTERFACES(IDocument)
+  Q_OBJECT
+  Q_INTERFACES(IDocument)
 
 public:
-    explicit ImageDocument(QObject *parent = 0);
-    ~ImageDocument();
+  explicit ImageDocument(QObject *parent = 0);
+  ~ImageDocument();
 
-    bool load(const QString &fileName);
-    bool save(const QString &fileName);
-    bool changed() const;
-    QString documentFilename() const;
-    QString documentName() const;
-    void setDocumentName(const QString &value);
-    QString outputFilename() const;
-    void setOutputFilename(const QString &value);
-    DataContainer *dataContainer() const;
-    QString convert(Preset *preset);
+  bool load(const QString &fileName);
+  bool save(const QString &fileName);
+  bool changed() const;
+  QString documentFilename() const;
+  QString documentName() const;
+  void setDocumentName(const QString &value);
+  QString outputFilename() const;
+  void setOutputFilename(const QString &value);
+  DataContainer *dataContainer() const;
+  QString convert(Preset *preset);
 
-    void beginChanges();
-    void endChanges(bool suppress);
-    bool canUndo();
-    bool canRedo();
-    void undo();
-    void redo();
+  void beginChanges();
+  void endChanges(bool suppress);
+  bool canUndo();
+  bool canRedo();
+  void undo();
+  void redo();
 
 private:
-    DataContainer *mContainer;
-    int mNestedChangesCounter;
+  DataContainer *mContainer;
+  int mNestedChangesCounter;
 
-    static const QString DefaultKey;
+  static const QString DefaultKey;
 
-    void setDocumentFilename(const QString &value);
+  void setDocumentFilename(const QString &value);
 
-    void prepareImages(Preset *preset, QMap<QString, ParsedImageData*> *images, const Tags &tags) const;
+  void prepareImages(Preset *preset, QMap<QString, ParsedImageData *> *images, const Tags &tags) const;
 
 private slots:
-    void mon_container_dataChanged(bool historyStateMoved);
+  void mon_container_dataChanged(bool historyStateMoved);
 
 signals:
-    void documentChanged();
+  void documentChanged();
 };
 
 #endif // IMAGEDOCUMENT_H

@@ -399,3 +399,6 @@ translation_ru.target = $$PWD/resources/lcd-image-converter-ru.qm
 translation_ru.commands = @sh $$PWD/translation-compile.sh $$PWD
 QMAKE_EXTRA_TARGETS += translation_ru
 PRE_TARGETDEPS += $$PWD/resources/lcd-image-converter-ru.qm $$PWD/resources/lcd-image-converter-ru.ts
+
+DISTFILES += \
+    astyle.astylerc

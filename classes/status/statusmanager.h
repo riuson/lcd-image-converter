@@ -29,21 +29,21 @@ class QLabel;
 
 class StatusManager : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit StatusManager(QStatusBar *statusBar, QObject *parent = 0);
-    ~StatusManager();
+  explicit StatusManager(QStatusBar *statusBar, QObject *parent = 0);
+  ~StatusManager();
 
-    void updateData(const StatusData *statuses);
-    void hideAll();
+  void updateData(const StatusData *statuses);
+  void hideAll();
 
 private:
-    QStatusBar *mBar;
-    QMap<StatusData::StatusType, QLabel *> mList;
+  QStatusBar *mBar;
+  QMap<StatusData::StatusType, QLabel *> mList;
 
-    void updateItem(StatusData::StatusType key, const StatusData *statuses);
-    void addItem(StatusData::StatusType key);
-    void hideItem(StatusData::StatusType key);
+  void updateItem(StatusData::StatusType key, const StatusData *statuses);
+  void addItem(StatusData::StatusType key);
+  void hideItem(StatusData::StatusType key);
 
 signals:
 

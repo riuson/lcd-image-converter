@@ -24,10 +24,10 @@
 
 class ExternalToolOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    static const QString imageEditor();
-    static void setImageEditor(const QString &value);
+  static const QString imageEditor();
+  static void setImageEditor(const QString &value);
 };
 
 #endif // EXTERNALTOOLOPTIONS_H

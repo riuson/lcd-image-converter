@@ -8,26 +8,26 @@ class ImageOptions;
 
 class TestImageOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit TestImageOptions(QObject *parent = 0);
+  explicit TestImageOptions(QObject *parent = 0);
 
 private:
-    ImageOptions *mOptions;
+  ImageOptions *mOptions;
 
 private slots:
-    void initTestCase();
+  void initTestCase();
 
-    void bytesOrder();
-    void blockSize();
-    void blockDefaultOnes();
-    void splitToRows();
-    void compressionRle();
-    void blockPrefix();
-    void blockSuffix();
-    void blockDelimiter();
+  void bytesOrder();
+  void blockSize();
+  void blockDefaultOnes();
+  void splitToRows();
+  void compressionRle();
+  void blockPrefix();
+  void blockSuffix();
+  void blockDelimiter();
 
-    void cleanupTestCase();
+  void cleanupTestCase();
 };
 
 #endif // TESTIMAGEOPTIONS_H

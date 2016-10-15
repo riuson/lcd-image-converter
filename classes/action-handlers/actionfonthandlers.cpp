@@ -37,88 +37,83 @@
 #include "fontresize.h"
 
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :
-    ActionHandlersBase(parent)
+  ActionHandlersBase(parent)
 {
 }
 
 void ActionFontHandlers::fontChange_triggered()
 {
-    if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab()))
-    {
-        QString chars;
-        tFontParameters parameters;
-        etf->fontCharacters(&chars, &parameters);
+  if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab())) {
+    QString chars;
+    tFontParameters parameters;
+    etf->fontCharacters(&chars, &parameters);
 
-        DialogFontSelect dialog(this->mMainWindow->parentWidget());
-        dialog.setCharacters(chars);
-        dialog.setFontParameters(parameters);
+    DialogFontSelect dialog(this->mMainWindow->parentWidget());
+    dialog.setCharacters(chars);
+    dialog.setFontParameters(parameters);
 
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            QString chars = dialog.characters();
+    if (dialog.exec() == QDialog::Accepted) {
+      QString chars = dialog.characters();
 
-            dialog.getFontParameters(&parameters);
+      dialog.getFontParameters(&parameters);
 
-            etf->setFontCharacters(chars, parameters);
-        }
+      etf->setFontCharacters(chars, parameters);
     }
+  }
 }
 
 void ActionFontHandlers::fontInverse_triggered()
 {
-    if (this->editor() != NULL)
-    {
-        Operations::DocumentOperator docOp(this);
-        Operations::ImageInverse imageInverse(this);
-        docOp.apply(this->editor()->document(), imageInverse);
-    }
+  if (this->editor() != NULL) {
+    Operations::DocumentOperator docOp(this);
+    Operations::ImageInverse imageInverse(this);
+    docOp.apply(this->editor()->document(), imageInverse);
+  }
 }
 
 void ActionFontHandlers::fontResize_triggered()
 {
-    if (this->editor() != NULL)
-    {
-        Operations::DocumentOperator docOp(this);
-        Operations::FontResize fontResize(this->mMainWindow->parentWidget(), this);
-        docOp.apply(this->editor()->document(), fontResize);
-    }
+  if (this->editor() != NULL) {
+    Operations::DocumentOperator docOp(this);
+    Operations::FontResize fontResize(this->mMainWindow->parentWidget(), this);
+    docOp.apply(this->editor()->document(), fontResize);
+  }
 }
 
 void ActionFontHandlers::fontMinimizeHeight_triggered()
 {
-    if (this->editor() != NULL)
-    {
-        Operations::DocumentOperator docOp(this);
-        Operations::FontMinimizeHeight fontMinimizeHeight(this->mMainWindow->parentWidget(), this);
-        docOp.apply(this->editor()->document(), fontMinimizeHeight);
-    }
+  if (this->editor() != NULL) {
+    Operations::DocumentOperator docOp(this);
+    Operations::FontMinimizeHeight fontMinimizeHeight(this->mMainWindow->parentWidget(), this);
+    docOp.apply(this->editor()->document(), fontMinimizeHeight);
+  }
 }
 
 void ActionFontHandlers::fontPreview_triggered()
 {
-    IEditor *editor = this->editor();
-    if (editor != NULL)
-    {
-        IDocument *doc = editor->document();
+  IEditor *editor = this->editor();
 
-        DialogFontPreview dialog(this->mMainWindow->parentWidget());
-        dialog.setDocument(doc);
+  if (editor != NULL) {
+    IDocument *doc = editor->document();
 
-        dialog.exec();
-    }
+    DialogFontPreview dialog(this->mMainWindow->parentWidget());
+    dialog.setDocument(doc);
+
+    dialog.exec();
+  }
 }
 
 void ActionFontHandlers::fontToImage_triggered()
 {
-    IEditor *editor = this->editor();
-    if (editor != NULL)
-    {
-        QStringList keys = editor->selectedKeys();
-        qSort(keys);
-        QString characters = keys.join("");
-        QImage image = FontHelper::drawString(editor->document()->dataContainer(), characters);
+  IEditor *editor = this->editor();
 
-        emit this->imageCreated(&image, "image_" + editor->document()->documentName());
-    }
+  if (editor != NULL) {
+    QStringList keys = editor->selectedKeys();
+    qSort(keys);
+    QString characters = keys.join("");
+    QImage image = FontHelper::drawString(editor->document()->dataContainer(), characters);
+
+    emit this->imageCreated(&image, "image_" + editor->document()->documentName());
+  }
 }
 

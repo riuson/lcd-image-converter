@@ -24,14 +24,14 @@
 
 class RevisionLabel : public QLabel
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit RevisionLabel(QWidget *parent = 0);
-    
+  explicit RevisionLabel(QWidget *parent = 0);
+
 signals:
-    
+
 public slots:
-    
+
 };
 
 #endif // REVISIONLABEL_H

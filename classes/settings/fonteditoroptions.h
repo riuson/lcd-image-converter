@@ -25,15 +25,15 @@
 
 class FontEditorOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    static int scale();
-    static void setScale(int value);
+  static int scale();
+  static void setScale(int value);
 
-    static QColor foreColor();
-    static QColor backColor();
-    static void setForeColor(const QColor &value);
-    static void setBackColor(const QColor &value);
+  static QColor foreColor();
+  static QColor backColor();
+  static void setForeColor(const QColor &value);
+  static void setBackColor(const QColor &value);
 };
 
 #endif // FONTEDITOROPTIONS_H

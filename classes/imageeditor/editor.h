@@ -31,36 +31,36 @@ class WindowEditor;
 
 class Editor : public QObject, public IImageEditor
 {
-    Q_OBJECT
-    Q_INTERFACES(ImageEditor::IImageEditor)
+  Q_OBJECT
+  Q_INTERFACES(ImageEditor::IImageEditor)
 
 public:
-    explicit Editor(QObject *parent = 0);
-    ~Editor();
+  explicit Editor(QObject *parent = 0);
+  ~Editor();
 
-    QWidget *widget() const;
+  QWidget *widget() const;
 
-    const QImage *image() const;
-    void setImage(const QImage *value);
+  const QImage *image() const;
+  void setImage(const QImage *value);
 
-    int scale() const;
+  int scale() const;
 
 signals:
-    void imageChanged(const QImage *value);
-    void scaleChanged(int value);
-    void mouseMoved(const QPoint *value);
+  void imageChanged(const QImage *value);
+  void scaleChanged(int value);
+  void mouseMoved(const QPoint *value);
 
 signals:
 
 public slots:
 
 private:
-    WindowEditor *mWidget;
+  WindowEditor *mWidget;
 
 private slots:
-    void on_imageChanged();
-    void on_mouseMove(const QPoint *point);
-    void on_scaleChanged(int value);
+  void on_imageChanged();
+  void on_mouseMove(const QPoint *point);
+  void on_scaleChanged(int value);
 };
 }
 

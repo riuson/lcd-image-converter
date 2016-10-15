@@ -22,75 +22,67 @@
 
 #include <QtGlobal>
 
-namespace ConversionOptions {
-
-
-enum ConversionType
+namespace ConversionOptions
 {
-    ConversionTypeMonochrome = 0,
-    ConversionTypeGrayscale  = 1,
-    ConversionTypeColor      = 2
+
+
+enum ConversionType {
+  ConversionTypeMonochrome = 0,
+  ConversionTypeGrayscale  = 1,
+  ConversionTypeColor      = 2
 };
 
-enum MonochromeType
-{
-    MonochromeTypeEdge = 0,
-    MonochromeTypeDiffuseDither = 1,
-    MonochromeTypeOrderedDither = 2,
-    MonochromeTypeThresholdDither = 3
+enum MonochromeType {
+  MonochromeTypeEdge = 0,
+  MonochromeTypeDiffuseDither = 1,
+  MonochromeTypeOrderedDither = 2,
+  MonochromeTypeThresholdDither = 3
 };
 
-enum ColorsOrder
-{
-    ColorsOrderRGB = 0,
-    ColorsOrderRBG = 1,
-    ColorsOrderGRB = 2,
-    ColorsOrderGBR = 3,
-    ColorsOrderBRG = 4,
-    ColorsOrderBGR = 5
+enum ColorsOrder {
+  ColorsOrderRGB = 0,
+  ColorsOrderRBG = 1,
+  ColorsOrderGRB = 2,
+  ColorsOrderGBR = 3,
+  ColorsOrderBRG = 4,
+  ColorsOrderBGR = 5
 };
 
-enum BytesOrder
-{
-    BytesOrderLittleEndian = 0,
-    BytesOrderBigEndian = 1
+enum BytesOrder {
+  BytesOrderLittleEndian = 0,
+  BytesOrderBigEndian = 1
 };
 
-enum DataBlockSize
-{
-    Data8  = 0,
-    Data16 = 1,
-    Data24 = 2,
-    Data32 = 3
+enum DataBlockSize {
+  Data8  = 0,
+  Data16 = 1,
+  Data24 = 2,
+  Data32 = 3
 };
 
-enum Rotate
-{
-    RotateNone = 0,
-    Rotate90  =  1,
-    Rotate180 =  2,
-    Rotate270 =  3
+enum Rotate {
+  RotateNone = 0,
+  Rotate90  =  1,
+  Rotate180 =  2,
+  Rotate270 =  3
 };
 
-enum ScanMainDirection
-{
-    TopToBottom = 0,
-    BottomToTop = 1,
-    LeftToRight = 2,
-    RightToLeft = 3
+enum ScanMainDirection {
+  TopToBottom = 0,
+  BottomToTop = 1,
+  LeftToRight = 2,
+  RightToLeft = 3
 };
 
-enum ScanSubDirection
-{
-    Forward = 0,
-    Backward = 1
+enum ScanSubDirection {
+  Forward = 0,
+  Backward = 1
 };
 
-enum CharactersSortOrder
-{
-    CharactersSortNone = 0,
-    CharactersSortAscending = 1,
-    CharactersSortDescending = 2
+enum CharactersSortOrder {
+  CharactersSortNone = 0,
+  CharactersSortAscending = 1,
+  CharactersSortDescending = 2
 };
 
 

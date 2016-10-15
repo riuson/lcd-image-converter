@@ -35,33 +35,32 @@ class ParsedImageData;
 
 class Parser : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    enum TemplateType
-    {
-        TypeImage,
-        TypeFont
-    };
+  enum TemplateType {
+    TypeImage,
+    TypeFont
+  };
 
-    Parser(TemplateType templateType, Preset *preset, QObject *parent);
-    virtual ~Parser();
+  Parser(TemplateType templateType, Preset *preset, QObject *parent);
+  virtual ~Parser();
 
-    QString name();
+  QString name();
 
-    QString convert(IDocument *document, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, Tags &tags) const;
+  QString convert(IDocument *document, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, Tags &tags) const;
 
 private:
-    Preset *mPreset;
-    QString mTemplateFileName;
+  Preset *mPreset;
+  QString mTemplateFileName;
 
-    QString parse(const QString &templateString, Tags &tags, IDocument *doc, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images) const;
-    QString parseImagesTable(const QString &templateString, Tags &tags, IDocument *doc, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images) const;
-    QString hexCode(const QString &key, const QString &encoding, bool bom) const;
-    void addMatrixInfo(Tags &tags) const;
-    void addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images) const;
+  QString parse(const QString &templateString, Tags &tags, IDocument *doc, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images) const;
+  QString parseImagesTable(const QString &templateString, Tags &tags, IDocument *doc, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images) const;
+  QString hexCode(const QString &key, const QString &encoding, bool bom) const;
+  void addMatrixInfo(Tags &tags) const;
+  void addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images) const;
 
-    bool findNextTag(int startIndex, int *resultIndex, Tags);
-    void imageParticles(const QString &templateString, QString *prefix, QString *suffix) const;
+  bool findNextTag(int startIndex, int *resultIndex, Tags);
+  void imageParticles(const QString &templateString, QString *prefix, QString *suffix) const;
 };
 
 #endif // PARSER_H

@@ -20,27 +20,29 @@
 #include "unicodeblocksfiltermodel.h"
 
 UnicodeBlocksFilterModel::UnicodeBlocksFilterModel(QObject *parent) :
-    QSortFilterProxyModel(parent)
+  QSortFilterProxyModel(parent)
 {
-    this->mName = QString();
+  this->mName = QString();
 }
 
 bool UnicodeBlocksFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-    if (this->mName.isEmpty())
-        return true;
-    QModelIndex index = this->sourceModel()->index(source_row, 0, source_parent);
-    QString name = this->sourceModel()->data(index).toString();
+  if (this->mName.isEmpty()) {
+    return true;
+  }
 
-    return (name.contains(this->mName, Qt::CaseInsensitive));
+  QModelIndex index = this->sourceModel()->index(source_row, 0, source_parent);
+  QString name = this->sourceModel()->data(index).toString();
+
+  return (name.contains(this->mName, Qt::CaseInsensitive));
 }
 
 void UnicodeBlocksFilterModel::setNameFilter(const QString &name)
 {
-    this->beginResetModel();
+  this->beginResetModel();
 
-    this->mName = name;
+  this->mName = name;
 
-    this->endResetModel();
+  this->endResetModel();
 }
 

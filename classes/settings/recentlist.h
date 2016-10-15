@@ -27,20 +27,20 @@
 
 class RecentList : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit RecentList(QObject *parent = 0);
-    virtual ~RecentList();
-    void add(const QString &filename);
-    enum { MaxRecentFiles = 10 };
-    const QStringList * files() const;
+  explicit RecentList(QObject *parent = 0);
+  virtual ~RecentList();
+  void add(const QString &filename);
+  enum { MaxRecentFiles = 10 };
+  const QStringList *files() const;
 
 private:
-    QStringList *mFiles;
+  QStringList *mFiles;
 signals:
-    void listChanged();
+  void listChanged();
 public slots:
-    
+
 };
 
 #endif // RECENTLIST_H

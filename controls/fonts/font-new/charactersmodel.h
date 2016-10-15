@@ -25,24 +25,24 @@
 
 class CharactersModel : public QAbstractItemModel
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit CharactersModel(QObject *parent = 0);
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QModelIndex index(int row, int column,
-                      const QModelIndex &parent = QModelIndex()) const;
-    QModelIndex parent(const QModelIndex &index) const;
+  explicit CharactersModel(QObject *parent = 0);
+  int rowCount(const QModelIndex &parent) const;
+  int columnCount(const QModelIndex &parent) const;
+  QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+  QVariant data(const QModelIndex &index, int role) const;
+  QModelIndex index(int row, int column,
+                    const QModelIndex &parent = QModelIndex()) const;
+  QModelIndex parent(const QModelIndex &index) const;
 
-    void setCodesRange(quint32 first, quint32 last);
+  void setCodesRange(quint32 first, quint32 last);
 
 private:
-    quint32 mDesiredCode1;
-    quint32 mDesiredCode2;
-    quint32 mResultCode1;
-    quint32 mResultCode2;
+  quint32 mDesiredCode1;
+  quint32 mDesiredCode2;
+  quint32 mResultCode1;
+  quint32 mResultCode2;
 
 signals:
 

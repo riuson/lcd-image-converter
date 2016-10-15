@@ -31,66 +31,66 @@ using namespace ConversionOptions;
 
 class PrepareOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit PrepareOptions(QObject *parent = 0);
+  explicit PrepareOptions(QObject *parent = 0);
 
-    ConversionType convType() const;
-    MonochromeType monoType() const;
-    int edge() const;
-    ScanMainDirection scanMain() const;
-    ScanSubDirection scanSub() const;
-    bool inverse() const;
-    bool bandScanning() const;
-    int bandWidth() const;
-    bool useCustomScript() const;
-    QString customScript() const;
+  ConversionType convType() const;
+  MonochromeType monoType() const;
+  int edge() const;
+  ScanMainDirection scanMain() const;
+  ScanSubDirection scanSub() const;
+  bool inverse() const;
+  bool bandScanning() const;
+  int bandWidth() const;
+  bool useCustomScript() const;
+  QString customScript() const;
 
-    void setConvType(ConversionType value);
-    void setMonoType(MonochromeType value);
-    void setEdge(int value);
-    void setScanMain(ScanMainDirection value);
-    void setScanSub(ScanSubDirection value);
-    void setInverse(bool value);
-    void setBandScanning(bool value);
-    void setBandWidth(int value);
-    void setUseCustomScript(bool value);
-    void setCustomScript(const QString &value);
+  void setConvType(ConversionType value);
+  void setMonoType(MonochromeType value);
+  void setEdge(int value);
+  void setScanMain(ScanMainDirection value);
+  void setScanSub(ScanSubDirection value);
+  void setInverse(bool value);
+  void setBandScanning(bool value);
+  void setBandWidth(int value);
+  void setUseCustomScript(bool value);
+  void setCustomScript(const QString &value);
 
-    const QString & convTypeName() const;
-    const QString & monoTypeName() const;
+  const QString &convTypeName() const;
+  const QString &monoTypeName() const;
 
-    bool load(QSettings *settings, int version);
-    bool loadXmlElement(QDomElement element);
-    void save(QSettings *settings);
-    void saveXmlElement(QDomElement element);
+  bool load(QSettings *settings, int version);
+  bool loadXmlElement(QDomElement element);
+  void save(QSettings *settings);
+  void saveXmlElement(QDomElement element);
 
 private:
-    static const QString GroupName;
-    static const QString FieldConvType;
-    static const QString FieldMonoType;
-    static const QString FieldEdge;
-    static const QString FieldScanMain;
-    static const QString FieldScanSub;
-    static const QString FieldInverse;
-    static const QString FieldBandScanning;
-    static const QString FieldBandWidth;
-    static const QString FieldUseCustomScript;
-    static const QString FieldCustomScript;
+  static const QString GroupName;
+  static const QString FieldConvType;
+  static const QString FieldMonoType;
+  static const QString FieldEdge;
+  static const QString FieldScanMain;
+  static const QString FieldScanSub;
+  static const QString FieldInverse;
+  static const QString FieldBandScanning;
+  static const QString FieldBandWidth;
+  static const QString FieldUseCustomScript;
+  static const QString FieldCustomScript;
 
-    ConversionType mConvType;
-    MonochromeType mMonoType;
-    int mEdge;
-    ScanMainDirection mScanMain;
-    ScanSubDirection mScanSub;
-    bool mInverse;
-    bool mBandScanning;
-    int mBandWidth;
-    bool mUseCustomScript;
-    QString mCustomScript;
+  ConversionType mConvType;
+  MonochromeType mMonoType;
+  int mEdge;
+  ScanMainDirection mScanMain;
+  ScanSubDirection mScanSub;
+  bool mInverse;
+  bool mBandScanning;
+  int mBandWidth;
+  bool mUseCustomScript;
+  QString mCustomScript;
 
 signals:
-    void changed();
+  void changed();
 
 public slots:
 

@@ -24,10 +24,10 @@
 
 class LanguageOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    static const QString locale();
-    static bool setLocale(const QString &value);
+  static const QString locale();
+  static bool setLocale(const QString &value);
 };
 
 #endif // LANGUAGEOPTIONS_H

@@ -26,11 +26,11 @@
 
 class ImageEditorOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    static QByteArray toolbarsState(void);
-    static void setToolbarsState(const QByteArray &value);
+  static QByteArray toolbarsState(void);
+  static void setToolbarsState(const QByteArray &value);
 };
 
 #endif // IMAGEEDITOROPTIONS_H

@@ -28,28 +28,28 @@ namespace Operations
 
 class ImageRotate : public QObject, public IOperation
 {
-    Q_OBJECT
-    Q_INTERFACES(Operations::IOperation)
+  Q_OBJECT
+  Q_INTERFACES(Operations::IOperation)
 
 public:
-    enum class Angle
-    {
-        None,
-        A90,
-        A180,
-        A270
-    };
+  enum class Angle
+  {
+    None,
+    A90,
+    A180,
+    A270
+  };
 
-    explicit ImageRotate(QObject *parent = 0);
+  explicit ImageRotate(QObject *parent = 0);
 
-    bool prepare(const IDocument *doc, const QStringList &keys);
-    void applyDocument(IDocument *doc, const QStringList &keys);
-    void applyItem(IDocument *doc, const QString &itemKey);
+  bool prepare(const IDocument *doc, const QStringList &keys);
+  void applyDocument(IDocument *doc, const QStringList &keys);
+  void applyItem(IDocument *doc, const QString &itemKey);
 
-    void setAngle(Angle angle);
+  void setAngle(Angle angle);
 
 private:
-    Angle mAngle;
+  Angle mAngle;
 };
 
 }

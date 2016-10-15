@@ -22,7 +22,8 @@
 
 #include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
 class DialogPreview;
 }
 class Preset;
@@ -30,30 +31,30 @@ class DataContainer;
 
 class DialogPreview : public QDialog
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidget *parent = 0);
-    ~DialogPreview();
-    void updatePreview();
+  explicit DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidget *parent = 0);
+  ~DialogPreview();
+  void updatePreview();
 
 private:
-    Ui::DialogPreview *ui;
+  Ui::DialogPreview *ui;
 
-    DataContainer *mData;
-    QImage mImageOriginal;
-    QImage mImageProcessed;
-    Preset *mPreset;
-    int mScale;
+  DataContainer *mData;
+  QImage mImageOriginal;
+  QImage mImageProcessed;
+  Preset *mPreset;
+  int mScale;
 
 protected:
-    void wheelEvent(QWheelEvent *event);
-    void setScale(int value);
-    void updatePreviewScaled(const QImage *image, int scale);
+  void wheelEvent(QWheelEvent *event);
+  void setScale(int value);
+  void updatePreviewScaled(const QImage *image, int scale);
 
 private slots:
-    void on_comboBoxSampleKey_currentIndexChanged();
-    void on_spinBoxScale_valueChanged(int value);
+  void on_comboBoxSampleKey_currentIndexChanged();
+  void on_spinBoxScale_valueChanged(int value);
 };
 
 #endif // DIALOGPREVIEW_H

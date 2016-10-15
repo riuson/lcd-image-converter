@@ -20,55 +20,59 @@
 #include "transposeproxy.h"
 
 TransposeProxy::TransposeProxy(QObject *parent)
-    : QSortFilterProxyModel(parent)
+  : QSortFilterProxyModel(parent)
 {
 }
 
 QVariant TransposeProxy::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (this->sourceModel() == nullptr)
-        return QVariant();
+  if (this->sourceModel() == nullptr) {
+    return QVariant();
+  }
 
-    return this->sourceModel()->headerData(section, orientation == Qt::Vertical ? Qt::Horizontal : Qt::Vertical, role);
+  return this->sourceModel()->headerData(section, orientation == Qt::Vertical ? Qt::Horizontal : Qt::Vertical, role);
 }
 
 QModelIndex TransposeProxy::index(int row, int column, const QModelIndex &parent) const
 {
-    Q_UNUSED(parent)
-    return this->createIndex(row, column);
+  Q_UNUSED(parent)
+  return this->createIndex(row, column);
 }
 
 QModelIndex TransposeProxy::parent(const QModelIndex &index) const
 {
-    Q_UNUSED(index)
-    return QModelIndex();
+  Q_UNUSED(index)
+  return QModelIndex();
 }
 
 int TransposeProxy::rowCount(const QModelIndex &parent) const
 {
-    if (this->sourceModel() == nullptr)
-        return 0;
+  if (this->sourceModel() == nullptr) {
+    return 0;
+  }
 
-    return this->sourceModel()->columnCount(parent);
+  return this->sourceModel()->columnCount(parent);
 }
 
 int TransposeProxy::columnCount(const QModelIndex &parent) const
 {
-    if (this->sourceModel() == nullptr)
-        return 0;
+  if (this->sourceModel() == nullptr) {
+    return 0;
+  }
 
-    return this->sourceModel()->rowCount(parent);
+  return this->sourceModel()->rowCount(parent);
 }
 
 QModelIndex TransposeProxy::mapFromSource(const QModelIndex &sourceIndex) const
 {
-    return this->index(sourceIndex.column(), sourceIndex.row(), sourceIndex.parent());
+  return this->index(sourceIndex.column(), sourceIndex.row(), sourceIndex.parent());
 }
 
 QModelIndex TransposeProxy::mapToSource(const QModelIndex &proxyIndex) const
 {
-    if (sourceModel() != nullptr && proxyIndex.isValid())
-        return sourceModel()->index(proxyIndex.column(), proxyIndex.row(), proxyIndex.parent());
-    else
-        return QModelIndex();
+  if (sourceModel() != nullptr && proxyIndex.isValid()) {
+    return sourceModel()->index(proxyIndex.column(), proxyIndex.row(), proxyIndex.parent());
+  } else {
+    return QModelIndex();
+  }
 }

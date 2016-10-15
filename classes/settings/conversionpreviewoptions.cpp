@@ -24,21 +24,23 @@ const QString ConversionPreviewOptions::GroupName = QString("conversion-preview"
 
 int ConversionPreviewOptions::scale()
 {
-    QSettings sett;
-    sett.beginGroup(ConversionPreviewOptions::GroupName);
-    bool ok;
-    int result = sett.value("scale", QVariant(1)).toInt(&ok);
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup(ConversionPreviewOptions::GroupName);
+  bool ok;
+  int result = sett.value("scale", QVariant(1)).toInt(&ok);
+  sett.endGroup();
 
-    if (ok)
-        return result;
-    return 1;
+  if (ok) {
+    return result;
+  }
+
+  return 1;
 }
 
 void ConversionPreviewOptions::setScale(int value)
 {
-    QSettings sett;
-    sett.beginGroup(ConversionPreviewOptions::GroupName);
-    sett.setValue("scale", QVariant(value));
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup(ConversionPreviewOptions::GroupName);
+  sett.setValue("scale", QVariant(value));
+  sett.endGroup();
 }

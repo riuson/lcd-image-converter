@@ -29,28 +29,28 @@ class Preset;
 class BitStream
 {
 public:
-    BitStream(Preset *preset, QVector<quint32> *data, int start, int count);
+  BitStream(Preset *preset, QVector<quint32> *data, int start, int count);
 
-    void init();
-    bool eof() const;
-    quint32 next();
+  void init();
+  bool eof() const;
+  quint32 next();
 
 private:
-    Preset *mPreset;
-    QVector<quint32> *mData;
-    int mStart;
-    int mCount;
-    int mBlockSize;
-    bool mSetOnesByDefault;
+  Preset *mPreset;
+  QVector<quint32> *mData;
+  int mStart;
+  int mCount;
+  int mBlockSize;
+  bool mSetOnesByDefault;
 
-    int mCurrentPixel;
-    int mMaskSource;
-    int mMaskCurrent;
-    int mBitsReaded;
+  int mCurrentPixel;
+  int mMaskSource;
+  int mMaskCurrent;
+  int mBitsReaded;
 
-    bool nextBit();
-    // remaining bit count from one pixel
-    int remain() const;
+  bool nextBit();
+  // remaining bit count from one pixel
+  int remain() const;
 };
 
 #endif // BITSTREAM_H

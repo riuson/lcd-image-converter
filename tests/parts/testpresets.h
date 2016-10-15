@@ -8,19 +8,19 @@ class Preset;
 
 class TestPresets : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit TestPresets(QObject *parent = 0);
+  explicit TestPresets(QObject *parent = 0);
 
 private:
-    Preset *mOptions;
+  Preset *mOptions;
 
 private slots:
-    void initTestCase();
+  void initTestCase();
 
-    void loadSave();
+  void loadSave();
 
-    void cleanupTestCase();
+  void cleanupTestCase();
 };
 
 #endif // TESTPRESETS_H

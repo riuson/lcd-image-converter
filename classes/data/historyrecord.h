@@ -29,23 +29,23 @@
 
 class HistoryRecord : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit HistoryRecord(
-            const QStringList *_keys,
-            const QMap<QString, QImage *> *_images,
-            const QMap<QString, QVariant> *_info,
-            QObject *parent = 0);
-    ~HistoryRecord();
+  explicit HistoryRecord(
+    const QStringList *_keys,
+    const QMap<QString, QImage *> *_images,
+    const QMap<QString, QVariant> *_info,
+    QObject *parent = 0);
+  ~HistoryRecord();
 
-    const QStringList *keys() const;
-    const QMap<QString, QImage *> *images() const;
-    const QMap<QString, QVariant> *info() const;
+  const QStringList *keys() const;
+  const QMap<QString, QImage *> *images() const;
+  const QMap<QString, QVariant> *info() const;
 
 private:
-    QStringList mKeys;
-    QMap<QString, QImage *> mImageMap;
-    QMap<QString, QVariant> mInfoMap;
+  QStringList mKeys;
+  QMap<QString, QImage *> mImageMap;
+  QMap<QString, QVariant> mInfoMap;
 
 signals:
 

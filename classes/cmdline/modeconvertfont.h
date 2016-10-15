@@ -27,42 +27,43 @@
 #include "modeparserbase.h"
 #include <QObject>
 
-namespace CommandLine {
+namespace CommandLine
+{
 
 class ModeConvertFont : public ModeParserBase
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ModeConvertFont(QCommandLineParser *parser, QObject *parent = 0);
+  explicit ModeConvertFont(QCommandLineParser *parser, QObject *parent = 0);
 
-    static QString modeName();
+  static QString modeName();
 
-    void fillParser() const;
-    bool collectArguments();
-    int process();
+  void fillParser() const;
+  bool collectArguments();
+  int process();
 
 private:
-    QString mFontFamily;
-    int mFontSize;
-    bool mFontMonospaced;
-    QString mFontStyle;
-    bool mFontAntiAliasing;
-    QString mForeground;
-    QString mBackground;
-    QString mFontCharactersList;
+  QString mFontFamily;
+  int mFontSize;
+  bool mFontMonospaced;
+  QString mFontStyle;
+  bool mFontAntiAliasing;
+  QString mForeground;
+  QString mBackground;
+  QString mFontCharactersList;
 
-    QString mFontCharactersEncoding;
-    QString mFontCharactersRange;
-    bool mFontCharactersBigEndian;
+  QString mFontCharactersEncoding;
+  QString mFontCharactersRange;
+  bool mFontCharactersBigEndian;
 
-    QString mOuputFilename;
-    QString mTemplateFilename;
-    QString mDocumentName;
-    QString mPresetName;
+  QString mOuputFilename;
+  QString mTemplateFilename;
+  QString mDocumentName;
+  QString mPresetName;
 
-    QString createCharsList(const QString &rangeStr,
-                            const QString &encoding,
-                            bool bigEndian) const;
+  QString createCharsList(const QString &rangeStr,
+                          const QString &encoding,
+                          bool bigEndian) const;
 };
 
 }

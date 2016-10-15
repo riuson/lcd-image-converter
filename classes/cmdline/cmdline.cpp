@@ -36,100 +36,91 @@
 #include <QImage>
 #include <QCommandLineParser>
 
-namespace CommandLine {
+namespace CommandLine
+{
 
 CmdLine::CmdLine(const QStringList &arguments, QObject *parent) :
-    QObject(parent)
+  QObject(parent)
 {
-    this->mArguments = new QStringList(arguments);
-    this->mParser = new QCommandLineParser();
+  this->mArguments = new QStringList(arguments);
+  this->mParser = new QCommandLineParser();
 
-    // information block
-    this->mParser->setApplicationDescription("Tool to create image and font source files for embedded applications.");
-    this->mParser->addHelpOption();
-    this->mParser->addVersionOption();
+  // information block
+  this->mParser->setApplicationDescription("Tool to create image and font source files for embedded applications.");
+  this->mParser->addHelpOption();
+  this->mParser->addVersionOption();
 
-    // required option:
-    // --mode=convert-image
-    QCommandLineOption optionMode(QStringList() << "m" << "mode",
-                QCoreApplication::translate("CmdLineParser", "Conversion mode for application, \"convert-image\", \"convert-font\" or \"hex2bin\"."),
-                QCoreApplication::translate("CmdLineParser", "mode"));
-    this->mParser->addOption(optionMode);
+  // required option:
+  // --mode=convert-image
+  QCommandLineOption optionMode(QStringList() << "m" << "mode",
+                                QCoreApplication::translate("CmdLineParser", "Conversion mode for application, \"convert-image\", \"convert-font\" or \"hex2bin\"."),
+                                QCoreApplication::translate("CmdLineParser", "mode"));
+  this->mParser->addOption(optionMode);
 }
 
 CmdLine::~CmdLine()
 {
-    delete this->mParser;
-    delete this->mArguments;
+  delete this->mParser;
+  delete this->mArguments;
 }
 
 bool CmdLine::needProcess() const
 {
-    if (this->mArguments->length() > 1)
-    {
-        return true;
-    }
+  if (this->mArguments->length() > 1) {
+    return true;
+  }
 
-    return false;
+  return false;
 }
 
 int CmdLine::process()
 {
-    int result = 1;
+  int result = 1;
 
-    this->mParser->parse(*this->mArguments);
+  this->mParser->parse(*this->mArguments);
 
-    QString modeName = this->mParser->value("mode");
+  QString modeName = this->mParser->value("mode");
 
-    ModeParserBase *mode = this->createMode(modeName, this->mParser);
+  ModeParserBase *mode = this->createMode(modeName, this->mParser);
 
-    if (mode != NULL)
-    {
-        mode->fillParser();
+  if (mode != NULL) {
+    mode->fillParser();
+  }
+
+  this->mParser->process(*this->mArguments);
+
+  if (mode != NULL) {
+    if (mode->collectArguments()) {
+      result = mode->process();
+    } else {
+      qDebug() << "Argumenths missing";
     }
 
-    this->mParser->process(*this->mArguments);
+    delete mode;
+  }
 
-    if (mode != NULL)
-    {
-        if (mode->collectArguments())
-        {
-            result = mode->process();
-        }
-        else
-        {
-            qDebug() << "Argumenths missing";
-        }
+  if (result != 0) {
+    this->mParser->showHelp(1);
+  }
 
-        delete mode;
-    }
-
-    if (result != 0)
-    {
-        this->mParser->showHelp(1);
-    }
-
-    return result;
+  return result;
 }
 
 ModeParserBase *CmdLine::createMode(const QString &name, QCommandLineParser *parser)
 {
-    if (name == ModeConvertImage::modeName())
-    {
-        return new ModeConvertImage(parser, this);
-    }
+  if (name == ModeConvertImage::modeName()) {
+    return new ModeConvertImage(parser, this);
+  }
 
-    if (name == ModeConvertFont::modeName())
-    {
-        return new ModeConvertFont(parser, this);
-    }
+  if (name == ModeConvertFont::modeName()) {
+    return new ModeConvertFont(parser, this);
+  }
 
-    if (name == ModeHex2Bin::modeName())
-    {
-        return new ModeHex2Bin(parser, this);
-    }
+  if (name == ModeHex2Bin::modeName()) {
+    return new ModeHex2Bin(parser, this);
+  }
 
-    return NULL;
+  return NULL;
 }
 
 }

@@ -25,30 +25,30 @@
 
 class ColumnsReorderProxy : public QSortFilterProxyModel
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit ColumnsReorderProxy(QObject *parent = 0);
+  explicit ColumnsReorderProxy(QObject *parent = 0);
 
-    /*
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    */
-    QModelIndex index(int row, int column,
-                      const QModelIndex &parent = QModelIndex()) const override;
-    QModelIndex parent(const QModelIndex &index) const override;
-    QModelIndex mapFromSource(const QModelIndex &sourceIndex) const override;
-    QModelIndex mapToSource(const QModelIndex &proxyIndex) const override;
+  /*
+  QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+  */
+  QModelIndex index(int row, int column,
+                    const QModelIndex &parent = QModelIndex()) const override;
+  QModelIndex parent(const QModelIndex &index) const override;
+  QModelIndex mapFromSource(const QModelIndex &sourceIndex) const override;
+  QModelIndex mapToSource(const QModelIndex &proxyIndex) const override;
 
-    void setReorder(int oldPosition, int newPosition);
+  void setReorder(int oldPosition, int newPosition);
 private:
-    int mFromColumn;
-    int mToColumn;
-    QList<int> mListFromSource;
-    QList<int> mListToSource;
+  int mFromColumn;
+  int mToColumn;
+  QList<int> mListFromSource;
+  QList<int> mListToSource;
 
-    int columnFromSource(int value) const;
-    int columnToSource(int value) const;
+  int columnFromSource(int value) const;
+  int columnToSource(int value) const;
 };
 
 #endif // COLUMNSREORDERPROXY_H

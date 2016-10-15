@@ -28,20 +28,20 @@ class Preset;
 
 class ParsedImageData : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ParsedImageData(Preset *preset, const QImage *image, const Tags &tags, QObject *parent = 0);
-    ~ParsedImageData();
+  explicit ParsedImageData(Preset *preset, const QImage *image, const Tags &tags, QObject *parent = 0);
+  ~ParsedImageData();
 
-    Tags *tags() const;
-    uint hash() const;
+  Tags *tags() const;
+  uint hash() const;
 
-    const QString outputImageDataWithEOL(const Tags &tags) const;
+  const QString outputImageDataWithEOL(const Tags &tags) const;
 
 private:
-    Tags *mTags;
-    uint mHash;
-    QString mPreparedOutputImageData;
+  Tags *mTags;
+  uint mHash;
+  QString mPreparedOutputImageData;
 };
 
 #endif // PARSEDIMAGEDATA_H

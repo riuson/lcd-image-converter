@@ -22,10 +22,10 @@
 #include "revisioninfo.h"
 
 RevisionLabel::RevisionLabel(QWidget *parent) :
-    QLabel(parent)
+  QLabel(parent)
 {
-    this->setText(RevisionInfo::hash_abbr());
+  this->setText(RevisionInfo::hash_abbr());
 
-    this->setForegroundRole(QPalette::Midlight);
+  this->setForegroundRole(QPalette::Midlight);
 }
 

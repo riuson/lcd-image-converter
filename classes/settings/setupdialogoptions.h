@@ -24,12 +24,12 @@
 
 class SetupDialogOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    static int animationTotalTime();
-    static void setAnimationTime(int value);
-    static int animationInterval();
-    static void setAnimationInterval(int value);
+  static int animationTotalTime();
+  static void setAnimationTime(int value);
+  static int animationInterval();
+  static void setAnimationInterval(int value);
 };
 
 #endif // SETUPDIALOGOPTIONS_H

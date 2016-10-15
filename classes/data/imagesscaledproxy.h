@@ -24,22 +24,22 @@
 
 class ImagesScaledProxy : public QSortFilterProxyModel
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit ImagesScaledProxy(QObject *parent = 0);
-    ~ImagesScaledProxy();
+  explicit ImagesScaledProxy(QObject *parent = 0);
+  ~ImagesScaledProxy();
 
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    int scale() const;
-    void setScale(int value);
+  int scale() const;
+  void setScale(int value);
 
 private:
-    int mScale;
+  int mScale;
 
 signals:
-    void scaleChanged();
+  void scaleChanged();
 };
 
 #endif // IMAGESSCALEDPROXY_H

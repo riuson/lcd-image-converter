@@ -24,88 +24,100 @@
 #include "fontoptions.h"
 
 SetupTabFont::SetupTabFont(Preset *preset, QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::SetupTabFont)
+  QWidget(parent),
+  ui(new Ui::SetupTabFont)
 {
-    ui->setupUi(this);
-    this->mPreset = preset;
+  ui->setupUi(this);
+  this->mPreset = preset;
 
-    QString encoding = this->mPreset->font()->encoding();
+  QString encoding = this->mPreset->font()->encoding();
 
-    this->ui->comboBoxEncoding->addItems(FontOptions::encodings());
+  this->ui->comboBoxEncoding->addItems(FontOptions::encodings());
 
-    int index = this->ui->comboBoxEncoding->findData(encoding);
-    if (index >= 0)
-        this->ui->comboBoxEncoding->setCurrentIndex(index);
+  int index = this->ui->comboBoxEncoding->findData(encoding);
 
-    CharactersSortOrder order = this->mPreset->font()->sortOrder();
+  if (index >= 0) {
+    this->ui->comboBoxEncoding->setCurrentIndex(index);
+  }
 
-    this->ui->comboBoxSorting->addItem(this->sortingName(CharactersSortNone), CharactersSortNone);
-    this->ui->comboBoxSorting->addItem(this->sortingName(CharactersSortAscending), CharactersSortAscending);
-    this->ui->comboBoxSorting->addItem(this->sortingName(CharactersSortDescending), CharactersSortDescending);
-    index = this->ui->comboBoxSorting->findData(order);
-    if (index >= 0)
-        this->ui->comboBoxSorting->setCurrentIndex(index);
+  CharactersSortOrder order = this->mPreset->font()->sortOrder();
 
-    this->matrixChanged();
+  this->ui->comboBoxSorting->addItem(this->sortingName(CharactersSortNone), CharactersSortNone);
+  this->ui->comboBoxSorting->addItem(this->sortingName(CharactersSortAscending), CharactersSortAscending);
+  this->ui->comboBoxSorting->addItem(this->sortingName(CharactersSortDescending), CharactersSortDescending);
+  index = this->ui->comboBoxSorting->findData(order);
+
+  if (index >= 0) {
+    this->ui->comboBoxSorting->setCurrentIndex(index);
+  }
+
+  this->matrixChanged();
 }
 
 SetupTabFont::~SetupTabFont()
 {
-    delete ui;
+  delete ui;
 }
 
 void SetupTabFont::matrixChanged()
 {
-    int index = this->ui->comboBoxEncoding->findText(this->mPreset->font()->encoding());
-    if (index >= 0)
-        this->ui->comboBoxEncoding->setCurrentIndex(index);
+  int index = this->ui->comboBoxEncoding->findText(this->mPreset->font()->encoding());
 
-    index = this->ui->comboBoxSorting->findData(this->mPreset->font()->sortOrder());
-    if (index >= 0)
-        this->ui->comboBoxSorting->setCurrentIndex(index);
+  if (index >= 0) {
+    this->ui->comboBoxEncoding->setCurrentIndex(index);
+  }
 
-    this->ui->checkBoxBom->setChecked(this->mPreset->font()->bom());
+  index = this->ui->comboBoxSorting->findData(this->mPreset->font()->sortOrder());
+
+  if (index >= 0) {
+    this->ui->comboBoxSorting->setCurrentIndex(index);
+  }
+
+  this->ui->checkBoxBom->setChecked(this->mPreset->font()->bom());
 }
 
 const QString SetupTabFont::sortingName(CharactersSortOrder value) const
 {
-    QString result;
+  QString result;
 
-    switch (value)
-    {
+  switch (value) {
     case CharactersSortNone:
-        result = tr("None");
-        break;
-    case CharactersSortAscending:
-        result = tr("Ascending");
-        break;
-    case CharactersSortDescending:
-        result = tr("Descending");
-        break;
-    default:
-        result = QString();
-        break;
-    }
+      result = tr("None");
+      break;
 
-    return result;
+    case CharactersSortAscending:
+      result = tr("Ascending");
+      break;
+
+    case CharactersSortDescending:
+      result = tr("Descending");
+      break;
+
+    default:
+      result = QString();
+      break;
+  }
+
+  return result;
 }
 
 void SetupTabFont::on_checkBoxBom_toggled(bool value)
 {
-    this->mPreset->font()->setBom(value);
+  this->mPreset->font()->setBom(value);
 }
 
 void SetupTabFont::on_comboBoxEncoding_currentIndexChanged(const QString &value)
 {
-    this->mPreset->font()->setEncoding(value);
+  this->mPreset->font()->setEncoding(value);
 }
 
 void SetupTabFont::on_comboBoxSorting_currentIndexChanged(int index)
 {
-    bool ok = false;
-    CharactersSortOrder order = (CharactersSortOrder)this->ui->comboBoxSorting->itemData(index).toInt(&ok);
-    if (ok)
-        this->mPreset->font()->setSortOrder(order);
+  bool ok = false;
+  CharactersSortOrder order = (CharactersSortOrder)this->ui->comboBoxSorting->itemData(index).toInt(&ok);
+
+  if (ok) {
+    this->mPreset->font()->setSortOrder(order);
+  }
 }
 

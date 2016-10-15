@@ -22,57 +22,57 @@
 #include <QStringListIterator>
 
 HistoryRecord::HistoryRecord(
-        const QStringList *_keys,
-        const QMap<QString, QImage *> *_images,
-        const QMap<QString, QVariant> *_info,
-        QObject *parent) :
-    QObject(parent)
+  const QStringList *_keys,
+  const QMap<QString, QImage *> *_images,
+  const QMap<QString, QVariant> *_info,
+  QObject *parent) :
+  QObject(parent)
 {
-    QStringList keys = QStringList(*_keys);
-    QStringListIterator iterator(keys);
-    while (iterator.hasNext())
-    {
-         QString key = iterator.next();
+  QStringList keys = QStringList(*_keys);
+  QStringListIterator iterator(keys);
 
-         QImage *oldImage = _images->value(key);
-         QImage *newImage = new QImage(*oldImage);
+  while (iterator.hasNext()) {
+    QString key = iterator.next();
 
-         this->mKeys.append(key);
-         this->mImageMap.insert(key, newImage);
-    }
+    QImage *oldImage = _images->value(key);
+    QImage *newImage = new QImage(*oldImage);
 
-    keys = _info->keys();
-    iterator = QStringListIterator(keys);
-    while (iterator.hasNext())
-    {
-         QString key = iterator.next();
+    this->mKeys.append(key);
+    this->mImageMap.insert(key, newImage);
+  }
 
-         QVariant value = _info->value(key);
+  keys = _info->keys();
+  iterator = QStringListIterator(keys);
 
-         this->mInfoMap.insert(key, value);
-    }
+  while (iterator.hasNext()) {
+    QString key = iterator.next();
+
+    QVariant value = _info->value(key);
+
+    this->mInfoMap.insert(key, value);
+  }
 }
 
 HistoryRecord::~HistoryRecord()
 {
-    qDeleteAll(this->mImageMap);
-    this->mKeys.clear();
-    this->mImageMap.clear();
-    this->mInfoMap.clear();
+  qDeleteAll(this->mImageMap);
+  this->mKeys.clear();
+  this->mImageMap.clear();
+  this->mInfoMap.clear();
 }
 
 const QStringList *HistoryRecord::keys() const
 {
-    return &this->mKeys;
+  return &this->mKeys;
 }
 
 const QMap<QString, QImage *> *HistoryRecord::images() const
 {
-    return &this->mImageMap;
+  return &this->mImageMap;
 }
 
 const QMap<QString, QVariant> *HistoryRecord::info() const
 {
-    return &this->mInfoMap;
+  return &this->mInfoMap;
 }
 

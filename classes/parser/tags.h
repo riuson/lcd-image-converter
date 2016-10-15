@@ -28,85 +28,84 @@ template <class T1, class T2> class QHash;
 class Tags
 {
 public:
-    Tags();
-    ~Tags();
+  Tags();
+  ~Tags();
 
-    enum TagsEnum
-    {
-        Unknown = 0,
+  enum TagsEnum {
+    Unknown = 0,
 
-        DocumentDataType,
-        DocumentName,
-        DocumentNameWithoutSpaces,
-        DocumentFilename,
+    DocumentDataType,
+    DocumentName,
+    DocumentNameWithoutSpaces,
+    DocumentFilename,
 
-        PrepareConversionType,
-        PrepareMonoType,
-        PrepareMonoEdge,
-        PrepareScanMain,
-        PrepareScanSub,
-        PrepareInverse,
-        PrepareUseBands,
-        PrepareBandWidth,
+    PrepareConversionType,
+    PrepareMonoType,
+    PrepareMonoEdge,
+    PrepareScanMain,
+    PrepareScanSub,
+    PrepareInverse,
+    PrepareUseBands,
+    PrepareBandWidth,
 
-        ImageSplitToRows,
-        ImageBlockSize,
-        ImageRleCompression,
-        ImageByteOrder,
+    ImageSplitToRows,
+    ImageBlockSize,
+    ImageRleCompression,
+    ImageByteOrder,
 
-        FontUseBom,
-        FontEncoding,
+    FontUseBom,
+    FontEncoding,
 
-        FontFamily,
-        FontSize,
-        FontStyle,
-        FontString,
-        FontWidthType,
-        FontAntiAliasing,
-        FontAscent,
-        FontDescent,
+    FontFamily,
+    FontSize,
+    FontStyle,
+    FontString,
+    FontWidthType,
+    FontAntiAliasing,
+    FontAscent,
+    FontDescent,
 
-        TemplateFilename,
+    TemplateFilename,
 
-        OutputPresetName,
-        OutputBlocksCount,
-        OutputBitsPerPixel,
-        OutputCharacterCode,
-        OutputCharacterText,
-        OutputCharacterCodeSimilar,
-        OutputCharacterTextSimilar,
-        OutputImageData,
-        OutputImagesCount,
-        OutputComma,
-        OutputDataIndent,
-        OutputDataEOL,
-        OutputImageWidth,
-        OutputImageHeight,
-        OutputImagesMaxWidth,
-        OutputImagesMaxHeight,
-        OutputImagesMaxBlocksCount,
+    OutputPresetName,
+    OutputBlocksCount,
+    OutputBitsPerPixel,
+    OutputCharacterCode,
+    OutputCharacterText,
+    OutputCharacterCodeSimilar,
+    OutputCharacterTextSimilar,
+    OutputImageData,
+    OutputImagesCount,
+    OutputComma,
+    OutputDataIndent,
+    OutputDataEOL,
+    OutputImageWidth,
+    OutputImageHeight,
+    OutputImagesMaxWidth,
+    OutputImagesMaxHeight,
+    OutputImagesMaxBlocksCount,
 
-        BlocksHeaderStart,
-        BlocksHeaderEnd,
-        BlocksImagesTableStart,
-        BlocksImagesTableEnd,
-        BlocksFontDefinitionStart,
-        BlocksFontDefinitionEnd
-    };
+    BlocksHeaderStart,
+    BlocksHeaderEnd,
+    BlocksImagesTableStart,
+    BlocksImagesTableEnd,
+    BlocksFontDefinitionStart,
+    BlocksFontDefinitionEnd
+  };
 
-    TagsEnum parseTag(const QString &key) const;
+  TagsEnum parseTag(const QString &key) const;
 
-    const QString tagValue(TagsEnum key) const;
-    void setTagValue(TagsEnum key, const QString &value);
-    void importValues(const Tags *other);
+  const QString tagValue(TagsEnum key) const;
+  void setTagValue(TagsEnum key, const QString &value);
+  void importValues(const Tags *other);
 
-    bool find(const QString &text, int startIndex, int *resultIndex, int *nextIndex, TagsEnum *key, QString *content);
+  bool find(const QString &text, int startIndex, int *resultIndex, int *nextIndex, TagsEnum *key, QString *content);
 
 private:
-    QHash <QString, TagsEnum> *mTagNameMap;
-    QMap <TagsEnum, QString> *mTagValues;
+  QHash <QString, TagsEnum> *mTagNameMap;
+  QMap <TagsEnum, QString> *mTagValues;
 
-    void initTagsMap();
+  void initTagsMap();
 };
 
 #endif // TAGS_H

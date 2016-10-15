@@ -25,104 +25,104 @@
 
 UnicodeBlock::UnicodeBlock(const QString &name, quint32 firstCode, quint32 lastCode)
 {
-    this->mName = name;
-    this->mFirstCode = firstCode;
-    this->mLastCode = lastCode;
+  this->mName = name;
+  this->mFirstCode = firstCode;
+  this->mLastCode = lastCode;
 }
 
 const QString &UnicodeBlock::name() const
 {
-    return this->mName;
+  return this->mName;
 }
 
 quint32 UnicodeBlock::firstCode() const
 {
-    return this->mFirstCode;
+  return this->mFirstCode;
 }
 
 quint32 UnicodeBlock::lastCode() const
 {
-    return this->mLastCode;
+  return this->mLastCode;
 }
 
 UnicodeBlocksModel::UnicodeBlocksModel(QObject *parent) :
-    QAbstractListModel(parent)
+  QAbstractListModel(parent)
 {
-    quint32 min = 0, max = 0;
+  quint32 min = 0, max = 0;
 
-    QFile data(":/font/unicode-blocks");
-    if (data.open(QFile::ReadOnly))
-    {
-        QRegExp expCode("U\\+([0123456789cbdefABCDEF]+)");
+  QFile data(":/font/unicode-blocks");
 
-        QTextStream stream(&data);
-        QString line;
-        do
-        {
-            line = stream.readLine();
+  if (data.open(QFile::ReadOnly)) {
+    QRegExp expCode("U\\+([0123456789cbdefABCDEF]+)");
 
-            bool ok;
+    QTextStream stream(&data);
+    QString line;
 
-            int index1 = expCode.indexIn(line, 0);
-            QString cap1 = expCode.cap(1);
-            quint64 code1 = cap1.toULong(&ok, 16);
+    do {
+      line = stream.readLine();
 
-            int index2 = expCode.indexIn(line, index1 + 1);
-            QString cap2 = expCode.cap(1);
-            quint64 code2 = cap2.toULong(&ok, 16);
+      bool ok;
 
-            if (code1 > 0xfffful || code2 > 0xfffful)
-                continue;
+      int index1 = expCode.indexIn(line, 0);
+      QString cap1 = expCode.cap(1);
+      quint64 code1 = cap1.toULong(&ok, 16);
 
-            index1 = line.indexOf("\t");
-            index2 = line.indexOf("\t", index1 + 1);
-            QString name = line.mid(index1 + 1, index2 - index1 - 1);
-            name = name.simplified();
+      int index2 = expCode.indexIn(line, index1 + 1);
+      QString cap2 = expCode.cap(1);
+      quint64 code2 = cap2.toULong(&ok, 16);
 
-            UnicodeBlock *block = new UnicodeBlock(name, code1, code2);
-            this->mList.append(block);
+      if (code1 > 0xfffful || code2 > 0xfffful) {
+        continue;
+      }
 
-            if (min > code1)
-                min = code1;
-            if (max < code2)
-                max = code2;
+      index1 = line.indexOf("\t");
+      index2 = line.indexOf("\t", index1 + 1);
+      QString name = line.mid(index1 + 1, index2 - index1 - 1);
+      name = name.simplified();
 
-        } while (!line.isNull());
-    }
+      UnicodeBlock *block = new UnicodeBlock(name, code1, code2);
+      this->mList.append(block);
 
-    UnicodeBlock *firstBlock = new UnicodeBlock(tr("All"), min, max);
-    this->mList.insert(0, firstBlock);
+      if (min > code1) {
+        min = code1;
+      }
+
+      if (max < code2) {
+        max = code2;
+      }
+
+    } while (!line.isNull());
+  }
+
+  UnicodeBlock *firstBlock = new UnicodeBlock(tr("All"), min, max);
+  this->mList.insert(0, firstBlock);
 }
 
 QVariant UnicodeBlocksModel::data(const QModelIndex &index, int role) const
 {
-    QVariant result = QVariant();
+  QVariant result = QVariant();
 
-    if (!index.isValid())
-        return QVariant();
+  if (!index.isValid()) {
+    return QVariant();
+  }
 
-    const UnicodeBlock *block = this->mList.at(index.row());
+  const UnicodeBlock *block = this->mList.at(index.row());
 
-    if (role == Qt::DisplayRole)
-    {
-        result = block->name();
-    }
-    else if (role == FirstCodeRole)
-    {
-        result = block->firstCode();
-    }
-    else if (role == LastCodeRole)
-    {
-        result = block->lastCode();
-    }
+  if (role == Qt::DisplayRole) {
+    result = block->name();
+  } else if (role == FirstCodeRole) {
+    result = block->firstCode();
+  } else if (role == LastCodeRole) {
+    result = block->lastCode();
+  }
 
-    return result;
+  return result;
 }
 
 int UnicodeBlocksModel::rowCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent);
+  Q_UNUSED(parent);
 
-    return this->mList.length();
+  return this->mList.length();
 }
 

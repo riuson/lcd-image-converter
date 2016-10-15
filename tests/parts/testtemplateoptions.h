@@ -8,20 +8,20 @@ class TemplateOptions;
 
 class TestTemplateOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit TestTemplateOptions(QObject *parent = 0);
+  explicit TestTemplateOptions(QObject *parent = 0);
 
 private:
-    TemplateOptions *mOptions;
+  TemplateOptions *mOptions;
 
 private slots:
-    void initTestCase();
+  void initTestCase();
 
-    void image();
-    void font();
+  void image();
+  void font();
 
-    void cleanupTestCase();
+  void cleanupTestCase();
 };
 
 #endif // TESTTEMPLATEOPTIONS_H

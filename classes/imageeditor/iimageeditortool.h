@@ -34,29 +34,29 @@ namespace ImageEditor
 class IImageEditorTool
 {
 public:
-    virtual ~IImageEditorTool() { }
+  virtual ~IImageEditorTool() { }
 
-    virtual const QString title() const = 0;
-    virtual const QString tooltip() const = 0;
-    virtual const QIcon *icon() const = 0;
-    virtual const QList<QAction *> *actions() const = 0;
-    virtual const QList<QWidget *> *widgets() const = 0;
+  virtual const QString title() const = 0;
+  virtual const QString tooltip() const = 0;
+  virtual const QIcon *icon() const = 0;
+  virtual const QList<QAction *> *actions() const = 0;
+  virtual const QList<QWidget *> *widgets() const = 0;
 
 public slots:
-    virtual bool processMouse(QMouseEvent *event,
-                              const QImage *imageOriginal,
-                              bool inRect) = 0;
+  virtual bool processMouse(QMouseEvent *event,
+                            const QImage *imageOriginal,
+                            bool inRect) = 0;
 
 signals:
-    virtual void started(const QImage *value) = 0;
-    virtual void processing(const QImage *value) = 0;
-    virtual void completed(const QImage *value, bool changed) = 0;
+  virtual void started(const QImage *value) = 0;
+  virtual void processing(const QImage *value) = 0;
+  virtual void completed(const QImage *value, bool changed) = 0;
 };
 
 } // end of namespace
 Q_DECLARE_INTERFACE (ImageEditor::IImageEditorTool,
                      "riuson.lcd-image-converter/1.0"
-                     )
+                    )
 
 #endif // IIMAGEEDITORTOOL_H
 

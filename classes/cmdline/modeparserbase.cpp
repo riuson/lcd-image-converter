@@ -19,12 +19,13 @@
 
 #include "modeparserbase.h"
 
-namespace CommandLine {
+namespace CommandLine
+{
 
 ModeParserBase::ModeParserBase(QCommandLineParser *parser, QObject *parent) :
-    QObject(parent)
+  QObject(parent)
 {
-    this->mParser = parser;
+  this->mParser = parser;
 }
 
 }

@@ -23,179 +23,172 @@
 #include "bitmaphelper.h"
 
 ImagesModel::ImagesModel(DataContainer *container, QObject *parent) :
-    QAbstractItemModel(parent)
+  QAbstractItemModel(parent)
 {
-    this->mContainer = container;
+  this->mContainer = container;
 
-    this->connect(this->mContainer, SIGNAL(dataChanged(bool)), SLOT(imagesChanged()));
+  this->connect(this->mContainer, SIGNAL(dataChanged(bool)), SLOT(imagesChanged()));
 }
 
 int ImagesModel::rowCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent)
+  Q_UNUSED(parent)
 
-    return this->mContainer->count();
+  return this->mContainer->count();
 }
 
 int ImagesModel::columnCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent)
+  Q_UNUSED(parent)
 
-    return 2;
+  return 2;
 }
 
 QVariant ImagesModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    QVariant result;
-    if (role == Qt::DisplayRole)
-    {
-        if (orientation == Qt::Vertical)
-        {
-            result = this->containerValue(section, KeyCodeRole);
+  QVariant result;
+
+  if (role == Qt::DisplayRole) {
+    if (orientation == Qt::Vertical) {
+      result = this->containerValue(section, KeyCodeRole);
+    } else {
+      switch (section) {
+        case 0: {
+          if (this->rowCount(QModelIndex()) > 1) {
+            result = tr("Character");
+          }
+
+          break;
         }
-        else
-        {
-            switch (section)
-            {
-            case 0:
-            {
-                if (this->rowCount(QModelIndex()) > 1)
-                {
-                    result = tr("Character");
-                }
-                break;
-            }
-            case 1:
-            {
-                result = tr("Preview", "character preview");
-                break;
-            }
-            }
+
+        case 1: {
+          result = tr("Preview", "character preview");
+          break;
         }
+      }
     }
-    return result;
+  }
+
+  return result;
 }
 
 QVariant ImagesModel::data(const QModelIndex &index, int role) const
 {
-    QVariant result = QVariant();
+  QVariant result = QVariant();
 
-    if (!index.isValid())
-        return result;
+  if (!index.isValid()) {
+    return result;
+  }
 
-    int columnIndex = index.column();
-    int valueIndex = index.row();
+  int columnIndex = index.column();
+  int valueIndex = index.row();
 
-    switch (role)
-    {
-    case Qt::DisplayRole:
-    {
-        if (columnIndex == 0)
-        {
-            result = this->containerValue(valueIndex, KeyRole);
-        }
-        break;
+  switch (role) {
+    case Qt::DisplayRole: {
+      if (columnIndex == 0) {
+        result = this->containerValue(valueIndex, KeyRole);
+      }
+
+      break;
     }
-    case Qt::DecorationRole:
-    {
-        if (columnIndex == 1)
-        {
-            result = this->containerValue(valueIndex, ImageRole);
-        }
-        break;
+
+    case Qt::DecorationRole: {
+      if (columnIndex == 1) {
+        result = this->containerValue(valueIndex, ImageRole);
+      }
+
+      break;
     }
-    case Qt::SizeHintRole:
-    {
-        if (columnIndex == 1)
-        {
-            result = this->containerValue(valueIndex, ImageSizeRole);
-        }
-        break;
+
+    case Qt::SizeHintRole: {
+      if (columnIndex == 1) {
+        result = this->containerValue(valueIndex, ImageSizeRole);
+      }
+
+      break;
     }
-    case Qt::TextAlignmentRole:
-    {
-        if (columnIndex == 0)
-        {
-            result = Qt::AlignCenter;
-        }
-        break;
+
+    case Qt::TextAlignmentRole: {
+      if (columnIndex == 0) {
+        result = Qt::AlignCenter;
+      }
+
+      break;
     }
+
     case KeyRole:
     case KeyCodeRole:
     case ImageRole:
-    case ImageSizeRole:
-    {
-        result = this->containerValue(valueIndex, (ImagesModelRoles)role);
-        break;
-    }
-    default:
-        break;
+    case ImageSizeRole: {
+      result = this->containerValue(valueIndex, (ImagesModelRoles)role);
+      break;
     }
 
-    return result;
+    default:
+      break;
+  }
+
+  return result;
 }
 
 QModelIndex ImagesModel::index(int row, int column, const QModelIndex &parent) const
 {
-    Q_UNUSED(parent)
-    return this->createIndex(row, column);
+  Q_UNUSED(parent)
+  return this->createIndex(row, column);
 }
 
 QModelIndex ImagesModel::parent(const QModelIndex &index) const
 {
-    Q_UNUSED(index)
-    return QModelIndex();
+  Q_UNUSED(index)
+  return QModelIndex();
 }
 
 void ImagesModel::callReset()
 {
-    this->beginResetModel();
-    this->endResetModel();
+  this->beginResetModel();
+  this->endResetModel();
 }
 
 QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) const
 {
-    QVariant result;
+  QVariant result;
 
-    if (imageIndex >= 0 && imageIndex < this->mContainer->count())
-    {
-        QString key = this->mContainer->keys().at(imageIndex);
+  if (imageIndex >= 0 && imageIndex < this->mContainer->count()) {
+    QString key = this->mContainer->keys().at(imageIndex);
 
-        switch (role)
-        {
-        case KeyRole:
-        {
-            result = key;
-            break;
-        }
-        case KeyCodeRole:
-        {
-            quint16 code = key.at(0).unicode();
-            result = QString("U+%1").arg(code, 4, 16, QChar('0'));
-            break;
-        }
-        case ImageRole:
-        {
-            const QImage *source = this->mContainer->image(key);
-            result = QImage(*source);
-            break;
-        }
-        case ImageSizeRole:
-        {
-            const QImage *source = this->mContainer->image(key);
-            result = source->size();
-            break;
-        }
-        }
+    switch (role) {
+      case KeyRole: {
+        result = key;
+        break;
+      }
+
+      case KeyCodeRole: {
+        quint16 code = key.at(0).unicode();
+        result = QString("U+%1").arg(code, 4, 16, QChar('0'));
+        break;
+      }
+
+      case ImageRole: {
+        const QImage *source = this->mContainer->image(key);
+        result = QImage(*source);
+        break;
+      }
+
+      case ImageSizeRole: {
+        const QImage *source = this->mContainer->image(key);
+        result = source->size();
+        break;
+      }
     }
+  }
 
-    return result;
+  return result;
 }
 
 void ImagesModel::imagesChanged()
 {
-    emit this->dataChanged(
-                this->index(0, 0),
-                this->index(this->rowCount(QModelIndex()) - 1, this->columnCount(QModelIndex()) - 1));
+  emit this->dataChanged(
+    this->index(0, 0),
+    this->index(this->rowCount(QModelIndex()) - 1, this->columnCount(QModelIndex()) - 1));
 }
 

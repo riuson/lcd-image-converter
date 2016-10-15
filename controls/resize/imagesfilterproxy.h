@@ -26,17 +26,17 @@ class QStringList;
 
 class ImagesFilterProxy : public QSortFilterProxyModel
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ImagesFilterProxy(QObject *parent = 0);
-    ~ImagesFilterProxy();
+  explicit ImagesFilterProxy(QObject *parent = 0);
+  ~ImagesFilterProxy();
 
-    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+  bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
 
-    void setFilter(const QStringList &keys);
+  void setFilter(const QStringList &keys);
 
 private:
-    QStringList *mKeys;
+  QStringList *mKeys;
 
 };
 

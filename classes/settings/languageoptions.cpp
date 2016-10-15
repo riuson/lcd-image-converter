@@ -24,32 +24,31 @@
 
 const QString LanguageOptions::locale()
 {
-    QSettings sett;
-    sett.beginGroup("language");
-    QString result = sett.value("selected", QVariant("")).toString();
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("language");
+  QString result = sett.value("selected", QVariant("")).toString();
+  sett.endGroup();
 
-    return result;
+  return result;
 }
 
 bool LanguageOptions::setLocale(const QString &value)
 {
-    bool isSuccessfully = false;
+  bool isSuccessfully = false;
 
-    QSettings sett;
-    sett.beginGroup("language");
-    QFile file(":/translations/" + value);
-    if (file.exists())
-    {
-        sett.setValue("selected", QVariant(value));
-        isSuccessfully = true;
-    }
-    else
-    {
-        sett.setValue("selected", QVariant(""));
-    }
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("language");
+  QFile file(":/translations/" + value);
 
-    return isSuccessfully;
+  if (file.exists()) {
+    sett.setValue("selected", QVariant(value));
+    isSuccessfully = true;
+  } else {
+    sett.setValue("selected", QVariant(""));
+  }
+
+  sett.endGroup();
+
+  return isSuccessfully;
 }
 

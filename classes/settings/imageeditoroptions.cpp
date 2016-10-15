@@ -24,27 +24,27 @@
 
 QByteArray ImageEditorOptions::toolbarsState()
 {
-    QSettings sett;
-    sett.beginGroup("window-image-editor");
-    sett.beginGroup("toolbar-options");
+  QSettings sett;
+  sett.beginGroup("window-image-editor");
+  sett.beginGroup("toolbar-options");
 
-    QByteArray result = sett.value("state", QByteArray()).toByteArray();
+  QByteArray result = sett.value("state", QByteArray()).toByteArray();
 
-    sett.endGroup();
-    sett.endGroup();
+  sett.endGroup();
+  sett.endGroup();
 
-    return result;
+  return result;
 }
 
 void ImageEditorOptions::setToolbarsState(const QByteArray &value)
 {
-    QSettings sett;
-    sett.beginGroup("window-image-editor");
-    sett.beginGroup("toolbar-options");
+  QSettings sett;
+  sett.beginGroup("window-image-editor");
+  sett.beginGroup("toolbar-options");
 
-    sett.setValue("state", value);
+  sett.setValue("state", value);
 
-    sett.endGroup();
-    sett.endGroup();
+  sett.endGroup();
+  sett.endGroup();
 }
 

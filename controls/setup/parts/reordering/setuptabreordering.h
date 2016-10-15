@@ -22,7 +22,8 @@
 
 #include <QWidget>
 
-namespace Ui {
+namespace Ui
+{
 class SetupTabReordering;
 }
 
@@ -33,29 +34,29 @@ class QMenu;
 
 class SetupTabReordering : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit SetupTabReordering(Preset *preset, QWidget *parent = 0);
-    virtual ~SetupTabReordering();
+  explicit SetupTabReordering(Preset *preset, QWidget *parent = 0);
+  virtual ~SetupTabReordering();
 
 public slots:
-    void matrixChanged();
+  void matrixChanged();
 
 private:
-    Ui::SetupTabReordering *ui;
-    Preset *mPreset;
-    ReorderingPreviewModel *mReorderingModel;
-    ReorderingItemDelegate *mReorderingItemDelegate;
-    QMenu *mMenu;
+  Ui::SetupTabReordering *ui;
+  Preset *mPreset;
+  ReorderingPreviewModel *mReorderingModel;
+  ReorderingItemDelegate *mReorderingItemDelegate;
+  QMenu *mMenu;
 
-    int maxBitIndex() const;
+  int maxBitIndex() const;
 
 private slots:
-    void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
-    void operationAdd();
-    void operationShift();
-    void operationRemove();
+  void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
+  void operationAdd();
+  void operationShift();
+  void operationRemove();
 };
 
 #endif // SETUPTABREORDERING_H

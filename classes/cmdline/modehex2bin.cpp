@@ -29,175 +29,154 @@
 #include <QStringList>
 #include <QTextStream>
 
-namespace CommandLine {
+namespace CommandLine
+{
 
 ModeHex2Bin::ModeHex2Bin(QCommandLineParser *parser, QObject *parent) :
-    ModeParserBase(parser, parent)
+  ModeParserBase(parser, parent)
 {
 }
 
 QString ModeHex2Bin::modeName()
 {
-    return "hex2bin";
+  return "hex2bin";
 }
 
 void ModeHex2Bin::fillParser() const
 {
-    // --input=/temp/1.c
-    QCommandLineOption inputOption(QStringList() << "i" << "input",
-                QCoreApplication::translate("CmdLineParser", "Full <path> to image in *.C format."),
-                QCoreApplication::translate("CmdLineParser", "path"));
-    this->mParser->addOption(inputOption);
+  // --input=/temp/1.c
+  QCommandLineOption inputOption(QStringList() << "i" << "input",
+                                 QCoreApplication::translate("CmdLineParser", "Full <path> to image in *.C format."),
+                                 QCoreApplication::translate("CmdLineParser", "path"));
+  this->mParser->addOption(inputOption);
 
-    // --output=/temp/1.bin
-    QCommandLineOption outputOption(QStringList() << "o" << "output",
-                QCoreApplication::translate("CmdLineParser", "Full <path> to output binary result."),
-                QCoreApplication::translate("CmdLineParser", "path"));
-    this->mParser->addOption(outputOption);
+  // --output=/temp/1.bin
+  QCommandLineOption outputOption(QStringList() << "o" << "output",
+                                  QCoreApplication::translate("CmdLineParser", "Full <path> to output binary result."),
+                                  QCoreApplication::translate("CmdLineParser", "path"));
+  this->mParser->addOption(outputOption);
 }
 
 bool ModeHex2Bin::collectArguments()
 {
-    this->mInputFilename = this->mParser->value("input");
-    this->mOuputFilename = this->mParser->value("output");
+  this->mInputFilename = this->mParser->value("input");
+  this->mOuputFilename = this->mParser->value("output");
 
-    return (!this->mInputFilename.isEmpty() &&
-            !this->mOuputFilename.isEmpty());
+  return (!this->mInputFilename.isEmpty() &&
+          !this->mOuputFilename.isEmpty());
 }
 
 int ModeHex2Bin::process()
 {
-    // check input file exists
-    if (QFile::exists(this->mInputFilename))
+  // check input file exists
+  if (QFile::exists(this->mInputFilename)) {
+    // check output file exists
+    //if (QFile::exists(this->mOuputFilename))
     {
-        // check output file exists
-        //if (QFile::exists(this->mOuputFilename))
-        {
-            QFile inputFile(this->mInputFilename);
-            if (inputFile.open(QIODevice::ReadOnly))
-            {
-                QTextStream inputStream(&inputFile);
-                QString inputText = inputStream.readAll();
-                inputFile.close();
+      QFile inputFile(this->mInputFilename);
 
-                QByteArray data;
-                data = this->hex2bin(inputText);
+      if (inputFile.open(QIODevice::ReadOnly)) {
+        QTextStream inputStream(&inputFile);
+        QString inputText = inputStream.readAll();
+        inputFile.close();
 
-                // save to output file
-                QFile outputFile(this->mOuputFilename);
-                if (outputFile.open(QFile::WriteOnly))
-                {
-                    outputFile.write(data);
-                    outputFile.close();
-                }
-            }
+        QByteArray data;
+        data = this->hex2bin(inputText);
 
-            return 0;
+        // save to output file
+        QFile outputFile(this->mOuputFilename);
+
+        if (outputFile.open(QFile::WriteOnly)) {
+          outputFile.write(data);
+          outputFile.close();
         }
-    }
+      }
 
-    return 1;
+      return 0;
+    }
+  }
+
+  return 1;
 }
 
 QByteArray ModeHex2Bin::hex2bin(QString &hexString)
 {
-    QByteArray result;
+  QByteArray result;
 
-    int size = 1;
-    bool le = true;
+  int size = 1;
+  bool le = true;
 
-    QTextStream stream(&hexString, QIODevice::ReadOnly);
-    QString part;
+  QTextStream stream(&hexString, QIODevice::ReadOnly);
+  QString part;
 
-    while (!stream.atEnd())
-    {
-        stream >> part;
+  while (!stream.atEnd()) {
+    stream >> part;
 
-        if (part == "uint32")
-        {
-            size = 4;
-            continue;
-        }
-        else if (part == "uint24")
-        {
-            size = 3;
-            continue;
-        }
-        else if (part == "uint16")
-        {
-            size = 2;
-            continue;
-        }
-        else if (part == "uint8")
-        {
-            size = 1;
-            continue;
-        }
-
-        if (part == "le")
-        {
-            le = true;
-            continue;
-        }
-        else if (part == "be")
-        {
-            le = false;
-            continue;
-        }
-
-        bool ok;
-        quint32 value = part.toUInt(&ok, 10);
-        if (ok) // decimal
-        {
-            if (le)
-            {
-                this->appendDataLE(&result, size, value);
-            }
-            else
-            {
-                this->appendDataBE(&result, size, value);
-            }
-        }
-        else
-        {
-            value = part.toUInt(&ok, 16);
-            if (ok)
-            {
-                if (le)
-                {
-                    this->appendDataLE(&result, size, value);
-                }
-                else
-                {
-                    this->appendDataBE(&result, size, value);
-                }
-            }
-        }
+    if (part == "uint32") {
+      size = 4;
+      continue;
+    } else if (part == "uint24") {
+      size = 3;
+      continue;
+    } else if (part == "uint16") {
+      size = 2;
+      continue;
+    } else if (part == "uint8") {
+      size = 1;
+      continue;
     }
 
-    return result;
+    if (part == "le") {
+      le = true;
+      continue;
+    } else if (part == "be") {
+      le = false;
+      continue;
+    }
+
+    bool ok;
+    quint32 value = part.toUInt(&ok, 10);
+
+    if (ok) { // decimal
+      if (le) {
+        this->appendDataLE(&result, size, value);
+      } else {
+        this->appendDataBE(&result, size, value);
+      }
+    } else {
+      value = part.toUInt(&ok, 16);
+
+      if (ok) {
+        if (le) {
+          this->appendDataLE(&result, size, value);
+        } else {
+          this->appendDataBE(&result, size, value);
+        }
+      }
+    }
+  }
+
+  return result;
 }
 
 void ModeHex2Bin::appendDataLE(QByteArray *array, int size, quint32 value)
 {
-    while (size --> 0)
-    {
-        quint8 a = value & 0xff;
-        array->append(a);
-        value = value >> 8;
-    }
+  while (size -- > 0) {
+    quint8 a = value & 0xff;
+    array->append(a);
+    value = value >> 8;
+  }
 }
 
 void ModeHex2Bin::appendDataBE(QByteArray *array, int size, quint32 value)
 {
-    int index = array->length();
+  int index = array->length();
 
-    while (size --> 0)
-    {
-        quint8 a = value & 0xff;
-        array->insert(index, a);
-        value = value >> 8;
-    }
+  while (size -- > 0) {
+    quint8 a = value & 0xff;
+    array->insert(index, a);
+    value = value >> 8;
+  }
 }
 
 }

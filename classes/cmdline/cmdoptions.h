@@ -20,19 +20,18 @@
 #ifndef CMDOPTIONS_H
 #define CMDOPTIONS_H
 
-namespace CommandLine {
-
-enum Mode
+namespace CommandLine
 {
-    ModeUndefined = 0,
-    ModeConvert
+
+enum Mode {
+  ModeUndefined = 0,
+  ModeConvert
 };
 
-enum DocumentType
-{
-    DocumentTypeUndefined = 0,
-    DocumentTypeImage,
-    DocumentTypeFont
+enum DocumentType {
+  DocumentTypeUndefined = 0,
+  DocumentTypeImage,
+  DocumentTypeFont
 };
 
 }

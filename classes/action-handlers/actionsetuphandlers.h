@@ -28,15 +28,15 @@ class IMainWindow;
 
 class ActionSetupHandlers : public ActionHandlersBase
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ActionSetupHandlers(QObject *parent = 0);
+  explicit ActionSetupHandlers(QObject *parent = 0);
 
 signals:
 
 public slots:
-    void conversion_triggered();
-    void external_editor_triggered();
+  void conversion_triggered();
+  void external_editor_triggered();
 };
 
 #endif // ACTIONSETUPHANDLERS_H

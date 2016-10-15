@@ -26,27 +26,26 @@ class QMessageBox;
 
 class DialogSaveChanges : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit DialogSaveChanges(const QString &documentName, QWidget *parent = 0);
-    virtual ~DialogSaveChanges();
-    enum SaveChangesResultCode
-    {
-        Save = 1,
-        SaveAs = 2,
-        DontSave = 3,
-        Cancel = 0
-    };
-    int answer();
-    int exec();
+  explicit DialogSaveChanges(const QString &documentName, QWidget *parent = 0);
+  virtual ~DialogSaveChanges();
+  enum SaveChangesResultCode {
+    Save = 1,
+    SaveAs = 2,
+    DontSave = 3,
+    Cancel = 0
+  };
+  int answer();
+  int exec();
 
 private:
-    SaveChangesResultCode mAnswer;
-    QMessageBox *mBox;
+  SaveChangesResultCode mAnswer;
+  QMessageBox *mBox;
 
 private slots:
-    void on_messageBox_finished(int result);
+  void on_messageBox_finished(int result);
 };
 
 #endif // DIALOGSAVECHANGES_H

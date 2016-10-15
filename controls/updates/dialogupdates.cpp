@@ -41,274 +41,266 @@
 #include "bitmaphelper.h"
 
 DialogUpdates::DialogUpdates(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DialogUpdates)
+  QDialog(parent),
+  ui(new Ui::DialogUpdates)
 {
-    ui->setupUi(this);
-    this->ui->labelStatus->setVisible(false);
+  ui->setupUi(this);
+  this->ui->labelStatus->setVisible(false);
 
-    // hide ? button from title
-    this->setWindowFlags(this->windowFlags() & (~Qt::WindowContextHelpButtonHint));
+  // hide ? button from title
+  this->setWindowFlags(this->windowFlags() & (~Qt::WindowContextHelpButtonHint));
 
-    // update icon
-    QIcon icon;
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 16)));
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 24)));
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 32)));
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 48)));
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 64)));
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 128)));
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 256)));
-    this->setWindowIcon(icon);
+  // update icon
+  QIcon icon;
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 16)));
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 24)));
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 32)));
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 48)));
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 64)));
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 128)));
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 256)));
+  this->setWindowIcon(icon);
 
-    // show local history by default
-    this->showHistory();
+  // show local history by default
+  this->showHistory();
 
-    // focus on Close button
-    this->ui->buttonBox->setFocus();
+  // focus on Close button
+  this->ui->buttonBox->setFocus();
 
-    // start download history.xml from network
-    this->showUpdates();
+  // start download history.xml from network
+  this->showUpdates();
 }
 
 DialogUpdates::~DialogUpdates()
 {
-    delete ui;
+  delete ui;
 }
 
 void DialogUpdates::showHistory()
 {
-    // XML file
-    QString xml;
-    {
-        QFile file(":/history/changes");
-        if (file.open(QIODevice::ReadOnly))
-        {
-            QTextStream stream(&file);
-            xml = stream.readAll();
-            file.close();
-        }
-    }
+  // XML file
+  QString xml;
+  {
+    QFile file(":/history/changes");
 
-    // XSL file
-    QString xsl;
-    {
-        QFile file(":/history/xsl");
-        if (file.open(QIODevice::ReadOnly))
-        {
-            QTextStream stream(&file);
-            xsl = stream.readAll();
-            file.close();
-        }
+    if (file.open(QIODevice::ReadOnly)) {
+      QTextStream stream(&file);
+      xml = stream.readAll();
+      file.close();
     }
+  }
 
-    // CSS file
-    QString style;
-    {
-        QFile file(":/history/style");
-        if (file.open(QIODevice::ReadOnly))
-        {
-            QTextStream stream(&file);
-            style = stream.readAll();
-            file.close();
-        }
-    }
+  // XSL file
+  QString xsl;
+  {
+    QFile file(":/history/xsl");
 
-    // transform
-    QString html;
-    if (this->transformHistory(xml, xsl, &html))
-    {
-        this->ui->textBrowser->document()->setDefaultStyleSheet(style);
-        this->ui->textBrowser->setHtml(html);
+    if (file.open(QIODevice::ReadOnly)) {
+      QTextStream stream(&file);
+      xsl = stream.readAll();
+      file.close();
     }
+  }
+
+  // CSS file
+  QString style;
+  {
+    QFile file(":/history/style");
+
+    if (file.open(QIODevice::ReadOnly)) {
+      QTextStream stream(&file);
+      style = stream.readAll();
+      file.close();
+    }
+  }
+
+  // transform
+  QString html;
+
+  if (this->transformHistory(xml, xsl, &html)) {
+    this->ui->textBrowser->document()->setDefaultStyleSheet(style);
+    this->ui->textBrowser->setHtml(html);
+  }
 }
 
 void DialogUpdates::showUpdates()
 {
-    QNetworkAccessManager* mNetworkManager = new QNetworkAccessManager(this);
-    this->connect(mNetworkManager, SIGNAL(finished(QNetworkReply*)), SLOT(networkReply(QNetworkReply*)));
+  QNetworkAccessManager *mNetworkManager = new QNetworkAccessManager(this);
+  this->connect(mNetworkManager, SIGNAL(finished(QNetworkReply *)), SLOT(networkReply(QNetworkReply *)));
 
-    QUrl url("http://lcd-image-converter.riuson.com/history/history.xml");
+  QUrl url("http://lcd-image-converter.riuson.com/history/history.xml");
 
 #ifdef USE_URL_QUERY
-    QUrlQuery query;
-    query.addQueryItem("version", "2");
-    url.setQuery(query.query());
+  QUrlQuery query;
+  query.addQueryItem("version", "2");
+  url.setQuery(query.query());
 #else
-    url.addQueryItem("version", "2");
+  url.addQueryItem("version", "2");
 #endif
 
-    QNetworkRequest request = QNetworkRequest(url);
-    QNetworkReply* reply = mNetworkManager->get(request);
-    Q_UNUSED(reply);
+  QNetworkRequest request = QNetworkRequest(url);
+  QNetworkReply *reply = mNetworkManager->get(request);
+  Q_UNUSED(reply);
 }
 
 void DialogUpdates::showUpdates(const QString &xml)
 {
-    // XSL file
-    QString xsl;
-    {
-        QFile file(":/history/xsl");
-        if (file.open(QIODevice::ReadOnly))
-        {
-            QTextStream stream(&file);
-            xsl = stream.readAll();
-            file.close();
-        }
-    }
+  // XSL file
+  QString xsl;
+  {
+    QFile file(":/history/xsl");
 
-    // CSS file
-    QString style;
-    {
-        QFile file(":/history/style");
-        if (file.open(QIODevice::ReadOnly))
-        {
-            QTextStream stream(&file);
-            style = stream.readAll();
-            file.close();
-        }
+    if (file.open(QIODevice::ReadOnly)) {
+      QTextStream stream(&file);
+      xsl = stream.readAll();
+      file.close();
     }
+  }
 
-    // transform
-    QString html;
-    if (this->transformHistory(xml, xsl, &html))
-    {
-        this->ui->textBrowser->document()->setDefaultStyleSheet(style);
-        this->ui->textBrowser->setHtml(html);
+  // CSS file
+  QString style;
+  {
+    QFile file(":/history/style");
+
+    if (file.open(QIODevice::ReadOnly)) {
+      QTextStream stream(&file);
+      style = stream.readAll();
+      file.close();
     }
+  }
+
+  // transform
+  QString html;
+
+  if (this->transformHistory(xml, xsl, &html)) {
+    this->ui->textBrowser->document()->setDefaultStyleSheet(style);
+    this->ui->textBrowser->setHtml(html);
+  }
 }
 
 void DialogUpdates::showError(const QString &message)
 {
-    this->ui->labelStatus->setText(message);
-    this->ui->labelStatus->setVisible(true);
+  this->ui->labelStatus->setText(message);
+  this->ui->labelStatus->setVisible(true);
 }
 
 bool DialogUpdates::transformHistory(const QString &xml, const QString &xsl, QString *html)
 {
-    bool isSuccessfully = false;
+  bool isSuccessfully = false;
 
-    // XML file
-    QBuffer history;
-    {
-        QString value = xml;
+  // XML file
+  QBuffer history;
+  {
+    QString value = xml;
 
-        value.replace("<sha1>current</sha1>", QString("<sha1>%1</sha1>").arg(RevisionInfo::hash()));
-        value.replace("<date>current</date>", QString("<date>%1</date>").arg(RevisionInfo::date()));
+    value.replace("<sha1>current</sha1>", QString("<sha1>%1</sha1>").arg(RevisionInfo::hash()));
+    value.replace("<date>current</date>", QString("<date>%1</date>").arg(RevisionInfo::date()));
 
-        QByteArray array = value.toUtf8();
+    QByteArray array = value.toUtf8();
 
-        history.setData(array);
+    history.setData(array);
+  }
+
+  // XSL file
+  QBuffer transform;
+  {
+    QString value = xsl;
+
+    value.replace("$current_date", QString("%1").arg(RevisionInfo::date()));
+
+    QByteArray array = value.toUtf8();
+
+    transform.setData(array);
+  }
+
+  // transform
+  if (history.open(QIODevice::ReadOnly)) {
+    if (transform.open(QIODevice::ReadOnly)) {
+      QXmlQuery query(QXmlQuery::XSLT20);
+
+      query.setFocus(&history);
+      query.setQuery(&transform);
+
+      QString resultHtml = "";
+
+      if (query.evaluateTo(&resultHtml)) {
+        *html = resultHtml;
+        isSuccessfully = true;
+      }
+
+      transform.close();
     }
 
-    // XSL file
-    QBuffer transform;
-    {
-        QString value = xsl;
+    history.close();
+  }
 
-        value.replace("$current_date", QString("%1").arg(RevisionInfo::date()));
-
-        QByteArray array = value.toUtf8();
-
-        transform.setData(array);
-    }
-
-    // transform
-    if (history.open(QIODevice::ReadOnly))
-    {
-        if (transform.open(QIODevice::ReadOnly))
-        {
-            QXmlQuery query(QXmlQuery::XSLT20);
-
-            query.setFocus(&history);
-            query.setQuery(&transform);
-
-            QString resultHtml = "";
-            if (query.evaluateTo(&resultHtml))
-            {
-                *html = resultHtml;
-                isSuccessfully = true;
-            }
-
-            transform.close();
-        }
-        history.close();
-    }
-
-    return isSuccessfully;
+  return isSuccessfully;
 }
 
 bool DialogUpdates::isLocalVersionOutdated(const QString &xml)
 {
-    QDomDocument doc;
+  QDomDocument doc;
 
-    if (doc.setContent(xml))
-    {
-        QXmlQuery query;
-        query.setFocus(xml);
-        query.setQuery("/data/record/commit/date/string()");
+  if (doc.setContent(xml)) {
+    QXmlQuery query;
+    query.setFocus(xml);
+    query.setQuery("/data/record/commit/date/string()");
 
-        if (query.isValid())
-        {
-            QStringList dates;
-            query.evaluateTo(&dates);
+    if (query.isValid()) {
+      QStringList dates;
+      query.evaluateTo(&dates);
 
-            QString revisionDateString = RevisionInfo::date();
-            QDateTime revisionDate = QDateTime::fromString(revisionDateString, Qt::ISODate);
+      QString revisionDateString = RevisionInfo::date();
+      QDateTime revisionDate = QDateTime::fromString(revisionDateString, Qt::ISODate);
 
-            foreach (const QString &dateString, dates)
-            {
-                QDateTime date = QDateTime::fromString(dateString, Qt::ISODate);
+      foreach (const QString & dateString, dates) {
+        QDateTime date = QDateTime::fromString(dateString, Qt::ISODate);
 
-                if (date > revisionDate)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+        if (date > revisionDate) {
+          return true;
         }
-    }
+      }
 
-    return true;
+      return false;
+    }
+  }
+
+  return true;
 }
 
-void DialogUpdates::networkReply(QNetworkReply* reply)
+void DialogUpdates::networkReply(QNetworkReply *reply)
 {
-    const int RESPONSE_OK = 200;
+  const int RESPONSE_OK = 200;
 
-    QString replyString;
-    if(reply->error() == QNetworkReply::NoError)
-    {
-        int httpStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
-        switch(httpStatusCode)
-        {
-        case RESPONSE_OK:
-        {
-            if (reply->isReadable())
-            {
-                //Assuming this is a human readable file replyString now contains the file
-                replyString = QString::fromUtf8(reply->readAll().data());
+  QString replyString;
 
-                if (this->isLocalVersionOutdated(replyString))
-                {
-                    this->showUpdates(replyString);
-                }
-            }
-            break;
+  if (reply->error() == QNetworkReply::NoError) {
+    int httpStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
+
+    switch (httpStatusCode) {
+      case RESPONSE_OK: {
+        if (reply->isReadable()) {
+          //Assuming this is a human readable file replyString now contains the file
+          replyString = QString::fromUtf8(reply->readAll().data());
+
+          if (this->isLocalVersionOutdated(replyString)) {
+            this->showUpdates(replyString);
+          }
         }
-        default:
-        {
-            QString message = tr("Check updates failed with HTTP code: %1").arg(httpStatusCode);
-            this->showError(message);
-            break;
-        }
-        }
-    }
-    else
-    {
-        QString message = tr("Check updates failed with QNetworkReply message:<br/>%1").arg(reply->errorString());
+
+        break;
+      }
+
+      default: {
+        QString message = tr("Check updates failed with HTTP code: %1").arg(httpStatusCode);
         this->showError(message);
+        break;
+      }
     }
-    reply->deleteLater();
+  } else {
+    QString message = tr("Check updates failed with QNetworkReply message:<br/>%1").arg(reply->errorString());
+    this->showError(message);
+  }
+
+  reply->deleteLater();
 }

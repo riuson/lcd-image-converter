@@ -28,13 +28,13 @@ class IEditor;
 
 class ActionHandlersBase : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ActionHandlersBase(QObject *parent = 0);
+  explicit ActionHandlersBase(QObject *parent = 0);
 
 protected:
-    IMainWindow *mMainWindow;
-    IEditor *editor();
+  IMainWindow *mMainWindow;
+  IEditor *editor();
 
 signals:
 

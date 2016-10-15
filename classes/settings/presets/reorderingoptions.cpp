@@ -32,256 +32,258 @@ const QString ReorderingOptions::FieldShift = QString("shift");
 const QString ReorderingOptions::FieldLeft = QString("left");
 
 ReorderingOptions::ReorderingOptions(QObject *parent) :
-    QObject(parent)
+  QObject(parent)
 {
-    this->mOperations = new QVector<quint32>();
+  this->mOperations = new QVector<quint32>();
 }
 
 ReorderingOptions::~ReorderingOptions()
 {
-    delete this->mOperations;
+  delete this->mOperations;
 }
 
 int ReorderingOptions::operationsCount() const
 {
-    return (this->mOperations->size()) / 2;
+  return (this->mOperations->size()) / 2;
 }
 
 void ReorderingOptions::operation(int index, quint32 *mask, int *shift, bool *left) const
 {
-    *mask = 0;
-    *shift = 0;
-    *left = false;
+  *mask = 0;
+  *shift = 0;
+  *left = false;
 
-    if (index < this->operationsCount())
-    {
-        index = (index * 2);
+  if (index < this->operationsCount()) {
+    index = (index * 2);
 
-        *mask = this->mOperations->at(index);
-        *shift = (this->mOperations->at(index + 1) & 0x0000001f);
-        *left = (this->mOperations->at(index + 1) & 0x80000000) != 0;
-    }
+    *mask = this->mOperations->at(index);
+    *shift = (this->mOperations->at(index + 1) & 0x0000001f);
+    *left = (this->mOperations->at(index + 1) & 0x80000000) != 0;
+  }
 }
 
 void ReorderingOptions::operationAdd(quint32 mask, int shift, bool left)
 {
-    shift = qAbs(shift);
+  shift = qAbs(shift);
 
-    this->mOperations->append(mask);
-    if (left)
-        this->mOperations->append(shift | 0x80000000);
-    else
-        this->mOperations->append(shift);
+  this->mOperations->append(mask);
 
-    emit this->changed();
+  if (left) {
+    this->mOperations->append(shift | 0x80000000);
+  } else {
+    this->mOperations->append(shift);
+  }
+
+  emit this->changed();
 }
 
 void ReorderingOptions::operationRemove(int index)
 {
-    if (index < this->operationsCount())
-    {
-        index *= 2;
-        this->mOperations->remove(index + 1);
-        this->mOperations->remove(index);
-    }
+  if (index < this->operationsCount()) {
+    index *= 2;
+    this->mOperations->remove(index + 1);
+    this->mOperations->remove(index);
+  }
 
-    emit this->changed();
+  emit this->changed();
 }
 
 void ReorderingOptions::operationsRemoveAll()
 {
-    for (int i = this->operationsCount() - 1; i >= 0; i--)
-        this->operationRemove(i);
+  for (int i = this->operationsCount() - 1; i >= 0; i--) {
+    this->operationRemove(i);
+  }
 
-    emit this->changed();
+  emit this->changed();
 }
 
 void ReorderingOptions::operationReplace(int index, quint32 mask, int shift, bool left)
 {
-    if (index < this->operationsCount())
-    {
-        index *= 2;
+  if (index < this->operationsCount()) {
+    index *= 2;
 
-        this->mOperations->replace(index, mask);
+    this->mOperations->replace(index, mask);
 
-        if (left)
-            this->mOperations->replace(index + 1, shift | 0x80000000);
-        else
-            this->mOperations->replace(index + 1, shift);
+    if (left) {
+      this->mOperations->replace(index + 1, shift | 0x80000000);
+    } else {
+      this->mOperations->replace(index + 1, shift);
     }
+  }
 
-    emit this->changed();
+  emit this->changed();
 }
 
 bool ReorderingOptions::load(QSettings *settings, int version)
 {
-    bool result = true;// this option not implemented in versions < 2013-01-04
+  bool result = true;// this option not implemented in versions < 2013-01-04
 
-    if (version == 2)
-    {
-        settings->beginGroup(ReorderingOptions::GroupName);
+  if (version == 2) {
+    settings->beginGroup(ReorderingOptions::GroupName);
 
-        this->operationsRemoveAll();
+    this->operationsRemoveAll();
 
-        int iOperations = settings->beginReadArray(ReorderingOptions::FieldOperations);
-        for (int i = 0; i < iOperations; i++)
-        {
-            settings->setArrayIndex(i);
+    int iOperations = settings->beginReadArray(ReorderingOptions::FieldOperations);
 
-            QString sMask = settings->value(ReorderingOptions::FieldMask, QString("00000000")).toString();
-            quint32 uMask, uShift, uLeft;
+    for (int i = 0; i < iOperations; i++) {
+      settings->setArrayIndex(i);
 
-            if (result)
-                uMask = sMask.toUInt(&result, 16);
+      QString sMask = settings->value(ReorderingOptions::FieldMask, QString("00000000")).toString();
+      quint32 uMask, uShift, uLeft;
 
-            if (result)
-                uShift = settings->value(ReorderingOptions::FieldShift, uint(0)).toUInt(&result);
+      if (result) {
+        uMask = sMask.toUInt(&result, 16);
+      }
 
-            if (result)
-                uLeft = settings->value(ReorderingOptions::FieldLeft, uint(0)).toUInt(&result);
+      if (result) {
+        uShift = settings->value(ReorderingOptions::FieldShift, uint(0)).toUInt(&result);
+      }
 
-            if (result)
-            {
-                this->operationAdd(uMask, uShift, uLeft != 0);
-            }
-        }
-        settings->endArray();
+      if (result) {
+        uLeft = settings->value(ReorderingOptions::FieldLeft, uint(0)).toUInt(&result);
+      }
 
-        settings->endGroup();
+      if (result) {
+        this->operationAdd(uMask, uShift, uLeft != 0);
+      }
     }
 
-    return result;
+    settings->endArray();
+
+    settings->endGroup();
+  }
+
+  return result;
 }
 
 bool ReorderingOptions::loadXmlElement(QDomElement element)
 {
-    bool result = false;
+  bool result = false;
 
-    QDomNode nodeSett = element.firstChild();
+  QDomNode nodeSett = element.firstChild();
 
-    while (!nodeSett.isNull()) {
-        QDomElement e = nodeSett.toElement();
+  while (!nodeSett.isNull()) {
+    QDomElement e = nodeSett.toElement();
 
-        if (e.tagName() == ReorderingOptions::GroupName) {
-            break;
-        }
-
-        nodeSett = nodeSett.nextSibling();
+    if (e.tagName() == ReorderingOptions::GroupName) {
+      break;
     }
 
-    if (nodeSett.isNull()) {
-        return result;
-    }
+    nodeSett = nodeSett.nextSibling();
+  }
 
-    QDomNode nodeValue = nodeSett.firstChild();
+  if (nodeSett.isNull()) {
+    return result;
+  }
 
-    while (!nodeValue.isNull()) {
-        QDomElement e = nodeValue.toElement();
+  QDomNode nodeValue = nodeSett.firstChild();
 
-        if (!e.isNull()) {
-            if (e.tagName() == ReorderingOptions::FieldOperations) {
-                QDomNode nodeOperation = e.firstChild();
-                this->operationsRemoveAll();
+  while (!nodeValue.isNull()) {
+    QDomElement e = nodeValue.toElement();
 
-                while (!nodeOperation.isNull()) {
-                    QDomNode nodeOperationData = nodeOperation.firstChild();
-                    quint32 uMask = 0, uShift = 0, uLeft = 0;
+    if (!e.isNull()) {
+      if (e.tagName() == ReorderingOptions::FieldOperations) {
+        QDomNode nodeOperation = e.firstChild();
+        this->operationsRemoveAll();
 
-                    while (!nodeOperationData.isNull()) {
-                        e = nodeOperationData.toElement();
+        while (!nodeOperation.isNull()) {
+          QDomNode nodeOperationData = nodeOperation.firstChild();
+          quint32 uMask = 0, uShift = 0, uLeft = 0;
 
-                        if (e.tagName() == ReorderingOptions::FieldMask) {
-                            QString str = e.text();
-                            uMask = str.toUInt(&result, 16);
-                        }
+          while (!nodeOperationData.isNull()) {
+            e = nodeOperationData.toElement();
 
-                        if (e.tagName() == ReorderingOptions::FieldShift) {
-                            QString str = e.text();
-                            uShift = str.toUInt(&result);
-                        }
+            if (e.tagName() == ReorderingOptions::FieldMask) {
+              QString str = e.text();
+              uMask = str.toUInt(&result, 16);
+            }
 
-                        if (e.tagName() == ReorderingOptions::FieldLeft) {
-                            QString str = e.text();
-                            uLeft = str.toUInt(&result);
-                        }
+            if (e.tagName() == ReorderingOptions::FieldShift) {
+              QString str = e.text();
+              uShift = str.toUInt(&result);
+            }
 
-                        if (!result) {
-                            break;
-                        }
-
-                        nodeOperationData = nodeOperationData.nextSibling();
-                    }
-
-                    this->operationAdd(uMask, uShift, uLeft != 0);
-                    nodeOperation = nodeOperation.nextSibling();
-                }
+            if (e.tagName() == ReorderingOptions::FieldLeft) {
+              QString str = e.text();
+              uLeft = str.toUInt(&result);
             }
 
             if (!result) {
-                break;
+              break;
             }
-        }
 
-        nodeValue = nodeValue.nextSibling();
+            nodeOperationData = nodeOperationData.nextSibling();
+          }
+
+          this->operationAdd(uMask, uShift, uLeft != 0);
+          nodeOperation = nodeOperation.nextSibling();
+        }
+      }
+
+      if (!result) {
+        break;
+      }
     }
 
-    return result;
+    nodeValue = nodeValue.nextSibling();
+  }
+
+  return result;
 }
 
 void ReorderingOptions::save(QSettings *settings)
 {
-    settings->beginGroup(ReorderingOptions::GroupName);
+  settings->beginGroup(ReorderingOptions::GroupName);
 
-    settings->beginWriteArray(ReorderingOptions::FieldOperations);
+  settings->beginWriteArray(ReorderingOptions::FieldOperations);
 
-    for (int i = 0; i < this->operationsCount(); i++)
-    {
-        quint32 uMask;
-        int iShift;
-        bool bLeft;
-        this->operation(i, &uMask, &iShift, &bLeft);
+  for (int i = 0; i < this->operationsCount(); i++) {
+    quint32 uMask;
+    int iShift;
+    bool bLeft;
+    this->operation(i, &uMask, &iShift, &bLeft);
 
-        settings->setArrayIndex(i);
-        settings->setValue(ReorderingOptions::FieldMask,  QString("%1").arg(uMask, 8, 16, QChar('0')));
-        settings->setValue(ReorderingOptions::FieldShift, QString("%1").arg(iShift));
-        settings->setValue(ReorderingOptions::FieldLeft,  QString("%1").arg((int)bLeft));
-    }
-    settings->endArray();
+    settings->setArrayIndex(i);
+    settings->setValue(ReorderingOptions::FieldMask,  QString("%1").arg(uMask, 8, 16, QChar('0')));
+    settings->setValue(ReorderingOptions::FieldShift, QString("%1").arg(iShift));
+    settings->setValue(ReorderingOptions::FieldLeft,  QString("%1").arg((int)bLeft));
+  }
 
-    settings->endGroup();
+  settings->endArray();
+
+  settings->endGroup();
 }
 
 void ReorderingOptions::saveXmlElement(QDomElement element)
 {
-    QDomElement nodeReordering = element.ownerDocument().createElement(ReorderingOptions::GroupName);
-    element.appendChild(nodeReordering);
+  QDomElement nodeReordering = element.ownerDocument().createElement(ReorderingOptions::GroupName);
+  element.appendChild(nodeReordering);
 
-    QDomElement nodeOperations = element.ownerDocument().createElement(ReorderingOptions::FieldOperations);
-    nodeReordering.appendChild(nodeOperations);
-    nodeOperations.setAttribute("count", this->operationsCount());
+  QDomElement nodeOperations = element.ownerDocument().createElement(ReorderingOptions::FieldOperations);
+  nodeReordering.appendChild(nodeOperations);
+  nodeOperations.setAttribute("count", this->operationsCount());
 
-    for (int i = 0; i < this->operationsCount(); i++)
-    {
-        quint32 uMask;
-        int iShift;
-        bool bLeft;
-        this->operation(i, &uMask, &iShift, &bLeft);
+  for (int i = 0; i < this->operationsCount(); i++) {
+    quint32 uMask;
+    int iShift;
+    bool bLeft;
+    this->operation(i, &uMask, &iShift, &bLeft);
 
-        QDomElement nodeOperation = element.ownerDocument().createElement(ReorderingOptions::FieldOperation);
-        nodeOperations.appendChild(nodeOperation);
-        nodeOperation.setAttribute("index", i);
+    QDomElement nodeOperation = element.ownerDocument().createElement(ReorderingOptions::FieldOperation);
+    nodeOperations.appendChild(nodeOperation);
+    nodeOperation.setAttribute("index", i);
 
-        QDomElement nodeMask = element.ownerDocument().createElement(ReorderingOptions::FieldMask);
-        nodeOperation.appendChild(nodeMask);
-        nodeMask.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(uMask, 8, 16, QChar('0'))));
+    QDomElement nodeMask = element.ownerDocument().createElement(ReorderingOptions::FieldMask);
+    nodeOperation.appendChild(nodeMask);
+    nodeMask.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(uMask, 8, 16, QChar('0'))));
 
-        QDomElement nodeShift = element.ownerDocument().createElement(ReorderingOptions::FieldShift);
-        nodeOperation.appendChild(nodeShift);
-        nodeShift.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(iShift)));
+    QDomElement nodeShift = element.ownerDocument().createElement(ReorderingOptions::FieldShift);
+    nodeOperation.appendChild(nodeShift);
+    nodeShift.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(iShift)));
 
-        QDomElement nodeLeft = element.ownerDocument().createElement(ReorderingOptions::FieldLeft);
-        nodeOperation.appendChild(nodeLeft);
-        nodeLeft.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)bLeft)));
-    }
+    QDomElement nodeLeft = element.ownerDocument().createElement(ReorderingOptions::FieldLeft);
+    nodeOperation.appendChild(nodeLeft);
+    nodeLeft.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)bLeft)));
+  }
 }
 

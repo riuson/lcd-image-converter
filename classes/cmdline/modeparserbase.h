@@ -24,20 +24,21 @@
 
 class QCommandLineParser;
 
-namespace CommandLine {
+namespace CommandLine
+{
 
 class ModeParserBase : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ModeParserBase(QCommandLineParser *parser, QObject *parent = 0);
+  explicit ModeParserBase(QCommandLineParser *parser, QObject *parent = 0);
 
-    virtual void fillParser() const = 0;
-    virtual bool collectArguments() = 0;
-    virtual int process() = 0;
+  virtual void fillParser() const = 0;
+  virtual bool collectArguments() = 0;
+  virtual int process() = 0;
 
 protected:
-    QCommandLineParser *mParser;
+  QCommandLineParser *mParser;
 };
 
 }

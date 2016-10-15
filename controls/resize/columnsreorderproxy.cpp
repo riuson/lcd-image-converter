@@ -21,10 +21,10 @@
 #include <QDebug>
 
 ColumnsReorderProxy::ColumnsReorderProxy(QObject *parent)
-    : QSortFilterProxyModel(parent)
+  : QSortFilterProxyModel(parent)
 {
-    this->mFromColumn = 0;
-    this->mToColumn = 0;
+  this->mFromColumn = 0;
+  this->mToColumn = 0;
 }
 /*
 QVariant ColumnsReorderProxy::headerData(int section, Qt::Orientation orientation, int role) const
@@ -39,62 +39,63 @@ QVariant ColumnsReorderProxy::data(const QModelIndex &index, int role) const
 */
 QModelIndex ColumnsReorderProxy::index(int row, int column, const QModelIndex &parent) const
 {
-    Q_UNUSED(parent)
-    return this->createIndex(row, column);
+  Q_UNUSED(parent)
+  return this->createIndex(row, column);
 }
 
 QModelIndex ColumnsReorderProxy::parent(const QModelIndex &index) const
 {
-    Q_UNUSED(index)
-    return QModelIndex();
+  Q_UNUSED(index)
+  return QModelIndex();
 }
 
 QModelIndex ColumnsReorderProxy::mapFromSource(const QModelIndex &sourceIndex) const
 {
-    return this->index(sourceIndex.row(), this->columnFromSource(sourceIndex.column()), sourceIndex.parent());
+  return this->index(sourceIndex.row(), this->columnFromSource(sourceIndex.column()), sourceIndex.parent());
 }
 
 QModelIndex ColumnsReorderProxy::mapToSource(const QModelIndex &proxyIndex) const
 {
-    if ((this->sourceModel() != nullptr) && proxyIndex.isValid())
-        return this->sourceModel()->index(proxyIndex.row(), this->columnToSource(proxyIndex.column()), proxyIndex.parent());
-    else
-        return QModelIndex();
+  if ((this->sourceModel() != nullptr) && proxyIndex.isValid()) {
+    return this->sourceModel()->index(proxyIndex.row(), this->columnToSource(proxyIndex.column()), proxyIndex.parent());
+  } else {
+    return QModelIndex();
+  }
 }
 
 void ColumnsReorderProxy::setReorder(int oldPosition, int newPosition)
 {
-    this->mListFromSource.clear();
-    this->mListToSource.clear();
+  this->mListFromSource.clear();
+  this->mListToSource.clear();
 
-    int count = this->sourceModel() != nullptr ? this->sourceModel()->columnCount() : 0;
+  int count = this->sourceModel() != nullptr ? this->sourceModel()->columnCount() : 0;
 
-    if ((newPosition < count) && (oldPosition < count))
-    {
-        for (int i = 0; i < count; i++)
-        {
-            this->mListFromSource.append(i);
-            this->mListToSource.append(i);
-        }
-
-        this->mListFromSource.move(newPosition, oldPosition);
-        this->mListToSource.move(oldPosition, newPosition);
+  if ((newPosition < count) && (oldPosition < count)) {
+    for (int i = 0; i < count; i++) {
+      this->mListFromSource.append(i);
+      this->mListToSource.append(i);
     }
+
+    this->mListFromSource.move(newPosition, oldPosition);
+    this->mListToSource.move(oldPosition, newPosition);
+  }
 }
 
 int ColumnsReorderProxy::columnFromSource(int value) const
 {
-    if (value < 0)
-        return value;
+  if (value < 0) {
+    return value;
+  }
 
-    return this->mListFromSource[value];
+  return this->mListFromSource[value];
 }
 
 int ColumnsReorderProxy::columnToSource(int value) const
 {
-    if (value < 0)
-        return value;
+  if (value < 0) {
+    return value;
+  }
 
-    return this->mListToSource[value];
+  return this->mListToSource[value];
 }
 
