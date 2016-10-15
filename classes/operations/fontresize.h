@@ -27,12 +27,12 @@ namespace Operations
 
 class FontResize : public ImageResize
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit FontResize(QWidget *parentWidget = 0, QObject *parent = 0);
+  explicit FontResize(QWidget *parentWidget = 0, QObject *parent = 0);
 
-    void applyDocument(IDocument *doc, const QStringList &keys);
+  void applyDocument(IDocument *doc, const QStringList &keys);
 };
 
 }

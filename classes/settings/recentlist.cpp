@@ -18,65 +18,71 @@
  */
 
 #include "recentlist.h"
-//-----------------------------------------------------------------------------
+
 #include <QStringList>
 #include <QStringListIterator>
 #include <QSettings>
 #include <QFileInfo>
-//-----------------------------------------------------------------------------
-RecentList::RecentList(QObject *parent) :
-    QObject(parent)
-{
-    this->mFiles = new QStringList();
 
-    // load from settings
-    QSettings sett;
-    int size = sett.beginReadArray("recent");
-    for (int i = 0; i < size; i++)
-    {
-        sett.setArrayIndex(i);
-        QString filename = sett.value("filename").toString();
-        QFileInfo info(filename);
-        if (info.exists())
-            this->mFiles->append(filename);
+RecentList::RecentList(QObject *parent) :
+  QObject(parent)
+{
+  this->mFiles = new QStringList();
+
+  // load from settings
+  QSettings sett;
+  int size = sett.beginReadArray("recent");
+
+  for (int i = 0; i < size; i++) {
+    sett.setArrayIndex(i);
+    QString filename = sett.value("filename").toString();
+    QFileInfo info(filename);
+
+    if (info.exists()) {
+      this->mFiles->append(filename);
     }
-    sett.endArray();
+  }
+
+  sett.endArray();
 }
-//-----------------------------------------------------------------------------
+
 RecentList::~RecentList()
 {
-    // save to settings
-    QSettings sett;
-    sett.beginWriteArray("recent");
-    QStringListIterator recentFilesIterator(*this->mFiles);
-    int i = 0;
-    while (recentFilesIterator.hasNext())
-    {
-        sett.setArrayIndex(i++);
-        sett.setValue("filename", recentFilesIterator.next());
-    }
-    sett.endArray();
+  // save to settings
+  QSettings sett;
+  sett.beginWriteArray("recent");
+  QStringListIterator recentFilesIterator(*this->mFiles);
+  int i = 0;
 
-    delete this->mFiles;
+  while (recentFilesIterator.hasNext()) {
+    sett.setArrayIndex(i++);
+    sett.setValue("filename", recentFilesIterator.next());
+  }
+
+  sett.endArray();
+
+  delete this->mFiles;
 }
-//-----------------------------------------------------------------------------
+
 void RecentList::add(const QString &filename)
 {
-    if (this->mFiles->contains(filename))
-        this->mFiles->removeOne(filename);
-    this->mFiles->insert(0, filename);
+  if (this->mFiles->contains(filename)) {
+    this->mFiles->removeOne(filename);
+  }
 
-    if (this->mFiles->count() > MaxRecentFiles)
-    {
-        for (int i = this->mFiles->count() - 1; i >= 10; i--)
-            this->mFiles->removeAt(i);
+  this->mFiles->insert(0, filename);
+
+  if (this->mFiles->count() > MaxRecentFiles) {
+    for (int i = this->mFiles->count() - 1; i >= 10; i--) {
+      this->mFiles->removeAt(i);
     }
+  }
 
-    emit this->listChanged();
+  emit this->listChanged();
 }
-//-----------------------------------------------------------------------------
-const QStringList * RecentList::files() const
+
+const QStringList *RecentList::files() const
 {
-    return this->mFiles;
+  return this->mFiles;
 }
-//-----------------------------------------------------------------------------
+

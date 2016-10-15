@@ -19,10 +19,10 @@
 
 #ifndef DIALOGFONTSELECTDATA_H
 #define DIALOGFONTSELECTDATA_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QColor>
-//-----------------------------------------------------------------------------
+
 class CharactersModel;
 class QModelIndex;
 class QItemSelection;
@@ -30,64 +30,64 @@ class QFont;
 class UnicodeBlocksModel;
 class UnicodeBlocksFilterModel;
 struct tFontParameters;
-//-----------------------------------------------------------------------------
+
 class DialogFontSelectData : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit DialogFontSelectData(QObject *parent = 0);
-    virtual ~DialogFontSelectData();
+  explicit DialogFontSelectData(QObject *parent = 0);
+  virtual ~DialogFontSelectData();
 
-    QString characters();
-    void getFontParameters(tFontParameters *parameters);
+  QString characters();
+  void getFontParameters(tFontParameters *parameters);
 
-    void setCharacters(const QString &value);
-    void setFontParameters(const tFontParameters &parameters);
+  void setCharacters(const QString &value);
+  void setFontParameters(const tFontParameters &parameters);
 
-    CharactersModel *charactersModel();
-    UnicodeBlocksFilterModel *unicodeBlocksModel();
+  CharactersModel *charactersModel();
+  UnicodeBlocksFilterModel *unicodeBlocksModel();
 
-    void appendCharacters(const QString &value);
-    const QColor &foreground() const;
-    void setForeground(const QColor &value);
-    const QColor &background() const;
-    void setBackground(const QColor &value);
+  void appendCharacters(const QString &value);
+  const QColor &foreground() const;
+  void setForeground(const QColor &value);
+  const QColor &background() const;
+  void setBackground(const QColor &value);
 private:
-    CharactersModel *mModel;
-    UnicodeBlocksModel *mBlocksModel;
-    UnicodeBlocksFilterModel *mBlocksFilterModel;
-    bool mSortOrderUp;
+  CharactersModel *mModel;
+  UnicodeBlocksModel *mBlocksModel;
+  UnicodeBlocksFilterModel *mBlocksFilterModel;
+  bool mSortOrderUp;
 
-    QString mFontFamily;
-    QString mFontStyle;
-    int mSize;
-    bool mMonospaced;
-    bool mAntialiasing;
-    QColor mForeground;
-    QColor mBackground;
-    QString mCharacters;
+  QString mFontFamily;
+  QString mFontStyle;
+  int mSize;
+  bool mMonospaced;
+  bool mAntialiasing;
+  QColor mForeground;
+  QColor mBackground;
+  QString mCharacters;
 
-    void notifyFontChanged();
+  void notifyFontChanged();
 
 signals:
-    void stylesListChanged(const QStringList &list, const QString &selected);
-    void sizesListChanged(const QList<int> &list, int selected);
-    void charactersListChanged(const QString &value);
-    void fontChanged(const QFont &value);
-    void fontMeasured(int count, int maxWidth, int maxHeight);
-    void monospacedChanged(bool value);
-    void antialiasingChanged(bool value);
-    void colorsChanged(const QColor &forecolor, const QColor &background);
+  void stylesListChanged(const QStringList &list, const QString &selected);
+  void sizesListChanged(const QList<int> &list, int selected);
+  void charactersListChanged(const QString &value);
+  void fontChanged(const QFont &value);
+  void fontMeasured(int count, int maxWidth, int maxHeight);
+  void monospacedChanged(bool value);
+  void antialiasingChanged(bool value);
+  void colorsChanged(const QColor &forecolor, const QColor &background);
 
 public slots:
-    void setFont(const QFont &font);
-    void setStyle(const QString &style);
-    void setSize(const QString &text);
-    void setUnicodeBlocksFilter(const QString & text);
-    void setUnicodeRange(const QItemSelection &selected, const QItemSelection &deselected);
-    void setMonospaced(bool value);
-    void setAntialiasing(bool value);
-    void resort();
+  void setFont(const QFont &font);
+  void setStyle(const QString &style);
+  void setSize(const QString &text);
+  void setUnicodeBlocksFilter(const QString &text);
+  void setUnicodeRange(const QItemSelection &selected, const QItemSelection &deselected);
+  void setMonospaced(bool value);
+  void setAntialiasing(bool value);
+  void resort();
 };
-//-----------------------------------------------------------------------------
+
 #endif // DIALOGFONTSELECTDATA_H

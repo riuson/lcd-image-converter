@@ -19,55 +19,56 @@
 
 #ifndef SETUPTABPREPARE_H
 #define SETUPTABPREPARE_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
-//-----------------------------------------------------------------------------
+
 #include "conversion_options.h"
-//-----------------------------------------------------------------------------
-namespace Ui {
+
+namespace Ui
+{
 class SetupTabPrepare;
 }
-//-----------------------------------------------------------------------------
+
 class Preset;
 class DemoGenerator;
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
-//-----------------------------------------------------------------------------
+
 class SetupTabPrepare : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit SetupTabPrepare(Preset *preset, QWidget *parent = 0);
-    ~SetupTabPrepare();
+  explicit SetupTabPrepare(Preset *preset, QWidget *parent = 0);
+  ~SetupTabPrepare();
 
 public slots:
-    void matrixChanged();
+  void matrixChanged();
 
 private:
-    Ui::SetupTabPrepare *ui;
-    Preset *mPreset;
-    QPixmap mPixmapScanning;
-    QPixmap mPixmapScanPreview;
-    DemoGenerator *mDemoGen;
+  Ui::SetupTabPrepare *ui;
+  Preset *mPreset;
+  QPixmap mPixmapScanning;
+  QPixmap mPixmapScanPreview;
+  DemoGenerator *mDemoGen;
 
 private slots:
-    void on_comboBoxConversionType_currentIndexChanged(int index);
-    void on_comboBoxMonochromeType_currentIndexChanged(int index);
-    void on_comboBoxScanMain_currentIndexChanged(int index);
-    void on_comboBoxScanSub_currentIndexChanged(int index);
-    void on_checkBoxInverse_toggled(bool value);
-    void on_horizontalScrollBarEdge_valueChanged(int value);
-    void on_checkBoxBands_toggled(bool value);
-    void on_spinBoxBandWidth_valueChanged(int value);
-    void on_checkBoxUseCustomScript_toggled(bool value);
-    void on_plainTextEditCustomScript_textChanged();
-    void updateState();
-    void updateScript();
-    void demoPixmapChanged(const QPixmap &pixmap);
-    void demoScriptError(const QString &value);
-    void on_spinBoxAnimationTime_valueChanged(int value);
-    void on_spinBoxAnimationInterval_valueChanged(int value);
+  void on_comboBoxConversionType_currentIndexChanged(int index);
+  void on_comboBoxMonochromeType_currentIndexChanged(int index);
+  void on_comboBoxScanMain_currentIndexChanged(int index);
+  void on_comboBoxScanSub_currentIndexChanged(int index);
+  void on_checkBoxInverse_toggled(bool value);
+  void on_horizontalScrollBarEdge_valueChanged(int value);
+  void on_checkBoxBands_toggled(bool value);
+  void on_spinBoxBandWidth_valueChanged(int value);
+  void on_checkBoxUseCustomScript_toggled(bool value);
+  void on_plainTextEditCustomScript_textChanged();
+  void updateState();
+  void updateScript();
+  void demoPixmapChanged(const QPixmap &pixmap);
+  void demoScriptError(const QString &value);
+  void on_spinBoxAnimationTime_valueChanged(int value);
+  void on_spinBoxAnimationInterval_valueChanged(int value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // SETUPTABPREPARE_H

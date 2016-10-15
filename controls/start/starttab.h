@@ -19,37 +19,38 @@
 
 #ifndef STARTTAB_H
 #define STARTTAB_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
-//-----------------------------------------------------------------------------
-namespace Ui {
+
+namespace Ui
+{
 class StartTab;
 }
-//-----------------------------------------------------------------------------
+
 class QStringList;
-//-----------------------------------------------------------------------------
+
 class StartTab : public QWidget
 {
-    Q_OBJECT
-    
-public:
-    explicit StartTab(QWidget *parent = 0);
-    ~StartTab();
+  Q_OBJECT
 
-    void setRecentFiles(const QStringList *list);
-    const QString tabName() const;
+public:
+  explicit StartTab(QWidget *parent = 0);
+  ~StartTab();
+
+  void setRecentFiles(const QStringList *list);
+  const QString tabName() const;
 
 protected:
-    void changeEvent(QEvent *e);
+  void changeEvent(QEvent *e);
 
 private:
-    Ui::StartTab *ui;
-    const QStringList *mRecentFilesList;
+  Ui::StartTab *ui;
+  const QStringList *mRecentFilesList;
 
 signals:
-    void openRecent(const QString &filename);
-    void createNewImage();
-    void createNewFont();
+  void openRecent(const QString &filename);
+  void createNewImage();
+  void createNewFont();
 };
-//-----------------------------------------------------------------------------
+
 #endif // STARTTAB_H

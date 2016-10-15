@@ -19,47 +19,46 @@
 
 #ifndef IMAGESMODEL_H
 #define IMAGESMODEL_H
-//-----------------------------------------------------------------------------
+
 #include <QAbstractItemModel>
-//-----------------------------------------------------------------------------
+
 class DataContainer;
-//-----------------------------------------------------------------------------
+
 class ImagesModel : public QAbstractItemModel
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    enum ImagesModelRoles
-    {
-        KeyRole = Qt::UserRole + 1,
-        KeyCodeRole,
-        ImageRole,
-        ImageSizeRole
-    };
+  enum ImagesModelRoles {
+    KeyRole = Qt::UserRole + 1,
+    KeyCodeRole,
+    ImageRole,
+    ImageSizeRole
+  };
 
-    explicit ImagesModel(DataContainer *container, QObject *parent = 0);
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QModelIndex index(int row, int column,
-                      const QModelIndex &parent = QModelIndex()) const;
-    QModelIndex parent(const QModelIndex &index) const;
+  explicit ImagesModel(DataContainer *container, QObject *parent = 0);
+  int rowCount(const QModelIndex &parent) const;
+  int columnCount(const QModelIndex &parent) const;
+  QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+  QVariant data(const QModelIndex &index, int role) const;
+  QModelIndex index(int row, int column,
+                    const QModelIndex &parent = QModelIndex()) const;
+  QModelIndex parent(const QModelIndex &index) const;
 
-    void callReset();
+  void callReset();
 
 private:
-    DataContainer *mContainer;
+  DataContainer *mContainer;
 
-    QVariant containerValue(int imageIndex, ImagesModelRoles role) const;
+  QVariant containerValue(int imageIndex, ImagesModelRoles role) const;
 
 private slots:
-    void imagesChanged();
+  void imagesChanged();
 
 signals:
-    void scaleChanged();
+  void scaleChanged();
 
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // IMAGESMODEL_H

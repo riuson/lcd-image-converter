@@ -1,0 +1,11 @@
+verbose
+style=kr
+indent=spaces=2
+indent-switches
+indent-col1-comments
+break-blocks
+pad-oper
+pad-header
+align-pointer=name
+add-brackets
+convert-tabs

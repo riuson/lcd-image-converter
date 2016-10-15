@@ -28,29 +28,29 @@ namespace Operations
 
 class ImageShift : public QObject, public IOperation
 {
-    Q_OBJECT
-    Q_INTERFACES(Operations::IOperation)
+  Q_OBJECT
+  Q_INTERFACES(Operations::IOperation)
 
 public:
-    enum class Direction
-    {
-        None,
-        Left,
-        Right,
-        Up,
-        Down
-    };
+  enum class Direction
+  {
+    None,
+    Left,
+    Right,
+    Up,
+    Down
+  };
 
-    explicit ImageShift(QObject *parent = 0);
+  explicit ImageShift(QObject *parent = 0);
 
-    bool prepare(const IDocument *doc, const QStringList &keys);
-    void applyDocument(IDocument *doc, const QStringList &keys);
-    void applyItem(IDocument *doc, const QString &itemKey);
+  bool prepare(const IDocument *doc, const QStringList &keys);
+  void applyDocument(IDocument *doc, const QStringList &keys);
+  void applyItem(IDocument *doc, const QString &itemKey);
 
-    void setDirection(Direction direction);
+  void setDirection(Direction direction);
 
 private:
-    Direction mDirection;
+  Direction mDirection;
 };
 
 }

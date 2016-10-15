@@ -22,81 +22,81 @@
 #include <QVariant>
 #include <QSettings>
 #include <QRgb>
-//-----------------------------------------------------------------------------
+
 int FontEditorOptions::scale()
 {
-    QSettings sett;
-    sett.beginGroup("font-editor");
-    bool ok;
-    int result = sett.value("scale", QVariant(1)).toInt(&ok);
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("font-editor");
+  bool ok;
+  int result = sett.value("scale", QVariant(1)).toInt(&ok);
+  sett.endGroup();
 
-    if (ok)
-        return result;
-    return 1;
+  if (ok) {
+    return result;
+  }
+
+  return 1;
 }
-//-----------------------------------------------------------------------------
+
 void FontEditorOptions::setScale(int value)
 {
-    QSettings sett;
-    sett.beginGroup("font-editor");
-    sett.setValue("scale", QVariant(value));
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("font-editor");
+  sett.setValue("scale", QVariant(value));
+  sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 QColor FontEditorOptions::foreColor()
 {
-    QSettings sett;
-    sett.beginGroup("font-editor");
-    bool ok;
-    unsigned int a = sett.value("foreColor", QVariant("none")).toUInt(&ok);
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("font-editor");
+  bool ok;
+  unsigned int a = sett.value("foreColor", QVariant("none")).toUInt(&ok);
+  sett.endGroup();
 
-    QColor result = QColor("black");
+  QColor result = QColor("black");
 
-    if (ok)
-    {
-        result = BitmapHelper::fromRgba(QRgb(a));
-    }
+  if (ok) {
+    result = BitmapHelper::fromRgba(QRgb(a));
+  }
 
-    return result;
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 QColor FontEditorOptions::backColor()
 {
-    QSettings sett;
-    sett.beginGroup("font-editor");
-    bool ok;
-    unsigned int a = sett.value("backColor", QVariant("none")).toUInt(&ok);
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("font-editor");
+  bool ok;
+  unsigned int a = sett.value("backColor", QVariant("none")).toUInt(&ok);
+  sett.endGroup();
 
-    QColor result = QColor("white");
+  QColor result = QColor("white");
 
-    if (ok)
-    {
-        result = BitmapHelper::fromRgba(QRgb(a));
-    }
+  if (ok) {
+    result = BitmapHelper::fromRgba(QRgb(a));
+  }
 
-    return result;
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 void FontEditorOptions::setForeColor(const QColor &value)
 {
-    unsigned int a = value.rgba();
+  unsigned int a = value.rgba();
 
-    QSettings sett;
-    sett.beginGroup("font-editor");
-    sett.setValue("foreColor", QVariant(a));
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("font-editor");
+  sett.setValue("foreColor", QVariant(a));
+  sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void FontEditorOptions::setBackColor(const QColor &value)
 {
-    unsigned int a = value.rgba();
+  unsigned int a = value.rgba();
 
-    QSettings sett;
-    sett.beginGroup("font-editor");
-    sett.setValue("backColor", QVariant(a));
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("font-editor");
+  sett.setValue("backColor", QVariant(a));
+  sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+

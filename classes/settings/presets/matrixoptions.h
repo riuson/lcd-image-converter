@@ -19,65 +19,65 @@
 
 #ifndef MATRIXOPTIONS_H
 #define MATRIXOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 template <class T> class QVector;
 class QSettings;
 class QDomElement;
-//-----------------------------------------------------------------------------
+
 class MatrixOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit MatrixOptions(QObject *parent = 0);
-    virtual ~MatrixOptions();
+  explicit MatrixOptions(QObject *parent = 0);
+  virtual ~MatrixOptions();
 
-    quint32 maskUsed() const;
-    quint32 maskAnd() const;
-    quint32 maskOr() const;
-    quint32 maskFill() const;
+  quint32 maskUsed() const;
+  quint32 maskAnd() const;
+  quint32 maskOr() const;
+  quint32 maskFill() const;
 
-    void setMaskUsed(quint32 value);
-    void setMaskAnd(quint32 value);
-    void setMaskOr(quint32 value);
-    void setMaskFill(quint32 value);
+  void setMaskUsed(quint32 value);
+  void setMaskAnd(quint32 value);
+  void setMaskOr(quint32 value);
+  void setMaskFill(quint32 value);
 
-    int operationsCount() const;
-    void operation(int index, quint32 *mask, int *shift, bool *left) const;
-    void operationAdd(quint32 mask, int shift, bool left);
-    void operationRemove(int index);
-    void operationsRemoveAll();
-    void operationReplace(int index, quint32 mask, int shift, bool left);
+  int operationsCount() const;
+  void operation(int index, quint32 *mask, int *shift, bool *left) const;
+  void operationAdd(quint32 mask, int shift, bool left);
+  void operationRemove(int index);
+  void operationsRemoveAll();
+  void operationReplace(int index, quint32 mask, int shift, bool left);
 
-    bool load(QSettings *settings, int version);
-    bool loadXmlElement(QDomElement element);
-    void save(QSettings *settings);
-    void saveXmlElement(QDomElement element);
+  bool load(QSettings *settings, int version);
+  bool loadXmlElement(QDomElement element);
+  void save(QSettings *settings);
+  void saveXmlElement(QDomElement element);
 
 private:
-    static const QString GroupName;
-    static const QString FieldMaskUsed;
-    static const QString FieldMaskAnd;
-    static const QString FieldMaskOr;
-    static const QString FieldMaskFill;
-    static const QString FieldOperations;
-    static const QString FieldOperation;
-    static const QString FieldMask;
-    static const QString FieldShift;
-    static const QString FieldLeft;
+  static const QString GroupName;
+  static const QString FieldMaskUsed;
+  static const QString FieldMaskAnd;
+  static const QString FieldMaskOr;
+  static const QString FieldMaskFill;
+  static const QString FieldOperations;
+  static const QString FieldOperation;
+  static const QString FieldMask;
+  static const QString FieldShift;
+  static const QString FieldLeft;
 
-    quint32 mMaskUsed;
-    quint32 mMaskAnd;
-    quint32 mMaskOr;
-    quint32 mMaskFill;
-    QVector<quint32> *mOperations;
+  quint32 mMaskUsed;
+  quint32 mMaskAnd;
+  quint32 mMaskOr;
+  quint32 mMaskFill;
+  QVector<quint32> *mOperations;
 
 signals:
-    void changed();
+  void changed();
 
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // MATRIXOPTIONS_H

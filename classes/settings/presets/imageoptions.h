@@ -19,75 +19,75 @@
 
 #ifndef IMAGEOPTIONS_H
 #define IMAGEOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 #include "conversion_options.h"
-//-----------------------------------------------------------------------------
+
 class QSettings;
 class QDomElement;
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
-//-----------------------------------------------------------------------------
+
 class ImageOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ImageOptions(QObject *parent = 0);
+  explicit ImageOptions(QObject *parent = 0);
 
-    bool splitToRows() const;
-    BytesOrder bytesOrder() const;
-    DataBlockSize blockSize() const;
-    bool blockDefaultOnes() const;
-    bool compressionRle() const;
-    quint32 compressionRleMinLength() const;
-    QString blockPrefix() const;
-    QString blockSuffix() const;
-    QString blockDelimiter() const;
+  bool splitToRows() const;
+  BytesOrder bytesOrder() const;
+  DataBlockSize blockSize() const;
+  bool blockDefaultOnes() const;
+  bool compressionRle() const;
+  quint32 compressionRleMinLength() const;
+  QString blockPrefix() const;
+  QString blockSuffix() const;
+  QString blockDelimiter() const;
 
-    void setSplitToRows(bool value);
-    void setBytesOrder(BytesOrder value);
-    void setBlockSize(DataBlockSize value);
-    void setBlockDefaultOnes(bool value);
-    void setCompressionRle(bool value);
-    void setCompressionRleMinLength(quint32 value);
-    void setBlockPrefix(const QString &value);
-    void setBlockSuffix(const QString &value);
-    void setBlockDelimiter(const QString &value);
+  void setSplitToRows(bool value);
+  void setBytesOrder(BytesOrder value);
+  void setBlockSize(DataBlockSize value);
+  void setBlockDefaultOnes(bool value);
+  void setCompressionRle(bool value);
+  void setCompressionRleMinLength(quint32 value);
+  void setBlockPrefix(const QString &value);
+  void setBlockSuffix(const QString &value);
+  void setBlockDelimiter(const QString &value);
 
-    bool load(QSettings *settings, int version);
-    bool loadXmlElement(QDomElement element);
-    void save(QSettings *settings);
-    void saveXmlElement(QDomElement element);
+  bool load(QSettings *settings, int version);
+  bool loadXmlElement(QDomElement element);
+  void save(QSettings *settings);
+  void saveXmlElement(QDomElement element);
 
 private:
-    static const QString GroupName;
-    static const QString FieldBytesOrder;
-    static const QString FieldBlockSize;
-    static const QString FieldBlockDefaultOnes;
-    static const QString FieldSplitToRows;
-    static const QString FieldCompressionRle;
-    static const QString FieldCompressionRleMinLength;
-    static const QString FieldBlockPrefix;
-    static const QString FieldBandWidth;
-    static const QString FieldBlockSuffix;
-    static const QString FieldBlockDelimiter;
+  static const QString GroupName;
+  static const QString FieldBytesOrder;
+  static const QString FieldBlockSize;
+  static const QString FieldBlockDefaultOnes;
+  static const QString FieldSplitToRows;
+  static const QString FieldCompressionRle;
+  static const QString FieldCompressionRleMinLength;
+  static const QString FieldBlockPrefix;
+  static const QString FieldBandWidth;
+  static const QString FieldBlockSuffix;
+  static const QString FieldBlockDelimiter;
 
-    bool mSplitToRows;
-    BytesOrder mBytesOrder;
-    DataBlockSize mBlockSize;
-    bool mBlockDefaultOnes;
-    bool mCompressionRle;
-    quint32 mCompressionRleMinLength;
-    QString mBlockPrefix;
-    QString mBlockSuffix;
-    QString mBlockDelimiter;
+  bool mSplitToRows;
+  BytesOrder mBytesOrder;
+  DataBlockSize mBlockSize;
+  bool mBlockDefaultOnes;
+  bool mCompressionRle;
+  quint32 mCompressionRleMinLength;
+  QString mBlockPrefix;
+  QString mBlockSuffix;
+  QString mBlockDelimiter;
 
 signals:
-    void changed();
+  void changed();
 
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // IMAGEOPTIONS_H

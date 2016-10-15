@@ -19,50 +19,50 @@
 
 #ifndef CONVIMAGE_H
 #define CONVIMAGE_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QVector>
 #include <QPoint>
-//-----------------------------------------------------------------------------
+
 class QImage;
-//-----------------------------------------------------------------------------
+
 class ConvImage : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ConvImage(const QImage *image, QObject *parent = 0);
-    virtual ~ConvImage();
+  explicit ConvImage(const QImage *image, QObject *parent = 0);
+  virtual ~ConvImage();
 
-    Q_PROPERTY(int height READ height)
-    Q_PROPERTY(int width READ width)
-    Q_PROPERTY(int bandSize READ bandSize)
-    Q_PROPERTY(bool useBands READ useBands)
-    Q_PROPERTY(bool scanTerminated READ scanTerminated WRITE setScanTerminated)
+  Q_PROPERTY(int height READ height)
+  Q_PROPERTY(int width READ width)
+  Q_PROPERTY(int bandSize READ bandSize)
+  Q_PROPERTY(bool useBands READ useBands)
+  Q_PROPERTY(bool scanTerminated READ scanTerminated WRITE setScanTerminated)
 
-    int bandSize() const;
-    void setBandSize(int value);
+  int bandSize() const;
+  void setBandSize(int value);
 
-    bool useBands() const;
-    void setUseBands(bool value);
+  bool useBands() const;
+  void setUseBands(bool value);
 
-    Q_INVOKABLE void addPoint(int x, int y);
-    Q_INVOKABLE void clearPoints();
+  Q_INVOKABLE void addPoint(int x, int y);
+  Q_INVOKABLE void clearPoints();
 
-    QPoint pointAt(int index) const;
-    int pointsCount() const;
+  QPoint pointAt(int index) const;
+  int pointsCount() const;
 
-    bool scanTerminated() const;
-    void setScanTerminated(bool value);
+  bool scanTerminated() const;
+  void setScanTerminated(bool value);
 
 private:
-    const QImage *mImage;
-    int mBandSize;
-    bool mUseBands;
-    QVector<QPoint> mPoints;
-    bool mScanTerminated;
+  const QImage *mImage;
+  int mBandSize;
+  bool mUseBands;
+  QVector<QPoint> mPoints;
+  bool mScanTerminated;
 
-    int height() const;
-    int width() const;
+  int height() const;
+  int width() const;
 };
-//-----------------------------------------------------------------------------
+
 #endif // CONVIMAGE_H

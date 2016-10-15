@@ -19,35 +19,35 @@
 
 #ifndef FONTHELPER_H
 #define FONTHELPER_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 #include <QImage>
 #include <QSize>
-//-----------------------------------------------------------------------------
+
 class DataContainer;
-//-----------------------------------------------------------------------------
+
 class FontHelper : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit FontHelper(QObject *parent = 0);
+  explicit FontHelper(QObject *parent = 0);
 
-    static QImage drawString(const DataContainer *data, const QString &value);
-    static QString escapeControlChars(const QString &value);
-    static QString unescapeControlChars(const QString &value);
-    static QSize getCharacterSize(const QFontMetrics &metrics, QChar value);
-    static QImage drawCharacter(const QChar value,
-            const QFont &font,
-            const QColor &foreground,
-            const QColor &background,
-            const int width,
-            const int height,
-            const bool antialiasing);
+  static QImage drawString(const DataContainer *data, const QString &value);
+  static QString escapeControlChars(const QString &value);
+  static QString unescapeControlChars(const QString &value);
+  static QSize getCharacterSize(const QFontMetrics &metrics, QChar value);
+  static QImage drawCharacter(const QChar value,
+                              const QFont &font,
+                              const QColor &foreground,
+                              const QColor &background,
+                              const int width,
+                              const int height,
+                              const bool antialiasing);
 signals:
 
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // FONTHELPER_H

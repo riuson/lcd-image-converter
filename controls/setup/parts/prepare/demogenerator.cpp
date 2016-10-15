@@ -18,7 +18,7 @@
  */
 
 #include "demogenerator.h"
-//-----------------------------------------------------------------------------
+
 #include <QTimer>
 #include <QImage>
 #include <QPixmap>
@@ -27,135 +27,128 @@
 #include "converterhelper.h"
 #include "convimage.h"
 #include "prepareoptions.h"
-//-----------------------------------------------------------------------------
+
 DemoGenerator::DemoGenerator(Preset *preset, QObject *parent) :
-    QObject(parent)
+  QObject(parent)
 {
-    this->mPreset = preset;
-    this->mTimer = new QTimer(this);
-    this->connect(this->mTimer, SIGNAL(timeout()), SLOT(timeout()));
-    this->mSourceImage = new QImage(":/demos/scanning_background");
-    this->mSourcePixmap = QPixmap::fromImage(*this->mSourceImage);
-    this->mProcessedPixmap = QPixmap();
-    this->mLastTick = QTime::currentTime();
-    this->mAnimationTimeSeconds = 60;
-    this->mMax = 0;
-    this->mIndex = 0;
+  this->mPreset = preset;
+  this->mTimer = new QTimer(this);
+  this->connect(this->mTimer, SIGNAL(timeout()), SLOT(timeout()));
+  this->mSourceImage = new QImage(":/demos/scanning_background");
+  this->mSourcePixmap = QPixmap::fromImage(*this->mSourceImage);
+  this->mProcessedPixmap = QPixmap();
+  this->mLastTick = QTime::currentTime();
+  this->mAnimationTimeSeconds = 60;
+  this->mMax = 0;
+  this->mIndex = 0;
 }
-//-----------------------------------------------------------------------------
+
 DemoGenerator::~DemoGenerator()
 {
-    this->stopAnimation();
-    delete this->mTimer;
-    delete this->mSourceImage;
+  this->stopAnimation();
+  delete this->mTimer;
+  delete this->mSourceImage;
 }
-//-----------------------------------------------------------------------------
+
 void DemoGenerator::setScript(const QString &value)
 {
-    // stop
-    this->stopAnimation();
+  // stop
+  this->stopAnimation();
 
-    // save script
-    this->mScript = value;
+  // save script
+  this->mScript = value;
 
-    // generate points
-    ConvImage *convImage = new ConvImage(this->mSourceImage, this);
-    convImage->setBandSize(this->mPreset->prepare()->bandWidth());
-    convImage->setUseBands(this->mPreset->prepare()->bandScanning());
+  // generate points
+  ConvImage *convImage = new ConvImage(this->mSourceImage, this);
+  convImage->setBandSize(this->mPreset->prepare()->bandWidth());
+  convImage->setUseBands(this->mPreset->prepare()->bandScanning());
 
-    QString errorMessage;
-    ConverterHelper::collectPoints(convImage, value, &errorMessage);
-    if (!errorMessage.isNull())
-    {
-        emit this->errorHandled(errorMessage);
+  QString errorMessage;
+  ConverterHelper::collectPoints(convImage, value, &errorMessage);
+
+  if (!errorMessage.isNull()) {
+    emit this->errorHandled(errorMessage);
+  } else {
+    // copy points
+    this->mMax = convImage->pointsCount();
+    this->mIndex = 0;
+    this->mPoints.clear();
+
+    if (this->mMax > 0) {
+      for (int i = 0; i < this->mMax; i++) {
+        this->mPoints.append(convImage->pointAt(i));
+      }
+
+      // start
+      this->startAnimation();
     }
-    else
-    {
-        // copy points
-        this->mMax = convImage->pointsCount();
-        this->mIndex = 0;
-        this->mPoints.clear();
-        if (this->mMax > 0)
-        {
-            for (int i = 0; i < this->mMax; i++)
-            {
-                this->mPoints.append(convImage->pointAt(i));
-            }
+  }
 
-            // start
-            this->startAnimation();
-        }
-    }
-
-    delete convImage;
+  delete convImage;
 }
-//-----------------------------------------------------------------------------
+
 void DemoGenerator::startAnimation()
 {
-    this->mTimer->start();
+  this->mTimer->start();
 }
-//-----------------------------------------------------------------------------
+
 void DemoGenerator::stopAnimation()
 {
-    this->mTimer->stop();
+  this->mTimer->stop();
 }
-//-----------------------------------------------------------------------------
+
 int DemoGenerator::animationTime() const
 {
-    return this->mAnimationTimeSeconds;
+  return this->mAnimationTimeSeconds;
 }
-//-----------------------------------------------------------------------------
+
 void DemoGenerator::setAnimationTime(int value)
 {
-    if (value > 1)
-    {
-        this->mAnimationTimeSeconds = value;
-    }
+  if (value > 1) {
+    this->mAnimationTimeSeconds = value;
+  }
 }
-//-----------------------------------------------------------------------------
+
 int DemoGenerator::animationInterval() const
 {
-    return this->mTimer->interval();
+  return this->mTimer->interval();
 }
-//-----------------------------------------------------------------------------
+
 void DemoGenerator::setAnimationInterval(int value)
 {
-    this->mTimer->setInterval(value);
+  this->mTimer->setInterval(value);
 }
-//-----------------------------------------------------------------------------
+
 void DemoGenerator::timeout()
 {
-    QTime current = QTime::currentTime();
-    int msecs = this->mLastTick.msecsTo(current); // milliseconds from last frame
-    int fps = this->mMax / this->mAnimationTimeSeconds; // frames per second
-    int increment = msecs * fps / 1000;
+  QTime current = QTime::currentTime();
+  int msecs = this->mLastTick.msecsTo(current); // milliseconds from last frame
+  int fps = this->mMax / this->mAnimationTimeSeconds; // frames per second
+  int increment = msecs * fps / 1000;
 
-    this->mIndex += increment;
+  this->mIndex += increment;
 
-    if ((this->mIndex >= this->mMax) || (this->mIndex < 0))
-    {
-        this->mIndex = 0;
+  if ((this->mIndex >= this->mMax) || (this->mIndex < 0)) {
+    this->mIndex = 0;
+  }
+
+  QPoint point = this->mPoints.at(this->mIndex);
+
+  QPixmap pixmap = this->mSourcePixmap;
+  QPainter painter(&pixmap);
+  painter.setPen(QColor(0, 0, 0));
+
+  if (point.x() >= 0 && point.x() < pixmap.width()) {
+    if (point.y() >= 0 && point.y() < pixmap.height()) {
+      painter.drawLine(point.x(), 0, point.x(), pixmap.height());
+      painter.drawLine(0, point.y(), pixmap.width(), point.y());
     }
+  }
 
-    QPoint point = this->mPoints.at(this->mIndex);
+  this->mProcessedPixmap = pixmap;
 
-    QPixmap pixmap = this->mSourcePixmap;
-    QPainter painter(&pixmap);
-    painter.setPen(QColor(0, 0, 0));
+  emit this->pixmapChanged(this->mProcessedPixmap);
 
-    if (point.x() >= 0 && point.x() < pixmap.width())
-    {
-        if (point.y() >= 0 && point.y() < pixmap.height())
-        {
-            painter.drawLine(point.x(), 0, point.x(), pixmap.height());
-            painter.drawLine(0, point.y(), pixmap.width(), point.y());
-        }
-    }
-
-    this->mProcessedPixmap = pixmap;
-
-    emit this->pixmapChanged(this->mProcessedPixmap);
-
-    this->mLastTick = current;
+  this->mLastTick = current;
 }
-//-----------------------------------------------------------------------------
+

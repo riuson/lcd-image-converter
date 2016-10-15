@@ -18,83 +18,83 @@
  */
 
 #include "convimage.h"
-//-----------------------------------------------------------------------------
+
 #include <QImage>
-//-----------------------------------------------------------------------------
+
 ConvImage::ConvImage(const QImage *image, QObject *parent) :
-    QObject(parent)
+  QObject(parent)
 {
-    this->mImage = image;
-    this->mBandSize = 1;
-    this->mUseBands = false;
-    this->mScanTerminated = false;
+  this->mImage = image;
+  this->mBandSize = 1;
+  this->mUseBands = false;
+  this->mScanTerminated = false;
 }
-//-----------------------------------------------------------------------------
+
 ConvImage::~ConvImage()
 {
 }
-//-----------------------------------------------------------------------------
+
 int ConvImage::bandSize() const
 {
-    return this->mBandSize;
+  return this->mBandSize;
 }
-//-----------------------------------------------------------------------------
+
 void ConvImage::setBandSize(int value)
 {
-    this->mBandSize = value;
+  this->mBandSize = value;
 }
-//-----------------------------------------------------------------------------
+
 bool ConvImage::useBands() const
 {
-    return this->mUseBands;
+  return this->mUseBands;
 }
-//-----------------------------------------------------------------------------
+
 void ConvImage::setUseBands(bool value)
 {
-    this->mUseBands= value;
+  this->mUseBands = value;
 }
-//-----------------------------------------------------------------------------
+
 void ConvImage::addPoint(int x, int y)
 {
-    this->mPoints.append(QPoint(x, y));
+  this->mPoints.append(QPoint(x, y));
 }
-//-----------------------------------------------------------------------------
+
 void ConvImage::clearPoints()
 {
-    this->mPoints.clear();
+  this->mPoints.clear();
 }
-//-----------------------------------------------------------------------------
+
 QPoint ConvImage::pointAt(int index) const
 {
-    if (index < this->mPoints.size())
-    {
-        return this->mPoints.at(index);
-    }
-    return QPoint();
+  if (index < this->mPoints.size()) {
+    return this->mPoints.at(index);
+  }
+
+  return QPoint();
 }
-//-----------------------------------------------------------------------------
+
 int ConvImage::pointsCount() const
 {
-    return this->mPoints.size();
+  return this->mPoints.size();
 }
-//-----------------------------------------------------------------------------
+
 bool ConvImage::scanTerminated() const
 {
-    return this->mScanTerminated;
+  return this->mScanTerminated;
 }
-//-----------------------------------------------------------------------------
+
 void ConvImage::setScanTerminated(bool value)
 {
-    this->mScanTerminated = value;
+  this->mScanTerminated = value;
 }
-//-----------------------------------------------------------------------------
+
 int ConvImage::height() const
 {
-    return this->mImage->height();
+  return this->mImage->height();
 }
-//-----------------------------------------------------------------------------
+
 int ConvImage::width() const
 {
-    return this->mImage->width();
+  return this->mImage->width();
 }
-//-----------------------------------------------------------------------------
+

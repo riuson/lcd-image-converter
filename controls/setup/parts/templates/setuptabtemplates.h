@@ -19,33 +19,34 @@
 
 #ifndef SETUPTABTEMPLATES_H
 #define SETUPTABTEMPLATES_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
-//-----------------------------------------------------------------------------
-namespace Ui {
+
+namespace Ui
+{
 class SetupTabTemplates;
 }
-//-----------------------------------------------------------------------------
+
 class Preset;
-//-----------------------------------------------------------------------------
+
 class SetupTabTemplates : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit SetupTabTemplates(Preset *preset, QWidget *parent = 0);
-    virtual ~SetupTabTemplates();
+  explicit SetupTabTemplates(Preset *preset, QWidget *parent = 0);
+  virtual ~SetupTabTemplates();
 
 private:
-    Ui::SetupTabTemplates *ui;
-    Preset *mPreset;
+  Ui::SetupTabTemplates *ui;
+  Preset *mPreset;
 
 private slots:
-    void matrixChanged();
-    void on_pushButtonBrowseImage_clicked();
-    void on_pushButtonBrowseFont_clicked();
-    void on_lineEditImage_editingFinished();
-    void on_lineEditFont_editingFinished();
+  void matrixChanged();
+  void on_pushButtonBrowseImage_clicked();
+  void on_pushButtonBrowseFont_clicked();
+  void on_lineEditImage_editingFinished();
+  void on_lineEditFont_editingFinished();
 };
-//-----------------------------------------------------------------------------
+
 #endif // SETUPTABTEMPLATES_H

@@ -30,139 +30,132 @@
 #include "toolfill.h"
 #include "toolcolor.h"
 #include "toolmove.h"
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 ToolsManager::ToolsManager(QObject *parent) : QObject(parent)
 {
-    this->mParentWidget = qobject_cast<QWidget *>(parent);
-    this->mTools = new QList<IImageEditorTool *> ();
-    this->mToolsActions = new QList<QAction *> ();
+  this->mParentWidget = qobject_cast<QWidget *>(parent);
+  this->mTools = new QList<IImageEditorTool *> ();
+  this->mToolsActions = new QList<QAction *> ();
 
-    this->initializeTools();
-    this->initializeActions();
+  this->initializeTools();
+  this->initializeActions();
 }
-//-----------------------------------------------------------------------------
+
 ToolsManager::~ToolsManager()
 {
-    qDeleteAll(*this->mToolsActions);
-    delete this->mToolsActions;
+  qDeleteAll(*this->mToolsActions);
+  delete this->mToolsActions;
 
-    qDeleteAll(*this->mTools);
-    delete this->mTools;
+  qDeleteAll(*this->mTools);
+  delete this->mTools;
 }
-//-----------------------------------------------------------------------------
+
 const QList<IImageEditorTool *> *ToolsManager::tools() const
 {
-    return this->mTools;
+  return this->mTools;
 }
-//-----------------------------------------------------------------------------
+
 const QList<QAction *> *ToolsManager::toolsActions() const
 {
-    return this->mToolsActions;
+  return this->mToolsActions;
 }
-//-----------------------------------------------------------------------------
+
 int ToolsManager::scale() const
 {
-    return this->mZoomer->scale();
+  return this->mZoomer->scale();
 }
-//-----------------------------------------------------------------------------
+
 const QColor ToolsManager::foreColor() const
 {
-    return this->mColors->foreColor();
+  return this->mColors->foreColor();
 }
-//-----------------------------------------------------------------------------
+
 const QColor ToolsManager::backColor() const
 {
-    return this->mColors->backColor();
+  return this->mColors->backColor();
 }
-//-----------------------------------------------------------------------------
+
 QWidget *ToolsManager::parentWidget() const
 {
-    return this->mParentWidget;
+  return this->mParentWidget;
 }
-//-----------------------------------------------------------------------------
+
 const QPainterPath &ToolsManager::selectedPath() const
 {
-    return this->mSelectionTool->selectedPath();
+  return this->mSelectionTool->selectedPath();
 }
-//-----------------------------------------------------------------------------
+
 void ToolsManager::setScale(int value)
 {
-    this->mZoomer->setScale(value);
+  this->mZoomer->setScale(value);
 }
-//-----------------------------------------------------------------------------
+
 void ToolsManager::initializeTools()
 {
-    this->mSelectionTool = new ToolSelect(this, this);
-    this->connect(this->mSelectionTool, SIGNAL(selectionChanged(QPainterPath)), SIGNAL(selectionChanged(QPainterPath)));
-    this->mTools->append(this->mSelectionTool);
+  this->mSelectionTool = new ToolSelect(this, this);
+  this->connect(this->mSelectionTool, SIGNAL(selectionChanged(QPainterPath)), SIGNAL(selectionChanged(QPainterPath)));
+  this->mTools->append(this->mSelectionTool);
 
-    this->mTools->append(new ToolPen(this, this));
-    this->mTools->append(new ToolLine(this, this));
-    this->mTools->append(new ToolRect(this, this));
-    this->mTools->append(new ToolFill(this, this));
-    this->mTools->append(new ToolMove(this, this));
+  this->mTools->append(new ToolPen(this, this));
+  this->mTools->append(new ToolLine(this, this));
+  this->mTools->append(new ToolRect(this, this));
+  this->mTools->append(new ToolFill(this, this));
+  this->mTools->append(new ToolMove(this, this));
 
-    this->mColors = new ToolColor(this, this);
-    this->mTools->append(this->mColors);
+  this->mColors = new ToolColor(this, this);
+  this->mTools->append(this->mColors);
 
-    this->mZoomer = new ToolZoom(this, this);
-    this->connect(this->mZoomer, SIGNAL(scaleChanged(int)), SIGNAL(scaleChanged(int)));
-    this->mTools->append(this->mZoomer);
+  this->mZoomer = new ToolZoom(this, this);
+  this->connect(this->mZoomer, SIGNAL(scaleChanged(int)), SIGNAL(scaleChanged(int)));
+  this->mTools->append(this->mZoomer);
 }
-//-----------------------------------------------------------------------------
+
 void ToolsManager::initializeActions()
 {
-    for (int i = 0; i < this->mTools->length(); i++)
-    {
-        IImageEditorTool *tool = this->mTools->at(i);
-        QAction *toolAction = new QAction(*tool->icon(), tool->title(), this);
-        toolAction->setData(QVariant(i)); // index of the tool
-        toolAction->setCheckable(true);
-        this->connect(toolAction, SIGNAL(triggered()), SLOT(on_toolAction_triggered()));
-        this->mToolsActions->append(toolAction);
-    }
+  for (int i = 0; i < this->mTools->length(); i++) {
+    IImageEditorTool *tool = this->mTools->at(i);
+    QAction *toolAction = new QAction(*tool->icon(), tool->title(), this);
+    toolAction->setData(QVariant(i)); // index of the tool
+    toolAction->setCheckable(true);
+    this->connect(toolAction, SIGNAL(triggered()), SLOT(on_toolAction_triggered()));
+    this->mToolsActions->append(toolAction);
+  }
 }
-//-----------------------------------------------------------------------------
+
 void ToolsManager::selectTool(IImageEditorTool *tool)
 {
-    int toolIndex = -1;
+  int toolIndex = -1;
 
-    for (int i = 0; i < this->mTools->length(); i++)
-    {
-        if (this->mTools->at(i) == tool)
-        {
-            this->mToolsActions->at(i)->setChecked(true);
-            this->mSelectedTool = tool;
-            toolIndex = i;
-        }
-        else
-        {
-            this->mToolsActions->at(i)->setChecked(false);
-        }
+  for (int i = 0; i < this->mTools->length(); i++) {
+    if (this->mTools->at(i) == tool) {
+      this->mToolsActions->at(i)->setChecked(true);
+      this->mSelectedTool = tool;
+      toolIndex = i;
+    } else {
+      this->mToolsActions->at(i)->setChecked(false);
     }
+  }
 
-    emit this->toolChanged(toolIndex);
+  emit this->toolChanged(toolIndex);
 }
-//-----------------------------------------------------------------------------
+
 void ToolsManager::on_toolAction_triggered()
 {
-    QAction *action = qobject_cast<QAction *>(sender());
+  QAction *action = qobject_cast<QAction *>(sender());
 
-    if (action != NULL)
-    {
-        bool ok;
-        int toolIndex = action->data().toInt(&ok);
+  if (action != NULL) {
+    bool ok;
+    int toolIndex = action->data().toInt(&ok);
 
-        if (ok)
-        {
-            IImageEditorTool *tool = this->mTools->at(toolIndex);
-            this->selectTool(tool);
-        }
+    if (ok) {
+      IImageEditorTool *tool = this->mTools->at(toolIndex);
+      this->selectTool(tool);
     }
+  }
 }
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+

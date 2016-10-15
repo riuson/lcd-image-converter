@@ -22,33 +22,34 @@
 #include "idocument.h"
 #include "datacontainer.h"
 
-namespace Operations {
+namespace Operations
+{
 
 ImageInverse::ImageInverse(QObject *parent)
-    : QObject(parent)
+  : QObject(parent)
 {
 }
 
 bool ImageInverse::prepare(const IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(doc)
-    Q_UNUSED(keys)
+  Q_UNUSED(doc)
+  Q_UNUSED(keys)
 
-    return true;
+  return true;
 }
 
 void ImageInverse::applyDocument(IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(doc)
-    Q_UNUSED(keys)
+  Q_UNUSED(doc)
+  Q_UNUSED(keys)
 }
 
 void ImageInverse::applyItem(IDocument *doc, const QString &itemKey)
 {
-    const QImage *original = doc->dataContainer()->image(itemKey);
-    QImage result(*original);
-    result.invertPixels();
-    doc->dataContainer()->setImage(itemKey, &result);
+  const QImage *original = doc->dataContainer()->image(itemKey);
+  QImage result(*original);
+  result.invertPixels();
+  doc->dataContainer()->setImage(itemKey, &result);
 }
 
 }

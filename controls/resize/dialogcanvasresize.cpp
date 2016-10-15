@@ -28,121 +28,121 @@
 #include "transposeproxy.h"
 #include "columnsreorderproxy.h"
 #include "resizesettings.h"
-//-----------------------------------------------------------------------------
+
 DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DialogCanvasResize)
+  QDialog(parent),
+  ui(new Ui::DialogCanvasResize)
 {
-    ui->setupUi(this);
+  ui->setupUi(this);
 
-    this->mContainer = container;
+  this->mContainer = container;
 
-    this->mModel = new ImagesModel(container, this);
+  this->mModel = new ImagesModel(container, this);
 
-    this->mResizedProxy = new ImagesResizedProxy(this);
-    this->mResizedProxy->setSourceModel(this->mModel);
+  this->mResizedProxy = new ImagesResizedProxy(this);
+  this->mResizedProxy->setSourceModel(this->mModel);
 
-    this->mScaledProxy = new ImagesScaledProxy(this);
-    this->mScaledProxy->setSourceModel(this->mResizedProxy);
+  this->mScaledProxy = new ImagesScaledProxy(this);
+  this->mScaledProxy->setSourceModel(this->mResizedProxy);
 
-    this->mFilter = new ImagesFilterProxy(this);
-    this->mFilter->setSourceModel(this->mScaledProxy);
+  this->mFilter = new ImagesFilterProxy(this);
+  this->mFilter->setSourceModel(this->mScaledProxy);
 
-    this->mReorderProxy = new ColumnsReorderProxy();
-    this->mReorderProxy->setSourceModel(this->mFilter);
-    this->mReorderProxy->setReorder(1, 3);
+  this->mReorderProxy = new ColumnsReorderProxy();
+  this->mReorderProxy->setSourceModel(this->mFilter);
+  this->mReorderProxy->setReorder(1, 3);
 
-    this->mTranspose = new TransposeProxy(this);
-    this->mTranspose->setSourceModel(this->mReorderProxy);
+  this->mTranspose = new TransposeProxy(this);
+  this->mTranspose->setSourceModel(this->mReorderProxy);
 
-    this->ui->tableView->setModel(this->mTranspose);
+  this->ui->tableView->setModel(this->mTranspose);
 
-    this->connect(this->ui->spinBoxLeft,   SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
-    this->connect(this->ui->spinBoxTop,    SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
-    this->connect(this->ui->spinBoxRight,  SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
-    this->connect(this->ui->spinBoxBottom, SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
+  this->connect(this->ui->spinBoxLeft,   SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
+  this->connect(this->ui->spinBoxTop,    SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
+  this->connect(this->ui->spinBoxRight,  SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
+  this->connect(this->ui->spinBoxBottom, SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
 
-    this->mLeft = 0;
-    this->mTop = 0;
-    this->mRight = 0;
-    this->mBottom = 0;
+  this->mLeft = 0;
+  this->mTop = 0;
+  this->mRight = 0;
+  this->mBottom = 0;
 
-    int scale = ResizeSettings::scale();
-    this->ui->spinBoxScale->setValue(scale);
-    this->on_spinBoxScale_valueChanged(scale);
+  int scale = ResizeSettings::scale();
+  this->ui->spinBoxScale->setValue(scale);
+  this->on_spinBoxScale_valueChanged(scale);
 }
-//-----------------------------------------------------------------------------
+
 DialogCanvasResize::~DialogCanvasResize()
 {
-    ResizeSettings::setScale(this->ui->spinBoxScale->value());
+  ResizeSettings::setScale(this->ui->spinBoxScale->value());
 
-    delete ui;
+  delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::selectKeys(const QStringList &keys)
 {
-    this->mFilter->setFilter(keys);
+  this->mFilter->setFilter(keys);
 
-    this->resizeToContents();
+  this->resizeToContents();
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::resizeInfo(int *left, int *top, int *right, int *bottom) const
 {
-    *left = this->mLeft;
-    *top = this->mTop;
-    *right = this->mRight;
-    *bottom = this->mBottom;
+  *left = this->mLeft;
+  *top = this->mTop;
+  *right = this->mRight;
+  *bottom = this->mBottom;
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::setResizeInfo(int left, int top, int right, int bottom)
 {
-    this->mLeft = left;
-    this->mTop = top;
-    this->mRight = right;
-    this->mBottom = bottom;
+  this->mLeft = left;
+  this->mTop = top;
+  this->mRight = right;
+  this->mBottom = bottom;
 
-    this->ui->spinBoxLeft->setValue(left);
-    this->ui->spinBoxTop->setValue(top);
-    this->ui->spinBoxRight->setValue(right);
-    this->ui->spinBoxBottom->setValue(bottom);
+  this->ui->spinBoxLeft->setValue(left);
+  this->ui->spinBoxTop->setValue(top);
+  this->ui->spinBoxRight->setValue(right);
+  this->ui->spinBoxBottom->setValue(bottom);
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::spinBox_valueChanged(int value)
 {
-    Q_UNUSED(value);
+  Q_UNUSED(value);
 
-    this->mLeft = this->ui->spinBoxLeft->value();
-    this->mTop = this->ui->spinBoxTop->value();
-    this->mRight = this->ui->spinBoxRight->value();
-    this->mBottom = this->ui->spinBoxBottom->value();
+  this->mLeft = this->ui->spinBoxLeft->value();
+  this->mTop = this->ui->spinBoxTop->value();
+  this->mRight = this->ui->spinBoxRight->value();
+  this->mBottom = this->ui->spinBoxBottom->value();
 
-    this->mResizedProxy->setCrop(
-                this->mLeft,
-                this->mTop,
-                this->mRight,
-                this->mBottom);
+  this->mResizedProxy->setCrop(
+    this->mLeft,
+    this->mTop,
+    this->mRight,
+    this->mBottom);
 
-    this->resizeToContents();
+  this->resizeToContents();
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::on_spinBoxScale_valueChanged(int value)
 {
-    this->mScaledProxy->setScale(value);
+  this->mScaledProxy->setScale(value);
 
-    this->resizeToContents();
+  this->resizeToContents();
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::on_pushButtonReset_clicked()
 {
-    this->ui->spinBoxLeft->setValue(0);
-    this->ui->spinBoxTop->setValue(0);
-    this->ui->spinBoxRight->setValue(0);
-    this->ui->spinBoxBottom->setValue(0);
+  this->ui->spinBoxLeft->setValue(0);
+  this->ui->spinBoxTop->setValue(0);
+  this->ui->spinBoxRight->setValue(0);
+  this->ui->spinBoxBottom->setValue(0);
 }
-//-----------------------------------------------------------------------------
+
 void DialogCanvasResize::resizeToContents()
 {
-    this->ui->tableView->resizeRowsToContents();
-    this->ui->tableView->resizeColumnsToContents();
+  this->ui->tableView->resizeRowsToContents();
+  this->ui->tableView->resizeColumnsToContents();
 }
-//-----------------------------------------------------------------------------
+

@@ -18,7 +18,7 @@
  */
 
 #include "preset.h"
-//-----------------------------------------------------------------------------
+
 #include <QStringList>
 #include <QSettings>
 #include <QtXml>
@@ -29,406 +29,435 @@
 #include "imageoptions.h"
 #include "fontoptions.h"
 #include "templateoptions.h"
-//-----------------------------------------------------------------------------
+
 Preset::Preset(QObject *parent) :
-    QObject(parent)
+  QObject(parent)
 {
-    this->mBlockChangesSignal = false;
+  this->mBlockChangesSignal = false;
 
-    this->mPrepare    = new PrepareOptions(this);
-    this->mMatrix     = new MatrixOptions(this);
-    this->mReordering = new ReorderingOptions(this);
-    this->mImage      = new ImageOptions(this);
-    this->mFont       = new FontOptions(this);
-    this->mTemplates  = new TemplateOptions(this);
+  this->mPrepare    = new PrepareOptions(this);
+  this->mMatrix     = new MatrixOptions(this);
+  this->mReordering = new ReorderingOptions(this);
+  this->mImage      = new ImageOptions(this);
+  this->mFont       = new FontOptions(this);
+  this->mTemplates  = new TemplateOptions(this);
 
-    this->connect(this->mPrepare,    SIGNAL(changed()), SLOT(partsChanged()));
-    this->connect(this->mMatrix,     SIGNAL(changed()), SLOT(partsChanged()));
-    this->connect(this->mReordering, SIGNAL(changed()), SLOT(partsChanged()));
-    this->connect(this->mImage,      SIGNAL(changed()), SLOT(partsChanged()));
-    this->connect(this->mFont,       SIGNAL(changed()), SLOT(partsChanged()));
-    this->connect(this->mTemplates,  SIGNAL(changed()), SLOT(partsChanged()));
+  this->connect(this->mPrepare,    SIGNAL(changed()), SLOT(partsChanged()));
+  this->connect(this->mMatrix,     SIGNAL(changed()), SLOT(partsChanged()));
+  this->connect(this->mReordering, SIGNAL(changed()), SLOT(partsChanged()));
+  this->connect(this->mImage,      SIGNAL(changed()), SLOT(partsChanged()));
+  this->connect(this->mFont,       SIGNAL(changed()), SLOT(partsChanged()));
+  this->connect(this->mTemplates,  SIGNAL(changed()), SLOT(partsChanged()));
 }
-//-----------------------------------------------------------------------------
+
 Preset::~Preset()
 {
-    delete this->mTemplates;
-    delete this->mFont;
-    delete this->mImage;
-    delete this->mReordering;
-    delete this->mMatrix;
-    delete this->mPrepare;
+  delete this->mTemplates;
+  delete this->mFont;
+  delete this->mImage;
+  delete this->mReordering;
+  delete this->mMatrix;
+  delete this->mPrepare;
 }
-//-----------------------------------------------------------------------------
+
 PrepareOptions *Preset::prepare()
 {
-    return this->mPrepare;
+  return this->mPrepare;
 }
-//-----------------------------------------------------------------------------
+
 MatrixOptions *Preset::matrix()
 {
-    return this->mMatrix;
+  return this->mMatrix;
 }
-//-----------------------------------------------------------------------------
+
 ReorderingOptions *Preset::reordering()
 {
-    return this->mReordering;
+  return this->mReordering;
 }
-//-----------------------------------------------------------------------------
+
 ImageOptions *Preset::image()
 {
-    return this->mImage;
+  return this->mImage;
 }
-//-----------------------------------------------------------------------------
+
 FontOptions *Preset::font()
 {
-    return this->mFont;
+  return this->mFont;
 }
-//-----------------------------------------------------------------------------
+
 TemplateOptions *Preset::templates()
 {
-    return this->mTemplates;
+  return this->mTemplates;
 }
-//-----------------------------------------------------------------------------
+
 QStringList Preset::presetsList()
 {
-    QSettings sett;
-    sett.beginGroup("presets");
-    QStringList names = sett.childGroups();
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("presets");
+  QStringList names = sett.childGroups();
+  sett.endGroup();
 
-    return names;
+  return names;
 }
-//-----------------------------------------------------------------------------
+
 QString Preset::selectedName()
 {
-    QSettings sett;
-    sett.beginGroup("presets");
-    QString result = sett.value("selected", QVariant("")).toString();
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("presets");
+  QString result = sett.value("selected", QVariant("")).toString();
+  sett.endGroup();
 
-    return result;
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 void Preset::setSelectedName(const QString &value)
 {
-    QSettings sett;
-    sett.beginGroup("presets");
-    sett.setValue("selected", QVariant(value));
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("presets");
+  sett.setValue("selected", QVariant(value));
+  sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void Preset::remove(const QString &value)
 {
-    QSettings sett;
-    sett.beginGroup("presets");
+  QSettings sett;
+  sett.beginGroup("presets");
 
-    sett.beginGroup(value);
-    sett.remove("");
+  sett.beginGroup(value);
+  sett.remove("");
 
-    sett.endGroup();
+  sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 QString Preset::name() const
 {
-    return this->mName;
+  return this->mName;
 }
-//-----------------------------------------------------------------------------
+
 bool Preset::load(const QString &presetName)
 {
-    bool result = false;
+  bool result = false;
 
-    if (!presetName.isEmpty())
-    {
-        this->mBlockChangesSignal = true;
+  if (!presetName.isEmpty()) {
+    this->mBlockChangesSignal = true;
 
-        QSettings sett;
-        sett.beginGroup("presets");
-
-        if (sett.childGroups().contains(presetName))
-        {
-            sett.beginGroup(presetName);
-
-            // get version of settings
-            int version;
-            bool ok;
-            QVariant varVersion = sett.value("version", QVariant((int)1));
-            version = varVersion.toInt(&ok);
-
-            if (!ok)
-                version = 1;
-
-            result = this->mPrepare->load(&sett, version);
-            result &= this->mMatrix->load(&sett, version);
-            result &= this->mReordering->load(&sett, version);
-            result &= this->mImage->load(&sett, version);
-            result &= this->mFont->load(&sett, version);
-            result &= this->mTemplates->load(&sett, version);
-
-            sett.endGroup();
-
-            this->mName = presetName;
-        }
-        sett.endGroup();
-
-        this->mBlockChangesSignal = false;
-
-        emit this->changed();
-    }
-    return result;
-}
-//-----------------------------------------------------------------------------
-bool Preset::loadXML(const QString &filename)
-{
-    QDomDocument doc;
-    QFile file(filename);
-
-    if (file.open(QIODevice::ReadOnly)) {
-        if (doc.setContent(&file)) {
-            QDomElement root = doc.documentElement();
-            QDomNode nodeName = root.firstChild();
-
-            while (!nodeName.isNull()) {
-                QDomElement e = nodeName.toElement();
-
-                if (e.tagName() == "name") {
-                    this->mName = e.text();
-                    break;
-                }
-
-                nodeName = nodeName.nextSibling();
-            }
-
-            if (nodeName.isNull()) {
-                return false;
-            }
-
-            this->mPrepare->loadXmlElement(root);
-            this->mImage->loadXmlElement(root);
-            this->mFont->loadXmlElement(root);
-            this->mMatrix->loadXmlElement(root);
-            this->mReordering->loadXmlElement(root);
-            this->mTemplates->loadXmlElement(root);
-        }
-
-        file.close();
-        return true;
-    }
-
-    return false;
-}
-//-----------------------------------------------------------------------------
-void Preset::save(const QString &name) const
-{
     QSettings sett;
     sett.beginGroup("presets");
 
-    sett.beginGroup(name);
-    sett.remove("");
+    if (sett.childGroups().contains(presetName)) {
+      sett.beginGroup(presetName);
 
-    sett.setValue("version", (int)2);
+      // get version of settings
+      int version;
+      bool ok;
+      QVariant varVersion = sett.value("version", QVariant((int)1));
+      version = varVersion.toInt(&ok);
 
-    this->mPrepare->save(&sett);
-    this->mMatrix->save(&sett);
-    this->mReordering->save(&sett);
-    this->mImage->save(&sett);
-    this->mFont->save(&sett);
-    this->mTemplates->save(&sett);
+      if (!ok) {
+        version = 1;
+      }
+
+      result = this->mPrepare->load(&sett, version);
+      result &= this->mMatrix->load(&sett, version);
+      result &= this->mReordering->load(&sett, version);
+      result &= this->mImage->load(&sett, version);
+      result &= this->mFont->load(&sett, version);
+      result &= this->mTemplates->load(&sett, version);
+
+      sett.endGroup();
+
+      this->mName = presetName;
+    }
 
     sett.endGroup();
-    sett.endGroup();
+
+    this->mBlockChangesSignal = false;
+
+    emit this->changed();
+  }
+
+  return result;
 }
-//-----------------------------------------------------------------------------
+
+bool Preset::loadXML(const QString &filename)
+{
+  QDomDocument doc;
+  QFile file(filename);
+
+  if (file.open(QIODevice::ReadOnly)) {
+    if (doc.setContent(&file)) {
+      QDomElement root = doc.documentElement();
+      QDomNode nodeName = root.firstChild();
+
+      while (!nodeName.isNull()) {
+        QDomElement e = nodeName.toElement();
+
+        if (e.tagName() == "name") {
+          this->mName = e.text();
+          break;
+        }
+
+        nodeName = nodeName.nextSibling();
+      }
+
+      if (nodeName.isNull()) {
+        return false;
+      }
+
+      this->mPrepare->loadXmlElement(root);
+      this->mImage->loadXmlElement(root);
+      this->mFont->loadXmlElement(root);
+      this->mMatrix->loadXmlElement(root);
+      this->mReordering->loadXmlElement(root);
+      this->mTemplates->loadXmlElement(root);
+    }
+
+    file.close();
+    return true;
+  }
+
+  return false;
+}
+
+void Preset::save(const QString &name) const
+{
+  QSettings sett;
+  sett.beginGroup("presets");
+
+  sett.beginGroup(name);
+  sett.remove("");
+
+  sett.setValue("version", (int)2);
+
+  this->mPrepare->save(&sett);
+  this->mMatrix->save(&sett);
+  this->mReordering->save(&sett);
+  this->mImage->save(&sett);
+  this->mFont->save(&sett);
+  this->mTemplates->save(&sett);
+
+  sett.endGroup();
+  sett.endGroup();
+}
+
 void Preset::saveXML(const QString &filename) const
 {
-    QDomDocument doc;
-    doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\""));
-    QDomElement root = doc.createElement("preset");
-    doc.appendChild(root);
-    root.setAttribute("version", 3);
+  QDomDocument doc;
+  doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\""));
+  QDomElement root = doc.createElement("preset");
+  doc.appendChild(root);
+  root.setAttribute("version", 3);
 
-    QDomElement nodeName = doc.createElement("name");
-    root.appendChild(nodeName);
-    nodeName.appendChild(doc.createTextNode(this->mName));
+  QDomElement nodeName = doc.createElement("name");
+  root.appendChild(nodeName);
+  nodeName.appendChild(doc.createTextNode(this->mName));
 
-    this->mPrepare->saveXmlElement(root);
-    this->mMatrix->saveXmlElement(root);
-    this->mReordering->saveXmlElement(root);
-    this->mImage->saveXmlElement(root);
-    this->mFont->saveXmlElement(root);
-    this->mTemplates->saveXmlElement(root);
+  this->mPrepare->saveXmlElement(root);
+  this->mMatrix->saveXmlElement(root);
+  this->mReordering->saveXmlElement(root);
+  this->mImage->saveXmlElement(root);
+  this->mFont->saveXmlElement(root);
+  this->mTemplates->saveXmlElement(root);
 
-    QFile outFile(filename);
-    if(!outFile.open(QIODevice::WriteOnly | QIODevice::Text))
-    {
-        qDebug( "Failed to open file for writing." );
-        return;
-    }
+  QFile outFile(filename);
 
-    QTextStream stream(&outFile);
-    doc.save(stream, 2);
+  if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    qDebug( "Failed to open file for writing." );
+    return;
+  }
 
-    outFile.close();
+  QTextStream stream(&outFile);
+  doc.save(stream, 2);
+
+  outFile.close();
 }
-//-----------------------------------------------------------------------------
+
 void Preset::initMono(MonochromeType type, int edge)
 {
-    this->mMatrix->operationsRemoveAll();
-    this->mReordering->operationsRemoveAll();
+  this->mMatrix->operationsRemoveAll();
+  this->mReordering->operationsRemoveAll();
 
-    this->mPrepare->setConvType(ConversionTypeMonochrome);
-    this->mPrepare->setMonoType(type);
-    this->mPrepare->setEdge(edge);
-    this->mMatrix->setMaskUsed(0x00000001);
-    this->mMatrix->setMaskAnd(0xffffffff);
-    this->mMatrix->setMaskOr(0x00000000);
-    this->mMatrix->setMaskFill(0x000000ff);
-    this->mImage->setBlockSize(Data8);
+  this->mPrepare->setConvType(ConversionTypeMonochrome);
+  this->mPrepare->setMonoType(type);
+  this->mPrepare->setEdge(edge);
+  this->mMatrix->setMaskUsed(0x00000001);
+  this->mMatrix->setMaskAnd(0xffffffff);
+  this->mMatrix->setMaskOr(0x00000000);
+  this->mMatrix->setMaskFill(0x000000ff);
+  this->mImage->setBlockSize(Data8);
 
-    // alpha bits
-    {
-        this->mMatrix->operationAdd(0xff000000, 0, false);
-    }
+  // alpha bits
+  {
+    this->mMatrix->operationAdd(0xff000000, 0, false);
+  }
 
-    // bits shift
-    {
-        this->mMatrix->operationAdd(0x00000001, 0, false);
-    }
+  // bits shift
+  {
+    this->mMatrix->operationAdd(0x00000001, 0, false);
+  }
 
-    emit this->changed();
+  emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void Preset::initGrayscale(int bits)
 {
-    this->mMatrix->operationsRemoveAll();
-    this->mReordering->operationsRemoveAll();
+  this->mMatrix->operationsRemoveAll();
+  this->mReordering->operationsRemoveAll();
 
-    if (bits > 8) bits = 8;
-    if (bits < 1) bits = 1;
+  if (bits > 8) {
+    bits = 8;
+  }
 
-    this->mPrepare->setConvType(ConversionTypeGrayscale);
-    this->mImage->setBlockSize(Data16);
+  if (bits < 1) {
+    bits = 1;
+  }
 
-    // mask of used bits before packing
-    {
-        quint32 mask = 0x000000ff;
-        mask = mask << bits;
-        mask = mask >> 8;
-        mask = mask & 0x000000ff;
+  this->mPrepare->setConvType(ConversionTypeGrayscale);
+  this->mImage->setBlockSize(Data16);
 
-        this->mMatrix->setMaskUsed(mask);
-    }
+  // mask of used bits before packing
+  {
+    quint32 mask = 0x000000ff;
+    mask = mask << bits;
+    mask = mask >> 8;
+    mask = mask & 0x000000ff;
 
-    this->mMatrix->setMaskAnd(0xffffffff);
-    this->mMatrix->setMaskOr(0x00000000);
-    this->mMatrix->setMaskFill(0x0000ffff);
+    this->mMatrix->setMaskUsed(mask);
+  }
 
-    // alpha bits
-    {
-        this->mMatrix->operationAdd(0xff000000, 0, false);
-    }
+  this->mMatrix->setMaskAnd(0xffffffff);
+  this->mMatrix->setMaskOr(0x00000000);
+  this->mMatrix->setMaskFill(0x0000ffff);
 
-    // bits shift
-    {
-        quint32 mask = 0x0000ff00;
-        mask = mask >> bits;
-        mask = mask & 0x000000ff;
+  // alpha bits
+  {
+    this->mMatrix->operationAdd(0xff000000, 0, false);
+  }
 
-        quint32 shift = 8 - bits;
+  // bits shift
+  {
+    quint32 mask = 0x0000ff00;
+    mask = mask >> bits;
+    mask = mask & 0x000000ff;
 
-        this->mMatrix->operationAdd(mask, shift, false);
-    }
+    quint32 shift = 8 - bits;
 
-    emit this->changed();
+    this->mMatrix->operationAdd(mask, shift, false);
+  }
+
+  emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void Preset::initColor(int alphaBits, int redBits, int greenBits, int blueBits)
 {
-    this->mMatrix->operationsRemoveAll();
-    this->mReordering->operationsRemoveAll();
+  this->mMatrix->operationsRemoveAll();
+  this->mReordering->operationsRemoveAll();
 
-    if (alphaBits > 8) alphaBits = 8;
-    if (alphaBits < 0) alphaBits = 0;
-    if (redBits > 8) redBits = 8;
-    if (redBits < 1) redBits = 1;
-    if (greenBits > 8) greenBits = 8;
-    if (greenBits < 1) greenBits = 1;
-    if (blueBits > 8) blueBits = 8;
-    if (blueBits < 1) blueBits = 1;
+  if (alphaBits > 8) {
+    alphaBits = 8;
+  }
 
-    int bits = alphaBits + redBits + greenBits + blueBits;
+  if (alphaBits < 0) {
+    alphaBits = 0;
+  }
 
-    this->mPrepare->setConvType(ConversionTypeColor);
-    this->mImage->setBlockSize(Data32);
+  if (redBits > 8) {
+    redBits = 8;
+  }
 
-    // mask of used bits before packing
-    {
-        quint64 mask64 = 0x00000000ffffffff;
-        mask64 = mask64 << bits;
-        mask64 = mask64 >> 32;
-        mask64 = mask64 & 0x00000000ffffffff; // 32 bits
-        quint32 mask = (quint32)mask64;
-        this->mMatrix->setMaskUsed(mask);
-    }
+  if (redBits < 1) {
+    redBits = 1;
+  }
 
-    this->mMatrix->setMaskAnd(0xffffffff);
-    this->mMatrix->setMaskOr(0x00000000);
-    this->mMatrix->setMaskFill(0xffffffff);
+  if (greenBits > 8) {
+    greenBits = 8;
+  }
 
-    // alpha bits
-    if (alphaBits > 0)
-    {
-        quint32 mask = 0x0000ff00;
-        mask = mask >> alphaBits;
-        mask = mask & 0x000000ff;
-        mask = mask << 24;
+  if (greenBits < 1) {
+    greenBits = 1;
+  }
 
-        quint32 shift = 32 - bits;
+  if (blueBits > 8) {
+    blueBits = 8;
+  }
 
-        this->mMatrix->operationAdd(mask, shift, false);
-    }
+  if (blueBits < 1) {
+    blueBits = 1;
+  }
 
-    // red bits shift
-    {
-        quint32 mask = 0x0000ff00;
-        mask = mask >> redBits;
-        mask = mask & 0x000000ff;
-        mask = mask << 16;
+  int bits = alphaBits + redBits + greenBits + blueBits;
 
-        quint32 shift = 24 - redBits - greenBits - blueBits;
+  this->mPrepare->setConvType(ConversionTypeColor);
+  this->mImage->setBlockSize(Data32);
 
-        this->mMatrix->operationAdd(mask, shift, false);
-    }
+  // mask of used bits before packing
+  {
+    quint64 mask64 = 0x00000000ffffffff;
+    mask64 = mask64 << bits;
+    mask64 = mask64 >> 32;
+    mask64 = mask64 & 0x00000000ffffffff; // 32 bits
+    quint32 mask = (quint32)mask64;
+    this->mMatrix->setMaskUsed(mask);
+  }
 
-    // green bits shift
-    {
-        quint32 mask = 0x0000ff00;
-        mask = mask >> greenBits;
-        mask = mask & 0x000000ff;
-        mask = mask << 8;
+  this->mMatrix->setMaskAnd(0xffffffff);
+  this->mMatrix->setMaskOr(0x00000000);
+  this->mMatrix->setMaskFill(0xffffffff);
 
-        quint32 shift = 16 - greenBits - blueBits;
+  // alpha bits
+  if (alphaBits > 0) {
+    quint32 mask = 0x0000ff00;
+    mask = mask >> alphaBits;
+    mask = mask & 0x000000ff;
+    mask = mask << 24;
 
-        this->mMatrix->operationAdd(mask, shift, false);
-    }
+    quint32 shift = 32 - bits;
 
-    // blue bits shift
-    {
-        quint32 mask = 0x0000ff00;
-        mask = mask >> blueBits;
-        mask = mask & 0x000000ff;
+    this->mMatrix->operationAdd(mask, shift, false);
+  }
 
-        quint32 shift = 8 - blueBits;
+  // red bits shift
+  {
+    quint32 mask = 0x0000ff00;
+    mask = mask >> redBits;
+    mask = mask & 0x000000ff;
+    mask = mask << 16;
 
-        this->mMatrix->operationAdd(mask, shift, false);
-    }
+    quint32 shift = 24 - redBits - greenBits - blueBits;
 
-    emit this->changed();
+    this->mMatrix->operationAdd(mask, shift, false);
+  }
+
+  // green bits shift
+  {
+    quint32 mask = 0x0000ff00;
+    mask = mask >> greenBits;
+    mask = mask & 0x000000ff;
+    mask = mask << 8;
+
+    quint32 shift = 16 - greenBits - blueBits;
+
+    this->mMatrix->operationAdd(mask, shift, false);
+  }
+
+  // blue bits shift
+  {
+    quint32 mask = 0x0000ff00;
+    mask = mask >> blueBits;
+    mask = mask & 0x000000ff;
+
+    quint32 shift = 8 - blueBits;
+
+    this->mMatrix->operationAdd(mask, shift, false);
+  }
+
+  emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void Preset::partsChanged()
 {
-    if (!this->mBlockChangesSignal)
-        emit this->changed();
+  if (!this->mBlockChangesSignal) {
+    emit this->changed();
+  }
 }
-//-----------------------------------------------------------------------------
+

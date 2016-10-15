@@ -19,53 +19,53 @@
 
 #ifndef FONTOPTIONS_H
 #define FONTOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 #include "conversion_options.h"
-//-----------------------------------------------------------------------------
+
 class QStringList;
 class QSettings;
 class QDomElement;
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
-//-----------------------------------------------------------------------------
+
 class FontOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit FontOptions(QObject *parent = 0);
+  explicit FontOptions(QObject *parent = 0);
 
-    bool bom() const;
-    const QString &encoding() const;
-    CharactersSortOrder sortOrder() const;
+  bool bom() const;
+  const QString &encoding() const;
+  CharactersSortOrder sortOrder() const;
 
-    void setBom(bool value);
-    void setEncoding(const QString &value);
-    void setSortOrder(CharactersSortOrder value);
+  void setBom(bool value);
+  void setEncoding(const QString &value);
+  void setSortOrder(CharactersSortOrder value);
 
-    bool load(QSettings *settings, int version);
-    bool loadXmlElement(QDomElement element);
-    void save(QSettings *settings);
-    void saveXmlElement(QDomElement element);
+  bool load(QSettings *settings, int version);
+  bool loadXmlElement(QDomElement element);
+  void save(QSettings *settings);
+  void saveXmlElement(QDomElement element);
 
-    static const QStringList &encodings();
+  static const QStringList &encodings();
 
 private:
-    static const QString GroupName;
-    static const QString FieldBom;
-    static const QString FieldSortOrder;
-    static const QString FieldCodec;
+  static const QString GroupName;
+  static const QString FieldBom;
+  static const QString FieldSortOrder;
+  static const QString FieldCodec;
 
-    bool mBom;
-    QString mEncoding;
-    CharactersSortOrder mSortOrder;
+  bool mBom;
+  QString mEncoding;
+  CharactersSortOrder mSortOrder;
 
 signals:
-    void changed();
+  void changed();
 
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // FONTOPTIONS_H

@@ -24,26 +24,27 @@
 #include <QProcess>
 #include "ioperation.h"
 
-namespace Operations {
+namespace Operations
+{
 
 class ImageEditInExternalTool : public QObject, public IOperation
 {
-    Q_OBJECT
-    Q_INTERFACES(Operations::IOperation)
+  Q_OBJECT
+  Q_INTERFACES(Operations::IOperation)
 
 public:
-    explicit ImageEditInExternalTool(QWidget *parentWidget = 0, QObject *parent = 0);
+  explicit ImageEditInExternalTool(QWidget *parentWidget = 0, QObject *parent = 0);
 
-    bool prepare(const IDocument *doc, const QStringList &keys);
-    void applyDocument(IDocument *doc, const QStringList &keys);
-    void applyItem(IDocument *doc, const QString &itemKey);
+  bool prepare(const IDocument *doc, const QStringList &keys);
+  void applyDocument(IDocument *doc, const QStringList &keys);
+  void applyItem(IDocument *doc, const QString &itemKey);
 
 private:
-    QWidget *mParentWidget;
-    bool mRunningError;
+  QWidget *mParentWidget;
+  bool mRunningError;
 
 private slots:
-    void processError(QProcess::ProcessError error);
+  void processError(QProcess::ProcessError error);
 };
 
 }

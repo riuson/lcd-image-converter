@@ -18,46 +18,46 @@
  */
 
 #include "reorderingitemdelegate.h"
-//-----------------------------------------------------------------------------
+
 ReorderingItemDelegate::ReorderingItemDelegate(QObject *parent) :
-    QItemDelegate(parent)
+  QItemDelegate(parent)
 {
-    this->mColor= QColor("gold");
+  this->mColor = QColor("gold");
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingItemDelegate::paint(QPainter *painter,
-                                 const QStyleOptionViewItem &option,
-                                 const QModelIndex &index) const
+                                   const QStyleOptionViewItem &option,
+                                   const QModelIndex &index) const
 {
-    if (index.isValid())
-    {
-        int rows = index.model()->rowCount();
-        QRect rect = option.rect;
-        int row = index.row();
-        if (row == 0)
-        {
-            //painter->setPen(this->mColorOdd);
-            QPen pen(QBrush(this->mColor), 3);
-            painter->setPen(pen);
-            painter->drawLine(rect.left(), rect.bottom() - 1, rect.right(), rect.bottom() - 1);
-        }
-        if (row == rows - 1)
-        {
-            QPen pen(QBrush(this->mColor), 3);
-            painter->setPen(pen);
-            painter->drawLine(rect.left(), rect.top() + 1, rect.right(), rect.top() + 1);
-        }
+  if (index.isValid()) {
+    int rows = index.model()->rowCount();
+    QRect rect = option.rect;
+    int row = index.row();
+
+    if (row == 0) {
+      //painter->setPen(this->mColorOdd);
+      QPen pen(QBrush(this->mColor), 3);
+      painter->setPen(pen);
+      painter->drawLine(rect.left(), rect.bottom() - 1, rect.right(), rect.bottom() - 1);
     }
-    QItemDelegate::paint(painter, option, index);
+
+    if (row == rows - 1) {
+      QPen pen(QBrush(this->mColor), 3);
+      painter->setPen(pen);
+      painter->drawLine(rect.left(), rect.top() + 1, rect.right(), rect.top() + 1);
+    }
+  }
+
+  QItemDelegate::paint(painter, option, index);
 }
-//-----------------------------------------------------------------------------
+
 QColor ReorderingItemDelegate::color() const
 {
-    return this->mColor;
+  return this->mColor;
 }
-//-----------------------------------------------------------------------------
+
 void ReorderingItemDelegate::setColor(const QColor &value)
 {
-    this->mColor = value;
+  this->mColor = value;
 }
-//-----------------------------------------------------------------------------
+

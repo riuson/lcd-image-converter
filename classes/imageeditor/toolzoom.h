@@ -19,63 +19,62 @@
 
 #ifndef TOOLZOOM_H
 #define TOOLZOOM_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include "iimageeditortool.h"
 
 class QIcon;
 class QSpinBox;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class IImageEditorParams;
-//-----------------------------------------------------------------------------
+
 class ToolZoom : public QObject, public IImageEditorTool
 {
-    Q_OBJECT
-    Q_INTERFACES(ImageEditor::IImageEditorTool)
+  Q_OBJECT
+  Q_INTERFACES(ImageEditor::IImageEditorTool)
 
 public:
-    explicit ToolZoom(IImageEditorParams *parameters, QObject *parent = 0);
-    ~ToolZoom();
+  explicit ToolZoom(IImageEditorParams *parameters, QObject *parent = 0);
+  ~ToolZoom();
 
-    const QString title() const;
-    const QString tooltip() const;
-    const QIcon *icon() const;
-    const QList<QAction *> *actions() const;
-    const QList<QWidget *> *widgets() const;
+  const QString title() const;
+  const QString tooltip() const;
+  const QIcon *icon() const;
+  const QList<QAction *> *actions() const;
+  const QList<QWidget *> *widgets() const;
 
-    int scale() const;
+  int scale() const;
 
 public slots:
-    bool processMouse(QMouseEvent *event,
-                      const QImage *imageOriginal,
-                      bool inRect);
-    void setScale(int value);
+  bool processMouse(QMouseEvent *event,
+                    const QImage *imageOriginal,
+                    bool inRect);
+  void setScale(int value);
 
 signals:
-    void started(const QImage *value);
-    void processing(const QImage *value);
-    void completed(const QImage *value, bool changed);
-    void scaleChanged(int value);
+  void started(const QImage *value);
+  void processing(const QImage *value);
+  void completed(const QImage *value, bool changed);
+  void scaleChanged(int value);
 
 private:
-    IImageEditorParams *mParameters;
-    QIcon *mIcon;
-    QSpinBox *mSpinBoxScale;
-    QList<QAction *> *mActions;
-    QList<QWidget *> *mWidgets;
-    int mScale;
+  IImageEditorParams *mParameters;
+  QIcon *mIcon;
+  QSpinBox *mSpinBoxScale;
+  QList<QAction *> *mActions;
+  QList<QWidget *> *mWidgets;
+  int mScale;
 
-
-    void initializeWidgets();
-    void loadSettings();
-    void saveSettings() const;
+  void initializeWidgets();
+  void loadSettings();
+  void saveSettings() const;
 
 private slots:
-    void on_spinBoxScale_valueChanged(int value);
+  void on_spinBoxScale_valueChanged(int value);
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+
 #endif // TOOLZOOM_H

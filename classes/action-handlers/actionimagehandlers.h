@@ -19,42 +19,42 @@
 
 #ifndef ACTIONIMAGEHANDLERS_H
 #define ACTIONIMAGEHANDLERS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QProcess>
 
 #include "actionhandlersbase.h"
-//-----------------------------------------------------------------------------
+
 class IMainWindow;
 class WidgetBitmapEditor;
-//-----------------------------------------------------------------------------
+
 class ActionImageHandlers : public ActionHandlersBase
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ActionImageHandlers(QObject *parent = 0);
+  explicit ActionImageHandlers(QObject *parent = 0);
 
 private:
-    bool mRunningError;
+  bool mRunningError;
 
 signals:
 
 public slots:
-    void flipHorizontal_triggered();
-    void flipVertical_triggered();
-    void rotate_90_Clockwise_triggered();
-    void rotate_180_triggered();
-    void rotate_90_Counter_Clockwise_triggered();
-    void shift_left_triggered();
-    void shift_right_triggered();
-    void shift_up_triggered();
-    void shift_down_triggered();
-    void inverse_triggered();
-    void resize_triggered();
-    void grayscale_triggered();
-    void import_triggered();
-    void export_triggered();
-    void edit_in_external_tool_triggered();
+  void flipHorizontal_triggered();
+  void flipVertical_triggered();
+  void rotate_90_Clockwise_triggered();
+  void rotate_180_triggered();
+  void rotate_90_Counter_Clockwise_triggered();
+  void shift_left_triggered();
+  void shift_right_triggered();
+  void shift_up_triggered();
+  void shift_down_triggered();
+  void inverse_triggered();
+  void resize_triggered();
+  void grayscale_triggered();
+  void import_triggered();
+  void export_triggered();
+  void edit_in_external_tool_triggered();
 };
-//-----------------------------------------------------------------------------
+
 #endif // ACTIONIMAGEHANDLERS_H

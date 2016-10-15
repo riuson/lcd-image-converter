@@ -23,123 +23,116 @@
 #include <QFile>
 #include <QDir>
 #include <QMap>
-//-----------------------------------------------------------------------------
+
 int FileDialogOptions::filterIndex(FileDialogOptions::Dialogs dialog)
 {
-    QString dialogName;
+  QString dialogName;
 
-    if (FileDialogOptions::itemName(dialog, &dialogName))
-    {
-        return FileDialogOptions::getInteger(QString("%1_filterIndex").arg(dialogName));
-    }
+  if (FileDialogOptions::itemName(dialog, &dialogName)) {
+    return FileDialogOptions::getInteger(QString("%1_filterIndex").arg(dialogName));
+  }
 
-    return 0;
+  return 0;
 }
-//-----------------------------------------------------------------------------
+
 void FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs dialog, int value)
 {
-    QString dialogName;
+  QString dialogName;
 
-    if (FileDialogOptions::itemName(dialog, &dialogName))
-    {
-        return FileDialogOptions::setInteger(QString("%1_filterIndex").arg(dialogName), value);
-    }
+  if (FileDialogOptions::itemName(dialog, &dialogName)) {
+    return FileDialogOptions::setInteger(QString("%1_filterIndex").arg(dialogName), value);
+  }
 }
-//-----------------------------------------------------------------------------
+
 const QString FileDialogOptions::directory(FileDialogOptions::Dialogs dialog)
 {
-    QString dialogName;
+  QString dialogName;
 
-    if (FileDialogOptions::itemName(dialog, &dialogName))
-    {
-        QString result = FileDialogOptions::getString(QString("%1_directory").arg(dialogName));
+  if (FileDialogOptions::itemName(dialog, &dialogName)) {
+    QString result = FileDialogOptions::getString(QString("%1_directory").arg(dialogName));
 
-        if (!result.isEmpty())
-        {
-            QDir dir(result);
+    if (!result.isEmpty()) {
+      QDir dir(result);
 
-            if (dir.exists())
-            {
-                return dir.absolutePath();
-            }
-        }
+      if (dir.exists()) {
+        return dir.absolutePath();
+      }
     }
+  }
 
-    return QDir::homePath();
+  return QDir::homePath();
 }
-//-----------------------------------------------------------------------------
+
 void FileDialogOptions::setDirectory(FileDialogOptions::Dialogs dialog, const QString &value)
 {
-    QString dialogName;
+  QString dialogName;
 
-    if (FileDialogOptions::itemName(dialog, &dialogName))
-    {
-        return FileDialogOptions::setString(QString("%1_directory").arg(dialogName), value);
-    }
+  if (FileDialogOptions::itemName(dialog, &dialogName)) {
+    return FileDialogOptions::setString(QString("%1_directory").arg(dialogName), value);
+  }
 }
-//-----------------------------------------------------------------------------
+
 bool FileDialogOptions::itemName(FileDialogOptions::Dialogs item, QString *name)
 {
-    QMap<Dialogs, QString> names;
-    names[Dialogs::OpenDocument] = "openDocument";
-    names[Dialogs::SaveDocument] =  "saveDocument";
-    names[Dialogs::ConvertDocument] = "convertDocument";
-    names[Dialogs::ImportImage] =  "importImage";
-    names[Dialogs::ExportImage] =  "exportImage";
-    names[Dialogs::ImportPreset] =  "importPreset";
-    names[Dialogs::ExportPreset] =  "exportPreset";
-    names[Dialogs::TemplateImage] =  "templateImage";
-    names[Dialogs::TemplateFont] =  "templateFont";
+  QMap<Dialogs, QString> names;
+  names[Dialogs::OpenDocument] = "openDocument";
+  names[Dialogs::SaveDocument] =  "saveDocument";
+  names[Dialogs::ConvertDocument] = "convertDocument";
+  names[Dialogs::ImportImage] =  "importImage";
+  names[Dialogs::ExportImage] =  "exportImage";
+  names[Dialogs::ImportPreset] =  "importPreset";
+  names[Dialogs::ExportPreset] =  "exportPreset";
+  names[Dialogs::TemplateImage] =  "templateImage";
+  names[Dialogs::TemplateFont] =  "templateFont";
 
-    if (!names.contains(item))
-    {
-        *name = QString();
-        return false;
-    }
+  if (!names.contains(item)) {
+    *name = QString();
+    return false;
+  }
 
-    *name = names[item];
-    return true;
+  *name = names[item];
+  return true;
 }
-//-----------------------------------------------------------------------------
+
 int FileDialogOptions::getInteger(const QString &name)
 {
-    bool ok;
+  bool ok;
 
-    QSettings sett;
-    sett.beginGroup("filedialogs");
-    int result = sett.value(name, QVariant(0)).toInt(&ok);
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("filedialogs");
+  int result = sett.value(name, QVariant(0)).toInt(&ok);
+  sett.endGroup();
 
-    if (!ok) {
-        result = 0;
-    }
+  if (!ok) {
+    result = 0;
+  }
 
-    return result;
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 void FileDialogOptions::setInteger(const QString &name, int value)
 {
-    QSettings sett;
-    sett.beginGroup("filedialogs");
-    sett.setValue(name, QVariant(value));
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("filedialogs");
+  sett.setValue(name, QVariant(value));
+  sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
 const QString FileDialogOptions::getString(const QString &name)
 {
-    QSettings sett;
-    sett.beginGroup("filedialogs");
-    QString result = sett.value(name, QVariant(0)).toString();
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("filedialogs");
+  QString result = sett.value(name, QVariant(0)).toString();
+  sett.endGroup();
 
-    return result;
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 void FileDialogOptions::setString(const QString &name, const QString &value)
 {
-    QSettings sett;
-    sett.beginGroup("filedialogs");
-    sett.setValue(name, QVariant(value));
-    sett.endGroup();
+  QSettings sett;
+  sett.beginGroup("filedialogs");
+  sett.setValue(name, QVariant(value));
+  sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+
