@@ -6,6 +6,15 @@
             <date>current</date>
         </commit>
         <changes>
+            <item category="fixed">Column's width in character's table on Font Setup dialog.</item>
+        </changes>
+    </record>
+    <record>
+        <commit>
+            <sha1>466b2e23a03ccf57597fbae90b918ee75a3ebf5e</sha1>
+            <date>2016-10-12 21:59:31 +0500</date>
+        </commit>
+        <changes>
             <item category="added">Menu item 'File' -&gt; 'Close All'.</item>
             <item category="added">Save last directory and filter index in dialogs.</item>
             <item category="added">Show original and new size in Resize dialog.</item>
