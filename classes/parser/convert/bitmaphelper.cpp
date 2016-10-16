@@ -231,16 +231,15 @@ QImage BitmapHelper::drawSelection(const QImage *source, const QPainterPath &sel
   QPixmap pixmap = QPixmap::fromImage(image);
   QPainter painter(&pixmap);
 
-  QColor selectionColor = QColor(255, 255, 255);
-  QBrush selectionBrush(selectionColor);
+  QColor selectionBorderColor = QColor(0, 0, 248, 128);
+  QBrush selectionFillBrush(QColor(64, 128, 248, 128));
 
-  painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
+  painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
   painter.setRenderHint(QPainter::Antialiasing, false);
   painter.setRenderHint(QPainter::HighQualityAntialiasing, false);
-  painter.setPen(selectionColor);
-  painter.setBrush(selectionBrush);
-  //painter.drawPath(this->mSelectedPath);//, selectionBrush);
-  painter.fillPath(selectedPath, selectionBrush);
+  painter.setPen(selectionBorderColor);
+  painter.setBrush(selectionFillBrush);
+  painter.drawPath(selectedPath);
 
   return pixmap.toImage();
 }
