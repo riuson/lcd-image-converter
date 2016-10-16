@@ -55,7 +55,7 @@ bool ImageImport::prepare(const IDocument *doc, const QStringList &keys)
 
       // check for items-files count equals
       if (this->mSelectedFiles.length() != keys.length()) {
-        QString msg = tr("Selected %1 file(s) and %2 character(s).\nWill be imported only a minimal amount: %3.").\
+        QString msg = tr("Selected %1 file(s) and %2 character(s).\nOnly minimal amount (%3) will be imported.").\
                       arg(this->mSelectedFiles.length()).\
                       arg(keys.length()).\
                       arg(qMin(this->mSelectedFiles.length(), keys.length()));
