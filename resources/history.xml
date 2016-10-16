@@ -6,6 +6,7 @@
             <date>current</date>
         </commit>
         <changes>
+            <item category="changed">Selection color. To get more perceptibility on monochrome and color images.</item>
             <item category="fixed">Column's width in character's table on Font Setup dialog.</item>
             <item category="fixed">Translation.</item>
             <item category="fixed">Scroll mode on Resize dialog.</item>
