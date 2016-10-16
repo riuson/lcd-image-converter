@@ -53,22 +53,22 @@
     <message>
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="453"/>
         <source>C source code (*.c)</source>
-        <translation>Исходные коды C</translation>
+        <translation>Исходные коды C (*.c)</translation>
     </message>
     <message>
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="454"/>
         <source>C++ source code (*.cpp)</source>
-        <translation>Исходные коды C++</translation>
+        <translation>Исходные коды C++ (*.cpp)</translation>
     </message>
     <message>
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="455"/>
         <source>C/C++ headers (*.h)</source>
-        <translation>Заголовочные файлы C/C++</translation>
+        <translation>Заголовочные файлы C/C++ (*.h)</translation>
     </message>
     <message>
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="456"/>
         <source>C/C++ files (*.c *.cpp *.h)</source>
-        <translation>Файлы C/C++</translation>
+        <translation>Файлы C/C++ (*.c *.cpp *.h)</translation>
     </message>
     <message>
         <location filename="../classes/action-handlers/actionfilehandlers.cpp" line="457"/>
@@ -808,7 +808,7 @@ Qt: %4</translation>
     <message>
         <location filename="../classes/imageeditor/toolmove.cpp" line="62"/>
         <source>Move entire image or selection</source>
-        <translation>Перемещение всего изображеня или выделенной частие</translation>
+        <translation>Перемещение всего изображения или выделенной части</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolmove.cpp" line="126"/>
@@ -875,7 +875,7 @@ Qt: %4</translation>
     <message>
         <location filename="../classes/imageeditor/toolrect.cpp" line="162"/>
         <source>Filled Outline</source>
-        <translation>Заливка и Границы</translation>
+        <translation>Заливка и границы</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolrect.cpp" line="163"/>
@@ -1357,9 +1357,9 @@ Qt: %4</translation>
     <message>
         <location filename="../classes/operations/imageimport.cpp" line="58"/>
         <source>Selected %1 file(s) and %2 character(s).
-Will be imported only a minimal amount: %3.</source>
-        <translation>Выбрано %1 файл(ов) и %2 символ(ов).
-Будет импортировано только минимальное количество: %3.</translation>
+Only minimal amount (%3) will be imported.</source>
+        <translation>Количество выбранных файлов и символов: %1 и %2.
+Только минимальное количество (%3) будет импортировано.</translation>
     </message>
     <message>
         <location filename="../classes/operations/imageimport.cpp" line="67"/>
@@ -1400,7 +1400,7 @@ Will be imported only a minimal amount: %3.</source>
     <message>
         <location filename="../controls/setup/parts/font/setuptabfont.ui" line="20"/>
         <source>Use BOM (Byte Order Mark) for Unicode</source>
-        <translation>Использовать BOM (метку порядка байтов)</translation>
+        <translation>Использовать BOM (метку порядка байтов) для Юникода</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/font/setuptabfont.ui" line="37"/>

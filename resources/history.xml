@@ -7,6 +7,7 @@
         </commit>
         <changes>
             <item category="fixed">Column's width in character's table on Font Setup dialog.</item>
+            <item category="fixed">Translation.</item>
         </changes>
     </record>
     <record>
