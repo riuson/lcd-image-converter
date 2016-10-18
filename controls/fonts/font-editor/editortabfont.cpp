@@ -62,7 +62,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
   this->mScaledProxy = new ImagesScaledProxy(this);
   this->mScaledProxy->setScale(FontEditorOptions::scale());
-  this->connect(this->mScaledProxy, SIGNAL(scaleChanged()), SLOT(resizeToContents()));
+  this->connect(this->mScaledProxy, SIGNAL(scaleChanged(int)), SLOT(resizeToContents()));
 
   this->mScaledProxy->setSourceModel(this->mModel);
 
