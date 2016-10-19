@@ -54,6 +54,10 @@ private:
   void loadSettings();
   void saveSettings() const;
 
+  void connectFontFamilyList(bool value);
+  void connectFontStyleList(bool value);
+  void connectFontSizeList(bool value);
+
 private slots:
   void on_lineEdit_textChanged(const QString &value);
   void on_tableView_doubleClicked(const QModelIndex &index);
