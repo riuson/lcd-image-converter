@@ -325,7 +325,7 @@ void DialogFontSelect::on_sizesListChanged(const QList<int> &list, int selected)
   if (previousSizeIndex >= 0) {
     this->ui->comboBoxSize->setCurrentIndex(previousSizeIndex);
   } else {
-    this->ui->comboBoxSize->setCurrentText(QString("%1").arg(selected));
+    this->ui->comboBoxSize->setEditText(QString("%1").arg(selected));
   }
 
   this->connectFontSizeList(true);
