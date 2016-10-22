@@ -11,6 +11,7 @@
             <item category="fixed">Column's width in character's table on Font Setup dialog.</item>
             <item category="fixed">Translation.</item>
             <item category="fixed">Scroll mode on Resize dialog.</item>
+            <item category="fixed">Select previous font size at font setup dialog.</item>
         </changes>
     </record>
     <record>
