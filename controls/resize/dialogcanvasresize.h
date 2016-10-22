@@ -48,6 +48,9 @@ public:
   void resizeInfo(int *left, int *top, int *right, int *bottom) const;
   void setResizeInfo(int left, int top, int right, int bottom);
 
+protected:
+  void wheelEvent(QWheelEvent *event);
+
 private:
   Ui::DialogCanvasResize *ui;
 
@@ -66,9 +69,9 @@ private:
 
 private slots:
   void spinBox_valueChanged(int value);
-  void on_spinBoxScale_valueChanged(int value);
   void on_pushButtonReset_clicked();
   void resizeToContents();
+  void on_scaleChanged(int value);
 };
 
 #endif // DIALOGCANVASRESIZE_H

@@ -21,6 +21,7 @@
 #include "ui_dialogcanvasresize.h"
 
 #include <QItemSelectionModel>
+#include <QWheelEvent>
 #include "imagesmodel.h"
 #include "imagesscaledproxy.h"
 #include "imagesresizedproxy.h"
@@ -61,6 +62,8 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
   this->connect(this->ui->spinBoxTop,    SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
   this->connect(this->ui->spinBoxRight,  SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
   this->connect(this->ui->spinBoxBottom, SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
+  this->connect(this->ui->spinBoxScale,  SIGNAL(valueChanged(int)), this->mScaledProxy, SLOT(setScale(int)));
+  this->connect(this->mScaledProxy, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
 
   this->mLeft = 0;
   this->mTop = 0;
@@ -68,8 +71,8 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
   this->mBottom = 0;
 
   int scale = ResizeSettings::scale();
-  this->ui->spinBoxScale->setValue(scale);
-  this->on_spinBoxScale_valueChanged(scale);
+  this->mScaledProxy->setScale(scale);
+  this->on_scaleChanged(scale);
 }
 
 DialogCanvasResize::~DialogCanvasResize()
@@ -107,6 +110,28 @@ void DialogCanvasResize::setResizeInfo(int left, int top, int right, int bottom)
   this->ui->spinBoxBottom->setValue(bottom);
 }
 
+void DialogCanvasResize::wheelEvent(QWheelEvent *event)
+{
+  if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
+    QPoint point = event->globalPos();
+    point = this->mapFromGlobal(point);
+
+    if (event->orientation() == Qt::Vertical) {
+      int scale = this->mScaledProxy->scale();
+
+      if (event->delta() > 0) {
+        scale++;
+      } else {
+        scale--;
+      }
+
+      this->mScaledProxy->setScale(scale);
+    }
+
+    event->accept();
+  }
+}
+
 void DialogCanvasResize::spinBox_valueChanged(int value)
 {
   Q_UNUSED(value);
@@ -125,13 +150,6 @@ void DialogCanvasResize::spinBox_valueChanged(int value)
   this->resizeToContents();
 }
 
-void DialogCanvasResize::on_spinBoxScale_valueChanged(int value)
-{
-  this->mScaledProxy->setScale(value);
-
-  this->resizeToContents();
-}
-
 void DialogCanvasResize::on_pushButtonReset_clicked()
 {
   this->ui->spinBoxLeft->setValue(0);
@@ -144,5 +162,14 @@ void DialogCanvasResize::resizeToContents()
 {
   this->ui->tableView->resizeRowsToContents();
   this->ui->tableView->resizeColumnsToContents();
+}
+
+void DialogCanvasResize::on_scaleChanged(int value)
+{
+  if (this->ui->spinBoxScale->value() != value) {
+    this->ui->spinBoxScale->setValue(value);
+  }
+
+  this->resizeToContents();
 }
 

@@ -80,6 +80,6 @@ void ImagesScaledProxy::setScale(int value)
     emit this->beginResetModel();
     this->mScale = value;
     emit this->endResetModel();
-    emit this->scaleChanged();
+    emit this->scaleChanged(this->mScale);
   }
 }

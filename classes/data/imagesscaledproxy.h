@@ -33,13 +33,15 @@ public:
   QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
   int scale() const;
+
+public slots:
   void setScale(int value);
 
 private:
   int mScale;
 
 signals:
-  void scaleChanged();
+  void scaleChanged(int value);
 };
 
 #endif // IMAGESSCALEDPROXY_H
