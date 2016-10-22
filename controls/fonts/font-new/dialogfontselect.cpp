@@ -301,7 +301,7 @@ void DialogFontSelect::on_sizesListChanged(const QList<int> &list, int selected)
 {
   this->connectFontSizeList(false);
 
-  int i = 0, previousSizeIndex = 0;
+  int i = 0, previousSizeIndex = -1;
   QListIterator<int> it(list);
   it.toFront();
   this->ui->comboBoxSize->clear();
@@ -322,7 +322,11 @@ void DialogFontSelect::on_sizesListChanged(const QList<int> &list, int selected)
     i++;
   }
 
-  this->ui->comboBoxSize->setCurrentIndex(previousSizeIndex);
+  if (previousSizeIndex >= 0) {
+    this->ui->comboBoxSize->setCurrentIndex(previousSizeIndex);
+  } else {
+    this->ui->comboBoxSize->setCurrentText(QString("%1").arg(selected));
+  }
 
   this->connectFontSizeList(true);
 }
