@@ -54,9 +54,6 @@ private:
 private slots:
   void imagesChanged();
 
-signals:
-  void scaleChanged();
-
 public slots:
 
 };
