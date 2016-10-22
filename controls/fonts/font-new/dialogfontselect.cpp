@@ -56,16 +56,15 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
   this->connect(selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this->mData, SLOT(setUnicodeRange(QItemSelection, QItemSelection)));
 
   // Set font
-  this->connect(this->ui->fontComboBox, SIGNAL(currentFontChanged(QFont)), this->mData, SLOT(setFont(QFont)));
+  //this->connectFontFamilyList(false);
   // Get styles
   this->connect(this->mData, SIGNAL(stylesListChanged(QStringList, QString)), SLOT(on_stylesListChanged(QStringList, QString)));
   // Set style
-  this->connect(this->ui->comboBoxStyle, SIGNAL(currentIndexChanged(QString)), this->mData, SLOT(setStyle(QString)));
+  //this->connectFontStyleList(false);
   // Get sizes
   this->connect(this->mData, SIGNAL(sizesListChanged(QList<int>, int)), SLOT(on_sizesListChanged(QList<int>, int)));
   // Set size
-  this->connect(this->ui->comboBoxSize, SIGNAL(currentIndexChanged(QString)), this->mData, SLOT(setSize(QString)));
-  this->connect(this->ui->comboBoxSize, SIGNAL(currentTextChanged(QString)), this->mData, SLOT(setSize(QString)));
+  //this->connectFontSizeList(false);
   // Set unicode blocks filter
   this->connect(this->ui->lineEditUnicodeBlocksFilter, SIGNAL(textChanged(QString)), this->mData, SLOT(setUnicodeBlocksFilter(QString)));
 
@@ -95,6 +94,8 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
   this->ui->lineEdit->setText(this->mData->characters());
 
   this->loadSettings();
+
+  this->connectFontFamilyList(true);
 }
 
 DialogFontSelect::~DialogFontSelect()
@@ -153,6 +154,38 @@ void DialogFontSelect::saveSettings() const
 
   sett.endGroup();
   sett.endGroup();
+}
+
+void DialogFontSelect::connectFontFamilyList(bool value)
+{
+  if (value) {
+    this->connect(this->ui->fontComboBox, SIGNAL(currentFontChanged(QFont)), this->mData, SLOT(setFont(QFont)));
+    this->mData->setFont(this->ui->fontComboBox->currentFont());
+  } else {
+    this->disconnect(this->ui->fontComboBox, SIGNAL(currentFontChanged(QFont)), this->mData, SLOT(setFont(QFont)));
+  }
+}
+
+void DialogFontSelect::connectFontStyleList(bool value)
+{
+  if (value) {
+    this->connect(this->ui->comboBoxStyle, SIGNAL(currentIndexChanged(QString)), this->mData, SLOT(setStyle(QString)));
+    this->mData->setStyle(this->ui->comboBoxStyle->currentText());
+  } else {
+    this->disconnect(this->ui->comboBoxStyle, SIGNAL(currentIndexChanged(QString)), this->mData, SLOT(setStyle(QString)));
+  }
+}
+
+void DialogFontSelect::connectFontSizeList(bool value)
+{
+  if (value) {
+    this->connect(this->ui->comboBoxSize, SIGNAL(currentIndexChanged(QString)), this->mData, SLOT(setSize(QString)));
+    this->connect(this->ui->comboBoxSize, SIGNAL(currentTextChanged(QString)), this->mData, SLOT(setSize(QString)));
+    this->mData->setSize(this->ui->comboBoxSize->currentText());
+  } else  {
+    this->disconnect(this->ui->comboBoxSize, SIGNAL(currentIndexChanged(QString)), this->mData, SLOT(setSize(QString)));
+    this->disconnect(this->ui->comboBoxSize, SIGNAL(currentTextChanged(QString)), this->mData, SLOT(setSize(QString)));
+  }
 }
 
 void DialogFontSelect::on_lineEdit_textChanged(const QString &value)
@@ -248,6 +281,8 @@ void DialogFontSelect::on_pushButtonBackColor_clicked()
 
 void DialogFontSelect::on_stylesListChanged(const QStringList &list, const QString &selected)
 {
+  this->connectFontStyleList(false);
+
   this->ui->comboBoxStyle->clear();
   this->ui->comboBoxStyle->addItems(list);
 
@@ -258,11 +293,15 @@ void DialogFontSelect::on_stylesListChanged(const QStringList &list, const QStri
   } else {
     this->ui->comboBoxStyle->setCurrentIndex(0);
   }
+
+  this->connectFontStyleList(true);
 }
 
 void DialogFontSelect::on_sizesListChanged(const QList<int> &list, int selected)
 {
-  int i = 0, previousSizeIndex = 0;
+  this->connectFontSizeList(false);
+
+  int i = 0, previousSizeIndex = -1;
   QListIterator<int> it(list);
   it.toFront();
   this->ui->comboBoxSize->clear();
@@ -283,7 +322,13 @@ void DialogFontSelect::on_sizesListChanged(const QList<int> &list, int selected)
     i++;
   }
 
-  this->ui->comboBoxSize->setCurrentIndex(previousSizeIndex);
+  if (previousSizeIndex >= 0) {
+    this->ui->comboBoxSize->setCurrentIndex(previousSizeIndex);
+  } else {
+    this->ui->comboBoxSize->setCurrentText(QString("%1").arg(selected));
+  }
+
+  this->connectFontSizeList(true);
 }
 
 void DialogFontSelect::on_charactersListChanged(const QString &value)
