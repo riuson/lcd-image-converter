@@ -12,6 +12,7 @@
             <item category="fixed">Translation.</item>
             <item category="fixed">Scroll mode on Resize dialog.</item>
             <item category="fixed">Select previous font size at font setup dialog.</item>
+            <item category="fixed">Crop/Resize and Shift/Rotate methods for images with alpha-channel.</item>
         </changes>
     </record>
     <record>
