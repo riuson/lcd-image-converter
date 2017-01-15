@@ -27,6 +27,7 @@
 QImage BitmapHelper::rotate90(const QImage *source)
 {
   QImage result = QImage(source->height(), source->width(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
   QPainter painter(&result);
   painter.translate(QPoint(result.width(), 0));
   painter.rotate(90);
@@ -37,6 +38,7 @@ QImage BitmapHelper::rotate90(const QImage *source)
 QImage BitmapHelper::rotate180(const QImage *source)
 {
   QImage result = QImage(source->width(), source->height(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
   QPainter painter(&result);
   painter.translate(QPoint(result.width(), result.height()));
   painter.rotate(180);
@@ -47,6 +49,7 @@ QImage BitmapHelper::rotate180(const QImage *source)
 QImage BitmapHelper::rotate270(const QImage *source)
 {
   QImage result = QImage(source->height(), source->width(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
   QPainter painter(&result);
   painter.translate(QPoint(0, result.height()));
   painter.rotate(270);
@@ -57,6 +60,7 @@ QImage BitmapHelper::rotate270(const QImage *source)
 QImage BitmapHelper::shiftUp(const QImage *source)
 {
   QImage result = QImage(source->width(), source->height(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
   QPainter painter(&result);
   painter.drawImage(0, -1, *source);
   painter.drawImage(0, source->height() - 1, *source);
@@ -66,6 +70,7 @@ QImage BitmapHelper::shiftUp(const QImage *source)
 QImage BitmapHelper::shiftRight(const QImage *source)
 {
   QImage result = QImage(source->width(), source->height(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
   QPainter painter(&result);
   painter.drawImage(1, 0, *source);
   painter.drawImage(-source->width() + 1, 0, *source);
@@ -75,6 +80,7 @@ QImage BitmapHelper::shiftRight(const QImage *source)
 QImage BitmapHelper::shiftDown(const QImage *source)
 {
   QImage result = QImage(source->width(), source->height(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
   QPainter painter(&result);
   painter.drawImage(0, 1, *source);
   painter.drawImage(0, -source->height() + 1, *source);
@@ -84,6 +90,7 @@ QImage BitmapHelper::shiftDown(const QImage *source)
 QImage BitmapHelper::shiftLeft(const QImage *source)
 {
   QImage result = QImage(source->width(), source->height(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
   QPainter painter(&result);
   painter.drawImage(-1, 0, *source);
   painter.drawImage(source->width() - 1, 0, *source);
