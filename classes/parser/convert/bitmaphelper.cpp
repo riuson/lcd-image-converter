@@ -109,35 +109,6 @@ QImage BitmapHelper::flipVertical(const QImage *source)
   return result;
 }
 
-QImage BitmapHelper::resize(const QImage *source, int width, int height, int offsetX, int offsetY, bool center, bool changeWidth, bool changeHeight, const QColor &backColor)
-{
-  if (!changeWidth) {
-    width = source->width();
-    offsetX = 0;
-  }
-
-  if (!changeHeight) {
-    height = source->height();
-    offsetY = 0;
-  }
-
-  QImage result = QImage(width, height, source->format());
-  QPainter painter(&result);
-  painter.fillRect(0, 0, width, height, backColor);
-
-  if (!center) {
-    painter.drawImage(offsetX, offsetY, *source);
-  } else {
-    int centerX = width / 2;
-    int centerY = height / 2;
-    offsetX = centerX - source->width() / 2;
-    offsetY = centerY - source->height() / 2;
-    painter.drawImage(offsetX, offsetY, *source);
-  }
-
-  return result;
-}
-
 QImage BitmapHelper::crop(const QImage *source, int left, int top, int right, int bottom, const QColor &backColor)
 {
   int sourceWidth = source->width();
