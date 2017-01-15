@@ -150,10 +150,9 @@ QImage BitmapHelper::crop(const QImage *source, int left, int top, int right, in
   }
 
   QImage result = QImage(resultWidth, resultHeight, source->format());
+  result.fill(backColor);
 
   QPainter painter(&result);
-  painter.fillRect(0, 0, resultWidth, resultHeight, backColor);
-
   painter.drawImage(left, top, *source);
 
   return result;
