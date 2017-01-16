@@ -113,7 +113,8 @@ void DialogOptions::fillPresetsList(const QString &defaultName)
 {
   this->disconnect(this->ui->comboBoxPresets, SIGNAL(currentIndexChanged(int)), this, SLOT(on_comboBoxPresets_currentIndexChanged(int)));
 
-  QString current = this->ui->comboBoxPresets->currentText();
+  QString currentPresetName = this->ui->comboBoxPresets->currentText();
+  int currentPresetIndex = this->ui->comboBoxPresets->currentIndex();
 
   this->ui->comboBoxPresets->clear();
 
@@ -131,11 +132,13 @@ void DialogOptions::fillPresetsList(const QString &defaultName)
   }
 
   if (!defaultLoaded) {
-    if (names.contains(current)) {
-      this->ui->comboBoxPresets->setCurrentIndex(names.indexOf(current));
-      this->presetLoad(current);
+    if (names.contains(currentPresetName)) {
+      this->ui->comboBoxPresets->setCurrentIndex(names.indexOf(currentPresetName));
+      this->presetLoad(currentPresetName);
+    } else if (currentPresetIndex < 0 && names.count() > 0) {
+      this->ui->comboBoxPresets->setCurrentIndex(0);
+      this->presetLoad(names.at(0));
     }
-
   }
 
   this->connect(this->ui->comboBoxPresets, SIGNAL(currentIndexChanged(int)), SLOT(on_comboBoxPresets_currentIndexChanged(int)));
