@@ -17,7 +17,7 @@ before_install:
     - if [ "$QT_BASE" = "48" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt487-trusty; fi
     - if [ "$QT_BASE" = "51" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt511-trusty; fi
     - if [ "$QT_BASE" = "55" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt551-trusty; fi
-    - if [ "$QT_BASE" = "56" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt561-trusty; fi
+    - if [ "$QT_BASE" = "56" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt562-trusty; fi
     - sudo apt-get update -qq
 
 install:
