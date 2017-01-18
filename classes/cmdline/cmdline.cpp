@@ -56,6 +56,12 @@ CmdLine::CmdLine(const QStringList &arguments, QObject *parent) :
                                 QCoreApplication::translate("CmdLineParser", "Conversion mode for application, \"convert-image\", \"convert-font\" or \"hex2bin\"."),
                                 QCoreApplication::translate("CmdLineParser", "mode"));
   this->mParser->addOption(optionMode);
+
+  // optional option
+  QCommandLineOption optionConfig(QStringList() << "c" << "config",
+                                  QCoreApplication::translate("CmdLineParser", "Optional path to configuration file. If not specified, default is used."),
+                                  QCoreApplication::translate("CmdLineParser", "configuration"));
+  this->mParser->addOption(optionConfig);
 }
 
 CmdLine::~CmdLine()
@@ -73,14 +79,13 @@ bool CmdLine::needProcess() const
   return false;
 }
 
-int CmdLine::process()
+CmdLine::ProcessResult CmdLine::process()
 {
-  int result = 1;
+  ProcessResult result = ProcessResult::None;
 
   this->mParser->parse(*this->mArguments);
 
   QString modeName = this->mParser->value("mode");
-
   ModeParserBase *mode = this->createMode(modeName, this->mParser);
 
   if (mode != NULL) {
@@ -89,18 +94,31 @@ int CmdLine::process()
 
   this->mParser->process(*this->mArguments);
 
+  if (this->mParser->isSet("config")) {
+    QString configFile = this->mParser->value("config");
+
+    if (QFile::exists(configFile)) {
+      qDebug() << configFile;
+    }
+  }
+
   if (mode != NULL) {
     if (mode->collectArguments()) {
-      result = mode->process();
+      if (mode->process() == 0) {
+        result = ProcessResult::Success;
+      } else {
+        result = ProcessResult::Failed;
+      }
     } else {
-      qDebug() << "Argumenths missing";
+      qDebug() << "Arguments missing";
+      result = ProcessResult::Failed;
     }
 
     delete mode;
-  }
 
-  if (result != 0) {
-    this->mParser->showHelp(1);
+    if (result == ProcessResult::Failed) {
+      this->mParser->showHelp(1);
+    }
   }
 
   return result;

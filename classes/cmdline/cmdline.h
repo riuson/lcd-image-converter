@@ -39,11 +39,17 @@ class CmdLine : public QObject
 {
   Q_OBJECT
 public:
+  enum class ProcessResult {
+    None,
+    Success,
+    Failed
+  };
+
   explicit CmdLine(const QStringList &arguments, QObject *parent = 0);
   virtual ~CmdLine();
 
   bool needProcess() const;
-  int process();
+  ProcessResult process();
 private:
   QCommandLineParser *mParser;
   const QStringList *mArguments;

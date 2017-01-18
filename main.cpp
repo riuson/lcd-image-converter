@@ -53,7 +53,20 @@ int main(int argc, char *argv[])
   CommandLine::CmdLine cmd(a.arguments());
 
   if (cmd.needProcess()) { // if console mode
-    return cmd.process();
+    switch (cmd.process()) {
+      case CommandLine::CmdLine::ProcessResult::Failed: {
+        return 1;
+      }
+
+      case CommandLine::CmdLine::ProcessResult::Success: {
+        return 0;
+      }
+
+      case CommandLine::CmdLine::ProcessResult::None:
+      default: {
+        break;
+      }
+    }
   }
 
 #endif
