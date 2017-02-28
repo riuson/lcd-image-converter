@@ -391,8 +391,14 @@ OTHER_FILES += \
 # generate version info file on each build
 # sh script ($1 - path to project's directory):
 # git --git-dir $1/.git log --pretty=format:"#define GIT_REVISION \"%H\\0\" %n#define GIT_REVISION_ABBR \"%h\\0\" %n#define GIT_COMMIT_ADATE \"%ai\\0\" %n#define GIT_COMMIT_AT %at" -1 > $1/resources/revision.h
-PERCENT = %
-VERSION_LOG_FORMAT = $${LITERAL_HASH}define GIT_REVISION \\\"$${PERCENT}$${PERCENT}H\\\"$${PERCENT}$${PERCENT}n$${LITERAL_HASH}define GIT_REVISION_ABBR \\\"$${PERCENT}$${PERCENT}h\\\"$${PERCENT}$${PERCENT}n$${LITERAL_HASH}define GIT_COMMIT_ADATE \\\"$${PERCENT}$${PERCENT}ai\\\"$${PERCENT}$${PERCENT}n$${LITERAL_HASH}define GIT_COMMIT_AT $${PERCENT}$${PERCENT}at$${PERCENT}$${PERCENT}n
+win32 {
+  PERCENT = %%
+}
+unix {
+  PERCENT = %
+}
+NEWLINE = $${PERCENT}n
+VERSION_LOG_FORMAT = $${LITERAL_HASH}define GIT_REVISION \\\"$${PERCENT}H\\\"$${NEWLINE}$${LITERAL_HASH}define GIT_REVISION_ABBR \\\"$${PERCENT}h\\\"$${NEWLINE}$${LITERAL_HASH}define GIT_COMMIT_ADATE \\\"$${PERCENT}ai\\\"$${NEWLINE}$${LITERAL_HASH}define GIT_COMMIT_AT $${PERCENT}at$${NEWLINE}
 version.target = git_revision
 version.commands = git --git-dir $${PWD}/.git log --pretty=format:\"$${VERSION_LOG_FORMAT}\" -1 > $${PWD}/resources/revision.h
 
