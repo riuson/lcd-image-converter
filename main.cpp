@@ -34,9 +34,6 @@
 
 void setupApplication(QApplication *app)
 {
-  QCoreApplication::setApplicationName("lcd-image-converter");
-  QCoreApplication::setOrganizationName("riuson");
-
   QString version = QString("rev.%1 from %2").arg(RevisionInfo::hash(), RevisionInfo::date());
   QCoreApplication::setApplicationVersion(version);
 

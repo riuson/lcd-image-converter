@@ -29,6 +29,7 @@
 #include "modeconvertimage.h"
 #include "modeconvertfont.h"
 #include "modehex2bin.h"
+#include "appsettings.h"
 #include <QDebug>
 #include <QFile>
 #include <QString>
@@ -94,12 +95,10 @@ CmdLine::ProcessResult CmdLine::process()
 
   this->mParser->process(*this->mArguments);
 
+  // Set path to configuration file
   if (this->mParser->isSet("config")) {
     QString configFile = this->mParser->value("config");
-
-    if (QFile::exists(configFile)) {
-      qDebug() << configFile;
-    }
+    AppSettings::configure(configFile);
   }
 
   if (mode != NULL) {
