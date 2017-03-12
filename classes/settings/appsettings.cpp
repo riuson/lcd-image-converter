@@ -22,6 +22,7 @@
 #include <QByteArray>
 #include <QFile>
 #include <QTextStream>
+#include <QStringListIterator>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <QDataStream>
@@ -68,13 +69,16 @@ bool AppSettings::readXmlFile(QIODevice &device, QSettings::SettingsMap &map)
 
 bool AppSettings::writeXmlFile(QIODevice &device, const QSettings::SettingsMap &map)
 {
-  QXmlStreamWriter xmlWriter(&device);
-  xmlWriter.setAutoFormatting(true);
-  xmlWriter.setAutoFormattingIndent(2);
-  xmlWriter.setCodec("UTF-8");
+  QDomDocument doc;
 
-  xmlWriter.writeStartDocument("1.0", true);
-  xmlWriter.writeStartElement("configuration");
+  QDomProcessingInstruction procInstruction = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\"");
+  doc.appendChild(procInstruction);
+
+  QDomComment nodeComment = doc.createComment("lcd-image-converter configuration data");
+  doc.appendChild(nodeComment);
+
+  QDomElement nodeRoot = doc.createElement("configuration");
+  doc.appendChild(nodeRoot);
 
   QMapIterator<QString, QVariant> it(map);
 
@@ -82,12 +86,45 @@ bool AppSettings::writeXmlFile(QIODevice &device, const QSettings::SettingsMap &
     it.next();
     QString path = it.key();
     QString value = it.value().toString();
-    QStringList pathParts = path.split(QChar('/'));
     // write
+    //qDebug() << path;
+    QDomElement nodeValue = AppSettings::getNodeByPath(doc, path);
+    QDomText nodeText = doc.createTextNode(value); ///TODO: need user text escape, Qt 5 QString::toHtmlEscaped(), Qt 4 Qt::escape()
+    nodeValue.appendChild(nodeText);
   }
 
-  xmlWriter.writeEndElement();
-  xmlWriter.writeEndDocument();
+  QTextStream stream(&device);
+  doc.save(stream, 4);
 
-  return false;
+  return true;
+}
+
+QDomElement AppSettings::getNodeByPath(QDomDocument &doc, const QString &path)
+{
+  QStringList pathParts = path.split(QChar('/'));
+
+  QDomElement root = doc.documentElement();
+  QDomNodeList nodes;
+  QDomElement element = root;
+
+  QStringListIterator it(pathParts);
+
+  while (it.hasNext()) {
+    QString part = it.next();
+    nodes = element.elementsByTagName(part);
+
+    if (nodes.isEmpty()) {
+      QDomElement newNode = doc.createElement(part);
+      element.appendChild(newNode);
+      element = newNode;
+    } else if (nodes.count() == 1) {
+      element = nodes.at(0).toElement();
+
+      if (element.isNull()) {
+      }
+    } else {
+    }
+  }
+
+  return element;
 }

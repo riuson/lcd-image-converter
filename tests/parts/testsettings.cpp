@@ -2,6 +2,7 @@
 #include "appsettings.h"
 #include <QDir>
 #include <QDomDocument>
+#include <QDomNodeList>
 #include <QFile>
 #include <QTemporaryDir>
 
@@ -36,7 +37,7 @@ void TestSettings::save()
     //tempDir.setAutoRemove(false);
     QString filename = QDir::cleanPath(tempDir.path() + QDir::separator() + "config.xml");
 
-    qDebug() << "Use file: " << filename;
+    //qDebug() << "Use file: " << filename;
 
     // Save settings
     {
@@ -44,10 +45,14 @@ void TestSettings::save()
       AppSettings appsett;
       QSettings &sett = appsett.get();
 
-      sett.beginGroup("section");
-      sett.setValue("key1", "value1");
-      sett.setValue("key2", "value2");
-      sett.endGroup();
+      sett.setValue("section1/key1", "value1");
+      sett.setValue("section1/key2", "value2");
+      sett.setValue("section2/key10", "value10");
+      sett.setValue("section2/key21", "value21");
+      sett.setValue("section1/key4", "value1");
+      sett.setValue("section1/key3", "value2");
+      sett.setValue("section2/key5", "value10");
+      sett.setValue("section2/key1", "value21");
     }
 
     // Load XML document
@@ -55,10 +60,10 @@ void TestSettings::save()
       QFile file(filename);
 
       if (file.open(QIODevice::ReadOnly)) {
-        QString content;
-        this->readFile(file, content);
-        qDebug() << "Content: " << content;
-        file.seek(0);
+        //QString content;
+        //this->readFile(file, content);
+        //qDebug() << "Content: " << content;
+        //file.seek(0);
 
         QDomDocument doc;
         QString errorMsg;
@@ -67,9 +72,8 @@ void TestSettings::save()
         if (doc.setContent(&file, &errorMsg, &errorLine, &errorColumn)) {
           QDomElement root = doc.documentElement();
           QCOMPARE(root.tagName(), QString("configuration"));
-
-          if (root.tagName() == "configuration") {
-          }
+          QDomNodeList nodes = root.childNodes();
+          QCOMPARE(nodes.count(), 2);
         } else {
           QFAIL("Cannot read XML content");
         }

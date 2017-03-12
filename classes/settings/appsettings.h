@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QSettings>
 #include <QIODevice>
+#include <QDomDocument>
 
 class AppSettings : public QObject
 {
@@ -40,6 +41,7 @@ private:
 
   static bool readXmlFile(QIODevice &device, QSettings::SettingsMap &map);
   static bool writeXmlFile(QIODevice &device, const QSettings::SettingsMap &map);
+  static QDomElement getNodeByPath(QDomDocument &doc, const QString &path);
 };
 
 #endif // APPSETTINGS_H
