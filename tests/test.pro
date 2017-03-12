@@ -111,4 +111,4 @@ RESOURCES += \
     samples.qrc
 
 DISTFILES += \
-    ..\astyle.astylerc
+    ../astyle.astylerc
