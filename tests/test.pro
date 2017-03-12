@@ -104,3 +104,6 @@ INCLUDEPATH += . \
 
 RESOURCES += \
     samples.qrc
+
+DISTFILES += \
+    ..\astyle.astylerc
