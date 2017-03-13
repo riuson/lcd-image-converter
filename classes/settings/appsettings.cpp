@@ -63,45 +63,19 @@ QSettings &AppSettings::get()
 
 bool AppSettings::readXmlFile(QIODevice &device, QSettings::SettingsMap &map)
 {
-  QXmlStreamReader xmlReader(&device);
-  QStringList tags;
-  QString value;
+  QDomDocument doc;
+  QString errorMsg;
+  int errorColumn, errorLine;
 
-  while (!xmlReader.atEnd()) {
-    QXmlStreamReader::TokenType tokenType = xmlReader.readNext();
+  if (doc.setContent(&device, &errorMsg, &errorLine, &errorColumn)) {
+    QDomElement root = doc.documentElement();
 
-    switch (tokenType) {
-      case QXmlStreamReader::StartDocument:
-        break;
-
-      case QXmlStreamReader::EndDocument:
-        break;
-
-      case QXmlStreamReader::StartElement: {
-        tags.append(xmlReader.name().toString());
-        break;
-      }
-
-      case QXmlStreamReader::EndElement: {
-        if (tags.last() == xmlReader.name()) {
-          tags.removeLast();
-        }
-
-        break;
-      }
-
-      case QXmlStreamReader::Characters: {
-        if (!xmlReader.isWhitespace()) {
-          value = xmlReader.text().toString();
-          qDebug() << tags.join("/") << " = " << value;
-        }
-
-        break;
-      }
-
-      default:
-        break;
+    if (root.tagName() == "configuration") {
+      QStringList parts;
+      AppSettings::readElement(map, parts, root);
     }
+
+    return true;
   }
 
   return false;
@@ -167,4 +141,22 @@ QDomElement AppSettings::getNodeByPath(QDomDocument &doc, const QString &path)
   }
 
   return element;
+}
+
+void AppSettings::readElement(QSettings::SettingsMap &map, QStringList &parts, QDomElement &element)
+{
+  qDebug() << element.text();
+  QString path = parts.join("/");
+  qDebug() << path << "/" << element.nodeName() << " + " << element.childNodes().count() << " childs";
+  QDomElement child = element.firstChildElement();
+
+  parts.append(element.nodeName());
+
+  while (!child.isNull()) {
+    qDebug() << "into child";
+    AppSettings::readElement(map, parts, child);
+    child = child.nextSiblingElement();
+  }
+
+  parts.removeLast();
 }
