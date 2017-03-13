@@ -20,4 +20,7 @@
     <qresource prefix="/scan_scripts">
         <file alias="template">../resources/scan_scripts/scan_template.js</file>
     </qresource>
+    <qresource prefix="/settings">
+        <file alias="xml">resources/samples/settings/settings.xml</file>
+    </qresource>
 </RCC>
