@@ -22,7 +22,7 @@ private slots:
   void initTestCase();
 
   void save();
-  void saveAndLoad();
+  void load();
 
   void cleanupTestCase();
 };

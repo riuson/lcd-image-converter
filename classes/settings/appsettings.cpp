@@ -20,6 +20,7 @@
 #include "appsettings.h"
 #include <QBuffer>
 #include <QByteArray>
+#include <QDebug>
 #include <QFile>
 #include <QTextStream>
 #include <QStringListIterator>
@@ -63,6 +64,45 @@ QSettings &AppSettings::get()
 bool AppSettings::readXmlFile(QIODevice &device, QSettings::SettingsMap &map)
 {
   QXmlStreamReader xmlReader(&device);
+  QStringList tags;
+  QString value;
+
+  while (!xmlReader.atEnd()) {
+    QXmlStreamReader::TokenType tokenType = xmlReader.readNext();
+
+    switch (tokenType) {
+      case QXmlStreamReader::StartDocument:
+        break;
+
+      case QXmlStreamReader::EndDocument:
+        break;
+
+      case QXmlStreamReader::StartElement: {
+        tags.append(xmlReader.name().toString());
+        break;
+      }
+
+      case QXmlStreamReader::EndElement: {
+        if (tags.last() == xmlReader.name()) {
+          tags.removeLast();
+        }
+
+        break;
+      }
+
+      case QXmlStreamReader::Characters: {
+        if (!xmlReader.isWhitespace()) {
+          value = xmlReader.text().toString();
+          qDebug() << tags.join("/") << " = " << value;
+        }
+
+        break;
+      }
+
+      default:
+        break;
+    }
+  }
 
   return false;
 }
