@@ -151,41 +151,15 @@ QDomElement AppSettings::getNodeByPath(QDomDocument &doc, const QString &path)
 
 void AppSettings::readChilds(QSettings::SettingsMap &map, QStringList &parts, const QDomNodeList &childs)
 {
-  int count = childs.count();
-  QString path = parts.join("/");
-  qDebug() << "start: " << path;
-  //qDebug() << "childs: " << count;
+  int length = childs.length();
 
-  for (int i = 0; i < count; i++) {
-    QDomNode node = childs.at(i);
-    qDebug() << " child # " << i;
+  for (int i = 0; i < length; i++) {
+    QDomNode child = childs.at(i);
 
-    switch (node.nodeType()) {
-      case QDomNode::ElementNode: {
-        QDomElement el = node.toElement();
-        qDebug() << "Node name: " << node.nodeName();
-
-        if (node.hasChildNodes()) {
-          parts.append(node.nodeName());
-          AppSettings::readChilds(map, parts, node.childNodes());
-          parts.removeLast();
-        } else {
-          qDebug() << "no childs";
-        }
-
-        break;
-      }
-
-      case QDomNode::TextNode: {
-        qDebug() << "Text: " << node.nodeValue();
-        break;
-      }
-
-      default: {
-        qDebug() << "Other: " << node.nodeType();
-      }
+    if (child.isElement()) {
+      AppSettings::readChilds(map, parts, child.childNodes());
+    } else if (child.isText()) {
+      qDebug() << child.nodeValue();
     }
   }
-
-  qDebug() << "end";
 }
