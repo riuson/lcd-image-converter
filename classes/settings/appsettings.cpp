@@ -157,9 +157,32 @@ void AppSettings::readChilds(QSettings::SettingsMap &map, QStringList &parts, co
     QDomNode child = childs.at(i);
 
     if (child.isElement()) {
-      AppSettings::readChilds(map, parts, child.childNodes());
-    } else if (child.isText()) {
-      qDebug() << child.nodeValue();
+      parts.append(child.nodeName());
+
+      QString value;
+      bool isText = AppSettings::readTextNode(child, value);
+
+      if (isText) {
+        QString path = parts.join("/");
+        map.insert(path, value);
+        qDebug() << "Path: " << path << ", Value: " << value;
+      } else {
+        AppSettings::readChilds(map, parts, child.childNodes());
+      }
+
+      parts.removeLast();
     }
   }
+}
+
+bool AppSettings::readTextNode(QDomNode &node, QString &value)
+{
+  if (node.childNodes().length() == 1) {
+    if (node.firstChild().isText()) {
+      value = node.firstChild().nodeValue();
+      return true;
+    }
+  }
+
+  return false;
 }
