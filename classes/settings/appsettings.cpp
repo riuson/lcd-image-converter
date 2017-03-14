@@ -24,6 +24,8 @@
 #include <QFile>
 #include <QTextStream>
 #include <QStringListIterator>
+#include <QXmlInputSource>
+#include <QXmlSimpleReader>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <QDataStream>
@@ -63,11 +65,14 @@ QSettings &AppSettings::get()
 
 bool AppSettings::readXmlFile(QIODevice &device, QSettings::SettingsMap &map)
 {
+  QXmlInputSource source(&device);
+  QXmlSimpleReader reader;
+
   QDomDocument doc;
   QString errorMsg;
   int errorColumn, errorLine;
 
-  if (doc.setContent(&device, &errorMsg, &errorLine, &errorColumn)) {
+  if (doc.setContent(&source, &reader, &errorMsg, &errorLine, &errorColumn)) {
     QDomElement root = doc.documentElement();
 
     if (root.tagName() == "configuration") {
@@ -148,21 +153,39 @@ void AppSettings::readChilds(QSettings::SettingsMap &map, QStringList &parts, co
 {
   int count = childs.count();
   QString path = parts.join("/");
-  qDebug() << path;
+  qDebug() << "start: " << path;
+  //qDebug() << "childs: " << count;
 
   for (int i = 0; i < count; i++) {
-    //qDebug() << "readChilds " << i;
     QDomNode node = childs.at(i);
-    qDebug() << "Node name: " << node.nodeName();
+    qDebug() << " child # " << i;
 
-    if (node.isElement()) {
-      qDebug() << node.nodeType();
+    switch (node.nodeType()) {
+      case QDomNode::ElementNode: {
+        QDomElement el = node.toElement();
+        qDebug() << "Node name: " << node.nodeName();
 
-      if (node.hasChildNodes()) {
-        parts.append(node.nodeName());
-        AppSettings::readChilds(map, parts, node.childNodes());
-        parts.removeLast();
+        if (node.hasChildNodes()) {
+          parts.append(node.nodeName());
+          AppSettings::readChilds(map, parts, node.childNodes());
+          parts.removeLast();
+        } else {
+          qDebug() << "no childs";
+        }
+
+        break;
+      }
+
+      case QDomNode::TextNode: {
+        qDebug() << "Text: " << node.nodeValue();
+        break;
+      }
+
+      default: {
+        qDebug() << "Other: " << node.nodeType();
       }
     }
   }
+
+  qDebug() << "end";
 }
