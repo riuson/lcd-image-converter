@@ -72,7 +72,8 @@ bool AppSettings::readXmlFile(QIODevice &device, QSettings::SettingsMap &map)
 
     if (root.tagName() == "configuration") {
       QStringList parts;
-      AppSettings::readElement(map, parts, root);
+      QDomNodeList childs = root.childNodes();
+      AppSettings::readChilds(map, parts, childs);
     }
 
     return true;
@@ -143,20 +144,25 @@ QDomElement AppSettings::getNodeByPath(QDomDocument &doc, const QString &path)
   return element;
 }
 
-void AppSettings::readElement(QSettings::SettingsMap &map, QStringList &parts, QDomElement &element)
+void AppSettings::readChilds(QSettings::SettingsMap &map, QStringList &parts, const QDomNodeList &childs)
 {
-  qDebug() << element.text();
+  int count = childs.count();
   QString path = parts.join("/");
-  qDebug() << path << "/" << element.nodeName() << " + " << element.childNodes().count() << " childs";
-  QDomElement child = element.firstChildElement();
+  qDebug() << path;
 
-  parts.append(element.nodeName());
+  for (int i = 0; i < count; i++) {
+    //qDebug() << "readChilds " << i;
+    QDomNode node = childs.at(i);
+    qDebug() << "Node name: " << node.nodeName();
 
-  while (!child.isNull()) {
-    qDebug() << "into child";
-    AppSettings::readElement(map, parts, child);
-    child = child.nextSiblingElement();
+    if (node.isElement()) {
+      qDebug() << node.nodeType();
+
+      if (node.hasChildNodes()) {
+        parts.append(node.nodeName());
+        AppSettings::readChilds(map, parts, node.childNodes());
+        parts.removeLast();
+      }
+    }
   }
-
-  parts.removeLast();
 }

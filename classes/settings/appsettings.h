@@ -42,7 +42,7 @@ private:
   static bool readXmlFile(QIODevice &device, QSettings::SettingsMap &map);
   static bool writeXmlFile(QIODevice &device, const QSettings::SettingsMap &map);
   static QDomElement getNodeByPath(QDomDocument &doc, const QString &path);
-  static void readElement(QSettings::SettingsMap &map, QStringList &parts, QDomElement &element);
+  static void readChilds(QSettings::SettingsMap &map, QStringList &parts, const QDomNodeList &childs);
 };
 
 #endif // APPSETTINGS_H
