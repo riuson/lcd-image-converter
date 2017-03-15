@@ -21,8 +21,8 @@
 
 #include <QStringList>
 #include <QStringListIterator>
-#include <QSettings>
 #include <QFileInfo>
+#include <appsettings.h>
 
 RecentList::RecentList(QObject *parent) :
   QObject(parent)
@@ -30,7 +30,8 @@ RecentList::RecentList(QObject *parent) :
   this->mFiles = new QStringList();
 
   // load from settings
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   int size = sett.beginReadArray("recent");
 
   for (int i = 0; i < size; i++) {
@@ -49,7 +50,8 @@ RecentList::RecentList(QObject *parent) :
 RecentList::~RecentList()
 {
   // save to settings
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginWriteArray("recent");
   QStringListIterator recentFilesIterator(*this->mFiles);
   int i = 0;

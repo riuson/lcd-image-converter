@@ -19,10 +19,10 @@
 
 #include "filedialogoptions.h"
 
-#include <QSettings>
 #include <QFile>
 #include <QDir>
 #include <QMap>
+#include <appsettings.h>
 
 int FileDialogOptions::filterIndex(FileDialogOptions::Dialogs dialog)
 {
@@ -98,7 +98,8 @@ int FileDialogOptions::getInteger(const QString &name)
 {
   bool ok;
 
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("filedialogs");
   int result = sett.value(name, QVariant(0)).toInt(&ok);
   sett.endGroup();
@@ -112,7 +113,8 @@ int FileDialogOptions::getInteger(const QString &name)
 
 void FileDialogOptions::setInteger(const QString &name, int value)
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("filedialogs");
   sett.setValue(name, QVariant(value));
   sett.endGroup();
@@ -120,7 +122,8 @@ void FileDialogOptions::setInteger(const QString &name, int value)
 
 const QString FileDialogOptions::getString(const QString &name)
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("filedialogs");
   QString result = sett.value(name, QVariant(0)).toString();
   sett.endGroup();
@@ -130,7 +133,8 @@ const QString FileDialogOptions::getString(const QString &name)
 
 void FileDialogOptions::setString(const QString &name, const QString &value)
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("filedialogs");
   sett.setValue(name, QVariant(value));
   sett.endGroup();

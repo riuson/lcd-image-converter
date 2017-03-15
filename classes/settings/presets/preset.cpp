@@ -20,9 +20,9 @@
 #include "preset.h"
 
 #include <QStringList>
-#include <QSettings>
 #include <QtXml>
 #include <QFile>
+#include <appsettings.h>
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "reorderingoptions.h"
@@ -92,7 +92,8 @@ TemplateOptions *Preset::templates()
 
 QStringList Preset::presetsList()
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("presets");
   QStringList names = sett.childGroups();
   sett.endGroup();
@@ -102,7 +103,8 @@ QStringList Preset::presetsList()
 
 QString Preset::selectedName()
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("presets");
   QString result = sett.value("selected", QVariant("")).toString();
   sett.endGroup();
@@ -112,7 +114,8 @@ QString Preset::selectedName()
 
 void Preset::setSelectedName(const QString &value)
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("presets");
   sett.setValue("selected", QVariant(value));
   sett.endGroup();
@@ -120,7 +123,8 @@ void Preset::setSelectedName(const QString &value)
 
 void Preset::remove(const QString &value)
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("presets");
 
   sett.beginGroup(value);
@@ -141,7 +145,8 @@ bool Preset::load(const QString &presetName)
   if (!presetName.isEmpty()) {
     this->mBlockChangesSignal = true;
 
-    QSettings sett;
+    AppSettings appsett;
+    QSettings &sett = appsett.get();
     sett.beginGroup("presets");
 
     if (sett.childGroups().contains(presetName)) {
@@ -221,7 +226,8 @@ bool Preset::loadXML(const QString &filename)
 
 void Preset::save(const QString &name) const
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("presets");
 
   sett.beginGroup(name);

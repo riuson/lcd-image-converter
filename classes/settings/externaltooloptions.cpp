@@ -19,11 +19,12 @@
 
 #include "externaltooloptions.h"
 
-#include <QSettings>
+#include <appsettings.h>
 
 const QString ExternalToolOptions::imageEditor()
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("external-tools");
   QString result = sett.value("imageEditor", QVariant("gimp")).toString();
   sett.endGroup();
@@ -33,7 +34,8 @@ const QString ExternalToolOptions::imageEditor()
 
 void ExternalToolOptions::setImageEditor(const QString &value)
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("external-tools");
   sett.setValue("imageEditor", QVariant(value));
   sett.endGroup();
