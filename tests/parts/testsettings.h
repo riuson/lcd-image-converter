@@ -23,6 +23,7 @@ private slots:
 
   void save();
   void load();
+  void save_load();
 
   void cleanupTestCase();
 };

@@ -134,6 +134,58 @@ void TestSettings::load()
   }
 }
 
+void TestSettings::save_load()
+{
+  QTemporaryDir tempDir;
+
+  if (tempDir.isValid()) {
+    // Set filename
+    {
+      QString filename = QDir::cleanPath(tempDir.path() + QDir::separator() + "config.xml");
+      AppSettings::configure(filename);
+    }
+
+    QSettings::SettingsMap map;
+    map.insert("section1/key1", 3.1415926);
+    map.insert("section1/key2", 0x12345678);
+    map.insert("section2/key10", 0x98765432);
+    map.insert("section2/key21", -1);
+    map.insert("section1/key4", 1.3e20);
+    map.insert("section1/key3", "string");
+    map.insert("section2/key5", "< > & \" \'");
+    map.insert("section2/sub1/key1", "абвгдежз");
+
+    // Save settings
+    {
+      AppSettings appsett;
+      QSettings &sett = appsett.get();
+      QMapIterator<QString, QVariant> it(map);
+
+      while (it.hasNext()) {
+        it.next();
+        QString key = it.key();
+        QVariant value = it.value();
+        sett.setValue(key, value);
+      }
+    }
+
+    // Load settings
+    {
+      AppSettings appsett;
+      QSettings &sett = appsett.get();
+      QMapIterator<QString, QVariant> it(map);
+
+      while (it.hasNext()) {
+        it.next();
+        QString key = it.key();
+        QVariant valueExpected = it.value();
+        QVariant valueReal = sett.value(key);
+        QCOMPARE(valueReal, valueExpected);
+      }
+    }
+  }
+}
+
 void TestSettings::cleanupTestCase()
 {
 
