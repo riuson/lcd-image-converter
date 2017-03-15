@@ -58,11 +58,7 @@ CmdLine::CmdLine(const QStringList &arguments, QObject *parent) :
                                 QCoreApplication::translate("CmdLineParser", "mode"));
   this->mParser->addOption(optionMode);
 
-  // optional option
-  QCommandLineOption optionConfig(QStringList() << "c" << "config",
-                                  QCoreApplication::translate("CmdLineParser", "Optional path to configuration file. If not specified, default is used."),
-                                  QCoreApplication::translate("CmdLineParser", "configuration"));
-  this->mParser->addOption(optionConfig);
+  this->addApplicationOptions();
 }
 
 CmdLine::~CmdLine()
@@ -95,11 +91,7 @@ CmdLine::ProcessResult CmdLine::process()
 
   this->mParser->process(*this->mArguments);
 
-  // Set path to configuration file
-  if (this->mParser->isSet("config")) {
-    QString configFile = this->mParser->value("config");
-    AppSettings::configure(AppSettings::Section::Application, configFile);
-  }
+  this->processApplicationOptions();
 
   if (mode != NULL) {
     if (mode->collectArguments()) {
@@ -138,6 +130,36 @@ ModeParserBase *CmdLine::createMode(const QString &name, QCommandLineParser *par
   }
 
   return NULL;
+}
+
+void CmdLine::addApplicationOptions()
+{
+  // optional option
+  QCommandLineOption optionConfigApp(QStringList() << "config-application",
+                                     QCoreApplication::translate("CmdLineParser", "Path to main configuration file. If not specified, default is used."),
+                                     QCoreApplication::translate("CmdLineParser", "file"));
+  this->mParser->addOption(optionConfigApp);
+
+  // optional option
+  QCommandLineOption optionConfigPresets(QStringList() << "config-presets",
+                                         QCoreApplication::translate("CmdLineParser", "Path to presets configuration file. If not specified, default is used."),
+                                         QCoreApplication::translate("CmdLineParser", "file"));
+  this->mParser->addOption(optionConfigPresets);
+}
+
+void CmdLine::processApplicationOptions()
+{
+  // Set path to application configuration file
+  if (this->mParser->isSet("config-application")) {
+    QString configFile = this->mParser->value("config-application");
+    AppSettings::configure(AppSettings::Section::Application, configFile);
+  }
+
+  // Set path to presets configuration file
+  if (this->mParser->isSet("config-presets")) {
+    QString configFile = this->mParser->value("config-presets");
+    AppSettings::configure(AppSettings::Section::Presets, configFile);
+  }
 }
 
 }

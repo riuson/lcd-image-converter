@@ -55,6 +55,8 @@ private:
   const QStringList *mArguments;
 
   CommandLine::ModeParserBase *createMode(const QString &name, QCommandLineParser *parser);
+  void addApplicationOptions();
+  void processApplicationOptions();
 };
 
 }
