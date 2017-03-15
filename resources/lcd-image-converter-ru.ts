@@ -115,13 +115,29 @@
 <context>
     <name>CmdLineParser</name>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="56"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="57"/>
         <source>Conversion mode for application, &quot;convert-image&quot;, &quot;convert-font&quot; or &quot;hex2bin&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="57"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="58"/>
         <source>mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/cmdline.cpp" line="139"/>
+        <source>Path to main configuration file. If not specified, default is used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/cmdline.cpp" line="140"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="146"/>
+        <source>file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/cmdline.cpp" line="145"/>
+        <source>Path to presets configuration file. If not specified, default is used.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -534,22 +550,22 @@ Qt: %4</translation>
         <translation>Макс. размер</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="375"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="377"/>
         <source>Max size (w × h): %1 × %2</source>
         <translation>Макс размер (w × h): %1 × %2</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="376"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="378"/>
         <source>Count: %1</source>
         <translation>Количество: %1</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="384"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="386"/>
         <source>Fore Color: %1</source>
         <translation>Цвет переднего плана: %1</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="389"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="391"/>
         <source>Back Color: %1</source>
         <translation>Цвет заднего плана: %1</translation>
     </message>
@@ -762,14 +778,14 @@ Qt: %4</translation>
         <translation>Выбор цвета</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolcolor.cpp" line="203"/>
-        <location filename="../classes/imageeditor/toolcolor.cpp" line="204"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="205"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="206"/>
         <source>Fore Color: %1</source>
         <translation>Цвет переднего плана: %1</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolcolor.cpp" line="209"/>
-        <location filename="../classes/imageeditor/toolcolor.cpp" line="210"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="211"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="212"/>
         <source>Back Color: %1</source>
         <translation>Цвет заднего плана: %1</translation>
     </message>
