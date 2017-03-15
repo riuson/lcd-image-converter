@@ -92,7 +92,7 @@ TemplateOptions *Preset::templates()
 
 QStringList Preset::presetsList()
 {
-  AppSettings appsett;
+  AppSettings appsett(AppSettings::Section::Presets);
   QSettings &sett = appsett.get();
   sett.beginGroup("presets");
   QStringList names = sett.childGroups();
@@ -103,7 +103,7 @@ QStringList Preset::presetsList()
 
 QString Preset::selectedName()
 {
-  AppSettings appsett;
+  AppSettings appsett(AppSettings::Section::Application);
   QSettings &sett = appsett.get();
   sett.beginGroup("presets");
   QString result = sett.value("selected", QVariant("")).toString();
@@ -114,7 +114,7 @@ QString Preset::selectedName()
 
 void Preset::setSelectedName(const QString &value)
 {
-  AppSettings appsett;
+  AppSettings appsett(AppSettings::Section::Application);
   QSettings &sett = appsett.get();
   sett.beginGroup("presets");
   sett.setValue("selected", QVariant(value));
@@ -123,7 +123,7 @@ void Preset::setSelectedName(const QString &value)
 
 void Preset::remove(const QString &value)
 {
-  AppSettings appsett;
+  AppSettings appsett(AppSettings::Section::Presets);
   QSettings &sett = appsett.get();
   sett.beginGroup("presets");
 
@@ -145,7 +145,7 @@ bool Preset::load(const QString &presetName)
   if (!presetName.isEmpty()) {
     this->mBlockChangesSignal = true;
 
-    AppSettings appsett;
+    AppSettings appsett(AppSettings::Section::Presets);
     QSettings &sett = appsett.get();
     sett.beginGroup("presets");
 
@@ -226,7 +226,7 @@ bool Preset::loadXML(const QString &filename)
 
 void Preset::save(const QString &name) const
 {
-  AppSettings appsett;
+  AppSettings appsett(AppSettings::Section::Presets);
   QSettings &sett = appsett.get();
   sett.beginGroup("presets");
 

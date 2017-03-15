@@ -20,15 +20,28 @@
 #include "appsettings.h"
 #include <QXmlInputSource>
 
-QString AppSettings::FileName = "";
+QMap<AppSettings::Section, QString> AppSettings::ConfigFiles;
 QSettings::Format AppSettings::CustomFormat = QSettings::InvalidFormat;
 
 AppSettings::AppSettings()
 {
-  if (AppSettings::CustomFormat != QSettings::InvalidFormat) {
-    this->mSettings = new QSettings(AppSettings::FileName, AppSettings::CustomFormat);
-  } else {
+  QString filename = AppSettings::ConfigFiles.value(Section::Application, "");
+
+  if (filename.isEmpty() || AppSettings::CustomFormat == QSettings::InvalidFormat) {
     this->mSettings = new QSettings("riuson", "lcd-image-converter");
+  } else {
+    this->mSettings = new QSettings(filename, AppSettings::CustomFormat);
+  }
+}
+
+AppSettings::AppSettings(Section section)
+{
+  QString filename = AppSettings::ConfigFiles.value(section, "");
+
+  if (filename.isEmpty() || AppSettings::CustomFormat == QSettings::InvalidFormat) {
+    this->mSettings = new QSettings("riuson", "lcd-image-converter");
+  } else {
+    this->mSettings = new QSettings(filename, AppSettings::CustomFormat);
   }
 }
 
@@ -37,13 +50,15 @@ AppSettings::~AppSettings()
   delete this->mSettings;
 }
 
-void AppSettings::configure(const QString &filename)
+void AppSettings::configure(Section section, const QString &filename)
 {
-  AppSettings::FileName = filename;
-  QSettings::ReadFunc reader = &AppSettings::readXmlFile;
-  QSettings::WriteFunc writer = &AppSettings::writeXmlFile;
-  QSettings::Format format = AppSettings::CustomFormat = QSettings::registerFormat("xml", reader, writer);
-  QSettings::setDefaultFormat(format);
+  AppSettings::ConfigFiles.insert(section, filename);
+
+  if (AppSettings::CustomFormat == QSettings::InvalidFormat) {
+    QSettings::ReadFunc reader = &AppSettings::readXmlFile;
+    QSettings::WriteFunc writer = &AppSettings::writeXmlFile;
+    AppSettings::CustomFormat = QSettings::registerFormat("xml", reader, writer);
+  }
 }
 
 QSettings &AppSettings::get()

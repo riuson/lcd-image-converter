@@ -24,18 +24,26 @@
 #include <QSettings>
 #include <QIODevice>
 #include <QDomDocument>
+#include <QMap>
 
 class AppSettings : public QObject
 {
   Q_OBJECT
 public:
+  enum class Section
+  {
+    Application,
+    Presets
+  };
+
   AppSettings();
+  AppSettings(Section section);
   ~AppSettings();
-  static void configure(const QString &filename);
+  static void configure(Section section, const QString &filename);
   QSettings &get();
 
 private:
-  static QString FileName;
+  static QMap<Section, QString> ConfigFiles;
   static QSettings::Format CustomFormat;
   QSettings *mSettings;
 

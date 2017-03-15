@@ -98,7 +98,7 @@ CmdLine::ProcessResult CmdLine::process()
   // Set path to configuration file
   if (this->mParser->isSet("config")) {
     QString configFile = this->mParser->value("config");
-    AppSettings::configure(configFile);
+    AppSettings::configure(AppSettings::Section::Application, configFile);
   }
 
   if (mode != NULL) {

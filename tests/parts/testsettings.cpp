@@ -29,8 +29,8 @@ void TestSettings::save()
 
     // Save settings
     {
-      AppSettings::configure(filename);
-      AppSettings appsett;
+      AppSettings::configure(AppSettings::Section::Application, filename);
+      AppSettings appsett(AppSettings::Section::Application);
       QSettings &sett = appsett.get();
 
       sett.setValue("section1/key1", "value1");
@@ -100,8 +100,8 @@ void TestSettings::load()
 
     // Load settings
     {
-      AppSettings::configure(filename);
-      AppSettings appsett;
+      AppSettings::configure(AppSettings::Section::Application, filename);
+      AppSettings appsett(AppSettings::Section::Application);
       QSettings &sett = appsett.get();
 
       QCOMPARE(sett.value("section1/key1").toString(), QString("value1"));
@@ -124,7 +124,7 @@ void TestSettings::save_load()
     // Set filename
     {
       QString filename = this->getFilename(tempDir);
-      AppSettings::configure(filename);
+      AppSettings::configure(AppSettings::Section::Application, filename);
     }
 
     QSettings::SettingsMap map;
@@ -139,7 +139,7 @@ void TestSettings::save_load()
 
     // Save settings
     {
-      AppSettings appsett;
+      AppSettings appsett(AppSettings::Section::Application);
       QSettings &sett = appsett.get();
       QMapIterator<QString, QVariant> it(map);
 
@@ -153,7 +153,7 @@ void TestSettings::save_load()
 
     // Load settings
     {
-      AppSettings appsett;
+      AppSettings appsett(AppSettings::Section::Application);
       QSettings &sett = appsett.get();
       QMapIterator<QString, QVariant> it(map);
 
