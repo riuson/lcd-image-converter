@@ -7,6 +7,7 @@
         </commit>
         <changes>
             <item category="added">Change scale with mouse wheel in Resize dialog.</item>
+            <item category="added">Command line options '--config-application' and '--config-presets' to specify xml file with configuration data.</item>
             <item category="changed">Selection color. To get more perceptibility on monochrome and color images.</item>
             <item category="fixed">Column's width in character's table on Font Setup dialog.</item>
             <item category="fixed">Translation.</item>
