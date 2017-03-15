@@ -18,19 +18,7 @@
  */
 
 #include "appsettings.h"
-#include <QBuffer>
-#include <QByteArray>
-#include <QDebug>
-#include <QFile>
-#include <QTextStream>
-#include <QStringListIterator>
 #include <QXmlInputSource>
-#include <QXmlSimpleReader>
-#include <QXmlStreamReader>
-#include <QXmlStreamWriter>
-#include <QDataStream>
-
-#include "qt-version-check.h"
 
 QString AppSettings::FileName = "";
 QSettings::Format AppSettings::CustomFormat = QSettings::InvalidFormat;
@@ -107,9 +95,8 @@ bool AppSettings::writeXmlFile(QIODevice &device, const QSettings::SettingsMap &
     QString path = it.key();
     QString value = it.value().toString();
     // write
-    //qDebug() << path;
     QDomElement nodeValue = AppSettings::getNodeByPath(doc, path);
-    QDomText nodeText = doc.createTextNode(value); ///TODO: need user text escape, Qt 5 QString::toHtmlEscaped(), Qt 4 Qt::escape()
+    QDomText nodeText = doc.createTextNode(value);
     nodeValue.appendChild(nodeText);
   }
 
@@ -165,7 +152,6 @@ void AppSettings::readChilds(QSettings::SettingsMap &map, QStringList &parts, co
       if (isText) {
         QString path = parts.join("/");
         map.insert(path, value);
-        qDebug() << "Path: " << path << ", Value: " << value;
       } else {
         AppSettings::readChilds(map, parts, child.childNodes());
       }

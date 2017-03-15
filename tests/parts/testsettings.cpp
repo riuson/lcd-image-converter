@@ -9,20 +9,11 @@
 TestSettings::TestSettings(QObject *parent) :
   QObject(parent)
 {
-
 }
 
-bool TestSettings::readFile(QFile &file, QString &result)
+const QString TestSettings::getFilename(const QTemporaryDir &dir) const
 {
-  if (file.isOpen()) {
-    QTextStream stream(&file);
-    stream.seek(0);
-    result = stream.readAll();
-    return true;
-  }
-
-  result = "Failure";
-  return false;
+  return QDir::cleanPath(dir.path() + QDir::separator() + "config.xml");
 }
 
 void TestSettings::initTestCase()
@@ -34,10 +25,7 @@ void TestSettings::save()
   QTemporaryDir tempDir;
 
   if (tempDir.isValid()) {
-    //tempDir.setAutoRemove(false);
-    QString filename = QDir::cleanPath(tempDir.path() + QDir::separator() + "config.xml");
-
-    //qDebug() << "Use file: " << filename;
+    QString filename = this->getFilename(tempDir);
 
     // Save settings
     {
@@ -60,11 +48,6 @@ void TestSettings::save()
       QFile file(filename);
 
       if (file.open(QIODevice::ReadOnly)) {
-        //QString content;
-        //this->readFile(file, content);
-        //qDebug() << "Content: " << content;
-        //file.seek(0);
-
         QDomDocument doc;
         QString errorMsg;
         int errorColumn, errorLine;
@@ -84,7 +67,6 @@ void TestSettings::save()
       }
     }
 
-    //tempfile.close();
   } else {
     QFAIL("Temp directory invalid");
   }
@@ -96,7 +78,7 @@ void TestSettings::load()
 
   if (tempDir.isValid()) {
     QString content;
-    QString filename = QDir::cleanPath(tempDir.path() + QDir::separator() + "config.xml");
+    QString filename = this->getFilename(tempDir);
 
     // Read from resources
     QFile resFile(":/settings/xml");
@@ -141,7 +123,7 @@ void TestSettings::save_load()
   if (tempDir.isValid()) {
     // Set filename
     {
-      QString filename = QDir::cleanPath(tempDir.path() + QDir::separator() + "config.xml");
+      QString filename = this->getFilename(tempDir);
       AppSettings::configure(filename);
     }
 
@@ -188,5 +170,4 @@ void TestSettings::save_load()
 
 void TestSettings::cleanupTestCase()
 {
-
 }

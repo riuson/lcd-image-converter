@@ -14,10 +14,7 @@ public:
   explicit TestSettings(QObject *parent = 0);
 
 private:
-  QString mFilename;
-
-  bool readFile(QFile &file, QString &result);
-
+  const QString getFilename(const QTemporaryDir &dir) const;
 private slots:
   void initTestCase();
 
