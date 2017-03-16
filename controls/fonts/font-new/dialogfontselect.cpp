@@ -22,7 +22,7 @@
 
 #include <QTableWidgetSelectionRange>
 #include <QColorDialog>
-#include <QSettings>
+#include <appsettings.h>
 #include "charactersmodel.h"
 #include "unicodeblocksmodel.h"
 #include "unicodeblocksfiltermodel.h"
@@ -126,7 +126,8 @@ void DialogFontSelect::setFontParameters(const tFontParameters &parameters)
 
 void DialogFontSelect::loadSettings()
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("dialog-font-select");
   sett.beginGroup("toolbox");
 
@@ -145,7 +146,8 @@ void DialogFontSelect::loadSettings()
 
 void DialogFontSelect::saveSettings() const
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("dialog-font-select");
   sett.beginGroup("toolbox");
 

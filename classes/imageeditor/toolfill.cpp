@@ -26,9 +26,9 @@
 #include <QSpinBox>
 #include <QMouseEvent>
 #include <QToolButton>
-#include <QSettings>
 #include <QColorDialog>
 #include <QVector>
+#include <appsettings.h>
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
 
@@ -141,7 +141,8 @@ void ToolFill::initializeWidgets()
 
 void ToolFill::loadSettings()
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("fill");
@@ -153,7 +154,8 @@ void ToolFill::loadSettings()
 
 void ToolFill::saveSettings() const
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("fill");

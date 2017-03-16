@@ -50,6 +50,7 @@ SOURCES += maintest.cpp \
     parts/testpresets.cpp \
     parts/testreorderingoptions.cpp \
     parts/testrle.cpp \
+    parts/testsettings.cpp \
     parts/testtemplateoptions.cpp \
     ../classes/compression/rlecompressor.cpp \
     ../classes/compression/rlesequence.cpp \
@@ -57,6 +58,7 @@ SOURCES += maintest.cpp \
     ../classes/parser/convert/bitmaphelper.cpp \
     ../classes/parser/convert/converterhelper.cpp \
     ../classes/parser/convert/convimage.cpp \
+    ../classes/settings/appsettings.cpp \
     ../classes/settings/presets/preset.cpp \
     ../classes/settings/presets/prepareoptions.cpp \
     ../classes/settings/presets/matrixoptions.cpp \
@@ -76,6 +78,7 @@ HEADERS += \
     parts/testpresets.h \
     parts/testreorderingoptions.h \
     parts/testrle.h \
+    parts/testsettings.h \
     parts/testtemplateoptions.h \
     ../classes/compression/rlecompressor.h \
     ../classes/compression/rlesequence.h \
@@ -84,6 +87,7 @@ HEADERS += \
     ../classes/parser/convert/conversion_options.h \
     ../classes/parser/convert/converterhelper.h \
     ../classes/parser/convert/convimage.h \
+    ../classes/settings/appsettings.h \
     ../classes/settings/presets/preset.h \
     ../classes/settings/presets/prepareoptions.h \
     ../classes/settings/presets/matrixoptions.h \
@@ -100,7 +104,11 @@ INCLUDEPATH += . \
     ../classes \
     ../classes/compression \
     ../classes/parser/convert \
+    ../classes/settings \
     ../classes/settings/presets
 
 RESOURCES += \
     samples.qrc
+
+DISTFILES += \
+    ../astyle.astylerc

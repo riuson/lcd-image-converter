@@ -24,8 +24,8 @@
 #include <QWidget>
 #include <QColor>
 #include <QSpinBox>
-#include <QSettings>
 #include <QMouseEvent>
+#include <appsettings.h>
 #include "bitmaphelper.h"
 
 namespace ImageEditor
@@ -119,7 +119,8 @@ void ToolZoom::initializeWidgets()
 
 void ToolZoom::loadSettings()
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("zoom");
@@ -138,7 +139,8 @@ void ToolZoom::loadSettings()
 
 void ToolZoom::saveSettings() const
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("zoom");

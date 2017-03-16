@@ -25,7 +25,7 @@
 #include <QColor>
 #include <QMouseEvent>
 #include <QToolButton>
-#include <QSettings>
+#include <appsettings.h>
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
 

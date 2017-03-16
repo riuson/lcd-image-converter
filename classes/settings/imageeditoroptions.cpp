@@ -19,12 +19,13 @@
 
 #include "imageeditoroptions.h"
 
-#include <QSettings>
 #include <QFile>
+#include <appsettings.h>
 
 QByteArray ImageEditorOptions::toolbarsState()
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("toolbar-options");
 
@@ -38,7 +39,8 @@ QByteArray ImageEditorOptions::toolbarsState()
 
 void ImageEditorOptions::setToolbarsState(const QByteArray &value)
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("toolbar-options");
 

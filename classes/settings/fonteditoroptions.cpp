@@ -20,12 +20,13 @@
 #include "fonteditoroptions.h"
 #include "bitmaphelper.h"
 #include <QVariant>
-#include <QSettings>
 #include <QRgb>
+#include <appsettings.h>
 
 int FontEditorOptions::scale()
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("font-editor");
   bool ok;
   int result = sett.value("scale", QVariant(1)).toInt(&ok);
@@ -40,7 +41,8 @@ int FontEditorOptions::scale()
 
 void FontEditorOptions::setScale(int value)
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("font-editor");
   sett.setValue("scale", QVariant(value));
   sett.endGroup();
@@ -48,7 +50,8 @@ void FontEditorOptions::setScale(int value)
 
 QColor FontEditorOptions::foreColor()
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("font-editor");
   bool ok;
   unsigned int a = sett.value("foreColor", QVariant("none")).toUInt(&ok);
@@ -65,7 +68,8 @@ QColor FontEditorOptions::foreColor()
 
 QColor FontEditorOptions::backColor()
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("font-editor");
   bool ok;
   unsigned int a = sett.value("backColor", QVariant("none")).toUInt(&ok);
@@ -84,7 +88,8 @@ void FontEditorOptions::setForeColor(const QColor &value)
 {
   unsigned int a = value.rgba();
 
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("font-editor");
   sett.setValue("foreColor", QVariant(a));
   sett.endGroup();
@@ -94,7 +99,8 @@ void FontEditorOptions::setBackColor(const QColor &value)
 {
   unsigned int a = value.rgba();
 
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("font-editor");
   sett.setValue("backColor", QVariant(a));
   sett.endGroup();

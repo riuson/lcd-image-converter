@@ -19,12 +19,13 @@
 
 #include "languageoptions.h"
 
-#include <QSettings>
 #include <QFile>
+#include <appsettings.h>
 
 const QString LanguageOptions::locale()
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("language");
   QString result = sett.value("selected", QVariant("")).toString();
   sett.endGroup();
@@ -36,7 +37,8 @@ bool LanguageOptions::setLocale(const QString &value)
 {
   bool isSuccessfully = false;
 
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup("language");
   QFile file(":/translations/" + value);
 

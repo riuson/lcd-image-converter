@@ -1,0 +1,57 @@
+/*
+ * LCD Image Converter. Converts images and fonts for embedded applications.
+ * Copyright (C) 2017 riuson
+ * mailto: riuson@gmail.com
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/
+ */
+
+#ifndef APPSETTINGS_H
+#define APPSETTINGS_H
+
+#include <QObject>
+#include <QSettings>
+#include <QIODevice>
+#include <QDomDocument>
+#include <QMap>
+
+class AppSettings : public QObject
+{
+  Q_OBJECT
+public:
+  enum class Section
+  {
+    Application,
+    Presets
+  };
+
+  AppSettings();
+  AppSettings(Section section);
+  ~AppSettings();
+  static void configure(Section section, const QString &filename);
+  QSettings &get();
+
+private:
+  static QMap<Section, QString> ConfigFiles;
+  static QSettings::Format CustomFormat;
+  QSettings *mSettings;
+
+  static bool readXmlFile(QIODevice &device, QSettings::SettingsMap &map);
+  static bool writeXmlFile(QIODevice &device, const QSettings::SettingsMap &map);
+  static QDomElement getNodeByPath(QDomDocument &doc, const QString &path);
+  static void readChilds(QSettings::SettingsMap &map, QStringList &parts, const QDomNodeList &childs);
+  static bool readTextNode(QDomNode &node, QString &value);
+};
+
+#endif // APPSETTINGS_H

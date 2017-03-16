@@ -10,6 +10,7 @@
 #include "testtemplateoptions.h"
 #include "testpresets.h"
 #include "testrle.h"
+#include "testsettings.h"
 
 int main(void)
 {
@@ -45,6 +46,9 @@ int main(void)
 
   TestRle tr;
   QTest::qExec(&tr);
+
+  TestSettings ts;
+  QTest::qExec(&ts);
 
   return 0;
 }

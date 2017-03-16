@@ -18,13 +18,14 @@
  */
 
 #include "conversionpreviewoptions.h"
-#include <QSettings>
+#include <appsettings.h>
 
 const QString ConversionPreviewOptions::GroupName = QString("conversion-preview");
 
 int ConversionPreviewOptions::scale()
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup(ConversionPreviewOptions::GroupName);
   bool ok;
   int result = sett.value("scale", QVariant(1)).toInt(&ok);
@@ -39,7 +40,8 @@ int ConversionPreviewOptions::scale()
 
 void ConversionPreviewOptions::setScale(int value)
 {
-  QSettings sett;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
   sett.beginGroup(ConversionPreviewOptions::GroupName);
   sett.setValue("scale", QVariant(value));
   sett.endGroup();
