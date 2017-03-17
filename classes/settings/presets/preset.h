@@ -53,6 +53,7 @@ public:
   static QString selectedName();
   static void setSelectedName(const QString &value);
   static void remove(const QString &value);
+  static QString groupByName(const QString &value);
 
   QString name() const;
 

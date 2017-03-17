@@ -22,6 +22,8 @@
 #include <QStringList>
 #include <QtXml>
 #include <QFile>
+#include <QRegExp>
+#include <QUuid>
 #include <appsettings.h>
 #include "prepareoptions.h"
 #include "matrixoptions.h"
@@ -94,8 +96,21 @@ QStringList Preset::presetsList()
 {
   AppSettings appsett(AppSettings::Section::Presets);
   QSettings &sett = appsett.get();
-  sett.beginGroup("presets");
-  QStringList names = sett.childGroups();
+  sett.beginGroup("presetsList");
+  QStringList groups = sett.childGroups();
+  QStringList names;
+
+  foreach (const QString &group, groups) {
+    sett.beginGroup(group);
+    QString name = sett.value("name").toString();
+
+    if (!name.isEmpty()) {
+      names << name;
+    }
+
+    sett.endGroup();
+  }
+
   sett.endGroup();
 
   return names;
@@ -125,12 +140,37 @@ void Preset::remove(const QString &value)
 {
   AppSettings appsett(AppSettings::Section::Presets);
   QSettings &sett = appsett.get();
-  sett.beginGroup("presets");
+  sett.beginGroup("presetsList");
 
-  sett.beginGroup(value);
+  QString group = Preset::groupByName(value);
+  sett.beginGroup(group);
   sett.remove("");
 
   sett.endGroup();
+}
+
+QString Preset::groupByName(const QString &value)
+{
+  AppSettings appsett(AppSettings::Section::Presets);
+  QSettings &sett = appsett.get();
+  sett.beginGroup("presetsList");
+  QStringList groups = sett.childGroups();
+  QString result;
+
+  foreach (const QString &group, groups) {
+    sett.beginGroup(group);
+    QString name = sett.value("name").toString();
+    sett.endGroup();
+
+    if (name == value) {
+      result = group;
+      break;
+    }
+  }
+
+  sett.endGroup();
+
+  return result;
 }
 
 QString Preset::name() const
@@ -147,10 +187,12 @@ bool Preset::load(const QString &presetName)
 
     AppSettings appsett(AppSettings::Section::Presets);
     QSettings &sett = appsett.get();
-    sett.beginGroup("presets");
+    sett.beginGroup("presetsList");
 
-    if (sett.childGroups().contains(presetName)) {
-      sett.beginGroup(presetName);
+    QString groupName = Preset::groupByName(presetName);
+
+    if (!groupName.isEmpty()) {
+      sett.beginGroup(groupName);
 
       // get version of settings
       int version;
@@ -228,11 +270,20 @@ void Preset::save(const QString &name) const
 {
   AppSettings appsett(AppSettings::Section::Presets);
   QSettings &sett = appsett.get();
-  sett.beginGroup("presets");
+  sett.beginGroup("presetsList");
 
-  sett.beginGroup(name);
+  QString group = Preset::groupByName(name);
+
+  if (group.isEmpty()) {
+    QUuid id = QUuid::createUuid();
+    QRegExp reg("[\\{\\-\\}]");
+    group = "p_" + id.toString().remove(reg);
+  }
+
+  sett.beginGroup(group);
   sett.remove("");
 
+  sett.setValue("name", name);
   sett.setValue("version", (int)2);
 
   this->mPrepare->save(&sett);
