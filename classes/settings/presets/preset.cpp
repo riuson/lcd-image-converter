@@ -194,22 +194,12 @@ bool Preset::load(const QString &presetName)
     if (!groupName.isEmpty()) {
       sett.beginGroup(groupName);
 
-      // get version of settings
-      int version;
-      bool ok;
-      QVariant varVersion = sett.value("version", QVariant((int)1));
-      version = varVersion.toInt(&ok);
-
-      if (!ok) {
-        version = 1;
-      }
-
-      result = this->mPrepare->load(&sett, version);
-      result &= this->mMatrix->load(&sett, version);
-      result &= this->mReordering->load(&sett, version);
-      result &= this->mImage->load(&sett, version);
-      result &= this->mFont->load(&sett, version);
-      result &= this->mTemplates->load(&sett, version);
+      result = this->mPrepare->load(&sett);
+      result &= this->mMatrix->load(&sett);
+      result &= this->mReordering->load(&sett);
+      result &= this->mImage->load(&sett);
+      result &= this->mFont->load(&sett);
+      result &= this->mTemplates->load(&sett);
 
       sett.endGroup();
 
@@ -284,7 +274,6 @@ void Preset::save(const QString &name) const
   sett.remove("");
 
   sett.setValue("name", name);
-  sett.setValue("version", (int)2);
 
   this->mPrepare->save(&sett);
   this->mMatrix->save(&sett);
@@ -303,7 +292,6 @@ void Preset::saveXML(const QString &filename) const
   doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\""));
   QDomElement root = doc.createElement("preset");
   doc.appendChild(root);
-  root.setAttribute("version", 3);
 
   QDomElement nodeName = doc.createElement("name");
   root.appendChild(nodeName);

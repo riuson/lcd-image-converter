@@ -38,7 +38,7 @@ public:
   void setImage(const QString &filename);
   void setFont(const QString &filename);
 
-  bool load(QSettings *settings, int version);
+  bool load(QSettings *settings);
   bool loadXmlElement(QDomElement element);
   void save(QSettings *settings);
   void saveXmlElement(QDomElement element);

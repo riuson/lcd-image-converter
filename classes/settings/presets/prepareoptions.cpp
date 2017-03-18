@@ -280,77 +280,73 @@ const QString &PrepareOptions::monoTypeName() const
   }
 }
 
-bool PrepareOptions::load(QSettings *settings, int version)
+bool PrepareOptions::load(QSettings *settings)
 {
   bool result = false;
 
-  if (version == 1) {
-    quint32 uConvType = 0, uMonoType = 0, uEdge = 0;
-    quint32 uScanMain = 0, uScanSub = 0, uInverse = 0;
-    quint32 uBandWidth = 1, uBandScanning = 0;
-    quint32 uUseCustomScript = 0;
-    QString sCustomScript;
+  settings->beginGroup(PrepareOptions::GroupName);
 
-    uConvType = settings->value(PrepareOptions::FieldConvType, int(0)).toUInt(&result);
+  quint32 uConvType = 0, uMonoType = 0, uEdge = 0;
+  quint32 uScanMain = 0, uScanSub = 0, uInverse = 0;
+  quint32 uBandWidth = 1, uBandScanning = 0;
+  quint32 uUseCustomScript = 0;
+  QString sCustomScript;
 
-    if (result) {
-      uMonoType = settings->value(PrepareOptions::FieldMonoType, int(0)).toUInt(&result);
-    }
+  uConvType = settings->value(PrepareOptions::FieldConvType, int(0)).toUInt(&result);
 
-    if (result) {
-      uEdge = settings->value(PrepareOptions::FieldEdge, int(0)).toUInt(&result);
-    }
-
-    if (result) {
-      uScanMain = settings->value(PrepareOptions::FieldScanMain, int(0)).toUInt(&result);
-    }
-
-    if (result) {
-      uScanSub = settings->value(PrepareOptions::FieldScanSub, int(0)).toUInt(&result);
-    }
-
-    if (result) {
-      uInverse = settings->value(PrepareOptions::FieldInverse, int(0)).toUInt(&result);
-    }
-
-    if (result) {
-      uBandScanning = settings->value(PrepareOptions::FieldBandScanning, false).toBool();
-    }
-
-    if (result) {
-      uBandWidth = settings->value(PrepareOptions::FieldBandWidth, int(1)).toUInt(&result);
-    }
-
-    if (result) {
-      uUseCustomScript = settings->value(PrepareOptions::FieldUseCustomScript, false).toBool();
-    }
-
-    if (result) {
-      QString str = settings->value(PrepareOptions::FieldCustomScript, QString()).toString();
-      QByteArray ba = QByteArray::fromBase64(str.toLatin1());
-      QBuffer buffer(&ba);
-      sCustomScript = QString::fromUtf8(buffer.data());
-    }
-
-    if (result) {
-      this->setConvType((ConversionType)uConvType);
-      this->setMonoType((MonochromeType)uMonoType);
-      this->setEdge((int)uEdge);
-      this->setScanMain((ScanMainDirection)uScanMain);
-      this->setScanSub((ScanSubDirection)uScanSub);
-      this->setInverse((bool)uInverse);
-      this->setBandScanning((bool)uBandScanning);
-      this->setBandWidth((int)uBandWidth);
-      this->setUseCustomScript((bool)uUseCustomScript);
-      this->setCustomScript(sCustomScript);
-    }
-  } else if (version == 2) {
-    settings->beginGroup(PrepareOptions::GroupName);
-
-    result = this->load(settings, 1);
-
-    settings->endGroup();
+  if (result) {
+    uMonoType = settings->value(PrepareOptions::FieldMonoType, int(0)).toUInt(&result);
   }
+
+  if (result) {
+    uEdge = settings->value(PrepareOptions::FieldEdge, int(0)).toUInt(&result);
+  }
+
+  if (result) {
+    uScanMain = settings->value(PrepareOptions::FieldScanMain, int(0)).toUInt(&result);
+  }
+
+  if (result) {
+    uScanSub = settings->value(PrepareOptions::FieldScanSub, int(0)).toUInt(&result);
+  }
+
+  if (result) {
+    uInverse = settings->value(PrepareOptions::FieldInverse, int(0)).toUInt(&result);
+  }
+
+  if (result) {
+    uBandScanning = settings->value(PrepareOptions::FieldBandScanning, false).toBool();
+  }
+
+  if (result) {
+    uBandWidth = settings->value(PrepareOptions::FieldBandWidth, int(1)).toUInt(&result);
+  }
+
+  if (result) {
+    uUseCustomScript = settings->value(PrepareOptions::FieldUseCustomScript, false).toBool();
+  }
+
+  if (result) {
+    QString str = settings->value(PrepareOptions::FieldCustomScript, QString()).toString();
+    QByteArray ba = QByteArray::fromBase64(str.toLatin1());
+    QBuffer buffer(&ba);
+    sCustomScript = QString::fromUtf8(buffer.data());
+  }
+
+  if (result) {
+    this->setConvType((ConversionType)uConvType);
+    this->setMonoType((MonochromeType)uMonoType);
+    this->setEdge((int)uEdge);
+    this->setScanMain((ScanMainDirection)uScanMain);
+    this->setScanSub((ScanSubDirection)uScanSub);
+    this->setInverse((bool)uInverse);
+    this->setBandScanning((bool)uBandScanning);
+    this->setBandWidth((int)uBandWidth);
+    this->setUseCustomScript((bool)uUseCustomScript);
+    this->setCustomScript(sCustomScript);
+  }
+
+  settings->endGroup();
 
   return result;
 }

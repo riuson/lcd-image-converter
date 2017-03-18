@@ -170,129 +170,70 @@ void MatrixOptions::operationReplace(int index, quint32 mask, int shift, bool le
   emit this->changed();
 }
 
-bool MatrixOptions::load(QSettings *settings, int version)
+bool MatrixOptions::load(QSettings *settings)
 {
   bool result = false;
 
-  if (version == 1) {
-    quint32 uMaskUsed = 0, uMaskAnd = 0, uMaskOr = 0, uMaskFill = 0;
+  settings->beginGroup(MatrixOptions::GroupName);
 
-    QString sMaskUsed = settings->value(MatrixOptions::FieldMaskUsed, QString("ffffffff")).toString();
-    QString sMaskAnd  = settings->value(MatrixOptions::FieldMaskAnd,  QString("ffffffff")).toString();
-    QString sMaskOr   = settings->value(MatrixOptions::FieldMaskOr,   QString("00000000")).toString();
-    QString sMaskFill = settings->value(MatrixOptions::FieldMaskFill, QString("ffffffff")).toString();
+  quint32 uMaskUsed = 0, uMaskAnd = 0, uMaskOr = 0, uMaskFill = 0;
 
-    uMaskUsed = sMaskUsed.toUInt(&result, 16);
+  QString sMaskUsed = settings->value(MatrixOptions::FieldMaskUsed, QString("ffffffff")).toString();
+  QString sMaskAnd  = settings->value(MatrixOptions::FieldMaskAnd,  QString("ffffffff")).toString();
+  QString sMaskOr   = settings->value(MatrixOptions::FieldMaskOr,   QString("00000000")).toString();
+  QString sMaskFill = settings->value(MatrixOptions::FieldMaskFill, QString("ffffffff")).toString();
 
-    if (result) {
-      uMaskAnd = sMaskAnd.toUInt(&result, 16);
-    }
+  uMaskUsed = sMaskUsed.toUInt(&result, 16);
 
-    if (result) {
-      uMaskOr = sMaskOr.toUInt(&result, 16);
-    }
-
-    if (result) {
-      uMaskFill = sMaskFill.toUInt(&result, 16);
-    }
-
-    if (result) {
-      this->setMaskUsed(uMaskUsed);
-      this->setMaskAnd(uMaskAnd);
-      this->setMaskOr(uMaskOr);
-      this->setMaskFill(uMaskFill);
-
-      this->operationsRemoveAll();
-
-      int iOperations = settings->beginReadArray(MatrixOptions::GroupName);
-
-      for (int i = 0; i < iOperations; i++) {
-        settings->setArrayIndex(i);
-
-        QString sMask = settings->value(MatrixOptions::FieldMask, QString("00000000")).toString();
-        quint32 uMask, uShift, uLeft;
-
-        if (result) {
-          uMask = sMask.toUInt(&result, 16);
-        }
-
-        if (result) {
-          uShift = settings->value(MatrixOptions::FieldShift, uint(0)).toUInt(&result);
-        }
-
-        if (result) {
-          uLeft = settings->value(MatrixOptions::FieldLeft, uint(0)).toUInt(&result);
-        }
-
-        if (result) {
-          this->operationAdd(uMask, uShift, uLeft != 0);
-        }
-      }
-
-      settings->endArray();
-    }
-  } else if (version == 2) {
-    settings->beginGroup(MatrixOptions::GroupName);
-
-    quint32 uMaskUsed = 0, uMaskAnd = 0, uMaskOr = 0, uMaskFill = 0;
-
-    QString sMaskUsed = settings->value(MatrixOptions::FieldMaskUsed, QString("ffffffff")).toString();
-    QString sMaskAnd  = settings->value(MatrixOptions::FieldMaskAnd,  QString("ffffffff")).toString();
-    QString sMaskOr   = settings->value(MatrixOptions::FieldMaskOr,   QString("00000000")).toString();
-    QString sMaskFill = settings->value(MatrixOptions::FieldMaskFill, QString("ffffffff")).toString();
-
-    uMaskUsed = sMaskUsed.toUInt(&result, 16);
-
-    if (result) {
-      uMaskAnd = sMaskAnd.toUInt(&result, 16);
-    }
-
-    if (result) {
-      uMaskOr = sMaskOr.toUInt(&result, 16);
-    }
-
-    if (result) {
-      uMaskFill = sMaskFill.toUInt(&result, 16);
-    }
-
-    if (result) {
-      this->setMaskUsed(uMaskUsed);
-      this->setMaskAnd(uMaskAnd);
-      this->setMaskOr(uMaskOr);
-      this->setMaskFill(uMaskFill);
-
-      this->operationsRemoveAll();
-
-      int iOperations = settings->beginReadArray(MatrixOptions::FieldOperations);
-
-      for (int i = 0; i < iOperations; i++) {
-        settings->setArrayIndex(i);
-
-        QString sMask = settings->value(MatrixOptions::FieldMask, QString("00000000")).toString();
-        quint32 uMask, uShift, uLeft;
-
-        if (result) {
-          uMask = sMask.toUInt(&result, 16);
-        }
-
-        if (result) {
-          uShift = settings->value(MatrixOptions::FieldShift, uint(0)).toUInt(&result);
-        }
-
-        if (result) {
-          uLeft = settings->value(MatrixOptions::FieldLeft, uint(0)).toUInt(&result);
-        }
-
-        if (result) {
-          this->operationAdd(uMask, uShift, uLeft != 0);
-        }
-      }
-
-      settings->endArray();
-    }
-
-    settings->endGroup();
+  if (result) {
+    uMaskAnd = sMaskAnd.toUInt(&result, 16);
   }
+
+  if (result) {
+    uMaskOr = sMaskOr.toUInt(&result, 16);
+  }
+
+  if (result) {
+    uMaskFill = sMaskFill.toUInt(&result, 16);
+  }
+
+  if (result) {
+    this->setMaskUsed(uMaskUsed);
+    this->setMaskAnd(uMaskAnd);
+    this->setMaskOr(uMaskOr);
+    this->setMaskFill(uMaskFill);
+
+    this->operationsRemoveAll();
+
+    int iOperations = settings->beginReadArray(MatrixOptions::FieldOperations);
+
+    for (int i = 0; i < iOperations; i++) {
+      settings->setArrayIndex(i);
+
+      QString sMask = settings->value(MatrixOptions::FieldMask, QString("00000000")).toString();
+      quint32 uMask, uShift, uLeft;
+
+      if (result) {
+        uMask = sMask.toUInt(&result, 16);
+      }
+
+      if (result) {
+        uShift = settings->value(MatrixOptions::FieldShift, uint(0)).toUInt(&result);
+      }
+
+      if (result) {
+        uLeft = settings->value(MatrixOptions::FieldLeft, uint(0)).toUInt(&result);
+      }
+
+      if (result) {
+        this->operationAdd(uMask, uShift, uLeft != 0);
+      }
+    }
+
+    settings->endArray();
+  }
+
+  settings->endGroup();
 
   return result;
 }

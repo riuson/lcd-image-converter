@@ -114,44 +114,42 @@ void ReorderingOptions::operationReplace(int index, quint32 mask, int shift, boo
   emit this->changed();
 }
 
-bool ReorderingOptions::load(QSettings *settings, int version)
+bool ReorderingOptions::load(QSettings *settings)
 {
   bool result = true;// this option not implemented in versions < 2013-01-04
 
-  if (version == 2) {
-    settings->beginGroup(ReorderingOptions::GroupName);
+  settings->beginGroup(ReorderingOptions::GroupName);
 
-    this->operationsRemoveAll();
+  this->operationsRemoveAll();
 
-    int iOperations = settings->beginReadArray(ReorderingOptions::FieldOperations);
+  int iOperations = settings->beginReadArray(ReorderingOptions::FieldOperations);
 
-    for (int i = 0; i < iOperations; i++) {
-      settings->setArrayIndex(i);
+  for (int i = 0; i < iOperations; i++) {
+    settings->setArrayIndex(i);
 
-      QString sMask = settings->value(ReorderingOptions::FieldMask, QString("00000000")).toString();
-      quint32 uMask, uShift, uLeft;
+    QString sMask = settings->value(ReorderingOptions::FieldMask, QString("00000000")).toString();
+    quint32 uMask, uShift, uLeft;
 
-      if (result) {
-        uMask = sMask.toUInt(&result, 16);
-      }
-
-      if (result) {
-        uShift = settings->value(ReorderingOptions::FieldShift, uint(0)).toUInt(&result);
-      }
-
-      if (result) {
-        uLeft = settings->value(ReorderingOptions::FieldLeft, uint(0)).toUInt(&result);
-      }
-
-      if (result) {
-        this->operationAdd(uMask, uShift, uLeft != 0);
-      }
+    if (result) {
+      uMask = sMask.toUInt(&result, 16);
     }
 
-    settings->endArray();
+    if (result) {
+      uShift = settings->value(ReorderingOptions::FieldShift, uint(0)).toUInt(&result);
+    }
 
-    settings->endGroup();
+    if (result) {
+      uLeft = settings->value(ReorderingOptions::FieldLeft, uint(0)).toUInt(&result);
+    }
+
+    if (result) {
+      this->operationAdd(uMask, uShift, uLeft != 0);
+    }
   }
+
+  settings->endArray();
+
+  settings->endGroup();
 
   return result;
 }

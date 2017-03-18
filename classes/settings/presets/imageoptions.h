@@ -55,7 +55,7 @@ public:
   void setBlockSuffix(const QString &value);
   void setBlockDelimiter(const QString &value);
 
-  bool load(QSettings *settings, int version);
+  bool load(QSettings *settings);
   bool loadXmlElement(QDomElement element);
   void save(QSettings *settings);
   void saveXmlElement(QDomElement element);
