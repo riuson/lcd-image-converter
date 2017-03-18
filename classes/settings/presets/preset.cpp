@@ -113,6 +113,8 @@ QStringList Preset::presetsList()
 
   sett.endGroup();
 
+  qSort(names);
+
   return names;
 }
 
