@@ -4,6 +4,8 @@
 #include <QDomNodeList>
 #include <QFile>
 #include <QTemporaryDir>
+#include <QXmlInputSource>
+#include <QXmlSimpleReader>
 
 TestSettings::TestSettings(QObject *parent) :
   QObject(parent)
@@ -121,10 +123,8 @@ void TestSettings::save_load()
 
   if (tempDir.isValid()) {
     // Set filename
-    {
-      QString filename = this->getFilename(tempDir);
-      AppSettings::configure(AppSettings::Section::Application, filename);
-    }
+    QString filename = this->getFilename(tempDir);
+    AppSettings::configure(AppSettings::Section::Application, filename);
 
     QSettings::SettingsMap map;
     map.insert("section1/key1", 3.1415926);
@@ -135,6 +135,9 @@ void TestSettings::save_load()
     map.insert("section1/key3", "string");
     map.insert("section2/key5", "< > & \" \'");
     map.insert("section2/sub1/key1", "абвгдежз");
+    map.insert("section2/1", "text1");
+    map.insert("section2/2", "text2");
+    map.insert("section2/3", "text3");
 
     // Save settings
     {
@@ -148,6 +151,33 @@ void TestSettings::save_load()
         QVariant value = it.value();
         sett.setValue(key, value);
       }
+
+      sett.sync();
+    }
+
+    // Load to QDomDocument
+    {
+      QFile file(filename);
+
+      QCOMPARE(file.exists(), true);
+      QCOMPARE(file.open(QFile::ReadOnly), true);
+
+      QXmlInputSource source(&file);
+      QXmlSimpleReader reader;
+
+      QDomDocument doc;
+      QString errorMsg;
+      int errorColumn, errorLine;
+
+      if (doc.setContent(&source, &reader, &errorMsg, &errorLine, &errorColumn)) {
+        QDomElement root = doc.documentElement();
+        QCOMPARE(root.tagName(), QString("configuration"));
+      } else {
+        QString msg = QString("Can't load xml file at line %1, column %2: %3").arg(errorLine).arg(errorColumn).arg(errorMsg);
+        QFAIL(qPrintable(msg));
+      }
+
+      file.close();
     }
 
     // Load settings
