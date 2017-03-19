@@ -145,6 +145,11 @@ void CmdLine::addApplicationOptions()
                                          QCoreApplication::translate("CmdLineParser", "Path to presets configuration file. If not specified, default is used."),
                                          QCoreApplication::translate("CmdLineParser", "file"));
   this->mParser->addOption(optionConfigPresets);
+
+  // reset all settings
+  QCommandLineOption monoOption(QStringList() << "config-initialize",
+                                QCoreApplication::translate("CmdLineParser", "Reset all settings to default state."));
+  this->mParser->addOption(monoOption);
 }
 
 void CmdLine::processApplicationOptions()
@@ -159,6 +164,11 @@ void CmdLine::processApplicationOptions()
   if (this->mParser->isSet("config-presets")) {
     QString configFile = this->mParser->value("config-presets");
     AppSettings::configure(AppSettings::Section::Presets, configFile);
+  }
+
+  // Reset all settings to default
+  if (this->mParser->isSet("config-initialize")) {
+    AppSettings::reset();
   }
 }
 
