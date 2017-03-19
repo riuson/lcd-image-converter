@@ -44,7 +44,7 @@ public:
   void setEncoding(const QString &value);
   void setSortOrder(CharactersSortOrder value);
 
-  bool load(QSettings *settings, int version);
+  bool load(QSettings *settings);
   bool loadXmlElement(QDomElement element);
   void save(QSettings *settings);
   void saveXmlElement(QDomElement element);

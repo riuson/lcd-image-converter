@@ -58,31 +58,21 @@ void TemplateOptions::setFont(const QString &filename)
   emit this->changed();
 }
 
-bool TemplateOptions::load(QSettings *settings, int version)
+bool TemplateOptions::load(QSettings *settings)
 {
   bool result = false;
 
-  if (version == 1) {
-    QString sTemplateImage = settings->value("imageTemplate", QString(":/templates/image_convert")).toString();
-    QString sTemplateFont = settings->value("fontTemplate", QString(":/templates/font_convert")).toString();
+  settings->beginGroup(TemplateOptions::GroupName);
 
-    this->setImage(sTemplateImage);
-    this->setFont(sTemplateFont);
+  QString sTemplateImage = settings->value(TemplateOptions::FieldImages, QString(":/templates/image_convert")).toString();
+  QString sTemplateFont = settings->value(TemplateOptions::FieldFonts, QString(":/templates/font_convert")).toString();
 
-    result = true;
-  } else if (version == 2) {
-    settings->beginGroup(TemplateOptions::GroupName);
+  this->setImage(sTemplateImage);
+  this->setFont(sTemplateFont);
 
-    QString sTemplateImage = settings->value(TemplateOptions::FieldImages, QString(":/templates/image_convert")).toString();
-    QString sTemplateFont = settings->value(TemplateOptions::FieldFonts, QString(":/templates/font_convert")).toString();
+  result = true;
 
-    this->setImage(sTemplateImage);
-    this->setFont(sTemplateFont);
-
-    result = true;
-
-    settings->endGroup();
-  }
+  settings->endGroup();
 
   return result;
 }

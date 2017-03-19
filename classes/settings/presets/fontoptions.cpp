@@ -76,49 +76,33 @@ void FontOptions::setSortOrder(CharactersSortOrder value)
   emit this->changed();
 }
 
-bool FontOptions::load(QSettings *settings, int version)
+bool FontOptions::load(QSettings *settings)
 {
   bool result = false;
 
-  if (version == 1) {
-    quint32 uBom;
-    QString sEncoding;
+  settings->beginGroup(FontOptions::GroupName);
 
-    uBom = settings->value("fontUseBom", int(0)).toInt(&result);
+  quint32 uBom;
+  quint32 uSortOrder;
+  QString sEncoding;
 
-    if (result) {
-      sEncoding = settings->value("fontCodec", QString("UTF-8")).toString();
-    }
+  uBom = settings->value(FontOptions::FieldBom, int(0)).toInt(&result);
 
-    if (result) {
-      this->setBom((bool)uBom);
-      this->setEncoding(sEncoding);
-    }
-  } else if (version == 2) {
-    settings->beginGroup(FontOptions::GroupName);
-
-    quint32 uBom;
-    quint32 uSortOrder;
-    QString sEncoding;
-
-    uBom = settings->value(FontOptions::FieldBom, int(0)).toInt(&result);
-
-    if (result) {
-      uSortOrder = settings->value(FontOptions::FieldSortOrder, int(CharactersSortNone)).toInt(&result);
-    }
-
-    if (result) {
-      sEncoding = settings->value(FontOptions::FieldCodec, QString("UTF-8")).toString();
-    }
-
-    if (result) {
-      this->setBom((bool)uBom);
-      this->setEncoding(sEncoding);
-      this->setSortOrder((CharactersSortOrder)uSortOrder);
-    }
-
-    settings->endGroup();
+  if (result) {
+    uSortOrder = settings->value(FontOptions::FieldSortOrder, int(CharactersSortNone)).toInt(&result);
   }
+
+  if (result) {
+    sEncoding = settings->value(FontOptions::FieldCodec, QString("UTF-8")).toString();
+  }
+
+  if (result) {
+    this->setBom((bool)uBom);
+    this->setEncoding(sEncoding);
+    this->setSortOrder((CharactersSortOrder)uSortOrder);
+  }
+
+  settings->endGroup();
 
   return result;
 }

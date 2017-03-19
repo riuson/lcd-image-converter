@@ -169,59 +169,55 @@ void ImageOptions::setBlockDelimiter(const QString &value)
   emit this->changed();
 }
 
-bool ImageOptions::load(QSettings *settings, int version)
+bool ImageOptions::load(QSettings *settings)
 {
   bool result = false;
 
-  if (version == 1) {
-    quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0;
-    quint32 uCompressionRle = 0, uCompressionRleMinLength = 2;
-    QString sBlockPrefix, sBlockSuffix, sBlockDelimiter;
+  settings->beginGroup(ImageOptions::GroupName);
 
-    uBlockSize = settings->value(ImageOptions::FieldBlockSize, int(0)).toUInt(&result);
+  quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0;
+  quint32 uCompressionRle = 0, uCompressionRleMinLength = 2;
+  QString sBlockPrefix, sBlockSuffix, sBlockDelimiter;
 
-    if (result) {
-      uBytesOrder = settings->value(ImageOptions::FieldBytesOrder, int(0)).toUInt(&result);
-    }
+  uBlockSize = settings->value(ImageOptions::FieldBlockSize, int(0)).toUInt(&result);
 
-    if (result) {
-      uSplitToRows = settings->value(ImageOptions::FieldSplitToRows, int(1)).toUInt(&result);
-    }
-
-    if (result) {
-      uCompressionRle = settings->value(ImageOptions::FieldCompressionRle, int(0)).toUInt(&result);
-    }
-
-    if (result) {
-      uCompressionRleMinLength = settings->value(ImageOptions::FieldCompressionRleMinLength, int(2)).toUInt(&result);
-    }
-
-    if (result) {
-      uBlockDefaultOnes = settings->value(ImageOptions::FieldBlockDefaultOnes, int(0)).toUInt(&result);
-    }
-
-    sBlockPrefix = settings->value(ImageOptions::FieldBlockPrefix, "0x").toString();
-    sBlockSuffix = settings->value(ImageOptions::FieldBlockSuffix, "").toString();
-    sBlockDelimiter = settings->value(ImageOptions::FieldBlockDelimiter, ", ").toString();
-
-    if (result) {
-      this->setBlockSize((DataBlockSize)uBlockSize);
-      this->setBlockDefaultOnes((bool)uBlockDefaultOnes);
-      this->setBytesOrder((BytesOrder)uBytesOrder);
-      this->setSplitToRows((bool)uSplitToRows);
-      this->setCompressionRle((bool)uCompressionRle);
-      this->setCompressionRleMinLength(uCompressionRleMinLength);
-      this->setBlockPrefix(sBlockPrefix);
-      this->setBlockSuffix(sBlockSuffix);
-      this->setBlockDelimiter(sBlockDelimiter);
-    }
-  } else if (version == 2) {
-    settings->beginGroup(ImageOptions::GroupName);
-
-    result = this->load(settings, 1);
-
-    settings->endGroup();
+  if (result) {
+    uBytesOrder = settings->value(ImageOptions::FieldBytesOrder, int(0)).toUInt(&result);
   }
+
+  if (result) {
+    uSplitToRows = settings->value(ImageOptions::FieldSplitToRows, int(1)).toUInt(&result);
+  }
+
+  if (result) {
+    uCompressionRle = settings->value(ImageOptions::FieldCompressionRle, int(0)).toUInt(&result);
+  }
+
+  if (result) {
+    uCompressionRleMinLength = settings->value(ImageOptions::FieldCompressionRleMinLength, int(2)).toUInt(&result);
+  }
+
+  if (result) {
+    uBlockDefaultOnes = settings->value(ImageOptions::FieldBlockDefaultOnes, int(0)).toUInt(&result);
+  }
+
+  sBlockPrefix = settings->value(ImageOptions::FieldBlockPrefix, "0x").toString();
+  sBlockSuffix = settings->value(ImageOptions::FieldBlockSuffix, "").toString();
+  sBlockDelimiter = settings->value(ImageOptions::FieldBlockDelimiter, ", ").toString();
+
+  if (result) {
+    this->setBlockSize((DataBlockSize)uBlockSize);
+    this->setBlockDefaultOnes((bool)uBlockDefaultOnes);
+    this->setBytesOrder((BytesOrder)uBytesOrder);
+    this->setSplitToRows((bool)uSplitToRows);
+    this->setCompressionRle((bool)uCompressionRle);
+    this->setCompressionRleMinLength(uCompressionRleMinLength);
+    this->setBlockPrefix(sBlockPrefix);
+    this->setBlockSuffix(sBlockSuffix);
+    this->setBlockDelimiter(sBlockDelimiter);
+  }
+
+  settings->endGroup();
 
   return result;
 }

@@ -60,7 +60,7 @@ public:
   const QString &convTypeName() const;
   const QString &monoTypeName() const;
 
-  bool load(QSettings *settings, int version);
+  bool load(QSettings *settings);
   bool loadXmlElement(QDomElement element);
   void save(QSettings *settings);
   void saveXmlElement(QDomElement element);

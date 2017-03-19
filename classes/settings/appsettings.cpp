@@ -23,6 +23,12 @@
 QMap<AppSettings::Section, QString> AppSettings::ConfigFiles;
 QSettings::Format AppSettings::CustomFormat = QSettings::InvalidFormat;
 
+// https://www.w3.org/TR/REC-xml/#NT-NameChar
+QString AppSettings::NameStartChar = "^(\\:|[A-Z]|_|[a-z]|[\\xC0-\\xD6]|[\\xD8-\\xF6]|[\\xF8-\\x2FF]|[\\x370-\\x37D]|[\\x37F-\\x1FFF]|[\\x200C-\\x200D]|[\\x2070-\\x218F]|[\\x2C00-\\x2FEF]|[\\x3001-\\xD7FF]|[\\xF900-\\xFDCF]|[\\xFDF0-\\xFFFD])";
+QString AppSettings::NameChar      = "^(\\:|[A-Z]|_|[a-z]|[\\xC0-\\xD6]|[\\xD8-\\xF6]|[\\xF8-\\x2FF]|[\\x370-\\x37D]|[\\x37F-\\x1FFF]|[\\x200C-\\x200D]|[\\x2070-\\x218F]|[\\x2C00-\\x2FEF]|[\\x3001-\\xD7FF]|[\\xF900-\\xFDCF]|[\\xFDF0-\\xFFFD])"\
+                                     "(\\:|[A-Z]|_|[a-z]|[\\xC0-\\xD6]|[\\xD8-\\xF6]|[\\xF8-\\x2FF]|[\\x370-\\x37D]|[\\x37F-\\x1FFF]|[\\x200C-\\x200D]|[\\x2070-\\x218F]|[\\x2C00-\\x2FEF]|[\\x3001-\\xD7FF]|[\\xF900-\\xFDCF]|[\\xFDF0-\\xFFFD]|\\-|\\.|[0-9]|\\xB7|[\\x0300-\\x036F]|[\\x203F-\\x2040])*$";
+QString AppSettings::NameStartPrefix = "_escaped_name_start_";
+
 AppSettings::AppSettings()
 {
   QString filename = AppSettings::ConfigFiles.value(Section::Application, "");
@@ -133,18 +139,23 @@ QDomElement AppSettings::getNodeByPath(QDomDocument &doc, const QString &path)
 
   while (it.hasNext()) {
     QString part = it.next();
-    nodes = element.elementsByTagName(part);
+    QString escapedPart;
+    bool valid = AppSettings::escape(part, escapedPart);
 
-    if (nodes.isEmpty()) {
-      QDomElement newNode = doc.createElement(part);
-      element.appendChild(newNode);
-      element = newNode;
-    } else if (nodes.count() == 1) {
-      element = nodes.at(0).toElement();
+    if (valid) {
+      nodes = element.elementsByTagName(escapedPart);
 
-      if (element.isNull()) {
+      if (nodes.isEmpty()) {
+        QDomElement newNode = doc.createElement(escapedPart);
+        element.appendChild(newNode);
+        element = newNode;
+      } else if (nodes.count() == 1) {
+        element = nodes.at(0).toElement();
+
+        if (element.isNull()) {
+        }
+      } else {
       }
-    } else {
     }
   }
 
@@ -159,7 +170,9 @@ void AppSettings::readChilds(QSettings::SettingsMap &map, QStringList &parts, co
     QDomNode child = childs.at(i);
 
     if (child.isElement()) {
-      parts.append(child.nodeName());
+      QString name = child.nodeName();
+      QString unescapedName = AppSettings::unescape(name);
+      parts.append(unescapedName);
 
       QString value;
       bool isText = AppSettings::readTextNode(child, value);
@@ -186,4 +199,46 @@ bool AppSettings::readTextNode(QDomNode &node, QString &value)
   }
 
   return false;
+}
+
+bool AppSettings::isNameStartCharValid(const QString &value)
+{
+  QRegExp regNameStartChar(AppSettings::NameStartChar);
+  return (regNameStartChar.indexIn(value) == 0);
+}
+
+bool AppSettings::isNameCharValid(const QString &value)
+{
+  QRegExp regNameChar(AppSettings::NameChar);
+  return (regNameChar.indexIn(value) == 0);
+}
+
+bool AppSettings::escape(const QString &source, QString &result)
+{
+  if (AppSettings::isNameCharValid(source)) {
+    result = source;
+    return true;
+  }
+
+  if (AppSettings::isNameStartCharValid(source)) {
+    return false;
+  }
+
+  QString escaped = AppSettings::NameStartPrefix + source;
+
+  if (AppSettings::isNameCharValid(escaped)) {
+    result = escaped;
+    return true;
+  }
+
+  return false;
+}
+
+const QString AppSettings::unescape(const QString &value)
+{
+  if (value.startsWith(AppSettings::NameStartPrefix)) {
+    return value.mid(AppSettings::NameStartPrefix.length());
+  }
+
+  return value;
 }

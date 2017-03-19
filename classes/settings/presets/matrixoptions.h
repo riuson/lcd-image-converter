@@ -50,7 +50,7 @@ public:
   void operationsRemoveAll();
   void operationReplace(int index, quint32 mask, int shift, bool left);
 
-  bool load(QSettings *settings, int version);
+  bool load(QSettings *settings);
   bool loadXmlElement(QDomElement element);
   void save(QSettings *settings);
   void saveXmlElement(QDomElement element);
