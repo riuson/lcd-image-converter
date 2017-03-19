@@ -139,18 +139,23 @@ QDomElement AppSettings::getNodeByPath(QDomDocument &doc, const QString &path)
 
   while (it.hasNext()) {
     QString part = it.next();
-    nodes = element.elementsByTagName(part);
+    QString escapedPart;
+    bool valid = AppSettings::escape(part, escapedPart);
 
-    if (nodes.isEmpty()) {
-      QDomElement newNode = doc.createElement(part);
-      element.appendChild(newNode);
-      element = newNode;
-    } else if (nodes.count() == 1) {
-      element = nodes.at(0).toElement();
+    if (valid) {
+      nodes = element.elementsByTagName(escapedPart);
 
-      if (element.isNull()) {
+      if (nodes.isEmpty()) {
+        QDomElement newNode = doc.createElement(escapedPart);
+        element.appendChild(newNode);
+        element = newNode;
+      } else if (nodes.count() == 1) {
+        element = nodes.at(0).toElement();
+
+        if (element.isNull()) {
+        }
+      } else {
       }
-    } else {
     }
   }
 
@@ -165,7 +170,9 @@ void AppSettings::readChilds(QSettings::SettingsMap &map, QStringList &parts, co
     QDomNode child = childs.at(i);
 
     if (child.isElement()) {
-      parts.append(child.nodeName());
+      QString name = child.nodeName();
+      QString unescapedName = AppSettings::unescape(name);
+      parts.append(unescapedName);
 
       QString value;
       bool isText = AppSettings::readTextNode(child, value);
