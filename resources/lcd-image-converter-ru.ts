@@ -141,6 +141,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../classes/cmdline/cmdline.cpp" line="151"/>
+        <source>Reset all settings to default state.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="53"/>
         <source>Full &lt;path&gt; to source image in binary format.</source>
         <translation type="unfinished"></translation>
