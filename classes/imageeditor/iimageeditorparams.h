@@ -19,29 +19,29 @@
 
 #ifndef IIMAGEEDITORPARAMS_H
 #define IIMAGEEDITORPARAMS_H
-//-----------------------------------------------------------------------------
+
 class QImage;
 class QColor;
 class QPoint;
 class QWidget;
 class QPainterPath;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class IImageEditorParams
 {
 public:
-    virtual ~IImageEditorParams() { }
+  virtual ~IImageEditorParams() { }
 
-    virtual int scale() const = 0;
-    virtual const QColor foreColor() const = 0;
-    virtual const QColor backColor() const = 0;
-    virtual QWidget *parentWidget() const = 0;
-    virtual const QPainterPath &selectedPath() const = 0;
+  virtual int scale() const = 0;
+  virtual const QColor foreColor() const = 0;
+  virtual const QColor backColor() const = 0;
+  virtual QWidget *parentWidget() const = 0;
+  virtual const QPainterPath &selectedPath() const = 0;
 };
 }
 Q_DECLARE_INTERFACE (ImageEditor::IImageEditorParams,
                      "riuson.lcd-image-converter/1.0"
-                     )
-//-----------------------------------------------------------------------------
+                    )
+
 #endif // IIMAGEEDITORPARAMS_H

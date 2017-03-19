@@ -20,38 +20,39 @@
 #include <qt-version-check.h>
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-//-----------------------------------------------------------------------------
+
 #ifndef MODEHEX2BIN_H
 #define MODEHEX2BIN_H
-//-----------------------------------------------------------------------------
+
 #include "modeparserbase.h"
 #include <QObject>
-//-----------------------------------------------------------------------------
-namespace CommandLine {
-//-----------------------------------------------------------------------------
+
+namespace CommandLine
+{
+
 class ModeHex2Bin : public ModeParserBase
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ModeHex2Bin(QCommandLineParser *parser, QObject *parent = 0);
+  explicit ModeHex2Bin(QCommandLineParser *parser, QObject *parent = 0);
 
-    static QString modeName();
+  static QString modeName();
 
-    void fillParser() const;
-    bool collectArguments();
-    int process();
+  void fillParser() const;
+  bool collectArguments();
+  int process();
 
 private:
-    QString mInputFilename;
-    QString mOuputFilename;
+  QString mInputFilename;
+  QString mOuputFilename;
 
-    QByteArray hex2bin(QString &hexString);
-    void appendDataLE(QByteArray *array, int size, quint32 value);
-    void appendDataBE(QByteArray *array, int size, quint32 value);
+  QByteArray hex2bin(QString &hexString);
+  void appendDataLE(QByteArray *array, int size, quint32 value);
+  void appendDataBE(QByteArray *array, int size, quint32 value);
 };
-//-----------------------------------------------------------------------------
+
 }
-//-----------------------------------------------------------------------------
+
 #endif // MODEHEX2BIN_H
-//-----------------------------------------------------------------------------
+
 #endif // QT_VERSION

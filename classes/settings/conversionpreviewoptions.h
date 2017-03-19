@@ -24,13 +24,13 @@
 
 class ConversionPreviewOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    static int scale();
-    static void setScale(int value);
+  static int scale();
+  static void setScale(int value);
 
 private:
-    static const QString GroupName;
+  static const QString GroupName;
 };
 
 #endif // CONVERSIONPREVIEWOPTIONS_H

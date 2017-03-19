@@ -19,8 +19,8 @@
 
 #ifndef QTVERSIONCHECK_H
 #define QTVERSIONCHECK_H
-//-----------------------------------------------------------------------------
+
 #define VERSION_COMBINE(major, minor, patch) ((major << 16) | (minor << 8) | (patch))
 #define QT_VERSION_COMBINED (VERSION_COMBINE(QT_MAJOR_VERSION, QT_MINOR_VERSION, QT_PATCH_VERSION))
-//-----------------------------------------------------------------------------
+
 #endif // QTVERSIONCHECK_H

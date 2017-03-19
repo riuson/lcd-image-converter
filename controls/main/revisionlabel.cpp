@@ -18,14 +18,14 @@
  */
 
 #include "revisionlabel.h"
-//-----------------------------------------------------------------------------
-#include "revisioninfo.h"
-//-----------------------------------------------------------------------------
-RevisionLabel::RevisionLabel(QWidget *parent) :
-    QLabel(parent)
-{
-    this->setText(RevisionInfo::hash_abbr());
 
-    this->setForegroundRole(QPalette::Midlight);
+#include "revisioninfo.h"
+
+RevisionLabel::RevisionLabel(QWidget *parent) :
+  QLabel(parent)
+{
+  this->setText(RevisionInfo::hash_abbr());
+
+  this->setForegroundRole(QPalette::Midlight);
 }
-//-----------------------------------------------------------------------------
+

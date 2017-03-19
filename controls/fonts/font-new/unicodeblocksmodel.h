@@ -19,46 +19,45 @@
 
 #ifndef QUNICODEBLOCKSMODEL_H
 #define QUNICODEBLOCKSMODEL_H
-//-----------------------------------------------------------------------------
+
 #include <QAbstractListModel>
 #include <QList>
-//-----------------------------------------------------------------------------
+
 class UnicodeBlock
 {
 public:
-    UnicodeBlock(const QString &name, quint32 firstCode, quint32 lastCode);
-    const QString &name() const;
-    quint32 firstCode() const;
-    quint32 lastCode() const;
+  UnicodeBlock(const QString &name, quint32 firstCode, quint32 lastCode);
+  const QString &name() const;
+  quint32 firstCode() const;
+  quint32 lastCode() const;
 
 private:
-    QString mName;
-    quint32 mFirstCode;
-    quint32 mLastCode;
+  QString mName;
+  quint32 mFirstCode;
+  quint32 mLastCode;
 };
-//-----------------------------------------------------------------------------
+
 class UnicodeBlocksModel : public QAbstractListModel
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit UnicodeBlocksModel(QObject *parent = 0);
+  explicit UnicodeBlocksModel(QObject *parent = 0);
 
-    enum UnicodeBlocksModelRole
-    {
-        FirstCodeRole = Qt::UserRole + 1,
-        LastCodeRole = Qt::UserRole + 2
-    };
+  enum UnicodeBlocksModelRole {
+    FirstCodeRole = Qt::UserRole + 1,
+    LastCodeRole = Qt::UserRole + 2
+  };
 
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const; // функция доступа к данным
-    int rowCount(const QModelIndex &parent) const; // количество элементов в модели
+  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const; // функция доступа к данным
+  int rowCount(const QModelIndex &parent) const; // количество элементов в модели
 
 private:
-    QList<UnicodeBlock *> mList;
+  QList<UnicodeBlock *> mList;
 
 signals:
 
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // QUNICODEBLOCKSMODEL_H

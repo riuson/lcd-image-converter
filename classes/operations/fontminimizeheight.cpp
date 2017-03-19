@@ -27,84 +27,79 @@ namespace Operations
 {
 
 FontMinimizeHeight::FontMinimizeHeight(QWidget *parentWidget, QObject *parent)
-    : QObject(parent)
+  : QObject(parent)
 {
-    this->mParentWidget = parentWidget;
-    this->mLeft = 0;
-    this->mTop = 0;
-    this->mRight = 0;
-    this->mBottom = 0;
+  this->mParentWidget = parentWidget;
+  this->mLeft = 0;
+  this->mTop = 0;
+  this->mRight = 0;
+  this->mBottom = 0;
 }
 
 bool FontMinimizeHeight::prepare(const IDocument *doc, const QStringList &keys)
 {
-    this->mLeft = std::numeric_limits<int>::max();
-    this->mTop = std::numeric_limits<int>::max();
-    this->mRight = 0;
-    this->mBottom = 0;
+  this->mLeft = std::numeric_limits<int>::max();
+  this->mTop = std::numeric_limits<int>::max();
+  this->mRight = 0;
+  this->mBottom = 0;
 
-    // find limits
-    QListIterator<QString> it(keys);
-    it.toFront();
+  // find limits
+  QListIterator<QString> it(keys);
+  it.toFront();
 
-    while (it.hasNext())
-    {
-        QString key = it.next();
-        const QImage *original = doc->dataContainer()->image(key);
+  while (it.hasNext()) {
+    QString key = it.next();
+    const QImage *original = doc->dataContainer()->image(key);
 
-        int l, t, r, b;
-        BitmapHelper::findEmptyArea(original, &l, &t, &r, &b);
+    int l, t, r, b;
+    BitmapHelper::findEmptyArea(original, &l, &t, &r, &b);
 
-        this->mLeft = qMin(this->mLeft, l);
-        this->mTop = qMin(this->mTop, t);
-        this->mRight = qMin(this->mRight, r);
-        this->mBottom = qMin(this->mBottom, b);
+    this->mLeft = qMin(this->mLeft, l);
+    this->mTop = qMin(this->mTop, t);
+    this->mRight = qMin(this->mRight, r);
+    this->mBottom = qMin(this->mBottom, b);
+  }
+
+  DialogCanvasResize dialog(doc->dataContainer(), this->mParentWidget);
+  dialog.selectKeys(keys);
+  dialog.setResizeInfo(-this->mLeft, -this->mTop, -this->mRight, -this->mBottom);
+
+  if (dialog.exec() == QDialog::Accepted) {
+    dialog.resizeInfo(&this->mLeft, &this->mTop, &this->mRight, &this->mBottom);
+
+    if (this->mLeft != 0 || this->mTop != 0 || this->mRight != 0 || this->mBottom != 0) {
+      return true;
     }
+  }
 
-    DialogCanvasResize dialog(doc->dataContainer(), this->mParentWidget);
-    dialog.selectKeys(keys);
-    dialog.setResizeInfo(-this->mLeft, -this->mTop, -this->mRight, -this->mBottom);
-
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        dialog.resizeInfo(&this->mLeft, &this->mTop, &this->mRight, &this->mBottom);
-
-        if (this->mLeft != 0 || this->mTop != 0 || this->mRight != 0 || this->mBottom != 0)
-        {
-            return true;
-        }
-    }
-
-    return false;
+  return false;
 }
 
 void FontMinimizeHeight::applyDocument(IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(keys)
+  Q_UNUSED(keys)
 
-    bool ok;
-    int ascent = doc->dataContainer()->commonInfo("ascent").toInt(&ok);
+  bool ok;
+  int ascent = doc->dataContainer()->commonInfo("ascent").toInt(&ok);
 
-    if (ok)
-    {
-        int descent = doc->dataContainer()->commonInfo("descent").toInt(&ok);
+  if (ok) {
+    int descent = doc->dataContainer()->commonInfo("descent").toInt(&ok);
 
-        if (ok)
-        {
-            ascent += this->mTop;
-            descent += this->mBottom;
+    if (ok) {
+      ascent += this->mTop;
+      descent += this->mBottom;
 
-            doc->dataContainer()->setCommonInfo("ascent", ascent);
-            doc->dataContainer()->setCommonInfo("descent", descent);
-        }
+      doc->dataContainer()->setCommonInfo("ascent", ascent);
+      doc->dataContainer()->setCommonInfo("descent", descent);
     }
+  }
 }
 
 void FontMinimizeHeight::applyItem(IDocument *doc, const QString &itemKey)
 {
-    const QImage *original = doc->dataContainer()->image(itemKey);
-    QImage result = BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapHelper::detectBackgroundColor(original));
-    doc->dataContainer()->setImage(itemKey, &result);
+  const QImage *original = doc->dataContainer()->image(itemKey);
+  QImage result = BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapHelper::detectBackgroundColor(original));
+  doc->dataContainer()->setImage(itemKey, &result);
 }
 
 }

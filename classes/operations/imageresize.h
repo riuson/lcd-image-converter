@@ -28,22 +28,22 @@ namespace Operations
 
 class ImageResize : public QObject, public IOperation
 {
-    Q_OBJECT
-    Q_INTERFACES(Operations::IOperation)
+  Q_OBJECT
+  Q_INTERFACES(Operations::IOperation)
 
 public:
-    explicit ImageResize(QWidget *parentWidget = 0, QObject *parent = 0);
+  explicit ImageResize(QWidget *parentWidget = 0, QObject *parent = 0);
 
-    virtual bool prepare(const IDocument *doc, const QStringList &keys);
-    virtual void applyDocument(IDocument *doc, const QStringList &keys);
-    virtual void applyItem(IDocument *doc, const QString &itemKey);
+  virtual bool prepare(const IDocument *doc, const QStringList &keys);
+  virtual void applyDocument(IDocument *doc, const QStringList &keys);
+  virtual void applyItem(IDocument *doc, const QString &itemKey);
 
 protected:
-    QWidget *mParentWidget;
-    int mLeft;
-    int mTop;
-    int mRight;
-    int mBottom;
+  QWidget *mParentWidget;
+  int mLeft;
+  int mTop;
+  int mRight;
+  int mBottom;
 };
 
 }

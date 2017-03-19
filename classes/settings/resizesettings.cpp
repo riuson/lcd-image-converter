@@ -20,26 +20,30 @@
 #include "resizesettings.h"
 
 #include <QVariant>
-#include <QSettings>
-//-----------------------------------------------------------------------------
+#include <appsettings.h>
+
 int ResizeSettings::scale()
 {
-    QSettings sett;
-    sett.beginGroup("crop-preview");
-    bool ok;
-    int result = sett.value("scale", QVariant(1)).toInt(&ok);
-    sett.endGroup();
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
+  sett.beginGroup("crop-preview");
+  bool ok;
+  int result = sett.value("scale", QVariant(1)).toInt(&ok);
+  sett.endGroup();
 
-    if (ok)
-        return result;
-    return 1;
+  if (ok) {
+    return result;
+  }
+
+  return 1;
 }
-//-----------------------------------------------------------------------------
+
 void ResizeSettings::setScale(int value)
 {
-    QSettings sett;
-    sett.beginGroup("crop-preview");
-    sett.setValue("scale", QVariant(value));
-    sett.endGroup();
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
+  sett.beginGroup("crop-preview");
+  sett.setValue("scale", QVariant(value));
+  sett.endGroup();
 }
-//-----------------------------------------------------------------------------
+

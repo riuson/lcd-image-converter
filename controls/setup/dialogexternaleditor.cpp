@@ -22,42 +22,41 @@
 
 #include <QFileDialog>
 #include "externaltooloptions.h"
-//-----------------------------------------------------------------------------
-DialogExternalEditor::DialogExternalEditor(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DialogExternalEditor)
-{
-    ui->setupUi(this);
 
-    this->ui->lineEdit->setText(ExternalToolOptions::imageEditor());
+DialogExternalEditor::DialogExternalEditor(QWidget *parent) :
+  QDialog(parent),
+  ui(new Ui::DialogExternalEditor)
+{
+  ui->setupUi(this);
+
+  this->ui->lineEdit->setText(ExternalToolOptions::imageEditor());
 }
-//-----------------------------------------------------------------------------
+
 DialogExternalEditor::~DialogExternalEditor()
 {
-    delete ui;
+  delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void DialogExternalEditor::done(int result)
 {
-    if (result == QDialog::Accepted)
-    {
-        ExternalToolOptions::setImageEditor(this->ui->lineEdit->text());
-    }
-    QDialog::done(result);
+  if (result == QDialog::Accepted) {
+    ExternalToolOptions::setImageEditor(this->ui->lineEdit->text());
+  }
+
+  QDialog::done(result);
 }
-//-----------------------------------------------------------------------------
+
 void DialogExternalEditor::on_pushButtonBrowse_clicked()
 {
-    QFileDialog dialog(this);
-    dialog.setAcceptMode(QFileDialog::AcceptOpen);
-    dialog.selectFile(this->ui->lineEdit->text());
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setNameFilter(tr("All files (*.*)"));
-    dialog.setWindowTitle(tr("Select application"));
+  QFileDialog dialog(this);
+  dialog.setAcceptMode(QFileDialog::AcceptOpen);
+  dialog.selectFile(this->ui->lineEdit->text());
+  dialog.setFileMode(QFileDialog::ExistingFile);
+  dialog.setNameFilter(tr("All files (*.*)"));
+  dialog.setWindowTitle(tr("Select application"));
 
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        this->ui->lineEdit->setText(dialog.selectedFiles().at(0));
-    }
+  if (dialog.exec() == QDialog::Accepted) {
+    this->ui->lineEdit->setText(dialog.selectedFiles().at(0));
+  }
 }
-//-----------------------------------------------------------------------------
+

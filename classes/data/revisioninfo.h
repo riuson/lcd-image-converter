@@ -19,16 +19,16 @@
 
 #ifndef REVISIONINFO_H
 #define REVISIONINFO_H
-//-----------------------------------------------------------------------------
+
 #include <QString>
-//-----------------------------------------------------------------------------
+
 class RevisionInfo
 {
 public:
-    static const QString & hash();
-    static const QString & hash_abbr();
-    static const QString & date();
-    static const QString & version();
+  static const QString &hash();
+  static const QString &hash_abbr();
+  static const QString &date();
+  static const QString &version();
 };
-//-----------------------------------------------------------------------------
+
 #endif // REVISIONINFO_H

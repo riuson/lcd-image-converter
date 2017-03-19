@@ -26,31 +26,31 @@
 #include "dialogabout.h"
 #include "dialogupdates.h"
 #include "imainwindow.h"
-//-----------------------------------------------------------------------------
+
 ActionHelpHandlers::ActionHelpHandlers(QObject *parent) :
-    ActionHandlersBase(parent)
+  ActionHandlersBase(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void ActionHelpHandlers::about_application_triggered()
 {
-    DialogAbout dialog(this->mMainWindow->parentWidget());
-    dialog.exec();
+  DialogAbout dialog(this->mMainWindow->parentWidget());
+  dialog.exec();
 }
-//-----------------------------------------------------------------------------
+
 void ActionHelpHandlers::about_qt_triggered()
 {
-    QMessageBox::aboutQt(this->mMainWindow->parentWidget());
+  QMessageBox::aboutQt(this->mMainWindow->parentWidget());
 }
-//-----------------------------------------------------------------------------
+
 void ActionHelpHandlers::updates_triggered()
 {
-    DialogUpdates dialog(this->mMainWindow->parentWidget());
-    dialog.exec();
+  DialogUpdates dialog(this->mMainWindow->parentWidget());
+  dialog.exec();
 }
-//-----------------------------------------------------------------------------
+
 void ActionHelpHandlers::homepage_triggered()
 {
-     QDesktopServices::openUrl(QUrl("http://www.riuson.com/lcd-image-converter", QUrl::TolerantMode));
+  QDesktopServices::openUrl(QUrl("http://www.riuson.com/lcd-image-converter", QUrl::TolerantMode));
 }
-//-----------------------------------------------------------------------------
+

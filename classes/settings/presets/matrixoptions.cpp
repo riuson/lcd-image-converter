@@ -18,12 +18,12 @@
  */
 
 #include "matrixoptions.h"
-//-----------------------------------------------------------------------------
+
 #include <QVector>
 #include <QSettings>
 #include <QtXml>
 #include <QDomDocument>
-//-----------------------------------------------------------------------------
+
 const QString MatrixOptions::GroupName = QString("matrix");
 const QString MatrixOptions::FieldMaskUsed = QString("maskUsed");
 const QString MatrixOptions::FieldMaskAnd = QString("maskAnd");
@@ -34,442 +34,388 @@ const QString MatrixOptions::FieldOperation = QString("operation");
 const QString MatrixOptions::FieldMask = QString("mask");
 const QString MatrixOptions::FieldShift = QString("shift");
 const QString MatrixOptions::FieldLeft = QString("left");
-//-----------------------------------------------------------------------------
+
 MatrixOptions::MatrixOptions(QObject *parent) :
-    QObject(parent)
+  QObject(parent)
 {
-    this->mOperations = new QVector<quint32>();
-    this->mMaskUsed = 0x00ffffff;
-    this->mMaskAnd = 0xffffffff;
-    this->mMaskOr = 0x00000000;
-    this->mMaskFill = 0xffffffff;
+  this->mOperations = new QVector<quint32>();
+  this->mMaskUsed = 0x00ffffff;
+  this->mMaskAnd = 0xffffffff;
+  this->mMaskOr = 0x00000000;
+  this->mMaskFill = 0xffffffff;
 }
-//-----------------------------------------------------------------------------
+
 MatrixOptions::~MatrixOptions()
 {
-    delete this->mOperations;
+  delete this->mOperations;
 }
-//-----------------------------------------------------------------------------
+
 quint32 MatrixOptions::maskUsed() const
 {
-    return (this->mMaskUsed != 0) ? this->mMaskUsed : 1;
+  return (this->mMaskUsed != 0) ? this->mMaskUsed : 1;
 }
-//-----------------------------------------------------------------------------
+
 quint32 MatrixOptions::maskAnd() const
 {
-    return (this->mMaskAnd != 0) ? this->mMaskAnd : 1;
+  return (this->mMaskAnd != 0) ? this->mMaskAnd : 1;
 }
-//-----------------------------------------------------------------------------
+
 quint32 MatrixOptions::maskOr() const
 {
-    return this->mMaskOr;
+  return this->mMaskOr;
 }
-//-----------------------------------------------------------------------------
+
 quint32 MatrixOptions::maskFill() const
 {
-    return (this->mMaskFill != 0) ? this->mMaskFill : 1;
+  return (this->mMaskFill != 0) ? this->mMaskFill : 1;
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::setMaskUsed(quint32 value)
 {
-    this->mMaskUsed = (value != 0) ? value : 1;
+  this->mMaskUsed = (value != 0) ? value : 1;
 
-    emit this->changed();
+  emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::setMaskAnd(quint32 value)
 {
-    this->mMaskAnd = (value != 0) ? value : 1;
+  this->mMaskAnd = (value != 0) ? value : 1;
 
-    emit this->changed();
+  emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::setMaskOr(quint32 value)
 {
-    this->mMaskOr = value;
+  this->mMaskOr = value;
 
-    emit this->changed();
+  emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::setMaskFill(quint32 value)
 {
-    this->mMaskFill = (value != 0) ? value : 0xffffffff;
+  this->mMaskFill = (value != 0) ? value : 0xffffffff;
 
-    emit this->changed();
+  emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 int MatrixOptions::operationsCount() const
 {
-    return (this->mOperations->size()) / 2;
+  return (this->mOperations->size()) / 2;
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::operation(int index, quint32 *mask, int *shift, bool *left) const
 {
-    *mask = 0;
-    *shift = 0;
-    *left = false;
+  *mask = 0;
+  *shift = 0;
+  *left = false;
 
-    if (index < this->operationsCount())
-    {
-        index = (index * 2);
+  if (index < this->operationsCount()) {
+    index = (index * 2);
 
-        *mask = this->mOperations->at(index);
-        *shift = (this->mOperations->at(index + 1) & 0x0000001f);
-        *left = (this->mOperations->at(index + 1) & 0x80000000) != 0;
-    }
+    *mask = this->mOperations->at(index);
+    *shift = (this->mOperations->at(index + 1) & 0x0000001f);
+    *left = (this->mOperations->at(index + 1) & 0x80000000) != 0;
+  }
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::operationAdd(quint32 mask, int shift, bool left)
 {
-    shift = qAbs(shift);
+  shift = qAbs(shift);
 
-    this->mOperations->append(mask);
-    if (left)
-        this->mOperations->append(shift | 0x80000000);
-    else
-        this->mOperations->append(shift);
+  this->mOperations->append(mask);
 
-    emit this->changed();
+  if (left) {
+    this->mOperations->append(shift | 0x80000000);
+  } else {
+    this->mOperations->append(shift);
+  }
+
+  emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::operationRemove(int index)
 {
-    if (index < this->operationsCount())
-    {
-        index *= 2;
-        this->mOperations->remove(index + 1);
-        this->mOperations->remove(index);
-    }
+  if (index < this->operationsCount()) {
+    index *= 2;
+    this->mOperations->remove(index + 1);
+    this->mOperations->remove(index);
+  }
 
-    emit this->changed();
+  emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::operationsRemoveAll()
 {
-    for (int i = this->operationsCount() - 1; i >= 0; i--)
-        this->operationRemove(i);
+  for (int i = this->operationsCount() - 1; i >= 0; i--) {
+    this->operationRemove(i);
+  }
 
-    emit this->changed();
+  emit this->changed();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::operationReplace(int index, quint32 mask, int shift, bool left)
 {
-    if (index < this->operationsCount())
-    {
-        index *= 2;
+  if (index < this->operationsCount()) {
+    index *= 2;
 
-        this->mOperations->replace(index, mask);
+    this->mOperations->replace(index, mask);
 
-        if (left)
-            this->mOperations->replace(index + 1, shift | 0x80000000);
-        else
-            this->mOperations->replace(index + 1, shift);
+    if (left) {
+      this->mOperations->replace(index + 1, shift | 0x80000000);
+    } else {
+      this->mOperations->replace(index + 1, shift);
     }
+  }
 
-    emit this->changed();
+  emit this->changed();
 }
-//-----------------------------------------------------------------------------
-bool MatrixOptions::load(QSettings *settings, int version)
+
+bool MatrixOptions::load(QSettings *settings)
 {
-    bool result = false;
+  bool result = false;
 
-    if (version == 1)
-    {
-        quint32 uMaskUsed = 0, uMaskAnd = 0, uMaskOr = 0, uMaskFill = 0;
+  settings->beginGroup(MatrixOptions::GroupName);
 
-        QString sMaskUsed = settings->value(MatrixOptions::FieldMaskUsed, QString("ffffffff")).toString();
-        QString sMaskAnd  = settings->value(MatrixOptions::FieldMaskAnd,  QString("ffffffff")).toString();
-        QString sMaskOr   = settings->value(MatrixOptions::FieldMaskOr,   QString("00000000")).toString();
-        QString sMaskFill = settings->value(MatrixOptions::FieldMaskFill, QString("ffffffff")).toString();
+  quint32 uMaskUsed = 0, uMaskAnd = 0, uMaskOr = 0, uMaskFill = 0;
 
-        uMaskUsed = sMaskUsed.toUInt(&result, 16);
+  QString sMaskUsed = settings->value(MatrixOptions::FieldMaskUsed, QString("ffffffff")).toString();
+  QString sMaskAnd  = settings->value(MatrixOptions::FieldMaskAnd,  QString("ffffffff")).toString();
+  QString sMaskOr   = settings->value(MatrixOptions::FieldMaskOr,   QString("00000000")).toString();
+  QString sMaskFill = settings->value(MatrixOptions::FieldMaskFill, QString("ffffffff")).toString();
 
-        if (result)
-            uMaskAnd = sMaskAnd.toUInt(&result, 16);
+  uMaskUsed = sMaskUsed.toUInt(&result, 16);
 
-        if (result)
-            uMaskOr = sMaskOr.toUInt(&result, 16);
+  if (result) {
+    uMaskAnd = sMaskAnd.toUInt(&result, 16);
+  }
 
-        if (result)
-            uMaskFill = sMaskFill.toUInt(&result, 16);
+  if (result) {
+    uMaskOr = sMaskOr.toUInt(&result, 16);
+  }
 
-        if (result)
-        {
-            this->setMaskUsed(uMaskUsed);
-            this->setMaskAnd(uMaskAnd);
-            this->setMaskOr(uMaskOr);
-            this->setMaskFill(uMaskFill);
+  if (result) {
+    uMaskFill = sMaskFill.toUInt(&result, 16);
+  }
 
-            this->operationsRemoveAll();
+  if (result) {
+    this->setMaskUsed(uMaskUsed);
+    this->setMaskAnd(uMaskAnd);
+    this->setMaskOr(uMaskOr);
+    this->setMaskFill(uMaskFill);
 
-            int iOperations = settings->beginReadArray(MatrixOptions::GroupName);
-            for (int i = 0; i < iOperations; i++)
-            {
-                settings->setArrayIndex(i);
+    this->operationsRemoveAll();
 
-                QString sMask = settings->value(MatrixOptions::FieldMask, QString("00000000")).toString();
-                quint32 uMask, uShift, uLeft;
+    int iOperations = settings->beginReadArray(MatrixOptions::FieldOperations);
 
-                if (result)
-                    uMask = sMask.toUInt(&result, 16);
+    for (int i = 0; i < iOperations; i++) {
+      settings->setArrayIndex(i);
 
-                if (result)
-                    uShift = settings->value(MatrixOptions::FieldShift, uint(0)).toUInt(&result);
+      QString sMask = settings->value(MatrixOptions::FieldMask, QString("00000000")).toString();
+      quint32 uMask, uShift, uLeft;
 
-                if (result)
-                    uLeft = settings->value(MatrixOptions::FieldLeft, uint(0)).toUInt(&result);
+      if (result) {
+        uMask = sMask.toUInt(&result, 16);
+      }
 
-                if (result)
-                {
-                    this->operationAdd(uMask, uShift, uLeft != 0);
-                }
-            }
-            settings->endArray();
-        }
-    }
-    else if (version == 2)
-    {
-        settings->beginGroup(MatrixOptions::GroupName);
+      if (result) {
+        uShift = settings->value(MatrixOptions::FieldShift, uint(0)).toUInt(&result);
+      }
 
-        quint32 uMaskUsed = 0, uMaskAnd = 0, uMaskOr = 0, uMaskFill = 0;
+      if (result) {
+        uLeft = settings->value(MatrixOptions::FieldLeft, uint(0)).toUInt(&result);
+      }
 
-        QString sMaskUsed = settings->value(MatrixOptions::FieldMaskUsed, QString("ffffffff")).toString();
-        QString sMaskAnd  = settings->value(MatrixOptions::FieldMaskAnd,  QString("ffffffff")).toString();
-        QString sMaskOr   = settings->value(MatrixOptions::FieldMaskOr,   QString("00000000")).toString();
-        QString sMaskFill = settings->value(MatrixOptions::FieldMaskFill, QString("ffffffff")).toString();
-
-        uMaskUsed = sMaskUsed.toUInt(&result, 16);
-
-        if (result)
-            uMaskAnd = sMaskAnd.toUInt(&result, 16);
-
-        if (result)
-            uMaskOr = sMaskOr.toUInt(&result, 16);
-
-        if (result)
-            uMaskFill = sMaskFill.toUInt(&result, 16);
-
-        if (result)
-        {
-            this->setMaskUsed(uMaskUsed);
-            this->setMaskAnd(uMaskAnd);
-            this->setMaskOr(uMaskOr);
-            this->setMaskFill(uMaskFill);
-
-            this->operationsRemoveAll();
-
-            int iOperations = settings->beginReadArray(MatrixOptions::FieldOperations);
-            for (int i = 0; i < iOperations; i++)
-            {
-                settings->setArrayIndex(i);
-
-                QString sMask = settings->value(MatrixOptions::FieldMask, QString("00000000")).toString();
-                quint32 uMask, uShift, uLeft;
-
-                if (result)
-                    uMask = sMask.toUInt(&result, 16);
-
-                if (result)
-                    uShift = settings->value(MatrixOptions::FieldShift, uint(0)).toUInt(&result);
-
-                if (result)
-                    uLeft = settings->value(MatrixOptions::FieldLeft, uint(0)).toUInt(&result);
-
-                if (result)
-                {
-                    this->operationAdd(uMask, uShift, uLeft != 0);
-                }
-            }
-            settings->endArray();
-        }
-
-        settings->endGroup();
+      if (result) {
+        this->operationAdd(uMask, uShift, uLeft != 0);
+      }
     }
 
-    return result;
+    settings->endArray();
+  }
+
+  settings->endGroup();
+
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 bool MatrixOptions::loadXmlElement(QDomElement element)
 {
-    bool result = false;
+  bool result = false;
 
-    QDomNode nodeSett = element.firstChild();
+  QDomNode nodeSett = element.firstChild();
 
-    while (!nodeSett.isNull()) {
-        QDomElement e = nodeSett.toElement();
+  while (!nodeSett.isNull()) {
+    QDomElement e = nodeSett.toElement();
 
-        if (e.tagName() == MatrixOptions::GroupName) {
-            break;
-        }
-
-        nodeSett = nodeSett.nextSibling();
+    if (e.tagName() == MatrixOptions::GroupName) {
+      break;
     }
 
-    if (nodeSett.isNull()) {
-        return result;
-    }
+    nodeSett = nodeSett.nextSibling();
+  }
 
-    quint32 uMaskUsed = 0xffffffff, uMaskAnd = 0xffffffff, uMaskOr = 0, uMaskFill = 0xffffffff;
+  if (nodeSett.isNull()) {
+    return result;
+  }
 
+  quint32 uMaskUsed = 0xffffffff, uMaskAnd = 0xffffffff, uMaskOr = 0, uMaskFill = 0xffffffff;
 
-    QDomNode nodeValue = nodeSett.firstChild();
+  QDomNode nodeValue = nodeSett.firstChild();
 
-    while (!nodeValue.isNull()) {
-        QDomElement e = nodeValue.toElement();
+  while (!nodeValue.isNull()) {
+    QDomElement e = nodeValue.toElement();
 
-        if (!e.isNull()) {
-            if (e.tagName() == MatrixOptions::FieldMaskUsed) {
-                QString str = e.text();
-                uMaskUsed = str.toUInt(&result, 16);
+    if (!e.isNull()) {
+      if (e.tagName() == MatrixOptions::FieldMaskUsed) {
+        QString str = e.text();
+        uMaskUsed = str.toUInt(&result, 16);
+      }
+
+      if (e.tagName() == MatrixOptions::FieldMaskAnd) {
+        QString str = e.text();
+        uMaskAnd = str.toUInt(&result, 16);
+      }
+
+      if (e.tagName() == MatrixOptions::FieldMaskOr) {
+        QString str = e.text();
+        uMaskOr = str.toUInt(&result, 16);
+      }
+
+      if (e.tagName() == MatrixOptions::FieldMaskFill) {
+        QString str = e.text();
+        uMaskFill = str.toUInt(&result, 16);
+      }
+
+      if (e.tagName() == MatrixOptions::FieldOperations) {
+        QDomNode nodeOperation = e.firstChild();
+        this->operationsRemoveAll();
+
+        while (!nodeOperation.isNull()) {
+          QDomNode nodeOperationData = nodeOperation.firstChild();
+          quint32 uMask = 0, uShift = 0, uLeft = 0;
+
+          while (!nodeOperationData.isNull()) {
+            e = nodeOperationData.toElement();
+
+            if (e.tagName() == MatrixOptions::FieldMask) {
+              QString str = e.text();
+              uMask = str.toUInt(&result, 16);
             }
 
-            if (e.tagName() == MatrixOptions::FieldMaskAnd) {
-                QString str = e.text();
-                uMaskAnd = str.toUInt(&result, 16);
+            if (e.tagName() == MatrixOptions::FieldShift) {
+              QString str = e.text();
+              uShift = str.toUInt(&result);
             }
 
-            if (e.tagName() == MatrixOptions::FieldMaskOr) {
-                QString str = e.text();
-                uMaskOr = str.toUInt(&result, 16);
-            }
-
-            if (e.tagName() == MatrixOptions::FieldMaskFill) {
-                QString str = e.text();
-                uMaskFill = str.toUInt(&result, 16);
-            }
-
-            if (e.tagName() == MatrixOptions::FieldOperations) {
-                QDomNode nodeOperation = e.firstChild();
-                this->operationsRemoveAll();
-
-                while (!nodeOperation.isNull()) {
-                    QDomNode nodeOperationData = nodeOperation.firstChild();
-                    quint32 uMask = 0, uShift = 0, uLeft = 0;
-
-                    while (!nodeOperationData.isNull()) {
-                        e = nodeOperationData.toElement();
-
-                        if (e.tagName() == MatrixOptions::FieldMask) {
-                            QString str = e.text();
-                            uMask = str.toUInt(&result, 16);
-                        }
-
-                        if (e.tagName() == MatrixOptions::FieldShift) {
-                            QString str = e.text();
-                            uShift = str.toUInt(&result);
-                        }
-
-                        if (e.tagName() == MatrixOptions::FieldLeft) {
-                            QString str = e.text();
-                            uLeft = str.toUInt(&result);
-                        }
-
-                        if (!result) {
-                            break;
-                        }
-
-                        nodeOperationData = nodeOperationData.nextSibling();
-                    }
-
-                    this->operationAdd(uMask, uShift, uLeft != 0);
-                    nodeOperation = nodeOperation.nextSibling();
-                }
+            if (e.tagName() == MatrixOptions::FieldLeft) {
+              QString str = e.text();
+              uLeft = str.toUInt(&result);
             }
 
             if (!result) {
-                break;
+              break;
             }
+
+            nodeOperationData = nodeOperationData.nextSibling();
+          }
+
+          this->operationAdd(uMask, uShift, uLeft != 0);
+          nodeOperation = nodeOperation.nextSibling();
         }
+      }
 
-        nodeValue = nodeValue.nextSibling();
+      if (!result) {
+        break;
+      }
     }
 
-    if (result)
-    {
-        this->setMaskUsed(uMaskUsed);
-        this->setMaskAnd(uMaskAnd);
-        this->setMaskOr(uMaskOr);
-        this->setMaskFill(uMaskFill);
-    }
+    nodeValue = nodeValue.nextSibling();
+  }
 
-    return result;
+  if (result) {
+    this->setMaskUsed(uMaskUsed);
+    this->setMaskAnd(uMaskAnd);
+    this->setMaskOr(uMaskOr);
+    this->setMaskFill(uMaskFill);
+  }
+
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::save(QSettings *settings)
 {
-    settings->beginGroup(MatrixOptions::GroupName);
+  settings->beginGroup(MatrixOptions::GroupName);
 
-    settings->setValue(MatrixOptions::FieldMaskUsed, QString("%1").arg(this->maskUsed(), 8, 16, QChar('0')));
-    settings->setValue(MatrixOptions::FieldMaskAnd,  QString("%1").arg(this->maskAnd(),  8, 16, QChar('0')));
-    settings->setValue(MatrixOptions::FieldMaskOr,   QString("%1").arg(this->maskOr(),   8, 16, QChar('0')));
-    settings->setValue(MatrixOptions::FieldMaskFill, QString("%1").arg(this->maskFill(), 8, 16, QChar('0')));
+  settings->setValue(MatrixOptions::FieldMaskUsed, QString("%1").arg(this->maskUsed(), 8, 16, QChar('0')));
+  settings->setValue(MatrixOptions::FieldMaskAnd,  QString("%1").arg(this->maskAnd(),  8, 16, QChar('0')));
+  settings->setValue(MatrixOptions::FieldMaskOr,   QString("%1").arg(this->maskOr(),   8, 16, QChar('0')));
+  settings->setValue(MatrixOptions::FieldMaskFill, QString("%1").arg(this->maskFill(), 8, 16, QChar('0')));
 
-    settings->beginWriteArray(MatrixOptions::FieldOperations);
+  settings->beginWriteArray(MatrixOptions::FieldOperations);
 
-    for (int i = 0; i < this->operationsCount(); i++)
-    {
-        quint32 uMask;
-        int iShift;
-        bool bLeft;
-        this->operation(i, &uMask, &iShift, &bLeft);
+  for (int i = 0; i < this->operationsCount(); i++) {
+    quint32 uMask;
+    int iShift;
+    bool bLeft;
+    this->operation(i, &uMask, &iShift, &bLeft);
 
-        settings->setArrayIndex(i);
-        settings->setValue(MatrixOptions::FieldMask,  QString("%1").arg(uMask, 8, 16, QChar('0')));
-        settings->setValue(MatrixOptions::FieldShift, QString("%1").arg(iShift));
-        settings->setValue(MatrixOptions::FieldLeft,  QString("%1").arg((int)bLeft));
-    }
-    settings->endArray();
+    settings->setArrayIndex(i);
+    settings->setValue(MatrixOptions::FieldMask,  QString("%1").arg(uMask, 8, 16, QChar('0')));
+    settings->setValue(MatrixOptions::FieldShift, QString("%1").arg(iShift));
+    settings->setValue(MatrixOptions::FieldLeft,  QString("%1").arg((int)bLeft));
+  }
 
-    settings->endGroup();
+  settings->endArray();
+
+  settings->endGroup();
 }
-//-----------------------------------------------------------------------------
+
 void MatrixOptions::saveXmlElement(QDomElement element)
 {
-    QDomElement nodeMatrix = element.ownerDocument().createElement(MatrixOptions::GroupName);
-    element.appendChild(nodeMatrix);
+  QDomElement nodeMatrix = element.ownerDocument().createElement(MatrixOptions::GroupName);
+  element.appendChild(nodeMatrix);
 
-    QDomElement nodeMaskUsed = element.ownerDocument().createElement(MatrixOptions::FieldMaskUsed);
-    nodeMatrix.appendChild(nodeMaskUsed);
-    nodeMaskUsed.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(this->maskUsed(), 8, 16, QChar('0'))));
+  QDomElement nodeMaskUsed = element.ownerDocument().createElement(MatrixOptions::FieldMaskUsed);
+  nodeMatrix.appendChild(nodeMaskUsed);
+  nodeMaskUsed.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(this->maskUsed(), 8, 16, QChar('0'))));
 
-    QDomElement nodeMaskAnd = element.ownerDocument().createElement(MatrixOptions::FieldMaskAnd);
-    nodeMatrix.appendChild(nodeMaskAnd);
-    nodeMaskAnd.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(this->maskAnd(), 8, 16, QChar('0'))));
+  QDomElement nodeMaskAnd = element.ownerDocument().createElement(MatrixOptions::FieldMaskAnd);
+  nodeMatrix.appendChild(nodeMaskAnd);
+  nodeMaskAnd.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(this->maskAnd(), 8, 16, QChar('0'))));
 
-    QDomElement nodeMaskOr = element.ownerDocument().createElement(MatrixOptions::FieldMaskOr);
-    nodeMatrix.appendChild(nodeMaskOr);
-    nodeMaskOr.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(this->maskOr(), 8, 16, QChar('0'))));
+  QDomElement nodeMaskOr = element.ownerDocument().createElement(MatrixOptions::FieldMaskOr);
+  nodeMatrix.appendChild(nodeMaskOr);
+  nodeMaskOr.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(this->maskOr(), 8, 16, QChar('0'))));
 
-    QDomElement nodeMaskFill = element.ownerDocument().createElement(MatrixOptions::FieldMaskFill);
-    nodeMatrix.appendChild(nodeMaskFill);
-    nodeMaskFill.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(this->maskFill(), 8, 16, QChar('0'))));
+  QDomElement nodeMaskFill = element.ownerDocument().createElement(MatrixOptions::FieldMaskFill);
+  nodeMatrix.appendChild(nodeMaskFill);
+  nodeMaskFill.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(this->maskFill(), 8, 16, QChar('0'))));
 
-    QDomElement nodeOperations = element.ownerDocument().createElement(MatrixOptions::FieldOperations);
-    nodeMatrix.appendChild(nodeOperations);
-    nodeOperations.setAttribute("count", this->operationsCount());
+  QDomElement nodeOperations = element.ownerDocument().createElement(MatrixOptions::FieldOperations);
+  nodeMatrix.appendChild(nodeOperations);
+  nodeOperations.setAttribute("count", this->operationsCount());
 
-    for (int i = 0; i < this->operationsCount(); i++)
-    {
-        quint32 uMask;
-        int iShift;
-        bool bLeft;
-        this->operation(i, &uMask, &iShift, &bLeft);
+  for (int i = 0; i < this->operationsCount(); i++) {
+    quint32 uMask;
+    int iShift;
+    bool bLeft;
+    this->operation(i, &uMask, &iShift, &bLeft);
 
-        QDomElement nodeOperation = element.ownerDocument().createElement(MatrixOptions::FieldOperation);
-        nodeOperations.appendChild(nodeOperation);
-        nodeOperation.setAttribute("index", i);
+    QDomElement nodeOperation = element.ownerDocument().createElement(MatrixOptions::FieldOperation);
+    nodeOperations.appendChild(nodeOperation);
+    nodeOperation.setAttribute("index", i);
 
-        QDomElement nodeMask = element.ownerDocument().createElement(MatrixOptions::FieldMask);
-        nodeOperation.appendChild(nodeMask);
-        nodeMask.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(uMask, 8, 16, QChar('0'))));
+    QDomElement nodeMask = element.ownerDocument().createElement(MatrixOptions::FieldMask);
+    nodeOperation.appendChild(nodeMask);
+    nodeMask.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(uMask, 8, 16, QChar('0'))));
 
-        QDomElement nodeShift = element.ownerDocument().createElement(MatrixOptions::FieldShift);
-        nodeOperation.appendChild(nodeShift);
-        nodeShift.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(iShift)));
+    QDomElement nodeShift = element.ownerDocument().createElement(MatrixOptions::FieldShift);
+    nodeOperation.appendChild(nodeShift);
+    nodeShift.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(iShift)));
 
-        QDomElement nodeLeft = element.ownerDocument().createElement(MatrixOptions::FieldLeft);
-        nodeOperation.appendChild(nodeLeft);
-        nodeLeft.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)bLeft)));
-    }
+    QDomElement nodeLeft = element.ownerDocument().createElement(MatrixOptions::FieldLeft);
+    nodeOperation.appendChild(nodeLeft);
+    nodeLeft.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)bLeft)));
+  }
 }
-//-----------------------------------------------------------------------------
+

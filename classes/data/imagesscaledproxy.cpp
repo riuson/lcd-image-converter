@@ -21,9 +21,9 @@
 #include "bitmaphelper.h"
 
 ImagesScaledProxy::ImagesScaledProxy(QObject *parent)
-    : QSortFilterProxyModel(parent)
+  : QSortFilterProxyModel(parent)
 {
-    this->mScale = 2;
+  this->mScale = 2;
 }
 
 ImagesScaledProxy::~ImagesScaledProxy()
@@ -32,55 +32,54 @@ ImagesScaledProxy::~ImagesScaledProxy()
 
 QVariant ImagesScaledProxy::data(const QModelIndex &index, int role) const
 {
-    QVariant result = this->sourceModel()->data(index, role);
+  QVariant result = this->sourceModel()->data(index, role);
 
-    if (!index.isValid())
-        return result;
-
-    int columnIndex = index.column();
-
-    switch (role)
-    {
-    case Qt::DecorationRole:
-    {
-        if (columnIndex == 1)
-        {
-            QImage imageSource = result.value<QImage>();
-            QImage imageScaled = BitmapHelper::scale(&imageSource, this->mScale);
-            imageScaled = BitmapHelper::drawGrid(&imageScaled, this->mScale);
-            result = imageScaled;
-        }
-        break;
-    }
-    case Qt::SizeHintRole:
-    {
-        if (columnIndex == 1)
-        {
-            QSize size = result.toSize();
-            size.scale(size.width() * this->mScale, size.height() * this->mScale, Qt::KeepAspectRatio);
-            result = size;
-        }
-        break;
-    }
-    default:
-        break;
-    }
-
+  if (!index.isValid()) {
     return result;
+  }
+
+  int columnIndex = index.column();
+
+  switch (role) {
+    case Qt::DecorationRole: {
+      if (columnIndex == 1) {
+        QImage imageSource = result.value<QImage>();
+        QImage imageScaled = BitmapHelper::scale(&imageSource, this->mScale);
+        imageScaled = BitmapHelper::drawGrid(&imageScaled, this->mScale);
+        result = imageScaled;
+      }
+
+      break;
+    }
+
+    case Qt::SizeHintRole: {
+      if (columnIndex == 1) {
+        QSize size = result.toSize();
+        size.scale(size.width() * this->mScale, size.height() * this->mScale, Qt::KeepAspectRatio);
+        result = size;
+      }
+
+      break;
+    }
+
+    default:
+      break;
+  }
+
+  return result;
 }
 
 int ImagesScaledProxy::scale() const
 {
-    return this->mScale;
+  return this->mScale;
 }
 
 void ImagesScaledProxy::setScale(int value)
 {
-    if (value >= 1)
-    {
-        emit this->beginResetModel();
-        this->mScale = value;
-        emit this->endResetModel();
-        emit this->scaleChanged();
-    }
+  if (value >= 1) {
+    emit this->beginResetModel();
+    this->mScale = value;
+    emit this->endResetModel();
+    emit this->scaleChanged(this->mScale);
+  }
 }

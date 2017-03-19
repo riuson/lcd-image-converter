@@ -19,29 +19,29 @@
 
 #ifndef RLESEQUENCE_H
 #define RLESEQUENCE_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 template <class T> class QVector;
-//-----------------------------------------------------------------------------
+
 class RleSequence
 {
 public:
-    RleSequence();
-    RleSequence(const RleSequence *other);
-    ~RleSequence();
+  RleSequence();
+  RleSequence(const RleSequence *other);
+  ~RleSequence();
 
-    void append(quint32 value);
-    void append(const RleSequence *sequence);
-    quint32 at(quint32 index) const;
-    quint32 last() const;
-    quint32 size() const;
+  void append(quint32 value);
+  void append(const RleSequence *sequence);
+  quint32 at(quint32 index) const;
+  quint32 last() const;
+  quint32 size() const;
 
-    bool allEquals() const;
+  bool allEquals() const;
 
 private:
-    QVector <quint32> *mData;
+  QVector <quint32> *mData;
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // RLESEQUENCE_H

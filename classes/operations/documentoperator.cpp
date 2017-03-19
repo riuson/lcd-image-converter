@@ -22,39 +22,38 @@
 #include "ioperation.h"
 #include "datacontainer.h"
 
-namespace Operations {
+namespace Operations
+{
 
 DocumentOperator::DocumentOperator(QObject *parent)
-    : QObject(parent)
+  : QObject(parent)
 {
 }
 
 void DocumentOperator::setKeys(const QStringList keys)
 {
-    this->mSelectedKeys = keys;
+  this->mSelectedKeys = keys;
 }
 
 void DocumentOperator::apply(IDocument *doc, IOperation &operation)
 {
-    QStringList keys = this->mSelectedKeys.length() == 0 ? doc->dataContainer()->keys() : this->mSelectedKeys;
+  QStringList keys = this->mSelectedKeys.length() == 0 ? doc->dataContainer()->keys() : this->mSelectedKeys;
 
-    if (operation.prepare(doc, keys))
-    {
-        doc->beginChanges();
+  if (operation.prepare(doc, keys)) {
+    doc->beginChanges();
 
-        operation.applyDocument(doc, keys);
+    operation.applyDocument(doc, keys);
 
-        QListIterator<QString> it(keys);
-        it.toFront();
+    QListIterator<QString> it(keys);
+    it.toFront();
 
-        while (it.hasNext())
-        {
-            QString key = it.next();
-            operation.applyItem(doc, key);
-        }
-
-        doc->endChanges(false);
+    while (it.hasNext()) {
+      QString key = it.next();
+      operation.applyItem(doc, key);
     }
+
+    doc->endChanges(false);
+  }
 }
 
 }

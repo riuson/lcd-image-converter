@@ -19,301 +19,271 @@
 
 #include "bitmaphelper.h"
 #include "limits"
-//-----------------------------------------------------------------------------
+
 #include <QPainter>
 #include <QPainterPath>
 #include <QtSvg/QSvgRenderer>
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::rotate90(const QImage *source)
 {
-    QImage result = QImage(source->height(), source->width(), source->format());
-    QPainter painter(&result);
-    painter.translate(QPoint(result.width(), 0));
-    painter.rotate(90);
-    painter.drawImage(0, 0, *source);
-    return result;
+  QImage result = QImage(source->height(), source->width(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
+  QPainter painter(&result);
+  painter.translate(QPoint(result.width(), 0));
+  painter.rotate(90);
+  painter.drawImage(0, 0, *source);
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::rotate180(const QImage *source)
 {
-    QImage result = QImage(source->width(), source->height(), source->format());
-    QPainter painter(&result);
-    painter.translate(QPoint(result.width(), result.height()));
-    painter.rotate(180);
-    painter.drawImage(0, 0, *source);
-    return result;
+  QImage result = QImage(source->width(), source->height(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
+  QPainter painter(&result);
+  painter.translate(QPoint(result.width(), result.height()));
+  painter.rotate(180);
+  painter.drawImage(0, 0, *source);
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::rotate270(const QImage *source)
 {
-    QImage result = QImage(source->height(), source->width(), source->format());
-    QPainter painter(&result);
-    painter.translate(QPoint(0, result.height()));
-    painter.rotate(270);
-    painter.drawImage(0, 0, *source);
-    return result;
+  QImage result = QImage(source->height(), source->width(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
+  QPainter painter(&result);
+  painter.translate(QPoint(0, result.height()));
+  painter.rotate(270);
+  painter.drawImage(0, 0, *source);
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::shiftUp(const QImage *source)
 {
-    QImage result = QImage(source->width(), source->height(), source->format());
-    QPainter painter(&result);
-    painter.drawImage(0, -1, *source);
-    painter.drawImage(0, source->height() - 1, *source);
-    return result;
+  QImage result = QImage(source->width(), source->height(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
+  QPainter painter(&result);
+  painter.drawImage(0, -1, *source);
+  painter.drawImage(0, source->height() - 1, *source);
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::shiftRight(const QImage *source)
 {
-    QImage result = QImage(source->width(), source->height(), source->format());
-    QPainter painter(&result);
-    painter.drawImage(1, 0, *source);
-    painter.drawImage(-source->width() + 1, 0, *source);
-    return result;
+  QImage result = QImage(source->width(), source->height(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
+  QPainter painter(&result);
+  painter.drawImage(1, 0, *source);
+  painter.drawImage(-source->width() + 1, 0, *source);
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::shiftDown(const QImage *source)
 {
-    QImage result = QImage(source->width(), source->height(), source->format());
-    QPainter painter(&result);
-    painter.drawImage(0, 1, *source);
-    painter.drawImage(0, -source->height() + 1, *source);
-    return result;
+  QImage result = QImage(source->width(), source->height(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
+  QPainter painter(&result);
+  painter.drawImage(0, 1, *source);
+  painter.drawImage(0, -source->height() + 1, *source);
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::shiftLeft(const QImage *source)
 {
-    QImage result = QImage(source->width(), source->height(), source->format());
-    QPainter painter(&result);
-    painter.drawImage(-1, 0, *source);
-    painter.drawImage(source->width() - 1, 0, *source);
-    return result;
+  QImage result = QImage(source->width(), source->height(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
+  QPainter painter(&result);
+  painter.drawImage(-1, 0, *source);
+  painter.drawImage(source->width() - 1, 0, *source);
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::flipHorizontal(const QImage *source)
 {
-    QImage result = source->mirrored(true, false);
-    return result;
+  QImage result = source->mirrored(true, false);
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::flipVertical(const QImage *source)
 {
-    QImage result = source->mirrored(false, true);
-    return result;
+  QImage result = source->mirrored(false, true);
+  return result;
 }
-//-----------------------------------------------------------------------------
-QImage BitmapHelper::resize(const QImage *source, int width, int height, int offsetX, int offsetY, bool center, bool changeWidth, bool changeHeight, const QColor &backColor)
-{
-    if (!changeWidth)
-    {
-        width = source->width();
-        offsetX = 0;
-    }
-    if (!changeHeight)
-    {
-        height = source->height();
-        offsetY = 0;
-    }
-    QImage result = QImage(width, height, source->format());
-    QPainter painter(&result);
-    painter.fillRect(0, 0, width, height, backColor);
-    if (!center)
-        painter.drawImage(offsetX, offsetY, *source);
-    else
-    {
-        int centerX = width / 2;
-        int centerY = height / 2;
-        offsetX = centerX - source->width() / 2;
-        offsetY = centerY - source->height() / 2;
-        painter.drawImage(offsetX, offsetY, *source);
-    }
-    return result;
-}
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::crop(const QImage *source, int left, int top, int right, int bottom, const QColor &backColor)
 {
-    int sourceWidth = source->width();
-    int sourceHeight = source->height();
+  int sourceWidth = source->width();
+  int sourceHeight = source->height();
 
-    // expanded/cropped size
-    // positive = expand, negative = crop
-    int resultWidth = sourceWidth + left + right;
-    int resultHeight = sourceHeight + top + bottom;
+  // expanded/cropped size
+  // positive = expand, negative = crop
+  int resultWidth = sourceWidth + left + right;
+  int resultHeight = sourceHeight + top + bottom;
 
-    if (resultWidth < 1)
-        resultWidth = 1;
-    if (resultHeight < 1)
-        resultHeight = 1;
+  if (resultWidth < 1) {
+    resultWidth = 1;
+  }
 
-    QImage result = QImage(resultWidth, resultHeight, source->format());
+  if (resultHeight < 1) {
+    resultHeight = 1;
+  }
 
-    QPainter painter(&result);
-    painter.fillRect(0, 0, resultWidth, resultHeight, backColor);
+  QImage result = QImage(resultWidth, resultHeight, source->format());
+  result.fill(backColor);
 
-    painter.drawImage(left, top, *source);
+  QPainter painter(&result);
+  painter.drawImage(left, top, *source);
 
-    return result;
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 void BitmapHelper::findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom)
 {
-    QRgb background = BitmapHelper::detectBackgroundColor(source).rgba();
-    // max possible values by default
-    int l = std::numeric_limits<int>::max();
-    int t = std::numeric_limits<int>::max();
-    int r = 0;
-    int b = 0;
+  QRgb background = BitmapHelper::detectBackgroundColor(source).rgba();
+  // max possible values by default
+  int l = std::numeric_limits<int>::max();
+  int t = std::numeric_limits<int>::max();
+  int r = 0;
+  int b = 0;
 
-    // search from left/top to bottom/right
-    for (int x = 0; x < source->width(); x++)
-    {
-        for (int y = 0; y < source->height(); y++)
-        {
-            if (source->pixel(x, y) != background)
-            {
-                l = qMin(l, x);
-                t = qMin(t, y);
-                r = qMax(r, x);
-                b = qMax(b, y);
-            }
-        }
+  // search from left/top to bottom/right
+  for (int x = 0; x < source->width(); x++) {
+    for (int y = 0; y < source->height(); y++) {
+      if (source->pixel(x, y) != background) {
+        l = qMin(l, x);
+        t = qMin(t, y);
+        r = qMax(r, x);
+        b = qMax(b, y);
+      }
     }
-    *left = l;
-    *top = t;
-    *right = source->width() - r;
-    *bottom = source->height() - b;
+  }
+
+  *left = l;
+  *top = t;
+  *right = source->width() - r;
+  *bottom = source->height() - b;
 }
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::scale(const QImage *source, int scale)
 {
-    int width = source->width();
-    int height = source->height();
+  int width = source->width();
+  int height = source->height();
 
-    QImage result = source->scaled(width * scale, height * scale, Qt::KeepAspectRatio, Qt::FastTransformation);
+  QImage result = source->scaled(width * scale, height * scale, Qt::KeepAspectRatio, Qt::FastTransformation);
 
-    return result;
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::drawGrid(const QImage *source, int scale)
 {
-    QImage result = QImage(*source);
+  QImage result = QImage(*source);
 
-    if (scale > 5)
-    {
-        QPixmap pixmap = QPixmap::fromImage(result);
+  if (scale > 5) {
+    QPixmap pixmap = QPixmap::fromImage(result);
 
-        QPainter painter(&pixmap);
+    QPainter painter(&pixmap);
 
-        painter.setPen(QColor("silver"));
+    painter.setPen(QColor("silver"));
 
-        for (int x = 0; x < pixmap.width(); x += scale)
-        {
-            painter.drawLine(x, 0, x, pixmap.height());
-        }
-        painter.drawLine(pixmap.width() - 1, 0, pixmap.width() - 1, pixmap.height());
-
-        for (int y = 0; y < pixmap.height(); y += scale)
-        {
-            painter.drawLine(0, y, pixmap.width(), y);
-        }
-        painter.drawLine(0, pixmap.height() - 1, pixmap.width(), pixmap.height() - 1);
-
-        result = pixmap.toImage();
+    for (int x = 0; x < pixmap.width(); x += scale) {
+      painter.drawLine(x, 0, x, pixmap.height());
     }
 
-    return result;
+    painter.drawLine(pixmap.width() - 1, 0, pixmap.width() - 1, pixmap.height());
+
+    for (int y = 0; y < pixmap.height(); y += scale) {
+      painter.drawLine(0, y, pixmap.width(), y);
+    }
+
+    painter.drawLine(0, pixmap.height() - 1, pixmap.width(), pixmap.height() - 1);
+
+    result = pixmap.toImage();
+  }
+
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::drawSelection(const QImage *source, const QPainterPath &selectedPath)
 {
-    QImage image = *source;
-    QPixmap pixmap = QPixmap::fromImage(image);
-    QPainter painter(&pixmap);
+  QImage image = *source;
+  QPixmap pixmap = QPixmap::fromImage(image);
+  QPainter painter(&pixmap);
 
-    QColor selectionColor = QColor(255, 255, 255);
-    QBrush selectionBrush(selectionColor);
+  QColor selectionBorderColor = QColor(0, 0, 248, 128);
+  QBrush selectionFillBrush(QColor(64, 128, 248, 128));
 
-    painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
-    painter.setRenderHint(QPainter::Antialiasing, false);
-    painter.setRenderHint(QPainter::HighQualityAntialiasing, false);
-    painter.setPen(selectionColor);
-    painter.setBrush(selectionBrush);
-    //painter.drawPath(this->mSelectedPath);//, selectionBrush);
-    painter.fillPath(selectedPath, selectionBrush);
+  painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+  painter.setRenderHint(QPainter::Antialiasing, false);
+  painter.setRenderHint(QPainter::HighQualityAntialiasing, false);
+  painter.setPen(selectionBorderColor);
+  painter.setBrush(selectionFillBrush);
+  painter.drawPath(selectedPath);
 
-    return pixmap.toImage();
+  return pixmap.toImage();
 }
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::drawPixel(const QImage *source, int x, int y, const QColor &color)
 {
-    QPixmap pixmap = QPixmap::fromImage(*source);
+  QPixmap pixmap = QPixmap::fromImage(*source);
 
-    QPainter painter(&pixmap);
-    painter.setPen(color);
-    painter.drawPoint(x, y);
+  QPainter painter(&pixmap);
+  painter.setPen(color);
+  painter.drawPoint(x, y);
 
-    return pixmap.toImage();
+  return pixmap.toImage();
 }
-//-----------------------------------------------------------------------------
+
 QColor BitmapHelper::detectBackgroundColor(const QImage *image)
 {
-    QColor color1 = BitmapHelper::fromRgba(image->pixel(0, 0));
-    QColor color2 = BitmapHelper::fromRgba(image->pixel(image->width() - 1, 0));
-    QColor color3 = BitmapHelper::fromRgba(image->pixel(0, image->height() - 1));
-    QColor color4 = BitmapHelper::fromRgba(image->pixel(image->width() - 1, image->height() - 1));
+  QColor color1 = BitmapHelper::fromRgba(image->pixel(0, 0));
+  QColor color2 = BitmapHelper::fromRgba(image->pixel(image->width() - 1, 0));
+  QColor color3 = BitmapHelper::fromRgba(image->pixel(0, image->height() - 1));
+  QColor color4 = BitmapHelper::fromRgba(image->pixel(image->width() - 1, image->height() - 1));
 
-    int c1 = 0, c2 = 0, c3 = 0, c4 = 0;
+  int c1 = 0, c2 = 0, c3 = 0, c4 = 0;
 
-    c1 += color1 == color2 ? 1 : 0;
-    c1 += color1 == color3 ? 1 : 0;
-    c1 += color1 == color4 ? 1 : 0;
+  c1 += color1 == color2 ? 1 : 0;
+  c1 += color1 == color3 ? 1 : 0;
+  c1 += color1 == color4 ? 1 : 0;
 
-    c2 += color2 == color1 ? 1 : 0;
-    c2 += color2 == color3 ? 1 : 0;
-    c2 += color2 == color4 ? 1 : 0;
+  c2 += color2 == color1 ? 1 : 0;
+  c2 += color2 == color3 ? 1 : 0;
+  c2 += color2 == color4 ? 1 : 0;
 
-    c3 += color3 == color1 ? 1 : 0;
-    c3 += color3 == color2 ? 1 : 0;
-    c3 += color3 == color4 ? 1 : 0;
+  c3 += color3 == color1 ? 1 : 0;
+  c3 += color3 == color2 ? 1 : 0;
+  c3 += color3 == color4 ? 1 : 0;
 
-    c4 += color4 == color1 ? 1 : 0;
-    c4 += color4 == color2 ? 1 : 0;
-    c4 += color4 == color3 ? 1 : 0;
+  c4 += color4 == color1 ? 1 : 0;
+  c4 += color4 == color2 ? 1 : 0;
+  c4 += color4 == color3 ? 1 : 0;
 
-    int cmax = qMax(qMax(c1, c2), qMax(c3, c4));
+  int cmax = qMax(qMax(c1, c2), qMax(c3, c4));
 
-    if (cmax == c1)
-    {
-        return color1;
-    }
-    else if (cmax == c2)
-    {
-        return color2;
-    }
-    else if (cmax == c3)
-    {
-        return color3;
-    }
-    else
-    {
-        return color4;
-    }
+  if (cmax == c1) {
+    return color1;
+  } else if (cmax == c2) {
+    return color2;
+  } else if (cmax == c3) {
+    return color3;
+  } else {
+    return color4;
+  }
 }
-//-----------------------------------------------------------------------------
+
 QImage BitmapHelper::fromSvg(const QString &path, int size)
 {
-    QSvgRenderer renderer(path);
+  QSvgRenderer renderer(path);
 
-    QImage image(size, size, QImage::Format_ARGB32);
-    image.fill(0x00ffffff);
-    QPainter painter(&image);
-    renderer.render(&painter);
+  QImage image(size, size, QImage::Format_ARGB32);
+  image.fill(0x00ffffff);
+  QPainter painter(&image);
+  renderer.render(&painter);
 
-    return image;
+  return image;
 }
-//-----------------------------------------------------------------------------
+
 QColor BitmapHelper::fromRgba(QRgb value)
 {
-    return QColor(qRed(value), qGreen(value), qBlue(value), qAlpha(value));
+  return QColor(qRed(value), qGreen(value), qBlue(value), qAlpha(value));
 }
-//-----------------------------------------------------------------------------
+

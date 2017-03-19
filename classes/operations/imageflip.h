@@ -28,21 +28,21 @@ namespace Operations
 
 class ImageFlip : public QObject, public IOperation
 {
-    Q_OBJECT
-    Q_INTERFACES(Operations::IOperation)
+  Q_OBJECT
+  Q_INTERFACES(Operations::IOperation)
 
 public:
-    explicit ImageFlip(QObject *parent = 0);
+  explicit ImageFlip(QObject *parent = 0);
 
-    bool prepare(const IDocument *doc, const QStringList &keys);
-    void applyDocument(IDocument *doc, const QStringList &keys);
-    void applyItem(IDocument *doc, const QString &itemKey);
+  bool prepare(const IDocument *doc, const QStringList &keys);
+  void applyDocument(IDocument *doc, const QStringList &keys);
+  void applyItem(IDocument *doc, const QString &itemKey);
 
-    void setOrientation(bool flipHorizontal, bool flipVertical);
+  void setOrientation(bool flipHorizontal, bool flipVertical);
 
 private:
-    bool mFlipHorizontal;
-    bool mFlipVertical;
+  bool mFlipHorizontal;
+  bool mFlipVertical;
 };
 
 }

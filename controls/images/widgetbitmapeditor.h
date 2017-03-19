@@ -19,61 +19,62 @@
 
 #ifndef WIDGETBITMAPEDITOR_H
 #define WIDGETBITMAPEDITOR_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
-//-----------------------------------------------------------------------------
-namespace Ui {
-    class WidgetBitmapEditor;
+
+namespace Ui
+{
+class WidgetBitmapEditor;
 }
-//-----------------------------------------------------------------------------
+
 class WidgetBitmapEditor : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit WidgetBitmapEditor(QWidget *parent = 0);
-    ~WidgetBitmapEditor();
+  explicit WidgetBitmapEditor(QWidget *parent = 0);
+  ~WidgetBitmapEditor();
 
-    const QImage *image() const;
-    void setImage(const QImage *value);
+  const QImage *image() const;
+  void setImage(const QImage *value);
 
-    QColor color1() const;
-    QColor color2() const;
-    int scale() const;
+  QColor color1() const;
+  QColor color2() const;
+  int scale() const;
 
 protected:
-    void changeEvent(QEvent *e);
-    bool eventFilter(QObject *obj, QEvent *event);
-    void wheelEvent(QWheelEvent *event);
+  void changeEvent(QEvent *e);
+  bool eventFilter(QObject *obj, QEvent *event);
+  void wheelEvent(QWheelEvent *event);
 
 private:
-    Ui::WidgetBitmapEditor *ui;
-    QImage mImageOriginal;
-    QImage mImageScaled;
-    QPixmap mPixmapScaled;
-    int mScale;
-    QColor mColor1;
-    QColor mColor2;
-    QPixmap mPixmapColor1;
-    QPixmap mPixmapColor2;
-    bool mFlagChanged;
+  Ui::WidgetBitmapEditor *ui;
+  QImage mImageOriginal;
+  QImage mImageScaled;
+  QPixmap mPixmapScaled;
+  int mScale;
+  QColor mColor1;
+  QColor mColor2;
+  QPixmap mPixmapColor1;
+  QPixmap mPixmapColor2;
+  bool mFlagChanged;
 
-    void updateImageScaled(int scale);
-    void drawPixel(int x, int y, const QColor &color);
+  void updateImageScaled(int scale);
+  void drawPixel(int x, int y, const QColor &color);
 private slots:
-    void on_spinBoxScale_valueChanged(int value);
-    void on_pushButtonColor1_clicked();
-    void on_pushButtonColor2_clicked();
+  void on_spinBoxScale_valueChanged(int value);
+  void on_pushButtonColor1_clicked();
+  void on_pushButtonColor2_clicked();
 
 public slots:
-    void setScale(int value);
-    void setColor1(const QColor value);
-    void setColor2(const QColor value);
+  void setScale(int value);
+  void setColor1(const QColor value);
+  void setColor2(const QColor value);
 
 signals:
-    void imageChanged();
-    void mouseMove(QPoint point);
-    void scaleSchanged(int scale);
+  void imageChanged();
+  void mouseMove(QPoint point);
+  void scaleSchanged(int scale);
 };
-//-----------------------------------------------------------------------------
+
 #endif // WIDGETBITMAPEDITOR_H

@@ -19,7 +19,7 @@
 
 #ifndef IMAINWINDOW_H
 #define IMAINWINDOW_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 
 class QString;
@@ -27,18 +27,18 @@ class QWidget;
 class IEditor;
 
 template <class T> class QList;
-//-----------------------------------------------------------------------------
+
 class IMainWindow
 {
 public:
-    virtual IEditor *currentEditor() = 0;
-    virtual QWidget *currentTab() = 0;
-    virtual void tabsList(QList<QWidget *> *list) = 0;
-    virtual QWidget *parentWidget() = 0;
-    virtual QString findAvailableName(const QString &prefix) = 0;
+  virtual IEditor *currentEditor() = 0;
+  virtual QWidget *currentTab() = 0;
+  virtual void tabsList(QList<QWidget *> *list) = 0;
+  virtual QWidget *parentWidget() = 0;
+  virtual QString findAvailableName(const QString &prefix) = 0;
 };
 Q_DECLARE_INTERFACE (IMainWindow,
                      "riuson.lcd-image-converter/1.0"
-                     )
-//-----------------------------------------------------------------------------
+                    )
+
 #endif // IDOCUMENT_H

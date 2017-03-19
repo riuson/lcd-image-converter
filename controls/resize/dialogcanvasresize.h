@@ -19,13 +19,14 @@
 
 #ifndef DIALOGCANVASRESIZE_H
 #define DIALOGCANVASRESIZE_H
-//-----------------------------------------------------------------------------
+
 #include <QDialog>
-//-----------------------------------------------------------------------------
-namespace Ui {
+
+namespace Ui
+{
 class DialogCanvasResize;
 }
-//-----------------------------------------------------------------------------
+
 class QItemSelection;
 class DataContainer;
 class ImagesModel;
@@ -34,40 +35,43 @@ class ImagesResizedProxy;
 class ImagesFilterProxy;
 class ColumnsReorderProxy;
 class TransposeProxy;
-//-----------------------------------------------------------------------------
+
 class DialogCanvasResize : public QDialog
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit DialogCanvasResize(DataContainer *container, QWidget *parent = 0);
-    ~DialogCanvasResize();
+  explicit DialogCanvasResize(DataContainer *container, QWidget *parent = 0);
+  ~DialogCanvasResize();
 
-    void selectKeys(const QStringList &keys);
-    void resizeInfo(int *left, int *top, int *right, int *bottom) const;
-    void setResizeInfo(int left, int top, int right, int bottom);
+  void selectKeys(const QStringList &keys);
+  void resizeInfo(int *left, int *top, int *right, int *bottom) const;
+  void setResizeInfo(int left, int top, int right, int bottom);
+
+protected:
+  void wheelEvent(QWheelEvent *event);
 
 private:
-    Ui::DialogCanvasResize *ui;
+  Ui::DialogCanvasResize *ui;
 
-    DataContainer *mContainer;
-    ImagesModel *mModel;
-    ImagesScaledProxy *mScaledProxy;
-    ImagesResizedProxy *mResizedProxy;
-    ImagesFilterProxy *mFilter;
-    ColumnsReorderProxy *mReorderProxy;
-    TransposeProxy *mTranspose;
+  DataContainer *mContainer;
+  ImagesModel *mModel;
+  ImagesScaledProxy *mScaledProxy;
+  ImagesResizedProxy *mResizedProxy;
+  ImagesFilterProxy *mFilter;
+  ColumnsReorderProxy *mReorderProxy;
+  TransposeProxy *mTranspose;
 
-    int mLeft;
-    int mTop;
-    int mRight;
-    int mBottom;
+  int mLeft;
+  int mTop;
+  int mRight;
+  int mBottom;
 
 private slots:
-    void spinBox_valueChanged(int value);
-    void on_spinBoxScale_valueChanged(int value);
-    void on_pushButtonReset_clicked();
-    void resizeToContents();
+  void spinBox_valueChanged(int value);
+  void on_pushButtonReset_clicked();
+  void resizeToContents();
+  void on_scaleChanged(int value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // DIALOGCANVASRESIZE_H

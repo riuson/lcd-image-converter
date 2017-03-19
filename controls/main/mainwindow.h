@@ -19,12 +19,13 @@
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-//-----------------------------------------------------------------------------
+
 #include <QMainWindow>
 #include "imainwindow.h"
-//-----------------------------------------------------------------------------
-namespace Ui {
-    class MainWindow;
+
+namespace Ui
+{
+class MainWindow;
 }
 
 class WidgetBitmapEditor;
@@ -37,59 +38,59 @@ class ActionImageHandlers;
 class ActionFontHandlers;
 class ActionSetupHandlers;
 class ActionHelpHandlers;
-//-----------------------------------------------------------------------------
+
 class MainWindow : public QMainWindow, public IMainWindow
 {
-    Q_OBJECT
-    Q_INTERFACES(IMainWindow)
+  Q_OBJECT
+  Q_INTERFACES(IMainWindow)
 
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+  MainWindow(QWidget *parent = 0);
+  ~MainWindow();
 
 protected:
-    void changeEvent(QEvent *e);
+  void changeEvent(QEvent *e);
 
 private:
-    Ui::MainWindow *ui;
-    QTranslator *mTrans;
-    RecentList *mRecentList;
-    StatusManager *mStatusManager;
+  Ui::MainWindow *ui;
+  QTranslator *mTrans;
+  RecentList *mRecentList;
+  StatusManager *mStatusManager;
 
-    void selectLocale(const QString &localeName);
-    void checkStartPageVisible();
-    void createHandlers();
-    void tabTextUpdate(QWidget *widget);
-    int editorsCount() const;
+  void selectLocale(const QString &localeName);
+  void checkStartPageVisible();
+  void createHandlers();
+  void tabTextUpdate(QWidget *widget);
+  int editorsCount() const;
 
-    ActionFileHandlers *mFileHandlers;
-    ActionEditHandlers *mEditHandlers;
-    ActionImageHandlers *mImageHandlers;
-    ActionFontHandlers *mFontHandlers;
-    ActionSetupHandlers *mSetupHandlers;
-    ActionHelpHandlers *mHelpHandlers;
+  ActionFileHandlers *mFileHandlers;
+  ActionEditHandlers *mEditHandlers;
+  ActionImageHandlers *mImageHandlers;
+  ActionFontHandlers *mFontHandlers;
+  ActionSetupHandlers *mSetupHandlers;
+  ActionHelpHandlers *mHelpHandlers;
 
 private slots:
-    void on_tabWidget_tabCloseRequested(int index);
-    void on_tabWidget_currentChanged(int index);
-    void setCurrentTab(QWidget *widget);
-    void actionLanguage_triggered();
+  void on_tabWidget_tabCloseRequested(int index);
+  void on_tabWidget_currentChanged(int index);
+  void setCurrentTab(QWidget *widget);
+  void actionLanguage_triggered();
 
-    void updateMenuState();
-    void updateRecentList();
-    void openRecentFile();
+  void updateMenuState();
+  void updateRecentList();
+  void openRecentFile();
 
-    void rememberFilename(const QString &filename);
-    void closeRequest(QWidget *tab);
-    void tabChanged(QWidget *tab);
-    int tabCreated(QWidget *newTab);
-    void statusChanged();
+  void rememberFilename(const QString &filename);
+  void closeRequest(QWidget *tab);
+  void tabChanged(QWidget *tab);
+  int tabCreated(QWidget *newTab);
+  void statusChanged();
 public:
-    IEditor *currentEditor();
-    QWidget *currentTab();
-    void tabsList(QList<QWidget *> *list);
-    QWidget *parentWidget();
-    QString findAvailableName(const QString &prefix);
+  IEditor *currentEditor();
+  QWidget *currentTab();
+  void tabsList(QList<QWidget *> *list);
+  QWidget *parentWidget();
+  QString findAvailableName(const QString &prefix);
 };
-//-----------------------------------------------------------------------------
+
 #endif // MAINWINDOW_H

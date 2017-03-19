@@ -19,15 +19,15 @@
 
 #ifndef RESIZESETTINGS_H
 #define RESIZESETTINGS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 class ResizeSettings : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    static int scale();
-    static void setScale(int value);
+  static int scale();
+  static void setScale(int value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // RESIZESETTINGS_H

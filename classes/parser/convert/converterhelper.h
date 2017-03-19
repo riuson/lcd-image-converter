@@ -19,68 +19,68 @@
 
 #ifndef CONVERTERHELPER_H
 #define CONVERTERHELPER_H
-//-----------------------------------------------------------------------------
+
 #include "preset.h"
-//-----------------------------------------------------------------------------
+
 class QImage;
 class Preset;
 class ConvImage;
-//-----------------------------------------------------------------------------
+
 class ConverterHelper
 {
 public:
-    // gets RGB array of pixels
-    // also convert images to monochrome or grayscale (r = g = b = qGray(pixel))
-    static void pixelsData(
-            Preset *matrix,
-            const QImage *image,
-            QVector<quint32> *data,
-            int *width,
-            int *height);
-    static void collectPoints(ConvImage *convImage, const QString &script, QString *resultError);
-    // apply masks and bits reorder
-    static void processPixels(Preset *matrix, QVector<quint32> *data);
-    // pack data
-    static void packData(
-            Preset *matrix,
-            QVector<quint32> *inputData,
-            int inputWidth,
-            int inputHeight,
-            QVector<quint32> *outputData,
-            int *outputWidth,
-            int *outputHeight);
-    // bits reordering
-    static void reorder(
-            Preset *preset,
-            QVector<quint32> *inputData, int inputWidth, int inputHeight,
-            QVector<quint32> *outputData, int *outputWidth, int *outputHeight);
+  // gets RGB array of pixels
+  // also convert images to monochrome or grayscale (r = g = b = qGray(pixel))
+  static void pixelsData(
+    Preset *matrix,
+    const QImage *image,
+    QVector<quint32> *data,
+    int *width,
+    int *height);
+  static void collectPoints(ConvImage *convImage, const QString &script, QString *resultError);
+  // apply masks and bits reorder
+  static void processPixels(Preset *matrix, QVector<quint32> *data);
+  // pack data
+  static void packData(
+    Preset *matrix,
+    QVector<quint32> *inputData,
+    int inputWidth,
+    int inputHeight,
+    QVector<quint32> *outputData,
+    int *outputWidth,
+    int *outputHeight);
+  // bits reordering
+  static void reorder(
+    Preset *preset,
+    QVector<quint32> *inputData, int inputWidth, int inputHeight,
+    QVector<quint32> *outputData, int *outputWidth, int *outputHeight);
 
-    static void compressData(
-            Preset *matrix,
-            QVector<quint32> *inputData, int inputWidth, int inputHeight,
-            QVector<quint32> *outputData, int *outputWidth, int *outputHeight);
+  static void compressData(
+    Preset *matrix,
+    QVector<quint32> *inputData, int inputWidth, int inputHeight,
+    QVector<quint32> *outputData, int *outputWidth, int *outputHeight);
 
-    static void prepareImage(Preset *matrix, const QImage *source, QImage *result);
-    static void createImagePreview(Preset *matrix, QImage *source, QImage *result);
+  static void prepareImage(Preset *matrix, const QImage *source, QImage *result);
+  static void createImagePreview(Preset *matrix, QImage *source, QImage *result);
 
-    static QString dataToString(Preset *matrix,
-            QVector<quint32> *data, int width, int height);
+  static QString dataToString(Preset *matrix,
+                              QVector<quint32> *data, int width, int height);
 
-    static QString scanScript(Preset *preset);
-    static QString scanScriptTemplate();
+  static QString scanScript(Preset *preset);
+  static QString scanScriptTemplate();
 
-    static void makeGrayscale(QImage &image);
+  static void makeGrayscale(QImage &image);
 private:
-    static void makeMonochrome(QImage &image, int edge);
-    // make r = g = b = qGray(pixel)
-    static void packDataRow(
-            Preset *matrix,
-            QVector<quint32> *inputData,
-            int start,
-            int count,
-            QVector<quint32> *outputData,
-            int *rowLength);
-    static quint32 toBigEndian(Preset *matrix, quint32 value);
+  static void makeMonochrome(QImage &image, int edge);
+  // make r = g = b = qGray(pixel)
+  static void packDataRow(
+    Preset *matrix,
+    QVector<quint32> *inputData,
+    int start,
+    int count,
+    QVector<quint32> *outputData,
+    int *rowLength);
+  static quint32 toBigEndian(Preset *matrix, quint32 value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // CONVERTERHELPER_H

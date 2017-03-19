@@ -19,7 +19,7 @@
 
 #ifndef HISTORYKEEPER_H
 #define HISTORYKEEPER_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QString>
 #include <QImage>
@@ -27,47 +27,47 @@
 #include <QList>
 #include <QMap>
 #include <QStringList>
-//-----------------------------------------------------------------------------
+
 class HistoryRecord;
-//-----------------------------------------------------------------------------
+
 class HistoryKeeper : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit HistoryKeeper(QObject *parent = 0);
-    ~HistoryKeeper();
+  explicit HistoryKeeper(QObject *parent = 0);
+  ~HistoryKeeper();
 
-    void init(
-            const QStringList *keys,
-            const QMap<QString, QImage *> *images,
-            const QMap<QString, QVariant> *info);
-    void store(
-            const QStringList *keys,
-            const QMap<QString, QImage *> *images,
-            const QMap<QString, QVariant> *info);
-    void restorePrevious(
-            QStringList *keys,
-            QMap<QString, QImage *> *images,
-            QMap<QString, QVariant> *info);
-    void restoreNext(
-            QStringList *keys,
-            QMap<QString, QImage *> *images,
-            QMap<QString, QVariant> *info);
+  void init(
+    const QStringList *keys,
+    const QMap<QString, QImage *> *images,
+    const QMap<QString, QVariant> *info);
+  void store(
+    const QStringList *keys,
+    const QMap<QString, QImage *> *images,
+    const QMap<QString, QVariant> *info);
+  void restorePrevious(
+    QStringList *keys,
+    QMap<QString, QImage *> *images,
+    QMap<QString, QVariant> *info);
+  void restoreNext(
+    QStringList *keys,
+    QMap<QString, QImage *> *images,
+    QMap<QString, QVariant> *info);
 
-    bool initialized() const;
-    bool canRestorePrevious() const;
-    bool canRestoreNext() const;
+  bool initialized() const;
+  bool canRestorePrevious() const;
+  bool canRestoreNext() const;
 
 private:
-    QList<HistoryRecord *> *mHistory;
-    int mCurrentIndex;
+  QList<HistoryRecord *> *mHistory;
+  int mCurrentIndex;
 
-    void removeAfter(int index);
-    void restoreAt(
-            int index,
-            QStringList *keys,
-            QMap<QString, QImage *> *images,
-            QMap<QString, QVariant> *info);
+  void removeAfter(int index);
+  void restoreAt(
+    int index,
+    QStringList *keys,
+    QMap<QString, QImage *> *images,
+    QMap<QString, QVariant> *info);
 };
-//-----------------------------------------------------------------------------
+
 #endif // HISTORYKEEPER_H

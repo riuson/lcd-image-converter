@@ -19,67 +19,67 @@
 
 #ifndef TOOLSMANAGER_H
 #define TOOLSMANAGER_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include "iimageeditorparams.h"
 #include "iimageselection.h"
-//-----------------------------------------------------------------------------
+
 class QAction;
 template <class T1> class QList;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
-//-----------------------------------------------------------------------------
+
 class IImageEditorTool;
 class ToolZoom;
 class ToolColor;
 class ToolSelect;
-//-----------------------------------------------------------------------------
+
 class ToolsManager : public QObject, public IImageEditorParams, public IImageSelection
 {
-    Q_OBJECT
-    Q_INTERFACES(ImageEditor::IImageEditorParams)
-    Q_INTERFACES(ImageEditor::IImageSelection)
+  Q_OBJECT
+  Q_INTERFACES(ImageEditor::IImageEditorParams)
+  Q_INTERFACES(ImageEditor::IImageSelection)
 
 public:
-    explicit ToolsManager(QObject *parent = 0);
-    ~ToolsManager();
+  explicit ToolsManager(QObject *parent = 0);
+  ~ToolsManager();
 
-    const QList <IImageEditorTool *> *tools() const;
-    const QList<QAction *> *toolsActions() const;
+  const QList <IImageEditorTool *> *tools() const;
+  const QList<QAction *> *toolsActions() const;
 
-    int scale() const;
-    const QColor foreColor() const;
-    const QColor backColor() const;
-    QWidget *parentWidget() const;
+  int scale() const;
+  const QColor foreColor() const;
+  const QColor backColor() const;
+  QWidget *parentWidget() const;
 
-    const QPainterPath &selectedPath() const;
+  const QPainterPath &selectedPath() const;
 
 public slots:
-    void setScale(int value);
+  void setScale(int value);
 
 signals:
-    void toolChanged(int toolIndex);
-    void scaleChanged(int value);
-    void selectionChanged(const QPainterPath &value);
+  void toolChanged(int toolIndex);
+  void scaleChanged(int value);
+  void selectionChanged(const QPainterPath &value);
 
 private:
-    QList <IImageEditorTool *> *mTools;
-    QList <QAction *> *mToolsActions;
-    IImageEditorTool *mSelectedTool;
-    ToolZoom *mZoomer;
-    ToolColor *mColors;
-    ToolSelect *mSelectionTool;
-    QWidget *mParentWidget;
+  QList <IImageEditorTool *> *mTools;
+  QList <QAction *> *mToolsActions;
+  IImageEditorTool *mSelectedTool;
+  ToolZoom *mZoomer;
+  ToolColor *mColors;
+  ToolSelect *mSelectionTool;
+  QWidget *mParentWidget;
 
-    void initializeTools();
-    void initializeActions();
-    void selectTool(IImageEditorTool *tool);
+  void initializeTools();
+  void initializeActions();
+  void selectTool(IImageEditorTool *tool);
 
 private slots:
-    void on_toolAction_triggered();
+  void on_toolAction_triggered();
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+
 #endif // TOOLSMANAGER_H

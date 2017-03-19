@@ -25,30 +25,28 @@ namespace Operations
 {
 
 FontResize::FontResize(QWidget *parentWidget, QObject *parent)
-    : ImageResize(parentWidget, parent)
+  : ImageResize(parentWidget, parent)
 {
 }
 
 void FontResize::applyDocument(IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(keys)
+  Q_UNUSED(keys)
 
-    bool ok;
-    int ascent = doc->dataContainer()->commonInfo("ascent").toInt(&ok);
+  bool ok;
+  int ascent = doc->dataContainer()->commonInfo("ascent").toInt(&ok);
 
-    if (ok)
-    {
-        int descent = doc->dataContainer()->commonInfo("descent").toInt(&ok);
+  if (ok) {
+    int descent = doc->dataContainer()->commonInfo("descent").toInt(&ok);
 
-        if (ok)
-        {
-            ascent += this->mTop;
-            descent += this->mBottom;
+    if (ok) {
+      ascent += this->mTop;
+      descent += this->mBottom;
 
-            doc->dataContainer()->setCommonInfo("ascent", ascent);
-            doc->dataContainer()->setCommonInfo("descent", descent);
-        }
+      doc->dataContainer()->setCommonInfo("ascent", ascent);
+      doc->dataContainer()->setCommonInfo("descent", descent);
     }
+  }
 }
 
 }

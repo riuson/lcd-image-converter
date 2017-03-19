@@ -19,40 +19,41 @@
 
 #ifndef SETUPTABFONT_H
 #define SETUPTABFONT_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
-//-----------------------------------------------------------------------------
+
 #include "conversion_options.h"
-//-----------------------------------------------------------------------------
-namespace Ui {
+
+namespace Ui
+{
 class SetupTabFont;
 }
-//-----------------------------------------------------------------------------
+
 class Preset;
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
-//-----------------------------------------------------------------------------
+
 class SetupTabFont : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit SetupTabFont(Preset *preset, QWidget *parent = 0);
-    virtual ~SetupTabFont();
+  explicit SetupTabFont(Preset *preset, QWidget *parent = 0);
+  virtual ~SetupTabFont();
 
 public slots:
-    void matrixChanged();
+  void matrixChanged();
 
 private:
-    Ui::SetupTabFont *ui;
-    Preset *mPreset;
+  Ui::SetupTabFont *ui;
+  Preset *mPreset;
 
-    const QString sortingName(CharactersSortOrder value) const;
+  const QString sortingName(CharactersSortOrder value) const;
 
 private slots:
-    void on_checkBoxBom_toggled(bool value);
-    void on_comboBoxEncoding_currentIndexChanged(const QString &value);
-    void on_comboBoxSorting_currentIndexChanged(int index);
+  void on_checkBoxBom_toggled(bool value);
+  void on_comboBoxEncoding_currentIndexChanged(const QString &value);
+  void on_comboBoxSorting_currentIndexChanged(int index);
 };
-//-----------------------------------------------------------------------------
+
 #endif // SETUPTABFONT_H

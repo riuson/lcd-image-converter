@@ -19,25 +19,25 @@
 
 #ifndef UNICODEBLOCKSFILTERMODEL_H
 #define UNICODEBLOCKSFILTERMODEL_H
-//-----------------------------------------------------------------------------
+
 #include <QSortFilterProxyModel>
-//-----------------------------------------------------------------------------
+
 class UnicodeBlocksFilterModel : public QSortFilterProxyModel
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit UnicodeBlocksFilterModel(QObject *parent = 0);
-    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+  explicit UnicodeBlocksFilterModel(QObject *parent = 0);
+  bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
 
-    void setNameFilter(const QString &name);
+  void setNameFilter(const QString &name);
 
 private:
-    QString mName;
+  QString mName;
 
 signals:
 
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // UNICODEBLOCKSFILTERMODEL_H
