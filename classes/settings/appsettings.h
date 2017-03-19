@@ -46,6 +46,7 @@ private:
   static QSettings::Format CustomFormat;
   static QString NameStartChar;
   static QString NameChar;
+  static QString NameStartPrefix;
   QSettings *mSettings;
 
   static bool readXmlFile(QIODevice &device, QSettings::SettingsMap &map);
@@ -57,6 +58,8 @@ private:
 protected:
   static bool isNameStartCharValid(const QString &value);
   static bool isNameCharValid(const QString &value);
+  static bool escape(const QString &source, QString &result);
+  static const QString unescape(const QString &value);
 };
 
 #endif // APPSETTINGS_H

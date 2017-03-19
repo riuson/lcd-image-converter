@@ -184,6 +184,29 @@ void TestSettings::isNameStartCharValid()
   }
 }
 
+void TestSettings::escape()
+{
+  QStringList valid, invalid;
+  valid << "tag" << "_tag" << "tag1" << "1tag" << "1" << "-tag";
+  invalid << " " << "&" << "tag tag";
+
+  foreach (const QString &value, valid) {
+    QString escaped;
+    bool success = AppSettingsExt::escape(value, escaped);
+    QCOMPARE(success, true);
+    QCOMPARE(AppSettingsExt::isNameCharValid(escaped), true);
+
+    QString unescaped = AppSettingsExt::unescape(escaped);
+    QCOMPARE(unescaped, value);
+  }
+
+  foreach (const QString &value, invalid) {
+    QString escaped;
+    bool success = AppSettingsExt::escape(value, escaped);
+    QCOMPARE(success, false);
+  }
+}
+
 void TestSettings::cleanupTestCase()
 {
 }

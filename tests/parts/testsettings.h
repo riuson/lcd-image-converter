@@ -32,6 +32,7 @@ private slots:
   void load();
   void save_load();
   void isNameStartCharValid();
+  void escape();
 
   void cleanupTestCase();
 };
