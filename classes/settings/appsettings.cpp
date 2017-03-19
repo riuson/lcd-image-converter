@@ -61,6 +61,21 @@ void AppSettings::configure(Section section, const QString &filename)
   }
 }
 
+void AppSettings::reset()
+{
+  {
+    AppSettings appsett(Section::Application);
+    QSettings &sett = appsett.get();
+    sett.remove("");
+  }
+
+  {
+    AppSettings appsett(Section::Presets);
+    QSettings &sett = appsett.get();
+    sett.remove("");
+  }
+}
+
 QSettings &AppSettings::get()
 {
   return *this->mSettings;
