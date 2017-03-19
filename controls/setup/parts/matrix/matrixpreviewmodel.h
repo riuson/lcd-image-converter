@@ -19,69 +19,67 @@
 
 #ifndef MATRIXPREVIEWMODEL_H
 #define MATRIXPREVIEWMODEL_H
-//-----------------------------------------------------------------------------
+
 #include <QAbstractItemModel>
-//-----------------------------------------------------------------------------
+
 #include <QVariant>
 #include "conversion_options.h"
-//-----------------------------------------------------------------------------
+
 class Preset;
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
-//-----------------------------------------------------------------------------
+
 class MatrixPreviewModel : public QAbstractItemModel
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    enum RowType
-    {
-        Source,
-        Operation,
-        MaskUsed,
-        MaskAnd,
-        MaskOr,
-        MaskFill,
-        Result,
-        ResultPacked
-    };
+  enum RowType {
+    Source,
+    Operation,
+    MaskUsed,
+    MaskAnd,
+    MaskOr,
+    MaskFill,
+    Result,
+    ResultPacked
+  };
 
-    explicit MatrixPreviewModel(Preset *preset, QObject *parent = 0);
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
-    QModelIndex parent(const QModelIndex &child) const;
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    RowType rowType(int row) const;
+  explicit MatrixPreviewModel(Preset *preset, QObject *parent = 0);
+  int rowCount(const QModelIndex &parent) const;
+  int columnCount(const QModelIndex &parent) const;
+  QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+  QVariant data(const QModelIndex &index, int role) const;
+  bool setData(const QModelIndex &index, const QVariant &value, int role);
+  QModelIndex index(int row, int column, const QModelIndex &parent) const;
+  QModelIndex parent(const QModelIndex &child) const;
+  Qt::ItemFlags flags(const QModelIndex &index) const;
+  RowType rowType(int row) const;
 
 private:
-    Preset *mPreset;
+  Preset *mPreset;
 
-    enum ColorType
-    {
-        Empty,
-        // for colors
-        Alpha,
-        Red,
-        Green,
-        Blue,
-        // for monochrome
-        BlackOrWhite,
-        //for grayscale
-        Gray
-    };
+  enum ColorType {
+    Empty,
+    // for colors
+    Alpha,
+    Red,
+    Green,
+    Blue,
+    // for monochrome
+    BlackOrWhite,
+    //for grayscale
+    Gray
+  };
 
-    void getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const;
-    void resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
-    void resultPackedToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
-    void sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const;
+  void getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const;
+  void resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
+  void resultPackedToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
+  void sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const;
 
 signals:
 
 public slots:
-    void callReset();
+  void callReset();
 };
-//-----------------------------------------------------------------------------
+
 #endif // MATRIXPREVIEWMODEL_H

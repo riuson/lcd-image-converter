@@ -24,62 +24,62 @@
 #include <QFile>
 #include "revisioninfo.h"
 #include "bitmaphelper.h"
-//-----------------------------------------------------------------------------
+
 DialogAbout::DialogAbout(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DialogAbout)
+  QDialog(parent),
+  ui(new Ui::DialogAbout)
 {
-    ui->setupUi(this);
+  ui->setupUi(this);
 
-    // hide ? button from title
-    this->setWindowFlags(this->windowFlags() & (~Qt::WindowContextHelpButtonHint));
+  // hide ? button from title
+  this->setWindowFlags(this->windowFlags() & (~Qt::WindowContextHelpButtonHint));
 
-    // update icon
-    QIcon icon;
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 16)));
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 24)));
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 32)));
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 48)));
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 64)));
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 128)));
-    icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 256)));
-    this->setWindowIcon(icon);
+  // update icon
+  QIcon icon;
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 16)));
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 24)));
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 32)));
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 48)));
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 64)));
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 128)));
+  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 256)));
+  this->setWindowIcon(icon);
 
-    this->showLicense();
+  this->showLicense();
 
-    // show revision info
-    {
-        QString about = this->ui->labelInfo->text();
-        QString formattedAbout = QString(about).arg(RevisionInfo::hash(), RevisionInfo::hash_abbr(), RevisionInfo::date());
-        this->ui->labelInfo->setText(formattedAbout);
-    }
+  // show revision info
+  {
+    QString about = this->ui->labelInfo->text();
+    QString formattedAbout = QString(about).arg(RevisionInfo::hash(), RevisionInfo::hash_abbr(), RevisionInfo::date());
+    this->ui->labelInfo->setText(formattedAbout);
+  }
 
-    // show Qt version
-    {
-        QString about = this->ui->labelInfo->text();
-        QString formattedAbout = QString(about).arg(qVersion());
-        this->ui->labelInfo->setText(formattedAbout);
-    }
+  // show Qt version
+  {
+    QString about = this->ui->labelInfo->text();
+    QString formattedAbout = QString(about).arg(qVersion());
+    this->ui->labelInfo->setText(formattedAbout);
+  }
 
-    // focus on Close button
-    this->ui->buttonBox->setFocus();
+  // focus on Close button
+  this->ui->buttonBox->setFocus();
 }
-//-----------------------------------------------------------------------------
+
 DialogAbout::~DialogAbout()
 {
-    delete ui;
+  delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void DialogAbout::showLicense()
 {
-    QFile file_license(":/text/gpl3");
-    if (file_license.open(QIODevice::ReadOnly))
-    {
-        QTextStream stream(&file_license);
-        QString license = stream.readAll();
-        file_license.close();
+  QFile file_license(":/text/gpl3");
 
-        this->ui->textBrowser->setText(license);
-    }
+  if (file_license.open(QIODevice::ReadOnly)) {
+    QTextStream stream(&file_license);
+    QString license = stream.readAll();
+    file_license.close();
+
+    this->ui->textBrowser->setText(license);
+  }
 }
-//-----------------------------------------------------------------------------
+

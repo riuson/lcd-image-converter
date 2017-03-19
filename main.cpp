@@ -20,46 +20,57 @@
 #include "qt-version-check.h"
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
-    #include <QtWidgets/QApplication>
+#include <QtWidgets/QApplication>
 #else
-    #include <QtGui/QApplication>
+#include <QtGui/QApplication>
 #endif
 
 #include "mainwindow.h"
 #include "revisioninfo.h"
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-    #include "cmdline.h"
+#include "cmdline.h"
 #endif
-//-----------------------------------------------------------------------------
+
 void setupApplication(QApplication *app)
 {
-    QCoreApplication::setApplicationName("lcd-image-converter");
-    QCoreApplication::setOrganizationName("riuson");
+  QString version = QString("rev.%1 from %2").arg(RevisionInfo::hash(), RevisionInfo::date());
+  QCoreApplication::setApplicationVersion(version);
 
-    QString version = QString("rev.%1 from %2").arg(RevisionInfo::hash(), RevisionInfo::date());
-    QCoreApplication::setApplicationVersion(version);
-
-    app->addLibraryPath(QApplication::applicationDirPath());
-    app->addLibraryPath(QApplication::applicationDirPath() + "/plugins");
+  app->addLibraryPath(QApplication::applicationDirPath());
+  app->addLibraryPath(QApplication::applicationDirPath() + "/plugins");
 }
-//-----------------------------------------------------------------------------
+
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    setupApplication(&a);
+  QApplication a(argc, argv);
+  setupApplication(&a);
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-    CommandLine::CmdLine cmd(a.arguments());
-    if (cmd.needProcess()) // if console mode
-    {
-        return cmd.process();
+  CommandLine::CmdLine cmd(a.arguments());
+
+  if (cmd.needProcess()) { // if console mode
+    switch (cmd.process()) {
+      case CommandLine::CmdLine::ProcessResult::Failed: {
+        return 1;
+      }
+
+      case CommandLine::CmdLine::ProcessResult::Success: {
+        return 0;
+      }
+
+      case CommandLine::CmdLine::ProcessResult::None:
+      default: {
+        break;
+      }
     }
+  }
+
 #endif
 
-    // gui mode
-    MainWindow w;
-    w.show();
-    return a.exec();
+  // gui mode
+  MainWindow w;
+  w.show();
+  return a.exec();
 }
-//-----------------------------------------------------------------------------
+

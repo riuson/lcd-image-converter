@@ -25,19 +25,20 @@
 
 class IDocument;
 
-namespace Operations {
+namespace Operations
+{
 class IOperation;
 
 class DocumentOperator : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit DocumentOperator(QObject *parent = 0);
-    void setKeys(const QStringList keys);
-    void apply(IDocument *doc, IOperation &operation);
+  explicit DocumentOperator(QObject *parent = 0);
+  void setKeys(const QStringList keys);
+  void apply(IDocument *doc, IOperation &operation);
 
 private:
-    QStringList mSelectedKeys;
+  QStringList mSelectedKeys;
 };
 
 }

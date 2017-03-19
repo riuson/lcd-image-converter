@@ -19,13 +19,14 @@
 
 #ifndef DIALOGOPTIONS_H
 #define DIALOGOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QDialog>
-//-----------------------------------------------------------------------------
-namespace Ui {
+
+namespace Ui
+{
 class DialogOptions;
 }
-//-----------------------------------------------------------------------------
+
 class Preset;
 class DataContainer;
 class DialogPreview;
@@ -35,51 +36,51 @@ class SetupTabReordering;
 class SetupTabImage;
 class SetupTabFont;
 class SetupTabTemplates;
-//-----------------------------------------------------------------------------
+
 class DialogOptions : public QDialog
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit DialogOptions(DataContainer *dataContainer, QWidget *parent = 0);
-    virtual ~DialogOptions();
+  explicit DialogOptions(DataContainer *dataContainer, QWidget *parent = 0);
+  virtual ~DialogOptions();
 
 private:
-    Ui::DialogOptions *ui;
+  Ui::DialogOptions *ui;
 
-    DataContainer *mData;
+  DataContainer *mData;
 
-    Preset *mPreset;
-    bool mPresetChanged;
+  Preset *mPreset;
+  bool mPresetChanged;
 
-    DialogPreview *mPreview;
+  DialogPreview *mPreview;
 
-    SetupTabPrepare    *mSetupPrepare;
-    SetupTabMatrix     *mSetupMatrix;
-    SetupTabReordering *mSetupReordering;
-    SetupTabImage      *mSetupImage;
-    SetupTabFont       *mSetupFont;
-    SetupTabTemplates  *mSetupTemplates;
+  SetupTabPrepare    *mSetupPrepare;
+  SetupTabMatrix     *mSetupMatrix;
+  SetupTabReordering *mSetupReordering;
+  SetupTabImage      *mSetupImage;
+  SetupTabFont       *mSetupFont;
+  SetupTabTemplates  *mSetupTemplates;
 
-    void fillPresetsList(const QString &defaultName = QString());
-    void presetLoad(const QString &name);
-    void presetSaveAs(const QString &name);
-    void presetRemove(const QString &name);
-    void createPresetsDefault();
-    bool checkOverwrite(const QString &originalName, QString *resultName) const;
+  void fillPresetsList(const QString &defaultName = QString());
+  void presetLoad(const QString &name);
+  void presetSaveAs(const QString &name);
+  void presetRemove(const QString &name);
+  void createPresetsDefault();
+  bool checkOverwrite(const QString &originalName, QString *resultName) const;
 private slots:
-    void presetChanged();
-    void on_pushButtonPreview_clicked();
-    void on_pushButtonPresetSaveAs_clicked();
-    void on_pushButtonPresetRemove_clicked();
-    void on_pushButtonPresetImport_clicked();
-    void on_pushButtonPresetExport_clicked();
-    void on_comboBoxPresets_currentIndexChanged(int index);
-    void previewClosed();
-    void presetOverwiteNameChanged(const QString &value);
+  void presetChanged();
+  void on_pushButtonPreview_clicked();
+  void on_pushButtonPresetSaveAs_clicked();
+  void on_pushButtonPresetRemove_clicked();
+  void on_pushButtonPresetImport_clicked();
+  void on_pushButtonPresetExport_clicked();
+  void on_comboBoxPresets_currentIndexChanged(int index);
+  void previewClosed();
+  void presetOverwiteNameChanged(const QString &value);
 
 protected:
-    void done(int result);
+  void done(int result);
 };
-//-----------------------------------------------------------------------------
+
 #endif // DIALOGOPTIONS_H

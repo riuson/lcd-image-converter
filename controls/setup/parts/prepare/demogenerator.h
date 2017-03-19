@@ -19,54 +19,54 @@
 
 #ifndef DEMOGENERATOR_H
 #define DEMOGENERATOR_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QVector>
 #include <QPoint>
 #include <QTime>
 #include <QPixmap>
-//-----------------------------------------------------------------------------
+
 class Preset;
 class QTimer;
 class QImage;
-//-----------------------------------------------------------------------------
+
 class DemoGenerator : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit DemoGenerator(Preset *preset, QObject *parent = 0);
-    virtual ~DemoGenerator();
+  explicit DemoGenerator(Preset *preset, QObject *parent = 0);
+  virtual ~DemoGenerator();
 
-    void setScript(const QString &value);
+  void setScript(const QString &value);
 
-    void startAnimation();
-    void stopAnimation();
+  void startAnimation();
+  void stopAnimation();
 
-    int animationTime() const;
-    void setAnimationTime(int value);
+  int animationTime() const;
+  void setAnimationTime(int value);
 
-    int animationInterval() const;
-    void setAnimationInterval(int value);
+  int animationInterval() const;
+  void setAnimationInterval(int value);
 
 private:
-    Preset *mPreset;
-    QString mScript;
-    QTimer *mTimer;
-    QVector<QPoint> mPoints;
-    int mMax;
-    int mIndex;
-    QImage *mSourceImage;
-    QPixmap mSourcePixmap;
-    QPixmap mProcessedPixmap;
-    QTime mLastTick;
-    int mAnimationTimeSeconds;
+  Preset *mPreset;
+  QString mScript;
+  QTimer *mTimer;
+  QVector<QPoint> mPoints;
+  int mMax;
+  int mIndex;
+  QImage *mSourceImage;
+  QPixmap mSourcePixmap;
+  QPixmap mProcessedPixmap;
+  QTime mLastTick;
+  int mAnimationTimeSeconds;
 
 signals:
-    void pixmapChanged(const QPixmap &pixmap);
-    void errorHandled(const QString &message);
+  void pixmapChanged(const QPixmap &pixmap);
+  void errorHandled(const QString &message);
 
 private slots:
-    void timeout();
+  void timeout();
 };
-//-----------------------------------------------------------------------------
+
 #endif // DEMOGENERATOR_H

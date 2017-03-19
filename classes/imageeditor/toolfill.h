@@ -19,7 +19,7 @@
 
 #ifndef TOOLFILL_H
 #define TOOLFILL_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QImage>
 #include <QColor>
@@ -28,55 +28,56 @@
 class QIcon;
 class QAction;
 template <class T1> class QVector;
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class IImageEditorParams;
-//-----------------------------------------------------------------------------
+
 class ToolFill : public QObject, public IImageEditorTool
 {
-    Q_OBJECT
-    Q_INTERFACES(ImageEditor::IImageEditorTool)
+  Q_OBJECT
+  Q_INTERFACES(ImageEditor::IImageEditorTool)
 
 public:
-    explicit ToolFill(IImageEditorParams *parameters, QObject *parent = 0);
-    ~ToolFill();
+  explicit ToolFill(IImageEditorParams *parameters, QObject *parent = 0);
+  ~ToolFill();
 
-    const QString title() const;
-    const QString tooltip() const;
-    const QIcon *icon() const;
-    const QList<QAction *> *actions() const;
-    const QList<QWidget *> *widgets() const;
+  const QString title() const;
+  const QString tooltip() const;
+  const QIcon *icon() const;
+  const QList<QAction *> *actions() const;
+  const QList<QWidget *> *widgets() const;
 
 public slots:
-    bool processMouse(QMouseEvent *event,
-                      const QImage *imageOriginal);
+  bool processMouse(QMouseEvent *event,
+                    const QImage *imageOriginal,
+                    bool inRect);
 
 signals:
-    void started(const QImage *value);
-    void processing(const QImage *value);
-    void completed(const QImage *value, bool changed);
+  void started(const QImage *value);
+  void processing(const QImage *value);
+  void completed(const QImage *value, bool changed);
 
 private:
-    IImageEditorParams *mParameters;
-    QIcon *mIcon;
-    QList<QAction *> *mActions;
-    QList<QWidget *> *mWidgets;
-    int mSize;
-    bool mFlagChanged;
-    QImage mInternalImage;
+  IImageEditorParams *mParameters;
+  QIcon *mIcon;
+  QList<QAction *> *mActions;
+  QList<QWidget *> *mWidgets;
+  int mSize;
+  bool mFlagChanged;
+  QImage mInternalImage;
 
-    void initializeWidgets();
-    void loadSettings();
-    void saveSettings() const;
-    bool fillArea(int x, int y, const QColor &color);
-    void collectPointsAround(const QImage &image, const QPoint &point, const QRgb &color, QVector<QPoint> *vector);
-    void collectPoint(const QImage &image, const QPoint &point, const QRgb &color, QVector<QPoint> *vector);
+  void initializeWidgets();
+  void loadSettings();
+  void saveSettings() const;
+  bool fillArea(int x, int y, const QColor &color);
+  void collectPointsAround(const QImage &image, const QPoint &point, const QRgb &color, QVector<QPoint> *vector);
+  void collectPoint(const QImage &image, const QPoint &point, const QRgb &color, QVector<QPoint> *vector);
 
 private slots:
-    void on_spinBoxSize_valueChanged(int value);
+  void on_spinBoxSize_valueChanged(int value);
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+
 #endif // TOOLFILL_H

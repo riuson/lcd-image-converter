@@ -20,63 +20,61 @@
 #include "dialogsavechanges.h"
 
 #include <QMessageBox>
-//-----------------------------------------------------------------------------
+
 DialogSaveChanges::DialogSaveChanges(const QString &documentName, QWidget *parent)
 {
-    this->mBox = new QMessageBox(parent);
-    this->connect(this->mBox, SIGNAL(finished(int)), SLOT(on_messageBox_finished(int)));
+  this->mBox = new QMessageBox(parent);
+  this->connect(this->mBox, SIGNAL(finished(int)), SLOT(on_messageBox_finished(int)));
 
-    this->mBox->setWindowTitle(tr("Save changes?"));
-    this->mBox->setText(tr("Document '%1' have unsaved changes.").arg(documentName));
-    this->mBox->setInformativeText(tr("Closing document without saving can cause loss of changes."));
-    this->mBox->setIcon(QMessageBox::Question);
+  this->mBox->setWindowTitle(tr("Save changes?"));
+  this->mBox->setText(tr("Document '%1' have unsaved changes.").arg(documentName));
+  this->mBox->setInformativeText(tr("Closing document without saving can cause loss of changes."));
+  this->mBox->setIcon(QMessageBox::Question);
 
-    this->mBox->addButton(QMessageBox::Save);
-    this->mBox->addButton(QMessageBox::Discard);
-    this->mBox->addButton(QMessageBox::Cancel);
+  this->mBox->addButton(QMessageBox::Save);
+  this->mBox->addButton(QMessageBox::Discard);
+  this->mBox->addButton(QMessageBox::Cancel);
 
-    this->mAnswer = Cancel;
+  this->mAnswer = Cancel;
 }
-//-----------------------------------------------------------------------------
+
 DialogSaveChanges::~DialogSaveChanges()
 {
-    delete this->mBox;
+  delete this->mBox;
 }
-//-----------------------------------------------------------------------------
+
 int DialogSaveChanges::answer()
 {
-    return this->mAnswer;
+  return this->mAnswer;
 }
-//-----------------------------------------------------------------------------
+
 int DialogSaveChanges::exec()
 {
-    return this->mBox->exec();
+  return this->mBox->exec();
 }
-//-----------------------------------------------------------------------------
+
 void DialogSaveChanges::on_messageBox_finished(int result)
 {
-    switch (result)
-    {
-        case QMessageBox::Save:
-        {
-            this->mAnswer = Save;
-            break;
-        }
-        case QMessageBox::Discard:
-        {
-            this->mAnswer = DontSave;
-            break;
-        }
-        case QMessageBox::Cancel:
-        {
-            this->mAnswer = Cancel;
-            break;
-        }
-        default:
-        {
-            this->mAnswer = Cancel;
-            break;
-        }
+  switch (result) {
+    case QMessageBox::Save: {
+      this->mAnswer = Save;
+      break;
     }
+
+    case QMessageBox::Discard: {
+      this->mAnswer = DontSave;
+      break;
+    }
+
+    case QMessageBox::Cancel: {
+      this->mAnswer = Cancel;
+      break;
+    }
+
+    default: {
+      this->mAnswer = Cancel;
+      break;
+    }
+  }
 }
-//-----------------------------------------------------------------------------
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--lcd-image-converter configuration data-->
+<configuration>
+    <section1>
+        <key1 attrib="123">value1</key1>
+        <key2>value2</key2>
+        <key3>value2</key3>
+        <key4>value1</key4>
+        <key5>    </key5>
+        <key6 attrib="456">    </key6>
+    </section1>
+    <section2>
+        <key1>value21</key1>
+        <key10>value10</key10>
+        <key21>value21</key21>
+        <key5>value10</key5>
+    </section2>
+</configuration>

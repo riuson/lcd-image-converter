@@ -19,29 +19,28 @@
 
 #ifndef IEDITOR_H
 #define IEDITOR_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
-//-----------------------------------------------------------------------------
+
 class StatusData;
 class DataContainer;
 class IDocument;
-//-----------------------------------------------------------------------------
+
 class IEditor
 {
 public:
-    enum EditorType
-    {
-        EditorImage,
-        EditorFont
-    };
+  enum EditorType {
+    EditorImage,
+    EditorFont
+  };
 
-    virtual IDocument *document() const = 0;
-    virtual QStringList selectedKeys() const = 0;
-    virtual StatusData *statusData() const = 0;
-    virtual EditorType type() const = 0;
+  virtual IDocument *document() const = 0;
+  virtual QStringList selectedKeys() const = 0;
+  virtual StatusData *statusData() const = 0;
+  virtual EditorType type() const = 0;
 };
 Q_DECLARE_INTERFACE (IEditor,
                      "riuson.lcd-image-converter/1.0"
-                     )
-//-----------------------------------------------------------------------------
+                    )
+
 #endif // IEDITOR_H

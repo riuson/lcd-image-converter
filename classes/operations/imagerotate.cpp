@@ -26,52 +26,54 @@ namespace Operations
 {
 
 ImageRotate::ImageRotate(QObject *parent)
-    : QObject(parent)
+  : QObject(parent)
 {
-    this->mAngle = Angle::None;
+  this->mAngle = Angle::None;
 }
 
 bool ImageRotate::prepare(const IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(doc)
-    Q_UNUSED(keys)
-    return true;
+  Q_UNUSED(doc)
+  Q_UNUSED(keys)
+  return true;
 }
 
 void ImageRotate::applyDocument(IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(doc)
-    Q_UNUSED(keys)
+  Q_UNUSED(doc)
+  Q_UNUSED(keys)
 }
 
 void ImageRotate::applyItem(IDocument *doc, const QString &itemKey)
 {
-    const QImage *original = doc->dataContainer()->image(itemKey);
-    QImage result;
+  const QImage *original = doc->dataContainer()->image(itemKey);
+  QImage result;
 
-    switch (this->mAngle)
-    {
+  switch (this->mAngle) {
     case Angle::A90:
-        result = BitmapHelper::rotate90(original);
-        break;
+      result = BitmapHelper::rotate90(original);
+      break;
+
     case Angle::A180:
-        result = BitmapHelper::rotate180(original);
-        break;
+      result = BitmapHelper::rotate180(original);
+      break;
+
     case Angle::A270:
-        result = BitmapHelper::rotate270(original);
-        break;
+      result = BitmapHelper::rotate270(original);
+      break;
+
     case Angle::None:
     default:
-        result = *original;
-        break;
-    }
+      result = *original;
+      break;
+  }
 
-    doc->dataContainer()->setImage(itemKey, &result);
+  doc->dataContainer()->setImage(itemKey, &result);
 }
 
 void ImageRotate::setAngle(Angle angle)
 {
-    this->mAngle = angle;
+  this->mAngle = angle;
 }
 
 }

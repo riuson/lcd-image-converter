@@ -19,15 +19,16 @@
 
 #ifndef EDITORTABIMAGE_H
 #define EDITORTABIMAGE_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
 
 #include "ieditor.h"
-//-----------------------------------------------------------------------------
-namespace Ui {
-    class EditorTabImage;
+
+namespace Ui
+{
+class EditorTabImage;
 }
-//-----------------------------------------------------------------------------
+
 class QImage;
 class DataContainer;
 class StatusData;
@@ -38,43 +39,43 @@ namespace ImageEditor
 {
 class Editor;
 }
-//-----------------------------------------------------------------------------
+
 class EditorTabImage : public QWidget, public IEditor
 {
-    Q_OBJECT
-    Q_INTERFACES(IEditor)
+  Q_OBJECT
+  Q_INTERFACES(IEditor)
 
 public:
-    explicit EditorTabImage(QWidget *parent = 0);
-    ~EditorTabImage();
+  explicit EditorTabImage(QWidget *parent = 0);
+  ~EditorTabImage();
 
-    IDocument *document() const;
-    QStringList selectedKeys() const;
-    StatusData *statusData() const;
-    EditorType type() const;
+  IDocument *document() const;
+  QStringList selectedKeys() const;
+  StatusData *statusData() const;
+  EditorType type() const;
 
 protected:
-    void changeEvent(QEvent *e);
+  void changeEvent(QEvent *e);
 
 private:
-    Ui::EditorTabImage *ui;
-    QWidget *mEditorWidget;
-    ImageEditor::Editor *mEditorObject;
-    ImageDocument *mDocument;
-    StatusData *mStatusData;
+  Ui::EditorTabImage *ui;
+  QWidget *mEditorWidget;
+  ImageEditor::Editor *mEditorObject;
+  ImageDocument *mDocument;
+  StatusData *mStatusData;
 
-    void initStatusData();
-    void updateStatus();
-    void updateSelectedImage();
+  void initStatusData();
+  void updateStatus();
+  void updateSelectedImage();
 
 private slots:
-    void mon_documentChanged();
-    void mon_editor_imageChanged(const QImage *value);
-    void mon_editor_mouseMove(const QPoint *point);
-    void mon_editor_scaleChanged(int scale);
+  void mon_documentChanged();
+  void mon_editor_imageChanged(const QImage *value);
+  void mon_editor_mouseMove(const QPoint *point);
+  void mon_editor_scaleChanged(int scale);
 signals:
-    void documentChanged();
-    void statusChanged();
+  void documentChanged();
+  void statusChanged();
 };
-//-----------------------------------------------------------------------------
+
 #endif // EDITORTABIMAGE_H

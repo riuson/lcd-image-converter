@@ -1,27 +1,27 @@
 #ifndef TESTFONTOPTIONS_H
 #define TESTFONTOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QtTest/QtTest>
-//-----------------------------------------------------------------------------
+
 class FontOptions;
-//-----------------------------------------------------------------------------
+
 class TestFontOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit TestFontOptions(QObject *parent = 0);
+  explicit TestFontOptions(QObject *parent = 0);
 
 private:
-    FontOptions *mOptions;
+  FontOptions *mOptions;
 
 private slots:
-    void initTestCase();
+  void initTestCase();
 
-    void bom();
-    void encoding();
+  void bom();
+  void encoding();
 
-    void cleanupTestCase();
+  void cleanupTestCase();
 };
 
 #endif // TESTFONTOPTIONS_H

@@ -27,44 +27,42 @@ namespace Operations
 {
 
 ImageResize::ImageResize(QWidget *parentWidget, QObject *parent)
-    : QObject(parent)
+  : QObject(parent)
 {
-    this->mParentWidget = parentWidget;
-    this->mLeft = 0;
-    this->mTop = 0;
-    this->mRight = 0;
-    this->mBottom = 0;
+  this->mParentWidget = parentWidget;
+  this->mLeft = 0;
+  this->mTop = 0;
+  this->mRight = 0;
+  this->mBottom = 0;
 }
 
 bool ImageResize::prepare(const IDocument *doc, const QStringList &keys)
 {
-    DialogCanvasResize dialog(doc->dataContainer(), this->mParentWidget);
-    dialog.selectKeys(keys);
+  DialogCanvasResize dialog(doc->dataContainer(), this->mParentWidget);
+  dialog.selectKeys(keys);
 
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        dialog.resizeInfo(&this->mLeft, &this->mTop, &this->mRight, &this->mBottom);
+  if (dialog.exec() == QDialog::Accepted) {
+    dialog.resizeInfo(&this->mLeft, &this->mTop, &this->mRight, &this->mBottom);
 
-        if (this->mLeft != 0 || this->mTop != 0 || this->mRight != 0 || this->mBottom != 0)
-        {
-            return true;
-        }
+    if (this->mLeft != 0 || this->mTop != 0 || this->mRight != 0 || this->mBottom != 0) {
+      return true;
     }
+  }
 
-    return false;
+  return false;
 }
 
 void ImageResize::applyDocument(IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(doc)
-    Q_UNUSED(keys)
+  Q_UNUSED(doc)
+  Q_UNUSED(keys)
 }
 
 void ImageResize::applyItem(IDocument *doc, const QString &itemKey)
 {
-    const QImage *original = doc->dataContainer()->image(itemKey);
-    QImage result = BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapHelper::detectBackgroundColor(original));
-    doc->dataContainer()->setImage(itemKey, &result);
+  const QImage *original = doc->dataContainer()->image(itemKey);
+  QImage result = BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapHelper::detectBackgroundColor(original));
+  doc->dataContainer()->setImage(itemKey, &result);
 }
 
 }

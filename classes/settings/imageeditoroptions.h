@@ -19,18 +19,18 @@
 
 #ifndef IMAGEEDITOROPTIONS_H
 #define IMAGEEDITOROPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QSize>
 #include <QPoint>
-//-----------------------------------------------------------------------------
+
 class ImageEditorOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    static QByteArray toolbarsState(void);
-    static void setToolbarsState(const QByteArray &value);
+  static QByteArray toolbarsState(void);
+  static void setToolbarsState(const QByteArray &value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // IMAGEEDITOROPTIONS_H

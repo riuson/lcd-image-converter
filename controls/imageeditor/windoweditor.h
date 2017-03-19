@@ -19,65 +19,66 @@
 
 #ifndef WINDOWEDITOR_H
 #define WINDOWEDITOR_H
-//-----------------------------------------------------------------------------
+
 #include <QMainWindow>
-//-----------------------------------------------------------------------------
-namespace Ui {
+
+namespace Ui
+{
 class WindowEditor;
 }
-//-----------------------------------------------------------------------------
+
 namespace ImageEditor
 {
 class ToolsManager;
 class IImageEditorTool;
-//-----------------------------------------------------------------------------
+
 class WindowEditor : public QMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit WindowEditor(QWidget *parent = 0);
-    ~WindowEditor();
+  explicit WindowEditor(QWidget *parent = 0);
+  ~WindowEditor();
 
-    const QImage *image() const;
-    void setImage(const QImage *value);
+  const QImage *image() const;
+  void setImage(const QImage *value);
 
-    int scale() const;
+  int scale() const;
 
 protected:
-    void changeEvent(QEvent *e);
-    bool eventFilter(QObject *obj, QEvent *event);
-    void wheelEvent(QWheelEvent *event);
+  void changeEvent(QEvent *e);
+  bool eventFilter(QObject *obj, QEvent *event);
+  void wheelEvent(QWheelEvent *event);
 
 private:
-    Ui::WindowEditor *ui;
-    QImage mImageOriginal;
-    QImage mImageScaled;
-    QPixmap mPixmapScaled;
-    ToolsManager *mTools;
-    IImageEditorTool *mSelectedTool;
+  Ui::WindowEditor *ui;
+  QImage mImageOriginal;
+  QImage mImageScaled;
+  QPixmap mPixmapScaled;
+  ToolsManager *mTools;
+  IImageEditorTool *mSelectedTool;
 
-    void updateImageScaled(int value);
-    void updateImageScaled(const QImage &image, int scale);
-    void drawPixel(int x, int y, const QColor &color);
-    void createTools();
+  void updateImageScaled(int value);
+  void updateImageScaled(const QImage &image, int scale);
+  void drawPixel(int x, int y, const QColor &color);
+  void createTools();
 
 private slots:
-    void tool_started(const QImage *value);
-    void tool_processing(const QImage *value);
-    void tool_completed(const QImage *value, bool changed);
-    void tool_scaleChanged(int value);
-    void tool_selectionChanged(const QPainterPath &value);
+  void tool_started(const QImage *value);
+  void tool_processing(const QImage *value);
+  void tool_completed(const QImage *value, bool changed);
+  void tool_scaleChanged(int value);
+  void tool_selectionChanged(const QPainterPath &value);
 
 public slots:
-    void toolChanged(int toolIndex);
+  void toolChanged(int toolIndex);
 
 signals:
-    void imageChanged();
-    void mouseMove(const QPoint *point);
-    void scaleChanged(int scale);
+  void imageChanged();
+  void mouseMove(const QPoint *point);
+  void scaleChanged(int scale);
 };
-//-----------------------------------------------------------------------------
+
 } // end of namespace
-//-----------------------------------------------------------------------------
+
 #endif // WINDOWEDITOR_H

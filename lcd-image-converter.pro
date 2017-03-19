@@ -109,6 +109,7 @@ SOURCES += main.cpp \
     classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
     classes/parser/tags.cpp \
+    classes/settings/appsettings.cpp \
     classes/settings/conversionpreviewoptions.cpp \
     classes/settings/externaltooloptions.cpp \
     classes/settings/filedialogoptions.cpp \
@@ -226,6 +227,7 @@ HEADERS += \
     classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
     classes/parser/tags.h \
+    classes/settings/appsettings.h \
     classes/settings/conversionpreviewoptions.h \
     classes/settings/externaltooloptions.h \
     classes/settings/filedialogoptions.h \
@@ -388,14 +390,29 @@ OTHER_FILES += \
     resources/scan_scripts/scan_bottom2top_backward.js
 
 
-# generate version info file on each build, because file in other directory
-version.target = version-included.txt
-version.commands = @sh $$PWD/version-gen.sh $$PWD
+# generate version info file on each build
+# sh script ($1 - path to project's directory):
+# git --git-dir $1/.git log --pretty=format:"#define GIT_REVISION \"%H\\0\" %n#define GIT_REVISION_ABBR \"%h\\0\" %n#define GIT_COMMIT_ADATE \"%ai\\0\" %n#define GIT_COMMIT_AT %at" -1 > $1/resources/revision.h
+win32 {
+  PERCENT = %%
+}
+unix {
+  PERCENT = %
+}
+NEWLINE = $${PERCENT}n
+VERSION_LOG_FORMAT = $${LITERAL_HASH}define GIT_REVISION \\\"$${PERCENT}H\\\"$${NEWLINE}$${LITERAL_HASH}define GIT_REVISION_ABBR \\\"$${PERCENT}h\\\"$${NEWLINE}$${LITERAL_HASH}define GIT_COMMIT_ADATE \\\"$${PERCENT}ai\\\"$${NEWLINE}$${LITERAL_HASH}define GIT_COMMIT_AT $${PERCENT}at$${NEWLINE}
+version.target = git_revision
+version.commands = git --git-dir $${PWD}/.git log --pretty=format:\"$${VERSION_LOG_FORMAT}\" -1 > $${PWD}/resources/revision.h
+
 QMAKE_EXTRA_TARGETS += version
-PRE_TARGETDEPS += version-included.txt
+PRE_TARGETDEPS += git_revision
 
 # compile translation
 translation_ru.target = $$PWD/resources/lcd-image-converter-ru.qm
-translation_ru.commands = @sh $$PWD/translation-compile.sh $$PWD
+translation_ru.commands = lrelease $$PWD/resources/lcd-image-converter-ru.ts $$PWD/resources/lcd-image-converter-ru.qm
+
 QMAKE_EXTRA_TARGETS += translation_ru
 PRE_TARGETDEPS += $$PWD/resources/lcd-image-converter-ru.qm $$PWD/resources/lcd-image-converter-ru.ts
+
+DISTFILES += \
+    astyle.astylerc

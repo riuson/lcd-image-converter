@@ -19,25 +19,25 @@
 
 #ifndef ACTIONEDITHANDLERS_H
 #define ACTIONEDITHANDLERS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 
 #include "actionhandlersbase.h"
-//-----------------------------------------------------------------------------
+
 class QImage;
 class IMainWindow;
-//-----------------------------------------------------------------------------
+
 class ActionEditHandlers : public ActionHandlersBase
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ActionEditHandlers(QObject *parent = 0);
+  explicit ActionEditHandlers(QObject *parent = 0);
 
 public slots:
-    void undo_triggered();
-    void redo_triggered();
-    void copy_triggered();
-    void paste_triggered();
+  void undo_triggered();
+  void redo_triggered();
+  void copy_triggered();
+  void paste_triggered();
 };
-//-----------------------------------------------------------------------------
+
 #endif // ACTIONEDITHANDLERS_H

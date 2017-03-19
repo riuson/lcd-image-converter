@@ -24,24 +24,25 @@
 #include <QStringList>
 #include "ioperation.h"
 
-namespace Operations {
+namespace Operations
+{
 
 class ImageImport : public QObject, public IOperation
 {
-    Q_OBJECT
-    Q_INTERFACES(Operations::IOperation)
+  Q_OBJECT
+  Q_INTERFACES(Operations::IOperation)
 
 public:
-    explicit ImageImport(QWidget *parentWidget = 0, QObject *parent = 0);
+  explicit ImageImport(QWidget *parentWidget = 0, QObject *parent = 0);
 
-    bool prepare(const IDocument *doc, const QStringList &keys);
-    void applyDocument(IDocument *doc, const QStringList &keys);
-    void applyItem(IDocument *doc, const QString &itemKey);
+  bool prepare(const IDocument *doc, const QStringList &keys);
+  void applyDocument(IDocument *doc, const QStringList &keys);
+  void applyItem(IDocument *doc, const QString &itemKey);
 
 private:
-    QWidget *mParentWidget;
-    QStringList mSelectedFiles;
-    int mImportIndex;
+  QWidget *mParentWidget;
+  QStringList mSelectedFiles;
+  int mImportIndex;
 };
 
 }

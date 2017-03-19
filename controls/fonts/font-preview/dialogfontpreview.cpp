@@ -19,48 +19,47 @@
 
 #include "dialogfontpreview.h"
 #include "ui_dialogfontpreview.h"
-//-----------------------------------------------------------------------------
+
 #include <QPainter>
 #include "bitmaphelper.h"
 #include "fonthelper.h"
 #include "datacontainer.h"
-//-----------------------------------------------------------------------------
-DialogFontPreview::DialogFontPreview(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DialogFontPreview)
-{
-    ui->setupUi(this);
-    this->mOriginalImage = QImage(":/images/template").scaled(20, 10);
-    this->mDocument = NULL;
 
-    this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
+DialogFontPreview::DialogFontPreview(QWidget *parent) :
+  QDialog(parent),
+  ui(new Ui::DialogFontPreview)
+{
+  ui->setupUi(this);
+  this->mOriginalImage = QImage(":/images/template").scaled(20, 10);
+  this->mDocument = NULL;
+
+  this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
 }
-//-----------------------------------------------------------------------------
+
 DialogFontPreview::~DialogFontPreview()
 {
-    delete ui;
+  delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontPreview::setDocument(IDocument *document)
 {
-    this->mDocument = document;
+  this->mDocument = document;
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontPreview::on_lineEditText_textChanged(const QString &text)
 {
-    if (this->mDocument != NULL)
-    {
-        this->mOriginalImage = FontHelper::drawString(this->mDocument->dataContainer(), text);
+  if (this->mDocument != NULL) {
+    this->mOriginalImage = FontHelper::drawString(this->mDocument->dataContainer(), text);
 
-        // update preview
-        this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
-    }
+    // update preview
+    this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
+  }
 }
-//-----------------------------------------------------------------------------
+
 void DialogFontPreview::on_spinBoxScale_valueChanged(int i)
 {
-    this->mScaledImage = BitmapHelper::scale(&this->mOriginalImage, i);
-    this->mScaledImage = BitmapHelper::drawGrid(&this->mScaledImage, i);
-    this->ui->labelPreview->setPixmap(QPixmap::fromImage(this->mScaledImage));
+  this->mScaledImage = BitmapHelper::scale(&this->mOriginalImage, i);
+  this->mScaledImage = BitmapHelper::drawGrid(&this->mScaledImage, i);
+  this->ui->labelPreview->setPixmap(QPixmap::fromImage(this->mScaledImage));
 }
-//-----------------------------------------------------------------------------
+

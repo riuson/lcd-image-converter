@@ -21,79 +21,82 @@
 #include "ui_starttab.h"
 
 #include <QFileInfo>
-//-----------------------------------------------------------------------------
+
 StartTab::StartTab(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::StartTab)
+  QWidget(parent),
+  ui(new Ui::StartTab)
 {
-    ui->setupUi(this);
+  ui->setupUi(this);
 
-    this->connect(this->ui->labelRecentFiles, SIGNAL(linkActivated(QString)), SIGNAL(openRecent(QString)));
-    this->connect(this->ui->buttonNewImage, SIGNAL(clicked()), SIGNAL(createNewImage()));
-    this->connect(this->ui->buttonNewFont, SIGNAL(clicked()), SIGNAL(createNewFont()));
+  this->connect(this->ui->labelRecentFiles, SIGNAL(linkActivated(QString)), SIGNAL(openRecent(QString)));
+  this->connect(this->ui->buttonNewImage, SIGNAL(clicked()), SIGNAL(createNewImage()));
+  this->connect(this->ui->buttonNewFont, SIGNAL(clicked()), SIGNAL(createNewFont()));
 
-    this->mRecentFilesList = NULL;
+  this->mRecentFilesList = NULL;
 }
-//-----------------------------------------------------------------------------
+
 StartTab::~StartTab()
 {
-    delete ui;
+  delete ui;
 }
-//-----------------------------------------------------------------------------
+
 void StartTab::setRecentFiles(const QStringList *list)
 {
-    this->mRecentFilesList = list;
+  this->mRecentFilesList = list;
 
-    if (list->count() > 0)
-    {
-        QString listTemplate = this->ui->labelRecentFiles->text();
-        QString listItems;
-        for (int i = 0; i < list->count(); i++)
-        {
-            QString filename = list->at(i);
-            QString strippedName = QFileInfo(filename).fileName();
-            QString text = QString("<li><a href=\"%1\">%2</a></li>").arg(filename).arg(strippedName);
-            listItems.append(text);
-        }
-        listTemplate.replace("#list#", listItems);
-        this->ui->labelRecentFiles->setText(listTemplate);
+  if (list->count() > 0) {
+    QString listTemplate = this->ui->labelRecentFiles->text();
+    QString listItems;
+
+    for (int i = 0; i < list->count(); i++) {
+      QString filename = list->at(i);
+      QString strippedName = QFileInfo(filename).fileName();
+      QString text = QString("<li><a href=\"%1\">%2</a></li>").arg(filename).arg(strippedName);
+      listItems.append(text);
     }
-    else
-        this->ui->labelRecentFiles->hide();
+
+    listTemplate.replace("#list#", listItems);
+    this->ui->labelRecentFiles->setText(listTemplate);
+  } else {
+    this->ui->labelRecentFiles->hide();
+  }
 }
-//-----------------------------------------------------------------------------
+
 const QString StartTab::tabName() const
 {
-    QString result = tr("Start");
-    return result;
+  QString result = tr("Start");
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 void StartTab::changeEvent(QEvent *e)
 {
-    QWidget::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-    {
-        ui->retranslateUi(this);
-        this->setRecentFiles(this->mRecentFilesList);
+  QWidget::changeEvent(e);
 
-        // find parent QTabWidget
-        QObject *w = this;
-        while (w != NULL)
-        {
-            QTabWidget *tab = dynamic_cast<QTabWidget *> (w);
-            if (tab != NULL)
-            {
-                int index = tab->indexOf(this);
-                tab->setTabText(index, this->tabName());
-                break;
-            }
-            w = w->parent();
+  switch (e->type()) {
+    case QEvent::LanguageChange: {
+      ui->retranslateUi(this);
+      this->setRecentFiles(this->mRecentFilesList);
+
+      // find parent QTabWidget
+      QObject *w = this;
+
+      while (w != NULL) {
+        QTabWidget *tab = dynamic_cast<QTabWidget *> (w);
+
+        if (tab != NULL) {
+          int index = tab->indexOf(this);
+          tab->setTabText(index, this->tabName());
+          break;
         }
-        break;
+
+        w = w->parent();
+      }
+
+      break;
     }
+
     default:
-        break;
-    }
+      break;
+  }
 }
-//-----------------------------------------------------------------------------
+

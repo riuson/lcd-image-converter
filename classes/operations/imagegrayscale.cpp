@@ -23,7 +23,8 @@
 #include "datacontainer.h"
 #include "converterhelper.h"
 
-namespace Operations {
+namespace Operations
+{
 
 ImageGrayscale::ImageGrayscale(QObject *parent) : QObject(parent)
 {
@@ -31,24 +32,24 @@ ImageGrayscale::ImageGrayscale(QObject *parent) : QObject(parent)
 
 bool ImageGrayscale::prepare(const IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(doc)
-    Q_UNUSED(keys)
+  Q_UNUSED(doc)
+  Q_UNUSED(keys)
 
-    return true;
+  return true;
 }
 
 void ImageGrayscale::applyDocument(IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(doc)
-    Q_UNUSED(keys)
+  Q_UNUSED(doc)
+  Q_UNUSED(keys)
 }
 
 void ImageGrayscale::applyItem(IDocument *doc, const QString &itemKey)
 {
-    const QImage *original = doc->dataContainer()->image(itemKey);
-    QImage result(*original);
-    ConverterHelper::makeGrayscale(result);
-    doc->dataContainer()->setImage(itemKey, &result);
+  const QImage *original = doc->dataContainer()->image(itemKey);
+  QImage result(*original);
+  ConverterHelper::makeGrayscale(result);
+  doc->dataContainer()->setImage(itemKey, &result);
 }
 
 }

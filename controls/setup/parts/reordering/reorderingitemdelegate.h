@@ -19,26 +19,26 @@
 
 #ifndef REORDERINGITEMDELEGATE_H
 #define REORDERINGITEMDELEGATE_H
-//-----------------------------------------------------------------------------
+
 #include <QtGui>
 #include "qt-version-check.h"
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
 #include <QtWidgets>
 #endif // QT_VERSION
-//-----------------------------------------------------------------------------
+
 class ReorderingItemDelegate : public QItemDelegate
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ReorderingItemDelegate(QObject *parent = 0);
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  explicit ReorderingItemDelegate(QObject *parent = 0);
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
 public:
-    QColor color() const;
-    void setColor(const QColor &value);
+  QColor color() const;
+  void setColor(const QColor &value);
 private:
-    QColor mColor;
+  QColor mColor;
 };
-//-----------------------------------------------------------------------------
+
 #endif // REORDERINGITEMDELEGATE_H

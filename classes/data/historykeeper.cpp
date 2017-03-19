@@ -23,150 +23,143 @@
 #include <QStringListIterator>
 #include <QDebug>
 #include "historyrecord.h"
-//-----------------------------------------------------------------------------
+
 HistoryKeeper::HistoryKeeper(QObject *parent) :
-    QObject(parent)
+  QObject(parent)
 {
-    this->mHistory = new QList<HistoryRecord *>();
-    this->mCurrentIndex = -1;
+  this->mHistory = new QList<HistoryRecord *>();
+  this->mCurrentIndex = -1;
 }
-//-----------------------------------------------------------------------------
+
 HistoryKeeper::~HistoryKeeper()
 {
-    qDeleteAll(*this->mHistory);
-    this->mHistory->clear();
+  qDeleteAll(*this->mHistory);
+  this->mHistory->clear();
 }
-//-----------------------------------------------------------------------------
+
 void HistoryKeeper::init(const QStringList *keys, const QMap<QString, QImage *> *images, const QMap<QString, QVariant> *info)
 {
-    // clear all
-    this->removeAfter(-1);
+  // clear all
+  this->removeAfter(-1);
 
-    // initialize by current state
-    HistoryRecord *record = new HistoryRecord(keys, images, info, this);
-    this->mHistory->append(record);
+  // initialize by current state
+  HistoryRecord *record = new HistoryRecord(keys, images, info, this);
+  this->mHistory->append(record);
 
-    // first recorded state
-    this->mCurrentIndex = 0;
+  // first recorded state
+  this->mCurrentIndex = 0;
 }
-//-----------------------------------------------------------------------------
+
 void HistoryKeeper::store(
-        const QStringList *keys,
-        const QMap<QString, QImage *> *images,
-        const QMap<QString, QVariant> *info)
+  const QStringList *keys,
+  const QMap<QString, QImage *> *images,
+  const QMap<QString, QVariant> *info)
 {
-    if (this->mCurrentIndex < 0)
-    {
-        qDebug() << "history keeper not initialized";
-        return;
-    }
+  if (this->mCurrentIndex < 0) {
+    qDebug() << "history keeper not initialized";
+    return;
+  }
 
-    this->removeAfter(this->mCurrentIndex);
+  this->removeAfter(this->mCurrentIndex);
 
-    HistoryRecord *record = new HistoryRecord(keys, images, info, this);
-    this->mHistory->append(record);
-    this->mCurrentIndex++;
+  HistoryRecord *record = new HistoryRecord(keys, images, info, this);
+  this->mHistory->append(record);
+  this->mCurrentIndex++;
 }
-//-----------------------------------------------------------------------------
+
 void HistoryKeeper::restorePrevious(
-        QStringList *keys,
-        QMap<QString, QImage *> *images,
-        QMap<QString, QVariant> *info)
+  QStringList *keys,
+  QMap<QString, QImage *> *images,
+  QMap<QString, QVariant> *info)
 {
-    if (this->mCurrentIndex < 0)
-    {
-        qDebug() << "history keeper not initialized";
-        return;
-    }
+  if (this->mCurrentIndex < 0) {
+    qDebug() << "history keeper not initialized";
+    return;
+  }
 
-    if (this->canRestorePrevious())
-    {
-        this->mCurrentIndex--;
-        this->restoreAt(this->mCurrentIndex, keys, images, info);
-    }
+  if (this->canRestorePrevious()) {
+    this->mCurrentIndex--;
+    this->restoreAt(this->mCurrentIndex, keys, images, info);
+  }
 }
-//-----------------------------------------------------------------------------
+
 void HistoryKeeper::restoreNext(
-        QStringList *keys,
-        QMap<QString, QImage *> *images,
-        QMap<QString, QVariant> *info)
+  QStringList *keys,
+  QMap<QString, QImage *> *images,
+  QMap<QString, QVariant> *info)
 {
-    if (this->mCurrentIndex < 0)
-    {
-        qDebug() << "history keeper not initialized";
-        return;
-    }
+  if (this->mCurrentIndex < 0) {
+    qDebug() << "history keeper not initialized";
+    return;
+  }
 
-    if (this->canRestoreNext())
-    {
-        this->mCurrentIndex++;
-        this->restoreAt(this->mCurrentIndex, keys, images, info);
-    }
+  if (this->canRestoreNext()) {
+    this->mCurrentIndex++;
+    this->restoreAt(this->mCurrentIndex, keys, images, info);
+  }
 }
-//-----------------------------------------------------------------------------
+
 bool HistoryKeeper::initialized() const
 {
-    return (this->mCurrentIndex >= 0);
+  return (this->mCurrentIndex >= 0);
 }
-//-----------------------------------------------------------------------------
+
 bool HistoryKeeper::canRestorePrevious() const
 {
-    return (this->mCurrentIndex > 0);
+  return (this->mCurrentIndex > 0);
 }
-//-----------------------------------------------------------------------------
+
 bool HistoryKeeper::canRestoreNext() const
 {
-    return (this->mCurrentIndex < (this->mHistory->length() - 1));
+  return (this->mCurrentIndex < (this->mHistory->length() - 1));
 }
-//-----------------------------------------------------------------------------
+
 void HistoryKeeper::removeAfter(int index)
 {
-    if (index < -1)
-    {
-        index = -1;
-    }
+  if (index < -1) {
+    index = -1;
+  }
 
-    for (int i = this->mHistory->length() - 1; i > index; i--)
-    {
-        HistoryRecord *record = this->mHistory->at(i);
-        this->mHistory->removeAt(i);
-        delete record;
-    }
+  for (int i = this->mHistory->length() - 1; i > index; i--) {
+    HistoryRecord *record = this->mHistory->at(i);
+    this->mHistory->removeAt(i);
+    delete record;
+  }
 }
-//-----------------------------------------------------------------------------
+
 void HistoryKeeper::restoreAt(
-        int index,
-        QStringList *keys,
-        QMap<QString, QImage *> *images,
-        QMap<QString, QVariant> *info)
+  int index,
+  QStringList *keys,
+  QMap<QString, QImage *> *images,
+  QMap<QString, QVariant> *info)
 {
-    HistoryRecord *record = this->mHistory->at(index);
+  HistoryRecord *record = this->mHistory->at(index);
 
-    qDeleteAll(*images);
-    keys->clear();
-    images->clear();
-    info->clear();
+  qDeleteAll(*images);
+  keys->clear();
+  images->clear();
+  info->clear();
 
-    keys->append(*record->keys());
-    QStringListIterator iterator(*keys);
-    while (iterator.hasNext())
-    {
-         QString key = iterator.next();
+  keys->append(*record->keys());
+  QStringListIterator iterator(*keys);
 
-         QImage *oldImage = record->images()->value(key);
-         QImage *newImage = new QImage(*oldImage);
+  while (iterator.hasNext()) {
+    QString key = iterator.next();
 
-         images->insert(key, newImage);
-    }
+    QImage *oldImage = record->images()->value(key);
+    QImage *newImage = new QImage(*oldImage);
 
-    iterator = QStringListIterator(record->info()->keys());
-    while (iterator.hasNext())
-    {
-         QString key = iterator.next();
+    images->insert(key, newImage);
+  }
 
-         QVariant value = record->info()->value(key);
+  iterator = QStringListIterator(record->info()->keys());
 
-         info->insert(key, value);
-    }
+  while (iterator.hasNext()) {
+    QString key = iterator.next();
+
+    QVariant value = record->info()->value(key);
+
+    info->insert(key, value);
+  }
 }
-//-----------------------------------------------------------------------------
+

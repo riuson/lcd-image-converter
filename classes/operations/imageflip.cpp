@@ -26,47 +26,45 @@ namespace Operations
 {
 
 ImageFlip::ImageFlip(QObject *parent)
-    : QObject(parent)
+  : QObject(parent)
 {
-    this->mFlipHorizontal = false;
-    this->mFlipVertical = false;
+  this->mFlipHorizontal = false;
+  this->mFlipVertical = false;
 }
 
 bool ImageFlip::prepare(const IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(doc)
-    Q_UNUSED(keys)
-    return true;
+  Q_UNUSED(doc)
+  Q_UNUSED(keys)
+  return true;
 }
 
 void ImageFlip::applyDocument(IDocument *doc, const QStringList &keys)
 {
-    Q_UNUSED(doc)
-    Q_UNUSED(keys)
+  Q_UNUSED(doc)
+  Q_UNUSED(keys)
 }
 
 void ImageFlip::applyItem(IDocument *doc, const QString &itemKey)
 {
-    const QImage *original = doc->dataContainer()->image(itemKey);
-    QImage result = *original;
+  const QImage *original = doc->dataContainer()->image(itemKey);
+  QImage result = *original;
 
-    if (this->mFlipHorizontal)
-    {
-        result = BitmapHelper::flipHorizontal(&result);
-    }
+  if (this->mFlipHorizontal) {
+    result = BitmapHelper::flipHorizontal(&result);
+  }
 
-    if (this->mFlipVertical)
-    {
-        result = BitmapHelper::flipVertical(&result);
-    }
+  if (this->mFlipVertical) {
+    result = BitmapHelper::flipVertical(&result);
+  }
 
-    doc->dataContainer()->setImage(itemKey, &result);
+  doc->dataContainer()->setImage(itemKey, &result);
 }
 
 void ImageFlip::setOrientation(bool flipHorizontal, bool flipVertical)
 {
-    this->mFlipHorizontal = flipHorizontal;
-    this->mFlipVertical = flipVertical;
+  this->mFlipHorizontal = flipHorizontal;
+  this->mFlipVertical = flipVertical;
 }
 
 }

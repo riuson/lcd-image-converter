@@ -19,43 +19,43 @@
 
 #ifndef FILEDIALOGOPTIONS_H
 #define FILEDIALOGOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QString>
-//-----------------------------------------------------------------------------
+
 class FileDialogOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    enum class Dialogs
-    {
-        None = 0,
+  enum class Dialogs
+  {
+    None = 0,
 
-        OpenDocument,
-        SaveDocument,
-        ConvertDocument,
+    OpenDocument,
+    SaveDocument,
+    ConvertDocument,
 
-        ImportImage,
-        ExportImage,
+    ImportImage,
+    ExportImage,
 
-        ImportPreset,
-        ExportPreset,
+    ImportPreset,
+    ExportPreset,
 
-        TemplateImage,
-        TemplateFont
-    };
+    TemplateImage,
+    TemplateFont
+  };
 
-    static int filterIndex(Dialogs dialog);
-    static void setFilterIndex(Dialogs dialog, int value);
-    static const QString directory(Dialogs dialog);
-    static void setDirectory(Dialogs dialog, const QString &value);
+  static int filterIndex(Dialogs dialog);
+  static void setFilterIndex(Dialogs dialog, int value);
+  static const QString directory(Dialogs dialog);
+  static void setDirectory(Dialogs dialog, const QString &value);
 
 private:
-    static bool itemName(Dialogs item, QString *name);
-    static int getInteger(const QString &name);
-    static void setInteger(const QString &name, int value);
-    static const QString getString(const QString &name);
-    static void setString(const QString &name, const QString &value);
+  static bool itemName(Dialogs item, QString *name);
+  static int getInteger(const QString &name);
+  static void setInteger(const QString &name, int value);
+  static const QString getString(const QString &name);
+  static void setString(const QString &name, const QString &value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // FILEDIALOGOPTIONS_H

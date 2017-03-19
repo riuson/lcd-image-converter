@@ -19,32 +19,33 @@
 
 #ifndef DIALOGFONTCHANGED_H
 #define DIALOGFONTCHANGED_H
-//-----------------------------------------------------------------------------
+
 #include <QDialog>
-//-----------------------------------------------------------------------------
-namespace Ui {
+
+namespace Ui
+{
 class DialogFontChanged;
 }
-//-----------------------------------------------------------------------------
+
 class DialogFontChanged : public QDialog
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit DialogFontChanged(QWidget *parent = 0);
-    ~DialogFontChanged();
+  explicit DialogFontChanged(QWidget *parent = 0);
+  ~DialogFontChanged();
 
-    bool regenerateAll() const;
+  bool regenerateAll() const;
 
 private:
-    Ui::DialogFontChanged *ui;
+  Ui::DialogFontChanged *ui;
 
-    bool mRegenerateAll;
+  bool mRegenerateAll;
 
 private  slots:
-    void on_buttonRegenerateAll_clicked();
-    void on_buttonGenerateNewOnly_clicked();
-    void on_buttonCancel_clicked();
+  void on_buttonRegenerateAll_clicked();
+  void on_buttonGenerateNewOnly_clicked();
+  void on_buttonCancel_clicked();
 };
-//-----------------------------------------------------------------------------
+
 #endif // DIALOGFONTCHANGED_H

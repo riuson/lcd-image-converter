@@ -25,24 +25,27 @@
 #include "imainwindow.h"
 #include "datacontainer.h"
 #include "dialogexternaleditor.h"
-//-----------------------------------------------------------------------------
+
 ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
-    ActionHandlersBase(parent)
+  ActionHandlersBase(parent)
 {
 }
-//-----------------------------------------------------------------------------
+
 void ActionSetupHandlers::conversion_triggered()
 {
-    DataContainer *data = NULL;
-    if (this->editor() != NULL)
-        data = this->editor()->document()->dataContainer();
-    DialogOptions dialog(data, this->mMainWindow->parentWidget());
-    dialog.exec();
+  DataContainer *data = NULL;
+
+  if (this->editor() != NULL) {
+    data = this->editor()->document()->dataContainer();
+  }
+
+  DialogOptions dialog(data, this->mMainWindow->parentWidget());
+  dialog.exec();
 }
-//-----------------------------------------------------------------------------
+
 void ActionSetupHandlers::external_editor_triggered()
 {
-    DialogExternalEditor dialog(this->mMainWindow->parentWidget());
-    dialog.exec();
+  DialogExternalEditor dialog(this->mMainWindow->parentWidget());
+  dialog.exec();
 }
-//-----------------------------------------------------------------------------
+

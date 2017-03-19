@@ -19,7 +19,7 @@
 
 #ifndef IDOCUMENT_H
 #define IDOCUMENT_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 
 class QImage;
@@ -27,30 +27,30 @@ class QString;
 class DataContainer;
 class StatusData;
 class Preset;
-//-----------------------------------------------------------------------------
+
 class IDocument
 {
 public:
-    virtual bool load(const QString &filename) = 0;
-    virtual bool save(const QString &filename) = 0;
-    virtual bool changed() const = 0;
-    virtual QString documentFilename() const = 0;
-    virtual QString documentName() const = 0;
-    virtual void setDocumentName(const QString &value) = 0;
-    virtual QString outputFilename() const = 0;
-    virtual void setOutputFilename(const QString &value) = 0;
-    virtual DataContainer *dataContainer() const = 0;
-    virtual QString convert(Preset *preset) = 0;
+  virtual bool load(const QString &filename) = 0;
+  virtual bool save(const QString &filename) = 0;
+  virtual bool changed() const = 0;
+  virtual QString documentFilename() const = 0;
+  virtual QString documentName() const = 0;
+  virtual void setDocumentName(const QString &value) = 0;
+  virtual QString outputFilename() const = 0;
+  virtual void setOutputFilename(const QString &value) = 0;
+  virtual DataContainer *dataContainer() const = 0;
+  virtual QString convert(Preset *preset) = 0;
 
-    virtual void beginChanges() = 0;
-    virtual void endChanges(bool suppress) = 0;
-    virtual bool canUndo() = 0;
-    virtual bool canRedo() = 0;
-    virtual void undo() = 0;
-    virtual void redo() = 0;
+  virtual void beginChanges() = 0;
+  virtual void endChanges(bool suppress) = 0;
+  virtual bool canUndo() = 0;
+  virtual bool canRedo() = 0;
+  virtual void undo() = 0;
+  virtual void redo() = 0;
 };
 Q_DECLARE_INTERFACE (IDocument,
                      "riuson.lcd-image-converter/1.0"
-                     )
-//-----------------------------------------------------------------------------
+                    )
+
 #endif // IDOCUMENT_H

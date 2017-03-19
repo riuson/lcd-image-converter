@@ -19,109 +19,112 @@
 
 #include "charactersmodel.h"
 #include <QPalette>
-//-----------------------------------------------------------------------------
+
 CharactersModel::CharactersModel(QObject *parent) :
-    QAbstractItemModel(parent)
+  QAbstractItemModel(parent)
 {
-    this->mDesiredCode1 = 0;
-    this->mDesiredCode2 = 0;
-    this->mResultCode1 = 0;
-    this->mResultCode2 = 0;
+  this->mDesiredCode1 = 0;
+  this->mDesiredCode2 = 0;
+  this->mResultCode1 = 0;
+  this->mResultCode2 = 0;
 }
-//-----------------------------------------------------------------------------
+
 int CharactersModel::rowCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent)
+  Q_UNUSED(parent)
 
-    int result = (this->mResultCode2 + 1 - this->mResultCode1) / 16;
+  int result = (this->mResultCode2 + 1 - this->mResultCode1) / 16;
 
-    return result;
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 int CharactersModel::columnCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent)
+  Q_UNUSED(parent)
 
-    return 16;
+  return 16;
 }
-//-----------------------------------------------------------------------------
+
 QVariant CharactersModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    QVariant result;
-    if (role == Qt::DisplayRole)
-    {
-        if (orientation == Qt::Vertical)
-        {
-            int row = (section) * 16;
-            row += this->mResultCode1;
+  QVariant result;
 
-            result = QString("%1").arg(row, 8, 16);
-        }
-        else
-        {
-            result = QString("%1").arg((section), 2, 16);
-        }
+  if (role == Qt::DisplayRole) {
+    if (orientation == Qt::Vertical) {
+      int row = (section) * 16;
+      row += this->mResultCode1;
+
+      result = QString("%1").arg(row, 0, 16);
+    } else {
+      result = QString("%1").arg((section), 2, 16);
     }
-    return result;
+  }
+
+  if (role == Qt::TextAlignmentRole) {
+    if (orientation == Qt::Vertical) {
+      result = (int)Qt::Alignment(Qt::AlignRight | Qt::AlignVCenter);
+    } else if (orientation == Qt::Horizontal) {
+      result = Qt::AlignCenter;
+    }
+  }
+
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 QVariant CharactersModel::data(const QModelIndex &index, int role) const
 {
-    QVariant result = QVariant();
-    if (role == Qt::DisplayRole)
-    {
-        if (index.isValid())
-        {
-            quint32 code = index.column() + index.row() * 16;
-            code += this->mResultCode1;
+  QVariant result = QVariant();
 
-            if (code >= this->mDesiredCode1 && code <= this->mDesiredCode2)
-            {
-                result = QString(QChar(code));
-            }
-        }
-    }
-    else if (role == Qt::BackgroundRole)
-    {
-        if (index.isValid())
-        {
-            quint32 code = index.column() + index.row() * 16;
-            code += this->mResultCode1;
+  if (role == Qt::DisplayRole) {
+    if (index.isValid()) {
+      quint32 code = index.column() + index.row() * 16;
+      code += this->mResultCode1;
 
-            if (code < this->mDesiredCode1 || code > this->mDesiredCode2)
-            {
-                QPalette palette;
-                result = palette.color(QPalette::Disabled, QPalette::Window);
-            }
-        }
+      if (code >= this->mDesiredCode1 && code <= this->mDesiredCode2) {
+        result = QString(QChar(code));
+      }
     }
-    return result;
+  } else if (role == Qt::BackgroundRole) {
+    if (index.isValid()) {
+      quint32 code = index.column() + index.row() * 16;
+      code += this->mResultCode1;
+
+      if (code < this->mDesiredCode1 || code > this->mDesiredCode2) {
+        QPalette palette;
+        result = palette.color(QPalette::Disabled, QPalette::Window);
+      }
+    }
+  }
+
+  if (role == Qt::TextAlignmentRole) {
+    result = Qt::AlignCenter;
+  }
+
+  return result;
 }
-//-----------------------------------------------------------------------------
+
 QModelIndex CharactersModel::index(int row, int column, const QModelIndex &parent) const
 {
-    Q_UNUSED(parent)
-    return this->createIndex(row, column);
+  Q_UNUSED(parent)
+  return this->createIndex(row, column);
 }
-//-----------------------------------------------------------------------------
+
 QModelIndex CharactersModel::parent(const QModelIndex &index) const
 {
-    Q_UNUSED(index)
-    return QModelIndex();
+  Q_UNUSED(index)
+  return QModelIndex();
 }
-//-----------------------------------------------------------------------------
+
 void CharactersModel::setCodesRange(quint32 first, quint32 last)
 {
-    this->beginResetModel();
+  this->beginResetModel();
 
-    this->mDesiredCode1 = first;
-    this->mDesiredCode2 = last;
+  this->mDesiredCode1 = first;
+  this->mDesiredCode2 = last;
 
-    this->mResultCode1 = first & 0xfffffff0;
-    this->mResultCode2 = last | 0x0000000f;
+  this->mResultCode1 = first & 0xfffffff0;
+  this->mResultCode2 = last | 0x0000000f;
 
-    this->endResetModel();
+  this->endResetModel();
 }
-//-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------

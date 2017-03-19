@@ -23,19 +23,20 @@
 #include <QObject>
 #include "ioperation.h"
 
-namespace Operations {
+namespace Operations
+{
 
 class ImageInverse : public QObject, public IOperation
 {
-    Q_OBJECT
-    Q_INTERFACES(Operations::IOperation)
+  Q_OBJECT
+  Q_INTERFACES(Operations::IOperation)
 
 public:
-    explicit ImageInverse(QObject *parent = 0);
+  explicit ImageInverse(QObject *parent = 0);
 
-    bool prepare(const IDocument *doc, const QStringList &keys);
-    void applyDocument(IDocument *doc, const QStringList &keys);
-    void applyItem(IDocument *doc, const QString &itemKey);
+  bool prepare(const IDocument *doc, const QStringList &keys);
+  void applyDocument(IDocument *doc, const QStringList &keys);
+  void applyItem(IDocument *doc, const QString &itemKey);
 };
 
 }

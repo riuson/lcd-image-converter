@@ -19,47 +19,45 @@
 
 #ifndef BITMAPHELPER_H
 #define BITMAPHELPER_H
-//-----------------------------------------------------------------------------
+
 #include <QImage>
-//-----------------------------------------------------------------------------
+
 #include <conversion_options.h>
-//-----------------------------------------------------------------------------
+
 using namespace ConversionOptions;
-//-----------------------------------------------------------------------------
+
 class QFontMetrics;
 class QPainterPath;
-//-----------------------------------------------------------------------------
-typedef struct
-{
-    int width;
-    int height;
-    int offsetX;
-    int offsetY;
-    bool center;
+
+typedef struct {
+  int width;
+  int height;
+  int offsetX;
+  int offsetY;
+  bool center;
 } tResizeInfo;
-//-----------------------------------------------------------------------------
+
 class BitmapHelper
 {
 public:
-    static QImage rotate90(const QImage *source);
-    static QImage rotate180(const QImage *source);
-    static QImage rotate270(const QImage *source);
-    static QImage shiftUp(const QImage *source);
-    static QImage shiftRight(const QImage *source);
-    static QImage shiftDown(const QImage *source);
-    static QImage shiftLeft(const QImage *source);
-    static QImage flipHorizontal(const QImage *source);
-    static QImage flipVertical(const QImage *source);
-    static QImage resize(const QImage *source, int width, int height, int offsetX, int offsetY, bool center, bool changeWidth, bool changeHeight, const QColor &backColor);
-    static QImage crop(const QImage *source, int left, int top, int right, int bottom, const QColor &backColor);
-    static void findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom);
-    static QImage scale(const QImage *source, int scale);
-    static QImage drawGrid(const QImage *source, int scale);
-    static QImage drawSelection(const QImage *source, const QPainterPath &selectedPath);
-    static QImage drawPixel(const QImage *source, int x, int y, const QColor &color);
-    static QColor detectBackgroundColor(const QImage *image);
-    static QImage fromSvg(const QString &path, int size);
-    static QColor fromRgba(QRgb value);
+  static QImage rotate90(const QImage *source);
+  static QImage rotate180(const QImage *source);
+  static QImage rotate270(const QImage *source);
+  static QImage shiftUp(const QImage *source);
+  static QImage shiftRight(const QImage *source);
+  static QImage shiftDown(const QImage *source);
+  static QImage shiftLeft(const QImage *source);
+  static QImage flipHorizontal(const QImage *source);
+  static QImage flipVertical(const QImage *source);
+  static QImage crop(const QImage *source, int left, int top, int right, int bottom, const QColor &backColor);
+  static void findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom);
+  static QImage scale(const QImage *source, int scale);
+  static QImage drawGrid(const QImage *source, int scale);
+  static QImage drawSelection(const QImage *source, const QPainterPath &selectedPath);
+  static QImage drawPixel(const QImage *source, int x, int y, const QColor &color);
+  static QColor detectBackgroundColor(const QImage *image);
+  static QImage fromSvg(const QString &path, int size);
+  static QColor fromRgba(QRgb value);
 };
-//-----------------------------------------------------------------------------
+
 #endif // BITMAPHELPER_H

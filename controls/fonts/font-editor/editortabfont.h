@@ -19,15 +19,16 @@
 
 #ifndef EDITORTABFONT_H
 #define EDITORTABFONT_H
-//-----------------------------------------------------------------------------
+
 #include <QWidget>
 
 #include "ieditor.h"
-//-----------------------------------------------------------------------------
-namespace Ui {
-    class EditorTabFont;
+
+namespace Ui
+{
+class EditorTabFont;
 }
-//-----------------------------------------------------------------------------
+
 class DataContainer;
 class QSplitter;
 class ImagesModel;
@@ -43,61 +44,61 @@ namespace ImageEditor
 {
 class Editor;
 }
-//-----------------------------------------------------------------------------
+
 class EditorTabFont : public QWidget, public IEditor
 {
-    Q_OBJECT
-    Q_INTERFACES(IEditor)
+  Q_OBJECT
+  Q_INTERFACES(IEditor)
 
 public:
-    explicit EditorTabFont(QWidget *parent = 0);
-    ~EditorTabFont();
+  explicit EditorTabFont(QWidget *parent = 0);
+  ~EditorTabFont();
 
-    IDocument *document() const;
-    QStringList selectedKeys() const;
-    StatusData *statusData() const;
-    EditorType type() const;
+  IDocument *document() const;
+  QStringList selectedKeys() const;
+  StatusData *statusData() const;
+  EditorType type() const;
 
-    void setFontCharacters(const QString &chars,
-                           const tFontParameters &parameters);
-    void fontCharacters(QString *chars,
-                        tFontParameters *parameters);
+  void setFontCharacters(const QString &chars,
+                         const tFontParameters &parameters);
+  void fontCharacters(QString *chars,
+                      tFontParameters *parameters);
 
 protected:
-    void changeEvent(QEvent *e);
-    void wheelEvent(QWheelEvent *event);
+  void changeEvent(QEvent *e);
+  void wheelEvent(QWheelEvent *event);
 
 private:
-    Ui::EditorTabFont *ui;
-    QWidget *mEditorWidget;
-    ImageEditor::Editor *mEditorObject;
-    FontDocument *mDocument;
-    QSplitter *mSplitter;
-    ImagesModel *mModel;
-    ImagesScaledProxy *mScaledProxy;
-    StatusData *mStatusData;
-    int mLastImagesCount;
+  Ui::EditorTabFont *ui;
+  QWidget *mEditorWidget;
+  ImageEditor::Editor *mEditorObject;
+  FontDocument *mDocument;
+  QSplitter *mSplitter;
+  ImagesModel *mModel;
+  ImagesScaledProxy *mScaledProxy;
+  StatusData *mStatusData;
+  int mLastImagesCount;
 
-    QFont mTableFont;
+  QFont mTableFont;
 
-    void initStatusData();
-    void updateStatus();
+  void initStatusData();
+  void updateStatus();
 
-    QString currentKey() const;
-    void updateSelectedImage();
+  QString currentKey() const;
+  void updateSelectedImage();
 
 private slots:
-    void mon_documentChanged();
-    void mon_documentChangedSignificantly();
-    void mon_editor_imageChanged(const QImage *value);
-    void mon_editor_mouseMove(const QPoint *point);
-    void mon_editor_scaleChanged(int scale);
-    void currentChanged(const QModelIndex &current, const QModelIndex &previous);
-    void updateTableFont();
-    void resizeToContents();
+  void mon_documentChanged();
+  void mon_documentChangedSignificantly();
+  void mon_editor_imageChanged(const QImage *value);
+  void mon_editor_mouseMove(const QPoint *point);
+  void mon_editor_scaleChanged(int scale);
+  void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+  void updateTableFont();
+  void resizeToContents();
 signals:
-    void documentChanged();
-    void statusChanged();
+  void documentChanged();
+  void statusChanged();
 };
-//-----------------------------------------------------------------------------
+
 #endif // EDITORTABFONT_H

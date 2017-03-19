@@ -19,43 +19,43 @@
 
 #ifndef TEMPLATEOPTIONS_H
 #define TEMPLATEOPTIONS_H
-//-----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QString>
-//-----------------------------------------------------------------------------
+
 class QSettings;
 class QDomElement;
-//-----------------------------------------------------------------------------
+
 class TemplateOptions : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit TemplateOptions(QObject *parent = 0);
+  explicit TemplateOptions(QObject *parent = 0);
 
-    const QString &image() const;
-    const QString &font() const;
+  const QString &image() const;
+  const QString &font() const;
 
-    void setImage(const QString &filename);
-    void setFont(const QString &filename);
+  void setImage(const QString &filename);
+  void setFont(const QString &filename);
 
-    bool load(QSettings *settings, int version);
-    bool loadXmlElement(QDomElement element);
-    void save(QSettings *settings);
-    void saveXmlElement(QDomElement element);
+  bool load(QSettings *settings);
+  bool loadXmlElement(QDomElement element);
+  void save(QSettings *settings);
+  void saveXmlElement(QDomElement element);
 
 private:
-    static const QString GroupName;
-    static const QString FieldImages;
-    static const QString FieldFonts;
+  static const QString GroupName;
+  static const QString FieldImages;
+  static const QString FieldFonts;
 
-    QString mImageTemplate;
-    QString mFontTemplate;
+  QString mImageTemplate;
+  QString mFontTemplate;
 
 signals:
-    void changed();
+  void changed();
 
 public slots:
 
 };
-//-----------------------------------------------------------------------------
+
 #endif // TEMPLATEOPTIONS_H
