@@ -1,5 +1,4 @@
 #include "testsettings.h"
-#include "appsettings.h"
 #include <QDir>
 #include <QDomDocument>
 #include <QDomNodeList>
@@ -165,6 +164,23 @@ void TestSettings::save_load()
         QCOMPARE(valueReal, valueExpected);
       }
     }
+  }
+}
+
+void TestSettings::isNameStartCharValid()
+{
+  QStringList valid, invalid;
+  valid << "tag" << "_tag" << "tag1";
+  invalid << " " << "-tag" << "1tag" << "1" << "&";
+
+  foreach (const QString &value, valid) {
+    QCOMPARE(AppSettingsExt::isNameStartCharValid(value), true);
+    QCOMPARE(AppSettingsExt::isNameCharValid(value), true);
+  }
+
+  foreach (const QString &value, invalid) {
+    QCOMPARE(AppSettingsExt::isNameStartCharValid(value), false);
+    QCOMPARE(AppSettingsExt::isNameCharValid(value), false);
   }
 }
 

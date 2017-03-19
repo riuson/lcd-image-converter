@@ -23,6 +23,11 @@
 QMap<AppSettings::Section, QString> AppSettings::ConfigFiles;
 QSettings::Format AppSettings::CustomFormat = QSettings::InvalidFormat;
 
+// https://www.w3.org/TR/REC-xml/#NT-NameChar
+QString AppSettings::NameStartChar = "^(\\:|[A-Z]|_|[a-z]|[\\xC0-\\xD6]|[\\xD8-\\xF6]|[\\xF8-\\x2FF]|[\\x370-\\x37D]|[\\x37F-\\x1FFF]|[\\x200C-\\x200D]|[\\x2070-\\x218F]|[\\x2C00-\\x2FEF]|[\\x3001-\\xD7FF]|[\\xF900-\\xFDCF]|[\\xFDF0-\\xFFFD])";
+QString AppSettings::NameChar      = "^(\\:|[A-Z]|_|[a-z]|[\\xC0-\\xD6]|[\\xD8-\\xF6]|[\\xF8-\\x2FF]|[\\x370-\\x37D]|[\\x37F-\\x1FFF]|[\\x200C-\\x200D]|[\\x2070-\\x218F]|[\\x2C00-\\x2FEF]|[\\x3001-\\xD7FF]|[\\xF900-\\xFDCF]|[\\xFDF0-\\xFFFD])"\
+                                     "(\\:|[A-Z]|_|[a-z]|[\\xC0-\\xD6]|[\\xD8-\\xF6]|[\\xF8-\\x2FF]|[\\x370-\\x37D]|[\\x37F-\\x1FFF]|[\\x200C-\\x200D]|[\\x2070-\\x218F]|[\\x2C00-\\x2FEF]|[\\x3001-\\xD7FF]|[\\xF900-\\xFDCF]|[\\xFDF0-\\xFFFD]|\\-|\\.|[0-9]|\\xB7|[\\x0300-\\x036F]|[\\x203F-\\x2040])*$";
+
 AppSettings::AppSettings()
 {
   QString filename = AppSettings::ConfigFiles.value(Section::Application, "");
@@ -186,4 +191,16 @@ bool AppSettings::readTextNode(QDomNode &node, QString &value)
   }
 
   return false;
+}
+
+bool AppSettings::isNameStartCharValid(const QString &value)
+{
+  QRegExp regNameStartChar(AppSettings::NameStartChar);
+  return (regNameStartChar.indexIn(value) == 0);
+}
+
+bool AppSettings::isNameCharValid(const QString &value)
+{
+  QRegExp regNameChar(AppSettings::NameChar);
+  return (regNameChar.indexIn(value) == 0);
 }

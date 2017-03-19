@@ -45,6 +45,8 @@ public:
 private:
   static QMap<Section, QString> ConfigFiles;
   static QSettings::Format CustomFormat;
+  static QString NameStartChar;
+  static QString NameChar;
   QSettings *mSettings;
 
   static bool readXmlFile(QIODevice &device, QSettings::SettingsMap &map);
@@ -52,6 +54,10 @@ private:
   static QDomElement getNodeByPath(QDomDocument &doc, const QString &path);
   static void readChilds(QSettings::SettingsMap &map, QStringList &parts, const QDomNodeList &childs);
   static bool readTextNode(QDomNode &node, QString &value);
+
+protected:
+  static bool isNameStartCharValid(const QString &value);
+  static bool isNameCharValid(const QString &value);
 };
 
 #endif // APPSETTINGS_H
