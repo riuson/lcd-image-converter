@@ -30,8 +30,7 @@ class AppSettings : public QObject
 {
   Q_OBJECT
 public:
-  enum class Section
-  {
+  enum class Section {
     Application,
     Presets
   };
