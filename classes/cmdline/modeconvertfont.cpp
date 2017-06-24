@@ -55,7 +55,7 @@ ModeConvertFont::ModeConvertFont(QCommandLineParser *parser, QObject *parent) :
   this->mFontCharactersRange = QString();
   this->mFontCharactersBigEndian = false;
 
-  this->mOuputFilename = QString();
+  this->mOutputFilename = QString();
   this->mTemplateFilename = QString();
   this->mDocumentName = QString();
   this->mPresetName = QString();
@@ -172,7 +172,7 @@ bool ModeConvertFont::collectArguments()
   this->mFontCharactersEncoding = this->mParser->value("chars-encoding");
   this->mFontCharactersBigEndian = this->mParser->isSet("big-endian");
 
-  this->mOuputFilename = this->mParser->value("output");
+  this->mOutputFilename = this->mParser->value("output");
   this->mTemplateFilename = this->mParser->value("template");
   this->mDocumentName = this->mParser->value("doc-name");
   this->mPresetName = this->mParser->value("preset-name");
@@ -180,7 +180,7 @@ bool ModeConvertFont::collectArguments()
   return (!this->mFontFamily.isEmpty() &&
           sizeOk &&
           (!this->mFontCharactersList.isEmpty() || (!this->mFontCharactersRange.isEmpty() && !this->mFontCharactersEncoding.isEmpty())) &&
-          !this->mOuputFilename.isEmpty() &&
+          !this->mOutputFilename.isEmpty() &&
           !this->mDocumentName.isEmpty() &&
           !this->mPresetName.isEmpty());
 }
@@ -255,10 +255,10 @@ int ModeConvertFont::process()
             parameters);
 
           fontDocument.setDocumentName(docNameWS);
-          fontDocument.dataContainer()->setCommonInfo("converted filename", QVariant(this->mOuputFilename));
+          fontDocument.dataContainer()->setCommonInfo("converted filename", QVariant(this->mOutputFilename));
 
           // save to output file
-          QFile file(this->mOuputFilename);
+          QFile file(this->mOutputFilename);
 
           if (file.open(QFile::WriteOnly)) {
             Preset preset;
@@ -274,8 +274,8 @@ int ModeConvertFont::process()
             file.write(result.toUtf8());
             file.close();
 
-            if (fontDocument.outputFilename() != this->mOuputFilename) {
-              fontDocument.setOutputFilename(this->mOuputFilename);
+            if (fontDocument.outputFilename() != this->mOutputFilename) {
+              fontDocument.setOutputFilename(this->mOutputFilename);
             }
           }
 

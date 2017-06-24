@@ -56,7 +56,7 @@ private:
   QString mFontCharactersRange;
   bool mFontCharactersBigEndian;
 
-  QString mOuputFilename;
+  QString mOutputFilename;
   QString mTemplateFilename;
   QString mDocumentName;
   QString mPresetName;

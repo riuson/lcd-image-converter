@@ -82,13 +82,13 @@ void ModeConvertImage::fillParser() const
 bool ModeConvertImage::collectArguments()
 {
   this->mInputFilename = this->mParser->value("input");
-  this->mOuputFilename = this->mParser->value("output");
+  this->mOutputFilename = this->mParser->value("output");
   this->mTemplateFilename = this->mParser->value("template");
   this->mDocumentName = this->mParser->value("doc-name");
   this->mPresetName = this->mParser->value("preset-name");
 
   return (!this->mInputFilename.isEmpty() &&
-          !this->mOuputFilename.isEmpty() &&
+          !this->mOutputFilename.isEmpty() &&
           !this->mDocumentName.isEmpty() &&
           !this->mPresetName.isEmpty());
 }
@@ -123,10 +123,10 @@ int ModeConvertImage::process()
             imageDocument.dataContainer()->setImage(key, &imageConverted);
 
             imageDocument.setDocumentName(docNameWS);
-            imageDocument.dataContainer()->setCommonInfo("converted filename", QVariant(this->mOuputFilename));
+            imageDocument.dataContainer()->setCommonInfo("converted filename", QVariant(this->mOutputFilename));
 
             // save to output file
-            QFile file(this->mOuputFilename);
+            QFile file(this->mOutputFilename);
 
             if (file.open(QFile::WriteOnly)) {
               Preset preset;
@@ -142,8 +142,8 @@ int ModeConvertImage::process()
               file.write(result.toUtf8());
               file.close();
 
-              if (imageDocument.outputFilename() != this->mOuputFilename) {
-                imageDocument.setOutputFilename(this->mOuputFilename);
+              if (imageDocument.outputFilename() != this->mOutputFilename) {
+                imageDocument.setOutputFilename(this->mOutputFilename);
               }
             }
           }
