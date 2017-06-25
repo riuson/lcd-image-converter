@@ -59,6 +59,8 @@ ModeConvertFont::ModeConvertFont(QCommandLineParser *parser, QObject *parent) :
   this->mTemplateFilename = QString();
   this->mDocumentName = QString();
   this->mPresetName = QString();
+
+  this->mSubMode = SubMode::None;
 }
 
 QString ModeConvertFont::modeName()

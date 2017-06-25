@@ -43,6 +43,13 @@ public:
   int process();
 
 private:
+  enum class SubMode {
+    None,
+    FromXmlDocument,
+    FromCharactersList,
+    FromCharactersRange
+  };
+
   QString mFontFamily;
   int mFontSize;
   bool mFontMonospaced;
@@ -60,6 +67,8 @@ private:
   QString mTemplateFilename;
   QString mDocumentName;
   QString mPresetName;
+
+  SubMode mSubMode;
 
   QString createCharsList(const QString &rangeStr,
                           const QString &encoding,
