@@ -55,6 +55,7 @@ ModeConvertFont::ModeConvertFont(QCommandLineParser *parser, QObject *parent) :
   this->mFontCharactersRange = QString();
   this->mFontCharactersBigEndian = false;
 
+  this->mInputFilename = QString();
   this->mOutputFilename = QString();
   this->mTemplateFilename = QString();
   this->mDocumentName = QString();
@@ -132,6 +133,12 @@ void ModeConvertFont::fillParser() const
                                      QCoreApplication::translate("CmdLineParser", "Use big-endian instead of little-endian."));
   this->mParser->addOption(endianessOption);
 
+  // --input=/temp/1.xml
+  QCommandLineOption inputOption(QStringList() << "i" << "input",
+                                 QCoreApplication::translate("CmdLineParser", "Full <path> to font document in xml format."),
+                                 QCoreApplication::translate("CmdLineParser", "path"));
+  this->mParser->addOption(inputOption);
+
   // --output=/temp/1.c
   QCommandLineOption outputOption(QStringList() << "o" << "output",
                                   QCoreApplication::translate("CmdLineParser", "Full <path> to output result."),
@@ -174,6 +181,7 @@ bool ModeConvertFont::collectArguments()
   this->mFontCharactersEncoding = this->mParser->value("chars-encoding");
   this->mFontCharactersBigEndian = this->mParser->isSet("big-endian");
 
+  this->mInputFilename = this->mParser->value("input");
   this->mOutputFilename = this->mParser->value("output");
   this->mTemplateFilename = this->mParser->value("template");
   this->mDocumentName = this->mParser->value("doc-name");
