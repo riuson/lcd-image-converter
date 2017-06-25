@@ -44,7 +44,7 @@ public:
 
 private:
   QString mInputFilename;
-  QString mOuputFilename;
+  QString mOutputFilename;
   QString mTemplateFilename;
   QString mDocumentName;
   QString mPresetName;

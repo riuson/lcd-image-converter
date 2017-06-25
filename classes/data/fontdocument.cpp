@@ -87,6 +87,7 @@ bool FontDocument::load(const QString &fileName)
       QDomElement root = doc.documentElement();
 
       if (root.tagName() == "data") {
+        result = true;
         this->setDocumentName(root.attribute("name", fileName));
 
         QString fontFamily, style;
@@ -112,6 +113,8 @@ bool FontDocument::load(const QString &fileName)
 
               if (ok) {
                 size = a;
+              } else {
+                result = false;
               }
             } else if (e.tagName() == "ascent") {
               bool ok;
@@ -119,6 +122,8 @@ bool FontDocument::load(const QString &fileName)
 
               if (ok) {
                 ascent = a;
+              } else {
+                result = false;
               }
             } else if (e.tagName() == "descent") {
               bool ok;
@@ -126,6 +131,8 @@ bool FontDocument::load(const QString &fileName)
 
               if (ok) {
                 descent = a;
+              } else {
+                result = false;
               }
             } else if (e.tagName() == "widthType") {
               monospaced = (e.text() == "monospaced");
@@ -138,6 +145,8 @@ bool FontDocument::load(const QString &fileName)
 
               if (ok) {
                 foreground = BitmapHelper::fromRgba(QRgb(a));
+              } else {
+                result = false;
               }
             } else if (e.tagName() == "background") {
               bool ok;
@@ -146,6 +155,8 @@ bool FontDocument::load(const QString &fileName)
 
               if (ok) {
                 background = BitmapHelper::fromRgba(QRgb(a));
+              } else {
+                result = false;
               }
             } else if (e.tagName() == "converted") {
               converted = e.text();
@@ -175,6 +186,8 @@ bool FontDocument::load(const QString &fileName)
               QString key = QString(QChar(code));
               this->mContainer->setImage(key, &image);
             }
+          } else {
+            result = false;
           }
         }
 
