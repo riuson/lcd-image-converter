@@ -67,6 +67,7 @@ private:
   QString mOutputFilename;
   QString mTemplateFilename;
   QString mDocumentName;
+  QString mDocumentNameWS;
   QString mPresetName;
 
   SubMode mSubMode;

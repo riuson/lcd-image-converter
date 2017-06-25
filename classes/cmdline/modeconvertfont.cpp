@@ -187,112 +187,134 @@ bool ModeConvertFont::collectArguments()
   this->mDocumentName = this->mParser->value("doc-name");
   this->mPresetName = this->mParser->value("preset-name");
 
-  return (!this->mFontFamily.isEmpty() &&
-          sizeOk &&
-          (!this->mFontCharactersList.isEmpty() || (!this->mFontCharactersRange.isEmpty() && !this->mFontCharactersEncoding.isEmpty())) &&
-          !this->mOutputFilename.isEmpty() &&
-          !this->mDocumentName.isEmpty() &&
-          !this->mPresetName.isEmpty());
+  if (this->mPresetName.isEmpty() || this->mOutputFilename.isEmpty()) {
+    this->mSubMode = SubMode::None;
+    return false;
+  }
+
+  if (!this->mInputFilename.isEmpty() &&
+      QFile::exists(this->mInputFilename)) {
+    this->mSubMode = SubMode::FromXmlDocument;
+    return true;
+  }
+
+  // check dodocument name
+  this->mDocumentNameWS = this->mDocumentName.remove(QRegExp(QRegExp("\\W", Qt::CaseInsensitive)));
+
+  if (this->mDocumentName.isEmpty() || this->mDocumentNameWS.isEmpty()) {
+    return false;
+  }
+
+  if (!this->mFontFamily.isEmpty() &&
+      sizeOk &&
+      !this->mFontCharactersList.isEmpty()) {
+    this->mSubMode = SubMode::FromCharactersList;
+    return true;
+  }
+
+  if (!this->mFontFamily.isEmpty() &&
+      sizeOk &&
+      (!this->mFontCharactersRange.isEmpty() && !this->mFontCharactersEncoding.isEmpty())) {
+    this->mSubMode = SubMode::FromCharactersRange;
+    return true;
+  }
+
+  return false;
 }
 
 int ModeConvertFont::process()
 {
-  // check input and template files exists
-  //if (QFile::exists(this->mInputFilename))
-  {
-    // check dodocument name
-    QString docNameWS = this->mDocumentName;
-    docNameWS.remove(QRegExp("\\s"));
+  // check preset exists
+  if (Preset::presetsList().contains(this->mPresetName)) {
+    FontDocument fontDocument;
 
-    if (!docNameWS.isEmpty()) {
-      // check preset exists
-      if (Preset::presetsList().contains(this->mPresetName)) {
-        Preset::setSelectedName(this->mPresetName);
-
-        if (!this->mFontCharactersRange.isEmpty() && !this->mFontCharactersEncoding.isEmpty()) {
-          this->mFontCharactersList = this->createCharsList(
-                                        this->mFontCharactersRange,
-                                        this->mFontCharactersEncoding,
-                                        this->mFontCharactersBigEndian);
-        }
-
-        //if (!this->mFontCharactersList.isEmpty())
-        {
-          FontDocument fontDocument;
-
-          tFontParameters parameters;
-          parameters.family = this->mFontFamily;
-          parameters.style = this->mFontStyle;
-          parameters.size = this->mFontSize;
-          parameters.monospaced = this->mFontMonospaced;
-          parameters.antiAliasing = this->mFontAntiAliasing;
-
-          // get ascent/descent
-          {
-            QFontDatabase fonts;
-            QFont font = fonts.font(parameters.family, parameters.style, parameters.size);
-            QFontMetrics metrics(font);
-            parameters.ascent = metrics.ascent();
-            parameters.descent = metrics.descent();
-          }
-
-          // colors
-          {
-            bool colorOk;
-            quint32 rgbValue;
-
-            // foreground
-            rgbValue = this->mForeground.toUInt(&colorOk, 16);
-
-            if (colorOk) {
-              parameters.foreground = BitmapHelper::fromRgba(QRgb(rgbValue));
-            } else {
-              parameters.foreground = QColor("black");
-            }
-
-            // background
-            rgbValue = this->mBackground.toUInt(&colorOk, 16);
-
-            if (colorOk) {
-              parameters.background = BitmapHelper::fromRgba(QRgb(rgbValue));
-            } else {
-              parameters.background = QColor("white");
-            }
-          }
-
-          fontDocument.setFontCharacters(
-            this->mFontCharactersList,
-            parameters);
-
-          fontDocument.setDocumentName(docNameWS);
-          fontDocument.dataContainer()->setCommonInfo("converted filename", QVariant(this->mOutputFilename));
-
-          // save to output file
-          QFile file(this->mOutputFilename);
-
-          if (file.open(QFile::WriteOnly)) {
-            Preset preset;
-            preset.load(this->mPresetName);
-
-            // optional template file
-            if (!this->mTemplateFilename.isEmpty() && QFile::exists(this->mTemplateFilename)) {
-              preset.templates()->setFont(this->mTemplateFilename);
-            }
-
-            QString result = fontDocument.convert(&preset);
-
-            file.write(result.toUtf8());
-            file.close();
-
-            if (fontDocument.outputFilename() != this->mOutputFilename) {
-              fontDocument.setOutputFilename(this->mOutputFilename);
-            }
-          }
-
-          return 0;
-        }
+    if (this->mSubMode == SubMode::FromXmlDocument) {
+      if (!fontDocument.load(this->mInputFilename)) {
+        return 1;
       }
     }
+
+    if ((this->mSubMode == SubMode::FromCharactersList) || (this->mSubMode == SubMode::FromCharactersRange)) {
+      if (this->mSubMode == SubMode::FromCharactersRange) {
+        this->mFontCharactersList = this->createCharsList(
+                                      this->mFontCharactersRange,
+                                      this->mFontCharactersEncoding,
+                                      this->mFontCharactersBigEndian);
+      }
+
+      tFontParameters parameters;
+      parameters.family = this->mFontFamily;
+      parameters.style = this->mFontStyle;
+      parameters.size = this->mFontSize;
+      parameters.monospaced = this->mFontMonospaced;
+      parameters.antiAliasing = this->mFontAntiAliasing;
+
+      // get ascent/descent
+      {
+        QFontDatabase fonts;
+        QFont font = fonts.font(parameters.family, parameters.style, parameters.size);
+        QFontMetrics metrics(font);
+        parameters.ascent = metrics.ascent();
+        parameters.descent = metrics.descent();
+      }
+
+      // colors
+      {
+        bool colorOk;
+        quint32 rgbValue;
+
+        // foreground
+        rgbValue = this->mForeground.toUInt(&colorOk, 16);
+
+        if (colorOk) {
+          parameters.foreground = BitmapHelper::fromRgba(QRgb(rgbValue));
+        } else {
+          parameters.foreground = QColor("black");
+        }
+
+        // background
+        rgbValue = this->mBackground.toUInt(&colorOk, 16);
+
+        if (colorOk) {
+          parameters.background = BitmapHelper::fromRgba(QRgb(rgbValue));
+        } else {
+          parameters.background = QColor("white");
+        }
+      }
+
+      fontDocument.setFontCharacters(
+        this->mFontCharactersList,
+        parameters);
+
+      fontDocument.setDocumentName(this->mDocumentName);
+    }
+
+    fontDocument.dataContainer()->setCommonInfo("converted filename", QVariant(this->mOutputFilename));
+
+    // save to output file
+    QFile file(this->mOutputFilename);
+
+    if (file.open(QFile::WriteOnly)) {
+      Preset::setSelectedName(this->mPresetName);
+      Preset preset;
+      preset.load(this->mPresetName);
+
+      // optional template file
+      if (!this->mTemplateFilename.isEmpty() && QFile::exists(this->mTemplateFilename)) {
+        preset.templates()->setFont(this->mTemplateFilename);
+      }
+
+      QString result = fontDocument.convert(&preset);
+
+      file.write(result.toUtf8());
+      file.close();
+
+      if (fontDocument.outputFilename() != this->mOutputFilename) {
+        fontDocument.setOutputFilename(this->mOutputFilename);
+      }
+    }
+
+    return 0;
   }
 
   return 1;
