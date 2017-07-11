@@ -36,6 +36,7 @@
 #include "templateoptions.h"
 #include "tags.h"
 #include "parsedimagedata.h"
+#include "revisioninfo.h"
 
 /*
  -- Algorithm --
@@ -144,8 +145,8 @@ QString Parser::convert(IDocument *document, const QStringList &orderedKeys, QMa
   tags.setTagValue(Tags::OutputDataIndent, prefix);
   tags.setTagValue(Tags::OutputDataEOL, suffix);
 
+  this->addCommonInfo(tags);
   this->addMatrixInfo(tags);
-
   this->addImagesInfo(tags, images);
 
   result = this->parse(templateString, tags, document, orderedKeys, images);
@@ -445,6 +446,12 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
   tags.setTagValue(Tags::OutputImagesMaxWidth, QString("%1").arg(maxWidth));
   tags.setTagValue(Tags::OutputImagesMaxHeight, QString("%1").arg(maxHeight));
   tags.setTagValue(Tags::OutputImagesMaxBlocksCount, QString("%1").arg(maxBlocksCount));
+}
+
+void Parser::addCommonInfo(Tags &tags) const
+{
+  tags.setTagValue(Tags::ApplicationDate, QString("%1").arg(RevisionInfo::date()));
+  tags.setTagValue(Tags::ApplicationRevision, QString("%1").arg(RevisionInfo::hash_abbr()));
 }
 
 void Parser::imageParticles(const QString &templateString, QString *prefix, QString *suffix) const
