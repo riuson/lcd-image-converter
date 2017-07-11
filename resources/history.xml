@@ -8,6 +8,7 @@
         <changes>
             <item category="added">Command line option '--input' to specify font document xml file for command-line mode conversion.</item>
             <item category="added">Tags app_rev and app_date for application revision and date.</item>
+            <item category="added">Completer to encoding's combobox.</item>
             <item category="fixed">Losing of empty parameters in Image settings block.</item>
         </changes>
     </record>
