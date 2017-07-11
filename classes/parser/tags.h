@@ -85,6 +85,9 @@ public:
     OutputImagesMaxHeight,
     OutputImagesMaxBlocksCount,
 
+    ApplicationDate,
+    ApplicationRevision,
+
     BlocksHeaderStart,
     BlocksHeaderEnd,
     BlocksImagesTableStart,

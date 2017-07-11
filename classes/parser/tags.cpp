@@ -201,6 +201,9 @@ void Tags::initTagsMap()
   this->mTagNameMap->insert("out_images_max_height", OutputImagesMaxHeight);
   this->mTagNameMap->insert("out_images_max_blocks_count", OutputImagesMaxBlocksCount);
 
+  this->mTagNameMap->insert("app_date", ApplicationDate);
+  this->mTagNameMap->insert("app_rev", ApplicationRevision);
+
   this->mTagNameMap->insert("start_block_header",       BlocksHeaderStart);
   this->mTagNameMap->insert("end_block_header",         BlocksHeaderEnd);
   this->mTagNameMap->insert("start_block_images_table", BlocksImagesTableStart);
