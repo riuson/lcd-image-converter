@@ -83,6 +83,9 @@ private:
   QString mBlockSuffix;
   QString mBlockDelimiter;
 
+  QString escapeEmpty(const QString &value) const;
+  QString unescapeEmpty(const QString &value) const;
+
 signals:
   void changed();
 
