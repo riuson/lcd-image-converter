@@ -205,6 +205,10 @@ bool ImageOptions::load(QSettings *settings)
   sBlockSuffix = settings->value(ImageOptions::FieldBlockSuffix, "").toString();
   sBlockDelimiter = settings->value(ImageOptions::FieldBlockDelimiter, ", ").toString();
 
+  sBlockPrefix = this->unescapeEmpty(sBlockPrefix);
+  sBlockSuffix = this->unescapeEmpty(sBlockSuffix);
+  sBlockDelimiter = this->unescapeEmpty(sBlockDelimiter);
+
   if (result) {
     this->setBlockSize((DataBlockSize)uBlockSize);
     this->setBlockDefaultOnes((bool)uBlockDefaultOnes);
@@ -288,8 +292,10 @@ bool ImageOptions::loadXmlElement(QDomElement element)
         if (cdataNode.isCDATASection()) {
           QDomCDATASection cdataSection = cdataNode.toCDATASection();
           sBlockPrefix = cdataSection.data();
+          sBlockPrefix = this->unescapeEmpty(sBlockPrefix);
         } else {
           sBlockPrefix = e.text();
+          sBlockPrefix = this->unescapeEmpty(sBlockPrefix);
         }
       }
 
@@ -299,8 +305,10 @@ bool ImageOptions::loadXmlElement(QDomElement element)
         if (cdataNode.isCDATASection()) {
           QDomCDATASection cdataSection = cdataNode.toCDATASection();
           sBlockSuffix = cdataSection.data();
+          sBlockSuffix = this->unescapeEmpty(sBlockSuffix);
         } else {
           sBlockSuffix = e.text();
+          sBlockSuffix = this->unescapeEmpty(sBlockSuffix);
         }
       }
 
@@ -310,8 +318,10 @@ bool ImageOptions::loadXmlElement(QDomElement element)
         if (cdataNode.isCDATASection()) {
           QDomCDATASection cdataSection = cdataNode.toCDATASection();
           sBlockDelimiter = cdataSection.data();
+          sBlockDelimiter = this->unescapeEmpty(sBlockDelimiter);
         } else {
           sBlockDelimiter = e.text();
+          sBlockDelimiter = this->unescapeEmpty(sBlockDelimiter);
         }
       }
 
@@ -348,9 +358,9 @@ void ImageOptions::save(QSettings *settings)
   settings->setValue(ImageOptions::FieldSplitToRows,      QString("%1").arg((int)this->splitToRows()));
   settings->setValue(ImageOptions::FieldCompressionRle,   QString("%1").arg((int)this->compressionRle()));
   settings->setValue(ImageOptions::FieldCompressionRleMinLength,   QString("%1").arg((int)this->compressionRleMinLength()));
-  settings->setValue(ImageOptions::FieldBlockPrefix,      this->blockPrefix());
-  settings->setValue(ImageOptions::FieldBlockSuffix,      this->blockSuffix());
-  settings->setValue(ImageOptions::FieldBlockDelimiter,   this->blockDelimiter());
+  settings->setValue(ImageOptions::FieldBlockPrefix,      this->escapeEmpty(this->blockPrefix()));
+  settings->setValue(ImageOptions::FieldBlockSuffix,      this->escapeEmpty(this->blockSuffix()));
+  settings->setValue(ImageOptions::FieldBlockDelimiter,   this->escapeEmpty(this->blockDelimiter()));
 
   settings->endGroup();
 }
@@ -386,14 +396,32 @@ void ImageOptions::saveXmlElement(QDomElement element)
 
   QDomElement nodeBlockPrefix = element.ownerDocument().createElement(ImageOptions::FieldBlockPrefix);
   nodeImage.appendChild(nodeBlockPrefix);
-  nodeBlockPrefix.appendChild(element.ownerDocument().createCDATASection(this->blockPrefix()));
+  nodeBlockPrefix.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->blockPrefix())));
 
   QDomElement nodeBlockSuffix = element.ownerDocument().createElement(ImageOptions::FieldBlockSuffix);
   nodeImage.appendChild(nodeBlockSuffix);
-  nodeBlockSuffix.appendChild(element.ownerDocument().createCDATASection(this->blockSuffix()));
+  nodeBlockSuffix.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->blockSuffix())));
 
   QDomElement nodeBlockDelimiter = element.ownerDocument().createElement(ImageOptions::FieldBlockDelimiter);
   nodeImage.appendChild(nodeBlockDelimiter);
-  nodeBlockDelimiter.appendChild(element.ownerDocument().createCDATASection(this->blockDelimiter()));
+  nodeBlockDelimiter.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->blockDelimiter())));
+}
+
+QString ImageOptions::escapeEmpty(const QString &value) const
+{
+  if (value.isEmpty()) {
+    return "empty";
+  }
+
+  return value;
+}
+
+QString ImageOptions::unescapeEmpty(const QString &value) const
+{
+  if (value == "empty") {
+    return QString();
+  }
+
+  return value;
 }
 
