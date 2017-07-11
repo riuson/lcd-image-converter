@@ -20,6 +20,7 @@
 #include "setuptabfont.h"
 #include "ui_setuptabfont.h"
 
+#include <QCompleter>
 #include "preset.h"
 #include "fontoptions.h"
 
@@ -52,6 +53,12 @@ SetupTabFont::SetupTabFont(Preset *preset, QWidget *parent) :
   }
 
   this->matrixChanged();
+
+  this->mEncodingCompleter = new QCompleter(FontOptions::encodings(), this);
+  this->mEncodingCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+  this->mEncodingCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+  this->mEncodingCompleter->setFilterMode(Qt::MatchContains);
+  this->ui->comboBoxEncoding->setCompleter(this->mEncodingCompleter);
 }
 
 SetupTabFont::~SetupTabFont()

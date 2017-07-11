@@ -22,6 +22,8 @@
 
 #include <QDialog>
 
+class QCompleter;
+
 namespace Ui
 {
 class DialogFontRange;
@@ -40,6 +42,7 @@ public:
 private:
   Ui::DialogFontRange *ui;
   QString mResultString;
+  QCompleter *mEncodingCompleter;
 
 private slots:
   void updatePreview();

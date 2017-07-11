@@ -441,17 +441,17 @@ Qt: %4</translation>
         <translation>Кодировка:</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="30"/>
+        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="34"/>
         <source>From:</source>
         <translation>От:</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="47"/>
+        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="51"/>
         <source>To:</source>
         <translation>До:</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="64"/>
+        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="68"/>
         <source>Byte order:</source>
         <translation>Порядок байт:</translation>
     </message>
@@ -1430,27 +1430,27 @@ Only minimal amount (%3) will be imported.</source>
         <translation>Использовать BOM (метку порядка байтов) для Юникода</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="37"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="40"/>
         <source>Encoding:</source>
         <translation>Кодировка:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="60"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="63"/>
         <source>Sort characters:</source>
         <translation>Сортировать символы:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="85"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="92"/>
         <source>None</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="89"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="96"/>
         <source>Ascending</source>
         <translation>По возрастанию</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="93"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="100"/>
         <source>Descending</source>
         <translation>По убыванию</translation>
     </message>

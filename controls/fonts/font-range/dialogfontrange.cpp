@@ -23,6 +23,7 @@
 #include "fontoptions.h"
 #include "fonthelper.h"
 #include <QTextCodec>
+#include <QCompleter>
 
 DialogFontRange::DialogFontRange(QWidget *parent) :
   QDialog(parent),
@@ -46,6 +47,12 @@ DialogFontRange::DialogFontRange(QWidget *parent) :
   if (index >= 0) {
     this->ui->comboBoxEncoding->setCurrentIndex(index);
   }
+
+  this->mEncodingCompleter = new QCompleter(FontOptions::encodings(), this);
+  this->mEncodingCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+  this->mEncodingCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+  this->mEncodingCompleter->setFilterMode(Qt::MatchContains);
+  this->ui->comboBoxEncoding->setCompleter(this->mEncodingCompleter);
 }
 
 DialogFontRange::~DialogFontRange()

@@ -24,6 +24,8 @@
 
 #include "conversion_options.h"
 
+class QCompleter;
+
 namespace Ui
 {
 class SetupTabFont;
@@ -47,6 +49,7 @@ public slots:
 private:
   Ui::SetupTabFont *ui;
   Preset *mPreset;
+  QCompleter *mEncodingCompleter;
 
   const QString sortingName(CharactersSortOrder value) const;
 
