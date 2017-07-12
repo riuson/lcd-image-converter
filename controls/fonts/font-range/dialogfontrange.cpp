@@ -22,6 +22,7 @@
 
 #include "fontoptions.h"
 #include "fonthelper.h"
+#include "qt-version-check.h"
 #include <QTextCodec>
 #include <QCompleter>
 
@@ -51,7 +52,9 @@ DialogFontRange::DialogFontRange(QWidget *parent) :
   this->mEncodingCompleter = new QCompleter(FontOptions::encodings(), this);
   this->mEncodingCompleter->setCaseSensitivity(Qt::CaseInsensitive);
   this->mEncodingCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
   this->mEncodingCompleter->setFilterMode(Qt::MatchContains);
+#endif
   this->ui->comboBoxEncoding->setCompleter(this->mEncodingCompleter);
 }
 

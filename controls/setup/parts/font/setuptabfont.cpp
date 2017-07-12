@@ -23,6 +23,7 @@
 #include <QCompleter>
 #include "preset.h"
 #include "fontoptions.h"
+#include "qt-version-check.h"
 
 SetupTabFont::SetupTabFont(Preset *preset, QWidget *parent) :
   QWidget(parent),
@@ -57,7 +58,9 @@ SetupTabFont::SetupTabFont(Preset *preset, QWidget *parent) :
   this->mEncodingCompleter = new QCompleter(FontOptions::encodings(), this);
   this->mEncodingCompleter->setCaseSensitivity(Qt::CaseInsensitive);
   this->mEncodingCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
   this->mEncodingCompleter->setFilterMode(Qt::MatchContains);
+#endif
   this->ui->comboBoxEncoding->setCompleter(this->mEncodingCompleter);
 }
 
