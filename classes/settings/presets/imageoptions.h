@@ -44,6 +44,11 @@ public:
   QString blockPrefix() const;
   QString blockSuffix() const;
   QString blockDelimiter() const;
+  QString previewPrefix() const;
+  QString previewSuffix() const;
+  QString previewDelimiter() const;
+  QString previewBit0() const;
+  QString previewBit1() const;
 
   void setSplitToRows(bool value);
   void setBytesOrder(BytesOrder value);
@@ -54,6 +59,11 @@ public:
   void setBlockPrefix(const QString &value);
   void setBlockSuffix(const QString &value);
   void setBlockDelimiter(const QString &value);
+  void setPreviewPrefix(const QString &value);
+  void setPreviewSuffix(const QString &value);
+  void setPreviewDelimiter(const QString &value);
+  void setPreviewBit0(const QString &value);
+  void setPreviewBit1(const QString &value);
 
   bool load(QSettings *settings);
   bool loadXmlElement(QDomElement element);
@@ -68,10 +78,15 @@ private:
   static const QString FieldSplitToRows;
   static const QString FieldCompressionRle;
   static const QString FieldCompressionRleMinLength;
-  static const QString FieldBlockPrefix;
   static const QString FieldBandWidth;
+  static const QString FieldBlockPrefix;
   static const QString FieldBlockSuffix;
   static const QString FieldBlockDelimiter;
+  static const QString FieldPreviewPrefix;
+  static const QString FieldPreviewSuffix;
+  static const QString FieldPreviewDelimiter;
+  static const QString FieldPreviewBit0;
+  static const QString FieldPreviewBit1;
 
   bool mSplitToRows;
   BytesOrder mBytesOrder;
@@ -82,6 +97,11 @@ private:
   QString mBlockPrefix;
   QString mBlockSuffix;
   QString mBlockDelimiter;
+  QString mPreviewPrefix;
+  QString mPreviewSuffix;
+  QString mPreviewDelimiter;
+  QString mPreviewBit0;
+  QString mPreviewBit1;
 
   QString escapeEmpty(const QString &value) const;
   QString unescapeEmpty(const QString &value) const;
