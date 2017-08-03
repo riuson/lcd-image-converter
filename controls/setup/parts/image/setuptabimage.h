@@ -51,9 +51,9 @@ private slots:
   void on_checkBoxCompressionRle_toggled(bool value);
   void on_spinBoxRleMinLength_valueChanged(int value);
   void on_checkBoxBlockDefaultOnes_toggled(bool value);
-  void on_lineEditPrefix_textEdited(const QString &value);
-  void on_lineEditSuffix_textEdited(const QString &value);
-  void on_lineEditDelimiter_textEdited(const QString &value);
+  void on_lineEditBlockPrefix_textEdited(const QString &value);
+  void on_lineEditBlockSuffix_textEdited(const QString &value);
+  void on_lineEditBlockDelimiter_textEdited(const QString &value);
 };
 
 #endif // SETUPTABIMAGE_H
