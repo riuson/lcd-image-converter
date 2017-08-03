@@ -75,6 +75,12 @@ void SetupTabImage::matrixChanged()
   this->ui->lineEditBlockPrefix->setText(this->mPreset->image()->blockPrefix());
   this->ui->lineEditBlockSuffix->setText(this->mPreset->image()->blockSuffix());
   this->ui->lineEditBlockDelimiter->setText(this->mPreset->image()->blockDelimiter());
+
+  this->ui->lineEditPreviewPrefix->setText(this->mPreset->image()->previewPrefix());
+  this->ui->lineEditPreviewSuffix->setText(this->mPreset->image()->previewSuffix());
+  this->ui->lineEditPreviewDelimiter->setText(this->mPreset->image()->previewDelimiter());
+  this->ui->lineEditPreviewBit0->setText(this->mPreset->image()->previewBit0());
+  this->ui->lineEditPreviewBit1->setText(this->mPreset->image()->previewBit1());
 }
 
 void SetupTabImage::on_checkBoxSplitToRows_toggled(bool value)
@@ -132,3 +138,27 @@ void SetupTabImage::on_lineEditBlockDelimiter_textEdited(const QString &value)
   this->mPreset->image()->setBlockDelimiter(value);
 }
 
+void SetupTabImage::on_lineEditPreviewPrefix_textEdited(const QString &value)
+{
+  this->mPreset->image()->setPreviewPrefix(value);
+}
+
+void SetupTabImage::on_lineEditPreviewSuffix_textEdited(const QString &value)
+{
+  this->mPreset->image()->setPreviewSuffix(value);
+}
+
+void SetupTabImage::on_lineEditPreviewDelimiter_textEdited(const QString &value)
+{
+  this->mPreset->image()->setPreviewDelimiter(value);
+}
+
+void SetupTabImage::on_lineEditPreviewBit0_textEdited(const QString &value)
+{
+  this->mPreset->image()->setPreviewBit0(value);
+}
+
+void SetupTabImage::on_lineEditPreviewBit1_textEdited(const QString &value)
+{
+  this->mPreset->image()->setPreviewBit1(value);
+}
