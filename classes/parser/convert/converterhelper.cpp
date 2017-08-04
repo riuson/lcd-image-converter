@@ -53,7 +53,7 @@
 #include "rlecompressor.h"
 #include "convimage.h"
 
-void ConverterHelper::pixelsData(Preset *preset, const QImage *image, QVector<quint32> *data, int *width, int *height)
+void ConverterHelper::pixelsData(PrepareOptions *prepare, const QString &script, const QImage *image, QVector<quint32> *data, int *width, int *height)
 {
   if (image != NULL && data != NULL && width != NULL && height != NULL) {
     data->clear();
@@ -64,11 +64,11 @@ void ConverterHelper::pixelsData(Preset *preset, const QImage *image, QVector<qu
     *height = im.height();
 
     // monochrome image needs special preprocessing
-    ConversionType type = preset->prepare()->convType();
+    ConversionType type = prepare->convType();
 
     if (type == ConversionTypeMonochrome) {
-      MonochromeType monotype = preset->prepare()->monoType();
-      int edge = preset->prepare()->edge();
+      MonochromeType monotype = prepare->monoType();
+      int edge = prepare->edge();
 
       switch (monotype) {
         case MonochromeTypeEdge:
@@ -92,11 +92,9 @@ void ConverterHelper::pixelsData(Preset *preset, const QImage *image, QVector<qu
     }
 
     {
-      QString script = ConverterHelper::scanScript(preset);
-
       ConvImage *convImage = new ConvImage(&im);
-      convImage->setBandSize(preset->prepare()->bandWidth());
-      convImage->setUseBands(preset->prepare()->bandScanning());
+      convImage->setBandSize(prepare->bandWidth());
+      convImage->setUseBands(prepare->bandScanning());
 
       QString errorMessage;
       ConverterHelper::collectPoints(convImage, script, &errorMessage);

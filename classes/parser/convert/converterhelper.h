@@ -32,7 +32,8 @@ public:
   // gets RGB array of pixels
   // also convert images to monochrome or grayscale (r = g = b = qGray(pixel))
   static void pixelsData(
-    Preset *preset,
+    PrepareOptions *prepare,
+    const QString &script,
     const QImage *image,
     QVector<quint32> *data,
     int *width,

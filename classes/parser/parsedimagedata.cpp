@@ -45,7 +45,7 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags
   // conversion from image to strings
   QVector<quint32> sourceData;
   int sourceWidth, sourceHeight;
-  ConverterHelper::pixelsData(preset, &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
+  ConverterHelper::pixelsData(preset->prepare(), ConverterHelper::scanScript(preset), &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
 
   if (sourceData.size() > 0) {
     ConverterHelper::processPixels(preset, &sourceData);
