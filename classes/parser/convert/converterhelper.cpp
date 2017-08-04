@@ -372,16 +372,15 @@ void ConverterHelper::reorder(
   *outputHeight = inputHeight;
 }
 
-void ConverterHelper::compressData(
-  Preset *matrix,
-  QVector<quint32> *inputData,
-  int inputWidth, int inputHeight,
-  QVector<quint32> *outputData,
-  int *outputWidth, int *outputHeight)
+void ConverterHelper::compressData(Preset *preset,
+                                   QVector<quint32> *inputData,
+                                   int inputWidth, int inputHeight,
+                                   QVector<quint32> *outputData,
+                                   int *outputWidth, int *outputHeight)
 {
-  if (matrix->image()->compressionRle()) {
+  if (preset->image()->compressionRle()) {
     RleCompressor compressor;
-    compressor.compress(inputData, matrix->image()->blockSize(), outputData, matrix->image()->compressionRleMinLength());
+    compressor.compress(inputData, preset->image()->blockSize(), outputData, preset->image()->compressionRleMinLength());
     *outputWidth = outputData->size();
     *outputHeight = 1;
   } else {
@@ -759,7 +758,7 @@ void ConverterHelper::makeGrayscale(QImage &image)
       QRgb value = image.pixel(x, y);
       int gray = qGray(value);
       int alpha = qAlpha(value);
-      QColor color = QColor(gray , gray, gray, alpha);
+      QColor color = QColor(gray, gray, gray, alpha);
       value = color.rgba();
       image.setPixel(x, y, value);
     }
