@@ -187,6 +187,7 @@ void Tags::initTagsMap()
   this->mTagNameMap->insert("out_char_text_sim",     OutputCharacterTextSimilar);
   this->mTagNameMap->insert("out_image_data",        OutputImageData);
   this->mTagNameMap->insert("imageData",             OutputImageData);
+  this->mTagNameMap->insert("out_image_preview",     OutputImagePreview);
   this->mTagNameMap->insert("out_images_count",      OutputImagesCount);
   this->mTagNameMap->insert("imagesCount",           OutputImagesCount);
   this->mTagNameMap->insert("out_comma",             OutputComma);

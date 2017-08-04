@@ -75,6 +75,7 @@ public:
     OutputCharacterCodeSimilar,
     OutputCharacterTextSimilar,
     OutputImageData,
+    OutputImagePreview,
     OutputImagesCount,
     OutputComma,
     OutputDataIndent,
