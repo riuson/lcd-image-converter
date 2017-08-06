@@ -139,6 +139,6 @@ const QString ParsedImageData::outputImageDataWithEOL(const Tags &tags) const
 const QString ParsedImageData::outputImagePreviewWithEOL(const Tags &tags) const
 {
   QString result = this->mPreparedOutputImagePreview;
-  result.replace("\n", tags.tagValue(Tags::OutputDataEOL) + tags.tagValue(Tags::OutputDataIndent));
+  result.replace("\n", tags.tagValue(Tags::OutputPreviewEOL) + tags.tagValue(Tags::OutputPreviewIndent));
   return result;
 }

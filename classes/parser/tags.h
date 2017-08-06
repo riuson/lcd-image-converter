@@ -80,6 +80,8 @@ public:
     OutputComma,
     OutputDataIndent,
     OutputDataEOL,
+    OutputPreviewIndent,
+    OutputPreviewEOL,
     OutputImageWidth,
     OutputImageHeight,
     OutputImagesMaxWidth,
