@@ -35,6 +35,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QTextStream>
+#include <QStringBuilder>
 
 #if defined(USE_JS_QTSCRIPT)
 #include <QtScript/QScriptEngine>
@@ -633,6 +634,47 @@ QString ConverterHelper::dataToString(
 
     result.truncate(result.length() - delimiter.length());
   }
+
+  return result;
+}
+
+QString ConverterHelper::previewDataToString(Preset *preset, QVector<quint32> *data, int width, int height)
+{
+  QString result, converted;
+
+  QString prefix = preset->image()->previewPrefix();
+  QString suffix = preset->image()->previewSuffix();
+  QString delimiter = preset->image()->previewDelimiter();
+  QString bit0 = preset->image()->previewBit0();
+  QString bit1 = preset->image()->previewBit1();
+
+  bool completed = false;
+
+  for (int y = 0; y < height && !completed; y++) {
+    if (y > 0) {
+      result.append("\n");
+    }
+
+    result.append(prefix);
+
+    for (int x = 0; x < width && !completed; x++) {
+      // control index limits for compressed data
+      int index = y * width + x;
+
+      if (index >= data->size()) {
+        completed = true;
+        break;
+      }
+
+      quint32 value = data->at(index);
+      converted = ((value & 0x00000001) != 0) ? preset->image()->previewBit1() : preset->image()->previewBit0();
+      result.append(converted % delimiter);
+    }
+
+    result.append(suffix);
+  }
+
+  result.truncate(result.length() - delimiter.length());
 
   return result;
 }

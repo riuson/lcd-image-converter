@@ -66,6 +66,8 @@ public:
 
   static QString dataToString(Preset *preset,
                               QVector<quint32> *data, int width, int height);
+  static QString previewDataToString(Preset *preset,
+                                     QVector<quint32> *data, int width, int height);
 
   static QString scanScript(Preset *preset);
   static QString scanScriptTemplate();
