@@ -128,9 +128,10 @@ QString ImageOptions::previewLevels() const
 
 void ImageOptions::setSplitToRows(bool value)
 {
-  this->mSplitToRows = value;
-
-  emit this->changed();
+  if (this->mSplitToRows != value) {
+    this->mSplitToRows = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setBytesOrder(BytesOrder value)
@@ -139,9 +140,10 @@ void ImageOptions::setBytesOrder(BytesOrder value)
     value = BytesOrderLittleEndian;
   }
 
-  this->mBytesOrder = value;
-
-  emit this->changed();
+  if (this->mBytesOrder != value) {
+    this->mBytesOrder = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setBlockSize(DataBlockSize value)
@@ -150,79 +152,90 @@ void ImageOptions::setBlockSize(DataBlockSize value)
     value = Data32;
   }
 
-  this->mBlockSize = value;
-
-  emit this->changed();
+  if (this->mBlockSize != value) {
+    this->mBlockSize = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setBlockDefaultOnes(bool value)
 {
-  this->mBlockDefaultOnes = value;
-
-  emit this->changed();
+  if (this->mBlockDefaultOnes != value) {
+    this->mBlockDefaultOnes = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setCompressionRle(bool value)
 {
-  this->mCompressionRle = value;
-
-  emit this->changed();
+  if (this->mCompressionRle != value) {
+    this->mCompressionRle = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setCompressionRleMinLength(quint32 value)
 {
-  this->mCompressionRleMinLength = value;
-
-  emit this->changed();
+  if (this->mCompressionRleMinLength != value) {
+    this->mCompressionRleMinLength = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setBlockPrefix(const QString &value)
 {
-  this->mBlockPrefix = value;
-
-  emit this->changed();
+  if (this->mBlockPrefix != value) {
+    this->mBlockPrefix = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setBlockSuffix(const QString &value)
 {
-  this->mBlockSuffix = value;
-
-  emit this->changed();
+  if (this->mBlockSuffix != value) {
+    this->mBlockSuffix = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setBlockDelimiter(const QString &value)
 {
-  this->mBlockDelimiter = value;
-
-  emit this->changed();
+  if (this->mBlockDelimiter != value) {
+    this->mBlockDelimiter = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setPreviewPrefix(const QString &value)
 {
-  this->mPreviewPrefix = value;
-
-  emit this->changed();
+  if (this->mPreviewPrefix != value) {
+    this->mPreviewPrefix = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setPreviewSuffix(const QString &value)
 {
-  this->mPreviewSuffix = value;
-
-  emit this->changed();
+  if (this->mPreviewSuffix != value) {
+    this->mPreviewSuffix = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setPreviewDelimiter(const QString &value)
 {
-  this->mPreviewDelimiter = value;
-
-  emit this->changed();
+  if (this->mPreviewDelimiter != value) {
+    this->mPreviewDelimiter = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setPreviewLevels(const QString &value)
 {
-  this->mPreviewLevels = value;
-
-  emit this->changed();
+  if (this->mPreviewLevels != value) {
+    this->mPreviewLevels = value;
+    emit this->changed();
+  }
 }
 
 bool ImageOptions::load(QSettings *settings)
