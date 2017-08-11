@@ -1513,36 +1513,31 @@ Only minimal amount (%3) will be imported.</source>
     </message>
     <message>
         <location filename="../controls/setup/parts/image/setuptabimage.ui" line="184"/>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="271"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="264"/>
         <source>Prefix:</source>
         <translation>Префикс:</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/image/setuptabimage.ui" line="200"/>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="287"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="280"/>
         <source>Suffix:</source>
         <translation>Суффикс:</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/image/setuptabimage.ui" line="216"/>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="303"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="296"/>
         <source>Delimiter:</source>
         <translation>Разделитель:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="259"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="252"/>
         <source>Preview</source>
         <translation>Предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="319"/>
-        <source>Bit &apos;0&apos;:</source>
-        <translation>Бит &apos;0&apos;:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="335"/>
-        <source>Bit &apos;1&apos;:</source>
-        <translation>Бит &apos;1&apos;:</translation>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="312"/>
+        <source>Level&apos;s replacement:</source>
+        <translation>Замена уровней:</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/image/setuptabimage.ui" line="61"/>
