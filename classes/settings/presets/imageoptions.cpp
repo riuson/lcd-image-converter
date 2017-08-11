@@ -37,8 +37,7 @@ const QString ImageOptions::FieldBlockDelimiter = QString("blockDelimiter");
 const QString ImageOptions::FieldPreviewPrefix = QString("previewPrefix");
 const QString ImageOptions::FieldPreviewSuffix = QString("previewSuffix");
 const QString ImageOptions::FieldPreviewDelimiter = QString("previewDelimiter");
-const QString ImageOptions::FieldPreviewBit0 = QString("previewBit0");
-const QString ImageOptions::FieldPreviewBit1 = QString("previewBit1");
+const QString ImageOptions::FieldPreviewLevels = QString("previewLevels");
 
 ImageOptions::ImageOptions(QObject *parent) :
   QObject(parent)
@@ -55,8 +54,7 @@ ImageOptions::ImageOptions(QObject *parent) :
   this->mPreviewPrefix = "// ";
   this->mPreviewSuffix = "";
   this->mPreviewDelimiter = "";
-  this->mPreviewBit0 = "░";
-  this->mPreviewBit1 = "█";
+  this->mPreviewLevels = "∙\n░\n▒\n▓\n█";
 }
 
 bool ImageOptions::splitToRows() const
@@ -123,14 +121,9 @@ QString ImageOptions::previewDelimiter() const
   return this->mPreviewDelimiter;
 }
 
-QString ImageOptions::previewBit0() const
+QString ImageOptions::previewLevels() const
 {
-  return this->mPreviewBit0;
-}
-
-QString ImageOptions::previewBit1() const
-{
-  return this->mPreviewBit1;
+  return this->mPreviewLevels;
 }
 
 void ImageOptions::setSplitToRows(bool value)
@@ -225,16 +218,9 @@ void ImageOptions::setPreviewDelimiter(const QString &value)
   emit this->changed();
 }
 
-void ImageOptions::setPreviewBit0(const QString &value)
+void ImageOptions::setPreviewLevels(const QString &value)
 {
-  this->mPreviewBit0 = value;
-
-  emit this->changed();
-}
-
-void ImageOptions::setPreviewBit1(const QString &value)
-{
-  this->mPreviewBit1 = value;
+  this->mPreviewLevels = value;
 
   emit this->changed();
 }
@@ -248,7 +234,7 @@ bool ImageOptions::load(QSettings *settings)
   quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0;
   quint32 uCompressionRle = 0, uCompressionRleMinLength = 2;
   QString sBlockPrefix, sBlockSuffix, sBlockDelimiter;
-  QString sPreviewPrefix, sPreviewSuffix, sPreviewDelimiter, sPreviewBit0, sPreviewBit1;
+  QString sPreviewPrefix, sPreviewSuffix, sPreviewDelimiter, sPreviewLevels;
 
   uBlockSize = settings->value(ImageOptions::FieldBlockSize, int(0)).toUInt(&result);
 
@@ -283,14 +269,12 @@ bool ImageOptions::load(QSettings *settings)
   sPreviewPrefix = settings->value(ImageOptions::FieldPreviewPrefix, "// ").toString();
   sPreviewSuffix = settings->value(ImageOptions::FieldPreviewSuffix, "").toString();
   sPreviewDelimiter = settings->value(ImageOptions::FieldPreviewDelimiter, "").toString();
-  sPreviewBit0 = settings->value(ImageOptions::FieldPreviewBit0, "░").toString();
-  sPreviewBit1 = settings->value(ImageOptions::FieldPreviewBit1, "█").toString();
+  sPreviewLevels = settings->value(ImageOptions::FieldPreviewLevels, "∙\n░\n▒\n▓\n█").toString();
 
   sPreviewPrefix = this->unescapeEmpty(sPreviewPrefix);
   sPreviewSuffix = this->unescapeEmpty(sPreviewSuffix);
   sPreviewDelimiter = this->unescapeEmpty(sPreviewDelimiter);
-  sPreviewBit0 = this->unescapeEmpty(sPreviewBit0);
-  sPreviewBit1 = this->unescapeEmpty(sPreviewBit1);
+  sPreviewLevels = this->unescapeEmpty(sPreviewLevels);
 
   if (result) {
     this->setBlockSize((DataBlockSize)uBlockSize);
@@ -305,8 +289,7 @@ bool ImageOptions::load(QSettings *settings)
     this->setPreviewPrefix(sPreviewPrefix);
     this->setPreviewSuffix(sPreviewSuffix);
     this->setPreviewDelimiter(sPreviewDelimiter);
-    this->setPreviewBit0(sPreviewBit0);
-    this->setPreviewBit1(sPreviewBit1);
+    this->setPreviewLevels(sPreviewLevels);
   }
 
   settings->endGroup();
@@ -353,7 +336,7 @@ bool ImageOptions::loadXmlElement(QDomElement element)
   quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0;
   quint32 uCompressionRle = 0, uCompressionRleMinLength = 2;
   QString sBlockPrefix = "0x", sBlockSuffix, sBlockDelimiter = ", ";
-  QString sPreviewPrefix, sPreviewSuffix, sPreviewDelimiter, sPreviewBit0, sPreviewBit1;
+  QString sPreviewPrefix, sPreviewSuffix, sPreviewDelimiter, sPreviewLevels;
 
   QDomNode nodeValue = nodeSett.firstChild();
 
@@ -397,8 +380,7 @@ bool ImageOptions::loadXmlElement(QDomElement element)
       readStringFromNode(e, ImageOptions::FieldPreviewPrefix, &sPreviewPrefix);
       readStringFromNode(e, ImageOptions::FieldPreviewSuffix, &sPreviewSuffix);
       readStringFromNode(e, ImageOptions::FieldPreviewDelimiter, &sPreviewDelimiter);
-      readStringFromNode(e, ImageOptions::FieldPreviewBit0, &sPreviewBit0);
-      readStringFromNode(e, ImageOptions::FieldPreviewBit1, &sPreviewBit1);
+      readStringFromNode(e, ImageOptions::FieldPreviewLevels, &sPreviewLevels);
 
       if (!result) {
         break;
@@ -421,8 +403,7 @@ bool ImageOptions::loadXmlElement(QDomElement element)
     this->setPreviewPrefix(sPreviewPrefix);
     this->setPreviewSuffix(sPreviewSuffix);
     this->setPreviewDelimiter(sPreviewDelimiter);
-    this->setPreviewBit0(sPreviewBit0);
-    this->setPreviewBit1(sPreviewBit1);
+    this->setPreviewLevels(sPreviewLevels);
   }
 
   return result;
@@ -444,8 +425,7 @@ void ImageOptions::save(QSettings *settings)
   settings->setValue(ImageOptions::FieldPreviewPrefix,    this->escapeEmpty(this->previewPrefix()));
   settings->setValue(ImageOptions::FieldPreviewSuffix,    this->escapeEmpty(this->previewSuffix()));
   settings->setValue(ImageOptions::FieldPreviewDelimiter, this->escapeEmpty(this->previewDelimiter()));
-  settings->setValue(ImageOptions::FieldPreviewBit0,      this->escapeEmpty(this->previewBit0()));
-  settings->setValue(ImageOptions::FieldPreviewBit1,      this->escapeEmpty(this->previewBit1()));
+  settings->setValue(ImageOptions::FieldPreviewLevels,    this->escapeEmpty(this->previewLevels()));
 
   settings->endGroup();
 }
@@ -503,13 +483,9 @@ void ImageOptions::saveXmlElement(QDomElement element)
   nodeImage.appendChild(nodePreviewDelimiter);
   nodePreviewDelimiter.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->previewDelimiter())));
 
-  QDomElement nodePreviewBit0 = element.ownerDocument().createElement(ImageOptions::FieldPreviewBit0);
-  nodeImage.appendChild(nodePreviewBit0);
-  nodePreviewBit0.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->previewBit0())));
-
-  QDomElement nodePreviewBit1 = element.ownerDocument().createElement(ImageOptions::FieldPreviewBit1);
-  nodeImage.appendChild(nodePreviewBit1);
-  nodePreviewBit1.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->previewBit1())));
+  QDomElement nodePreviewLevels = element.ownerDocument().createElement(ImageOptions::FieldPreviewLevels);
+  nodeImage.appendChild(nodePreviewLevels);
+  nodePreviewLevels.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->previewLevels())));
 }
 
 QString ImageOptions::escapeEmpty(const QString &value) const

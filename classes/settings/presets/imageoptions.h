@@ -47,8 +47,7 @@ public:
   QString previewPrefix() const;
   QString previewSuffix() const;
   QString previewDelimiter() const;
-  QString previewBit0() const;
-  QString previewBit1() const;
+  QString previewLevels() const;
 
   void setSplitToRows(bool value);
   void setBytesOrder(BytesOrder value);
@@ -62,8 +61,7 @@ public:
   void setPreviewPrefix(const QString &value);
   void setPreviewSuffix(const QString &value);
   void setPreviewDelimiter(const QString &value);
-  void setPreviewBit0(const QString &value);
-  void setPreviewBit1(const QString &value);
+  void setPreviewLevels(const QString &value);
 
   bool load(QSettings *settings);
   bool loadXmlElement(QDomElement element);
@@ -85,8 +83,7 @@ private:
   static const QString FieldPreviewPrefix;
   static const QString FieldPreviewSuffix;
   static const QString FieldPreviewDelimiter;
-  static const QString FieldPreviewBit0;
-  static const QString FieldPreviewBit1;
+  static const QString FieldPreviewLevels;
 
   bool mSplitToRows;
   BytesOrder mBytesOrder;
@@ -100,8 +97,7 @@ private:
   QString mPreviewPrefix;
   QString mPreviewSuffix;
   QString mPreviewDelimiter;
-  QString mPreviewBit0;
-  QString mPreviewBit1;
+  QString mPreviewLevels;
 
   QString escapeEmpty(const QString &value) const;
   QString unescapeEmpty(const QString &value) const;
