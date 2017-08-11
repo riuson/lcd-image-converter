@@ -638,15 +638,26 @@ QString ConverterHelper::dataToString(
   return result;
 }
 
-QString ConverterHelper::previewDataToString(Preset *preset, QVector<quint32> *data, int width, int height)
+QString ConverterHelper::previewDataToString(Preset *preset, const QVector<quint32> *data, int width, int height)
 {
-  QString result, converted;
+  QString result;
 
   QString prefix = preset->image()->previewPrefix();
   QString suffix = preset->image()->previewSuffix();
   QString delimiter = preset->image()->previewDelimiter();
-  QString bit0 = preset->image()->previewBit0();
-  QString bit1 = preset->image()->previewBit1();
+  QStringList levels = preset->image()->previewLevels().split(QRegExp("[\r\n]"), QString::SkipEmptyParts);
+
+  int levelsCount = levels.length();
+
+  if (levelsCount < 2) {
+    return QString();
+  }
+
+  if (levelsCount > 256) {
+    levelsCount = 256;
+  }
+
+  int levelStep = 256 / levelsCount;
 
   bool completed = false;
 
@@ -666,8 +677,15 @@ QString ConverterHelper::previewDataToString(Preset *preset, QVector<quint32> *d
         break;
       }
 
-      quint32 value = data->at(index);
-      converted = ((value & 0x00000001) != 0) ? preset->image()->previewBit1() : preset->image()->previewBit0();
+      QRgb value = data->at(index);
+      int gray = qGray(value);
+      int levelIndex = gray / levelStep;
+
+      if (levelIndex >= levelsCount) {
+        levelIndex = levelsCount - 1;
+      }
+
+      QString converted = levels.at(levelIndex);
       result.append(converted % delimiter);
     }
 

@@ -96,8 +96,6 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags
     int previewWidth, previewHeight;
     ConverterHelper::pixelsData(preset->prepare(), previewScript, &imagePrepared, &previewData, &previewWidth, &previewHeight);
 
-    ConverterHelper::processPixels(preset, &previewData);
-
     this->mPreparedOutputImagePreview = ConverterHelper::previewDataToString(
                                           preset,
                                           &previewData, previewWidth, previewHeight);
