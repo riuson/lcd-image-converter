@@ -57,8 +57,7 @@ private slots:
   void on_lineEditPreviewPrefix_textEdited(const QString &value);
   void on_lineEditPreviewSuffix_textEdited(const QString &value);
   void on_lineEditPreviewDelimiter_textEdited(const QString &value);
-  void on_lineEditPreviewBit0_textEdited(const QString &value);
-  void on_lineEditPreviewBit1_textEdited(const QString &value);
+  void on_textEditPreviewLevels_textChanged();
 };
 
 #endif // SETUPTABIMAGE_H
