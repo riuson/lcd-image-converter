@@ -31,6 +31,7 @@ $(end_block_header)
 
 $(start_block_images_table)
 static const uint$(img_data_block_size)_t image_data_$(doc_name_ws)[$(out_blocks_count)] = {
+    $(out_image_preview)
     $(out_image_data)
 };
 const tImage $(doc_name_ws) = { image_data_$(doc_name_ws), $(out_image_width), $(out_image_height),

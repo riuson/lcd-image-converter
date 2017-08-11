@@ -35,6 +35,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QTextStream>
+#include <QStringBuilder>
 
 #if defined(USE_JS_QTSCRIPT)
 #include <QtScript/QScriptEngine>
@@ -53,7 +54,7 @@
 #include "rlecompressor.h"
 #include "convimage.h"
 
-void ConverterHelper::pixelsData(Preset *preset, const QImage *image, QVector<quint32> *data, int *width, int *height)
+void ConverterHelper::pixelsData(PrepareOptions *prepare, const QString &script, const QImage *image, QVector<quint32> *data, int *width, int *height)
 {
   if (image != NULL && data != NULL && width != NULL && height != NULL) {
     data->clear();
@@ -64,11 +65,11 @@ void ConverterHelper::pixelsData(Preset *preset, const QImage *image, QVector<qu
     *height = im.height();
 
     // monochrome image needs special preprocessing
-    ConversionType type = preset->prepare()->convType();
+    ConversionType type = prepare->convType();
 
     if (type == ConversionTypeMonochrome) {
-      MonochromeType monotype = preset->prepare()->monoType();
-      int edge = preset->prepare()->edge();
+      MonochromeType monotype = prepare->monoType();
+      int edge = prepare->edge();
 
       switch (monotype) {
         case MonochromeTypeEdge:
@@ -92,11 +93,9 @@ void ConverterHelper::pixelsData(Preset *preset, const QImage *image, QVector<qu
     }
 
     {
-      QString script = ConverterHelper::scanScript(preset);
-
       ConvImage *convImage = new ConvImage(&im);
-      convImage->setBandSize(preset->prepare()->bandWidth());
-      convImage->setUseBands(preset->prepare()->bandScanning());
+      convImage->setBandSize(prepare->bandWidth());
+      convImage->setUseBands(prepare->bandScanning());
 
       QString errorMessage;
       ConverterHelper::collectPoints(convImage, script, &errorMessage);
@@ -372,16 +371,15 @@ void ConverterHelper::reorder(
   *outputHeight = inputHeight;
 }
 
-void ConverterHelper::compressData(
-  Preset *matrix,
-  QVector<quint32> *inputData,
-  int inputWidth, int inputHeight,
-  QVector<quint32> *outputData,
-  int *outputWidth, int *outputHeight)
+void ConverterHelper::compressData(Preset *preset,
+                                   QVector<quint32> *inputData,
+                                   int inputWidth, int inputHeight,
+                                   QVector<quint32> *outputData,
+                                   int *outputWidth, int *outputHeight)
 {
-  if (matrix->image()->compressionRle()) {
+  if (preset->image()->compressionRle()) {
     RleCompressor compressor;
-    compressor.compress(inputData, matrix->image()->blockSize(), outputData, matrix->image()->compressionRleMinLength());
+    compressor.compress(inputData, preset->image()->blockSize(), outputData, preset->image()->compressionRleMinLength());
     *outputWidth = outputData->size();
     *outputHeight = 1;
   } else {
@@ -640,6 +638,65 @@ QString ConverterHelper::dataToString(
   return result;
 }
 
+QString ConverterHelper::previewDataToString(Preset *preset, const QVector<quint32> *data, int width, int height)
+{
+  QString result;
+
+  QString prefix = preset->image()->previewPrefix();
+  QString suffix = preset->image()->previewSuffix();
+  QString delimiter = preset->image()->previewDelimiter();
+  QStringList levels = preset->image()->previewLevels().split(QRegExp("[\r\n]"), QString::SkipEmptyParts);
+
+  int levelsCount = levels.length();
+
+  if (levelsCount < 2) {
+    return QString();
+  }
+
+  if (levelsCount > 256) {
+    levelsCount = 256;
+  }
+
+  int levelStep = 256 / levelsCount;
+
+  bool completed = false;
+
+  for (int y = 0; y < height && !completed; y++) {
+    if (y > 0) {
+      result.append("\n");
+    }
+
+    result.append(prefix);
+
+    for (int x = 0; x < width && !completed; x++) {
+      // control index limits for compressed data
+      int index = y * width + x;
+
+      if (index >= data->size()) {
+        completed = true;
+        break;
+      }
+
+      QRgb value = data->at(index);
+      int gray = qGray(value);
+      int levelIndex = gray / levelStep;
+
+      if (levelIndex >= levelsCount) {
+        levelIndex = levelsCount - 1;
+      }
+
+      QString converted = levels.at(levelIndex);
+      result.append(converted % delimiter);
+    }
+
+    result.append(suffix);
+  }
+
+  result.truncate(result.length() - delimiter.length());
+
+  return result;
+}
+
 QString ConverterHelper::scanScript(Preset *preset)
 {
   QString result;
@@ -759,7 +816,7 @@ void ConverterHelper::makeGrayscale(QImage &image)
       QRgb value = image.pixel(x, y);
       int gray = qGray(value);
       int alpha = qAlpha(value);
-      QColor color = QColor(gray , gray, gray, alpha);
+      QColor color = QColor(gray, gray, gray, alpha);
       value = color.rgba();
       image.setPixel(x, y, value);
     }

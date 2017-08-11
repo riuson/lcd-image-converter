@@ -37,11 +37,13 @@ public:
   uint hash() const;
 
   const QString outputImageDataWithEOL(const Tags &tags) const;
+  const QString outputImagePreviewWithEOL(const Tags &tags) const;
 
 private:
   Tags *mTags;
   uint mHash;
   QString mPreparedOutputImageData;
+  QString mPreparedOutputImagePreview;
 };
 
 #endif // PARSEDIMAGEDATA_H

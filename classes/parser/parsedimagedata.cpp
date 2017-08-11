@@ -19,8 +19,10 @@
 
 #include "parsedimagedata.h"
 
+#include <QFile>
 #include <QImage>
 #include <QSet>
+#include <QTextStream>
 
 #include "tags.h"
 #include "converterhelper.h"
@@ -45,7 +47,7 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags
   // conversion from image to strings
   QVector<quint32> sourceData;
   int sourceWidth, sourceHeight;
-  ConverterHelper::pixelsData(preset, &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
+  ConverterHelper::pixelsData(preset->prepare(), ConverterHelper::scanScript(preset), &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
 
   if (sourceData.size() > 0) {
     ConverterHelper::processPixels(preset, &sourceData);
@@ -73,15 +75,30 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags
     this->mPreparedOutputImageData = ConverterHelper::dataToString(
                                        preset,
                                        &compressedData, compressedWidth, compressedHeight);
-    //dataString.replace("\n", this->mTags->tagValue(Tags::OutputDataEOL) + this->mTags->tagValue(Tags::OutputDataIndent));
-
-    // end of conversion
-
-    //this->mTags->setTagValue(Tags::OutputImageData, dataString);
 
     // get hash
     QString hashStr = QString("data: %1, width: %2, height: %3").arg(this->mPreparedOutputImageData).arg(image->width()).arg(image->height());
     this->mHash = qHash(hashStr);
+
+    // Preview
+    // Scan script
+    QFile filePreviewScript(":/scan_scripts/t2b_f");
+    QString previewScript;
+
+    if (filePreviewScript.open(QIODevice::ReadOnly)) {
+      QTextStream stream(&filePreviewScript);
+      previewScript = stream.readAll();
+      filePreviewScript.close();
+    }
+
+    // Collect pixels to make simple preview
+    QVector<quint32> previewData;
+    int previewWidth, previewHeight;
+    ConverterHelper::pixelsData(preset->prepare(), previewScript, &imagePrepared, &previewData, &previewWidth, &previewHeight);
+
+    this->mPreparedOutputImagePreview = ConverterHelper::previewDataToString(
+                                          preset,
+                                          &previewData, previewWidth, previewHeight);
   } else {
     this->mTags->setTagValue(Tags::OutputImageWidth, QString("0"));
     this->mTags->setTagValue(Tags::OutputImageHeight, QString("0"));
@@ -117,3 +134,9 @@ const QString ParsedImageData::outputImageDataWithEOL(const Tags &tags) const
   return result;
 }
 
+const QString ParsedImageData::outputImagePreviewWithEOL(const Tags &tags) const
+{
+  QString result = this->mPreparedOutputImagePreview;
+  result.replace("\n", tags.tagValue(Tags::OutputPreviewEOL) + tags.tagValue(Tags::OutputPreviewIndent));
+  return result;
+}

@@ -141,9 +141,13 @@ QString Parser::convert(IDocument *document, const QStringList &orderedKeys, QMa
   tags.setTagValue(Tags::TemplateFilename, file.fileName());
 
   QString prefix, suffix;
-  this->imageParticles(templateString, &prefix, &suffix);
+  this->imageDataParticles(templateString, &prefix, &suffix);
   tags.setTagValue(Tags::OutputDataIndent, prefix);
   tags.setTagValue(Tags::OutputDataEOL, suffix);
+
+  this->imagePreviewParticles(templateString, &prefix, &suffix);
+  tags.setTagValue(Tags::OutputPreviewIndent, prefix);
+  tags.setTagValue(Tags::OutputPreviewEOL, suffix);
 
   this->addCommonInfo(tags);
   this->addMatrixInfo(tags);
@@ -439,6 +443,7 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
 
       // apply imageParticles to outputImageData
       data->tags()->setTagValue(Tags::OutputImageData, data->outputImageDataWithEOL(tags));
+      data->tags()->setTagValue(Tags::OutputImagePreview, data->outputImagePreviewWithEOL(tags));
     }
   }
 
@@ -454,7 +459,7 @@ void Parser::addCommonInfo(Tags &tags) const
   tags.setTagValue(Tags::ApplicationRevision, QString("%1").arg(RevisionInfo::hash_abbr()));
 }
 
-void Parser::imageParticles(const QString &templateString, QString *prefix, QString *suffix) const
+void Parser::imageDataParticles(const QString &templateString, QString *prefix, QString *suffix) const
 {
   QString templateOutImageData;
 
@@ -497,3 +502,39 @@ void Parser::imageParticles(const QString &templateString, QString *prefix, QStr
   }
 }
 
+void Parser::imagePreviewParticles(const QString &templateString, QString *prefix, QString *suffix) const
+{
+  QString templateOutImagePreview;
+
+  // extract 'out_image_data' line
+  QRegExp regOutImageData = QRegExp("[^\\n\\r]*out_image_preview[^\\n\\r]*[\\n\\r]*");
+
+  if (regOutImageData.indexIn(templateString) >= 0) {
+    templateOutImagePreview = regOutImageData.cap();
+  }
+
+  *prefix = QString("    ");
+  *suffix = QString("\r\n");
+
+  if (!templateOutImagePreview.isEmpty()) {
+    QRegExp regIndent = QRegExp("^[\\t\\ ]*");
+
+    if (regIndent.indexIn(templateOutImagePreview) >= 0) {
+      QString result = regIndent.cap();
+
+      if (!result.isEmpty()) {
+        *prefix = result;
+      }
+    }
+
+    QRegExp regEOL = QRegExp("[\\r\\n]*$");
+
+    if (regEOL.indexIn(templateOutImagePreview) >= 0) {
+      QString result = regEOL.cap();
+
+      if (!result.isEmpty()) {
+        *suffix = result;
+      }
+    }
+  }
+}

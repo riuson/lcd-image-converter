@@ -1440,17 +1440,17 @@ Only minimal amount (%3) will be imported.</source>
         <translation>Сортировать символы:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="92"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="95"/>
         <source>None</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="96"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="99"/>
         <source>Ascending</source>
         <translation>По возрастанию</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="100"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="103"/>
         <source>Descending</source>
         <translation>По убыванию</translation>
     </message>
@@ -1463,61 +1463,84 @@ Only minimal amount (%3) will be imported.</source>
         <translation>Изображение</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="24"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="22"/>
+        <source>Common</source>
+        <translation>Общие</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="28"/>
         <source>Split to rows</source>
         <translation>Разбивать на строки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="37"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="41"/>
         <source>Trailing bits:</source>
         <extracomment>Unused bits at the end of data blocks</extracomment>
         <translatorcomment>Неиспользуемые биты в конце блока данных</translatorcomment>
         <translation>Завершающие биты:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="44"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="48"/>
         <source>Set to &apos;1&apos;</source>
         <translation>Установить в &apos;1&apos;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="74"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="78"/>
         <source>RLE Compression</source>
         <translation>Сжатие RLE</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="84"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="88"/>
         <source> block(s)</source>
         <translatorcomment>с 1 блока, 3 блоков</translatorcomment>
         <translation> блока(ов)</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="87"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="91"/>
         <source>from </source>
         <translatorcomment>с 1 блока</translatorcomment>
         <translation>с </translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="103"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="107"/>
         <source>Byte order:</source>
         <translation>Порядок байт:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="165"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="172"/>
+        <source>Data</source>
+        <translation>Данные</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="184"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="264"/>
         <source>Prefix:</source>
         <translation>Префикс:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="181"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="200"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="280"/>
         <source>Suffix:</source>
         <translation>Суффикс:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="197"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="216"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="296"/>
         <source>Delimiter:</source>
         <translation>Разделитель:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="57"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="252"/>
+        <source>Preview</source>
+        <translation>Предпросмотр</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="312"/>
+        <source>Level&apos;s replacement:</source>
+        <translation>Замена уровней:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="61"/>
         <source>Block size:</source>
         <translation>Блок данных:</translation>
     </message>

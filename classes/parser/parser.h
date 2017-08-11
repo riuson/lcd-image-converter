@@ -61,7 +61,8 @@ private:
   void addCommonInfo(Tags &tags) const;
 
   bool findNextTag(int startIndex, int *resultIndex, Tags);
-  void imageParticles(const QString &templateString, QString *prefix, QString *suffix) const;
+  void imageDataParticles(const QString &templateString, QString *prefix, QString *suffix) const;
+  void imagePreviewParticles(const QString &templateString, QString *prefix, QString *suffix) const;
 };
 
 #endif // PARSER_H

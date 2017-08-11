@@ -79,7 +79,7 @@ void DialogPreview::updatePreview()
 
       QVector<quint32> sourceData;
       int sourceWidth, sourceHeight;
-      ConverterHelper::pixelsData(this->mPreset, &this->mImageProcessed, &sourceData, &sourceWidth, &sourceHeight);
+      ConverterHelper::pixelsData(this->mPreset->prepare(), ConverterHelper::scanScript(this->mPreset), &this->mImageProcessed, &sourceData, &sourceWidth, &sourceHeight);
 
       ConverterHelper::processPixels(this->mPreset, &sourceData);
 
