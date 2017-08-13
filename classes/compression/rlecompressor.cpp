@@ -171,7 +171,7 @@ void RleCompressor::flushSequencePart(
   quint32 length,
   QVector<quint32> *output)
 {
-  if (sequence->size() > 1 && sequence->allEquals()) {
+  if (sequence->allEquals()) {
     output->append(length);
     output->append(sequence->at(start));
   } else {
