@@ -91,7 +91,7 @@
            <string>from </string>
           </property>
           <property name="minimum">
-           <number>2</number>
+           <number>1</number>
           </property>
          </widget>
         </item>

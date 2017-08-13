@@ -17,6 +17,7 @@ private:
 private slots:
   void initTestCase();
 
+  void compress1();
   void compress2();
   void compress5();
 
