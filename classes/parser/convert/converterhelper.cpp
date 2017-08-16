@@ -389,7 +389,7 @@ void ConverterHelper::compressData(Preset *preset,
 
       compressor.compress(&lineSource, preset->image()->blockSize(), &lineCompressed, preset->image()->compressionRleMinLength());
 
-      for (int i = 0; i < lineCompressed.length(); i++) {
+      for (int i = 0; i < lineCompressed.size(); i++) {
         outputData->append(lineCompressed.at(i));
       }
     }
