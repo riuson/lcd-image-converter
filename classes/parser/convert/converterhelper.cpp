@@ -379,7 +379,21 @@ void ConverterHelper::compressData(Preset *preset,
 {
   if (preset->image()->compressionRle()) {
     RleCompressor compressor;
-    compressor.compress(inputData, preset->image()->blockSize(), outputData, preset->image()->compressionRleMinLength());
+
+    for (int y = 0; y < inputHeight; y++) {
+      QVector<quint32> lineSource, lineCompressed;
+
+      for (int x = 0; x < inputWidth; x++) {
+        lineSource.append(inputData->at(x + y * inputWidth));
+      }
+
+      compressor.compress(&lineSource, preset->image()->blockSize(), &lineCompressed, preset->image()->compressionRleMinLength());
+
+      for (int i = 0; i < lineCompressed.length(); i++) {
+        outputData->append(lineCompressed.at(i));
+      }
+    }
+
     *outputWidth = outputData->size();
     *outputHeight = 1;
   } else {
