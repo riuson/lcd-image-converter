@@ -12,6 +12,7 @@
             <item category="added">New tag 'out_image_preview' and settings to generate image preview in output file.</item>
             <item category="changed">RLE minimal sequence block's count decreased to 1.</item>
             <item category="changed">RLE prefix for sequence with length == 1 changed from '(-1)(data[1])' to '(+1)(data[1])'.</item>
+            <item category="changed">RLE split image by lines special for antonluba.</item>
             <item category="fixed">Losing of empty parameters in Image settings block.</item>
         </changes>
     </record>
