@@ -114,19 +114,19 @@ quint32 RleCompressor::getMaxSize(DataBlockSize dataSize)
 
   switch (dataSize) {
     case Data8:
-      result = 0x7f;
+      result = 0xff;
       break;
 
     case Data16:
-      result = 0x7fff;
+      result = 0xffff;
       break;
 
     case Data24:
-      result = 0x7fffff;
+      result = 0xffffff;
       break;
 
     case Data32:
-      result = 0x7fffffff;
+      result = 0xffffffff;
       break;
 
     default:
