@@ -25,7 +25,7 @@
 #include <QPainter>
 #include "preset.h"
 #include "converterhelper.h"
-#include "convimage.h"
+#include "convimagescan.h"
 #include "prepareoptions.h"
 
 DemoGenerator::DemoGenerator(Preset *preset, QObject *parent) :
@@ -59,7 +59,7 @@ void DemoGenerator::setScript(const QString &value)
   this->mScript = value;
 
   // generate points
-  ConvImage *convImage = new ConvImage(this->mSourceImage, this);
+  ConvImageScan *convImage = new ConvImageScan(this->mSourceImage, this);
   convImage->setBandSize(this->mPreset->prepare()->bandWidth());
   convImage->setUseBands(this->mPreset->prepare()->bandScanning());
 

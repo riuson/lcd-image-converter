@@ -52,7 +52,7 @@
 #include "reorderingoptions.h"
 #include "imageoptions.h"
 #include "rlecompressor.h"
-#include "convimage.h"
+#include "convimagescan.h"
 
 void ConverterHelper::pixelsData(PrepareOptions *prepare, const QString &script, const QImage *image, QVector<quint32> *data, int *width, int *height)
 {
@@ -93,7 +93,7 @@ void ConverterHelper::pixelsData(PrepareOptions *prepare, const QString &script,
     }
 
     {
-      ConvImage *convImage = new ConvImage(&im);
+      ConvImageScan *convImage = new ConvImageScan(&im);
       convImage->setBandSize(prepare->bandWidth());
       convImage->setUseBands(prepare->bandScanning());
 
@@ -163,7 +163,7 @@ void ConverterHelper::pixelsData(PrepareOptions *prepare, const QString &script,
   }
 }
 
-void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script, QString *resultError)
+void ConverterHelper::collectPoints(ConvImageScan *convImage, const QString &script, QString *resultError)
 {
 #if defined(USE_JS_QTSCRIPT)
   // scanning with qt script
