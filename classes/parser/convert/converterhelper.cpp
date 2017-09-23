@@ -775,7 +775,7 @@ QString ConverterHelper::scanScript(Preset *preset)
 
 QString ConverterHelper::scanScriptTemplate()
 {
-  QFile file_script(":/scan_scripts/template");
+  QFile file_script(":/scan_scripts/scan_template");
   QString result = QString();
 
   if (file_script.open(QIODevice::ReadOnly)) {
