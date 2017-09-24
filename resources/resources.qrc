@@ -42,6 +42,8 @@
         <file alias="t2b_f">scan_scripts/scan_top2bottom_forward.js</file>
         <file alias="t2b_f_b">scan_scripts/scan_top2bottom_forward_band.js</file>
         <file alias="scan_template">scan_scripts/scan_template.js</file>
+        <file alias="pixels_template">scan_scripts/pixels_template.js</file>
+        <file alias="pixels_example">scan_scripts/pixels_example.js</file>
     </qresource>
     <qresource prefix="/images/icons/tools">
         <file alias="tool_pen">icons/tools/tool_pen.svg</file>
