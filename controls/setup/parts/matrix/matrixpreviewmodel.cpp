@@ -396,6 +396,11 @@ void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, Colo
   *colorType = Empty;
   *partIndex = 0;
 
+  if (bitIndex >= 24) {
+    *colorType = Alpha;
+    *partIndex = bitIndex & 7;
+  }
+
   switch (*convType) {
     case ConversionTypeMonochrome: {
       if (bitIndex < 24) {
@@ -429,11 +434,15 @@ void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, Colo
 
       break;
     }
-  }
 
-  if (bitIndex >= 24) {
-    *colorType = Alpha;
-    *partIndex = bitIndex & 7;
+    case ConversionTypeCustom: {
+      if (bitIndex < 32) {
+        *colorType = Gray;
+        *partIndex = bitIndex & 31;
+      }
+
+      break;
+    }
   }
 }
 
@@ -640,6 +649,23 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
 
             default:
               break;
+          }
+
+          break;
+        }
+
+        case ConversionTypeCustom: {
+          switch (colorType) {
+            case Gray: {
+              *name = QVariant(QString("Cu%1").arg(partIndex));
+              int a = (80 / 32 * partIndex) + 50;
+              *color = QVariant(QColor(10, 10, 10, a));
+              break;
+            }
+
+            default: {
+              break;
+            }
           }
 
           break;

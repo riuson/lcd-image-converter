@@ -53,7 +53,7 @@ PrepareOptions::PrepareOptions(QObject *parent) :
 
 ConversionType PrepareOptions::convType() const
 {
-  if (this->mConvType <= ConversionTypeColor) {
+  if (this->mConvType <= ConversionTypeCustom) {
     return this->mConvType;
   }
 
@@ -128,7 +128,7 @@ QString PrepareOptions::customScript() const
 void PrepareOptions::setConvType(ConversionType value)
 {
   if (this->mConvType != value) {
-    if (value < ConversionTypeMonochrome || value > ConversionTypeColor) {
+    if (value < ConversionTypeMonochrome || value > ConversionTypeCustom) {
       value = ConversionTypeColor;
     }
 
@@ -234,6 +234,7 @@ const QString &PrepareOptions::convTypeName() const
     "Monochrome",
     "Grayscale",
     "Color",
+    "Custom",
     "???"
   };
 
@@ -247,8 +248,11 @@ const QString &PrepareOptions::convTypeName() const
     case ConversionTypeColor:
       return names[2];
 
-    default:
+    case ConversionTypeCustom:
       return names[3];
+
+    default:
+      return names[4];
   }
 }
 

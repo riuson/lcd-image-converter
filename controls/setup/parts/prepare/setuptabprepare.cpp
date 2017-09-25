@@ -44,6 +44,7 @@ SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
   this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
   this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
   this->ui->comboBoxConversionType->addItem(tr("Color"), ConversionTypeColor);
+  this->ui->comboBoxConversionType->addItem(tr("Custom"), ConversionTypeCustom);
 
   this->ui->comboBoxMonochromeType->addItem(tr("Edge"), MonochromeTypeEdge);
   this->ui->comboBoxMonochromeType->addItem(QString("Diffuse Dither"), MonochromeTypeDiffuseDither);

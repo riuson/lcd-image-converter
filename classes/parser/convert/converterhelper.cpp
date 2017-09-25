@@ -162,7 +162,10 @@ void ConverterHelper::pixelsData(PrepareOptions *prepare, const QString &script,
       delete convImage;
     }
 
-    ConverterHelper::convertPixelsByScript(script, data, &errorMessage);
+    if (type == ConversionTypeCustom) {
+      QString errorMessage;
+      ConverterHelper::convertPixelsByScript(script, data, &errorMessage);
+    }
   }
 }
 

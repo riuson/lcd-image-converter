@@ -43,6 +43,7 @@ SetupTabMatrix::SetupTabMatrix(Preset *preset, QWidget *parent) :
   this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
   this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
   this->ui->comboBoxConversionType->addItem(tr("Color"), ConversionTypeColor);
+  this->ui->comboBoxConversionType->addItem(tr("Custom"), ConversionTypeCustom);
 
   this->mMatrixModel = new MatrixPreviewModel(this->mPreset, this);
   this->ui->tableViewOperations->setModel(this->mMatrixModel);
