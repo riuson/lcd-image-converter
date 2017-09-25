@@ -104,6 +104,7 @@ SOURCES += main.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
     classes/parser/convert/converterhelper.cpp \
+    classes/parser/convert/convimagepixels.cpp \
     classes/parser/convert/convimagescan.cpp \
     classes/parser/convert/fonthelper.cpp \
     classes/parser/parsedimagedata.cpp \
@@ -222,6 +223,7 @@ HEADERS += \
     classes/parser/convert/bitstream.h \
     classes/parser/convert/conversion_options.h \
     classes/parser/convert/converterhelper.h \
+    classes/parser/convert/convimagepixels.h \
     classes/parser/convert/convimagescan.h \
     classes/parser/convert/fonthelper.h \
     classes/parser/parsedimagedata.h \

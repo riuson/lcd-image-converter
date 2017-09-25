@@ -39,6 +39,8 @@ public:
     int *width,
     int *height);
   static void collectPoints(ConvImageScan *convImage, const QString &script, QString *resultError);
+  // apply custom bits processing
+  static void convertPixelsByScript(const QString &script, QVector<quint32> *data, QString *resultError);
   // apply masks and bits reorder
   static void processPixels(Preset *preset, QVector<quint32> *data);
   // pack data
@@ -71,6 +73,8 @@ public:
 
   static QString scanScript(Preset *preset);
   static QString scanScriptTemplate();
+  static QString pixelsScript(Preset *preset);
+  static QString pixelsScriptTemplate();
 
   static void makeGrayscale(QImage &image);
 private:
