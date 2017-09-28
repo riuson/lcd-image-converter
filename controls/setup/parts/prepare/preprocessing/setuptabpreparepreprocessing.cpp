@@ -96,9 +96,9 @@ void SetupTabPreparePreprocessing::on_horizontalScrollBarEdge_valueChanged(int v
 
 void SetupTabPreparePreprocessing::on_plainTextEditCustomScript_textChanged()
 {
-  if (this->mPreset->prepare()->useCustomScript()) {
+  if (this->mPreset->prepare()->useCustomScanScript()) {
     QString str = this->ui->plainTextEditCustomScript->toPlainText();
-    this->mPreset->prepare()->setCustomScript(str);
+    this->mPreset->prepare()->setCustomScanScript(str);
   }
 }
 

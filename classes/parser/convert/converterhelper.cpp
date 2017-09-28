@@ -784,8 +784,8 @@ QString ConverterHelper::scanScript(Preset *preset)
   QString result;
   const PrepareOptions *prepare = preset->prepare();
 
-  if (prepare->useCustomScript()) {
-    result = prepare->customScript();
+  if (prepare->useCustomScanScript()) {
+    result = prepare->customScanScript();
   } else {
     static const QString scripts[] = {
       ":/scan_scripts/t2b_b", // 0

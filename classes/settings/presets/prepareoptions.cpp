@@ -33,8 +33,8 @@ const QString PrepareOptions::FieldScanSub = QString("scanSub");
 const QString PrepareOptions::FieldInverse = QString("inverse");
 const QString PrepareOptions::FieldBandScanning = QString("bandScanning");
 const QString PrepareOptions::FieldBandWidth = QString("bandWidth");
-const QString PrepareOptions::FieldUseCustomScript = QString("useCustomScript");
-const QString PrepareOptions::FieldCustomScript = QString("customScript");
+const QString PrepareOptions::FieldUseCustomScanScript = QString("useCustomScript");
+const QString PrepareOptions::FieldCustomScanScript = QString("customScript");
 
 PrepareOptions::PrepareOptions(QObject *parent) :
   QObject(parent)
@@ -47,8 +47,8 @@ PrepareOptions::PrepareOptions(QObject *parent) :
   this->mInverse = false;
   this->mBandScanning = false;
   this->mBandWidth = 0;
-  this->mUseCustomScript = false;
-  this->mCustomScript = QString();
+  this->mUseCustomScanScript = false;
+  this->mCustomScanScript = QString();
 }
 
 ConversionType PrepareOptions::convType() const
@@ -115,14 +115,14 @@ int PrepareOptions::bandWidth() const
   return this->mBandWidth;
 }
 
-bool PrepareOptions::useCustomScript() const
+bool PrepareOptions::useCustomScanScript() const
 {
-  return this->mUseCustomScript;
+  return this->mUseCustomScanScript;
 }
 
-QString PrepareOptions::customScript() const
+QString PrepareOptions::customScanScript() const
 {
-  return this->mCustomScript;
+  return this->mCustomScanScript;
 }
 
 void PrepareOptions::setConvType(ConversionType value)
@@ -212,18 +212,18 @@ void PrepareOptions::setBandWidth(int value)
   }
 }
 
-void PrepareOptions::setUseCustomScript(bool value)
+void PrepareOptions::setUseCustomScanScript(bool value)
 {
-  if (this->mUseCustomScript != value) {
-    this->mUseCustomScript = value;
+  if (this->mUseCustomScanScript != value) {
+    this->mUseCustomScanScript = value;
     emit this->changed();
   }
 }
 
-void PrepareOptions::setCustomScript(const QString &value)
+void PrepareOptions::setCustomScanScript(const QString &value)
 {
-  if (this->mCustomScript != value) {
-    this->mCustomScript = value;
+  if (this->mCustomScanScript != value) {
+    this->mCustomScanScript = value;
     emit this->changed();
   }
 }
@@ -293,8 +293,8 @@ bool PrepareOptions::load(QSettings *settings)
   quint32 uConvType = 0, uMonoType = 0, uEdge = 0;
   quint32 uScanMain = 0, uScanSub = 0, uInverse = 0;
   quint32 uBandWidth = 1, uBandScanning = 0;
-  quint32 uUseCustomScript = 0;
-  QString sCustomScript;
+  quint32 uUseCustomScanScript = 0;
+  QString sCustomScanScript;
 
   uConvType = settings->value(PrepareOptions::FieldConvType, int(0)).toUInt(&result);
 
@@ -327,14 +327,14 @@ bool PrepareOptions::load(QSettings *settings)
   }
 
   if (result) {
-    uUseCustomScript = settings->value(PrepareOptions::FieldUseCustomScript, false).toBool();
+    uUseCustomScanScript = settings->value(PrepareOptions::FieldUseCustomScanScript, false).toBool();
   }
 
   if (result) {
-    QString str = settings->value(PrepareOptions::FieldCustomScript, QString()).toString();
+    QString str = settings->value(PrepareOptions::FieldCustomScanScript, QString()).toString();
     QByteArray ba = QByteArray::fromBase64(str.toLatin1());
     QBuffer buffer(&ba);
-    sCustomScript = QString::fromUtf8(buffer.data());
+    sCustomScanScript = QString::fromUtf8(buffer.data());
   }
 
   if (result) {
@@ -346,8 +346,8 @@ bool PrepareOptions::load(QSettings *settings)
     this->setInverse((bool)uInverse);
     this->setBandScanning((bool)uBandScanning);
     this->setBandWidth((int)uBandWidth);
-    this->setUseCustomScript((bool)uUseCustomScript);
-    this->setCustomScript(sCustomScript);
+    this->setUseCustomScanScript((bool)uUseCustomScanScript);
+    this->setCustomScanScript(sCustomScanScript);
   }
 
   settings->endGroup();
@@ -378,8 +378,8 @@ bool PrepareOptions::loadXmlElement(QDomElement element)
   quint32 uConvType = 0, uMonoType = 0, uEdge = 0;
   quint32 uScanMain = 0, uScanSub = 0, uInverse = 0;
   quint32 uBandWidth = 1, uBandScanning = 0;
-  quint32 uUseCustomScript = 0;
-  QString sCustomScript;
+  quint32 uUseCustomScanScript = 0;
+  QString sCustomScanScript;
 
   QDomNode nodeValue = nodeSett.firstChild();
 
@@ -427,9 +427,9 @@ bool PrepareOptions::loadXmlElement(QDomElement element)
         uBandWidth = str.toUInt(&result);
       }
 
-      if (e.tagName() == PrepareOptions::FieldUseCustomScript) {
+      if (e.tagName() == PrepareOptions::FieldUseCustomScanScript) {
         QString str = e.text();
-        uUseCustomScript = str.toUInt(&result);
+        uUseCustomScanScript = str.toUInt(&result);
       }
 
       if (e.tagName() == PrepareOptions::FieldEdge) {
@@ -437,12 +437,12 @@ bool PrepareOptions::loadXmlElement(QDomElement element)
         uEdge = str.toUInt(&result);
       }
 
-      if (e.tagName() == PrepareOptions::FieldCustomScript) {
+      if (e.tagName() == PrepareOptions::FieldCustomScanScript) {
         QDomNode cdataNode = e.firstChild();
 
         if (cdataNode.isCDATASection()) {
           QDomCDATASection cdataSection = cdataNode.toCDATASection();
-          sCustomScript = cdataSection.data();
+          sCustomScanScript = cdataSection.data();
         }
       }
 
@@ -463,8 +463,8 @@ bool PrepareOptions::loadXmlElement(QDomElement element)
     this->setInverse((bool)uInverse);
     this->setBandScanning((bool)uBandScanning);
     this->setBandWidth((int)uBandWidth);
-    this->setUseCustomScript((bool)uUseCustomScript);
-    this->setCustomScript(sCustomScript);
+    this->setUseCustomScanScript((bool)uUseCustomScanScript);
+    this->setCustomScanScript(sCustomScanScript);
   }
 
   return result;
@@ -482,13 +482,13 @@ void PrepareOptions::save(QSettings *settings)
   settings->setValue(PrepareOptions::FieldInverse,  QString("%1").arg((int)this->inverse()));
   settings->setValue(PrepareOptions::FieldBandScanning,    QString("%1").arg((int)this->bandScanning()));
   settings->setValue(PrepareOptions::FieldBandWidth,       QString("%1").arg((int)this->bandWidth()));
-  settings->setValue(PrepareOptions::FieldUseCustomScript, QString("%1").arg((int)this->useCustomScript()));
+  settings->setValue(PrepareOptions::FieldUseCustomScanScript, QString("%1").arg((int)this->useCustomScanScript()));
 
   {
-    QByteArray array = this->mCustomScript.toUtf8();
+    QByteArray array = this->mCustomScanScript.toUtf8();
     array = array.toBase64();
     QString str = QString::fromLatin1(array);
-    settings->setValue("customScript", str);
+    settings->setValue(PrepareOptions::FieldCustomScanScript, str);
   }
 
   settings->endGroup();
@@ -531,12 +531,12 @@ void PrepareOptions::saveXmlElement(QDomElement element)
   nodePrepare.appendChild(nodeBandWidth);
   nodeBandWidth.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->bandWidth())));
 
-  QDomElement nodeUseCustomScript = element.ownerDocument().createElement(PrepareOptions::FieldUseCustomScript);
-  nodePrepare.appendChild(nodeUseCustomScript);
-  nodeUseCustomScript.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->useCustomScript())));
+  QDomElement nodeUseCustomScanScript = element.ownerDocument().createElement(PrepareOptions::FieldUseCustomScanScript);
+  nodePrepare.appendChild(nodeUseCustomScanScript);
+  nodeUseCustomScanScript.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->useCustomScanScript())));
 
-  QDomElement nodeCustomScript = element.ownerDocument().createElement(PrepareOptions::FieldCustomScript);
-  nodePrepare.appendChild(nodeCustomScript);
-  nodeCustomScript.appendChild(element.ownerDocument().createCDATASection(this->mCustomScript));
+  QDomElement nodeCustomScanScript = element.ownerDocument().createElement(PrepareOptions::FieldCustomScanScript);
+  nodePrepare.appendChild(nodeCustomScanScript);
+  nodeCustomScanScript.appendChild(element.ownerDocument().createCDATASection(this->mCustomScanScript));
 }
 

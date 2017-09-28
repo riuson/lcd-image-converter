@@ -59,7 +59,7 @@ void SetupTabPrepareScanning::matrixChanged()
 
   this->ui->spinBoxBandWidth->setValue(this->mPreset->prepare()->bandWidth());
 
-  this->ui->checkBoxUseCustomScript->setChecked(this->mPreset->prepare()->useCustomScript());
+  this->ui->checkBoxUseCustomScript->setChecked(this->mPreset->prepare()->useCustomScanScript());
 
   this->updateState();
 
@@ -103,15 +103,15 @@ void SetupTabPrepareScanning::on_spinBoxBandWidth_valueChanged(int value)
 
 void SetupTabPrepareScanning::on_checkBoxUseCustomScript_toggled(bool value)
 {
-  this->mPreset->prepare()->setUseCustomScript(value);
+  this->mPreset->prepare()->setUseCustomScanScript(value);
   this->updateState();
 }
 
 void SetupTabPrepareScanning::on_plainTextEditCustomScript_textChanged()
 {
-  if (this->mPreset->prepare()->useCustomScript()) {
+  if (this->mPreset->prepare()->useCustomScanScript()) {
     QString str = this->ui->plainTextEditCustomScript->toPlainText();
-    this->mPreset->prepare()->setCustomScript(str);
+    this->mPreset->prepare()->setCustomScanScript(str);
   }
 }
 
@@ -121,7 +121,7 @@ void SetupTabPrepareScanning::updateState()
   this->ui->spinBoxBandWidth->setEnabled(this->mPreset->prepare()->bandScanning());
 
   // use custom script
-  this->ui->plainTextEditCustomScript->setReadOnly(!this->mPreset->prepare()->useCustomScript());
+  this->ui->plainTextEditCustomScript->setReadOnly(!this->mPreset->prepare()->useCustomScanScript());
 }
 
 void SetupTabPrepareScanning::updateScript()
