@@ -96,9 +96,9 @@ void SetupTabPreparePreprocessing::on_horizontalScrollBarEdge_valueChanged(int v
 
 void SetupTabPreparePreprocessing::on_plainTextEditCustomScript_textChanged()
 {
-  if (this->mPreset->prepare()->useCustomScanScript()) {
+  if (this->mPreset->prepare()->convType() == ConversionTypeCustom) {
     QString str = this->ui->plainTextEditCustomScript->toPlainText();
-    this->mPreset->prepare()->setCustomScanScript(str);
+    this->mPreset->prepare()->setCustomPreprocessScript(str);
   }
 }
 
@@ -131,11 +131,13 @@ void SetupTabPreparePreprocessing::updateState()
     this->ui->comboBoxMonochromeType->setEnabled(false);
     this->ui->horizontalScrollBarEdge->setEnabled(false);
   }
+
+  this->ui->plainTextEditCustomScript->setReadOnly(this->mPreset->prepare()->convType() != ConversionTypeCustom);
 }
 
 void SetupTabPreparePreprocessing::updateScript()
 {
-  QString script = ConverterHelper::scanScript(this->mPreset);
+  QString script = ConverterHelper::pixelsScript(this->mPreset);
 
   if (this->ui->plainTextEditCustomScript->toPlainText() != script) {
     this->ui->plainTextEditCustomScript->setPlainText(script);
