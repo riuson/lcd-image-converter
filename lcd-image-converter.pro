@@ -158,6 +158,8 @@ SOURCES += main.cpp \
     controls/setup/parts/matrix/matrixpreviewmodel.cpp \
     controls/setup/parts/matrix/setuptabmatrix.cpp \
     controls/setup/parts/prepare/demogenerator.cpp \
+    controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.cpp \
+    controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp \
     controls/setup/parts/prepare/setuptabprepare.cpp \
     controls/setup/parts/reordering/reorderingitemdelegate.cpp \
     controls/setup/parts/reordering/reorderingpreviewmodel.cpp \
@@ -277,6 +279,8 @@ HEADERS += \
     controls/setup/parts/matrix/matrixpreviewmodel.h \
     controls/setup/parts/matrix/setuptabmatrix.h \
     controls/setup/parts/prepare/demogenerator.h \
+    controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.h \
+    controls/setup/parts/prepare/scanning/setuptabpreparescanning.h \
     controls/setup/parts/prepare/setuptabprepare.h \
     controls/setup/parts/reordering/reorderingitemdelegate.h \
     controls/setup/parts/reordering/reorderingpreviewmodel.h \
@@ -307,7 +311,9 @@ FORMS += \
     controls/setup/parts/font/setuptabfont.ui \
     controls/setup/parts/image/setuptabimage.ui \
     controls/setup/parts/matrix/setuptabmatrix.ui \
+    controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui \
     controls/setup/parts/prepare/setuptabprepare.ui \
+    controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui \
     controls/setup/parts/reordering/setuptabreordering.ui \
     controls/setup/parts/templates/setuptabtemplates.ui \
     controls/start/starttab.ui \
@@ -346,6 +352,8 @@ INCLUDEPATH += $$PWD \
     $$PWD/controls/setup/parts/image \
     $$PWD/controls/setup/parts/matrix \
     $$PWD/controls/setup/parts/prepare \
+    $$PWD/controls/setup/parts/prepare/scanning \
+    $$PWD/controls/setup/parts/prepare/preprocessing \
     $$PWD/controls/setup/parts/reordering \
     $$PWD/controls/setup/parts/templates \
     $$PWD/controls/updates \
