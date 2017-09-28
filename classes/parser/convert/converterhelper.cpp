@@ -871,14 +871,17 @@ QString ConverterHelper::scanScriptTemplate()
 
 QString ConverterHelper::pixelsScript(Preset *preset)
 {
-  static const QString scriptPath = ":/scan_scripts/pixels_example";
-  QFile file_script(scriptPath);
-  QString result;
+  QString result = preset->prepare()->customPreprocessScript();
 
-  if (file_script.open(QIODevice::ReadOnly)) {
-    QTextStream stream(&file_script);
-    result = stream.readAll();
-    file_script.close();
+  if (result.isEmpty()) {
+    static const QString scriptPath = ":/scan_scripts/pixels_example";
+    QFile file_script(scriptPath);
+
+    if (file_script.open(QIODevice::ReadOnly)) {
+      QTextStream stream(&file_script);
+      result = stream.readAll();
+      file_script.close();
+    }
   }
 
   return result;
