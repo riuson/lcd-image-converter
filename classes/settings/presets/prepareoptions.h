@@ -45,6 +45,7 @@ public:
   int bandWidth() const;
   bool useCustomScanScript() const;
   QString customScanScript() const;
+  QString customPreprocessScript() const;
 
   void setConvType(ConversionType value);
   void setMonoType(MonochromeType value);
@@ -56,6 +57,7 @@ public:
   void setBandWidth(int value);
   void setUseCustomScanScript(bool value);
   void setCustomScanScript(const QString &value);
+  void setCustomPreprocessScript(const QString &value);
 
   const QString &convTypeName() const;
   const QString &monoTypeName() const;
@@ -77,6 +79,7 @@ private:
   static const QString FieldBandWidth;
   static const QString FieldUseCustomScanScript;
   static const QString FieldCustomScanScript;
+  static const QString FieldCustomPreprocessScript;
 
   ConversionType mConvType;
   MonochromeType mMonoType;
@@ -88,6 +91,7 @@ private:
   int mBandWidth;
   bool mUseCustomScanScript;
   QString mCustomScanScript;
+  QString mCustomPreprocessScript;
 
 signals:
   void changed();

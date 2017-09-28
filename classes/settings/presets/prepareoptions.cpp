@@ -35,6 +35,7 @@ const QString PrepareOptions::FieldBandScanning = QString("bandScanning");
 const QString PrepareOptions::FieldBandWidth = QString("bandWidth");
 const QString PrepareOptions::FieldUseCustomScanScript = QString("useCustomScript");
 const QString PrepareOptions::FieldCustomScanScript = QString("customScript");
+const QString PrepareOptions::FieldCustomPreprocessScript = QString("customPreprocessScript");
 
 PrepareOptions::PrepareOptions(QObject *parent) :
   QObject(parent)
@@ -49,6 +50,7 @@ PrepareOptions::PrepareOptions(QObject *parent) :
   this->mBandWidth = 0;
   this->mUseCustomScanScript = false;
   this->mCustomScanScript = QString();
+  this->mCustomPreprocessScript = QString();
 }
 
 ConversionType PrepareOptions::convType() const
@@ -123,6 +125,11 @@ bool PrepareOptions::useCustomScanScript() const
 QString PrepareOptions::customScanScript() const
 {
   return this->mCustomScanScript;
+}
+
+QString PrepareOptions::customPreprocessScript() const
+{
+  return this->mCustomPreprocessScript;
 }
 
 void PrepareOptions::setConvType(ConversionType value)
@@ -228,6 +235,14 @@ void PrepareOptions::setCustomScanScript(const QString &value)
   }
 }
 
+void PrepareOptions::setCustomPreprocessScript(const QString &value)
+{
+  if (this->mCustomPreprocessScript != value) {
+    this->mCustomPreprocessScript = value;
+    emit this->changed();
+  }
+}
+
 const QString &PrepareOptions::convTypeName() const
 {
   static const QString names[] = {
@@ -294,7 +309,7 @@ bool PrepareOptions::load(QSettings *settings)
   quint32 uScanMain = 0, uScanSub = 0, uInverse = 0;
   quint32 uBandWidth = 1, uBandScanning = 0;
   quint32 uUseCustomScanScript = 0;
-  QString sCustomScanScript;
+  QString sCustomScanScript, sCustomPreprocessScript;
 
   uConvType = settings->value(PrepareOptions::FieldConvType, int(0)).toUInt(&result);
 
@@ -338,6 +353,13 @@ bool PrepareOptions::load(QSettings *settings)
   }
 
   if (result) {
+    QString str = settings->value(PrepareOptions::FieldCustomPreprocessScript, QString()).toString();
+    QByteArray ba = QByteArray::fromBase64(str.toLatin1());
+    QBuffer buffer(&ba);
+    sCustomPreprocessScript = QString::fromUtf8(buffer.data());
+  }
+
+  if (result) {
     this->setConvType((ConversionType)uConvType);
     this->setMonoType((MonochromeType)uMonoType);
     this->setEdge((int)uEdge);
@@ -348,6 +370,7 @@ bool PrepareOptions::load(QSettings *settings)
     this->setBandWidth((int)uBandWidth);
     this->setUseCustomScanScript((bool)uUseCustomScanScript);
     this->setCustomScanScript(sCustomScanScript);
+    this->setCustomPreprocessScript(sCustomPreprocessScript);
   }
 
   settings->endGroup();
@@ -379,7 +402,7 @@ bool PrepareOptions::loadXmlElement(QDomElement element)
   quint32 uScanMain = 0, uScanSub = 0, uInverse = 0;
   quint32 uBandWidth = 1, uBandScanning = 0;
   quint32 uUseCustomScanScript = 0;
-  QString sCustomScanScript;
+  QString sCustomScanScript, sCustomPreprocessScript;
 
   QDomNode nodeValue = nodeSett.firstChild();
 
@@ -446,6 +469,15 @@ bool PrepareOptions::loadXmlElement(QDomElement element)
         }
       }
 
+      if (e.tagName() == PrepareOptions::FieldCustomPreprocessScript) {
+        QDomNode cdataNode = e.firstChild();
+
+        if (cdataNode.isCDATASection()) {
+          QDomCDATASection cdataSection = cdataNode.toCDATASection();
+          sCustomPreprocessScript = cdataSection.data();
+        }
+      }
+
       if (!result) {
         break;
       }
@@ -465,6 +497,7 @@ bool PrepareOptions::loadXmlElement(QDomElement element)
     this->setBandWidth((int)uBandWidth);
     this->setUseCustomScanScript((bool)uUseCustomScanScript);
     this->setCustomScanScript(sCustomScanScript);
+    this->setCustomPreprocessScript(sCustomPreprocessScript);
   }
 
   return result;
@@ -489,6 +522,13 @@ void PrepareOptions::save(QSettings *settings)
     array = array.toBase64();
     QString str = QString::fromLatin1(array);
     settings->setValue(PrepareOptions::FieldCustomScanScript, str);
+  }
+
+  {
+    QByteArray array = this->mCustomPreprocessScript.toUtf8();
+    array = array.toBase64();
+    QString str = QString::fromLatin1(array);
+    settings->setValue(PrepareOptions::FieldCustomPreprocessScript, str);
   }
 
   settings->endGroup();
@@ -538,5 +578,9 @@ void PrepareOptions::saveXmlElement(QDomElement element)
   QDomElement nodeCustomScanScript = element.ownerDocument().createElement(PrepareOptions::FieldCustomScanScript);
   nodePrepare.appendChild(nodeCustomScanScript);
   nodeCustomScanScript.appendChild(element.ownerDocument().createCDATASection(this->mCustomScanScript));
+
+  QDomElement nodeCustomPreprocessScript = element.ownerDocument().createElement(PrepareOptions::FieldCustomPreprocessScript);
+  nodePrepare.appendChild(nodeCustomPreprocessScript);
+  nodeCustomPreprocessScript.appendChild(element.ownerDocument().createCDATASection(this->mCustomPreprocessScript));
 }
 
