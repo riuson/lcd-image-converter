@@ -46,16 +46,18 @@ const QString &TemplateOptions::font() const
 
 void TemplateOptions::setImage(const QString &filename)
 {
-  this->mImageTemplate = filename;
-
-  emit this->changed();
+  if (this->mImageTemplate != filename) {
+    this->mImageTemplate = filename;
+    emit this->changed();
+  }
 }
 
 void TemplateOptions::setFont(const QString &filename)
 {
-  this->mFontTemplate = filename;
-
-  emit this->changed();
+  if (this->mFontTemplate != filename) {
+    this->mFontTemplate = filename;
+    emit this->changed();
+  }
 }
 
 bool TemplateOptions::load(QSettings *settings)
