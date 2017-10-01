@@ -69,7 +69,7 @@ private:
   void createPresetsDefault();
   bool checkOverwrite(const QString &originalName, QString *resultName) const;
 private slots:
-  void presetChanged();
+  void previewUpdate();
   void on_pushButtonPreview_clicked();
   void on_pushButtonPresetSaveAs_clicked();
   void on_pushButtonPresetRemove_clicked();
@@ -81,6 +81,9 @@ private slots:
 
 protected:
   void done(int result);
+
+signals:
+  void presetLoaded();
 };
 
 #endif // DIALOGOPTIONS_H
