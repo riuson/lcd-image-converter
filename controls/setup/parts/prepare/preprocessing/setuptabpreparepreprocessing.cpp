@@ -98,7 +98,18 @@ void SetupTabPreparePreprocessing::on_plainTextEditCustomScript_textChanged()
 {
   if (this->mPreset->prepare()->convType() == ConversionTypeCustom) {
     QString str = this->ui->plainTextEditCustomScript->toPlainText();
-    this->mPreset->prepare()->setCustomPreprocessScript(str);
+
+    QVector<quint32> data;
+    data.append(0);
+    QString scriptError;
+    ConverterHelper::convertPixelsByScript(str, &data, &scriptError);
+
+    if (scriptError.isEmpty()) {
+      this->mPreset->prepare()->setCustomPreprocessScript(str);
+      this->ui->labelErrorMessage->setText(QString());
+    } else {
+      this->ui->labelErrorMessage->setText(scriptError);
+    }
   }
 }
 
