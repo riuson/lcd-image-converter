@@ -35,6 +35,7 @@ private slots:
   void on_checkBoxInverse_toggled(bool value);
   void on_horizontalScrollBarEdge_valueChanged(int value);
   void on_plainTextEditCustomScript_textChanged();
+  void on_lineEditDemoInput_textChanged();
   void updateState();
   void updateScript();
 };

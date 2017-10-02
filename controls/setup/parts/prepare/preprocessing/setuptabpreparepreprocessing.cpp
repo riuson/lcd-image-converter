@@ -107,8 +107,44 @@ void SetupTabPreparePreprocessing::on_plainTextEditCustomScript_textChanged()
     if (scriptError.isEmpty()) {
       this->mPreset->prepare()->setCustomPreprocessScript(str);
       this->ui->labelErrorMessage->setText(QString());
+      this->on_lineEditDemoInput_textChanged();
     } else {
       this->ui->labelErrorMessage->setText(scriptError);
+    }
+  }
+}
+
+void SetupTabPreparePreprocessing::on_lineEditDemoInput_textChanged()
+{
+  if (this->mPreset->prepare()->convType() == ConversionTypeCustom) {
+    QString demoInputString = this->ui->lineEditDemoInput->text();
+    quint32 demoInputValue;
+    bool ok = false;
+
+    if (demoInputString.contains(QChar('x'), Qt::CaseInsensitive)) {
+      demoInputValue = demoInputString.toULong(&ok, 16);
+    } else {
+      demoInputValue = demoInputString.toULong(&ok, 10);
+    }
+
+    if (ok) {
+      QString script = this->ui->plainTextEditCustomScript->toPlainText();
+
+      QVector<quint32> demoData;
+      demoData.append(demoInputValue);
+      QString scriptError;
+      ConverterHelper::convertPixelsByScript(script, &demoData, &scriptError);
+
+      if (scriptError.isEmpty()) {
+        this->mPreset->prepare()->setCustomPreprocessScript(script);
+        this->ui->labelErrorMessage->setText(QString());
+      } else {
+        this->ui->labelErrorMessage->setText(scriptError);
+      }
+
+
+      quint32 demoOutputValue = demoData.at(0);
+      this->ui->lineEditDemoOutput->setText(QString("0x%1").arg(demoOutputValue, 8, 16, QChar('0')));
     }
   }
 }
