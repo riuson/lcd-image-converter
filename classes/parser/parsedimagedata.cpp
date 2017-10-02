@@ -47,7 +47,7 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags
   // conversion from image to strings
   QVector<quint32> sourceData;
   int sourceWidth, sourceHeight;
-  ConverterHelper::pixelsData(preset->prepare(), ConverterHelper::scanScript(preset), &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
+  ConverterHelper::pixelsData(preset->prepare(), ConverterHelper::scanScript(preset), ConverterHelper::pixelsScript(preset), &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
 
   if (sourceData.size() > 0) {
     ConverterHelper::processPixels(preset, &sourceData);
@@ -82,19 +82,29 @@ ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const Tags
 
     // Preview
     // Scan script
-    QFile filePreviewScript(":/scan_scripts/t2b_f");
-    QString previewScript;
+    QFile filePreviewScanScript(":/scan_scripts/t2b_f");
+    QString previewScanScript;
 
-    if (filePreviewScript.open(QIODevice::ReadOnly)) {
-      QTextStream stream(&filePreviewScript);
-      previewScript = stream.readAll();
-      filePreviewScript.close();
+    if (filePreviewScanScript.open(QIODevice::ReadOnly)) {
+      QTextStream stream(&filePreviewScanScript);
+      previewScanScript = stream.readAll();
+      filePreviewScanScript.close();
+    }
+
+    // Pixels script
+    QFile filePreviewPixelsScript(":/scan_scripts/pixels_example");
+    QString previewPixelsScript;
+
+    if (filePreviewPixelsScript.open(QIODevice::ReadOnly)) {
+      QTextStream stream(&filePreviewPixelsScript);
+      previewPixelsScript = stream.readAll();
+      filePreviewPixelsScript.close();
     }
 
     // Collect pixels to make simple preview
     QVector<quint32> previewData;
     int previewWidth, previewHeight;
-    ConverterHelper::pixelsData(preset->prepare(), previewScript, &imagePrepared, &previewData, &previewWidth, &previewHeight);
+    ConverterHelper::pixelsData(preset->prepare(), previewScanScript, previewPixelsScript, &imagePrepared, &previewData, &previewWidth, &previewHeight);
 
     this->mPreparedOutputImagePreview = ConverterHelper::previewDataToString(
                                           preset,

@@ -55,7 +55,13 @@
 #include "convimagepixels.h"
 #include "convimagescan.h"
 
-void ConverterHelper::pixelsData(PrepareOptions *prepare, const QString &script, const QImage *image, QVector<quint32> *data, int *width, int *height)
+void ConverterHelper::pixelsData(
+  PrepareOptions *prepare,
+  const QString &scanScript,
+  const QString &pixelScript,
+  const QImage *image,
+  QVector<quint32> *data,
+  int *width, int *height)
 {
   if (image != NULL && data != NULL && width != NULL && height != NULL) {
     data->clear();
@@ -99,7 +105,7 @@ void ConverterHelper::pixelsData(PrepareOptions *prepare, const QString &script,
       convImage->setUseBands(prepare->bandScanning());
 
       QString errorMessage;
-      ConverterHelper::collectPoints(convImage, script, &errorMessage);
+      ConverterHelper::collectPoints(convImage, scanScript, &errorMessage);
 
       if (convImage->pointsCount() > 2) {
         // find image data size
@@ -164,7 +170,7 @@ void ConverterHelper::pixelsData(PrepareOptions *prepare, const QString &script,
 
     if (type == ConversionTypeCustom) {
       QString errorMessage;
-      ConverterHelper::convertPixelsByScript(script, data, &errorMessage);
+      ConverterHelper::convertPixelsByScript(pixelScript, data, &errorMessage);
     }
   }
 }
