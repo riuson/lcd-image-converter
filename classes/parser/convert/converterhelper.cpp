@@ -571,6 +571,7 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
           break;
         }
 
+        case ConversionTypeCustom:
         case ConversionTypeColor: {
           quint32 opMask;
           int opShift;
