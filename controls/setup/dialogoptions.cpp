@@ -79,7 +79,7 @@ DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
 
   int presetIndex = this->ui->comboBoxPresets->findText(selectedPreset);
 
-  if (presetIndex >= 0) {
+  if (presetIndex >= 0 && this->ui->comboBoxPresets->currentIndex() != presetIndex) {
     this->ui->comboBoxPresets->setCurrentIndex(presetIndex);
   } else {
     emit this->presetLoaded();
