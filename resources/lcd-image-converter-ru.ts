@@ -619,87 +619,87 @@ Qt: %4</translation>
         <translation>Открыть предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="178"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="181"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="181"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="184"/>
         <source>Grayscale 4</source>
         <translation>Градации серого 4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="184"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="187"/>
         <source>Grayscale 8</source>
         <translation>Градации серого 8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="187"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="190"/>
         <source>Color R4G5B4</source>
         <translation>Цветное R4G5B4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="190"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="193"/>
         <source>Color R5G6B5</source>
         <translation>Цветное R5G6B5</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="193"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="196"/>
         <source>Color R8G8B8</source>
         <translation>Цветное R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="196"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="199"/>
         <source>Color A8R8G8B8</source>
         <translation>Цветное A8R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="210"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="213"/>
         <source>Import - Attention</source>
         <translation>Импорт - Внимание</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="254"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="257"/>
         <source>Enter preset name</source>
         <translation>Введите название предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="254"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="257"/>
         <source>Preset name:</source>
         <translation>Название предустановки:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="277"/>
-        <location filename="../controls/setup/dialogoptions.cpp" line="304"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="280"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="307"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="278"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="281"/>
         <source>Open xml preset file</source>
         <translation>Открыть xml файл предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="306"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="309"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="336"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="340"/>
         <source>Preset with name &quot;%1&quot; already exists. Continue with overwrite?</source>
         <comment>Warning about preset overwrite</comment>
         <translatorcomment>Предупреждение о перезаписи существующей предустановки</translatorcomment>
         <translation>Предустановка с именем &quot;%1&quot; уже существует. Продолжить с перезаписью?</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="339"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="343"/>
         <source>Preset with name &quot;%1&quot; doesn&apos;t exists. All OK.</source>
         <comment>Warning about preset overwrite</comment>
         <translatorcomment>Предупреждение о перезаписи существующей предустановки</translatorcomment>
         <translation>Предустановка с именем &quot;%1&quot; не существует. Можно продолжать.</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="349"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="353"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
     </message>
@@ -1573,72 +1573,52 @@ Only minimal amount (%3) will be imported.</source>
         <translation>Матрица</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.ui" line="28"/>
-        <source>Type:</source>
-        <translation>Тип:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="43"/>
-        <source>Monochrome</source>
-        <translation>Монохромное</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="44"/>
-        <source>Grayscale</source>
-        <translation>Градации серого</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="45"/>
-        <source>Color</source>
-        <translation>Цветное</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="123"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="102"/>
         <source>Source</source>
         <translation>Исходник</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="125"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="104"/>
         <source>Add &quot;Left Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг влево&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="126"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="105"/>
         <source>Add &quot;Right Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг вправо&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="146"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="125"/>
         <source>Operation</source>
         <translation>Операция</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="156"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="135"/>
         <source>Shift left</source>
         <translation>Сдвиг влево</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="157"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="136"/>
         <source>Shift right</source>
         <translation>Сдвиг вправо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="158"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="137"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="183"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="162"/>
         <source>Mask</source>
         <translation>Маска</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="202"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="181"/>
         <source>Set 1</source>
         <translation>Установить в 1</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="205"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="184"/>
         <source>Set 0</source>
         <translation>Сбросить в 0</translation>
     </message>
@@ -1651,109 +1631,168 @@ Only minimal amount (%3) will be imported.</source>
         <translation>Подготовка</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="30"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="42"/>
+        <source>Scanning</source>
+        <translation>Сканирование</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="45"/>
+        <source>Preprocessing</source>
+        <translation>Предв. обработка</translation>
+    </message>
+</context>
+<context>
+    <name>SetupTabPreparePreprocessing</name>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="14"/>
+        <source>Preprocessing</source>
+        <translation>Предв. обработка</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="30"/>
         <source>Type:</source>
         <translation>Тип:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="86"/>
-        <source>Use custom script</source>
-        <translation>Свой алгоритм</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="99"/>
-        <source>Main Scan Direction:</source>
-        <translation>Основное сканирование:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="122"/>
-        <source>Line Scan Direction:</source>
-        <translation>Сканирование линий:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="132"/>
-        <source>Bands</source>
-        <translation>Полосы</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="139"/>
-        <source>Band Width</source>
-        <translation>Ширина полосы</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="217"/>
-        <source> s</source>
-        <translatorcomment>секунда</translatorcomment>
-        <translation> с</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="236"/>
-        <source> ms</source>
-        <translatorcomment>миллисекунда</translatorcomment>
-        <translation> мс</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="220"/>
-        <source>Time: </source>
-        <translation>Время: </translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="239"/>
-        <source>Interval: </source>
-        <translation>Интервал: </translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="79"/>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="79"/>
         <source>Inverse</source>
         <translation>Инвертировать</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="44"/>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="137"/>
+        <source>Script test</source>
+        <translation>Проверка алгоритма</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="144"/>
+        <source>Input:</source>
+        <translation>Входное значение:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="157"/>
+        <source>0x0</source>
+        <translation>0x0</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="160"/>
+        <source>0x0 to 0xffffffff</source>
+        <translation>От 0x0 до 0xffffffff</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="167"/>
+        <source>Output:</source>
+        <translation>Выходное значение:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="183"/>
+        <source>Result</source>
+        <translation>Результат</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.cpp" line="22"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="45"/>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.cpp" line="23"/>
         <source>Grayscale</source>
         <translation>Градации серого</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="46"/>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.cpp" line="24"/>
         <source>Color</source>
         <translation>Цветное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="48"/>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.cpp" line="25"/>
+        <source>Custom</source>
+        <translation>Пользовательское</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.cpp" line="27"/>
         <source>Edge</source>
         <translation>Порог</translation>
     </message>
+</context>
+<context>
+    <name>SetupTabPrepareScanning</name>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="53"/>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="14"/>
+        <source>Scanning</source>
+        <translation>Сканирование</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="30"/>
+        <source>Main Scan Direction:</source>
+        <translation>Основное сканирование:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="53"/>
+        <source>Line Scan Direction:</source>
+        <translation>Сканирование линий:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="63"/>
+        <source>Bands</source>
+        <translation>Полосы</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="70"/>
+        <source>Band Width</source>
+        <translation>Ширина полосы</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="86"/>
+        <source>Use custom script</source>
+        <translation>Свой алгоритм</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="168"/>
+        <source> s</source>
+        <translation> с</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="171"/>
+        <source>Time: </source>
+        <translation>Время: </translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="187"/>
+        <source> ms</source>
+        <translation> мс</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="190"/>
+        <source>Interval: </source>
+        <translation>Интервал: </translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp" line="25"/>
         <source>Top to Bottom</source>
         <translation>Сверху вниз</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="54"/>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp" line="26"/>
         <source>Bottom to Top</source>
         <translation>Снизу вверх</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="55"/>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp" line="27"/>
         <source>Left to Right</source>
         <translation>Слева направо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="56"/>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp" line="28"/>
         <source>Right to Left</source>
         <translation>Справа налево</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="58"/>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp" line="30"/>
         <source>Forward</source>
         <translation>Прямое</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="59"/>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp" line="31"/>
         <source>Backward</source>
         <translation>Обратное</translation>
     </message>
