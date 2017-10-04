@@ -55,25 +55,28 @@ CharactersSortOrder FontOptions::sortOrder() const
 
 void FontOptions::setBom(bool value)
 {
-  this->mBom = value;
-
-  emit this->changed();
+  if (this->mBom != value) {
+    this->mBom = value;
+    emit this->changed();
+  }
 }
 
 void FontOptions::setEncoding(const QString &value)
 {
   if (FontOptions::encodings().contains(value)) {
-    this->mEncoding = value;
-
-    emit this->changed();
+    if (this->mEncoding != value) {
+      this->mEncoding = value;
+      emit this->changed();
+    }
   }
 }
 
 void FontOptions::setSortOrder(CharactersSortOrder value)
 {
-  this->mSortOrder = value;
-
-  emit this->changed();
+  if (this->mSortOrder != value) {
+    this->mSortOrder = value;
+    emit this->changed();
+  }
 }
 
 bool FontOptions::load(QSettings *settings)

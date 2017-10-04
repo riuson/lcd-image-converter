@@ -72,30 +72,46 @@ quint32 MatrixOptions::maskFill() const
 
 void MatrixOptions::setMaskUsed(quint32 value)
 {
-  this->mMaskUsed = (value != 0) ? value : 1;
+  if (value == 0) {
+    value = 1;
+  }
 
-  emit this->changed();
+  if (this->mMaskUsed != value) {
+    this->mMaskUsed = value;
+    emit this->changed();
+  }
 }
 
 void MatrixOptions::setMaskAnd(quint32 value)
 {
-  this->mMaskAnd = (value != 0) ? value : 1;
+  if (value == 0) {
+    value = 1;
+  }
 
-  emit this->changed();
+  if (this->mMaskAnd != value) {
+    this->mMaskAnd = value;
+    emit this->changed();
+  }
 }
 
 void MatrixOptions::setMaskOr(quint32 value)
 {
-  this->mMaskOr = value;
-
-  emit this->changed();
+  if (this->mMaskOr != value) {
+    this->mMaskOr = value;
+    emit this->changed();
+  }
 }
 
 void MatrixOptions::setMaskFill(quint32 value)
 {
-  this->mMaskFill = (value != 0) ? value : 0xffffffff;
+  if (value == 0) {
+    value = 0xffffffff;
+  }
 
-  emit this->changed();
+  if (this->mMaskFill != value) {
+    this->mMaskFill = value;
+    emit this->changed();
+  }
 }
 
 int MatrixOptions::operationsCount() const

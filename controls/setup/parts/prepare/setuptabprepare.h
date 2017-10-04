@@ -30,7 +30,8 @@ class SetupTabPrepare;
 }
 
 class Preset;
-class DemoGenerator;
+class SetupTabPrepareScanning;
+class SetupTabPreparePreprocessing;
 
 using namespace ConversionOptions;
 
@@ -48,27 +49,10 @@ public slots:
 private:
   Ui::SetupTabPrepare *ui;
   Preset *mPreset;
-  QPixmap mPixmapScanning;
-  QPixmap mPixmapScanPreview;
-  DemoGenerator *mDemoGen;
+  SetupTabPreparePreprocessing *mTabPreprocessing;
+  SetupTabPrepareScanning *mTabScanning;
 
 private slots:
-  void on_comboBoxConversionType_currentIndexChanged(int index);
-  void on_comboBoxMonochromeType_currentIndexChanged(int index);
-  void on_comboBoxScanMain_currentIndexChanged(int index);
-  void on_comboBoxScanSub_currentIndexChanged(int index);
-  void on_checkBoxInverse_toggled(bool value);
-  void on_horizontalScrollBarEdge_valueChanged(int value);
-  void on_checkBoxBands_toggled(bool value);
-  void on_spinBoxBandWidth_valueChanged(int value);
-  void on_checkBoxUseCustomScript_toggled(bool value);
-  void on_plainTextEditCustomScript_textChanged();
-  void updateState();
-  void updateScript();
-  void demoPixmapChanged(const QPixmap &pixmap);
-  void demoScriptError(const QString &value);
-  void on_spinBoxAnimationTime_valueChanged(int value);
-  void on_spinBoxAnimationInterval_valueChanged(int value);
 };
 
 #endif // SETUPTABPREPARE_H

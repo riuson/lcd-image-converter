@@ -67,23 +67,26 @@ DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
     }
   }
 
-  this->mSetupPrepare->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
-  this->mSetupMatrix->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
-  this->mSetupReordering->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
-  this->mSetupImage->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
-  this->mSetupFont->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
-  this->mSetupTemplates->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
-  this->connect(this->mPreset, SIGNAL(changed()), SLOT(presetChanged()));
+  this->mSetupPrepare->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
+  this->mSetupMatrix->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
+  this->mSetupReordering->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
+  this->mSetupImage->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
+  this->mSetupFont->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
+  this->mSetupTemplates->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
+  this->connect(this->mPreset, SIGNAL(changed()), SLOT(previewUpdate()));
 
   this->fillPresetsList();
 
   int presetIndex = this->ui->comboBoxPresets->findText(selectedPreset);
 
-  if (presetIndex >= 0) {
+  if (presetIndex >= 0 && this->ui->comboBoxPresets->currentIndex() != presetIndex) {
     this->ui->comboBoxPresets->setCurrentIndex(presetIndex);
+  } else {
+    emit this->presetLoaded();
   }
 
   this->mPresetChanged = false;
+
 
   this->ui->tabWidgetSetupParts->addTab(this->mSetupPrepare, this->mSetupPrepare->windowTitle());
   this->ui->tabWidgetSetupParts->addTab(this->mSetupMatrix, this->mSetupMatrix->windowTitle());
@@ -218,7 +221,7 @@ bool DialogOptions::checkOverwrite(const QString &originalName, QString *resultN
   return false;
 }
 
-void DialogOptions::presetChanged()
+void DialogOptions::previewUpdate()
 {
   if (this->mData != NULL) {
     if (this->mPreview != NULL) {
@@ -317,6 +320,7 @@ void DialogOptions::on_comboBoxPresets_currentIndexChanged(int index)
 {
   QString name = this->ui->comboBoxPresets->itemText(index);
   this->presetLoad(name);
+  emit this->presetLoaded();
 }
 
 void DialogOptions::previewClosed()

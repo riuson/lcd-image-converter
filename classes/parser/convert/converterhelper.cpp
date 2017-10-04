@@ -52,9 +52,16 @@
 #include "reorderingoptions.h"
 #include "imageoptions.h"
 #include "rlecompressor.h"
-#include "convimage.h"
+#include "convimagepixels.h"
+#include "convimagescan.h"
 
-void ConverterHelper::pixelsData(PrepareOptions *prepare, const QString &script, const QImage *image, QVector<quint32> *data, int *width, int *height)
+void ConverterHelper::pixelsData(
+  PrepareOptions *prepare,
+  const QString &scanScript,
+  const QString &pixelScript,
+  const QImage *image,
+  QVector<quint32> *data,
+  int *width, int *height)
 {
   if (image != NULL && data != NULL && width != NULL && height != NULL) {
     data->clear();
@@ -93,12 +100,12 @@ void ConverterHelper::pixelsData(PrepareOptions *prepare, const QString &script,
     }
 
     {
-      ConvImage *convImage = new ConvImage(&im);
+      ConvImageScan *convImage = new ConvImageScan(&im);
       convImage->setBandSize(prepare->bandWidth());
       convImage->setUseBands(prepare->bandScanning());
 
       QString errorMessage;
-      ConverterHelper::collectPoints(convImage, script, &errorMessage);
+      ConverterHelper::collectPoints(convImage, scanScript, &errorMessage);
 
       if (convImage->pointsCount() > 2) {
         // find image data size
@@ -160,10 +167,15 @@ void ConverterHelper::pixelsData(PrepareOptions *prepare, const QString &script,
 
       delete convImage;
     }
+
+    if (type == ConversionTypeCustom) {
+      QString errorMessage;
+      ConverterHelper::convertPixelsByScript(pixelScript, data, &errorMessage);
+    }
   }
 }
 
-void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script, QString *resultError)
+void ConverterHelper::collectPoints(ConvImageScan *convImage, const QString &script, QString *resultError)
 {
 #if defined(USE_JS_QTSCRIPT)
   // scanning with qt script
@@ -232,6 +244,82 @@ void ConverterHelper::collectPoints(ConvImage *convImage, const QString &script,
   }
 
 #endif
+}
+
+void ConverterHelper::convertPixelsByScript(const QString &script, QVector<quint32> *data, QString *resultError)
+{
+  QString scriptTemplate = ConverterHelper::pixelsScriptTemplate();
+  int startPosition = 0;
+
+  {
+    QTextStream stream(&scriptTemplate, QIODevice::ReadOnly);
+    QString scriptLine;
+    int counter = 0;
+
+    do {
+      scriptLine = stream.readLine();
+
+      if (scriptLine.contains("%1")) {
+        startPosition = counter;
+        break;
+      }
+
+      counter++;
+    } while (!scriptLine.isNull());
+  }
+
+#if defined(USE_JS_QTSCRIPT)
+  // scanning with qt script
+  QScriptEngine engine;
+  ConvImagePixels pixelsData(data);
+  QScriptValue pixelsDataValue = engine.newQObject(&pixelsData,
+                                 QScriptEngine::QtOwnership,
+                                 QScriptEngine::ExcludeSuperClassProperties | QScriptEngine::ExcludeSuperClassMethods);
+  engine.globalObject().setProperty("data", pixelsDataValue);
+  QString scriptModified = scriptTemplate.arg(script);
+  QScriptValue resultValue = engine.evaluate(scriptModified);
+
+  if (engine.hasUncaughtException()) {
+    int line = engine.uncaughtExceptionLineNumber();
+    *resultError = QString("Uncaught exception at line %1 : %2").arg(line - startPosition).arg(resultValue.toString());
+  } else {
+    *resultError = QString();
+  }
+
+  if (resultError->isEmpty()) {
+    *resultError = "";
+  }
+
+#elif defined(USE_JS_QJSENGINE)
+  // scanning with qt script
+  QJSEngine engine;
+  ConvImagePixels pixelsData(data);
+  QJSValue pixelsDataValue = engine.newQObject(&pixelsData);
+  QQmlEngine::setObjectOwnership(&pixelsData, QQmlEngine::CppOwnership);
+
+  engine.globalObject().setProperty("data", pixelsDataValue);
+  QString scriptModified = scriptTemplate.arg(script);
+
+  QJSValue resultValue = engine.evaluate(scriptModified);
+
+  if (pixelsData.processTerminated()) {
+    *resultError = QString("Script abort requested.");
+  } else if (resultValue.isError()) {
+    int line = resultValue.property("lineNumber").toInt();
+    *resultError = QString("Uncaught exception at line %1 : %2").arg(line - startPosition).arg(resultValue.toString());
+  } else {
+    *resultError = QString();
+  }
+
+  if (resultError->isEmpty()) {
+    *resultError = "";
+  }
+
+#endif
+
+  if (resultError->isEmpty()) {
+    pixelsData.getResults(data);
+  }
 }
 
 void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
@@ -489,6 +577,7 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
           break;
         }
 
+        case ConversionTypeCustom:
         case ConversionTypeColor: {
           quint32 opMask;
           int opShift;
@@ -702,8 +791,8 @@ QString ConverterHelper::scanScript(Preset *preset)
   QString result;
   const PrepareOptions *prepare = preset->prepare();
 
-  if (prepare->useCustomScript()) {
-    result = prepare->customScript();
+  if (prepare->useCustomScanScript()) {
+    result = prepare->customScanScript();
   } else {
     static const QString scripts[] = {
       ":/scan_scripts/t2b_b", // 0
@@ -775,7 +864,39 @@ QString ConverterHelper::scanScript(Preset *preset)
 
 QString ConverterHelper::scanScriptTemplate()
 {
-  QFile file_script(":/scan_scripts/template");
+  QFile file_script(":/scan_scripts/scan_template");
+  QString result = QString();
+
+  if (file_script.open(QIODevice::ReadOnly)) {
+    QTextStream stream(&file_script);
+    result = stream.readAll();
+    file_script.close();
+  }
+
+  return result;
+}
+
+QString ConverterHelper::pixelsScript(Preset *preset)
+{
+  QString result = preset->prepare()->customPreprocessScript();
+
+  if (result.isEmpty()) {
+    static const QString scriptPath = ":/scan_scripts/pixels_example";
+    QFile file_script(scriptPath);
+
+    if (file_script.open(QIODevice::ReadOnly)) {
+      QTextStream stream(&file_script);
+      result = stream.readAll();
+      file_script.close();
+    }
+  }
+
+  return result;
+}
+
+QString ConverterHelper::pixelsScriptTemplate()
+{
+  QFile file_script(":/scan_scripts/pixels_template");
   QString result = QString();
 
   if (file_script.open(QIODevice::ReadOnly)) {

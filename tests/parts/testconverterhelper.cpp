@@ -483,7 +483,7 @@ void TestConverterHelper::prepareStringData(
 }
 
 TestConvImage::TestConvImage(const QImage *image, QObject *parent) :
-  ConvImage(image, parent)
+  ConvImageScan(image, parent)
 {
   this->mCondition = CanBeDeleted;
 }

@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QtTest/QtTest>
 #include "conversion_options.h"
-#include "convimage.h"
+#include "convimagescan.h"
 
 class Preset;
 
@@ -36,7 +36,7 @@ private slots:
   void cleanupTestCase();
 };
 
-class TestConvImage : public ConvImage
+class TestConvImage : public ConvImageScan
 {
   Q_OBJECT
 public:

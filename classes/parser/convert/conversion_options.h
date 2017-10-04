@@ -29,7 +29,8 @@ namespace ConversionOptions
 enum ConversionType {
   ConversionTypeMonochrome = 0,
   ConversionTypeGrayscale  = 1,
-  ConversionTypeColor      = 2
+  ConversionTypeColor      = 2,
+  ConversionTypeCustom     = 3
 };
 
 enum MonochromeType {

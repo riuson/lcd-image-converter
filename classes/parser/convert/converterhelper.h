@@ -24,7 +24,7 @@
 
 class QImage;
 class Preset;
-class ConvImage;
+class ConvImageScan;
 
 class ConverterHelper
 {
@@ -33,12 +33,15 @@ public:
   // also convert images to monochrome or grayscale (r = g = b = qGray(pixel))
   static void pixelsData(
     PrepareOptions *prepare,
-    const QString &script,
+    const QString &scanScript,
+    const QString &pixelScript,
     const QImage *image,
     QVector<quint32> *data,
     int *width,
     int *height);
-  static void collectPoints(ConvImage *convImage, const QString &script, QString *resultError);
+  static void collectPoints(ConvImageScan *convImage, const QString &script, QString *resultError);
+  // apply custom bits processing
+  static void convertPixelsByScript(const QString &script, QVector<quint32> *data, QString *resultError);
   // apply masks and bits reorder
   static void processPixels(Preset *preset, QVector<quint32> *data);
   // pack data
@@ -71,6 +74,8 @@ public:
 
   static QString scanScript(Preset *preset);
   static QString scanScriptTemplate();
+  static QString pixelsScript(Preset *preset);
+  static QString pixelsScriptTemplate();
 
   static void makeGrayscale(QImage &image);
 private:

@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2017 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,45 +17,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef SETUPTABMATRIX_H
-#define SETUPTABMATRIX_H
+#ifndef CONVIMAGEPIXELS_H
+#define CONVIMAGEPIXELS_H
 
-#include <QWidget>
+#include <QObject>
+#include <QVector>
 
-namespace Ui
-{
-class SetupTabMatrix;
-}
-
-class Preset;
-class MatrixPreviewModel;
-class MatrixItemDelegate;
-class QMenu;
-
-class SetupTabMatrix : public QWidget
+class ConvImagePixels : public QObject
 {
   Q_OBJECT
-
 public:
-  explicit SetupTabMatrix(Preset *preset, QWidget *parent = 0);
-  virtual ~SetupTabMatrix();
+  explicit ConvImagePixels(const QVector<quint32> *data, QObject *parent = 0);
+  virtual ~ConvImagePixels();
 
-public slots:
-  void matrixChanged();
+  Q_PROPERTY(int count READ count)
+  Q_PROPERTY(bool processTerminated READ processTerminated WRITE setProcessTerminated)
+
+  Q_INVOKABLE quint32 pixel(int index);
+  Q_INVOKABLE void setPixel(int index, quint32 value);
+
+  bool processTerminated() const;
+  void setProcessTerminated(bool value);
+
+  void getResults(QVector<quint32> *result) const;
 
 private:
-  Ui::SetupTabMatrix *ui;
-  Preset *mPreset;
-  MatrixPreviewModel *mMatrixModel;
-  MatrixItemDelegate *mMatrixItemDelegate;
-  QMenu *mMenu;
+  QVector<quint32> mPixels;
+  bool mProcessTerminated;
 
-private slots:
-  void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
-  void operationAdd();
-  void operationShift();
-  void operationRemove();
-  void maskReset();
+  int count() const;
 };
 
-#endif // SETUPTABMATRIX_H
+#endif // CONVIMAGEPIXELS_H

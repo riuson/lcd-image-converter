@@ -104,7 +104,8 @@ SOURCES += main.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
     classes/parser/convert/converterhelper.cpp \
-    classes/parser/convert/convimage.cpp \
+    classes/parser/convert/convimagepixels.cpp \
+    classes/parser/convert/convimagescan.cpp \
     classes/parser/convert/fonthelper.cpp \
     classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
@@ -157,6 +158,8 @@ SOURCES += main.cpp \
     controls/setup/parts/matrix/matrixpreviewmodel.cpp \
     controls/setup/parts/matrix/setuptabmatrix.cpp \
     controls/setup/parts/prepare/demogenerator.cpp \
+    controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.cpp \
+    controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp \
     controls/setup/parts/prepare/setuptabprepare.cpp \
     controls/setup/parts/reordering/reorderingitemdelegate.cpp \
     controls/setup/parts/reordering/reorderingpreviewmodel.cpp \
@@ -222,7 +225,8 @@ HEADERS += \
     classes/parser/convert/bitstream.h \
     classes/parser/convert/conversion_options.h \
     classes/parser/convert/converterhelper.h \
-    classes/parser/convert/convimage.h \
+    classes/parser/convert/convimagepixels.h \
+    classes/parser/convert/convimagescan.h \
     classes/parser/convert/fonthelper.h \
     classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
@@ -275,6 +279,8 @@ HEADERS += \
     controls/setup/parts/matrix/matrixpreviewmodel.h \
     controls/setup/parts/matrix/setuptabmatrix.h \
     controls/setup/parts/prepare/demogenerator.h \
+    controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.h \
+    controls/setup/parts/prepare/scanning/setuptabpreparescanning.h \
     controls/setup/parts/prepare/setuptabprepare.h \
     controls/setup/parts/reordering/reorderingitemdelegate.h \
     controls/setup/parts/reordering/reorderingpreviewmodel.h \
@@ -305,7 +311,9 @@ FORMS += \
     controls/setup/parts/font/setuptabfont.ui \
     controls/setup/parts/image/setuptabimage.ui \
     controls/setup/parts/matrix/setuptabmatrix.ui \
+    controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui \
     controls/setup/parts/prepare/setuptabprepare.ui \
+    controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui \
     controls/setup/parts/reordering/setuptabreordering.ui \
     controls/setup/parts/templates/setuptabtemplates.ui \
     controls/start/starttab.ui \
@@ -344,6 +352,8 @@ INCLUDEPATH += $$PWD \
     $$PWD/controls/setup/parts/image \
     $$PWD/controls/setup/parts/matrix \
     $$PWD/controls/setup/parts/prepare \
+    $$PWD/controls/setup/parts/prepare/scanning \
+    $$PWD/controls/setup/parts/prepare/preprocessing \
     $$PWD/controls/setup/parts/reordering \
     $$PWD/controls/setup/parts/templates \
     $$PWD/controls/updates \
@@ -371,6 +381,8 @@ OTHER_FILES += \
     resources/history.css \
     resources/unicode_blocks.txt \
     resources/script_top2bottom_forward.js \
+    resources/scan_scripts/pixels_example.js \
+    resources/scan_scripts/pixels_template.js \
     resources/scan_scripts/scan_template.js \
     resources/scan_scripts/scan_top2bottom_forward_band.js \
     resources/scan_scripts/scan_top2bottom_forward.js \
