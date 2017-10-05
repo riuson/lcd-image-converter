@@ -17,10 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include <qt-version-check.h>
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-
 #ifndef MODEHEX2BIN_H
 #define MODEHEX2BIN_H
 
@@ -54,5 +50,3 @@ private:
 }
 
 #endif // MODEHEX2BIN_H
-
-#endif // QT_VERSION

@@ -17,10 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include <qt-version-check.h>
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-
 #ifndef CONVERTFONTARGUMENTS_H
 #define CONVERTFONTARGUMENTS_H
 
@@ -80,5 +76,3 @@ private:
 }
 
 #endif // CONVERTFONTARGUMENTS_H
-
-#endif // QT_VERSION

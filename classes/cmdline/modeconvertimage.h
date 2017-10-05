@@ -17,10 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include <qt-version-check.h>
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-
 #ifndef CONVERTIMAGEARGUMENTS_H
 #define CONVERTIMAGEARGUMENTS_H
 
@@ -53,5 +49,3 @@ private:
 }
 
 #endif // CONVERTIMAGEARGUMENTS_H
-
-#endif // QT_VERSION
