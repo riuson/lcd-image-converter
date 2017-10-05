@@ -28,6 +28,18 @@ QMAKE_CXXFLAGS += -std=c++11
 DESTDIR             = $$OUTDIR/output
 QMAKE_LIBDIR       += $$DESTDIR
 
+# Qt version required >= 5.5, since 2017-10-05.
+# Qt < 5.0
+lessThan(QT_MAJOR_VERSION, 5) {
+  error(Qt version required >= 5.5)
+}
+#Qt < 5.5
+greaterThan(QT_MAJOR_VERSION, 4) {
+  lessThan(QT_MINOR_VERSION, 5) {
+    error(Qt version required >= 5.5)
+  }
+}
+
 # Widgets in Qt 5
 greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
