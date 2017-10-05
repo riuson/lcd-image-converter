@@ -20,11 +20,7 @@
 #include "actionedithandlers.h"
 #include "qt-version-check.h"
 
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
 #include <QtWidgets/QApplication>
-#else
-#include <QtGui/QApplication>
-#endif // QT_VERSION
 
 #include <QFileDialog>
 #include <QTextStream>

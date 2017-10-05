@@ -20,7 +20,6 @@
 #include "dialogupdates.h"
 #include "ui_dialogupdates.h"
 
-#include "qt-version-check.h"
 #include <QTextStream>
 #include <QFile>
 #include <QXmlQuery>
@@ -30,11 +29,7 @@
 #include <QNetworkRequest>
 #include <QUrl>
 #include <QDateTime>
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
-#define USE_URL_QUERY
 #include <QUrlQuery>
-#endif // QT_VERSION
 
 #include <QDomDocument>
 #include "revisioninfo.h"
@@ -130,13 +125,9 @@ void DialogUpdates::showUpdates()
 
   QUrl url("http://lcd-image-converter.riuson.com/history/history.xml");
 
-#ifdef USE_URL_QUERY
   QUrlQuery query;
   query.addQueryItem("version", "2");
   url.setQuery(query.query());
-#else
-  url.addQueryItem("version", "2");
-#endif
 
   QNetworkRequest request = QNetworkRequest(url);
   QNetworkReply *reply = mNetworkManager->get(request);
@@ -253,7 +244,7 @@ bool DialogUpdates::isLocalVersionOutdated(const QString &xml)
       QString revisionDateString = RevisionInfo::date();
       QDateTime revisionDate = QDateTime::fromString(revisionDateString, Qt::ISODate);
 
-      foreach (const QString & dateString, dates) {
+      foreach (const QString &dateString, dates) {
         QDateTime date = QDateTime::fromString(dateString, Qt::ISODate);
 
         if (date > revisionDate) {
