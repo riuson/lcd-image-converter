@@ -16,7 +16,7 @@ MOC_DIR             = $$OUTDIR/.moc
 UI_DIR              = $$OUTDIR/.uic
 RCC_DIR             = $$OUTDIR/.rcc
 
-QT += xml xmlpatterns network svg
+QT += xml xmlpatterns network svg qml widgets
 TARGET = lcd-image-converter
 TEMPLATE = app
 
@@ -38,24 +38,6 @@ greaterThan(QT_MAJOR_VERSION, 4) {
   lessThan(QT_MINOR_VERSION, 5) {
     error(Qt version required >= 5.5)
   }
-}
-
-# Widgets in Qt 5
-greaterThan(QT_MAJOR_VERSION, 4) {
-  QT += widgets
-}
-
-# QtScript deprecated in Qt 5.5, replaced by QJSEngine
-greaterThan(QT_MAJOR_VERSION, 4) {
-  greaterThan(QT_MINOR_VERSION, 4) {
-    QT += qml
-  }
-  lessThan(QT_MINOR_VERSION, 5) {
-    QT += script
-  }
-}
-lessThan(QT_MAJOR_VERSION, 5) {
-  QT += script
 }
 
 DEFINES += QT_MAJOR_VERSION="$$QT_MAJOR_VERSION"
