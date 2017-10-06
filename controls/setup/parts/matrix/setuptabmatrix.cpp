@@ -20,17 +20,13 @@
 #include "setuptabmatrix.h"
 #include "ui_setuptabmatrix.h"
 
-#include "qt-version-check.h"
+#include <QtWidgets>
 #include "matrixpreviewmodel.h"
 #include "matrixitemdelegate.h"
 #include "preset.h"
 #include "prepareoptions.h"
 #include "matrixoptions.h"
 #include "imageoptions.h"
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
-#include <QtWidgets>
-#endif // QT_VERSION
 
 SetupTabMatrix::SetupTabMatrix(Preset *preset, QWidget *parent) :
   QWidget(parent),

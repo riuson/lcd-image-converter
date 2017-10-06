@@ -32,7 +32,7 @@ class FontResize : public ImageResize
 public:
   explicit FontResize(QWidget *parentWidget = 0, QObject *parent = 0);
 
-  void applyDocument(IDocument *doc, const QStringList &keys);
+  void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
 };
 
 }

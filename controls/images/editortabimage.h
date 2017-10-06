@@ -49,13 +49,13 @@ public:
   explicit EditorTabImage(QWidget *parent = 0);
   ~EditorTabImage();
 
-  IDocument *document() const;
-  QStringList selectedKeys() const;
-  StatusData *statusData() const;
-  EditorType type() const;
+  IDocument *document() const Q_DECL_OVERRIDE;
+  QStringList selectedKeys() const Q_DECL_OVERRIDE;
+  StatusData *statusData() const Q_DECL_OVERRIDE;
+  EditorType type() const Q_DECL_OVERRIDE;
 
 protected:
-  void changeEvent(QEvent *e);
+  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
 
 private:
   Ui::EditorTabImage *ui;

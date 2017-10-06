@@ -31,7 +31,7 @@ public:
   explicit ImagesFilterProxy(QObject *parent = 0);
   ~ImagesFilterProxy();
 
-  bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+  bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const Q_DECL_OVERRIDE;
 
   void setFilter(const QStringList &keys);
 

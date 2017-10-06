@@ -31,14 +31,14 @@ public:
   explicit ColumnsReorderProxy(QObject *parent = 0);
 
   /*
-  QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+  QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
   */
   QModelIndex index(int row, int column,
-                    const QModelIndex &parent = QModelIndex()) const override;
-  QModelIndex parent(const QModelIndex &index) const override;
-  QModelIndex mapFromSource(const QModelIndex &sourceIndex) const override;
-  QModelIndex mapToSource(const QModelIndex &proxyIndex) const override;
+                    const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+  QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
+  QModelIndex mapFromSource(const QModelIndex &sourceIndex) const Q_DECL_OVERRIDE;
+  QModelIndex mapToSource(const QModelIndex &proxyIndex) const Q_DECL_OVERRIDE;
 
   void setReorder(int oldPosition, int newPosition);
 private:

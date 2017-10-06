@@ -20,12 +20,6 @@
 #include "converterhelper.h"
 #include "qt-version-check.h"
 
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 5, 0)
-#define USE_JS_QJSENGINE
-#else
-#define USE_JS_QTSCRIPT
-#endif // QT_VERSION
-
 #include <QStringList>
 #include <QImage>
 #include <QColor>
@@ -36,13 +30,8 @@
 #include <QTextStream>
 #include <QTextStream>
 #include <QStringBuilder>
-
-#if defined(USE_JS_QTSCRIPT)
-#include <QtScript/QScriptEngine>
-#elif defined(USE_JS_QJSENGINE)
 #include <QJSEngine>
 #include <QQmlEngine>
-#endif
 
 #include "bitstream.h"
 #include "bitmaphelper.h"
@@ -177,25 +166,6 @@ void ConverterHelper::pixelsData(
 
 void ConverterHelper::collectPoints(ConvImageScan *convImage, const QString &script, QString *resultError)
 {
-#if defined(USE_JS_QTSCRIPT)
-  // scanning with qt script
-  QScriptEngine engine;
-  QScriptValue imageValue = engine.newQObject(convImage,
-                            QScriptEngine::QtOwnership,
-                            QScriptEngine::ExcludeSuperClassProperties | QScriptEngine::ExcludeSuperClassMethods);
-  engine.globalObject().setProperty("image", imageValue);
-  QScriptValue resultValue = engine.evaluate(script);
-
-  if (engine.hasUncaughtException()) {
-    int line = engine.uncaughtExceptionLineNumber();
-    *resultError = QString("Uncaught exception at line %1 : %2").arg(line).arg(resultValue.toString());
-  } else if (convImage->pointsCount() == 0) {
-    *resultError = QString("Empty output");
-  } else {
-    *resultError = QString();
-  }
-
-#elif defined(USE_JS_QJSENGINE)
   // scanning with qt script
   QJSEngine engine;
   QJSValue imageValue = engine.newQObject(convImage);
@@ -242,8 +212,6 @@ void ConverterHelper::collectPoints(ConvImageScan *convImage, const QString &scr
   } else {
     *resultError = QString();
   }
-
-#endif
 }
 
 void ConverterHelper::convertPixelsByScript(const QString &script, QVector<quint32> *data, QString *resultError)
@@ -268,29 +236,6 @@ void ConverterHelper::convertPixelsByScript(const QString &script, QVector<quint
     } while (!scriptLine.isNull());
   }
 
-#if defined(USE_JS_QTSCRIPT)
-  // scanning with qt script
-  QScriptEngine engine;
-  ConvImagePixels pixelsData(data);
-  QScriptValue pixelsDataValue = engine.newQObject(&pixelsData,
-                                 QScriptEngine::QtOwnership,
-                                 QScriptEngine::ExcludeSuperClassProperties | QScriptEngine::ExcludeSuperClassMethods);
-  engine.globalObject().setProperty("data", pixelsDataValue);
-  QString scriptModified = scriptTemplate.arg(script);
-  QScriptValue resultValue = engine.evaluate(scriptModified);
-
-  if (engine.hasUncaughtException()) {
-    int line = engine.uncaughtExceptionLineNumber();
-    *resultError = QString("Uncaught exception at line %1 : %2").arg(line - startPosition).arg(resultValue.toString());
-  } else {
-    *resultError = QString();
-  }
-
-  if (resultError->isEmpty()) {
-    *resultError = "";
-  }
-
-#elif defined(USE_JS_QJSENGINE)
   // scanning with qt script
   QJSEngine engine;
   ConvImagePixels pixelsData(data);
@@ -314,8 +259,6 @@ void ConverterHelper::convertPixelsByScript(const QString &script, QVector<quint
   if (resultError->isEmpty()) {
     *resultError = "";
   }
-
-#endif
 
   if (resultError->isEmpty()) {
     pixelsData.getResults(data);

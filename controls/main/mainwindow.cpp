@@ -56,10 +56,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
   ui->setupUi(this);
 
-#if QT_VERSION_COMBINED < VERSION_COMBINE(5, 0, 0)
-  QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-#endif // QT_VERSION
-
   QIcon icon;
   icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 16)));
   icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 24)));
@@ -419,7 +415,8 @@ void MainWindow::updateRecentList()
 {
   QList<QAction *> actions = this->ui->menuRecent->actions();
   QAction *action;
-  foreach(action, actions) {
+
+  foreach (action, actions) {
     this->ui->menuRecent->removeAction(action);
   }
 

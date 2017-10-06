@@ -17,10 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include <qt-version-check.h>
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-
 #include "modeconvertimage.h"
 #include "imagedocument.h"
 #include "datacontainer.h"
@@ -158,5 +154,3 @@ int ModeConvertImage::process()
 }
 
 }
-
-#endif // QT_VERSION

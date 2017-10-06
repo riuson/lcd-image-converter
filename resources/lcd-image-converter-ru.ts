@@ -4,26 +4,26 @@
 <context>
     <name>ActionEditHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="73"/>
+        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="69"/>
         <source>More than 1 image(s) selected. But only one will be copied - &quot;%1&quot;.</source>
         <comment>Warning about image copy</comment>
         <translatorcomment>Предупреждение о копировании изображения</translatorcomment>
         <translation>Выбрано более одного изображения. Но скопировано будет только - &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="77"/>
+        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="73"/>
         <source>Copy - Attention</source>
         <translation>Копирование - Предупреждение</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="107"/>
+        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="103"/>
         <source>More than 1 image(s) selected. All of them will be overwritten.</source>
         <comment>Warning about image paste</comment>
         <translatorcomment>Предупреждение о вставке изображения</translatorcomment>
         <translation>Выбрано более одного изображения. Все они будут заменены.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="111"/>
+        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="107"/>
         <source>Paste - Attention</source>
         <translation>Вставка - Предупреждение</translation>
     </message>
@@ -115,183 +115,183 @@
 <context>
     <name>CmdLineParser</name>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="57"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="53"/>
         <source>Conversion mode for application, &quot;convert-image&quot;, &quot;convert-font&quot; or &quot;hex2bin&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="58"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="54"/>
         <source>mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="139"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="135"/>
         <source>Path to main configuration file. If not specified, default is used.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="140"/>
-        <location filename="../classes/cmdline/cmdline.cpp" line="146"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="136"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="142"/>
         <source>file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="145"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="141"/>
         <source>Path to presets configuration file. If not specified, default is used.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="151"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="147"/>
         <source>Reset all settings to default state.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="53"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="49"/>
         <source>Full &lt;path&gt; to source image in binary format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="139"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="145"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="151"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="54"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="60"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="66"/>
-        <location filename="../classes/cmdline/modehex2bin.cpp" line="50"/>
-        <location filename="../classes/cmdline/modehex2bin.cpp" line="56"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="135"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="141"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="147"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="50"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="56"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="62"/>
+        <location filename="../classes/cmdline/modehex2bin.cpp" line="46"/>
+        <location filename="../classes/cmdline/modehex2bin.cpp" line="52"/>
         <source>path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="144"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="59"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="140"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="55"/>
         <source>Full &lt;path&gt; to output result.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="76"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="72"/>
         <source>&lt;Family&gt; of new font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="77"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="73"/>
         <source>family</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="82"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="78"/>
         <source>Font &lt;size&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="83"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="79"/>
         <source>size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="88"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="84"/>
         <source>Make monospaced font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="93"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="89"/>
         <source>Font &lt;style&gt;, Regular, Bold, Italic or Bold Italic.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="98"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="94"/>
         <source>Use antialiasing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="103"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="99"/>
         <source>Foreground color in hex format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="104"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="110"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="100"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="106"/>
         <source>color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="109"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="105"/>
         <source>Background color in hex format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="115"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="111"/>
         <source>Characters, what included to the font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="116"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="112"/>
         <source>characters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="121"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="117"/>
         <source>Characters range, for example &quot;32-255&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="122"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="118"/>
         <source>range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="127"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="123"/>
         <source>Characters encoding, for example &quot;UTF-8&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="128"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="124"/>
         <source>encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="133"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="129"/>
         <source>Use big-endian instead of little-endian.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="138"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="134"/>
         <source>Full &lt;path&gt; to font document in xml format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="150"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="65"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="146"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="61"/>
         <source>Full &lt;path&gt; to template file, used in conversion. [Optional]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="156"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="71"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="152"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="67"/>
         <source>Document name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="157"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="163"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="72"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="78"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="153"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="159"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="68"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="74"/>
         <source>name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="162"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="77"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="158"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="73"/>
         <source>Output preset &lt;name&gt; from predefined presets in application settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modehex2bin.cpp" line="49"/>
+        <location filename="../classes/cmdline/modehex2bin.cpp" line="45"/>
         <source>Full &lt;path&gt; to image in *.C format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modehex2bin.cpp" line="55"/>
+        <location filename="../classes/cmdline/modehex2bin.cpp" line="51"/>
         <source>Full &lt;path&gt; to output binary result.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -748,12 +748,12 @@ Qt: %4</translation>
         <translation>Обновления</translation>
     </message>
     <message>
-        <location filename="../controls/updates/dialogupdates.cpp" line="295"/>
+        <location filename="../controls/updates/dialogupdates.cpp" line="286"/>
         <source>Check updates failed with HTTP code: %1</source>
         <translation>Проверка обновлений не удалась, код HTTP: %1</translation>
     </message>
     <message>
-        <location filename="../controls/updates/dialogupdates.cpp" line="301"/>
+        <location filename="../controls/updates/dialogupdates.cpp" line="292"/>
         <source>Check updates failed with QNetworkReply message:&lt;br/&gt;%1</source>
         <translation>Проверка обновлений не удалась, сообщение QNetworkReply:&lt;br/&gt;%1</translation>
     </message>
@@ -1254,18 +1254,18 @@ Qt: %4</translation>
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="92"/>
+        <location filename="../controls/main/mainwindow.cpp" line="88"/>
         <source>langName</source>
         <translatorcomment>название языка в который переводим</translatorcomment>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="319"/>
+        <location filename="../controls/main/mainwindow.cpp" line="315"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="321"/>
+        <location filename="../controls/main/mainwindow.cpp" line="317"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -1440,17 +1440,17 @@ Only minimal amount (%3) will be imported.</source>
         <translation>Сортировать символы:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="95"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="92"/>
         <source>None</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="99"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="96"/>
         <source>Ascending</source>
         <translation>По возрастанию</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="103"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="100"/>
         <source>Descending</source>
         <translation>По убыванию</translation>
     </message>
@@ -1573,52 +1573,52 @@ Only minimal amount (%3) will be imported.</source>
         <translation>Матрица</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="102"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="98"/>
         <source>Source</source>
         <translation>Исходник</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="104"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="100"/>
         <source>Add &quot;Left Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг влево&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="105"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="101"/>
         <source>Add &quot;Right Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг вправо&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="125"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="121"/>
         <source>Operation</source>
         <translation>Операция</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="135"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="131"/>
         <source>Shift left</source>
         <translation>Сдвиг влево</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="136"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="132"/>
         <source>Shift right</source>
         <translation>Сдвиг вправо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="137"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="133"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="162"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="158"/>
         <source>Mask</source>
         <translation>Маска</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="181"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="177"/>
         <source>Set 1</source>
         <translation>Установить в 1</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="184"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="180"/>
         <source>Set 0</source>
         <translation>Сбросить в 0</translation>
     </message>

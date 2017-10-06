@@ -39,24 +39,24 @@ public:
   explicit ToolZoom(IImageEditorParams *parameters, QObject *parent = 0);
   ~ToolZoom();
 
-  const QString title() const;
-  const QString tooltip() const;
-  const QIcon *icon() const;
-  const QList<QAction *> *actions() const;
-  const QList<QWidget *> *widgets() const;
+  const QString title() const Q_DECL_OVERRIDE;
+  const QString tooltip() const Q_DECL_OVERRIDE;
+  const QIcon *icon() const Q_DECL_OVERRIDE;
+  const QList<QAction *> *actions() const Q_DECL_OVERRIDE;
+  const QList<QWidget *> *widgets() const Q_DECL_OVERRIDE;
 
   int scale() const;
 
 public slots:
   bool processMouse(QMouseEvent *event,
                     const QImage *imageOriginal,
-                    bool inRect);
+                    bool inRect) Q_DECL_OVERRIDE;
   void setScale(int value);
 
 signals:
-  void started(const QImage *value);
-  void processing(const QImage *value);
-  void completed(const QImage *value, bool changed);
+  void started(const QImage *value) Q_DECL_OVERRIDE;
+  void processing(const QImage *value) Q_DECL_OVERRIDE;
+  void completed(const QImage *value, bool changed) Q_DECL_OVERRIDE;
   void scaleChanged(int value);
 
 private:

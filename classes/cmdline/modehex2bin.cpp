@@ -17,10 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include <qt-version-check.h>
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-
 #include "modehex2bin.h"
 #include "datacontainer.h"
 #include <QCommandLineParser>
@@ -180,5 +176,3 @@ void ModeHex2Bin::appendDataBE(QByteArray *array, int size, quint32 value)
 }
 
 }
-
-#endif // QT_VERSION

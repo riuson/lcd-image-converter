@@ -41,7 +41,7 @@ public:
   const QString tabName() const;
 
 protected:
-  void changeEvent(QEvent *e);
+  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
 
 private:
   Ui::StartTab *ui;

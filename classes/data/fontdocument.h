@@ -40,23 +40,23 @@ public:
   explicit FontDocument(QObject *parent = 0);
   ~FontDocument();
 
-  bool load(const QString &fileName);
-  bool save(const QString &fileName);
-  bool changed() const;
-  QString documentFilename() const;
-  QString documentName() const;
-  void setDocumentName(const QString &value);
-  QString outputFilename() const;
-  void setOutputFilename(const QString &value);
-  DataContainer *dataContainer() const;
-  QString convert(Preset *preset);
+  bool load(const QString &fileName) Q_DECL_OVERRIDE;
+  bool save(const QString &fileName) Q_DECL_OVERRIDE;
+  bool changed() const Q_DECL_OVERRIDE;
+  QString documentFilename() const Q_DECL_OVERRIDE;
+  QString documentName() const Q_DECL_OVERRIDE;
+  void setDocumentName(const QString &value) Q_DECL_OVERRIDE;
+  QString outputFilename() const Q_DECL_OVERRIDE;
+  void setOutputFilename(const QString &value) Q_DECL_OVERRIDE;
+  DataContainer *dataContainer() const Q_DECL_OVERRIDE;
+  QString convert(Preset *preset) Q_DECL_OVERRIDE;
 
-  void beginChanges();
-  void endChanges(bool suppress);
-  bool canUndo();
-  bool canRedo();
-  void undo();
-  void redo();
+  void beginChanges() Q_DECL_OVERRIDE;
+  void endChanges(bool suppress) Q_DECL_OVERRIDE;
+  bool canUndo() Q_DECL_OVERRIDE;
+  bool canRedo() Q_DECL_OVERRIDE;
+  void undo() Q_DECL_OVERRIDE;
+  void redo() Q_DECL_OVERRIDE;
 
   void fontCharacters(QString *chars,
                       tFontParameters *parameters);

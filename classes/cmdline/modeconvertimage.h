@@ -17,10 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include <qt-version-check.h>
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-
 #ifndef CONVERTIMAGEARGUMENTS_H
 #define CONVERTIMAGEARGUMENTS_H
 
@@ -38,9 +34,9 @@ public:
 
   static QString modeName();
 
-  void fillParser() const;
-  bool collectArguments();
-  int process();
+  void fillParser() const Q_DECL_OVERRIDE;
+  bool collectArguments() Q_DECL_OVERRIDE;
+  int process() Q_DECL_OVERRIDE;
 
 private:
   QString mInputFilename;
@@ -53,5 +49,3 @@ private:
 }
 
 #endif // CONVERTIMAGEARGUMENTS_H
-
-#endif // QT_VERSION

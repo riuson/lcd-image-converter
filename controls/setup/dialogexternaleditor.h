@@ -42,7 +42,7 @@ private slots:
   void on_pushButtonBrowse_clicked();
 
 protected:
-  void done(int result);
+  void done(int result) Q_DECL_OVERRIDE;
 };
 
 #endif // DIALOGEXTERNALEDITOR_H

@@ -46,9 +46,9 @@ public:
   int scale() const;
 
 protected:
-  void changeEvent(QEvent *e);
-  bool eventFilter(QObject *obj, QEvent *event);
-  void wheelEvent(QWheelEvent *event);
+  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
+  bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+  void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 private:
   Ui::WindowEditor *ui;
