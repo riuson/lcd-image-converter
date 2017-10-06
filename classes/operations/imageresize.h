@@ -34,9 +34,9 @@ class ImageResize : public QObject, public IOperation
 public:
   explicit ImageResize(QWidget *parentWidget = 0, QObject *parent = 0);
 
-  virtual bool prepare(const IDocument *doc, const QStringList &keys);
-  virtual void applyDocument(IDocument *doc, const QStringList &keys);
-  virtual void applyItem(IDocument *doc, const QString &itemKey);
+  bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
+  void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
+  void applyItem(IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
 
 protected:
   QWidget *mParentWidget;

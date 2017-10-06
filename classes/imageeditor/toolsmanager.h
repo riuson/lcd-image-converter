@@ -48,12 +48,12 @@ public:
   const QList <IImageEditorTool *> *tools() const;
   const QList<QAction *> *toolsActions() const;
 
-  int scale() const;
-  const QColor foreColor() const;
-  const QColor backColor() const;
-  QWidget *parentWidget() const;
+  int scale() const Q_DECL_OVERRIDE;
+  const QColor foreColor() const Q_DECL_OVERRIDE;
+  const QColor backColor() const Q_DECL_OVERRIDE;
+  QWidget *parentWidget() const Q_DECL_OVERRIDE;
 
-  const QPainterPath &selectedPath() const;
+  const QPainterPath &selectedPath() const Q_DECL_OVERRIDE;
 
 public slots:
   void setScale(int value);
@@ -61,7 +61,7 @@ public slots:
 signals:
   void toolChanged(int toolIndex);
   void scaleChanged(int value);
-  void selectionChanged(const QPainterPath &value);
+  void selectionChanged(const QPainterPath &value) Q_DECL_OVERRIDE;
 
 private:
   QList <IImageEditorTool *> *mTools;

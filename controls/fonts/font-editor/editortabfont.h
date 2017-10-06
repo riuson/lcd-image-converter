@@ -54,10 +54,10 @@ public:
   explicit EditorTabFont(QWidget *parent = 0);
   ~EditorTabFont();
 
-  IDocument *document() const;
-  QStringList selectedKeys() const;
-  StatusData *statusData() const;
-  EditorType type() const;
+  IDocument *document() const Q_DECL_OVERRIDE;
+  QStringList selectedKeys() const Q_DECL_OVERRIDE;
+  StatusData *statusData() const Q_DECL_OVERRIDE;
+  EditorType type() const Q_DECL_OVERRIDE;
 
   void setFontCharacters(const QString &chars,
                          const tFontParameters &parameters);
@@ -65,8 +65,8 @@ public:
                       tFontParameters *parameters);
 
 protected:
-  void changeEvent(QEvent *e);
-  void wheelEvent(QWheelEvent *event);
+  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
+  void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 private:
   Ui::EditorTabFont *ui;

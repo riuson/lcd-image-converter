@@ -38,17 +38,17 @@ public:
   explicit Editor(QObject *parent = 0);
   ~Editor();
 
-  QWidget *widget() const;
+  QWidget *widget() const Q_DECL_OVERRIDE;
 
-  const QImage *image() const;
-  void setImage(const QImage *value);
+  const QImage *image() const Q_DECL_OVERRIDE;
+  void setImage(const QImage *value) Q_DECL_OVERRIDE;
 
-  int scale() const;
+  int scale() const Q_DECL_OVERRIDE;
 
 signals:
-  void imageChanged(const QImage *value);
-  void scaleChanged(int value);
-  void mouseMoved(const QPoint *value);
+  void imageChanged(const QImage *value) Q_DECL_OVERRIDE;
+  void scaleChanged(int value) Q_DECL_OVERRIDE;
+  void mouseMoved(const QPoint *value) Q_DECL_OVERRIDE;
 
 signals:
 

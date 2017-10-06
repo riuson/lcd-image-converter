@@ -80,7 +80,7 @@ private slots:
   void presetOverwiteNameChanged(const QString &value);
 
 protected:
-  void done(int result);
+  void done(int result) Q_DECL_OVERRIDE;
 
 signals:
   void presetLoaded();

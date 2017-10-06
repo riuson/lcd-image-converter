@@ -49,7 +49,7 @@ public:
   ~MainWindow();
 
 protected:
-  void changeEvent(QEvent *e);
+  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
 
 private:
   Ui::MainWindow *ui;
@@ -86,11 +86,11 @@ private slots:
   int tabCreated(QWidget *newTab);
   void statusChanged();
 public:
-  IEditor *currentEditor();
-  QWidget *currentTab();
-  void tabsList(QList<QWidget *> *list);
-  QWidget *parentWidget();
-  QString findAvailableName(const QString &prefix);
+  IEditor *currentEditor() Q_DECL_OVERRIDE;
+  QWidget *currentTab() Q_DECL_OVERRIDE;
+  void tabsList(QList<QWidget *> *list) Q_DECL_OVERRIDE;
+  QWidget *parentWidget() Q_DECL_OVERRIDE;
+  QString findAvailableName(const QString &prefix) Q_DECL_OVERRIDE;
 };
 
 #endif // MAINWINDOW_H

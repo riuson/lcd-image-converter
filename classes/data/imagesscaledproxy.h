@@ -30,7 +30,7 @@ public:
   explicit ImagesScaledProxy(QObject *parent = 0);
   ~ImagesScaledProxy();
 
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
   int scale() const;
 

@@ -27,7 +27,7 @@ class MatrixItemDelegate : public QItemDelegate
 {
 public:
   MatrixItemDelegate(QObject *pobj = 0);
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
 
 public:
   QColor color() const;

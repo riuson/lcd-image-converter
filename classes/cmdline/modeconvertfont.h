@@ -34,9 +34,9 @@ public:
 
   static QString modeName();
 
-  void fillParser() const;
-  bool collectArguments();
-  int process();
+  void fillParser() const Q_DECL_OVERRIDE;
+  bool collectArguments() Q_DECL_OVERRIDE;
+  int process() Q_DECL_OVERRIDE;
 
 private:
   enum class SubMode {

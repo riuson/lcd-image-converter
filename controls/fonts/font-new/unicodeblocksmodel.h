@@ -48,8 +48,8 @@ public:
     LastCodeRole = Qt::UserRole + 2
   };
 
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const; // функция доступа к данным
-  int rowCount(const QModelIndex &parent) const; // количество элементов в модели
+  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+  int rowCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
 
 private:
   QList<UnicodeBlock *> mList;

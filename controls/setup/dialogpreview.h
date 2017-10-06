@@ -48,7 +48,7 @@ private:
   int mScale;
 
 protected:
-  void wheelEvent(QWheelEvent *event);
+  void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
   void setScale(int value);
   void updatePreviewScaled(const QImage *image, int scale);
 

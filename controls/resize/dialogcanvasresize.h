@@ -49,7 +49,7 @@ public:
   void setResizeInfo(int left, int top, int right, int bottom);
 
 protected:
-  void wheelEvent(QWheelEvent *event);
+  void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 private:
   Ui::DialogCanvasResize *ui;
