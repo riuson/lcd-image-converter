@@ -40,7 +40,7 @@ class ToolLine : public QObject, public IImageEditorTool
 
 public:
   explicit ToolLine(IImageEditorParams *parameters, QObject *parent = 0);
-  ~ToolLine();
+  virtual ~ToolLine();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;

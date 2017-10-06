@@ -39,7 +39,7 @@ class ToolColor : public QObject, public IImageEditorTool
 
 public:
   explicit ToolColor(IImageEditorParams *parameters, QObject *parent = 0);
-  ~ToolColor();
+  virtual ~ToolColor();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;

@@ -43,7 +43,7 @@ class ToolsManager : public QObject, public IImageEditorParams, public IImageSel
 
 public:
   explicit ToolsManager(QObject *parent = 0);
-  ~ToolsManager();
+  virtual ~ToolsManager();
 
   const QList <IImageEditorTool *> *tools() const;
   const QList<QAction *> *toolsActions() const;

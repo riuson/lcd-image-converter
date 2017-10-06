@@ -11,6 +11,7 @@ class TestTemplateOptions : public QObject
   Q_OBJECT
 public:
   explicit TestTemplateOptions(QObject *parent = 0);
+  virtual ~TestTemplateOptions() {}
 
 private:
   TemplateOptions *mOptions;

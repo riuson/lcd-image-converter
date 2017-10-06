@@ -37,7 +37,7 @@ class DialogFontPreview : public QDialog
 
 public:
   explicit DialogFontPreview(QWidget *parent = 0);
-  ~DialogFontPreview();
+  virtual ~DialogFontPreview();
 
   void setDocument(IDocument *document);
 

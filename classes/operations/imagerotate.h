@@ -32,8 +32,7 @@ class ImageRotate : public QObject, public IOperation
   Q_INTERFACES(Operations::IOperation)
 
 public:
-  enum class Angle
-  {
+  enum class Angle {
     None,
     A90,
     A180,
@@ -41,6 +40,7 @@ public:
   };
 
   explicit ImageRotate(QObject *parent = 0);
+  virtual ~ImageRotate() {}
 
   bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
   void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;

@@ -42,6 +42,7 @@ class UnicodeBlocksModel : public QAbstractListModel
   Q_OBJECT
 public:
   explicit UnicodeBlocksModel(QObject *parent = 0);
+  virtual ~UnicodeBlocksModel() {}
 
   enum UnicodeBlocksModelRole {
     FirstCodeRole = Qt::UserRole + 1,

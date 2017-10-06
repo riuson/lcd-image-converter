@@ -33,6 +33,7 @@ class ImageInverse : public QObject, public IOperation
 
 public:
   explicit ImageInverse(QObject *parent = 0);
+  virtual ~ImageInverse() {}
 
   bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
   void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;

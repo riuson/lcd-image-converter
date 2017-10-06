@@ -11,6 +11,7 @@ class TestPrepareOptions : public QObject
   Q_OBJECT
 public:
   explicit TestPrepareOptions(QObject *parent = 0);
+  virtual ~TestPrepareOptions() {}
 
 private:
   PrepareOptions *mOptions;

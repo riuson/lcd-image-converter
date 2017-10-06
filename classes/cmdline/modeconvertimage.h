@@ -31,6 +31,7 @@ class ModeConvertImage : public ModeParserBase
   Q_OBJECT
 public:
   explicit ModeConvertImage(QCommandLineParser *parser, QObject *parent = 0);
+  virtual ~ModeConvertImage() {}
 
   static QString modeName();
 

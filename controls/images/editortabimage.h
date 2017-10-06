@@ -47,7 +47,7 @@ class EditorTabImage : public QWidget, public IEditor
 
 public:
   explicit EditorTabImage(QWidget *parent = 0);
-  ~EditorTabImage();
+  virtual ~EditorTabImage();
 
   IDocument *document() const Q_DECL_OVERRIDE;
   QStringList selectedKeys() const Q_DECL_OVERRIDE;

@@ -32,6 +32,7 @@ class ModeParserBase : public QObject
   Q_OBJECT
 public:
   explicit ModeParserBase(QCommandLineParser *parser, QObject *parent = 0);
+  virtual ~ModeParserBase() {}
 
   virtual void fillParser() const = 0;
   virtual bool collectArguments() = 0;

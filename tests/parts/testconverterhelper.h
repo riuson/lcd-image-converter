@@ -15,6 +15,7 @@ class TestConverterHelper : public QObject
   Q_OBJECT
 public:
   explicit TestConverterHelper(QObject *parent = 0);
+  virtual ~TestConverterHelper() {}
 
 private:
   Preset *mPreset;

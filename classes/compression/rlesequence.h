@@ -29,7 +29,7 @@ class RleSequence
 public:
   RleSequence();
   RleSequence(const RleSequence *other);
-  ~RleSequence();
+  virtual ~RleSequence();
 
   void append(quint32 value);
   void append(const RleSequence *sequence);

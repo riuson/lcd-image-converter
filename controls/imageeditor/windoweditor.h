@@ -38,7 +38,7 @@ class WindowEditor : public QMainWindow
 
 public:
   explicit WindowEditor(QWidget *parent = 0);
-  ~WindowEditor();
+  virtual ~WindowEditor();
 
   const QImage *image() const;
   void setImage(const QImage *value);

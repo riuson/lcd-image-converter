@@ -29,6 +29,7 @@ class ColumnsReorderProxy : public QSortFilterProxyModel
 
 public:
   explicit ColumnsReorderProxy(QObject *parent = 0);
+  virtual ~ColumnsReorderProxy() {}
 
   /*
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;

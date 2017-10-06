@@ -11,6 +11,7 @@ class TestPresets : public QObject
   Q_OBJECT
 public:
   explicit TestPresets(QObject *parent = 0);
+  virtual ~TestPresets() {}
 
 private:
   Preset *mOptions;

@@ -31,8 +31,6 @@ class FontHelper : public QObject
 {
   Q_OBJECT
 public:
-  explicit FontHelper(QObject *parent = 0);
-
   static QImage drawString(const DataContainer *data, const QString &value);
   static QString escapeControlChars(const QString &value);
   static QString unescapeControlChars(const QString &value);

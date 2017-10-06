@@ -30,6 +30,7 @@ class BitStream
 {
 public:
   BitStream(Preset *preset, QVector<quint32> *data, int start, int count);
+  virtual ~BitStream() {}
 
   void init();
   bool eof() const;

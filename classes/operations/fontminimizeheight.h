@@ -33,6 +33,7 @@ class FontMinimizeHeight : public QObject, public IOperation
 
 public:
   explicit FontMinimizeHeight(QWidget *parentWidget = 0, QObject *parent = 0);
+  virtual ~FontMinimizeHeight() {}
 
   bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
   void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;

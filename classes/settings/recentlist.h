@@ -31,6 +31,7 @@ class RecentList : public QObject
 public:
   explicit RecentList(QObject *parent = 0);
   virtual ~RecentList();
+
   void add(const QString &filename);
   enum { MaxRecentFiles = 10 };
   const QStringList *files() const;

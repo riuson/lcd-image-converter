@@ -22,6 +22,7 @@ class TestSettings : public QObject
   Q_OBJECT
 public:
   explicit TestSettings(QObject *parent = 0);
+  virtual ~TestSettings() {}
 
 private:
   const QString getFilename(const QTemporaryDir &dir) const;

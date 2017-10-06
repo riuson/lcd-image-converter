@@ -11,6 +11,7 @@ class TestReorderingOptions : public QObject
   Q_OBJECT
 public:
   explicit TestReorderingOptions(QObject *parent = 0);
+  virtual ~TestReorderingOptions() {}
 
 private:
   ReorderingOptions *mOptions;

@@ -28,6 +28,7 @@ class ImagesResizedProxy : public QSortFilterProxyModel
 
 public:
   explicit ImagesResizedProxy(QObject *parent = 0);
+  virtual ~ImagesResizedProxy() {}
 
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
   int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;

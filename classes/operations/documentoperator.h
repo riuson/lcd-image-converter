@@ -34,6 +34,8 @@ class DocumentOperator : public QObject
   Q_OBJECT
 public:
   explicit DocumentOperator(QObject *parent = 0);
+  virtual ~DocumentOperator() {}
+
   void setKeys(const QStringList keys);
   void apply(IDocument *doc, IOperation &operation);
 

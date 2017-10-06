@@ -36,7 +36,7 @@ class Editor : public QObject, public IImageEditor
 
 public:
   explicit Editor(QObject *parent = 0);
-  ~Editor();
+  virtual ~Editor();
 
   QWidget *widget() const Q_DECL_OVERRIDE;
 

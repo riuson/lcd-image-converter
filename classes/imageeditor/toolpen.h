@@ -39,7 +39,7 @@ class ToolPen : public QObject, public IImageEditorTool
 
 public:
   explicit ToolPen(IImageEditorParams *parameters, QObject *parent = 0);
-  ~ToolPen();
+  virtual ~ToolPen();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;

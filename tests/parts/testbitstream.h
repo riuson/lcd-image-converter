@@ -10,6 +10,7 @@ class TestBitStream : public QObject
   Q_OBJECT
 public:
   explicit TestBitStream(QObject *parent = 0);
+  virtual ~TestBitStream() {}
 
 private:
   Preset *mPreset;

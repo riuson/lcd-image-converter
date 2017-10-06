@@ -31,6 +31,7 @@ class ActionHandlersBase : public QObject
   Q_OBJECT
 public:
   explicit ActionHandlersBase(QObject *parent = 0);
+  virtual ~ActionHandlersBase() {}
 
 protected:
   IMainWindow *mMainWindow;

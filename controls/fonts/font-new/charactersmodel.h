@@ -28,6 +28,8 @@ class CharactersModel : public QAbstractItemModel
   Q_OBJECT
 public:
   explicit CharactersModel(QObject *parent = 0);
+  virtual ~CharactersModel() {}
+
   int rowCount(const QModelIndex &parent) const;
   int columnCount(const QModelIndex &parent) const;
   QVariant headerData(int section, Qt::Orientation orientation, int role) const;

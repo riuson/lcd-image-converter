@@ -40,7 +40,7 @@ class ToolRect : public QObject, public IImageEditorTool
 
 public:
   explicit ToolRect(IImageEditorParams *parameters, QObject *parent = 0);
-  ~ToolRect();
+  virtual ~ToolRect();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;

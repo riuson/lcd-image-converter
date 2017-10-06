@@ -37,7 +37,7 @@ class ToolZoom : public QObject, public IImageEditorTool
 
 public:
   explicit ToolZoom(IImageEditorParams *parameters, QObject *parent = 0);
-  ~ToolZoom();
+  virtual ~ToolZoom();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;

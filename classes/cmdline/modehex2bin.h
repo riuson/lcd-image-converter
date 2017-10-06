@@ -31,6 +31,7 @@ class ModeHex2Bin : public ModeParserBase
   Q_OBJECT
 public:
   explicit ModeHex2Bin(QCommandLineParser *parser, QObject *parent = 0);
+  virtual ~ModeHex2Bin() {}
 
   static QString modeName();
 

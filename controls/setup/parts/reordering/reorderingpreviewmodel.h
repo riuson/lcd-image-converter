@@ -40,6 +40,8 @@ public:
   };
 
   explicit ReorderingPreviewModel(Preset *preset, QObject *parent = 0);
+  virtual ~ReorderingPreviewModel() {}
+
   int rowCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
   int columnCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
   QVariant headerData(int section, Qt::Orientation orientation, int role) const Q_DECL_OVERRIDE;

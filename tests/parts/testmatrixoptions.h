@@ -11,6 +11,7 @@ class TestMatrixOptions : public QObject
   Q_OBJECT
 public:
   explicit TestMatrixOptions(QObject *parent = 0);
+  virtual ~TestMatrixOptions() {}
 
 private:
   MatrixOptions *mOptions;

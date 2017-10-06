@@ -40,7 +40,7 @@ class ToolFill : public QObject, public IImageEditorTool
 
 public:
   explicit ToolFill(IImageEditorParams *parameters, QObject *parent = 0);
-  ~ToolFill();
+  virtual ~ToolFill();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;

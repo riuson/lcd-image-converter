@@ -41,7 +41,7 @@ class SetupTabPrepare : public QWidget
 
 public:
   explicit SetupTabPrepare(Preset *preset, QWidget *parent = 0);
-  ~SetupTabPrepare();
+  virtual ~SetupTabPrepare();
 
 public slots:
   void matrixChanged();

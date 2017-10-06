@@ -41,7 +41,7 @@ class ToolMove : public QObject, public IImageEditorTool
 
 public:
   explicit ToolMove(IImageEditorParams *parameters, QObject *parent = 0);
-  ~ToolMove();
+  virtual ~ToolMove();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;

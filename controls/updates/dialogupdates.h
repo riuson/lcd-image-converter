@@ -35,7 +35,7 @@ class DialogUpdates : public QDialog
 
 public:
   explicit DialogUpdates(QWidget *parent = 0);
-  ~DialogUpdates();
+  virtual ~DialogUpdates();
 
 private:
   Ui::DialogUpdates *ui;

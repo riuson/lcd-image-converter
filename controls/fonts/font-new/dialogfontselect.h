@@ -40,7 +40,7 @@ class DialogFontSelect : public QDialog
 
 public:
   explicit DialogFontSelect(QWidget *parent = 0);
-  ~DialogFontSelect();
+  virtual ~DialogFontSelect();
 
   QString characters();
   void setCharacters(const QString &value);

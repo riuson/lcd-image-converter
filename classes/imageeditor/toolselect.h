@@ -43,7 +43,7 @@ class ToolSelect : public QObject, public IImageEditorTool, public IImageSelecti
 
 public:
   explicit ToolSelect(IImageEditorParams *parameters, QObject *parent = 0);
-  ~ToolSelect();
+  virtual ~ToolSelect();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;

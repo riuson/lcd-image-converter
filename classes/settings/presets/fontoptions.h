@@ -35,6 +35,7 @@ class FontOptions : public QObject
   Q_OBJECT
 public:
   explicit FontOptions(QObject *parent = 0);
+  virtual ~FontOptions() {}
 
   bool bom() const;
   const QString &encoding() const;

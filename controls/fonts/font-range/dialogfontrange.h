@@ -35,7 +35,7 @@ class DialogFontRange : public QDialog
 
 public:
   explicit DialogFontRange(QWidget *parent = 0);
-  ~DialogFontRange();
+  virtual ~DialogFontRange();
 
   const QString &resultString() const;
 

@@ -31,7 +31,7 @@ class ParsedImageData : public QObject
   Q_OBJECT
 public:
   explicit ParsedImageData(Preset *preset, const QImage *image, const Tags &tags, QObject *parent = 0);
-  ~ParsedImageData();
+  virtual ~ParsedImageData();
 
   Tags *tags() const;
   uint hash() const;

@@ -38,7 +38,7 @@ class FontDocument : public QObject, public IDocument
 
 public:
   explicit FontDocument(QObject *parent = 0);
-  ~FontDocument();
+  virtual ~FontDocument();
 
   bool load(const QString &fileName) Q_DECL_OVERRIDE;
   bool save(const QString &fileName) Q_DECL_OVERRIDE;

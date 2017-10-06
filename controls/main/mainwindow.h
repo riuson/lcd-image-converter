@@ -46,7 +46,7 @@ class MainWindow : public QMainWindow, public IMainWindow
 
 public:
   MainWindow(QWidget *parent = 0);
-  ~MainWindow();
+  virtual ~MainWindow();
 
 protected:
   void changeEvent(QEvent *e) Q_DECL_OVERRIDE;

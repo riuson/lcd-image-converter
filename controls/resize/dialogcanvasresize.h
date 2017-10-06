@@ -42,7 +42,7 @@ class DialogCanvasResize : public QDialog
 
 public:
   explicit DialogCanvasResize(DataContainer *container, QWidget *parent = 0);
-  ~DialogCanvasResize();
+  virtual ~DialogCanvasResize();
 
   void selectKeys(const QStringList &keys);
   void resizeInfo(int *left, int *top, int *right, int *bottom) const;

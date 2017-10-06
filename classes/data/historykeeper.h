@@ -35,7 +35,7 @@ class HistoryKeeper : public QObject
   Q_OBJECT
 public:
   explicit HistoryKeeper(QObject *parent = 0);
-  ~HistoryKeeper();
+  virtual ~HistoryKeeper();
 
   void init(
     const QStringList *keys,

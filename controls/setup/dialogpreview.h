@@ -35,7 +35,7 @@ class DialogPreview : public QDialog
 
 public:
   explicit DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidget *parent = 0);
-  ~DialogPreview();
+  virtual ~DialogPreview();
   void updatePreview();
 
 private:

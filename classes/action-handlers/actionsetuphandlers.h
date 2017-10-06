@@ -31,6 +31,7 @@ class ActionSetupHandlers : public ActionHandlersBase
   Q_OBJECT
 public:
   explicit ActionSetupHandlers(QObject *parent = 0);
+  virtual ~ActionSetupHandlers() {}
 
 signals:
 

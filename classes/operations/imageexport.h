@@ -34,6 +34,7 @@ class ImageExport : public QObject, public IOperation
 
 public:
   explicit ImageExport(QWidget *parentWidget = 0, QObject *parent = 0);
+  virtual ~ImageExport() {}
 
   bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
   void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;

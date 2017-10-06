@@ -52,7 +52,7 @@ class EditorTabFont : public QWidget, public IEditor
 
 public:
   explicit EditorTabFont(QWidget *parent = 0);
-  ~EditorTabFont();
+  virtual ~EditorTabFont();
 
   IDocument *document() const Q_DECL_OVERRIDE;
   QStringList selectedKeys() const Q_DECL_OVERRIDE;

@@ -11,6 +11,7 @@ class TestFontOptions : public QObject
   Q_OBJECT
 public:
   explicit TestFontOptions(QObject *parent = 0);
+  virtual ~TestFontOptions() {}
 
 private:
   FontOptions *mOptions;

@@ -33,6 +33,7 @@ class ImageGrayscale : public QObject, public IOperation
 
 public:
   explicit ImageGrayscale(QObject *parent = 0);
+  virtual ~ImageGrayscale() {}
 
   bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
   void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;

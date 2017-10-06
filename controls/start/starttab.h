@@ -35,7 +35,7 @@ class StartTab : public QWidget
 
 public:
   explicit StartTab(QWidget *parent = 0);
-  ~StartTab();
+  virtual ~StartTab();
 
   void setRecentFiles(const QStringList *list);
   const QString tabName() const;

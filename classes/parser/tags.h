@@ -29,7 +29,7 @@ class Tags
 {
 public:
   Tags();
-  ~Tags();
+  virtual ~Tags();
 
   enum TagsEnum {
     Unknown = 0,

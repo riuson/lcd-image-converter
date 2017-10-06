@@ -28,6 +28,8 @@ class ReorderingItemDelegate : public QItemDelegate
   Q_OBJECT
 public:
   explicit ReorderingItemDelegate(QObject *parent = 0);
+  virtual ~ReorderingItemDelegate() {}
+
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
 
 public:

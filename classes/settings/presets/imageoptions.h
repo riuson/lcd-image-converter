@@ -34,6 +34,7 @@ class ImageOptions : public QObject
   Q_OBJECT
 public:
   explicit ImageOptions(QObject *parent = 0);
+  virtual ~ImageOptions() {}
 
   bool splitToRows() const;
   BytesOrder bytesOrder() const;

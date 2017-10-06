@@ -28,7 +28,7 @@ class ImagesScaledProxy : public QSortFilterProxyModel
 
 public:
   explicit ImagesScaledProxy(QObject *parent = 0);
-  ~ImagesScaledProxy();
+  virtual ~ImagesScaledProxy();
 
   QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 

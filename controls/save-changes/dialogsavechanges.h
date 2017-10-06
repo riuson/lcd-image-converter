@@ -31,6 +31,7 @@ class DialogSaveChanges : public QObject
 public:
   explicit DialogSaveChanges(const QString &documentName, QWidget *parent = 0);
   virtual ~DialogSaveChanges();
+
   enum SaveChangesResultCode {
     Save = 1,
     SaveAs = 2,

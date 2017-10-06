@@ -33,7 +33,7 @@ class WidgetBitmapEditor : public QWidget
 
 public:
   explicit WidgetBitmapEditor(QWidget *parent = 0);
-  ~WidgetBitmapEditor();
+  virtual ~WidgetBitmapEditor();
 
   const QImage *image() const;
   void setImage(const QImage *value);

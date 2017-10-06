@@ -19,7 +19,7 @@ class SetupTabPrepareScanning : public QWidget
 
 public:
   explicit SetupTabPrepareScanning(Preset *preset, QWidget *parent = 0);
-  ~SetupTabPrepareScanning();
+  virtual ~SetupTabPrepareScanning();
 
 public slots:
   void matrixChanged();

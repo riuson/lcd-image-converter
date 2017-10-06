@@ -39,6 +39,7 @@ public:
   };
 
   explicit StatusData(QObject *parent = 0);
+  virtual ~StatusData() {}
 
   const QList<StatusType> keys() const;
   const QVariant data(const StatusType key) const;

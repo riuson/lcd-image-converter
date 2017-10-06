@@ -37,7 +37,8 @@ public:
 
   AppSettings();
   AppSettings(Section section);
-  ~AppSettings();
+  virtual ~AppSettings();
+
   static void configure(Section section, const QString &filename);
   static void reset();
   QSettings &get();

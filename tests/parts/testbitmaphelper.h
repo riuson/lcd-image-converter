@@ -10,6 +10,7 @@ class TestBitmapHelper : public QObject
   Q_OBJECT
 public:
   explicit TestBitmapHelper(QObject *parent = 0);
+  virtual ~TestBitmapHelper() {}
 
 private:
   void compareSizeAndPixels(const QImage *actual, const QImage *expected) const;

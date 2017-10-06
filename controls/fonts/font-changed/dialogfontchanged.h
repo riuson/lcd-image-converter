@@ -33,7 +33,7 @@ class DialogFontChanged : public QDialog
 
 public:
   explicit DialogFontChanged(QWidget *parent = 0);
-  ~DialogFontChanged();
+  virtual ~DialogFontChanged();
 
   bool regenerateAll() const;
 

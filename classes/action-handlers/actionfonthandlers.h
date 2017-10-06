@@ -33,6 +33,7 @@ class ActionFontHandlers : public ActionHandlersBase
   Q_OBJECT
 public:
   explicit ActionFontHandlers(QObject *parent = 0);
+  virtual ~ActionFontHandlers() {}
 
 signals:
   void imageCreated(QImage *image, const QString &documentName);

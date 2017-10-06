@@ -33,7 +33,7 @@ class DialogExternalEditor : public QDialog
 
 public:
   explicit DialogExternalEditor(QWidget *parent = 0);
-  ~DialogExternalEditor();
+  virtual ~DialogExternalEditor();
 
 private:
   Ui::DialogExternalEditor *ui;

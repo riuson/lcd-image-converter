@@ -34,6 +34,7 @@ class PrepareOptions : public QObject
   Q_OBJECT
 public:
   explicit PrepareOptions(QObject *parent = 0);
+  virtual ~PrepareOptions() {}
 
   ConversionType convType() const;
   MonochromeType monoType() const;

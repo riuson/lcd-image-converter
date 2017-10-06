@@ -38,6 +38,7 @@ class RleCompressor : public QObject
   Q_OBJECT
 public:
   explicit RleCompressor(QObject *parent = 0);
+  virtual ~RleCompressor() {}
 
   void compress(
     QVector<quint32> *input,

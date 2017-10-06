@@ -32,8 +32,7 @@ class ImageShift : public QObject, public IOperation
   Q_INTERFACES(Operations::IOperation)
 
 public:
-  enum class Direction
-  {
+  enum class Direction {
     None,
     Left,
     Right,
@@ -42,6 +41,7 @@ public:
   };
 
   explicit ImageShift(QObject *parent = 0);
+  virtual ~ImageShift() {}
 
   bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
   void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;

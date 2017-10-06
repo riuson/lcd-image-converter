@@ -33,6 +33,7 @@ class ActionFileHandlers : public ActionHandlersBase
   Q_OBJECT
 public:
   explicit ActionFileHandlers(QObject *parent = 0);
+  virtual ~ActionFileHandlers() {}
 
 signals:
   void rememberFilename(const QString &filename);

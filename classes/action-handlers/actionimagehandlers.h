@@ -33,6 +33,7 @@ class ActionImageHandlers : public ActionHandlersBase
   Q_OBJECT
 public:
   explicit ActionImageHandlers(QObject *parent = 0);
+  virtual ~ActionImageHandlers() {}
 
 private:
   bool mRunningError;

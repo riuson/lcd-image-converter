@@ -35,7 +35,7 @@ class ImageDocument : public QObject, public IDocument
 
 public:
   explicit ImageDocument(QObject *parent = 0);
-  ~ImageDocument();
+  virtual ~ImageDocument();
 
   bool load(const QString &fileName) Q_DECL_OVERRIDE;
   bool save(const QString &fileName) Q_DECL_OVERRIDE;

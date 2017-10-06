@@ -11,6 +11,7 @@ class TestImageOptions : public QObject
   Q_OBJECT
 public:
   explicit TestImageOptions(QObject *parent = 0);
+  virtual ~TestImageOptions() {}
 
 private:
   ImageOptions *mOptions;

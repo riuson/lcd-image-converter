@@ -31,6 +31,7 @@ class TemplateOptions : public QObject
   Q_OBJECT
 public:
   explicit TemplateOptions(QObject *parent = 0);
+  virtual ~TemplateOptions() {}
 
   const QString &image() const;
   const QString &font() const;

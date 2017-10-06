@@ -33,6 +33,7 @@ class ImageFlip : public QObject, public IOperation
 
 public:
   explicit ImageFlip(QObject *parent = 0);
+  virtual ~ImageFlip() {}
 
   bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
   void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
