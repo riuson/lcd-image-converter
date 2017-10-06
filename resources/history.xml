@@ -15,6 +15,7 @@
             <item category="changed">RLE prefix for sequence with length == 1 changed from '(-1)(data[1])' to '(+1)(data[1])'.</item>
             <item category="changed">Tab page 'Prepare' in settings.</item>
             <item category="fixed">Losing of empty parameters in Image settings block.</item>
+            <item category="removed">Support for Qt version &lt; 5.5.</item>
         </changes>
     </record>
     <record>
