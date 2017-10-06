@@ -20,15 +20,13 @@
 #ifndef APPSETTINGS_H
 #define APPSETTINGS_H
 
-#include <QObject>
 #include <QSettings>
 #include <QIODevice>
 #include <QDomDocument>
 #include <QMap>
 
-class AppSettings : public QObject
+class AppSettings
 {
-  Q_OBJECT
 public:
   enum class Section {
     Application,

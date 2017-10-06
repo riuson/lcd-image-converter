@@ -20,11 +20,10 @@
 #ifndef EXTERNALTOOLOPTIONS_H
 #define EXTERNALTOOLOPTIONS_H
 
-#include <QObject>
+#include <QString>
 
-class ExternalToolOptions : public QObject
+class ExternalToolOptions
 {
-  Q_OBJECT
 public:
   static const QString imageEditor();
   static void setImageEditor(const QString &value);

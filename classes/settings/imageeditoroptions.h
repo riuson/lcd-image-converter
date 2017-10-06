@@ -20,14 +20,12 @@
 #ifndef IMAGEEDITOROPTIONS_H
 #define IMAGEEDITOROPTIONS_H
 
-#include <QObject>
 #include <QSize>
+#include <QString>
 #include <QPoint>
 
-class ImageEditorOptions : public QObject
+class ImageEditorOptions
 {
-  Q_OBJECT
-
 public:
   static QByteArray toolbarsState(void);
   static void setToolbarsState(const QByteArray &value);

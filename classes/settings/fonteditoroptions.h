@@ -20,12 +20,10 @@
 #ifndef FONTEDITOROPTIONS_H
 #define FONTEDITOROPTIONS_H
 
-#include <QObject>
 #include <QColor>
 
-class FontEditorOptions : public QObject
+class FontEditorOptions
 {
-  Q_OBJECT
 public:
   static int scale();
   static void setScale(int value);

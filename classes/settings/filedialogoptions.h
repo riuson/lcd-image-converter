@@ -20,15 +20,12 @@
 #ifndef FILEDIALOGOPTIONS_H
 #define FILEDIALOGOPTIONS_H
 
-#include <QObject>
 #include <QString>
 
-class FileDialogOptions : public QObject
+class FileDialogOptions
 {
-  Q_OBJECT
 public:
-  enum class Dialogs
-  {
+  enum class Dialogs {
     None = 0,
 
     OpenDocument,

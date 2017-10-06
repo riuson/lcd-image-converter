@@ -20,16 +20,14 @@
 #ifndef FONTHELPER_H
 #define FONTHELPER_H
 
-#include <QObject>
-
 #include <QImage>
 #include <QSize>
+#include <QString>
 
 class DataContainer;
 
-class FontHelper : public QObject
+class FontHelper
 {
-  Q_OBJECT
 public:
   static QImage drawString(const DataContainer *data, const QString &value);
   static QString escapeControlChars(const QString &value);

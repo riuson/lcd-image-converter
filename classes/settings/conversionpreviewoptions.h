@@ -20,11 +20,10 @@
 #ifndef CONVERSIONPREVIEWOPTIONS_H
 #define CONVERSIONPREVIEWOPTIONS_H
 
-#include <QObject>
+#include <QString>
 
-class ConversionPreviewOptions : public QObject
+class ConversionPreviewOptions
 {
-  Q_OBJECT
 public:
   static int scale();
   static void setScale(int value);
