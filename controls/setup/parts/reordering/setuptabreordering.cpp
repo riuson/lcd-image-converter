@@ -33,7 +33,7 @@ SetupTabReordering::SetupTabReordering(Preset *preset, QWidget *parent) :
 {
   ui->setupUi(this);
   this->mPreset = preset;
-  this->mMenu = NULL;
+  this->mMenu = nullptr;
 
   this->mReorderingModel = new ReorderingPreviewModel(this->mPreset, this);
   this->ui->tableViewOperations->setModel(this->mReorderingModel);
@@ -49,7 +49,7 @@ SetupTabReordering::SetupTabReordering(Preset *preset, QWidget *parent) :
 
 SetupTabReordering::~SetupTabReordering()
 {
-  if (this->mMenu != NULL) {
+  if (this->mMenu != nullptr) {
     delete this->mMenu;
   }
 
@@ -62,7 +62,7 @@ SetupTabReordering::~SetupTabReordering()
 void SetupTabReordering::matrixChanged()
 {
   this->mReorderingModel->callReset();
-  this->ui->tableViewOperations->setModel(NULL);
+  this->ui->tableViewOperations->setModel(nullptr);
   this->ui->tableViewOperations->setModel(this->mReorderingModel);
   this->ui->tableViewOperations->update();
   this->ui->tableViewOperations->resizeRowsToContents();
@@ -80,9 +80,9 @@ void SetupTabReordering::on_tableViewOperations_customContextMenuRequested(const
   QModelIndex index = this->ui->tableViewOperations->indexAt(point);
   QItemSelectionModel *selection = this->ui->tableViewOperations->selectionModel();
 
-  if (this->mMenu != NULL) {
+  if (this->mMenu != nullptr) {
     delete this->mMenu;
-    this->mMenu = NULL;
+    this->mMenu = nullptr;
   }
 
   if (index.isValid()) {

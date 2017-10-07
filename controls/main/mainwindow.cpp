@@ -162,7 +162,7 @@ void MainWindow::checkStartPageVisible()
     QWidget *w = this->ui->tabWidget->widget(i);
     StartTab *tab = dynamic_cast<StartTab *> (w);
 
-    if (tab == NULL) {
+    if (tab == nullptr) {
       othersTabs++;
     } else {
       startPageIndex = i;
@@ -262,7 +262,7 @@ void MainWindow::tabTextUpdate(QWidget *widget)
   if (index >= 0) {
     IEditor *editor = qobject_cast<IEditor *>(widget);
 
-    if (editor != NULL) {
+    if (editor != nullptr) {
       QString name;
 
       if (editor->document()->changed()) {
@@ -298,7 +298,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
   IEditor *editor = dynamic_cast<IEditor *> (w);
   bool cancel = false;
 
-  if (editor != NULL && editor->document()->changed()) {
+  if (editor != nullptr && editor->document()->changed()) {
     DialogSaveChanges dialog(editor->document()->documentName(), this);
     dialog.exec();
 
@@ -364,7 +364,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
   this->mStatusManager->hideAll();
   IEditor *editor = this->currentEditor();
 
-  if (editor != NULL) {
+  if (editor != nullptr) {
     IEditor *editor = this->currentEditor();
     this->mStatusManager->updateData(editor->statusData());
   }
@@ -385,9 +385,9 @@ void MainWindow::actionLanguage_triggered()
 void MainWindow::updateMenuState()
 {
   IEditor *editor = this->currentEditor();
-  bool editorSelected = (editor != NULL);
+  bool editorSelected = (editor != nullptr);
 
-  if (editor != NULL) {
+  if (editor != nullptr) {
     this->ui->menuFont->setEnabled(editor->type() == IEditor::EditorFont);
 
     this->ui->actionEditUndo->setEnabled(editor->document()->canUndo());
@@ -483,12 +483,12 @@ QWidget *MainWindow::currentTab()
     return w;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 void MainWindow::tabsList(QList<QWidget *> *list)
 {
-  if (list != NULL) {
+  if (list != nullptr) {
     list->clear();
 
     for (int i = 0; i < this->ui->tabWidget->count(); i++) {
@@ -511,7 +511,7 @@ QString MainWindow::findAvailableName(const QString &prefix)
     QWidget *w = this->ui->tabWidget->widget(i);
     IDocument *doc = dynamic_cast<IDocument *> (w);
 
-    if (doc != NULL) {
+    if (doc != nullptr) {
       names.append(doc->documentName());
     }
   }
@@ -561,7 +561,7 @@ void MainWindow::statusChanged()
 {
   QWidget *widget = qobject_cast<QWidget *>(sender());
 
-  if (widget != NULL) {
+  if (widget != nullptr) {
     if (this->ui->tabWidget->currentWidget() == widget) {
       IEditor *editor = this->currentEditor();
       this->mStatusManager->updateData(editor->statusData());

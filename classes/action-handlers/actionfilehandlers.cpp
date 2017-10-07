@@ -136,7 +136,7 @@ void ActionFileHandlers::rename_triggered()
   bool ok;
   IEditor *editor = this->editor();
 
-  if (editor != NULL) {
+  if (editor != nullptr) {
     QString name = QInputDialog::getText(this->mMainWindow->parentWidget(),
                                          tr("Rename"),
                                          tr("New name:"),
@@ -154,7 +154,7 @@ void ActionFileHandlers::save_triggered()
 {
   IEditor *editor = this->editor();
 
-  if (editor != NULL) {
+  if (editor != nullptr) {
     if (QFile::exists(editor->document()->documentFilename())) {
       editor->document()->save(editor->document()->documentFilename());
     } else {
@@ -167,7 +167,7 @@ void ActionFileHandlers::saveAs_triggered()
 {
   IEditor *editor = this->editor();
 
-  if (editor != NULL) {
+  if (editor != nullptr) {
     QFileDialog dialog(this->mMainWindow->parentWidget());
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.setFileMode(QFileDialog::AnyFile);
@@ -219,7 +219,7 @@ void ActionFileHandlers::convert_triggered()
 {
   IEditor *editor = this->mMainWindow->currentEditor();
 
-  if (editor != NULL) {
+  if (editor != nullptr) {
     this->convertDocument(editor->document(), true);
   }
 }
@@ -233,7 +233,7 @@ void ActionFileHandlers::convertAll_triggered()
   for (int i = 0; i < list.count(); i++) {
     IEditor *editor = dynamic_cast<IEditor *> (list.at(i));
 
-    if (editor != NULL) {
+    if (editor != nullptr) {
       this->convertDocument(editor->document(), false);
     }
   }
@@ -249,7 +249,7 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
   for (int i = 0; i < existingTabs.count(); i++) {
     IEditor *editor = dynamic_cast<IEditor *> (existingTabs.at(i));
 
-    if (editor != NULL) {
+    if (editor != nullptr) {
       existingFilesInEditors.insert(editor->document()->documentFilename(), existingTabs.at(i));
     }
   }

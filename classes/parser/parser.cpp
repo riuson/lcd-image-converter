@@ -221,7 +221,7 @@ QString Parser::parseImagesTable(const QString &templateString,
 
     ParsedImageData *data = images->value(key);
 
-    if (data != NULL) {
+    if (data != nullptr) {
       tags.importValues(data->tags());
 
       if (it.hasNext()) {
@@ -415,7 +415,7 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
     const QString key = it.next();
     ParsedImageData *data = images->value(key);
 
-    if (data != NULL) {
+    if (data != nullptr) {
       bool ok;
       int width = data->tags()->tagValue(Tags::OutputImageWidth).toInt(&ok);
 

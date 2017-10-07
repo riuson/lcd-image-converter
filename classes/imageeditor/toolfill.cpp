@@ -92,7 +92,7 @@ bool ToolFill::processMouse(QMouseEvent *event,
   if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress) {
     if (event->type() == QEvent::MouseButtonPress) {
       // get coordinates
-      if (imageOriginal != NULL) {
+      if (imageOriginal != nullptr) {
         if (inRect) {
           // get buttons
           bool buttonLeft = (event->buttons() & Qt::LeftButton) == Qt::LeftButton;

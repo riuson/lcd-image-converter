@@ -271,17 +271,17 @@ void TestConverterHelper::dataToString()
 void TestConverterHelper::jsengineSetProperty()
 {
   int argc = 0;
-  QCoreApplication app(argc, NULL);
+  QCoreApplication app(argc, nullptr);
 
   {
     QImage image;
-    TestConvImage cimage(&image, NULL);
+    TestConvImage cimage(&image, nullptr);
     cimage.setCondition(TestConvImage::CanBeDeleted);
   }
 
   {
     QImage image;
-    TestConvImage cimage(&image, NULL);
+    TestConvImage cimage(&image, nullptr);
     cimage.setCondition(TestConvImage::CannotBeDeleted);
     QString err;
     ConverterHelper::collectPoints(&cimage, QString(), &err);
@@ -292,7 +292,7 @@ void TestConverterHelper::jsengineSetProperty()
 void TestConverterHelper::breakInfiniteScript()
 {
   int argc = 0;
-  QCoreApplication app(argc, NULL);
+  QCoreApplication app(argc, nullptr);
 
   QString script = "for (var y = image.height - 1; y >= 0; y-=0) {\
                 for (var x = image.width - 1; x >= 0; x--) {\
@@ -300,7 +300,7 @@ void TestConverterHelper::breakInfiniteScript()
                 }\
             }";
   QImage image = QImage(20, 20, QImage::Format_ARGB32);
-  TestConvImage cimage(&image, NULL);
+  TestConvImage cimage(&image, nullptr);
   cimage.setCondition(TestConvImage::CannotBeDeleted);
   QString err;
   ConverterHelper::collectPoints(&cimage, script, &err);

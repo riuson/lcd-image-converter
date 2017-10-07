@@ -95,7 +95,7 @@ bool ToolRect::processMouse(QMouseEvent *event,
     }
 
     // get coordinates
-    if (imageOriginal != NULL) {
+    if (imageOriginal != nullptr) {
       // get buttons
       bool buttonLeft = (event->buttons() & Qt::LeftButton) == Qt::LeftButton;
       bool buttonRight = (event->buttons() & Qt::RightButton) == Qt::RightButton;
@@ -265,7 +265,7 @@ void ToolRect::on_buttonRertFilledOutline_triggered()
 {
   QAction *action = qobject_cast<QAction *>(sender());
 
-  if (action != NULL) {
+  if (action != nullptr) {
     bool ok;
     int a = action->data().toInt(&ok);
 

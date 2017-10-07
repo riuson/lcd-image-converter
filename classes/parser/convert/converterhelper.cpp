@@ -52,7 +52,7 @@ void ConverterHelper::pixelsData(
   QVector<quint32> *data,
   int *width, int *height)
 {
-  if (image != NULL && data != NULL && width != NULL && height != NULL) {
+  if (image != nullptr && data != nullptr && width != nullptr && height != nullptr) {
     data->clear();
 
     QImage im = *image;
@@ -267,7 +267,7 @@ void ConverterHelper::convertPixelsByScript(const QString &script, QVector<quint
 
 void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
 {
-  if (preset != NULL && data != NULL) {
+  if (preset != nullptr && data != nullptr) {
     for (int i = 0; i < data->size(); i++) {
       quint32 value = data->at(i);
       quint32 valueNew = 0;
@@ -425,7 +425,7 @@ void ConverterHelper::compressData(Preset *preset,
 
 void ConverterHelper::prepareImage(Preset *preset, const QImage *source, QImage *result)
 {
-  if (source != NULL) {
+  if (source != nullptr) {
     QImage im = *source;
 
     if (preset->prepare()->inverse()) {
@@ -438,7 +438,7 @@ void ConverterHelper::prepareImage(Preset *preset, const QImage *source, QImage 
 
 void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage *result)
 {
-  if (source != NULL) {
+  if (source != nullptr) {
     QImage im = *source;
 
     if (preset->prepare()->inverse()) {
@@ -891,7 +891,7 @@ void ConverterHelper::packDataRow(Preset *preset, QVector<quint32> *inputData, i
 {
   *rowLength = 0;
 
-  if (preset != NULL && inputData != NULL && outputData != NULL) {
+  if (preset != nullptr && inputData != nullptr && outputData != nullptr) {
     BitStream stream(preset, inputData, start, count);
 
     while (!stream.eof()) {

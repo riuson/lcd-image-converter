@@ -100,7 +100,7 @@ bool ToolColor::processMouse(QMouseEvent *event,
     }
 
     // get coordinates
-    if (imageOriginal != NULL) {
+    if (imageOriginal != nullptr) {
       if (inRect) {
         // get buttons
         bool buttonLeft = (event->buttons() & Qt::LeftButton) == Qt::LeftButton;

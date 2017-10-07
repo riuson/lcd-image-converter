@@ -95,7 +95,7 @@ bool ToolLine::processMouse(QMouseEvent *event,
     }
 
     // get coordinates
-    if (imageOriginal != NULL) {
+    if (imageOriginal != nullptr) {
       // get buttons
       bool buttonLeft = (event->buttons() & Qt::LeftButton) == Qt::LeftButton;
       bool buttonRight = (event->buttons() & Qt::RightButton) == Qt::RightButton;

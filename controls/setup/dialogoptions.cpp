@@ -41,7 +41,7 @@ DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
   ui(new Ui::DialogOptions)
 {
   ui->setupUi(this);
-  this->mPreview = NULL;
+  this->mPreview = nullptr;
 
   this->mData = dataContainer;
   this->mPreset = new Preset(this);
@@ -98,7 +98,7 @@ DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
 
 DialogOptions::~DialogOptions()
 {
-  if (this->mPreview != NULL) {
+  if (this->mPreview != nullptr) {
     delete this->mPreview;
   }
 
@@ -223,8 +223,8 @@ bool DialogOptions::checkOverwrite(const QString &originalName, QString *resultN
 
 void DialogOptions::previewUpdate()
 {
-  if (this->mData != NULL) {
-    if (this->mPreview != NULL) {
+  if (this->mData != nullptr) {
+    if (this->mPreview != nullptr) {
       this->mPreview->updatePreview();
     }
   }
@@ -234,7 +234,7 @@ void DialogOptions::previewUpdate()
 
 void DialogOptions::on_pushButtonPreview_clicked()
 {
-  if (this->mPreview == NULL) {
+  if (this->mPreview == nullptr) {
     this->mPreview = new DialogPreview(this->mData, this->mPreset, this);
     QObject::connect(this->mPreview, SIGNAL(accepted()), this, SLOT(previewClosed()));
     QObject::connect(this->mPreview, SIGNAL(rejected()), this, SLOT(previewClosed()));
@@ -325,9 +325,9 @@ void DialogOptions::on_comboBoxPresets_currentIndexChanged(int index)
 
 void DialogOptions::previewClosed()
 {
-  if (this->mPreview != NULL) {
+  if (this->mPreview != nullptr) {
     delete this->mPreview;
-    this->mPreview = NULL;
+    this->mPreview = nullptr;
   }
 }
 

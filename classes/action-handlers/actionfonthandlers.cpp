@@ -64,7 +64,7 @@ void ActionFontHandlers::fontChange_triggered()
 
 void ActionFontHandlers::fontInverse_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     Operations::DocumentOperator docOp(this);
     Operations::ImageInverse imageInverse(this);
     docOp.apply(this->editor()->document(), imageInverse);
@@ -73,7 +73,7 @@ void ActionFontHandlers::fontInverse_triggered()
 
 void ActionFontHandlers::fontResize_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     Operations::DocumentOperator docOp(this);
     Operations::FontResize fontResize(this->mMainWindow->parentWidget(), this);
     docOp.apply(this->editor()->document(), fontResize);
@@ -82,7 +82,7 @@ void ActionFontHandlers::fontResize_triggered()
 
 void ActionFontHandlers::fontMinimizeHeight_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     Operations::DocumentOperator docOp(this);
     Operations::FontMinimizeHeight fontMinimizeHeight(this->mMainWindow->parentWidget(), this);
     docOp.apply(this->editor()->document(), fontMinimizeHeight);
@@ -93,7 +93,7 @@ void ActionFontHandlers::fontPreview_triggered()
 {
   IEditor *editor = this->editor();
 
-  if (editor != NULL) {
+  if (editor != nullptr) {
     IDocument *doc = editor->document();
 
     DialogFontPreview dialog(this->mMainWindow->parentWidget());
@@ -107,7 +107,7 @@ void ActionFontHandlers::fontToImage_triggered()
 {
   IEditor *editor = this->editor();
 
-  if (editor != NULL) {
+  if (editor != nullptr) {
     QStringList keys = editor->selectedKeys();
     qSort(keys);
     QString characters = keys.join("");

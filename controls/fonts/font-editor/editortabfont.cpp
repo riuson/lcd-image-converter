@@ -89,7 +89,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
 EditorTabFont::~EditorTabFont()
 {
-  this->mEditorWidget->setParent(NULL);
+  this->mEditorWidget->setParent(nullptr);
   delete ui;
   delete this->mScaledProxy;
   delete this->mModel;

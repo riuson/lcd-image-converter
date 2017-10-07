@@ -62,7 +62,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 
 EditorTabImage::~EditorTabImage()
 {
-  this->mEditorWidget->setParent(NULL);
+  this->mEditorWidget->setParent(nullptr);
   delete ui;
   delete this->mEditorObject;
 }

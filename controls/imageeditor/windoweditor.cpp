@@ -44,7 +44,7 @@ WindowEditor::WindowEditor(QWidget *parent) :
 
   this->restoreState(ImageEditorOptions::toolbarsState(), 0);
 
-  this->mSelectedTool = NULL;
+  this->mSelectedTool = nullptr;
   this->createTools();
 
   this->updateImageScaled(this->mTools->scale());
@@ -84,7 +84,7 @@ bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
 {
   bool result = false;
 
-  if (this->mSelectedTool != NULL) {
+  if (this->mSelectedTool != nullptr) {
     if (event->type() == QEvent::MouseButtonDblClick ||
         event->type() == QEvent::MouseButtonPress ||
         event->type() == QEvent::MouseButtonRelease ||
@@ -261,10 +261,10 @@ void WindowEditor::toolChanged(int toolIndex)
 
   IImageEditorTool *tool = this->mSelectedTool;
 
-  if (this->mSelectedTool != NULL) {
+  if (this->mSelectedTool != nullptr) {
     QObject *obj = dynamic_cast<QObject *>(tool);
 
-    if (tool != NULL) {
+    if (tool != nullptr) {
       obj->disconnect(SIGNAL(started(const QImage *)), this, SLOT(tool_started(const QImage *)));
       obj->disconnect(SIGNAL(processing(const QImage *)), this, SLOT(tool_processing(const QImage *)));
       obj->disconnect(SIGNAL(completed(const QImage *, bool)), this, SLOT(tool_completed(const QImage *, bool)));

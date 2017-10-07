@@ -38,7 +38,7 @@ DialogPreview::DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidg
   this->mPreset = matrix;
   this->mScale = 1;
 
-  if (this->mData != NULL) {
+  if (this->mData != nullptr) {
     this->ui->comboBoxSampleKey->addItems(this->mData->keys());
     this->ui->comboBoxSampleKey->setCurrentIndex(0);
   } else {
@@ -60,7 +60,7 @@ DialogPreview::~DialogPreview()
 
 void DialogPreview::updatePreview()
 {
-  if (this->mData != NULL) {
+  if (this->mData != nullptr) {
     QString key = this->ui->comboBoxSampleKey->currentText();
 
     if (!key.isEmpty()) {

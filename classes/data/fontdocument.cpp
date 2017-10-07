@@ -748,7 +748,7 @@ void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys,
 
       ParsedImageData *imageData = images->value(key);
 
-      if (imageData != NULL) {
+      if (imageData != nullptr) {
         QString charCode = this->hexCode(key, encoding, useBom);
         imageData->tags()->setTagValue(Tags::OutputCharacterCode, charCode);
         imageData->tags()->setTagValue(Tags::OutputCharacterText, FontHelper::escapeControlChars(key));
@@ -769,11 +769,11 @@ void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys,
 
       ParsedImageData *imageData = images->value(key);
 
-      if (imageData != NULL) {
+      if (imageData != nullptr) {
         // detect same characters
-        ParsedImageData *similarImageData = similarMap.value(imageData->hash(), NULL);
+        ParsedImageData *similarImageData = similarMap.value(imageData->hash(), nullptr);
 
-        if (similarImageData != NULL) {
+        if (similarImageData != nullptr) {
           QString similarCode = similarImageData->tags()->tagValue(Tags::OutputCharacterCode);
           QString similarText = similarImageData->tags()->tagValue(Tags::OutputCharacterText);
           imageData->tags()->setTagValue(Tags::OutputCharacterCodeSimilar, similarCode);

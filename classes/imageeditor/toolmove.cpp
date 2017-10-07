@@ -89,7 +89,7 @@ bool ToolMove::processMouse(QMouseEvent *event,
     }
 
     // get coordinates
-    if (imageOriginal != NULL) {
+    if (imageOriginal != nullptr) {
       Qt::MouseButtons buttons = event->buttons();
       int x = event->x();
       int y = event->y();
