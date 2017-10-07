@@ -22,6 +22,11 @@
 #include <QStatusBar>
 #include "revisionlabel.h"
 
+namespace AppUI
+{
+namespace Status
+{
+
 StatusManager::StatusManager(QStatusBar *statusBar, QObject *parent) :
   QObject(parent)
 {
@@ -144,3 +149,5 @@ void StatusManager::hideItem(StatusData::StatusType key)
   }
 }
 
+} // namespace Status
+} // namespace AppUI

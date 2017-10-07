@@ -26,6 +26,11 @@
 
 class IMainWindow;
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 class ActionSetupHandlers : public ActionHandlersBase
 {
   Q_OBJECT
@@ -39,5 +44,8 @@ public slots:
   void conversion_triggered();
   void external_editor_triggered();
 };
+
+} // namespace MenuHandlers
+} // namespace AppUI
 
 #endif // ACTIONSETUPHANDLERS_H

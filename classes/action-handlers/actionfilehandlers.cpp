@@ -39,6 +39,11 @@
 #include "tfontparameters.h"
 #include "filedialogoptions.h"
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 ActionFileHandlers::ActionFileHandlers(QObject *parent) :
   ActionHandlersBase(parent)
 {
@@ -260,7 +265,7 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
     QStringList imageExtensions;
     imageExtensions << "bmp" << "gif" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "ppm" << "tiff" << "xbm" << "xpm";
 
-    foreach (const QString & filename, filenames) {
+    foreach (const QString &filename, filenames) {
       QFileInfo info(filename);
 
       if (info.exists() && imageExtensions.contains(info.suffix().toLower())) {
@@ -272,7 +277,7 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
   // document image
   QStringList filesDocumentImage;
   {
-    foreach (const QString & filename, filenames) {
+    foreach (const QString &filename, filenames) {
       QFileInfo info(filename);
 
       if (info.exists() && info.suffix().toLower() == "xml" && !existingFilesInEditors.contains(filename)) {
@@ -302,7 +307,7 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
   // document font
   QStringList filesDocumentFont;
   {
-    foreach (const QString & filename, filenames) {
+    foreach (const QString &filename, filenames) {
       QFileInfo info(filename);
 
       if (info.exists() && info.suffix().toLower() == "xml" && !existingFilesInEditors.contains(filename)) {
@@ -370,7 +375,7 @@ void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
 
 void ActionFileHandlers::openBinaryImage(const QStringList &filenames)
 {
-  foreach (const QString & filename, filenames) {
+  foreach (const QString &filename, filenames) {
     QFileInfo info(filename);
 
     QImage imageLoaded;
@@ -403,7 +408,7 @@ void ActionFileHandlers::openBinaryImage(const QStringList &filenames)
 
 void ActionFileHandlers::openImage(const QStringList &filenames)
 {
-  foreach (const QString & filename, filenames) {
+  foreach (const QString &filename, filenames) {
     EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
     this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
@@ -415,7 +420,7 @@ void ActionFileHandlers::openImage(const QStringList &filenames)
 
 void ActionFileHandlers::openFont(const QStringList &filenames)
 {
-  foreach (const QString & filename, filenames) {
+  foreach (const QString &filename, filenames) {
     EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
     this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
@@ -505,3 +510,5 @@ void ActionFileHandlers::documentChanged()
   emit this->tabChanged(w);
 }
 
+} // namespace MenuHandlers
+} // namespace AppUI

@@ -28,6 +28,11 @@
 class IMainWindow;
 class WidgetBitmapEditor;
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 class ActionImageHandlers : public ActionHandlersBase
 {
   Q_OBJECT
@@ -57,5 +62,8 @@ public slots:
   void export_triggered();
   void edit_in_external_tool_triggered();
 };
+
+} // namespace MenuHandlers
+} // namespace AppUI
 
 #endif // ACTIONIMAGEHANDLERS_H

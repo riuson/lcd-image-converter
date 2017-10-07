@@ -35,10 +35,17 @@ class ImagesModel;
 class ImagesScaledProxy;
 class QItemSelection;
 class QModelIndex;
-class StatusData;
 class FontDocument;
 class IDocument;
 struct tFontParameters;
+
+namespace AppUI
+{
+namespace Status
+{
+class StatusData;
+}
+}
 
 namespace ImageEditor
 {
@@ -56,7 +63,7 @@ public:
 
   IDocument *document() const Q_DECL_OVERRIDE;
   QStringList selectedKeys() const Q_DECL_OVERRIDE;
-  StatusData *statusData() const Q_DECL_OVERRIDE;
+  AppUI::Status::StatusData *statusData() const Q_DECL_OVERRIDE;
   EditorType type() const Q_DECL_OVERRIDE;
 
   void setFontCharacters(const QString &chars,
@@ -76,7 +83,7 @@ private:
   QSplitter *mSplitter;
   ImagesModel *mModel;
   ImagesScaledProxy *mScaledProxy;
-  StatusData *mStatusData;
+  AppUI::Status::StatusData *mStatusData;
   int mLastImagesCount;
 
   QFont mTableFont;

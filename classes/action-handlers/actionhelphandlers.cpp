@@ -27,6 +27,11 @@
 #include "dialogupdates.h"
 #include "imainwindow.h"
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 ActionHelpHandlers::ActionHelpHandlers(QObject *parent) :
   ActionHandlersBase(parent)
 {
@@ -54,3 +59,5 @@ void ActionHelpHandlers::homepage_triggered()
   QDesktopServices::openUrl(QUrl("http://www.riuson.com/lcd-image-converter", QUrl::TolerantMode));
 }
 
+} // namespace MenuHandlers
+} // namespace AppUI

@@ -26,6 +26,11 @@ class IMainWindow;
 class WidgetBitmapEditor;
 class IEditor;
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 class ActionHandlersBase : public QObject
 {
   Q_OBJECT
@@ -42,5 +47,8 @@ signals:
 public slots:
 
 };
+
+} // namespace MenuHandlers
+} // namespace AppUI
 
 #endif // ACTIONHANDLERSBASE_H

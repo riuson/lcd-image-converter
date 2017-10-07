@@ -36,6 +36,11 @@
 #include "fontminimizeheight.h"
 #include "fontresize.h"
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :
   ActionHandlersBase(parent)
 {
@@ -117,3 +122,5 @@ void ActionFontHandlers::fontToImage_triggered()
   }
 }
 
+} // namespace MenuHandlers
+} // namespace AppUI

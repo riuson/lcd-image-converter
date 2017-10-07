@@ -22,7 +22,14 @@
 
 #include <QObject>
 
+namespace AppUI
+{
+namespace Status
+{
 class StatusData;
+}
+}
+
 class DataContainer;
 class IDocument;
 
@@ -36,7 +43,7 @@ public:
 
   virtual IDocument *document() const = 0;
   virtual QStringList selectedKeys() const = 0;
-  virtual StatusData *statusData() const = 0;
+  virtual AppUI::Status::StatusData *statusData() const = 0;
   virtual EditorType type() const = 0;
 };
 Q_DECLARE_INTERFACE (IEditor,

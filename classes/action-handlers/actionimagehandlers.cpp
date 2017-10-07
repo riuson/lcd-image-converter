@@ -32,6 +32,11 @@
 #include "imageexport.h"
 #include "imageeditinexternaltool.h"
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
   ActionHandlersBase(parent)
 {
@@ -227,3 +232,5 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
   }
 }
 
+} // namespace MenuHandlers
+} // namespace AppUI

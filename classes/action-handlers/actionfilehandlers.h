@@ -28,6 +28,11 @@ class QImage;
 class IMainWindow;
 class IDocument;
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 class ActionFileHandlers : public ActionHandlersBase
 {
   Q_OBJECT
@@ -66,5 +71,8 @@ private:
 private slots:
   void documentChanged();
 };
+
+} // namespace MenuHandlers
+} // namespace AppUI
 
 #endif // ACTIONFILEHANDLERS_H

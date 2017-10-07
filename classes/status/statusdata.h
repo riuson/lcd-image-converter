@@ -25,6 +25,11 @@
 #include <QMap>
 #include <QList>
 
+namespace AppUI
+{
+namespace Status
+{
+
 class StatusData : public QObject
 {
   Q_OBJECT
@@ -52,5 +57,8 @@ private:
 signals:
   void changed();
 };
+
+} // namespace Status
+} // namespace AppUI
 
 #endif // STATUSDATA_H

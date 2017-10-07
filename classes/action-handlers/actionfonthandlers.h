@@ -28,6 +28,11 @@ class QImage;
 class IMainWindow;
 class WidgetBitmapEditor;
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 class ActionFontHandlers : public ActionHandlersBase
 {
   Q_OBJECT
@@ -46,5 +51,8 @@ public slots:
   void fontPreview_triggered();
   void fontToImage_triggered();
 };
+
+} // namespace MenuHandlers
+} // namespace AppUI
 
 #endif // ACTIONFONTHANDLERS_H

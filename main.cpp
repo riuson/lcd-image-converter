@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
   }
 
   // gui mode
-  MainWindow w;
+  AppUI::MainWindow w;
   w.show();
   return a.exec();
 }

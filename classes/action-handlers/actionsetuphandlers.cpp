@@ -26,6 +26,11 @@
 #include "datacontainer.h"
 #include "dialogexternaleditor.h"
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
   ActionHandlersBase(parent)
 {
@@ -49,3 +54,5 @@ void ActionSetupHandlers::external_editor_triggered()
   dialog.exec();
 }
 
+} // namespace MenuHandlers
+} // namespace AppUI

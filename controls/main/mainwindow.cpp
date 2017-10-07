@@ -50,6 +50,9 @@
 #include "bitmaphelper.h"
 #include "filedialogoptions.h"
 
+namespace AppUI
+{
+
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow)
@@ -71,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
   this->mTrans = new QTranslator;
   qApp->installTranslator(this->mTrans);
 
-  this->mStatusManager = new StatusManager(this->ui->statusBar, this);
+  this->mStatusManager = new Status::StatusManager(this->ui->statusBar, this);
 
   QDir dir(":/translations");
   QStringList translations = dir.entryList(QDir::Files, QDir::Name);
@@ -193,7 +196,7 @@ void MainWindow::checkStartPageVisible()
 
 void MainWindow::createHandlers()
 {
-  this->mFileHandlers = new ActionFileHandlers(this);
+  this->mFileHandlers = new MenuHandlers::ActionFileHandlers(this);
   this->mFileHandlers->connect(this->ui->actionNew_Image, SIGNAL(triggered()), SLOT(newImage_triggered()));
   this->mFileHandlers->connect(this->ui->actionNew_Font, SIGNAL(triggered()), SLOT(newFont_triggered()));
   this->mFileHandlers->connect(this->ui->actionOpen, SIGNAL(triggered()), SLOT(open_triggered()));
@@ -211,13 +214,13 @@ void MainWindow::createHandlers()
   this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget *)), SLOT(tabCreated(QWidget *)));
   this->connect(this->mFileHandlers, SIGNAL(tabSelect(QWidget *)), SLOT(setCurrentTab(QWidget *)));
 
-  this->mEditHandlers = new ActionEditHandlers(this);
+  this->mEditHandlers = new MenuHandlers::ActionEditHandlers(this);
   this->mEditHandlers->connect(this->ui->actionEditUndo, SIGNAL(triggered()), SLOT(undo_triggered()));
   this->mEditHandlers->connect(this->ui->actionEditRedo, SIGNAL(triggered()), SLOT(redo_triggered()));
   this->mEditHandlers->connect(this->ui->actionEditCopy, SIGNAL(triggered()), SLOT(copy_triggered()));
   this->mEditHandlers->connect(this->ui->actionEditPaste, SIGNAL(triggered()), SLOT(paste_triggered()));
 
-  this->mImageHandlers = new ActionImageHandlers(this);
+  this->mImageHandlers = new MenuHandlers::ActionImageHandlers(this);
   this->mImageHandlers->connect(this->ui->actionImageFlip_Horizontal, SIGNAL(triggered()), SLOT(flipHorizontal_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageFlip_Vertical, SIGNAL(triggered()), SLOT(flipVertical_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageRotate_90_Clockwise, SIGNAL(triggered()), SLOT(rotate_90_Clockwise_triggered()));
@@ -234,7 +237,7 @@ void MainWindow::createHandlers()
   this->mImageHandlers->connect(this->ui->actionImageExport, SIGNAL(triggered()), SLOT(export_triggered()));
   this->mImageHandlers->connect(this->ui->actionEdit_in_external_tool, SIGNAL(triggered()), SLOT(edit_in_external_tool_triggered()));
 
-  this->mFontHandlers = new ActionFontHandlers(this);
+  this->mFontHandlers = new MenuHandlers::ActionFontHandlers(this);
   this->mFontHandlers->connect(this->ui->actionFontChange, SIGNAL(triggered()), SLOT(fontChange_triggered()));
   this->mFontHandlers->connect(this->ui->actionFontInverse, SIGNAL(triggered()), SLOT(fontInverse_triggered()));
   this->mFontHandlers->connect(this->ui->actionFontResize, SIGNAL(triggered()), SLOT(fontResize_triggered()));
@@ -242,11 +245,11 @@ void MainWindow::createHandlers()
   this->mFontHandlers->connect(this->ui->actionFontPreview, SIGNAL(triggered()), SLOT(fontPreview_triggered()));
   this->mFontHandlers->connect(this->ui->actionFontToImage, SIGNAL(triggered()), SLOT(fontToImage_triggered()));
 
-  this->mSetupHandlers = new ActionSetupHandlers(this);
+  this->mSetupHandlers = new MenuHandlers::ActionSetupHandlers(this);
   this->mSetupHandlers->connect(this->ui->actionConversionOptions, SIGNAL(triggered()), SLOT(conversion_triggered()));
   this->mSetupHandlers->connect(this->ui->actionExternal_editor, SIGNAL(triggered()), SLOT(external_editor_triggered()));
 
-  this->mHelpHandlers = new ActionHelpHandlers(this);
+  this->mHelpHandlers = new MenuHandlers::ActionHelpHandlers(this);
   this->mHelpHandlers->connect(this->ui->actionAboutApp, SIGNAL(triggered()), SLOT(about_application_triggered()));
   this->mHelpHandlers->connect(this->ui->actionAboutQt, SIGNAL(triggered()), SLOT(about_qt_triggered()));
   this->mHelpHandlers->connect(this->ui->actionUpdates, SIGNAL(triggered()), SLOT(updates_triggered()));
@@ -569,3 +572,4 @@ void MainWindow::statusChanged()
   }
 }
 
+} // namespace AppUI

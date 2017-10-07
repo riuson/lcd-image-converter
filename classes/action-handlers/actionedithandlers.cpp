@@ -38,6 +38,11 @@
 #include "datacontainer.h"
 #include "idocument.h"
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 ActionEditHandlers::ActionEditHandlers(QObject *parent) :
   ActionHandlersBase(parent)
 {
@@ -129,3 +134,5 @@ void ActionEditHandlers::paste_triggered()
   }
 }
 
+} // namespace MenuHandlers
+} // namespace AppUI

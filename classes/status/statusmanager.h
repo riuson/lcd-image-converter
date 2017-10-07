@@ -27,6 +27,11 @@
 class QStatusBar;
 class QLabel;
 
+namespace AppUI
+{
+namespace Status
+{
+
 class StatusManager : public QObject
 {
   Q_OBJECT
@@ -50,5 +55,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Status
+} // namespace AppUI
 
 #endif // STATUSMANAGER_H

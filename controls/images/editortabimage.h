@@ -31,9 +31,16 @@ class EditorTabImage;
 
 class QImage;
 class DataContainer;
-class StatusData;
 class ImageDocument;
 class IDocument;
+
+namespace AppUI
+{
+namespace Status
+{
+class StatusData;
+}
+}
 
 namespace ImageEditor
 {
@@ -51,7 +58,7 @@ public:
 
   IDocument *document() const Q_DECL_OVERRIDE;
   QStringList selectedKeys() const Q_DECL_OVERRIDE;
-  StatusData *statusData() const Q_DECL_OVERRIDE;
+  AppUI::Status::StatusData *statusData() const Q_DECL_OVERRIDE;
   EditorType type() const Q_DECL_OVERRIDE;
 
 protected:
@@ -62,7 +69,7 @@ private:
   QWidget *mEditorWidget;
   ImageEditor::Editor *mEditorObject;
   ImageDocument *mDocument;
-  StatusData *mStatusData;
+  AppUI::Status::StatusData *mStatusData;
 
   void initStatusData();
   void updateStatus();

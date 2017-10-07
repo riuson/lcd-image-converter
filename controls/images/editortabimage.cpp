@@ -77,7 +77,7 @@ QStringList EditorTabImage::selectedKeys() const
   return this->mDocument->dataContainer()->keys();
 }
 
-StatusData *EditorTabImage::statusData() const
+AppUI::Status::StatusData *EditorTabImage::statusData() const
 {
   return this->mStatusData;
 }
@@ -103,7 +103,7 @@ void EditorTabImage::changeEvent(QEvent *e)
 
 void EditorTabImage::initStatusData()
 {
-  this->mStatusData = new StatusData(this);
+  this->mStatusData = new AppUI::Status::StatusData(this);
   this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
   this->updateStatus();
 }
@@ -114,10 +114,10 @@ void EditorTabImage::updateStatus()
 
   if (keys.length() > 0) {
     const QImage *currentImage = this->mDocument->dataContainer()->image(keys.at(0));
-    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+    this->mStatusData->setData(AppUI::Status::StatusData::ImageSize, QVariant(currentImage->size()));
   }
 
-  this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditorObject->scale()));
+  this->mStatusData->setData(AppUI::Status::StatusData::Scale, QVariant(this->mEditorObject->scale()));
 }
 
 void EditorTabImage::updateSelectedImage()
@@ -147,15 +147,15 @@ void EditorTabImage::mon_editor_imageChanged(const QImage *value)
 void EditorTabImage::mon_editor_mouseMove(const QPoint *point)
 {
   if (point->x() >= 0 && point->y() >= 0) {
-    this->mStatusData->setData(StatusData::MouseCoordinates, QVariant(*point));
+    this->mStatusData->setData(AppUI::Status::StatusData::MouseCoordinates, QVariant(*point));
   } else {
-    this->mStatusData->removeData(StatusData::MouseCoordinates);
+    this->mStatusData->removeData(AppUI::Status::StatusData::MouseCoordinates);
   }
 }
 
 void EditorTabImage::mon_editor_scaleChanged(int scale)
 {
-  this->mStatusData->setData(StatusData::Scale, QVariant(scale));
+  this->mStatusData->setData(AppUI::Status::StatusData::Scale, QVariant(scale));
 }
 
 /*

@@ -123,7 +123,7 @@ QStringList EditorTabFont::selectedKeys() const
   return result;
 }
 
-StatusData *EditorTabFont::statusData() const
+AppUI::Status::StatusData *EditorTabFont::statusData() const
 {
   return this->mStatusData;
 }
@@ -200,7 +200,7 @@ void EditorTabFont::wheelEvent(QWheelEvent *event)
 
 void EditorTabFont::initStatusData()
 {
-  this->mStatusData = new StatusData(this);
+  this->mStatusData = new AppUI::Status::StatusData(this);
   this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
 
   this->updateStatus();
@@ -209,17 +209,17 @@ void EditorTabFont::initStatusData()
 void EditorTabFont::updateStatus()
 {
   const QImage *currentImage = this->mDocument->dataContainer()->image(this->currentKey());
-  this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+  this->mStatusData->setData(AppUI::Status::StatusData::ImageSize, QVariant(currentImage->size()));
 
-  this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditorObject->scale()));
+  this->mStatusData->setData(AppUI::Status::StatusData::Scale, QVariant(this->mEditorObject->scale()));
 
   // status update: current image index
   {
     int current = this->mDocument->dataContainer()->keys().indexOf(this->currentKey());
     int total = this->mDocument->dataContainer()->count();
 
-    this->mStatusData->setData(StatusData::ImagesCount, total);
-    this->mStatusData->setData(StatusData::ImageIndex, current);
+    this->mStatusData->setData(AppUI::Status::StatusData::ImagesCount, total);
+    this->mStatusData->setData(AppUI::Status::StatusData::ImageIndex, current);
   }
 }
 
@@ -306,15 +306,15 @@ void EditorTabFont::mon_editor_imageChanged(const QImage *value)
 void EditorTabFont::mon_editor_mouseMove(const QPoint *point)
 {
   if (point->x() >= 0 && point->y() >= 0) {
-    this->mStatusData->setData(StatusData::MouseCoordinates, QVariant(*point));
+    this->mStatusData->setData(AppUI::Status::StatusData::MouseCoordinates, QVariant(*point));
   } else {
-    this->mStatusData->removeData(StatusData::MouseCoordinates);
+    this->mStatusData->removeData(AppUI::Status::StatusData::MouseCoordinates);
   }
 }
 
 void EditorTabFont::mon_editor_scaleChanged(int scale)
 {
-  this->mStatusData->setData(StatusData::Scale, QVariant(scale));
+  this->mStatusData->setData(AppUI::Status::StatusData::Scale, QVariant(scale));
 }
 
 void EditorTabFont::currentChanged(const QModelIndex &current, const QModelIndex &previous)

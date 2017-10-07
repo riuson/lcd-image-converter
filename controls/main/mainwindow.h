@@ -28,16 +28,26 @@ namespace Ui
 class MainWindow;
 }
 
-class WidgetBitmapEditor;
 class QTranslator;
+class WidgetBitmapEditor;
 class RecentList;
+
+namespace AppUI
+{
+namespace Status
+{
 class StatusManager;
+}
+
+namespace MenuHandlers
+{
 class ActionFileHandlers;
 class ActionEditHandlers;
 class ActionImageHandlers;
 class ActionFontHandlers;
 class ActionSetupHandlers;
 class ActionHelpHandlers;
+}
 
 class MainWindow : public QMainWindow, public IMainWindow
 {
@@ -55,7 +65,7 @@ private:
   Ui::MainWindow *ui;
   QTranslator *mTrans;
   RecentList *mRecentList;
-  StatusManager *mStatusManager;
+  Status::StatusManager *mStatusManager;
 
   void selectLocale(const QString &localeName);
   void checkStartPageVisible();
@@ -63,12 +73,12 @@ private:
   void tabTextUpdate(QWidget *widget);
   int editorsCount() const;
 
-  ActionFileHandlers *mFileHandlers;
-  ActionEditHandlers *mEditHandlers;
-  ActionImageHandlers *mImageHandlers;
-  ActionFontHandlers *mFontHandlers;
-  ActionSetupHandlers *mSetupHandlers;
-  ActionHelpHandlers *mHelpHandlers;
+  MenuHandlers::ActionFileHandlers *mFileHandlers;
+  MenuHandlers::ActionEditHandlers *mEditHandlers;
+  MenuHandlers::ActionImageHandlers *mImageHandlers;
+  MenuHandlers::ActionFontHandlers *mFontHandlers;
+  MenuHandlers::ActionSetupHandlers *mSetupHandlers;
+  MenuHandlers::ActionHelpHandlers *mHelpHandlers;
 
 private slots:
   void on_tabWidget_tabCloseRequested(int index);
@@ -92,5 +102,7 @@ public:
   QWidget *parentWidget() Q_DECL_OVERRIDE;
   QString findAvailableName(const QString &prefix) Q_DECL_OVERRIDE;
 };
+
+} // namespace AppUI
 
 #endif // MAINWINDOW_H
