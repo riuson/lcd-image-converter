@@ -32,7 +32,7 @@
 namespace CommandLine
 {
 
-ModeConvertImage::ModeConvertImage(QCommandLineParser *parser, QObject *parent) :
+ModeConvertImage::ModeConvertImage(QCommandLineParser &parser, QObject *parent) :
   ModeParserBase(parser, parent)
 {
 }
@@ -48,40 +48,40 @@ void ModeConvertImage::fillParser() const
   QCommandLineOption inputOption(QStringList() << "i" << "input",
                                  QCoreApplication::translate("CmdLineParser", "Full <path> to source image in binary format."),
                                  QCoreApplication::translate("CmdLineParser", "path"));
-  this->mParser->addOption(inputOption);
+  this->mParser.addOption(inputOption);
 
   // --output=/temp/1.c
   QCommandLineOption outputOption(QStringList() << "o" << "output",
                                   QCoreApplication::translate("CmdLineParser", "Full <path> to output result."),
                                   QCoreApplication::translate("CmdLineParser", "path"));
-  this->mParser->addOption(outputOption);
+  this->mParser.addOption(outputOption);
 
   // --template=/temp/image.tmpl
   QCommandLineOption templateOption(QStringList() << "template",
                                     QCoreApplication::translate("CmdLineParser", "Full <path> to template file, used in conversion. [Optional]"),
                                     QCoreApplication::translate("CmdLineParser", "path"));
-  this->mParser->addOption(templateOption);
+  this->mParser.addOption(templateOption);
 
   // --doc-name=testImage
   QCommandLineOption documentNameOption(QStringList() << "doc-name",
                                         QCoreApplication::translate("CmdLineParser", "Document name."),
                                         QCoreApplication::translate("CmdLineParser", "name"));
-  this->mParser->addOption(documentNameOption);
+  this->mParser.addOption(documentNameOption);
 
   // --preset-name=lcdR4G5B4
   QCommandLineOption presetOption(QStringList() << "preset-name",
                                   QCoreApplication::translate("CmdLineParser", "Output preset <name> from predefined presets in application settings."),
                                   QCoreApplication::translate("CmdLineParser", "name"));
-  this->mParser->addOption(presetOption);
+  this->mParser.addOption(presetOption);
 }
 
 bool ModeConvertImage::collectArguments()
 {
-  this->mInputFilename = this->mParser->value("input");
-  this->mOutputFilename = this->mParser->value("output");
-  this->mTemplateFilename = this->mParser->value("template");
-  this->mDocumentName = this->mParser->value("doc-name");
-  this->mPresetName = this->mParser->value("preset-name");
+  this->mInputFilename = this->mParser.value("input");
+  this->mOutputFilename = this->mParser.value("output");
+  this->mTemplateFilename = this->mParser.value("template");
+  this->mDocumentName = this->mParser.value("doc-name");
+  this->mPresetName = this->mParser.value("preset-name");
 
   return (!this->mInputFilename.isEmpty() &&
           !this->mOutputFilename.isEmpty() &&

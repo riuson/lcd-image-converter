@@ -30,7 +30,7 @@ class ModeConvertFont : public ModeParserBase
 {
   Q_OBJECT
 public:
-  explicit ModeConvertFont(QCommandLineParser *parser, QObject *parent = 0);
+  explicit ModeConvertFont(QCommandLineParser &parser, QObject *parent = 0);
   virtual ~ModeConvertFont() {}
 
   static QString modeName();

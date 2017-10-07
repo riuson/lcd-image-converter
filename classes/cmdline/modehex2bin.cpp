@@ -28,7 +28,7 @@
 namespace CommandLine
 {
 
-ModeHex2Bin::ModeHex2Bin(QCommandLineParser *parser, QObject *parent) :
+ModeHex2Bin::ModeHex2Bin(QCommandLineParser &parser, QObject *parent) :
   ModeParserBase(parser, parent)
 {
 }
@@ -44,19 +44,19 @@ void ModeHex2Bin::fillParser() const
   QCommandLineOption inputOption(QStringList() << "i" << "input",
                                  QCoreApplication::translate("CmdLineParser", "Full <path> to image in *.C format."),
                                  QCoreApplication::translate("CmdLineParser", "path"));
-  this->mParser->addOption(inputOption);
+  this->mParser.addOption(inputOption);
 
   // --output=/temp/1.bin
   QCommandLineOption outputOption(QStringList() << "o" << "output",
                                   QCoreApplication::translate("CmdLineParser", "Full <path> to output binary result."),
                                   QCoreApplication::translate("CmdLineParser", "path"));
-  this->mParser->addOption(outputOption);
+  this->mParser.addOption(outputOption);
 }
 
 bool ModeHex2Bin::collectArguments()
 {
-  this->mInputFilename = this->mParser->value("input");
-  this->mOuputFilename = this->mParser->value("output");
+  this->mInputFilename = this->mParser.value("input");
+  this->mOuputFilename = this->mParser.value("output");
 
   return (!this->mInputFilename.isEmpty() &&
           !this->mOuputFilename.isEmpty());
@@ -135,18 +135,18 @@ QByteArray ModeHex2Bin::hex2bin(QString &hexString)
 
     if (ok) { // decimal
       if (le) {
-        this->appendDataLE(&result, size, value);
+        this->appendDataLE(result, size, value);
       } else {
-        this->appendDataBE(&result, size, value);
+        this->appendDataBE(result, size, value);
       }
     } else {
       value = part.toUInt(&ok, 16);
 
       if (ok) {
         if (le) {
-          this->appendDataLE(&result, size, value);
+          this->appendDataLE(result, size, value);
         } else {
-          this->appendDataBE(&result, size, value);
+          this->appendDataBE(result, size, value);
         }
       }
     }
@@ -155,22 +155,22 @@ QByteArray ModeHex2Bin::hex2bin(QString &hexString)
   return result;
 }
 
-void ModeHex2Bin::appendDataLE(QByteArray *array, int size, quint32 value)
+void ModeHex2Bin::appendDataLE(QByteArray &array, int size, quint32 value)
 {
   while (size -- > 0) {
     quint8 a = value & 0xff;
-    array->append(a);
+    array.append(a);
     value = value >> 8;
   }
 }
 
-void ModeHex2Bin::appendDataBE(QByteArray *array, int size, quint32 value)
+void ModeHex2Bin::appendDataBE(QByteArray &array, int size, quint32 value)
 {
-  int index = array->length();
+  int index = array.length();
 
   while (size -- > 0) {
     quint8 a = value & 0xff;
-    array->insert(index, a);
+    array.insert(index, a);
     value = value >> 8;
   }
 }
