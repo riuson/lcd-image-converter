@@ -409,7 +409,7 @@ void ConverterHelper::compressData(Preset *preset,
                                    int *outputWidth, int *outputHeight)
 {
   if (preset->image()->compressionRle()) {
-    RleCompressor compressor;
+    Utils::Compression::RleCompressor compressor;
     compressor.compress(inputData, preset->image()->blockSize(), outputData, preset->image()->compressionRleMinLength());
     *outputWidth = outputData->size();
     *outputHeight = 1;

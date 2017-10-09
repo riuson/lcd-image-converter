@@ -31,6 +31,12 @@ template <class T> class QVector;
 template <class T> class QQueue;
 
 using namespace ConversionOptions;
+
+namespace Utils
+{
+namespace Compression
+{
+
 class RleSequence;
 
 class RleCompressor : public QObject
@@ -70,5 +76,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Compression
+} // namespace Utils
 
 #endif // RLE_H

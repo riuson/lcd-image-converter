@@ -24,6 +24,11 @@
 #include "rlesequence.h"
 //#include <QDebug>
 
+namespace Utils
+{
+namespace Compression
+{
+
 RleCompressor::RleCompressor(QObject *parent) :
   QObject(parent)
 {
@@ -183,3 +188,5 @@ void RleCompressor::flushSequencePart(
   }
 }
 
+} // namespace Compression
+} // namespace Utils

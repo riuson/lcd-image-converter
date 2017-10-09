@@ -24,6 +24,11 @@
 
 template <class T> class QVector;
 
+namespace Utils
+{
+namespace Compression
+{
+
 class RleSequence
 {
 public:
@@ -43,5 +48,8 @@ private:
   QVector <quint32> *mData;
 
 };
+
+} // namespace Compression
+} // namespace Utils
 
 #endif // RLESEQUENCE_H
