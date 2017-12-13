@@ -180,13 +180,13 @@ HEADERS += \
     classes/compression/rlesequence.h \
     classes/data/datacontainer.h \
     classes/data/fontdocument.h \
+    classes/data/fontparameters.h \
     classes/data/historykeeper.h \
     classes/data/historyrecord.h \
     classes/data/imagedocument.h \
     classes/data/imagesmodel.h \
     classes/data/imagesscaledproxy.h \
     classes/data/revisioninfo.h \
-    classes/data/tfontparameters.h \
     classes/data/transposeproxy.h \
     classes/imageeditor/editor.h \
     classes/imageeditor/iimageeditor.h \

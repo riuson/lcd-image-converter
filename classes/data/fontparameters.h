@@ -28,7 +28,7 @@ namespace Data
 namespace Containers
 {
 
-struct tFontParameters {
+struct FontParameters {
   QString family;
   QString style;
   int size;

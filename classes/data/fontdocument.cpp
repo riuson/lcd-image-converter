@@ -37,7 +37,7 @@
 #include "fonteditoroptions.h"
 #include "fonthelper.h"
 #include "preset.h"
-#include "tfontparameters.h"
+#include "fontparameters.h"
 #include "fonthelper.h"
 #include "parsedimagedata.h"
 #include "fontoptions.h"
@@ -238,7 +238,7 @@ bool FontDocument::save(const QString &fileName)
   doc.appendChild(nodeRoot);
 
   QString chars;
-  tFontParameters parameters;
+  FontParameters parameters;
   this->fontCharacters(&chars, &parameters);
 
   nodeRoot.setAttribute("type", "font");
@@ -410,7 +410,7 @@ QString FontDocument::convert(Preset *preset)
   tags.setTagValue(Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
 
   QString chars;
-  tFontParameters parameters;
+  FontParameters parameters;
   this->fontCharacters(&chars, &parameters);
 
   tags.setTagValue(Tags::DocumentDataType, "font");
@@ -487,7 +487,7 @@ void FontDocument::redo()
 }
 
 void FontDocument::fontCharacters(QString *chars,
-                                  Data::Containers::tFontParameters *parameters)
+                                  Data::Containers::FontParameters *parameters)
 {
   QStringList charList(this->mContainer->keys());
   *chars = charList.join("");
@@ -503,7 +503,7 @@ void FontDocument::fontCharacters(QString *chars,
 }
 
 void FontDocument::setFontCharacters(const QString &chars,
-                                     const Data::Containers::tFontParameters &parameters)
+                                     const Data::Containers::FontParameters &parameters)
 {
   QFontDatabase fonts;
 

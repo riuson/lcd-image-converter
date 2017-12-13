@@ -30,7 +30,7 @@
 #include "imainwindow.h"
 #include "idocument.h"
 #include "datacontainer.h"
-#include "tfontparameters.h"
+#include "fontparameters.h"
 #include "documentoperator.h"
 #include "imageinverse.h"
 #include "fontminimizeheight.h"
@@ -50,7 +50,7 @@ void ActionFontHandlers::fontChange_triggered()
 {
   if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab())) {
     QString chars;
-    Data::Containers::tFontParameters parameters;
+    Data::Containers::FontParameters parameters;
     etf->fontCharacters(&chars, &parameters);
 
     DialogFontSelect dialog(this->mMainWindow->parentWidget());

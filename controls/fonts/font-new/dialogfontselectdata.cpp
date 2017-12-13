@@ -28,7 +28,7 @@
 #include "dialogfontrange.h"
 #include "fonthelper.h"
 #include "fonteditoroptions.h"
-#include "tfontparameters.h"
+#include "fontparameters.h"
 #include "bitmaphelper.h"
 
 DialogFontSelectData::DialogFontSelectData(QObject *parent) :
@@ -67,7 +67,7 @@ QString DialogFontSelectData::characters()
   return this->mCharacters;
 }
 
-void DialogFontSelectData::getFontParameters(Data::Containers::tFontParameters *parameters)
+void DialogFontSelectData::getFontParameters(Data::Containers::FontParameters *parameters)
 {
   parameters->family = this->mFontFamily;
   parameters->style = this->mFontStyle;
@@ -94,7 +94,7 @@ void DialogFontSelectData::setCharacters(const QString &value)
   this->notifyFontChanged();
 }
 
-void DialogFontSelectData::setFontParameters(const Data::Containers::tFontParameters &parameters)
+void DialogFontSelectData::setFontParameters(const Data::Containers::FontParameters &parameters)
 {
   this->mFontFamily = parameters.family;
   this->mFontStyle = parameters.style;

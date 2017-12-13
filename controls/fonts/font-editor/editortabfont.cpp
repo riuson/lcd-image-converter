@@ -43,7 +43,7 @@
 #include "fonteditoroptions.h"
 #include "fontdocument.h"
 #include "editor.h"
-#include "tfontparameters.h"
+#include "fontparameters.h"
 
 EditorTabFont::EditorTabFont(QWidget *parent) :
   QWidget(parent),
@@ -134,7 +134,7 @@ IEditor::EditorType EditorTabFont::type() const
 }
 
 void EditorTabFont::setFontCharacters(const QString &chars,
-                                      const Data::Containers::tFontParameters &parameters)
+                                      const Data::Containers::FontParameters &parameters)
 {
   this->mDocument->setFontCharacters(
     chars,
@@ -151,7 +151,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
 }
 
 void EditorTabFont::fontCharacters(QString *chars,
-                                   Data::Containers::tFontParameters *parameters)
+                                   Data::Containers::FontParameters *parameters)
 {
   this->mDocument->fontCharacters(
     chars,

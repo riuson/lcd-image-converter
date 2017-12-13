@@ -34,7 +34,7 @@ namespace Data
 {
 namespace Containers
 {
-struct tFontParameters;
+struct FontParameters;
 }
 }
 
@@ -46,10 +46,10 @@ public:
   virtual ~DialogFontSelectData();
 
   QString characters();
-  void getFontParameters(Data::Containers::tFontParameters *parameters);
+  void getFontParameters(Data::Containers::FontParameters *parameters);
 
   void setCharacters(const QString &value);
-  void setFontParameters(const Data::Containers::tFontParameters &parameters);
+  void setFontParameters(const Data::Containers::FontParameters &parameters);
 
   CharactersModel *charactersModel();
   UnicodeBlocksFilterModel *unicodeBlocksModel();

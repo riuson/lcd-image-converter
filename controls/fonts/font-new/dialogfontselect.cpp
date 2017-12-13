@@ -29,7 +29,7 @@
 #include "dialogfontrange.h"
 #include "fonthelper.h"
 #include "fonteditoroptions.h"
-#include "tfontparameters.h"
+#include "fontparameters.h"
 #include "dialogfontselectdata.h"
 
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
@@ -114,12 +114,12 @@ void DialogFontSelect::setCharacters(const QString &value)
   this->mData->setCharacters(value);
 }
 
-void DialogFontSelect::getFontParameters(Data::Containers::tFontParameters *parameters)
+void DialogFontSelect::getFontParameters(Data::Containers::FontParameters *parameters)
 {
   this->mData->getFontParameters(parameters);
 }
 
-void DialogFontSelect::setFontParameters(const Data::Containers::tFontParameters &parameters)
+void DialogFontSelect::setFontParameters(const Data::Containers::FontParameters &parameters)
 {
   this->mData->setFontParameters(parameters);
 }

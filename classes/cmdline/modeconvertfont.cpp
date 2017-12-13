@@ -31,7 +31,7 @@
 #include "datacontainer.h"
 #include "preset.h"
 #include "templateoptions.h"
-#include "tfontparameters.h"
+#include "fontparameters.h"
 #include "bitmaphelper.h"
 
 namespace CommandLine
@@ -238,7 +238,7 @@ int ModeConvertFont::process()
                                       this->mFontCharactersBigEndian);
       }
 
-      Data::Containers::tFontParameters parameters;
+      Data::Containers::FontParameters parameters;
       parameters.family = this->mFontFamily;
       parameters.style = this->mFontStyle;
       parameters.size = this->mFontSize;

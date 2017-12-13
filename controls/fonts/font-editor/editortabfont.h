@@ -40,7 +40,7 @@ namespace Containers
 class DataContainer;
 class FontDocument;
 class IDocument;
-struct tFontParameters;
+struct FontParameters;
 }
 namespace Models
 {
@@ -77,9 +77,9 @@ public:
   EditorType type() const Q_DECL_OVERRIDE;
 
   void setFontCharacters(const QString &chars,
-                         const Data::Containers::tFontParameters &parameters);
+                         const Data::Containers::FontParameters &parameters);
   void fontCharacters(QString *chars,
-                      Data::Containers::tFontParameters *parameters);
+                      Data::Containers::FontParameters *parameters);
 
 protected:
   void changeEvent(QEvent *e) Q_DECL_OVERRIDE;

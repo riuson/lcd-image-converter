@@ -36,7 +36,7 @@
 #include "datacontainer.h"
 #include "idocument.h"
 #include "preset.h"
-#include "tfontparameters.h"
+#include "fontparameters.h"
 #include "filedialogoptions.h"
 
 namespace AppUI
@@ -90,7 +90,7 @@ void ActionFileHandlers::newFont_triggered()
       ed->document()->beginChanges();
 
       QString chars = dialog.characters();
-      Data::Containers::tFontParameters parameters;
+      Data::Containers::FontParameters parameters;
       dialog.getFontParameters(&parameters);
 
       ed->setFontCharacters(chars,

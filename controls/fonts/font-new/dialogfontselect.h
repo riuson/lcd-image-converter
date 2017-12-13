@@ -37,7 +37,7 @@ namespace Data
 {
 namespace Containers
 {
-struct tFontParameters;
+struct FontParameters;
 }
 }
 
@@ -52,8 +52,8 @@ public:
   QString characters();
   void setCharacters(const QString &value);
 
-  void getFontParameters(Data::Containers::tFontParameters *parameters);
-  void setFontParameters(const Data::Containers::tFontParameters &parameters);
+  void getFontParameters(Data::Containers::FontParameters *parameters);
+  void setFontParameters(const Data::Containers::FontParameters &parameters);
 private:
   Ui::DialogFontSelect *ui;
   DialogFontSelectData *mData;

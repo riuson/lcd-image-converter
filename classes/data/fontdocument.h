@@ -35,7 +35,7 @@ namespace Data
 namespace Containers
 {
 
-struct tFontParameters;
+struct FontParameters;
 
 class FontDocument : public QObject, public IDocument
 {
@@ -65,9 +65,9 @@ public:
   void redo() Q_DECL_OVERRIDE;
 
   void fontCharacters(QString *chars,
-                      Data::Containers::tFontParameters *parameters);
+                      Data::Containers::FontParameters *parameters);
   void setFontCharacters(const QString &chars,
-                         const Data::Containers::tFontParameters &parameters);
+                         const Data::Containers::FontParameters &parameters);
 
 private:
   DataContainer *mContainer;
