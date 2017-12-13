@@ -33,10 +33,13 @@ namespace ImageEditor
 {
 class IImageEditorParams;
 
+namespace Tools
+{
+
 class ToolRect : public QObject, public IImageEditorTool
 {
   Q_OBJECT
-  Q_INTERFACES(ImageEditor::IImageEditorTool)
+  Q_INTERFACES(ImageEditor::Tools::IImageEditorTool)
 
 public:
   explicit ToolRect(IImageEditorParams *parameters, QObject *parent = 0);
@@ -89,6 +92,7 @@ private slots:
   void on_buttonRertFilledOutline_triggered();
 };
 
-} // end of namespace
+} // namespace Tools
+} // namespace ImageEditor
 
 #endif // TOOLRECT_H

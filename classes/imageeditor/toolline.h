@@ -33,10 +33,13 @@ namespace ImageEditor
 {
 class IImageEditorParams;
 
+namespace Tools
+{
+
 class ToolLine : public QObject, public IImageEditorTool
 {
   Q_OBJECT
-  Q_INTERFACES(ImageEditor::IImageEditorTool)
+  Q_INTERFACES(ImageEditor::Tools::IImageEditorTool)
 
 public:
   explicit ToolLine(IImageEditorParams *parameters, QObject *parent = 0);
@@ -78,6 +81,7 @@ private slots:
   void on_spinBoxSize_valueChanged(int value);
 };
 
-} // end of namespace
+} // namespace Tools
+} // namespace ImageEditor
 
 #endif // TOOLLINE_H

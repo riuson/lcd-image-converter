@@ -30,6 +30,8 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolZoom::ToolZoom(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
@@ -160,5 +162,5 @@ void ToolZoom::on_spinBoxScale_valueChanged(int value)
   }
 }
 
-} // end of namespace
-
+} // namespace Tools
+} // namespace ImageEditor

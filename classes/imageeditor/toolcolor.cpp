@@ -33,6 +33,8 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolColor::ToolColor(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
@@ -242,5 +244,6 @@ void ToolColor::on_buttonSwapColors_triggered()
   this->updateColorIcons();
 }
 
-} // end of namespace
+} // namespace Tools
+} // namespace ImageEditor
 

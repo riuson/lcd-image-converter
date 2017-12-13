@@ -31,6 +31,8 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolSelect::ToolSelect(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
@@ -259,5 +261,5 @@ void ToolSelect::on_switchToSelectionMove()
   this->mToolMode = SelectionMove;
 }
 
-} // end of namespace
-
+} // namespace Tools
+} // namespace ImageEditor

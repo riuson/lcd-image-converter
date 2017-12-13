@@ -31,6 +31,8 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolMove::ToolMove(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
@@ -311,5 +313,5 @@ void ToolMove::on_switchToMoveCircular()
   this->mToolMode = MoveCircular;
 }
 
-} // end of namespace
-
+} // namespace Tools
+} // namespace ImageEditor

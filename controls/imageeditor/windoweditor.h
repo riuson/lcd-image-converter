@@ -29,8 +29,11 @@ class WindowEditor;
 
 namespace ImageEditor
 {
+namespace Tools
+{
 class ToolsManager;
 class IImageEditorTool;
+}
 
 class WindowEditor : public QMainWindow
 {
@@ -55,8 +58,8 @@ private:
   QImage mImageOriginal;
   QImage mImageScaled;
   QPixmap mPixmapScaled;
-  ToolsManager *mTools;
-  IImageEditorTool *mSelectedTool;
+  Tools::ToolsManager *mTools;
+  Tools::IImageEditorTool *mSelectedTool;
 
   void updateImageScaled(int value);
   void updateImageScaled(const QImage &image, int scale);

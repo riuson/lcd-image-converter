@@ -33,6 +33,8 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolRect::ToolRect(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
@@ -280,5 +282,5 @@ void ToolRect::on_buttonRertFilledOutline_triggered()
   }
 }
 
-} // end of namespace
-
+} // namespace Tools
+} // namespace ImageEditor

@@ -35,10 +35,13 @@ namespace ImageEditor
 {
 class IImageEditorParams;
 
+namespace Tools
+{
+
 class ToolSelect : public QObject, public IImageEditorTool, public IImageSelection
 {
   Q_OBJECT
-  Q_INTERFACES(ImageEditor::IImageEditorTool)
+  Q_INTERFACES(ImageEditor::Tools::IImageEditorTool)
   Q_INTERFACES(ImageEditor::IImageSelection)
 
 public:
@@ -100,6 +103,7 @@ private slots:
   void on_switchToSelectionMove();
 };
 
-} // end of namespace
+} // namespace Tools
+} // namespace ImageEditor
 
 #endif // TOOLSELECT_H

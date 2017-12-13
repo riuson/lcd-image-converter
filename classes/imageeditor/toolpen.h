@@ -32,10 +32,13 @@ namespace ImageEditor
 {
 class IImageEditorParams;
 
+namespace Tools
+{
+
 class ToolPen : public QObject, public IImageEditorTool
 {
   Q_OBJECT
-  Q_INTERFACES(ImageEditor::IImageEditorTool)
+  Q_INTERFACES(ImageEditor::Tools::IImageEditorTool)
 
 public:
   explicit ToolPen(IImageEditorParams *parameters, QObject *parent = 0);
@@ -75,6 +78,7 @@ private slots:
   void on_spinBoxSize_valueChanged(int value);
 };
 
-} // end of namespace
+} // namespace Tools
+} // namespace ImageEditor
 
 #endif // TOOLPEN_H

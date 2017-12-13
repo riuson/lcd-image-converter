@@ -32,10 +32,13 @@ namespace ImageEditor
 {
 class IImageEditorParams;
 
+namespace Tools
+{
+
 class ToolColor : public QObject, public IImageEditorTool
 {
   Q_OBJECT
-  Q_INTERFACES(ImageEditor::IImageEditorTool)
+  Q_INTERFACES(ImageEditor::Tools::IImageEditorTool)
 
 public:
   explicit ToolColor(IImageEditorParams *parameters, QObject *parent = 0);
@@ -82,6 +85,7 @@ private slots:
   void on_buttonSwapColors_triggered();
 };
 
-} // end of namespace
+} // namespace Tools
+} // namespace ImageEditor
 
 #endif // TOOLCOLOR_H

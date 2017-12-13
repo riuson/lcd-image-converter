@@ -33,6 +33,8 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolLine::ToolLine(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
@@ -215,5 +217,5 @@ void ToolLine::on_spinBoxSize_valueChanged(int value)
   this->mSize = value;
 }
 
-} // end of namespace
-
+} // namespace Tools
+} // namespace ImageEditor

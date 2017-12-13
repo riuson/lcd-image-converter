@@ -33,6 +33,8 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolsManager::ToolsManager(QObject *parent) : QObject(parent)
 {
@@ -157,5 +159,6 @@ void ToolsManager::on_toolAction_triggered()
   }
 }
 
-} // end of namespace
+} // namespace Tools
+} // namespace ImageEditor
 

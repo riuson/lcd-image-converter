@@ -33,6 +33,8 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolPen::ToolPen(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
@@ -202,5 +204,5 @@ void ToolPen::on_spinBoxSize_valueChanged(int value)
   this->mSize = value;
 }
 
-} // end of namespace
-
+} // namespace Tools
+} // namespace ImageEditor

@@ -29,6 +29,8 @@ template <class T1> class QList;
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 class IImageEditorTool;
 class ToolZoom;
@@ -80,6 +82,7 @@ private slots:
   void on_toolAction_triggered();
 };
 
-} // end of namespace
+} // namespace Tools
+} // namespace ImageEditor
 
 #endif // TOOLSMANAGER_H
