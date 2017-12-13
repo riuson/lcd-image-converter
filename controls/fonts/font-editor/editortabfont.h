@@ -32,7 +32,6 @@ class EditorTabFont;
 class QSplitter;
 class QItemSelection;
 class QModelIndex;
-struct tFontParameters;
 
 namespace Data
 {
@@ -41,6 +40,7 @@ namespace Containers
 class DataContainer;
 class FontDocument;
 class IDocument;
+struct tFontParameters;
 }
 namespace Models
 {
@@ -77,9 +77,9 @@ public:
   EditorType type() const Q_DECL_OVERRIDE;
 
   void setFontCharacters(const QString &chars,
-                         const tFontParameters &parameters);
+                         const Data::Containers::tFontParameters &parameters);
   void fontCharacters(QString *chars,
-                      tFontParameters *parameters);
+                      Data::Containers::tFontParameters *parameters);
 
 protected:
   void changeEvent(QEvent *e) Q_DECL_OVERRIDE;

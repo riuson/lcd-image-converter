@@ -29,12 +29,13 @@ template <class T1, class T2> class QMap;
 class Preset;
 class ParsedImageData;
 class Tags;
-struct tFontParameters;
 
 namespace Data
 {
 namespace Containers
 {
+
+struct tFontParameters;
 
 class FontDocument : public QObject, public IDocument
 {
@@ -64,9 +65,9 @@ public:
   void redo() Q_DECL_OVERRIDE;
 
   void fontCharacters(QString *chars,
-                      tFontParameters *parameters);
+                      Data::Containers::tFontParameters *parameters);
   void setFontCharacters(const QString &chars,
-                         const tFontParameters &parameters);
+                         const Data::Containers::tFontParameters &parameters);
 
 private:
   DataContainer *mContainer;

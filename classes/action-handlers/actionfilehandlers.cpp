@@ -90,7 +90,7 @@ void ActionFileHandlers::newFont_triggered()
       ed->document()->beginChanges();
 
       QString chars = dialog.characters();
-      tFontParameters parameters;
+      Data::Containers::tFontParameters parameters;
       dialog.getFontParameters(&parameters);
 
       ed->setFontCharacters(chars,

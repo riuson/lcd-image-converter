@@ -67,7 +67,7 @@ QString DialogFontSelectData::characters()
   return this->mCharacters;
 }
 
-void DialogFontSelectData::getFontParameters(tFontParameters *parameters)
+void DialogFontSelectData::getFontParameters(Data::Containers::tFontParameters *parameters)
 {
   parameters->family = this->mFontFamily;
   parameters->style = this->mFontStyle;
@@ -94,7 +94,7 @@ void DialogFontSelectData::setCharacters(const QString &value)
   this->notifyFontChanged();
 }
 
-void DialogFontSelectData::setFontParameters(const tFontParameters &parameters)
+void DialogFontSelectData::setFontParameters(const Data::Containers::tFontParameters &parameters)
 {
   this->mFontFamily = parameters.family;
   this->mFontStyle = parameters.style;

@@ -114,12 +114,12 @@ void DialogFontSelect::setCharacters(const QString &value)
   this->mData->setCharacters(value);
 }
 
-void DialogFontSelect::getFontParameters(tFontParameters *parameters)
+void DialogFontSelect::getFontParameters(Data::Containers::tFontParameters *parameters)
 {
   this->mData->getFontParameters(parameters);
 }
 
-void DialogFontSelect::setFontParameters(const tFontParameters &parameters)
+void DialogFontSelect::setFontParameters(const Data::Containers::tFontParameters &parameters)
 {
   this->mData->setFontParameters(parameters);
 }

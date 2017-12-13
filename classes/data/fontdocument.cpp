@@ -487,7 +487,7 @@ void FontDocument::redo()
 }
 
 void FontDocument::fontCharacters(QString *chars,
-                                  tFontParameters *parameters)
+                                  Data::Containers::tFontParameters *parameters)
 {
   QStringList charList(this->mContainer->keys());
   *chars = charList.join("");
@@ -503,7 +503,7 @@ void FontDocument::fontCharacters(QString *chars,
 }
 
 void FontDocument::setFontCharacters(const QString &chars,
-                                     const tFontParameters &parameters)
+                                     const Data::Containers::tFontParameters &parameters)
 {
   QFontDatabase fonts;
 

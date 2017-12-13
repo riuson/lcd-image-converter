@@ -29,7 +29,14 @@ class QItemSelection;
 class QFont;
 class UnicodeBlocksModel;
 class UnicodeBlocksFilterModel;
+
+namespace Data
+{
+namespace Containers
+{
 struct tFontParameters;
+}
+}
 
 class DialogFontSelectData : public QObject
 {
@@ -39,10 +46,10 @@ public:
   virtual ~DialogFontSelectData();
 
   QString characters();
-  void getFontParameters(tFontParameters *parameters);
+  void getFontParameters(Data::Containers::tFontParameters *parameters);
 
   void setCharacters(const QString &value);
-  void setFontParameters(const tFontParameters &parameters);
+  void setFontParameters(const Data::Containers::tFontParameters &parameters);
 
   CharactersModel *charactersModel();
   UnicodeBlocksFilterModel *unicodeBlocksModel();

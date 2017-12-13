@@ -238,7 +238,7 @@ int ModeConvertFont::process()
                                       this->mFontCharactersBigEndian);
       }
 
-      tFontParameters parameters;
+      Data::Containers::tFontParameters parameters;
       parameters.family = this->mFontFamily;
       parameters.style = this->mFontStyle;
       parameters.size = this->mFontSize;

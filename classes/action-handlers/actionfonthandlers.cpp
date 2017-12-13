@@ -50,7 +50,7 @@ void ActionFontHandlers::fontChange_triggered()
 {
   if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab())) {
     QString chars;
-    tFontParameters parameters;
+    Data::Containers::tFontParameters parameters;
     etf->fontCharacters(&chars, &parameters);
 
     DialogFontSelect dialog(this->mMainWindow->parentWidget());

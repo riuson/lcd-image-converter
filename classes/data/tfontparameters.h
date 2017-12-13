@@ -23,6 +23,11 @@
 #include <QObject>
 #include <QColor>
 
+namespace Data
+{
+namespace Containers
+{
+
 struct tFontParameters {
   QString family;
   QString style;
@@ -34,6 +39,9 @@ struct tFontParameters {
   QColor foreground;
   QColor background;
 };
+
+} // namespace Containers
+} // namespace Data
 
 #endif // TFONTPARAMETERS
 

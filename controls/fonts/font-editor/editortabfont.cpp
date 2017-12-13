@@ -134,7 +134,7 @@ IEditor::EditorType EditorTabFont::type() const
 }
 
 void EditorTabFont::setFontCharacters(const QString &chars,
-                                      const tFontParameters &parameters)
+                                      const Data::Containers::tFontParameters &parameters)
 {
   this->mDocument->setFontCharacters(
     chars,
@@ -151,7 +151,7 @@ void EditorTabFont::setFontCharacters(const QString &chars,
 }
 
 void EditorTabFont::fontCharacters(QString *chars,
-                                   tFontParameters *parameters)
+                                   Data::Containers::tFontParameters *parameters)
 {
   this->mDocument->fontCharacters(
     chars,
