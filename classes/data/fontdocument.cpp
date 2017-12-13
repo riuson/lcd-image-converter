@@ -149,7 +149,7 @@ bool FontDocument::load(const QString &fileName)
               qint32 a = str.toUInt(&ok, 16);
 
               if (ok) {
-                foreground = BitmapHelper::fromRgba(QRgb(a));
+                foreground = Parsing::Conversion::BitmapHelper::fromRgba(QRgb(a));
               } else {
                 result = false;
               }
@@ -159,7 +159,7 @@ bool FontDocument::load(const QString &fileName)
               qint32 a = str.toUInt(&ok, 16);
 
               if (ok) {
-                background = BitmapHelper::fromRgba(QRgb(a));
+                background = Parsing::Conversion::BitmapHelper::fromRgba(QRgb(a));
               } else {
                 result = false;
               }
@@ -302,7 +302,7 @@ bool FontDocument::save(const QString &fileName)
   // string
   QDomElement nodeString = doc.createElement("string");
   nodeRoot.appendChild(nodeString);
-  nodeString.appendChild(doc.createTextNode(FontHelper::escapeControlChars(chars)));
+  nodeString.appendChild(doc.createTextNode(Parsing::Conversion::FontHelper::escapeControlChars(chars)));
 
   // converted file name
   QDomElement nodeConverted = doc.createElement("converted");
@@ -321,7 +321,7 @@ bool FontDocument::save(const QString &fileName)
     // char
     QDomElement nodeChar = doc.createElement("char");
     nodeChars.appendChild(nodeChar);
-    nodeChar.setAttribute("character", FontHelper::escapeControlChars(key));
+    nodeChar.setAttribute("character", Parsing::Conversion::FontHelper::escapeControlChars(key));
     nodeChar.setAttribute("code", QString("%1").arg(key.at(0).unicode(), 4, 16, QChar('0')));
 
     QDomElement nodePicture = doc.createElement("picture");
@@ -398,36 +398,36 @@ DataContainer *FontDocument::dataContainer() const
 
 QString FontDocument::convert(Preset *preset)
 {
-  Tags tags;
+  Parsing::Tags tags;
 
   if (!this->documentFilename().isEmpty()) {
-    tags.setTagValue(Tags::DocumentFilename, this->documentFilename());
+    tags.setTagValue(Parsing::Tags::DocumentFilename, this->documentFilename());
   } else {
-    tags.setTagValue(Tags::DocumentFilename, "unsaved");
+    tags.setTagValue(Parsing::Tags::DocumentFilename, "unsaved");
   }
 
-  tags.setTagValue(Tags::DocumentName, this->documentName());
-  tags.setTagValue(Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
+  tags.setTagValue(Parsing::Tags::DocumentName, this->documentName());
+  tags.setTagValue(Parsing::Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
 
   QString chars;
   FontParameters parameters;
   this->fontCharacters(&chars, &parameters);
 
-  tags.setTagValue(Tags::DocumentDataType, "font");
-  tags.setTagValue(Tags::FontFamily, parameters.family);
-  tags.setTagValue(Tags::FontSize, QString("%1").arg(parameters.size));
-  tags.setTagValue(Tags::FontStyle, parameters.style);
-  tags.setTagValue(Tags::FontString, FontHelper::escapeControlChars(chars));
-  tags.setTagValue(Tags::FontAntiAliasing, parameters.antiAliasing ? "yes" : "no");
-  tags.setTagValue(Tags::FontWidthType, parameters.monospaced ? "monospaced" : "proportional");
-  tags.setTagValue(Tags::FontAscent, QString("%1").arg(parameters.ascent));
-  tags.setTagValue(Tags::FontDescent, QString("%1").arg(parameters.descent));
+  tags.setTagValue(Parsing::Tags::DocumentDataType, "font");
+  tags.setTagValue(Parsing::Tags::FontFamily, parameters.family);
+  tags.setTagValue(Parsing::Tags::FontSize, QString("%1").arg(parameters.size));
+  tags.setTagValue(Parsing::Tags::FontStyle, parameters.style);
+  tags.setTagValue(Parsing::Tags::FontString, Parsing::Conversion::FontHelper::escapeControlChars(chars));
+  tags.setTagValue(Parsing::Tags::FontAntiAliasing, parameters.antiAliasing ? "yes" : "no");
+  tags.setTagValue(Parsing::Tags::FontWidthType, parameters.monospaced ? "monospaced" : "proportional");
+  tags.setTagValue(Parsing::Tags::FontAscent, QString("%1").arg(parameters.ascent));
+  tags.setTagValue(Parsing::Tags::FontDescent, QString("%1").arg(parameters.descent));
 
   const QStringList orderedKeys = this->sortKeysWithEncoding(this->dataContainer()->keys(), preset);
 
-  QMap<QString, ParsedImageData *> images;
+  QMap<QString, Parsing::ParsedImageData *> images;
   this->prepareImages(preset, orderedKeys, &images, tags);
-  Parser parser(Parser::TypeFont, preset, this);
+  Parsing::Parser parser(Parsing::Parser::TypeFont, preset, this);
   QString result = parser.convert(this, orderedKeys, &images, tags);
 
   return result;
@@ -596,7 +596,7 @@ void FontDocument::setFontCharacters(const QString &chars,
     // if character not exists, create it
     if (!keys.contains(key)) {
       keys.append(key);
-      QImage image = FontHelper::drawCharacter(chars.at(i),
+      QImage image = Parsing::Conversion::FontHelper::drawCharacter(chars.at(i),
                      fontNew,
                      parameters.foreground,
                      parameters.background,
@@ -674,7 +674,7 @@ QColor FontDocument::foreground() const
   quint32 rgbValue = this->mContainer->commonInfo("foreground").toUInt(&ok);
 
   if (ok) {
-    return BitmapHelper::fromRgba(QRgb(rgbValue));
+    return Parsing::Conversion::BitmapHelper::fromRgba(QRgb(rgbValue));
   }
 
   return FontEditorOptions::foreColor();
@@ -691,7 +691,7 @@ QColor FontDocument::background() const
   quint32 rgbValue = this->mContainer->commonInfo("background").toUInt(&ok);
 
   if (ok) {
-    return BitmapHelper::fromRgba(QRgb(rgbValue));
+    return Parsing::Conversion::BitmapHelper::fromRgba(QRgb(rgbValue));
   }
 
   return FontEditorOptions::backColor();
@@ -722,7 +722,7 @@ void FontDocument::setDescent(int value)
   this->mContainer->setCommonInfo("descent", value);
 }
 
-void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, const Tags &tags) const
+void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::Tags &tags) const
 {
   DataContainer *data = this->dataContainer();
 
@@ -735,7 +735,7 @@ void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys,
       const QString key = it.next();
       QImage image = QImage(*data->image(key));
 
-      ParsedImageData *data = new ParsedImageData(preset, &image, tags);
+      Parsing::ParsedImageData *data = new Parsing::ParsedImageData(preset, &image, tags);
       images->insert(key, data);
     }
   }
@@ -751,12 +751,12 @@ void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys,
     while (it.hasNext()) {
       QString key = it.next();
 
-      ParsedImageData *imageData = images->value(key);
+      Parsing::ParsedImageData *imageData = images->value(key);
 
       if (imageData != nullptr) {
         QString charCode = this->hexCode(key, encoding, useBom);
-        imageData->tags()->setTagValue(Tags::OutputCharacterCode, charCode);
-        imageData->tags()->setTagValue(Tags::OutputCharacterText, FontHelper::escapeControlChars(key));
+        imageData->tags()->setTagValue(Parsing::Tags::OutputCharacterCode, charCode);
+        imageData->tags()->setTagValue(Parsing::Tags::OutputCharacterText, Parsing::Conversion::FontHelper::escapeControlChars(key));
       }
     }
   }
@@ -764,7 +764,7 @@ void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys,
   // find duplicates
   {
     // map of same character keys by hash
-    QMap<uint, ParsedImageData *> similarMap;
+    QMap<uint, Parsing::ParsedImageData *> similarMap;
 
     QListIterator<QString> it(orderedKeys);
     it.toFront();
@@ -772,21 +772,21 @@ void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys,
     while (it.hasNext()) {
       QString key = it.next();
 
-      ParsedImageData *imageData = images->value(key);
+      Parsing::ParsedImageData *imageData = images->value(key);
 
       if (imageData != nullptr) {
         // detect same characters
-        ParsedImageData *similarImageData = similarMap.value(imageData->hash(), nullptr);
+        Parsing::ParsedImageData *similarImageData = similarMap.value(imageData->hash(), nullptr);
 
         if (similarImageData != nullptr) {
-          QString similarCode = similarImageData->tags()->tagValue(Tags::OutputCharacterCode);
-          QString similarText = similarImageData->tags()->tagValue(Tags::OutputCharacterText);
-          imageData->tags()->setTagValue(Tags::OutputCharacterCodeSimilar, similarCode);
-          imageData->tags()->setTagValue(Tags::OutputCharacterTextSimilar, similarText);
+          QString similarCode = similarImageData->tags()->tagValue(Parsing::Tags::OutputCharacterCode);
+          QString similarText = similarImageData->tags()->tagValue(Parsing::Tags::OutputCharacterText);
+          imageData->tags()->setTagValue(Parsing::Tags::OutputCharacterCodeSimilar, similarCode);
+          imageData->tags()->setTagValue(Parsing::Tags::OutputCharacterTextSimilar, similarText);
         } else {
           similarMap.insert(imageData->hash(), imageData);
-          imageData->tags()->setTagValue(Tags::OutputCharacterCodeSimilar, QString());
-          imageData->tags()->setTagValue(Tags::OutputCharacterTextSimilar, QString());
+          imageData->tags()->setTagValue(Parsing::Tags::OutputCharacterCodeSimilar, QString());
+          imageData->tags()->setTagValue(Parsing::Tags::OutputCharacterTextSimilar, QString());
         }
       }
     }

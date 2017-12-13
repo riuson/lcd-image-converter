@@ -24,6 +24,11 @@
 #include <QRegExp>
 #include "datacontainer.h"
 
+namespace Parsing
+{
+namespace Conversion
+{
+
 QImage FontHelper::drawString(const Data::Containers::DataContainer *data, const QString &value)
 {
   int width = 0, height = 0;
@@ -176,3 +181,5 @@ QImage FontHelper::drawCharacter(
   return result;
 }
 
+} // namespace Conversion
+} // namespace Parsing

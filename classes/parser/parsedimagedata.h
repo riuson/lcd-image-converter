@@ -23,8 +23,11 @@
 #include <QObject>
 
 class QImage;
-class Tags;
 class Preset;
+
+namespace Parsing
+{
+class Tags;
 
 class ParsedImageData : public QObject
 {
@@ -45,5 +48,7 @@ private:
   QString mPreparedOutputImageData;
   QString mPreparedOutputImagePreview;
 };
+
+} // namespace Parsing
 
 #endif // PARSEDIMAGEDATA_H

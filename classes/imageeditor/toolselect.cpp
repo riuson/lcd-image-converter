@@ -37,7 +37,7 @@ namespace Tools
 ToolSelect::ToolSelect(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select"), 24)));
+  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select"), 24)));
 
   this->mActions = new QList<QAction *>();
   this->mWidgets = new QList<QWidget *>();
@@ -128,7 +128,7 @@ void ToolSelect::initializeWidgets()
   this->mActionEditSelection = new QAction(this);
   this->mActionEditSelection->setCheckable(true);
   this->mActionEditSelection->setToolTip(tr("Modify selection"));
-  this->mActionEditSelection->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_edit"), 24))));
+  this->mActionEditSelection->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_edit"), 24))));
   this->connect(this->mActionEditSelection, SIGNAL(triggered()), SLOT(on_switchToSelectionEdit()));
   this->mActions->append(this->mActionEditSelection);
   group->addAction(this->mActionEditSelection);
@@ -136,7 +136,7 @@ void ToolSelect::initializeWidgets()
   this->mActionMoveSelection = new QAction(this);
   this->mActionMoveSelection->setCheckable(true);
   this->mActionMoveSelection->setToolTip(tr("Move selection"));
-  this->mActionMoveSelection->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_move"), 24))));
+  this->mActionMoveSelection->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_move"), 24))));
   this->connect(this->mActionMoveSelection, SIGNAL(triggered()), SLOT(on_switchToSelectionMove()));
   this->mActions->append(this->mActionMoveSelection);
   group->addAction(this->mActionMoveSelection);

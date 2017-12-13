@@ -100,6 +100,9 @@
  Return list of ParsedImageData
  */
 
+namespace Parsing
+{
+
 Parser::Parser(TemplateType templateType, Preset *preset, QObject *parent) :
   QObject(parent)
 {
@@ -538,3 +541,5 @@ void Parser::imagePreviewParticles(const QString &templateString, QString *prefi
     }
   }
 }
+
+} // namespace Parsing

@@ -40,11 +40,11 @@ const QString PrepareOptions::FieldCustomPreprocessScript = QString("customPrepr
 PrepareOptions::PrepareOptions(QObject *parent) :
   QObject(parent)
 {
-  this->mConvType = ConversionTypeMonochrome;
-  this->mMonoType = MonochromeTypeDiffuseDither;
+  this->mConvType = Parsing::Conversion::Options::ConversionTypeMonochrome;
+  this->mMonoType = Parsing::Conversion::Options::MonochromeTypeDiffuseDither;
   this->mEdge = 128;
-  this->mScanMain = TopToBottom;
-  this->mScanSub = Forward;
+  this->mScanMain = Parsing::Conversion::Options::TopToBottom;
+  this->mScanSub = Parsing::Conversion::Options::Forward;
   this->mInverse = false;
   this->mBandScanning = false;
   this->mBandWidth = 0;
@@ -53,22 +53,22 @@ PrepareOptions::PrepareOptions(QObject *parent) :
   this->mCustomPreprocessScript = QString();
 }
 
-ConversionType PrepareOptions::convType() const
+Parsing::Conversion::Options::ConversionType PrepareOptions::convType() const
 {
-  if (this->mConvType <= ConversionTypeCustom) {
+  if (this->mConvType <= Parsing::Conversion::Options::ConversionTypeCustom) {
     return this->mConvType;
   }
 
-  return ConversionTypeColor;
+  return Parsing::Conversion::Options::ConversionTypeColor;
 }
 
-MonochromeType PrepareOptions::monoType() const
+Parsing::Conversion::Options::MonochromeType PrepareOptions::monoType() const
 {
-  if (this->mMonoType <= MonochromeTypeThresholdDither) {
+  if (this->mMonoType <= Parsing::Conversion::Options::MonochromeTypeThresholdDither) {
     return this->mMonoType;
   }
 
-  return MonochromeTypeThresholdDither;
+  return Parsing::Conversion::Options::MonochromeTypeThresholdDither;
 }
 
 int PrepareOptions::edge() const
@@ -80,22 +80,22 @@ int PrepareOptions::edge() const
   return 128;
 }
 
-ScanMainDirection PrepareOptions::scanMain() const
+Parsing::Conversion::Options::ScanMainDirection PrepareOptions::scanMain() const
 {
-  if (this->mScanMain <= RightToLeft) {
+  if (this->mScanMain <= Parsing::Conversion::Options::RightToLeft) {
     return this->mScanMain;
   }
 
-  return TopToBottom;
+  return Parsing::Conversion::Options::TopToBottom;
 }
 
-ScanSubDirection PrepareOptions::scanSub() const
+Parsing::Conversion::Options::ScanSubDirection PrepareOptions::scanSub() const
 {
-  if (this->mScanSub <= Backward) {
+  if (this->mScanSub <= Parsing::Conversion::Options::Backward) {
     return this->mScanSub;
   }
 
-  return Forward;
+  return Parsing::Conversion::Options::Forward;
 }
 
 bool PrepareOptions::inverse() const
@@ -132,11 +132,11 @@ QString PrepareOptions::customPreprocessScript() const
   return this->mCustomPreprocessScript;
 }
 
-void PrepareOptions::setConvType(ConversionType value)
+void PrepareOptions::setConvType(Parsing::Conversion::Options::ConversionType value)
 {
   if (this->mConvType != value) {
-    if (value < ConversionTypeMonochrome || value > ConversionTypeCustom) {
-      value = ConversionTypeColor;
+    if (value < Parsing::Conversion::Options::ConversionTypeMonochrome || value > Parsing::Conversion::Options::ConversionTypeCustom) {
+      value = Parsing::Conversion::Options::ConversionTypeColor;
     }
 
     this->mConvType = value;
@@ -145,11 +145,11 @@ void PrepareOptions::setConvType(ConversionType value)
   }
 }
 
-void PrepareOptions::setMonoType(MonochromeType value)
+void PrepareOptions::setMonoType(Parsing::Conversion::Options::MonochromeType value)
 {
   if (this->mMonoType != value) {
-    if (value < MonochromeTypeEdge || value > MonochromeTypeThresholdDither) {
-      value = MonochromeTypeDiffuseDither;
+    if (value < Parsing::Conversion::Options::MonochromeTypeEdge || value > Parsing::Conversion::Options::MonochromeTypeThresholdDither) {
+      value = Parsing::Conversion::Options::MonochromeTypeDiffuseDither;
     }
 
     this->mMonoType = value;
@@ -171,11 +171,11 @@ void PrepareOptions::setEdge(int value)
   }
 }
 
-void PrepareOptions::setScanMain(ScanMainDirection value)
+void PrepareOptions::setScanMain(Parsing::Conversion::Options::ScanMainDirection value)
 {
   if (this->mScanMain != value) {
-    if (value < TopToBottom || value > RightToLeft) {
-      value = TopToBottom;
+    if (value < Parsing::Conversion::Options::TopToBottom || value > Parsing::Conversion::Options::RightToLeft) {
+      value = Parsing::Conversion::Options::TopToBottom;
     }
 
     this->mScanMain = value;
@@ -184,7 +184,7 @@ void PrepareOptions::setScanMain(ScanMainDirection value)
   }
 }
 
-void PrepareOptions::setScanSub(ScanSubDirection value)
+void PrepareOptions::setScanSub(Parsing::Conversion::Options::ScanSubDirection value)
 {
   if (this->mScanSub != value) {
     this->mScanSub = value;
@@ -254,16 +254,16 @@ const QString &PrepareOptions::convTypeName() const
   };
 
   switch (this->convType()) {
-    case ConversionTypeMonochrome:
+    case Parsing::Conversion::Options::ConversionTypeMonochrome:
       return names[0];
 
-    case ConversionTypeGrayscale:
+    case Parsing::Conversion::Options::ConversionTypeGrayscale:
       return names[1];
 
-    case ConversionTypeColor:
+    case Parsing::Conversion::Options::ConversionTypeColor:
       return names[2];
 
-    case ConversionTypeCustom:
+    case Parsing::Conversion::Options::ConversionTypeCustom:
       return names[3];
 
     default:
@@ -282,16 +282,16 @@ const QString &PrepareOptions::monoTypeName() const
   };
 
   switch (this->monoType()) {
-    case MonochromeTypeEdge:
+    case Parsing::Conversion::Options::MonochromeTypeEdge:
       return names[0];
 
-    case MonochromeTypeDiffuseDither:
+    case Parsing::Conversion::Options::MonochromeTypeDiffuseDither:
       return names[1];
 
-    case MonochromeTypeOrderedDither:
+    case Parsing::Conversion::Options::MonochromeTypeOrderedDither:
       return names[2];
 
-    case MonochromeTypeThresholdDither:
+    case Parsing::Conversion::Options::MonochromeTypeThresholdDither:
       return names[3];
 
     default:
@@ -360,11 +360,11 @@ bool PrepareOptions::load(QSettings *settings)
   }
 
   if (result) {
-    this->setConvType((ConversionType)uConvType);
-    this->setMonoType((MonochromeType)uMonoType);
+    this->setConvType((Parsing::Conversion::Options::ConversionType)uConvType);
+    this->setMonoType((Parsing::Conversion::Options::MonochromeType)uMonoType);
     this->setEdge((int)uEdge);
-    this->setScanMain((ScanMainDirection)uScanMain);
-    this->setScanSub((ScanSubDirection)uScanSub);
+    this->setScanMain((Parsing::Conversion::Options::ScanMainDirection)uScanMain);
+    this->setScanSub((Parsing::Conversion::Options::ScanSubDirection)uScanSub);
     this->setInverse((bool)uInverse);
     this->setBandScanning((bool)uBandScanning);
     this->setBandWidth((int)uBandWidth);
@@ -487,11 +487,11 @@ bool PrepareOptions::loadXmlElement(QDomElement element)
   }
 
   if (result) {
-    this->setConvType((ConversionType)uConvType);
-    this->setMonoType((MonochromeType)uMonoType);
+    this->setConvType((Parsing::Conversion::Options::ConversionType)uConvType);
+    this->setMonoType((Parsing::Conversion::Options::MonochromeType)uMonoType);
     this->setEdge((int)uEdge);
-    this->setScanMain((ScanMainDirection)uScanMain);
-    this->setScanSub((ScanSubDirection)uScanSub);
+    this->setScanMain((Parsing::Conversion::Options::ScanMainDirection)uScanMain);
+    this->setScanSub((Parsing::Conversion::Options::ScanSubDirection)uScanSub);
     this->setInverse((bool)uInverse);
     this->setBandScanning((bool)uBandScanning);
     this->setBandWidth((int)uBandWidth);

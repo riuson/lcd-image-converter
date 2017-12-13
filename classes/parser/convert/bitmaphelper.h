@@ -24,11 +24,13 @@
 
 #include <conversion_options.h>
 
-using namespace ConversionOptions;
-
 class QFontMetrics;
 class QPainterPath;
 
+namespace Parsing
+{
+namespace Conversion
+{
 typedef struct {
   int width;
   int height;
@@ -59,5 +61,8 @@ public:
   static QImage fromSvg(const QString &path, int size);
   static QColor fromRgba(QRgb value);
 };
+
+} // namespace Conversion
+} // namespace Parsing
 
 #endif // BITMAPHELPER_H

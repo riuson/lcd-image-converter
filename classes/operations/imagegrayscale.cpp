@@ -48,7 +48,7 @@ void ImageGrayscale::applyItem(Data::Containers::IDocument *doc, const QString &
 {
   const QImage *original = doc->dataContainer()->image(itemKey);
   QImage result(*original);
-  ConverterHelper::makeGrayscale(result);
+  Parsing::Conversion::ConverterHelper::makeGrayscale(result);
   doc->dataContainer()->setImage(itemKey, &result);
 }
 

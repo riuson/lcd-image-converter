@@ -39,7 +39,7 @@ namespace Tools
 ToolColor::ToolColor(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_color"), 24)));
+  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_color"), 24)));
 
   this->mActions = new QList<QAction *>();
   this->mWidgets = new QList<QWidget *>();
@@ -110,13 +110,13 @@ bool ToolColor::processMouse(QMouseEvent *event,
 
         // draw on pixmap
         if (buttonLeft) {
-          QColor color = BitmapHelper::fromRgba(imageOriginal->pixel(event->x(), event->y()));
+          QColor color = Parsing::Conversion::BitmapHelper::fromRgba(imageOriginal->pixel(event->x(), event->y()));
           this->mForeColor = color;
           this->updateColorIcons();
         }
 
         if (buttonRight) {
-          QColor color = BitmapHelper::fromRgba(imageOriginal->pixel(event->x(), event->y()));
+          QColor color = Parsing::Conversion::BitmapHelper::fromRgba(imageOriginal->pixel(event->x(), event->y()));
           this->mBackColor = color;
           this->updateColorIcons();
         }
@@ -144,7 +144,7 @@ void ToolColor::initializeWidgets()
   this->mActionSwapColors->setText(tr("Swap Colors"));
   this->mActionSwapColors->setToolTip(tr("Swap Colors"));
   this->connect(this->mActionSwapColors, SIGNAL(triggered()), SLOT(on_buttonSwapColors_triggered()));
-  this->mActionSwapColors->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_color_swap"), 24))));
+  this->mActionSwapColors->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_color_swap"), 24))));
   this->mActions->append(this->mActionSwapColors);
 
   this->updateColorIcons();
@@ -162,7 +162,7 @@ void ToolColor::loadSettings()
   unsigned int a = sett.value("foreColor", QVariant("none")).toUInt(&ok);
 
   if (ok) {
-    this->mForeColor = BitmapHelper::fromRgba(QRgb(a));
+    this->mForeColor = Parsing::Conversion::BitmapHelper::fromRgba(QRgb(a));
   } else {
     this->mForeColor = QColor("black");
   }
@@ -170,7 +170,7 @@ void ToolColor::loadSettings()
   a = sett.value("backColor", QVariant("none")).toUInt(&ok);
 
   if (ok) {
-    this->mBackColor = BitmapHelper::fromRgba(QRgb(a));
+    this->mBackColor = Parsing::Conversion::BitmapHelper::fromRgba(QRgb(a));
   } else {
     this->mBackColor = QColor("white");
   }

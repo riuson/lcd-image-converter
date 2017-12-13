@@ -49,7 +49,7 @@ void DialogFontPreview::setDocument(Data::Containers::IDocument *document)
 void DialogFontPreview::on_lineEditText_textChanged(const QString &text)
 {
   if (this->mDocument != nullptr) {
-    this->mOriginalImage = FontHelper::drawString(this->mDocument->dataContainer(), text);
+    this->mOriginalImage = Parsing::Conversion::FontHelper::drawString(this->mDocument->dataContainer(), text);
 
     // update preview
     this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
@@ -58,8 +58,8 @@ void DialogFontPreview::on_lineEditText_textChanged(const QString &text)
 
 void DialogFontPreview::on_spinBoxScale_valueChanged(int i)
 {
-  this->mScaledImage = BitmapHelper::scale(&this->mOriginalImage, i);
-  this->mScaledImage = BitmapHelper::drawGrid(&this->mScaledImage, i);
+  this->mScaledImage = Parsing::Conversion::BitmapHelper::scale(&this->mOriginalImage, i);
+  this->mScaledImage = Parsing::Conversion::BitmapHelper::drawGrid(&this->mScaledImage, i);
   this->ui->labelPreview->setPixmap(QPixmap::fromImage(this->mScaledImage));
 }
 

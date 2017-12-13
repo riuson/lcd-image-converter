@@ -51,15 +51,15 @@ void ImageRotate::applyItem(Data::Containers::IDocument *doc, const QString &ite
 
   switch (this->mAngle) {
     case Angle::A90:
-      result = BitmapHelper::rotate90(original);
+      result = Parsing::Conversion::BitmapHelper::rotate90(original);
       break;
 
     case Angle::A180:
-      result = BitmapHelper::rotate180(original);
+      result = Parsing::Conversion::BitmapHelper::rotate180(original);
       break;
 
     case Angle::A270:
-      result = BitmapHelper::rotate270(original);
+      result = Parsing::Conversion::BitmapHelper::rotate270(original);
       break;
 
     case Angle::None:

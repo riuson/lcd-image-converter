@@ -25,8 +25,12 @@
 
 template <class T1, class T2> class QMap;
 class Preset;
-class ParsedImageData;
+
+namespace Parsing
+{
 class Tags;
+class ParsedImageData;
+}
 
 namespace Data
 {
@@ -68,7 +72,7 @@ private:
 
   void setDocumentFilename(const QString &value);
 
-  void prepareImages(Preset *preset, QMap<QString, ParsedImageData *> *images, const Tags &tags) const;
+  void prepareImages(Preset *preset, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::Tags &tags) const;
 
 private slots:
   void mon_container_dataChanged(bool historyStateMoved);

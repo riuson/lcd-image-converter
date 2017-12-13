@@ -26,6 +26,11 @@ template <class T> class QVector;
 
 class Preset;
 
+namespace Parsing
+{
+namespace Conversion
+{
+
 class BitStream
 {
 public:
@@ -53,5 +58,8 @@ private:
   // remaining bit count from one pixel
   int remain() const;
 };
+
+} // namespace Conversion
+} // namespace Parsing
 
 #endif // BITSTREAM_H

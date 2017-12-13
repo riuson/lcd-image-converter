@@ -60,13 +60,13 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->setupUi(this);
 
   QIcon icon;
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 16)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 24)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 32)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 48)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 64)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 128)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 256)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 16)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 24)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 32)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 48)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 64)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 128)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 256)));
   this->setWindowIcon(icon);
 
   this->updateMenuState();

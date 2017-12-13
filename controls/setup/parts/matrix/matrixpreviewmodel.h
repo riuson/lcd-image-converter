@@ -27,8 +27,6 @@
 
 class Preset;
 
-using namespace ConversionOptions;
-
 class MatrixPreviewModel : public QAbstractItemModel
 {
   Q_OBJECT
@@ -73,7 +71,7 @@ private:
     Gray
   };
 
-  void getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const;
+  void getBitType(int bitIndex, Parsing::Conversion::Options::ConversionType *convType, ColorType *colorType, int *partIndex) const;
   void resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
   void resultPackedToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
   void sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const;

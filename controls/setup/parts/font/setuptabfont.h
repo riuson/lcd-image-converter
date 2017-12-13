@@ -33,8 +33,6 @@ class SetupTabFont;
 
 class Preset;
 
-using namespace ConversionOptions;
-
 class SetupTabFont : public QWidget
 {
   Q_OBJECT
@@ -51,7 +49,7 @@ private:
   Preset *mPreset;
   QCompleter *mEncodingCompleter;
 
-  const QString sortingName(CharactersSortOrder value) const;
+  const QString sortingName(Parsing::Conversion::Options::CharactersSortOrder value) const;
 
 private slots:
   void on_checkBoxBom_toggled(bool value);

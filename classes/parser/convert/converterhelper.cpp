@@ -44,6 +44,11 @@
 #include "convimagepixels.h"
 #include "convimagescan.h"
 
+namespace Parsing
+{
+namespace Conversion
+{
+
 void ConverterHelper::pixelsData(
   PrepareOptions *prepare,
   const QString &scanScript,
@@ -944,3 +949,5 @@ quint32 ConverterHelper::toBigEndian(Preset *preset, quint32 value)
   return result;
 }
 
+} // namespace Conversion
+} // namespace Parsing

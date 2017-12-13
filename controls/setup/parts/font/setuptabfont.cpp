@@ -83,20 +83,20 @@ void SetupTabFont::matrixChanged()
   this->ui->checkBoxBom->setChecked(this->mPreset->font()->bom());
 }
 
-const QString SetupTabFont::sortingName(CharactersSortOrder value) const
+const QString SetupTabFont::sortingName(Parsing::Conversion::Options::CharactersSortOrder value) const
 {
   QString result;
 
   switch (value) {
-    case CharactersSortNone:
+    case Parsing::Conversion::Options::CharactersSortNone:
       result = tr("None");
       break;
 
-    case CharactersSortAscending:
+    case Parsing::Conversion::Options::CharactersSortAscending:
       result = tr("Ascending");
       break;
 
-    case CharactersSortDescending:
+    case Parsing::Conversion::Options::CharactersSortDescending:
       result = tr("Descending");
       break;
 

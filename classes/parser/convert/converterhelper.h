@@ -24,6 +24,11 @@
 
 class QImage;
 class Preset;
+
+namespace Parsing
+{
+namespace Conversion
+{
 class ConvImageScan;
 
 class ConverterHelper
@@ -90,5 +95,8 @@ private:
     int *rowLength);
   static quint32 toBigEndian(Preset *preset, quint32 value);
 };
+
+} // namespace Conversion
+} // namespace Parsing
 
 #endif // CONVERTERHELPER_H

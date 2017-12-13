@@ -33,8 +33,6 @@ class Preset;
 class SetupTabPrepareScanning;
 class SetupTabPreparePreprocessing;
 
-using namespace ConversionOptions;
-
 class SetupTabPrepare : public QWidget
 {
   Q_OBJECT

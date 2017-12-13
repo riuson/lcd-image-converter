@@ -390,7 +390,7 @@ MatrixPreviewModel::RowType MatrixPreviewModel::rowType(int row) const
   return result;
 }
 
-void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const
+void MatrixPreviewModel::getBitType(int bitIndex, Parsing::Conversion::Options::ConversionType *convType, ColorType *colorType, int *partIndex) const
 {
   *convType = this->mPreset->prepare()->convType();
   *colorType = Empty;

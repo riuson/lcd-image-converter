@@ -80,8 +80,8 @@ QVariant ImagesResizedProxy::data(const QModelIndex &index, int role) const
     case Qt::DecorationRole: {
       if (columnIndex == 1) {
         QImage imageSource = result.value<QImage>();
-        QColor backgroundColor = BitmapHelper::detectBackgroundColor(&imageSource);
-        QImage imageScaled = BitmapHelper::crop(&imageSource, this->mLeft, this->mTop, this->mRight, this->mBottom, backgroundColor);
+        QColor backgroundColor = Parsing::Conversion::BitmapHelper::detectBackgroundColor(&imageSource);
+        QImage imageScaled = Parsing::Conversion::BitmapHelper::crop(&imageSource, this->mLeft, this->mTop, this->mRight, this->mBottom, backgroundColor);
         result = imageScaled;
       }
 

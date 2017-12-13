@@ -25,6 +25,9 @@
 template <class T1, class T2> class QMap;
 template <class T1, class T2> class QHash;
 
+namespace Parsing
+{
+
 class Tags
 {
 public:
@@ -113,5 +116,7 @@ private:
 
   void initTagsMap();
 };
+
+} // namespace Parsing
 
 #endif // TAGS_H

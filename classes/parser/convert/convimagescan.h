@@ -26,6 +26,11 @@
 
 class QImage;
 
+namespace Parsing
+{
+namespace Conversion
+{
+
 class ConvImageScan : public QObject
 {
   Q_OBJECT
@@ -64,5 +69,8 @@ private:
   int height() const;
   int width() const;
 };
+
+} // namespace Conversion
+} // namespace Parsing
 
 #endif // CONVIMAGESCAN_H

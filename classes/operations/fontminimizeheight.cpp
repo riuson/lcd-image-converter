@@ -52,7 +52,7 @@ bool FontMinimizeHeight::prepare(const Data::Containers::IDocument *doc, const Q
     const QImage *original = doc->dataContainer()->image(key);
 
     int l, t, r, b;
-    BitmapHelper::findEmptyArea(original, &l, &t, &r, &b);
+    Parsing::Conversion::BitmapHelper::findEmptyArea(original, &l, &t, &r, &b);
 
     this->mLeft = qMin(this->mLeft, l);
     this->mTop = qMin(this->mTop, t);
@@ -98,7 +98,7 @@ void FontMinimizeHeight::applyDocument(Data::Containers::IDocument *doc, const Q
 void FontMinimizeHeight::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   const QImage *original = doc->dataContainer()->image(itemKey);
-  QImage result = BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapHelper::detectBackgroundColor(original));
+  QImage result = Parsing::Conversion::BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, Parsing::Conversion::BitmapHelper::detectBackgroundColor(original));
   doc->dataContainer()->setImage(itemKey, &result);
 }
 

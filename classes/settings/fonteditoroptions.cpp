@@ -60,7 +60,7 @@ QColor FontEditorOptions::foreColor()
   QColor result = QColor("black");
 
   if (ok) {
-    result = BitmapHelper::fromRgba(QRgb(a));
+    result = Parsing::Conversion::BitmapHelper::fromRgba(QRgb(a));
   }
 
   return result;
@@ -78,7 +78,7 @@ QColor FontEditorOptions::backColor()
   QColor result = QColor("white");
 
   if (ok) {
-    result = BitmapHelper::fromRgba(QRgb(a));
+    result = Parsing::Conversion::BitmapHelper::fromRgba(QRgb(a));
   }
 
   return result;

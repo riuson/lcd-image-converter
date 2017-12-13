@@ -217,22 +217,22 @@ DataContainer *ImageDocument::dataContainer() const
 
 QString ImageDocument::convert(Preset *preset)
 {
-  Tags tags;
+  Parsing::Tags tags;
 
   if (!this->documentFilename().isEmpty()) {
-    tags.setTagValue(Tags::DocumentFilename, this->documentFilename());
+    tags.setTagValue(Parsing::Tags::DocumentFilename, this->documentFilename());
   } else {
-    tags.setTagValue(Tags::DocumentFilename, "unsaved");
+    tags.setTagValue(Parsing::Tags::DocumentFilename, "unsaved");
   }
 
-  tags.setTagValue(Tags::DocumentName, this->documentName());
-  tags.setTagValue(Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
+  tags.setTagValue(Parsing::Tags::DocumentName, this->documentName());
+  tags.setTagValue(Parsing::Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
 
-  tags.setTagValue(Tags::DocumentDataType, "image");
+  tags.setTagValue(Parsing::Tags::DocumentDataType, "image");
 
-  QMap<QString, ParsedImageData *> images;
+  QMap<QString, Parsing::ParsedImageData *> images;
   this->prepareImages(preset, &images, tags);
-  Parser parser(Parser::TypeImage, preset, this);
+  Parsing::Parser parser(Parsing::Parser::TypeImage, preset, this);
   QString result = parser.convert(this, this->dataContainer()->keys(), &images, tags);
 
   return result;
@@ -298,7 +298,7 @@ void ImageDocument::setDocumentFilename(const QString &value)
   }
 }
 
-void ImageDocument::prepareImages(Preset *preset, QMap<QString, ParsedImageData *> *images, const Tags &tags) const
+void ImageDocument::prepareImages(Preset *preset, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::Tags &tags) const
 {
   DataContainer *data = this->dataContainer();
 
@@ -311,7 +311,7 @@ void ImageDocument::prepareImages(Preset *preset, QMap<QString, ParsedImageData 
       const QString key = it.next();
       QImage image = QImage(*data->image(key));
 
-      ParsedImageData *data = new ParsedImageData(preset, &image, tags);
+      Parsing::ParsedImageData *data = new Parsing::ParsedImageData(preset, &image, tags);
       images->insert(key, data);
     }
   }

@@ -263,7 +263,7 @@ int ModeConvertFont::process()
         rgbValue = this->mForeground.toUInt(&colorOk, 16);
 
         if (colorOk) {
-          parameters.foreground = BitmapHelper::fromRgba(QRgb(rgbValue));
+          parameters.foreground = Parsing::Conversion::BitmapHelper::fromRgba(QRgb(rgbValue));
         } else {
           parameters.foreground = QColor("black");
         }
@@ -272,7 +272,7 @@ int ModeConvertFont::process()
         rgbValue = this->mBackground.toUInt(&colorOk, 16);
 
         if (colorOk) {
-          parameters.background = BitmapHelper::fromRgba(QRgb(rgbValue));
+          parameters.background = Parsing::Conversion::BitmapHelper::fromRgba(QRgb(rgbValue));
         } else {
           parameters.background = QColor("white");
         }

@@ -33,7 +33,7 @@ class TemplateOptions;
 class QString;
 class QStringList;
 
-using namespace ConversionOptions;
+using namespace Parsing::Conversion::Options;
 
 class Preset : public QObject
 {

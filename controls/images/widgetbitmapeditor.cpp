@@ -188,8 +188,8 @@ int WidgetBitmapEditor::scale() const
 void WidgetBitmapEditor::updateImageScaled(int scale)
 {
   if (!this->mImageOriginal.isNull()) {
-    this->mImageScaled = BitmapHelper::scale(&this->mImageOriginal, scale);
-    this->mImageScaled = BitmapHelper::drawGrid(&this->mImageScaled, scale);
+    this->mImageScaled = Parsing::Conversion::BitmapHelper::scale(&this->mImageOriginal, scale);
+    this->mImageScaled = Parsing::Conversion::BitmapHelper::drawGrid(&this->mImageScaled, scale);
     this->mPixmapScaled = QPixmap::fromImage(this->mImageScaled);
 
     this->ui->label->setPixmap(this->mPixmapScaled);
@@ -199,7 +199,7 @@ void WidgetBitmapEditor::updateImageScaled(int scale)
 void WidgetBitmapEditor::drawPixel(int x, int y, const QColor &color)
 {
   QImage image = this->mImageOriginal;
-  this->mImageOriginal = BitmapHelper::drawPixel(&image, x, y, color);
+  this->mImageOriginal = Parsing::Conversion::BitmapHelper::drawPixel(&image, x, y, color);
   this->updateImageScaled(this->mScale);
 }
 

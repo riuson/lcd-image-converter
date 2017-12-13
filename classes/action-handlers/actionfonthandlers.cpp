@@ -116,7 +116,7 @@ void ActionFontHandlers::fontToImage_triggered()
     QStringList keys = editor->selectedKeys();
     qSort(keys);
     QString characters = keys.join("");
-    QImage image = FontHelper::drawString(editor->document()->dataContainer(), characters);
+    QImage image = Parsing::Conversion::FontHelper::drawString(editor->document()->dataContainer(), characters);
 
     emit this->imageCreated(&image, "image_" + editor->document()->documentName());
   }

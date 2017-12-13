@@ -59,12 +59,12 @@ void DemoGenerator::setScript(const QString &value)
   this->mScript = value;
 
   // generate points
-  ConvImageScan *convImage = new ConvImageScan(this->mSourceImage, this);
+  Parsing::Conversion::ConvImageScan *convImage = new Parsing::Conversion::ConvImageScan(this->mSourceImage, this);
   convImage->setBandSize(this->mPreset->prepare()->bandWidth());
   convImage->setUseBands(this->mPreset->prepare()->bandScanning());
 
   QString errorMessage;
-  ConverterHelper::collectPoints(convImage, value, &errorMessage);
+  Parsing::Conversion::ConverterHelper::collectPoints(convImage, value, &errorMessage);
 
   if (!errorMessage.isNull()) {
     emit this->errorHandled(errorMessage);

@@ -192,7 +192,7 @@ void DialogFontSelect::connectFontSizeList(bool value)
 
 void DialogFontSelect::on_lineEdit_textChanged(const QString &value)
 {
-  QString stringNew = FontHelper::unescapeControlChars(value);
+  QString stringNew = Parsing::Conversion::FontHelper::unescapeControlChars(value);
   QString stringOld = this->mData->characters();
 
   if (stringNew != stringOld) {
@@ -335,7 +335,7 @@ void DialogFontSelect::on_sizesListChanged(const QList<int> &list, int selected)
 
 void DialogFontSelect::on_charactersListChanged(const QString &value)
 {
-  QString stringNew = FontHelper::escapeControlChars(value);
+  QString stringNew = Parsing::Conversion::FontHelper::escapeControlChars(value);
   QString stringOld = this->ui->lineEdit->text();
 
   if (stringOld != stringNew) {

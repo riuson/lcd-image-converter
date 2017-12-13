@@ -36,8 +36,11 @@ class IDataContainer;
 }
 
 class Preset;
-class Tags;
 class QImage;
+
+namespace Parsing
+{
+class Tags;
 class ParsedImageData;
 
 class Parser : public QObject
@@ -71,5 +74,6 @@ private:
   void imageDataParticles(const QString &templateString, QString *prefix, QString *suffix) const;
   void imagePreviewParticles(const QString &templateString, QString *prefix, QString *suffix) const;
 };
+} // namespace Parsing
 
 #endif // PARSER_H

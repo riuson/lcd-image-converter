@@ -32,6 +32,11 @@ class DataContainer;
 }
 }
 
+namespace Parsing
+{
+namespace Conversion
+{
+
 class FontHelper
 {
 public:
@@ -51,5 +56,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Conversion
+} // namespace Parsing
 
 #endif // FONTHELPER_H

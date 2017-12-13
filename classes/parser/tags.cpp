@@ -23,6 +23,9 @@
 #include <QHash>
 #include <QRegExp>
 
+namespace Parsing
+{
+
 Tags::Tags()
 {
   this->initTagsMap();
@@ -213,3 +216,4 @@ void Tags::initTagsMap()
   this->mTagNameMap->insert("end_block_font_def",       BlocksFontDefinitionEnd);
 }
 
+} // namespace Parsing

@@ -212,7 +212,7 @@ ReorderingPreviewModel::RowType ReorderingPreviewModel::rowType(int row) const
   return result;
 }
 
-void ReorderingPreviewModel::getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const
+void ReorderingPreviewModel::getBitType(int bitIndex, Parsing::Conversion::Options::ConversionType *convType, ColorType *colorType, int *partIndex) const
 {
   int bits = (((int)this->mPreset->image()->blockSize()) * 8) + 8;
   *convType = this->mPreset->prepare()->convType();

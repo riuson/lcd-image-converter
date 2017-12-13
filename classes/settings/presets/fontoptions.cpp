@@ -35,7 +35,7 @@ FontOptions::FontOptions(QObject *parent) :
 {
   this->mBom = false;
   this->mEncoding = FontOptions::encodings().at(0);
-  this->mSortOrder = CharactersSortAscending;
+  this->mSortOrder = Parsing::Conversion::Options::CharactersSortAscending;
 }
 
 bool FontOptions::bom() const
@@ -48,7 +48,7 @@ const QString &FontOptions::encoding() const
   return this->mEncoding;
 }
 
-CharactersSortOrder FontOptions::sortOrder() const
+Parsing::Conversion::Options::CharactersSortOrder FontOptions::sortOrder() const
 {
   return this->mSortOrder;
 }
@@ -71,7 +71,7 @@ void FontOptions::setEncoding(const QString &value)
   }
 }
 
-void FontOptions::setSortOrder(CharactersSortOrder value)
+void FontOptions::setSortOrder(Parsing::Conversion::Options::CharactersSortOrder value)
 {
   if (this->mSortOrder != value) {
     this->mSortOrder = value;
@@ -92,7 +92,7 @@ bool FontOptions::load(QSettings *settings)
   uBom = settings->value(FontOptions::FieldBom, int(0)).toInt(&result);
 
   if (result) {
-    uSortOrder = settings->value(FontOptions::FieldSortOrder, int(CharactersSortNone)).toInt(&result);
+    uSortOrder = settings->value(FontOptions::FieldSortOrder, int(Parsing::Conversion::Options::CharactersSortNone)).toInt(&result);
   }
 
   if (result) {
@@ -102,7 +102,7 @@ bool FontOptions::load(QSettings *settings)
   if (result) {
     this->setBom((bool)uBom);
     this->setEncoding(sEncoding);
-    this->setSortOrder((CharactersSortOrder)uSortOrder);
+    this->setSortOrder((Parsing::Conversion::Options::CharactersSortOrder)uSortOrder);
   }
 
   settings->endGroup();
@@ -131,7 +131,7 @@ bool FontOptions::loadXmlElement(QDomElement element)
   }
 
   quint32 uBom = 0;
-  quint32 uSortOrder = int(CharactersSortNone);
+  quint32 uSortOrder = int(Parsing::Conversion::Options::CharactersSortNone);
   QString sEncoding = "UTF-8";
 
   QDomNode nodeValue = nodeSett.firstChild();
@@ -165,7 +165,7 @@ bool FontOptions::loadXmlElement(QDomElement element)
   if (result) {
     this->setBom((bool)uBom);
     this->setEncoding(sEncoding);
-    this->setSortOrder((CharactersSortOrder)uSortOrder);
+    this->setSortOrder((Parsing::Conversion::Options::CharactersSortOrder)uSortOrder);
   }
 
   return result;

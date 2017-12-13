@@ -49,8 +49,8 @@ QVariant ImagesScaledProxy::data(const QModelIndex &index, int role) const
     case Qt::DecorationRole: {
       if (columnIndex == 1) {
         QImage imageSource = result.value<QImage>();
-        QImage imageScaled = BitmapHelper::scale(&imageSource, this->mScale);
-        imageScaled = BitmapHelper::drawGrid(&imageScaled, this->mScale);
+        QImage imageScaled = Parsing::Conversion::BitmapHelper::scale(&imageSource, this->mScale);
+        imageScaled = Parsing::Conversion::BitmapHelper::drawGrid(&imageScaled, this->mScale);
         result = imageScaled;
       }
 

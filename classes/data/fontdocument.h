@@ -27,8 +27,12 @@
 
 template <class T1, class T2> class QMap;
 class Preset;
+
+namespace Parsing
+{
 class ParsedImageData;
 class Tags;
+}
 
 namespace Data
 {
@@ -99,7 +103,7 @@ private:
   int descent() const;
   void setDescent(int value);
 
-  void prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, const Tags &tags) const;
+  void prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::Tags &tags) const;
   QString hexCode(const QString &key, const QString &encoding, bool bom) const;
   const QStringList sortKeysWithEncoding(const QStringList &keys, Preset *preset) const;
 

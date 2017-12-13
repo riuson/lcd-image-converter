@@ -61,7 +61,7 @@ void ImageResize::applyDocument(Data::Containers::IDocument *doc, const QStringL
 void ImageResize::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   const QImage *original = doc->dataContainer()->image(itemKey);
-  QImage result = BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapHelper::detectBackgroundColor(original));
+  QImage result = Parsing::Conversion::BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, Parsing::Conversion::BitmapHelper::detectBackgroundColor(original));
   doc->dataContainer()->setImage(itemKey, &result);
 }
 

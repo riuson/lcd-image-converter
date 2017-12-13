@@ -106,11 +106,11 @@ void DialogFontRange::updatePreview(const QString &encoding, int from, int to, b
     }
   }
 
-  this->ui->plainTextEditPreview->setPlainText(FontHelper::escapeControlChars(result));
+  this->ui->plainTextEditPreview->setPlainText(Parsing::Conversion::FontHelper::escapeControlChars(result));
 }
 
 void DialogFontRange::on_plainTextEditPreview_textChanged()
 {
-  this->mResultString = FontHelper::unescapeControlChars(this->ui->plainTextEditPreview->toPlainText());
+  this->mResultString = Parsing::Conversion::FontHelper::unescapeControlChars(this->ui->plainTextEditPreview->toPlainText());
 }
 

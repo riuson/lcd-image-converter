@@ -22,9 +22,12 @@
 
 #include <QtGlobal>
 
-namespace ConversionOptions
+namespace Parsing
 {
-
+namespace Conversion
+{
+namespace Options
+{
 
 enum ConversionType {
   ConversionTypeMonochrome = 0,
@@ -87,6 +90,8 @@ enum CharactersSortOrder {
 };
 
 
-} // end of namespace
+} // namespace Options
+} // namespace Conversion
+} // namespace Parsing
 
 #endif // CONVERSION_OPTIONS_H

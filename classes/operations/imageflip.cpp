@@ -51,11 +51,11 @@ void ImageFlip::applyItem(Data::Containers::IDocument *doc, const QString &itemK
   QImage result = *original;
 
   if (this->mFlipHorizontal) {
-    result = BitmapHelper::flipHorizontal(&result);
+    result = Parsing::Conversion::BitmapHelper::flipHorizontal(&result);
   }
 
   if (this->mFlipVertical) {
-    result = BitmapHelper::flipVertical(&result);
+    result = Parsing::Conversion::BitmapHelper::flipVertical(&result);
   }
 
   doc->dataContainer()->setImage(itemKey, &result);

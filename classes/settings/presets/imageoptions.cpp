@@ -43,8 +43,8 @@ ImageOptions::ImageOptions(QObject *parent) :
   QObject(parent)
 {
   this->mSplitToRows = true;
-  this->mBytesOrder = BytesOrderLittleEndian;
-  this->mBlockSize = Data8;
+  this->mBytesOrder = Parsing::Conversion::Options::BytesOrderLittleEndian;
+  this->mBlockSize = Parsing::Conversion::Options::Data8;
   this->mBlockDefaultOnes = false;
   this->mCompressionRle = false;
   this->mCompressionRleMinLength = 2;
@@ -62,18 +62,18 @@ bool ImageOptions::splitToRows() const
   return this->mSplitToRows;
 }
 
-BytesOrder ImageOptions::bytesOrder() const
+Parsing::Conversion::Options::BytesOrder ImageOptions::bytesOrder() const
 {
   return this->mBytesOrder;
 }
 
-DataBlockSize ImageOptions::blockSize() const
+Parsing::Conversion::Options::DataBlockSize ImageOptions::blockSize() const
 {
-  if (this->mBlockSize <= Data32) {
+  if (this->mBlockSize <= Parsing::Conversion::Options::Data32) {
     return this->mBlockSize;
   }
 
-  return Data32;
+  return Parsing::Conversion::Options::Data32;
 }
 
 bool ImageOptions::blockDefaultOnes() const
@@ -134,10 +134,10 @@ void ImageOptions::setSplitToRows(bool value)
   }
 }
 
-void ImageOptions::setBytesOrder(BytesOrder value)
+void ImageOptions::setBytesOrder(Parsing::Conversion::Options::BytesOrder value)
 {
-  if (value < BytesOrderLittleEndian || value > BytesOrderBigEndian) {
-    value = BytesOrderLittleEndian;
+  if (value < Parsing::Conversion::Options::BytesOrderLittleEndian || value > Parsing::Conversion::Options::BytesOrderBigEndian) {
+    value = Parsing::Conversion::Options::BytesOrderLittleEndian;
   }
 
   if (this->mBytesOrder != value) {
@@ -146,10 +146,10 @@ void ImageOptions::setBytesOrder(BytesOrder value)
   }
 }
 
-void ImageOptions::setBlockSize(DataBlockSize value)
+void ImageOptions::setBlockSize(Parsing::Conversion::Options::DataBlockSize value)
 {
-  if (value < Data8 || value > Data32) {
-    value = Data32;
+  if (value < Parsing::Conversion::Options::Data8 || value > Parsing::Conversion::Options::Data32) {
+    value = Parsing::Conversion::Options::Data32;
   }
 
   if (this->mBlockSize != value) {
@@ -290,9 +290,9 @@ bool ImageOptions::load(QSettings *settings)
   sPreviewLevels = this->unescapeEmpty(sPreviewLevels);
 
   if (result) {
-    this->setBlockSize((DataBlockSize)uBlockSize);
+    this->setBlockSize((Parsing::Conversion::Options::DataBlockSize)uBlockSize);
     this->setBlockDefaultOnes((bool)uBlockDefaultOnes);
-    this->setBytesOrder((BytesOrder)uBytesOrder);
+    this->setBytesOrder((Parsing::Conversion::Options::BytesOrder)uBytesOrder);
     this->setSplitToRows((bool)uSplitToRows);
     this->setCompressionRle((bool)uCompressionRle);
     this->setCompressionRleMinLength(uCompressionRleMinLength);
@@ -404,9 +404,9 @@ bool ImageOptions::loadXmlElement(QDomElement element)
   }
 
   if (result) {
-    this->setBlockSize((DataBlockSize)uBlockSize);
+    this->setBlockSize((Parsing::Conversion::Options::DataBlockSize)uBlockSize);
     this->setBlockDefaultOnes((bool)uBlockDefaultOnes);
-    this->setBytesOrder((BytesOrder)uBytesOrder);
+    this->setBytesOrder((Parsing::Conversion::Options::BytesOrder)uBytesOrder);
     this->setSplitToRows((bool)uSplitToRows);
     this->setCompressionRle((bool)uCompressionRle);
     this->setCompressionRleMinLength(uCompressionRleMinLength);

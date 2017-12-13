@@ -102,7 +102,7 @@ void SetupTabPreparePreprocessing::on_plainTextEditCustomScript_textChanged()
     QVector<quint32> data;
     data.append(0);
     QString scriptError;
-    ConverterHelper::convertPixelsByScript(str, &data, &scriptError);
+    Parsing::Conversion::ConverterHelper::convertPixelsByScript(str, &data, &scriptError);
 
     if (scriptError.isEmpty()) {
       this->mPreset->prepare()->setCustomPreprocessScript(str);
@@ -133,7 +133,7 @@ void SetupTabPreparePreprocessing::on_lineEditDemoInput_textChanged()
       QVector<quint32> demoData;
       demoData.append(demoInputValue);
       QString scriptError;
-      ConverterHelper::convertPixelsByScript(script, &demoData, &scriptError);
+      Parsing::Conversion::ConverterHelper::convertPixelsByScript(script, &demoData, &scriptError);
 
       if (scriptError.isEmpty()) {
         this->mPreset->prepare()->setCustomPreprocessScript(script);
@@ -184,7 +184,7 @@ void SetupTabPreparePreprocessing::updateState()
 
 void SetupTabPreparePreprocessing::updateScript()
 {
-  QString script = ConverterHelper::pixelsScript(this->mPreset);
+  QString script = Parsing::Conversion::ConverterHelper::pixelsScript(this->mPreset);
 
   if (this->ui->plainTextEditCustomScript->toPlainText() != script) {
     this->ui->plainTextEditCustomScript->setPlainText(script);

@@ -126,7 +126,7 @@ void SetupTabPrepareScanning::updateState()
 
 void SetupTabPrepareScanning::updateScript()
 {
-  QString script = ConverterHelper::scanScript(this->mPreset);
+  QString script = Parsing::Conversion::ConverterHelper::scanScript(this->mPreset);
 
   if (this->ui->plainTextEditCustomScript->toPlainText() != script) {
     this->ui->plainTextEditCustomScript->setPlainText(script);

@@ -30,8 +30,6 @@
 template <class T> class QVector;
 template <class T> class QQueue;
 
-using namespace ConversionOptions;
-
 namespace Utils
 {
 namespace Compression
@@ -48,7 +46,7 @@ public:
 
   void compress(
     QVector<quint32> *input,
-    DataBlockSize dataSize,
+    Parsing::Conversion::Options::DataBlockSize dataSize,
     QVector<quint32> *output,
     quint32 minimumOfEquals = 2);
 
@@ -60,10 +58,10 @@ private:
     const QVector<RleSequence *> *inputSequences,
     quint32 minimumOfEquals,
     QVector<RleSequence *> *outputSequences);
-  quint32 getMaxSize(DataBlockSize dataSize);
+  quint32 getMaxSize(Parsing::Conversion::Options::DataBlockSize dataSize);
   void flushSequence(
     const RleSequence *sequence,
-    DataBlockSize dataSize,
+    Parsing::Conversion::Options::DataBlockSize dataSize,
     QVector<quint32> *output);
   void flushSequencePart(
     const RleSequence *sequence,

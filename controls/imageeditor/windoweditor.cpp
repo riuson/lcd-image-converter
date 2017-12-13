@@ -180,9 +180,9 @@ void WindowEditor::updateImageScaled(int value)
   if (!this->mImageOriginal.isNull()) {
     QImage image = this->mImageOriginal;
 
-    image = BitmapHelper::drawSelection(&image, this->mTools->selectedPath());
-    image = BitmapHelper::scale(&image, value);
-    image = BitmapHelper::drawGrid(&image, value);
+    image = Parsing::Conversion::BitmapHelper::drawSelection(&image, this->mTools->selectedPath());
+    image = Parsing::Conversion::BitmapHelper::scale(&image, value);
+    image = Parsing::Conversion::BitmapHelper::drawGrid(&image, value);
     this->mImageScaled = image;
     this->mPixmapScaled = QPixmap::fromImage(image);
 
@@ -192,8 +192,8 @@ void WindowEditor::updateImageScaled(int value)
 
 void WindowEditor::updateImageScaled(const QImage &image, int scale)
 {
-  this->mImageScaled = BitmapHelper::scale(&image, scale);
-  this->mImageScaled = BitmapHelper::drawGrid(&this->mImageScaled, scale);
+  this->mImageScaled = Parsing::Conversion::BitmapHelper::scale(&image, scale);
+  this->mImageScaled = Parsing::Conversion::BitmapHelper::drawGrid(&this->mImageScaled, scale);
   this->mPixmapScaled = QPixmap::fromImage(this->mImageScaled);
 
   this->ui->label->setPixmap(this->mPixmapScaled);
@@ -202,7 +202,7 @@ void WindowEditor::updateImageScaled(const QImage &image, int scale)
 void WindowEditor::drawPixel(int x, int y, const QColor &color)
 {
   QImage image = this->mImageOriginal;
-  this->mImageOriginal = BitmapHelper::drawPixel(&image, x, y, color);
+  this->mImageOriginal = Parsing::Conversion::BitmapHelper::drawPixel(&image, x, y, color);
   this->updateImageScaled(this->mTools->scale());
 }
 
