@@ -455,8 +455,8 @@ void Parser::addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images)
 
 void Parser::addCommonInfo(Tags &tags) const
 {
-  tags.setTagValue(Tags::ApplicationDate, QString("%1").arg(RevisionInfo::date()));
-  tags.setTagValue(Tags::ApplicationRevision, QString("%1").arg(RevisionInfo::hash_abbr()));
+  tags.setTagValue(Tags::ApplicationDate, QString("%1").arg(VersionControl::RevisionInfo::date()));
+  tags.setTagValue(Tags::ApplicationRevision, QString("%1").arg(VersionControl::RevisionInfo::hash_abbr()));
 }
 
 void Parser::imageDataParticles(const QString &templateString, QString *prefix, QString *suffix) const

@@ -184,8 +184,8 @@ bool DialogUpdates::transformHistory(const QString &xml, const QString &xsl, QSt
   {
     QString value = xml;
 
-    value.replace("<sha1>current</sha1>", QString("<sha1>%1</sha1>").arg(RevisionInfo::hash()));
-    value.replace("<date>current</date>", QString("<date>%1</date>").arg(RevisionInfo::date()));
+    value.replace("<sha1>current</sha1>", QString("<sha1>%1</sha1>").arg(VersionControl::RevisionInfo::hash()));
+    value.replace("<date>current</date>", QString("<date>%1</date>").arg(VersionControl::RevisionInfo::date()));
 
     QByteArray array = value.toUtf8();
 
@@ -197,7 +197,7 @@ bool DialogUpdates::transformHistory(const QString &xml, const QString &xsl, QSt
   {
     QString value = xsl;
 
-    value.replace("$current_date", QString("%1").arg(RevisionInfo::date()));
+    value.replace("$current_date", QString("%1").arg(VersionControl::RevisionInfo::date()));
 
     QByteArray array = value.toUtf8();
 
@@ -241,7 +241,7 @@ bool DialogUpdates::isLocalVersionOutdated(const QString &xml)
       QStringList dates;
       query.evaluateTo(&dates);
 
-      QString revisionDateString = RevisionInfo::date();
+      QString revisionDateString = VersionControl::RevisionInfo::date();
       QDateTime revisionDate = QDateTime::fromString(revisionDateString, Qt::ISODate);
 
       foreach (const QString &dateString, dates) {

@@ -22,6 +22,9 @@
 
 #include <QString>
 
+namespace VersionControl
+{
+
 class RevisionInfo
 {
 public:
@@ -30,5 +33,7 @@ public:
   static const QString &date();
   static const QString &version();
 };
+
+} // namespace VersionControl
 
 #endif // REVISIONINFO_H

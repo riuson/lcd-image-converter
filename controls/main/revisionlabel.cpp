@@ -24,7 +24,7 @@
 RevisionLabel::RevisionLabel(QWidget *parent) :
   QLabel(parent)
 {
-  this->setText(RevisionInfo::hash_abbr());
+  this->setText(VersionControl::RevisionInfo::hash_abbr());
 
   this->setForegroundRole(QPalette::Midlight);
 }
