@@ -44,7 +44,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
   QHBoxLayout *layout = new QHBoxLayout(this);
   this->setLayout(layout);
 
-  this->mDocument = new ImageDocument(this);
+  this->mDocument = new Data::Containers::ImageDocument(this);
 
   this->mEditorObject = new ImageEditor::Editor(this);
   this->mEditorWidget = this->mEditorObject->widget();
@@ -67,9 +67,9 @@ EditorTabImage::~EditorTabImage()
   delete this->mEditorObject;
 }
 
-IDocument *EditorTabImage::document() const
+Data::Containers::IDocument *EditorTabImage::document() const
 {
-  return qobject_cast<IDocument *>(this->mDocument);
+  return qobject_cast<Data::Containers::IDocument *>(this->mDocument);
 }
 
 QStringList EditorTabImage::selectedKeys() const

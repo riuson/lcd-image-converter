@@ -22,6 +22,11 @@
 
 #include <QSortFilterProxyModel>
 
+namespace Data
+{
+namespace Models
+{
+
 class ImagesResizedProxy : public QSortFilterProxyModel
 {
   Q_OBJECT
@@ -49,5 +54,8 @@ private:
 
   const QSize resized(const QSize &value) const;
 };
+
+} // namespace Models
+} // namespace Data
 
 #endif // IMAGESRESIZEDPROXY_H

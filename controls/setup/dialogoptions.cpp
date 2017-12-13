@@ -36,7 +36,7 @@
 #include "preset.h"
 #include "filedialogoptions.h"
 
-DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
+DialogOptions::DialogOptions(Data::Containers::DataContainer *dataContainer, QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogOptions)
 {

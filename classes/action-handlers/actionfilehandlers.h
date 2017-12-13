@@ -26,7 +26,14 @@
 
 class QImage;
 class IMainWindow;
+
+namespace Data
+{
+namespace Containers
+{
 class IDocument;
+}
+}
 
 namespace AppUI
 {
@@ -66,7 +73,7 @@ private:
   void openBinaryImage(const QStringList &filenames);
   void openImage(const QStringList &filenames);
   void openFont(const QStringList &filenames);
-  void convertDocument(IDocument *document, bool request);
+  void convertDocument(Data::Containers::IDocument *document, bool request);
 
 private slots:
   void documentChanged();

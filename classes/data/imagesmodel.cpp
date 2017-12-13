@@ -22,7 +22,12 @@
 #include "datacontainer.h"
 #include "bitmaphelper.h"
 
-ImagesModel::ImagesModel(DataContainer *container, QObject *parent) :
+namespace Data
+{
+namespace Models
+{
+
+ImagesModel::ImagesModel(Containers::DataContainer *container, QObject *parent) :
   QAbstractItemModel(parent)
 {
   this->mContainer = container;
@@ -192,3 +197,5 @@ void ImagesModel::imagesChanged()
     this->index(this->rowCount(QModelIndex()) - 1, this->columnCount(QModelIndex()) - 1));
 }
 
+} // namespace Models
+} // namespace Data

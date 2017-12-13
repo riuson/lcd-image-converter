@@ -21,6 +21,11 @@
 
 #include <QStringListIterator>
 
+namespace Data
+{
+namespace History
+{
+
 HistoryRecord::HistoryRecord(
   const QStringList *_keys,
   const QMap<QString, QImage *> *_images,
@@ -76,3 +81,5 @@ const QMap<QString, QVariant> *HistoryRecord::info() const
   return &this->mInfoMap;
 }
 
+} // namespace Containers
+} // namespace Data

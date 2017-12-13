@@ -30,20 +30,20 @@ ImageShift::ImageShift(QObject *parent) : QObject(parent)
   this->mDirection = Direction::None;
 }
 
-bool ImageShift::prepare(const IDocument *doc, const QStringList &keys)
+bool ImageShift::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
   return true;
 }
 
-void ImageShift::applyDocument(IDocument *doc, const QStringList &keys)
+void ImageShift::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageShift::applyItem(IDocument *doc, const QString &itemKey)
+void ImageShift::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   const QImage *original = doc->dataContainer()->image(itemKey);
   QImage result;

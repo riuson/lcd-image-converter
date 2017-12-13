@@ -24,9 +24,14 @@
 
 class QImage;
 class QString;
-class DataContainer;
 class StatusData;
 class Preset;
+
+namespace Data
+{
+namespace Containers
+{
+class DataContainer;
 
 class IDocument
 {
@@ -49,7 +54,11 @@ public:
   virtual void undo() = 0;
   virtual void redo() = 0;
 };
-Q_DECLARE_INTERFACE (IDocument,
+
+} // namespace Containers
+} // namespace Data
+
+Q_DECLARE_INTERFACE (Data::Containers::IDocument,
                      "riuson.lcd-image-converter/1.0"
                     )
 

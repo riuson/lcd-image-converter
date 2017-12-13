@@ -37,7 +37,7 @@ ImageEditInExternalTool::ImageEditInExternalTool(QWidget *parentWidget, QObject 
   this->mRunningError = false;
 }
 
-bool ImageEditInExternalTool::prepare(const IDocument *doc, const QStringList &keys)
+bool ImageEditInExternalTool::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
@@ -45,7 +45,7 @@ bool ImageEditInExternalTool::prepare(const IDocument *doc, const QStringList &k
   return true;
 }
 
-void ImageEditInExternalTool::applyDocument(IDocument *doc, const QStringList &keys)
+void ImageEditInExternalTool::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
 {
   QMap<QString, QString> files;
 
@@ -148,7 +148,7 @@ void ImageEditInExternalTool::applyDocument(IDocument *doc, const QStringList &k
   }
 }
 
-void ImageEditInExternalTool::applyItem(IDocument *doc, const QString &itemKey)
+void ImageEditInExternalTool::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   Q_UNUSED(doc)
   Q_UNUSED(itemKey)

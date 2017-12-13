@@ -31,10 +31,15 @@ class ParsedImageData;
 class Tags;
 struct tFontParameters;
 
+namespace Data
+{
+namespace Containers
+{
+
 class FontDocument : public QObject, public IDocument
 {
   Q_OBJECT
-  Q_INTERFACES(IDocument)
+  Q_INTERFACES(Data::Containers::IDocument)
 
 public:
   explicit FontDocument(QObject *parent = 0);
@@ -103,5 +108,8 @@ private slots:
 signals:
   void documentChanged();
 };
+
+} // namespace Containers
+} // namespace Data
 
 #endif // FONTDOCUMENT_H

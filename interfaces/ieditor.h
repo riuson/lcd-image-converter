@@ -30,8 +30,14 @@ class StatusData;
 }
 }
 
+namespace Data
+{
+namespace Containers
+{
 class DataContainer;
 class IDocument;
+}
+}
 
 class IEditor
 {
@@ -41,7 +47,7 @@ public:
     EditorFont
   };
 
-  virtual IDocument *document() const = 0;
+  virtual Data::Containers::IDocument *document() const = 0;
   virtual QStringList selectedKeys() const = 0;
   virtual AppUI::Status::StatusData *statusData() const = 0;
   virtual EditorType type() const = 0;

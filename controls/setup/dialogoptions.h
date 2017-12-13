@@ -27,8 +27,15 @@ namespace Ui
 class DialogOptions;
 }
 
-class Preset;
+namespace Data
+{
+namespace Containers
+{
 class DataContainer;
+}
+}
+
+class Preset;
 class DialogPreview;
 class SetupTabPrepare;
 class SetupTabMatrix;
@@ -42,13 +49,13 @@ class DialogOptions : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogOptions(DataContainer *dataContainer, QWidget *parent = 0);
+  explicit DialogOptions(Data::Containers::DataContainer *dataContainer, QWidget *parent = 0);
   virtual ~DialogOptions();
 
 private:
   Ui::DialogOptions *ui;
 
-  DataContainer *mData;
+  Data::Containers::DataContainer *mData;
 
   Preset *mPreset;
   bool mPresetChanged;

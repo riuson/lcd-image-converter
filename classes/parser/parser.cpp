@@ -120,7 +120,7 @@ Parser::~Parser()
 {
 }
 
-QString Parser::convert(IDocument *document, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, Tags &tags) const
+QString Parser::convert(Data::Containers::IDocument *document, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, Tags &tags) const
 {
   QString result;
 
@@ -160,7 +160,7 @@ QString Parser::convert(IDocument *document, const QStringList &orderedKeys, QMa
 
 QString Parser::parse(const QString &templateString,
                       Tags &tags,
-                      IDocument *doc,
+                      Data::Containers::IDocument *doc,
                       const QStringList &orderedKeys,
                       QMap<QString, ParsedImageData *> *images) const
 {
@@ -207,7 +207,7 @@ QString Parser::parse(const QString &templateString,
 
 QString Parser::parseImagesTable(const QString &templateString,
                                  Tags &tags,
-                                 IDocument *doc,
+                                 Data::Containers::IDocument *doc,
                                  const QStringList &orderedKeys,
                                  QMap<QString, ParsedImageData *> *images) const
 {

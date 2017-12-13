@@ -23,7 +23,13 @@
 #include <QObject>
 #include <QStringList>
 
+namespace Data
+{
+namespace Containers
+{
 class IDocument;
+}
+}
 
 namespace Operations
 {
@@ -37,7 +43,7 @@ public:
   virtual ~DocumentOperator() {}
 
   void setKeys(const QStringList keys);
-  void apply(IDocument *doc, IOperation &operation);
+  void apply(Data::Containers::IDocument *doc, IOperation &operation);
 
 private:
   QStringList mSelectedKeys;

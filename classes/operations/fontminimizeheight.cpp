@@ -36,7 +36,7 @@ FontMinimizeHeight::FontMinimizeHeight(QWidget *parentWidget, QObject *parent)
   this->mBottom = 0;
 }
 
-bool FontMinimizeHeight::prepare(const IDocument *doc, const QStringList &keys)
+bool FontMinimizeHeight::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
   this->mLeft = std::numeric_limits<int>::max();
   this->mTop = std::numeric_limits<int>::max();
@@ -75,7 +75,7 @@ bool FontMinimizeHeight::prepare(const IDocument *doc, const QStringList &keys)
   return false;
 }
 
-void FontMinimizeHeight::applyDocument(IDocument *doc, const QStringList &keys)
+void FontMinimizeHeight::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(keys)
 
@@ -95,7 +95,7 @@ void FontMinimizeHeight::applyDocument(IDocument *doc, const QStringList &keys)
   }
 }
 
-void FontMinimizeHeight::applyItem(IDocument *doc, const QString &itemKey)
+void FontMinimizeHeight::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   const QImage *original = doc->dataContainer()->image(itemKey);
   QImage result = BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapHelper::detectBackgroundColor(original));

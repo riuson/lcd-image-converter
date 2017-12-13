@@ -24,12 +24,18 @@
 #include <QSize>
 #include <QString>
 
+namespace Data
+{
+namespace Containers
+{
 class DataContainer;
+}
+}
 
 class FontHelper
 {
 public:
-  static QImage drawString(const DataContainer *data, const QString &value);
+  static QImage drawString(const Data::Containers::DataContainer *data, const QString &value);
   static QString escapeControlChars(const QString &value);
   static QString unescapeControlChars(const QString &value);
   static QSize getCharacterSize(const QFontMetrics &metrics, QChar value);

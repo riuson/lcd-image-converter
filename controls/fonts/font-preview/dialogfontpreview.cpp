@@ -41,7 +41,7 @@ DialogFontPreview::~DialogFontPreview()
   delete ui;
 }
 
-void DialogFontPreview::setDocument(IDocument *document)
+void DialogFontPreview::setDocument(Data::Containers::IDocument *document)
 {
   this->mDocument = document;
 }

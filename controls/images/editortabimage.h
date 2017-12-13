@@ -30,9 +30,16 @@ class EditorTabImage;
 }
 
 class QImage;
+
+namespace Data
+{
+namespace Containers
+{
 class DataContainer;
 class ImageDocument;
 class IDocument;
+}
+}
 
 namespace AppUI
 {
@@ -56,7 +63,7 @@ public:
   explicit EditorTabImage(QWidget *parent = 0);
   virtual ~EditorTabImage();
 
-  IDocument *document() const Q_DECL_OVERRIDE;
+  Data::Containers::IDocument *document() const Q_DECL_OVERRIDE;
   QStringList selectedKeys() const Q_DECL_OVERRIDE;
   AppUI::Status::StatusData *statusData() const Q_DECL_OVERRIDE;
   EditorType type() const Q_DECL_OVERRIDE;
@@ -68,7 +75,7 @@ private:
   Ui::EditorTabImage *ui;
   QWidget *mEditorWidget;
   ImageEditor::Editor *mEditorObject;
-  ImageDocument *mDocument;
+  Data::Containers::ImageDocument *mDocument;
   AppUI::Status::StatusData *mStatusData;
 
   void initStatusData();

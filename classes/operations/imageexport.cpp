@@ -35,7 +35,7 @@ ImageExport::ImageExport(QWidget *parentWidget, QObject *parent) :
   this->mExportIndex = 0;
 }
 
-bool ImageExport::prepare(const IDocument *doc, const QStringList &keys)
+bool ImageExport::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
@@ -96,13 +96,13 @@ bool ImageExport::prepare(const IDocument *doc, const QStringList &keys)
   return false;
 }
 
-void ImageExport::applyDocument(IDocument *doc, const QStringList &keys)
+void ImageExport::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageExport::applyItem(IDocument *doc, const QString &itemKey)
+void ImageExport::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   if (this->mExportFilenames.length() == 1) {
     doc->dataContainer()->image(itemKey)->save(this->mExportFilenames.at(0));

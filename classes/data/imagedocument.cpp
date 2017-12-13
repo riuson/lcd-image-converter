@@ -33,6 +33,11 @@
 #include "preset.h"
 #include "parsedimagedata.h"
 
+namespace Data
+{
+namespace Containers
+{
+
 const QString ImageDocument::DefaultKey = QString("default");
 
 ImageDocument::ImageDocument(QObject *parent) :
@@ -323,3 +328,5 @@ void ImageDocument::mon_container_dataChanged(bool historyStateMoved)
   }
 }
 
+} // namespace Containers
+} // namespace Data

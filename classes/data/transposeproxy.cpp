@@ -19,6 +19,11 @@
 
 #include "transposeproxy.h"
 
+namespace Data
+{
+namespace Models
+{
+
 TransposeProxy::TransposeProxy(QObject *parent)
   : QSortFilterProxyModel(parent)
 {
@@ -76,3 +81,6 @@ QModelIndex TransposeProxy::mapToSource(const QModelIndex &proxyIndex) const
     return QModelIndex();
   }
 }
+
+} // namespace Models
+} // namespace Data

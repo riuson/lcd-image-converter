@@ -222,7 +222,7 @@ int ModeConvertFont::process()
 {
   // check preset exists
   if (Preset::presetsList().contains(this->mPresetName)) {
-    FontDocument fontDocument;
+    Data::Containers::FontDocument fontDocument;
 
     if (this->mSubMode == SubMode::FromXmlDocument) {
       if (!fontDocument.load(this->mInputFilename)) {

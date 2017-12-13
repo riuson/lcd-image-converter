@@ -31,20 +31,20 @@ ImageRotate::ImageRotate(QObject *parent)
   this->mAngle = Angle::None;
 }
 
-bool ImageRotate::prepare(const IDocument *doc, const QStringList &keys)
+bool ImageRotate::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
   return true;
 }
 
-void ImageRotate::applyDocument(IDocument *doc, const QStringList &keys)
+void ImageRotate::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageRotate::applyItem(IDocument *doc, const QString &itemKey)
+void ImageRotate::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   const QImage *original = doc->dataContainer()->image(itemKey);
   QImage result;

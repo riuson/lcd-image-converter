@@ -28,6 +28,11 @@
 #include <QMap>
 #include <QStringList>
 
+namespace Data
+{
+namespace History
+{
+
 class HistoryRecord;
 
 class HistoryKeeper : public QObject
@@ -69,5 +74,8 @@ private:
     QMap<QString, QImage *> *images,
     QMap<QString, QVariant> *info);
 };
+
+} // namespace Containers
+} // namespace Data
 
 #endif // HISTORYKEEPER_H

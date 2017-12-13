@@ -39,11 +39,11 @@ public:
   explicit DialogFontPreview(QWidget *parent = 0);
   virtual ~DialogFontPreview();
 
-  void setDocument(IDocument *document);
+  void setDocument(Data::Containers::IDocument *document);
 
 private:
   Ui::DialogFontPreview *ui;
-  IDocument *mDocument;
+  Data::Containers::IDocument *mDocument;
   QImage mOriginalImage;
   QImage mScaledImage;
 

@@ -24,7 +24,7 @@
 #include <QRegExp>
 #include "datacontainer.h"
 
-QImage FontHelper::drawString(const DataContainer *data, const QString &value)
+QImage FontHelper::drawString(const Data::Containers::DataContainer *data, const QString &value)
 {
   int width = 0, height = 0;
   QImage::Format format = QImage::Format_ARGB32;

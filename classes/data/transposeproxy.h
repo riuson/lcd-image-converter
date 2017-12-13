@@ -22,6 +22,11 @@
 
 #include <QSortFilterProxyModel>
 
+namespace Data
+{
+namespace Models
+{
+
 class TransposeProxy : public QSortFilterProxyModel
 {
   Q_OBJECT
@@ -43,5 +48,8 @@ public:
 
 private:
 };
+
+} // namespace Models
+} // namespace Data
 
 #endif // TRANSPOSEPROXY_H

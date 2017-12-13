@@ -24,6 +24,11 @@
 #include <QDebug>
 #include "historyrecord.h"
 
+namespace Data
+{
+namespace History
+{
+
 HistoryKeeper::HistoryKeeper(QObject *parent) :
   QObject(parent)
 {
@@ -163,3 +168,5 @@ void HistoryKeeper::restoreAt(
   }
 }
 
+} // namespace Containers
+} // namespace Data

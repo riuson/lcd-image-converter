@@ -99,7 +99,7 @@ void ActionFontHandlers::fontPreview_triggered()
   IEditor *editor = this->editor();
 
   if (editor != nullptr) {
-    IDocument *doc = editor->document();
+    Data::Containers::IDocument *doc = editor->document();
 
     DialogFontPreview dialog(this->mMainWindow->parentWidget());
     dialog.setDocument(doc);

@@ -28,7 +28,7 @@
 #include "bitmaphelper.h"
 #include "conversionpreviewoptions.h"
 
-DialogPreview::DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidget *parent) :
+DialogPreview::DialogPreview(Data::Containers::DataContainer *dataContainer, Preset *matrix, QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogPreview)
 {

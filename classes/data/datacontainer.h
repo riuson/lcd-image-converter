@@ -29,7 +29,19 @@
 #include <QVariant>
 
 class QImage;
+
+namespace Data
+{
+namespace History
+{
 class HistoryKeeper;
+}
+}
+
+namespace Data
+{
+namespace Containers
+{
 
 class DataContainer : public QObject
 {
@@ -74,10 +86,13 @@ private:
   QMap<QString, QVariant> mInfoMap;
   QStringList mKeys;
   QImage *mDefaultImage;
-  HistoryKeeper *mHistory;
+  Data::History::HistoryKeeper *mHistory;
 
 signals:
   void dataChanged(bool historyStateMoved);
 };
+
+} // namespace Containers
+} //namespace Data
 
 #endif // DATACONTAINER_H

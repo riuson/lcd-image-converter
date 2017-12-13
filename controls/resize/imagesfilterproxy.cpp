@@ -21,6 +21,11 @@
 
 #include <QStringList>
 
+namespace Data
+{
+namespace Models
+{
+
 ImagesFilterProxy::ImagesFilterProxy(QObject *parent) :
   QSortFilterProxyModel(parent)
 {
@@ -50,3 +55,5 @@ void ImagesFilterProxy::setFilter(const QStringList &keys)
   emit this->endResetModel();
 }
 
+} // namespace Models
+} // namespace Data

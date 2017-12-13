@@ -108,7 +108,7 @@ int ModeConvertImage::process()
         if (imageLoaded.load(this->mInputFilename)) {
           QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
 
-          ImageDocument imageDocument;
+          Data::Containers::ImageDocument imageDocument;
           QStringList keys = imageDocument.dataContainer()->keys();
 
           // process all keys (1 in image document)

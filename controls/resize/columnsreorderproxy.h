@@ -23,6 +23,11 @@
 #include <QSortFilterProxyModel>
 #include <QList>
 
+namespace Data
+{
+namespace Models
+{
+
 class ColumnsReorderProxy : public QSortFilterProxyModel
 {
   Q_OBJECT
@@ -51,5 +56,8 @@ private:
   int columnFromSource(int value) const;
   int columnToSource(int value) const;
 };
+
+} // namespace Models
+} // namespace Data
 
 #endif // COLUMNSREORDERPROXY_H

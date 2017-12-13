@@ -28,20 +28,30 @@ class DialogCanvasResize;
 }
 
 class QItemSelection;
+
+namespace Data
+{
+namespace Containers
+{
 class DataContainer;
+}
+namespace Models
+{
 class ImagesModel;
 class ImagesScaledProxy;
 class ImagesResizedProxy;
 class ImagesFilterProxy;
 class ColumnsReorderProxy;
 class TransposeProxy;
+}
+}
 
 class DialogCanvasResize : public QDialog
 {
   Q_OBJECT
 
 public:
-  explicit DialogCanvasResize(DataContainer *container, QWidget *parent = 0);
+  explicit DialogCanvasResize(Data::Containers::DataContainer *container, QWidget *parent = 0);
   virtual ~DialogCanvasResize();
 
   void selectKeys(const QStringList &keys);
@@ -54,13 +64,13 @@ protected:
 private:
   Ui::DialogCanvasResize *ui;
 
-  DataContainer *mContainer;
-  ImagesModel *mModel;
-  ImagesScaledProxy *mScaledProxy;
-  ImagesResizedProxy *mResizedProxy;
-  ImagesFilterProxy *mFilter;
-  ColumnsReorderProxy *mReorderProxy;
-  TransposeProxy *mTranspose;
+  Data::Containers::DataContainer *mContainer;
+  Data::Models::ImagesModel *mModel;
+  Data::Models::ImagesScaledProxy *mScaledProxy;
+  Data::Models::ImagesResizedProxy *mResizedProxy;
+  Data::Models::ImagesFilterProxy *mFilter;
+  Data::Models::ColumnsReorderProxy *mReorderProxy;
+  Data::Models::TransposeProxy *mTranspose;
 
   int mLeft;
   int mTop;

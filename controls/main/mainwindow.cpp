@@ -512,7 +512,7 @@ QString MainWindow::findAvailableName(const QString &prefix)
 
   for (int i = 0; i < this->ui->tabWidget->count(); i++) {
     QWidget *w = this->ui->tabWidget->widget(i);
-    IDocument *doc = dynamic_cast<IDocument *> (w);
+    Data::Containers::IDocument *doc = dynamic_cast<Data::Containers::IDocument *> (w);
 
     if (doc != nullptr) {
       names.append(doc->documentName());

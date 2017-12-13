@@ -23,6 +23,11 @@
 #include <QtCore/QStringBuilder>
 #include "historykeeper.h"
 
+namespace Data
+{
+namespace Containers
+{
+
 const QString DataContainer::DataChangedKey = QString("data changed");
 const QString DataContainer::CommonInfoKeyPrefix = QString("common:");
 const QString DataContainer::ImageInfoKeyPrefix = QString("image:");
@@ -31,7 +36,7 @@ DataContainer::DataContainer(QObject *parent) :
   QObject(parent)
 {
   this->mDefaultImage = new QImage(":/images/template");
-  this->mHistory = new HistoryKeeper(this);
+  this->mHistory = new Data::History::HistoryKeeper(this);
 }
 
 DataContainer::~DataContainer()
@@ -236,3 +241,5 @@ void DataContainer::setChanged(bool value)
   this->mInfoMap.insert(DataContainer::DataChangedKey, value);
 }
 
+} // namespace Containers
+} //namespace Data

@@ -38,7 +38,7 @@ ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
 
 void ActionSetupHandlers::conversion_triggered()
 {
-  DataContainer *data = nullptr;
+  Data::Containers::DataContainer *data = nullptr;
 
   if (this->editor() != nullptr) {
     data = this->editor()->document()->dataContainer();

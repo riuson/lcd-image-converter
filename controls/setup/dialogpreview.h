@@ -27,21 +27,27 @@ namespace Ui
 class DialogPreview;
 }
 class Preset;
+namespace Data
+{
+namespace Containers
+{
 class DataContainer;
+}
+}
 
 class DialogPreview : public QDialog
 {
   Q_OBJECT
 
 public:
-  explicit DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidget *parent = 0);
+  explicit DialogPreview(Data::Containers::DataContainer *dataContainer, Preset *matrix, QWidget *parent = 0);
   virtual ~DialogPreview();
   void updatePreview();
 
 private:
   Ui::DialogPreview *ui;
 
-  DataContainer *mData;
+  Data::Containers::DataContainer *mData;
   QImage mImageOriginal;
   QImage mImageProcessed;
   Preset *mPreset;

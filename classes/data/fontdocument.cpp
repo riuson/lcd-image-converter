@@ -43,6 +43,11 @@
 #include "fontoptions.h"
 #include "bitmaphelper.h"
 
+namespace Data
+{
+namespace Containers
+{
+
 FontDocument::FontDocument(QObject *parent) :
   QObject(parent)
 {
@@ -914,3 +919,5 @@ void FontDocument::mon_container_dataChanged(bool historyStateMoved)
   }
 }
 
+} // namespace Containers
+} // namespace Data

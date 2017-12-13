@@ -27,6 +27,11 @@
 #include <QMap>
 #include <QStringList>
 
+namespace Data
+{
+namespace History
+{
+
 class HistoryRecord : public QObject
 {
   Q_OBJECT
@@ -52,5 +57,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Containers
+} // namespace Data
 
 #endif // HISTORYRECORD_H

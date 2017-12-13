@@ -28,10 +28,15 @@ class Preset;
 class ParsedImageData;
 class Tags;
 
+namespace Data
+{
+namespace Containers
+{
+
 class ImageDocument : public QObject, public IDocument
 {
   Q_OBJECT
-  Q_INTERFACES(IDocument)
+  Q_INTERFACES(Data::Containers::IDocument)
 
 public:
   explicit ImageDocument(QObject *parent = 0);
@@ -71,5 +76,8 @@ private slots:
 signals:
   void documentChanged();
 };
+
+} // namespace Containers
+} // namespace Data
 
 #endif // IMAGEDOCUMENT_H

@@ -29,15 +29,25 @@ namespace Ui
 class EditorTabFont;
 }
 
-class DataContainer;
 class QSplitter;
-class ImagesModel;
-class ImagesScaledProxy;
 class QItemSelection;
 class QModelIndex;
+struct tFontParameters;
+
+namespace Data
+{
+namespace Containers
+{
+class DataContainer;
 class FontDocument;
 class IDocument;
-struct tFontParameters;
+}
+namespace Models
+{
+class ImagesModel;
+class ImagesScaledProxy;
+}
+}
 
 namespace AppUI
 {
@@ -61,7 +71,7 @@ public:
   explicit EditorTabFont(QWidget *parent = 0);
   virtual ~EditorTabFont();
 
-  IDocument *document() const Q_DECL_OVERRIDE;
+  Data::Containers::IDocument *document() const Q_DECL_OVERRIDE;
   QStringList selectedKeys() const Q_DECL_OVERRIDE;
   AppUI::Status::StatusData *statusData() const Q_DECL_OVERRIDE;
   EditorType type() const Q_DECL_OVERRIDE;
@@ -79,10 +89,10 @@ private:
   Ui::EditorTabFont *ui;
   QWidget *mEditorWidget;
   ImageEditor::Editor *mEditorObject;
-  FontDocument *mDocument;
+  Data::Containers::FontDocument *mDocument;
   QSplitter *mSplitter;
-  ImagesModel *mModel;
-  ImagesScaledProxy *mScaledProxy;
+  Data::Models::ImagesModel *mModel;
+  Data::Models::ImagesScaledProxy *mScaledProxy;
   AppUI::Status::StatusData *mStatusData;
   int mLastImagesCount;
 

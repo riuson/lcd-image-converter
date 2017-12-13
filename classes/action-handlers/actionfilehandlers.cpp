@@ -430,7 +430,7 @@ void ActionFileHandlers::openFont(const QStringList &filenames)
   }
 }
 
-void ActionFileHandlers::convertDocument(IDocument *document, bool request)
+void ActionFileHandlers::convertDocument(Data::Containers::IDocument *document, bool request)
 {
   // converter output file name
   QString outputFileName = document->outputFilename();

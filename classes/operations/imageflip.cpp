@@ -32,20 +32,20 @@ ImageFlip::ImageFlip(QObject *parent)
   this->mFlipVertical = false;
 }
 
-bool ImageFlip::prepare(const IDocument *doc, const QStringList &keys)
+bool ImageFlip::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
   return true;
 }
 
-void ImageFlip::applyDocument(IDocument *doc, const QStringList &keys)
+void ImageFlip::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageFlip::applyItem(IDocument *doc, const QString &itemKey)
+void ImageFlip::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   const QImage *original = doc->dataContainer()->image(itemKey);
   QImage result = *original;

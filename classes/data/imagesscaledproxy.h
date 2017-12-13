@@ -22,6 +22,11 @@
 
 #include <QSortFilterProxyModel>
 
+namespace Data
+{
+namespace Models
+{
+
 class ImagesScaledProxy : public QSortFilterProxyModel
 {
   Q_OBJECT
@@ -43,5 +48,8 @@ private:
 signals:
   void scaleChanged(int value);
 };
+
+} // namespace Models
+} // namespace Data
 
 #endif // IMAGESSCALEDPROXY_H

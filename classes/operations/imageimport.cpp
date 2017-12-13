@@ -35,7 +35,7 @@ ImageImport::ImageImport(QWidget *parentWidget, QObject *parent) :
   this->mImportIndex = 0;
 }
 
-bool ImageImport::prepare(const IDocument *doc, const QStringList &keys)
+bool ImageImport::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
 
@@ -79,13 +79,13 @@ bool ImageImport::prepare(const IDocument *doc, const QStringList &keys)
   return false;
 }
 
-void ImageImport::applyDocument(IDocument *doc, const QStringList &keys)
+void ImageImport::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageImport::applyItem(IDocument *doc, const QString &itemKey)
+void ImageImport::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   if (this->mSelectedFiles.length() == 1) {
     QImage imageLoaded;

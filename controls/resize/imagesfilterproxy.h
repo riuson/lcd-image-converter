@@ -24,6 +24,11 @@
 
 class QStringList;
 
+namespace Data
+{
+namespace Models
+{
+
 class ImagesFilterProxy : public QSortFilterProxyModel
 {
   Q_OBJECT
@@ -39,5 +44,8 @@ private:
   QStringList *mKeys;
 
 };
+
+} // namespace Models
+} // namespace Data
 
 #endif // IMAGESFILTERPROXY_H

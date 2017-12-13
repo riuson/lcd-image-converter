@@ -20,6 +20,11 @@
 #include "imagesscaledproxy.h"
 #include "bitmaphelper.h"
 
+namespace Data
+{
+namespace Models
+{
+
 ImagesScaledProxy::ImagesScaledProxy(QObject *parent)
   : QSortFilterProxyModel(parent)
 {
@@ -83,3 +88,6 @@ void ImagesScaledProxy::setScale(int value)
     emit this->scaleChanged(this->mScale);
   }
 }
+
+} // namespace Models
+} // namespace Data

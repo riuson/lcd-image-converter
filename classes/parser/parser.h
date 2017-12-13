@@ -26,8 +26,15 @@
 
 #include "conversion_options.h"
 
+namespace Data
+{
+namespace Containers
+{
 class IDocument;
 class IDataContainer;
+}
+}
+
 class Preset;
 class Tags;
 class QImage;
@@ -47,14 +54,14 @@ public:
 
   QString name();
 
-  QString convert(IDocument *document, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, Tags &tags) const;
+  QString convert(Data::Containers::IDocument *document, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, Tags &tags) const;
 
 private:
   Preset *mPreset;
   QString mTemplateFileName;
 
-  QString parse(const QString &templateString, Tags &tags, IDocument *doc, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images) const;
-  QString parseImagesTable(const QString &templateString, Tags &tags, IDocument *doc, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images) const;
+  QString parse(const QString &templateString, Tags &tags, Data::Containers::IDocument *doc, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images) const;
+  QString parseImagesTable(const QString &templateString, Tags &tags, Data::Containers::IDocument *doc, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images) const;
   QString hexCode(const QString &key, const QString &encoding, bool bom) const;
   void addMatrixInfo(Tags &tags) const;
   void addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images) const;
