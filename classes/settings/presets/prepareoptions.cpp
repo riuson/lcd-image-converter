@@ -40,11 +40,11 @@ const QString PrepareOptions::FieldCustomPreprocessScript = QString("customPrepr
 PrepareOptions::PrepareOptions(QObject *parent) :
   QObject(parent)
 {
-  this->mConvType = Parsing::Conversion::Options::ConversionTypeMonochrome;
-  this->mMonoType = Parsing::Conversion::Options::MonochromeTypeDiffuseDither;
+  this->mConvType = Parsing::Conversion::Options::ConversionType::Monochrome;
+  this->mMonoType = Parsing::Conversion::Options::MonochromeType::DiffuseDither;
   this->mEdge = 128;
-  this->mScanMain = Parsing::Conversion::Options::TopToBottom;
-  this->mScanSub = Parsing::Conversion::Options::Forward;
+  this->mScanMain = Parsing::Conversion::Options::ScanMainDirection::TopToBottom;
+  this->mScanSub = Parsing::Conversion::Options::ScanSubDirection::Forward;
   this->mInverse = false;
   this->mBandScanning = false;
   this->mBandWidth = 0;
@@ -55,20 +55,20 @@ PrepareOptions::PrepareOptions(QObject *parent) :
 
 Parsing::Conversion::Options::ConversionType PrepareOptions::convType() const
 {
-  if (this->mConvType <= Parsing::Conversion::Options::ConversionTypeCustom) {
+  if (this->mConvType <= Parsing::Conversion::Options::ConversionType::Custom) {
     return this->mConvType;
   }
 
-  return Parsing::Conversion::Options::ConversionTypeColor;
+  return Parsing::Conversion::Options::ConversionType::Color;
 }
 
 Parsing::Conversion::Options::MonochromeType PrepareOptions::monoType() const
 {
-  if (this->mMonoType <= Parsing::Conversion::Options::MonochromeTypeThresholdDither) {
+  if (this->mMonoType <= Parsing::Conversion::Options::MonochromeType::ThresholdDither) {
     return this->mMonoType;
   }
 
-  return Parsing::Conversion::Options::MonochromeTypeThresholdDither;
+  return Parsing::Conversion::Options::MonochromeType::ThresholdDither;
 }
 
 int PrepareOptions::edge() const
@@ -82,20 +82,20 @@ int PrepareOptions::edge() const
 
 Parsing::Conversion::Options::ScanMainDirection PrepareOptions::scanMain() const
 {
-  if (this->mScanMain <= Parsing::Conversion::Options::RightToLeft) {
+  if (this->mScanMain <= Parsing::Conversion::Options::ScanMainDirection::RightToLeft) {
     return this->mScanMain;
   }
 
-  return Parsing::Conversion::Options::TopToBottom;
+  return Parsing::Conversion::Options::ScanMainDirection::TopToBottom;
 }
 
 Parsing::Conversion::Options::ScanSubDirection PrepareOptions::scanSub() const
 {
-  if (this->mScanSub <= Parsing::Conversion::Options::Backward) {
+  if (this->mScanSub <= Parsing::Conversion::Options::ScanSubDirection::Backward) {
     return this->mScanSub;
   }
 
-  return Parsing::Conversion::Options::Forward;
+  return Parsing::Conversion::Options::ScanSubDirection::Forward;
 }
 
 bool PrepareOptions::inverse() const
@@ -135,8 +135,8 @@ QString PrepareOptions::customPreprocessScript() const
 void PrepareOptions::setConvType(Parsing::Conversion::Options::ConversionType value)
 {
   if (this->mConvType != value) {
-    if (value < Parsing::Conversion::Options::ConversionTypeMonochrome || value > Parsing::Conversion::Options::ConversionTypeCustom) {
-      value = Parsing::Conversion::Options::ConversionTypeColor;
+    if (value < Parsing::Conversion::Options::ConversionType::Monochrome || value > Parsing::Conversion::Options::ConversionType::Custom) {
+      value = Parsing::Conversion::Options::ConversionType::Color;
     }
 
     this->mConvType = value;
@@ -148,8 +148,8 @@ void PrepareOptions::setConvType(Parsing::Conversion::Options::ConversionType va
 void PrepareOptions::setMonoType(Parsing::Conversion::Options::MonochromeType value)
 {
   if (this->mMonoType != value) {
-    if (value < Parsing::Conversion::Options::MonochromeTypeEdge || value > Parsing::Conversion::Options::MonochromeTypeThresholdDither) {
-      value = Parsing::Conversion::Options::MonochromeTypeDiffuseDither;
+    if (value < Parsing::Conversion::Options::MonochromeType::Edge || value > Parsing::Conversion::Options::MonochromeType::ThresholdDither) {
+      value = Parsing::Conversion::Options::MonochromeType::DiffuseDither;
     }
 
     this->mMonoType = value;
@@ -174,8 +174,8 @@ void PrepareOptions::setEdge(int value)
 void PrepareOptions::setScanMain(Parsing::Conversion::Options::ScanMainDirection value)
 {
   if (this->mScanMain != value) {
-    if (value < Parsing::Conversion::Options::TopToBottom || value > Parsing::Conversion::Options::RightToLeft) {
-      value = Parsing::Conversion::Options::TopToBottom;
+    if (value < Parsing::Conversion::Options::ScanMainDirection::TopToBottom || value > Parsing::Conversion::Options::ScanMainDirection::RightToLeft) {
+      value = Parsing::Conversion::Options::ScanMainDirection::TopToBottom;
     }
 
     this->mScanMain = value;
@@ -254,16 +254,16 @@ const QString &PrepareOptions::convTypeName() const
   };
 
   switch (this->convType()) {
-    case Parsing::Conversion::Options::ConversionTypeMonochrome:
+    case Parsing::Conversion::Options::ConversionType::Monochrome:
       return names[0];
 
-    case Parsing::Conversion::Options::ConversionTypeGrayscale:
+    case Parsing::Conversion::Options::ConversionType::Grayscale:
       return names[1];
 
-    case Parsing::Conversion::Options::ConversionTypeColor:
+    case Parsing::Conversion::Options::ConversionType::Color:
       return names[2];
 
-    case Parsing::Conversion::Options::ConversionTypeCustom:
+    case Parsing::Conversion::Options::ConversionType::Custom:
       return names[3];
 
     default:
@@ -282,16 +282,16 @@ const QString &PrepareOptions::monoTypeName() const
   };
 
   switch (this->monoType()) {
-    case Parsing::Conversion::Options::MonochromeTypeEdge:
+    case Parsing::Conversion::Options::MonochromeType::Edge:
       return names[0];
 
-    case Parsing::Conversion::Options::MonochromeTypeDiffuseDither:
+    case Parsing::Conversion::Options::MonochromeType::DiffuseDither:
       return names[1];
 
-    case Parsing::Conversion::Options::MonochromeTypeOrderedDither:
+    case Parsing::Conversion::Options::MonochromeType::OrderedDither:
       return names[2];
 
-    case Parsing::Conversion::Options::MonochromeTypeThresholdDither:
+    case Parsing::Conversion::Options::MonochromeType::ThresholdDither:
       return names[3];
 
     default:

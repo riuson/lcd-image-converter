@@ -68,28 +68,28 @@ void ConverterHelper::pixelsData(
     // monochrome image needs special preprocessing
     ConversionType type = prepare->convType();
 
-    if (type == ConversionTypeMonochrome) {
+    if (type == Parsing::Conversion::Options::ConversionType::Monochrome) {
       MonochromeType monotype = prepare->monoType();
       int edge = prepare->edge();
 
       switch (monotype) {
-        case MonochromeTypeEdge:
+        case Parsing::Conversion::Options::MonochromeType::Edge:
           ConverterHelper::makeMonochrome(im, edge);
           break;
 
-        case MonochromeTypeDiffuseDither:
+        case Parsing::Conversion::Options::MonochromeType::DiffuseDither:
           im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::DiffuseDither);
           break;
 
-        case MonochromeTypeOrderedDither:
+        case Parsing::Conversion::Options::MonochromeType::OrderedDither:
           im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::OrderedDither);
           break;
 
-        case MonochromeTypeThresholdDither:
+        case Parsing::Conversion::Options::MonochromeType::ThresholdDither:
           im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::ThresholdDither);
           break;
       }
-    } else if (type == ConversionTypeGrayscale) {
+    } else if (type == Parsing::Conversion::Options::ConversionType::Grayscale) {
       ConverterHelper::makeGrayscale(im);
     }
 
@@ -162,7 +162,7 @@ void ConverterHelper::pixelsData(
       delete convImage;
     }
 
-    if (type == ConversionTypeCustom) {
+    if (type == Parsing::Conversion::Options::ConversionType::Custom) {
       QString errorMessage;
       ConverterHelper::convertPixelsByScript(pixelScript, data, &errorMessage);
     }
@@ -451,25 +451,25 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
     }
 
     // convert to mono/gray/color
-    if (preset->prepare()->convType() == ConversionTypeMonochrome) {
+    if (preset->prepare()->convType() == Parsing::Conversion::Options::ConversionType::Monochrome) {
       switch (preset->prepare()->monoType()) {
-        case MonochromeTypeEdge:
+        case Parsing::Conversion::Options::MonochromeType::Edge:
           ConverterHelper::makeMonochrome(im, preset->prepare()->edge());
           break;
 
-        case MonochromeTypeDiffuseDither:
+        case Parsing::Conversion::Options::MonochromeType::DiffuseDither:
           im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::DiffuseDither);
           break;
 
-        case MonochromeTypeOrderedDither:
+        case Parsing::Conversion::Options::MonochromeType::OrderedDither:
           im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::OrderedDither);
           break;
 
-        case MonochromeTypeThresholdDither:
+        case Parsing::Conversion::Options::MonochromeType::ThresholdDither:
           im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::ThresholdDither);
           break;
       }
-    } else if (preset->prepare()->convType() == ConversionTypeGrayscale) {
+    } else if (preset->prepare()->convType() == Parsing::Conversion::Options::ConversionType::Grayscale) {
       ConverterHelper::makeGrayscale(im);
     }
 
@@ -479,7 +479,7 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
       quint32 mask = 0;
 
       switch (preset->prepare()->convType()) {
-        case ConversionTypeMonochrome: {
+        case Parsing::Conversion::Options::ConversionType::Monochrome: {
           quint32 opMask;
           int opShift;
           bool opLeft;
@@ -500,7 +500,7 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
           break;
         }
 
-        case ConversionTypeGrayscale: {
+        case Parsing::Conversion::Options::ConversionType::Grayscale: {
           quint32 opMask;
           int opShift;
           bool opLeft;
@@ -525,8 +525,8 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
           break;
         }
 
-        case ConversionTypeCustom:
-        case ConversionTypeColor: {
+        case Parsing::Conversion::Options::ConversionType::Custom:
+        case Parsing::Conversion::Options::ConversionType::Color: {
           quint32 opMask;
           int opShift;
           bool opLeft;
@@ -575,13 +575,13 @@ static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
   static const QChar end = QChar('\0');
 
   switch (blockSize) {
-    case Data8:
+    case Parsing::Conversion::Options::DataBlockSize::Data8:
       temp[0] = table[(value >> 4) & 0x0000000f];
       temp[1] = table[(value >> 0) & 0x0000000f];
       temp[2] = end;
       break;
 
-    case Data16:
+    case Parsing::Conversion::Options::DataBlockSize::Data16:
       temp[0] = table[(value >> 12) & 0x0000000f];
       temp[1] = table[(value >> 8) & 0x0000000f];
       temp[2] = table[(value >> 4) & 0x0000000f];
@@ -589,7 +589,7 @@ static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
       temp[4] = end;
       break;
 
-    case Data24:
+    case Parsing::Conversion::Options::DataBlockSize::Data24:
       temp[0] = table[(value >> 20) & 0x0000000f];
       temp[1] = table[(value >> 16) & 0x0000000f];
       temp[2] = table[(value >> 12) & 0x0000000f];
@@ -599,7 +599,7 @@ static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
       temp[6] = end;
       break;
 
-    case Data32:
+    case Parsing::Conversion::Options::DataBlockSize::Data32:
       temp[0] = table[(value >> 28) & 0x0000000f];
       temp[1] = table[(value >> 24) & 0x0000000f];
       temp[2] = table[(value >> 20) & 0x0000000f];
@@ -767,28 +767,28 @@ QString ConverterHelper::scanScript(Preset *preset)
     int index = 0;
 
     switch (prepare->scanMain()) {
-      case TopToBottom: {
+      case Parsing::Conversion::Options::ScanMainDirection::TopToBottom: {
         index = 0;
         break;
       }
 
-      case BottomToTop: {
+      case Parsing::Conversion::Options::ScanMainDirection::BottomToTop: {
         index = 4;
         break;
       }
 
-      case LeftToRight: {
+      case Parsing::Conversion::Options::ScanMainDirection::LeftToRight: {
         index = 8;
         break;
       }
 
-      case RightToLeft: {
+      case Parsing::Conversion::Options::ScanMainDirection::RightToLeft: {
         index = 12;
         break;
       }
     }
 
-    if (prepare->scanSub() == Forward) {
+    if (prepare->scanSub() == Parsing::Conversion::Options::ScanSubDirection::Forward) {
       index += 2;
     }
 
@@ -902,7 +902,7 @@ void ConverterHelper::packDataRow(Preset *preset, QVector<quint32> *inputData, i
     while (!stream.eof()) {
       quint32 value = stream.next();
 
-      if (preset->image()->bytesOrder() == BytesOrderBigEndian) {
+      if (preset->image()->bytesOrder() == Parsing::Conversion::Options::BytesOrder::BigEndian) {
         value = ConverterHelper::toBigEndian(preset, value);
       }
 
@@ -923,25 +923,25 @@ quint32 ConverterHelper::toBigEndian(Preset *preset, quint32 value)
   quint32 result = 0;
 
   switch (preset->image()->blockSize()) {
-    case Data32:
+    case Parsing::Conversion::Options::DataBlockSize::Data32:
       result |= src1 << 24;
       result |= src2 << 16;
       result |= src3 << 8;
       result |= src4;
       break;
 
-    case Data24:
+    case Parsing::Conversion::Options::DataBlockSize::Data24:
       result |= src1 << 16;
       result |= src2 << 8;
       result |= src3;
       break;
 
-    case Data16:
+    case Parsing::Conversion::Options::DataBlockSize::Data16:
       result |= src1 << 8;
       result |= src2;
       break;
 
-    case Data8:
+    case Parsing::Conversion::Options::DataBlockSize::Data8:
       result = src1;
       break;
   }

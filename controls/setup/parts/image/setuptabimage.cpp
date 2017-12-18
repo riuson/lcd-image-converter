@@ -32,10 +32,10 @@ SetupTabImage::SetupTabImage(Preset *preset, QWidget *parent) :
   ui->setupUi(this);
   this->mPreset = preset;
 
-  this->ui->comboBoxBlockSize->addItem(tr("8 bit"), Data8);
-  this->ui->comboBoxBlockSize->addItem(tr("16 bit"), Data16);
-  this->ui->comboBoxBlockSize->addItem(tr("24 bit"), Data24);
-  this->ui->comboBoxBlockSize->addItem(tr("32 bit"), Data32);
+  this->ui->comboBoxBlockSize->addItem(tr("8 bit"),  static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data8));
+  this->ui->comboBoxBlockSize->addItem(tr("16 bit"), static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data16));
+  this->ui->comboBoxBlockSize->addItem(tr("24 bit"), static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data24));
+  this->ui->comboBoxBlockSize->addItem(tr("32 bit"), static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data32));
 
   this->matrixChanged();
 }
@@ -49,19 +49,19 @@ void SetupTabImage::matrixChanged()
 {
   this->ui->checkBoxSplitToRows->setChecked(this->mPreset->image()->splitToRows());
 
-  if (this->mPreset->image()->bytesOrder() == BytesOrderLittleEndian) {
+  if (this->mPreset->image()->bytesOrder() == Parsing::Conversion::Options::BytesOrder::LittleEndian) {
     this->ui->radioButtonLittleEndian->setChecked(true);
   } else {
     this->ui->radioButtonBigEndian->setChecked(true);
   }
 
-  int index = this->ui->comboBoxBlockSize->findData(this->mPreset->image()->blockSize());
+  int index = this->ui->comboBoxBlockSize->findData(static_cast<int>(this->mPreset->image()->blockSize()));
 
   if (index >= 0) {
     this->ui->comboBoxBlockSize->setCurrentIndex(index);
   }
 
-  if (this->mPreset->image()->bytesOrder() == BytesOrderLittleEndian) {
+  if (this->mPreset->image()->bytesOrder() == Parsing::Conversion::Options::BytesOrder::LittleEndian) {
     this->ui->radioButtonLittleEndian->setChecked(true);
   } else {
     this->ui->radioButtonBigEndian->setChecked(true);
@@ -90,9 +90,9 @@ void SetupTabImage::on_checkBoxSplitToRows_toggled(bool value)
 void SetupTabImage::on_radioButtonLittleEndian_toggled(bool value)
 {
   if (value) {
-    this->mPreset->image()->setBytesOrder(BytesOrderLittleEndian);
+    this->mPreset->image()->setBytesOrder(Parsing::Conversion::Options::BytesOrder::LittleEndian);
   } else {
-    this->mPreset->image()->setBytesOrder(BytesOrderBigEndian);
+    this->mPreset->image()->setBytesOrder(Parsing::Conversion::Options::BytesOrder::BigEndian);
   }
 }
 

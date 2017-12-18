@@ -177,7 +177,7 @@ void DialogOptions::createPresetsDefault()
 {
   Preset matrix(this);
 
-  matrix.initMono(MonochromeTypeDiffuseDither);
+  matrix.initMono(Parsing::Conversion::Options::MonochromeType::DiffuseDither);
   matrix.save(tr("Monochrome"));
 
   matrix.initGrayscale(4);

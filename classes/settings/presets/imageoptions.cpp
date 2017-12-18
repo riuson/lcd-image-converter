@@ -43,8 +43,8 @@ ImageOptions::ImageOptions(QObject *parent) :
   QObject(parent)
 {
   this->mSplitToRows = true;
-  this->mBytesOrder = Parsing::Conversion::Options::BytesOrderLittleEndian;
-  this->mBlockSize = Parsing::Conversion::Options::Data8;
+  this->mBytesOrder = Parsing::Conversion::Options::BytesOrder::LittleEndian;
+  this->mBlockSize = Parsing::Conversion::Options::DataBlockSize::Data8;
   this->mBlockDefaultOnes = false;
   this->mCompressionRle = false;
   this->mCompressionRleMinLength = 2;
@@ -69,11 +69,11 @@ Parsing::Conversion::Options::BytesOrder ImageOptions::bytesOrder() const
 
 Parsing::Conversion::Options::DataBlockSize ImageOptions::blockSize() const
 {
-  if (this->mBlockSize <= Parsing::Conversion::Options::Data32) {
+  if (this->mBlockSize <= Parsing::Conversion::Options::DataBlockSize::Data32) {
     return this->mBlockSize;
   }
 
-  return Parsing::Conversion::Options::Data32;
+  return Parsing::Conversion::Options::DataBlockSize::Data32;
 }
 
 bool ImageOptions::blockDefaultOnes() const
@@ -136,8 +136,8 @@ void ImageOptions::setSplitToRows(bool value)
 
 void ImageOptions::setBytesOrder(Parsing::Conversion::Options::BytesOrder value)
 {
-  if (value < Parsing::Conversion::Options::BytesOrderLittleEndian || value > Parsing::Conversion::Options::BytesOrderBigEndian) {
-    value = Parsing::Conversion::Options::BytesOrderLittleEndian;
+  if (value < Parsing::Conversion::Options::BytesOrder::LittleEndian || value > Parsing::Conversion::Options::BytesOrder::BigEndian) {
+    value = Parsing::Conversion::Options::BytesOrder::LittleEndian;
   }
 
   if (this->mBytesOrder != value) {
@@ -148,8 +148,8 @@ void ImageOptions::setBytesOrder(Parsing::Conversion::Options::BytesOrder value)
 
 void ImageOptions::setBlockSize(Parsing::Conversion::Options::DataBlockSize value)
 {
-  if (value < Parsing::Conversion::Options::Data8 || value > Parsing::Conversion::Options::Data32) {
-    value = Parsing::Conversion::Options::Data32;
+  if (value < Parsing::Conversion::Options::DataBlockSize::Data8 || value > Parsing::Conversion::Options::DataBlockSize::Data32) {
+    value = Parsing::Conversion::Options::DataBlockSize::Data32;
   }
 
   if (this->mBlockSize != value) {

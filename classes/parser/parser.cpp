@@ -300,37 +300,37 @@ QString Parser::hexCode(const QString &key, const QString &encoding, bool bom) c
 void Parser::addMatrixInfo(Tags &tags) const
 {
   // byte order
-  if (this->mPreset->image()->bytesOrder() == BytesOrderLittleEndian) {
+  if (this->mPreset->image()->bytesOrder() == Parsing::Conversion::Options::BytesOrder::LittleEndian) {
     tags.setTagValue(Tags::ImageByteOrder, "little-endian");
   } else {
     tags.setTagValue(Tags::ImageByteOrder, "big-endian");
   }
 
   // data block size
-  int dataBlockSize = (this->mPreset->image()->blockSize() + 1) * 8;
+  int dataBlockSize = (static_cast<int>(this->mPreset->image()->blockSize()) + 1) * 8;
   tags.setTagValue(Tags::ImageBlockSize, QString("%1").arg(dataBlockSize));
 
   // scan main direction
   switch (this->mPreset->prepare()->scanMain()) {
-    case TopToBottom:
+    case Parsing::Conversion::Options::ScanMainDirection::TopToBottom:
       tags.setTagValue(Tags::PrepareScanMain, "top_to_bottom");
       break;
 
-    case BottomToTop:
+    case Parsing::Conversion::Options::ScanMainDirection::BottomToTop:
       tags.setTagValue(Tags::PrepareScanMain, "bottom_to_top");
       break;
 
-    case LeftToRight:
+    case Parsing::Conversion::Options::ScanMainDirection::LeftToRight:
       tags.setTagValue(Tags::PrepareScanMain, "left_to_right");
       break;
 
-    case RightToLeft:
+    case Parsing::Conversion::Options::ScanMainDirection::RightToLeft:
       tags.setTagValue(Tags::PrepareScanMain, "right_to_left");
       break;
   }
 
   // scan sub direction
-  if (this->mPreset->prepare()->scanSub() == Forward) {
+  if (this->mPreset->prepare()->scanSub() == Parsing::Conversion::Options::ScanSubDirection::Forward) {
     tags.setTagValue(Tags::PrepareScanSub, "forward");
   } else {
     tags.setTagValue(Tags::PrepareScanSub, "backward");
@@ -384,7 +384,7 @@ void Parser::addMatrixInfo(Tags &tags) const
   tags.setTagValue(Tags::PrepareConversionType, this->mPreset->prepare()->convTypeName());
 
   // monochrome type
-  if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome) {
+  if (this->mPreset->prepare()->convType() == Parsing::Conversion::Options::ConversionType::Monochrome) {
     tags.setTagValue(Tags::PrepareMonoType, this->mPreset->prepare()->monoTypeName());
     tags.setTagValue(Tags::PrepareMonoEdge, QString("%1").arg(this->mPreset->prepare()->edge()));
   } else {

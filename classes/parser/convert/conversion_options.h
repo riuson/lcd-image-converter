@@ -29,64 +29,55 @@ namespace Conversion
 namespace Options
 {
 
-enum ConversionType {
-  ConversionTypeMonochrome = 0,
-  ConversionTypeGrayscale  = 1,
-  ConversionTypeColor      = 2,
-  ConversionTypeCustom     = 3
+enum class ConversionType {
+  Monochrome = 0,
+  Grayscale  = 1,
+  Color      = 2,
+  Custom     = 3
 };
 
-enum MonochromeType {
-  MonochromeTypeEdge = 0,
-  MonochromeTypeDiffuseDither = 1,
-  MonochromeTypeOrderedDither = 2,
-  MonochromeTypeThresholdDither = 3
+enum class MonochromeType {
+  Edge = 0,
+  DiffuseDither = 1,
+  OrderedDither = 2,
+  ThresholdDither = 3
 };
 
-enum ColorsOrder {
-  ColorsOrderRGB = 0,
-  ColorsOrderRBG = 1,
-  ColorsOrderGRB = 2,
-  ColorsOrderGBR = 3,
-  ColorsOrderBRG = 4,
-  ColorsOrderBGR = 5
+enum class BytesOrder {
+  LittleEndian = 0,
+  BigEndian = 1
 };
 
-enum BytesOrder {
-  BytesOrderLittleEndian = 0,
-  BytesOrderBigEndian = 1
-};
-
-enum DataBlockSize {
+enum class DataBlockSize {
   Data8  = 0,
   Data16 = 1,
   Data24 = 2,
   Data32 = 3
 };
 
-enum Rotate {
-  RotateNone = 0,
+enum class Rotate {
+  None = 0,
   Rotate90  =  1,
   Rotate180 =  2,
   Rotate270 =  3
 };
 
-enum ScanMainDirection {
+enum class ScanMainDirection {
   TopToBottom = 0,
   BottomToTop = 1,
   LeftToRight = 2,
   RightToLeft = 3
 };
 
-enum ScanSubDirection {
+enum class ScanSubDirection {
   Forward = 0,
   Backward = 1
 };
 
-enum CharactersSortOrder {
-  CharactersSortNone = 0,
-  CharactersSortAscending = 1,
-  CharactersSortDescending = 2
+enum class CharactersSortOrder {
+  None = 0,
+  Ascending = 1,
+  Descending = 2
 };
 
 

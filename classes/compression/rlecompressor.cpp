@@ -118,19 +118,19 @@ quint32 RleCompressor::getMaxSize(Parsing::Conversion::Options::DataBlockSize da
   quint32 result;
 
   switch (dataSize) {
-    case Parsing::Conversion::Options::Data8:
+    case Parsing::Conversion::Options::DataBlockSize::Data8:
       result = 0x7f;
       break;
 
-    case Parsing::Conversion::Options::Data16:
+    case Parsing::Conversion::Options::DataBlockSize::Data16:
       result = 0x7fff;
       break;
 
-    case Parsing::Conversion::Options::Data24:
+    case Parsing::Conversion::Options::DataBlockSize::Data24:
       result = 0x7fffff;
       break;
 
-    case Parsing::Conversion::Options::Data32:
+    case Parsing::Conversion::Options::DataBlockSize::Data32:
       result = 0x7fffffff;
       break;
 

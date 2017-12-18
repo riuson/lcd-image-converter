@@ -22,13 +22,13 @@ SetupTabPrepareScanning::SetupTabPrepareScanning(Preset *preset, QWidget *parent
   this->connect(this->mDemoGen, SIGNAL(pixmapChanged(const QPixmap &)), SLOT(demoPixmapChanged(const QPixmap &)));
   this->connect(this->mDemoGen, SIGNAL(errorHandled(QString)), SLOT(demoScriptError(QString)));
 
-  this->ui->comboBoxScanMain->addItem(tr("Top to Bottom"), QVariant(TopToBottom));
-  this->ui->comboBoxScanMain->addItem(tr("Bottom to Top"), QVariant(BottomToTop));
-  this->ui->comboBoxScanMain->addItem(tr("Left to Right"), QVariant(LeftToRight));
-  this->ui->comboBoxScanMain->addItem(tr("Right to Left"), QVariant(RightToLeft));
+  this->ui->comboBoxScanMain->addItem(tr("Top to Bottom"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::TopToBottom)));
+  this->ui->comboBoxScanMain->addItem(tr("Bottom to Top"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::BottomToTop)));
+  this->ui->comboBoxScanMain->addItem(tr("Left to Right"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::LeftToRight)));
+  this->ui->comboBoxScanMain->addItem(tr("Right to Left"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::RightToLeft)));
 
-  this->ui->comboBoxScanSub->addItem(tr("Forward"), QVariant(Forward));
-  this->ui->comboBoxScanSub->addItem(tr("Backward"), QVariant(Backward));
+  this->ui->comboBoxScanSub->addItem(tr("Forward"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanSubDirection::Forward)));
+  this->ui->comboBoxScanSub->addItem(tr("Backward"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanSubDirection::Backward)));
 
   this->ui->spinBoxAnimationTime->setValue(SetupDialogOptions::animationTotalTime());
   this->ui->spinBoxAnimationInterval->setValue(SetupDialogOptions::animationInterval());
@@ -43,13 +43,13 @@ SetupTabPrepareScanning::~SetupTabPrepareScanning()
 
 void SetupTabPrepareScanning::matrixChanged()
 {
-  int index = this->ui->comboBoxScanMain->findData(this->mPreset->prepare()->scanMain());
+  int index = this->ui->comboBoxScanMain->findData(static_cast<int>(this->mPreset->prepare()->scanMain()));
 
   if (index >= 0) {
     this->ui->comboBoxScanMain->setCurrentIndex(index);
   }
 
-  index = this->ui->comboBoxScanSub->findData(this->mPreset->prepare()->scanSub());
+  index = this->ui->comboBoxScanSub->findData(static_cast<int>(this->mPreset->prepare()->scanSub()));
 
   if (index >= 0) {
     this->ui->comboBoxScanSub->setCurrentIndex(index);

@@ -19,15 +19,15 @@ SetupTabPreparePreprocessing::SetupTabPreparePreprocessing(Preset *preset, QWidg
   this->mPixmapScanning = QPixmap();
   this->mPixmapScanPreview = QPixmap();
 
-  this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
-  this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
-  this->ui->comboBoxConversionType->addItem(tr("Color"), ConversionTypeColor);
-  this->ui->comboBoxConversionType->addItem(tr("Custom"), ConversionTypeCustom);
+  this->ui->comboBoxConversionType->addItem(tr("Monochrome"), static_cast<int>(Parsing::Conversion::Options::ConversionType::Monochrome));
+  this->ui->comboBoxConversionType->addItem(tr("Grayscale"), static_cast<int>(Parsing::Conversion::Options::ConversionType::Grayscale));
+  this->ui->comboBoxConversionType->addItem(tr("Color"), static_cast<int>(Parsing::Conversion::Options::ConversionType::Color));
+  this->ui->comboBoxConversionType->addItem(tr("Custom"), static_cast<int>(Parsing::Conversion::Options::ConversionType::Custom));
 
-  this->ui->comboBoxMonochromeType->addItem(tr("Edge"), MonochromeTypeEdge);
-  this->ui->comboBoxMonochromeType->addItem(QString("Diffuse Dither"), MonochromeTypeDiffuseDither);
-  this->ui->comboBoxMonochromeType->addItem(QString("Ordered Dither"), MonochromeTypeOrderedDither);
-  this->ui->comboBoxMonochromeType->addItem(QString("Threshold Dither"), MonochromeTypeThresholdDither);
+  this->ui->comboBoxMonochromeType->addItem(tr("Edge"), static_cast<int>(Parsing::Conversion::Options::MonochromeType::Edge));
+  this->ui->comboBoxMonochromeType->addItem(QString("Diffuse Dither"), static_cast<int>(Parsing::Conversion::Options::MonochromeType::DiffuseDither));
+  this->ui->comboBoxMonochromeType->addItem(QString("Ordered Dither"), static_cast<int>(Parsing::Conversion::Options::MonochromeType::OrderedDither));
+  this->ui->comboBoxMonochromeType->addItem(QString("Threshold Dither"), static_cast<int>(Parsing::Conversion::Options::MonochromeType::ThresholdDither));
 
   this->matrixChanged();
 }
@@ -39,13 +39,13 @@ SetupTabPreparePreprocessing::~SetupTabPreparePreprocessing()
 
 void SetupTabPreparePreprocessing::matrixChanged()
 {
-  int index = this->ui->comboBoxConversionType->findData(this->mPreset->prepare()->convType());
+  int index = this->ui->comboBoxConversionType->findData(static_cast<int>(this->mPreset->prepare()->convType()));
 
   if (index >= 0) {
     this->ui->comboBoxConversionType->setCurrentIndex(index);
   }
 
-  index = this->ui->comboBoxMonochromeType->findData(this->mPreset->prepare()->monoType());
+  index = this->ui->comboBoxMonochromeType->findData(static_cast<int>(this->mPreset->prepare()->monoType()));
 
   if (index >= 0) {
     this->ui->comboBoxMonochromeType->setCurrentIndex(index);
@@ -96,7 +96,7 @@ void SetupTabPreparePreprocessing::on_horizontalScrollBarEdge_valueChanged(int v
 
 void SetupTabPreparePreprocessing::on_plainTextEditCustomScript_textChanged()
 {
-  if (this->mPreset->prepare()->convType() == ConversionTypeCustom) {
+  if (this->mPreset->prepare()->convType() == Parsing::Conversion::Options::ConversionType::Custom) {
     QString str = this->ui->plainTextEditCustomScript->toPlainText();
 
     QVector<quint32> data;
@@ -116,7 +116,7 @@ void SetupTabPreparePreprocessing::on_plainTextEditCustomScript_textChanged()
 
 void SetupTabPreparePreprocessing::on_lineEditDemoInput_textChanged()
 {
-  if (this->mPreset->prepare()->convType() == ConversionTypeCustom) {
+  if (this->mPreset->prepare()->convType() == Parsing::Conversion::Options::ConversionType::Custom) {
     QString demoInputString = this->ui->lineEditDemoInput->text();
     quint32 demoInputValue;
     bool ok = false;
@@ -152,10 +152,10 @@ void SetupTabPreparePreprocessing::on_lineEditDemoInput_textChanged()
 void SetupTabPreparePreprocessing::updateState()
 {
   // conversion type
-  if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome) {
+  if (this->mPreset->prepare()->convType() == Parsing::Conversion::Options::ConversionType::Monochrome) {
     this->ui->comboBoxMonochromeType->setEnabled(true);
 
-    if (this->mPreset->prepare()->monoType() == MonochromeTypeEdge) {
+    if (this->mPreset->prepare()->monoType() == Parsing::Conversion::Options::MonochromeType::Edge) {
       this->ui->horizontalScrollBarEdge->setEnabled(true);
     } else {
       this->ui->horizontalScrollBarEdge->setEnabled(false);
@@ -166,10 +166,10 @@ void SetupTabPreparePreprocessing::updateState()
   }
 
   // monochrome type
-  if (this->mPreset->prepare()->convType() == ConversionTypeMonochrome) {
+  if (this->mPreset->prepare()->convType() == Parsing::Conversion::Options::ConversionType::Monochrome) {
     this->ui->comboBoxMonochromeType->setEnabled(true);
 
-    if (this->mPreset->prepare()->monoType() == MonochromeTypeEdge) {
+    if (this->mPreset->prepare()->monoType() == Parsing::Conversion::Options::MonochromeType::Edge) {
       this->ui->horizontalScrollBarEdge->setEnabled(true);
     } else {
       this->ui->horizontalScrollBarEdge->setEnabled(false);
@@ -179,7 +179,7 @@ void SetupTabPreparePreprocessing::updateState()
     this->ui->horizontalScrollBarEdge->setEnabled(false);
   }
 
-  this->ui->plainTextEditCustomScript->setReadOnly(this->mPreset->prepare()->convType() != ConversionTypeCustom);
+  this->ui->plainTextEditCustomScript->setReadOnly(this->mPreset->prepare()->convType() != Parsing::Conversion::Options::ConversionType::Custom);
 }
 
 void SetupTabPreparePreprocessing::updateScript()

@@ -866,7 +866,7 @@ const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Pr
   QString encoding = preset->font()->encoding();
   CharactersSortOrder order = preset->font()->sortOrder();
 
-  if (order == CharactersSortNone) {
+  if (order == Parsing::Conversion::Options::CharactersSortOrder::None) {
     return keys;
   }
 
@@ -884,11 +884,11 @@ const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Pr
   QStringList hexCodes = map.keys();
 
   switch (order) {
-    case CharactersSortAscending:
+    case Parsing::Conversion::Options::CharactersSortOrder::Ascending:
       qSort(hexCodes.begin(), hexCodes.end(), caseInsensitiveLessThan);
       break;
 
-    case CharactersSortDescending:
+    case Parsing::Conversion::Options::CharactersSortOrder::Descending:
       qSort(hexCodes.begin(), hexCodes.end(), caseInsensitiveMoreThan);
       break;
 

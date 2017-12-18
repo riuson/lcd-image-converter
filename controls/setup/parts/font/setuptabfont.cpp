@@ -43,10 +43,16 @@ SetupTabFont::SetupTabFont(Preset *preset, QWidget *parent) :
 
   CharactersSortOrder order = this->mPreset->font()->sortOrder();
 
-  this->ui->comboBoxSorting->addItem(this->sortingName(CharactersSortNone), CharactersSortNone);
-  this->ui->comboBoxSorting->addItem(this->sortingName(CharactersSortAscending), CharactersSortAscending);
-  this->ui->comboBoxSorting->addItem(this->sortingName(CharactersSortDescending), CharactersSortDescending);
-  index = this->ui->comboBoxSorting->findData(order);
+  this->ui->comboBoxSorting->addItem(
+    this->sortingName(Parsing::Conversion::Options::CharactersSortOrder::None),
+    static_cast<int>(Parsing::Conversion::Options::CharactersSortOrder::None));
+  this->ui->comboBoxSorting->addItem(
+    this->sortingName(Parsing::Conversion::Options::CharactersSortOrder::Ascending),
+    static_cast<int>(Parsing::Conversion::Options::CharactersSortOrder::Ascending));
+  this->ui->comboBoxSorting->addItem(
+    this->sortingName(Parsing::Conversion::Options::CharactersSortOrder::Descending),
+    static_cast<int>(Parsing::Conversion::Options::CharactersSortOrder::Descending));
+  index = this->ui->comboBoxSorting->findData(static_cast<int>(order));
 
   if (index >= 0) {
     this->ui->comboBoxSorting->setCurrentIndex(index);
@@ -74,7 +80,7 @@ void SetupTabFont::matrixChanged()
     this->ui->comboBoxEncoding->setCurrentIndex(index);
   }
 
-  index = this->ui->comboBoxSorting->findData(this->mPreset->font()->sortOrder());
+  index = this->ui->comboBoxSorting->findData(static_cast<int>(this->mPreset->font()->sortOrder()));
 
   if (index >= 0) {
     this->ui->comboBoxSorting->setCurrentIndex(index);
@@ -88,15 +94,15 @@ const QString SetupTabFont::sortingName(Parsing::Conversion::Options::Characters
   QString result;
 
   switch (value) {
-    case Parsing::Conversion::Options::CharactersSortNone:
+    case Parsing::Conversion::Options::CharactersSortOrder::None:
       result = tr("None");
       break;
 
-    case Parsing::Conversion::Options::CharactersSortAscending:
+    case Parsing::Conversion::Options::CharactersSortOrder::Ascending:
       result = tr("Ascending");
       break;
 
-    case Parsing::Conversion::Options::CharactersSortDescending:
+    case Parsing::Conversion::Options::CharactersSortOrder::Descending:
       result = tr("Descending");
       break;
 
