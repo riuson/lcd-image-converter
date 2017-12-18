@@ -28,7 +28,7 @@
 #include <QWidget>
 #include "datacontainer.h"
 #include "parser.h"
-#include "tags.h"
+#include "tagslist.h"
 #include "statusdata.h"
 #include "preset.h"
 #include "parsedimagedata.h"
@@ -217,18 +217,18 @@ DataContainer *ImageDocument::dataContainer() const
 
 QString ImageDocument::convert(Preset *preset)
 {
-  Parsing::Tags tags;
+  Parsing::TagsList tags;
 
   if (!this->documentFilename().isEmpty()) {
-    tags.setTagValue(Parsing::Tags::DocumentFilename, this->documentFilename());
+    tags.setTagValue(Parsing::TagsList::Tag::DocumentFilename, this->documentFilename());
   } else {
-    tags.setTagValue(Parsing::Tags::DocumentFilename, "unsaved");
+    tags.setTagValue(Parsing::TagsList::Tag::DocumentFilename, "unsaved");
   }
 
-  tags.setTagValue(Parsing::Tags::DocumentName, this->documentName());
-  tags.setTagValue(Parsing::Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentName, this->documentName());
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
 
-  tags.setTagValue(Parsing::Tags::DocumentDataType, "image");
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentDataType, "image");
 
   QMap<QString, Parsing::ParsedImageData *> images;
   this->prepareImages(preset, &images, tags);
@@ -298,7 +298,7 @@ void ImageDocument::setDocumentFilename(const QString &value)
   }
 }
 
-void ImageDocument::prepareImages(Preset *preset, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::Tags &tags) const
+void ImageDocument::prepareImages(Preset *preset, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const
 {
   DataContainer *data = this->dataContainer();
 

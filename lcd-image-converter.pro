@@ -103,7 +103,7 @@ SOURCES += main.cpp \
     classes/parser/convert/fonthelper.cpp \
     classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
-    classes/parser/tags.cpp \
+    classes/parser/tagslist.cpp \
     classes/settings/appsettings.cpp \
     classes/settings/conversionpreviewoptions.cpp \
     classes/settings/externaltooloptions.cpp \
@@ -224,7 +224,7 @@ HEADERS += \
     classes/parser/convert/fonthelper.h \
     classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
-    classes/parser/tags.h \
+    classes/parser/tagslist.h \
     classes/settings/appsettings.h \
     classes/settings/conversionpreviewoptions.h \
     classes/settings/externaltooloptions.h \

@@ -27,23 +27,23 @@ class Preset;
 
 namespace Parsing
 {
-class Tags;
+class TagsList;
 
 class ParsedImageData : public QObject
 {
   Q_OBJECT
 public:
-  explicit ParsedImageData(Preset *preset, const QImage *image, const Tags &tags, QObject *parent = 0);
+  explicit ParsedImageData(Preset *preset, const QImage *image, const TagsList &tags, QObject *parent = 0);
   virtual ~ParsedImageData();
 
-  Tags *tags() const;
+  TagsList *tags() const;
   uint hash() const;
 
-  const QString outputImageDataWithEOL(const Tags &tags) const;
-  const QString outputImagePreviewWithEOL(const Tags &tags) const;
+  const QString outputImageDataWithEOL(const TagsList &tags) const;
+  const QString outputImagePreviewWithEOL(const TagsList &tags) const;
 
 private:
-  Tags *mTags;
+  TagsList *mTags;
   uint mHash;
   QString mPreparedOutputImageData;
   QString mPreparedOutputImagePreview;

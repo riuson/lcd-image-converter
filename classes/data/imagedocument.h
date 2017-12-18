@@ -28,7 +28,7 @@ class Preset;
 
 namespace Parsing
 {
-class Tags;
+class TagsList;
 class ParsedImageData;
 }
 
@@ -72,7 +72,7 @@ private:
 
   void setDocumentFilename(const QString &value);
 
-  void prepareImages(Preset *preset, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::Tags &tags) const;
+  void prepareImages(Preset *preset, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const;
 
 private slots:
   void mon_container_dataChanged(bool historyStateMoved);

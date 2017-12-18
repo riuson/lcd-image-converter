@@ -28,13 +28,13 @@ template <class T1, class T2> class QHash;
 namespace Parsing
 {
 
-class Tags
+class TagsList
 {
 public:
-  Tags();
-  virtual ~Tags();
+  TagsList();
+  virtual ~TagsList();
 
-  enum TagsEnum {
+  enum class Tag {
     Unknown = 0,
 
     DocumentDataType,
@@ -102,17 +102,17 @@ public:
     BlocksFontDefinitionEnd
   };
 
-  TagsEnum parseTag(const QString &key) const;
+  Tag parseTag(const QString &key) const;
 
-  const QString tagValue(TagsEnum key) const;
-  void setTagValue(TagsEnum key, const QString &value);
-  void importValues(const Tags *other);
+  const QString tagValue(Tag key) const;
+  void setTagValue(Tag key, const QString &value);
+  void importValues(const TagsList *other);
 
-  bool find(const QString &text, int startIndex, int *resultIndex, int *nextIndex, TagsEnum *key, QString *content);
+  bool find(const QString &text, int startIndex, int *resultIndex, int *nextIndex, Tag *key, QString *content);
 
 private:
-  QHash <QString, TagsEnum> *mTagNameMap;
-  QMap <TagsEnum, QString> *mTagValues;
+  QHash <QString, Tag> *mTagNameMap;
+  QMap <Tag, QString> *mTagValues;
 
   void initTagsMap();
 };

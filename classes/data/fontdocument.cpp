@@ -31,7 +31,7 @@
 #include <QWidget>
 #include <QTextCodec>
 #include "datacontainer.h"
-#include "tags.h"
+#include "tagslist.h"
 #include "parser.h"
 #include "dialogfontchanged.h"
 #include "fonteditoroptions.h"
@@ -398,30 +398,30 @@ DataContainer *FontDocument::dataContainer() const
 
 QString FontDocument::convert(Preset *preset)
 {
-  Parsing::Tags tags;
+  Parsing::TagsList tags;
 
   if (!this->documentFilename().isEmpty()) {
-    tags.setTagValue(Parsing::Tags::DocumentFilename, this->documentFilename());
+    tags.setTagValue(Parsing::TagsList::Tag::DocumentFilename, this->documentFilename());
   } else {
-    tags.setTagValue(Parsing::Tags::DocumentFilename, "unsaved");
+    tags.setTagValue(Parsing::TagsList::Tag::DocumentFilename, "unsaved");
   }
 
-  tags.setTagValue(Parsing::Tags::DocumentName, this->documentName());
-  tags.setTagValue(Parsing::Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentName, this->documentName());
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
 
   QString chars;
   FontParameters parameters;
   this->fontCharacters(&chars, &parameters);
 
-  tags.setTagValue(Parsing::Tags::DocumentDataType, "font");
-  tags.setTagValue(Parsing::Tags::FontFamily, parameters.family);
-  tags.setTagValue(Parsing::Tags::FontSize, QString("%1").arg(parameters.size));
-  tags.setTagValue(Parsing::Tags::FontStyle, parameters.style);
-  tags.setTagValue(Parsing::Tags::FontString, Parsing::Conversion::FontHelper::escapeControlChars(chars));
-  tags.setTagValue(Parsing::Tags::FontAntiAliasing, parameters.antiAliasing ? "yes" : "no");
-  tags.setTagValue(Parsing::Tags::FontWidthType, parameters.monospaced ? "monospaced" : "proportional");
-  tags.setTagValue(Parsing::Tags::FontAscent, QString("%1").arg(parameters.ascent));
-  tags.setTagValue(Parsing::Tags::FontDescent, QString("%1").arg(parameters.descent));
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentDataType, "font");
+  tags.setTagValue(Parsing::TagsList::Tag::FontFamily, parameters.family);
+  tags.setTagValue(Parsing::TagsList::Tag::FontSize, QString("%1").arg(parameters.size));
+  tags.setTagValue(Parsing::TagsList::Tag::FontStyle, parameters.style);
+  tags.setTagValue(Parsing::TagsList::Tag::FontString, Parsing::Conversion::FontHelper::escapeControlChars(chars));
+  tags.setTagValue(Parsing::TagsList::Tag::FontAntiAliasing, parameters.antiAliasing ? "yes" : "no");
+  tags.setTagValue(Parsing::TagsList::Tag::FontWidthType, parameters.monospaced ? "monospaced" : "proportional");
+  tags.setTagValue(Parsing::TagsList::Tag::FontAscent, QString("%1").arg(parameters.ascent));
+  tags.setTagValue(Parsing::TagsList::Tag::FontDescent, QString("%1").arg(parameters.descent));
 
   const QStringList orderedKeys = this->sortKeysWithEncoding(this->dataContainer()->keys(), preset);
 
@@ -722,7 +722,7 @@ void FontDocument::setDescent(int value)
   this->mContainer->setCommonInfo("descent", value);
 }
 
-void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::Tags &tags) const
+void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const
 {
   DataContainer *data = this->dataContainer();
 
@@ -755,8 +755,8 @@ void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys,
 
       if (imageData != nullptr) {
         QString charCode = this->hexCode(key, encoding, useBom);
-        imageData->tags()->setTagValue(Parsing::Tags::OutputCharacterCode, charCode);
-        imageData->tags()->setTagValue(Parsing::Tags::OutputCharacterText, Parsing::Conversion::FontHelper::escapeControlChars(key));
+        imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterCode, charCode);
+        imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterText, Parsing::Conversion::FontHelper::escapeControlChars(key));
       }
     }
   }
@@ -779,14 +779,14 @@ void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys,
         Parsing::ParsedImageData *similarImageData = similarMap.value(imageData->hash(), nullptr);
 
         if (similarImageData != nullptr) {
-          QString similarCode = similarImageData->tags()->tagValue(Parsing::Tags::OutputCharacterCode);
-          QString similarText = similarImageData->tags()->tagValue(Parsing::Tags::OutputCharacterText);
-          imageData->tags()->setTagValue(Parsing::Tags::OutputCharacterCodeSimilar, similarCode);
-          imageData->tags()->setTagValue(Parsing::Tags::OutputCharacterTextSimilar, similarText);
+          QString similarCode = similarImageData->tags()->tagValue(Parsing::TagsList::Tag::OutputCharacterCode);
+          QString similarText = similarImageData->tags()->tagValue(Parsing::TagsList::Tag::OutputCharacterText);
+          imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterCodeSimilar, similarCode);
+          imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterTextSimilar, similarText);
         } else {
           similarMap.insert(imageData->hash(), imageData);
-          imageData->tags()->setTagValue(Parsing::Tags::OutputCharacterCodeSimilar, QString());
-          imageData->tags()->setTagValue(Parsing::Tags::OutputCharacterTextSimilar, QString());
+          imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterCodeSimilar, QString());
+          imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterTextSimilar, QString());
         }
       }
     }

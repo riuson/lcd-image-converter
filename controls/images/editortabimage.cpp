@@ -30,7 +30,7 @@
 
 #include "datacontainer.h"
 #include "parser.h"
-#include "tags.h"
+#include "tagslist.h"
 #include "statusdata.h"
 #include "imagedocument.h"
 #include "editor.h"

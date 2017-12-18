@@ -38,7 +38,7 @@
 #include "imagesscaledproxy.h"
 #include "parser.h"
 #include "dialogfontchanged.h"
-#include "tags.h"
+#include "tagslist.h"
 #include "statusdata.h"
 #include "fonteditoroptions.h"
 #include "fontdocument.h"
