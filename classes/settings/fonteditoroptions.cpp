@@ -23,6 +23,9 @@
 #include <QRgb>
 #include <appsettings.h>
 
+namespace Settings
+{
+
 int FontEditorOptions::scale()
 {
   AppSettings appsett;
@@ -106,3 +109,4 @@ void FontEditorOptions::setBackColor(const QColor &value)
   sett.endGroup();
 }
 
+} // namespace Settings

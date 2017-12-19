@@ -10,7 +10,7 @@
 #include "demogenerator.h"
 #include "setupdialogoptions.h"
 
-SetupTabPreparePreprocessing::SetupTabPreparePreprocessing(Preset *preset, QWidget *parent) :
+SetupTabPreparePreprocessing::SetupTabPreparePreprocessing(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabPreparePreprocessing)
 {
@@ -67,7 +67,7 @@ void SetupTabPreparePreprocessing::on_comboBoxConversionType_currentIndexChanged
   int a = data.toInt(&ok);
 
   if (ok) {
-    this->mPreset->prepare()->setConvType((ConversionType)a);
+    this->mPreset->prepare()->setConvType((Settings::Presets::ConversionType)a);
     this->updateState();
   }
 }
@@ -79,7 +79,7 @@ void SetupTabPreparePreprocessing::on_comboBoxMonochromeType_currentIndexChanged
   int a = data.toInt(&ok);
 
   if (ok) {
-    this->mPreset->prepare()->setMonoType((MonochromeType)a);
+    this->mPreset->prepare()->setMonoType((Settings::Presets::MonochromeType)a);
     this->updateState();
   }
 }

@@ -25,7 +25,7 @@
 #include "templateoptions.h"
 #include "filedialogoptions.h"
 
-SetupTabTemplates::SetupTabTemplates(Preset *preset, QWidget *parent) :
+SetupTabTemplates::SetupTabTemplates(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabTemplates)
 {
@@ -50,13 +50,13 @@ void SetupTabTemplates::on_pushButtonBrowseImage_clicked()
 {
   QFileDialog dialog(this);
   dialog.setAcceptMode(QFileDialog::AcceptOpen);
-  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::TemplateImage));
+  dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::TemplateImage));
   dialog.setFileMode(QFileDialog::ExistingFile);
   dialog.setNameFilter(tr("All files (*.*)"));
   dialog.setWindowTitle(tr("Open image template file"));
 
   if (dialog.exec() == QDialog::Accepted) {
-    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::TemplateImage, dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::TemplateImage, dialog.directory().absolutePath());
     this->mPreset->templates()->setImage(dialog.selectedFiles().at(0));
   }
 }
@@ -65,13 +65,13 @@ void SetupTabTemplates::on_pushButtonBrowseFont_clicked()
 {
   QFileDialog dialog(this);
   dialog.setAcceptMode(QFileDialog::AcceptOpen);
-  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::TemplateFont));
+  dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::TemplateFont));
   dialog.setFileMode(QFileDialog::ExistingFile);
   dialog.setNameFilter(tr("Any file (*.*)"));
   dialog.setWindowTitle(tr("Open font template file"));
 
   if (dialog.exec() == QDialog::Accepted) {
-    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::TemplateFont, dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::TemplateFont, dialog.directory().absolutePath());
     this->mPreset->templates()->setFont(dialog.selectedFiles().at(0));
   }
 }

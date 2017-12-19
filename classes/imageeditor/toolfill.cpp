@@ -143,7 +143,7 @@ void ToolFill::initializeWidgets()
 
 void ToolFill::loadSettings()
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -156,7 +156,7 @@ void ToolFill::loadSettings()
 
 void ToolFill::saveSettings() const
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");

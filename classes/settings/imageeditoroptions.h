@@ -24,11 +24,16 @@
 #include <QString>
 #include <QPoint>
 
+namespace Settings
+{
+
 class ImageEditorOptions
 {
 public:
   static QByteArray toolbarsState(void);
   static void setToolbarsState(const QByteArray &value);
 };
+
+} // namespace Settings
 
 #endif // IMAGEEDITOROPTIONS_H

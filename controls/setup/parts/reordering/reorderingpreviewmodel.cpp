@@ -25,7 +25,7 @@
 #include "reorderingoptions.h"
 #include "imageoptions.h"
 
-ReorderingPreviewModel::ReorderingPreviewModel(Preset *preset, QObject *parent) :
+ReorderingPreviewModel::ReorderingPreviewModel(Settings::Presets::Preset *preset, QObject *parent) :
   QAbstractItemModel(parent)
 {
   this->mPreset = preset;
@@ -105,7 +105,7 @@ QVariant ReorderingPreviewModel::data(const QModelIndex &index, int role) const
         }
 
         // get source bit info
-        ConversionType convType;
+        Settings::Presets::ConversionType convType;
         ColorType colorType;
         int partIndex;
         this->getBitType(bitIndex, &convType, &colorType, &partIndex);
@@ -127,7 +127,7 @@ QVariant ReorderingPreviewModel::data(const QModelIndex &index, int role) const
       }
 
       case Source: {
-        ConversionType convType;
+        Settings::Presets::ConversionType convType;
         ColorType colorType;
         int partIndex;
         this->getBitType(bitIndex, &convType, &colorType, &partIndex);
@@ -270,7 +270,7 @@ void ReorderingPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, Q
   *color = QVariant();
 
   if (bitIndex >= 0 && bitIndex <= this->maxBitIndex()) {
-    ConversionType convType;
+    Settings::Presets::ConversionType convType;
     ColorType colorType;
     int partIndex;
     this->getBitType(bitIndex, &convType, &colorType, &partIndex);

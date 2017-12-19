@@ -103,7 +103,7 @@
 namespace Parsing
 {
 
-Parser::Parser(TemplateType templateType, Preset *preset, QObject *parent) :
+Parser::Parser(TemplateType templateType, Settings::Presets::Preset *preset, QObject *parent) :
   QObject(parent)
 {
   this->mPreset = preset;

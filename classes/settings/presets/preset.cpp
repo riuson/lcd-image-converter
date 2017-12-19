@@ -32,6 +32,11 @@
 #include "fontoptions.h"
 #include "templateoptions.h"
 
+namespace Settings
+{
+namespace Presets
+{
+
 Preset::Preset(QObject *parent) :
   QObject(parent)
 {
@@ -508,3 +513,5 @@ void Preset::partsChanged()
   }
 }
 
+} // namespace Presets
+} // namespace Settings

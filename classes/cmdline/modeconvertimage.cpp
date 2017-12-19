@@ -99,8 +99,8 @@ int ModeConvertImage::process()
 
     if (!docNameWS.isEmpty()) {
       // check preset exists
-      if (Preset::presetsList().contains(this->mPresetName)) {
-        Preset::setSelectedName(this->mPresetName);
+      if (Settings::Presets::Preset::presetsList().contains(this->mPresetName)) {
+        Settings::Presets::Preset::setSelectedName(this->mPresetName);
 
         // load image from input file
         QImage imageLoaded;
@@ -125,7 +125,7 @@ int ModeConvertImage::process()
             QFile file(this->mOutputFilename);
 
             if (file.open(QFile::WriteOnly)) {
-              Preset preset;
+              Settings::Presets::Preset preset;
               preset.load(this->mPresetName);
 
               // optional template file

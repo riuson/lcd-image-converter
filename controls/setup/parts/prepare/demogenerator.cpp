@@ -28,7 +28,7 @@
 #include "convimagescan.h"
 #include "prepareoptions.h"
 
-DemoGenerator::DemoGenerator(Preset *preset, QObject *parent) :
+DemoGenerator::DemoGenerator(Settings::Presets::Preset *preset, QObject *parent) :
   QObject(parent)
 {
   this->mPreset = preset;

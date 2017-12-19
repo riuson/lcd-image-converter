@@ -181,7 +181,7 @@ void ToolRect::initializeWidgets()
 
 void ToolRect::loadSettings()
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -207,7 +207,7 @@ void ToolRect::loadSettings()
 
 void ToolRect::saveSettings() const
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");

@@ -221,7 +221,7 @@ bool ModeConvertFont::collectArguments()
 int ModeConvertFont::process()
 {
   // check preset exists
-  if (Preset::presetsList().contains(this->mPresetName)) {
+  if (Settings::Presets::Preset::presetsList().contains(this->mPresetName)) {
     Data::Containers::FontDocument fontDocument;
 
     if (this->mSubMode == SubMode::FromXmlDocument) {
@@ -291,8 +291,8 @@ int ModeConvertFont::process()
     QFile file(this->mOutputFilename);
 
     if (file.open(QFile::WriteOnly)) {
-      Preset::setSelectedName(this->mPresetName);
-      Preset preset;
+      Settings::Presets::Preset::setSelectedName(this->mPresetName);
+      Settings::Presets::Preset preset;
       preset.load(this->mPresetName);
 
       // optional template file

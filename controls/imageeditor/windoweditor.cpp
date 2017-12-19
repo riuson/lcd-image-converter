@@ -42,7 +42,7 @@ WindowEditor::WindowEditor(QWidget *parent) :
   this->ui->label->installEventFilter(this);
   this->ui->toolBarOptions->hide();
 
-  this->restoreState(ImageEditorOptions::toolbarsState(), 0);
+  this->restoreState(Settings::ImageEditorOptions::toolbarsState(), 0);
 
   this->mSelectedTool = nullptr;
   this->createTools();
@@ -59,7 +59,7 @@ WindowEditor::~WindowEditor()
     this->ui->toolBarOptions->hide();
   }
 
-  ImageEditorOptions::setToolbarsState(this->saveState(0));
+  Settings::ImageEditorOptions::setToolbarsState(this->saveState(0));
 
   delete this->mTools;
   delete ui;

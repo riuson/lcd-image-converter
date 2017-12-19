@@ -10,7 +10,7 @@
 #include "demogenerator.h"
 #include "setupdialogoptions.h"
 
-SetupTabPrepareScanning::SetupTabPrepareScanning(Preset *preset, QWidget *parent) :
+SetupTabPrepareScanning::SetupTabPrepareScanning(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabPrepareScanning)
 {
@@ -30,8 +30,8 @@ SetupTabPrepareScanning::SetupTabPrepareScanning(Preset *preset, QWidget *parent
   this->ui->comboBoxScanSub->addItem(tr("Forward"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanSubDirection::Forward)));
   this->ui->comboBoxScanSub->addItem(tr("Backward"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanSubDirection::Backward)));
 
-  this->ui->spinBoxAnimationTime->setValue(SetupDialogOptions::animationTotalTime());
-  this->ui->spinBoxAnimationInterval->setValue(SetupDialogOptions::animationInterval());
+  this->ui->spinBoxAnimationTime->setValue(Settings::SetupDialogOptions::animationTotalTime());
+  this->ui->spinBoxAnimationInterval->setValue(Settings::SetupDialogOptions::animationInterval());
 
   this->matrixChanged();
 }
@@ -73,7 +73,7 @@ void SetupTabPrepareScanning::on_comboBoxScanMain_currentIndexChanged(int index)
   int a = data.toInt(&ok);
 
   if (ok) {
-    ScanMainDirection dir = (ScanMainDirection)a;
+    Settings::Presets::ScanMainDirection dir = (Settings::Presets::ScanMainDirection)a;
     this->mPreset->prepare()->setScanMain(dir);
   }
 }
@@ -85,7 +85,7 @@ void SetupTabPrepareScanning::on_comboBoxScanSub_currentIndexChanged(int index)
   int a = data.toInt(&ok);
 
   if (ok) {
-    ScanSubDirection dir = (ScanSubDirection)a;
+    Settings::Presets::ScanSubDirection dir = (Settings::Presets::ScanSubDirection)a;
     this->mPreset->prepare()->setScanSub(dir);
   }
 }
@@ -158,11 +158,11 @@ void SetupTabPrepareScanning::demoScriptError(const QString &value)
 void SetupTabPrepareScanning::on_spinBoxAnimationTime_valueChanged(int value)
 {
   this->mDemoGen->setAnimationTime(value);
-  SetupDialogOptions::setAnimationTime(value);
+  Settings::SetupDialogOptions::setAnimationTime(value);
 }
 
 void SetupTabPrepareScanning::on_spinBoxAnimationInterval_valueChanged(int value)
 {
   this->mDemoGen->setAnimationInterval(value);
-  SetupDialogOptions::setAnimationInterval(value);
+  Settings::SetupDialogOptions::setAnimationInterval(value);
 }

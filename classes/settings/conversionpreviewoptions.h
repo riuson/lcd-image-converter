@@ -22,6 +22,9 @@
 
 #include <QString>
 
+namespace Settings
+{
+
 class ConversionPreviewOptions
 {
 public:
@@ -31,5 +34,7 @@ public:
 private:
   static const QString GroupName;
 };
+
+} // namespace Settings
 
 #endif // CONVERSIONPREVIEWOPTIONS_H

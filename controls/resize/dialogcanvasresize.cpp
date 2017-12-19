@@ -70,14 +70,14 @@ DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *containe
   this->mRight = 0;
   this->mBottom = 0;
 
-  int scale = ResizeSettings::scale();
+  int scale = Settings::ResizeSettings::scale();
   this->mScaledProxy->setScale(scale);
   this->on_scaleChanged(scale);
 }
 
 DialogCanvasResize::~DialogCanvasResize()
 {
-  ResizeSettings::setScale(this->ui->spinBoxScale->value());
+  Settings::ResizeSettings::setScale(this->ui->spinBoxScale->value());
 
   delete ui;
 }

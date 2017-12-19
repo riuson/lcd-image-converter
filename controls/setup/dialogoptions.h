@@ -35,7 +35,13 @@ class DataContainer;
 }
 }
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 class DialogPreview;
 class SetupTabPrepare;
 class SetupTabMatrix;
@@ -57,7 +63,7 @@ private:
 
   Data::Containers::DataContainer *mData;
 
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   bool mPresetChanged;
 
   DialogPreview *mPreview;

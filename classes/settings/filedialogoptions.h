@@ -22,6 +22,9 @@
 
 #include <QString>
 
+namespace Settings
+{
+
 class FileDialogOptions
 {
 public:
@@ -54,5 +57,7 @@ private:
   static const QString getString(const QString &name);
   static void setString(const QString &name, const QString &value);
 };
+
+} // namespace Settings
 
 #endif // FILEDIALOGOPTIONS_H

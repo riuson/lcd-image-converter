@@ -215,7 +215,7 @@ DataContainer *ImageDocument::dataContainer() const
   return this->mContainer;
 }
 
-QString ImageDocument::convert(Preset *preset)
+QString ImageDocument::convert(Settings::Presets::Preset *preset)
 {
   Parsing::TagsList tags;
 
@@ -298,7 +298,7 @@ void ImageDocument::setDocumentFilename(const QString &value)
   }
 }
 
-void ImageDocument::prepareImages(Preset *preset, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const
+void ImageDocument::prepareImages(Settings::Presets::Preset *preset, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const
 {
   DataContainer *data = this->dataContainer();
 

@@ -28,7 +28,7 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 
-SetupTabMatrix::SetupTabMatrix(Preset *preset, QWidget *parent) :
+SetupTabMatrix::SetupTabMatrix(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabMatrix)
 {

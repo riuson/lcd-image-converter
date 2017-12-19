@@ -31,14 +31,20 @@ namespace Ui
 class SetupTabFont;
 }
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 
 class SetupTabFont : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit SetupTabFont(Preset *preset, QWidget *parent = 0);
+  explicit SetupTabFont(Settings::Presets::Preset *preset, QWidget *parent = 0);
   virtual ~SetupTabFont();
 
 public slots:
@@ -46,7 +52,7 @@ public slots:
 
 private:
   Ui::SetupTabFont *ui;
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   QCompleter *mEncodingCompleter;
 
   const QString sortingName(Parsing::Conversion::Options::CharactersSortOrder value) const;

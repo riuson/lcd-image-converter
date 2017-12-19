@@ -10,7 +10,13 @@ namespace Ui
 class SetupTabPrepareScanning;
 }
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 class DemoGenerator;
 
 class SetupTabPrepareScanning : public QWidget
@@ -18,7 +24,7 @@ class SetupTabPrepareScanning : public QWidget
   Q_OBJECT
 
 public:
-  explicit SetupTabPrepareScanning(Preset *preset, QWidget *parent = 0);
+  explicit SetupTabPrepareScanning(Settings::Presets::Preset *preset, QWidget *parent = 0);
   virtual ~SetupTabPrepareScanning();
 
 public slots:
@@ -26,7 +32,7 @@ public slots:
 
 private:
   Ui::SetupTabPrepareScanning *ui;
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   QPixmap mPixmapScanning;
   QPixmap mPixmapScanPreview;
   DemoGenerator *mDemoGen;

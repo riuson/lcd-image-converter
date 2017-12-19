@@ -94,11 +94,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
   this->connect(this->ui->actionLanguageDefault, SIGNAL(triggered()), SLOT(actionLanguage_triggered()));
 
-  QString selectedLocale = LanguageOptions::locale();
+  QString selectedLocale = Settings::LanguageOptions::locale();
   this->selectLocale(selectedLocale);
 
   // create recent list
-  this->mRecentList = new RecentList(this);
+  this->mRecentList = new Settings::RecentList(this);
   this->connect(this->mRecentList, SIGNAL(listChanged()), SLOT(updateRecentList()));
   this->updateRecentList();
 
@@ -137,7 +137,7 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::selectLocale(const QString &localeName)
 {
-  if (LanguageOptions::setLocale(localeName)) {
+  if (Settings::LanguageOptions::setLocale(localeName)) {
     this->mTrans->load(":/translations/" + localeName);
     qApp->installTranslator(this->mTrans);
   } else {
@@ -320,14 +320,14 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
           dialog.setWindowTitle(tr("Save file as"));
 
           if (editor->document()->documentFilename().isEmpty()) {
-            dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::SaveDocument));
+            dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::SaveDocument));
             dialog.selectFile(editor->document()->documentName());
           } else {
             dialog.selectFile(editor->document()->documentFilename());
           }
 
           if (dialog.exec() == QDialog::Accepted) {
-            FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
+            Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
             QString filename = dialog.selectedFiles().at(0);
 
             if (editor->document()->save(filename)) {

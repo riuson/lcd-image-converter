@@ -102,7 +102,7 @@ void ImageEditInExternalTool::applyDocument(Data::Containers::IDocument *doc, co
   QProcess process(this);
   this->connect(&process, SIGNAL(error(QProcess::ProcessError)), SLOT(processError(QProcess::ProcessError)));
   this->mRunningError = false;
-  process.start(ExternalToolOptions::imageEditor(), parameters);
+  process.start(Settings::ExternalToolOptions::imageEditor(), parameters);
 
   // wait for external application finished
   do {
@@ -194,7 +194,7 @@ void ImageEditInExternalTool::processError(QProcess::ProcessError error)
 
   QMessageBox box(this->mParentWidget);
   box.setTextFormat(Qt::RichText);
-  box.setText(QString("<b>%1</b>: \"%2\"<br/>%3").arg(message, ExternalToolOptions::imageEditor(), description));
+  box.setText(QString("<b>%1</b>: \"%2\"<br/>%3").arg(message, Settings::ExternalToolOptions::imageEditor(), description));
   box.setWindowTitle(tr("Error running external tool"));
   box.exec();
 }

@@ -24,7 +24,7 @@
 #include "preset.h"
 #include "fontoptions.h"
 
-SetupTabFont::SetupTabFont(Preset *preset, QWidget *parent) :
+SetupTabFont::SetupTabFont(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabFont)
 {
@@ -33,7 +33,7 @@ SetupTabFont::SetupTabFont(Preset *preset, QWidget *parent) :
 
   QString encoding = this->mPreset->font()->encoding();
 
-  this->ui->comboBoxEncoding->addItems(FontOptions::encodings());
+  this->ui->comboBoxEncoding->addItems(Settings::Presets::FontOptions::encodings());
 
   int index = this->ui->comboBoxEncoding->findData(encoding);
 
@@ -41,7 +41,7 @@ SetupTabFont::SetupTabFont(Preset *preset, QWidget *parent) :
     this->ui->comboBoxEncoding->setCurrentIndex(index);
   }
 
-  CharactersSortOrder order = this->mPreset->font()->sortOrder();
+  Settings::Presets::CharactersSortOrder order = this->mPreset->font()->sortOrder();
 
   this->ui->comboBoxSorting->addItem(
     this->sortingName(Parsing::Conversion::Options::CharactersSortOrder::None),
@@ -60,7 +60,7 @@ SetupTabFont::SetupTabFont(Preset *preset, QWidget *parent) :
 
   this->matrixChanged();
 
-  this->mEncodingCompleter = new QCompleter(FontOptions::encodings(), this);
+  this->mEncodingCompleter = new QCompleter(Settings::Presets::FontOptions::encodings(), this);
   this->mEncodingCompleter->setCaseSensitivity(Qt::CaseInsensitive);
   this->mEncodingCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
   this->mEncodingCompleter->setFilterMode(Qt::MatchContains);
@@ -127,7 +127,7 @@ void SetupTabFont::on_comboBoxEncoding_currentIndexChanged(const QString &value)
 void SetupTabFont::on_comboBoxSorting_currentIndexChanged(int index)
 {
   bool ok = false;
-  CharactersSortOrder order = (CharactersSortOrder)this->ui->comboBoxSorting->itemData(index).toInt(&ok);
+  Settings::Presets::CharactersSortOrder order = (Settings::Presets::CharactersSortOrder)this->ui->comboBoxSorting->itemData(index).toInt(&ok);
 
   if (ok) {
     this->mPreset->font()->setSortOrder(order);

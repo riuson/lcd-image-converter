@@ -24,6 +24,11 @@
 #include <QtXml>
 #include <QDomDocument>
 
+namespace Settings
+{
+namespace Presets
+{
+
 const QString PrepareOptions::GroupName = QString("prepare");
 const QString PrepareOptions::FieldConvType = QString("convType");
 const QString PrepareOptions::FieldMonoType = QString("monoType");
@@ -584,3 +589,5 @@ void PrepareOptions::saveXmlElement(QDomElement element)
   nodeCustomPreprocessScript.appendChild(element.ownerDocument().createCDATASection(this->mCustomPreprocessScript));
 }
 
+} // namespace Presets
+} // namespace Settings

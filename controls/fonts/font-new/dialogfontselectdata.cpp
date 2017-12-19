@@ -40,8 +40,8 @@ DialogFontSelectData::DialogFontSelectData(QObject *parent) :
   this->mSize = 14;
   this->mMonospaced = false;
   this->mAntialiasing = false;
-  this->mForeground = FontEditorOptions::foreColor();
-  this->mBackground = FontEditorOptions::backColor();
+  this->mForeground = Settings::FontEditorOptions::foreColor();
+  this->mBackground = Settings::FontEditorOptions::backColor();
 
   QString defChars;
 

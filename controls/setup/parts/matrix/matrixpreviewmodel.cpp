@@ -25,7 +25,7 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 
-MatrixPreviewModel::MatrixPreviewModel(Preset *preset, QObject *parent) :
+MatrixPreviewModel::MatrixPreviewModel(Settings::Presets::Preset *preset, QObject *parent) :
   QAbstractItemModel(parent)
 {
   this->mPreset = preset;
@@ -125,7 +125,7 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
         }
 
         // get source bit info
-        ConversionType convType;
+        Settings::Presets::ConversionType convType;
         ColorType colorType;
         int partIndex;
         this->getBitType(bitIndex, &convType, &colorType, &partIndex);
@@ -147,7 +147,7 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
       }
 
       case Source: {
-        ConversionType convType;
+        Settings::Presets::ConversionType convType;
         ColorType colorType;
         int partIndex;
         this->getBitType(bitIndex, &convType, &colorType, &partIndex);
@@ -563,7 +563,7 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
   *color = QVariant();
 
   if (bitIndex >= 0 && bitIndex <= 31) {
-    ConversionType convType;
+    Settings::Presets::ConversionType convType;
     ColorType colorType;
     int partIndex;
     this->getBitType(bitIndex, &convType, &colorType, &partIndex);

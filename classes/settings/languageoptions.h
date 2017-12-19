@@ -22,11 +22,16 @@
 
 #include <QString>
 
+namespace Settings
+{
+
 class LanguageOptions
 {
 public:
   static const QString locale();
   static bool setLocale(const QString &value);
 };
+
+} // namespace Settings
 
 #endif // LANGUAGEOPTIONS_H

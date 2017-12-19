@@ -22,6 +22,9 @@
 #include <QFile>
 #include <appsettings.h>
 
+namespace Settings
+{
+
 QByteArray ImageEditorOptions::toolbarsState()
 {
   AppSettings appsett;
@@ -50,3 +53,4 @@ void ImageEditorOptions::setToolbarsState(const QByteArray &value)
   sett.endGroup();
 }
 
+} // namespace Settings

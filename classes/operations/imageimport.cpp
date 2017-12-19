@@ -41,13 +41,13 @@ bool ImageImport::prepare(const Data::Containers::IDocument *doc, const QStringL
 
   QFileDialog dialog(this->mParentWidget);
   dialog.setAcceptMode(QFileDialog::AcceptOpen);
-  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ImportImage));
+  dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::ImportImage));
   dialog.setFileMode(QFileDialog::ExistingFiles);
   dialog.setNameFilter(tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
   dialog.setWindowTitle(tr("Open image file"));
 
   if (dialog.exec() == QDialog::Accepted) {
-    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ImportImage, dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ImportImage, dialog.directory().absolutePath());
     this->mSelectedFiles = dialog.selectedFiles();
 
     if (this->mSelectedFiles.length() > 0) {

@@ -25,6 +25,11 @@
 #include <QtXml>
 #include <QDomDocument>
 
+namespace Settings
+{
+namespace Presets
+{
+
 const QString FontOptions::GroupName = QString("font");
 const QString FontOptions::FieldBom = QString("bom");
 const QString FontOptions::FieldSortOrder = QString("sortOrder");
@@ -217,3 +222,5 @@ const QStringList &FontOptions::encodings()
   return result;
 }
 
+} // namespace Presets
+} // namespace Settings

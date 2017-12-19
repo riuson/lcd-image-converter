@@ -152,7 +152,7 @@ void ToolColor::initializeWidgets()
 
 void ToolColor::loadSettings()
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -182,7 +182,7 @@ void ToolColor::loadSettings()
 
 void ToolColor::saveSettings() const
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");

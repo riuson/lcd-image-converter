@@ -44,7 +44,7 @@ DialogOptions::DialogOptions(Data::Containers::DataContainer *dataContainer, QWi
   this->mPreview = nullptr;
 
   this->mData = dataContainer;
-  this->mPreset = new Preset(this);
+  this->mPreset = new Settings::Presets::Preset(this);
 
   this->mSetupPrepare    = new SetupTabPrepare(this->mPreset, this);
   this->mSetupMatrix     = new SetupTabMatrix(this->mPreset, this);
@@ -53,15 +53,15 @@ DialogOptions::DialogOptions(Data::Containers::DataContainer *dataContainer, QWi
   this->mSetupFont       = new SetupTabFont(this->mPreset, this);
   this->mSetupTemplates  = new SetupTabTemplates(this->mPreset, this);
 
-  QString selectedPreset = Preset::selectedName();
-  int presetsCount = Preset::presetsList().length();
+  QString selectedPreset = Settings::Presets::Preset::selectedName();
+  int presetsCount = Settings::Presets::Preset::presetsList().length();
 
   // create default presets
   if (presetsCount == 0) {
     this->createPresetsDefault();
   } else {
     if (presetsCount == 1) {
-      if (Preset::presetsList().at(0) == QString("default")) {
+      if (Settings::Presets::Preset::presetsList().at(0) == QString("default")) {
         this->createPresetsDefault();
       }
     }
@@ -121,7 +121,7 @@ void DialogOptions::fillPresetsList(const QString &defaultName)
 
   this->ui->comboBoxPresets->clear();
 
-  QStringList names = Preset::presetsList();
+  QStringList names = Settings::Presets::Preset::presetsList();
   this->ui->comboBoxPresets->addItems(names);
 
   bool defaultLoaded = false;
@@ -168,14 +168,14 @@ void DialogOptions::presetSaveAs(const QString &name)
 
 void DialogOptions::presetRemove(const QString &name)
 {
-  Preset::remove(name);
+  Settings::Presets::Preset::remove(name);
 
   this->fillPresetsList();
 }
 
 void DialogOptions::createPresetsDefault()
 {
-  Preset matrix(this);
+  Settings::Presets::Preset matrix(this);
 
   matrix.initMono(Parsing::Conversion::Options::MonochromeType::DiffuseDither);
   matrix.save(tr("Monochrome"));
@@ -201,7 +201,7 @@ void DialogOptions::createPresetsDefault()
 
 bool DialogOptions::checkOverwrite(const QString &originalName, QString *resultName) const
 {
-  QStringList existingNames = Preset::presetsList();
+  QStringList existingNames = Settings::Presets::Preset::presetsList();
 
   if (!existingNames.contains(originalName)) {
     *resultName = originalName;
@@ -245,7 +245,7 @@ void DialogOptions::on_pushButtonPreview_clicked()
 
 void DialogOptions::on_pushButtonPresetSaveAs_clicked()
 {
-  QStringList names = Preset::presetsList();
+  QStringList names = Settings::Presets::Preset::presetsList();
 
   QInputDialog dialog(this);
   dialog.setComboBoxItems(names);
@@ -275,16 +275,16 @@ void DialogOptions::on_pushButtonPresetImport_clicked()
 {
   QFileDialog dialog(this->parentWidget());
   dialog.setAcceptMode(QFileDialog::AcceptOpen);
-  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ImportPreset));
+  dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::ImportPreset));
   dialog.setFileMode(QFileDialog::ExistingFiles);
   dialog.setNameFilter(tr("XML Files (*.xml)"));
   dialog.setWindowTitle(tr("Open xml preset file"));
 
   if (dialog.exec() == QDialog::Accepted) {
-    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ImportPreset, dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ImportPreset, dialog.directory().absolutePath());
     QString filename = dialog.selectedFiles().at(0);
 
-    Preset *importedPreset = new Preset(this);
+    Settings::Presets::Preset *importedPreset = new Settings::Presets::Preset(this);
     importedPreset->loadXML(filename);
     QString resultPresetName;
 
@@ -302,7 +302,7 @@ void DialogOptions::on_pushButtonPresetExport_clicked()
 {
   QFileDialog dialog(this->parentWidget());
   dialog.setAcceptMode(QFileDialog::AcceptSave);
-  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ExportPreset));
+  dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::ExportPreset));
   dialog.setFileMode(QFileDialog::AnyFile);
   dialog.setNameFilter(tr("XML Files (*.xml)"));
   dialog.setDefaultSuffix(QString("xml"));
@@ -310,7 +310,7 @@ void DialogOptions::on_pushButtonPresetExport_clicked()
   dialog.selectFile(this->mPreset->name());
 
   if (dialog.exec() == QDialog::Accepted) {
-    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ExportPreset, dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ExportPreset, dialog.directory().absolutePath());
     QString filename = dialog.selectedFiles().at(0);
     this->mPreset->saveXML(filename);
   }
@@ -334,7 +334,7 @@ void DialogOptions::previewClosed()
 void DialogOptions::presetOverwiteNameChanged(const QString &value)
 {
   QInputDialog *dialog = qobject_cast<QInputDialog *>(sender());
-  QStringList existingNames = Preset::presetsList();
+  QStringList existingNames = Settings::Presets::Preset::presetsList();
 
   if (existingNames.contains(value)) {
     QString message = tr("Preset with name \"%1\" already exists. Continue with overwrite?", "Warning about preset overwrite").arg(value);
@@ -364,7 +364,7 @@ void DialogOptions::done(int result)
           }
 
           this->mPreset->save(name);
-          Preset::setSelectedName(name);
+          Settings::Presets::Preset::setSelectedName(name);
 
           QDialog::done(result);
           break;

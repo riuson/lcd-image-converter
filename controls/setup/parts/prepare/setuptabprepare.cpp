@@ -31,7 +31,7 @@
 #include "setuptabpreparepreprocessing.h"
 #include "setuptabpreparescanning.h"
 
-SetupTabPrepare::SetupTabPrepare(Preset *preset, QWidget *parent) :
+SetupTabPrepare::SetupTabPrepare(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabPrepare)
 {

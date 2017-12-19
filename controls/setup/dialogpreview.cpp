@@ -28,7 +28,7 @@
 #include "bitmaphelper.h"
 #include "conversionpreviewoptions.h"
 
-DialogPreview::DialogPreview(Data::Containers::DataContainer *dataContainer, Preset *matrix, QWidget *parent) :
+DialogPreview::DialogPreview(Data::Containers::DataContainer *dataContainer, Settings::Presets::Preset *matrix, QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogPreview)
 {
@@ -49,12 +49,12 @@ DialogPreview::DialogPreview(Data::Containers::DataContainer *dataContainer, Pre
   font.setStyleHint(QFont::TypeWriter);
   this->ui->plainTextEdit->setFont(font);
 
-  this->ui->spinBoxScale->setValue(ConversionPreviewOptions::scale());
+  this->ui->spinBoxScale->setValue(Settings::ConversionPreviewOptions::scale());
 }
 
 DialogPreview::~DialogPreview()
 {
-  ConversionPreviewOptions::setScale(this->mScale);
+  Settings::ConversionPreviewOptions::setScale(this->mScale);
   delete ui;
 }
 

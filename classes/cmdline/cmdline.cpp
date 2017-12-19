@@ -141,18 +141,18 @@ void CmdLine::processApplicationOptions()
   // Set path to application configuration file
   if (this->mParser.isSet("config-application")) {
     QString configFile = this->mParser.value("config-application");
-    AppSettings::configure(AppSettings::Section::Application, configFile);
+    Settings::AppSettings::configure(Settings::AppSettings::Section::Application, configFile);
   }
 
   // Set path to presets configuration file
   if (this->mParser.isSet("config-presets")) {
     QString configFile = this->mParser.value("config-presets");
-    AppSettings::configure(AppSettings::Section::Presets, configFile);
+    Settings::AppSettings::configure(Settings::AppSettings::Section::Presets, configFile);
   }
 
   // Reset all settings to default
   if (this->mParser.isSet("config-initialize")) {
-    AppSettings::reset();
+    Settings::AppSettings::reset();
   }
 }
 

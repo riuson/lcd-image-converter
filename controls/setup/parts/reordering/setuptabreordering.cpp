@@ -27,7 +27,7 @@
 #include "reorderingoptions.h"
 #include "imageoptions.h"
 
-SetupTabReordering::SetupTabReordering(Preset *preset, QWidget *parent) :
+SetupTabReordering::SetupTabReordering(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabReordering)
 {

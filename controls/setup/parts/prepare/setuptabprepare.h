@@ -29,7 +29,13 @@ namespace Ui
 class SetupTabPrepare;
 }
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 class SetupTabPrepareScanning;
 class SetupTabPreparePreprocessing;
 
@@ -38,7 +44,7 @@ class SetupTabPrepare : public QWidget
   Q_OBJECT
 
 public:
-  explicit SetupTabPrepare(Preset *preset, QWidget *parent = 0);
+  explicit SetupTabPrepare(Settings::Presets::Preset *preset, QWidget *parent = 0);
   virtual ~SetupTabPrepare();
 
 public slots:
@@ -46,7 +52,7 @@ public slots:
 
 private:
   Ui::SetupTabPrepare *ui;
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   SetupTabPreparePreprocessing *mTabPreprocessing;
   SetupTabPrepareScanning *mTabScanning;
 

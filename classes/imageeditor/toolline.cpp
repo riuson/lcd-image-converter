@@ -151,7 +151,7 @@ void ToolLine::initializeWidgets()
 
 void ToolLine::loadSettings()
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -171,7 +171,7 @@ void ToolLine::loadSettings()
 
 void ToolLine::saveSettings() const
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");

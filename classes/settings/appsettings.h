@@ -25,6 +25,9 @@
 #include <QDomDocument>
 #include <QMap>
 
+namespace Settings
+{
+
 class AppSettings
 {
 public:
@@ -61,5 +64,7 @@ protected:
   static bool escape(const QString &source, QString &result);
   static const QString unescape(const QString &value);
 };
+
+} // namespace Settings
 
 #endif // APPSETTINGS_H

@@ -22,11 +22,16 @@
 
 #include <QString>
 
+namespace Settings
+{
+
 class ExternalToolOptions
 {
 public:
   static const QString imageEditor();
   static void setImageEditor(const QString &value);
 };
+
+} // namespace Settings
 
 #endif // EXTERNALTOOLOPTIONS_H

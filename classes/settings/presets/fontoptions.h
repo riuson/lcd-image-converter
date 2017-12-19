@@ -28,6 +28,11 @@ class QStringList;
 class QSettings;
 class QDomElement;
 
+namespace Settings
+{
+namespace Presets
+{
+
 class FontOptions : public QObject
 {
   Q_OBJECT
@@ -66,5 +71,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Presets
+} // namespace Settings
 
 #endif // FONTOPTIONS_H

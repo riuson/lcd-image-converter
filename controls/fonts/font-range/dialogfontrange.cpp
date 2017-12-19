@@ -39,7 +39,7 @@ DialogFontRange::DialogFontRange(QWidget *parent) :
 
   this->mResultString = QString();
 
-  QStringList encodings = FontOptions::encodings();
+  QStringList encodings = Settings::Presets::FontOptions::encodings();
   qSort(encodings);
   this->ui->comboBoxEncoding->addItems(encodings);
   int index = this->ui->comboBoxEncoding->findText("UTF-8", Qt::MatchFixedString);
@@ -48,7 +48,7 @@ DialogFontRange::DialogFontRange(QWidget *parent) :
     this->ui->comboBoxEncoding->setCurrentIndex(index);
   }
 
-  this->mEncodingCompleter = new QCompleter(FontOptions::encodings(), this);
+  this->mEncodingCompleter = new QCompleter(Settings::Presets::FontOptions::encodings(), this);
   this->mEncodingCompleter->setCaseSensitivity(Qt::CaseInsensitive);
   this->mEncodingCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
   this->mEncodingCompleter->setFilterMode(Qt::MatchContains);

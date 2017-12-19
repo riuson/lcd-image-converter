@@ -121,7 +121,7 @@ void ToolZoom::initializeWidgets()
 
 void ToolZoom::loadSettings()
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -141,7 +141,7 @@ void ToolZoom::loadSettings()
 
 void ToolZoom::saveSettings() const
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");

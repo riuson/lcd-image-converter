@@ -23,6 +23,11 @@
 #include <QtXml>
 #include <QDomDocument>
 
+namespace Settings
+{
+namespace Presets
+{
+
 const QString ImageOptions::GroupName = QString("image");
 const QString ImageOptions::FieldBytesOrder = QString("bytesOrder");
 const QString ImageOptions::FieldBlockSize = QString("blockSize");
@@ -519,3 +524,5 @@ QString ImageOptions::unescapeEmpty(const QString &value) const
   return value;
 }
 
+} // namespace Presets
+} // namespace Settings

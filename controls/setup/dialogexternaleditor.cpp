@@ -29,7 +29,7 @@ DialogExternalEditor::DialogExternalEditor(QWidget *parent) :
 {
   ui->setupUi(this);
 
-  this->ui->lineEdit->setText(ExternalToolOptions::imageEditor());
+  this->ui->lineEdit->setText(Settings::ExternalToolOptions::imageEditor());
 }
 
 DialogExternalEditor::~DialogExternalEditor()
@@ -40,7 +40,7 @@ DialogExternalEditor::~DialogExternalEditor()
 void DialogExternalEditor::done(int result)
 {
   if (result == QDialog::Accepted) {
-    ExternalToolOptions::setImageEditor(this->ui->lineEdit->text());
+    Settings::ExternalToolOptions::setImageEditor(this->ui->lineEdit->text());
   }
 
   QDialog::done(result);

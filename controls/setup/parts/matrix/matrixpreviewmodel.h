@@ -25,7 +25,13 @@
 #include <QVariant>
 #include "conversion_options.h"
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 
 class MatrixPreviewModel : public QAbstractItemModel
 {
@@ -42,7 +48,7 @@ public:
     ResultPacked
   };
 
-  explicit MatrixPreviewModel(Preset *preset, QObject *parent = 0);
+  explicit MatrixPreviewModel(Settings::Presets::Preset *preset, QObject *parent = 0);
   virtual ~MatrixPreviewModel() {}
 
   int rowCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
@@ -56,7 +62,7 @@ public:
   RowType rowType(int row) const;
 
 private:
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
 
   enum ColorType {
     Empty,

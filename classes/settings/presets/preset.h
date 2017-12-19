@@ -24,14 +24,20 @@
 
 #include "conversion_options.h"
 
+class QString;
+class QStringList;
+
+namespace Settings
+{
+namespace Presets
+{
+
 class PrepareOptions;
 class MatrixOptions;
 class ReorderingOptions;
 class ImageOptions;
 class FontOptions;
 class TemplateOptions;
-class QString;
-class QStringList;
 
 using namespace Parsing::Conversion::Options;
 
@@ -85,5 +91,8 @@ private slots:
   void partsChanged();
 
 };
+
+} // namespace Presets
+} // namespace Settings
 
 #endif // PRESET_H

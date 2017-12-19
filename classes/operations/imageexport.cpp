@@ -42,7 +42,7 @@ bool ImageExport::prepare(const Data::Containers::IDocument *doc, const QStringL
 
   QFileDialog dialog(this->mParentWidget);
   dialog.setAcceptMode(QFileDialog::AcceptSave);
-  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ExportImage));
+  dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::ExportImage));
   dialog.setFileMode(QFileDialog::AnyFile);
   dialog.setWindowTitle(tr("Save image file"));
 
@@ -57,16 +57,16 @@ bool ImageExport::prepare(const Data::Containers::IDocument *doc, const QStringL
   dialog.setNameFilters(filters);
   dialog.selectNameFilter(
     filters.at(
-      FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::ExportImage) < filters.count()
+      Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::ExportImage) < filters.count()
       ?
-      FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::ExportImage)
+      Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::ExportImage)
       :
       0));
 
   if (dialog.exec() == QDialog::Accepted) {
     QString filter = dialog.selectedNameFilter();
-    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ExportImage, dialog.directory().absolutePath());
-    FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::ExportImage, filters.indexOf(filter));
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ExportImage, dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setFilterIndex(Settings::FileDialogOptions::Dialogs::ExportImage, filters.indexOf(filter));
     QString ext = "png";
 
     if (filter.contains("bmp")) {

@@ -50,7 +50,7 @@ namespace Conversion
 {
 
 void ConverterHelper::pixelsData(
-  PrepareOptions *prepare,
+  Settings::Presets::PrepareOptions *prepare,
   const QString &scanScript,
   const QString &pixelScript,
   const QImage *image,
@@ -66,10 +66,10 @@ void ConverterHelper::pixelsData(
     *height = im.height();
 
     // monochrome image needs special preprocessing
-    ConversionType type = prepare->convType();
+    Settings::Presets::ConversionType type = prepare->convType();
 
     if (type == Parsing::Conversion::Options::ConversionType::Monochrome) {
-      MonochromeType monotype = prepare->monoType();
+      Settings::Presets::MonochromeType monotype = prepare->monoType();
       int edge = prepare->edge();
 
       switch (monotype) {
@@ -270,7 +270,7 @@ void ConverterHelper::convertPixelsByScript(const QString &script, QVector<quint
   }
 }
 
-void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
+void ConverterHelper::processPixels(Settings::Presets::Preset *preset, QVector<quint32> *data)
 {
   if (preset != nullptr && data != nullptr) {
     for (int i = 0; i < data->size(); i++) {
@@ -302,7 +302,7 @@ void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
 }
 
 void ConverterHelper::packData(
-  Preset *preset,
+  Settings::Presets::Preset *preset,
   QVector<quint32> *inputData, int inputWidth, int inputHeight,
   QVector<quint32> *outputData,
   int *outputWidth, int *outputHeight)
@@ -371,7 +371,7 @@ void ConverterHelper::packData(
 }
 
 void ConverterHelper::reorder(
-  Preset *preset,
+  Settings::Presets::Preset *preset,
   QVector<quint32> *inputData,
   int inputWidth,
   int inputHeight,
@@ -407,7 +407,7 @@ void ConverterHelper::reorder(
   *outputHeight = inputHeight;
 }
 
-void ConverterHelper::compressData(Preset *preset,
+void ConverterHelper::compressData(Settings::Presets::Preset *preset,
                                    QVector<quint32> *inputData,
                                    int inputWidth, int inputHeight,
                                    QVector<quint32> *outputData,
@@ -428,7 +428,7 @@ void ConverterHelper::compressData(Preset *preset,
   }
 }
 
-void ConverterHelper::prepareImage(Preset *preset, const QImage *source, QImage *result)
+void ConverterHelper::prepareImage(Settings::Presets::Preset *preset, const QImage *source, QImage *result)
 {
   if (source != nullptr) {
     QImage im = *source;
@@ -441,7 +441,7 @@ void ConverterHelper::prepareImage(Preset *preset, const QImage *source, QImage 
   }
 }
 
-void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage *result)
+void ConverterHelper::createImagePreview(Settings::Presets::Preset *preset, QImage *source, QImage *result)
 {
   if (source != nullptr) {
     QImage im = *source;
@@ -563,7 +563,7 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
   }
 }
 
-static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
+static inline QString uint2hex(Settings::Presets::DataBlockSize blockSize, quint32 value)
 {
   QChar temp[10];
   static const QChar table[] = {
@@ -620,12 +620,12 @@ static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
 }
 
 QString ConverterHelper::dataToString(
-  Preset *preset,
+  Settings::Presets::Preset *preset,
   QVector<quint32> *data, int width, int height)
 {
   QString result, converted;
 
-  DataBlockSize blockSize = preset->image()->blockSize();
+  Settings::Presets::DataBlockSize blockSize = preset->image()->blockSize();
   QString prefix = preset->image()->blockPrefix();
   QString suffix = preset->image()->blockSuffix();
   QString delimiter = preset->image()->blockDelimiter();
@@ -675,7 +675,7 @@ QString ConverterHelper::dataToString(
   return result;
 }
 
-QString ConverterHelper::previewDataToString(Preset *preset, const QVector<quint32> *data, int width, int height)
+QString ConverterHelper::previewDataToString(Settings::Presets::Preset *preset, const QVector<quint32> *data, int width, int height)
 {
   QString result;
 
@@ -734,10 +734,10 @@ QString ConverterHelper::previewDataToString(Preset *preset, const QVector<quint
   return result;
 }
 
-QString ConverterHelper::scanScript(Preset *preset)
+QString ConverterHelper::scanScript(Settings::Presets::Preset *preset)
 {
   QString result;
-  const PrepareOptions *prepare = preset->prepare();
+  const Settings::Presets::PrepareOptions *prepare = preset->prepare();
 
   if (prepare->useCustomScanScript()) {
     result = prepare->customScanScript();
@@ -824,7 +824,7 @@ QString ConverterHelper::scanScriptTemplate()
   return result;
 }
 
-QString ConverterHelper::pixelsScript(Preset *preset)
+QString ConverterHelper::pixelsScript(Settings::Presets::Preset *preset)
 {
   QString result = preset->prepare()->customPreprocessScript();
 
@@ -892,7 +892,7 @@ void ConverterHelper::makeGrayscale(QImage &image)
   }
 }
 
-void ConverterHelper::packDataRow(Preset *preset, QVector<quint32> *inputData, int start, int count, QVector<quint32> *outputData, int *rowLength)
+void ConverterHelper::packDataRow(Settings::Presets::Preset *preset, QVector<quint32> *inputData, int start, int count, QVector<quint32> *outputData, int *rowLength)
 {
   *rowLength = 0;
 
@@ -912,7 +912,7 @@ void ConverterHelper::packDataRow(Preset *preset, QVector<quint32> *inputData, i
   }
 }
 
-quint32 ConverterHelper::toBigEndian(Preset *preset, quint32 value)
+quint32 ConverterHelper::toBigEndian(Settings::Presets::Preset *preset, quint32 value)
 {
   quint8 src1, src2, src3, src4;
   src1 = value & 0xff;

@@ -35,7 +35,14 @@ class IDataContainer;
 }
 }
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
+
 class QImage;
 
 namespace Parsing
@@ -52,7 +59,7 @@ public:
     TypeFont
   };
 
-  Parser(TemplateType templateType, Preset *preset, QObject *parent);
+  Parser(TemplateType templateType, Settings::Presets::Preset *preset, QObject *parent);
   virtual ~Parser();
 
   QString name();
@@ -60,7 +67,7 @@ public:
   QString convert(Data::Containers::IDocument *document, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, TagsList &tags) const;
 
 private:
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   QString mTemplateFileName;
 
   QString parse(const QString &templateString, TagsList &tags, Data::Containers::IDocument *doc, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images) const;

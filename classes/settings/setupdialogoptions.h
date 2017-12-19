@@ -20,6 +20,9 @@
 #ifndef SETUPDIALOGOPTIONS_H
 #define SETUPDIALOGOPTIONS_H
 
+namespace Settings
+{
+
 class SetupDialogOptions
 {
 public:
@@ -28,5 +31,7 @@ public:
   static int animationInterval();
   static void setAnimationInterval(int value);
 };
+
+} // namespace Settings
 
 #endif // SETUPDIALOGOPTIONS_H

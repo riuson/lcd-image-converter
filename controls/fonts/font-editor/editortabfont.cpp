@@ -61,7 +61,7 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
   this->mModel = new Data::Models::ImagesModel(this->mDocument->dataContainer(), this);
 
   this->mScaledProxy = new Data::Models::ImagesScaledProxy(this);
-  this->mScaledProxy->setScale(FontEditorOptions::scale());
+  this->mScaledProxy->setScale(Settings::FontEditorOptions::scale());
   this->connect(this->mScaledProxy, SIGNAL(scaleChanged(int)), SLOT(resizeToContents()));
 
   this->mScaledProxy->setSourceModel(this->mModel);
@@ -190,7 +190,7 @@ void EditorTabFont::wheelEvent(QWheelEvent *event)
           this->mScaledProxy->setScale(this->mScaledProxy->scale() - 1);
         }
 
-        FontEditorOptions::setScale(this->mScaledProxy->scale());
+        Settings::FontEditorOptions::setScale(this->mScaledProxy->scale());
       }
 
       event->accept();

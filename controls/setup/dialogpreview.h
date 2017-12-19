@@ -26,7 +26,13 @@ namespace Ui
 {
 class DialogPreview;
 }
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 namespace Data
 {
 namespace Containers
@@ -40,7 +46,7 @@ class DialogPreview : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogPreview(Data::Containers::DataContainer *dataContainer, Preset *matrix, QWidget *parent = 0);
+  explicit DialogPreview(Data::Containers::DataContainer *dataContainer, Settings::Presets::Preset *matrix, QWidget *parent = 0);
   virtual ~DialogPreview();
   void updatePreview();
 
@@ -50,7 +56,7 @@ private:
   Data::Containers::DataContainer *mData;
   QImage mImageOriginal;
   QImage mImageProcessed;
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   int mScale;
 
 protected:

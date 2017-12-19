@@ -88,7 +88,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
   // Sort characters
   this->connect(this->ui->pushButtonSort, SIGNAL(clicked(bool)), this->mData, SLOT(resort()));
 
-  this->updateColorIcons(FontEditorOptions::foreColor(), FontEditorOptions::backColor());
+  this->updateColorIcons(Settings::FontEditorOptions::foreColor(), Settings::FontEditorOptions::backColor());
 
   this->mData->setFont(this->ui->fontComboBox->currentFont());
   this->ui->lineEdit->setText(this->mData->characters());
@@ -126,7 +126,7 @@ void DialogFontSelect::setFontParameters(const Data::Containers::FontParameters 
 
 void DialogFontSelect::loadSettings()
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("dialog-font-select");
   sett.beginGroup("toolbox");
@@ -146,7 +146,7 @@ void DialogFontSelect::loadSettings()
 
 void DialogFontSelect::saveSettings() const
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("dialog-font-select");
   sett.beginGroup("toolbox");
@@ -265,7 +265,7 @@ void DialogFontSelect::on_pushButtonForeColor_clicked()
   dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
   if (dialog.exec() == QDialog::Accepted) {
-    FontEditorOptions::setForeColor(dialog.selectedColor());
+    Settings::FontEditorOptions::setForeColor(dialog.selectedColor());
     this->mData->setForeground(dialog.selectedColor());
   }
 }
@@ -276,7 +276,7 @@ void DialogFontSelect::on_pushButtonBackColor_clicked()
   dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
   if (dialog.exec() == QDialog::Accepted) {
-    FontEditorOptions::setBackColor(dialog.selectedColor());
+    Settings::FontEditorOptions::setBackColor(dialog.selectedColor());
     this->mData->setBackground(dialog.selectedColor());
   }
 }

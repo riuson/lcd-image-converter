@@ -27,14 +27,20 @@ namespace Ui
 class SetupTabImage;
 }
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 
 class SetupTabImage : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit SetupTabImage(Preset *preset, QWidget *parent = 0);
+  explicit SetupTabImage(Settings::Presets::Preset *preset, QWidget *parent = 0);
   virtual ~SetupTabImage();
 
 public slots:
@@ -42,7 +48,7 @@ public slots:
 
 private:
   Ui::SetupTabImage *ui;
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
 
 private slots:
   void on_checkBoxSplitToRows_toggled(bool value);

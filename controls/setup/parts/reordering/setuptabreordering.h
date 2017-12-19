@@ -27,7 +27,13 @@ namespace Ui
 class SetupTabReordering;
 }
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 class ReorderingPreviewModel;
 class ReorderingItemDelegate;
 class QMenu;
@@ -37,7 +43,7 @@ class SetupTabReordering : public QWidget
   Q_OBJECT
 
 public:
-  explicit SetupTabReordering(Preset *preset, QWidget *parent = 0);
+  explicit SetupTabReordering(Settings::Presets::Preset *preset, QWidget *parent = 0);
   virtual ~SetupTabReordering();
 
 public slots:
@@ -45,7 +51,7 @@ public slots:
 
 private:
   Ui::SetupTabReordering *ui;
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   ReorderingPreviewModel *mReorderingModel;
   ReorderingItemDelegate *mReorderingItemDelegate;
   QMenu *mMenu;

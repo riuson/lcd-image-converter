@@ -20,11 +20,16 @@
 #ifndef RESIZESETTINGS_H
 #define RESIZESETTINGS_H
 
+namespace Settings
+{
+
 class ResizeSettings
 {
 public:
   static int scale();
   static void setScale(int value);
 };
+
+} // namespace Settings
 
 #endif // RESIZESETTINGS_H

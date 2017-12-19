@@ -22,6 +22,9 @@
 
 #include <QColor>
 
+namespace Settings
+{
+
 class FontEditorOptions
 {
 public:
@@ -33,5 +36,7 @@ public:
   static void setForeColor(const QColor &value);
   static void setBackColor(const QColor &value);
 };
+
+} // namespace Settings
 
 #endif // FONTEDITOROPTIONS_H

@@ -26,6 +26,11 @@
 class QSettings;
 class QDomElement;
 
+namespace Settings
+{
+namespace Presets
+{
+
 class TemplateOptions : public QObject
 {
   Q_OBJECT
@@ -58,5 +63,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Presets
+} // namespace Settings
 
 #endif // TEMPLATEOPTIONS_H

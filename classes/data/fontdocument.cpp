@@ -99,8 +99,8 @@ bool FontDocument::load(const QString &fileName)
         int size = 0;
         int ascent = 0, descent = 0;
         bool monospaced = false, antialiasing = false;
-        QColor foreground = FontEditorOptions::foreColor();
-        QColor background = FontEditorOptions::backColor();
+        QColor foreground = Settings::FontEditorOptions::foreColor();
+        QColor background = Settings::FontEditorOptions::backColor();
 
         QDomNode n = root.firstChild();
 
@@ -396,7 +396,7 @@ DataContainer *FontDocument::dataContainer() const
   return this->mContainer;
 }
 
-QString FontDocument::convert(Preset *preset)
+QString FontDocument::convert(Settings::Presets::Preset *preset)
 {
   Parsing::TagsList tags;
 
@@ -677,7 +677,7 @@ QColor FontDocument::foreground() const
     return Parsing::Conversion::BitmapHelper::fromRgba(QRgb(rgbValue));
   }
 
-  return FontEditorOptions::foreColor();
+  return Settings::FontEditorOptions::foreColor();
 }
 
 void FontDocument::setForeground(const QColor value)
@@ -694,7 +694,7 @@ QColor FontDocument::background() const
     return Parsing::Conversion::BitmapHelper::fromRgba(QRgb(rgbValue));
   }
 
-  return FontEditorOptions::backColor();
+  return Settings::FontEditorOptions::backColor();
 }
 
 void FontDocument::setBackground(const QColor value)
@@ -722,7 +722,7 @@ void FontDocument::setDescent(int value)
   this->mContainer->setCommonInfo("descent", value);
 }
 
-void FontDocument::prepareImages(Preset *preset, const QStringList &orderedKeys, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const
+void FontDocument::prepareImages(Settings::Presets::Preset *preset, const QStringList &orderedKeys, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const
 {
   DataContainer *data = this->dataContainer();
 
@@ -859,12 +859,12 @@ bool caseInsensitiveMoreThan(const QString &s1, const QString &s2)
   return s1.toLower() > s2.toLower();
 }
 
-const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Preset *preset) const
+const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Settings::Presets::Preset *preset) const
 {
 
   bool useBom = preset->font()->bom();
   QString encoding = preset->font()->encoding();
-  CharactersSortOrder order = preset->font()->sortOrder();
+  Settings::Presets::CharactersSortOrder order = preset->font()->sortOrder();
 
   if (order == Parsing::Conversion::Options::CharactersSortOrder::None) {
     return keys;

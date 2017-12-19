@@ -32,7 +32,7 @@
 namespace Parsing
 {
 
-ParsedImageData::ParsedImageData(Preset *preset, const QImage *image, const TagsList &tags, QObject *parent) :
+ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage *image, const TagsList &tags, QObject *parent) :
   QObject(parent)
 {
   this->mTags = new TagsList();

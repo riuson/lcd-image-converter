@@ -27,6 +27,11 @@
 class QSettings;
 class QDomElement;
 
+namespace Settings
+{
+namespace Presets
+{
+
 class ImageOptions : public QObject
 {
   Q_OBJECT
@@ -107,5 +112,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Presets
+} // namespace Settings
 
 #endif // IMAGEOPTIONS_H

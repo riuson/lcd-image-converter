@@ -24,7 +24,14 @@
 #include "idocument.h"
 
 template <class T1, class T2> class QMap;
+
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 
 namespace Parsing
 {
@@ -55,7 +62,7 @@ public:
   QString outputFilename() const Q_DECL_OVERRIDE;
   void setOutputFilename(const QString &value) Q_DECL_OVERRIDE;
   DataContainer *dataContainer() const Q_DECL_OVERRIDE;
-  QString convert(Preset *preset) Q_DECL_OVERRIDE;
+  QString convert(Settings::Presets::Preset *preset) Q_DECL_OVERRIDE;
 
   void beginChanges() Q_DECL_OVERRIDE;
   void endChanges(bool suppress) Q_DECL_OVERRIDE;
@@ -72,7 +79,7 @@ private:
 
   void setDocumentFilename(const QString &value);
 
-  void prepareImages(Preset *preset, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const;
+  void prepareImages(Settings::Presets::Preset *preset, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const;
 
 private slots:
   void mon_container_dataChanged(bool historyStateMoved);

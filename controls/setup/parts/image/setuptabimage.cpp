@@ -25,7 +25,7 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 
-SetupTabImage::SetupTabImage(Preset *preset, QWidget *parent) :
+SetupTabImage::SetupTabImage(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabImage)
 {
@@ -103,7 +103,7 @@ void SetupTabImage::on_comboBoxBlockSize_currentIndexChanged(int index)
   int a = data.toInt(&ok);
 
   if (ok) {
-    this->mPreset->image()->setBlockSize((DataBlockSize)a);
+    this->mPreset->image()->setBlockSize((Settings::Presets::DataBlockSize)a);
   }
 }
 

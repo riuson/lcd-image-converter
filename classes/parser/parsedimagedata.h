@@ -23,7 +23,14 @@
 #include <QObject>
 
 class QImage;
+
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 
 namespace Parsing
 {
@@ -33,7 +40,7 @@ class ParsedImageData : public QObject
 {
   Q_OBJECT
 public:
-  explicit ParsedImageData(Preset *preset, const QImage *image, const TagsList &tags, QObject *parent = 0);
+  explicit ParsedImageData(Settings::Presets::Preset *preset, const QImage *image, const TagsList &tags, QObject *parent = 0);
   virtual ~ParsedImageData();
 
   TagsList *tags() const;

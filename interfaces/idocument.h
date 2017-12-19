@@ -25,7 +25,14 @@
 class QImage;
 class QString;
 class StatusData;
+
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 
 namespace Data
 {
@@ -45,7 +52,7 @@ public:
   virtual QString outputFilename() const = 0;
   virtual void setOutputFilename(const QString &value) = 0;
   virtual DataContainer *dataContainer() const = 0;
-  virtual QString convert(Preset *preset) = 0;
+  virtual QString convert(Settings::Presets::Preset *preset) = 0;
 
   virtual void beginChanges() = 0;
   virtual void endChanges(bool suppress) = 0;

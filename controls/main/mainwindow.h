@@ -30,7 +30,11 @@ class MainWindow;
 
 class QTranslator;
 class WidgetBitmapEditor;
+
+namespace Settings
+{
 class RecentList;
+}
 
 namespace AppUI
 {
@@ -64,7 +68,7 @@ protected:
 private:
   Ui::MainWindow *ui;
   QTranslator *mTrans;
-  RecentList *mRecentList;
+  Settings::RecentList *mRecentList;
   Status::StatusManager *mStatusManager;
 
   void selectLocale(const QString &localeName);

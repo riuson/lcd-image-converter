@@ -145,7 +145,7 @@ void ToolPen::initializeWidgets()
 
 void ToolPen::loadSettings()
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -165,7 +165,7 @@ void ToolPen::loadSettings()
 
 void ToolPen::saveSettings() const
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");

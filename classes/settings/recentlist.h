@@ -25,6 +25,9 @@
 //class QStringList;
 //class QStringListIterator;
 
+namespace Settings
+{
+
 class RecentList : public QObject
 {
   Q_OBJECT
@@ -43,5 +46,7 @@ signals:
 public slots:
 
 };
+
+} // namespace Settings
 
 #endif // RECENTLIST_H

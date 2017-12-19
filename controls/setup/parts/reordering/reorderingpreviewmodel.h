@@ -25,7 +25,13 @@
 #include <QVariant>
 #include "conversion_options.h"
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 
 class ReorderingPreviewModel : public QAbstractItemModel
 {
@@ -37,7 +43,7 @@ public:
     Result
   };
 
-  explicit ReorderingPreviewModel(Preset *preset, QObject *parent = 0);
+  explicit ReorderingPreviewModel(Settings::Presets::Preset *preset, QObject *parent = 0);
   virtual ~ReorderingPreviewModel() {}
 
   int rowCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
@@ -51,7 +57,7 @@ public:
   RowType rowType(int row) const;
 
 private:
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
 
   enum ColorType {
     Empty,
