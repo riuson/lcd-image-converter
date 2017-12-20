@@ -9,7 +9,7 @@ TestMatrixOptions::TestMatrixOptions(QObject *parent) :
 
 void TestMatrixOptions::initTestCase()
 {
-  this->mOptions = new MatrixOptions(this);
+  this->mOptions = new Settings::Presets::MatrixOptions(this);
 }
 
 void TestMatrixOptions::mask()

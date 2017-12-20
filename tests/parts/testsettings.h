@@ -8,7 +8,7 @@
 class QFile;
 template <class T> class QVector;
 
-class AppSettingsExt : public AppSettings
+class AppSettingsExt : public Settings::AppSettings
 {
 public:
   using AppSettings::isNameStartCharValid;

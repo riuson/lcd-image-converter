@@ -4,7 +4,13 @@
 #include <QObject>
 #include <QtTest/QtTest>
 
+namespace Settings
+{
+namespace Presets
+{
 class ImageOptions;
+}
+}
 
 class TestImageOptions : public QObject
 {
@@ -14,7 +20,7 @@ public:
   virtual ~TestImageOptions() {}
 
 private:
-  ImageOptions *mOptions;
+  Settings::Presets::ImageOptions *mOptions;
 
 private slots:
   void initTestCase();

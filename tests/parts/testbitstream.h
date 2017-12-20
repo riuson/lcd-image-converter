@@ -13,7 +13,7 @@ public:
   virtual ~TestBitStream() {}
 
 private:
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   void preparePackData(
     quint32 maskUsed, quint32 maskFill,
     QVector<quint32> *source, QVector<quint32> *packed);

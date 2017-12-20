@@ -4,7 +4,13 @@
 #include <QObject>
 #include <QtTest/QtTest>
 
+namespace Settings
+{
+namespace Presets
+{
 class MatrixOptions;
+}
+}
 
 class TestMatrixOptions : public QObject
 {
@@ -14,7 +20,7 @@ public:
   virtual ~TestMatrixOptions() {}
 
 private:
-  MatrixOptions *mOptions;
+  Settings::Presets::MatrixOptions *mOptions;
 
 private slots:
   void initTestCase();

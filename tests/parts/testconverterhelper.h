@@ -6,9 +6,13 @@
 #include "conversion_options.h"
 #include "convimagescan.h"
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
-
-using namespace ConversionOptions;
+}
+}
 
 class TestConverterHelper : public QObject
 {
@@ -18,14 +22,14 @@ public:
   virtual ~TestConverterHelper() {}
 
 private:
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   void preparePackData(
     quint32 maskUsed, quint32 maskFill,
     QVector<quint32> *source, int width, int height,
     bool splitToRows, QVector<quint32> *packed, int *widthOut, int *heightOut);
   void prepareStringData(
     QVector<quint32> *source, int width, int height,
-    bool splitToRows, DataBlockSize size, QString *string);
+    bool splitToRows, Parsing::Conversion::Options::DataBlockSize size, QString *string);
 
 private slots:
   void initTestCase();
@@ -37,7 +41,7 @@ private slots:
   void cleanupTestCase();
 };
 
-class TestConvImage : public ConvImageScan
+class TestConvImage : public Parsing::Conversion::ConvImageScan
 {
   Q_OBJECT
 public:

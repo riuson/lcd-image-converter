@@ -4,7 +4,13 @@
 #include <QObject>
 #include <QtTest/QtTest>
 
+namespace Settings
+{
+namespace Presets
+{
 class FontOptions;
+}
+}
 
 class TestFontOptions : public QObject
 {
@@ -14,7 +20,7 @@ public:
   virtual ~TestFontOptions() {}
 
 private:
-  FontOptions *mOptions;
+  Settings::Presets::FontOptions *mOptions;
 
 private slots:
   void initTestCase();
