@@ -25,6 +25,11 @@
 #include <QTextCodec>
 #include <QCompleter>
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 DialogFontRange::DialogFontRange(QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogFontRange)
@@ -114,3 +119,5 @@ void DialogFontRange::on_plainTextEditPreview_textChanged()
   this->mResultString = Parsing::Conversion::FontHelper::unescapeControlChars(this->ui->plainTextEditPreview->toPlainText());
 }
 
+} // namespace Fonts
+} // namespace AppUI

@@ -42,13 +42,40 @@ namespace Presets
 class Preset;
 }
 }
+
+namespace AppUI
+{
+namespace Setup
+{
 class DialogPreview;
+
+namespace Parts
+{
+namespace Prepare
+{
 class SetupTabPrepare;
-class SetupTabMatrix;
-class SetupTabReordering;
+}
+namespace Image
+{
 class SetupTabImage;
+}
+namespace Font
+{
 class SetupTabFont;
+}
+namespace Matrix
+{
+class SetupTabMatrix;
+}
+namespace Reordering
+{
+class SetupTabReordering;
+}
+namespace Templates
+{
 class SetupTabTemplates;
+}
+}
 
 class DialogOptions : public QDialog
 {
@@ -68,12 +95,12 @@ private:
 
   DialogPreview *mPreview;
 
-  SetupTabPrepare    *mSetupPrepare;
-  SetupTabMatrix     *mSetupMatrix;
-  SetupTabReordering *mSetupReordering;
-  SetupTabImage      *mSetupImage;
-  SetupTabFont       *mSetupFont;
-  SetupTabTemplates  *mSetupTemplates;
+  Parts::Prepare::SetupTabPrepare *mSetupPrepare;
+  Parts::Matrix::SetupTabMatrix *mSetupMatrix;
+  Parts::Reordering::SetupTabReordering *mSetupReordering;
+  Parts::Image::SetupTabImage *mSetupImage;
+  Parts::Font::SetupTabFont *mSetupFont;
+  Parts::Templates::SetupTabTemplates *mSetupTemplates;
 
   void fillPresetsList(const QString &defaultName = QString());
   void presetLoad(const QString &name);
@@ -98,5 +125,8 @@ protected:
 signals:
   void presetLoaded();
 };
+
+} // namespace Setup
+} // namespace AppUI
 
 #endif // DIALOGOPTIONS_H

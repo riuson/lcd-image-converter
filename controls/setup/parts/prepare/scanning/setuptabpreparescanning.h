@@ -17,6 +17,15 @@ namespace Presets
 class Preset;
 }
 }
+
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
 class DemoGenerator;
 
 class SetupTabPrepareScanning : public QWidget
@@ -51,5 +60,10 @@ private slots:
   void on_spinBoxAnimationTime_valueChanged(int value);
   void on_spinBoxAnimationInterval_valueChanged(int value);
 };
+
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABPREPARESCANNING_H

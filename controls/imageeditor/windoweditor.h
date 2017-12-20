@@ -34,6 +34,12 @@ namespace Tools
 class ToolsManager;
 class IImageEditorTool;
 }
+}
+
+namespace AppUI
+{
+namespace Images
+{
 
 class WindowEditor : public QMainWindow
 {
@@ -58,8 +64,8 @@ private:
   QImage mImageOriginal;
   QImage mImageScaled;
   QPixmap mPixmapScaled;
-  Tools::ToolsManager *mTools;
-  Tools::IImageEditorTool *mSelectedTool;
+  ImageEditor::Tools::ToolsManager *mTools;
+  ImageEditor::Tools::IImageEditorTool *mSelectedTool;
 
   void updateImageScaled(int value);
   void updateImageScaled(const QImage &image, int scale);
@@ -82,6 +88,7 @@ signals:
   void scaleChanged(int scale);
 };
 
-} // end of namespace
+} // namespace Images
+} // namespace AppUI
 
 #endif // WINDOWEDITOR_H

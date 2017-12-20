@@ -28,7 +28,7 @@ namespace ImageEditor
 
 Editor::Editor(QObject *parent) : QObject(parent)
 {
-  this->mWidget = new WindowEditor();
+  this->mWidget = new AppUI::Images::WindowEditor();
   this->connect(this->mWidget, SIGNAL(imageChanged()), SLOT(on_imageChanged()));
   this->connect(this->mWidget, SIGNAL(mouseMove(const QPoint *)), SLOT(on_mouseMove(const QPoint *)));
   this->connect(this->mWidget, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));

@@ -18,6 +18,15 @@ class Preset;
 }
 }
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
+
 class SetupTabPreparePreprocessing : public QWidget
 {
   Q_OBJECT
@@ -45,5 +54,10 @@ private slots:
   void updateState();
   void updateScript();
 };
+
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABPREPAREPREPROCESSING_H

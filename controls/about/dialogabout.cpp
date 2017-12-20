@@ -25,6 +25,9 @@
 #include "revisioninfo.h"
 #include "bitmaphelper.h"
 
+namespace AppUI
+{
+
 DialogAbout::DialogAbout(QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogAbout)
@@ -86,3 +89,4 @@ void DialogAbout::showLicense()
   }
 }
 
+} // namespace AppUI

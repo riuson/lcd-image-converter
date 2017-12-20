@@ -26,6 +26,11 @@
 
 #include "bitmaphelper.h"
 
+namespace AppUI
+{
+namespace Images
+{
+
 WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
   QWidget(parent),
   ui(new Ui::WidgetBitmapEditor)
@@ -256,3 +261,5 @@ void WidgetBitmapEditor::setColor2(const QColor value)
   this->mColor2 = value;
 }
 
+} // namespace Images
+} // namespace AppUI

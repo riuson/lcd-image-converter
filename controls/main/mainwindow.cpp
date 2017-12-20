@@ -163,7 +163,7 @@ void MainWindow::checkStartPageVisible()
 
   for (int i = 0; i < this->ui->tabWidget->count(); i++) {
     QWidget *w = this->ui->tabWidget->widget(i);
-    StartTab *tab = dynamic_cast<StartTab *> (w);
+    AppUI::Start::StartTab *tab = dynamic_cast<AppUI::Start::StartTab *> (w);
 
     if (tab == nullptr) {
       othersTabs++;
@@ -174,7 +174,7 @@ void MainWindow::checkStartPageVisible()
 
   if (othersTabs == 0) {
     if (startPageIndex < 0) {
-      StartTab *tab = new StartTab(this->ui->tabWidget);
+      AppUI::Start::StartTab *tab = new AppUI::Start::StartTab(this->ui->tabWidget);
       tab->setParent(this->ui->tabWidget);
       tab->setRecentFiles(this->mRecentList->files());
       this->mFileHandlers->connect(tab, SIGNAL(openRecent(QString)), SLOT(openFile(QString)));
@@ -186,7 +186,7 @@ void MainWindow::checkStartPageVisible()
     }
   } else {
     if (startPageIndex >= 0) {
-      StartTab *tab = dynamic_cast<StartTab *> (this->ui->tabWidget->widget(startPageIndex));
+      AppUI::Start::StartTab *tab = dynamic_cast<AppUI::Start::StartTab *> (this->ui->tabWidget->widget(startPageIndex));
       this->ui->tabWidget->removeTab(startPageIndex);
       this->ui->tabWidget->setTabsClosable(true);
       delete tab;
@@ -302,11 +302,11 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
   bool cancel = false;
 
   if (editor != nullptr && editor->document()->changed()) {
-    DialogSaveChanges dialog(editor->document()->documentName(), this);
+    AppUI::CommonDialogs::DialogSaveChanges dialog(editor->document()->documentName(), this);
     dialog.exec();
 
     switch (dialog.answer()) {
-      case DialogSaveChanges::Save: {
+      case AppUI::CommonDialogs::DialogSaveChanges::Save: {
         if (QFile::exists(editor->document()->documentFilename())) {
           if (editor->document()->save(editor->document()->documentFilename())) {
             this->rememberFilename(editor->document()->documentFilename());
@@ -343,10 +343,10 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
         break;
       }
 
-      case DialogSaveChanges::DontSave:
+      case AppUI::CommonDialogs::DialogSaveChanges::DontSave:
         break;
 
-      case DialogSaveChanges::Cancel:
+      case AppUI::CommonDialogs::DialogSaveChanges::Cancel:
         cancel = true;
         break;
     }

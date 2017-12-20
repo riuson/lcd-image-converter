@@ -23,6 +23,15 @@
 #include <QtGui>
 #include <QtWidgets>
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Matrix
+{
+
 class MatrixItemDelegate : public QItemDelegate
 {
 public:
@@ -37,5 +46,10 @@ public:
 private:
   QColor mColor;
 };
+
+} // namespace Matrix
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // MATRIXITEMDELEGATE_H

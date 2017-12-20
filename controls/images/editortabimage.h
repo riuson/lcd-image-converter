@@ -41,23 +41,25 @@ class IDocument;
 }
 }
 
+namespace ImageEditor
+{
+class Editor;
+}
+
 namespace AppUI
 {
 namespace Status
 {
 class StatusData;
 }
-}
 
-namespace ImageEditor
+namespace Images
 {
-class Editor;
-}
 
 class EditorTabImage : public QWidget, public IEditor
 {
   Q_OBJECT
-  Q_INTERFACES(IEditor)
+  Q_INTERFACES(AppUI::IEditor)
 
 public:
   explicit EditorTabImage(QWidget *parent = 0);
@@ -91,5 +93,8 @@ signals:
   void documentChanged();
   void statusChanged();
 };
+
+} // namespace Images
+} // namespace AppUI
 
 #endif // EDITORTABIMAGE_H

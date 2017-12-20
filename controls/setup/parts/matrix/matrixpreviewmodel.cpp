@@ -25,6 +25,15 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Matrix
+{
+
 MatrixPreviewModel::MatrixPreviewModel(Settings::Presets::Preset *preset, QObject *parent) :
   QAbstractItemModel(parent)
 {
@@ -684,3 +693,7 @@ void MatrixPreviewModel::callReset()
   this->endResetModel();
 }
 
+} // namespace Matrix
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

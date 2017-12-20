@@ -23,6 +23,11 @@
 #include <QFile>
 #include <QRegExp>
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 UnicodeBlock::UnicodeBlock(const QString &name, quint32 firstCode, quint32 lastCode)
 {
   this->mName = name;
@@ -126,3 +131,5 @@ int UnicodeBlocksModel::rowCount(const QModelIndex &parent) const
   return this->mList.length();
 }
 
+} // namespace Fonts
+} // namespace AppUI

@@ -24,6 +24,15 @@
 #include "preset.h"
 #include "fontoptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Font
+{
+
 SetupTabFont::SetupTabFont(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabFont)
@@ -134,3 +143,7 @@ void SetupTabFont::on_comboBoxSorting_currentIndexChanged(int index)
   }
 }
 
+} // namespace Font
+} // namespace Font
+} // namespace Setup
+} // namespace AppUI

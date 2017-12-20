@@ -23,6 +23,11 @@
 #include <QFileDialog>
 #include "externaltooloptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+
 DialogExternalEditor::DialogExternalEditor(QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogExternalEditor)
@@ -60,3 +65,5 @@ void DialogExternalEditor::on_pushButtonBrowse_clicked()
   }
 }
 
+} // namespace Setup
+} // namespace AppUI

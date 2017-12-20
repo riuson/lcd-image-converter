@@ -23,12 +23,9 @@
 #include <QObject>
 #include <QColor>
 
-class CharactersModel;
 class QModelIndex;
 class QItemSelection;
 class QFont;
-class UnicodeBlocksModel;
-class UnicodeBlocksFilterModel;
 
 namespace Data
 {
@@ -37,6 +34,14 @@ namespace Containers
 struct FontParameters;
 }
 }
+
+namespace AppUI
+{
+namespace Fonts
+{
+class CharactersModel;
+class UnicodeBlocksModel;
+class UnicodeBlocksFilterModel;
 
 class DialogFontSelectData : public QObject
 {
@@ -96,5 +101,8 @@ public slots:
   void setAntialiasing(bool value);
   void resort();
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // DIALOGFONTSELECTDATA_H

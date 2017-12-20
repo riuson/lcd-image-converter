@@ -521,7 +521,7 @@ void FontDocument::setFontCharacters(const QString &chars,
         this->background() != parameters.background ||
         this->ascent() != parameters.ascent ||
         this->descent() != parameters.descent) {
-      DialogFontChanged dialog(qobject_cast<QWidget *>(this->parent()));
+      AppUI::Fonts::DialogFontChanged dialog(qobject_cast<QWidget *>(this->parent()));
 
       if (dialog.exec() == QDialog::Accepted) {
         regenerateAll = dialog.regenerateAll();

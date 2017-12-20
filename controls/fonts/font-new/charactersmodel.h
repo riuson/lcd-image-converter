@@ -23,6 +23,11 @@
 #include <QAbstractItemModel>
 #include <QVariant>
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 class CharactersModel : public QAbstractItemModel
 {
   Q_OBJECT
@@ -51,5 +56,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // CHARACTERSMODEL_H

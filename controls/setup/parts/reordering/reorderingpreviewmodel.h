@@ -33,6 +33,15 @@ class Preset;
 }
 }
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Reordering
+{
+
 class ReorderingPreviewModel : public QAbstractItemModel
 {
   Q_OBJECT
@@ -75,5 +84,10 @@ signals:
 public slots:
   void callReset();
 };
+
+} // namespace Reordering
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // REORDERINGPREVIEWMODEL_H

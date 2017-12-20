@@ -10,6 +10,15 @@
 #include "demogenerator.h"
 #include "setupdialogoptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
+
 SetupTabPrepareScanning::SetupTabPrepareScanning(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabPrepareScanning)
@@ -166,3 +175,8 @@ void SetupTabPrepareScanning::on_spinBoxAnimationInterval_valueChanged(int value
   this->mDemoGen->setAnimationInterval(value);
   Settings::SetupDialogOptions::setAnimationInterval(value);
 }
+
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

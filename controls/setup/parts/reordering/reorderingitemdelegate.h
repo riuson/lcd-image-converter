@@ -23,6 +23,15 @@
 #include <QtGui>
 #include <QtWidgets>
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Reordering
+{
+
 class ReorderingItemDelegate : public QItemDelegate
 {
   Q_OBJECT
@@ -38,5 +47,10 @@ public:
 private:
   QColor mColor;
 };
+
+} // namespace Reordering
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // REORDERINGITEMDELEGATE_H

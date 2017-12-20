@@ -45,6 +45,11 @@
 #include "editor.h"
 #include "fontparameters.h"
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 EditorTabFont::EditorTabFont(QWidget *parent) :
   QWidget(parent),
   ui(new Ui::EditorTabFont)
@@ -346,6 +351,9 @@ void EditorTabFont::resizeToContents()
   this->ui->tableViewCharacters->resizeColumnsToContents();
   this->ui->tableViewCharacters->resizeRowsToContents();
 }
+
+} // namespace Fonts
+} // namespace AppUI
 
 /*
  Storage data format:

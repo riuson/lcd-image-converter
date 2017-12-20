@@ -60,7 +60,7 @@ void ActionFileHandlers::newImage_triggered()
                                        &ok);
 
   if (ok) {
-    EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
+    AppUI::Images::EditorTabImage *ed = new AppUI::Images::EditorTabImage(this->mMainWindow->parentWidget());
     this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
     emit this->tabCreated(ed);
@@ -81,10 +81,10 @@ void ActionFileHandlers::newFont_triggered()
                                        &ok);
 
   if (ok) {
-    DialogFontSelect dialog(this->mMainWindow->parentWidget());
+    AppUI::Fonts::DialogFontSelect dialog(this->mMainWindow->parentWidget());
 
     if (dialog.exec() == QDialog::Accepted) {
-      EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
+      AppUI::Fonts::EditorTabFont *ed = new AppUI::Fonts::EditorTabFont(this->mMainWindow->parentWidget());
       this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
       ed->document()->beginChanges();
@@ -351,7 +351,7 @@ void ActionFileHandlers::openFile(const QString &filename)
 
 void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
 {
-  EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
+  AppUI::Images::EditorTabImage *ed = new AppUI::Images::EditorTabImage(this->mMainWindow->parentWidget());
   this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
   QString name = this->mMainWindow->findAvailableName(documentName);
@@ -383,7 +383,7 @@ void ActionFileHandlers::openBinaryImage(const QStringList &filenames)
     if (info.exists() && imageLoaded.load(filename)) {
       QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
 
-      EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
+      AppUI::Images::EditorTabImage *ed = new AppUI::Images::EditorTabImage(this->mMainWindow->parentWidget());
       this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
       QString name = this->mMainWindow->findAvailableName(info.baseName());
@@ -409,7 +409,7 @@ void ActionFileHandlers::openBinaryImage(const QStringList &filenames)
 void ActionFileHandlers::openImage(const QStringList &filenames)
 {
   foreach (const QString &filename, filenames) {
-    EditorTabImage *ed = new EditorTabImage(this->mMainWindow->parentWidget());
+    AppUI::Images::EditorTabImage *ed = new AppUI::Images::EditorTabImage(this->mMainWindow->parentWidget());
     this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
     emit this->tabCreated(ed);
@@ -421,7 +421,7 @@ void ActionFileHandlers::openImage(const QStringList &filenames)
 void ActionFileHandlers::openFont(const QStringList &filenames)
 {
   foreach (const QString &filename, filenames) {
-    EditorTabFont *ed = new EditorTabFont(this->mMainWindow->parentWidget());
+    AppUI::Fonts::EditorTabFont *ed = new AppUI::Fonts::EditorTabFont(this->mMainWindow->parentWidget());
     this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
     emit this->tabCreated(ed);

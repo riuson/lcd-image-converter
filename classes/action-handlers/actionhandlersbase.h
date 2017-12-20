@@ -22,12 +22,12 @@
 
 #include <QObject>
 
-class IMainWindow;
-class WidgetBitmapEditor;
-class IEditor;
 
 namespace AppUI
 {
+class IEditor;
+class IMainWindow;
+
 namespace MenuHandlers
 {
 

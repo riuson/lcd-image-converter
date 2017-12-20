@@ -10,6 +10,15 @@
 #include "demogenerator.h"
 #include "setupdialogoptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
+
 SetupTabPreparePreprocessing::SetupTabPreparePreprocessing(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabPreparePreprocessing)
@@ -190,3 +199,8 @@ void SetupTabPreparePreprocessing::updateScript()
     this->ui->plainTextEditCustomScript->setPlainText(script);
   }
 }
+
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

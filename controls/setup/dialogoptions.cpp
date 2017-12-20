@@ -36,6 +36,11 @@
 #include "preset.h"
 #include "filedialogoptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+
 DialogOptions::DialogOptions(Data::Containers::DataContainer *dataContainer, QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogOptions)
@@ -46,12 +51,12 @@ DialogOptions::DialogOptions(Data::Containers::DataContainer *dataContainer, QWi
   this->mData = dataContainer;
   this->mPreset = new Settings::Presets::Preset(this);
 
-  this->mSetupPrepare    = new SetupTabPrepare(this->mPreset, this);
-  this->mSetupMatrix     = new SetupTabMatrix(this->mPreset, this);
-  this->mSetupReordering = new SetupTabReordering(this->mPreset, this);
-  this->mSetupImage      = new SetupTabImage(this->mPreset, this);
-  this->mSetupFont       = new SetupTabFont(this->mPreset, this);
-  this->mSetupTemplates  = new SetupTabTemplates(this->mPreset, this);
+  this->mSetupPrepare    = new Parts::Prepare::SetupTabPrepare(this->mPreset, this);
+  this->mSetupMatrix     = new Parts::Matrix::SetupTabMatrix(this->mPreset, this);
+  this->mSetupReordering = new Parts::Reordering::SetupTabReordering(this->mPreset, this);
+  this->mSetupImage      = new Parts::Image::SetupTabImage(this->mPreset, this);
+  this->mSetupFont       = new Parts::Font::SetupTabFont(this->mPreset, this);
+  this->mSetupTemplates  = new Parts::Templates::SetupTabTemplates(this->mPreset, this);
 
   QString selectedPreset = Settings::Presets::Preset::selectedName();
   int presetsCount = Settings::Presets::Preset::presetsList().length();
@@ -393,3 +398,5 @@ void DialogOptions::done(int result)
   }
 }
 
+} // namespace Setup
+} // namespace AppUI

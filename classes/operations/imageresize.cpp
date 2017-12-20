@@ -38,7 +38,7 @@ ImageResize::ImageResize(QWidget *parentWidget, QObject *parent)
 
 bool ImageResize::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
-  DialogCanvasResize dialog(doc->dataContainer(), this->mParentWidget);
+  AppUI::CommonDialogs::DialogCanvasResize dialog(doc->dataContainer(), this->mParentWidget);
   dialog.selectKeys(keys);
 
   if (dialog.exec() == QDialog::Accepted) {

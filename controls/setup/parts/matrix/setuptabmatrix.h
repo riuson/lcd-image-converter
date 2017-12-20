@@ -34,9 +34,19 @@ namespace Presets
 class Preset;
 }
 }
+
+class QMenu;
+
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Matrix
+{
 class MatrixPreviewModel;
 class MatrixItemDelegate;
-class QMenu;
 
 class SetupTabMatrix : public QWidget
 {
@@ -63,5 +73,10 @@ private slots:
   void operationRemove();
   void maskReset();
 };
+
+} // namespace Matrix
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABMATRIX_H

@@ -25,6 +25,15 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Image
+{
+
 SetupTabImage::SetupTabImage(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabImage)
@@ -156,3 +165,8 @@ void SetupTabImage::on_textEditPreviewLevels_textChanged()
 {
   this->mPreset->image()->setPreviewLevels(this->ui->textEditPreviewLevels->toPlainText());
 }
+
+} // namespace Image
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

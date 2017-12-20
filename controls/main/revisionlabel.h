@@ -22,6 +22,11 @@
 
 #include <QLabel>
 
+namespace AppUI
+{
+namespace Revision
+{
+
 class RevisionLabel : public QLabel
 {
   Q_OBJECT
@@ -34,5 +39,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Revision
+} // namespace AppUI
 
 #endif // REVISIONLABEL_H

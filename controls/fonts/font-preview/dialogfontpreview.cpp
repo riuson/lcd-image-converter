@@ -25,6 +25,11 @@
 #include "fonthelper.h"
 #include "datacontainer.h"
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 DialogFontPreview::DialogFontPreview(QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogFontPreview)
@@ -63,3 +68,5 @@ void DialogFontPreview::on_spinBoxScale_valueChanged(int i)
   this->ui->labelPreview->setPixmap(QPixmap::fromImage(this->mScaledImage));
 }
 
+} // namespace Fonts
+} // namespace AppUI

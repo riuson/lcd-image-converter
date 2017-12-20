@@ -29,6 +29,11 @@ class StartTab;
 
 class QStringList;
 
+namespace AppUI
+{
+namespace Start
+{
+
 class StartTab : public QWidget
 {
   Q_OBJECT
@@ -52,5 +57,8 @@ signals:
   void createNewImage();
   void createNewFont();
 };
+
+} // namespace Start
+} // namespace AppUI
 
 #endif // STARTTAB_H

@@ -39,6 +39,15 @@ class Preset;
 }
 }
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Font
+{
+
 class SetupTabFont : public QWidget
 {
   Q_OBJECT
@@ -62,5 +71,10 @@ private slots:
   void on_comboBoxEncoding_currentIndexChanged(const QString &value);
   void on_comboBoxSorting_currentIndexChanged(int index);
 };
+
+} // namespace Font
+} // namespace Font
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABFONT_H

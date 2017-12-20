@@ -25,6 +25,15 @@
 #include "templateoptions.h"
 #include "filedialogoptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Templates
+{
+
 SetupTabTemplates::SetupTabTemplates(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabTemplates)
@@ -98,3 +107,7 @@ void SetupTabTemplates::on_lineEditFont_editingFinished()
   }
 }
 
+} // namespace Templates
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

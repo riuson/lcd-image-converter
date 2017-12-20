@@ -22,6 +22,11 @@
 
 #include <QFileInfo>
 
+namespace AppUI
+{
+namespace Start
+{
+
 StartTab::StartTab(QWidget *parent) :
   QWidget(parent),
   ui(new Ui::StartTab)
@@ -100,3 +105,5 @@ void StartTab::changeEvent(QEvent *e)
   }
 }
 
+} // namespace Start
+} // namespace AppUI

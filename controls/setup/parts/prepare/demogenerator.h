@@ -37,6 +37,15 @@ class Preset;
 }
 }
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
+
 class DemoGenerator : public QObject
 {
   Q_OBJECT
@@ -75,5 +84,10 @@ signals:
 private slots:
   void timeout();
 };
+
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // DEMOGENERATOR_H

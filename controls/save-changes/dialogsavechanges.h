@@ -24,6 +24,11 @@
 
 class QMessageBox;
 
+namespace AppUI
+{
+namespace CommonDialogs
+{
+
 class DialogSaveChanges : public QObject
 {
   Q_OBJECT
@@ -48,5 +53,8 @@ private:
 private slots:
   void on_messageBox_finished(int result);
 };
+
+} // namespace CommonDialogs
+} // namespace AppUI
 
 #endif // DIALOGSAVECHANGES_H

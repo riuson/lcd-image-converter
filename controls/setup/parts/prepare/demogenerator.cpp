@@ -28,6 +28,15 @@
 #include "convimagescan.h"
 #include "prepareoptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
+
 DemoGenerator::DemoGenerator(Settings::Presets::Preset *preset, QObject *parent) :
   QObject(parent)
 {
@@ -152,3 +161,7 @@ void DemoGenerator::timeout()
   this->mLastTick = current;
 }
 
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

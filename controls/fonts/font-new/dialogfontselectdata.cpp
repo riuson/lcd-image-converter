@@ -31,6 +31,11 @@
 #include "fontparameters.h"
 #include "bitmaphelper.h"
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 DialogFontSelectData::DialogFontSelectData(QObject *parent) :
   QObject(parent)
 {
@@ -284,3 +289,5 @@ void DialogFontSelectData::resort()
   this->setCharacters(chars);
 }
 
+} // namespace Fonts
+} // namespace AppUI

@@ -35,6 +35,11 @@
 #include "imagedocument.h"
 #include "editor.h"
 
+namespace AppUI
+{
+namespace Images
+{
+
 EditorTabImage::EditorTabImage(QWidget *parent) :
   QWidget(parent),
   ui(new Ui::EditorTabImage)
@@ -157,6 +162,9 @@ void EditorTabImage::mon_editor_scaleChanged(int scale)
 {
   this->mStatusData->setData(AppUI::Status::StatusData::Scale, QVariant(scale));
 }
+
+} // namespace Images
+} // namespace AppUI
 
 /*
  Storage data format:

@@ -46,6 +46,11 @@ class TransposeProxy;
 }
 }
 
+namespace AppUI
+{
+namespace CommonDialogs
+{
+
 class DialogCanvasResize : public QDialog
 {
   Q_OBJECT
@@ -83,5 +88,8 @@ private slots:
   void resizeToContents();
   void on_scaleChanged(int value);
 };
+
+} // namespace CommonDialogs
+} // namespace AppUI
 
 #endif // DIALOGCANVASRESIZE_H

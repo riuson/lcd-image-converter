@@ -25,6 +25,15 @@
 #include "reorderingoptions.h"
 #include "imageoptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Reordering
+{
+
 ReorderingPreviewModel::ReorderingPreviewModel(Settings::Presets::Preset *preset, QObject *parent) :
   QAbstractItemModel(parent)
 {
@@ -295,3 +304,7 @@ void ReorderingPreviewModel::callReset()
   this->endResetModel();
 }
 
+} // namespace Reordering
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

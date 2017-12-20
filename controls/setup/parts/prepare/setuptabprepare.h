@@ -36,6 +36,15 @@ namespace Presets
 class Preset;
 }
 }
+
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
 class SetupTabPrepareScanning;
 class SetupTabPreparePreprocessing;
 
@@ -58,5 +67,10 @@ private:
 
 private slots:
 };
+
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABPREPARE_H

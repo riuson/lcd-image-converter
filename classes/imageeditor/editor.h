@@ -25,9 +25,16 @@
 
 class QColor;
 
-namespace ImageEditor
+namespace AppUI
+{
+namespace Images
 {
 class WindowEditor;
+}
+}
+
+namespace ImageEditor
+{
 
 class Editor : public QObject, public IImageEditor
 {
@@ -55,7 +62,7 @@ signals:
 public slots:
 
 private:
-  WindowEditor *mWidget;
+  AppUI::Images::WindowEditor *mWidget;
 
 private slots:
   void on_imageChanged();

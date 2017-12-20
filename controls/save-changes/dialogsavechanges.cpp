@@ -21,6 +21,11 @@
 
 #include <QMessageBox>
 
+namespace AppUI
+{
+namespace CommonDialogs
+{
+
 DialogSaveChanges::DialogSaveChanges(const QString &documentName, QWidget *parent)
 {
   this->mBox = new QMessageBox(parent);
@@ -78,3 +83,5 @@ void DialogSaveChanges::on_messageBox_finished(int result)
   }
 }
 
+} // namespace CommonDialogs
+} // namespace AppUI

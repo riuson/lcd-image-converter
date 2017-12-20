@@ -19,6 +19,11 @@
 
 #include "unicodeblocksfiltermodel.h"
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 UnicodeBlocksFilterModel::UnicodeBlocksFilterModel(QObject *parent) :
   QSortFilterProxyModel(parent)
 {
@@ -46,3 +51,5 @@ void UnicodeBlocksFilterModel::setNameFilter(const QString &name)
   this->endResetModel();
 }
 
+} // namespace Fonts
+} // namespace AppUI

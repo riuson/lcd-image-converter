@@ -26,12 +26,8 @@ namespace Ui
 {
 class DialogFontSelect;
 }
-class CharactersModel;
 class QModelIndex;
 class QItemSelection;
-class UnicodeBlocksModel;
-class UnicodeBlocksFilterModel;
-class DialogFontSelectData;
 
 namespace Data
 {
@@ -40,6 +36,15 @@ namespace Containers
 struct FontParameters;
 }
 }
+
+namespace AppUI
+{
+namespace Fonts
+{
+class CharactersModel;
+class DialogFontSelectData;
+class UnicodeBlocksModel;
+class UnicodeBlocksFilterModel;
 
 class DialogFontSelect : public QDialog
 {
@@ -82,6 +87,9 @@ private slots:
   void on_fontMeasured(int count, int maxWidth, int maxHeight);
   void updateColorIcons(const QColor &foreground, const QColor &background);
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // DIALOGFONTSELECT_H
 

@@ -35,6 +35,15 @@ class Preset;
 }
 }
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Templates
+{
+
 class SetupTabTemplates : public QWidget
 {
   Q_OBJECT
@@ -54,5 +63,10 @@ private slots:
   void on_lineEditImage_editingFinished();
   void on_lineEditFont_editingFinished();
 };
+
+} // namespace Templates
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABTEMPLATES_H

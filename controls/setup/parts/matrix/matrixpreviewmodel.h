@@ -33,6 +33,15 @@ class Preset;
 }
 }
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Matrix
+{
+
 class MatrixPreviewModel : public QAbstractItemModel
 {
   Q_OBJECT
@@ -87,5 +96,10 @@ signals:
 public slots:
   void callReset();
 };
+
+} // namespace Matrix
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // MATRIXPREVIEWMODEL_H

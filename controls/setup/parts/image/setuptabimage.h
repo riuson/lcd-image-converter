@@ -35,6 +35,15 @@ class Preset;
 }
 }
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Image
+{
+
 class SetupTabImage : public QWidget
 {
   Q_OBJECT
@@ -65,5 +74,10 @@ private slots:
   void on_lineEditPreviewDelimiter_textEdited(const QString &value);
   void on_textEditPreviewLevels_textChanged();
 };
+
+} // namespace Image
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABIMAGE_H

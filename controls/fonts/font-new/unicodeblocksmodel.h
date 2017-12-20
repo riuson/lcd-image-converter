@@ -23,6 +23,11 @@
 #include <QAbstractListModel>
 #include <QList>
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 class UnicodeBlock
 {
 public:
@@ -60,5 +65,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // QUNICODEBLOCKSMODEL_H

@@ -21,6 +21,11 @@
 
 #include "revisioninfo.h"
 
+namespace AppUI
+{
+namespace Revision
+{
+
 RevisionLabel::RevisionLabel(QWidget *parent) :
   QLabel(parent)
 {
@@ -29,3 +34,5 @@ RevisionLabel::RevisionLabel(QWidget *parent) :
   this->setForegroundRole(QPalette::Midlight);
 }
 
+} // namespace Revision
+} // namespace AppUI

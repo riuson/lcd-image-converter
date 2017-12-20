@@ -27,6 +27,11 @@ namespace Ui
 class DialogFontChanged;
 }
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 class DialogFontChanged : public QDialog
 {
   Q_OBJECT
@@ -47,5 +52,8 @@ private  slots:
   void on_buttonGenerateNewOnly_clicked();
   void on_buttonCancel_clicked();
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // DIALOGFONTCHANGED_H

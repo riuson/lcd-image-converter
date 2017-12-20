@@ -34,9 +34,18 @@ namespace Presets
 class Preset;
 }
 }
+class QMenu;
+
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Reordering
+{
 class ReorderingPreviewModel;
 class ReorderingItemDelegate;
-class QMenu;
 
 class SetupTabReordering : public QWidget
 {
@@ -64,5 +73,10 @@ private slots:
   void operationShift();
   void operationRemove();
 };
+
+} // namespace Reordering
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABREORDERING_H

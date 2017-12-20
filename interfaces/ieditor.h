@@ -22,14 +22,6 @@
 
 #include <QObject>
 
-namespace AppUI
-{
-namespace Status
-{
-class StatusData;
-}
-}
-
 namespace Data
 {
 namespace Containers
@@ -37,6 +29,13 @@ namespace Containers
 class DataContainer;
 class IDocument;
 }
+}
+
+namespace AppUI
+{
+namespace Status
+{
+class StatusData;
 }
 
 class IEditor
@@ -52,7 +51,9 @@ public:
   virtual AppUI::Status::StatusData *statusData() const = 0;
   virtual EditorType type() const = 0;
 };
-Q_DECLARE_INTERFACE (IEditor,
+} // namespace AppUI
+
+Q_DECLARE_INTERFACE (AppUI::IEditor,
                      "riuson.lcd-image-converter/1.0"
                     )
 

@@ -60,7 +60,7 @@ bool FontMinimizeHeight::prepare(const Data::Containers::IDocument *doc, const Q
     this->mBottom = qMin(this->mBottom, b);
   }
 
-  DialogCanvasResize dialog(doc->dataContainer(), this->mParentWidget);
+  AppUI::CommonDialogs::DialogCanvasResize dialog(doc->dataContainer(), this->mParentWidget);
   dialog.selectKeys(keys);
   dialog.setResizeInfo(-this->mLeft, -this->mTop, -this->mRight, -this->mBottom);
 

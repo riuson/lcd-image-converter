@@ -22,6 +22,11 @@
 
 #include <QSortFilterProxyModel>
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 class UnicodeBlocksFilterModel : public QSortFilterProxyModel
 {
   Q_OBJECT
@@ -41,5 +46,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // UNICODEBLOCKSFILTERMODEL_H

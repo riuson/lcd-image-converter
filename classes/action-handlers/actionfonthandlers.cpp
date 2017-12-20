@@ -48,12 +48,12 @@ ActionFontHandlers::ActionFontHandlers(QObject *parent) :
 
 void ActionFontHandlers::fontChange_triggered()
 {
-  if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab())) {
+  if (AppUI::Fonts::EditorTabFont *etf = qobject_cast<AppUI::Fonts::EditorTabFont *>(this->mMainWindow->currentTab())) {
     QString chars;
     Data::Containers::FontParameters parameters;
     etf->fontCharacters(&chars, &parameters);
 
-    DialogFontSelect dialog(this->mMainWindow->parentWidget());
+    AppUI::Fonts::DialogFontSelect dialog(this->mMainWindow->parentWidget());
     dialog.setCharacters(chars);
     dialog.setFontParameters(parameters);
 
@@ -101,7 +101,7 @@ void ActionFontHandlers::fontPreview_triggered()
   if (editor != nullptr) {
     Data::Containers::IDocument *doc = editor->document();
 
-    DialogFontPreview dialog(this->mMainWindow->parentWidget());
+    AppUI::Fonts::DialogFontPreview dialog(this->mMainWindow->parentWidget());
     dialog.setDocument(doc);
 
     dialog.exec();

@@ -41,6 +41,10 @@ class DataContainer;
 }
 }
 
+namespace AppUI
+{
+namespace Setup
+{
 class DialogPreview : public QDialog
 {
   Q_OBJECT
@@ -68,5 +72,8 @@ private slots:
   void on_comboBoxSampleKey_currentIndexChanged();
   void on_spinBoxScale_valueChanged(int value);
 };
+
+} // namespace Setup
+} // namespace AppUI
 
 #endif // DIALOGPREVIEW_H

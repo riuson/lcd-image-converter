@@ -49,23 +49,25 @@ class ImagesScaledProxy;
 }
 }
 
+namespace ImageEditor
+{
+class Editor;
+}
+
 namespace AppUI
 {
 namespace Status
 {
 class StatusData;
 }
-}
 
-namespace ImageEditor
+namespace Fonts
 {
-class Editor;
-}
 
 class EditorTabFont : public QWidget, public IEditor
 {
   Q_OBJECT
-  Q_INTERFACES(IEditor)
+  Q_INTERFACES(AppUI::IEditor)
 
 public:
   explicit EditorTabFont(QWidget *parent = 0);
@@ -117,5 +119,8 @@ signals:
   void documentChanged();
   void statusChanged();
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // EDITORTABFONT_H

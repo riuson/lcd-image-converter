@@ -56,7 +56,7 @@ class ActionHelpHandlers;
 class MainWindow : public QMainWindow, public IMainWindow
 {
   Q_OBJECT
-  Q_INTERFACES(IMainWindow)
+  Q_INTERFACES(AppUI::IMainWindow)
 
 public:
   MainWindow(QWidget *parent = 0);

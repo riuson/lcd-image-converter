@@ -27,6 +27,15 @@
 #include "reorderingoptions.h"
 #include "imageoptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Reordering
+{
+
 SetupTabReordering::SetupTabReordering(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabReordering)
@@ -244,3 +253,7 @@ void SetupTabReordering::operationRemove()
   }
 }
 
+} // namespace Reordering
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

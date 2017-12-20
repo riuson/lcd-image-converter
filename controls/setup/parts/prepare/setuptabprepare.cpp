@@ -31,6 +31,15 @@
 #include "setuptabpreparepreprocessing.h"
 #include "setuptabpreparescanning.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
+
 SetupTabPrepare::SetupTabPrepare(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabPrepare)
@@ -57,3 +66,8 @@ void SetupTabPrepare::matrixChanged()
   this->mTabScanning->matrixChanged();
   this->mTabPreprocessing->matrixChanged();
 }
+
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

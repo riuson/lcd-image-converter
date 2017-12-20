@@ -28,6 +28,11 @@
 #include "bitmaphelper.h"
 #include "conversionpreviewoptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+
 DialogPreview::DialogPreview(Data::Containers::DataContainer *dataContainer, Settings::Presets::Preset *matrix, QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogPreview)
@@ -168,3 +173,5 @@ void DialogPreview::on_spinBoxScale_valueChanged(int value)
   this->setScale(value);
 }
 
+} // namespace Setup
+} // namespace AppUI

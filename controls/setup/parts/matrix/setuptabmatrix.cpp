@@ -28,6 +28,15 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Matrix
+{
+
 SetupTabMatrix::SetupTabMatrix(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabMatrix)
@@ -338,3 +347,7 @@ void SetupTabMatrix::maskReset()
   }
 }
 
+} // namespace Matrix
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

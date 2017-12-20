@@ -27,6 +27,11 @@ namespace Ui
 class WidgetBitmapEditor;
 }
 
+namespace AppUI
+{
+namespace Images
+{
+
 class WidgetBitmapEditor : public QWidget
 {
   Q_OBJECT
@@ -76,5 +81,8 @@ signals:
   void mouseMove(QPoint point);
   void scaleSchanged(int scale);
 };
+
+} // namespace Images
+} // namespace AppUI
 
 #endif // WIDGETBITMAPEDITOR_H

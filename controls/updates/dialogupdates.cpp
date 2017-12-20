@@ -35,6 +35,11 @@
 #include "revisioninfo.h"
 #include "bitmaphelper.h"
 
+namespace AppUI
+{
+namespace Updates
+{
+
 DialogUpdates::DialogUpdates(QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogUpdates)
@@ -295,3 +300,6 @@ void DialogUpdates::networkReply(QNetworkReply *reply)
 
   reply->deleteLater();
 }
+
+} // namespace Updates
+} // namespace AppUI

@@ -44,13 +44,13 @@ void ActionSetupHandlers::conversion_triggered()
     data = this->editor()->document()->dataContainer();
   }
 
-  DialogOptions dialog(data, this->mMainWindow->parentWidget());
+  AppUI::Setup::DialogOptions dialog(data, this->mMainWindow->parentWidget());
   dialog.exec();
 }
 
 void ActionSetupHandlers::external_editor_triggered()
 {
-  DialogExternalEditor dialog(this->mMainWindow->parentWidget());
+  AppUI::Setup::DialogExternalEditor dialog(this->mMainWindow->parentWidget());
   dialog.exec();
 }
 

@@ -30,6 +30,11 @@
 #include "columnsreorderproxy.h"
 #include "resizesettings.h"
 
+namespace AppUI
+{
+namespace CommonDialogs
+{
+
 DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *container, QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogCanvasResize)
@@ -173,3 +178,5 @@ void DialogCanvasResize::on_scaleChanged(int value)
   this->resizeToContents();
 }
 
+} // namespace CommonDialogs
+} // namespace AppUI

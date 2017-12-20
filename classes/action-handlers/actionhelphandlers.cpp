@@ -50,7 +50,7 @@ void ActionHelpHandlers::about_qt_triggered()
 
 void ActionHelpHandlers::updates_triggered()
 {
-  DialogUpdates dialog(this->mMainWindow->parentWidget());
+  AppUI::Updates::DialogUpdates dialog(this->mMainWindow->parentWidget());
   dialog.exec();
 }
 

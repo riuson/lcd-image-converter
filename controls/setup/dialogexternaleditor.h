@@ -27,6 +27,11 @@ namespace Ui
 class DialogExternalEditor;
 }
 
+namespace AppUI
+{
+namespace Setup
+{
+
 class DialogExternalEditor : public QDialog
 {
   Q_OBJECT
@@ -44,5 +49,8 @@ private slots:
 protected:
   void done(int result) Q_DECL_OVERRIDE;
 };
+
+} // namespace Setup
+} // namespace AppUI
 
 #endif // DIALOGEXTERNALEDITOR_H

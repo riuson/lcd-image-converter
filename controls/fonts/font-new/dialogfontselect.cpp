@@ -32,6 +32,11 @@
 #include "fontparameters.h"
 #include "dialogfontselectdata.h"
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogFontSelect)
@@ -391,3 +396,5 @@ void DialogFontSelect::updateColorIcons(const QColor &foreground, const QColor &
   this->ui->pushButtonBackColor->setText(tr("Back Color: %1").arg((quint32)background.rgba(), 8, 16, QChar('0')));
 }
 
+} // namespace Fonts
+} // namespace AppUI

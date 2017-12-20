@@ -30,7 +30,9 @@
 #include "iimageeditortool.h"
 #include "imageeditoroptions.h"
 
-namespace ImageEditor
+namespace AppUI
+{
+namespace Images
 {
 
 WindowEditor::WindowEditor(QWidget *parent) :
@@ -208,7 +210,7 @@ void WindowEditor::drawPixel(int x, int y, const QColor &color)
 
 void WindowEditor::createTools()
 {
-  this->mTools = new Tools::ToolsManager(this);
+  this->mTools = new ImageEditor::Tools::ToolsManager(this);
   QList<QAction *> actions = QList<QAction *> (*this->mTools->toolsActions());
   this->ui->toolBarTools->addActions(actions);
   this->connect(this->mTools, SIGNAL(toolChanged(int)), SLOT(toolChanged(int)));
@@ -259,7 +261,7 @@ void WindowEditor::toolChanged(int toolIndex)
 {
   this->ui->toolBarOptions->clear();
 
-  Tools::IImageEditorTool *tool = this->mSelectedTool;
+  ImageEditor::Tools::IImageEditorTool *tool = this->mSelectedTool;
 
   if (this->mSelectedTool != nullptr) {
     QObject *obj = dynamic_cast<QObject *>(tool);
@@ -292,5 +294,5 @@ void WindowEditor::toolChanged(int toolIndex)
   this->ui->toolBarOptions->setVisible(this->ui->toolBarOptions->actions().length() > 0);
 }
 
-}
-
+} // namespace Images
+} // namespace AppUI

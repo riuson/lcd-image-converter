@@ -31,6 +31,11 @@ namespace Ui
 class DialogFontPreview;
 }
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 class DialogFontPreview : public QDialog
 {
   Q_OBJECT
@@ -51,5 +56,8 @@ private slots:
   void on_lineEditText_textChanged(const QString &text);
   void on_spinBoxScale_valueChanged(int i);
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // DIALOGFONTPREVIEW_H
