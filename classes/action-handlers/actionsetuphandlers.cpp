@@ -26,6 +26,11 @@
 #include "datacontainer.h"
 #include "dialogexternaleditor.h"
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
   ActionHandlersBase(parent)
 {
@@ -33,19 +38,21 @@ ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
 
 void ActionSetupHandlers::conversion_triggered()
 {
-  DataContainer *data = NULL;
+  Data::Containers::DataContainer *data = nullptr;
 
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     data = this->editor()->document()->dataContainer();
   }
 
-  DialogOptions dialog(data, this->mMainWindow->parentWidget());
+  AppUI::Setup::DialogOptions dialog(data, this->mMainWindow->parentWidget());
   dialog.exec();
 }
 
 void ActionSetupHandlers::external_editor_triggered()
 {
-  DialogExternalEditor dialog(this->mMainWindow->parentWidget());
+  AppUI::Setup::DialogExternalEditor dialog(this->mMainWindow->parentWidget());
   dialog.exec();
 }
 
+} // namespace MenuHandlers
+} // namespace AppUI

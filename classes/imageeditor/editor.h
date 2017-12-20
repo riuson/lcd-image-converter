@@ -25,9 +25,16 @@
 
 class QColor;
 
-namespace ImageEditor
+namespace AppUI
+{
+namespace Images
 {
 class WindowEditor;
+}
+}
+
+namespace ImageEditor
+{
 
 class Editor : public QObject, public IImageEditor
 {
@@ -36,7 +43,7 @@ class Editor : public QObject, public IImageEditor
 
 public:
   explicit Editor(QObject *parent = 0);
-  ~Editor();
+  virtual ~Editor();
 
   QWidget *widget() const Q_DECL_OVERRIDE;
 
@@ -55,13 +62,13 @@ signals:
 public slots:
 
 private:
-  WindowEditor *mWidget;
+  AppUI::Images::WindowEditor *mWidget;
 
 private slots:
   void on_imageChanged();
   void on_mouseMove(const QPoint *point);
   void on_scaleChanged(int value);
 };
-}
+} // namespace ImageEditor
 
 #endif // EDITOR_H

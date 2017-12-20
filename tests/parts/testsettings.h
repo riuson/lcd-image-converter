@@ -8,7 +8,7 @@
 class QFile;
 template <class T> class QVector;
 
-class AppSettingsExt : public AppSettings
+class AppSettingsExt : public Settings::AppSettings
 {
 public:
   using AppSettings::isNameStartCharValid;
@@ -22,6 +22,7 @@ class TestSettings : public QObject
   Q_OBJECT
 public:
   explicit TestSettings(QObject *parent = 0);
+  virtual ~TestSettings() {}
 
 private:
   const QString getFilename(const QTemporaryDir &dir) const;

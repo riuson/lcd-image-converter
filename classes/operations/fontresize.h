@@ -31,10 +31,11 @@ class FontResize : public ImageResize
 
 public:
   explicit FontResize(QWidget *parentWidget = 0, QObject *parent = 0);
+  virtual ~FontResize() {}
 
-  void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
+  void applyDocument(Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
 };
 
-}
+} // namespace Operations
 
 #endif // FONTRESIZE_H

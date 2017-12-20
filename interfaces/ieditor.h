@@ -22,9 +22,21 @@
 
 #include <QObject>
 
-class StatusData;
+namespace Data
+{
+namespace Containers
+{
 class DataContainer;
 class IDocument;
+}
+}
+
+namespace AppUI
+{
+namespace Status
+{
+class StatusData;
+}
 
 class IEditor
 {
@@ -34,12 +46,14 @@ public:
     EditorFont
   };
 
-  virtual IDocument *document() const = 0;
+  virtual Data::Containers::IDocument *document() const = 0;
   virtual QStringList selectedKeys() const = 0;
-  virtual StatusData *statusData() const = 0;
+  virtual AppUI::Status::StatusData *statusData() const = 0;
   virtual EditorType type() const = 0;
 };
-Q_DECLARE_INTERFACE (IEditor,
+} // namespace AppUI
+
+Q_DECLARE_INTERFACE (AppUI::IEditor,
                      "riuson.lcd-image-converter/1.0"
                     )
 

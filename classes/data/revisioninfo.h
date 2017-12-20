@@ -20,7 +20,10 @@
 #ifndef REVISIONINFO_H
 #define REVISIONINFO_H
 
-#include <QString>
+class QString;
+
+namespace VersionControl
+{
 
 class RevisionInfo
 {
@@ -30,5 +33,7 @@ public:
   static const QString &date();
   static const QString &version();
 };
+
+} // namespace VersionControl
 
 #endif // REVISIONINFO_H

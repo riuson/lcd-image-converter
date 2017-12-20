@@ -20,14 +20,18 @@
 #ifndef LANGUAGEOPTIONS_H
 #define LANGUAGEOPTIONS_H
 
-#include <QObject>
+#include <QString>
 
-class LanguageOptions : public QObject
+namespace Settings
 {
-  Q_OBJECT
+
+class LanguageOptions
+{
 public:
   static const QString locale();
   static bool setLocale(const QString &value);
 };
+
+} // namespace Settings
 
 #endif // LANGUAGEOPTIONS_H

@@ -28,10 +28,15 @@
 #include <QWidget>
 #include "datacontainer.h"
 #include "parser.h"
-#include "tags.h"
+#include "tagslist.h"
 #include "statusdata.h"
 #include "preset.h"
 #include "parsedimagedata.h"
+
+namespace Data
+{
+namespace Containers
+{
 
 const QString ImageDocument::DefaultKey = QString("default");
 
@@ -210,24 +215,24 @@ DataContainer *ImageDocument::dataContainer() const
   return this->mContainer;
 }
 
-QString ImageDocument::convert(Preset *preset)
+QString ImageDocument::convert(Settings::Presets::Preset *preset)
 {
-  Tags tags;
+  Parsing::TagsList tags;
 
   if (!this->documentFilename().isEmpty()) {
-    tags.setTagValue(Tags::DocumentFilename, this->documentFilename());
+    tags.setTagValue(Parsing::TagsList::Tag::DocumentFilename, this->documentFilename());
   } else {
-    tags.setTagValue(Tags::DocumentFilename, "unsaved");
+    tags.setTagValue(Parsing::TagsList::Tag::DocumentFilename, "unsaved");
   }
 
-  tags.setTagValue(Tags::DocumentName, this->documentName());
-  tags.setTagValue(Tags::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentName, this->documentName());
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
 
-  tags.setTagValue(Tags::DocumentDataType, "image");
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentDataType, "image");
 
-  QMap<QString, ParsedImageData *> images;
+  QMap<QString, Parsing::ParsedImageData *> images;
   this->prepareImages(preset, &images, tags);
-  Parser parser(Parser::TypeImage, preset, this);
+  Parsing::Parser parser(Parsing::Parser::TypeImage, preset, this);
   QString result = parser.convert(this, this->dataContainer()->keys(), &images, tags);
 
   return result;
@@ -293,7 +298,7 @@ void ImageDocument::setDocumentFilename(const QString &value)
   }
 }
 
-void ImageDocument::prepareImages(Preset *preset, QMap<QString, ParsedImageData *> *images, const Tags &tags) const
+void ImageDocument::prepareImages(Settings::Presets::Preset *preset, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const
 {
   DataContainer *data = this->dataContainer();
 
@@ -306,7 +311,7 @@ void ImageDocument::prepareImages(Preset *preset, QMap<QString, ParsedImageData 
       const QString key = it.next();
       QImage image = QImage(*data->image(key));
 
-      ParsedImageData *data = new ParsedImageData(preset, &image, tags);
+      Parsing::ParsedImageData *data = new Parsing::ParsedImageData(preset, &image, tags);
       images->insert(key, data);
     }
   }
@@ -323,3 +328,5 @@ void ImageDocument::mon_container_dataChanged(bool historyStateMoved)
   }
 }
 
+} // namespace Containers
+} // namespace Data

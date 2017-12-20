@@ -22,13 +22,18 @@
 
 #include <QSortFilterProxyModel>
 
+namespace Data
+{
+namespace Models
+{
+
 class ImagesScaledProxy : public QSortFilterProxyModel
 {
   Q_OBJECT
 
 public:
   explicit ImagesScaledProxy(QObject *parent = 0);
-  ~ImagesScaledProxy();
+  virtual ~ImagesScaledProxy();
 
   QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
@@ -43,5 +48,8 @@ private:
 signals:
   void scaleChanged(int value);
 };
+
+} // namespace Models
+} // namespace Data
 
 #endif // IMAGESSCALEDPROXY_H

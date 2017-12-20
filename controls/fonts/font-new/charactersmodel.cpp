@@ -20,6 +20,11 @@
 #include "charactersmodel.h"
 #include <QPalette>
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 CharactersModel::CharactersModel(QObject *parent) :
   QAbstractItemModel(parent)
 {
@@ -128,3 +133,5 @@ void CharactersModel::setCodesRange(quint32 first, quint32 last)
   this->endResetModel();
 }
 
+} // namespace Fonts
+} // namespace AppUI

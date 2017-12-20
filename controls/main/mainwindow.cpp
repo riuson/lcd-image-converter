@@ -50,6 +50,9 @@
 #include "bitmaphelper.h"
 #include "filedialogoptions.h"
 
+namespace AppUI
+{
+
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow)
@@ -57,13 +60,13 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->setupUi(this);
 
   QIcon icon;
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 16)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 24)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 32)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 48)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 64)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 128)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 256)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 16)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 24)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 32)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 48)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 64)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 128)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 256)));
   this->setWindowIcon(icon);
 
   this->updateMenuState();
@@ -71,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
   this->mTrans = new QTranslator;
   qApp->installTranslator(this->mTrans);
 
-  this->mStatusManager = new StatusManager(this->ui->statusBar, this);
+  this->mStatusManager = new Status::StatusManager(this->ui->statusBar, this);
 
   QDir dir(":/translations");
   QStringList translations = dir.entryList(QDir::Files, QDir::Name);
@@ -91,11 +94,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
   this->connect(this->ui->actionLanguageDefault, SIGNAL(triggered()), SLOT(actionLanguage_triggered()));
 
-  QString selectedLocale = LanguageOptions::locale();
+  QString selectedLocale = Settings::LanguageOptions::locale();
   this->selectLocale(selectedLocale);
 
   // create recent list
-  this->mRecentList = new RecentList(this);
+  this->mRecentList = new Settings::RecentList(this);
   this->connect(this->mRecentList, SIGNAL(listChanged()), SLOT(updateRecentList()));
   this->updateRecentList();
 
@@ -134,7 +137,7 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::selectLocale(const QString &localeName)
 {
-  if (LanguageOptions::setLocale(localeName)) {
+  if (Settings::LanguageOptions::setLocale(localeName)) {
     this->mTrans->load(":/translations/" + localeName);
     qApp->installTranslator(this->mTrans);
   } else {
@@ -160,9 +163,9 @@ void MainWindow::checkStartPageVisible()
 
   for (int i = 0; i < this->ui->tabWidget->count(); i++) {
     QWidget *w = this->ui->tabWidget->widget(i);
-    StartTab *tab = dynamic_cast<StartTab *> (w);
+    AppUI::Start::StartTab *tab = dynamic_cast<AppUI::Start::StartTab *> (w);
 
-    if (tab == NULL) {
+    if (tab == nullptr) {
       othersTabs++;
     } else {
       startPageIndex = i;
@@ -171,7 +174,7 @@ void MainWindow::checkStartPageVisible()
 
   if (othersTabs == 0) {
     if (startPageIndex < 0) {
-      StartTab *tab = new StartTab(this->ui->tabWidget);
+      AppUI::Start::StartTab *tab = new AppUI::Start::StartTab(this->ui->tabWidget);
       tab->setParent(this->ui->tabWidget);
       tab->setRecentFiles(this->mRecentList->files());
       this->mFileHandlers->connect(tab, SIGNAL(openRecent(QString)), SLOT(openFile(QString)));
@@ -183,7 +186,7 @@ void MainWindow::checkStartPageVisible()
     }
   } else {
     if (startPageIndex >= 0) {
-      StartTab *tab = dynamic_cast<StartTab *> (this->ui->tabWidget->widget(startPageIndex));
+      AppUI::Start::StartTab *tab = dynamic_cast<AppUI::Start::StartTab *> (this->ui->tabWidget->widget(startPageIndex));
       this->ui->tabWidget->removeTab(startPageIndex);
       this->ui->tabWidget->setTabsClosable(true);
       delete tab;
@@ -193,7 +196,7 @@ void MainWindow::checkStartPageVisible()
 
 void MainWindow::createHandlers()
 {
-  this->mFileHandlers = new ActionFileHandlers(this);
+  this->mFileHandlers = new MenuHandlers::ActionFileHandlers(this);
   this->mFileHandlers->connect(this->ui->actionNew_Image, SIGNAL(triggered()), SLOT(newImage_triggered()));
   this->mFileHandlers->connect(this->ui->actionNew_Font, SIGNAL(triggered()), SLOT(newFont_triggered()));
   this->mFileHandlers->connect(this->ui->actionOpen, SIGNAL(triggered()), SLOT(open_triggered()));
@@ -211,13 +214,13 @@ void MainWindow::createHandlers()
   this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget *)), SLOT(tabCreated(QWidget *)));
   this->connect(this->mFileHandlers, SIGNAL(tabSelect(QWidget *)), SLOT(setCurrentTab(QWidget *)));
 
-  this->mEditHandlers = new ActionEditHandlers(this);
+  this->mEditHandlers = new MenuHandlers::ActionEditHandlers(this);
   this->mEditHandlers->connect(this->ui->actionEditUndo, SIGNAL(triggered()), SLOT(undo_triggered()));
   this->mEditHandlers->connect(this->ui->actionEditRedo, SIGNAL(triggered()), SLOT(redo_triggered()));
   this->mEditHandlers->connect(this->ui->actionEditCopy, SIGNAL(triggered()), SLOT(copy_triggered()));
   this->mEditHandlers->connect(this->ui->actionEditPaste, SIGNAL(triggered()), SLOT(paste_triggered()));
 
-  this->mImageHandlers = new ActionImageHandlers(this);
+  this->mImageHandlers = new MenuHandlers::ActionImageHandlers(this);
   this->mImageHandlers->connect(this->ui->actionImageFlip_Horizontal, SIGNAL(triggered()), SLOT(flipHorizontal_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageFlip_Vertical, SIGNAL(triggered()), SLOT(flipVertical_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageRotate_90_Clockwise, SIGNAL(triggered()), SLOT(rotate_90_Clockwise_triggered()));
@@ -234,7 +237,7 @@ void MainWindow::createHandlers()
   this->mImageHandlers->connect(this->ui->actionImageExport, SIGNAL(triggered()), SLOT(export_triggered()));
   this->mImageHandlers->connect(this->ui->actionEdit_in_external_tool, SIGNAL(triggered()), SLOT(edit_in_external_tool_triggered()));
 
-  this->mFontHandlers = new ActionFontHandlers(this);
+  this->mFontHandlers = new MenuHandlers::ActionFontHandlers(this);
   this->mFontHandlers->connect(this->ui->actionFontChange, SIGNAL(triggered()), SLOT(fontChange_triggered()));
   this->mFontHandlers->connect(this->ui->actionFontInverse, SIGNAL(triggered()), SLOT(fontInverse_triggered()));
   this->mFontHandlers->connect(this->ui->actionFontResize, SIGNAL(triggered()), SLOT(fontResize_triggered()));
@@ -242,11 +245,11 @@ void MainWindow::createHandlers()
   this->mFontHandlers->connect(this->ui->actionFontPreview, SIGNAL(triggered()), SLOT(fontPreview_triggered()));
   this->mFontHandlers->connect(this->ui->actionFontToImage, SIGNAL(triggered()), SLOT(fontToImage_triggered()));
 
-  this->mSetupHandlers = new ActionSetupHandlers(this);
+  this->mSetupHandlers = new MenuHandlers::ActionSetupHandlers(this);
   this->mSetupHandlers->connect(this->ui->actionConversionOptions, SIGNAL(triggered()), SLOT(conversion_triggered()));
   this->mSetupHandlers->connect(this->ui->actionExternal_editor, SIGNAL(triggered()), SLOT(external_editor_triggered()));
 
-  this->mHelpHandlers = new ActionHelpHandlers(this);
+  this->mHelpHandlers = new MenuHandlers::ActionHelpHandlers(this);
   this->mHelpHandlers->connect(this->ui->actionAboutApp, SIGNAL(triggered()), SLOT(about_application_triggered()));
   this->mHelpHandlers->connect(this->ui->actionAboutQt, SIGNAL(triggered()), SLOT(about_qt_triggered()));
   this->mHelpHandlers->connect(this->ui->actionUpdates, SIGNAL(triggered()), SLOT(updates_triggered()));
@@ -262,7 +265,7 @@ void MainWindow::tabTextUpdate(QWidget *widget)
   if (index >= 0) {
     IEditor *editor = qobject_cast<IEditor *>(widget);
 
-    if (editor != NULL) {
+    if (editor != nullptr) {
       QString name;
 
       if (editor->document()->changed()) {
@@ -298,12 +301,12 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
   IEditor *editor = dynamic_cast<IEditor *> (w);
   bool cancel = false;
 
-  if (editor != NULL && editor->document()->changed()) {
-    DialogSaveChanges dialog(editor->document()->documentName(), this);
+  if (editor != nullptr && editor->document()->changed()) {
+    AppUI::CommonDialogs::DialogSaveChanges dialog(editor->document()->documentName(), this);
     dialog.exec();
 
     switch (dialog.answer()) {
-      case DialogSaveChanges::Save: {
+      case AppUI::CommonDialogs::DialogSaveChanges::Save: {
         if (QFile::exists(editor->document()->documentFilename())) {
           if (editor->document()->save(editor->document()->documentFilename())) {
             this->rememberFilename(editor->document()->documentFilename());
@@ -317,14 +320,14 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
           dialog.setWindowTitle(tr("Save file as"));
 
           if (editor->document()->documentFilename().isEmpty()) {
-            dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::SaveDocument));
+            dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::SaveDocument));
             dialog.selectFile(editor->document()->documentName());
           } else {
             dialog.selectFile(editor->document()->documentFilename());
           }
 
           if (dialog.exec() == QDialog::Accepted) {
-            FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
+            Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
             QString filename = dialog.selectedFiles().at(0);
 
             if (editor->document()->save(filename)) {
@@ -340,10 +343,10 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
         break;
       }
 
-      case DialogSaveChanges::DontSave:
+      case AppUI::CommonDialogs::DialogSaveChanges::DontSave:
         break;
 
-      case DialogSaveChanges::Cancel:
+      case AppUI::CommonDialogs::DialogSaveChanges::Cancel:
         cancel = true;
         break;
     }
@@ -364,7 +367,7 @@ void MainWindow::on_tabWidget_currentChanged(int index)
   this->mStatusManager->hideAll();
   IEditor *editor = this->currentEditor();
 
-  if (editor != NULL) {
+  if (editor != nullptr) {
     IEditor *editor = this->currentEditor();
     this->mStatusManager->updateData(editor->statusData());
   }
@@ -385,9 +388,9 @@ void MainWindow::actionLanguage_triggered()
 void MainWindow::updateMenuState()
 {
   IEditor *editor = this->currentEditor();
-  bool editorSelected = (editor != NULL);
+  bool editorSelected = (editor != nullptr);
 
-  if (editor != NULL) {
+  if (editor != nullptr) {
     this->ui->menuFont->setEnabled(editor->type() == IEditor::EditorFont);
 
     this->ui->actionEditUndo->setEnabled(editor->document()->canUndo());
@@ -483,12 +486,12 @@ QWidget *MainWindow::currentTab()
     return w;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 void MainWindow::tabsList(QList<QWidget *> *list)
 {
-  if (list != NULL) {
+  if (list != nullptr) {
     list->clear();
 
     for (int i = 0; i < this->ui->tabWidget->count(); i++) {
@@ -509,9 +512,9 @@ QString MainWindow::findAvailableName(const QString &prefix)
 
   for (int i = 0; i < this->ui->tabWidget->count(); i++) {
     QWidget *w = this->ui->tabWidget->widget(i);
-    IDocument *doc = dynamic_cast<IDocument *> (w);
+    Data::Containers::IDocument *doc = dynamic_cast<Data::Containers::IDocument *> (w);
 
-    if (doc != NULL) {
+    if (doc != nullptr) {
       names.append(doc->documentName());
     }
   }
@@ -561,7 +564,7 @@ void MainWindow::statusChanged()
 {
   QWidget *widget = qobject_cast<QWidget *>(sender());
 
-  if (widget != NULL) {
+  if (widget != nullptr) {
     if (this->ui->tabWidget->currentWidget() == widget) {
       IEditor *editor = this->currentEditor();
       this->mStatusManager->updateData(editor->statusData());
@@ -569,3 +572,4 @@ void MainWindow::statusChanged()
   }
 }
 
+} // namespace AppUI

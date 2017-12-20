@@ -30,7 +30,9 @@
 #include "iimageeditortool.h"
 #include "imageeditoroptions.h"
 
-namespace ImageEditor
+namespace AppUI
+{
+namespace Images
 {
 
 WindowEditor::WindowEditor(QWidget *parent) :
@@ -42,9 +44,9 @@ WindowEditor::WindowEditor(QWidget *parent) :
   this->ui->label->installEventFilter(this);
   this->ui->toolBarOptions->hide();
 
-  this->restoreState(ImageEditorOptions::toolbarsState(), 0);
+  this->restoreState(Settings::ImageEditorOptions::toolbarsState(), 0);
 
-  this->mSelectedTool = NULL;
+  this->mSelectedTool = nullptr;
   this->createTools();
 
   this->updateImageScaled(this->mTools->scale());
@@ -59,7 +61,7 @@ WindowEditor::~WindowEditor()
     this->ui->toolBarOptions->hide();
   }
 
-  ImageEditorOptions::setToolbarsState(this->saveState(0));
+  Settings::ImageEditorOptions::setToolbarsState(this->saveState(0));
 
   delete this->mTools;
   delete ui;
@@ -84,7 +86,7 @@ bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
 {
   bool result = false;
 
-  if (this->mSelectedTool != NULL) {
+  if (this->mSelectedTool != nullptr) {
     if (event->type() == QEvent::MouseButtonDblClick ||
         event->type() == QEvent::MouseButtonPress ||
         event->type() == QEvent::MouseButtonRelease ||
@@ -180,9 +182,9 @@ void WindowEditor::updateImageScaled(int value)
   if (!this->mImageOriginal.isNull()) {
     QImage image = this->mImageOriginal;
 
-    image = BitmapHelper::drawSelection(&image, this->mTools->selectedPath());
-    image = BitmapHelper::scale(&image, value);
-    image = BitmapHelper::drawGrid(&image, value);
+    image = Parsing::Conversion::BitmapHelper::drawSelection(&image, this->mTools->selectedPath());
+    image = Parsing::Conversion::BitmapHelper::scale(&image, value);
+    image = Parsing::Conversion::BitmapHelper::drawGrid(&image, value);
     this->mImageScaled = image;
     this->mPixmapScaled = QPixmap::fromImage(image);
 
@@ -192,8 +194,8 @@ void WindowEditor::updateImageScaled(int value)
 
 void WindowEditor::updateImageScaled(const QImage &image, int scale)
 {
-  this->mImageScaled = BitmapHelper::scale(&image, scale);
-  this->mImageScaled = BitmapHelper::drawGrid(&this->mImageScaled, scale);
+  this->mImageScaled = Parsing::Conversion::BitmapHelper::scale(&image, scale);
+  this->mImageScaled = Parsing::Conversion::BitmapHelper::drawGrid(&this->mImageScaled, scale);
   this->mPixmapScaled = QPixmap::fromImage(this->mImageScaled);
 
   this->ui->label->setPixmap(this->mPixmapScaled);
@@ -202,13 +204,13 @@ void WindowEditor::updateImageScaled(const QImage &image, int scale)
 void WindowEditor::drawPixel(int x, int y, const QColor &color)
 {
   QImage image = this->mImageOriginal;
-  this->mImageOriginal = BitmapHelper::drawPixel(&image, x, y, color);
+  this->mImageOriginal = Parsing::Conversion::BitmapHelper::drawPixel(&image, x, y, color);
   this->updateImageScaled(this->mTools->scale());
 }
 
 void WindowEditor::createTools()
 {
-  this->mTools = new ToolsManager(this);
+  this->mTools = new ImageEditor::Tools::ToolsManager(this);
   QList<QAction *> actions = QList<QAction *> (*this->mTools->toolsActions());
   this->ui->toolBarTools->addActions(actions);
   this->connect(this->mTools, SIGNAL(toolChanged(int)), SLOT(toolChanged(int)));
@@ -259,12 +261,12 @@ void WindowEditor::toolChanged(int toolIndex)
 {
   this->ui->toolBarOptions->clear();
 
-  IImageEditorTool *tool = this->mSelectedTool;
+  ImageEditor::Tools::IImageEditorTool *tool = this->mSelectedTool;
 
-  if (this->mSelectedTool != NULL) {
+  if (this->mSelectedTool != nullptr) {
     QObject *obj = dynamic_cast<QObject *>(tool);
 
-    if (tool != NULL) {
+    if (tool != nullptr) {
       obj->disconnect(SIGNAL(started(const QImage *)), this, SLOT(tool_started(const QImage *)));
       obj->disconnect(SIGNAL(processing(const QImage *)), this, SLOT(tool_processing(const QImage *)));
       obj->disconnect(SIGNAL(completed(const QImage *, bool)), this, SLOT(tool_completed(const QImage *, bool)));
@@ -292,5 +294,5 @@ void WindowEditor::toolChanged(int toolIndex)
   this->ui->toolBarOptions->setVisible(this->ui->toolBarOptions->actions().length() > 0);
 }
 
-}
-
+} // namespace Images
+} // namespace AppUI

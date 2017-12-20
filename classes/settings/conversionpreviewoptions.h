@@ -20,11 +20,13 @@
 #ifndef CONVERSIONPREVIEWOPTIONS_H
 #define CONVERSIONPREVIEWOPTIONS_H
 
-#include <QObject>
+#include <QString>
 
-class ConversionPreviewOptions : public QObject
+namespace Settings
 {
-  Q_OBJECT
+
+class ConversionPreviewOptions
+{
 public:
   static int scale();
   static void setScale(int value);
@@ -32,5 +34,7 @@ public:
 private:
   static const QString GroupName;
 };
+
+} // namespace Settings
 
 #endif // CONVERSIONPREVIEWOPTIONS_H

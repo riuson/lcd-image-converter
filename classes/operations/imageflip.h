@@ -33,10 +33,11 @@ class ImageFlip : public QObject, public IOperation
 
 public:
   explicit ImageFlip(QObject *parent = 0);
+  virtual ~ImageFlip() {}
 
-  bool prepare(const IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyDocument(IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyItem(IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
+  bool prepare(const Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
+  void applyDocument(Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
+  void applyItem(Data::Containers::IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
 
   void setOrientation(bool flipHorizontal, bool flipVertical);
 
@@ -45,6 +46,6 @@ private:
   bool mFlipVertical;
 };
 
-}
+} // namespace Operations
 
 #endif // IMAGEFLIP_H

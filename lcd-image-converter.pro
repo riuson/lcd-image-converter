@@ -103,7 +103,7 @@ SOURCES += main.cpp \
     classes/parser/convert/fonthelper.cpp \
     classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
-    classes/parser/tags.cpp \
+    classes/parser/tagslist.cpp \
     classes/settings/appsettings.cpp \
     classes/settings/conversionpreviewoptions.cpp \
     classes/settings/externaltooloptions.cpp \
@@ -171,7 +171,6 @@ HEADERS += \
     classes/action-handlers/actionimagehandlers.h \
     classes/action-handlers/actionsetuphandlers.h \
     classes/cmdline/cmdline.h \
-    classes/cmdline/cmdoptions.h \
     classes/cmdline/modeconvertfont.h \
     classes/cmdline/modeconvertimage.h \
     classes/cmdline/modehex2bin.h \
@@ -180,13 +179,13 @@ HEADERS += \
     classes/compression/rlesequence.h \
     classes/data/datacontainer.h \
     classes/data/fontdocument.h \
+    classes/data/fontparameters.h \
     classes/data/historykeeper.h \
     classes/data/historyrecord.h \
     classes/data/imagedocument.h \
     classes/data/imagesmodel.h \
     classes/data/imagesscaledproxy.h \
     classes/data/revisioninfo.h \
-    classes/data/tfontparameters.h \
     classes/data/transposeproxy.h \
     classes/imageeditor/editor.h \
     classes/imageeditor/iimageeditor.h \
@@ -224,7 +223,7 @@ HEADERS += \
     classes/parser/convert/fonthelper.h \
     classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
-    classes/parser/tags.h \
+    classes/parser/tagslist.h \
     classes/settings/appsettings.h \
     classes/settings/conversionpreviewoptions.h \
     classes/settings/externaltooloptions.h \

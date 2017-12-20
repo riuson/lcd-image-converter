@@ -30,28 +30,44 @@ class EditorTabImage;
 }
 
 class QImage;
+
+namespace Data
+{
+namespace Containers
+{
 class DataContainer;
-class StatusData;
 class ImageDocument;
 class IDocument;
+}
+}
 
 namespace ImageEditor
 {
 class Editor;
 }
 
+namespace AppUI
+{
+namespace Status
+{
+class StatusData;
+}
+
+namespace Images
+{
+
 class EditorTabImage : public QWidget, public IEditor
 {
   Q_OBJECT
-  Q_INTERFACES(IEditor)
+  Q_INTERFACES(AppUI::IEditor)
 
 public:
   explicit EditorTabImage(QWidget *parent = 0);
-  ~EditorTabImage();
+  virtual ~EditorTabImage();
 
-  IDocument *document() const Q_DECL_OVERRIDE;
+  Data::Containers::IDocument *document() const Q_DECL_OVERRIDE;
   QStringList selectedKeys() const Q_DECL_OVERRIDE;
-  StatusData *statusData() const Q_DECL_OVERRIDE;
+  AppUI::Status::StatusData *statusData() const Q_DECL_OVERRIDE;
   EditorType type() const Q_DECL_OVERRIDE;
 
 protected:
@@ -61,8 +77,8 @@ private:
   Ui::EditorTabImage *ui;
   QWidget *mEditorWidget;
   ImageEditor::Editor *mEditorObject;
-  ImageDocument *mDocument;
-  StatusData *mStatusData;
+  Data::Containers::ImageDocument *mDocument;
+  AppUI::Status::StatusData *mStatusData;
 
   void initStatusData();
   void updateStatus();
@@ -77,5 +93,8 @@ signals:
   void documentChanged();
   void statusChanged();
 };
+
+} // namespace Images
+} // namespace AppUI
 
 #endif // EDITORTABIMAGE_H

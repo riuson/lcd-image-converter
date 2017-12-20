@@ -25,7 +25,16 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 
-MatrixPreviewModel::MatrixPreviewModel(Preset *preset, QObject *parent) :
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Matrix
+{
+
+MatrixPreviewModel::MatrixPreviewModel(Settings::Presets::Preset *preset, QObject *parent) :
   QAbstractItemModel(parent)
 {
   this->mPreset = preset;
@@ -125,7 +134,7 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
         }
 
         // get source bit info
-        ConversionType convType;
+        Settings::Presets::ConversionType convType;
         ColorType colorType;
         int partIndex;
         this->getBitType(bitIndex, &convType, &colorType, &partIndex);
@@ -147,7 +156,7 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
       }
 
       case Source: {
-        ConversionType convType;
+        Settings::Presets::ConversionType convType;
         ColorType colorType;
         int partIndex;
         this->getBitType(bitIndex, &convType, &colorType, &partIndex);
@@ -209,7 +218,7 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
 
       case MaskFill: {
         bool active = (this->mPreset->matrix()->maskFill() & (0x00000001 << bitIndex)) != 0;
-        int bits = 8 * (this->mPreset->image()->blockSize() + 1);
+        int bits = 8 * (static_cast<int>(this->mPreset->image()->blockSize()) + 1);
 
         if (role == Qt::DisplayRole) {
           if (bitIndex < bits) {
@@ -390,7 +399,7 @@ MatrixPreviewModel::RowType MatrixPreviewModel::rowType(int row) const
   return result;
 }
 
-void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const
+void MatrixPreviewModel::getBitType(int bitIndex, Parsing::Conversion::Options::ConversionType *convType, ColorType *colorType, int *partIndex) const
 {
   *convType = this->mPreset->prepare()->convType();
   *colorType = Empty;
@@ -402,7 +411,7 @@ void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, Colo
   }
 
   switch (*convType) {
-    case ConversionTypeMonochrome: {
+    case Parsing::Conversion::Options::ConversionType::Monochrome: {
       if (bitIndex < 24) {
         *colorType = BlackOrWhite;
         *partIndex = 0;
@@ -411,7 +420,7 @@ void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, Colo
       break;
     }
 
-    case ConversionTypeGrayscale: {
+    case Parsing::Conversion::Options::ConversionType::Grayscale: {
       if (bitIndex < 24) {
         *colorType = Gray;
         *partIndex = bitIndex & 7;
@@ -420,7 +429,7 @@ void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, Colo
       break;
     }
 
-    case ConversionTypeColor: {
+    case Parsing::Conversion::Options::ConversionType::Color: {
       if (bitIndex < 8) {
         *colorType = Blue;
         *partIndex = bitIndex & 7;
@@ -435,7 +444,7 @@ void MatrixPreviewModel::getBitType(int bitIndex, ConversionType *convType, Colo
       break;
     }
 
-    case ConversionTypeCustom: {
+    case Parsing::Conversion::Options::ConversionType::Custom: {
       if (bitIndex < 32) {
         *colorType = Gray;
         *partIndex = bitIndex & 31;
@@ -563,14 +572,14 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
   *color = QVariant();
 
   if (bitIndex >= 0 && bitIndex <= 31) {
-    ConversionType convType;
+    Settings::Presets::ConversionType convType;
     ColorType colorType;
     int partIndex;
     this->getBitType(bitIndex, &convType, &colorType, &partIndex);
 
     if (colorType != Empty) {
       switch (convType) {
-        case ConversionTypeMonochrome: {
+        case Parsing::Conversion::Options::ConversionType::Monochrome: {
           switch (colorType) {
             case BlackOrWhite: {
               *name = QVariant(QString("BW%1").arg(partIndex));
@@ -593,7 +602,7 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
           break;
         }
 
-        case ConversionTypeGrayscale: {
+        case Parsing::Conversion::Options::ConversionType::Grayscale: {
           switch (colorType) {
             case Gray: {
               *name = QVariant(QString("Gr%1").arg(partIndex));
@@ -617,7 +626,7 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
           break;
         }
 
-        case ConversionTypeColor: {
+        case Parsing::Conversion::Options::ConversionType::Color: {
           switch (colorType) {
             case Red: {
               *name = QVariant(QString("R%1").arg(partIndex));
@@ -654,7 +663,7 @@ void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVari
           break;
         }
 
-        case ConversionTypeCustom: {
+        case Parsing::Conversion::Options::ConversionType::Custom: {
           switch (colorType) {
             case Gray: {
               *name = QVariant(QString("Cu%1").arg(partIndex));
@@ -684,3 +693,7 @@ void MatrixPreviewModel::callReset()
   this->endResetModel();
 }
 
+} // namespace Matrix
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

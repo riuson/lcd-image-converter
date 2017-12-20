@@ -26,6 +26,11 @@ template <class T> class QVector;
 class QSettings;
 class QDomElement;
 
+namespace Settings
+{
+namespace Presets
+{
+
 class ReorderingOptions : public QObject
 {
   Q_OBJECT
@@ -61,5 +66,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Presets
+} // namespace Settings
 
 #endif // REORDERINGOPTIONS_H

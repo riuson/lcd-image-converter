@@ -30,7 +30,8 @@ class ModeHex2Bin : public ModeParserBase
 {
   Q_OBJECT
 public:
-  explicit ModeHex2Bin(QCommandLineParser *parser, QObject *parent = 0);
+  explicit ModeHex2Bin(QCommandLineParser &parser, QObject *parent = 0);
+  virtual ~ModeHex2Bin() {}
 
   static QString modeName();
 
@@ -43,10 +44,10 @@ private:
   QString mOuputFilename;
 
   QByteArray hex2bin(QString &hexString);
-  void appendDataLE(QByteArray *array, int size, quint32 value);
-  void appendDataBE(QByteArray *array, int size, quint32 value);
+  void appendDataLE(QByteArray &array, int size, quint32 value);
+  void appendDataBE(QByteArray &array, int size, quint32 value);
 };
 
-}
+} // namespace CommandLine
 
 #endif // MODEHEX2BIN_H

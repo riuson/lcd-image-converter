@@ -21,6 +21,11 @@
 
 #include <QImage>
 
+namespace Parsing
+{
+namespace Conversion
+{
+
 ConvImageScan::ConvImageScan(const QImage *image, QObject *parent) :
   QObject(parent)
 {
@@ -98,3 +103,5 @@ int ConvImageScan::width() const
   return this->mImage->width();
 }
 
+} // namespace Conversion
+} // namespace Parsing

@@ -20,6 +20,9 @@
 #include "conversionpreviewoptions.h"
 #include <appsettings.h>
 
+namespace Settings
+{
+
 const QString ConversionPreviewOptions::GroupName = QString("conversion-preview");
 
 int ConversionPreviewOptions::scale()
@@ -46,3 +49,5 @@ void ConversionPreviewOptions::setScale(int value)
   sett.setValue("scale", QVariant(value));
   sett.endGroup();
 }
+
+} // namespace Settings

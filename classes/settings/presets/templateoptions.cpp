@@ -23,6 +23,11 @@
 #include <QtXml>
 #include <QDomDocument>
 
+namespace Settings
+{
+namespace Presets
+{
+
 const QString TemplateOptions::GroupName = QString("templates");
 const QString TemplateOptions::FieldImages = QString("images");
 const QString TemplateOptions::FieldFonts = QString("fonts");
@@ -148,3 +153,5 @@ void TemplateOptions::saveXmlElement(QDomElement element)
   nodeFonts.appendChild(element.ownerDocument().createTextNode(this->font()));
 }
 
+} // namespace Presets
+} // namespace Settings

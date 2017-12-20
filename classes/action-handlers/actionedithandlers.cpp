@@ -38,6 +38,11 @@
 #include "datacontainer.h"
 #include "idocument.h"
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 ActionEditHandlers::ActionEditHandlers(QObject *parent) :
   ActionHandlersBase(parent)
 {
@@ -45,21 +50,21 @@ ActionEditHandlers::ActionEditHandlers(QObject *parent) :
 
 void ActionEditHandlers::undo_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     this->editor()->document()->undo();
   }
 }
 
 void ActionEditHandlers::redo_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     this->editor()->document()->redo();
   }
 }
 
 void ActionEditHandlers::copy_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     if (keys.length() > 0) {
@@ -90,7 +95,7 @@ void ActionEditHandlers::copy_triggered()
 
 void ActionEditHandlers::paste_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QClipboard *clipboard = QApplication::clipboard();
 
     if (clipboard->mimeData()->hasImage()) {
@@ -129,3 +134,5 @@ void ActionEditHandlers::paste_triggered()
   }
 }
 
+} // namespace MenuHandlers
+} // namespace AppUI

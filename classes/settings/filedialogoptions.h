@@ -20,15 +20,15 @@
 #ifndef FILEDIALOGOPTIONS_H
 #define FILEDIALOGOPTIONS_H
 
-#include <QObject>
 #include <QString>
 
-class FileDialogOptions : public QObject
+namespace Settings
 {
-  Q_OBJECT
+
+class FileDialogOptions
+{
 public:
-  enum class Dialogs
-  {
+  enum class Dialogs {
     None = 0,
 
     OpenDocument,
@@ -57,5 +57,7 @@ private:
   static const QString getString(const QString &name);
   static void setString(const QString &name, const QString &value);
 };
+
+} // namespace Settings
 
 #endif // FILEDIALOGOPTIONS_H

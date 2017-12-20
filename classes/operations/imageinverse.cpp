@@ -30,7 +30,7 @@ ImageInverse::ImageInverse(QObject *parent)
 {
 }
 
-bool ImageInverse::prepare(const IDocument *doc, const QStringList &keys)
+bool ImageInverse::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
@@ -38,13 +38,13 @@ bool ImageInverse::prepare(const IDocument *doc, const QStringList &keys)
   return true;
 }
 
-void ImageInverse::applyDocument(IDocument *doc, const QStringList &keys)
+void ImageInverse::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageInverse::applyItem(IDocument *doc, const QString &itemKey)
+void ImageInverse::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   const QImage *original = doc->dataContainer()->image(itemKey);
   QImage result(*original);
@@ -52,4 +52,4 @@ void ImageInverse::applyItem(IDocument *doc, const QString &itemKey)
   doc->dataContainer()->setImage(itemKey, &result);
 }
 
-}
+} // namespace Operations

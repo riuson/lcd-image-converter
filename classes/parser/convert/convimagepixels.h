@@ -23,6 +23,11 @@
 #include <QObject>
 #include <QVector>
 
+namespace Parsing
+{
+namespace Conversion
+{
+
 class ConvImagePixels : public QObject
 {
   Q_OBJECT
@@ -47,5 +52,8 @@ private:
 
   int count() const;
 };
+
+} // namespace Conversion
+} // namespace Parsing
 
 #endif // CONVIMAGEPIXELS_H

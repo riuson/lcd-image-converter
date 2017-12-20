@@ -27,6 +27,11 @@
 #include "dialogupdates.h"
 #include "imainwindow.h"
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 ActionHelpHandlers::ActionHelpHandlers(QObject *parent) :
   ActionHandlersBase(parent)
 {
@@ -34,7 +39,7 @@ ActionHelpHandlers::ActionHelpHandlers(QObject *parent) :
 
 void ActionHelpHandlers::about_application_triggered()
 {
-  DialogAbout dialog(this->mMainWindow->parentWidget());
+  About::DialogAbout dialog(this->mMainWindow->parentWidget());
   dialog.exec();
 }
 
@@ -45,7 +50,7 @@ void ActionHelpHandlers::about_qt_triggered()
 
 void ActionHelpHandlers::updates_triggered()
 {
-  DialogUpdates dialog(this->mMainWindow->parentWidget());
+  AppUI::Updates::DialogUpdates dialog(this->mMainWindow->parentWidget());
   dialog.exec();
 }
 
@@ -54,3 +59,5 @@ void ActionHelpHandlers::homepage_triggered()
   QDesktopServices::openUrl(QUrl("http://www.riuson.com/lcd-image-converter", QUrl::TolerantMode));
 }
 
+} // namespace MenuHandlers
+} // namespace AppUI

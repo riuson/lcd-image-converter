@@ -29,13 +29,18 @@ class StartTab;
 
 class QStringList;
 
+namespace AppUI
+{
+namespace Start
+{
+
 class StartTab : public QWidget
 {
   Q_OBJECT
 
 public:
   explicit StartTab(QWidget *parent = 0);
-  ~StartTab();
+  virtual ~StartTab();
 
   void setRecentFiles(const QStringList *list);
   const QString tabName() const;
@@ -52,5 +57,8 @@ signals:
   void createNewImage();
   void createNewFont();
 };
+
+} // namespace Start
+} // namespace AppUI
 
 #endif // STARTTAB_H

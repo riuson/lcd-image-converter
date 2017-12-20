@@ -26,11 +26,17 @@
 class QSettings;
 class QDomElement;
 
+namespace Settings
+{
+namespace Presets
+{
+
 class TemplateOptions : public QObject
 {
   Q_OBJECT
 public:
   explicit TemplateOptions(QObject *parent = 0);
+  virtual ~TemplateOptions() {}
 
   const QString &image() const;
   const QString &font() const;
@@ -57,5 +63,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Presets
+} // namespace Settings
 
 #endif // TEMPLATEOPTIONS_H

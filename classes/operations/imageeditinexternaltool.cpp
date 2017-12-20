@@ -37,7 +37,7 @@ ImageEditInExternalTool::ImageEditInExternalTool(QWidget *parentWidget, QObject 
   this->mRunningError = false;
 }
 
-bool ImageEditInExternalTool::prepare(const IDocument *doc, const QStringList &keys)
+bool ImageEditInExternalTool::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
@@ -45,7 +45,7 @@ bool ImageEditInExternalTool::prepare(const IDocument *doc, const QStringList &k
   return true;
 }
 
-void ImageEditInExternalTool::applyDocument(IDocument *doc, const QStringList &keys)
+void ImageEditInExternalTool::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
 {
   QMap<QString, QString> files;
 
@@ -102,7 +102,7 @@ void ImageEditInExternalTool::applyDocument(IDocument *doc, const QStringList &k
   QProcess process(this);
   this->connect(&process, SIGNAL(error(QProcess::ProcessError)), SLOT(processError(QProcess::ProcessError)));
   this->mRunningError = false;
-  process.start(ExternalToolOptions::imageEditor(), parameters);
+  process.start(Settings::ExternalToolOptions::imageEditor(), parameters);
 
   // wait for external application finished
   do {
@@ -148,7 +148,7 @@ void ImageEditInExternalTool::applyDocument(IDocument *doc, const QStringList &k
   }
 }
 
-void ImageEditInExternalTool::applyItem(IDocument *doc, const QString &itemKey)
+void ImageEditInExternalTool::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   Q_UNUSED(doc)
   Q_UNUSED(itemKey)
@@ -194,9 +194,9 @@ void ImageEditInExternalTool::processError(QProcess::ProcessError error)
 
   QMessageBox box(this->mParentWidget);
   box.setTextFormat(Qt::RichText);
-  box.setText(QString("<b>%1</b>: \"%2\"<br/>%3").arg(message, ExternalToolOptions::imageEditor(), description));
+  box.setText(QString("<b>%1</b>: \"%2\"<br/>%3").arg(message, Settings::ExternalToolOptions::imageEditor(), description));
   box.setWindowTitle(tr("Error running external tool"));
   box.exec();
 }
 
-}
+} // namespace Operations

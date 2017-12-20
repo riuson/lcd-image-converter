@@ -30,10 +30,15 @@
 
 #include "datacontainer.h"
 #include "parser.h"
-#include "tags.h"
+#include "tagslist.h"
 #include "statusdata.h"
 #include "imagedocument.h"
 #include "editor.h"
+
+namespace AppUI
+{
+namespace Images
+{
 
 EditorTabImage::EditorTabImage(QWidget *parent) :
   QWidget(parent),
@@ -44,7 +49,7 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
   QHBoxLayout *layout = new QHBoxLayout(this);
   this->setLayout(layout);
 
-  this->mDocument = new ImageDocument(this);
+  this->mDocument = new Data::Containers::ImageDocument(this);
 
   this->mEditorObject = new ImageEditor::Editor(this);
   this->mEditorWidget = this->mEditorObject->widget();
@@ -62,14 +67,14 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
 
 EditorTabImage::~EditorTabImage()
 {
-  this->mEditorWidget->setParent(NULL);
+  this->mEditorWidget->setParent(nullptr);
   delete ui;
   delete this->mEditorObject;
 }
 
-IDocument *EditorTabImage::document() const
+Data::Containers::IDocument *EditorTabImage::document() const
 {
-  return qobject_cast<IDocument *>(this->mDocument);
+  return qobject_cast<Data::Containers::IDocument *>(this->mDocument);
 }
 
 QStringList EditorTabImage::selectedKeys() const
@@ -77,7 +82,7 @@ QStringList EditorTabImage::selectedKeys() const
   return this->mDocument->dataContainer()->keys();
 }
 
-StatusData *EditorTabImage::statusData() const
+AppUI::Status::StatusData *EditorTabImage::statusData() const
 {
   return this->mStatusData;
 }
@@ -103,7 +108,7 @@ void EditorTabImage::changeEvent(QEvent *e)
 
 void EditorTabImage::initStatusData()
 {
-  this->mStatusData = new StatusData(this);
+  this->mStatusData = new AppUI::Status::StatusData(this);
   this->connect(this->mStatusData, SIGNAL(changed()), SIGNAL(statusChanged()));
   this->updateStatus();
 }
@@ -114,10 +119,10 @@ void EditorTabImage::updateStatus()
 
   if (keys.length() > 0) {
     const QImage *currentImage = this->mDocument->dataContainer()->image(keys.at(0));
-    this->mStatusData->setData(StatusData::ImageSize, QVariant(currentImage->size()));
+    this->mStatusData->setData(AppUI::Status::StatusData::ImageSize, QVariant(currentImage->size()));
   }
 
-  this->mStatusData->setData(StatusData::Scale, QVariant(this->mEditorObject->scale()));
+  this->mStatusData->setData(AppUI::Status::StatusData::Scale, QVariant(this->mEditorObject->scale()));
 }
 
 void EditorTabImage::updateSelectedImage()
@@ -147,16 +152,19 @@ void EditorTabImage::mon_editor_imageChanged(const QImage *value)
 void EditorTabImage::mon_editor_mouseMove(const QPoint *point)
 {
   if (point->x() >= 0 && point->y() >= 0) {
-    this->mStatusData->setData(StatusData::MouseCoordinates, QVariant(*point));
+    this->mStatusData->setData(AppUI::Status::StatusData::MouseCoordinates, QVariant(*point));
   } else {
-    this->mStatusData->removeData(StatusData::MouseCoordinates);
+    this->mStatusData->removeData(AppUI::Status::StatusData::MouseCoordinates);
   }
 }
 
 void EditorTabImage::mon_editor_scaleChanged(int scale)
 {
-  this->mStatusData->setData(StatusData::Scale, QVariant(scale));
+  this->mStatusData->setData(AppUI::Status::StatusData::Scale, QVariant(scale));
 }
+
+} // namespace Images
+} // namespace AppUI
 
 /*
  Storage data format:

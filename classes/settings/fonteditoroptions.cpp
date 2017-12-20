@@ -23,6 +23,9 @@
 #include <QRgb>
 #include <appsettings.h>
 
+namespace Settings
+{
+
 int FontEditorOptions::scale()
 {
   AppSettings appsett;
@@ -60,7 +63,7 @@ QColor FontEditorOptions::foreColor()
   QColor result = QColor("black");
 
   if (ok) {
-    result = BitmapHelper::fromRgba(QRgb(a));
+    result = Parsing::Conversion::BitmapHelper::fromRgba(QRgb(a));
   }
 
   return result;
@@ -78,7 +81,7 @@ QColor FontEditorOptions::backColor()
   QColor result = QColor("white");
 
   if (ok) {
-    result = BitmapHelper::fromRgba(QRgb(a));
+    result = Parsing::Conversion::BitmapHelper::fromRgba(QRgb(a));
   }
 
   return result;
@@ -106,3 +109,4 @@ void FontEditorOptions::setBackColor(const QColor &value)
   sett.endGroup();
 }
 
+} // namespace Settings

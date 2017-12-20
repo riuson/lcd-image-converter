@@ -36,9 +36,9 @@ ImageResize::ImageResize(QWidget *parentWidget, QObject *parent)
   this->mBottom = 0;
 }
 
-bool ImageResize::prepare(const IDocument *doc, const QStringList &keys)
+bool ImageResize::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
-  DialogCanvasResize dialog(doc->dataContainer(), this->mParentWidget);
+  AppUI::CommonDialogs::DialogCanvasResize dialog(doc->dataContainer(), this->mParentWidget);
   dialog.selectKeys(keys);
 
   if (dialog.exec() == QDialog::Accepted) {
@@ -52,17 +52,17 @@ bool ImageResize::prepare(const IDocument *doc, const QStringList &keys)
   return false;
 }
 
-void ImageResize::applyDocument(IDocument *doc, const QStringList &keys)
+void ImageResize::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageResize::applyItem(IDocument *doc, const QString &itemKey)
+void ImageResize::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   const QImage *original = doc->dataContainer()->image(itemKey);
-  QImage result = BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, BitmapHelper::detectBackgroundColor(original));
+  QImage result = Parsing::Conversion::BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, Parsing::Conversion::BitmapHelper::detectBackgroundColor(original));
   doc->dataContainer()->setImage(itemKey, &result);
 }
 
-}
+} // namespace Operations

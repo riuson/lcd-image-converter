@@ -21,10 +21,10 @@
 #define CMDLINE_H
 
 #include <QObject>
+#include <QCommandLineParser>
 
 class QString;
 class QStringList;
-class QCommandLineParser;
 
 namespace CommandLine
 {
@@ -42,19 +42,20 @@ public:
   };
 
   explicit CmdLine(const QStringList &arguments, QObject *parent = 0);
-  virtual ~CmdLine();
+  virtual ~CmdLine() {}
 
   bool needProcess() const;
   ProcessResult process();
-private:
-  QCommandLineParser *mParser;
-  const QStringList *mArguments;
 
-  CommandLine::ModeParserBase *createMode(const QString &name, QCommandLineParser *parser);
+private:
+  QCommandLineParser mParser;
+  const QStringList &mArguments;
+
+  CommandLine::ModeParserBase *createMode(const QString &name, QCommandLineParser &parser);
   void addApplicationOptions();
   void processApplicationOptions();
 };
 
-}
+} // namespace CommandLine
 
 #endif // CMDLINE_H

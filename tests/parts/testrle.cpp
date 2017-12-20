@@ -54,10 +54,10 @@ void TestRle::compress1()
       << 127 << 10
       << 3 << 10;
 
-  RleCompressor compressor;
+  Utils::Compression::RleCompressor compressor;
 
   QVector<quint32> test;
-  compressor.compress(&testVector1, Data8, &test, 1);
+  compressor.compress(&testVector1, Parsing::Conversion::Options::DataBlockSize::Data8, &test, 1);
 
   QCOMPARE(test.size(), testVector2.size());
 
@@ -107,10 +107,10 @@ void TestRle::compress2()
       << 127 << 10
       << 3 << 10;
 
-  RleCompressor compressor;
+  Utils::Compression::RleCompressor compressor;
 
   QVector<quint32> test;
-  compressor.compress(&testVector1, Data8, &test, 2);
+  compressor.compress(&testVector1, Parsing::Conversion::Options::DataBlockSize::Data8, &test, 2);
 
   QCOMPARE(test.size(), testVector2.size());
 
@@ -155,10 +155,10 @@ void TestRle::compress5()
       << 127 << 10
       << 3 << 10;
 
-  RleCompressor compressor;
+  Utils::Compression::RleCompressor compressor;
 
   QVector<quint32> test;
-  compressor.compress(&testVector1, Data8, &test, 5);
+  compressor.compress(&testVector1, Parsing::Conversion::Options::DataBlockSize::Data8, &test, 5);
 
   QCOMPARE(test.size(), testVector2.size());
 

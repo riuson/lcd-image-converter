@@ -35,6 +35,11 @@
 #include "revisioninfo.h"
 #include "bitmaphelper.h"
 
+namespace AppUI
+{
+namespace Updates
+{
+
 DialogUpdates::DialogUpdates(QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogUpdates)
@@ -47,13 +52,13 @@ DialogUpdates::DialogUpdates(QWidget *parent) :
 
   // update icon
   QIcon icon;
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 16)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 24)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 32)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 48)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 64)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 128)));
-  icon.addPixmap(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/lic_icon"), 256)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 16)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 24)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 32)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 48)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 64)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 128)));
+  icon.addPixmap(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/lic_icon"), 256)));
   this->setWindowIcon(icon);
 
   // show local history by default
@@ -184,8 +189,8 @@ bool DialogUpdates::transformHistory(const QString &xml, const QString &xsl, QSt
   {
     QString value = xml;
 
-    value.replace("<sha1>current</sha1>", QString("<sha1>%1</sha1>").arg(RevisionInfo::hash()));
-    value.replace("<date>current</date>", QString("<date>%1</date>").arg(RevisionInfo::date()));
+    value.replace("<sha1>current</sha1>", QString("<sha1>%1</sha1>").arg(VersionControl::RevisionInfo::hash()));
+    value.replace("<date>current</date>", QString("<date>%1</date>").arg(VersionControl::RevisionInfo::date()));
 
     QByteArray array = value.toUtf8();
 
@@ -197,7 +202,7 @@ bool DialogUpdates::transformHistory(const QString &xml, const QString &xsl, QSt
   {
     QString value = xsl;
 
-    value.replace("$current_date", QString("%1").arg(RevisionInfo::date()));
+    value.replace("$current_date", QString("%1").arg(VersionControl::RevisionInfo::date()));
 
     QByteArray array = value.toUtf8();
 
@@ -241,7 +246,7 @@ bool DialogUpdates::isLocalVersionOutdated(const QString &xml)
       QStringList dates;
       query.evaluateTo(&dates);
 
-      QString revisionDateString = RevisionInfo::date();
+      QString revisionDateString = VersionControl::RevisionInfo::date();
       QDateTime revisionDate = QDateTime::fromString(revisionDateString, Qt::ISODate);
 
       foreach (const QString &dateString, dates) {
@@ -295,3 +300,6 @@ void DialogUpdates::networkReply(QNetworkReply *reply)
 
   reply->deleteLater();
 }
+
+} // namespace Updates
+} // namespace AppUI

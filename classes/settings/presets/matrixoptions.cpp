@@ -24,6 +24,11 @@
 #include <QtXml>
 #include <QDomDocument>
 
+namespace Settings
+{
+namespace Presets
+{
+
 const QString MatrixOptions::GroupName = QString("matrix");
 const QString MatrixOptions::FieldMaskUsed = QString("maskUsed");
 const QString MatrixOptions::FieldMaskAnd = QString("maskAnd");
@@ -435,3 +440,5 @@ void MatrixOptions::saveXmlElement(QDomElement element)
   }
 }
 
+} // namespace Presets
+} // namespace Settings

@@ -22,6 +22,11 @@
 #include "ieditor.h"
 #include "imainwindow.h"
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 ActionHandlersBase::ActionHandlersBase(QObject *parent) :
   QObject(parent)
 {
@@ -34,3 +39,5 @@ IEditor *ActionHandlersBase::editor()
   return editor;
 }
 
+} // namespace MenuHandlers
+} // namespace AppUI

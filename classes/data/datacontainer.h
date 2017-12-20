@@ -20,8 +20,6 @@
 #ifndef DATACONTAINER_H
 #define DATACONTAINER_H
 
-#include <QObject>
-
 #include <QMap>
 #include <QStringList>
 #include <QString>
@@ -29,8 +27,16 @@
 #include <QVariant>
 
 class QImage;
-class HistoryKeeper;
 
+namespace Data
+{
+namespace History
+{
+class HistoryKeeper;
+}
+
+namespace Containers
+{
 class DataContainer : public QObject
 {
   Q_OBJECT
@@ -74,10 +80,13 @@ private:
   QMap<QString, QVariant> mInfoMap;
   QStringList mKeys;
   QImage *mDefaultImage;
-  HistoryKeeper *mHistory;
+  Data::History::HistoryKeeper *mHistory;
 
 signals:
   void dataChanged(bool historyStateMoved);
 };
+
+} // namespace Containers
+} // namespace Data
 
 #endif // DATACONTAINER_H

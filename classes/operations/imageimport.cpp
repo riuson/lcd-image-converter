@@ -35,19 +35,19 @@ ImageImport::ImageImport(QWidget *parentWidget, QObject *parent) :
   this->mImportIndex = 0;
 }
 
-bool ImageImport::prepare(const IDocument *doc, const QStringList &keys)
+bool ImageImport::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
 
   QFileDialog dialog(this->mParentWidget);
   dialog.setAcceptMode(QFileDialog::AcceptOpen);
-  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ImportImage));
+  dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::ImportImage));
   dialog.setFileMode(QFileDialog::ExistingFiles);
   dialog.setNameFilter(tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
   dialog.setWindowTitle(tr("Open image file"));
 
   if (dialog.exec() == QDialog::Accepted) {
-    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ImportImage, dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ImportImage, dialog.directory().absolutePath());
     this->mSelectedFiles = dialog.selectedFiles();
 
     if (this->mSelectedFiles.length() > 0) {
@@ -79,13 +79,13 @@ bool ImageImport::prepare(const IDocument *doc, const QStringList &keys)
   return false;
 }
 
-void ImageImport::applyDocument(IDocument *doc, const QStringList &keys)
+void ImageImport::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageImport::applyItem(IDocument *doc, const QString &itemKey)
+void ImageImport::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   if (this->mSelectedFiles.length() == 1) {
     QImage imageLoaded;
@@ -104,4 +104,4 @@ void ImageImport::applyItem(IDocument *doc, const QString &itemKey)
   }
 }
 
-}
+} // namespace Operations

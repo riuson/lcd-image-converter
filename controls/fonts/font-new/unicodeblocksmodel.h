@@ -23,6 +23,11 @@
 #include <QAbstractListModel>
 #include <QList>
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 class UnicodeBlock
 {
 public:
@@ -42,6 +47,7 @@ class UnicodeBlocksModel : public QAbstractListModel
   Q_OBJECT
 public:
   explicit UnicodeBlocksModel(QObject *parent = 0);
+  virtual ~UnicodeBlocksModel() {}
 
   enum UnicodeBlocksModelRole {
     FirstCodeRole = Qt::UserRole + 1,
@@ -59,5 +65,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // QUNICODEBLOCKSMODEL_H

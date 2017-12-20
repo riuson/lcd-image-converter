@@ -30,6 +30,8 @@ template <class T1> class QList;
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 class IImageEditorTool
 {
@@ -53,8 +55,10 @@ signals:
   virtual void completed(const QImage *value, bool changed) = 0;
 };
 
-} // end of namespace
-Q_DECLARE_INTERFACE (ImageEditor::IImageEditorTool,
+} // namespace Tools
+} // namespace ImageEditor
+
+Q_DECLARE_INTERFACE (ImageEditor::Tools::IImageEditorTool,
                      "riuson.lcd-image-converter/1.0"
                     )
 

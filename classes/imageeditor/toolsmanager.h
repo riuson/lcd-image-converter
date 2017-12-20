@@ -29,6 +29,8 @@ template <class T1> class QList;
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 class IImageEditorTool;
 class ToolZoom;
@@ -43,7 +45,7 @@ class ToolsManager : public QObject, public IImageEditorParams, public IImageSel
 
 public:
   explicit ToolsManager(QObject *parent = 0);
-  ~ToolsManager();
+  virtual ~ToolsManager();
 
   const QList <IImageEditorTool *> *tools() const;
   const QList<QAction *> *toolsActions() const;
@@ -80,6 +82,7 @@ private slots:
   void on_toolAction_triggered();
 };
 
-} // end of namespace
+} // namespace Tools
+} // namespace ImageEditor
 
 #endif // TOOLSMANAGER_H

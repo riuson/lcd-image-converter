@@ -9,7 +9,7 @@ TestTemplateOptions::TestTemplateOptions(QObject *parent) :
 
 void TestTemplateOptions::initTestCase()
 {
-  this->mOptions = new TemplateOptions(this);
+  this->mOptions = new Settings::Presets::TemplateOptions(this);
 }
 
 void TestTemplateOptions::image()

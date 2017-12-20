@@ -24,6 +24,9 @@
 #include <QFileInfo>
 #include <appsettings.h>
 
+namespace Settings
+{
+
 RecentList::RecentList(QObject *parent) :
   QObject(parent)
 {
@@ -88,3 +91,4 @@ const QStringList *RecentList::files() const
   return this->mFiles;
 }
 
+} // namespace Settings

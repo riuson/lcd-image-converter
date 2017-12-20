@@ -24,13 +24,17 @@
 
 #include "actionhandlersbase.h"
 
-class IMainWindow;
+namespace AppUI
+{
+namespace MenuHandlers
+{
 
 class ActionHelpHandlers : public ActionHandlersBase
 {
   Q_OBJECT
 public:
   explicit ActionHelpHandlers(QObject *parent = 0);
+  virtual ~ActionHelpHandlers() {}
 
 signals:
 
@@ -40,5 +44,8 @@ public slots:
   void updates_triggered();
   void homepage_triggered();
 };
+
+} // namespace MenuHandlers
+} // namespace AppUI
 
 #endif // ACTIONHELPHANDLERS_H

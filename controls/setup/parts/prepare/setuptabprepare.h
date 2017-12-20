@@ -29,30 +29,48 @@ namespace Ui
 class SetupTabPrepare;
 }
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
+
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
 class SetupTabPrepareScanning;
 class SetupTabPreparePreprocessing;
-
-using namespace ConversionOptions;
 
 class SetupTabPrepare : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit SetupTabPrepare(Preset *preset, QWidget *parent = 0);
-  ~SetupTabPrepare();
+  explicit SetupTabPrepare(Settings::Presets::Preset *preset, QWidget *parent = 0);
+  virtual ~SetupTabPrepare();
 
 public slots:
   void matrixChanged();
 
 private:
   Ui::SetupTabPrepare *ui;
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   SetupTabPreparePreprocessing *mTabPreprocessing;
   SetupTabPrepareScanning *mTabScanning;
 
 private slots:
 };
+
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABPREPARE_H

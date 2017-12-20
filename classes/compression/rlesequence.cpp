@@ -21,6 +21,11 @@
 
 #include <QVector>
 
+namespace Utils
+{
+namespace Compression
+{
+
 RleSequence::RleSequence()
 {
   this->mData = new QVector<quint32>();
@@ -78,3 +83,5 @@ bool RleSequence::allEquals() const
   return result;
 }
 
+} // namespace Compression
+} // namespace Utils

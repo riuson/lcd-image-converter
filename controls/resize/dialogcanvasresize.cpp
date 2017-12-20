@@ -30,7 +30,12 @@
 #include "columnsreorderproxy.h"
 #include "resizesettings.h"
 
-DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent) :
+namespace AppUI
+{
+namespace CommonDialogs
+{
+
+DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *container, QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogCanvasResize)
 {
@@ -38,22 +43,22 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
 
   this->mContainer = container;
 
-  this->mModel = new ImagesModel(container, this);
+  this->mModel = new Data::Models::ImagesModel(container, this);
 
-  this->mResizedProxy = new ImagesResizedProxy(this);
+  this->mResizedProxy = new Data::Models::ImagesResizedProxy(this);
   this->mResizedProxy->setSourceModel(this->mModel);
 
-  this->mScaledProxy = new ImagesScaledProxy(this);
+  this->mScaledProxy = new Data::Models::ImagesScaledProxy(this);
   this->mScaledProxy->setSourceModel(this->mResizedProxy);
 
-  this->mFilter = new ImagesFilterProxy(this);
+  this->mFilter = new Data::Models::ImagesFilterProxy(this);
   this->mFilter->setSourceModel(this->mScaledProxy);
 
-  this->mReorderProxy = new ColumnsReorderProxy();
+  this->mReorderProxy = new Data::Models::ColumnsReorderProxy();
   this->mReorderProxy->setSourceModel(this->mFilter);
   this->mReorderProxy->setReorder(1, 3);
 
-  this->mTranspose = new TransposeProxy(this);
+  this->mTranspose = new Data::Models::TransposeProxy(this);
   this->mTranspose->setSourceModel(this->mReorderProxy);
 
   this->ui->tableView->setModel(this->mTranspose);
@@ -70,14 +75,14 @@ DialogCanvasResize::DialogCanvasResize(DataContainer *container, QWidget *parent
   this->mRight = 0;
   this->mBottom = 0;
 
-  int scale = ResizeSettings::scale();
+  int scale = Settings::ResizeSettings::scale();
   this->mScaledProxy->setScale(scale);
   this->on_scaleChanged(scale);
 }
 
 DialogCanvasResize::~DialogCanvasResize()
 {
-  ResizeSettings::setScale(this->ui->spinBoxScale->value());
+  Settings::ResizeSettings::setScale(this->ui->spinBoxScale->value());
 
   delete ui;
 }
@@ -173,3 +178,5 @@ void DialogCanvasResize::on_scaleChanged(int value)
   this->resizeToContents();
 }
 
+} // namespace CommonDialogs
+} // namespace AppUI

@@ -10,7 +10,22 @@ namespace Ui
 class SetupTabPrepareScanning;
 }
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
+
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
 class DemoGenerator;
 
 class SetupTabPrepareScanning : public QWidget
@@ -18,15 +33,15 @@ class SetupTabPrepareScanning : public QWidget
   Q_OBJECT
 
 public:
-  explicit SetupTabPrepareScanning(Preset *preset, QWidget *parent = 0);
-  ~SetupTabPrepareScanning();
+  explicit SetupTabPrepareScanning(Settings::Presets::Preset *preset, QWidget *parent = 0);
+  virtual ~SetupTabPrepareScanning();
 
 public slots:
   void matrixChanged();
 
 private:
   Ui::SetupTabPrepareScanning *ui;
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   QPixmap mPixmapScanning;
   QPixmap mPixmapScanPreview;
   DemoGenerator *mDemoGen;
@@ -45,5 +60,10 @@ private slots:
   void on_spinBoxAnimationTime_valueChanged(int value);
   void on_spinBoxAnimationInterval_valueChanged(int value);
 };
+
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABPREPARESCANNING_H

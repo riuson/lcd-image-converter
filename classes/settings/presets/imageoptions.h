@@ -27,17 +27,21 @@
 class QSettings;
 class QDomElement;
 
-using namespace ConversionOptions;
+namespace Settings
+{
+namespace Presets
+{
 
 class ImageOptions : public QObject
 {
   Q_OBJECT
 public:
   explicit ImageOptions(QObject *parent = 0);
+  virtual ~ImageOptions() {}
 
   bool splitToRows() const;
-  BytesOrder bytesOrder() const;
-  DataBlockSize blockSize() const;
+  Parsing::Conversion::Options::BytesOrder bytesOrder() const;
+  Parsing::Conversion::Options::DataBlockSize blockSize() const;
   bool blockDefaultOnes() const;
   bool compressionRle() const;
   quint32 compressionRleMinLength() const;
@@ -50,8 +54,8 @@ public:
   QString previewLevels() const;
 
   void setSplitToRows(bool value);
-  void setBytesOrder(BytesOrder value);
-  void setBlockSize(DataBlockSize value);
+  void setBytesOrder(Parsing::Conversion::Options::BytesOrder value);
+  void setBlockSize(Parsing::Conversion::Options::DataBlockSize value);
   void setBlockDefaultOnes(bool value);
   void setCompressionRle(bool value);
   void setCompressionRleMinLength(quint32 value);
@@ -86,8 +90,8 @@ private:
   static const QString FieldPreviewLevels;
 
   bool mSplitToRows;
-  BytesOrder mBytesOrder;
-  DataBlockSize mBlockSize;
+  Parsing::Conversion::Options::BytesOrder mBytesOrder;
+  Parsing::Conversion::Options::DataBlockSize mBlockSize;
   bool mBlockDefaultOnes;
   bool mCompressionRle;
   quint32 mCompressionRleMinLength;
@@ -108,5 +112,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Presets
+} // namespace Settings
 
 #endif // IMAGEOPTIONS_H

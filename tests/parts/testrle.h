@@ -11,6 +11,7 @@ class TestRle : public QObject
   Q_OBJECT
 public:
   explicit TestRle(QObject *parent = 0);
+  virtual ~TestRle() {}
 
 private:
 

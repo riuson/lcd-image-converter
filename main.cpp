@@ -24,7 +24,7 @@
 
 void setupApplication(QApplication *app)
 {
-  QString version = QString("rev.%1 from %2").arg(RevisionInfo::hash(), RevisionInfo::date());
+  QString version = QString("rev.%1 from %2").arg(VersionControl::RevisionInfo::hash(), VersionControl::RevisionInfo::date());
   QCoreApplication::setApplicationVersion(version);
 
   app->addLibraryPath(QApplication::applicationDirPath());
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
   }
 
   // gui mode
-  MainWindow w;
+  AppUI::MainWindow w;
   w.show();
   return a.exec();
 }

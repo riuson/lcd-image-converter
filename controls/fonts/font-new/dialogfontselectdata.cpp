@@ -28,8 +28,13 @@
 #include "dialogfontrange.h"
 #include "fonthelper.h"
 #include "fonteditoroptions.h"
-#include "tfontparameters.h"
+#include "fontparameters.h"
 #include "bitmaphelper.h"
+
+namespace AppUI
+{
+namespace Fonts
+{
 
 DialogFontSelectData::DialogFontSelectData(QObject *parent) :
   QObject(parent)
@@ -40,8 +45,8 @@ DialogFontSelectData::DialogFontSelectData(QObject *parent) :
   this->mSize = 14;
   this->mMonospaced = false;
   this->mAntialiasing = false;
-  this->mForeground = FontEditorOptions::foreColor();
-  this->mBackground = FontEditorOptions::backColor();
+  this->mForeground = Settings::FontEditorOptions::foreColor();
+  this->mBackground = Settings::FontEditorOptions::backColor();
 
   QString defChars;
 
@@ -67,7 +72,7 @@ QString DialogFontSelectData::characters()
   return this->mCharacters;
 }
 
-void DialogFontSelectData::getFontParameters(tFontParameters *parameters)
+void DialogFontSelectData::getFontParameters(Data::Containers::FontParameters *parameters)
 {
   parameters->family = this->mFontFamily;
   parameters->style = this->mFontStyle;
@@ -94,7 +99,7 @@ void DialogFontSelectData::setCharacters(const QString &value)
   this->notifyFontChanged();
 }
 
-void DialogFontSelectData::setFontParameters(const tFontParameters &parameters)
+void DialogFontSelectData::setFontParameters(const Data::Containers::FontParameters &parameters)
 {
   this->mFontFamily = parameters.family;
   this->mFontStyle = parameters.style;
@@ -135,7 +140,7 @@ void DialogFontSelectData::notifyFontChanged()
   QString chars = this->characters();
 
   for (int i = 0; i < chars.count(); i++) {
-    QSize sz1 = FontHelper::getCharacterSize(metrics, chars.at(i));
+    QSize sz1 = Parsing::Conversion::FontHelper::getCharacterSize(metrics, chars.at(i));
     sz.setWidth(qMax(sz.width(), sz1.width()));
     sz.setHeight(qMax(sz.height(), sz1.height()));
   }
@@ -284,3 +289,5 @@ void DialogFontSelectData::resort()
   this->setCharacters(chars);
 }
 
+} // namespace Fonts
+} // namespace AppUI

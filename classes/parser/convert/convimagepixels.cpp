@@ -21,6 +21,11 @@
 
 #include <QImage>
 
+namespace Parsing
+{
+namespace Conversion
+{
+
 ConvImagePixels::ConvImagePixels(const QVector<quint32> *data, QObject *parent) :
   QObject(parent)
 {
@@ -74,3 +79,5 @@ int ConvImagePixels::count() const
   return this->mPixels.size();
 }
 
+} // namespace Conversion
+} // namespace Parsing

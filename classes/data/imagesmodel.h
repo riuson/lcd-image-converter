@@ -22,7 +22,15 @@
 
 #include <QAbstractItemModel>
 
+namespace Data
+{
+namespace Containers
+{
 class DataContainer;
+}
+
+namespace Models
+{
 
 class ImagesModel : public QAbstractItemModel
 {
@@ -35,7 +43,9 @@ public:
     ImageSizeRole
   };
 
-  explicit ImagesModel(DataContainer *container, QObject *parent = 0);
+  explicit ImagesModel(Containers::DataContainer *container, QObject *parent = 0);
+  virtual ~ImagesModel() {}
+
   int rowCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
   int columnCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
   QVariant headerData(int section, Qt::Orientation orientation, int role) const Q_DECL_OVERRIDE;
@@ -47,15 +57,15 @@ public:
   void callReset();
 
 private:
-  DataContainer *mContainer;
+  Containers::DataContainer *mContainer;
 
   QVariant containerValue(int imageIndex, ImagesModelRoles role) const;
 
 private slots:
   void imagesChanged();
-
-public slots:
-
 };
+
+} // namespace Models
+} // namespace Data
 
 #endif // IMAGESMODEL_H

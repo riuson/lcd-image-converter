@@ -25,6 +25,11 @@
 #include <QMap>
 #include <QList>
 
+namespace AppUI
+{
+namespace Status
+{
+
 class StatusData : public QObject
 {
   Q_OBJECT
@@ -39,6 +44,7 @@ public:
   };
 
   explicit StatusData(QObject *parent = 0);
+  virtual ~StatusData() {}
 
   const QList<StatusType> keys() const;
   const QVariant data(const StatusType key) const;
@@ -51,5 +57,8 @@ private:
 signals:
   void changed();
 };
+
+} // namespace Status
+} // namespace AppUI
 
 #endif // STATUSDATA_H

@@ -20,6 +20,9 @@
 #include "appsettings.h"
 #include <QXmlInputSource>
 
+namespace Settings
+{
+
 QMap<AppSettings::Section, QString> AppSettings::ConfigFiles;
 QSettings::Format AppSettings::CustomFormat = QSettings::InvalidFormat;
 
@@ -257,3 +260,5 @@ const QString AppSettings::unescape(const QString &value)
 
   return value;
 }
+
+} // namespace Settings

@@ -22,11 +22,10 @@
 namespace CommandLine
 {
 
-ModeParserBase::ModeParserBase(QCommandLineParser *parser, QObject *parent) :
-  QObject(parent)
+ModeParserBase::ModeParserBase(QCommandLineParser &parser, QObject *parent) :
+  QObject(parent),
+  mParser(parser)
 {
-  this->mParser = parser;
 }
 
-}
-
+} // namespace CommandLine

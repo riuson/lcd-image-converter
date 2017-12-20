@@ -27,17 +27,33 @@ namespace Ui
 class SetupTabMatrix;
 }
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
+
+class QMenu;
+
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Matrix
+{
 class MatrixPreviewModel;
 class MatrixItemDelegate;
-class QMenu;
 
 class SetupTabMatrix : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit SetupTabMatrix(Preset *preset, QWidget *parent = 0);
+  explicit SetupTabMatrix(Settings::Presets::Preset *preset, QWidget *parent = 0);
   virtual ~SetupTabMatrix();
 
 public slots:
@@ -45,7 +61,7 @@ public slots:
 
 private:
   Ui::SetupTabMatrix *ui;
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   MatrixPreviewModel *mMatrixModel;
   MatrixItemDelegate *mMatrixItemDelegate;
   QMenu *mMenu;
@@ -57,5 +73,10 @@ private slots:
   void operationRemove();
   void maskReset();
 };
+
+} // namespace Matrix
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABMATRIX_H

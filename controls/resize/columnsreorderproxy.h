@@ -23,12 +23,18 @@
 #include <QSortFilterProxyModel>
 #include <QList>
 
+namespace Data
+{
+namespace Models
+{
+
 class ColumnsReorderProxy : public QSortFilterProxyModel
 {
   Q_OBJECT
 
 public:
   explicit ColumnsReorderProxy(QObject *parent = 0);
+  virtual ~ColumnsReorderProxy() {}
 
   /*
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
@@ -50,5 +56,8 @@ private:
   int columnFromSource(int value) const;
   int columnToSource(int value) const;
 };
+
+} // namespace Models
+} // namespace Data
 
 #endif // COLUMNSREORDERPROXY_H

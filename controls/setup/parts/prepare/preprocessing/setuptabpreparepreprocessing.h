@@ -10,22 +10,37 @@ namespace Ui
 class SetupTabPreparePreprocessing;
 }
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
+
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
 
 class SetupTabPreparePreprocessing : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit SetupTabPreparePreprocessing(Preset *preset, QWidget *parent = 0);
-  ~SetupTabPreparePreprocessing();
+  explicit SetupTabPreparePreprocessing(Settings::Presets::Preset *preset, QWidget *parent = 0);
+  virtual ~SetupTabPreparePreprocessing();
 
 public slots:
   void matrixChanged();
 
 private:
   Ui::SetupTabPreparePreprocessing *ui;
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   QPixmap mPixmapScanning;
   QPixmap mPixmapScanPreview;
 
@@ -39,5 +54,10 @@ private slots:
   void updateState();
   void updateScript();
 };
+
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABPREPAREPREPROCESSING_H

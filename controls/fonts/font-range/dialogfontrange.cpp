@@ -25,6 +25,11 @@
 #include <QTextCodec>
 #include <QCompleter>
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 DialogFontRange::DialogFontRange(QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogFontRange)
@@ -39,7 +44,7 @@ DialogFontRange::DialogFontRange(QWidget *parent) :
 
   this->mResultString = QString();
 
-  QStringList encodings = FontOptions::encodings();
+  QStringList encodings = Settings::Presets::FontOptions::encodings();
   qSort(encodings);
   this->ui->comboBoxEncoding->addItems(encodings);
   int index = this->ui->comboBoxEncoding->findText("UTF-8", Qt::MatchFixedString);
@@ -48,7 +53,7 @@ DialogFontRange::DialogFontRange(QWidget *parent) :
     this->ui->comboBoxEncoding->setCurrentIndex(index);
   }
 
-  this->mEncodingCompleter = new QCompleter(FontOptions::encodings(), this);
+  this->mEncodingCompleter = new QCompleter(Settings::Presets::FontOptions::encodings(), this);
   this->mEncodingCompleter->setCaseSensitivity(Qt::CaseInsensitive);
   this->mEncodingCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
   this->mEncodingCompleter->setFilterMode(Qt::MatchContains);
@@ -106,11 +111,13 @@ void DialogFontRange::updatePreview(const QString &encoding, int from, int to, b
     }
   }
 
-  this->ui->plainTextEditPreview->setPlainText(FontHelper::escapeControlChars(result));
+  this->ui->plainTextEditPreview->setPlainText(Parsing::Conversion::FontHelper::escapeControlChars(result));
 }
 
 void DialogFontRange::on_plainTextEditPreview_textChanged()
 {
-  this->mResultString = FontHelper::unescapeControlChars(this->ui->plainTextEditPreview->toPlainText());
+  this->mResultString = Parsing::Conversion::FontHelper::unescapeControlChars(this->ui->plainTextEditPreview->toPlainText());
 }
 
+} // namespace Fonts
+} // namespace AppUI

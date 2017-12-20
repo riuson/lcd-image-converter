@@ -26,13 +26,25 @@ namespace Ui
 {
 class DialogFontSelect;
 }
-class CharactersModel;
 class QModelIndex;
 class QItemSelection;
+
+namespace Data
+{
+namespace Containers
+{
+struct FontParameters;
+}
+}
+
+namespace AppUI
+{
+namespace Fonts
+{
+class CharactersModel;
+class DialogFontSelectData;
 class UnicodeBlocksModel;
 class UnicodeBlocksFilterModel;
-struct tFontParameters;
-class DialogFontSelectData;
 
 class DialogFontSelect : public QDialog
 {
@@ -40,13 +52,13 @@ class DialogFontSelect : public QDialog
 
 public:
   explicit DialogFontSelect(QWidget *parent = 0);
-  ~DialogFontSelect();
+  virtual ~DialogFontSelect();
 
   QString characters();
   void setCharacters(const QString &value);
 
-  void getFontParameters(tFontParameters *parameters);
-  void setFontParameters(const tFontParameters &parameters);
+  void getFontParameters(Data::Containers::FontParameters *parameters);
+  void setFontParameters(const Data::Containers::FontParameters &parameters);
 private:
   Ui::DialogFontSelect *ui;
   DialogFontSelectData *mData;
@@ -75,6 +87,9 @@ private slots:
   void on_fontMeasured(int count, int maxWidth, int maxHeight);
   void updateColorIcons(const QColor &foreground, const QColor &background);
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // DIALOGFONTSELECT_H
 

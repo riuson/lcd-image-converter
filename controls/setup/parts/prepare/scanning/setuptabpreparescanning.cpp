@@ -10,7 +10,16 @@
 #include "demogenerator.h"
 #include "setupdialogoptions.h"
 
-SetupTabPrepareScanning::SetupTabPrepareScanning(Preset *preset, QWidget *parent) :
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
+
+SetupTabPrepareScanning::SetupTabPrepareScanning(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabPrepareScanning)
 {
@@ -22,16 +31,16 @@ SetupTabPrepareScanning::SetupTabPrepareScanning(Preset *preset, QWidget *parent
   this->connect(this->mDemoGen, SIGNAL(pixmapChanged(const QPixmap &)), SLOT(demoPixmapChanged(const QPixmap &)));
   this->connect(this->mDemoGen, SIGNAL(errorHandled(QString)), SLOT(demoScriptError(QString)));
 
-  this->ui->comboBoxScanMain->addItem(tr("Top to Bottom"), QVariant(TopToBottom));
-  this->ui->comboBoxScanMain->addItem(tr("Bottom to Top"), QVariant(BottomToTop));
-  this->ui->comboBoxScanMain->addItem(tr("Left to Right"), QVariant(LeftToRight));
-  this->ui->comboBoxScanMain->addItem(tr("Right to Left"), QVariant(RightToLeft));
+  this->ui->comboBoxScanMain->addItem(tr("Top to Bottom"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::TopToBottom)));
+  this->ui->comboBoxScanMain->addItem(tr("Bottom to Top"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::BottomToTop)));
+  this->ui->comboBoxScanMain->addItem(tr("Left to Right"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::LeftToRight)));
+  this->ui->comboBoxScanMain->addItem(tr("Right to Left"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::RightToLeft)));
 
-  this->ui->comboBoxScanSub->addItem(tr("Forward"), QVariant(Forward));
-  this->ui->comboBoxScanSub->addItem(tr("Backward"), QVariant(Backward));
+  this->ui->comboBoxScanSub->addItem(tr("Forward"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanSubDirection::Forward)));
+  this->ui->comboBoxScanSub->addItem(tr("Backward"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanSubDirection::Backward)));
 
-  this->ui->spinBoxAnimationTime->setValue(SetupDialogOptions::animationTotalTime());
-  this->ui->spinBoxAnimationInterval->setValue(SetupDialogOptions::animationInterval());
+  this->ui->spinBoxAnimationTime->setValue(Settings::SetupDialogOptions::animationTotalTime());
+  this->ui->spinBoxAnimationInterval->setValue(Settings::SetupDialogOptions::animationInterval());
 
   this->matrixChanged();
 }
@@ -43,13 +52,13 @@ SetupTabPrepareScanning::~SetupTabPrepareScanning()
 
 void SetupTabPrepareScanning::matrixChanged()
 {
-  int index = this->ui->comboBoxScanMain->findData(this->mPreset->prepare()->scanMain());
+  int index = this->ui->comboBoxScanMain->findData(static_cast<int>(this->mPreset->prepare()->scanMain()));
 
   if (index >= 0) {
     this->ui->comboBoxScanMain->setCurrentIndex(index);
   }
 
-  index = this->ui->comboBoxScanSub->findData(this->mPreset->prepare()->scanSub());
+  index = this->ui->comboBoxScanSub->findData(static_cast<int>(this->mPreset->prepare()->scanSub()));
 
   if (index >= 0) {
     this->ui->comboBoxScanSub->setCurrentIndex(index);
@@ -73,7 +82,7 @@ void SetupTabPrepareScanning::on_comboBoxScanMain_currentIndexChanged(int index)
   int a = data.toInt(&ok);
 
   if (ok) {
-    ScanMainDirection dir = (ScanMainDirection)a;
+    Settings::Presets::ScanMainDirection dir = (Settings::Presets::ScanMainDirection)a;
     this->mPreset->prepare()->setScanMain(dir);
   }
 }
@@ -85,7 +94,7 @@ void SetupTabPrepareScanning::on_comboBoxScanSub_currentIndexChanged(int index)
   int a = data.toInt(&ok);
 
   if (ok) {
-    ScanSubDirection dir = (ScanSubDirection)a;
+    Settings::Presets::ScanSubDirection dir = (Settings::Presets::ScanSubDirection)a;
     this->mPreset->prepare()->setScanSub(dir);
   }
 }
@@ -126,7 +135,7 @@ void SetupTabPrepareScanning::updateState()
 
 void SetupTabPrepareScanning::updateScript()
 {
-  QString script = ConverterHelper::scanScript(this->mPreset);
+  QString script = Parsing::Conversion::ConverterHelper::scanScript(this->mPreset);
 
   if (this->ui->plainTextEditCustomScript->toPlainText() != script) {
     this->ui->plainTextEditCustomScript->setPlainText(script);
@@ -158,11 +167,16 @@ void SetupTabPrepareScanning::demoScriptError(const QString &value)
 void SetupTabPrepareScanning::on_spinBoxAnimationTime_valueChanged(int value)
 {
   this->mDemoGen->setAnimationTime(value);
-  SetupDialogOptions::setAnimationTime(value);
+  Settings::SetupDialogOptions::setAnimationTime(value);
 }
 
 void SetupTabPrepareScanning::on_spinBoxAnimationInterval_valueChanged(int value)
 {
   this->mDemoGen->setAnimationInterval(value);
-  SetupDialogOptions::setAnimationInterval(value);
+  Settings::SetupDialogOptions::setAnimationInterval(value);
 }
+
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

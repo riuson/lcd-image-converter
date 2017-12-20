@@ -26,6 +26,11 @@ template <class T> class QVector;
 class QSettings;
 class QDomElement;
 
+namespace Settings
+{
+namespace Presets
+{
+
 class MatrixOptions : public QObject
 {
   Q_OBJECT
@@ -79,5 +84,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Presets
+} // namespace Settings
 
 #endif // MATRIXOPTIONS_H

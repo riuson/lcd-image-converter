@@ -26,11 +26,28 @@
 
 #include "conversion_options.h"
 
+namespace Data
+{
+namespace Containers
+{
 class IDocument;
 class IDataContainer;
+}
+}
+
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
-class Tags;
+}
+}
+
 class QImage;
+
+namespace Parsing
+{
+class TagsList;
 class ParsedImageData;
 
 class Parser : public QObject
@@ -42,27 +59,28 @@ public:
     TypeFont
   };
 
-  Parser(TemplateType templateType, Preset *preset, QObject *parent);
+  Parser(TemplateType templateType, Settings::Presets::Preset *preset, QObject *parent);
   virtual ~Parser();
 
   QString name();
 
-  QString convert(IDocument *document, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, Tags &tags) const;
+  QString convert(Data::Containers::IDocument *document, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, TagsList &tags) const;
 
 private:
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   QString mTemplateFileName;
 
-  QString parse(const QString &templateString, Tags &tags, IDocument *doc, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images) const;
-  QString parseImagesTable(const QString &templateString, Tags &tags, IDocument *doc, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images) const;
+  QString parse(const QString &templateString, TagsList &tags, Data::Containers::IDocument *doc, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images) const;
+  QString parseImagesTable(const QString &templateString, TagsList &tags, Data::Containers::IDocument *doc, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images) const;
   QString hexCode(const QString &key, const QString &encoding, bool bom) const;
-  void addMatrixInfo(Tags &tags) const;
-  void addImagesInfo(Tags &tags, QMap<QString, ParsedImageData *> *images) const;
-  void addCommonInfo(Tags &tags) const;
+  void addMatrixInfo(TagsList &tags) const;
+  void addImagesInfo(TagsList &tags, QMap<QString, ParsedImageData *> *images) const;
+  void addCommonInfo(TagsList &tags) const;
 
-  bool findNextTag(int startIndex, int *resultIndex, Tags);
+  bool findNextTag(int startIndex, int *resultIndex, TagsList);
   void imageDataParticles(const QString &templateString, QString *prefix, QString *suffix) const;
   void imagePreviewParticles(const QString &templateString, QString *prefix, QString *suffix) const;
 };
+} // namespace Parsing
 
 #endif // PARSER_H

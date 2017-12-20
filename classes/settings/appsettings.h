@@ -20,15 +20,16 @@
 #ifndef APPSETTINGS_H
 #define APPSETTINGS_H
 
-#include <QObject>
 #include <QSettings>
 #include <QIODevice>
 #include <QDomDocument>
 #include <QMap>
 
-class AppSettings : public QObject
+namespace Settings
 {
-  Q_OBJECT
+
+class AppSettings
+{
 public:
   enum class Section {
     Application,
@@ -37,7 +38,8 @@ public:
 
   AppSettings();
   AppSettings(Section section);
-  ~AppSettings();
+  virtual ~AppSettings();
+
   static void configure(Section section, const QString &filename);
   static void reset();
   QSettings &get();
@@ -62,5 +64,7 @@ protected:
   static bool escape(const QString &source, QString &result);
   static const QString unescape(const QString &value);
 };
+
+} // namespace Settings
 
 #endif // APPSETTINGS_H

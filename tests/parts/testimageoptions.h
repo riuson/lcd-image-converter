@@ -4,16 +4,23 @@
 #include <QObject>
 #include <QtTest/QtTest>
 
+namespace Settings
+{
+namespace Presets
+{
 class ImageOptions;
+}
+}
 
 class TestImageOptions : public QObject
 {
   Q_OBJECT
 public:
   explicit TestImageOptions(QObject *parent = 0);
+  virtual ~TestImageOptions() {}
 
 private:
-  ImageOptions *mOptions;
+  Settings::Presets::ImageOptions *mOptions;
 
 private slots:
   void initTestCase();

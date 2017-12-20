@@ -27,6 +27,11 @@
 #include <QMap>
 #include <QStringList>
 
+namespace Data
+{
+namespace History
+{
+
 class HistoryRecord : public QObject
 {
   Q_OBJECT
@@ -36,7 +41,7 @@ public:
     const QMap<QString, QImage *> *_images,
     const QMap<QString, QVariant> *_info,
     QObject *parent = 0);
-  ~HistoryRecord();
+  virtual ~HistoryRecord();
 
   const QStringList *keys() const;
   const QMap<QString, QImage *> *images() const;
@@ -52,5 +57,8 @@ signals:
 public slots:
 
 };
+
+} // namespace History
+} // namespace Data
 
 #endif // HISTORYRECORD_H

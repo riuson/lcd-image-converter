@@ -27,13 +27,18 @@ namespace Ui
 class WidgetBitmapEditor;
 }
 
+namespace AppUI
+{
+namespace Images
+{
+
 class WidgetBitmapEditor : public QWidget
 {
   Q_OBJECT
 
 public:
   explicit WidgetBitmapEditor(QWidget *parent = 0);
-  ~WidgetBitmapEditor();
+  virtual ~WidgetBitmapEditor();
 
   const QImage *image() const;
   void setImage(const QImage *value);
@@ -76,5 +81,8 @@ signals:
   void mouseMove(QPoint point);
   void scaleSchanged(int scale);
 };
+
+} // namespace Images
+} // namespace AppUI
 
 #endif // WIDGETBITMAPEDITOR_H

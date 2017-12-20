@@ -22,12 +22,18 @@
 
 #include <QSortFilterProxyModel>
 
+namespace Data
+{
+namespace Models
+{
+
 class TransposeProxy : public QSortFilterProxyModel
 {
   Q_OBJECT
 
 public:
   explicit TransposeProxy(QObject *parent = 0);
+  virtual ~TransposeProxy() {}
 
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
   QModelIndex index(int row, int column,
@@ -42,5 +48,8 @@ public:
 
 private:
 };
+
+} // namespace Models
+} // namespace Data
 
 #endif // TRANSPOSEPROXY_H

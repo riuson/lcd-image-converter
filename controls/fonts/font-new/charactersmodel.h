@@ -23,11 +23,18 @@
 #include <QAbstractItemModel>
 #include <QVariant>
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 class CharactersModel : public QAbstractItemModel
 {
   Q_OBJECT
 public:
   explicit CharactersModel(QObject *parent = 0);
+  virtual ~CharactersModel() {}
+
   int rowCount(const QModelIndex &parent) const;
   int columnCount(const QModelIndex &parent) const;
   QVariant headerData(int section, Qt::Orientation orientation, int role) const;
@@ -49,5 +56,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // CHARACTERSMODEL_H

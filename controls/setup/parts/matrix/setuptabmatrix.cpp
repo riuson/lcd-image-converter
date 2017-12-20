@@ -28,13 +28,22 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 
-SetupTabMatrix::SetupTabMatrix(Preset *preset, QWidget *parent) :
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Matrix
+{
+
+SetupTabMatrix::SetupTabMatrix(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabMatrix)
 {
   ui->setupUi(this);
   this->mPreset = preset;
-  this->mMenu = NULL;
+  this->mMenu = nullptr;
 
   this->mMatrixModel = new MatrixPreviewModel(this->mPreset, this);
   this->ui->tableViewOperations->setModel(this->mMatrixModel);
@@ -50,7 +59,7 @@ SetupTabMatrix::SetupTabMatrix(Preset *preset, QWidget *parent) :
 
 SetupTabMatrix::~SetupTabMatrix()
 {
-  if (this->mMenu != NULL) {
+  if (this->mMenu != nullptr) {
     delete this->mMenu;
   }
 
@@ -63,7 +72,7 @@ SetupTabMatrix::~SetupTabMatrix()
 void SetupTabMatrix::matrixChanged()
 {
   this->mMatrixModel->callReset();
-  this->ui->tableViewOperations->setModel(NULL);
+  this->ui->tableViewOperations->setModel(nullptr);
   this->ui->tableViewOperations->setModel(this->mMatrixModel);
   this->ui->tableViewOperations->update();
   this->ui->tableViewOperations->resizeRowsToContents();
@@ -75,9 +84,9 @@ void SetupTabMatrix::on_tableViewOperations_customContextMenuRequested(const QPo
   QModelIndex index = this->ui->tableViewOperations->indexAt(point);
   QItemSelectionModel *selection = this->ui->tableViewOperations->selectionModel();
 
-  if (this->mMenu != NULL) {
+  if (this->mMenu != nullptr) {
     delete this->mMenu;
-    this->mMenu = NULL;
+    this->mMenu = nullptr;
   }
 
   if (index.isValid()) {
@@ -338,3 +347,7 @@ void SetupTabMatrix::maskReset()
   }
 }
 
+} // namespace Matrix
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

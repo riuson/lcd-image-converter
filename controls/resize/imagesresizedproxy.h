@@ -22,12 +22,18 @@
 
 #include <QSortFilterProxyModel>
 
+namespace Data
+{
+namespace Models
+{
+
 class ImagesResizedProxy : public QSortFilterProxyModel
 {
   Q_OBJECT
 
 public:
   explicit ImagesResizedProxy(QObject *parent = 0);
+  virtual ~ImagesResizedProxy() {}
 
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
   int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
@@ -48,5 +54,8 @@ private:
 
   const QSize resized(const QSize &value) const;
 };
+
+} // namespace Models
+} // namespace Data
 
 #endif // IMAGESRESIZEDPROXY_H

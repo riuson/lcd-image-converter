@@ -27,19 +27,23 @@
 class QSettings;
 class QDomElement;
 
-using namespace ConversionOptions;
+namespace Settings
+{
+namespace Presets
+{
 
 class PrepareOptions : public QObject
 {
   Q_OBJECT
 public:
   explicit PrepareOptions(QObject *parent = 0);
+  virtual ~PrepareOptions() {}
 
-  ConversionType convType() const;
-  MonochromeType monoType() const;
+  Parsing::Conversion::Options::ConversionType convType() const;
+  Parsing::Conversion::Options::MonochromeType monoType() const;
   int edge() const;
-  ScanMainDirection scanMain() const;
-  ScanSubDirection scanSub() const;
+  Parsing::Conversion::Options::ScanMainDirection scanMain() const;
+  Parsing::Conversion::Options::ScanSubDirection scanSub() const;
   bool inverse() const;
   bool bandScanning() const;
   int bandWidth() const;
@@ -47,11 +51,11 @@ public:
   QString customScanScript() const;
   QString customPreprocessScript() const;
 
-  void setConvType(ConversionType value);
-  void setMonoType(MonochromeType value);
+  void setConvType(Parsing::Conversion::Options::ConversionType value);
+  void setMonoType(Parsing::Conversion::Options::MonochromeType value);
   void setEdge(int value);
-  void setScanMain(ScanMainDirection value);
-  void setScanSub(ScanSubDirection value);
+  void setScanMain(Parsing::Conversion::Options::ScanMainDirection value);
+  void setScanSub(Parsing::Conversion::Options::ScanSubDirection value);
   void setInverse(bool value);
   void setBandScanning(bool value);
   void setBandWidth(int value);
@@ -81,11 +85,11 @@ private:
   static const QString FieldCustomScanScript;
   static const QString FieldCustomPreprocessScript;
 
-  ConversionType mConvType;
-  MonochromeType mMonoType;
+  Parsing::Conversion::Options::ConversionType mConvType;
+  Parsing::Conversion::Options::MonochromeType mMonoType;
   int mEdge;
-  ScanMainDirection mScanMain;
-  ScanSubDirection mScanSub;
+  Parsing::Conversion::Options::ScanMainDirection mScanMain;
+  Parsing::Conversion::Options::ScanSubDirection mScanSub;
   bool mInverse;
   bool mBandScanning;
   int mBandWidth;
@@ -99,5 +103,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Presets
+} // namespace Settings
 
 #endif // PREPAREOPTIONS_H

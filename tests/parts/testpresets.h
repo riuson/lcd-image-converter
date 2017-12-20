@@ -4,16 +4,23 @@
 #include <QObject>
 #include <QtTest/QtTest>
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 
 class TestPresets : public QObject
 {
   Q_OBJECT
 public:
   explicit TestPresets(QObject *parent = 0);
+  virtual ~TestPresets() {}
 
 private:
-  Preset *mOptions;
+  Settings::Presets::Preset *mOptions;
 
 private slots:
   void initTestCase();

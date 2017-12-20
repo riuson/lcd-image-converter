@@ -23,13 +23,18 @@
 #include <QFileDialog>
 #include "externaltooloptions.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+
 DialogExternalEditor::DialogExternalEditor(QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogExternalEditor)
 {
   ui->setupUi(this);
 
-  this->ui->lineEdit->setText(ExternalToolOptions::imageEditor());
+  this->ui->lineEdit->setText(Settings::ExternalToolOptions::imageEditor());
 }
 
 DialogExternalEditor::~DialogExternalEditor()
@@ -40,7 +45,7 @@ DialogExternalEditor::~DialogExternalEditor()
 void DialogExternalEditor::done(int result)
 {
   if (result == QDialog::Accepted) {
-    ExternalToolOptions::setImageEditor(this->ui->lineEdit->text());
+    Settings::ExternalToolOptions::setImageEditor(this->ui->lineEdit->text());
   }
 
   QDialog::done(result);
@@ -60,3 +65,5 @@ void DialogExternalEditor::on_pushButtonBrowse_clicked()
   }
 }
 
+} // namespace Setup
+} // namespace AppUI

@@ -36,7 +36,7 @@ signals:
   virtual void selectionChanged(const QPainterPath &value) = 0;
 };
 
-} // end of namespace
+} // namespace ImageEditor
 
 Q_DECLARE_INTERFACE (ImageEditor::IImageSelection,
                      "riuson.lcd-image-converter/1.0"

@@ -24,9 +24,21 @@
 
 class QImage;
 class QString;
-class DataContainer;
 class StatusData;
+
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
+
+namespace Data
+{
+namespace Containers
+{
+class DataContainer;
 
 class IDocument
 {
@@ -40,7 +52,7 @@ public:
   virtual QString outputFilename() const = 0;
   virtual void setOutputFilename(const QString &value) = 0;
   virtual DataContainer *dataContainer() const = 0;
-  virtual QString convert(Preset *preset) = 0;
+  virtual QString convert(Settings::Presets::Preset *preset) = 0;
 
   virtual void beginChanges() = 0;
   virtual void endChanges(bool suppress) = 0;
@@ -49,7 +61,11 @@ public:
   virtual void undo() = 0;
   virtual void redo() = 0;
 };
-Q_DECLARE_INTERFACE (IDocument,
+
+} // namespace Containers
+} // namespace Data
+
+Q_DECLARE_INTERFACE (Data::Containers::IDocument,
                      "riuson.lcd-image-converter/1.0"
                     )
 

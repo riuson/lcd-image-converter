@@ -44,15 +44,20 @@
 #include "convimagepixels.h"
 #include "convimagescan.h"
 
+namespace Parsing
+{
+namespace Conversion
+{
+
 void ConverterHelper::pixelsData(
-  PrepareOptions *prepare,
+  Settings::Presets::PrepareOptions *prepare,
   const QString &scanScript,
   const QString &pixelScript,
   const QImage *image,
   QVector<quint32> *data,
   int *width, int *height)
 {
-  if (image != NULL && data != NULL && width != NULL && height != NULL) {
+  if (image != nullptr && data != nullptr && width != nullptr && height != nullptr) {
     data->clear();
 
     QImage im = *image;
@@ -61,30 +66,30 @@ void ConverterHelper::pixelsData(
     *height = im.height();
 
     // monochrome image needs special preprocessing
-    ConversionType type = prepare->convType();
+    Settings::Presets::ConversionType type = prepare->convType();
 
-    if (type == ConversionTypeMonochrome) {
-      MonochromeType monotype = prepare->monoType();
+    if (type == Parsing::Conversion::Options::ConversionType::Monochrome) {
+      Settings::Presets::MonochromeType monotype = prepare->monoType();
       int edge = prepare->edge();
 
       switch (monotype) {
-        case MonochromeTypeEdge:
+        case Parsing::Conversion::Options::MonochromeType::Edge:
           ConverterHelper::makeMonochrome(im, edge);
           break;
 
-        case MonochromeTypeDiffuseDither:
+        case Parsing::Conversion::Options::MonochromeType::DiffuseDither:
           im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::DiffuseDither);
           break;
 
-        case MonochromeTypeOrderedDither:
+        case Parsing::Conversion::Options::MonochromeType::OrderedDither:
           im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::OrderedDither);
           break;
 
-        case MonochromeTypeThresholdDither:
+        case Parsing::Conversion::Options::MonochromeType::ThresholdDither:
           im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::ThresholdDither);
           break;
       }
-    } else if (type == ConversionTypeGrayscale) {
+    } else if (type == Parsing::Conversion::Options::ConversionType::Grayscale) {
       ConverterHelper::makeGrayscale(im);
     }
 
@@ -157,7 +162,7 @@ void ConverterHelper::pixelsData(
       delete convImage;
     }
 
-    if (type == ConversionTypeCustom) {
+    if (type == Parsing::Conversion::Options::ConversionType::Custom) {
       QString errorMessage;
       ConverterHelper::convertPixelsByScript(pixelScript, data, &errorMessage);
     }
@@ -265,9 +270,9 @@ void ConverterHelper::convertPixelsByScript(const QString &script, QVector<quint
   }
 }
 
-void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
+void ConverterHelper::processPixels(Settings::Presets::Preset *preset, QVector<quint32> *data)
 {
-  if (preset != NULL && data != NULL) {
+  if (preset != nullptr && data != nullptr) {
     for (int i = 0; i < data->size(); i++) {
       quint32 value = data->at(i);
       quint32 valueNew = 0;
@@ -297,7 +302,7 @@ void ConverterHelper::processPixels(Preset *preset, QVector<quint32> *data)
 }
 
 void ConverterHelper::packData(
-  Preset *preset,
+  Settings::Presets::Preset *preset,
   QVector<quint32> *inputData, int inputWidth, int inputHeight,
   QVector<quint32> *outputData,
   int *outputWidth, int *outputHeight)
@@ -366,7 +371,7 @@ void ConverterHelper::packData(
 }
 
 void ConverterHelper::reorder(
-  Preset *preset,
+  Settings::Presets::Preset *preset,
   QVector<quint32> *inputData,
   int inputWidth,
   int inputHeight,
@@ -402,14 +407,14 @@ void ConverterHelper::reorder(
   *outputHeight = inputHeight;
 }
 
-void ConverterHelper::compressData(Preset *preset,
+void ConverterHelper::compressData(Settings::Presets::Preset *preset,
                                    QVector<quint32> *inputData,
                                    int inputWidth, int inputHeight,
                                    QVector<quint32> *outputData,
                                    int *outputWidth, int *outputHeight)
 {
   if (preset->image()->compressionRle()) {
-    RleCompressor compressor;
+    Utils::Compression::RleCompressor compressor;
     compressor.compress(inputData, preset->image()->blockSize(), outputData, preset->image()->compressionRleMinLength());
     *outputWidth = outputData->size();
     *outputHeight = 1;
@@ -423,9 +428,9 @@ void ConverterHelper::compressData(Preset *preset,
   }
 }
 
-void ConverterHelper::prepareImage(Preset *preset, const QImage *source, QImage *result)
+void ConverterHelper::prepareImage(Settings::Presets::Preset *preset, const QImage *source, QImage *result)
 {
-  if (source != NULL) {
+  if (source != nullptr) {
     QImage im = *source;
 
     if (preset->prepare()->inverse()) {
@@ -436,9 +441,9 @@ void ConverterHelper::prepareImage(Preset *preset, const QImage *source, QImage 
   }
 }
 
-void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage *result)
+void ConverterHelper::createImagePreview(Settings::Presets::Preset *preset, QImage *source, QImage *result)
 {
-  if (source != NULL) {
+  if (source != nullptr) {
     QImage im = *source;
 
     if (preset->prepare()->inverse()) {
@@ -446,25 +451,25 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
     }
 
     // convert to mono/gray/color
-    if (preset->prepare()->convType() == ConversionTypeMonochrome) {
+    if (preset->prepare()->convType() == Parsing::Conversion::Options::ConversionType::Monochrome) {
       switch (preset->prepare()->monoType()) {
-        case MonochromeTypeEdge:
+        case Parsing::Conversion::Options::MonochromeType::Edge:
           ConverterHelper::makeMonochrome(im, preset->prepare()->edge());
           break;
 
-        case MonochromeTypeDiffuseDither:
+        case Parsing::Conversion::Options::MonochromeType::DiffuseDither:
           im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::DiffuseDither);
           break;
 
-        case MonochromeTypeOrderedDither:
+        case Parsing::Conversion::Options::MonochromeType::OrderedDither:
           im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::OrderedDither);
           break;
 
-        case MonochromeTypeThresholdDither:
+        case Parsing::Conversion::Options::MonochromeType::ThresholdDither:
           im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::ThresholdDither);
           break;
       }
-    } else if (preset->prepare()->convType() == ConversionTypeGrayscale) {
+    } else if (preset->prepare()->convType() == Parsing::Conversion::Options::ConversionType::Grayscale) {
       ConverterHelper::makeGrayscale(im);
     }
 
@@ -474,7 +479,7 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
       quint32 mask = 0;
 
       switch (preset->prepare()->convType()) {
-        case ConversionTypeMonochrome: {
+        case Parsing::Conversion::Options::ConversionType::Monochrome: {
           quint32 opMask;
           int opShift;
           bool opLeft;
@@ -495,7 +500,7 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
           break;
         }
 
-        case ConversionTypeGrayscale: {
+        case Parsing::Conversion::Options::ConversionType::Grayscale: {
           quint32 opMask;
           int opShift;
           bool opLeft;
@@ -520,8 +525,8 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
           break;
         }
 
-        case ConversionTypeCustom:
-        case ConversionTypeColor: {
+        case Parsing::Conversion::Options::ConversionType::Custom:
+        case Parsing::Conversion::Options::ConversionType::Color: {
           quint32 opMask;
           int opShift;
           bool opLeft;
@@ -558,7 +563,7 @@ void ConverterHelper::createImagePreview(Preset *preset, QImage *source, QImage 
   }
 }
 
-static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
+static inline QString uint2hex(Settings::Presets::DataBlockSize blockSize, quint32 value)
 {
   QChar temp[10];
   static const QChar table[] = {
@@ -570,13 +575,13 @@ static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
   static const QChar end = QChar('\0');
 
   switch (blockSize) {
-    case Data8:
+    case Parsing::Conversion::Options::DataBlockSize::Data8:
       temp[0] = table[(value >> 4) & 0x0000000f];
       temp[1] = table[(value >> 0) & 0x0000000f];
       temp[2] = end;
       break;
 
-    case Data16:
+    case Parsing::Conversion::Options::DataBlockSize::Data16:
       temp[0] = table[(value >> 12) & 0x0000000f];
       temp[1] = table[(value >> 8) & 0x0000000f];
       temp[2] = table[(value >> 4) & 0x0000000f];
@@ -584,7 +589,7 @@ static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
       temp[4] = end;
       break;
 
-    case Data24:
+    case Parsing::Conversion::Options::DataBlockSize::Data24:
       temp[0] = table[(value >> 20) & 0x0000000f];
       temp[1] = table[(value >> 16) & 0x0000000f];
       temp[2] = table[(value >> 12) & 0x0000000f];
@@ -594,7 +599,7 @@ static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
       temp[6] = end;
       break;
 
-    case Data32:
+    case Parsing::Conversion::Options::DataBlockSize::Data32:
       temp[0] = table[(value >> 28) & 0x0000000f];
       temp[1] = table[(value >> 24) & 0x0000000f];
       temp[2] = table[(value >> 20) & 0x0000000f];
@@ -615,12 +620,12 @@ static inline QString uint2hex(DataBlockSize blockSize, quint32 value)
 }
 
 QString ConverterHelper::dataToString(
-  Preset *preset,
+  Settings::Presets::Preset *preset,
   QVector<quint32> *data, int width, int height)
 {
   QString result, converted;
 
-  DataBlockSize blockSize = preset->image()->blockSize();
+  Settings::Presets::DataBlockSize blockSize = preset->image()->blockSize();
   QString prefix = preset->image()->blockPrefix();
   QString suffix = preset->image()->blockSuffix();
   QString delimiter = preset->image()->blockDelimiter();
@@ -670,7 +675,7 @@ QString ConverterHelper::dataToString(
   return result;
 }
 
-QString ConverterHelper::previewDataToString(Preset *preset, const QVector<quint32> *data, int width, int height)
+QString ConverterHelper::previewDataToString(Settings::Presets::Preset *preset, const QVector<quint32> *data, int width, int height)
 {
   QString result;
 
@@ -729,10 +734,10 @@ QString ConverterHelper::previewDataToString(Preset *preset, const QVector<quint
   return result;
 }
 
-QString ConverterHelper::scanScript(Preset *preset)
+QString ConverterHelper::scanScript(Settings::Presets::Preset *preset)
 {
   QString result;
-  const PrepareOptions *prepare = preset->prepare();
+  const Settings::Presets::PrepareOptions *prepare = preset->prepare();
 
   if (prepare->useCustomScanScript()) {
     result = prepare->customScanScript();
@@ -762,28 +767,28 @@ QString ConverterHelper::scanScript(Preset *preset)
     int index = 0;
 
     switch (prepare->scanMain()) {
-      case TopToBottom: {
+      case Parsing::Conversion::Options::ScanMainDirection::TopToBottom: {
         index = 0;
         break;
       }
 
-      case BottomToTop: {
+      case Parsing::Conversion::Options::ScanMainDirection::BottomToTop: {
         index = 4;
         break;
       }
 
-      case LeftToRight: {
+      case Parsing::Conversion::Options::ScanMainDirection::LeftToRight: {
         index = 8;
         break;
       }
 
-      case RightToLeft: {
+      case Parsing::Conversion::Options::ScanMainDirection::RightToLeft: {
         index = 12;
         break;
       }
     }
 
-    if (prepare->scanSub() == Forward) {
+    if (prepare->scanSub() == Parsing::Conversion::Options::ScanSubDirection::Forward) {
       index += 2;
     }
 
@@ -819,7 +824,7 @@ QString ConverterHelper::scanScriptTemplate()
   return result;
 }
 
-QString ConverterHelper::pixelsScript(Preset *preset)
+QString ConverterHelper::pixelsScript(Settings::Presets::Preset *preset)
 {
   QString result = preset->prepare()->customPreprocessScript();
 
@@ -887,17 +892,17 @@ void ConverterHelper::makeGrayscale(QImage &image)
   }
 }
 
-void ConverterHelper::packDataRow(Preset *preset, QVector<quint32> *inputData, int start, int count, QVector<quint32> *outputData, int *rowLength)
+void ConverterHelper::packDataRow(Settings::Presets::Preset *preset, QVector<quint32> *inputData, int start, int count, QVector<quint32> *outputData, int *rowLength)
 {
   *rowLength = 0;
 
-  if (preset != NULL && inputData != NULL && outputData != NULL) {
+  if (preset != nullptr && inputData != nullptr && outputData != nullptr) {
     BitStream stream(preset, inputData, start, count);
 
     while (!stream.eof()) {
       quint32 value = stream.next();
 
-      if (preset->image()->bytesOrder() == BytesOrderBigEndian) {
+      if (preset->image()->bytesOrder() == Parsing::Conversion::Options::BytesOrder::BigEndian) {
         value = ConverterHelper::toBigEndian(preset, value);
       }
 
@@ -907,7 +912,7 @@ void ConverterHelper::packDataRow(Preset *preset, QVector<quint32> *inputData, i
   }
 }
 
-quint32 ConverterHelper::toBigEndian(Preset *preset, quint32 value)
+quint32 ConverterHelper::toBigEndian(Settings::Presets::Preset *preset, quint32 value)
 {
   quint8 src1, src2, src3, src4;
   src1 = value & 0xff;
@@ -918,25 +923,25 @@ quint32 ConverterHelper::toBigEndian(Preset *preset, quint32 value)
   quint32 result = 0;
 
   switch (preset->image()->blockSize()) {
-    case Data32:
+    case Parsing::Conversion::Options::DataBlockSize::Data32:
       result |= src1 << 24;
       result |= src2 << 16;
       result |= src3 << 8;
       result |= src4;
       break;
 
-    case Data24:
+    case Parsing::Conversion::Options::DataBlockSize::Data24:
       result |= src1 << 16;
       result |= src2 << 8;
       result |= src3;
       break;
 
-    case Data16:
+    case Parsing::Conversion::Options::DataBlockSize::Data16:
       result |= src1 << 8;
       result |= src2;
       break;
 
-    case Data8:
+    case Parsing::Conversion::Options::DataBlockSize::Data8:
       result = src1;
       break;
   }
@@ -944,3 +949,5 @@ quint32 ConverterHelper::toBigEndian(Preset *preset, quint32 value)
   return result;
 }
 
+} // namespace Conversion
+} // namespace Parsing

@@ -22,6 +22,9 @@
 #include <QVariant>
 #include <appsettings.h>
 
+namespace Settings
+{
+
 int SetupDialogOptions::animationTotalTime()
 {
   AppSettings appsett;
@@ -72,3 +75,4 @@ void SetupDialogOptions::setAnimationInterval(int value)
   sett.endGroup();
 }
 
+} // namespace Settings
