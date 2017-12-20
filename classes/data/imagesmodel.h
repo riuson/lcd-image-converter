@@ -63,9 +63,6 @@ private:
 
 private slots:
   void imagesChanged();
-
-public slots:
-
 };
 
 } // namespace Models

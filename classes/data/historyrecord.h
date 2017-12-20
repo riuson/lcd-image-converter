@@ -58,7 +58,7 @@ public slots:
 
 };
 
-} // namespace Containers
+} // namespace History
 } // namespace Data
 
 #endif // HISTORYRECORD_H

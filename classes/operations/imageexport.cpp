@@ -151,4 +151,4 @@ void ImageExport::prepareFilenames(const QStringList &keys, const QString &filen
   }
 }
 
-}
+} // namespace Operations

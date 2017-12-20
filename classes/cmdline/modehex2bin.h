@@ -48,6 +48,6 @@ private:
   void appendDataBE(QByteArray &array, int size, quint32 value);
 };
 
-}
+} // namespace CommandLine
 
 #endif // MODEHEX2BIN_H

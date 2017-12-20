@@ -102,4 +102,4 @@ void FontMinimizeHeight::applyItem(Data::Containers::IDocument *doc, const QStri
   doc->dataContainer()->setImage(itemKey, &result);
 }
 
-}
+} // namespace Operations

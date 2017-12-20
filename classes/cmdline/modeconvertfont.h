@@ -74,6 +74,6 @@ private:
                           bool bigEndian) const;
 };
 
-}
+} // namespace CommandLine
 
 #endif // CONVERTFONTARGUMENTS_H

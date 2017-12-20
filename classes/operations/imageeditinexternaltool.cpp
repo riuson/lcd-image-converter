@@ -199,4 +199,4 @@ void ImageEditInExternalTool::processError(QProcess::ProcessError error)
   box.exec();
 }
 
-}
+} // namespace Operations

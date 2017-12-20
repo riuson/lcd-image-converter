@@ -48,6 +48,6 @@ private:
   void prepareFilenames(const QStringList &keys, const QString &filename, const QString &ext);
 };
 
-}
+} // namespace Operations
 
 #endif // IMAGEEXPORT_H

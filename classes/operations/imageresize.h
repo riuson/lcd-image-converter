@@ -47,6 +47,6 @@ protected:
   int mBottom;
 };
 
-}
+} // namespace Operations
 
 #endif // IMAGERESIZE_H

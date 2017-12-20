@@ -48,6 +48,6 @@ private slots:
   void processError(QProcess::ProcessError error);
 };
 
-}
+} // namespace Operations
 
 #endif // IMAGEEDITINEXTERNALTOOL_H

@@ -24,9 +24,6 @@
 
 #include "actionhandlersbase.h"
 
-class QImage;
-class IMainWindow;
-
 namespace AppUI
 {
 namespace MenuHandlers

@@ -24,8 +24,6 @@
 
 #include "actionhandlersbase.h"
 
-class IMainWindow;
-
 namespace AppUI
 {
 namespace MenuHandlers

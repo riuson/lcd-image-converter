@@ -46,6 +46,7 @@ public:
 
   bool needProcess() const;
   ProcessResult process();
+
 private:
   QCommandLineParser mParser;
   const QStringList &mArguments;
@@ -55,6 +56,6 @@ private:
   void processApplicationOptions();
 };
 
-}
+} // namespace CommandLine
 
 #endif // CMDLINE_H

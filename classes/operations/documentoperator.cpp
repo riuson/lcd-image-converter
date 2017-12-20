@@ -56,4 +56,4 @@ void DocumentOperator::apply(Data::Containers::IDocument *doc, IOperation &opera
   }
 }
 
-}
+} // namespace Operations

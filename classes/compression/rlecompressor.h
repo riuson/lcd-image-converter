@@ -68,11 +68,6 @@ private:
     quint32 start,
     quint32 length,
     QVector<quint32> *output);
-
-signals:
-
-public slots:
-
 };
 
 } // namespace Compression

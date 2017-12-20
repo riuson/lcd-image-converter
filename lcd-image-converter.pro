@@ -171,7 +171,6 @@ HEADERS += \
     classes/action-handlers/actionimagehandlers.h \
     classes/action-handlers/actionsetuphandlers.h \
     classes/cmdline/cmdline.h \
-    classes/cmdline/cmdoptions.h \
     classes/cmdline/modeconvertfont.h \
     classes/cmdline/modeconvertimage.h \
     classes/cmdline/modehex2bin.h \

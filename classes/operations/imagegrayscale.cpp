@@ -52,4 +52,4 @@ void ImageGrayscale::applyItem(Data::Containers::IDocument *doc, const QString &
   doc->dataContainer()->setImage(itemKey, &result);
 }
 
-}
+} // namespace Operations

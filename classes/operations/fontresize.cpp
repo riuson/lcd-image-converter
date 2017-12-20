@@ -49,4 +49,4 @@ void FontResize::applyDocument(Data::Containers::IDocument *doc, const QStringLi
   }
 }
 
-}
+} // namespace Operations

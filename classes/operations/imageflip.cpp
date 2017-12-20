@@ -67,4 +67,4 @@ void ImageFlip::setOrientation(bool flipHorizontal, bool flipVertical)
   this->mFlipVertical = flipVertical;
 }
 
-}
+} // namespace Operations

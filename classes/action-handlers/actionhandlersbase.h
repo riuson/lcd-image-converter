@@ -22,7 +22,6 @@
 
 #include <QObject>
 
-
 namespace AppUI
 {
 class IEditor;

@@ -47,6 +47,6 @@ private:
   int mBottom;
 };
 
-}
+} // namespace Operations
 
 #endif // FONTMINIMIZEHEIGHT_H

@@ -79,4 +79,4 @@ void ImageShift::setDirection(ImageShift::Direction direction)
   this->mDirection = direction;
 }
 
-}
+} // namespace Operations

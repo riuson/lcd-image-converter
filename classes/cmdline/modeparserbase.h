@@ -42,6 +42,6 @@ protected:
   QCommandLineParser &mParser;
 };
 
-}
+} // namespace CommandLine
 
 #endif // MODEPARSERBASE_H

@@ -46,6 +46,6 @@ private:
   int mImportIndex;
 };
 
-}
+} // namespace Operations
 
 #endif // IMAGEIMPORT_H

@@ -20,8 +20,6 @@
 #ifndef DATACONTAINER_H
 #define DATACONTAINER_H
 
-#include <QObject>
-
 #include <QMap>
 #include <QStringList>
 #include <QString>
@@ -36,13 +34,9 @@ namespace History
 {
 class HistoryKeeper;
 }
-}
 
-namespace Data
-{
 namespace Containers
 {
-
 class DataContainer : public QObject
 {
   Q_OBJECT
@@ -93,6 +87,6 @@ signals:
 };
 
 } // namespace Containers
-} //namespace Data
+} // namespace Data
 
 #endif // DATACONTAINER_H

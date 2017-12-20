@@ -76,4 +76,4 @@ void ImageRotate::setAngle(Angle angle)
   this->mAngle = angle;
 }
 
-}
+} // namespace Operations

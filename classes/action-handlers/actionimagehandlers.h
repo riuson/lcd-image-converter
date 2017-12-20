@@ -22,11 +22,7 @@
 
 #include <QObject>
 #include <QProcess>
-
 #include "actionhandlersbase.h"
-
-class IMainWindow;
-class WidgetBitmapEditor;
 
 namespace AppUI
 {

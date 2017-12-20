@@ -81,5 +81,5 @@ const QMap<QString, QVariant> *HistoryRecord::info() const
   return &this->mInfoMap;
 }
 
-} // namespace Containers
+} // namespace History
 } // namespace Data

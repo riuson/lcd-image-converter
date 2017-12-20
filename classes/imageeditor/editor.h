@@ -69,6 +69,6 @@ private slots:
   void on_mouseMove(const QPoint *point);
   void on_scaleChanged(int value);
 };
-}
+} // namespace ImageEditor
 
 #endif // EDITOR_H

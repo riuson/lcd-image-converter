@@ -46,6 +46,6 @@ private:
   bool mFlipVertical;
 };
 
-}
+} // namespace Operations
 
 #endif // IMAGEFLIP_H

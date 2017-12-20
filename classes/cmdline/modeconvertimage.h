@@ -47,6 +47,6 @@ private:
   QString mPresetName;
 };
 
-}
+} // namespace CommandLine
 
 #endif // CONVERTIMAGEARGUMENTS_H

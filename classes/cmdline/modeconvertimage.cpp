@@ -153,4 +153,4 @@ int ModeConvertImage::process()
   return 1;
 }
 
-}
+} // namespace CommandLine

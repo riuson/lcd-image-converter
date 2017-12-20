@@ -156,4 +156,4 @@ void CmdLine::processApplicationOptions()
   }
 }
 
-}
+} // namespace CommandLine

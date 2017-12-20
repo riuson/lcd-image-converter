@@ -52,6 +52,6 @@ private:
   Angle mAngle;
 };
 
-}
+} // namespace Operations
 
 #endif // IMAGEROTATE_H

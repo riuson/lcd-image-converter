@@ -27,6 +27,8 @@
 
 namespace AppUI
 {
+namespace About
+{
 
 DialogAbout::DialogAbout(QWidget *parent) :
   QDialog(parent),
@@ -89,4 +91,5 @@ void DialogAbout::showLicense()
   }
 }
 
+} // namespace About
 } // namespace AppUI

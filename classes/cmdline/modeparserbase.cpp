@@ -28,4 +28,4 @@ ModeParserBase::ModeParserBase(QCommandLineParser &parser, QObject *parent) :
 {
 }
 
-}
+} // namespace CommandLine

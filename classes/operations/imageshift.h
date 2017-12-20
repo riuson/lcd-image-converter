@@ -53,6 +53,6 @@ private:
   Direction mDirection;
 };
 
-}
+} // namespace Operations
 
 #endif // IMAGESHIFT_H

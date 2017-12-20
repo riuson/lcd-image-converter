@@ -371,4 +371,4 @@ QString ModeConvertFont::createCharsList(const QString &rangeStr,
   return result;
 }
 
-}
+}  // namespace CommandLine

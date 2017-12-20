@@ -39,7 +39,7 @@ ActionHelpHandlers::ActionHelpHandlers(QObject *parent) :
 
 void ActionHelpHandlers::about_application_triggered()
 {
-  DialogAbout dialog(this->mMainWindow->parentWidget());
+  About::DialogAbout dialog(this->mMainWindow->parentWidget());
   dialog.exec();
 }
 

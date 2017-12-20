@@ -75,7 +75,7 @@ private:
     QMap<QString, QVariant> *info);
 };
 
-} // namespace Containers
+} // namespace History
 } // namespace Data
 
 #endif // HISTORYKEEPER_H

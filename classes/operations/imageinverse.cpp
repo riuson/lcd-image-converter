@@ -52,4 +52,4 @@ void ImageInverse::applyItem(Data::Containers::IDocument *doc, const QString &it
   doc->dataContainer()->setImage(itemKey, &result);
 }
 
-}
+} // namespace Operations

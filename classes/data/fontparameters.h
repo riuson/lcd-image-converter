@@ -20,7 +20,6 @@
 #ifndef TFONTPARAMETERS
 #define TFONTPARAMETERS
 
-#include <QObject>
 #include <QColor>
 
 namespace Data

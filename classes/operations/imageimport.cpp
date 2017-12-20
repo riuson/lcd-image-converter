@@ -104,4 +104,4 @@ void ImageImport::applyItem(Data::Containers::IDocument *doc, const QString &ite
   }
 }
 
-}
+} // namespace Operations

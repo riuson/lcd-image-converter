@@ -168,5 +168,5 @@ void HistoryKeeper::restoreAt(
   }
 }
 
-} // namespace Containers
+} // namespace History
 } // namespace Data

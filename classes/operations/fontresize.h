@@ -36,6 +36,6 @@ public:
   void applyDocument(Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
 };
 
-}
+} // namespace Operations
 
 #endif // FONTRESIZE_H

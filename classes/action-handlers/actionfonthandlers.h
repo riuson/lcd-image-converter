@@ -24,10 +24,6 @@
 
 #include "actionhandlersbase.h"
 
-class QImage;
-class IMainWindow;
-class WidgetBitmapEditor;
-
 namespace AppUI
 {
 namespace MenuHandlers

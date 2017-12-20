@@ -29,6 +29,8 @@ class DialogAbout;
 
 namespace AppUI
 {
+namespace About
+{
 
 class DialogAbout : public QDialog
 {
@@ -44,6 +46,7 @@ private:
   void showLicense();
 };
 
+} // namespace About
 } // namespace AppUI
 
 #endif // DIALOGABOUT_H

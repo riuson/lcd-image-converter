@@ -65,4 +65,4 @@ void ImageResize::applyItem(Data::Containers::IDocument *doc, const QString &ite
   doc->dataContainer()->setImage(itemKey, &result);
 }
 
-}
+} // namespace Operations

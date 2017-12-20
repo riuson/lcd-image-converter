@@ -175,4 +175,4 @@ void ModeHex2Bin::appendDataBE(QByteArray &array, int size, quint32 value)
   }
 }
 
-}
+} // namespace CommandLine

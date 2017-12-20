@@ -79,5 +79,5 @@ void Editor::on_scaleChanged(int value)
   }
 }
 
-} // end of namespace
+} // namespace ImageEditor
 

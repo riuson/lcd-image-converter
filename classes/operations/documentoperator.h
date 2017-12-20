@@ -49,6 +49,6 @@ private:
   QStringList mSelectedKeys;
 };
 
-}
+} // namespace Operations
 
 #endif // DOCUMENTOPERATOR_H

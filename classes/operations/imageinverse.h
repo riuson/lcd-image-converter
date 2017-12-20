@@ -40,6 +40,6 @@ public:
   void applyItem(Data::Containers::IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
 };
 
-}
+} // namespace Operations
 
 #endif // IMAGEINVERSE_H

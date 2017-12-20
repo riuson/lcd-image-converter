@@ -20,7 +20,7 @@
 #ifndef REVISIONINFO_H
 #define REVISIONINFO_H
 
-#include <QString>
+class QString;
 
 namespace VersionControl
 {
