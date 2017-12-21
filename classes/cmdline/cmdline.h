@@ -21,10 +21,10 @@
 #define CMDLINE_H
 
 #include <QObject>
+#include <QStringList>
 #include <QCommandLineParser>
 
 class QString;
-class QStringList;
 
 namespace CommandLine
 {
@@ -49,7 +49,7 @@ public:
 
 private:
   QCommandLineParser mParser;
-  const QStringList &mArguments;
+  const QStringList mArguments;
 
   CommandLine::ModeParserBase *createMode(const QString &name, QCommandLineParser &parser);
   void addApplicationOptions();
