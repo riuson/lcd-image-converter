@@ -36,54 +36,62 @@
 #include "preset.h"
 #include "filedialogoptions.h"
 
-DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
+namespace AppUI
+{
+namespace Setup
+{
+
+DialogOptions::DialogOptions(Data::Containers::DataContainer *dataContainer, QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogOptions)
 {
   ui->setupUi(this);
-  this->mPreview = NULL;
+  this->mPreview = nullptr;
 
   this->mData = dataContainer;
-  this->mPreset = new Preset(this);
+  this->mPreset = new Settings::Presets::Preset(this);
 
-  this->mSetupPrepare    = new SetupTabPrepare(this->mPreset, this);
-  this->mSetupMatrix     = new SetupTabMatrix(this->mPreset, this);
-  this->mSetupReordering = new SetupTabReordering(this->mPreset, this);
-  this->mSetupImage      = new SetupTabImage(this->mPreset, this);
-  this->mSetupFont       = new SetupTabFont(this->mPreset, this);
-  this->mSetupTemplates  = new SetupTabTemplates(this->mPreset, this);
+  this->mSetupPrepare    = new Parts::Prepare::SetupTabPrepare(this->mPreset, this);
+  this->mSetupMatrix     = new Parts::Matrix::SetupTabMatrix(this->mPreset, this);
+  this->mSetupReordering = new Parts::Reordering::SetupTabReordering(this->mPreset, this);
+  this->mSetupImage      = new Parts::Image::SetupTabImage(this->mPreset, this);
+  this->mSetupFont       = new Parts::Font::SetupTabFont(this->mPreset, this);
+  this->mSetupTemplates  = new Parts::Templates::SetupTabTemplates(this->mPreset, this);
 
-  QString selectedPreset = Preset::selectedName();
-  int presetsCount = Preset::presetsList().length();
+  QString selectedPreset = Settings::Presets::Preset::selectedName();
+  int presetsCount = Settings::Presets::Preset::presetsList().length();
 
   // create default presets
   if (presetsCount == 0) {
     this->createPresetsDefault();
   } else {
     if (presetsCount == 1) {
-      if (Preset::presetsList().at(0) == QString("default")) {
+      if (Settings::Presets::Preset::presetsList().at(0) == QString("default")) {
         this->createPresetsDefault();
       }
     }
   }
 
-  this->mSetupPrepare->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
-  this->mSetupMatrix->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
-  this->mSetupReordering->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
-  this->mSetupImage->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
-  this->mSetupFont->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
-  this->mSetupTemplates->connect(this->mPreset, SIGNAL(changed()), SLOT(matrixChanged()));
-  this->connect(this->mPreset, SIGNAL(changed()), SLOT(presetChanged()));
+  this->mSetupPrepare->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
+  this->mSetupMatrix->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
+  this->mSetupReordering->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
+  this->mSetupImage->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
+  this->mSetupFont->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
+  this->mSetupTemplates->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
+  this->connect(this->mPreset, SIGNAL(changed()), SLOT(previewUpdate()));
 
   this->fillPresetsList();
 
   int presetIndex = this->ui->comboBoxPresets->findText(selectedPreset);
 
-  if (presetIndex >= 0) {
+  if (presetIndex >= 0 && this->ui->comboBoxPresets->currentIndex() != presetIndex) {
     this->ui->comboBoxPresets->setCurrentIndex(presetIndex);
+  } else {
+    emit this->presetLoaded();
   }
 
   this->mPresetChanged = false;
+
 
   this->ui->tabWidgetSetupParts->addTab(this->mSetupPrepare, this->mSetupPrepare->windowTitle());
   this->ui->tabWidgetSetupParts->addTab(this->mSetupMatrix, this->mSetupMatrix->windowTitle());
@@ -95,7 +103,7 @@ DialogOptions::DialogOptions(DataContainer *dataContainer, QWidget *parent) :
 
 DialogOptions::~DialogOptions()
 {
-  if (this->mPreview != NULL) {
+  if (this->mPreview != nullptr) {
     delete this->mPreview;
   }
 
@@ -118,7 +126,7 @@ void DialogOptions::fillPresetsList(const QString &defaultName)
 
   this->ui->comboBoxPresets->clear();
 
-  QStringList names = Preset::presetsList();
+  QStringList names = Settings::Presets::Preset::presetsList();
   this->ui->comboBoxPresets->addItems(names);
 
   bool defaultLoaded = false;
@@ -165,16 +173,16 @@ void DialogOptions::presetSaveAs(const QString &name)
 
 void DialogOptions::presetRemove(const QString &name)
 {
-  Preset::remove(name);
+  Settings::Presets::Preset::remove(name);
 
   this->fillPresetsList();
 }
 
 void DialogOptions::createPresetsDefault()
 {
-  Preset matrix(this);
+  Settings::Presets::Preset matrix(this);
 
-  matrix.initMono(MonochromeTypeDiffuseDither);
+  matrix.initMono(Parsing::Conversion::Options::MonochromeType::DiffuseDither);
   matrix.save(tr("Monochrome"));
 
   matrix.initGrayscale(4);
@@ -198,7 +206,7 @@ void DialogOptions::createPresetsDefault()
 
 bool DialogOptions::checkOverwrite(const QString &originalName, QString *resultName) const
 {
-  QStringList existingNames = Preset::presetsList();
+  QStringList existingNames = Settings::Presets::Preset::presetsList();
 
   if (!existingNames.contains(originalName)) {
     *resultName = originalName;
@@ -218,10 +226,10 @@ bool DialogOptions::checkOverwrite(const QString &originalName, QString *resultN
   return false;
 }
 
-void DialogOptions::presetChanged()
+void DialogOptions::previewUpdate()
 {
-  if (this->mData != NULL) {
-    if (this->mPreview != NULL) {
+  if (this->mData != nullptr) {
+    if (this->mPreview != nullptr) {
       this->mPreview->updatePreview();
     }
   }
@@ -231,7 +239,7 @@ void DialogOptions::presetChanged()
 
 void DialogOptions::on_pushButtonPreview_clicked()
 {
-  if (this->mPreview == NULL) {
+  if (this->mPreview == nullptr) {
     this->mPreview = new DialogPreview(this->mData, this->mPreset, this);
     QObject::connect(this->mPreview, SIGNAL(accepted()), this, SLOT(previewClosed()));
     QObject::connect(this->mPreview, SIGNAL(rejected()), this, SLOT(previewClosed()));
@@ -242,7 +250,7 @@ void DialogOptions::on_pushButtonPreview_clicked()
 
 void DialogOptions::on_pushButtonPresetSaveAs_clicked()
 {
-  QStringList names = Preset::presetsList();
+  QStringList names = Settings::Presets::Preset::presetsList();
 
   QInputDialog dialog(this);
   dialog.setComboBoxItems(names);
@@ -272,16 +280,16 @@ void DialogOptions::on_pushButtonPresetImport_clicked()
 {
   QFileDialog dialog(this->parentWidget());
   dialog.setAcceptMode(QFileDialog::AcceptOpen);
-  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ImportPreset));
+  dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::ImportPreset));
   dialog.setFileMode(QFileDialog::ExistingFiles);
   dialog.setNameFilter(tr("XML Files (*.xml)"));
   dialog.setWindowTitle(tr("Open xml preset file"));
 
   if (dialog.exec() == QDialog::Accepted) {
-    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ImportPreset, dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ImportPreset, dialog.directory().absolutePath());
     QString filename = dialog.selectedFiles().at(0);
 
-    Preset *importedPreset = new Preset(this);
+    Settings::Presets::Preset *importedPreset = new Settings::Presets::Preset(this);
     importedPreset->loadXML(filename);
     QString resultPresetName;
 
@@ -299,7 +307,7 @@ void DialogOptions::on_pushButtonPresetExport_clicked()
 {
   QFileDialog dialog(this->parentWidget());
   dialog.setAcceptMode(QFileDialog::AcceptSave);
-  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ExportPreset));
+  dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::ExportPreset));
   dialog.setFileMode(QFileDialog::AnyFile);
   dialog.setNameFilter(tr("XML Files (*.xml)"));
   dialog.setDefaultSuffix(QString("xml"));
@@ -307,7 +315,7 @@ void DialogOptions::on_pushButtonPresetExport_clicked()
   dialog.selectFile(this->mPreset->name());
 
   if (dialog.exec() == QDialog::Accepted) {
-    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ExportPreset, dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ExportPreset, dialog.directory().absolutePath());
     QString filename = dialog.selectedFiles().at(0);
     this->mPreset->saveXML(filename);
   }
@@ -317,20 +325,21 @@ void DialogOptions::on_comboBoxPresets_currentIndexChanged(int index)
 {
   QString name = this->ui->comboBoxPresets->itemText(index);
   this->presetLoad(name);
+  emit this->presetLoaded();
 }
 
 void DialogOptions::previewClosed()
 {
-  if (this->mPreview != NULL) {
+  if (this->mPreview != nullptr) {
     delete this->mPreview;
-    this->mPreview = NULL;
+    this->mPreview = nullptr;
   }
 }
 
 void DialogOptions::presetOverwiteNameChanged(const QString &value)
 {
   QInputDialog *dialog = qobject_cast<QInputDialog *>(sender());
-  QStringList existingNames = Preset::presetsList();
+  QStringList existingNames = Settings::Presets::Preset::presetsList();
 
   if (existingNames.contains(value)) {
     QString message = tr("Preset with name \"%1\" already exists. Continue with overwrite?", "Warning about preset overwrite").arg(value);
@@ -360,7 +369,7 @@ void DialogOptions::done(int result)
           }
 
           this->mPreset->save(name);
-          Preset::setSelectedName(name);
+          Settings::Presets::Preset::setSelectedName(name);
 
           QDialog::done(result);
           break;
@@ -389,3 +398,5 @@ void DialogOptions::done(int result)
   }
 }
 
+} // namespace Setup
+} // namespace AppUI

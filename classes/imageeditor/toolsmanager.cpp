@@ -33,6 +33,8 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolsManager::ToolsManager(QObject *parent) : QObject(parent)
 {
@@ -146,7 +148,7 @@ void ToolsManager::on_toolAction_triggered()
 {
   QAction *action = qobject_cast<QAction *>(sender());
 
-  if (action != NULL) {
+  if (action != nullptr) {
     bool ok;
     int toolIndex = action->data().toInt(&ok);
 
@@ -157,5 +159,6 @@ void ToolsManager::on_toolAction_triggered()
   }
 }
 
-} // end of namespace
+} // namespace Tools
+} // namespace ImageEditor
 

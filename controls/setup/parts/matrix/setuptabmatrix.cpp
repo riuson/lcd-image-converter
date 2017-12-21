@@ -20,7 +20,7 @@
 #include "setuptabmatrix.h"
 #include "ui_setuptabmatrix.h"
 
-#include "qt-version-check.h"
+#include <QtWidgets>
 #include "matrixpreviewmodel.h"
 #include "matrixitemdelegate.h"
 #include "preset.h"
@@ -28,21 +28,22 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
-#include <QtWidgets>
-#endif // QT_VERSION
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Matrix
+{
 
-SetupTabMatrix::SetupTabMatrix(Preset *preset, QWidget *parent) :
+SetupTabMatrix::SetupTabMatrix(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabMatrix)
 {
   ui->setupUi(this);
   this->mPreset = preset;
-  this->mMenu = NULL;
-
-  this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
-  this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
-  this->ui->comboBoxConversionType->addItem(tr("Color"), ConversionTypeColor);
+  this->mMenu = nullptr;
 
   this->mMatrixModel = new MatrixPreviewModel(this->mPreset, this);
   this->ui->tableViewOperations->setModel(this->mMatrixModel);
@@ -58,7 +59,7 @@ SetupTabMatrix::SetupTabMatrix(Preset *preset, QWidget *parent) :
 
 SetupTabMatrix::~SetupTabMatrix()
 {
-  if (this->mMenu != NULL) {
+  if (this->mMenu != nullptr) {
     delete this->mMenu;
   }
 
@@ -70,29 +71,12 @@ SetupTabMatrix::~SetupTabMatrix()
 
 void SetupTabMatrix::matrixChanged()
 {
-  int index = this->ui->comboBoxConversionType->findData(this->mPreset->prepare()->convType());
-
-  if (index >= 0) {
-    this->ui->comboBoxConversionType->setCurrentIndex(index);
-  }
-
   this->mMatrixModel->callReset();
-  this->ui->tableViewOperations->setModel(NULL);
+  this->ui->tableViewOperations->setModel(nullptr);
   this->ui->tableViewOperations->setModel(this->mMatrixModel);
   this->ui->tableViewOperations->update();
   this->ui->tableViewOperations->resizeRowsToContents();
   this->ui->tableViewOperations->resizeColumnsToContents();
-}
-
-void SetupTabMatrix::on_comboBoxConversionType_currentIndexChanged(int index)
-{
-  QVariant data = this->ui->comboBoxConversionType->itemData(index);
-  bool ok;
-  int a = data.toInt(&ok);
-
-  if (ok) {
-    this->mPreset->prepare()->setConvType((ConversionType)a);
-  }
 }
 
 void SetupTabMatrix::on_tableViewOperations_customContextMenuRequested(const QPoint &point)
@@ -100,9 +84,9 @@ void SetupTabMatrix::on_tableViewOperations_customContextMenuRequested(const QPo
   QModelIndex index = this->ui->tableViewOperations->indexAt(point);
   QItemSelectionModel *selection = this->ui->tableViewOperations->selectionModel();
 
-  if (this->mMenu != NULL) {
+  if (this->mMenu != nullptr) {
     delete this->mMenu;
-    this->mMenu = NULL;
+    this->mMenu = nullptr;
   }
 
   if (index.isValid()) {
@@ -363,3 +347,7 @@ void SetupTabMatrix::maskReset()
   }
 }
 
+} // namespace Matrix
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

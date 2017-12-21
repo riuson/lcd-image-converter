@@ -27,19 +27,34 @@ namespace Ui
 class SetupTabTemplates;
 }
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
+
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Templates
+{
 
 class SetupTabTemplates : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit SetupTabTemplates(Preset *preset, QWidget *parent = 0);
+  explicit SetupTabTemplates(Settings::Presets::Preset *preset, QWidget *parent = 0);
   virtual ~SetupTabTemplates();
 
 private:
   Ui::SetupTabTemplates *ui;
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
 
 private slots:
   void matrixChanged();
@@ -48,5 +63,10 @@ private slots:
   void on_lineEditImage_editingFinished();
   void on_lineEditFont_editingFinished();
 };
+
+} // namespace Templates
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABTEMPLATES_H

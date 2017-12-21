@@ -17,10 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include <qt-version-check.h>
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-
 #ifndef CONVERTFONTARGUMENTS_H
 #define CONVERTFONTARGUMENTS_H
 
@@ -34,15 +30,23 @@ class ModeConvertFont : public ModeParserBase
 {
   Q_OBJECT
 public:
-  explicit ModeConvertFont(QCommandLineParser *parser, QObject *parent = 0);
+  explicit ModeConvertFont(QCommandLineParser &parser, QObject *parent = 0);
+  virtual ~ModeConvertFont() {}
 
   static QString modeName();
 
-  void fillParser() const;
-  bool collectArguments();
-  int process();
+  void fillParser() const Q_DECL_OVERRIDE;
+  bool collectArguments() Q_DECL_OVERRIDE;
+  int process() Q_DECL_OVERRIDE;
 
 private:
+  enum class SubMode {
+    None,
+    FromXmlDocument,
+    FromCharactersList,
+    FromCharactersRange
+  };
+
   QString mFontFamily;
   int mFontSize;
   bool mFontMonospaced;
@@ -56,18 +60,20 @@ private:
   QString mFontCharactersRange;
   bool mFontCharactersBigEndian;
 
-  QString mOuputFilename;
+  QString mInputFilename;
+  QString mOutputFilename;
   QString mTemplateFilename;
   QString mDocumentName;
+  QString mDocumentNameWS;
   QString mPresetName;
+
+  SubMode mSubMode;
 
   QString createCharsList(const QString &rangeStr,
                           const QString &encoding,
                           bool bigEndian) const;
 };
 
-}
+} // namespace CommandLine
 
 #endif // CONVERTFONTARGUMENTS_H
-
-#endif // QT_VERSION

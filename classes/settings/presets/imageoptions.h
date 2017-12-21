@@ -27,33 +27,45 @@
 class QSettings;
 class QDomElement;
 
-using namespace ConversionOptions;
+namespace Settings
+{
+namespace Presets
+{
 
 class ImageOptions : public QObject
 {
   Q_OBJECT
 public:
   explicit ImageOptions(QObject *parent = 0);
+  virtual ~ImageOptions() {}
 
   bool splitToRows() const;
-  BytesOrder bytesOrder() const;
-  DataBlockSize blockSize() const;
+  Parsing::Conversion::Options::BytesOrder bytesOrder() const;
+  Parsing::Conversion::Options::DataBlockSize blockSize() const;
   bool blockDefaultOnes() const;
   bool compressionRle() const;
   quint32 compressionRleMinLength() const;
   QString blockPrefix() const;
   QString blockSuffix() const;
   QString blockDelimiter() const;
+  QString previewPrefix() const;
+  QString previewSuffix() const;
+  QString previewDelimiter() const;
+  QString previewLevels() const;
 
   void setSplitToRows(bool value);
-  void setBytesOrder(BytesOrder value);
-  void setBlockSize(DataBlockSize value);
+  void setBytesOrder(Parsing::Conversion::Options::BytesOrder value);
+  void setBlockSize(Parsing::Conversion::Options::DataBlockSize value);
   void setBlockDefaultOnes(bool value);
   void setCompressionRle(bool value);
   void setCompressionRleMinLength(quint32 value);
   void setBlockPrefix(const QString &value);
   void setBlockSuffix(const QString &value);
   void setBlockDelimiter(const QString &value);
+  void setPreviewPrefix(const QString &value);
+  void setPreviewSuffix(const QString &value);
+  void setPreviewDelimiter(const QString &value);
+  void setPreviewLevels(const QString &value);
 
   bool load(QSettings *settings);
   bool loadXmlElement(QDomElement element);
@@ -68,20 +80,31 @@ private:
   static const QString FieldSplitToRows;
   static const QString FieldCompressionRle;
   static const QString FieldCompressionRleMinLength;
-  static const QString FieldBlockPrefix;
   static const QString FieldBandWidth;
+  static const QString FieldBlockPrefix;
   static const QString FieldBlockSuffix;
   static const QString FieldBlockDelimiter;
+  static const QString FieldPreviewPrefix;
+  static const QString FieldPreviewSuffix;
+  static const QString FieldPreviewDelimiter;
+  static const QString FieldPreviewLevels;
 
   bool mSplitToRows;
-  BytesOrder mBytesOrder;
-  DataBlockSize mBlockSize;
+  Parsing::Conversion::Options::BytesOrder mBytesOrder;
+  Parsing::Conversion::Options::DataBlockSize mBlockSize;
   bool mBlockDefaultOnes;
   bool mCompressionRle;
   quint32 mCompressionRleMinLength;
   QString mBlockPrefix;
   QString mBlockSuffix;
   QString mBlockDelimiter;
+  QString mPreviewPrefix;
+  QString mPreviewSuffix;
+  QString mPreviewDelimiter;
+  QString mPreviewLevels;
+
+  QString escapeEmpty(const QString &value) const;
+  QString unescapeEmpty(const QString &value) const;
 
 signals:
   void changed();
@@ -89,5 +112,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Presets
+} // namespace Settings
 
 #endif // IMAGEOPTIONS_H

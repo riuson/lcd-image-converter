@@ -34,30 +34,33 @@ namespace ImageEditor
 {
 class IImageEditorParams;
 
+namespace Tools
+{
+
 class ToolMove : public QObject, public IImageEditorTool
 {
   Q_OBJECT
-  Q_INTERFACES(ImageEditor::IImageEditorTool)
+  Q_INTERFACES(ImageEditor::Tools::IImageEditorTool)
 
 public:
   explicit ToolMove(IImageEditorParams *parameters, QObject *parent = 0);
-  ~ToolMove();
+  virtual ~ToolMove();
 
-  const QString title() const;
-  const QString tooltip() const;
-  const QIcon *icon() const;
-  const QList<QAction *> *actions() const;
-  const QList<QWidget *> *widgets() const;
+  const QString title() const Q_DECL_OVERRIDE;
+  const QString tooltip() const Q_DECL_OVERRIDE;
+  const QIcon *icon() const Q_DECL_OVERRIDE;
+  const QList<QAction *> *actions() const Q_DECL_OVERRIDE;
+  const QList<QWidget *> *widgets() const Q_DECL_OVERRIDE;
 
 public slots:
   bool processMouse(QMouseEvent *event,
                     const QImage *imageOriginal,
-                    bool inRect);
+                    bool inRect) Q_DECL_OVERRIDE;
 
 signals:
-  void started(const QImage *value);
-  void processing(const QImage *value);
-  void completed(const QImage *value, bool changed);
+  void started(const QImage *value) Q_DECL_OVERRIDE;
+  void processing(const QImage *value) Q_DECL_OVERRIDE;
+  void completed(const QImage *value, bool changed) Q_DECL_OVERRIDE;
 
 private:
 
@@ -91,6 +94,7 @@ private slots:
   void on_switchToMoveCircular();
 };
 
-} // end of namespace
+} // namespace Tools
+} // namespace ImageEditor
 
 #endif // TOOLMOVE_H

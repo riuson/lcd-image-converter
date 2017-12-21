@@ -24,12 +24,17 @@
 
 template <class T> class QVector;
 
+namespace Utils
+{
+namespace Compression
+{
+
 class RleSequence
 {
 public:
   RleSequence();
   RleSequence(const RleSequence *other);
-  ~RleSequence();
+  virtual ~RleSequence();
 
   void append(quint32 value);
   void append(const RleSequence *sequence);
@@ -43,5 +48,8 @@ private:
   QVector <quint32> *mData;
 
 };
+
+} // namespace Compression
+} // namespace Utils
 
 #endif // RLESEQUENCE_H

@@ -10,9 +10,10 @@ class TestBitStream : public QObject
   Q_OBJECT
 public:
   explicit TestBitStream(QObject *parent = 0);
+  virtual ~TestBitStream() {}
 
 private:
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   void preparePackData(
     quint32 maskUsed, quint32 maskFill,
     QVector<quint32> *source, QVector<quint32> *packed);

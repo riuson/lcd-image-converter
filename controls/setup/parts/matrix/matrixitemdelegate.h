@@ -21,17 +21,24 @@
 #define MATRIXITEMDELEGATE_H
 
 #include <QtGui>
-#include "qt-version-check.h"
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
 #include <QtWidgets>
-#endif // QT_VERSION
+
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Matrix
+{
 
 class MatrixItemDelegate : public QItemDelegate
 {
 public:
   MatrixItemDelegate(QObject *pobj = 0);
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  virtual ~MatrixItemDelegate() {}
+
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
 
 public:
   QColor color() const;
@@ -39,5 +46,10 @@ public:
 private:
   QColor mColor;
 };
+
+} // namespace Matrix
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // MATRIXITEMDELEGATE_H

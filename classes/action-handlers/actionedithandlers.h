@@ -24,14 +24,17 @@
 
 #include "actionhandlersbase.h"
 
-class QImage;
-class IMainWindow;
+namespace AppUI
+{
+namespace MenuHandlers
+{
 
 class ActionEditHandlers : public ActionHandlersBase
 {
   Q_OBJECT
 public:
   explicit ActionEditHandlers(QObject *parent = 0);
+  virtual ~ActionEditHandlers() {}
 
 public slots:
   void undo_triggered();
@@ -39,5 +42,8 @@ public slots:
   void copy_triggered();
   void paste_triggered();
 };
+
+} // namespace MenuHandlers
+} // namespace AppUI
 
 #endif // ACTIONEDITHANDLERS_H

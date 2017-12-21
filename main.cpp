@@ -17,24 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "qt-version-check.h"
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
 #include <QtWidgets/QApplication>
-#else
-#include <QtGui/QApplication>
-#endif
-
 #include "mainwindow.h"
 #include "revisioninfo.h"
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
 #include "cmdline.h"
-#endif
 
 void setupApplication(QApplication *app)
 {
-  QString version = QString("rev.%1 from %2").arg(RevisionInfo::hash(), RevisionInfo::date());
+  QString version = QString("rev.%1 from %2").arg(VersionControl::RevisionInfo::hash(), VersionControl::RevisionInfo::date());
   QCoreApplication::setApplicationVersion(version);
 
   app->addLibraryPath(QApplication::applicationDirPath());
@@ -46,7 +36,6 @@ int main(int argc, char *argv[])
   QApplication a(argc, argv);
   setupApplication(&a);
 
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
   CommandLine::CmdLine cmd(a.arguments());
 
   if (cmd.needProcess()) { // if console mode
@@ -66,10 +55,8 @@ int main(int argc, char *argv[])
     }
   }
 
-#endif
-
   // gui mode
-  MainWindow w;
+  AppUI::MainWindow w;
   w.show();
   return a.exec();
 }

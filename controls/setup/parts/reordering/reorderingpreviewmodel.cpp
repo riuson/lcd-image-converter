@@ -25,7 +25,16 @@
 #include "reorderingoptions.h"
 #include "imageoptions.h"
 
-ReorderingPreviewModel::ReorderingPreviewModel(Preset *preset, QObject *parent) :
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Reordering
+{
+
+ReorderingPreviewModel::ReorderingPreviewModel(Settings::Presets::Preset *preset, QObject *parent) :
   QAbstractItemModel(parent)
 {
   this->mPreset = preset;
@@ -105,7 +114,7 @@ QVariant ReorderingPreviewModel::data(const QModelIndex &index, int role) const
         }
 
         // get source bit info
-        ConversionType convType;
+        Settings::Presets::ConversionType convType;
         ColorType colorType;
         int partIndex;
         this->getBitType(bitIndex, &convType, &colorType, &partIndex);
@@ -127,7 +136,7 @@ QVariant ReorderingPreviewModel::data(const QModelIndex &index, int role) const
       }
 
       case Source: {
-        ConversionType convType;
+        Settings::Presets::ConversionType convType;
         ColorType colorType;
         int partIndex;
         this->getBitType(bitIndex, &convType, &colorType, &partIndex);
@@ -212,7 +221,7 @@ ReorderingPreviewModel::RowType ReorderingPreviewModel::rowType(int row) const
   return result;
 }
 
-void ReorderingPreviewModel::getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const
+void ReorderingPreviewModel::getBitType(int bitIndex, Parsing::Conversion::Options::ConversionType *convType, ColorType *colorType, int *partIndex) const
 {
   int bits = (((int)this->mPreset->image()->blockSize()) * 8) + 8;
   *convType = this->mPreset->prepare()->convType();
@@ -270,7 +279,7 @@ void ReorderingPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, Q
   *color = QVariant();
 
   if (bitIndex >= 0 && bitIndex <= this->maxBitIndex()) {
-    ConversionType convType;
+    Settings::Presets::ConversionType convType;
     ColorType colorType;
     int partIndex;
     this->getBitType(bitIndex, &convType, &colorType, &partIndex);
@@ -295,3 +304,7 @@ void ReorderingPreviewModel::callReset()
   this->endResetModel();
 }
 
+} // namespace Reordering
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

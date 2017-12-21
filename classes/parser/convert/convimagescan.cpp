@@ -17,11 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "convimage.h"
+#include "convimagescan.h"
 
 #include <QImage>
 
-ConvImage::ConvImage(const QImage *image, QObject *parent) :
+namespace Parsing
+{
+namespace Conversion
+{
+
+ConvImageScan::ConvImageScan(const QImage *image, QObject *parent) :
   QObject(parent)
 {
   this->mImage = image;
@@ -30,41 +35,41 @@ ConvImage::ConvImage(const QImage *image, QObject *parent) :
   this->mScanTerminated = false;
 }
 
-ConvImage::~ConvImage()
+ConvImageScan::~ConvImageScan()
 {
 }
 
-int ConvImage::bandSize() const
+int ConvImageScan::bandSize() const
 {
   return this->mBandSize;
 }
 
-void ConvImage::setBandSize(int value)
+void ConvImageScan::setBandSize(int value)
 {
   this->mBandSize = value;
 }
 
-bool ConvImage::useBands() const
+bool ConvImageScan::useBands() const
 {
   return this->mUseBands;
 }
 
-void ConvImage::setUseBands(bool value)
+void ConvImageScan::setUseBands(bool value)
 {
   this->mUseBands = value;
 }
 
-void ConvImage::addPoint(int x, int y)
+void ConvImageScan::addPoint(int x, int y)
 {
   this->mPoints.append(QPoint(x, y));
 }
 
-void ConvImage::clearPoints()
+void ConvImageScan::clearPoints()
 {
   this->mPoints.clear();
 }
 
-QPoint ConvImage::pointAt(int index) const
+QPoint ConvImageScan::pointAt(int index) const
 {
   if (index < this->mPoints.size()) {
     return this->mPoints.at(index);
@@ -73,28 +78,30 @@ QPoint ConvImage::pointAt(int index) const
   return QPoint();
 }
 
-int ConvImage::pointsCount() const
+int ConvImageScan::pointsCount() const
 {
   return this->mPoints.size();
 }
 
-bool ConvImage::scanTerminated() const
+bool ConvImageScan::scanTerminated() const
 {
   return this->mScanTerminated;
 }
 
-void ConvImage::setScanTerminated(bool value)
+void ConvImageScan::setScanTerminated(bool value)
 {
   this->mScanTerminated = value;
 }
 
-int ConvImage::height() const
+int ConvImageScan::height() const
 {
   return this->mImage->height();
 }
 
-int ConvImage::width() const
+int ConvImageScan::width() const
 {
   return this->mImage->width();
 }
 
+} // namespace Conversion
+} // namespace Parsing

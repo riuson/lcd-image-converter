@@ -24,6 +24,9 @@
 #include <QMap>
 #include <appsettings.h>
 
+namespace Settings
+{
+
 int FileDialogOptions::filterIndex(FileDialogOptions::Dialogs dialog)
 {
   QString dialogName;
@@ -140,3 +143,4 @@ void FileDialogOptions::setString(const QString &name, const QString &value)
   sett.endGroup();
 }
 
+} // namespace Settings

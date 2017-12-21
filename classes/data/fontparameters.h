@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2014 riuson
+ * Copyright (C) 2015 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef CMDOPTIONS_H
-#define CMDOPTIONS_H
+#ifndef TFONTPARAMETERS
+#define TFONTPARAMETERS
 
-namespace CommandLine
+#include <QColor>
+
+namespace Data
+{
+namespace Containers
 {
 
-enum Mode {
-  ModeUndefined = 0,
-  ModeConvert
+struct FontParameters {
+  QString family;
+  QString style;
+  int size;
+  bool monospaced;
+  bool antiAliasing;
+  int ascent;
+  int descent;
+  QColor foreground;
+  QColor background;
 };
 
-enum DocumentType {
-  DocumentTypeUndefined = 0,
-  DocumentTypeImage,
-  DocumentTypeFont
-};
+} // namespace Containers
+} // namespace Data
 
-}
+#endif // TFONTPARAMETERS
 
-#endif // CMDOPTIONS_H

@@ -25,7 +25,12 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 
-BitStream::BitStream(Preset *preset, QVector<quint32> *data, int start, int count)
+namespace Parsing
+{
+namespace Conversion
+{
+
+BitStream::BitStream(Settings::Presets::Preset *preset, QVector<quint32> *data, int start, int count)
 {
   this->mPreset = preset;
   this->mData = data;
@@ -159,3 +164,5 @@ int BitStream::remain() const
   return result;
 }
 
+} // namespace Conversion
+} // namespace Parsing

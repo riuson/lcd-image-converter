@@ -22,15 +22,20 @@
 
 #include <QObject>
 
-class IMainWindow;
-class WidgetBitmapEditor;
+namespace AppUI
+{
 class IEditor;
+class IMainWindow;
+
+namespace MenuHandlers
+{
 
 class ActionHandlersBase : public QObject
 {
   Q_OBJECT
 public:
   explicit ActionHandlersBase(QObject *parent = 0);
+  virtual ~ActionHandlersBase() {}
 
 protected:
   IMainWindow *mMainWindow;
@@ -41,5 +46,8 @@ signals:
 public slots:
 
 };
+
+} // namespace MenuHandlers
+} // namespace AppUI
 
 #endif // ACTIONHANDLERSBASE_H

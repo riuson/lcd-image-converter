@@ -25,10 +25,19 @@
 #include <QPainter>
 #include "preset.h"
 #include "converterhelper.h"
-#include "convimage.h"
+#include "convimagescan.h"
 #include "prepareoptions.h"
 
-DemoGenerator::DemoGenerator(Preset *preset, QObject *parent) :
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
+
+DemoGenerator::DemoGenerator(Settings::Presets::Preset *preset, QObject *parent) :
   QObject(parent)
 {
   this->mPreset = preset;
@@ -59,12 +68,12 @@ void DemoGenerator::setScript(const QString &value)
   this->mScript = value;
 
   // generate points
-  ConvImage *convImage = new ConvImage(this->mSourceImage, this);
+  Parsing::Conversion::ConvImageScan *convImage = new Parsing::Conversion::ConvImageScan(this->mSourceImage, this);
   convImage->setBandSize(this->mPreset->prepare()->bandWidth());
   convImage->setUseBands(this->mPreset->prepare()->bandScanning());
 
   QString errorMessage;
-  ConverterHelper::collectPoints(convImage, value, &errorMessage);
+  Parsing::Conversion::ConverterHelper::collectPoints(convImage, value, &errorMessage);
 
   if (!errorMessage.isNull()) {
     emit this->errorHandled(errorMessage);
@@ -152,3 +161,7 @@ void DemoGenerator::timeout()
   this->mLastTick = current;
 }
 
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

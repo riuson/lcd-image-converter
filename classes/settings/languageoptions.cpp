@@ -22,6 +22,9 @@
 #include <QFile>
 #include <appsettings.h>
 
+namespace Settings
+{
+
 const QString LanguageOptions::locale()
 {
   AppSettings appsett;
@@ -54,3 +57,4 @@ bool LanguageOptions::setLocale(const QString &value)
   return isSuccessfully;
 }
 
+} // namespace Settings

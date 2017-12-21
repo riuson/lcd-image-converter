@@ -20,6 +20,11 @@
 #include "columnsreorderproxy.h"
 #include <QDebug>
 
+namespace Data
+{
+namespace Models
+{
+
 ColumnsReorderProxy::ColumnsReorderProxy(QObject *parent)
   : QSortFilterProxyModel(parent)
 {
@@ -99,3 +104,5 @@ int ColumnsReorderProxy::columnToSource(int value) const
   return this->mListToSource[value];
 }
 
+} // namespace Models
+} // namespace Data

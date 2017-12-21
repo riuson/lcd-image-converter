@@ -29,8 +29,13 @@
 #include "dialogfontrange.h"
 #include "fonthelper.h"
 #include "fonteditoroptions.h"
-#include "tfontparameters.h"
+#include "fontparameters.h"
 #include "dialogfontselectdata.h"
+
+namespace AppUI
+{
+namespace Fonts
+{
 
 DialogFontSelect::DialogFontSelect(QWidget *parent) :
   QDialog(parent),
@@ -88,7 +93,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
   // Sort characters
   this->connect(this->ui->pushButtonSort, SIGNAL(clicked(bool)), this->mData, SLOT(resort()));
 
-  this->updateColorIcons(FontEditorOptions::foreColor(), FontEditorOptions::backColor());
+  this->updateColorIcons(Settings::FontEditorOptions::foreColor(), Settings::FontEditorOptions::backColor());
 
   this->mData->setFont(this->ui->fontComboBox->currentFont());
   this->ui->lineEdit->setText(this->mData->characters());
@@ -114,19 +119,19 @@ void DialogFontSelect::setCharacters(const QString &value)
   this->mData->setCharacters(value);
 }
 
-void DialogFontSelect::getFontParameters(tFontParameters *parameters)
+void DialogFontSelect::getFontParameters(Data::Containers::FontParameters *parameters)
 {
   this->mData->getFontParameters(parameters);
 }
 
-void DialogFontSelect::setFontParameters(const tFontParameters &parameters)
+void DialogFontSelect::setFontParameters(const Data::Containers::FontParameters &parameters)
 {
   this->mData->setFontParameters(parameters);
 }
 
 void DialogFontSelect::loadSettings()
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("dialog-font-select");
   sett.beginGroup("toolbox");
@@ -146,7 +151,7 @@ void DialogFontSelect::loadSettings()
 
 void DialogFontSelect::saveSettings() const
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("dialog-font-select");
   sett.beginGroup("toolbox");
@@ -192,7 +197,7 @@ void DialogFontSelect::connectFontSizeList(bool value)
 
 void DialogFontSelect::on_lineEdit_textChanged(const QString &value)
 {
-  QString stringNew = FontHelper::unescapeControlChars(value);
+  QString stringNew = Parsing::Conversion::FontHelper::unescapeControlChars(value);
   QString stringOld = this->mData->characters();
 
   if (stringNew != stringOld) {
@@ -265,7 +270,7 @@ void DialogFontSelect::on_pushButtonForeColor_clicked()
   dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
   if (dialog.exec() == QDialog::Accepted) {
-    FontEditorOptions::setForeColor(dialog.selectedColor());
+    Settings::FontEditorOptions::setForeColor(dialog.selectedColor());
     this->mData->setForeground(dialog.selectedColor());
   }
 }
@@ -276,7 +281,7 @@ void DialogFontSelect::on_pushButtonBackColor_clicked()
   dialog.setOption(QColorDialog::ShowAlphaChannel, true);
 
   if (dialog.exec() == QDialog::Accepted) {
-    FontEditorOptions::setBackColor(dialog.selectedColor());
+    Settings::FontEditorOptions::setBackColor(dialog.selectedColor());
     this->mData->setBackground(dialog.selectedColor());
   }
 }
@@ -335,7 +340,7 @@ void DialogFontSelect::on_sizesListChanged(const QList<int> &list, int selected)
 
 void DialogFontSelect::on_charactersListChanged(const QString &value)
 {
-  QString stringNew = FontHelper::escapeControlChars(value);
+  QString stringNew = Parsing::Conversion::FontHelper::escapeControlChars(value);
   QString stringOld = this->ui->lineEdit->text();
 
   if (stringOld != stringNew) {
@@ -391,3 +396,5 @@ void DialogFontSelect::updateColorIcons(const QColor &foreground, const QColor &
   this->ui->pushButtonBackColor->setText(tr("Back Color: %1").arg((quint32)background.rgba(), 8, 16, QChar('0')));
 }
 
+} // namespace Fonts
+} // namespace AppUI

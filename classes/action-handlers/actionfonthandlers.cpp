@@ -30,11 +30,16 @@
 #include "imainwindow.h"
 #include "idocument.h"
 #include "datacontainer.h"
-#include "tfontparameters.h"
+#include "fontparameters.h"
 #include "documentoperator.h"
 #include "imageinverse.h"
 #include "fontminimizeheight.h"
 #include "fontresize.h"
+
+namespace AppUI
+{
+namespace MenuHandlers
+{
 
 ActionFontHandlers::ActionFontHandlers(QObject *parent) :
   ActionHandlersBase(parent)
@@ -43,12 +48,12 @@ ActionFontHandlers::ActionFontHandlers(QObject *parent) :
 
 void ActionFontHandlers::fontChange_triggered()
 {
-  if (EditorTabFont *etf = qobject_cast<EditorTabFont *>(this->mMainWindow->currentTab())) {
+  if (AppUI::Fonts::EditorTabFont *etf = qobject_cast<AppUI::Fonts::EditorTabFont *>(this->mMainWindow->currentTab())) {
     QString chars;
-    tFontParameters parameters;
+    Data::Containers::FontParameters parameters;
     etf->fontCharacters(&chars, &parameters);
 
-    DialogFontSelect dialog(this->mMainWindow->parentWidget());
+    AppUI::Fonts::DialogFontSelect dialog(this->mMainWindow->parentWidget());
     dialog.setCharacters(chars);
     dialog.setFontParameters(parameters);
 
@@ -64,7 +69,7 @@ void ActionFontHandlers::fontChange_triggered()
 
 void ActionFontHandlers::fontInverse_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     Operations::DocumentOperator docOp(this);
     Operations::ImageInverse imageInverse(this);
     docOp.apply(this->editor()->document(), imageInverse);
@@ -73,7 +78,7 @@ void ActionFontHandlers::fontInverse_triggered()
 
 void ActionFontHandlers::fontResize_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     Operations::DocumentOperator docOp(this);
     Operations::FontResize fontResize(this->mMainWindow->parentWidget(), this);
     docOp.apply(this->editor()->document(), fontResize);
@@ -82,7 +87,7 @@ void ActionFontHandlers::fontResize_triggered()
 
 void ActionFontHandlers::fontMinimizeHeight_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     Operations::DocumentOperator docOp(this);
     Operations::FontMinimizeHeight fontMinimizeHeight(this->mMainWindow->parentWidget(), this);
     docOp.apply(this->editor()->document(), fontMinimizeHeight);
@@ -93,10 +98,10 @@ void ActionFontHandlers::fontPreview_triggered()
 {
   IEditor *editor = this->editor();
 
-  if (editor != NULL) {
-    IDocument *doc = editor->document();
+  if (editor != nullptr) {
+    Data::Containers::IDocument *doc = editor->document();
 
-    DialogFontPreview dialog(this->mMainWindow->parentWidget());
+    AppUI::Fonts::DialogFontPreview dialog(this->mMainWindow->parentWidget());
     dialog.setDocument(doc);
 
     dialog.exec();
@@ -107,13 +112,15 @@ void ActionFontHandlers::fontToImage_triggered()
 {
   IEditor *editor = this->editor();
 
-  if (editor != NULL) {
+  if (editor != nullptr) {
     QStringList keys = editor->selectedKeys();
     qSort(keys);
     QString characters = keys.join("");
-    QImage image = FontHelper::drawString(editor->document()->dataContainer(), characters);
+    QImage image = Parsing::Conversion::FontHelper::drawString(editor->document()->dataContainer(), characters);
 
     emit this->imageCreated(&image, "image_" + editor->document()->documentName());
   }
 }
 
+} // namespace MenuHandlers
+} // namespace AppUI

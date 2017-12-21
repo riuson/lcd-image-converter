@@ -9,41 +9,41 @@ TestPrepareOptions::TestPrepareOptions(QObject *parent) :
 
 void TestPrepareOptions::initTestCase()
 {
-  this->mOptions = new PrepareOptions(this);
+  this->mOptions = new Settings::Presets::PrepareOptions(this);
 }
 
 void TestPrepareOptions::convType()
 {
   // 1
-  this->mOptions->setConvType(ConversionTypeMonochrome);
-  QCOMPARE(this->mOptions->convType(), ConversionTypeMonochrome);
+  this->mOptions->setConvType(Parsing::Conversion::Options::ConversionType::Monochrome);
+  QCOMPARE(this->mOptions->convType(), Parsing::Conversion::Options::ConversionType::Monochrome);
 
   // 2
-  this->mOptions->setConvType(ConversionTypeGrayscale);
-  QCOMPARE(this->mOptions->convType(), ConversionTypeGrayscale);
+  this->mOptions->setConvType(Parsing::Conversion::Options::ConversionType::Grayscale);
+  QCOMPARE(this->mOptions->convType(), Parsing::Conversion::Options::ConversionType::Grayscale);
 
   // 3
-  this->mOptions->setConvType(ConversionTypeColor);
-  QCOMPARE(this->mOptions->convType(), ConversionTypeColor);
+  this->mOptions->setConvType(Parsing::Conversion::Options::ConversionType::Color);
+  QCOMPARE(this->mOptions->convType(), Parsing::Conversion::Options::ConversionType::Color);
 }
 
 void TestPrepareOptions::monoType()
 {
   // 1
-  this->mOptions->setMonoType(MonochromeTypeEdge);
-  QCOMPARE(this->mOptions->monoType(), MonochromeTypeEdge);
+  this->mOptions->setMonoType(Parsing::Conversion::Options::MonochromeType::Edge);
+  QCOMPARE(this->mOptions->monoType(), Parsing::Conversion::Options::MonochromeType::Edge);
 
   // 2
-  this->mOptions->setMonoType(MonochromeTypeDiffuseDither);
-  QCOMPARE(this->mOptions->monoType(), MonochromeTypeDiffuseDither);
+  this->mOptions->setMonoType(Parsing::Conversion::Options::MonochromeType::DiffuseDither);
+  QCOMPARE(this->mOptions->monoType(), Parsing::Conversion::Options::MonochromeType::DiffuseDither);
 
   // 3
-  this->mOptions->setMonoType(MonochromeTypeOrderedDither);
-  QCOMPARE(this->mOptions->monoType(), MonochromeTypeOrderedDither);
+  this->mOptions->setMonoType(Parsing::Conversion::Options::MonochromeType::OrderedDither);
+  QCOMPARE(this->mOptions->monoType(), Parsing::Conversion::Options::MonochromeType::OrderedDither);
 
   // 4
-  this->mOptions->setMonoType(MonochromeTypeThresholdDither);
-  QCOMPARE(this->mOptions->monoType(), MonochromeTypeThresholdDither);
+  this->mOptions->setMonoType(Parsing::Conversion::Options::MonochromeType::ThresholdDither);
+  QCOMPARE(this->mOptions->monoType(), Parsing::Conversion::Options::MonochromeType::ThresholdDither);
 }
 
 void TestPrepareOptions::edge()
@@ -63,31 +63,31 @@ void TestPrepareOptions::edge()
 void TestPrepareOptions::scanMain()
 {
   // 1
-  this->mOptions->setScanMain(TopToBottom);
-  QCOMPARE(this->mOptions->scanMain(), TopToBottom);
+  this->mOptions->setScanMain(Parsing::Conversion::Options::ScanMainDirection::TopToBottom);
+  QCOMPARE(this->mOptions->scanMain(), Parsing::Conversion::Options::ScanMainDirection::TopToBottom);
 
   // 2
-  this->mOptions->setScanMain(BottomToTop);
-  QCOMPARE(this->mOptions->scanMain(), BottomToTop);
+  this->mOptions->setScanMain(Parsing::Conversion::Options::ScanMainDirection::BottomToTop);
+  QCOMPARE(this->mOptions->scanMain(), Parsing::Conversion::Options::ScanMainDirection::BottomToTop);
 
   // 3
-  this->mOptions->setScanMain(LeftToRight);
-  QCOMPARE(this->mOptions->scanMain(), LeftToRight);
+  this->mOptions->setScanMain(Parsing::Conversion::Options::ScanMainDirection::LeftToRight);
+  QCOMPARE(this->mOptions->scanMain(), Parsing::Conversion::Options::ScanMainDirection::LeftToRight);
 
   // 4
-  this->mOptions->setScanMain(RightToLeft);
-  QCOMPARE(this->mOptions->scanMain(), RightToLeft);
+  this->mOptions->setScanMain(Parsing::Conversion::Options::ScanMainDirection::RightToLeft);
+  QCOMPARE(this->mOptions->scanMain(), Parsing::Conversion::Options::ScanMainDirection::RightToLeft);
 }
 
 void TestPrepareOptions::scanSub()
 {
   // 1
-  this->mOptions->setScanSub(Forward);
-  QCOMPARE(this->mOptions->scanSub(), Forward);
+  this->mOptions->setScanSub(Parsing::Conversion::Options::ScanSubDirection::Forward);
+  QCOMPARE(this->mOptions->scanSub(), Parsing::Conversion::Options::ScanSubDirection::Forward);
 
   // 2
-  this->mOptions->setScanSub(Backward);
-  QCOMPARE(this->mOptions->scanSub(), Backward);
+  this->mOptions->setScanSub(Parsing::Conversion::Options::ScanSubDirection::Backward);
+  QCOMPARE(this->mOptions->scanSub(), Parsing::Conversion::Options::ScanSubDirection::Backward);
 }
 
 void TestPrepareOptions::inverse()

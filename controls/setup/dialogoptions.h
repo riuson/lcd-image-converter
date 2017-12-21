@@ -27,40 +27,80 @@ namespace Ui
 class DialogOptions;
 }
 
-class Preset;
+namespace Data
+{
+namespace Containers
+{
 class DataContainer;
+}
+}
+
+namespace Settings
+{
+namespace Presets
+{
+class Preset;
+}
+}
+
+namespace AppUI
+{
+namespace Setup
+{
 class DialogPreview;
+
+namespace Parts
+{
+namespace Prepare
+{
 class SetupTabPrepare;
-class SetupTabMatrix;
-class SetupTabReordering;
+}
+namespace Image
+{
 class SetupTabImage;
+}
+namespace Font
+{
 class SetupTabFont;
+}
+namespace Matrix
+{
+class SetupTabMatrix;
+}
+namespace Reordering
+{
+class SetupTabReordering;
+}
+namespace Templates
+{
 class SetupTabTemplates;
+}
+}
 
 class DialogOptions : public QDialog
 {
   Q_OBJECT
 
 public:
-  explicit DialogOptions(DataContainer *dataContainer, QWidget *parent = 0);
+  explicit DialogOptions(Data::Containers::DataContainer *dataContainer, QWidget *parent = 0);
   virtual ~DialogOptions();
 
 private:
   Ui::DialogOptions *ui;
 
-  DataContainer *mData;
+  Data::Containers::DataContainer *mData;
 
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   bool mPresetChanged;
 
   DialogPreview *mPreview;
 
-  SetupTabPrepare    *mSetupPrepare;
-  SetupTabMatrix     *mSetupMatrix;
-  SetupTabReordering *mSetupReordering;
-  SetupTabImage      *mSetupImage;
-  SetupTabFont       *mSetupFont;
-  SetupTabTemplates  *mSetupTemplates;
+  Parts::Prepare::SetupTabPrepare *mSetupPrepare;
+  Parts::Matrix::SetupTabMatrix *mSetupMatrix;
+  Parts::Reordering::SetupTabReordering *mSetupReordering;
+  Parts::Image::SetupTabImage *mSetupImage;
+  Parts::Font::SetupTabFont *mSetupFont;
+  Parts::Templates::SetupTabTemplates *mSetupTemplates;
 
   void fillPresetsList(const QString &defaultName = QString());
   void presetLoad(const QString &name);
@@ -69,7 +109,7 @@ private:
   void createPresetsDefault();
   bool checkOverwrite(const QString &originalName, QString *resultName) const;
 private slots:
-  void presetChanged();
+  void previewUpdate();
   void on_pushButtonPreview_clicked();
   void on_pushButtonPresetSaveAs_clicked();
   void on_pushButtonPresetRemove_clicked();
@@ -80,7 +120,13 @@ private slots:
   void presetOverwiteNameChanged(const QString &value);
 
 protected:
-  void done(int result);
+  void done(int result) Q_DECL_OVERRIDE;
+
+signals:
+  void presetLoaded();
 };
+
+} // namespace Setup
+} // namespace AppUI
 
 #endif // DIALOGOPTIONS_H

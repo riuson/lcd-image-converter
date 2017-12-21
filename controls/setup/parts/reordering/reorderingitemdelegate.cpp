@@ -19,6 +19,15 @@
 
 #include "reorderingitemdelegate.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Reordering
+{
+
 ReorderingItemDelegate::ReorderingItemDelegate(QObject *parent) :
   QItemDelegate(parent)
 {
@@ -61,3 +70,7 @@ void ReorderingItemDelegate::setColor(const QColor &value)
   this->mColor = value;
 }
 
+} // namespace Reordering
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

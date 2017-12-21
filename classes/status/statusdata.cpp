@@ -19,6 +19,11 @@
 
 #include "statusdata.h"
 
+namespace AppUI
+{
+namespace Status
+{
+
 StatusData::StatusData(QObject *parent) :
   QObject(parent)
 {
@@ -46,3 +51,5 @@ void StatusData::removeData(const StatusData::StatusType key)
   emit this->changed();
 }
 
+} // namespace Status
+} // namespace AppUI

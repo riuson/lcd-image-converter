@@ -29,7 +29,7 @@ FontResize::FontResize(QWidget *parentWidget, QObject *parent)
 {
 }
 
-void FontResize::applyDocument(IDocument *doc, const QStringList &keys)
+void FontResize::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(keys)
 
@@ -49,4 +49,4 @@ void FontResize::applyDocument(IDocument *doc, const QStringList &keys)
   }
 }
 
-}
+} // namespace Operations

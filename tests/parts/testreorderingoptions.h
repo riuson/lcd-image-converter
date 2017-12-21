@@ -4,16 +4,23 @@
 #include <QObject>
 #include <QtTest/QtTest>
 
+namespace Settings
+{
+namespace Presets
+{
 class ReorderingOptions;
+}
+}
 
 class TestReorderingOptions : public QObject
 {
   Q_OBJECT
 public:
   explicit TestReorderingOptions(QObject *parent = 0);
+  virtual ~TestReorderingOptions() {}
 
 private:
-  ReorderingOptions *mOptions;
+  Settings::Presets::ReorderingOptions *mOptions;
 
 private slots:
   void initTestCase();

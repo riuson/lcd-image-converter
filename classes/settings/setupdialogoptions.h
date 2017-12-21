@@ -20,16 +20,18 @@
 #ifndef SETUPDIALOGOPTIONS_H
 #define SETUPDIALOGOPTIONS_H
 
-#include <QObject>
-
-class SetupDialogOptions : public QObject
+namespace Settings
 {
-  Q_OBJECT
+
+class SetupDialogOptions
+{
 public:
   static int animationTotalTime();
   static void setAnimationTime(int value);
   static int animationInterval();
   static void setAnimationInterval(int value);
 };
+
+} // namespace Settings
 
 #endif // SETUPDIALOGOPTIONS_H

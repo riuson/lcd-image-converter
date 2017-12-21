@@ -23,6 +23,11 @@
 #include <QtXml>
 #include <QDomDocument>
 
+namespace Settings
+{
+namespace Presets
+{
+
 const QString ImageOptions::GroupName = QString("image");
 const QString ImageOptions::FieldBytesOrder = QString("bytesOrder");
 const QString ImageOptions::FieldBlockSize = QString("blockSize");
@@ -30,23 +35,31 @@ const QString ImageOptions::FieldBlockDefaultOnes = QString("blockDefaultOnes");
 const QString ImageOptions::FieldSplitToRows = QString("splitToRows");
 const QString ImageOptions::FieldCompressionRle = QString("compressionRle");
 const QString ImageOptions::FieldCompressionRleMinLength = QString("compressionRleMinLength");
-const QString ImageOptions::FieldBlockPrefix = QString("blockPrefix");
 const QString ImageOptions::FieldBandWidth = QString("bandWidth");
+const QString ImageOptions::FieldBlockPrefix = QString("blockPrefix");
 const QString ImageOptions::FieldBlockSuffix = QString("blockSuffix");
 const QString ImageOptions::FieldBlockDelimiter = QString("blockDelimiter");
+const QString ImageOptions::FieldPreviewPrefix = QString("previewPrefix");
+const QString ImageOptions::FieldPreviewSuffix = QString("previewSuffix");
+const QString ImageOptions::FieldPreviewDelimiter = QString("previewDelimiter");
+const QString ImageOptions::FieldPreviewLevels = QString("previewLevels");
 
 ImageOptions::ImageOptions(QObject *parent) :
   QObject(parent)
 {
   this->mSplitToRows = true;
-  this->mBytesOrder = BytesOrderLittleEndian;
-  this->mBlockSize = Data8;
+  this->mBytesOrder = Parsing::Conversion::Options::BytesOrder::LittleEndian;
+  this->mBlockSize = Parsing::Conversion::Options::DataBlockSize::Data8;
   this->mBlockDefaultOnes = false;
   this->mCompressionRle = false;
   this->mCompressionRleMinLength = 2;
   this->mBlockPrefix = "0x";
   this->mBlockSuffix = "";
   this->mBlockDelimiter = ", ";
+  this->mPreviewPrefix = "// ";
+  this->mPreviewSuffix = "";
+  this->mPreviewDelimiter = "";
+  this->mPreviewLevels = "∙\n░\n▒\n▓\n█";
 }
 
 bool ImageOptions::splitToRows() const
@@ -54,18 +67,18 @@ bool ImageOptions::splitToRows() const
   return this->mSplitToRows;
 }
 
-BytesOrder ImageOptions::bytesOrder() const
+Parsing::Conversion::Options::BytesOrder ImageOptions::bytesOrder() const
 {
   return this->mBytesOrder;
 }
 
-DataBlockSize ImageOptions::blockSize() const
+Parsing::Conversion::Options::DataBlockSize ImageOptions::blockSize() const
 {
-  if (this->mBlockSize <= Data32) {
+  if (this->mBlockSize <= Parsing::Conversion::Options::DataBlockSize::Data32) {
     return this->mBlockSize;
   }
 
-  return Data32;
+  return Parsing::Conversion::Options::DataBlockSize::Data32;
 }
 
 bool ImageOptions::blockDefaultOnes() const
@@ -98,75 +111,136 @@ QString ImageOptions::blockDelimiter() const
   return this->mBlockDelimiter;
 }
 
+QString ImageOptions::previewPrefix() const
+{
+  return this->mPreviewPrefix;
+}
+
+QString ImageOptions::previewSuffix() const
+{
+  return this->mPreviewSuffix;
+}
+
+QString ImageOptions::previewDelimiter() const
+{
+  return this->mPreviewDelimiter;
+}
+
+QString ImageOptions::previewLevels() const
+{
+  return this->mPreviewLevels;
+}
+
 void ImageOptions::setSplitToRows(bool value)
 {
-  this->mSplitToRows = value;
-
-  emit this->changed();
+  if (this->mSplitToRows != value) {
+    this->mSplitToRows = value;
+    emit this->changed();
+  }
 }
 
-void ImageOptions::setBytesOrder(BytesOrder value)
+void ImageOptions::setBytesOrder(Parsing::Conversion::Options::BytesOrder value)
 {
-  if (value < BytesOrderLittleEndian || value > BytesOrderBigEndian) {
-    value = BytesOrderLittleEndian;
+  if (value < Parsing::Conversion::Options::BytesOrder::LittleEndian || value > Parsing::Conversion::Options::BytesOrder::BigEndian) {
+    value = Parsing::Conversion::Options::BytesOrder::LittleEndian;
   }
 
-  this->mBytesOrder = value;
-
-  emit this->changed();
+  if (this->mBytesOrder != value) {
+    this->mBytesOrder = value;
+    emit this->changed();
+  }
 }
 
-void ImageOptions::setBlockSize(DataBlockSize value)
+void ImageOptions::setBlockSize(Parsing::Conversion::Options::DataBlockSize value)
 {
-  if (value < Data8 || value > Data32) {
-    value = Data32;
+  if (value < Parsing::Conversion::Options::DataBlockSize::Data8 || value > Parsing::Conversion::Options::DataBlockSize::Data32) {
+    value = Parsing::Conversion::Options::DataBlockSize::Data32;
   }
 
-  this->mBlockSize = value;
-
-  emit this->changed();
+  if (this->mBlockSize != value) {
+    this->mBlockSize = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setBlockDefaultOnes(bool value)
 {
-  this->mBlockDefaultOnes = value;
-
-  emit this->changed();
+  if (this->mBlockDefaultOnes != value) {
+    this->mBlockDefaultOnes = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setCompressionRle(bool value)
 {
-  this->mCompressionRle = value;
-
-  emit this->changed();
+  if (this->mCompressionRle != value) {
+    this->mCompressionRle = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setCompressionRleMinLength(quint32 value)
 {
-  this->mCompressionRleMinLength = value;
-
-  emit this->changed();
+  if (this->mCompressionRleMinLength != value) {
+    this->mCompressionRleMinLength = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setBlockPrefix(const QString &value)
 {
-  this->mBlockPrefix = value;
-
-  emit this->changed();
+  if (this->mBlockPrefix != value) {
+    this->mBlockPrefix = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setBlockSuffix(const QString &value)
 {
-  this->mBlockSuffix = value;
-
-  emit this->changed();
+  if (this->mBlockSuffix != value) {
+    this->mBlockSuffix = value;
+    emit this->changed();
+  }
 }
 
 void ImageOptions::setBlockDelimiter(const QString &value)
 {
-  this->mBlockDelimiter = value;
+  if (this->mBlockDelimiter != value) {
+    this->mBlockDelimiter = value;
+    emit this->changed();
+  }
+}
 
-  emit this->changed();
+void ImageOptions::setPreviewPrefix(const QString &value)
+{
+  if (this->mPreviewPrefix != value) {
+    this->mPreviewPrefix = value;
+    emit this->changed();
+  }
+}
+
+void ImageOptions::setPreviewSuffix(const QString &value)
+{
+  if (this->mPreviewSuffix != value) {
+    this->mPreviewSuffix = value;
+    emit this->changed();
+  }
+}
+
+void ImageOptions::setPreviewDelimiter(const QString &value)
+{
+  if (this->mPreviewDelimiter != value) {
+    this->mPreviewDelimiter = value;
+    emit this->changed();
+  }
+}
+
+void ImageOptions::setPreviewLevels(const QString &value)
+{
+  if (this->mPreviewLevels != value) {
+    this->mPreviewLevels = value;
+    emit this->changed();
+  }
 }
 
 bool ImageOptions::load(QSettings *settings)
@@ -178,6 +252,7 @@ bool ImageOptions::load(QSettings *settings)
   quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0;
   quint32 uCompressionRle = 0, uCompressionRleMinLength = 2;
   QString sBlockPrefix, sBlockSuffix, sBlockDelimiter;
+  QString sPreviewPrefix, sPreviewSuffix, sPreviewDelimiter, sPreviewLevels;
 
   uBlockSize = settings->value(ImageOptions::FieldBlockSize, int(0)).toUInt(&result);
 
@@ -205,16 +280,34 @@ bool ImageOptions::load(QSettings *settings)
   sBlockSuffix = settings->value(ImageOptions::FieldBlockSuffix, "").toString();
   sBlockDelimiter = settings->value(ImageOptions::FieldBlockDelimiter, ", ").toString();
 
+  sBlockPrefix = this->unescapeEmpty(sBlockPrefix);
+  sBlockSuffix = this->unescapeEmpty(sBlockSuffix);
+  sBlockDelimiter = this->unescapeEmpty(sBlockDelimiter);
+
+  sPreviewPrefix = settings->value(ImageOptions::FieldPreviewPrefix, "// ").toString();
+  sPreviewSuffix = settings->value(ImageOptions::FieldPreviewSuffix, "").toString();
+  sPreviewDelimiter = settings->value(ImageOptions::FieldPreviewDelimiter, "").toString();
+  sPreviewLevels = settings->value(ImageOptions::FieldPreviewLevels, "∙\n░\n▒\n▓\n█").toString();
+
+  sPreviewPrefix = this->unescapeEmpty(sPreviewPrefix);
+  sPreviewSuffix = this->unescapeEmpty(sPreviewSuffix);
+  sPreviewDelimiter = this->unescapeEmpty(sPreviewDelimiter);
+  sPreviewLevels = this->unescapeEmpty(sPreviewLevels);
+
   if (result) {
-    this->setBlockSize((DataBlockSize)uBlockSize);
+    this->setBlockSize((Parsing::Conversion::Options::DataBlockSize)uBlockSize);
     this->setBlockDefaultOnes((bool)uBlockDefaultOnes);
-    this->setBytesOrder((BytesOrder)uBytesOrder);
+    this->setBytesOrder((Parsing::Conversion::Options::BytesOrder)uBytesOrder);
     this->setSplitToRows((bool)uSplitToRows);
     this->setCompressionRle((bool)uCompressionRle);
     this->setCompressionRleMinLength(uCompressionRleMinLength);
     this->setBlockPrefix(sBlockPrefix);
     this->setBlockSuffix(sBlockSuffix);
     this->setBlockDelimiter(sBlockDelimiter);
+    this->setPreviewPrefix(sPreviewPrefix);
+    this->setPreviewSuffix(sPreviewSuffix);
+    this->setPreviewDelimiter(sPreviewDelimiter);
+    this->setPreviewLevels(sPreviewLevels);
   }
 
   settings->endGroup();
@@ -225,6 +318,22 @@ bool ImageOptions::load(QSettings *settings)
 bool ImageOptions::loadXmlElement(QDomElement element)
 {
   bool result = false;
+
+  auto readStringFromNode = [this](QDomElement element, const QString elementName, QString * result) {
+    if (element.tagName() == elementName) {
+      QDomNode dataNode = element.firstChild();
+
+      if (dataNode.isCDATASection()) {
+        QDomCDATASection cdataSection = dataNode.toCDATASection();
+        QString strValue = cdataSection.data();
+        *result = this->unescapeEmpty(strValue);
+      } else {
+        QString strValue = element.text();
+        *result = this->unescapeEmpty(strValue);
+      }
+    }
+  };
+
 
   QDomNode nodeSett = element.firstChild();
 
@@ -245,6 +354,7 @@ bool ImageOptions::loadXmlElement(QDomElement element)
   quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0;
   quint32 uCompressionRle = 0, uCompressionRleMinLength = 2;
   QString sBlockPrefix = "0x", sBlockSuffix, sBlockDelimiter = ", ";
+  QString sPreviewPrefix, sPreviewSuffix, sPreviewDelimiter, sPreviewLevels;
 
   QDomNode nodeValue = nodeSett.firstChild();
 
@@ -282,38 +392,13 @@ bool ImageOptions::loadXmlElement(QDomElement element)
         uBlockDefaultOnes = str.toUInt(&result);
       }
 
-      if (e.tagName() == ImageOptions::FieldBlockPrefix) {
-        QDomNode cdataNode = e.firstChild();
-
-        if (cdataNode.isCDATASection()) {
-          QDomCDATASection cdataSection = cdataNode.toCDATASection();
-          sBlockPrefix = cdataSection.data();
-        } else {
-          sBlockPrefix = e.text();
-        }
-      }
-
-      if (e.tagName() == ImageOptions::FieldBlockSuffix) {
-        QDomNode cdataNode = e.firstChild();
-
-        if (cdataNode.isCDATASection()) {
-          QDomCDATASection cdataSection = cdataNode.toCDATASection();
-          sBlockSuffix = cdataSection.data();
-        } else {
-          sBlockSuffix = e.text();
-        }
-      }
-
-      if (e.tagName() == ImageOptions::FieldBlockDelimiter) {
-        QDomNode cdataNode = e.firstChild();
-
-        if (cdataNode.isCDATASection()) {
-          QDomCDATASection cdataSection = cdataNode.toCDATASection();
-          sBlockDelimiter = cdataSection.data();
-        } else {
-          sBlockDelimiter = e.text();
-        }
-      }
+      readStringFromNode(e, ImageOptions::FieldBlockPrefix, &sBlockPrefix);
+      readStringFromNode(e, ImageOptions::FieldBlockSuffix, &sBlockSuffix);
+      readStringFromNode(e, ImageOptions::FieldBlockDelimiter, &sBlockDelimiter);
+      readStringFromNode(e, ImageOptions::FieldPreviewPrefix, &sPreviewPrefix);
+      readStringFromNode(e, ImageOptions::FieldPreviewSuffix, &sPreviewSuffix);
+      readStringFromNode(e, ImageOptions::FieldPreviewDelimiter, &sPreviewDelimiter);
+      readStringFromNode(e, ImageOptions::FieldPreviewLevels, &sPreviewLevels);
 
       if (!result) {
         break;
@@ -324,15 +409,19 @@ bool ImageOptions::loadXmlElement(QDomElement element)
   }
 
   if (result) {
-    this->setBlockSize((DataBlockSize)uBlockSize);
+    this->setBlockSize((Parsing::Conversion::Options::DataBlockSize)uBlockSize);
     this->setBlockDefaultOnes((bool)uBlockDefaultOnes);
-    this->setBytesOrder((BytesOrder)uBytesOrder);
+    this->setBytesOrder((Parsing::Conversion::Options::BytesOrder)uBytesOrder);
     this->setSplitToRows((bool)uSplitToRows);
     this->setCompressionRle((bool)uCompressionRle);
     this->setCompressionRleMinLength(uCompressionRleMinLength);
     this->setBlockPrefix(sBlockPrefix);
     this->setBlockSuffix(sBlockSuffix);
     this->setBlockDelimiter(sBlockDelimiter);
+    this->setPreviewPrefix(sPreviewPrefix);
+    this->setPreviewSuffix(sPreviewSuffix);
+    this->setPreviewDelimiter(sPreviewDelimiter);
+    this->setPreviewLevels(sPreviewLevels);
   }
 
   return result;
@@ -348,9 +437,13 @@ void ImageOptions::save(QSettings *settings)
   settings->setValue(ImageOptions::FieldSplitToRows,      QString("%1").arg((int)this->splitToRows()));
   settings->setValue(ImageOptions::FieldCompressionRle,   QString("%1").arg((int)this->compressionRle()));
   settings->setValue(ImageOptions::FieldCompressionRleMinLength,   QString("%1").arg((int)this->compressionRleMinLength()));
-  settings->setValue(ImageOptions::FieldBlockPrefix,      this->blockPrefix());
-  settings->setValue(ImageOptions::FieldBlockSuffix,      this->blockSuffix());
-  settings->setValue(ImageOptions::FieldBlockDelimiter,   this->blockDelimiter());
+  settings->setValue(ImageOptions::FieldBlockPrefix,      this->escapeEmpty(this->blockPrefix()));
+  settings->setValue(ImageOptions::FieldBlockSuffix,      this->escapeEmpty(this->blockSuffix()));
+  settings->setValue(ImageOptions::FieldBlockDelimiter,   this->escapeEmpty(this->blockDelimiter()));
+  settings->setValue(ImageOptions::FieldPreviewPrefix,    this->escapeEmpty(this->previewPrefix()));
+  settings->setValue(ImageOptions::FieldPreviewSuffix,    this->escapeEmpty(this->previewSuffix()));
+  settings->setValue(ImageOptions::FieldPreviewDelimiter, this->escapeEmpty(this->previewDelimiter()));
+  settings->setValue(ImageOptions::FieldPreviewLevels,    this->escapeEmpty(this->previewLevels()));
 
   settings->endGroup();
 }
@@ -386,14 +479,50 @@ void ImageOptions::saveXmlElement(QDomElement element)
 
   QDomElement nodeBlockPrefix = element.ownerDocument().createElement(ImageOptions::FieldBlockPrefix);
   nodeImage.appendChild(nodeBlockPrefix);
-  nodeBlockPrefix.appendChild(element.ownerDocument().createCDATASection(this->blockPrefix()));
+  nodeBlockPrefix.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->blockPrefix())));
 
   QDomElement nodeBlockSuffix = element.ownerDocument().createElement(ImageOptions::FieldBlockSuffix);
   nodeImage.appendChild(nodeBlockSuffix);
-  nodeBlockSuffix.appendChild(element.ownerDocument().createCDATASection(this->blockSuffix()));
+  nodeBlockSuffix.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->blockSuffix())));
 
   QDomElement nodeBlockDelimiter = element.ownerDocument().createElement(ImageOptions::FieldBlockDelimiter);
   nodeImage.appendChild(nodeBlockDelimiter);
-  nodeBlockDelimiter.appendChild(element.ownerDocument().createCDATASection(this->blockDelimiter()));
+  nodeBlockDelimiter.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->blockDelimiter())));
+
+  QDomElement nodePreviewPrefix = element.ownerDocument().createElement(ImageOptions::FieldPreviewPrefix);
+  nodeImage.appendChild(nodePreviewPrefix);
+  nodePreviewPrefix.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->previewPrefix())));
+
+  QDomElement nodePreviewSuffix = element.ownerDocument().createElement(ImageOptions::FieldPreviewSuffix);
+  nodeImage.appendChild(nodePreviewSuffix);
+  nodePreviewSuffix.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->previewSuffix())));
+
+  QDomElement nodePreviewDelimiter = element.ownerDocument().createElement(ImageOptions::FieldPreviewDelimiter);
+  nodeImage.appendChild(nodePreviewDelimiter);
+  nodePreviewDelimiter.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->previewDelimiter())));
+
+  QDomElement nodePreviewLevels = element.ownerDocument().createElement(ImageOptions::FieldPreviewLevels);
+  nodeImage.appendChild(nodePreviewLevels);
+  nodePreviewLevels.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->previewLevels())));
 }
 
+QString ImageOptions::escapeEmpty(const QString &value) const
+{
+  if (value.isEmpty()) {
+    return "empty";
+  }
+
+  return value;
+}
+
+QString ImageOptions::unescapeEmpty(const QString &value) const
+{
+  if (value == "empty") {
+    return QString();
+  }
+
+  return value;
+}
+
+} // namespace Presets
+} // namespace Settings

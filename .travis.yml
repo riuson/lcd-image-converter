@@ -9,10 +9,9 @@ env:
         - MAKEFLAGS="-j4"
         - secure: "vuTmvMC+n9r+NS2qANVOctHUyZNwfIP7xCHe3RjFvPqM3DH2pX+0FuD4WpuFyqxhykBJRRt+Ut+luu4kHiYullKNtbZjo0urqdDFXD3IV+b8ipGpClY9uH+mbWb0gYVVVsv0AH7d0vh0jjDb21Od4YJqY5jrNDy7tahW2Gi4tB/Rwm5iXq84SmX1riHx3ACBa8MgGBQYmlOWncSwufUdy86qkn8wfyKCVsJ5UHHtquTRyq0s0MXj0yUj9UIPo/wN5yIbJxbML/p5Dr8vXf7x4Zrt6ALE4b6pGB5MTWQShemp8yqEVA4jL831nQT6DLewJ9zpTema8t7S838VJ2gdIhblb+Iu3iLIwTSun5xRQPAL5LkBnBJilVG1BHRvd4w4QUHcasVVIyes8uWqN/ANFl1LfZtnmdV5EeTDE8vFQtKtk1uR3Jtx8mj6Gc095UlRCTVup5oZrf5WRafx1r5QP131XD+BXkhhavutC6IBJOcMgKDSp4kjNKv4SeG5aLYICl2bcTUxdxOahXCc6n5BY65ZFgD2S+isU6c6JDAe4D55Tx56DTthlRGxLsRdmmcn6E0t0OV22HLVRuinutU2ZKR4JNjII/3gMsdeGgGqp+3PEmr4gARfP10CeFhMDX2Q5TqdqIlL4Eo1kBlwuyU3Nzdm/ZF+eJNxkQ0FDpwXw80="
     matrix:
-        #- QT_BASE=48
-        #- QT_BASE=51
-        #- QT_BASE=55
+        - QT_BASE=55
         - QT_BASE=56
+        - QT_BASE=59
 
 addons:
   apt:
@@ -27,30 +26,26 @@ addons:
     branch_pattern: coverity_scan
 
 before_install:
-    - if [ "$QT_BASE" = "48" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt487-trusty; fi
-    - if [ "$QT_BASE" = "51" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt511-trusty; fi
     - if [ "$QT_BASE" = "55" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt551-trusty; fi
     - if [ "$QT_BASE" = "56" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt562-trusty; fi
+    - if [ "$QT_BASE" = "59" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt591-trusty; fi
     - sudo apt-get update -qq
     - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-certificates.crt
 
 install:
-    - if [ "$QT_BASE" = "48" ]; then sudo apt-get install -y --force-yes opt-qt4-qmake opt-qt4-dev-tools opt-qt4-linguist-tools; fi
-    - if [ "$QT_BASE" = "51" ]; then sudo apt-get install -y --force-yes qt51base qt51xmlpatterns qt51svg qt51script qt51tools; fi
     - if [ "$QT_BASE" = "55" ]; then sudo apt-get install -y --force-yes qt55base qt55xmlpatterns qt55svg qt55script qt55tools; fi
     - if [ "$QT_BASE" = "56" ]; then sudo apt-get install -y --force-yes qt56base qt56xmlpatterns qt56svg qt56declarative qt56tools; fi
+    - if [ "$QT_BASE" = "59" ]; then sudo apt-get install -y --force-yes qt59base qt59xmlpatterns qt59svg qt59declarative qt59tools; fi
     - sudo apt-get install -y --force-yes build-essential libglu1-mesa-dev
 
 before_script:
-    - if [ "$QT_BASE" = "48" ]; then source /opt/qt-4.8/bin/qt-4.8-env.sh; fi
-    - if [ "$QT_BASE" = "51" ]; then source /opt/qt51/bin/qt51-env.sh; fi
     - if [ "$QT_BASE" = "55" ]; then source /opt/qt55/bin/qt55-env.sh; fi
     - if [ "$QT_BASE" = "56" ]; then source /opt/qt56/bin/qt56-env.sh; fi
+    - if [ "$QT_BASE" = "59" ]; then source /opt/qt59/bin/qt59-env.sh; fi
 
 
 script:
-    - if [ "$QT_BASE" = "48" ]; then /opt/qt-4.8/bin/qmake lcd-image-converter.pro; fi
-    - if [ "$QT_BASE" = "51" ]; then /opt/qt51/bin/qmake lcd-image-converter.pro; fi
     - if [ "$QT_BASE" = "55" ]; then /opt/qt55/bin/qmake lcd-image-converter.pro; fi
     - if [ "$QT_BASE" = "56" ]; then /opt/qt56/bin/qmake lcd-image-converter.pro; fi
+    - if [ "$QT_BASE" = "59" ]; then /opt/qt59/bin/qmake lcd-image-converter.pro; fi
     - make

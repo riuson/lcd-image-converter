@@ -20,12 +20,13 @@
 #ifndef FONTEDITOROPTIONS_H
 #define FONTEDITOROPTIONS_H
 
-#include <QObject>
 #include <QColor>
 
-class FontEditorOptions : public QObject
+namespace Settings
 {
-  Q_OBJECT
+
+class FontEditorOptions
+{
 public:
   static int scale();
   static void setScale(int value);
@@ -35,5 +36,7 @@ public:
   static void setForeColor(const QColor &value);
   static void setBackColor(const QColor &value);
 };
+
+} // namespace Settings
 
 #endif // FONTEDITOROPTIONS_H

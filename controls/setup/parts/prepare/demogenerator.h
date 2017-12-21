@@ -26,15 +26,31 @@
 #include <QTime>
 #include <QPixmap>
 
-class Preset;
 class QTimer;
 class QImage;
+
+namespace Settings
+{
+namespace Presets
+{
+class Preset;
+}
+}
+
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Prepare
+{
 
 class DemoGenerator : public QObject
 {
   Q_OBJECT
 public:
-  explicit DemoGenerator(Preset *preset, QObject *parent = 0);
+  explicit DemoGenerator(Settings::Presets::Preset *preset, QObject *parent = 0);
   virtual ~DemoGenerator();
 
   void setScript(const QString &value);
@@ -49,7 +65,7 @@ public:
   void setAnimationInterval(int value);
 
 private:
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   QString mScript;
   QTimer *mTimer;
   QVector<QPoint> mPoints;
@@ -68,5 +84,10 @@ signals:
 private slots:
   void timeout();
 };
+
+} // namespace Prepare
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // DEMOGENERATOR_H

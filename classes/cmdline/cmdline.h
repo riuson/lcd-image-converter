@@ -17,18 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "qt-version-check.h"
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-
 #ifndef CMDLINE_H
 #define CMDLINE_H
 
 #include <QObject>
+#include <QCommandLineParser>
 
 class QString;
 class QStringList;
-class QCommandLineParser;
 
 namespace CommandLine
 {
@@ -46,21 +42,20 @@ public:
   };
 
   explicit CmdLine(const QStringList &arguments, QObject *parent = 0);
-  virtual ~CmdLine();
+  virtual ~CmdLine() {}
 
   bool needProcess() const;
   ProcessResult process();
-private:
-  QCommandLineParser *mParser;
-  const QStringList *mArguments;
 
-  CommandLine::ModeParserBase *createMode(const QString &name, QCommandLineParser *parser);
+private:
+  QCommandLineParser mParser;
+  const QStringList &mArguments;
+
+  CommandLine::ModeParserBase *createMode(const QString &name, QCommandLineParser &parser);
   void addApplicationOptions();
   void processApplicationOptions();
 };
 
-}
+} // namespace CommandLine
 
 #endif // CMDLINE_H
-
-#endif // QT_VERSION

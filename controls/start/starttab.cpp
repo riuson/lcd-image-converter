@@ -22,6 +22,11 @@
 
 #include <QFileInfo>
 
+namespace AppUI
+{
+namespace Start
+{
+
 StartTab::StartTab(QWidget *parent) :
   QWidget(parent),
   ui(new Ui::StartTab)
@@ -32,7 +37,7 @@ StartTab::StartTab(QWidget *parent) :
   this->connect(this->ui->buttonNewImage, SIGNAL(clicked()), SIGNAL(createNewImage()));
   this->connect(this->ui->buttonNewFont, SIGNAL(clicked()), SIGNAL(createNewFont()));
 
-  this->mRecentFilesList = NULL;
+  this->mRecentFilesList = nullptr;
 }
 
 StartTab::~StartTab()
@@ -80,10 +85,10 @@ void StartTab::changeEvent(QEvent *e)
       // find parent QTabWidget
       QObject *w = this;
 
-      while (w != NULL) {
+      while (w != nullptr) {
         QTabWidget *tab = dynamic_cast<QTabWidget *> (w);
 
-        if (tab != NULL) {
+        if (tab != nullptr) {
           int index = tab->indexOf(this);
           tab->setTabText(index, this->tabName());
           break;
@@ -100,3 +105,5 @@ void StartTab::changeEvent(QEvent *e)
   }
 }
 
+} // namespace Start
+} // namespace AppUI

@@ -24,6 +24,11 @@
 #include <QPainterPath>
 #include <QtSvg/QSvgRenderer>
 
+namespace Parsing
+{
+namespace Conversion
+{
+
 QImage BitmapHelper::rotate90(const QImage *source)
 {
   QImage result = QImage(source->height(), source->width(), source->format());
@@ -287,3 +292,5 @@ QColor BitmapHelper::fromRgba(QRgb value)
   return QColor(qRed(value), qGreen(value), qBlue(value), qAlpha(value));
 }
 
+} // namespace Conversion
+} // namespace Parsing

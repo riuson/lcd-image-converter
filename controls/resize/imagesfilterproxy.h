@@ -24,14 +24,19 @@
 
 class QStringList;
 
+namespace Data
+{
+namespace Models
+{
+
 class ImagesFilterProxy : public QSortFilterProxyModel
 {
   Q_OBJECT
 public:
   explicit ImagesFilterProxy(QObject *parent = 0);
-  ~ImagesFilterProxy();
+  virtual ~ImagesFilterProxy();
 
-  bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+  bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const Q_DECL_OVERRIDE;
 
   void setFilter(const QStringList &keys);
 
@@ -39,5 +44,8 @@ private:
   QStringList *mKeys;
 
 };
+
+} // namespace Models
+} // namespace Data
 
 #endif // IMAGESFILTERPROXY_H

@@ -4,26 +4,26 @@
 <context>
     <name>ActionEditHandlers</name>
     <message>
-        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="73"/>
+        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="69"/>
         <source>More than 1 image(s) selected. But only one will be copied - &quot;%1&quot;.</source>
         <comment>Warning about image copy</comment>
         <translatorcomment>Предупреждение о копировании изображения</translatorcomment>
         <translation>Выбрано более одного изображения. Но скопировано будет только - &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="77"/>
+        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="73"/>
         <source>Copy - Attention</source>
         <translation>Копирование - Предупреждение</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="107"/>
+        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="103"/>
         <source>More than 1 image(s) selected. All of them will be overwritten.</source>
         <comment>Warning about image paste</comment>
         <translatorcomment>Предупреждение о вставке изображения</translatorcomment>
         <translation>Выбрано более одного изображения. Все они будут заменены.</translation>
     </message>
     <message>
-        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="111"/>
+        <location filename="../classes/action-handlers/actionedithandlers.cpp" line="107"/>
         <source>Paste - Attention</source>
         <translation>Вставка - Предупреждение</translation>
     </message>
@@ -115,177 +115,183 @@
 <context>
     <name>CmdLineParser</name>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="57"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="53"/>
         <source>Conversion mode for application, &quot;convert-image&quot;, &quot;convert-font&quot; or &quot;hex2bin&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="58"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="54"/>
         <source>mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="139"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="135"/>
         <source>Path to main configuration file. If not specified, default is used.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="140"/>
-        <location filename="../classes/cmdline/cmdline.cpp" line="146"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="136"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="142"/>
         <source>file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="145"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="141"/>
         <source>Path to presets configuration file. If not specified, default is used.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/cmdline.cpp" line="151"/>
+        <location filename="../classes/cmdline/cmdline.cpp" line="147"/>
         <source>Reset all settings to default state.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="53"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="49"/>
         <source>Full &lt;path&gt; to source image in binary format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="136"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="142"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="54"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="60"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="66"/>
-        <location filename="../classes/cmdline/modehex2bin.cpp" line="50"/>
-        <location filename="../classes/cmdline/modehex2bin.cpp" line="56"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="135"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="141"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="147"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="50"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="56"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="62"/>
+        <location filename="../classes/cmdline/modehex2bin.cpp" line="46"/>
+        <location filename="../classes/cmdline/modehex2bin.cpp" line="52"/>
         <source>path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="135"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="59"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="140"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="55"/>
         <source>Full &lt;path&gt; to output result.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="73"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="72"/>
         <source>&lt;Family&gt; of new font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="74"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="73"/>
         <source>family</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="79"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="78"/>
         <source>Font &lt;size&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="80"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="79"/>
         <source>size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="85"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="84"/>
         <source>Make monospaced font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="90"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="89"/>
         <source>Font &lt;style&gt;, Regular, Bold, Italic or Bold Italic.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="95"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="94"/>
         <source>Use antialiasing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="100"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="99"/>
         <source>Foreground color in hex format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="101"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="107"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="100"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="106"/>
         <source>color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="106"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="105"/>
         <source>Background color in hex format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="112"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="111"/>
         <source>Characters, what included to the font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="113"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="112"/>
         <source>characters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="118"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="117"/>
         <source>Characters range, for example &quot;32-255&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="119"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="118"/>
         <source>range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="124"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="123"/>
         <source>Characters encoding, for example &quot;UTF-8&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="125"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="124"/>
         <source>encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="130"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="129"/>
         <source>Use big-endian instead of little-endian.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="141"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="65"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="134"/>
+        <source>Full &lt;path&gt; to font document in xml format.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="146"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="61"/>
         <source>Full &lt;path&gt; to template file, used in conversion. [Optional]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="147"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="71"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="152"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="67"/>
         <source>Document name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="148"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="154"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="72"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="78"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="153"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="159"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="68"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="74"/>
         <source>name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="153"/>
-        <location filename="../classes/cmdline/modeconvertimage.cpp" line="77"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="158"/>
+        <location filename="../classes/cmdline/modeconvertimage.cpp" line="73"/>
         <source>Output preset &lt;name&gt; from predefined presets in application settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modehex2bin.cpp" line="49"/>
+        <location filename="../classes/cmdline/modehex2bin.cpp" line="45"/>
         <source>Full &lt;path&gt; to image in *.C format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modehex2bin.cpp" line="55"/>
+        <location filename="../classes/cmdline/modehex2bin.cpp" line="51"/>
         <source>Full &lt;path&gt; to output binary result.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -435,17 +441,17 @@ Qt: %4</translation>
         <translation>Кодировка:</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="30"/>
+        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="34"/>
         <source>From:</source>
         <translation>От:</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="47"/>
+        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="51"/>
         <source>To:</source>
         <translation>До:</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="64"/>
+        <location filename="../controls/fonts/font-range/dialogfontrange.ui" line="68"/>
         <source>Byte order:</source>
         <translation>Порядок байт:</translation>
     </message>
@@ -613,87 +619,87 @@ Qt: %4</translation>
         <translation>Открыть предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="178"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="181"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="181"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="184"/>
         <source>Grayscale 4</source>
         <translation>Градации серого 4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="184"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="187"/>
         <source>Grayscale 8</source>
         <translation>Градации серого 8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="187"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="190"/>
         <source>Color R4G5B4</source>
         <translation>Цветное R4G5B4</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="190"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="193"/>
         <source>Color R5G6B5</source>
         <translation>Цветное R5G6B5</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="193"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="196"/>
         <source>Color R8G8B8</source>
         <translation>Цветное R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="196"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="199"/>
         <source>Color A8R8G8B8</source>
         <translation>Цветное A8R8G8B8</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="210"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="213"/>
         <source>Import - Attention</source>
         <translation>Импорт - Внимание</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="254"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="257"/>
         <source>Enter preset name</source>
         <translation>Введите название предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="254"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="257"/>
         <source>Preset name:</source>
         <translation>Название предустановки:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="277"/>
-        <location filename="../controls/setup/dialogoptions.cpp" line="304"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="280"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="307"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="278"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="281"/>
         <source>Open xml preset file</source>
         <translation>Открыть xml файл предустановки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="306"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="309"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="336"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="340"/>
         <source>Preset with name &quot;%1&quot; already exists. Continue with overwrite?</source>
         <comment>Warning about preset overwrite</comment>
         <translatorcomment>Предупреждение о перезаписи существующей предустановки</translatorcomment>
         <translation>Предустановка с именем &quot;%1&quot; уже существует. Продолжить с перезаписью?</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="339"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="343"/>
         <source>Preset with name &quot;%1&quot; doesn&apos;t exists. All OK.</source>
         <comment>Warning about preset overwrite</comment>
         <translatorcomment>Предупреждение о перезаписи существующей предустановки</translatorcomment>
         <translation>Предустановка с именем &quot;%1&quot; не существует. Можно продолжать.</translation>
     </message>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="349"/>
+        <location filename="../controls/setup/dialogoptions.cpp" line="353"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
     </message>
@@ -742,12 +748,12 @@ Qt: %4</translation>
         <translation>Обновления</translation>
     </message>
     <message>
-        <location filename="../controls/updates/dialogupdates.cpp" line="295"/>
+        <location filename="../controls/updates/dialogupdates.cpp" line="286"/>
         <source>Check updates failed with HTTP code: %1</source>
         <translation>Проверка обновлений не удалась, код HTTP: %1</translation>
     </message>
     <message>
-        <location filename="../controls/updates/dialogupdates.cpp" line="301"/>
+        <location filename="../controls/updates/dialogupdates.cpp" line="292"/>
         <source>Check updates failed with QNetworkReply message:&lt;br/&gt;%1</source>
         <translation>Проверка обновлений не удалась, сообщение QNetworkReply:&lt;br/&gt;%1</translation>
     </message>
@@ -1248,18 +1254,18 @@ Qt: %4</translation>
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="92"/>
+        <location filename="../controls/main/mainwindow.cpp" line="88"/>
         <source>langName</source>
         <translatorcomment>название языка в который переводим</translatorcomment>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="319"/>
+        <location filename="../controls/main/mainwindow.cpp" line="315"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="321"/>
+        <location filename="../controls/main/mainwindow.cpp" line="317"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -1424,27 +1430,27 @@ Only minimal amount (%3) will be imported.</source>
         <translation>Использовать BOM (метку порядка байтов) для Юникода</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="37"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="40"/>
         <source>Encoding:</source>
         <translation>Кодировка:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="60"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="63"/>
         <source>Sort characters:</source>
         <translation>Сортировать символы:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="85"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="92"/>
         <source>None</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="89"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="96"/>
         <source>Ascending</source>
         <translation>По возрастанию</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="93"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="100"/>
         <source>Descending</source>
         <translation>По убыванию</translation>
     </message>
@@ -1457,61 +1463,84 @@ Only minimal amount (%3) will be imported.</source>
         <translation>Изображение</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="24"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="22"/>
+        <source>Common</source>
+        <translation>Общие</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="28"/>
         <source>Split to rows</source>
         <translation>Разбивать на строки</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="37"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="41"/>
         <source>Trailing bits:</source>
         <extracomment>Unused bits at the end of data blocks</extracomment>
         <translatorcomment>Неиспользуемые биты в конце блока данных</translatorcomment>
         <translation>Завершающие биты:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="44"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="48"/>
         <source>Set to &apos;1&apos;</source>
         <translation>Установить в &apos;1&apos;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="74"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="78"/>
         <source>RLE Compression</source>
         <translation>Сжатие RLE</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="84"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="88"/>
         <source> block(s)</source>
         <translatorcomment>с 1 блока, 3 блоков</translatorcomment>
         <translation> блока(ов)</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="87"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="91"/>
         <source>from </source>
         <translatorcomment>с 1 блока</translatorcomment>
         <translation>с </translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="103"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="107"/>
         <source>Byte order:</source>
         <translation>Порядок байт:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="165"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="172"/>
+        <source>Data</source>
+        <translation>Данные</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="184"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="264"/>
         <source>Prefix:</source>
         <translation>Префикс:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="181"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="200"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="280"/>
         <source>Suffix:</source>
         <translation>Суффикс:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="197"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="216"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="296"/>
         <source>Delimiter:</source>
         <translation>Разделитель:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="57"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="252"/>
+        <source>Preview</source>
+        <translation>Предпросмотр</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="312"/>
+        <source>Level&apos;s replacement:</source>
+        <translation>Замена уровней:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="61"/>
         <source>Block size:</source>
         <translation>Блок данных:</translation>
     </message>
@@ -1544,72 +1573,52 @@ Only minimal amount (%3) will be imported.</source>
         <translation>Матрица</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.ui" line="28"/>
-        <source>Type:</source>
-        <translation>Тип:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="43"/>
-        <source>Monochrome</source>
-        <translation>Монохромное</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="44"/>
-        <source>Grayscale</source>
-        <translation>Градации серого</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="45"/>
-        <source>Color</source>
-        <translation>Цветное</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="123"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="98"/>
         <source>Source</source>
         <translation>Исходник</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="125"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="100"/>
         <source>Add &quot;Left Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг влево&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="126"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="101"/>
         <source>Add &quot;Right Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг вправо&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="146"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="121"/>
         <source>Operation</source>
         <translation>Операция</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="156"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="131"/>
         <source>Shift left</source>
         <translation>Сдвиг влево</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="157"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="132"/>
         <source>Shift right</source>
         <translation>Сдвиг вправо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="158"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="133"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="183"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="158"/>
         <source>Mask</source>
         <translation>Маска</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="202"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="177"/>
         <source>Set 1</source>
         <translation>Установить в 1</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="205"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="180"/>
         <source>Set 0</source>
         <translation>Сбросить в 0</translation>
     </message>
@@ -1622,109 +1631,168 @@ Only minimal amount (%3) will be imported.</source>
         <translation>Подготовка</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="30"/>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="42"/>
+        <source>Scanning</source>
+        <translation>Сканирование</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="45"/>
+        <source>Preprocessing</source>
+        <translation>Предв. обработка</translation>
+    </message>
+</context>
+<context>
+    <name>SetupTabPreparePreprocessing</name>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="14"/>
+        <source>Preprocessing</source>
+        <translation>Предв. обработка</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="30"/>
         <source>Type:</source>
         <translation>Тип:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="86"/>
-        <source>Use custom script</source>
-        <translation>Свой алгоритм</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="99"/>
-        <source>Main Scan Direction:</source>
-        <translation>Основное сканирование:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="122"/>
-        <source>Line Scan Direction:</source>
-        <translation>Сканирование линий:</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="132"/>
-        <source>Bands</source>
-        <translation>Полосы</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="139"/>
-        <source>Band Width</source>
-        <translation>Ширина полосы</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="217"/>
-        <source> s</source>
-        <translatorcomment>секунда</translatorcomment>
-        <translation> с</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="236"/>
-        <source> ms</source>
-        <translatorcomment>миллисекунда</translatorcomment>
-        <translation> мс</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="220"/>
-        <source>Time: </source>
-        <translation>Время: </translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="239"/>
-        <source>Interval: </source>
-        <translation>Интервал: </translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.ui" line="79"/>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="79"/>
         <source>Inverse</source>
         <translation>Инвертировать</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="44"/>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="137"/>
+        <source>Script test</source>
+        <translation>Проверка алгоритма</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="144"/>
+        <source>Input:</source>
+        <translation>Входное значение:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="157"/>
+        <source>0x0</source>
+        <translation>0x0</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="160"/>
+        <source>0x0 to 0xffffffff</source>
+        <translation>От 0x0 до 0xffffffff</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="167"/>
+        <source>Output:</source>
+        <translation>Выходное значение:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui" line="183"/>
+        <source>Result</source>
+        <translation>Результат</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.cpp" line="22"/>
         <source>Monochrome</source>
         <translation>Монохромное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="45"/>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.cpp" line="23"/>
         <source>Grayscale</source>
         <translation>Градации серого</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="46"/>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.cpp" line="24"/>
         <source>Color</source>
         <translation>Цветное</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="48"/>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.cpp" line="25"/>
+        <source>Custom</source>
+        <translation>Пользовательское</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.cpp" line="27"/>
         <source>Edge</source>
         <translation>Порог</translation>
     </message>
+</context>
+<context>
+    <name>SetupTabPrepareScanning</name>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="53"/>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="14"/>
+        <source>Scanning</source>
+        <translation>Сканирование</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="30"/>
+        <source>Main Scan Direction:</source>
+        <translation>Основное сканирование:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="53"/>
+        <source>Line Scan Direction:</source>
+        <translation>Сканирование линий:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="63"/>
+        <source>Bands</source>
+        <translation>Полосы</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="70"/>
+        <source>Band Width</source>
+        <translation>Ширина полосы</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="86"/>
+        <source>Use custom script</source>
+        <translation>Свой алгоритм</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="168"/>
+        <source> s</source>
+        <translation> с</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="171"/>
+        <source>Time: </source>
+        <translation>Время: </translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="187"/>
+        <source> ms</source>
+        <translation> мс</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="190"/>
+        <source>Interval: </source>
+        <translation>Интервал: </translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp" line="25"/>
         <source>Top to Bottom</source>
         <translation>Сверху вниз</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="54"/>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp" line="26"/>
         <source>Bottom to Top</source>
         <translation>Снизу вверх</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="55"/>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp" line="27"/>
         <source>Left to Right</source>
         <translation>Слева направо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="56"/>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp" line="28"/>
         <source>Right to Left</source>
         <translation>Справа налево</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="58"/>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp" line="30"/>
         <source>Forward</source>
         <translation>Прямое</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/prepare/setuptabprepare.cpp" line="59"/>
+        <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp" line="31"/>
         <source>Backward</source>
         <translation>Обратное</translation>
     </message>

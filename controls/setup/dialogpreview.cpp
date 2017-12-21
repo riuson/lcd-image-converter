@@ -28,7 +28,12 @@
 #include "bitmaphelper.h"
 #include "conversionpreviewoptions.h"
 
-DialogPreview::DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidget *parent) :
+namespace AppUI
+{
+namespace Setup
+{
+
+DialogPreview::DialogPreview(Data::Containers::DataContainer *dataContainer, Settings::Presets::Preset *matrix, QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogPreview)
 {
@@ -38,7 +43,7 @@ DialogPreview::DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidg
   this->mPreset = matrix;
   this->mScale = 1;
 
-  if (this->mData != NULL) {
+  if (this->mData != nullptr) {
     this->ui->comboBoxSampleKey->addItems(this->mData->keys());
     this->ui->comboBoxSampleKey->setCurrentIndex(0);
   } else {
@@ -49,24 +54,24 @@ DialogPreview::DialogPreview(DataContainer *dataContainer, Preset *matrix, QWidg
   font.setStyleHint(QFont::TypeWriter);
   this->ui->plainTextEdit->setFont(font);
 
-  this->ui->spinBoxScale->setValue(ConversionPreviewOptions::scale());
+  this->ui->spinBoxScale->setValue(Settings::ConversionPreviewOptions::scale());
 }
 
 DialogPreview::~DialogPreview()
 {
-  ConversionPreviewOptions::setScale(this->mScale);
+  Settings::ConversionPreviewOptions::setScale(this->mScale);
   delete ui;
 }
 
 void DialogPreview::updatePreview()
 {
-  if (this->mData != NULL) {
+  if (this->mData != nullptr) {
     QString key = this->ui->comboBoxSampleKey->currentText();
 
     if (!key.isEmpty()) {
       this->mImageOriginal = QImage(*this->mData->image(key));
       QImage processed;
-      ConverterHelper::createImagePreview(this->mPreset, &this->mImageOriginal, &processed);
+      Parsing::Conversion::ConverterHelper::createImagePreview(this->mPreset, &this->mImageOriginal, &processed);
       //this->ui->labelPreview->setPixmap(QPixmap::fromImage(processed));
       this->mImageProcessed = processed;
       this->updatePreviewScaled(&this->mImageProcessed, this->mScale);
@@ -79,23 +84,30 @@ void DialogPreview::updatePreview()
 
       QVector<quint32> sourceData;
       int sourceWidth, sourceHeight;
-      ConverterHelper::pixelsData(this->mPreset, &this->mImageProcessed, &sourceData, &sourceWidth, &sourceHeight);
+      Parsing::Conversion::ConverterHelper::pixelsData(
+        this->mPreset->prepare(),
+        Parsing::Conversion::ConverterHelper::scanScript(this->mPreset),
+        Parsing::Conversion::ConverterHelper::pixelsScript(this->mPreset),
+        &this->mImageProcessed,
+        &sourceData,
+        &sourceWidth,
+        &sourceHeight);
 
-      ConverterHelper::processPixels(this->mPreset, &sourceData);
+      Parsing::Conversion::ConverterHelper::processPixels(this->mPreset, &sourceData);
 
       QVector<quint32> packedData;
       int packedWidth, packedHeight;
-      ConverterHelper::packData(this->mPreset, &sourceData, sourceWidth, sourceHeight, &packedData, &packedWidth, &packedHeight);
+      Parsing::Conversion::ConverterHelper::packData(this->mPreset, &sourceData, sourceWidth, sourceHeight, &packedData, &packedWidth, &packedHeight);
 
       QVector<quint32> reorderedData;
       int reorderedWidth, reorderedHeight;
-      ConverterHelper::reorder(this->mPreset, &packedData, packedWidth, packedHeight, &reorderedData, &reorderedWidth, &reorderedHeight);
+      Parsing::Conversion::ConverterHelper::reorder(this->mPreset, &packedData, packedWidth, packedHeight, &reorderedData, &reorderedWidth, &reorderedHeight);
 
       QVector<quint32> compressedData;
       int compressedWidth, compressedHeight;
-      ConverterHelper::compressData(this->mPreset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
+      Parsing::Conversion::ConverterHelper::compressData(this->mPreset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
 
-      QString dataString = ConverterHelper::dataToString(
+      QString dataString = Parsing::Conversion::ConverterHelper::dataToString(
                              this->mPreset,
                              &compressedData, compressedWidth, compressedHeight);
 
@@ -145,8 +157,8 @@ void DialogPreview::setScale(int value)
 
 void DialogPreview::updatePreviewScaled(const QImage *image, int scale)
 {
-  QImage imageScaled = BitmapHelper::scale(image, scale);
-  imageScaled = BitmapHelper::drawGrid(&imageScaled, scale);
+  QImage imageScaled = Parsing::Conversion::BitmapHelper::scale(image, scale);
+  imageScaled = Parsing::Conversion::BitmapHelper::drawGrid(&imageScaled, scale);
   QPixmap pixmapScaled = QPixmap::fromImage(imageScaled);
   this->ui->labelPreview->setPixmap(pixmapScaled);
 }
@@ -161,3 +173,5 @@ void DialogPreview::on_spinBoxScale_valueChanged(int value)
   this->setScale(value);
 }
 
+} // namespace Setup
+} // namespace AppUI

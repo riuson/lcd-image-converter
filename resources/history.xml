@@ -6,6 +6,24 @@
             <date>current</date>
         </commit>
         <changes>
+            <item category="added">Command line option '--input' to specify font document xml file for command-line mode conversion.</item>
+            <item category="added">Tags app_rev and app_date for application revision and date.</item>
+            <item category="added">Completer to encoding's combobox.</item>
+            <item category="added">New tag 'out_image_preview' and settings to generate image preview in output file.</item>
+            <item category="added">Custom script to process pixel's data.</item>
+            <item category="changed">RLE minimal sequence block's count decreased to 1.</item>
+            <item category="changed">RLE prefix for sequence with length == 1 changed from '(-1)(data[1])' to '(+1)(data[1])'.</item>
+            <item category="changed">Tab page 'Prepare' in settings.</item>
+            <item category="fixed">Losing of empty parameters in Image settings block.</item>
+            <item category="removed">Support for Qt version &lt; 5.5.</item>
+        </changes>
+    </record>
+    <record>
+        <commit>
+            <sha1>bf3294de67cc733e9b41d7b2b22e16a14055abc0</sha1>
+            <date>2017-03-20 21:03:09 +0500</date>
+        </commit>
+        <changes>
             <item category="added">Change scale with mouse wheel in Resize dialog.</item>
             <item category="added">Command line options '--config-application' and '--config-presets' to specify xml file with configuration data.</item>
             <item category="added">Command line option '--config-reset' to reset configuration data at default state.</item>

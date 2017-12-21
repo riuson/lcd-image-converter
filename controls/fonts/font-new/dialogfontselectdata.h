@@ -23,13 +23,25 @@
 #include <QObject>
 #include <QColor>
 
-class CharactersModel;
 class QModelIndex;
 class QItemSelection;
 class QFont;
+
+namespace Data
+{
+namespace Containers
+{
+struct FontParameters;
+}
+}
+
+namespace AppUI
+{
+namespace Fonts
+{
+class CharactersModel;
 class UnicodeBlocksModel;
 class UnicodeBlocksFilterModel;
-struct tFontParameters;
 
 class DialogFontSelectData : public QObject
 {
@@ -39,10 +51,10 @@ public:
   virtual ~DialogFontSelectData();
 
   QString characters();
-  void getFontParameters(tFontParameters *parameters);
+  void getFontParameters(Data::Containers::FontParameters *parameters);
 
   void setCharacters(const QString &value);
-  void setFontParameters(const tFontParameters &parameters);
+  void setFontParameters(const Data::Containers::FontParameters &parameters);
 
   CharactersModel *charactersModel();
   UnicodeBlocksFilterModel *unicodeBlocksModel();
@@ -89,5 +101,8 @@ public slots:
   void setAntialiasing(bool value);
   void resort();
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // DIALOGFONTSELECTDATA_H

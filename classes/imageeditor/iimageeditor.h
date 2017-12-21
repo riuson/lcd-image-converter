@@ -21,7 +21,6 @@
 #define IIMAGEEDITOR_H
 
 class QImage;
-class QColor;
 class QPoint;
 class QWidget;
 
@@ -44,7 +43,8 @@ signals:
   virtual void scaleChanged(int _scale) = 0;
   virtual void mouseMoved(const QPoint *_point) = 0;
 };
-}
+} // namespace ImageEditor
+
 Q_DECLARE_INTERFACE (ImageEditor::IImageEditor,
                      "riuson.lcd-image-converter/1.0"
                     )

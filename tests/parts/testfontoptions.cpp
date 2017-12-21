@@ -10,7 +10,7 @@ TestFontOptions::TestFontOptions(QObject *parent) :
 
 void TestFontOptions::initTestCase()
 {
-  this->mOptions = new FontOptions(this);
+  this->mOptions = new Settings::Presets::FontOptions(this);
 }
 
 void TestFontOptions::bom()
@@ -26,7 +26,7 @@ void TestFontOptions::bom()
 
 void TestFontOptions::encoding()
 {
-  QStringList list = FontOptions::encodings();
+  QStringList list = Settings::Presets::FontOptions::encodings();
 
   for (int i = 0; i < list.length(); i++) {
     this->mOptions->setEncoding(list.at(i));

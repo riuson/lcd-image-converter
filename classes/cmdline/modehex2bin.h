@@ -17,10 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include <qt-version-check.h>
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 2, 0)
-
 #ifndef MODEHEX2BIN_H
 #define MODEHEX2BIN_H
 
@@ -34,25 +30,24 @@ class ModeHex2Bin : public ModeParserBase
 {
   Q_OBJECT
 public:
-  explicit ModeHex2Bin(QCommandLineParser *parser, QObject *parent = 0);
+  explicit ModeHex2Bin(QCommandLineParser &parser, QObject *parent = 0);
+  virtual ~ModeHex2Bin() {}
 
   static QString modeName();
 
-  void fillParser() const;
-  bool collectArguments();
-  int process();
+  void fillParser() const Q_DECL_OVERRIDE;
+  bool collectArguments() Q_DECL_OVERRIDE;
+  int process() Q_DECL_OVERRIDE;
 
 private:
   QString mInputFilename;
   QString mOuputFilename;
 
   QByteArray hex2bin(QString &hexString);
-  void appendDataLE(QByteArray *array, int size, quint32 value);
-  void appendDataBE(QByteArray *array, int size, quint32 value);
+  void appendDataLE(QByteArray &array, int size, quint32 value);
+  void appendDataBE(QByteArray &array, int size, quint32 value);
 };
 
-}
+} // namespace CommandLine
 
 #endif // MODEHEX2BIN_H
-
-#endif // QT_VERSION

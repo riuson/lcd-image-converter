@@ -20,6 +20,11 @@
 #include "imagesscaledproxy.h"
 #include "bitmaphelper.h"
 
+namespace Data
+{
+namespace Models
+{
+
 ImagesScaledProxy::ImagesScaledProxy(QObject *parent)
   : QSortFilterProxyModel(parent)
 {
@@ -44,8 +49,8 @@ QVariant ImagesScaledProxy::data(const QModelIndex &index, int role) const
     case Qt::DecorationRole: {
       if (columnIndex == 1) {
         QImage imageSource = result.value<QImage>();
-        QImage imageScaled = BitmapHelper::scale(&imageSource, this->mScale);
-        imageScaled = BitmapHelper::drawGrid(&imageScaled, this->mScale);
+        QImage imageScaled = Parsing::Conversion::BitmapHelper::scale(&imageSource, this->mScale);
+        imageScaled = Parsing::Conversion::BitmapHelper::drawGrid(&imageScaled, this->mScale);
         result = imageScaled;
       }
 
@@ -83,3 +88,6 @@ void ImagesScaledProxy::setScale(int value)
     emit this->scaleChanged(this->mScale);
   }
 }
+
+} // namespace Models
+} // namespace Data

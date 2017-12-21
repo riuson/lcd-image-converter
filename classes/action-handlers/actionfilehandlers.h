@@ -24,15 +24,25 @@
 
 #include "actionhandlersbase.h"
 
-class QImage;
-class IMainWindow;
+namespace Data
+{
+namespace Containers
+{
 class IDocument;
+}
+}
+
+namespace AppUI
+{
+namespace MenuHandlers
+{
 
 class ActionFileHandlers : public ActionHandlersBase
 {
   Q_OBJECT
 public:
   explicit ActionFileHandlers(QObject *parent = 0);
+  virtual ~ActionFileHandlers() {}
 
 signals:
   void rememberFilename(const QString &filename);
@@ -60,10 +70,13 @@ private:
   void openBinaryImage(const QStringList &filenames);
   void openImage(const QStringList &filenames);
   void openFont(const QStringList &filenames);
-  void convertDocument(IDocument *document, bool request);
+  void convertDocument(Data::Containers::IDocument *document, bool request);
 
 private slots:
   void documentChanged();
 };
+
+} // namespace MenuHandlers
+} // namespace AppUI
 
 #endif // ACTIONFILEHANDLERS_H

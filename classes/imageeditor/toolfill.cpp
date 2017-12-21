@@ -34,11 +34,13 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolFill::ToolFill(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_fill"), 24)));
+  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_fill"), 24)));
 
   this->mActions = new QList<QAction *>();
   this->mWidgets = new QList<QWidget *>();
@@ -92,7 +94,7 @@ bool ToolFill::processMouse(QMouseEvent *event,
   if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress) {
     if (event->type() == QEvent::MouseButtonPress) {
       // get coordinates
-      if (imageOriginal != NULL) {
+      if (imageOriginal != nullptr) {
         if (inRect) {
           // get buttons
           bool buttonLeft = (event->buttons() & Qt::LeftButton) == Qt::LeftButton;
@@ -141,7 +143,7 @@ void ToolFill::initializeWidgets()
 
 void ToolFill::loadSettings()
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -154,7 +156,7 @@ void ToolFill::loadSettings()
 
 void ToolFill::saveSettings() const
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -237,5 +239,5 @@ void ToolFill::on_spinBoxSize_valueChanged(int value)
   this->mSize = value;
 }
 
-} // end of namespace
-
+} // namespace Tools
+} // namespace ImageEditor

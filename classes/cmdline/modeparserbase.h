@@ -31,16 +31,17 @@ class ModeParserBase : public QObject
 {
   Q_OBJECT
 public:
-  explicit ModeParserBase(QCommandLineParser *parser, QObject *parent = 0);
+  explicit ModeParserBase(QCommandLineParser &parser, QObject *parent = 0);
+  virtual ~ModeParserBase() {}
 
   virtual void fillParser() const = 0;
   virtual bool collectArguments() = 0;
   virtual int process() = 0;
 
 protected:
-  QCommandLineParser *mParser;
+  QCommandLineParser &mParser;
 };
 
-}
+} // namespace CommandLine
 
 #endif // MODEPARSERBASE_H

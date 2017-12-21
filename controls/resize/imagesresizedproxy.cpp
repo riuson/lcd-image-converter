@@ -22,6 +22,11 @@
 #include "imagesmodel.h"
 #include <QColor>
 
+namespace Data
+{
+namespace Models
+{
+
 ImagesResizedProxy::ImagesResizedProxy(QObject *parent)
   : QSortFilterProxyModel(parent)
 {
@@ -75,8 +80,8 @@ QVariant ImagesResizedProxy::data(const QModelIndex &index, int role) const
     case Qt::DecorationRole: {
       if (columnIndex == 1) {
         QImage imageSource = result.value<QImage>();
-        QColor backgroundColor = BitmapHelper::detectBackgroundColor(&imageSource);
-        QImage imageScaled = BitmapHelper::crop(&imageSource, this->mLeft, this->mTop, this->mRight, this->mBottom, backgroundColor);
+        QColor backgroundColor = Parsing::Conversion::BitmapHelper::detectBackgroundColor(&imageSource);
+        QImage imageScaled = Parsing::Conversion::BitmapHelper::crop(&imageSource, this->mLeft, this->mTop, this->mRight, this->mBottom, backgroundColor);
         result = imageScaled;
       }
 
@@ -94,11 +99,11 @@ QVariant ImagesResizedProxy::data(const QModelIndex &index, int role) const
 
     case Qt::DisplayRole: {
       if (columnIndex == sourceColumns + 0) {
-        QVariant varSize = this->sourceModel()->data(index, ImagesModel::ImageSizeRole);
+        QVariant varSize = this->sourceModel()->data(index, Data::Models::ImagesModel::ImageSizeRole);
         QSize size = varSize.toSize();
         result = QString("%1x%2").arg(size.width()).arg(size.height());
       } else if (columnIndex == sourceColumns + 1) {
-        QVariant varSize = this->sourceModel()->data(index, ImagesModel::ImageSizeRole);
+        QVariant varSize = this->sourceModel()->data(index, Data::Models::ImagesModel::ImageSizeRole);
         QSize size = varSize.toSize();
         size = this->resized(size);
         result = QString("%1x%2").arg(size.width()).arg(size.height());
@@ -168,3 +173,6 @@ const QSize ImagesResizedProxy::resized(const QSize &value) const
 
   return result;
 }
+
+} // namespace Models
+} // namespace Data

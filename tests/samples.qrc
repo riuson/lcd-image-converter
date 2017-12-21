@@ -18,7 +18,9 @@
         <file alias="up">resources/samples/shift/up.png</file>
     </qresource>
     <qresource prefix="/scan_scripts">
-        <file alias="template">../resources/scan_scripts/scan_template.js</file>
+        <file alias="scan_template">../resources/scan_scripts/scan_template.js</file>
+        <file alias="pixels_template">../resources/scan_scripts/pixels_template.js</file>
+        <file alias="pixels_example">../resources/scan_scripts/pixels_example.js</file>
     </qresource>
     <qresource prefix="/settings">
         <file alias="xml">resources/samples/settings/settings.xml</file>

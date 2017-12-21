@@ -27,14 +27,29 @@ namespace Ui
 class SetupTabImage;
 }
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
+
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Image
+{
 
 class SetupTabImage : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit SetupTabImage(Preset *preset, QWidget *parent = 0);
+  explicit SetupTabImage(Settings::Presets::Preset *preset, QWidget *parent = 0);
   virtual ~SetupTabImage();
 
 public slots:
@@ -42,7 +57,7 @@ public slots:
 
 private:
   Ui::SetupTabImage *ui;
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
 
 private slots:
   void on_checkBoxSplitToRows_toggled(bool value);
@@ -51,9 +66,18 @@ private slots:
   void on_checkBoxCompressionRle_toggled(bool value);
   void on_spinBoxRleMinLength_valueChanged(int value);
   void on_checkBoxBlockDefaultOnes_toggled(bool value);
-  void on_lineEditPrefix_textEdited(const QString &value);
-  void on_lineEditSuffix_textEdited(const QString &value);
-  void on_lineEditDelimiter_textEdited(const QString &value);
+  void on_lineEditBlockPrefix_textEdited(const QString &value);
+  void on_lineEditBlockSuffix_textEdited(const QString &value);
+  void on_lineEditBlockDelimiter_textEdited(const QString &value);
+  void on_lineEditPreviewPrefix_textEdited(const QString &value);
+  void on_lineEditPreviewSuffix_textEdited(const QString &value);
+  void on_lineEditPreviewDelimiter_textEdited(const QString &value);
+  void on_textEditPreviewLevels_textChanged();
 };
+
+} // namespace Image
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // SETUPTABIMAGE_H

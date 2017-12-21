@@ -31,19 +31,24 @@ namespace Ui
 class DialogFontPreview;
 }
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 class DialogFontPreview : public QDialog
 {
   Q_OBJECT
 
 public:
   explicit DialogFontPreview(QWidget *parent = 0);
-  ~DialogFontPreview();
+  virtual ~DialogFontPreview();
 
-  void setDocument(IDocument *document);
+  void setDocument(Data::Containers::IDocument *document);
 
 private:
   Ui::DialogFontPreview *ui;
-  IDocument *mDocument;
+  Data::Containers::IDocument *mDocument;
   QImage mOriginalImage;
   QImage mScaledImage;
 
@@ -51,5 +56,8 @@ private slots:
   void on_lineEditText_textChanged(const QString &text);
   void on_spinBoxScale_valueChanged(int i);
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // DIALOGFONTPREVIEW_H

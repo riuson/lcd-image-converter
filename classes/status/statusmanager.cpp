@@ -22,6 +22,11 @@
 #include <QStatusBar>
 #include "revisionlabel.h"
 
+namespace AppUI
+{
+namespace Status
+{
+
 StatusManager::StatusManager(QStatusBar *statusBar, QObject *parent) :
   QObject(parent)
 {
@@ -32,7 +37,7 @@ StatusManager::StatusManager(QStatusBar *statusBar, QObject *parent) :
   this->addItem(StatusData::Scale);
   this->addItem(StatusData::ImageIndex);
 
-  this->mBar->addWidget(new RevisionLabel(this->mBar));
+  this->mBar->addWidget(new AppUI::Revision::RevisionLabel(this->mBar));
 }
 
 StatusManager::~StatusManager()
@@ -81,7 +86,7 @@ void StatusManager::updateItem(
 {
   QLabel *label = this->mList.value(key);
 
-  if (label == NULL) {
+  if (label == nullptr) {
     return;
   }
 
@@ -138,9 +143,11 @@ void StatusManager::hideItem(StatusData::StatusType key)
   if (this->mList.contains(key)) {
     QLabel *label = this->mList.value(key);
 
-    if (label != NULL) {
+    if (label != nullptr) {
       label->setVisible(false);
     }
   }
 }
 
+} // namespace Status
+} // namespace AppUI

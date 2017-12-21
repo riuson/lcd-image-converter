@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef CONVIMAGE_H
-#define CONVIMAGE_H
+#ifndef CONVIMAGESCAN_H
+#define CONVIMAGESCAN_H
 
 #include <QObject>
 #include <QVector>
@@ -26,12 +26,17 @@
 
 class QImage;
 
-class ConvImage : public QObject
+namespace Parsing
+{
+namespace Conversion
+{
+
+class ConvImageScan : public QObject
 {
   Q_OBJECT
 public:
-  explicit ConvImage(const QImage *image, QObject *parent = 0);
-  virtual ~ConvImage();
+  explicit ConvImageScan(const QImage *image, QObject *parent = 0);
+  virtual ~ConvImageScan();
 
   Q_PROPERTY(int height READ height)
   Q_PROPERTY(int width READ width)
@@ -65,4 +70,7 @@ private:
   int width() const;
 };
 
-#endif // CONVIMAGE_H
+} // namespace Conversion
+} // namespace Parsing
+
+#endif // CONVIMAGESCAN_H

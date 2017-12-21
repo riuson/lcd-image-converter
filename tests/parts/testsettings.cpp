@@ -30,8 +30,8 @@ void TestSettings::save()
 
     // Save settings
     {
-      AppSettings::configure(AppSettings::Section::Application, filename);
-      AppSettings appsett(AppSettings::Section::Application);
+      Settings::AppSettings::configure(Settings::AppSettings::Section::Application, filename);
+      Settings::AppSettings appsett(Settings::AppSettings::Section::Application);
       QSettings &sett = appsett.get();
 
       sett.setValue("section1/key1", "value1");
@@ -101,8 +101,8 @@ void TestSettings::load()
 
     // Load settings
     {
-      AppSettings::configure(AppSettings::Section::Application, filename);
-      AppSettings appsett(AppSettings::Section::Application);
+      Settings::AppSettings::configure(Settings::AppSettings::Section::Application, filename);
+      Settings::AppSettings appsett(Settings::AppSettings::Section::Application);
       QSettings &sett = appsett.get();
 
       QCOMPARE(sett.value("section1/key1").toString(), QString("value1"));
@@ -124,7 +124,7 @@ void TestSettings::save_load()
   if (tempDir.isValid()) {
     // Set filename
     QString filename = this->getFilename(tempDir);
-    AppSettings::configure(AppSettings::Section::Application, filename);
+    Settings::AppSettings::configure(Settings::AppSettings::Section::Application, filename);
 
     QSettings::SettingsMap map;
     map.insert("section1/key1", 3.1415926);
@@ -141,7 +141,7 @@ void TestSettings::save_load()
 
     // Save settings
     {
-      AppSettings appsett(AppSettings::Section::Application);
+      Settings::AppSettings appsett(Settings::AppSettings::Section::Application);
       QSettings &sett = appsett.get();
       QMapIterator<QString, QVariant> it(map);
 
@@ -182,7 +182,7 @@ void TestSettings::save_load()
 
     // Load settings
     {
-      AppSettings appsett(AppSettings::Section::Application);
+      Settings::AppSettings appsett(Settings::AppSettings::Section::Application);
       QSettings &sett = appsett.get();
       QMapIterator<QString, QVariant> it(map);
 

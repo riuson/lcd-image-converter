@@ -22,10 +22,17 @@
 
 #include <QDialog>
 
+class QCompleter;
+
 namespace Ui
 {
 class DialogFontRange;
 }
+
+namespace AppUI
+{
+namespace Fonts
+{
 
 class DialogFontRange : public QDialog
 {
@@ -33,18 +40,22 @@ class DialogFontRange : public QDialog
 
 public:
   explicit DialogFontRange(QWidget *parent = 0);
-  ~DialogFontRange();
+  virtual ~DialogFontRange();
 
   const QString &resultString() const;
 
 private:
   Ui::DialogFontRange *ui;
   QString mResultString;
+  QCompleter *mEncodingCompleter;
 
 private slots:
   void updatePreview();
   void updatePreview(const QString &encoding, int from, int to, bool bigEndian);
   void on_plainTextEditPreview_textChanged();
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // DIALOGFONTRANGE_H

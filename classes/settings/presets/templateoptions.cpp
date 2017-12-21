@@ -23,6 +23,11 @@
 #include <QtXml>
 #include <QDomDocument>
 
+namespace Settings
+{
+namespace Presets
+{
+
 const QString TemplateOptions::GroupName = QString("templates");
 const QString TemplateOptions::FieldImages = QString("images");
 const QString TemplateOptions::FieldFonts = QString("fonts");
@@ -46,16 +51,18 @@ const QString &TemplateOptions::font() const
 
 void TemplateOptions::setImage(const QString &filename)
 {
-  this->mImageTemplate = filename;
-
-  emit this->changed();
+  if (this->mImageTemplate != filename) {
+    this->mImageTemplate = filename;
+    emit this->changed();
+  }
 }
 
 void TemplateOptions::setFont(const QString &filename)
 {
-  this->mFontTemplate = filename;
-
-  emit this->changed();
+  if (this->mFontTemplate != filename) {
+    this->mFontTemplate = filename;
+    emit this->changed();
+  }
 }
 
 bool TemplateOptions::load(QSettings *settings)
@@ -146,3 +153,5 @@ void TemplateOptions::saveXmlElement(QDomElement element)
   nodeFonts.appendChild(element.ownerDocument().createTextNode(this->font()));
 }
 
+} // namespace Presets
+} // namespace Settings

@@ -20,14 +20,18 @@
 #ifndef EXTERNALTOOLOPTIONS_H
 #define EXTERNALTOOLOPTIONS_H
 
-#include <QObject>
+#include <QString>
 
-class ExternalToolOptions : public QObject
+namespace Settings
 {
-  Q_OBJECT
+
+class ExternalToolOptions
+{
 public:
   static const QString imageEditor();
   static void setImageEditor(const QString &value);
 };
+
+} // namespace Settings
 
 #endif // EXTERNALTOOLOPTIONS_H
