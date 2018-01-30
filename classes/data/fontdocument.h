@@ -110,6 +110,12 @@ private:
   int descent() const;
   void setDescent(int value);
 
+  int multiplicityWidth() const;
+  void setMultiplicityWidth(const int value);
+
+  int multiplicityHeight() const;
+  void setMultiplicityHeight(const int value);
+
   void prepareImages(Settings::Presets::Preset *preset, const QStringList &orderedKeys, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const;
   QString hexCode(const QString &key, const QString &encoding, bool bom) const;
   const QStringList sortKeysWithEncoding(const QStringList &keys, Settings::Presets::Preset *preset) const;
