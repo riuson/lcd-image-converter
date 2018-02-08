@@ -54,6 +54,9 @@ private:
   bool mFontAntiAliasing;
   QString mForeground;
   QString mBackground;
+  int mMultiplicityHeight;
+  int mMultiplicityWidth;
+
   QString mFontCharactersList;
 
   QString mFontCharactersEncoding;
