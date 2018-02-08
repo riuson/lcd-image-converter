@@ -640,7 +640,9 @@ void FontDocument::setFontCharacters(const QString &chars,
                      parameters.background,
                      width,
                      height,
-                     parameters.antiAliasing);
+                     parameters.antiAliasing,
+                     parameters.multiplicityHeight,
+                     parameters.multiplicityWidth);
       this->mContainer->setImage(key, new QImage(image));
     }
   }
