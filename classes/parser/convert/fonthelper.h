@@ -51,6 +51,7 @@ public:
                               const int width,
                               const int height,
                               const bool antialiasing);
+  static int roundUp(int original, int multiplicity);
 signals:
 
 public slots:

@@ -181,5 +181,18 @@ QImage FontHelper::drawCharacter(
   return result;
 }
 
+int FontHelper::roundUp(int original, int multiplicity)
+{
+  if (multiplicity > 1) {
+    int d = original / multiplicity;
+
+    if ((d * multiplicity) < original) {
+      return (d + 1) * multiplicity;
+    }
+  }
+
+  return original;
+}
+
 } // namespace Conversion
 } // namespace Parsing

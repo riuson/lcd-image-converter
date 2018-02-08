@@ -143,16 +143,20 @@ void DialogFontSelectData::notifyFontChanged()
 
   // find max size
   QFontMetrics metrics(font);
-  QSize sz = QSize();
+  int width = 0, height = 0;
   QString chars = this->characters();
 
   for (int i = 0; i < chars.count(); i++) {
-    QSize sz1 = Parsing::Conversion::FontHelper::getCharacterSize(metrics, chars.at(i));
-    sz.setWidth(qMax(sz.width(), sz1.width()));
-    sz.setHeight(qMax(sz.height(), sz1.height()));
+    QSize sz = Parsing::Conversion::FontHelper::getCharacterSize(metrics, chars.at(i));
+    width = qMax(width, sz.width());
+    height = qMax(height, sz.height());
   }
 
-  emit this->fontMeasured(chars.count(), sz.width(), sz.height());
+  // Round size to multiplicity
+  width = Parsing::Conversion::FontHelper::roundUp(width, this->mMultiplicityWidth);
+  height = Parsing::Conversion::FontHelper::roundUp(height, this->mMultiplicityHeight);
+
+  emit this->fontMeasured(chars.count(), width, height);
 }
 
 void DialogFontSelectData::setFont(const QFont &font)
