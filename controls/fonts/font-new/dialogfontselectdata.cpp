@@ -47,6 +47,8 @@ DialogFontSelectData::DialogFontSelectData(QObject *parent) :
   this->mAntialiasing = false;
   this->mForeground = Settings::FontEditorOptions::foreColor();
   this->mBackground = Settings::FontEditorOptions::backColor();
+  this->mMultiplicityHeight = 1;
+  this->mMultiplicityWidth = 1;
 
   QString defChars;
 
@@ -81,6 +83,8 @@ void DialogFontSelectData::getFontParameters(Data::Containers::FontParameters *p
   parameters->antiAliasing = this->mAntialiasing;
   parameters->foreground = this->mForeground;
   parameters->background = this->mBackground;
+  parameters->multiplicityHeight = this->mMultiplicityHeight;
+  parameters->multiplicityWidth = this->mMultiplicityWidth;
 
   // ascent/descent
   {
@@ -109,12 +113,15 @@ void DialogFontSelectData::setFontParameters(const Data::Containers::FontParamet
   this->mForeground = parameters.foreground;
   this->mBackground = parameters.background;
   this->mMonospaced = parameters.monospaced;
+  this->mMultiplicityHeight = parameters.multiplicityHeight;
+  this->mMultiplicityWidth = parameters.multiplicityWidth;
 
   this->notifyFontChanged();
 
   emit this->antialiasingChanged(this->mAntialiasing);
   emit this->monospacedChanged(this->mMonospaced);
   emit this->colorsChanged(this->mForeground, this->mBackground);
+  emit this->multiplicityChanged(this->mMultiplicityHeight, this->mMultiplicityWidth);
 }
 
 CharactersModel *DialogFontSelectData::charactersModel()
@@ -287,6 +294,18 @@ void DialogFontSelectData::resort()
 
   this->mSortOrderUp = !this->mSortOrderUp;
   this->setCharacters(chars);
+}
+
+void DialogFontSelectData::setMultiplicity(int height, int width)
+{
+  bool changed = (this->mMultiplicityHeight != height) || (this->mMultiplicityWidth != width);
+  this->mMultiplicityHeight = height;
+  this->mMultiplicityWidth = width;
+
+  if (changed) {
+    this->notifyFontChanged();
+    emit this->multiplicityChanged(height, width);
+  }
 }
 
 } // namespace Fonts

@@ -78,6 +78,8 @@ private:
   QColor mForeground;
   QColor mBackground;
   QString mCharacters;
+  int mMultiplicityWidth;
+  int mMultiplicityHeight;
 
   void notifyFontChanged();
 
@@ -90,6 +92,7 @@ signals:
   void monospacedChanged(bool value);
   void antialiasingChanged(bool value);
   void colorsChanged(const QColor &forecolor, const QColor &background);
+  void multiplicityChanged(int height, int width);
 
 public slots:
   void setFont(const QFont &font);
@@ -100,6 +103,7 @@ public slots:
   void setMonospaced(bool value);
   void setAntialiasing(bool value);
   void resort();
+  void setMultiplicity(int height, int width);
 };
 
 } // namespace Fonts

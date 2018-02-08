@@ -93,6 +93,9 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
   // Sort characters
   this->connect(this->ui->pushButtonSort, SIGNAL(clicked(bool)), this->mData, SLOT(resort()));
 
+  // Multiplicity
+  this->connect(this->mData, SIGNAL(multiplicityChanged(int, int)), SLOT(on_multiplicityChanged(int, int)));
+
   this->updateColorIcons(Settings::FontEditorOptions::foreColor(), Settings::FontEditorOptions::backColor());
 
   this->mData->setFont(this->ui->fontComboBox->currentFont());
@@ -286,6 +289,18 @@ void DialogFontSelect::on_pushButtonBackColor_clicked()
   }
 }
 
+void DialogFontSelect::on_spinBoxMultiplicityHeight_valueChanged(int height)
+{
+  int width = this->ui->spinBoxMultiplicityWidth->value();
+  this->mData->setMultiplicity(height, width);
+}
+
+void DialogFontSelect::on_spinBoxMultiplicityWidth_valueChanged(int width)
+{
+  int height = this->ui->spinBoxMultiplicityHeight->value();
+  this->mData->setMultiplicity(height, width);
+}
+
 void DialogFontSelect::on_stylesListChanged(const QStringList &list, const QString &selected)
 {
   this->connectFontStyleList(false);
@@ -394,6 +409,12 @@ void DialogFontSelect::updateColorIcons(const QColor &foreground, const QColor &
   pixmapBackColor.fill(background);
   this->ui->pushButtonBackColor->setIcon(QIcon(pixmapBackColor));
   this->ui->pushButtonBackColor->setText(tr("Back Color: %1").arg((quint32)background.rgba(), 8, 16, QChar('0')));
+}
+
+void DialogFontSelect::on_multiplicityChanged(int height, int width)
+{
+  this->ui->spinBoxMultiplicityHeight->setValue(height);
+  this->ui->spinBoxMultiplicityWidth->setValue(width);
 }
 
 } // namespace Fonts

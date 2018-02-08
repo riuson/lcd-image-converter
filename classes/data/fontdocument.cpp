@@ -531,6 +531,8 @@ void FontDocument::fontCharacters(QString *chars,
   parameters->background = this->background();
   parameters->ascent = this->ascent();
   parameters->descent = this->descent();
+  parameters->multiplicityHeight = this->multiplicityHeight();
+  parameters->multiplicityWidth = this->multiplicityWidth();
 }
 
 void FontDocument::setFontCharacters(const QString &chars,
@@ -551,7 +553,10 @@ void FontDocument::setFontCharacters(const QString &chars,
         this->foreground() != parameters.foreground ||
         this->background() != parameters.background ||
         this->ascent() != parameters.ascent ||
-        this->descent() != parameters.descent) {
+        this->descent() != parameters.descent ||
+        this->multiplicityHeight() != parameters.multiplicityHeight ||
+        this->multiplicityWidth() != parameters.multiplicityWidth
+       ) {
       AppUI::Fonts::DialogFontChanged dialog(qobject_cast<QWidget *>(this->parent()));
 
       if (dialog.exec() == QDialog::Accepted) {
@@ -589,6 +594,8 @@ void FontDocument::setFontCharacters(const QString &chars,
     this->setDescent(parameters.descent);
     this->setForeground(parameters.foreground);
     this->setBackground(parameters.background);
+    this->setMultiplicityHeight(parameters.multiplicityHeight);
+    this->setMultiplicityWidth(parameters.multiplicityWidth);
   } else {
     // remove characters, which not present in new characters list
     QStringList keys = this->mContainer->keys();
