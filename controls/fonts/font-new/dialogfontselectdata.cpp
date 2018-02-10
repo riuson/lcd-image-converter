@@ -47,6 +47,8 @@ DialogFontSelectData::DialogFontSelectData(QObject *parent) :
   this->mAntialiasing = false;
   this->mForeground = Settings::FontEditorOptions::foreColor();
   this->mBackground = Settings::FontEditorOptions::backColor();
+  this->mMultiplicityHeight = 1;
+  this->mMultiplicityWidth = 1;
 
   QString defChars;
 
@@ -81,6 +83,8 @@ void DialogFontSelectData::getFontParameters(Data::Containers::FontParameters *p
   parameters->antiAliasing = this->mAntialiasing;
   parameters->foreground = this->mForeground;
   parameters->background = this->mBackground;
+  parameters->multiplicityHeight = this->mMultiplicityHeight;
+  parameters->multiplicityWidth = this->mMultiplicityWidth;
 
   // ascent/descent
   {
@@ -109,12 +113,15 @@ void DialogFontSelectData::setFontParameters(const Data::Containers::FontParamet
   this->mForeground = parameters.foreground;
   this->mBackground = parameters.background;
   this->mMonospaced = parameters.monospaced;
+  this->mMultiplicityHeight = parameters.multiplicityHeight;
+  this->mMultiplicityWidth = parameters.multiplicityWidth;
 
   this->notifyFontChanged();
 
   emit this->antialiasingChanged(this->mAntialiasing);
   emit this->monospacedChanged(this->mMonospaced);
   emit this->colorsChanged(this->mForeground, this->mBackground);
+  emit this->multiplicityChanged(this->mMultiplicityHeight, this->mMultiplicityWidth);
 }
 
 CharactersModel *DialogFontSelectData::charactersModel()
@@ -136,16 +143,20 @@ void DialogFontSelectData::notifyFontChanged()
 
   // find max size
   QFontMetrics metrics(font);
-  QSize sz = QSize();
+  int width = 0, height = 0;
   QString chars = this->characters();
 
   for (int i = 0; i < chars.count(); i++) {
-    QSize sz1 = Parsing::Conversion::FontHelper::getCharacterSize(metrics, chars.at(i));
-    sz.setWidth(qMax(sz.width(), sz1.width()));
-    sz.setHeight(qMax(sz.height(), sz1.height()));
+    QSize sz = Parsing::Conversion::FontHelper::getCharacterSize(metrics, chars.at(i));
+    width = qMax(width, sz.width());
+    height = qMax(height, sz.height());
   }
 
-  emit this->fontMeasured(chars.count(), sz.width(), sz.height());
+  // Round size to multiplicity
+  width = Parsing::Conversion::FontHelper::roundUp(width, this->mMultiplicityWidth);
+  height = Parsing::Conversion::FontHelper::roundUp(height, this->mMultiplicityHeight);
+
+  emit this->fontMeasured(chars.count(), width, height);
 }
 
 void DialogFontSelectData::setFont(const QFont &font)
@@ -287,6 +298,18 @@ void DialogFontSelectData::resort()
 
   this->mSortOrderUp = !this->mSortOrderUp;
   this->setCharacters(chars);
+}
+
+void DialogFontSelectData::setMultiplicity(int height, int width)
+{
+  bool changed = (this->mMultiplicityHeight != height) || (this->mMultiplicityWidth != width);
+  this->mMultiplicityHeight = height;
+  this->mMultiplicityWidth = width;
+
+  if (changed) {
+    this->notifyFontChanged();
+    emit this->multiplicityChanged(height, width);
+  }
 }
 
 } // namespace Fonts
