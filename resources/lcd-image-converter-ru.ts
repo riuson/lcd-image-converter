@@ -22,22 +22,22 @@
 <context>
     <name>AppUI::Fonts::DialogFontSelect</name>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="382"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="397"/>
         <source>Max size (w × h): %1 × %2</source>
         <translation>Макс размер (w × h): %1 × %2</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="383"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="398"/>
         <source>Count: %1</source>
         <translation>Количество: %1</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="391"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="406"/>
         <source>Fore Color: %1</source>
         <translation>Цвет переднего плана: %1</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="396"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="411"/>
         <source>Back Color: %1</source>
         <translation>Цвет заднего плана: %1</translation>
     </message>
@@ -634,9 +634,9 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="135"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="141"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="147"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="152"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="158"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="164"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="50"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="56"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="62"/>
@@ -646,124 +646,144 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="140"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="157"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="55"/>
         <source>Full &lt;path&gt; to output result.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="72"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="75"/>
         <source>&lt;Family&gt; of new font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="73"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="76"/>
         <source>family</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="78"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="81"/>
         <source>Font &lt;size&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="79"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="82"/>
         <source>size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="84"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="87"/>
         <source>Make monospaced font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="89"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="92"/>
         <source>Font &lt;style&gt;, Regular, Bold, Italic or Bold Italic.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="94"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="97"/>
         <source>Use antialiasing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="99"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="102"/>
         <source>Foreground color in hex format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="100"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="106"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="103"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="109"/>
         <source>color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="105"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="108"/>
         <source>Background color in hex format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="111"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="114"/>
         <source>Characters, what included to the font.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="112"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="115"/>
         <source>characters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="117"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="120"/>
         <source>Characters range, for example &quot;32-255&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="118"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="121"/>
         <source>range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="123"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="126"/>
         <source>Characters encoding, for example &quot;UTF-8&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="124"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="127"/>
         <source>encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="129"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="132"/>
         <source>Use big-endian instead of little-endian.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="134"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="137"/>
+        <source>Multiplicity of character&apos;s width.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="138"/>
+        <source>multiplicity-width</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="144"/>
+        <source>Multiplicity of character&apos;s height.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="145"/>
+        <source>multiplicity-height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="151"/>
         <source>Full &lt;path&gt; to font document in xml format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="146"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="163"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="61"/>
         <source>Full &lt;path&gt; to template file, used in conversion. [Optional]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="152"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="169"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="67"/>
         <source>Document name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="153"/>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="159"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="170"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="176"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="68"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="74"/>
         <source>name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../classes/cmdline/modeconvertfont.cpp" line="158"/>
+        <location filename="../classes/cmdline/modeconvertfont.cpp" line="175"/>
         <location filename="../classes/cmdline/modeconvertimage.cpp" line="73"/>
         <source>Output preset &lt;name&gt; from predefined presets in application settings.</source>
         <translation type="unfinished"></translation>
@@ -990,27 +1010,47 @@ Qt: %4</translation>
         <translation>Параметры</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="191"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="193"/>
         <source>Proportional</source>
         <translation>Пропорциональный</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="201"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="203"/>
         <source>Monospaced</source>
         <translation>Моноширинный</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="208"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="236"/>
+        <source>Multiplicity of width</source>
+        <translation>Кратность ширины</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="239"/>
+        <source>W /</source>
+        <translation>Ш /</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="252"/>
+        <source>Multiplicity of height</source>
+        <translation>Кратность высоты</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="255"/>
+        <source>H /</source>
+        <translation>В /</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="283"/>
         <source>Antialiasing</source>
         <translation>Сглаживание</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="221"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="311"/>
         <source>Fore Color</source>
         <translation>Цвет переднего плана</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="234"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="298"/>
         <source>Back Color</source>
         <translation>Цвет заднего плана</translation>
     </message>
@@ -1040,23 +1080,23 @@ Qt: %4</translation>
         <translation>Добавить диапазон...</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="247"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="339"/>
         <source>Sort</source>
         <translation>Отсортировать</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="276"/>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="279"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="368"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="371"/>
         <source>Selected characters</source>
         <translation>Выбранные символы</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="302"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="394"/>
         <source>Count</source>
         <translation>Количество</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="309"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="401"/>
         <source>Max size</source>
         <translation>Макс. размер</translation>
     </message>
