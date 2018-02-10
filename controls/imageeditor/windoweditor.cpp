@@ -43,8 +43,11 @@ WindowEditor::WindowEditor(QWidget *parent) :
 
   this->ui->label->installEventFilter(this);
   this->ui->toolBarOptions->hide();
+  this->ui->toolBarTools->setContextMenuPolicy(Qt::ActionsContextMenu);
+  this->ui->toolBarOptions->setContextMenuPolicy(Qt::PreventContextMenu);
 
   this->restoreState(Settings::ImageEditorOptions::toolbarsState(), 0);
+  this->ui->toolBarTools->show();
 
   this->mSelectedTool = nullptr;
   this->createTools();

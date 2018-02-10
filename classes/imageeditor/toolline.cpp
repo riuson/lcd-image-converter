@@ -67,7 +67,7 @@ const QString ToolLine::title() const
 
 const QString ToolLine::tooltip() const
 {
-  return tr("Draw line");
+  return tr("<b>Draw line</b><br/>Use left mouse button to draw forecolor.<br/>Use right mouse button to draw backcolor.");
 }
 
 const QIcon *ToolLine::icon() const

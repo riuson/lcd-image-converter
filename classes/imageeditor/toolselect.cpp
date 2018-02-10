@@ -127,7 +127,8 @@ void ToolSelect::initializeWidgets()
 
   this->mActionEditSelection = new QAction(this);
   this->mActionEditSelection->setCheckable(true);
-  this->mActionEditSelection->setToolTip(tr("Modify selection"));
+  this->mActionEditSelection->setText(tr("Modify selection"));
+  this->mActionEditSelection->setToolTip(tr("<b>Modify selection</b><br/>Left mouse button to add selection.<br/>Right mouse button to subtract selection.<br/>Middle mouse button to reset selection."));
   this->mActionEditSelection->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_edit"), 24))));
   this->connect(this->mActionEditSelection, SIGNAL(triggered()), SLOT(on_switchToSelectionEdit()));
   this->mActions->append(this->mActionEditSelection);
@@ -135,7 +136,8 @@ void ToolSelect::initializeWidgets()
 
   this->mActionMoveSelection = new QAction(this);
   this->mActionMoveSelection->setCheckable(true);
-  this->mActionMoveSelection->setToolTip(tr("Move selection"));
+  this->mActionMoveSelection->setText(tr("Move selection"));
+  this->mActionMoveSelection->setToolTip(tr("<b>Move selection</b><br/>Use left mouse button to move selection."));
   this->mActionMoveSelection->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_move"), 24))));
   this->connect(this->mActionMoveSelection, SIGNAL(triggered()), SLOT(on_switchToSelectionMove()));
   this->mActions->append(this->mActionMoveSelection);

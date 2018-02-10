@@ -125,6 +125,7 @@ void ToolMove::initializeWidgets()
 
   this->mActionMoveCut = new QAction(this);
   this->mActionMoveCut->setCheckable(true);
+  this->mActionMoveCut->setText(tr("Cut & Move"));
   this->mActionMoveCut->setToolTip(tr("Cut & Move"));
   this->mActionMoveCut->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_cut"), 24))));
   this->connect(this->mActionMoveCut, SIGNAL(triggered()), SLOT(on_switchToMoveCut()));
@@ -133,6 +134,7 @@ void ToolMove::initializeWidgets()
 
   this->mActionMoveCopy = new QAction(this);
   this->mActionMoveCopy->setCheckable(true);
+  this->mActionMoveCopy->setText(tr("Copy & Move"));
   this->mActionMoveCopy->setToolTip(tr("Copy & Move"));
   this->mActionMoveCopy->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_copy"), 24))));
   this->connect(this->mActionMoveCopy, SIGNAL(triggered()), SLOT(on_switchToMoveCopy()));
@@ -141,6 +143,7 @@ void ToolMove::initializeWidgets()
 
   this->mActionMoveCircular = new QAction(this);
   this->mActionMoveCircular->setCheckable(true);
+  this->mActionMoveCircular->setText(tr("Move circular (rectancular area only)"));
   this->mActionMoveCircular->setToolTip(tr("Move circular (rectancular area only)"));
   this->mActionMoveCircular->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_circular"), 24))));
   this->connect(this->mActionMoveCircular, SIGNAL(triggered()), SLOT(on_switchToMoveCircular()));

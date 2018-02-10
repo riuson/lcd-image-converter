@@ -62,12 +62,12 @@ ToolRect::~ToolRect()
 
 const QString ToolRect::title() const
 {
-  return tr("Rect");
+  return tr("Rectangle");
 }
 
 const QString ToolRect::tooltip() const
 {
-  return tr("Draw rectangle");
+  return tr("<b>Draw rectangle</b><br/>Left mouse button: outline - forecolor, filling - backcolor.<br/>Right mouse button: outline - backcolor, filling - forecolor.");
 }
 
 const QIcon *ToolRect::icon() const
@@ -144,7 +144,7 @@ void ToolRect::initializeWidgets()
   spinBoxSize->setMinimum(1);
   spinBoxSize->setSuffix(QString("px"));
   spinBoxSize->setValue(this->mSize);
-  spinBoxSize->setToolTip(tr("Border Width"));
+  spinBoxSize->setToolTip(tr("Outline Width"));
   this->connect(spinBoxSize, SIGNAL(valueChanged(int)), SLOT(on_spinBoxSize_valueChanged(int)));
   this->mWidgets->append(spinBoxSize);
 

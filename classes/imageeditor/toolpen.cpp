@@ -67,7 +67,7 @@ const QString ToolPen::title() const
 
 const QString ToolPen::tooltip() const
 {
-  return tr("Draw pixels");
+  return tr("<b>Draw pixels</b><br/>Use left mouse button to draw forecolor.<br/>Use right mouse button to draw backcolor.");
 }
 
 const QIcon *ToolPen::icon() const

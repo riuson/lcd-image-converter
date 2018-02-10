@@ -120,6 +120,7 @@ void ToolsManager::initializeActions()
   for (int i = 0; i < this->mTools->length(); i++) {
     IImageEditorTool *tool = this->mTools->at(i);
     QAction *toolAction = new QAction(*tool->icon(), tool->title(), this);
+    toolAction->setToolTip(tool->tooltip());
     toolAction->setData(QVariant(i)); // index of the tool
     toolAction->setCheckable(true);
     this->connect(toolAction, SIGNAL(triggered()), SLOT(on_toolAction_triggered()));
