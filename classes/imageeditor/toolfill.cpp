@@ -69,7 +69,7 @@ const QString ToolFill::title() const
 
 const QString ToolFill::tooltip() const
 {
-  return tr("Fill area");
+  return tr("<b>Fill area</b><br/>Use left mouse button to fill with forecolor.<br/>Use right mouse button to fill with backcolor.");
 }
 
 const QIcon *ToolFill::icon() const
