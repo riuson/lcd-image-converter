@@ -45,6 +45,9 @@ ModeConvertFont::ModeConvertFont(QCommandLineParser &parser, QObject *parent) :
   this->mFontMonospaced = false;
   this->mFontStyle = "Normal";
   this->mFontAntiAliasing = false;
+  this->mMultiplicityHeight = 1;
+  this->mMultiplicityWidth = 1;
+
   this->mFontCharactersList = "0123456789ABCDEFabcdef";
 
   this->mFontCharactersEncoding = "UTF-8";
@@ -129,6 +132,20 @@ void ModeConvertFont::fillParser() const
                                      QCoreApplication::translate("CmdLineParser", "Use big-endian instead of little-endian."));
   this->mParser.addOption(endianessOption);
 
+  // --multiplicity-width=1
+  QCommandLineOption multiplicityWidthOption(QStringList() << "multiplicity-width",
+      QCoreApplication::translate("CmdLineParser", "Multiplicity of character's width."),
+      QCoreApplication::translate("CmdLineParser", "multiplicity-width"),
+      QString("1"));
+  this->mParser.addOption(multiplicityWidthOption);
+
+  // --multiplicity-height=1
+  QCommandLineOption multiplicityHeightOption(QStringList() << "multiplicity-height",
+      QCoreApplication::translate("CmdLineParser", "Multiplicity of character's height."),
+      QCoreApplication::translate("CmdLineParser", "multiplicity-height"),
+      QString("1"));
+  this->mParser.addOption(multiplicityHeightOption);
+
   // --input=/temp/1.xml
   QCommandLineOption inputOption(QStringList() << "i" << "input",
                                  QCoreApplication::translate("CmdLineParser", "Full <path> to font document in xml format."),
@@ -171,7 +188,22 @@ bool ModeConvertFont::collectArguments()
   this->mForeground = this->mParser.value("foreground");
   this->mBackground = this->mParser.value("background");
 
+  bool multiplicityWidthOk;
+  int mw = this->mParser.value("multiplicity-width").toInt(&multiplicityWidthOk);
+
+  if (multiplicityWidthOk) {
+    this->mMultiplicityWidth  = mw;
+  }
+
+  bool multiplicityHeightOk;
+  int mh = this->mParser.value("multiplicity-height").toInt(&multiplicityHeightOk);
+
+  if (multiplicityHeightOk) {
+    this->mMultiplicityHeight  = mh;
+  }
+
   this->mFontCharactersList = this->mParser.value("chars-list");
+
   this->mFontCharactersRange = this->mParser.value("chars-range");
 
   this->mFontCharactersEncoding = this->mParser.value("chars-encoding");
@@ -244,6 +276,8 @@ int ModeConvertFont::process()
       parameters.size = this->mFontSize;
       parameters.monospaced = this->mFontMonospaced;
       parameters.antiAliasing = this->mFontAntiAliasing;
+      parameters.multiplicityHeight = this->mMultiplicityHeight;
+      parameters.multiplicityWidth = this->mMultiplicityWidth;
 
       // get ascent/descent
       {

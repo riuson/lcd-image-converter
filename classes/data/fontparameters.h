@@ -37,6 +37,8 @@ struct FontParameters {
   int descent;
   QColor foreground;
   QColor background;
+  int multiplicityWidth;
+  int multiplicityHeight;
 };
 
 } // namespace Containers

@@ -140,7 +140,9 @@ QImage FontHelper::drawCharacter(
   const QColor &background,
   const int width,
   const int height,
-  const bool antialiasing)
+  const bool antialiasing,
+  const int multiplicityHeight,
+  const int multiplicityWidth)
 {
   QFontMetrics fontMetrics(font);
 
@@ -153,6 +155,9 @@ QImage FontHelper::drawCharacter(
     imageWidth = characterSize.width();
     imageHeight = characterSize.height();
   }
+
+  imageWidth = Parsing::Conversion::FontHelper::roundUp(imageWidth, multiplicityWidth);
+  imageHeight = Parsing::Conversion::FontHelper::roundUp(imageHeight, multiplicityHeight);
 
   QImage result;
 
@@ -179,6 +184,19 @@ QImage FontHelper::drawCharacter(
                    QString(value));
 
   return result;
+}
+
+int FontHelper::roundUp(int original, int multiplicity)
+{
+  if (multiplicity > 1) {
+    int d = original / multiplicity;
+
+    if ((d * multiplicity) < original) {
+      return (d + 1) * multiplicity;
+    }
+  }
+
+  return original;
 }
 
 } // namespace Conversion

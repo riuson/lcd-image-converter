@@ -84,6 +84,7 @@ void SetupTabPrepareScanning::on_comboBoxScanMain_currentIndexChanged(int index)
   if (ok) {
     Settings::Presets::ScanMainDirection dir = (Settings::Presets::ScanMainDirection)a;
     this->mPreset->prepare()->setScanMain(dir);
+    this->updateScript();
   }
 }
 
@@ -96,6 +97,7 @@ void SetupTabPrepareScanning::on_comboBoxScanSub_currentIndexChanged(int index)
   if (ok) {
     Settings::Presets::ScanSubDirection dir = (Settings::Presets::ScanSubDirection)a;
     this->mPreset->prepare()->setScanSub(dir);
+    this->updateScript();
   }
 }
 
@@ -103,6 +105,7 @@ void SetupTabPrepareScanning::on_checkBoxBands_toggled(bool value)
 {
   this->mPreset->prepare()->setBandScanning(value);
   this->updateState();
+  this->updateScript();
 }
 
 void SetupTabPrepareScanning::on_spinBoxBandWidth_valueChanged(int value)
@@ -114,6 +117,7 @@ void SetupTabPrepareScanning::on_checkBoxUseCustomScript_toggled(bool value)
 {
   this->mPreset->prepare()->setUseCustomScanScript(value);
   this->updateState();
+  this->updateScript();
 }
 
 void SetupTabPrepareScanning::on_plainTextEditCustomScript_textChanged()

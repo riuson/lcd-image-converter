@@ -101,6 +101,7 @@ bool FontDocument::load(const QString &fileName)
         bool monospaced = false, antialiasing = false;
         QColor foreground = Settings::FontEditorOptions::foreColor();
         QColor background = Settings::FontEditorOptions::backColor();
+        int multiplicityWidth = 1, multiplicityHeight = 1;
 
         QDomNode n = root.firstChild();
 
@@ -163,6 +164,24 @@ bool FontDocument::load(const QString &fileName)
               } else {
                 result = false;
               }
+            } else if (e.tagName() == "multiplicityWidth") {
+              bool ok;
+              int a = e.text().toInt(&ok);
+
+              if (ok) {
+                multiplicityWidth = a;
+              } else {
+                result = false;
+              }
+            } else if (e.tagName() == "multiplicityHeight") {
+              bool ok;
+              int a = e.text().toInt(&ok);
+
+              if (ok) {
+                multiplicityHeight = a;
+              } else {
+                result = false;
+              }
             } else if (e.tagName() == "converted") {
               converted = e.text();
             }
@@ -208,6 +227,8 @@ bool FontDocument::load(const QString &fileName)
         this->setBackground(background);
         this->setAscent(ascent);
         this->setDescent(descent);
+        this->setMultiplicityWidth(multiplicityWidth);
+        this->setMultiplicityHeight(multiplicityHeight);
       }
     }
 
@@ -298,6 +319,16 @@ bool FontDocument::save(const QString &fileName)
   QDomElement nodeBackground = doc.createElement("background");
   nodeRoot.appendChild(nodeBackground);
   nodeBackground.appendChild(doc.createTextNode(QString("%1").arg((quint32)parameters.background.rgba(), 8, 16, QChar('0'))));
+
+  // multiplicity width
+  QDomElement nodeMultiplicityWidth = doc.createElement("multiplicityWidth");
+  nodeRoot.appendChild(nodeMultiplicityWidth);
+  nodeMultiplicityWidth.appendChild(doc.createTextNode(QString("%1").arg(parameters.multiplicityWidth)));
+
+  // multiplicity height
+  QDomElement nodeMultiplicityHeight = doc.createElement("multiplicityHeight");
+  nodeRoot.appendChild(nodeMultiplicityHeight);
+  nodeMultiplicityHeight.appendChild(doc.createTextNode(QString("%1").arg(parameters.multiplicityHeight)));
 
   // string
   QDomElement nodeString = doc.createElement("string");
@@ -500,6 +531,8 @@ void FontDocument::fontCharacters(QString *chars,
   parameters->background = this->background();
   parameters->ascent = this->ascent();
   parameters->descent = this->descent();
+  parameters->multiplicityHeight = this->multiplicityHeight();
+  parameters->multiplicityWidth = this->multiplicityWidth();
 }
 
 void FontDocument::setFontCharacters(const QString &chars,
@@ -520,7 +553,10 @@ void FontDocument::setFontCharacters(const QString &chars,
         this->foreground() != parameters.foreground ||
         this->background() != parameters.background ||
         this->ascent() != parameters.ascent ||
-        this->descent() != parameters.descent) {
+        this->descent() != parameters.descent ||
+        this->multiplicityHeight() != parameters.multiplicityHeight ||
+        this->multiplicityWidth() != parameters.multiplicityWidth
+       ) {
       AppUI::Fonts::DialogFontChanged dialog(qobject_cast<QWidget *>(this->parent()));
 
       if (dialog.exec() == QDialog::Accepted) {
@@ -558,6 +594,8 @@ void FontDocument::setFontCharacters(const QString &chars,
     this->setDescent(parameters.descent);
     this->setForeground(parameters.foreground);
     this->setBackground(parameters.background);
+    this->setMultiplicityHeight(parameters.multiplicityHeight);
+    this->setMultiplicityWidth(parameters.multiplicityWidth);
   } else {
     // remove characters, which not present in new characters list
     QStringList keys = this->mContainer->keys();
@@ -602,7 +640,9 @@ void FontDocument::setFontCharacters(const QString &chars,
                      parameters.background,
                      width,
                      height,
-                     parameters.antiAliasing);
+                     parameters.antiAliasing,
+                     parameters.multiplicityHeight,
+                     parameters.multiplicityWidth);
       this->mContainer->setImage(key, new QImage(image));
     }
   }
@@ -720,6 +760,30 @@ int FontDocument::descent() const
 void FontDocument::setDescent(int value)
 {
   this->mContainer->setCommonInfo("descent", value);
+}
+
+int FontDocument::multiplicityWidth() const
+{
+  return this->mContainer->commonInfo("multiplicityWidth").toInt();
+}
+
+void FontDocument::setMultiplicityWidth(const int value)
+{
+  if (value > 0) {
+    this->mContainer->setCommonInfo("multiplicityWidth", value);
+  }
+}
+
+int FontDocument::multiplicityHeight() const
+{
+  return this->mContainer->commonInfo("multiplicityHeight").toInt();
+}
+
+void FontDocument::setMultiplicityHeight(const int value)
+{
+  if (value > 0) {
+    this->mContainer->setCommonInfo("multiplicityHeight", value);
+  }
 }
 
 void FontDocument::prepareImages(Settings::Presets::Preset *preset, const QStringList &orderedKeys, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const

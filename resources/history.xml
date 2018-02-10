@@ -11,6 +11,7 @@
             <item category="added">Completer to encoding's combobox.</item>
             <item category="added">New tag 'out_image_preview' and settings to generate image preview in output file.</item>
             <item category="added">Custom script to process pixel's data.</item>
+            <item category="added">Multiplicity of font's width/height.</item>
             <item category="changed">RLE minimal sequence block's count decreased to 1.</item>
             <item category="changed">RLE prefix for sequence with length == 1 changed from '(-1)(data[1])' to '(+1)(data[1])'.</item>
             <item category="changed">Tab page 'Prepare' in settings.</item>
