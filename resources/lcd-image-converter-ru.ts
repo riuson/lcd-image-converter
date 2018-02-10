@@ -1246,16 +1246,19 @@ Qt: %4</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolmove.cpp" line="128"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="129"/>
         <source>Cut &amp; Move</source>
         <translation>Вырезать и переместить</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolmove.cpp" line="136"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="137"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="138"/>
         <source>Copy &amp; Move</source>
         <translation>Скопировать и переместить</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolmove.cpp" line="144"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="146"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="147"/>
         <source>Move circular (rectancular area only)</source>
         <translation>Циклический сдвиг (только для прямоугольных областей)</translation>
     </message>
@@ -1336,11 +1339,13 @@ Qt: %4</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolselect.cpp" line="130"/>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="131"/>
         <source>Modify selection</source>
         <translation>Изменение выбора</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolselect.cpp" line="138"/>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="139"/>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="140"/>
         <source>Move selection</source>
         <translation>Перемещение выбора</translation>
     </message>

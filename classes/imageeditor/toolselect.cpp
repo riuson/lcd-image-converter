@@ -127,6 +127,7 @@ void ToolSelect::initializeWidgets()
 
   this->mActionEditSelection = new QAction(this);
   this->mActionEditSelection->setCheckable(true);
+  this->mActionEditSelection->setText(tr("Modify selection"));
   this->mActionEditSelection->setToolTip(tr("Modify selection"));
   this->mActionEditSelection->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_edit"), 24))));
   this->connect(this->mActionEditSelection, SIGNAL(triggered()), SLOT(on_switchToSelectionEdit()));
@@ -135,6 +136,7 @@ void ToolSelect::initializeWidgets()
 
   this->mActionMoveSelection = new QAction(this);
   this->mActionMoveSelection->setCheckable(true);
+  this->mActionMoveSelection->setText(tr("Move selection"));
   this->mActionMoveSelection->setToolTip(tr("Move selection"));
   this->mActionMoveSelection->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_move"), 24))));
   this->connect(this->mActionMoveSelection, SIGNAL(triggered()), SLOT(on_switchToSelectionMove()));
