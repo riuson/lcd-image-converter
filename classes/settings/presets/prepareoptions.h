@@ -21,20 +21,19 @@
 #define PREPAREOPTIONS_H
 
 #include <QObject>
-
 #include "conversion_options.h"
-
-class QSettings;
-class QDomElement;
+#include "ipresetsoptionspart.h"
 
 namespace Settings
 {
 namespace Presets
 {
 
-class PrepareOptions : public QObject
+class PrepareOptions : public QObject, public IPresetOptionsPart
 {
   Q_OBJECT
+  Q_INTERFACES(Settings::Presets::IPresetOptionsPart)
+
 public:
   explicit PrepareOptions(QObject *parent = 0);
   virtual ~PrepareOptions() {}
@@ -66,10 +65,10 @@ public:
   const QString &convTypeName() const;
   const QString &monoTypeName() const;
 
-  bool load(QSettings *settings);
-  bool loadXmlElement(QDomElement element);
-  void save(QSettings *settings);
-  void saveXmlElement(QDomElement element);
+  bool load(QSettings *settings) Q_DECL_OVERRIDE;
+  bool loadXmlElement(QDomElement element) Q_DECL_OVERRIDE;
+  void save(QSettings *settings) Q_DECL_OVERRIDE;
+  void saveXmlElement(QDomElement element) Q_DECL_OVERRIDE;
 
 private:
   static const QString GroupName;

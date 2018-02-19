@@ -233,6 +233,7 @@ HEADERS += \
     classes/settings/languageoptions.h \
     classes/settings/presets/fontoptions.h \
     classes/settings/presets/imageoptions.h \
+    classes/settings/presets/ipresetsoptionspart.h \
     classes/settings/presets/matrixoptions.h \
     classes/settings/presets/prepareoptions.h \
     classes/settings/presets/preset.h \
