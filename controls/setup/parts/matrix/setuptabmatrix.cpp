@@ -55,6 +55,8 @@ SetupTabMatrix::SetupTabMatrix(Settings::Presets::Preset *preset, QWidget *paren
 
   this->mMatrixItemDelegate = new MatrixItemDelegate(this);
   this->ui->tableViewOperations->setItemDelegate(this->mMatrixItemDelegate);
+
+  this->connect(this->mPreset, SIGNAL(changed(QString)), SLOT(on_presetChanged(QString)));
 }
 
 SetupTabMatrix::~SetupTabMatrix()
@@ -232,6 +234,13 @@ void SetupTabMatrix::on_tableViewOperations_customContextMenuRequested(const QPo
       default:
         break;
     }
+  }
+}
+
+void SetupTabMatrix::on_presetChanged(const QString &groupName)
+{
+  if (groupName == this->mPreset->image()->groupName()) {
+    this->updateMaskByBlockSize();
   }
 }
 
