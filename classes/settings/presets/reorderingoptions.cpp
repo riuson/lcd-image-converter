@@ -290,5 +290,10 @@ void ReorderingOptions::saveXmlElement(QDomElement element)
   }
 }
 
+QString ReorderingOptions::groupName() const
+{
+  return ReorderingOptions::GroupName;
+}
+
 } // namespace Presets
 } // namespace Settings

@@ -49,6 +49,8 @@ public:
   void save(QSettings *settings) Q_DECL_OVERRIDE;
   void saveXmlElement(QDomElement element) Q_DECL_OVERRIDE;
 
+  QString groupName() const Q_DECL_OVERRIDE;
+
 private:
   static const QString GroupName;
   static const QString FieldImages;

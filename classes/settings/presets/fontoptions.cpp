@@ -205,6 +205,11 @@ void FontOptions::saveXmlElement(QDomElement element)
   nodeCodec.appendChild(element.ownerDocument().createTextNode(this->encoding()));
 }
 
+QString FontOptions::groupName() const
+{
+  return FontOptions::GroupName;
+}
+
 const QStringList &FontOptions::encodings()
 {
   static QStringList result;

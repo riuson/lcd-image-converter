@@ -39,6 +39,8 @@ public:
   virtual bool loadXmlElement(QDomElement element) = 0;
   virtual void save(QSettings *settings) = 0;
   virtual void saveXmlElement(QDomElement element) = 0;
+
+  virtual QString groupName() const = 0;
 };
 
 } // namespace Presets
