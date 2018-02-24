@@ -39,7 +39,7 @@ MatrixPreviewModel::MatrixPreviewModel(Settings::Presets::Preset *preset, QObjec
 {
   this->mPreset = preset;
 
-  this->connect(this->mPreset, SIGNAL(changed()), SLOT(callReset()));
+  this->connect(this->mPreset, SIGNAL(changed(QString)), SLOT(callReset()));
 }
 
 int MatrixPreviewModel::rowCount(const QModelIndex &parent) const

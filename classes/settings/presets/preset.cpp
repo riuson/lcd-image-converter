@@ -217,7 +217,7 @@ bool Preset::load(const QString &presetName)
 
     this->mBlockChangesSignal = false;
 
-    emit this->changed();
+    emit this->changed(QString());
   }
 
   return result;
@@ -348,7 +348,7 @@ void Preset::initMono(MonochromeType type, int edge)
     this->mMatrix->operationAdd(0x00000001, 0, false);
   }
 
-  emit this->changed();
+  emit this->changed(QString());
 }
 
 void Preset::initGrayscale(int bits)
@@ -397,7 +397,7 @@ void Preset::initGrayscale(int bits)
     this->mMatrix->operationAdd(mask, shift, false);
   }
 
-  emit this->changed();
+  emit this->changed(QString());
 }
 
 void Preset::initColor(int alphaBits, int redBits, int greenBits, int blueBits)
@@ -503,13 +503,15 @@ void Preset::initColor(int alphaBits, int redBits, int greenBits, int blueBits)
     this->mMatrix->operationAdd(mask, shift, false);
   }
 
-  emit this->changed();
+  emit this->changed(QString());
 }
 
 void Preset::partsChanged()
 {
+  IPresetOptionsPart *part = qobject_cast<IPresetOptionsPart *>(sender());
+
   if (!this->mBlockChangesSignal) {
-    emit this->changed();
+    emit this->changed(part->groupName());
   }
 }
 
