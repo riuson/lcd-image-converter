@@ -39,7 +39,7 @@ ReorderingPreviewModel::ReorderingPreviewModel(Settings::Presets::Preset *preset
 {
   this->mPreset = preset;
 
-  this->connect(this->mPreset, SIGNAL(changed()), SLOT(callReset()));
+  this->connect(this->mPreset, SIGNAL(changed(QString)), SLOT(callReset()));
 }
 
 int ReorderingPreviewModel::rowCount(const QModelIndex &parent) const

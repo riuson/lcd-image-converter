@@ -589,5 +589,10 @@ void PrepareOptions::saveXmlElement(QDomElement element)
   nodeCustomPreprocessScript.appendChild(element.ownerDocument().createCDATASection(this->mCustomPreprocessScript));
 }
 
+QString PrepareOptions::groupName() const
+{
+  return PrepareOptions::GroupName;
+}
+
 } // namespace Presets
 } // namespace Settings

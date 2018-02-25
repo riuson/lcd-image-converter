@@ -153,5 +153,10 @@ void TemplateOptions::saveXmlElement(QDomElement element)
   nodeFonts.appendChild(element.ownerDocument().createTextNode(this->font()));
 }
 
+QString TemplateOptions::groupName() const
+{
+  return TemplateOptions::GroupName;
+}
+
 } // namespace Presets
 } // namespace Settings

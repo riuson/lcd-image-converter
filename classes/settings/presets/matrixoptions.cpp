@@ -440,5 +440,10 @@ void MatrixOptions::saveXmlElement(QDomElement element)
   }
 }
 
+QString MatrixOptions::groupName() const
+{
+  return MatrixOptions::GroupName;
+}
+
 } // namespace Presets
 } // namespace Settings

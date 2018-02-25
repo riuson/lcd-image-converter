@@ -78,7 +78,7 @@ DialogOptions::DialogOptions(Data::Containers::DataContainer *dataContainer, QWi
   this->mSetupImage->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
   this->mSetupFont->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
   this->mSetupTemplates->connect(this, SIGNAL(presetLoaded()), SLOT(matrixChanged()));
-  this->connect(this->mPreset, SIGNAL(changed()), SLOT(previewUpdate()));
+  this->connect(this->mPreset, SIGNAL(changed(QString)), SLOT(previewUpdate()));
 
   this->fillPresetsList();
 

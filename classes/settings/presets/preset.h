@@ -83,7 +83,7 @@ private:
   QString mName;
 
 signals:
-  void changed();
+  void changed(const QString &groupName);
 
 public slots:
 

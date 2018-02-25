@@ -66,8 +66,11 @@ private:
   MatrixItemDelegate *mMatrixItemDelegate;
   QMenu *mMenu;
 
+  void updateMaskByBlockSize();
+
 private slots:
   void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
+  void on_presetChanged(const QString &groupName);
   void operationAdd();
   void operationShift();
   void operationRemove();
