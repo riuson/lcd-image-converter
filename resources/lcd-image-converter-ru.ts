@@ -348,52 +348,52 @@
 <context>
     <name>AppUI::Setup::Parts::Matrix::SetupTabMatrix</name>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="107"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="143"/>
         <source>Source</source>
         <translation>Исходник</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="109"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="145"/>
         <source>Add &quot;Left Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг влево&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="110"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="146"/>
         <source>Add &quot;Right Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг вправо&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="130"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="166"/>
         <source>Operation</source>
         <translation>Операция</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="140"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="176"/>
         <source>Shift left</source>
         <translation>Сдвиг влево</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="141"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="177"/>
         <source>Shift right</source>
         <translation>Сдвиг вправо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="142"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="178"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="167"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="203"/>
         <source>Mask</source>
         <translation>Маска</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="186"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="222"/>
         <source>Set 1</source>
         <translation>Установить в 1</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="189"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="225"/>
         <source>Set 0</source>
         <translation>Сбросить в 0</translation>
     </message>
@@ -541,12 +541,12 @@
         <translation>Открыть файл шаблона изображения</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="79"/>
+        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="80"/>
         <source>Any file (*.*)</source>
         <translation>Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="80"/>
+        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="81"/>
         <source>Open font template file</source>
         <translation>Открыть файл шаблона шрифта</translation>
     </message>
@@ -1241,10 +1241,6 @@ Qt: %4</translation>
         <location filename="../classes/imageeditor/toolline.cpp" line="70"/>
         <source>&lt;b&gt;Draw line&lt;/b&gt;&lt;br/&gt;Use left mouse button to draw forecolor.&lt;br/&gt;Use right mouse button to draw backcolor.</source>
         <translation>&lt;b&gt;Рисование линии&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши для рисования цветом переднего плана.&lt;br/&gt;Правая кнопка мыши для рисования цветом заднего плана.</translation>
-    </message>
-    <message>
-        <source>Draw line</source>
-        <translation type="vanished">Рисование линии</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolline.cpp" line="147"/>
