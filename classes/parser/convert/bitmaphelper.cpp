@@ -22,6 +22,7 @@
 
 #include <QPainter>
 #include <QPainterPath>
+#include <QPainterPathStroker>
 #include <QtSvg/QSvgRenderer>
 
 namespace Parsing
@@ -221,7 +222,17 @@ QImage BitmapHelper::drawSelection(const QImage *source, const QPainterPath &sel
   painter.setRenderHint(QPainter::HighQualityAntialiasing, false);
   painter.setPen(selectionBorderColor);
   painter.setBrush(selectionFillBrush);
-  painter.drawPath(selectedPath);
+
+  QPainterPathStroker stroker;
+  stroker.setWidth(1);
+  stroker.setJoinStyle(Qt::MiterJoin);
+
+  QPainterPath strokedPath = stroker.createStroke(selectedPath);
+  QPainterPath outsidePath = strokedPath.subtracted(selectedPath);
+  QPainterPath insidePath = strokedPath.intersected(selectedPath);
+  painter.fillPath(selectedPath, selectionFillBrush);
+  painter.setClipPath(selectedPath);
+  painter.fillPath(strokedPath.united(strokedPath.translated(-0.5, -0.5)).united(outsidePath).united(insidePath).simplified(), QBrush(selectionBorderColor));
 
   return pixmap.toImage();
 }
