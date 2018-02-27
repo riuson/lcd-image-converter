@@ -185,9 +185,9 @@ void WindowEditor::updateImageScaled(int value)
   if (!this->mImageOriginal.isNull()) {
     QImage image = this->mImageOriginal;
 
-    image = Parsing::Conversion::BitmapHelper::drawSelection(&image, this->mTools->selectedPath());
     image = Parsing::Conversion::BitmapHelper::scale(&image, value);
     image = Parsing::Conversion::BitmapHelper::drawGrid(&image, value);
+    image = Parsing::Conversion::BitmapHelper::drawSelection(&image, this->mTools->selectedPath(), value);
     this->mImageScaled = image;
     this->mPixmapScaled = QPixmap::fromImage(image);
 
