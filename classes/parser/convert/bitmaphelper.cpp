@@ -208,7 +208,7 @@ QImage BitmapHelper::drawGrid(const QImage *source, int scale)
   return result;
 }
 
-QImage BitmapHelper::drawSelection(const QImage *source, const QPainterPath &selectedPath)
+QImage BitmapHelper::drawSelection(const QImage *source, const QPainterPath &selectedPath, int scale)
 {
   QImage image = *source;
   QPixmap pixmap = QPixmap::fromImage(image);
@@ -217,22 +217,31 @@ QImage BitmapHelper::drawSelection(const QImage *source, const QPainterPath &sel
   QColor selectionBorderColor = QColor(0, 0, 248, 128);
   QBrush selectionFillBrush(QColor(64, 128, 248, 128));
 
+  QTransform transform;
+  transform = transform.scale((float)scale, (float)scale);
+  painter.setTransform(transform);
+
   painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
   painter.setRenderHint(QPainter::Antialiasing, false);
   painter.setRenderHint(QPainter::HighQualityAntialiasing, false);
   painter.setPen(selectionBorderColor);
   painter.setBrush(selectionFillBrush);
 
-  QPainterPathStroker stroker;
-  stroker.setWidth(1);
-  stroker.setJoinStyle(Qt::MiterJoin);
-
-  QPainterPath strokedPath = stroker.createStroke(selectedPath);
-  QPainterPath outsidePath = strokedPath.subtracted(selectedPath);
-  QPainterPath insidePath = strokedPath.intersected(selectedPath);
   painter.fillPath(selectedPath, selectionFillBrush);
-  painter.setClipPath(selectedPath);
-  painter.fillPath(strokedPath.united(strokedPath.translated(-0.5, -0.5)).united(outsidePath).united(insidePath).simplified(), QBrush(selectionBorderColor));
+
+  if (scale > 5) {
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+
+    QPainterPathStroker stroker;
+    float offset = 1.0f / (float)scale;
+    stroker.setWidth(offset * 2.0f);
+    stroker.setJoinStyle(Qt::RoundJoin);
+    stroker.setDashPattern(Qt::DashLine);
+
+    QPainterPath strokedPath = stroker.createStroke(selectedPath);
+    painter.fillPath(strokedPath, QBrush(selectionBorderColor));
+  }
 
   return pixmap.toImage();
 }
