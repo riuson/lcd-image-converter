@@ -147,7 +147,7 @@ bool FontDocument::load(const QString &fileName)
             } else if (e.tagName() == "foreground") {
               bool ok;
               QString str = e.text();
-              qint32 a = str.toUInt(&ok, 16);
+              quint32 a = str.toUInt(&ok, 16);
 
               if (ok) {
                 foreground = Parsing::Conversion::BitmapHelper::fromRgba(QRgb(a));
@@ -157,7 +157,7 @@ bool FontDocument::load(const QString &fileName)
             } else if (e.tagName() == "background") {
               bool ok;
               QString str = e.text();
-              qint32 a = str.toUInt(&ok, 16);
+              quint32 a = str.toUInt(&ok, 16);
 
               if (ok) {
                 background = Parsing::Conversion::BitmapHelper::fromRgba(QRgb(a));
