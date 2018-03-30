@@ -125,6 +125,7 @@ void SetupTabPrepareScanning::on_plainTextEditCustomScript_textChanged()
   if (this->mPreset->prepare()->useCustomScanScript()) {
     QString str = this->ui->plainTextEditCustomScript->toPlainText();
     this->mPreset->prepare()->setCustomScanScript(str);
+    this->updateScript();
   }
 }
 
