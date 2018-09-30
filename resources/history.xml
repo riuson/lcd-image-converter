@@ -20,6 +20,7 @@
             <item category="fixed">Selection of template files in the settings.</item>
             <item category="fixed">Clear the fill mask when changing the data block size.</item>
             <item category="fixed">Editor's selection outline.</item>
+            <item category="fixed">Build with Qt 5.11.</item>
             <item category="removed">Support for Qt version &lt; 5.5.</item>
             <item category="removed">Ability to hide toolbars.</item>
         </changes>

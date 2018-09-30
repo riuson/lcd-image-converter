@@ -257,6 +257,7 @@ void WindowEditor::tool_scaleChanged(int value)
 
 void WindowEditor::tool_selectionChanged(const QPainterPath &value)
 {
+  Q_UNUSED(value);
   this->updateImageScaled(this->mTools->scale());
 }
 
