@@ -506,6 +506,11 @@ void ImageOptions::saveXmlElement(QDomElement element)
   nodePreviewLevels.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->previewLevels())));
 }
 
+QString ImageOptions::groupName() const
+{
+  return ImageOptions::GroupName;
+}
+
 QString ImageOptions::escapeEmpty(const QString &value) const
 {
   if (value.isEmpty()) {

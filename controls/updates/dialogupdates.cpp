@@ -22,6 +22,7 @@
 
 #include <QTextStream>
 #include <QFile>
+#include <QIcon>
 #include <QXmlQuery>
 #include <QBuffer>
 #include <QNetworkAccessManager>

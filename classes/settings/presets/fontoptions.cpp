@@ -39,8 +39,13 @@ FontOptions::FontOptions(QObject *parent) :
   QObject(parent)
 {
   this->mBom = false;
-  this->mEncoding = FontOptions::encodings().at(0);
   this->mSortOrder = Parsing::Conversion::Options::CharactersSortOrder::Ascending;
+
+  if (FontOptions::encodings().contains("UTF-8")) {
+    this->mEncoding = "UTF-8";
+  } else {
+    this->mEncoding = FontOptions::encodings().at(0);
+  }
 }
 
 bool FontOptions::bom() const
@@ -203,6 +208,11 @@ void FontOptions::saveXmlElement(QDomElement element)
   QDomElement nodeCodec = element.ownerDocument().createElement(FontOptions::FieldCodec);
   nodeFont.appendChild(nodeCodec);
   nodeCodec.appendChild(element.ownerDocument().createTextNode(this->encoding()));
+}
+
+QString FontOptions::groupName() const
+{
+  return FontOptions::GroupName;
 }
 
 const QStringList &FontOptions::encodings()

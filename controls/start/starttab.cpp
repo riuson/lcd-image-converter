@@ -21,6 +21,7 @@
 #include "ui_starttab.h"
 
 #include <QFileInfo>
+#include <QTableWidget>
 
 namespace AppUI
 {

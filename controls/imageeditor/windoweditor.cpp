@@ -43,8 +43,11 @@ WindowEditor::WindowEditor(QWidget *parent) :
 
   this->ui->label->installEventFilter(this);
   this->ui->toolBarOptions->hide();
+  this->ui->toolBarTools->setContextMenuPolicy(Qt::ActionsContextMenu);
+  this->ui->toolBarOptions->setContextMenuPolicy(Qt::PreventContextMenu);
 
   this->restoreState(Settings::ImageEditorOptions::toolbarsState(), 0);
+  this->ui->toolBarTools->show();
 
   this->mSelectedTool = nullptr;
   this->createTools();
@@ -182,9 +185,9 @@ void WindowEditor::updateImageScaled(int value)
   if (!this->mImageOriginal.isNull()) {
     QImage image = this->mImageOriginal;
 
-    image = Parsing::Conversion::BitmapHelper::drawSelection(&image, this->mTools->selectedPath());
     image = Parsing::Conversion::BitmapHelper::scale(&image, value);
     image = Parsing::Conversion::BitmapHelper::drawGrid(&image, value);
+    image = Parsing::Conversion::BitmapHelper::drawSelection(&image, this->mTools->selectedPath(), value);
     this->mImageScaled = image;
     this->mPixmapScaled = QPixmap::fromImage(image);
 
@@ -254,6 +257,7 @@ void WindowEditor::tool_scaleChanged(int value)
 
 void WindowEditor::tool_selectionChanged(const QPainterPath &value)
 {
+  Q_UNUSED(value);
   this->updateImageScaled(this->mTools->scale());
 }
 

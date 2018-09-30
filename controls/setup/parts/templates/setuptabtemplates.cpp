@@ -66,6 +66,7 @@ void SetupTabTemplates::on_pushButtonBrowseImage_clicked()
 
   if (dialog.exec() == QDialog::Accepted) {
     Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::TemplateImage, dialog.directory().absolutePath());
+    this->ui->lineEditImage->setText(dialog.selectedFiles().at(0));
     this->mPreset->templates()->setImage(dialog.selectedFiles().at(0));
     this->ui->lineEditImage->setText(dialog.selectedFiles().at(0));
   }
@@ -82,6 +83,7 @@ void SetupTabTemplates::on_pushButtonBrowseFont_clicked()
 
   if (dialog.exec() == QDialog::Accepted) {
     Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::TemplateFont, dialog.directory().absolutePath());
+    this->ui->lineEditFont->setText(dialog.selectedFiles().at(0));
     this->mPreset->templates()->setFont(dialog.selectedFiles().at(0));
     this->ui->lineEditFont->setText(dialog.selectedFiles().at(0));
   }

@@ -55,6 +55,8 @@ SetupTabMatrix::SetupTabMatrix(Settings::Presets::Preset *preset, QWidget *paren
 
   this->mMatrixItemDelegate = new MatrixItemDelegate(this);
   this->ui->tableViewOperations->setItemDelegate(this->mMatrixItemDelegate);
+
+  this->connect(this->mPreset, SIGNAL(changed(QString)), SLOT(on_presetChanged(QString)));
 }
 
 SetupTabMatrix::~SetupTabMatrix()
@@ -77,6 +79,40 @@ void SetupTabMatrix::matrixChanged()
   this->ui->tableViewOperations->update();
   this->ui->tableViewOperations->resizeRowsToContents();
   this->ui->tableViewOperations->resizeColumnsToContents();
+  this->updateMaskByBlockSize();
+}
+
+void SetupTabMatrix::updateMaskByBlockSize()
+{
+  Parsing::Conversion::Options::DataBlockSize blockSize = this->mPreset->image()->blockSize();
+  quint32 maskClear = 0;
+
+  switch (blockSize) {
+    case Parsing::Conversion::Options::DataBlockSize::Data8: {
+      maskClear = 0x000000fful;
+      break;
+    }
+
+    case Parsing::Conversion::Options::DataBlockSize::Data16: {
+      maskClear = 0x0000fffful;
+      break;
+    }
+
+    case Parsing::Conversion::Options::DataBlockSize::Data24: {
+      maskClear = 0x00fffffful;
+      break;
+    }
+
+    default:
+    case Parsing::Conversion::Options::DataBlockSize::Data32: {
+      maskClear = 0xfffffffful;
+      break;
+    }
+  }
+
+  quint32 maskFill = this->mPreset->matrix()->maskFill();
+  maskFill &= maskClear;
+  this->mPreset->matrix()->setMaskFill(maskFill);
 }
 
 void SetupTabMatrix::on_tableViewOperations_customContextMenuRequested(const QPoint &point)
@@ -198,6 +234,13 @@ void SetupTabMatrix::on_tableViewOperations_customContextMenuRequested(const QPo
       default:
         break;
     }
+  }
+}
+
+void SetupTabMatrix::on_presetChanged(const QString &groupName)
+{
+  if (groupName == this->mPreset->image()->groupName()) {
+    this->updateMaskByBlockSize();
   }
 }
 
@@ -337,6 +380,7 @@ void SetupTabMatrix::maskReset()
             this->mPreset->matrix()->setMaskFill( this->mPreset->matrix()->maskFill() & ~mask);
           }
 
+          this->updateMaskByBlockSize();
           break;
         }
 

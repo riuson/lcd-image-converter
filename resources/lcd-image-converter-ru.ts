@@ -348,52 +348,52 @@
 <context>
     <name>AppUI::Setup::Parts::Matrix::SetupTabMatrix</name>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="107"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="143"/>
         <source>Source</source>
         <translation>Исходник</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="109"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="145"/>
         <source>Add &quot;Left Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг влево&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="110"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="146"/>
         <source>Add &quot;Right Shift&quot;</source>
         <translation>Добавить &quot;Сдвиг вправо&quot;</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="130"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="166"/>
         <source>Operation</source>
         <translation>Операция</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="140"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="176"/>
         <source>Shift left</source>
         <translation>Сдвиг влево</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="141"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="177"/>
         <source>Shift right</source>
         <translation>Сдвиг вправо</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="142"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="178"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="167"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="203"/>
         <source>Mask</source>
         <translation>Маска</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="186"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="222"/>
         <source>Set 1</source>
         <translation>Установить в 1</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="189"/>
+        <location filename="../controls/setup/parts/matrix/setuptabmatrix.cpp" line="225"/>
         <source>Set 0</source>
         <translation>Сбросить в 0</translation>
     </message>
@@ -541,12 +541,12 @@
         <translation>Открыть файл шаблона изображения</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="79"/>
+        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="80"/>
         <source>Any file (*.*)</source>
         <translation>Все файлы (*.*)</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="80"/>
+        <location filename="../controls/setup/parts/templates/setuptabtemplates.cpp" line="81"/>
         <source>Open font template file</source>
         <translation>Открыть файл шаблона шрифта</translation>
     </message>
@@ -1215,6 +1215,22 @@ Qt: %4</translation>
     </message>
 </context>
 <context>
+    <name>ImageEditor::Tools::ToolFill</name>
+    <message>
+        <source>Fill</source>
+        <translation type="vanished">Заливка</translation>
+    </message>
+    <message>
+        <source>Fill area</source>
+        <translation type="vanished">Заливка площади</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolfill.cpp" line="72"/>
+        <source>&lt;b&gt;Fill area&lt;/b&gt;&lt;br/&gt;Use left mouse button to fill with forecolor.&lt;br/&gt;Use right mouse button to fill with backcolor.</source>
+        <translation>&lt;b&gt;Заливка площади&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши для заливки цветом переднего плана.&lt;br/&gt;Правая кнопка мыши для заливки цветом заднего плана.</translation>
+    </message>
+</context>
+<context>
     <name>ImageEditor::Tools::ToolLine</name>
     <message>
         <location filename="../classes/imageeditor/toolline.cpp" line="65"/>
@@ -1223,8 +1239,8 @@ Qt: %4</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolline.cpp" line="70"/>
-        <source>Draw line</source>
-        <translation>Рисование линии</translation>
+        <source>&lt;b&gt;Draw line&lt;/b&gt;&lt;br/&gt;Use left mouse button to draw forecolor.&lt;br/&gt;Use right mouse button to draw backcolor.</source>
+        <translation>&lt;b&gt;Рисование линии&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши для рисования цветом переднего плана.&lt;br/&gt;Правая кнопка мыши для рисования цветом заднего плана.</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolline.cpp" line="147"/>
@@ -1246,16 +1262,19 @@ Qt: %4</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolmove.cpp" line="128"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="129"/>
         <source>Cut &amp; Move</source>
         <translation>Вырезать и переместить</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolmove.cpp" line="136"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="137"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="138"/>
         <source>Copy &amp; Move</source>
         <translation>Скопировать и переместить</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolmove.cpp" line="144"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="146"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="147"/>
         <source>Move circular (rectancular area only)</source>
         <translation>Циклический сдвиг (только для прямоугольных областей)</translation>
     </message>
@@ -1269,8 +1288,8 @@ Qt: %4</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolpen.cpp" line="70"/>
-        <source>Draw pixels</source>
-        <translation>Рисование точек</translation>
+        <source>&lt;b&gt;Draw pixels&lt;/b&gt;&lt;br/&gt;Use left mouse button to draw forecolor.&lt;br/&gt;Use right mouse button to draw backcolor.</source>
+        <translation>&lt;b&gt;Рисование точек&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши ждя рисования цветом переднего плана.&lt;br/&gt;Правая кнопка мыши для рисования цветом заднего плана.</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolpen.cpp" line="141"/>
@@ -1282,18 +1301,18 @@ Qt: %4</translation>
     <name>ImageEditor::Tools::ToolRect</name>
     <message>
         <location filename="../classes/imageeditor/toolrect.cpp" line="65"/>
-        <source>Rect</source>
+        <source>Rectangle</source>
         <translation>Прямоугольник</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolrect.cpp" line="70"/>
-        <source>Draw rectangle</source>
-        <translation>Рисование прямоугольника</translation>
+        <source>&lt;b&gt;Draw rectangle&lt;/b&gt;&lt;br/&gt;Left mouse button: outline - forecolor, filling - backcolor.&lt;br/&gt;Right mouse button: outline - backcolor, filling - forecolor.</source>
+        <translation>&lt;b&gt;Рисование прямоугольника&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши: границы цвета переднего плана, заливка - заднего.&lt;br/&gt;Правая кнопка мыши: границы цвета заднего плана, заливка - переднего.</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolrect.cpp" line="147"/>
-        <source>Border Width</source>
-        <translation>Ширина границы</translation>
+        <source>Outline Width</source>
+        <translation>Ширина границ</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolrect.cpp" line="154"/>
@@ -1340,7 +1359,17 @@ Qt: %4</translation>
         <translation>Изменение выбора</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolselect.cpp" line="138"/>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="131"/>
+        <source>&lt;b&gt;Modify selection&lt;/b&gt;&lt;br/&gt;Left mouse button to add selection.&lt;br/&gt;Right mouse button to subtract selection.&lt;br/&gt;Middle mouse button to reset selection.</source>
+        <translation>&lt;b&gt;Изменение выбора&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши для добавления участка.&lt;br/&gt;Правая кнопка мыши для исключения участка.&lt;br/&gt;Средняя кнопка мыши для сброса.</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="140"/>
+        <source>&lt;b&gt;Move selection&lt;/b&gt;&lt;br/&gt;Use left mouse button to move selection.</source>
+        <translation>&lt;b&gt;Перемещение выбора&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши для перемещения.</translation>
+    </message>
+    <message>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="139"/>
         <source>Move selection</source>
         <translation>Перемещение выбора</translation>
     </message>
@@ -2050,19 +2079,6 @@ Only minimal amount (%3) will be imported.</source>
         <location filename="../controls/start/starttab.ui" line="111"/>
         <source>&lt;a href=&quot;http://www.riuson.com/lcd-image-converter&quot;&gt;Project&apos;s home page&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://www.riuson.com/lcd-image-converter&quot;&gt;Страница проекта&lt;/a&gt;</translation>
-    </message>
-</context>
-<context>
-    <name>ToolFill</name>
-    <message>
-        <location filename="../classes/imageeditor/toolfill.cpp" line="67"/>
-        <source>Fill</source>
-        <translation>Заполнение</translation>
-    </message>
-    <message>
-        <location filename="../classes/imageeditor/toolfill.cpp" line="72"/>
-        <source>Fill area</source>
-        <translation>Заливка площади</translation>
     </message>
 </context>
 <context>
