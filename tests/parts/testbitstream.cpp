@@ -12,13 +12,13 @@ TestBitStream::TestBitStream(QObject *parent) :
 
 void TestBitStream::initTestCase()
 {
-  this->mPreset = new Preset(this);
+  this->mPreset = new Settings::Presets::Preset(this);
   this->mPreset->initColor(0, 5, 6, 5);
   this->mPreset->matrix()->operationsRemoveAll();
   this->mPreset->matrix()->setMaskAnd(0xffffffff);
   this->mPreset->matrix()->setMaskOr(0x00000000);
 
-  this->mPreset->image()->setBlockSize(Data32);
+  this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data32);
 }
 
 void TestBitStream::streaming()
@@ -34,7 +34,7 @@ void TestBitStream::streaming()
 
   // create test data
   QVector<quint32> sample;
-  BitStream stream(this->mPreset, &source, 0, source.size());
+  Parsing::Conversion::BitStream stream(this->mPreset, &source, 0, source.size());
 
   while (!stream.eof()) {
     sample << stream.next();

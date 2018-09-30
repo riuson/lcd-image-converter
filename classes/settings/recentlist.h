@@ -25,12 +25,16 @@
 //class QStringList;
 //class QStringListIterator;
 
+namespace Settings
+{
+
 class RecentList : public QObject
 {
   Q_OBJECT
 public:
   explicit RecentList(QObject *parent = 0);
   virtual ~RecentList();
+
   void add(const QString &filename);
   enum { MaxRecentFiles = 10 };
   const QStringList *files() const;
@@ -42,5 +46,7 @@ signals:
 public slots:
 
 };
+
+} // namespace Settings
 
 #endif // RECENTLIST_H

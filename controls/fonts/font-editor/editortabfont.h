@@ -29,54 +29,73 @@ namespace Ui
 class EditorTabFont;
 }
 
-class DataContainer;
 class QSplitter;
-class ImagesModel;
-class ImagesScaledProxy;
 class QItemSelection;
 class QModelIndex;
-class StatusData;
+
+namespace Data
+{
+namespace Containers
+{
+class DataContainer;
 class FontDocument;
 class IDocument;
-struct tFontParameters;
+struct FontParameters;
+}
+namespace Models
+{
+class ImagesModel;
+class ImagesScaledProxy;
+}
+}
 
 namespace ImageEditor
 {
 class Editor;
 }
 
+namespace AppUI
+{
+namespace Status
+{
+class StatusData;
+}
+
+namespace Fonts
+{
+
 class EditorTabFont : public QWidget, public IEditor
 {
   Q_OBJECT
-  Q_INTERFACES(IEditor)
+  Q_INTERFACES(AppUI::IEditor)
 
 public:
   explicit EditorTabFont(QWidget *parent = 0);
-  ~EditorTabFont();
+  virtual ~EditorTabFont();
 
-  IDocument *document() const;
-  QStringList selectedKeys() const;
-  StatusData *statusData() const;
-  EditorType type() const;
+  Data::Containers::IDocument *document() const Q_DECL_OVERRIDE;
+  QStringList selectedKeys() const Q_DECL_OVERRIDE;
+  AppUI::Status::StatusData *statusData() const Q_DECL_OVERRIDE;
+  EditorType type() const Q_DECL_OVERRIDE;
 
   void setFontCharacters(const QString &chars,
-                         const tFontParameters &parameters);
+                         const Data::Containers::FontParameters &parameters);
   void fontCharacters(QString *chars,
-                      tFontParameters *parameters);
+                      Data::Containers::FontParameters *parameters);
 
 protected:
-  void changeEvent(QEvent *e);
-  void wheelEvent(QWheelEvent *event);
+  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
+  void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 private:
   Ui::EditorTabFont *ui;
   QWidget *mEditorWidget;
   ImageEditor::Editor *mEditorObject;
-  FontDocument *mDocument;
+  Data::Containers::FontDocument *mDocument;
   QSplitter *mSplitter;
-  ImagesModel *mModel;
-  ImagesScaledProxy *mScaledProxy;
-  StatusData *mStatusData;
+  Data::Models::ImagesModel *mModel;
+  Data::Models::ImagesScaledProxy *mScaledProxy;
+  AppUI::Status::StatusData *mStatusData;
   int mLastImagesCount;
 
   QFont mTableFont;
@@ -100,5 +119,8 @@ signals:
   void documentChanged();
   void statusChanged();
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // EDITORTABFONT_H

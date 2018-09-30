@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2015 riuson
+ * Copyright (C) 2018 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef TFONTPARAMETERS
-#define TFONTPARAMETERS
+#ifndef IPRESETSOPTIONSPART_H
+#define IPRESETSOPTIONSPART_H
 
 #include <QObject>
-#include <QColor>
 
-struct tFontParameters {
-  QString family;
-  QString style;
-  int size;
-  bool monospaced;
-  bool antiAliasing;
-  int ascent;
-  int descent;
-  QColor foreground;
-  QColor background;
+class QSettings;
+class QDomElement;
+
+namespace Settings
+{
+namespace Presets
+{
+
+class IPresetOptionsPart
+{
+public:
+  virtual ~IPresetOptionsPart() { }
+
+  virtual bool load(QSettings *settings) = 0;
+  virtual bool loadXmlElement(QDomElement element) = 0;
+  virtual void save(QSettings *settings) = 0;
+  virtual void saveXmlElement(QDomElement element) = 0;
+
+  virtual QString groupName() const = 0;
 };
 
-#endif // TFONTPARAMETERS
+} // namespace Presets
+} // namespace Settings
 
+Q_DECLARE_INTERFACE (Settings::Presets::IPresetOptionsPart,
+                     "riuson.lcd-image-converter/1.0"
+                    )
+
+
+#endif // IPRESETSOPTIONSPART_H

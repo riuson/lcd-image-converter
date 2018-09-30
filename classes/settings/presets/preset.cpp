@@ -32,6 +32,11 @@
 #include "fontoptions.h"
 #include "templateoptions.h"
 
+namespace Settings
+{
+namespace Presets
+{
+
 Preset::Preset(QObject *parent) :
   QObject(parent)
 {
@@ -212,7 +217,7 @@ bool Preset::load(const QString &presetName)
 
     this->mBlockChangesSignal = false;
 
-    emit this->changed();
+    emit this->changed(QString());
   }
 
   return result;
@@ -324,14 +329,14 @@ void Preset::initMono(MonochromeType type, int edge)
   this->mMatrix->operationsRemoveAll();
   this->mReordering->operationsRemoveAll();
 
-  this->mPrepare->setConvType(ConversionTypeMonochrome);
+  this->mPrepare->setConvType(Parsing::Conversion::Options::ConversionType::Monochrome);
   this->mPrepare->setMonoType(type);
   this->mPrepare->setEdge(edge);
   this->mMatrix->setMaskUsed(0x00000001);
   this->mMatrix->setMaskAnd(0xffffffff);
   this->mMatrix->setMaskOr(0x00000000);
   this->mMatrix->setMaskFill(0x000000ff);
-  this->mImage->setBlockSize(Data8);
+  this->mImage->setBlockSize(Parsing::Conversion::Options::DataBlockSize::Data8);
 
   // alpha bits
   {
@@ -343,7 +348,7 @@ void Preset::initMono(MonochromeType type, int edge)
     this->mMatrix->operationAdd(0x00000001, 0, false);
   }
 
-  emit this->changed();
+  emit this->changed(QString());
 }
 
 void Preset::initGrayscale(int bits)
@@ -359,8 +364,8 @@ void Preset::initGrayscale(int bits)
     bits = 1;
   }
 
-  this->mPrepare->setConvType(ConversionTypeGrayscale);
-  this->mImage->setBlockSize(Data16);
+  this->mPrepare->setConvType(Parsing::Conversion::Options::ConversionType::Grayscale);
+  this->mImage->setBlockSize(Parsing::Conversion::Options::DataBlockSize::Data16);
 
   // mask of used bits before packing
   {
@@ -392,7 +397,7 @@ void Preset::initGrayscale(int bits)
     this->mMatrix->operationAdd(mask, shift, false);
   }
 
-  emit this->changed();
+  emit this->changed(QString());
 }
 
 void Preset::initColor(int alphaBits, int redBits, int greenBits, int blueBits)
@@ -434,8 +439,8 @@ void Preset::initColor(int alphaBits, int redBits, int greenBits, int blueBits)
 
   int bits = alphaBits + redBits + greenBits + blueBits;
 
-  this->mPrepare->setConvType(ConversionTypeColor);
-  this->mImage->setBlockSize(Data32);
+  this->mPrepare->setConvType(Parsing::Conversion::Options::ConversionType::Color);
+  this->mImage->setBlockSize(Parsing::Conversion::Options::DataBlockSize::Data32);
 
   // mask of used bits before packing
   {
@@ -498,13 +503,17 @@ void Preset::initColor(int alphaBits, int redBits, int greenBits, int blueBits)
     this->mMatrix->operationAdd(mask, shift, false);
   }
 
-  emit this->changed();
+  emit this->changed(QString());
 }
 
 void Preset::partsChanged()
 {
+  IPresetOptionsPart *part = qobject_cast<IPresetOptionsPart *>(sender());
+
   if (!this->mBlockChangesSignal) {
-    emit this->changed();
+    emit this->changed(part->groupName());
   }
 }
 
+} // namespace Presets
+} // namespace Settings

@@ -22,6 +22,9 @@
 #include <QVariant>
 #include <appsettings.h>
 
+namespace Settings
+{
+
 int ResizeSettings::scale()
 {
   AppSettings appsett;
@@ -47,3 +50,4 @@ void ResizeSettings::setScale(int value)
   sett.endGroup();
 }
 
+} // namespace Settings

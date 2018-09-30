@@ -19,6 +19,15 @@
 
 #include "matrixitemdelegate.h"
 
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Matrix
+{
+
 MatrixItemDelegate::MatrixItemDelegate(QObject *pobj) : QItemDelegate(pobj)
 {
   this->mColor = QColor("gold");
@@ -60,3 +69,7 @@ void MatrixItemDelegate::setColor(const QColor &value)
   this->mColor = value;
 }
 
+} // namespace Matrix
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

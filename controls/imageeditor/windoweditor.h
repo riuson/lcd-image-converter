@@ -29,8 +29,17 @@ class WindowEditor;
 
 namespace ImageEditor
 {
+namespace Tools
+{
 class ToolsManager;
 class IImageEditorTool;
+}
+}
+
+namespace AppUI
+{
+namespace Images
+{
 
 class WindowEditor : public QMainWindow
 {
@@ -38,7 +47,7 @@ class WindowEditor : public QMainWindow
 
 public:
   explicit WindowEditor(QWidget *parent = 0);
-  ~WindowEditor();
+  virtual ~WindowEditor();
 
   const QImage *image() const;
   void setImage(const QImage *value);
@@ -46,17 +55,17 @@ public:
   int scale() const;
 
 protected:
-  void changeEvent(QEvent *e);
-  bool eventFilter(QObject *obj, QEvent *event);
-  void wheelEvent(QWheelEvent *event);
+  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
+  bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+  void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 private:
   Ui::WindowEditor *ui;
   QImage mImageOriginal;
   QImage mImageScaled;
   QPixmap mPixmapScaled;
-  ToolsManager *mTools;
-  IImageEditorTool *mSelectedTool;
+  ImageEditor::Tools::ToolsManager *mTools;
+  ImageEditor::Tools::IImageEditorTool *mSelectedTool;
 
   void updateImageScaled(int value);
   void updateImageScaled(const QImage &image, int scale);
@@ -79,6 +88,7 @@ signals:
   void scaleChanged(int scale);
 };
 
-} // end of namespace
+} // namespace Images
+} // namespace AppUI
 
 #endif // WINDOWEDITOR_H

@@ -27,13 +27,18 @@ namespace Ui
 class WidgetBitmapEditor;
 }
 
+namespace AppUI
+{
+namespace Images
+{
+
 class WidgetBitmapEditor : public QWidget
 {
   Q_OBJECT
 
 public:
   explicit WidgetBitmapEditor(QWidget *parent = 0);
-  ~WidgetBitmapEditor();
+  virtual ~WidgetBitmapEditor();
 
   const QImage *image() const;
   void setImage(const QImage *value);
@@ -43,9 +48,9 @@ public:
   int scale() const;
 
 protected:
-  void changeEvent(QEvent *e);
-  bool eventFilter(QObject *obj, QEvent *event);
-  void wheelEvent(QWheelEvent *event);
+  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
+  bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+  void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 private:
   Ui::WidgetBitmapEditor *ui;
@@ -76,5 +81,8 @@ signals:
   void mouseMove(QPoint point);
   void scaleSchanged(int scale);
 };
+
+} // namespace Images
+} // namespace AppUI
 
 #endif // WIDGETBITMAPEDITOR_H

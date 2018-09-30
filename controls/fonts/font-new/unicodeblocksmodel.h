@@ -23,6 +23,11 @@
 #include <QAbstractListModel>
 #include <QList>
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 class UnicodeBlock
 {
 public:
@@ -42,14 +47,15 @@ class UnicodeBlocksModel : public QAbstractListModel
   Q_OBJECT
 public:
   explicit UnicodeBlocksModel(QObject *parent = 0);
+  virtual ~UnicodeBlocksModel() {}
 
   enum UnicodeBlocksModelRole {
     FirstCodeRole = Qt::UserRole + 1,
     LastCodeRole = Qt::UserRole + 2
   };
 
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const; // функция доступа к данным
-  int rowCount(const QModelIndex &parent) const; // количество элементов в модели
+  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+  int rowCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
 
 private:
   QList<UnicodeBlock *> mList;
@@ -59,5 +65,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // QUNICODEBLOCKSMODEL_H

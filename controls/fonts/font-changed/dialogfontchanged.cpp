@@ -20,6 +20,11 @@
 #include "dialogfontchanged.h"
 #include "ui_dialogfontchanged.h"
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 DialogFontChanged::DialogFontChanged(QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogFontChanged)
@@ -62,3 +67,5 @@ void DialogFontChanged::on_buttonCancel_clicked()
   this->reject();
 }
 
+} // namespace Fonts
+} // namespace AppUI

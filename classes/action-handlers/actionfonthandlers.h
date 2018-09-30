@@ -24,15 +24,17 @@
 
 #include "actionhandlersbase.h"
 
-class QImage;
-class IMainWindow;
-class WidgetBitmapEditor;
+namespace AppUI
+{
+namespace MenuHandlers
+{
 
 class ActionFontHandlers : public ActionHandlersBase
 {
   Q_OBJECT
 public:
   explicit ActionFontHandlers(QObject *parent = 0);
+  virtual ~ActionFontHandlers() {}
 
 signals:
   void imageCreated(QImage *image, const QString &documentName);
@@ -45,5 +47,8 @@ public slots:
   void fontPreview_triggered();
   void fontToImage_triggered();
 };
+
+} // namespace MenuHandlers
+} // namespace AppUI
 
 #endif // ACTIONFONTHANDLERS_H

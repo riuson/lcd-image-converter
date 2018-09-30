@@ -33,10 +33,11 @@ class FontMinimizeHeight : public QObject, public IOperation
 
 public:
   explicit FontMinimizeHeight(QWidget *parentWidget = 0, QObject *parent = 0);
+  virtual ~FontMinimizeHeight() {}
 
-  bool prepare(const IDocument *doc, const QStringList &keys);
-  void applyDocument(IDocument *doc, const QStringList &keys);
-  void applyItem(IDocument *doc, const QString &itemKey);
+  bool prepare(const Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
+  void applyDocument(Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
+  void applyItem(Data::Containers::IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
 
 private:
   QWidget *mParentWidget;
@@ -46,6 +47,6 @@ private:
   int mBottom;
 };
 
-}
+} // namespace Operations
 
 #endif // FONTMINIMIZEHEIGHT_H

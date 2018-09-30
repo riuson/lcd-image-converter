@@ -35,7 +35,7 @@ void DocumentOperator::setKeys(const QStringList keys)
   this->mSelectedKeys = keys;
 }
 
-void DocumentOperator::apply(IDocument *doc, IOperation &operation)
+void DocumentOperator::apply(Data::Containers::IDocument *doc, IOperation &operation)
 {
   QStringList keys = this->mSelectedKeys.length() == 0 ? doc->dataContainer()->keys() : this->mSelectedKeys;
 
@@ -56,4 +56,4 @@ void DocumentOperator::apply(IDocument *doc, IOperation &operation)
   }
 }
 
-}
+} // namespace Operations

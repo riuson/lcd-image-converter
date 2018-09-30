@@ -23,13 +23,25 @@
 #include <QObject>
 #include <QColor>
 
-class CharactersModel;
 class QModelIndex;
 class QItemSelection;
 class QFont;
+
+namespace Data
+{
+namespace Containers
+{
+struct FontParameters;
+}
+}
+
+namespace AppUI
+{
+namespace Fonts
+{
+class CharactersModel;
 class UnicodeBlocksModel;
 class UnicodeBlocksFilterModel;
-struct tFontParameters;
 
 class DialogFontSelectData : public QObject
 {
@@ -39,10 +51,10 @@ public:
   virtual ~DialogFontSelectData();
 
   QString characters();
-  void getFontParameters(tFontParameters *parameters);
+  void getFontParameters(Data::Containers::FontParameters *parameters);
 
   void setCharacters(const QString &value);
-  void setFontParameters(const tFontParameters &parameters);
+  void setFontParameters(const Data::Containers::FontParameters &parameters);
 
   CharactersModel *charactersModel();
   UnicodeBlocksFilterModel *unicodeBlocksModel();
@@ -66,6 +78,8 @@ private:
   QColor mForeground;
   QColor mBackground;
   QString mCharacters;
+  int mMultiplicityWidth;
+  int mMultiplicityHeight;
 
   void notifyFontChanged();
 
@@ -78,6 +92,7 @@ signals:
   void monospacedChanged(bool value);
   void antialiasingChanged(bool value);
   void colorsChanged(const QColor &forecolor, const QColor &background);
+  void multiplicityChanged(int height, int width);
 
 public slots:
   void setFont(const QFont &font);
@@ -88,6 +103,10 @@ public slots:
   void setMonospaced(bool value);
   void setAntialiasing(bool value);
   void resort();
+  void setMultiplicity(int height, int width);
 };
+
+} // namespace Fonts
+} // namespace AppUI
 
 #endif // DIALOGFONTSELECTDATA_H

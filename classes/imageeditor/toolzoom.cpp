@@ -30,11 +30,13 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolZoom::ToolZoom(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_zoom"), 24)));
+  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_zoom"), 24)));
 
   this->mActions = new QList<QAction *>();
   this->mWidgets = new QList<QWidget *>();
@@ -119,7 +121,7 @@ void ToolZoom::initializeWidgets()
 
 void ToolZoom::loadSettings()
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -139,7 +141,7 @@ void ToolZoom::loadSettings()
 
 void ToolZoom::saveSettings() const
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -160,5 +162,5 @@ void ToolZoom::on_spinBoxScale_valueChanged(int value)
   }
 }
 
-} // end of namespace
-
+} // namespace Tools
+} // namespace ImageEditor

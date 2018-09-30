@@ -9,7 +9,7 @@ TestReorderingOptions::TestReorderingOptions(QObject *parent) :
 
 void TestReorderingOptions::initTestCase()
 {
-  this->mOptions = new ReorderingOptions(this);
+  this->mOptions = new Settings::Presets::ReorderingOptions(this);
 }
 
 void TestReorderingOptions::operationsCount()

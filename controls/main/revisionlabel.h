@@ -22,16 +22,25 @@
 
 #include <QLabel>
 
+namespace AppUI
+{
+namespace Revision
+{
+
 class RevisionLabel : public QLabel
 {
   Q_OBJECT
 public:
   explicit RevisionLabel(QWidget *parent = 0);
+  virtual ~RevisionLabel() {}
 
 signals:
 
 public slots:
 
 };
+
+} // namespace Revision
+} // namespace AppUI
 
 #endif // REVISIONLABEL_H

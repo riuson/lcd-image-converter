@@ -25,13 +25,18 @@
 #include "fonthelper.h"
 #include "datacontainer.h"
 
+namespace AppUI
+{
+namespace Fonts
+{
+
 DialogFontPreview::DialogFontPreview(QWidget *parent) :
   QDialog(parent),
   ui(new Ui::DialogFontPreview)
 {
   ui->setupUi(this);
   this->mOriginalImage = QImage(":/images/template").scaled(20, 10);
-  this->mDocument = NULL;
+  this->mDocument = nullptr;
 
   this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
 }
@@ -41,15 +46,15 @@ DialogFontPreview::~DialogFontPreview()
   delete ui;
 }
 
-void DialogFontPreview::setDocument(IDocument *document)
+void DialogFontPreview::setDocument(Data::Containers::IDocument *document)
 {
   this->mDocument = document;
 }
 
 void DialogFontPreview::on_lineEditText_textChanged(const QString &text)
 {
-  if (this->mDocument != NULL) {
-    this->mOriginalImage = FontHelper::drawString(this->mDocument->dataContainer(), text);
+  if (this->mDocument != nullptr) {
+    this->mOriginalImage = Parsing::Conversion::FontHelper::drawString(this->mDocument->dataContainer(), text);
 
     // update preview
     this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
@@ -58,8 +63,10 @@ void DialogFontPreview::on_lineEditText_textChanged(const QString &text)
 
 void DialogFontPreview::on_spinBoxScale_valueChanged(int i)
 {
-  this->mScaledImage = BitmapHelper::scale(&this->mOriginalImage, i);
-  this->mScaledImage = BitmapHelper::drawGrid(&this->mScaledImage, i);
+  this->mScaledImage = Parsing::Conversion::BitmapHelper::scale(&this->mOriginalImage, i);
+  this->mScaledImage = Parsing::Conversion::BitmapHelper::drawGrid(&this->mScaledImage, i);
   this->ui->labelPreview->setPixmap(QPixmap::fromImage(this->mScaledImage));
 }
 
+} // namespace Fonts
+} // namespace AppUI

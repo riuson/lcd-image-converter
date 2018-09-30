@@ -25,9 +25,22 @@
 #include <QVariant>
 #include "conversion_options.h"
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
 
-using namespace ConversionOptions;
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Reordering
+{
 
 class ReorderingPreviewModel : public QAbstractItemModel
 {
@@ -39,19 +52,21 @@ public:
     Result
   };
 
-  explicit ReorderingPreviewModel(Preset *preset, QObject *parent = 0);
-  int rowCount(const QModelIndex &parent) const;
-  int columnCount(const QModelIndex &parent) const;
-  QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-  QVariant data(const QModelIndex &index, int role) const;
-  bool setData(const QModelIndex &index, const QVariant &value, int role);
-  QModelIndex index(int row, int column, const QModelIndex &parent) const;
-  QModelIndex parent(const QModelIndex &child) const;
-  Qt::ItemFlags flags(const QModelIndex &index) const;
+  explicit ReorderingPreviewModel(Settings::Presets::Preset *preset, QObject *parent = 0);
+  virtual ~ReorderingPreviewModel() {}
+
+  int rowCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
+  int columnCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
+  QVariant headerData(int section, Qt::Orientation orientation, int role) const Q_DECL_OVERRIDE;
+  QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
+  bool setData(const QModelIndex &index, const QVariant &value, int role) Q_DECL_OVERRIDE;
+  QModelIndex index(int row, int column, const QModelIndex &parent) const Q_DECL_OVERRIDE;
+  QModelIndex parent(const QModelIndex &child) const Q_DECL_OVERRIDE;
+  Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
   RowType rowType(int row) const;
 
 private:
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
 
   enum ColorType {
     Empty,
@@ -59,7 +74,7 @@ private:
     Gray
   };
 
-  void getBitType(int bitIndex, ConversionType *convType, ColorType *colorType, int *partIndex) const;
+  void getBitType(int bitIndex, Parsing::Conversion::Options::ConversionType *convType, ColorType *colorType, int *partIndex) const;
   void resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
   void sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const;
   int maxBitIndex() const;
@@ -69,5 +84,10 @@ signals:
 public slots:
   void callReset();
 };
+
+} // namespace Reordering
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // REORDERINGPREVIEWMODEL_H

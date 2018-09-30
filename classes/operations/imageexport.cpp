@@ -35,14 +35,14 @@ ImageExport::ImageExport(QWidget *parentWidget, QObject *parent) :
   this->mExportIndex = 0;
 }
 
-bool ImageExport::prepare(const IDocument *doc, const QStringList &keys)
+bool ImageExport::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 
   QFileDialog dialog(this->mParentWidget);
   dialog.setAcceptMode(QFileDialog::AcceptSave);
-  dialog.setDirectory(FileDialogOptions::directory(FileDialogOptions::Dialogs::ExportImage));
+  dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::ExportImage));
   dialog.setFileMode(QFileDialog::AnyFile);
   dialog.setWindowTitle(tr("Save image file"));
 
@@ -57,16 +57,16 @@ bool ImageExport::prepare(const IDocument *doc, const QStringList &keys)
   dialog.setNameFilters(filters);
   dialog.selectNameFilter(
     filters.at(
-      FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::ExportImage) < filters.count()
+      Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::ExportImage) < filters.count()
       ?
-      FileDialogOptions::filterIndex(FileDialogOptions::Dialogs::ExportImage)
+      Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::ExportImage)
       :
       0));
 
   if (dialog.exec() == QDialog::Accepted) {
     QString filter = dialog.selectedNameFilter();
-    FileDialogOptions::setDirectory(FileDialogOptions::Dialogs::ExportImage, dialog.directory().absolutePath());
-    FileDialogOptions::setFilterIndex(FileDialogOptions::Dialogs::ExportImage, filters.indexOf(filter));
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ExportImage, dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setFilterIndex(Settings::FileDialogOptions::Dialogs::ExportImage, filters.indexOf(filter));
     QString ext = "png";
 
     if (filter.contains("bmp")) {
@@ -96,13 +96,13 @@ bool ImageExport::prepare(const IDocument *doc, const QStringList &keys)
   return false;
 }
 
-void ImageExport::applyDocument(IDocument *doc, const QStringList &keys)
+void ImageExport::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageExport::applyItem(IDocument *doc, const QString &itemKey)
+void ImageExport::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
   if (this->mExportFilenames.length() == 1) {
     doc->dataContainer()->image(itemKey)->save(this->mExportFilenames.at(0));
@@ -151,4 +151,4 @@ void ImageExport::prepareFilenames(const QStringList &keys, const QString &filen
   }
 }
 
-}
+} // namespace Operations

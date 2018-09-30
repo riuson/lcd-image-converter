@@ -33,10 +33,11 @@ class ImageResize : public QObject, public IOperation
 
 public:
   explicit ImageResize(QWidget *parentWidget = 0, QObject *parent = 0);
+  virtual ~ImageResize() {}
 
-  virtual bool prepare(const IDocument *doc, const QStringList &keys);
-  virtual void applyDocument(IDocument *doc, const QStringList &keys);
-  virtual void applyItem(IDocument *doc, const QString &itemKey);
+  bool prepare(const Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
+  void applyDocument(Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
+  void applyItem(Data::Containers::IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
 
 protected:
   QWidget *mParentWidget;
@@ -46,6 +47,6 @@ protected:
   int mBottom;
 };
 
-}
+} // namespace Operations
 
 #endif // IMAGERESIZE_H

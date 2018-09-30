@@ -28,34 +28,48 @@ namespace Ui
 class MainWindow;
 }
 
-class WidgetBitmapEditor;
 class QTranslator;
+class WidgetBitmapEditor;
+
+namespace Settings
+{
 class RecentList;
+}
+
+namespace AppUI
+{
+namespace Status
+{
 class StatusManager;
+}
+
+namespace MenuHandlers
+{
 class ActionFileHandlers;
 class ActionEditHandlers;
 class ActionImageHandlers;
 class ActionFontHandlers;
 class ActionSetupHandlers;
 class ActionHelpHandlers;
+}
 
 class MainWindow : public QMainWindow, public IMainWindow
 {
   Q_OBJECT
-  Q_INTERFACES(IMainWindow)
+  Q_INTERFACES(AppUI::IMainWindow)
 
 public:
   MainWindow(QWidget *parent = 0);
-  ~MainWindow();
+  virtual ~MainWindow();
 
 protected:
-  void changeEvent(QEvent *e);
+  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
 
 private:
   Ui::MainWindow *ui;
   QTranslator *mTrans;
-  RecentList *mRecentList;
-  StatusManager *mStatusManager;
+  Settings::RecentList *mRecentList;
+  Status::StatusManager *mStatusManager;
 
   void selectLocale(const QString &localeName);
   void checkStartPageVisible();
@@ -63,12 +77,12 @@ private:
   void tabTextUpdate(QWidget *widget);
   int editorsCount() const;
 
-  ActionFileHandlers *mFileHandlers;
-  ActionEditHandlers *mEditHandlers;
-  ActionImageHandlers *mImageHandlers;
-  ActionFontHandlers *mFontHandlers;
-  ActionSetupHandlers *mSetupHandlers;
-  ActionHelpHandlers *mHelpHandlers;
+  MenuHandlers::ActionFileHandlers *mFileHandlers;
+  MenuHandlers::ActionEditHandlers *mEditHandlers;
+  MenuHandlers::ActionImageHandlers *mImageHandlers;
+  MenuHandlers::ActionFontHandlers *mFontHandlers;
+  MenuHandlers::ActionSetupHandlers *mSetupHandlers;
+  MenuHandlers::ActionHelpHandlers *mHelpHandlers;
 
 private slots:
   void on_tabWidget_tabCloseRequested(int index);
@@ -86,11 +100,13 @@ private slots:
   int tabCreated(QWidget *newTab);
   void statusChanged();
 public:
-  IEditor *currentEditor();
-  QWidget *currentTab();
-  void tabsList(QList<QWidget *> *list);
-  QWidget *parentWidget();
-  QString findAvailableName(const QString &prefix);
+  IEditor *currentEditor() Q_DECL_OVERRIDE;
+  QWidget *currentTab() Q_DECL_OVERRIDE;
+  void tabsList(QList<QWidget *> *list) Q_DECL_OVERRIDE;
+  QWidget *parentWidget() Q_DECL_OVERRIDE;
+  QString findAvailableName(const QString &prefix) Q_DECL_OVERRIDE;
 };
+
+} // namespace AppUI
 
 #endif // MAINWINDOW_H

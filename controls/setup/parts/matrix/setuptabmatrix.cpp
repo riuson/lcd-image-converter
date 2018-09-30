@@ -20,7 +20,7 @@
 #include "setuptabmatrix.h"
 #include "ui_setuptabmatrix.h"
 
-#include "qt-version-check.h"
+#include <QtWidgets>
 #include "matrixpreviewmodel.h"
 #include "matrixitemdelegate.h"
 #include "preset.h"
@@ -28,21 +28,22 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
-#include <QtWidgets>
-#endif // QT_VERSION
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Matrix
+{
 
-SetupTabMatrix::SetupTabMatrix(Preset *preset, QWidget *parent) :
+SetupTabMatrix::SetupTabMatrix(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabMatrix)
 {
   ui->setupUi(this);
   this->mPreset = preset;
-  this->mMenu = NULL;
-
-  this->ui->comboBoxConversionType->addItem(tr("Monochrome"), ConversionTypeMonochrome);
-  this->ui->comboBoxConversionType->addItem(tr("Grayscale"), ConversionTypeGrayscale);
-  this->ui->comboBoxConversionType->addItem(tr("Color"), ConversionTypeColor);
+  this->mMenu = nullptr;
 
   this->mMatrixModel = new MatrixPreviewModel(this->mPreset, this);
   this->ui->tableViewOperations->setModel(this->mMatrixModel);
@@ -54,11 +55,13 @@ SetupTabMatrix::SetupTabMatrix(Preset *preset, QWidget *parent) :
 
   this->mMatrixItemDelegate = new MatrixItemDelegate(this);
   this->ui->tableViewOperations->setItemDelegate(this->mMatrixItemDelegate);
+
+  this->connect(this->mPreset, SIGNAL(changed(QString)), SLOT(on_presetChanged(QString)));
 }
 
 SetupTabMatrix::~SetupTabMatrix()
 {
-  if (this->mMenu != NULL) {
+  if (this->mMenu != nullptr) {
     delete this->mMenu;
   }
 
@@ -70,29 +73,46 @@ SetupTabMatrix::~SetupTabMatrix()
 
 void SetupTabMatrix::matrixChanged()
 {
-  int index = this->ui->comboBoxConversionType->findData(this->mPreset->prepare()->convType());
-
-  if (index >= 0) {
-    this->ui->comboBoxConversionType->setCurrentIndex(index);
-  }
-
   this->mMatrixModel->callReset();
-  this->ui->tableViewOperations->setModel(NULL);
+  this->ui->tableViewOperations->setModel(nullptr);
   this->ui->tableViewOperations->setModel(this->mMatrixModel);
   this->ui->tableViewOperations->update();
   this->ui->tableViewOperations->resizeRowsToContents();
   this->ui->tableViewOperations->resizeColumnsToContents();
+  this->updateMaskByBlockSize();
 }
 
-void SetupTabMatrix::on_comboBoxConversionType_currentIndexChanged(int index)
+void SetupTabMatrix::updateMaskByBlockSize()
 {
-  QVariant data = this->ui->comboBoxConversionType->itemData(index);
-  bool ok;
-  int a = data.toInt(&ok);
+  Parsing::Conversion::Options::DataBlockSize blockSize = this->mPreset->image()->blockSize();
+  quint32 maskClear = 0;
 
-  if (ok) {
-    this->mPreset->prepare()->setConvType((ConversionType)a);
+  switch (blockSize) {
+    case Parsing::Conversion::Options::DataBlockSize::Data8: {
+      maskClear = 0x000000fful;
+      break;
+    }
+
+    case Parsing::Conversion::Options::DataBlockSize::Data16: {
+      maskClear = 0x0000fffful;
+      break;
+    }
+
+    case Parsing::Conversion::Options::DataBlockSize::Data24: {
+      maskClear = 0x00fffffful;
+      break;
+    }
+
+    default:
+    case Parsing::Conversion::Options::DataBlockSize::Data32: {
+      maskClear = 0xfffffffful;
+      break;
+    }
   }
+
+  quint32 maskFill = this->mPreset->matrix()->maskFill();
+  maskFill &= maskClear;
+  this->mPreset->matrix()->setMaskFill(maskFill);
 }
 
 void SetupTabMatrix::on_tableViewOperations_customContextMenuRequested(const QPoint &point)
@@ -100,9 +120,9 @@ void SetupTabMatrix::on_tableViewOperations_customContextMenuRequested(const QPo
   QModelIndex index = this->ui->tableViewOperations->indexAt(point);
   QItemSelectionModel *selection = this->ui->tableViewOperations->selectionModel();
 
-  if (this->mMenu != NULL) {
+  if (this->mMenu != nullptr) {
     delete this->mMenu;
-    this->mMenu = NULL;
+    this->mMenu = nullptr;
   }
 
   if (index.isValid()) {
@@ -214,6 +234,13 @@ void SetupTabMatrix::on_tableViewOperations_customContextMenuRequested(const QPo
       default:
         break;
     }
+  }
+}
+
+void SetupTabMatrix::on_presetChanged(const QString &groupName)
+{
+  if (groupName == this->mPreset->image()->groupName()) {
+    this->updateMaskByBlockSize();
   }
 }
 
@@ -353,6 +380,7 @@ void SetupTabMatrix::maskReset()
             this->mPreset->matrix()->setMaskFill( this->mPreset->matrix()->maskFill() & ~mask);
           }
 
+          this->updateMaskByBlockSize();
           break;
         }
 
@@ -363,3 +391,7 @@ void SetupTabMatrix::maskReset()
   }
 }
 
+} // namespace Matrix
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

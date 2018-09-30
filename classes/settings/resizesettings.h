@@ -20,14 +20,16 @@
 #ifndef RESIZESETTINGS_H
 #define RESIZESETTINGS_H
 
-#include <QObject>
-
-class ResizeSettings : public QObject
+namespace Settings
 {
-  Q_OBJECT
+
+class ResizeSettings
+{
 public:
   static int scale();
   static void setScale(int value);
 };
+
+} // namespace Settings
 
 #endif // RESIZESETTINGS_H

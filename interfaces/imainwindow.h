@@ -24,9 +24,12 @@
 
 class QString;
 class QWidget;
-class IEditor;
 
 template <class T> class QList;
+
+namespace AppUI
+{
+class IEditor;
 
 class IMainWindow
 {
@@ -37,7 +40,9 @@ public:
   virtual QWidget *parentWidget() = 0;
   virtual QString findAvailableName(const QString &prefix) = 0;
 };
-Q_DECLARE_INTERFACE (IMainWindow,
+} // namespace AppUI
+
+Q_DECLARE_INTERFACE (AppUI::IMainWindow,
                      "riuson.lcd-image-converter/1.0"
                     )
 

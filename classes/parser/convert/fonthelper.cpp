@@ -24,12 +24,12 @@
 #include <QRegExp>
 #include "datacontainer.h"
 
-FontHelper::FontHelper(QObject *parent) :
-  QObject(parent)
+namespace Parsing
 {
-}
+namespace Conversion
+{
 
-QImage FontHelper::drawString(const DataContainer *data, const QString &value)
+QImage FontHelper::drawString(const Data::Containers::DataContainer *data, const QString &value)
 {
   int width = 0, height = 0;
   QImage::Format format = QImage::Format_ARGB32;
@@ -140,7 +140,9 @@ QImage FontHelper::drawCharacter(
   const QColor &background,
   const int width,
   const int height,
-  const bool antialiasing)
+  const bool antialiasing,
+  const int multiplicityHeight,
+  const int multiplicityWidth)
 {
   QFontMetrics fontMetrics(font);
 
@@ -153,6 +155,9 @@ QImage FontHelper::drawCharacter(
     imageWidth = characterSize.width();
     imageHeight = characterSize.height();
   }
+
+  imageWidth = Parsing::Conversion::FontHelper::roundUp(imageWidth, multiplicityWidth);
+  imageHeight = Parsing::Conversion::FontHelper::roundUp(imageHeight, multiplicityHeight);
 
   QImage result;
 
@@ -181,3 +186,18 @@ QImage FontHelper::drawCharacter(
   return result;
 }
 
+int FontHelper::roundUp(int original, int multiplicity)
+{
+  if (multiplicity > 1) {
+    int d = original / multiplicity;
+
+    if ((d * multiplicity) < original) {
+      return (d + 1) * multiplicity;
+    }
+  }
+
+  return original;
+}
+
+} // namespace Conversion
+} // namespace Parsing

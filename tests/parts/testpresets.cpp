@@ -12,19 +12,19 @@ TestPresets::TestPresets(QObject *parent) :
 
 void TestPresets::initTestCase()
 {
-  this->mOptions = new Preset(this);
+  this->mOptions = new Settings::Presets::Preset(this);
 }
 
 void TestPresets::loadSave()
 {
-  Preset source;
+  Settings::Presets::Preset source;
   source.initColor(0, 5, 6, 5);
-  source.prepare()->setScanMain(BottomToTop);
-  source.prepare()->setScanSub(Backward);
+  source.prepare()->setScanMain(Parsing::Conversion::Options::ScanMainDirection::BottomToTop);
+  source.prepare()->setScanSub(Parsing::Conversion::Options::ScanSubDirection::Backward);
   source.prepare()->setBandScanning(true);
   source.prepare()->setBandWidth(577);
-  source.image()->setBytesOrder(BytesOrderBigEndian);
-  source.image()->setBlockSize(Data16);
+  source.image()->setBytesOrder(Parsing::Conversion::Options::BytesOrder::BigEndian);
+  source.image()->setBlockSize(Parsing::Conversion::Options::DataBlockSize::Data16);
   source.image()->setBlockDefaultOnes(true);
   source.image()->setSplitToRows(true);
   source.image()->setCompressionRle(true);
@@ -33,13 +33,13 @@ void TestPresets::loadSave()
   source.image()->setBlockDelimiter("delimiter");
 
   this->mOptions->initColor(0, 5, 6, 5);
-  this->mOptions->prepare()->setScanMain(BottomToTop);
-  this->mOptions->prepare()->setScanSub(Backward);
+  this->mOptions->prepare()->setScanMain(Parsing::Conversion::Options::ScanMainDirection::BottomToTop);
+  this->mOptions->prepare()->setScanSub(Parsing::Conversion::Options::ScanSubDirection::Backward);
   this->mOptions->prepare()->setBandScanning(true);
   this->mOptions->prepare()->setBandWidth(577);
   this->mOptions->matrix()->operationsRemoveAll();
-  this->mOptions->image()->setBytesOrder(BytesOrderBigEndian);
-  this->mOptions->image()->setBlockSize(Data16);
+  this->mOptions->image()->setBytesOrder(Parsing::Conversion::Options::BytesOrder::BigEndian);
+  this->mOptions->image()->setBlockSize(Parsing::Conversion::Options::DataBlockSize::Data16);
   this->mOptions->image()->setBlockDefaultOnes(true);
   this->mOptions->image()->setSplitToRows(true);
   this->mOptions->image()->setCompressionRle(true);
@@ -56,7 +56,7 @@ void TestPresets::loadSave()
   this->mOptions->save(name);
 
   this->mOptions->matrix()->operationsRemoveAll();
-  this->mOptions->initMono(MonochromeTypeEdge, 1);
+  this->mOptions->initMono(Parsing::Conversion::Options::MonochromeType::Edge, 1);
 
   if (!this->mOptions->load(name)) {
     QFAIL("preset not loaded");

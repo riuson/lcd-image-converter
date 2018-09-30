@@ -20,34 +20,48 @@
 #ifndef FONTHELPER_H
 #define FONTHELPER_H
 
-#include <QObject>
-
 #include <QImage>
 #include <QSize>
+#include <QString>
 
-class DataContainer;
-
-class FontHelper : public QObject
+namespace Data
 {
-  Q_OBJECT
-public:
-  explicit FontHelper(QObject *parent = 0);
+namespace Containers
+{
+class DataContainer;
+}
+}
 
-  static QImage drawString(const DataContainer *data, const QString &value);
+namespace Parsing
+{
+namespace Conversion
+{
+
+class FontHelper
+{
+public:
+  static QImage drawString(const Data::Containers::DataContainer *data, const QString &value);
   static QString escapeControlChars(const QString &value);
   static QString unescapeControlChars(const QString &value);
   static QSize getCharacterSize(const QFontMetrics &metrics, QChar value);
-  static QImage drawCharacter(const QChar value,
-                              const QFont &font,
-                              const QColor &foreground,
-                              const QColor &background,
-                              const int width,
-                              const int height,
-                              const bool antialiasing);
+  static QImage drawCharacter(
+    const QChar value,
+    const QFont &font,
+    const QColor &foreground,
+    const QColor &background,
+    const int width,
+    const int height,
+    const bool antialiasing,
+    const int multiplicityHeight,
+    const int multiplicityWidth);
+  static int roundUp(int original, int multiplicity);
 signals:
 
 public slots:
 
 };
+
+} // namespace Conversion
+} // namespace Parsing
 
 #endif // FONTHELPER_H

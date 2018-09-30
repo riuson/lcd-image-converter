@@ -27,18 +27,26 @@ namespace Ui
 class DialogAbout;
 }
 
+namespace AppUI
+{
+namespace About
+{
+
 class DialogAbout : public QDialog
 {
   Q_OBJECT
 
 public:
   explicit DialogAbout(QWidget *parent = 0);
-  ~DialogAbout();
+  virtual ~DialogAbout();
 
 private:
   Ui::DialogAbout *ui;
 
   void showLicense();
 };
+
+} // namespace About
+} // namespace AppUI
 
 #endif // DIALOGABOUT_H

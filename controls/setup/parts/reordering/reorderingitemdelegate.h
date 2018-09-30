@@ -21,18 +21,25 @@
 #define REORDERINGITEMDELEGATE_H
 
 #include <QtGui>
-#include "qt-version-check.h"
-
-#if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
 #include <QtWidgets>
-#endif // QT_VERSION
+
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Reordering
+{
 
 class ReorderingItemDelegate : public QItemDelegate
 {
   Q_OBJECT
 public:
   explicit ReorderingItemDelegate(QObject *parent = 0);
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  virtual ~ReorderingItemDelegate() {}
+
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
 
 public:
   QColor color() const;
@@ -40,5 +47,10 @@ public:
 private:
   QColor mColor;
 };
+
+} // namespace Reordering
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI
 
 #endif // REORDERINGITEMDELEGATE_H

@@ -29,13 +29,18 @@ class DialogUpdates;
 
 class QNetworkReply;
 
+namespace AppUI
+{
+namespace Updates
+{
+
 class DialogUpdates : public QDialog
 {
   Q_OBJECT
 
 public:
   explicit DialogUpdates(QWidget *parent = 0);
-  ~DialogUpdates();
+  virtual ~DialogUpdates();
 
 private:
   Ui::DialogUpdates *ui;
@@ -50,5 +55,8 @@ private:
 private slots:
   void networkReply(QNetworkReply *reply);
 };
+
+} // namespace Updates
+} // namespace AppUI
 
 #endif // DIALOGUPDATES_H

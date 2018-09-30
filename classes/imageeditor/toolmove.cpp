@@ -31,11 +31,13 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolMove::ToolMove(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_move"), 24)));
+  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_move"), 24)));
 
   this->mActions = new QList<QAction *>();
   this->mWidgets = new QList<QWidget *>();
@@ -89,7 +91,7 @@ bool ToolMove::processMouse(QMouseEvent *event,
     }
 
     // get coordinates
-    if (imageOriginal != NULL) {
+    if (imageOriginal != nullptr) {
       Qt::MouseButtons buttons = event->buttons();
       int x = event->x();
       int y = event->y();
@@ -123,24 +125,27 @@ void ToolMove::initializeWidgets()
 
   this->mActionMoveCut = new QAction(this);
   this->mActionMoveCut->setCheckable(true);
+  this->mActionMoveCut->setText(tr("Cut & Move"));
   this->mActionMoveCut->setToolTip(tr("Cut & Move"));
-  this->mActionMoveCut->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_cut"), 24))));
+  this->mActionMoveCut->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_cut"), 24))));
   this->connect(this->mActionMoveCut, SIGNAL(triggered()), SLOT(on_switchToMoveCut()));
   this->mActions->append(this->mActionMoveCut);
   group->addAction(this->mActionMoveCut);
 
   this->mActionMoveCopy = new QAction(this);
   this->mActionMoveCopy->setCheckable(true);
+  this->mActionMoveCopy->setText(tr("Copy & Move"));
   this->mActionMoveCopy->setToolTip(tr("Copy & Move"));
-  this->mActionMoveCopy->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_copy"), 24))));
+  this->mActionMoveCopy->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_copy"), 24))));
   this->connect(this->mActionMoveCopy, SIGNAL(triggered()), SLOT(on_switchToMoveCopy()));
   this->mActions->append(this->mActionMoveCopy);
   group->addAction(this->mActionMoveCopy);
 
   this->mActionMoveCircular = new QAction(this);
   this->mActionMoveCircular->setCheckable(true);
+  this->mActionMoveCircular->setText(tr("Move circular (rectancular area only)"));
   this->mActionMoveCircular->setToolTip(tr("Move circular (rectancular area only)"));
-  this->mActionMoveCircular->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_circular"), 24))));
+  this->mActionMoveCircular->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_circular"), 24))));
   this->connect(this->mActionMoveCircular, SIGNAL(triggered()), SLOT(on_switchToMoveCircular()));
   this->mActions->append(this->mActionMoveCircular);
   group->addAction(this->mActionMoveCircular);
@@ -311,5 +316,5 @@ void ToolMove::on_switchToMoveCircular()
   this->mToolMode = MoveCircular;
 }
 
-} // end of namespace
-
+} // namespace Tools
+} // namespace ImageEditor

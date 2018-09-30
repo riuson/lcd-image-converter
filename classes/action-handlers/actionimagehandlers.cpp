@@ -32,6 +32,11 @@
 #include "imageexport.h"
 #include "imageeditinexternaltool.h"
 
+namespace AppUI
+{
+namespace MenuHandlers
+{
+
 ActionImageHandlers::ActionImageHandlers(QObject *parent) :
   ActionHandlersBase(parent)
 {
@@ -40,7 +45,7 @@ ActionImageHandlers::ActionImageHandlers(QObject *parent) :
 
 void ActionImageHandlers::flipHorizontal_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -53,7 +58,7 @@ void ActionImageHandlers::flipHorizontal_triggered()
 
 void ActionImageHandlers::flipVertical_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -66,7 +71,7 @@ void ActionImageHandlers::flipVertical_triggered()
 
 void ActionImageHandlers::rotate_90_Clockwise_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -79,7 +84,7 @@ void ActionImageHandlers::rotate_90_Clockwise_triggered()
 
 void ActionImageHandlers::rotate_180_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -92,7 +97,7 @@ void ActionImageHandlers::rotate_180_triggered()
 
 void ActionImageHandlers::rotate_90_Counter_Clockwise_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -105,7 +110,7 @@ void ActionImageHandlers::rotate_90_Counter_Clockwise_triggered()
 
 void ActionImageHandlers::shift_left_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -118,7 +123,7 @@ void ActionImageHandlers::shift_left_triggered()
 
 void ActionImageHandlers::shift_right_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -131,7 +136,7 @@ void ActionImageHandlers::shift_right_triggered()
 
 void ActionImageHandlers::shift_up_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -144,7 +149,7 @@ void ActionImageHandlers::shift_up_triggered()
 
 void ActionImageHandlers::shift_down_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -157,7 +162,7 @@ void ActionImageHandlers::shift_down_triggered()
 
 void ActionImageHandlers::inverse_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -169,7 +174,7 @@ void ActionImageHandlers::inverse_triggered()
 
 void ActionImageHandlers::resize_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -181,7 +186,7 @@ void ActionImageHandlers::resize_triggered()
 
 void ActionImageHandlers::grayscale_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -193,7 +198,7 @@ void ActionImageHandlers::grayscale_triggered()
 
 void ActionImageHandlers::import_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -205,7 +210,7 @@ void ActionImageHandlers::import_triggered()
 
 void ActionImageHandlers::export_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -217,7 +222,7 @@ void ActionImageHandlers::export_triggered()
 
 void ActionImageHandlers::edit_in_external_tool_triggered()
 {
-  if (this->editor() != NULL) {
+  if (this->editor() != nullptr) {
     QStringList keys = this->editor()->selectedKeys();
 
     Operations::DocumentOperator docOp(this);
@@ -227,3 +232,5 @@ void ActionImageHandlers::edit_in_external_tool_triggered()
   }
 }
 
+} // namespace MenuHandlers
+} // namespace AppUI

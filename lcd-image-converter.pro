@@ -16,7 +16,7 @@ MOC_DIR             = $$OUTDIR/.moc
 UI_DIR              = $$OUTDIR/.uic
 RCC_DIR             = $$OUTDIR/.rcc
 
-QT += xml xmlpatterns network svg
+QT += xml xmlpatterns network svg qml widgets
 TARGET = lcd-image-converter
 TEMPLATE = app
 
@@ -28,22 +28,16 @@ QMAKE_CXXFLAGS += -std=c++11
 DESTDIR             = $$OUTDIR/output
 QMAKE_LIBDIR       += $$DESTDIR
 
-# Widgets in Qt 5
-greaterThan(QT_MAJOR_VERSION, 4) {
-  QT += widgets
-}
-
-# QtScript deprecated in Qt 5.5, replaced by QJSEngine
-greaterThan(QT_MAJOR_VERSION, 4) {
-  greaterThan(QT_MINOR_VERSION, 4) {
-    QT += qml
-  }
-  lessThan(QT_MINOR_VERSION, 5) {
-    QT += script
-  }
-}
+# Qt version required >= 5.5, since 2017-10-05.
+# Qt < 5.0
 lessThan(QT_MAJOR_VERSION, 5) {
-  QT += script
+  error(Qt version required >= 5.5)
+}
+#Qt < 5.5
+greaterThan(QT_MAJOR_VERSION, 4) {
+  lessThan(QT_MINOR_VERSION, 5) {
+    error(Qt version required >= 5.5)
+  }
 }
 
 DEFINES += QT_MAJOR_VERSION="$$QT_MAJOR_VERSION"
@@ -104,11 +98,12 @@ SOURCES += main.cpp \
     classes/parser/convert/bitmaphelper.cpp \
     classes/parser/convert/bitstream.cpp \
     classes/parser/convert/converterhelper.cpp \
-    classes/parser/convert/convimage.cpp \
+    classes/parser/convert/convimagepixels.cpp \
+    classes/parser/convert/convimagescan.cpp \
     classes/parser/convert/fonthelper.cpp \
     classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
-    classes/parser/tags.cpp \
+    classes/parser/tagslist.cpp \
     classes/settings/appsettings.cpp \
     classes/settings/conversionpreviewoptions.cpp \
     classes/settings/externaltooloptions.cpp \
@@ -157,6 +152,8 @@ SOURCES += main.cpp \
     controls/setup/parts/matrix/matrixpreviewmodel.cpp \
     controls/setup/parts/matrix/setuptabmatrix.cpp \
     controls/setup/parts/prepare/demogenerator.cpp \
+    controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.cpp \
+    controls/setup/parts/prepare/scanning/setuptabpreparescanning.cpp \
     controls/setup/parts/prepare/setuptabprepare.cpp \
     controls/setup/parts/reordering/reorderingitemdelegate.cpp \
     controls/setup/parts/reordering/reorderingpreviewmodel.cpp \
@@ -174,7 +171,6 @@ HEADERS += \
     classes/action-handlers/actionimagehandlers.h \
     classes/action-handlers/actionsetuphandlers.h \
     classes/cmdline/cmdline.h \
-    classes/cmdline/cmdoptions.h \
     classes/cmdline/modeconvertfont.h \
     classes/cmdline/modeconvertimage.h \
     classes/cmdline/modehex2bin.h \
@@ -183,13 +179,13 @@ HEADERS += \
     classes/compression/rlesequence.h \
     classes/data/datacontainer.h \
     classes/data/fontdocument.h \
+    classes/data/fontparameters.h \
     classes/data/historykeeper.h \
     classes/data/historyrecord.h \
     classes/data/imagedocument.h \
     classes/data/imagesmodel.h \
     classes/data/imagesscaledproxy.h \
     classes/data/revisioninfo.h \
-    classes/data/tfontparameters.h \
     classes/data/transposeproxy.h \
     classes/imageeditor/editor.h \
     classes/imageeditor/iimageeditor.h \
@@ -222,11 +218,12 @@ HEADERS += \
     classes/parser/convert/bitstream.h \
     classes/parser/convert/conversion_options.h \
     classes/parser/convert/converterhelper.h \
-    classes/parser/convert/convimage.h \
+    classes/parser/convert/convimagepixels.h \
+    classes/parser/convert/convimagescan.h \
     classes/parser/convert/fonthelper.h \
     classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
-    classes/parser/tags.h \
+    classes/parser/tagslist.h \
     classes/settings/appsettings.h \
     classes/settings/conversionpreviewoptions.h \
     classes/settings/externaltooloptions.h \
@@ -236,6 +233,7 @@ HEADERS += \
     classes/settings/languageoptions.h \
     classes/settings/presets/fontoptions.h \
     classes/settings/presets/imageoptions.h \
+    classes/settings/presets/ipresetsoptionspart.h \
     classes/settings/presets/matrixoptions.h \
     classes/settings/presets/prepareoptions.h \
     classes/settings/presets/preset.h \
@@ -275,6 +273,8 @@ HEADERS += \
     controls/setup/parts/matrix/matrixpreviewmodel.h \
     controls/setup/parts/matrix/setuptabmatrix.h \
     controls/setup/parts/prepare/demogenerator.h \
+    controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.h \
+    controls/setup/parts/prepare/scanning/setuptabpreparescanning.h \
     controls/setup/parts/prepare/setuptabprepare.h \
     controls/setup/parts/reordering/reorderingitemdelegate.h \
     controls/setup/parts/reordering/reorderingpreviewmodel.h \
@@ -305,7 +305,9 @@ FORMS += \
     controls/setup/parts/font/setuptabfont.ui \
     controls/setup/parts/image/setuptabimage.ui \
     controls/setup/parts/matrix/setuptabmatrix.ui \
+    controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui \
     controls/setup/parts/prepare/setuptabprepare.ui \
+    controls/setup/parts/prepare/preprocessing/setuptabpreparepreprocessing.ui \
     controls/setup/parts/reordering/setuptabreordering.ui \
     controls/setup/parts/templates/setuptabtemplates.ui \
     controls/start/starttab.ui \
@@ -344,6 +346,8 @@ INCLUDEPATH += $$PWD \
     $$PWD/controls/setup/parts/image \
     $$PWD/controls/setup/parts/matrix \
     $$PWD/controls/setup/parts/prepare \
+    $$PWD/controls/setup/parts/prepare/scanning \
+    $$PWD/controls/setup/parts/prepare/preprocessing \
     $$PWD/controls/setup/parts/reordering \
     $$PWD/controls/setup/parts/templates \
     $$PWD/controls/updates \
@@ -371,6 +375,8 @@ OTHER_FILES += \
     resources/history.css \
     resources/unicode_blocks.txt \
     resources/script_top2bottom_forward.js \
+    resources/scan_scripts/pixels_example.js \
+    resources/scan_scripts/pixels_template.js \
     resources/scan_scripts/scan_template.js \
     resources/scan_scripts/scan_top2bottom_forward_band.js \
     resources/scan_scripts/scan_top2bottom_forward.js \

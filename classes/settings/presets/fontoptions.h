@@ -21,33 +21,39 @@
 #define FONTOPTIONS_H
 
 #include <QObject>
-
 #include "conversion_options.h"
+#include "ipresetsoptionspart.h"
 
 class QStringList;
-class QSettings;
-class QDomElement;
 
-using namespace ConversionOptions;
+namespace Settings
+{
+namespace Presets
+{
 
-class FontOptions : public QObject
+class FontOptions : public QObject, public IPresetOptionsPart
 {
   Q_OBJECT
+  Q_INTERFACES(Settings::Presets::IPresetOptionsPart)
+
 public:
   explicit FontOptions(QObject *parent = 0);
+  virtual ~FontOptions() {}
 
   bool bom() const;
   const QString &encoding() const;
-  CharactersSortOrder sortOrder() const;
+  Parsing::Conversion::Options::CharactersSortOrder sortOrder() const;
 
   void setBom(bool value);
   void setEncoding(const QString &value);
-  void setSortOrder(CharactersSortOrder value);
+  void setSortOrder(Parsing::Conversion::Options::CharactersSortOrder value);
 
-  bool load(QSettings *settings);
-  bool loadXmlElement(QDomElement element);
-  void save(QSettings *settings);
-  void saveXmlElement(QDomElement element);
+  bool load(QSettings *settings) Q_DECL_OVERRIDE;
+  bool loadXmlElement(QDomElement element) Q_DECL_OVERRIDE;
+  void save(QSettings *settings) Q_DECL_OVERRIDE;
+  void saveXmlElement(QDomElement element) Q_DECL_OVERRIDE;
+
+  QString groupName() const Q_DECL_OVERRIDE;
 
   static const QStringList &encodings();
 
@@ -59,7 +65,7 @@ private:
 
   bool mBom;
   QString mEncoding;
-  CharactersSortOrder mSortOrder;
+  Parsing::Conversion::Options::CharactersSortOrder mSortOrder;
 
 signals:
   void changed();
@@ -67,5 +73,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Presets
+} // namespace Settings
 
 #endif // FONTOPTIONS_H

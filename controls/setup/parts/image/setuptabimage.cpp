@@ -25,17 +25,26 @@
 #include "matrixoptions.h"
 #include "imageoptions.h"
 
-SetupTabImage::SetupTabImage(Preset *preset, QWidget *parent) :
+namespace AppUI
+{
+namespace Setup
+{
+namespace Parts
+{
+namespace Image
+{
+
+SetupTabImage::SetupTabImage(Settings::Presets::Preset *preset, QWidget *parent) :
   QWidget(parent),
   ui(new Ui::SetupTabImage)
 {
   ui->setupUi(this);
   this->mPreset = preset;
 
-  this->ui->comboBoxBlockSize->addItem(tr("8 bit"), Data8);
-  this->ui->comboBoxBlockSize->addItem(tr("16 bit"), Data16);
-  this->ui->comboBoxBlockSize->addItem(tr("24 bit"), Data24);
-  this->ui->comboBoxBlockSize->addItem(tr("32 bit"), Data32);
+  this->ui->comboBoxBlockSize->addItem(tr("8 bit"),  static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data8));
+  this->ui->comboBoxBlockSize->addItem(tr("16 bit"), static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data16));
+  this->ui->comboBoxBlockSize->addItem(tr("24 bit"), static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data24));
+  this->ui->comboBoxBlockSize->addItem(tr("32 bit"), static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data32));
 
   this->matrixChanged();
 }
@@ -49,19 +58,19 @@ void SetupTabImage::matrixChanged()
 {
   this->ui->checkBoxSplitToRows->setChecked(this->mPreset->image()->splitToRows());
 
-  if (this->mPreset->image()->bytesOrder() == BytesOrderLittleEndian) {
+  if (this->mPreset->image()->bytesOrder() == Parsing::Conversion::Options::BytesOrder::LittleEndian) {
     this->ui->radioButtonLittleEndian->setChecked(true);
   } else {
     this->ui->radioButtonBigEndian->setChecked(true);
   }
 
-  int index = this->ui->comboBoxBlockSize->findData(this->mPreset->image()->blockSize());
+  int index = this->ui->comboBoxBlockSize->findData(static_cast<int>(this->mPreset->image()->blockSize()));
 
   if (index >= 0) {
     this->ui->comboBoxBlockSize->setCurrentIndex(index);
   }
 
-  if (this->mPreset->image()->bytesOrder() == BytesOrderLittleEndian) {
+  if (this->mPreset->image()->bytesOrder() == Parsing::Conversion::Options::BytesOrder::LittleEndian) {
     this->ui->radioButtonLittleEndian->setChecked(true);
   } else {
     this->ui->radioButtonBigEndian->setChecked(true);
@@ -72,9 +81,14 @@ void SetupTabImage::matrixChanged()
 
   this->ui->checkBoxBlockDefaultOnes->setChecked(this->mPreset->image()->blockDefaultOnes());
 
-  this->ui->lineEditPrefix->setText(this->mPreset->image()->blockPrefix());
-  this->ui->lineEditSuffix->setText(this->mPreset->image()->blockSuffix());
-  this->ui->lineEditDelimiter->setText(this->mPreset->image()->blockDelimiter());
+  this->ui->lineEditBlockPrefix->setText(this->mPreset->image()->blockPrefix());
+  this->ui->lineEditBlockSuffix->setText(this->mPreset->image()->blockSuffix());
+  this->ui->lineEditBlockDelimiter->setText(this->mPreset->image()->blockDelimiter());
+
+  this->ui->lineEditPreviewPrefix->setText(this->mPreset->image()->previewPrefix());
+  this->ui->lineEditPreviewSuffix->setText(this->mPreset->image()->previewSuffix());
+  this->ui->lineEditPreviewDelimiter->setText(this->mPreset->image()->previewDelimiter());
+  this->ui->textEditPreviewLevels->setPlainText(this->mPreset->image()->previewLevels());
 }
 
 void SetupTabImage::on_checkBoxSplitToRows_toggled(bool value)
@@ -85,9 +99,9 @@ void SetupTabImage::on_checkBoxSplitToRows_toggled(bool value)
 void SetupTabImage::on_radioButtonLittleEndian_toggled(bool value)
 {
   if (value) {
-    this->mPreset->image()->setBytesOrder(BytesOrderLittleEndian);
+    this->mPreset->image()->setBytesOrder(Parsing::Conversion::Options::BytesOrder::LittleEndian);
   } else {
-    this->mPreset->image()->setBytesOrder(BytesOrderBigEndian);
+    this->mPreset->image()->setBytesOrder(Parsing::Conversion::Options::BytesOrder::BigEndian);
   }
 }
 
@@ -98,7 +112,7 @@ void SetupTabImage::on_comboBoxBlockSize_currentIndexChanged(int index)
   int a = data.toInt(&ok);
 
   if (ok) {
-    this->mPreset->image()->setBlockSize((DataBlockSize)a);
+    this->mPreset->image()->setBlockSize((Settings::Presets::DataBlockSize)a);
   }
 }
 
@@ -117,18 +131,42 @@ void SetupTabImage::on_checkBoxBlockDefaultOnes_toggled(bool value)
   this->mPreset->image()->setBlockDefaultOnes(value);
 }
 
-void SetupTabImage::on_lineEditPrefix_textEdited(const QString &value)
+void SetupTabImage::on_lineEditBlockPrefix_textEdited(const QString &value)
 {
   this->mPreset->image()->setBlockPrefix(value);
 }
 
-void SetupTabImage::on_lineEditSuffix_textEdited(const QString &value)
+void SetupTabImage::on_lineEditBlockSuffix_textEdited(const QString &value)
 {
   this->mPreset->image()->setBlockSuffix(value);
 }
 
-void SetupTabImage::on_lineEditDelimiter_textEdited(const QString &value)
+void SetupTabImage::on_lineEditBlockDelimiter_textEdited(const QString &value)
 {
   this->mPreset->image()->setBlockDelimiter(value);
 }
 
+void SetupTabImage::on_lineEditPreviewPrefix_textEdited(const QString &value)
+{
+  this->mPreset->image()->setPreviewPrefix(value);
+}
+
+void SetupTabImage::on_lineEditPreviewSuffix_textEdited(const QString &value)
+{
+  this->mPreset->image()->setPreviewSuffix(value);
+}
+
+void SetupTabImage::on_lineEditPreviewDelimiter_textEdited(const QString &value)
+{
+  this->mPreset->image()->setPreviewDelimiter(value);
+}
+
+void SetupTabImage::on_textEditPreviewLevels_textChanged()
+{
+  this->mPreset->image()->setPreviewLevels(this->ui->textEditPreviewLevels->toPlainText());
+}
+
+} // namespace Image
+} // namespace Parts
+} // namespace Setup
+} // namespace AppUI

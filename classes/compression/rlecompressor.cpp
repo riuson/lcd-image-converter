@@ -24,6 +24,11 @@
 #include "rlesequence.h"
 //#include <QDebug>
 
+namespace Utils
+{
+namespace Compression
+{
+
 RleCompressor::RleCompressor(QObject *parent) :
   QObject(parent)
 {
@@ -31,7 +36,7 @@ RleCompressor::RleCompressor(QObject *parent) :
 
 void RleCompressor::compress(
   QVector<quint32> *input,
-  DataBlockSize dataSize,
+  Parsing::Conversion::Options::DataBlockSize dataSize,
   QVector<quint32> *output,
   quint32 minimumOfEquals)
 {
@@ -108,24 +113,24 @@ void RleCompressor::combineSequences(
   outputSequences->append(temp);
 }
 
-quint32 RleCompressor::getMaxSize(DataBlockSize dataSize)
+quint32 RleCompressor::getMaxSize(Parsing::Conversion::Options::DataBlockSize dataSize)
 {
   quint32 result;
 
   switch (dataSize) {
-    case Data8:
+    case Parsing::Conversion::Options::DataBlockSize::Data8:
       result = 0x7f;
       break;
 
-    case Data16:
+    case Parsing::Conversion::Options::DataBlockSize::Data16:
       result = 0x7fff;
       break;
 
-    case Data24:
+    case Parsing::Conversion::Options::DataBlockSize::Data24:
       result = 0x7fffff;
       break;
 
-    case Data32:
+    case Parsing::Conversion::Options::DataBlockSize::Data32:
       result = 0x7fffffff;
       break;
 
@@ -139,7 +144,7 @@ quint32 RleCompressor::getMaxSize(DataBlockSize dataSize)
 
 void RleCompressor::flushSequence(
   const RleSequence *sequence,
-  DataBlockSize dataSize,
+  Parsing::Conversion::Options::DataBlockSize dataSize,
   QVector<quint32> *output)
 {
   if (sequence->size() > 0) {
@@ -171,7 +176,7 @@ void RleCompressor::flushSequencePart(
   quint32 length,
   QVector<quint32> *output)
 {
-  if (sequence->size() > 1 && sequence->allEquals()) {
+  if (sequence->allEquals()) {
     output->append(length);
     output->append(sequence->at(start));
   } else {
@@ -183,3 +188,5 @@ void RleCompressor::flushSequencePart(
   }
 }
 
+} // namespace Compression
+} // namespace Utils

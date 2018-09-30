@@ -24,16 +24,22 @@
 
 #include "conversion_options.h"
 
+class QString;
+class QStringList;
+
+namespace Settings
+{
+namespace Presets
+{
+
 class PrepareOptions;
 class MatrixOptions;
 class ReorderingOptions;
 class ImageOptions;
 class FontOptions;
 class TemplateOptions;
-class QString;
-class QStringList;
 
-using namespace ConversionOptions;
+using namespace Parsing::Conversion::Options;
 
 class Preset : public QObject
 {
@@ -77,7 +83,7 @@ private:
   QString mName;
 
 signals:
-  void changed();
+  void changed(const QString &groupName);
 
 public slots:
 
@@ -85,5 +91,8 @@ private slots:
   void partsChanged();
 
 };
+
+} // namespace Presets
+} // namespace Settings
 
 #endif // PRESET_H

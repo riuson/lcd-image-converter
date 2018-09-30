@@ -24,36 +24,52 @@
 #include "idocument.h"
 
 template <class T1, class T2> class QMap;
+
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
+
+namespace Parsing
+{
+class TagsList;
 class ParsedImageData;
-class Tags;
+}
+
+namespace Data
+{
+namespace Containers
+{
 
 class ImageDocument : public QObject, public IDocument
 {
   Q_OBJECT
-  Q_INTERFACES(IDocument)
+  Q_INTERFACES(Data::Containers::IDocument)
 
 public:
   explicit ImageDocument(QObject *parent = 0);
-  ~ImageDocument();
+  virtual ~ImageDocument();
 
-  bool load(const QString &fileName);
-  bool save(const QString &fileName);
-  bool changed() const;
-  QString documentFilename() const;
-  QString documentName() const;
-  void setDocumentName(const QString &value);
-  QString outputFilename() const;
-  void setOutputFilename(const QString &value);
-  DataContainer *dataContainer() const;
-  QString convert(Preset *preset);
+  bool load(const QString &fileName) Q_DECL_OVERRIDE;
+  bool save(const QString &fileName) Q_DECL_OVERRIDE;
+  bool changed() const Q_DECL_OVERRIDE;
+  QString documentFilename() const Q_DECL_OVERRIDE;
+  QString documentName() const Q_DECL_OVERRIDE;
+  void setDocumentName(const QString &value) Q_DECL_OVERRIDE;
+  QString outputFilename() const Q_DECL_OVERRIDE;
+  void setOutputFilename(const QString &value) Q_DECL_OVERRIDE;
+  DataContainer *dataContainer() const Q_DECL_OVERRIDE;
+  QString convert(Settings::Presets::Preset *preset) Q_DECL_OVERRIDE;
 
-  void beginChanges();
-  void endChanges(bool suppress);
-  bool canUndo();
-  bool canRedo();
-  void undo();
-  void redo();
+  void beginChanges() Q_DECL_OVERRIDE;
+  void endChanges(bool suppress) Q_DECL_OVERRIDE;
+  bool canUndo() Q_DECL_OVERRIDE;
+  bool canRedo() Q_DECL_OVERRIDE;
+  void undo() Q_DECL_OVERRIDE;
+  void redo() Q_DECL_OVERRIDE;
 
 private:
   DataContainer *mContainer;
@@ -63,7 +79,7 @@ private:
 
   void setDocumentFilename(const QString &value);
 
-  void prepareImages(Preset *preset, QMap<QString, ParsedImageData *> *images, const Tags &tags) const;
+  void prepareImages(Settings::Presets::Preset *preset, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const;
 
 private slots:
   void mon_container_dataChanged(bool historyStateMoved);
@@ -71,5 +87,8 @@ private slots:
 signals:
   void documentChanged();
 };
+
+} // namespace Containers
+} // namespace Data
 
 #endif // IMAGEDOCUMENT_H

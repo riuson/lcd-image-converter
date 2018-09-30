@@ -21,6 +21,9 @@
 
 #include <appsettings.h>
 
+namespace Settings
+{
+
 const QString ExternalToolOptions::imageEditor()
 {
   AppSettings appsett;
@@ -41,3 +44,4 @@ void ExternalToolOptions::setImageEditor(const QString &value)
   sett.endGroup();
 }
 
+} // namespace Settings

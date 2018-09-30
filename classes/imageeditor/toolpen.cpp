@@ -33,11 +33,13 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolPen::ToolPen(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_pen"), 24)));
+  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_pen"), 24)));
 
   this->mActions = new QList<QAction *>();
   this->mWidgets = new QList<QWidget *>();
@@ -65,7 +67,7 @@ const QString ToolPen::title() const
 
 const QString ToolPen::tooltip() const
 {
-  return tr("Draw pixels");
+  return tr("<b>Draw pixels</b><br/>Use left mouse button to draw forecolor.<br/>Use right mouse button to draw backcolor.");
 }
 
 const QIcon *ToolPen::icon() const
@@ -93,7 +95,7 @@ bool ToolPen::processMouse(QMouseEvent *event,
     }
 
     // get coordinates
-    if (imageOriginal != NULL) {
+    if (imageOriginal != nullptr) {
       if (inRect) {
         // get buttons
         bool buttonLeft = (event->buttons() & Qt::LeftButton) == Qt::LeftButton;
@@ -143,7 +145,7 @@ void ToolPen::initializeWidgets()
 
 void ToolPen::loadSettings()
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -163,7 +165,7 @@ void ToolPen::loadSettings()
 
 void ToolPen::saveSettings() const
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -202,5 +204,5 @@ void ToolPen::on_spinBoxSize_valueChanged(int value)
   this->mSize = value;
 }
 
-} // end of namespace
-
+} // namespace Tools
+} // namespace ImageEditor

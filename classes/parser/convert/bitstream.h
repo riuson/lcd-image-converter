@@ -24,19 +24,31 @@
 
 template <class T> class QVector;
 
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
+}
+}
+
+namespace Parsing
+{
+namespace Conversion
+{
 
 class BitStream
 {
 public:
-  BitStream(Preset *preset, QVector<quint32> *data, int start, int count);
+  BitStream(Settings::Presets::Preset *preset, QVector<quint32> *data, int start, int count);
+  virtual ~BitStream() {}
 
   void init();
   bool eof() const;
   quint32 next();
 
 private:
-  Preset *mPreset;
+  Settings::Presets::Preset *mPreset;
   QVector<quint32> *mData;
   int mStart;
   int mCount;
@@ -52,5 +64,8 @@ private:
   // remaining bit count from one pixel
   int remain() const;
 };
+
+} // namespace Conversion
+} // namespace Parsing
 
 #endif // BITSTREAM_H

@@ -23,7 +23,13 @@
 #include <QObject>
 #include <QStringList>
 
+namespace Data
+{
+namespace Containers
+{
 class IDocument;
+}
+}
 
 namespace Operations
 {
@@ -34,13 +40,15 @@ class DocumentOperator : public QObject
   Q_OBJECT
 public:
   explicit DocumentOperator(QObject *parent = 0);
+  virtual ~DocumentOperator() {}
+
   void setKeys(const QStringList keys);
-  void apply(IDocument *doc, IOperation &operation);
+  void apply(Data::Containers::IDocument *doc, IOperation &operation);
 
 private:
   QStringList mSelectedKeys;
 };
 
-}
+} // namespace Operations
 
 #endif // DOCUMENTOPERATOR_H

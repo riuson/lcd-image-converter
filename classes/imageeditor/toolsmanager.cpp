@@ -33,6 +33,8 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolsManager::ToolsManager(QObject *parent) : QObject(parent)
 {
@@ -118,6 +120,7 @@ void ToolsManager::initializeActions()
   for (int i = 0; i < this->mTools->length(); i++) {
     IImageEditorTool *tool = this->mTools->at(i);
     QAction *toolAction = new QAction(*tool->icon(), tool->title(), this);
+    toolAction->setToolTip(tool->tooltip());
     toolAction->setData(QVariant(i)); // index of the tool
     toolAction->setCheckable(true);
     this->connect(toolAction, SIGNAL(triggered()), SLOT(on_toolAction_triggered()));
@@ -146,7 +149,7 @@ void ToolsManager::on_toolAction_triggered()
 {
   QAction *action = qobject_cast<QAction *>(sender());
 
-  if (action != NULL) {
+  if (action != nullptr) {
     bool ok;
     int toolIndex = action->data().toInt(&ok);
 
@@ -157,5 +160,6 @@ void ToolsManager::on_toolAction_triggered()
   }
 }
 
-} // end of namespace
+} // namespace Tools
+} // namespace ImageEditor
 

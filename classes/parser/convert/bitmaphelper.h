@@ -24,11 +24,13 @@
 
 #include <conversion_options.h>
 
-using namespace ConversionOptions;
-
 class QFontMetrics;
 class QPainterPath;
 
+namespace Parsing
+{
+namespace Conversion
+{
 typedef struct {
   int width;
   int height;
@@ -53,11 +55,14 @@ public:
   static void findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom);
   static QImage scale(const QImage *source, int scale);
   static QImage drawGrid(const QImage *source, int scale);
-  static QImage drawSelection(const QImage *source, const QPainterPath &selectedPath);
+  static QImage drawSelection(const QImage *source, const QPainterPath &selectedPath, int scale);
   static QImage drawPixel(const QImage *source, int x, int y, const QColor &color);
   static QColor detectBackgroundColor(const QImage *image);
   static QImage fromSvg(const QString &path, int size);
   static QColor fromRgba(QRgb value);
 };
+
+} // namespace Conversion
+} // namespace Parsing
 
 #endif // BITMAPHELPER_H

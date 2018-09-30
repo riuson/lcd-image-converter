@@ -1,6 +1,7 @@
 #include "testimageoptions.h"
 
 #include "imageoptions.h"
+#include "conversion_options.h"
 
 TestImageOptions::TestImageOptions(QObject *parent) :
   QObject(parent)
@@ -9,37 +10,37 @@ TestImageOptions::TestImageOptions(QObject *parent) :
 
 void TestImageOptions::initTestCase()
 {
-  this->mOptions = new ImageOptions(this);
+  this->mOptions = new Settings::Presets::ImageOptions(this);
 }
 
 void TestImageOptions::bytesOrder()
 {
   // 1
-  this->mOptions->setBytesOrder(BytesOrderBigEndian);
-  QCOMPARE(this->mOptions->bytesOrder(), BytesOrderBigEndian);
+  this->mOptions->setBytesOrder(Parsing::Conversion::Options::BytesOrder::BigEndian);
+  QCOMPARE(this->mOptions->bytesOrder(), Parsing::Conversion::Options::BytesOrder::BigEndian);
 
   // 2
-  this->mOptions->setBytesOrder(BytesOrderLittleEndian);
-  QCOMPARE(this->mOptions->bytesOrder(), BytesOrderLittleEndian);
+  this->mOptions->setBytesOrder(Parsing::Conversion::Options::BytesOrder::LittleEndian);
+  QCOMPARE(this->mOptions->bytesOrder(), Parsing::Conversion::Options::BytesOrder::LittleEndian);
 }
 
 void TestImageOptions::blockSize()
 {
   // 1
-  this->mOptions->setBlockSize(Data8);
-  QCOMPARE(this->mOptions->blockSize(), Data8);
+  this->mOptions->setBlockSize(Parsing::Conversion::Options::DataBlockSize::Data8);
+  QCOMPARE(this->mOptions->blockSize(), Parsing::Conversion::Options::DataBlockSize::Data8);
 
   // 2
-  this->mOptions->setBlockSize(Data16);
-  QCOMPARE(this->mOptions->blockSize(), Data16);
+  this->mOptions->setBlockSize(Parsing::Conversion::Options::DataBlockSize::Data16);
+  QCOMPARE(this->mOptions->blockSize(), Parsing::Conversion::Options::DataBlockSize::Data16);
 
   // 3
-  this->mOptions->setBlockSize(Data24);
-  QCOMPARE(this->mOptions->blockSize(), Data24);
+  this->mOptions->setBlockSize(Parsing::Conversion::Options::DataBlockSize::Data24);
+  QCOMPARE(this->mOptions->blockSize(), Parsing::Conversion::Options::DataBlockSize::Data24);
 
   // 4
-  this->mOptions->setBlockSize(Data32);
-  QCOMPARE(this->mOptions->blockSize(), Data32);
+  this->mOptions->setBlockSize(Parsing::Conversion::Options::DataBlockSize::Data32);
+  QCOMPARE(this->mOptions->blockSize(), Parsing::Conversion::Options::DataBlockSize::Data32);
 }
 
 void TestImageOptions::blockDefaultOnes()

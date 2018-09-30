@@ -24,6 +24,11 @@
 
 class QMessageBox;
 
+namespace AppUI
+{
+namespace CommonDialogs
+{
+
 class DialogSaveChanges : public QObject
 {
   Q_OBJECT
@@ -31,6 +36,7 @@ class DialogSaveChanges : public QObject
 public:
   explicit DialogSaveChanges(const QString &documentName, QWidget *parent = 0);
   virtual ~DialogSaveChanges();
+
   enum SaveChangesResultCode {
     Save = 1,
     SaveAs = 2,
@@ -47,5 +53,8 @@ private:
 private slots:
   void on_messageBox_finished(int result);
 };
+
+} // namespace CommonDialogs
+} // namespace AppUI
 
 #endif // DIALOGSAVECHANGES_H

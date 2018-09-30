@@ -33,11 +33,13 @@
 
 namespace ImageEditor
 {
+namespace Tools
+{
 
 ToolRect::ToolRect(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect"), 24)));
+  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect"), 24)));
 
   this->mActions = new QList<QAction *>();
   this->mWidgets = new QList<QWidget *>();
@@ -60,12 +62,12 @@ ToolRect::~ToolRect()
 
 const QString ToolRect::title() const
 {
-  return tr("Rect");
+  return tr("Rectangle");
 }
 
 const QString ToolRect::tooltip() const
 {
-  return tr("Draw rectangle");
+  return tr("<b>Draw rectangle</b><br/>Left mouse button: outline - forecolor, filling - backcolor.<br/>Right mouse button: outline - backcolor, filling - forecolor.");
 }
 
 const QIcon *ToolRect::icon() const
@@ -95,7 +97,7 @@ bool ToolRect::processMouse(QMouseEvent *event,
     }
 
     // get coordinates
-    if (imageOriginal != NULL) {
+    if (imageOriginal != nullptr) {
       // get buttons
       bool buttonLeft = (event->buttons() & Qt::LeftButton) == Qt::LeftButton;
       bool buttonRight = (event->buttons() & Qt::RightButton) == Qt::RightButton;
@@ -142,7 +144,7 @@ void ToolRect::initializeWidgets()
   spinBoxSize->setMinimum(1);
   spinBoxSize->setSuffix(QString("px"));
   spinBoxSize->setValue(this->mSize);
-  spinBoxSize->setToolTip(tr("Border Width"));
+  spinBoxSize->setToolTip(tr("Outline Width"));
   this->connect(spinBoxSize, SIGNAL(valueChanged(int)), SLOT(on_spinBoxSize_valueChanged(int)));
   this->mWidgets->append(spinBoxSize);
 
@@ -153,7 +155,7 @@ void ToolRect::initializeWidgets()
   this->mActionRectOutline->setToolTip(tr("Outline only"));
   this->mActionRectOutline->setData(QVariant((int)Outline));
   this->connect(this->mActionRectOutline, SIGNAL(triggered()), SLOT(on_buttonRertFilledOutline_triggered()));
-  this->mActionRectOutline->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_outline"), 24))));
+  this->mActionRectOutline->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_outline"), 24))));
   this->mActions->append(this->mActionRectOutline);
 
   this->mActionRectFilledOutline = new QAction(this);
@@ -163,7 +165,7 @@ void ToolRect::initializeWidgets()
   this->mActionRectFilledOutline->setToolTip(tr("Filled with Outline"));
   this->mActionRectFilledOutline->setData(QVariant((int)FilledOutline));
   this->connect(this->mActionRectFilledOutline, SIGNAL(triggered()), SLOT(on_buttonRertFilledOutline_triggered()));
-  this->mActionRectFilledOutline->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_filled_outline"), 24))));
+  this->mActionRectFilledOutline->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_filled_outline"), 24))));
   this->mActions->append(this->mActionRectFilledOutline);
 
   this->mActionRectFilled = new QAction(this);
@@ -173,13 +175,13 @@ void ToolRect::initializeWidgets()
   this->mActionRectFilled->setToolTip(tr("Filled"));
   this->mActionRectFilled->setData(QVariant((int)Filled));
   this->connect(this->mActionRectFilled, SIGNAL(triggered()), SLOT(on_buttonRertFilledOutline_triggered()));
-  this->mActionRectFilled->setIcon(QIcon(QPixmap::fromImage(BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_filled"), 24))));
+  this->mActionRectFilled->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_filled"), 24))));
   this->mActions->append(this->mActionRectFilled);
 }
 
 void ToolRect::loadSettings()
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -205,7 +207,7 @@ void ToolRect::loadSettings()
 
 void ToolRect::saveSettings() const
 {
-  AppSettings appsett;
+  Settings::AppSettings appsett;
   QSettings &sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
@@ -265,7 +267,7 @@ void ToolRect::on_buttonRertFilledOutline_triggered()
 {
   QAction *action = qobject_cast<QAction *>(sender());
 
-  if (action != NULL) {
+  if (action != nullptr) {
     bool ok;
     int a = action->data().toInt(&ok);
 
@@ -280,5 +282,5 @@ void ToolRect::on_buttonRertFilledOutline_triggered()
   }
 }
 
-} // end of namespace
-
+} // namespace Tools
+} // namespace ImageEditor

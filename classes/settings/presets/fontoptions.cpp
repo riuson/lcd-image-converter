@@ -25,6 +25,11 @@
 #include <QtXml>
 #include <QDomDocument>
 
+namespace Settings
+{
+namespace Presets
+{
+
 const QString FontOptions::GroupName = QString("font");
 const QString FontOptions::FieldBom = QString("bom");
 const QString FontOptions::FieldSortOrder = QString("sortOrder");
@@ -34,8 +39,13 @@ FontOptions::FontOptions(QObject *parent) :
   QObject(parent)
 {
   this->mBom = false;
-  this->mEncoding = FontOptions::encodings().at(0);
-  this->mSortOrder = CharactersSortAscending;
+  this->mSortOrder = Parsing::Conversion::Options::CharactersSortOrder::Ascending;
+
+  if (FontOptions::encodings().contains("UTF-8")) {
+    this->mEncoding = "UTF-8";
+  } else {
+    this->mEncoding = FontOptions::encodings().at(0);
+  }
 }
 
 bool FontOptions::bom() const
@@ -48,32 +58,35 @@ const QString &FontOptions::encoding() const
   return this->mEncoding;
 }
 
-CharactersSortOrder FontOptions::sortOrder() const
+Parsing::Conversion::Options::CharactersSortOrder FontOptions::sortOrder() const
 {
   return this->mSortOrder;
 }
 
 void FontOptions::setBom(bool value)
 {
-  this->mBom = value;
-
-  emit this->changed();
+  if (this->mBom != value) {
+    this->mBom = value;
+    emit this->changed();
+  }
 }
 
 void FontOptions::setEncoding(const QString &value)
 {
   if (FontOptions::encodings().contains(value)) {
-    this->mEncoding = value;
-
-    emit this->changed();
+    if (this->mEncoding != value) {
+      this->mEncoding = value;
+      emit this->changed();
+    }
   }
 }
 
-void FontOptions::setSortOrder(CharactersSortOrder value)
+void FontOptions::setSortOrder(Parsing::Conversion::Options::CharactersSortOrder value)
 {
-  this->mSortOrder = value;
-
-  emit this->changed();
+  if (this->mSortOrder != value) {
+    this->mSortOrder = value;
+    emit this->changed();
+  }
 }
 
 bool FontOptions::load(QSettings *settings)
@@ -89,7 +102,7 @@ bool FontOptions::load(QSettings *settings)
   uBom = settings->value(FontOptions::FieldBom, int(0)).toInt(&result);
 
   if (result) {
-    uSortOrder = settings->value(FontOptions::FieldSortOrder, int(CharactersSortNone)).toInt(&result);
+    uSortOrder = settings->value(FontOptions::FieldSortOrder, int(Parsing::Conversion::Options::CharactersSortOrder::None)).toInt(&result);
   }
 
   if (result) {
@@ -99,7 +112,7 @@ bool FontOptions::load(QSettings *settings)
   if (result) {
     this->setBom((bool)uBom);
     this->setEncoding(sEncoding);
-    this->setSortOrder((CharactersSortOrder)uSortOrder);
+    this->setSortOrder((Parsing::Conversion::Options::CharactersSortOrder)uSortOrder);
   }
 
   settings->endGroup();
@@ -128,7 +141,7 @@ bool FontOptions::loadXmlElement(QDomElement element)
   }
 
   quint32 uBom = 0;
-  quint32 uSortOrder = int(CharactersSortNone);
+  quint32 uSortOrder = int(Parsing::Conversion::Options::CharactersSortOrder::None);
   QString sEncoding = "UTF-8";
 
   QDomNode nodeValue = nodeSett.firstChild();
@@ -162,7 +175,7 @@ bool FontOptions::loadXmlElement(QDomElement element)
   if (result) {
     this->setBom((bool)uBom);
     this->setEncoding(sEncoding);
-    this->setSortOrder((CharactersSortOrder)uSortOrder);
+    this->setSortOrder((Parsing::Conversion::Options::CharactersSortOrder)uSortOrder);
   }
 
   return result;
@@ -197,6 +210,11 @@ void FontOptions::saveXmlElement(QDomElement element)
   nodeCodec.appendChild(element.ownerDocument().createTextNode(this->encoding()));
 }
 
+QString FontOptions::groupName() const
+{
+  return FontOptions::GroupName;
+}
+
 const QStringList &FontOptions::encodings()
 {
   static QStringList result;
@@ -214,3 +232,5 @@ const QStringList &FontOptions::encodings()
   return result;
 }
 
+} // namespace Presets
+} // namespace Settings

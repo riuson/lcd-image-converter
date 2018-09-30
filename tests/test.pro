@@ -57,7 +57,8 @@ SOURCES += maintest.cpp \
     ../classes/parser/convert/bitstream.cpp \
     ../classes/parser/convert/bitmaphelper.cpp \
     ../classes/parser/convert/converterhelper.cpp \
-    ../classes/parser/convert/convimage.cpp \
+    ../classes/parser/convert/convimagepixels.cpp \
+    ../classes/parser/convert/convimagescan.cpp \
     ../classes/settings/appsettings.cpp \
     ../classes/settings/presets/preset.cpp \
     ../classes/settings/presets/prepareoptions.cpp \
@@ -86,7 +87,8 @@ HEADERS += \
     ../classes/parser/convert/bitmaphelper.h \
     ../classes/parser/convert/conversion_options.h \
     ../classes/parser/convert/converterhelper.h \
-    ../classes/parser/convert/convimage.h \
+    ../classes/parser/convert/convimagepixels.h \
+    ../classes/parser/convert/convimagescan.h \
     ../classes/settings/appsettings.h \
     ../classes/settings/presets/preset.h \
     ../classes/settings/presets/prepareoptions.h \

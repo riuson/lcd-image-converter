@@ -8,35 +8,30 @@ env:
     global:
         - MAKEFLAGS="-j4"
     matrix:
-        - QT_BASE=48
-        - QT_BASE=51
         - QT_BASE=55
         - QT_BASE=56
+        - QT_BASE=59
 
 before_install:
-    - if [ "$QT_BASE" = "48" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt487-trusty; fi
-    - if [ "$QT_BASE" = "51" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt511-trusty; fi
     - if [ "$QT_BASE" = "55" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt551-trusty; fi
     - if [ "$QT_BASE" = "56" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt562-trusty; fi
+    - if [ "$QT_BASE" = "59" ]; then sudo add-apt-repository --yes ppa:beineri/opt-qt591-trusty; fi
     - sudo apt-get update -qq
 
 install:
-    - if [ "$QT_BASE" = "48" ]; then sudo apt-get install -y --force-yes opt-qt4-qmake opt-qt4-dev-tools opt-qt4-linguist-tools; fi
-    - if [ "$QT_BASE" = "51" ]; then sudo apt-get install -y --force-yes qt51base qt51xmlpatterns qt51svg qt51script qt51tools; fi
     - if [ "$QT_BASE" = "55" ]; then sudo apt-get install -y --force-yes qt55base qt55xmlpatterns qt55svg qt55script qt55tools; fi
     - if [ "$QT_BASE" = "56" ]; then sudo apt-get install -y --force-yes qt56base qt56xmlpatterns qt56svg qt56declarative qt56tools; fi
+    - if [ "$QT_BASE" = "59" ]; then sudo apt-get install -y --force-yes qt59base qt59xmlpatterns qt59svg qt59declarative qt59tools; fi
     - sudo apt-get install -y --force-yes build-essential libglu1-mesa-dev
 
 before_script:
-    - if [ "$QT_BASE" = "48" ]; then source /opt/qt-4.8/bin/qt-4.8-env.sh; fi
-    - if [ "$QT_BASE" = "51" ]; then source /opt/qt51/bin/qt51-env.sh; fi
     - if [ "$QT_BASE" = "55" ]; then source /opt/qt55/bin/qt55-env.sh; fi
     - if [ "$QT_BASE" = "56" ]; then source /opt/qt56/bin/qt56-env.sh; fi
+    - if [ "$QT_BASE" = "59" ]; then source /opt/qt59/bin/qt59-env.sh; fi
 
 
 script:
-    - if [ "$QT_BASE" = "48" ]; then /opt/qt-4.8/bin/qmake lcd-image-converter.pro; fi
-    - if [ "$QT_BASE" = "51" ]; then /opt/qt51/bin/qmake lcd-image-converter.pro; fi
     - if [ "$QT_BASE" = "55" ]; then /opt/qt55/bin/qmake lcd-image-converter.pro; fi
     - if [ "$QT_BASE" = "56" ]; then /opt/qt56/bin/qmake lcd-image-converter.pro; fi
+    - if [ "$QT_BASE" = "59" ]; then /opt/qt59/bin/qmake lcd-image-converter.pro; fi
     - make

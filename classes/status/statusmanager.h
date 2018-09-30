@@ -27,12 +27,17 @@
 class QStatusBar;
 class QLabel;
 
+namespace AppUI
+{
+namespace Status
+{
+
 class StatusManager : public QObject
 {
   Q_OBJECT
 public:
   explicit StatusManager(QStatusBar *statusBar, QObject *parent = 0);
-  ~StatusManager();
+  virtual ~StatusManager();
 
   void updateData(const StatusData *statuses);
   void hideAll();
@@ -50,5 +55,8 @@ signals:
 public slots:
 
 };
+
+} // namespace Status
+} // namespace AppUI
 
 #endif // STATUSMANAGER_H

@@ -24,6 +24,11 @@
 #include <QtXml>
 #include <QDomDocument>
 
+namespace Settings
+{
+namespace Presets
+{
+
 const QString ReorderingOptions::GroupName = QString("reordering");
 const QString ReorderingOptions::FieldOperations = QString("operations");
 const QString ReorderingOptions::FieldOperation = QString("operation");
@@ -285,3 +290,10 @@ void ReorderingOptions::saveXmlElement(QDomElement element)
   }
 }
 
+QString ReorderingOptions::groupName() const
+{
+  return ReorderingOptions::GroupName;
+}
+
+} // namespace Presets
+} // namespace Settings

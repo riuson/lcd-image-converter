@@ -23,8 +23,20 @@
 #include "preset.h"
 
 class QImage;
+
+namespace Settings
+{
+namespace Presets
+{
 class Preset;
-class ConvImage;
+}
+}
+
+namespace Parsing
+{
+namespace Conversion
+{
+class ConvImageScan;
 
 class ConverterHelper
 {
@@ -32,17 +44,21 @@ public:
   // gets RGB array of pixels
   // also convert images to monochrome or grayscale (r = g = b = qGray(pixel))
   static void pixelsData(
-    Preset *matrix,
+    Settings::Presets::PrepareOptions *prepare,
+    const QString &scanScript,
+    const QString &pixelScript,
     const QImage *image,
     QVector<quint32> *data,
     int *width,
     int *height);
-  static void collectPoints(ConvImage *convImage, const QString &script, QString *resultError);
+  static void collectPoints(ConvImageScan *convImage, const QString &script, QString *resultError);
+  // apply custom bits processing
+  static void convertPixelsByScript(const QString &script, QVector<quint32> *data, QString *resultError);
   // apply masks and bits reorder
-  static void processPixels(Preset *matrix, QVector<quint32> *data);
+  static void processPixels(Settings::Presets:: Preset *preset, QVector<quint32> *data);
   // pack data
   static void packData(
-    Preset *matrix,
+    Settings::Presets::Preset *preset,
     QVector<quint32> *inputData,
     int inputWidth,
     int inputHeight,
@@ -51,36 +67,43 @@ public:
     int *outputHeight);
   // bits reordering
   static void reorder(
-    Preset *preset,
+    Settings::Presets::Preset *preset,
     QVector<quint32> *inputData, int inputWidth, int inputHeight,
     QVector<quint32> *outputData, int *outputWidth, int *outputHeight);
 
   static void compressData(
-    Preset *matrix,
+    Settings::Presets::Preset *preset,
     QVector<quint32> *inputData, int inputWidth, int inputHeight,
     QVector<quint32> *outputData, int *outputWidth, int *outputHeight);
 
-  static void prepareImage(Preset *matrix, const QImage *source, QImage *result);
-  static void createImagePreview(Preset *matrix, QImage *source, QImage *result);
+  static void prepareImage(Settings::Presets::Preset *preset, const QImage *source, QImage *result);
+  static void createImagePreview(Settings::Presets::Preset *preset, QImage *source, QImage *result);
 
-  static QString dataToString(Preset *matrix,
+  static QString dataToString(Settings::Presets::Preset *preset,
                               QVector<quint32> *data, int width, int height);
+  static QString previewDataToString(Settings::Presets::Preset *preset,
+                                     const QVector<quint32> *data, int width, int height);
 
-  static QString scanScript(Preset *preset);
+  static QString scanScript(Settings::Presets::Preset *preset);
   static QString scanScriptTemplate();
+  static QString pixelsScript(Settings::Presets::Preset *preset);
+  static QString pixelsScriptTemplate();
 
   static void makeGrayscale(QImage &image);
 private:
   static void makeMonochrome(QImage &image, int edge);
   // make r = g = b = qGray(pixel)
   static void packDataRow(
-    Preset *matrix,
+    Settings::Presets::Preset *preset,
     QVector<quint32> *inputData,
     int start,
     int count,
     QVector<quint32> *outputData,
     int *rowLength);
-  static quint32 toBigEndian(Preset *matrix, quint32 value);
+  static quint32 toBigEndian(Settings::Presets::Preset *preset, quint32 value);
 };
+
+} // namespace Conversion
+} // namespace Parsing
 
 #endif // CONVERTERHELPER_H
