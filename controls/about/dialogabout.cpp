@@ -20,6 +20,7 @@
 #include "dialogabout.h"
 #include "ui_dialogabout.h"
 
+#include <QIcon>
 #include <QTextStream>
 #include <QFile>
 #include "revisioninfo.h"
