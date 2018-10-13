@@ -102,47 +102,7 @@ void ConverterHelper::pixelsData(
       ConverterHelper::collectPoints(convImage, scanScript, &errorMessage);
 
       if (convImage->pointsCount() > 2) {
-        // find image data size
-        QPoint point1 = convImage->pointAt(0);
-        QPoint point2 = convImage->pointAt(1);
-
-        // if horizontal lines
-        if ((qAbs(point1.x() - point2.x()) == 1) && (point1.y() == point2.y())) {
-          // get length of first horizontal line
-          QPoint point = point1;
-
-          for (int i = 0; i < convImage->pointsCount(); i++) {
-            if (convImage->pointAt(i).y() != point.y()) {
-              break;
-            }
-
-            point = convImage->pointAt(i);
-          }
-
-          *width = qAbs(point.x() - point1.x()) + 1;
-          *height = convImage->pointsCount() / (*width);
-        }
-        // if vertical lines
-        else if ((qAbs(point1.y() - point2.y()) == 1) && (point1.x() == point2.x())) {
-          // get length of first vertical line
-          QPoint point = point1;
-
-          for (int i = 0; i < convImage->pointsCount(); i++) {
-            if (convImage->pointAt(i).x() != point.x()) {
-              break;
-            }
-
-            point = convImage->pointAt(i);
-          }
-
-          *width = qAbs(point.y() - point1.y()) + 1;
-          *height = convImage->pointsCount() / (*width);
-        }
-        // unknown
-        else {
-          *width = convImage->pointsCount();
-          *height = 1;
-        }
+        ConverterHelper::getImageDataSize(prepare, convImage, width, height);
 
         // get pixels color
         for (int i = 0; i < convImage->pointsCount(); i++) {
@@ -947,6 +907,85 @@ quint32 ConverterHelper::toBigEndian(Settings::Presets::Preset *preset, quint32 
   }
 
   return result;
+}
+
+void ConverterHelper::getImageDataSize(Settings::Presets::PrepareOptions *prepare, ConvImageScan *convImage, int *width, int *height)
+{
+  enum class LineOrientation {
+    Unknown,
+    Horizontal,
+    Vertical
+  };
+
+  LineOrientation orientation = LineOrientation::Unknown;
+  QPoint point1 = convImage->pointAt(0);
+  QPoint point2 = convImage->pointAt(1);
+
+  if (!prepare->useCustomScanScript()) {
+    switch (prepare->scanMain()) {
+      case Parsing::Conversion::Options::ScanMainDirection::LeftToRight:
+      case Parsing::Conversion::Options::ScanMainDirection::RightToLeft: {
+        orientation = LineOrientation::Horizontal;
+        break;
+      }
+
+      case Parsing::Conversion::Options::ScanMainDirection::TopToBottom:
+      case Parsing::Conversion::Options::ScanMainDirection::BottomToTop: {
+        orientation = LineOrientation::Vertical;
+        break;
+      }
+    }
+  }
+
+  if (orientation == LineOrientation::Unknown) {
+    if ((qAbs(point1.x() - point2.x()) == 1) && (point1.y() == point2.y())) {
+      orientation = LineOrientation::Horizontal;
+    } else if ((qAbs(point1.y() - point2.y()) == 1) && (point1.x() == point2.x())) {
+      orientation = LineOrientation::Vertical;
+    }
+  }
+
+  switch (orientation) {
+    case LineOrientation::Horizontal: {
+      // get length of first horizontal line
+      QPoint point = point1;
+
+      for (int i = 0; i < convImage->pointsCount(); i++) {
+        if (convImage->pointAt(i).y() != point.y()) {
+          break;
+        }
+
+        point = convImage->pointAt(i);
+      }
+
+      *width = qAbs(point.x() - point1.x()) + 1;
+      *height = convImage->pointsCount() / (*width);
+      break;
+    }
+
+    case LineOrientation::Vertical: {
+      // get length of first vertical line
+      QPoint point = point1;
+
+      for (int i = 0; i < convImage->pointsCount(); i++) {
+        if (convImage->pointAt(i).x() != point.x()) {
+          break;
+        }
+
+        point = convImage->pointAt(i);
+      }
+
+      *width = qAbs(point.y() - point1.y()) + 1;
+      *height = convImage->pointsCount() / (*width);
+      break;
+    }
+
+    case LineOrientation::Unknown: {
+      *width = convImage->pointsCount();
+      *height = 1;
+      break;
+    }
+  }
 }
 
 } // namespace Conversion
