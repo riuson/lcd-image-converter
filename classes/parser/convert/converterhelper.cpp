@@ -925,13 +925,13 @@ void ConverterHelper::getImageDataSize(Settings::Presets::PrepareOptions *prepar
     switch (prepare->scanMain()) {
       case Parsing::Conversion::Options::ScanMainDirection::LeftToRight:
       case Parsing::Conversion::Options::ScanMainDirection::RightToLeft: {
-        orientation = LineOrientation::Horizontal;
+        orientation = LineOrientation::Vertical;
         break;
       }
 
       case Parsing::Conversion::Options::ScanMainDirection::TopToBottom:
       case Parsing::Conversion::Options::ScanMainDirection::BottomToTop: {
-        orientation = LineOrientation::Vertical;
+        orientation = LineOrientation::Horizontal;
         break;
       }
     }
