@@ -30,6 +30,7 @@
 #include <QNetworkRequest>
 #include <QUrl>
 #include <QDateTime>
+#include <QIcon>
 
 #if QT_VERSION_COMBINED >= VERSION_COMBINE(5, 0, 0)
 #define USE_URL_QUERY

@@ -21,6 +21,7 @@
 #include "ui_starttab.h"
 
 #include <QFileInfo>
+#include <qtabwidget.h>
 
 StartTab::StartTab(QWidget *parent) :
   QWidget(parent),

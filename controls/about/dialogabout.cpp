@@ -22,6 +22,7 @@
 
 #include <QTextStream>
 #include <QFile>
+#include <QIcon>
 #include "revisioninfo.h"
 #include "bitmaphelper.h"
 
