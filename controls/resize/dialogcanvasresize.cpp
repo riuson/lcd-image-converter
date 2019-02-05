@@ -21,7 +21,9 @@
 #include "ui_dialogcanvasresize.h"
 
 #include <QItemSelectionModel>
+#include <QMap>
 #include <QWheelEvent>
+#include "canvasmodinfo.h"
 #include "imagesmodel.h"
 #include "imagesscaledproxy.h"
 #include "imagesresizedproxy.h"
@@ -42,6 +44,7 @@ DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *containe
   ui->setupUi(this);
 
   this->mContainer = container;
+  this->mCanvasMods = new QMap<QString, Data::CanvasModInfo *>();
 
   this->mModel = new Data::Models::ImagesModel(container, this);
 
@@ -83,7 +86,8 @@ DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *containe
 DialogCanvasResize::~DialogCanvasResize()
 {
   Settings::ResizeSettings::setScale(this->ui->spinBoxScale->value());
-
+  qDeleteAll(*this->mCanvasMods);
+  this->mCanvasMods->clear();
   delete ui;
 }
 

@@ -22,6 +22,8 @@
 
 #include <QDialog>
 
+template <class Key, class Value> class QMap;
+
 namespace Ui
 {
 class DialogCanvasResize;
@@ -44,6 +46,7 @@ class ImagesFilterProxy;
 class ColumnsReorderProxy;
 class TransposeProxy;
 }
+class CanvasModInfo;
 }
 
 namespace AppUI
@@ -81,6 +84,8 @@ private:
   int mTop;
   int mRight;
   int mBottom;
+
+  QMap<QString, Data::CanvasModInfo *> *mCanvasMods;
 
 private slots:
   void spinBox_valueChanged(int value);
