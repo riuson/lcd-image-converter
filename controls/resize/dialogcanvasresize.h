@@ -45,6 +45,7 @@ class ImagesResizedProxy;
 class ImagesFilterProxy;
 class ColumnsReorderProxy;
 class TransposeProxy;
+class CanvasModProxy;
 }
 class CanvasModInfo;
 }
@@ -79,6 +80,7 @@ private:
   Data::Models::ImagesFilterProxy *mFilter;
   Data::Models::ColumnsReorderProxy *mReorderProxy;
   Data::Models::TransposeProxy *mTranspose;
+  Data::Models::CanvasModProxy *mCanvasMod;
 
   int mLeft;
   int mTop;

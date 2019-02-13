@@ -65,6 +65,7 @@ SOURCES += main.cpp \
     classes/compression/rlecompressor.cpp \
     classes/compression/rlesequence.cpp \
     classes/data/canvasmodinfo.cpp \
+    classes/data/canvasmodproxy.cpp \
     classes/data/datacontainer.cpp \
     classes/data/fontdocument.cpp \
     classes/data/historykeeper.cpp \
@@ -179,6 +180,7 @@ HEADERS += \
     classes/compression/rlecompressor.h \
     classes/compression/rlesequence.h \
     classes/data/canvasmodinfo.h \
+    classes/data/canvasmodproxy.h \
     classes/data/datacontainer.h \
     classes/data/fontdocument.h \
     classes/data/fontparameters.h \

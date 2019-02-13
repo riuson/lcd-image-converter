@@ -24,6 +24,7 @@
 #include <QMap>
 #include <QWheelEvent>
 #include "canvasmodinfo.h"
+#include "canvasmodproxy.h"
 #include "imagesmodel.h"
 #include "imagesscaledproxy.h"
 #include "imagesresizedproxy.h"
@@ -44,15 +45,20 @@ DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *containe
   ui->setupUi(this);
 
   this->mContainer = container;
+
   this->mCanvasMods = new QMap<QString, Data::CanvasModInfo *>();
 
   this->mModel = new Data::Models::ImagesModel(container, this);
 
+  this->mCanvasMod = new Data::Models::CanvasModProxy(this->mCanvasMods, this);
+  this->mCanvasMod->setSourceModel(this->mModel);
+
   this->mResizedProxy = new Data::Models::ImagesResizedProxy(this);
-  this->mResizedProxy->setSourceModel(this->mModel);
+  //this->mResizedProxy->setSourceModel(this->mModel);
 
   this->mScaledProxy = new Data::Models::ImagesScaledProxy(this);
-  this->mScaledProxy->setSourceModel(this->mResizedProxy);
+  //this->mScaledProxy->setSourceModel(this->mResizedProxy);
+  this->mScaledProxy->setSourceModel(this->mCanvasMod);
 
   this->mFilter = new Data::Models::ImagesFilterProxy(this);
   this->mFilter->setSourceModel(this->mScaledProxy);
