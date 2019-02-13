@@ -52,8 +52,6 @@ public:
 
 private:
   QMap<QString, Data::CanvasModInfo *> *mCanvasMods;
-
-  const QSize resized(const QSize &value, const CanvasModInfo &mod) const;
 };
 
 } // namespace Models

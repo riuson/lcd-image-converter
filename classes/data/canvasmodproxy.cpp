@@ -83,17 +83,16 @@ QVariant CanvasModProxy::data(const QModelIndex &index, int role) const
         QVariant varKey = this->sourceModel()->data(index, Data::Models::ImagesModel::KeyRole);
         QString key = varKey.toString();
 
-        const Data::CanvasModInfo *mod = this->mCanvasMods->value(key);
-        qint16 left, top, right, bottom, offsetX, offsetY;
+        const Data::CanvasModInfo *modInfo = this->mCanvasMods->value(key);
+        Data::CanvasModInfo::Mods mods;
 
-        if (mod != nullptr) {
-          mod->resizeData(left, top, right, bottom);
-          mod->offsetData(offsetX, offsetY);
+        if (modInfo != nullptr) {
+          mods = modInfo->committed();
         } else {
-          left = top = right = bottom = offsetX = offsetY = 0;
+          mods.reset();
         }
 
-        QImage imageScaled = Parsing::Conversion::BitmapHelper::crop(&imageSource, left, top, right, bottom, backgroundColor);
+        QImage imageScaled = Parsing::Conversion::BitmapHelper::crop(&imageSource, mods.left, mods.top, mods.right, mods.bottom, backgroundColor);
         result = imageScaled;
       }
 
@@ -107,17 +106,17 @@ QVariant CanvasModProxy::data(const QModelIndex &index, int role) const
         QVariant varKey = this->sourceModel()->data(index, Data::Models::ImagesModel::KeyRole);
         QString key = varKey.toString();
 
-        const Data::CanvasModInfo *mod = this->mCanvasMods->value(key);
-        qint16 left, top, right, bottom;
+        const Data::CanvasModInfo *modInfo = this->mCanvasMods->value(key);
+        Data::CanvasModInfo::Mods mods;
 
-        if (mod != nullptr) {
-          mod->resizeData(left, top, right, bottom);
+        if (modInfo != nullptr) {
+          mods = modInfo->committed();
         } else {
-          left = top = right = bottom = 0;
+          mods.reset();
         }
 
-        size.rwidth() += left + right;
-        size.rheight() += top + bottom;
+        size.rwidth() += mods.left + mods.right;
+        size.rheight() += mods.top + mods.bottom;
 
         result = size;
       }
@@ -137,40 +136,30 @@ QVariant CanvasModProxy::data(const QModelIndex &index, int role) const
         QVariant varKey = this->sourceModel()->data(index, Data::Models::ImagesModel::KeyRole);
         QString key = varKey.toString();
 
-        const Data::CanvasModInfo *mod = this->mCanvasMods->value(key);
-        qint16 left, top, right, bottom;
+        const Data::CanvasModInfo *modInfo = this->mCanvasMods->value(key);
+        Data::CanvasModInfo::Mods mods;
 
-        if (mod != nullptr) {
-          mod->resizeData(left, top, right, bottom);
+        if (modInfo != nullptr) {
+          mods = modInfo->committed();
         } else {
-          left = top = right = bottom = 0;
+          mods.reset();
         }
 
-        size.rwidth() += left + right;
-        size.rheight() += top + bottom;
+        size.rwidth() += mods.left + mods.right;
+        size.rheight() += mods.top + mods.bottom;
 
         result = QString("%1x%2").arg(size.width()).arg(size.height());
       } else if (columnIndex == sourceColumns + 2) {
         QVariant varKey = this->sourceModel()->data(index, Data::Models::ImagesModel::KeyRole);
         QString key = varKey.toString();
 
-        const Data::CanvasModInfo *info = this->mCanvasMods->value(key);
-        qint16 left, top, right, bottom, offsetX, offsetY;
+        const Data::CanvasModInfo *modInfo = this->mCanvasMods->value(key);
 
-        if (info != nullptr) {
-          info->resizeData(left, top, right, bottom);
-          info->offsetData(offsetX, offsetY);
+        if (modInfo != nullptr) {
+          result = modInfo->toString();
         } else {
-          left = top = right = bottom = offsetX = offsetY = 0;
+          result = QString("---");
         }
-
-        result = QString("◄%1, ▲%2, ►%3, ▼%4, ↔%5, ↕%6")
-                 .arg(left)
-                 .arg(top)
-                 .arg(right)
-                 .arg(bottom)
-                 .arg(offsetX)
-                 .arg(offsetY);
       }
 
       break;
@@ -207,25 +196,6 @@ QModelIndex CanvasModProxy::mapToSource(const QModelIndex &proxyIndex) const
   } else {
     return QModelIndex();
   }
-}
-
-const QSize CanvasModProxy::resized(const QSize &value, const CanvasModInfo &mod) const
-{
-  QSize result = value;
-  qint16 left, top, right, bottom;
-  mod.resizeData(left, top, right, bottom);
-  result.rwidth() += left + right;
-  result.rheight() += top + bottom;
-
-  if (result.height() < 1) {
-    result.setHeight(1);
-  }
-
-  if (result.width() < 1) {
-    result.setWidth(1);
-  }
-
-  return result;
 }
 
 } // namespace Models

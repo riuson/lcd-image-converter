@@ -3,53 +3,46 @@
 namespace Data
 {
 
+void CanvasModInfo::Mods::reset()
+{
+  this->left = this->top = this->right = this->bottom = 0;
+}
+
 CanvasModInfo::CanvasModInfo()
 {
-  this->mSourceSize = QSize();
-  this->mChangeLeft = 0;
-  this->mChangeTop = 0;
-  this->mChangeRight = 0;
-  this->mChangeBottom = 0;
-  this->mOffsetX = 0;
-  this->mOffsetY = 0;
+  this->mCommited.reset();
+  this->mModified.reset();
 }
 
-const QSize &CanvasModInfo::sourceSize() const
+const CanvasModInfo::Mods &CanvasModInfo::committed() const
 {
-  return this->mSourceSize;
+  return this->mCommited;
 }
 
-void CanvasModInfo::setSourceSize(const QSize &size)
+void CanvasModInfo::modify(qint16 left, qint16 top, qint16 right, qint16 bottom)
 {
-  this->mSourceSize = size;
+  this->mModified.left = left;
+  this->mModified.top = top;
+  this->mModified.right = right;
+  this->mModified.bottom = bottom;
 }
 
-void CanvasModInfo::resizeData(qint16 &changeLeft, qint16 &changeTop, qint16 &changeRight, qint16 &changeBottom) const
+void CanvasModInfo::commit()
 {
-  changeLeft = this->mChangeLeft;
-  changeTop = this->mChangeTop;
-  changeRight = this->mChangeRight;
-  changeBottom = this->mChangeBottom;
+  this->mCommited.left += this->mModified.left;
+  this->mCommited.top += this->mModified.top;
+  this->mCommited.right += this->mModified.right;
+  this->mCommited.bottom += this->mModified.bottom;
+  this->mModified.reset();
 }
 
-void CanvasModInfo::setResizeData(qint16 changeLeft, qint16 changeTop, qint16 changeRight, qint16 changeBottom)
+const QString CanvasModInfo::toString() const
 {
-  this->mChangeLeft = changeLeft;
-  this->mChangeTop = changeTop;
-  this->mChangeRight = changeRight;
-  this->mChangeBottom = changeBottom;
-}
-
-void CanvasModInfo::offsetData(qint16 &offsetX, qint16 &offsetY) const
-{
-  offsetX = this->mOffsetX;
-  offsetY = this->mOffsetY;
-}
-
-void CanvasModInfo::setOffsetData(qint16 offsetX, qint16 offsetY)
-{
-  this->mOffsetX = offsetX;
-  this->mOffsetY = offsetY;
+  return QString("L:%1,T:%2,R:%3,B:%4")
+         .arg(this->mCommited.left + this->mModified.left)
+         .arg(this->mCommited.top + this->mModified.top)
+         .arg(this->mCommited.right + this->mModified.right)
+         .arg(this->mCommited.bottom + this->mModified.bottom);
 }
 
 } // namespace Data

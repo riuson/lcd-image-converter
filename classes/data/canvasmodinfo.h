@@ -1,7 +1,9 @@
 #ifndef CANVASMODINFO_H
 #define CANVASMODINFO_H
 
-#include <QSize>
+class QString;
+
+#include <QString>
 
 namespace Data
 {
@@ -9,27 +11,27 @@ namespace Data
 class CanvasModInfo
 {
 public:
+  struct Mods {
+    qint16 left;
+    qint16 top;
+    qint16 right;
+    qint16 bottom;
+
+    void reset();
+  };
+
   CanvasModInfo();
 
-  const QSize &sourceSize() const;
-  void setSourceSize(const QSize &size);
+  const Mods &committed() const;
 
-  void resizeData(qint16 &changeLeft, qint16 &changeTop, qint16 &changeRight, qint16 &changeBottom) const;
-  void setResizeData(qint16 changeLeft, qint16 changeTop, qint16 changeRight, qint16 changeBottom);
+  void modify(qint16 left, qint16 top, qint16 right, qint16 bottom);
+  void commit();
 
-  void offsetData(qint16 &offsetX, qint16 &offsetY) const;
-  void setOffsetData(qint16 offsetX, qint16 offsetY);
+  const QString toString() const;
 
 private:
-  QSize mSourceSize;
-
-  qint16 mChangeLeft;
-  qint16 mChangeTop;
-  qint16 mChangeRight;
-  qint16 mChangeBottom;
-
-  qint16 mOffsetX;
-  qint16 mOffsetY;
+  Mods mCommited;
+  Mods mModified;
 };
 
 } // namespace Data
