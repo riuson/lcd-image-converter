@@ -53,16 +53,6 @@ QVariant CanvasModProxy::headerData(int section, Qt::Orientation orientation, in
   return result;
 }
 
-int CanvasModProxy::columnCount(const QModelIndex &parent) const
-{
-  if (this->sourceModel() == nullptr) {
-    return 0;
-  }
-
-  int sourceColumns = this->sourceModel()->columnCount(parent);
-  return sourceColumns + 3;
-}
-
 QVariant CanvasModProxy::data(const QModelIndex &index, int role) const
 {
   QVariant result = this->sourceModel()->data(index, role);
@@ -129,37 +119,6 @@ QVariant CanvasModProxy::data(const QModelIndex &index, int role) const
         QVariant varSize = this->sourceModel()->data(index, Data::Models::ImagesModel::ImageSizeRole);
         QSize size = varSize.toSize();
         result = QString("%1x%2").arg(size.width()).arg(size.height());
-      } else if (columnIndex == sourceColumns + 1) {
-        QVariant varSize = this->sourceModel()->data(index, Data::Models::ImagesModel::ImageSizeRole);
-        QSize size = varSize.toSize();
-
-        QVariant varKey = this->sourceModel()->data(index, Data::Models::ImagesModel::KeyRole);
-        QString key = varKey.toString();
-
-        const Data::CanvasModInfo *modInfo = this->mCanvasMods->value(key);
-        Data::CanvasModInfo::Mods mods;
-
-        if (modInfo != nullptr) {
-          mods = modInfo->committed();
-        } else {
-          mods.reset();
-        }
-
-        size.rwidth() += mods.left + mods.right;
-        size.rheight() += mods.top + mods.bottom;
-
-        result = QString("%1x%2").arg(size.width()).arg(size.height());
-      } else if (columnIndex == sourceColumns + 2) {
-        QVariant varKey = this->sourceModel()->data(index, Data::Models::ImagesModel::KeyRole);
-        QString key = varKey.toString();
-
-        const Data::CanvasModInfo *modInfo = this->mCanvasMods->value(key);
-
-        if (modInfo != nullptr) {
-          result = modInfo->toString();
-        } else {
-          result = QString("---");
-        }
       }
 
       break;
