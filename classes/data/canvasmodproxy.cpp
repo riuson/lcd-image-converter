@@ -77,7 +77,7 @@ QVariant CanvasModProxy::data(const QModelIndex &index, int role) const
         Data::CanvasModInfo::Mods mods;
 
         if (modInfo != nullptr) {
-          mods = modInfo->committed();
+          mods = modInfo->summary();
         } else {
           mods.reset();
         }
@@ -100,7 +100,7 @@ QVariant CanvasModProxy::data(const QModelIndex &index, int role) const
         Data::CanvasModInfo::Mods mods;
 
         if (modInfo != nullptr) {
-          mods = modInfo->committed();
+          mods = modInfo->summary();
         } else {
           mods.reset();
         }

@@ -22,7 +22,7 @@ public:
 
   CanvasModInfo();
 
-  const Mods &committed() const;
+  const Mods summary() const;
 
   void modify(qint16 left, qint16 top, qint16 right, qint16 bottom);
   void commit();

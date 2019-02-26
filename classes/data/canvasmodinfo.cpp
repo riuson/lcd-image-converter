@@ -14,9 +14,14 @@ CanvasModInfo::CanvasModInfo()
   this->mModified.reset();
 }
 
-const CanvasModInfo::Mods &CanvasModInfo::committed() const
+const CanvasModInfo::Mods CanvasModInfo::summary() const
 {
-  return this->mCommited;
+  CanvasModInfo::Mods result;
+  result.top = this->mCommited.top + this->mModified.top;
+  result.left = this->mCommited.left + this->mModified.left;
+  result.right = this->mCommited.right + this->mModified.right;
+  result.bottom = this->mCommited.bottom + this->mModified.bottom;
+  return result;
 }
 
 void CanvasModInfo::modify(qint16 left, qint16 top, qint16 right, qint16 bottom)
