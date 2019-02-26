@@ -41,6 +41,12 @@ void CanvasModInfo::commit()
   this->mModified.reset();
 }
 
+void CanvasModInfo::reset()
+{
+  this->mCommited.reset();
+  this->mModified.reset();
+}
+
 const QString CanvasModInfo::toString() const
 {
   return QString("L:%1,T:%2,R:%3,B:%4")

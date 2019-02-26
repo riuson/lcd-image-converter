@@ -26,6 +26,7 @@ public:
 
   void modify(qint16 left, qint16 top, qint16 right, qint16 bottom);
   void commit();
+  void reset();
 
   const QString toString() const;
 

@@ -166,6 +166,13 @@ void DialogCanvasResize::on_pushButtonReset_clicked()
   this->ui->spinBoxTop->setValue(0);
   this->ui->spinBoxRight->setValue(0);
   this->ui->spinBoxBottom->setValue(0);
+
+  for (auto key : this->mCanvasMods->keys()) {
+    Data::CanvasModInfo *info = this->mCanvasMods->value(key);
+    info->reset();
+  }
+
+  this->resizeToContents();
 }
 
 void DialogCanvasResize::resizeToContents()
