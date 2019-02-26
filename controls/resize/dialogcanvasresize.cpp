@@ -153,9 +153,10 @@ void DialogCanvasResize::optimizeHeight()
     const QImage *original = this->mContainer->image(key);
 
     int l, t, r, b;
-    Parsing::Conversion::BitmapHelper::findEmptyArea(original, &l, &t, &r, &b);
+    bool hEmpty, vEmpty;
+    Parsing::Conversion::BitmapHelper::findEmptyArea(original, l, t, r, b, hEmpty, vEmpty);
 
-    if (t >= b) {
+    if (vEmpty) {
       continue;
     }
 

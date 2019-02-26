@@ -52,12 +52,12 @@ bool FontMinimizeHeight::prepare(const Data::Containers::IDocument *doc, const Q
     const QImage *original = doc->dataContainer()->image(key);
 
     int l, t, r, b;
-    Parsing::Conversion::BitmapHelper::findEmptyArea(original, &l, &t, &r, &b);
+    //Parsing::Conversion::BitmapHelper::findEmptyArea(original, &l, &t, &r, &b);
 
-    this->mLeft = qMin(this->mLeft, l);
-    this->mTop = qMin(this->mTop, t);
-    this->mRight = qMin(this->mRight, r);
-    this->mBottom = qMin(this->mBottom, b);
+    //this->mLeft = qMin(this->mLeft, l);
+    //this->mTop = qMin(this->mTop, t);
+    //this->mRight = qMin(this->mRight, r);
+    //this->mBottom = qMin(this->mBottom, b);
   }
 
   AppUI::CommonDialogs::DialogCanvasResize dialog(doc->dataContainer(), this->mParentWidget);
