@@ -12,10 +12,10 @@ class CanvasModInfo
 {
 public:
   struct Mods {
-    qint16 left;
-    qint16 top;
-    qint16 right;
-    qint16 bottom;
+    int left;
+    int top;
+    int right;
+    int bottom;
 
     void reset();
   };
@@ -24,7 +24,7 @@ public:
 
   const Mods summary() const;
 
-  void modify(qint16 left, qint16 top, qint16 right, qint16 bottom);
+  void modify(int left, int top, int right, int bottom);
   void commit();
   void reset();
 

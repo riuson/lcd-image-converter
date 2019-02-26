@@ -80,11 +80,15 @@ private:
   Data::Models::TransposeProxy *mTranspose;
   Data::Models::CanvasModProxy *mCanvasMod;
 
+  QStringList mKeys;
   QMap<QString, Data::CanvasModInfo *> *mCanvasMods;
+
+  void optimizeHeight();
 
 private slots:
   void spinBox_valueChanged(int value);
   void on_pushButtonReset_clicked();
+  void on_pushButtonOptimizeHeight_clicked();
   void resizeToContents();
   void on_scaleChanged(int value);
 };

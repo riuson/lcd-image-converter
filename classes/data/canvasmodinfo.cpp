@@ -24,7 +24,7 @@ const CanvasModInfo::Mods CanvasModInfo::summary() const
   return result;
 }
 
-void CanvasModInfo::modify(qint16 left, qint16 top, qint16 right, qint16 bottom)
+void CanvasModInfo::modify(int left, int top, int right, int bottom)
 {
   this->mModified.left = left;
   this->mModified.top = top;

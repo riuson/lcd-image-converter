@@ -33,6 +33,7 @@
 #include "columnsreorderproxy.h"
 #include "resizesettings.h"
 #include "datacontainer.h"
+#include "bitmaphelper.h"
 
 namespace AppUI
 {
@@ -97,7 +98,7 @@ DialogCanvasResize::~DialogCanvasResize()
 void DialogCanvasResize::selectKeys(const QStringList &keys)
 {
   this->mFilter->setFilter(keys);
-
+  this->mKeys = keys;
   this->resizeToContents();
 }
 
@@ -143,6 +144,32 @@ void DialogCanvasResize::wheelEvent(QWheelEvent *event)
   }
 }
 
+void DialogCanvasResize::optimizeHeight()
+{
+  int top = std::numeric_limits<int>::max();
+  int bottom = std::numeric_limits<int>::max();
+
+  for (auto key : this->mKeys) {
+    const QImage *original = this->mContainer->image(key);
+
+    int l, t, r, b;
+    Parsing::Conversion::BitmapHelper::findEmptyArea(original, &l, &t, &r, &b);
+
+    if (t >= b) {
+      continue;
+    }
+
+    top = qMin(top, t);
+    bottom = qMin(bottom, b);
+  }
+
+  for (auto key : this->mKeys) {
+    Data::CanvasModInfo *info = this->mCanvasMods->value(key);
+    info->modify(0, -top, 0, -bottom);
+    info->commit();
+  }
+}
+
 void DialogCanvasResize::spinBox_valueChanged(int value)
 {
   Q_UNUSED(value);
@@ -152,7 +179,7 @@ void DialogCanvasResize::spinBox_valueChanged(int value)
   qint16 right = static_cast<qint16>(this->ui->spinBoxRight->value());
   qint16 bottom = static_cast<qint16>(this->ui->spinBoxBottom->value());
 
-  for (auto key : this->mCanvasMods->keys()) {
+  for (auto key : this->mKeys) {
     Data::CanvasModInfo *info = this->mCanvasMods->value(key);
     info->modify(left, top, right, bottom);
   }
@@ -167,11 +194,17 @@ void DialogCanvasResize::on_pushButtonReset_clicked()
   this->ui->spinBoxRight->setValue(0);
   this->ui->spinBoxBottom->setValue(0);
 
-  for (auto key : this->mCanvasMods->keys()) {
+  for (auto key : this->mKeys) {
     Data::CanvasModInfo *info = this->mCanvasMods->value(key);
     info->reset();
   }
 
+  this->resizeToContents();
+}
+
+void DialogCanvasResize::on_pushButtonOptimizeHeight_clicked()
+{
+  this->optimizeHeight();
   this->resizeToContents();
 }
 
