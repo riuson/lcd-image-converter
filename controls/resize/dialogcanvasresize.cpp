@@ -32,6 +32,7 @@
 #include "transposeproxy.h"
 #include "columnsreorderproxy.h"
 #include "resizesettings.h"
+#include "datacontainer.h"
 
 namespace AppUI
 {
@@ -48,17 +49,18 @@ DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *containe
 
   this->mCanvasMods = new QMap<QString, Data::CanvasModInfo *>();
 
+  for (auto key : container->keys()) {
+    this->mCanvasMods->insert(key, new Data::CanvasModInfo());
+  }
+
   this->mModel = new Data::Models::ImagesModel(container, this);
 
   this->mCanvasMod = new Data::Models::CanvasModProxy(this->mCanvasMods, this);
   this->mCanvasMod->setSourceModel(this->mModel);
 
-  this->mResizedProxy = new Data::Models::ImagesResizedProxy(this);
-  //this->mResizedProxy->setSourceModel(this->mModel);
-
   this->mScaledProxy = new Data::Models::ImagesScaledProxy(this);
-  //this->mScaledProxy->setSourceModel(this->mResizedProxy);
   this->mScaledProxy->setSourceModel(this->mCanvasMod);
+  //this->mScaledProxy->setSourceModel(this->mModel);
 
   this->mFilter = new Data::Models::ImagesFilterProxy(this);
   this->mFilter->setSourceModel(this->mScaledProxy);
@@ -78,11 +80,6 @@ DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *containe
   this->connect(this->ui->spinBoxBottom, SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
   this->connect(this->ui->spinBoxScale,  SIGNAL(valueChanged(int)), this->mScaledProxy, SLOT(setScale(int)));
   this->connect(this->mScaledProxy, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
-
-  this->mLeft = 0;
-  this->mTop = 0;
-  this->mRight = 0;
-  this->mBottom = 0;
 
   int scale = Settings::ResizeSettings::scale();
   this->mScaledProxy->setScale(scale);
@@ -106,23 +103,22 @@ void DialogCanvasResize::selectKeys(const QStringList &keys)
 
 void DialogCanvasResize::resizeInfo(int *left, int *top, int *right, int *bottom) const
 {
-  *left = this->mLeft;
-  *top = this->mTop;
-  *right = this->mRight;
-  *bottom = this->mBottom;
+  *left = 0;
+  *top = 0;
+  *right = 0;
+  *bottom = 0;
 }
 
 void DialogCanvasResize::setResizeInfo(int left, int top, int right, int bottom)
 {
-  this->mLeft = left;
-  this->mTop = top;
-  this->mRight = right;
-  this->mBottom = bottom;
-
-  this->ui->spinBoxLeft->setValue(left);
-  this->ui->spinBoxTop->setValue(top);
-  this->ui->spinBoxRight->setValue(right);
-  this->ui->spinBoxBottom->setValue(bottom);
+  Q_UNUSED(left);
+  Q_UNUSED(top);
+  Q_UNUSED(right);
+  Q_UNUSED(bottom);
+  //this->ui->spinBoxLeft->setValue(left);
+  //this->ui->spinBoxTop->setValue(top);
+  //this->ui->spinBoxRight->setValue(right);
+  //this->ui->spinBoxBottom->setValue(bottom);
 }
 
 void DialogCanvasResize::wheelEvent(QWheelEvent *event)
@@ -151,16 +147,15 @@ void DialogCanvasResize::spinBox_valueChanged(int value)
 {
   Q_UNUSED(value);
 
-  this->mLeft = this->ui->spinBoxLeft->value();
-  this->mTop = this->ui->spinBoxTop->value();
-  this->mRight = this->ui->spinBoxRight->value();
-  this->mBottom = this->ui->spinBoxBottom->value();
+  qint16 left = static_cast<qint16>(this->ui->spinBoxLeft->value());
+  qint16 top = static_cast<qint16>(this->ui->spinBoxTop->value());
+  qint16 right = static_cast<qint16>(this->ui->spinBoxRight->value());
+  qint16 bottom = static_cast<qint16>(this->ui->spinBoxBottom->value());
 
-  this->mResizedProxy->setCrop(
-    this->mLeft,
-    this->mTop,
-    this->mRight,
-    this->mBottom);
+  for (auto key : this->mCanvasMods->keys()) {
+    Data::CanvasModInfo *info = this->mCanvasMods->value(key);
+    info->modify(left, top, right, bottom);
+  }
 
   this->resizeToContents();
 }

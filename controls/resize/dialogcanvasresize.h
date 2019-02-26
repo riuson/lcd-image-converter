@@ -41,7 +41,6 @@ namespace Models
 {
 class ImagesModel;
 class ImagesScaledProxy;
-class ImagesResizedProxy;
 class ImagesFilterProxy;
 class ColumnsReorderProxy;
 class TransposeProxy;
@@ -76,16 +75,10 @@ private:
   Data::Containers::DataContainer *mContainer;
   Data::Models::ImagesModel *mModel;
   Data::Models::ImagesScaledProxy *mScaledProxy;
-  Data::Models::ImagesResizedProxy *mResizedProxy;
   Data::Models::ImagesFilterProxy *mFilter;
   Data::Models::ColumnsReorderProxy *mReorderProxy;
   Data::Models::TransposeProxy *mTranspose;
   Data::Models::CanvasModProxy *mCanvasMod;
-
-  int mLeft;
-  int mTop;
-  int mRight;
-  int mBottom;
 
   QMap<QString, Data::CanvasModInfo *> *mCanvasMods;
 
