@@ -84,11 +84,13 @@ private:
   QMap<QString, Data::CanvasModInfo *> *mCanvasMods;
 
   void optimizeHeight();
+  void optimizeWidth();
 
 private slots:
   void spinBox_valueChanged(int value);
   void on_pushButtonReset_clicked();
   void on_pushButtonOptimizeHeight_clicked();
+  void on_pushButtonOptimizeWidth_clicked();
   void resizeToContents();
   void on_scaleChanged(int value);
 };

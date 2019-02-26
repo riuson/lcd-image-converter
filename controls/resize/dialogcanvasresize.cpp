@@ -171,6 +171,31 @@ void DialogCanvasResize::optimizeHeight()
   }
 }
 
+void DialogCanvasResize::optimizeWidth()
+{
+  int left = std::numeric_limits<int>::max();
+  int right = std::numeric_limits<int>::max();
+
+  for (auto key : this->mKeys) {
+    const QImage *original = this->mContainer->image(key);
+
+    int l, t, r, b;
+    bool hEmpty, vEmpty;
+    Parsing::Conversion::BitmapHelper::findEmptyArea(original, l, t, r, b, hEmpty, vEmpty);
+
+    if (hEmpty) {
+      continue;
+    }
+
+    left = l;
+    right = r;
+
+    Data::CanvasModInfo *info = this->mCanvasMods->value(key);
+    info->modify(-left, 0, -right, 0);
+    info->commit();
+  }
+}
+
 void DialogCanvasResize::spinBox_valueChanged(int value)
 {
   Q_UNUSED(value);
@@ -206,6 +231,12 @@ void DialogCanvasResize::on_pushButtonReset_clicked()
 void DialogCanvasResize::on_pushButtonOptimizeHeight_clicked()
 {
   this->optimizeHeight();
+  this->resizeToContents();
+}
+
+void DialogCanvasResize::on_pushButtonOptimizeWidth_clicked()
+{
+  this->optimizeWidth();
   this->resizeToContents();
 }
 
