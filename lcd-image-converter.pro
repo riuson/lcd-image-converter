@@ -86,7 +86,6 @@ SOURCES += main.cpp \
     classes/imageeditor/toolrect.cpp \
     classes/imageeditor/toolzoom.cpp \
     classes/operations/documentoperator.cpp \
-    classes/operations/fontminimizeheight.cpp \
     classes/operations/fontresize.cpp \
     classes/operations/imageeditinexternaltool.cpp \
     classes/operations/imageexport.cpp \
@@ -206,7 +205,6 @@ HEADERS += \
     classes/imageeditor/toolrect.h \
     classes/imageeditor/toolzoom.h \
     classes/operations/documentoperator.h \
-    classes/operations/fontminimizeheight.h \
     classes/operations/fontresize.h \
     classes/operations/imageeditinexternaltool.h \
     classes/operations/imageexport.h \
