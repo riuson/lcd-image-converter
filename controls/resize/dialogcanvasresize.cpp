@@ -40,9 +40,12 @@ namespace AppUI
 namespace CommonDialogs
 {
 
-DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *container, QWidget *parent) :
+DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *container,
+                                       const QStringList &keys,
+                                       QWidget *parent) :
   QDialog(parent),
-  ui(new Ui::DialogCanvasResize)
+  ui(new Ui::DialogCanvasResize),
+  mKeys(keys)
 {
   ui->setupUi(this);
 
@@ -65,6 +68,7 @@ DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *containe
 
   this->mFilter = new Data::Models::ImagesFilterProxy(this);
   this->mFilter->setSourceModel(this->mScaledProxy);
+  this->mFilter->setFilter(this->mKeys);
 
   this->mReorderProxy = new Data::Models::ColumnsReorderProxy();
   this->mReorderProxy->setSourceModel(this->mFilter);
@@ -95,31 +99,12 @@ DialogCanvasResize::~DialogCanvasResize()
   delete ui;
 }
 
-void DialogCanvasResize::selectKeys(const QStringList &keys)
-{
-  this->mFilter->setFilter(keys);
-  this->mKeys = keys;
-  this->resizeToContents();
-}
-
 void DialogCanvasResize::resizeInfo(int *left, int *top, int *right, int *bottom) const
 {
   *left = 0;
   *top = 0;
   *right = 0;
   *bottom = 0;
-}
-
-void DialogCanvasResize::setResizeInfo(int left, int top, int right, int bottom)
-{
-  Q_UNUSED(left);
-  Q_UNUSED(top);
-  Q_UNUSED(right);
-  Q_UNUSED(bottom);
-  //this->ui->spinBoxLeft->setValue(left);
-  //this->ui->spinBoxTop->setValue(top);
-  //this->ui->spinBoxRight->setValue(right);
-  //this->ui->spinBoxBottom->setValue(bottom);
 }
 
 void DialogCanvasResize::wheelEvent(QWheelEvent *event)

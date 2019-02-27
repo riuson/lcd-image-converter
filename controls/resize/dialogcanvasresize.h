@@ -59,12 +59,13 @@ class DialogCanvasResize : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogCanvasResize(Data::Containers::DataContainer *container, QWidget *parent = 0);
-  virtual ~DialogCanvasResize();
+  explicit DialogCanvasResize(
+    Data::Containers::DataContainer *container,
+    const QStringList &keys,
+    QWidget *parent = nullptr);
+  virtual ~DialogCanvasResize() Q_DECL_OVERRIDE;
 
-  void selectKeys(const QStringList &keys);
   void resizeInfo(int *left, int *top, int *right, int *bottom) const;
-  void setResizeInfo(int left, int top, int right, int bottom);
 
 protected:
   void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
@@ -80,7 +81,7 @@ private:
   Data::Models::TransposeProxy *mTranspose;
   Data::Models::CanvasModProxy *mCanvasMod;
 
-  QStringList mKeys;
+  const QStringList &mKeys;
   QMap<QString, Data::CanvasModInfo *> *mCanvasMods;
 
   void optimizeHeight();
