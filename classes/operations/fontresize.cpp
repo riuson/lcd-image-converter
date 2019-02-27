@@ -40,11 +40,14 @@ void FontResize::applyDocument(Data::Containers::IDocument *doc, const QStringLi
     int descent = doc->dataContainer()->commonInfo("descent").toInt(&ok);
 
     if (ok) {
-      ascent += this->mTop;
-      descent += this->mBottom;
+      if (this->mMap.size() > 0) {
+        Data::CanvasModInfo::Mods mods = this->mMap.first();
+        ascent += mods.top;
+        descent += mods.bottom;
 
-      doc->dataContainer()->setCommonInfo("ascent", ascent);
-      doc->dataContainer()->setCommonInfo("descent", descent);
+        doc->dataContainer()->setCommonInfo("ascent", ascent);
+        doc->dataContainer()->setCommonInfo("descent", descent);
+      }
     }
   }
 }

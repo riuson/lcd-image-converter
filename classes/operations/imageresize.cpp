@@ -22,6 +22,7 @@
 #include "idocument.h"
 #include "datacontainer.h"
 #include "bitmaphelper.h"
+#include "canvasmodinfo.h"
 
 namespace Operations
 {
@@ -30,10 +31,6 @@ ImageResize::ImageResize(QWidget *parentWidget, QObject *parent)
   : QObject(parent)
 {
   this->mParentWidget = parentWidget;
-  this->mLeft = 0;
-  this->mTop = 0;
-  this->mRight = 0;
-  this->mBottom = 0;
 }
 
 bool ImageResize::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
@@ -44,11 +41,18 @@ bool ImageResize::prepare(const Data::Containers::IDocument *doc, const QStringL
     this->mParentWidget);
 
   if (dialog.exec() == QDialog::Accepted) {
-    dialog.resizeInfo(&this->mLeft, &this->mTop, &this->mRight, &this->mBottom);
+    const QMap<QString, Data::CanvasModInfo *> *map = dialog.resizeInfo();
 
-    if (this->mLeft != 0 || this->mTop != 0 || this->mRight != 0 || this->mBottom != 0) {
-      return true;
+    for (auto key : keys) {
+      Data::CanvasModInfo *info = map->value(key);
+
+      if (info != nullptr) {
+        Data::CanvasModInfo::Mods mods = info->summary();
+        this->mMap.insert(key, mods);
+      }
     }
+
+    return true;
   }
 
   return false;
@@ -62,9 +66,18 @@ void ImageResize::applyDocument(Data::Containers::IDocument *doc, const QStringL
 
 void ImageResize::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
 {
-  const QImage *original = doc->dataContainer()->image(itemKey);
-  QImage result = Parsing::Conversion::BitmapHelper::crop(original, this->mLeft, this->mTop, this->mRight, this->mBottom, Parsing::Conversion::BitmapHelper::detectBackgroundColor(original));
-  doc->dataContainer()->setImage(itemKey, &result);
+  if (this->mMap.contains(itemKey)) {
+    Data::CanvasModInfo::Mods mods = this->mMap.value(itemKey);
+    const QImage *original = doc->dataContainer()->image(itemKey);
+    QImage result = Parsing::Conversion::BitmapHelper::crop(
+                      original,
+                      mods.left,
+                      mods.top,
+                      mods.right,
+                      mods.bottom,
+                      Parsing::Conversion::BitmapHelper::detectBackgroundColor(original));
+    doc->dataContainer()->setImage(itemKey, &result);
+  }
 }
 
 } // namespace Operations

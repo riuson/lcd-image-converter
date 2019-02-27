@@ -65,7 +65,7 @@ public:
     QWidget *parent = nullptr);
   virtual ~DialogCanvasResize() Q_DECL_OVERRIDE;
 
-  void resizeInfo(int *left, int *top, int *right, int *bottom) const;
+  const QMap<QString, Data::CanvasModInfo *> *resizeInfo() const;
 
 protected:
   void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
