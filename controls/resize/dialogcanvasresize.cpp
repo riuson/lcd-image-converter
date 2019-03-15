@@ -21,7 +21,10 @@
 #include "ui_dialogcanvasresize.h"
 
 #include <QItemSelectionModel>
+#include <QMap>
 #include <QWheelEvent>
+#include "canvasmodinfo.h"
+#include "canvasmodproxy.h"
 #include "imagesmodel.h"
 #include "imagesscaledproxy.h"
 #include "imagesresizedproxy.h"
@@ -29,30 +32,42 @@
 #include "transposeproxy.h"
 #include "columnsreorderproxy.h"
 #include "resizesettings.h"
+#include "datacontainer.h"
+#include "bitmaphelper.h"
 
 namespace AppUI
 {
 namespace CommonDialogs
 {
 
-DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *container, QWidget *parent) :
+DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *container,
+                                       const QStringList &keys,
+                                       QWidget *parent) :
   QDialog(parent),
-  ui(new Ui::DialogCanvasResize)
+  ui(new Ui::DialogCanvasResize),
+  mKeys(keys)
 {
   ui->setupUi(this);
 
   this->mContainer = container;
 
+  this->mCanvasMods = new QMap<QString, Data::CanvasModInfo *>();
+
+  for (auto key : container->keys()) {
+    this->mCanvasMods->insert(key, new Data::CanvasModInfo());
+  }
+
   this->mModel = new Data::Models::ImagesModel(container, this);
 
-  this->mResizedProxy = new Data::Models::ImagesResizedProxy(this);
-  this->mResizedProxy->setSourceModel(this->mModel);
+  this->mCanvasMod = new Data::Models::CanvasModProxy(this->mCanvasMods, this);
+  this->mCanvasMod->setSourceModel(this->mModel);
 
   this->mScaledProxy = new Data::Models::ImagesScaledProxy(this);
-  this->mScaledProxy->setSourceModel(this->mResizedProxy);
+  this->mScaledProxy->setSourceModel(this->mCanvasMod);
 
   this->mFilter = new Data::Models::ImagesFilterProxy(this);
   this->mFilter->setSourceModel(this->mScaledProxy);
+  this->mFilter->setFilter(this->mKeys);
 
   this->mReorderProxy = new Data::Models::ColumnsReorderProxy();
   this->mReorderProxy->setSourceModel(this->mFilter);
@@ -70,11 +85,6 @@ DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *containe
   this->connect(this->ui->spinBoxScale,  SIGNAL(valueChanged(int)), this->mScaledProxy, SLOT(setScale(int)));
   this->connect(this->mScaledProxy, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
 
-  this->mLeft = 0;
-  this->mTop = 0;
-  this->mRight = 0;
-  this->mBottom = 0;
-
   int scale = Settings::ResizeSettings::scale();
   this->mScaledProxy->setScale(scale);
   this->on_scaleChanged(scale);
@@ -83,36 +93,14 @@ DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *containe
 DialogCanvasResize::~DialogCanvasResize()
 {
   Settings::ResizeSettings::setScale(this->ui->spinBoxScale->value());
-
+  qDeleteAll(*this->mCanvasMods);
+  this->mCanvasMods->clear();
   delete ui;
 }
 
-void DialogCanvasResize::selectKeys(const QStringList &keys)
+const QMap<QString, Data::CanvasModInfo *> *DialogCanvasResize::resizeInfo() const
 {
-  this->mFilter->setFilter(keys);
-
-  this->resizeToContents();
-}
-
-void DialogCanvasResize::resizeInfo(int *left, int *top, int *right, int *bottom) const
-{
-  *left = this->mLeft;
-  *top = this->mTop;
-  *right = this->mRight;
-  *bottom = this->mBottom;
-}
-
-void DialogCanvasResize::setResizeInfo(int left, int top, int right, int bottom)
-{
-  this->mLeft = left;
-  this->mTop = top;
-  this->mRight = right;
-  this->mBottom = bottom;
-
-  this->ui->spinBoxLeft->setValue(left);
-  this->ui->spinBoxTop->setValue(top);
-  this->ui->spinBoxRight->setValue(right);
-  this->ui->spinBoxBottom->setValue(bottom);
+  return this->mCanvasMods;
 }
 
 void DialogCanvasResize::wheelEvent(QWheelEvent *event)
@@ -137,20 +125,71 @@ void DialogCanvasResize::wheelEvent(QWheelEvent *event)
   }
 }
 
+void DialogCanvasResize::optimizeHeight()
+{
+  int top = std::numeric_limits<int>::max();
+  int bottom = std::numeric_limits<int>::max();
+
+  for (auto key : this->mKeys) {
+    const QImage *original = this->mContainer->image(key);
+
+    int l, t, r, b;
+    bool hEmpty, vEmpty;
+    Parsing::Conversion::BitmapHelper::findEmptyArea(original, l, t, r, b, hEmpty, vEmpty);
+
+    if (vEmpty) {
+      continue;
+    }
+
+    top = qMin(top, t);
+    bottom = qMin(bottom, b);
+  }
+
+  for (auto key : this->mKeys) {
+    Data::CanvasModInfo *info = this->mCanvasMods->value(key);
+    info->modify(0, -top, 0, -bottom);
+    info->commit();
+  }
+}
+
+void DialogCanvasResize::optimizeWidth()
+{
+  int left = std::numeric_limits<int>::max();
+  int right = std::numeric_limits<int>::max();
+
+  for (auto key : this->mKeys) {
+    const QImage *original = this->mContainer->image(key);
+
+    int l, t, r, b;
+    bool hEmpty, vEmpty;
+    Parsing::Conversion::BitmapHelper::findEmptyArea(original, l, t, r, b, hEmpty, vEmpty);
+
+    if (hEmpty) {
+      continue;
+    }
+
+    left = l;
+    right = r;
+
+    Data::CanvasModInfo *info = this->mCanvasMods->value(key);
+    info->modify(-left, 0, -right, 0);
+    info->commit();
+  }
+}
+
 void DialogCanvasResize::spinBox_valueChanged(int value)
 {
   Q_UNUSED(value);
 
-  this->mLeft = this->ui->spinBoxLeft->value();
-  this->mTop = this->ui->spinBoxTop->value();
-  this->mRight = this->ui->spinBoxRight->value();
-  this->mBottom = this->ui->spinBoxBottom->value();
+  qint16 left = static_cast<qint16>(this->ui->spinBoxLeft->value());
+  qint16 top = static_cast<qint16>(this->ui->spinBoxTop->value());
+  qint16 right = static_cast<qint16>(this->ui->spinBoxRight->value());
+  qint16 bottom = static_cast<qint16>(this->ui->spinBoxBottom->value());
 
-  this->mResizedProxy->setCrop(
-    this->mLeft,
-    this->mTop,
-    this->mRight,
-    this->mBottom);
+  for (auto key : this->mKeys) {
+    Data::CanvasModInfo *info = this->mCanvasMods->value(key);
+    info->modify(left, top, right, bottom);
+  }
 
   this->resizeToContents();
 }
@@ -161,6 +200,25 @@ void DialogCanvasResize::on_pushButtonReset_clicked()
   this->ui->spinBoxTop->setValue(0);
   this->ui->spinBoxRight->setValue(0);
   this->ui->spinBoxBottom->setValue(0);
+
+  for (auto key : this->mKeys) {
+    Data::CanvasModInfo *info = this->mCanvasMods->value(key);
+    info->reset();
+  }
+
+  this->resizeToContents();
+}
+
+void DialogCanvasResize::on_pushButtonOptimizeHeight_clicked()
+{
+  this->optimizeHeight();
+  this->resizeToContents();
+}
+
+void DialogCanvasResize::on_pushButtonOptimizeWidth_clicked()
+{
+  this->optimizeWidth();
+  this->resizeToContents();
 }
 
 void DialogCanvasResize::resizeToContents()

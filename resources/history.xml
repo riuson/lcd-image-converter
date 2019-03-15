@@ -17,6 +17,7 @@
             <item category="changed">Tab page 'Prepare' in settings.</item>
             <item category="changed">Tooltips on toolbuttons.</item>
             <item category="changed">Set font's encoding to UTF-8 by default.</item>
+            <item category="changed">Optimize height/width in Resize dialog.</item>
             <item category="fixed">Losing of empty parameters in Image settings block.</item>
             <item category="fixed">Selection of template files in the settings.</item>
             <item category="fixed">Clear the fill mask when changing the data block size.</item>
