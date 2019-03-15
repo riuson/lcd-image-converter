@@ -64,7 +64,6 @@ DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *containe
 
   this->mScaledProxy = new Data::Models::ImagesScaledProxy(this);
   this->mScaledProxy->setSourceModel(this->mCanvasMod);
-  //this->mScaledProxy->setSourceModel(this->mModel);
 
   this->mFilter = new Data::Models::ImagesFilterProxy(this);
   this->mFilter->setSourceModel(this->mScaledProxy);
