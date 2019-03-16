@@ -36,7 +36,8 @@ int main(int argc, char *argv[])
   QApplication a(argc, argv);
   setupApplication(&a);
 
-  CommandLine::CmdLine cmd(a.arguments());
+  QStringList arguments = a.arguments();
+  CommandLine::CmdLine cmd(arguments);
 
   if (cmd.needProcess()) { // if console mode
     switch (cmd.process()) {
