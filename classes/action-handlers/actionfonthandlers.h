@@ -43,7 +43,6 @@ public slots:
   void fontChange_triggered();
   void fontInverse_triggered();
   void fontResize_triggered();
-  void fontMinimizeHeight_triggered();
   void fontPreview_triggered();
   void fontToImage_triggered();
 };

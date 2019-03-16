@@ -21,7 +21,9 @@
 #define IMAGERESIZE_H
 
 #include <QWidget>
+#include <QMap>
 #include "ioperation.h"
+#include "canvasmodinfo.h"
 
 namespace Operations
 {
@@ -41,10 +43,7 @@ public:
 
 protected:
   QWidget *mParentWidget;
-  int mLeft;
-  int mTop;
-  int mRight;
-  int mBottom;
+  QMap<QString, Data::CanvasModInfo::Mods> mMap;
 };
 
 } // namespace Operations

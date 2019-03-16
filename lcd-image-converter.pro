@@ -64,6 +64,8 @@ SOURCES += main.cpp \
     classes/cmdline/modeparserbase.cpp \
     classes/compression/rlecompressor.cpp \
     classes/compression/rlesequence.cpp \
+    classes/data/canvasmodinfo.cpp \
+    classes/data/canvasmodproxy.cpp \
     classes/data/datacontainer.cpp \
     classes/data/fontdocument.cpp \
     classes/data/historykeeper.cpp \
@@ -84,7 +86,6 @@ SOURCES += main.cpp \
     classes/imageeditor/toolrect.cpp \
     classes/imageeditor/toolzoom.cpp \
     classes/operations/documentoperator.cpp \
-    classes/operations/fontminimizeheight.cpp \
     classes/operations/fontresize.cpp \
     classes/operations/imageeditinexternaltool.cpp \
     classes/operations/imageexport.cpp \
@@ -177,6 +178,8 @@ HEADERS += \
     classes/cmdline/modeparserbase.h \
     classes/compression/rlecompressor.h \
     classes/compression/rlesequence.h \
+    classes/data/canvasmodinfo.h \
+    classes/data/canvasmodproxy.h \
     classes/data/datacontainer.h \
     classes/data/fontdocument.h \
     classes/data/fontparameters.h \
@@ -202,7 +205,6 @@ HEADERS += \
     classes/imageeditor/toolrect.h \
     classes/imageeditor/toolzoom.h \
     classes/operations/documentoperator.h \
-    classes/operations/fontminimizeheight.h \
     classes/operations/fontresize.h \
     classes/operations/imageeditinexternaltool.h \
     classes/operations/imageexport.h \

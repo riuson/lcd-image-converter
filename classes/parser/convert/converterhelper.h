@@ -101,6 +101,7 @@ private:
     QVector<quint32> *outputData,
     int *rowLength);
   static quint32 toBigEndian(Settings::Presets::Preset *preset, quint32 value);
+  static void getImageDataSize(Settings::Presets::PrepareOptions *prepare, ConvImageScan *convImage, int *width, int *height);
 };
 
 } // namespace Conversion

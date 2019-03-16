@@ -22,6 +22,8 @@
 
 #include <QDialog>
 
+template <class Key, class Value> class QMap;
+
 namespace Ui
 {
 class DialogCanvasResize;
@@ -39,11 +41,12 @@ namespace Models
 {
 class ImagesModel;
 class ImagesScaledProxy;
-class ImagesResizedProxy;
 class ImagesFilterProxy;
 class ColumnsReorderProxy;
 class TransposeProxy;
+class CanvasModProxy;
 }
+class CanvasModInfo;
 }
 
 namespace AppUI
@@ -56,12 +59,13 @@ class DialogCanvasResize : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogCanvasResize(Data::Containers::DataContainer *container, QWidget *parent = 0);
-  virtual ~DialogCanvasResize();
+  explicit DialogCanvasResize(
+    Data::Containers::DataContainer *container,
+    const QStringList &keys,
+    QWidget *parent = nullptr);
+  virtual ~DialogCanvasResize() Q_DECL_OVERRIDE;
 
-  void selectKeys(const QStringList &keys);
-  void resizeInfo(int *left, int *top, int *right, int *bottom) const;
-  void setResizeInfo(int left, int top, int right, int bottom);
+  const QMap<QString, Data::CanvasModInfo *> *resizeInfo() const;
 
 protected:
   void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
@@ -72,19 +76,22 @@ private:
   Data::Containers::DataContainer *mContainer;
   Data::Models::ImagesModel *mModel;
   Data::Models::ImagesScaledProxy *mScaledProxy;
-  Data::Models::ImagesResizedProxy *mResizedProxy;
   Data::Models::ImagesFilterProxy *mFilter;
   Data::Models::ColumnsReorderProxy *mReorderProxy;
   Data::Models::TransposeProxy *mTranspose;
+  Data::Models::CanvasModProxy *mCanvasMod;
 
-  int mLeft;
-  int mTop;
-  int mRight;
-  int mBottom;
+  const QStringList &mKeys;
+  QMap<QString, Data::CanvasModInfo *> *mCanvasMods;
+
+  void optimizeHeight();
+  void optimizeWidth();
 
 private slots:
   void spinBox_valueChanged(int value);
   void on_pushButtonReset_clicked();
+  void on_pushButtonOptimizeHeight_clicked();
+  void on_pushButtonOptimizeWidth_clicked();
   void resizeToContents();
   void on_scaleChanged(int value);
 };
