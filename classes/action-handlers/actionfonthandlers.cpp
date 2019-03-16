@@ -33,7 +33,6 @@
 #include "fontparameters.h"
 #include "documentoperator.h"
 #include "imageinverse.h"
-#include "fontminimizeheight.h"
 #include "fontresize.h"
 
 namespace AppUI
@@ -82,15 +81,6 @@ void ActionFontHandlers::fontResize_triggered()
     Operations::DocumentOperator docOp(this);
     Operations::FontResize fontResize(this->mMainWindow->parentWidget(), this);
     docOp.apply(this->editor()->document(), fontResize);
-  }
-}
-
-void ActionFontHandlers::fontMinimizeHeight_triggered()
-{
-  if (this->editor() != nullptr) {
-    Operations::DocumentOperator docOp(this);
-    Operations::FontMinimizeHeight fontMinimizeHeight(this->mMainWindow->parentWidget(), this);
-    docOp.apply(this->editor()->document(), fontMinimizeHeight);
   }
 }
 

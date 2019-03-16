@@ -104,7 +104,6 @@
     <addaction name="actionFontChange"/>
     <addaction name="separator"/>
     <addaction name="actionFontResize"/>
-    <addaction name="actionFontMinimizeHeight"/>
     <addaction name="actionFontInverse"/>
     <addaction name="actionFontPreview"/>
     <addaction name="actionFontToImage"/>
@@ -306,11 +305,6 @@
   <action name="actionRename">
    <property name="text">
     <string>Rename...</string>
-   </property>
-  </action>
-  <action name="actionFontMinimizeHeight">
-   <property name="text">
-    <string>Optimize height...</string>
    </property>
   </action>
   <action name="actionFontPreview">

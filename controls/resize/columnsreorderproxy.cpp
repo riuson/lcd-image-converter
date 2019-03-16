@@ -92,12 +92,20 @@ int ColumnsReorderProxy::columnFromSource(int value) const
     return value;
   }
 
+  if (!this->mListFromSource.contains(value)) {
+    return value;
+  }
+
   return this->mListFromSource[value];
 }
 
 int ColumnsReorderProxy::columnToSource(int value) const
 {
   if (value < 0) {
+    return value;
+  }
+
+  if (!this->mListToSource.contains(value)) {
     return value;
   }
 

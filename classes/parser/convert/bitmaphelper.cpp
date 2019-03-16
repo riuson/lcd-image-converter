@@ -142,12 +142,12 @@ QImage BitmapHelper::crop(const QImage *source, int left, int top, int right, in
   return result;
 }
 
-void BitmapHelper::findEmptyArea(const QImage *source, int *left, int *top, int *right, int *bottom)
+void BitmapHelper::findEmptyArea(const QImage *source, int &left, int &top, int &right, int &bottom, bool &hEmpty, bool &vEmpty)
 {
   QRgb background = BitmapHelper::detectBackgroundColor(source).rgba();
   // max possible values by default
-  int l = std::numeric_limits<int>::max();
-  int t = std::numeric_limits<int>::max();
+  int l = source->width() - 1;
+  int t = source->height() - 1;
   int r = 0;
   int b = 0;
 
@@ -163,10 +163,13 @@ void BitmapHelper::findEmptyArea(const QImage *source, int *left, int *top, int 
     }
   }
 
-  *left = l;
-  *top = t;
-  *right = source->width() - r;
-  *bottom = source->height() - b;
+  left = l;
+  top = t;
+  right = source->width() - 1 - r;
+  bottom = source->height() - 1 - b;
+
+  hEmpty = l >= r;
+  vEmpty = t >= b;
 }
 
 QImage BitmapHelper::scale(const QImage *source, int scale)
