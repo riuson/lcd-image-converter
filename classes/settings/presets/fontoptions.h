@@ -43,9 +43,9 @@ public:
   bool bom() const;
   const QString &encoding() const;
   Parsing::Conversion::Options::CharactersSortOrder sortOrder() const;
-  const QString escapedCharacters() const;
-  const QString escapePrefix() const;
-  const QString escapeSuffix() const;
+  const QString &escapedCharacters() const;
+  const QString &escapePrefix() const;
+  const QString &escapeSuffix() const;
 
   void setBom(bool value);
   void setEncoding(const QString &value);

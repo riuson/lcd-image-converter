@@ -70,17 +70,17 @@ Parsing::Conversion::Options::CharactersSortOrder FontOptions::sortOrder() const
   return this->mSortOrder;
 }
 
-const QString FontOptions::escapedCharacters() const
+const QString &FontOptions::escapedCharacters() const
 {
   return this->mEscapedCharacters;
 }
 
-const QString FontOptions::escapePrefix() const
+const QString &FontOptions::escapePrefix() const
 {
   return this->mEscapePrefix;
 }
 
-const QString FontOptions::escapeSuffix() const
+const QString &FontOptions::escapeSuffix() const
 {
   return this->mEscapeSuffix;
 }
