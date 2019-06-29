@@ -74,6 +74,10 @@ SetupTabFont::SetupTabFont(Settings::Presets::Preset *preset, QWidget *parent) :
   this->mEncodingCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
   this->mEncodingCompleter->setFilterMode(Qt::MatchContains);
   this->ui->comboBoxEncoding->setCompleter(this->mEncodingCompleter);
+
+  this->ui->lineEditEscapedCharacters->setText(this->mPreset->font()->escapedCharacters());
+  this->ui->lineEditEscapePrefix->setText(this->mPreset->font()->escapePrefix());
+  this->ui->lineEditEscapeSuffix->setText(this->mPreset->font()->escapeSuffix());
 }
 
 SetupTabFont::~SetupTabFont()
@@ -96,6 +100,10 @@ void SetupTabFont::matrixChanged()
   }
 
   this->ui->checkBoxBom->setChecked(this->mPreset->font()->bom());
+
+  this->ui->lineEditEscapedCharacters->setText(this->mPreset->font()->escapedCharacters());
+  this->ui->lineEditEscapePrefix->setText(this->mPreset->font()->escapePrefix());
+  this->ui->lineEditEscapeSuffix->setText(this->mPreset->font()->escapeSuffix());
 }
 
 const QString SetupTabFont::sortingName(Parsing::Conversion::Options::CharactersSortOrder value) const
@@ -141,6 +149,21 @@ void SetupTabFont::on_comboBoxSorting_currentIndexChanged(int index)
   if (ok) {
     this->mPreset->font()->setSortOrder(order);
   }
+}
+
+void SetupTabFont::on_lineEditEscapedCharacters_textEdited(const QString &value)
+{
+  this->mPreset->font()->setEscapedCharacters(value);
+}
+
+void SetupTabFont::on_lineEditEscapePrefix_textEdited(const QString &value)
+{
+  this->mPreset->font()->setEscapePrefix(value);
+}
+
+void SetupTabFont::on_lineEditEscapeSuffix_textEdited(const QString &value)
+{
+  this->mPreset->font()->setEscapeSuffix(value);
 }
 
 } // namespace Font
