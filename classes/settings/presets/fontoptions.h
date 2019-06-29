@@ -43,10 +43,16 @@ public:
   bool bom() const;
   const QString &encoding() const;
   Parsing::Conversion::Options::CharactersSortOrder sortOrder() const;
+  const QString escapedCharacters() const;
+  const QString escapePrefix() const;
+  const QString escapeSuffix() const;
 
   void setBom(bool value);
   void setEncoding(const QString &value);
   void setSortOrder(Parsing::Conversion::Options::CharactersSortOrder value);
+  void setEscapedCharacters(const QString &value);
+  void setEscapePrefix(const QString &value);
+  void setEscapeSuffix(const QString &value);
 
   bool load(QSettings *settings) Q_DECL_OVERRIDE;
   bool loadXmlElement(QDomElement element) Q_DECL_OVERRIDE;
@@ -62,10 +68,16 @@ private:
   static const QString FieldBom;
   static const QString FieldSortOrder;
   static const QString FieldCodec;
+  static const QString FieldEscapedCharacters;
+  static const QString FieldEscapePrefix;
+  static const QString FieldEscapeSuffix;
 
   bool mBom;
   QString mEncoding;
   Parsing::Conversion::Options::CharactersSortOrder mSortOrder;
+  QString mEscapedCharacters;
+  QString mEscapePrefix;
+  QString mEscapeSuffix;
 
 signals:
   void changed();
