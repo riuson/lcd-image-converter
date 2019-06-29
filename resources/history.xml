@@ -2,6 +2,15 @@
 <data type="history" title="Changelog" version="2">
     <record>
         <commit>
+            <sha1>current</sha1>
+            <date>current</date>
+        </commit>
+        <changes>
+            <item category="added">Escaping for font's selected characters.</item>
+        </changes>
+    </record>
+    <record>
+        <commit>
             <sha1>030b30dcfb9d26bfaae1bbb52877519f96304dd4</sha1>
             <date>2019-03-17 01:38:24 +0500</date>
         </commit>
