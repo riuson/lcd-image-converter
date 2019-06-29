@@ -820,7 +820,7 @@ void FontDocument::prepareImages(Settings::Presets::Preset *preset, const QStrin
       if (imageData != nullptr) {
         QString charCode = this->hexCode(key, encoding, useBom);
         imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterCode, charCode);
-        imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterText, Parsing::Conversion::FontHelper::escapeControlChars(key));
+        imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterText, this->escapeUserCharacters(preset, key));
       }
     }
   }
@@ -967,6 +967,36 @@ const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Se
   while (it.hasNext()) {
     const QString key = it.next();
     result.append(map.value(key));
+  }
+
+  return result;
+}
+
+const QString FontDocument::escapeUserCharacters(Settings::Presets::Preset *preset, const QString &value) const
+{
+  const QString &chars = preset->font()->escapedCharacters();
+
+  if (chars.isEmpty()) {
+    return value;
+  }
+
+  const QString &prefix = preset->font()->escapePrefix();
+  const QString &suffix = preset->font()->escapeSuffix();
+
+  if (prefix.isEmpty() && suffix.isEmpty()) {
+    return value;
+  }
+
+  QString result;
+
+  foreach (QChar ch, value) {
+    if (chars.contains(ch)) {
+      result.append(prefix);
+      result.append(ch);
+      result.append(suffix);
+    } else {
+      result.append(ch);
+    }
   }
 
   return result;
