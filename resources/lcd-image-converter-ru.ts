@@ -274,17 +274,17 @@
 <context>
     <name>AppUI::Setup::Parts::Font::SetupTabFont</name>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="107"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="115"/>
         <source>None</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="111"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="119"/>
         <source>Ascending</source>
         <translation>По возрастанию</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="115"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="123"/>
         <source>Descending</source>
         <translation>По убыванию</translation>
     </message>
@@ -1778,14 +1778,34 @@ Only minimal amount (%3) will be imported.</source>
         <translation>Использовать BOM (метку порядка байтов) для Юникода</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="40"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="27"/>
         <source>Encoding:</source>
         <translation>Кодировка:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="63"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="34"/>
         <source>Sort characters:</source>
         <translation>Сортировать символы:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="57"/>
+        <source>Escaping</source>
+        <translation>Экранирование</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="63"/>
+        <source>Characters:</source>
+        <translation>Символы:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="73"/>
+        <source>Preifx:</source>
+        <translation>Префикс:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="83"/>
+        <source>Suffix:</source>
+        <translation>Суффикс:</translation>
     </message>
 </context>
 <context>

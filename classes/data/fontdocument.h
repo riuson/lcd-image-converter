@@ -120,6 +120,8 @@ private:
   QString hexCode(const QString &key, const QString &encoding, bool bom) const;
   const QStringList sortKeysWithEncoding(const QStringList &keys, Settings::Presets::Preset *preset) const;
 
+  const QString escapeUserCharacters(Settings::Presets::Preset *preset, const QString &value) const;
+
 private slots:
   void mon_container_dataChanged(bool historyStateMoved);
 
