@@ -220,6 +220,22 @@
         <item>
          <widget class="QLineEdit" name="lineEditBlockDelimiter"/>
         </item>
+        <item>
+         <widget class="QLabel" name="label_11">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Numeral system:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBoxNumeralSystem"/>
+        </item>
        </layout>
        <zorder>lineEditBlockDelimiter</zorder>
        <zorder>lineEditBlockSuffix</zorder>
@@ -227,6 +243,8 @@
        <zorder>label_2</zorder>
        <zorder>label_5</zorder>
        <zorder>lineEditBlockPrefix</zorder>
+       <zorder>label_11</zorder>
+       <zorder>comboBoxNumeralSystem</zorder>
       </widget>
      </item>
      <item>
