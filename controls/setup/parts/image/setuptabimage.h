@@ -69,6 +69,7 @@ private slots:
   void on_lineEditBlockPrefix_textEdited(const QString &value);
   void on_lineEditBlockSuffix_textEdited(const QString &value);
   void on_lineEditBlockDelimiter_textEdited(const QString &value);
+  void on_comboBoxNumeralSystem_currentIndexChanged(int index);
   void on_lineEditPreviewPrefix_textEdited(const QString &value);
   void on_lineEditPreviewSuffix_textEdited(const QString &value);
   void on_lineEditPreviewDelimiter_textEdited(const QString &value);
