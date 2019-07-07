@@ -55,6 +55,13 @@ enum class DataBlockSize {
   Data32 = 3
 };
 
+enum class DataNumeralSystem {
+  Binary = 2,
+  Octal = 8,
+  Decimal = 10,
+  Hexadecimal = 16
+};
+
 enum class Rotate {
   None = 0,
   Rotate90  =  1,

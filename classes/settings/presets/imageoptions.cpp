@@ -39,6 +39,7 @@ const QString ImageOptions::FieldBandWidth = QString("bandWidth");
 const QString ImageOptions::FieldBlockPrefix = QString("blockPrefix");
 const QString ImageOptions::FieldBlockSuffix = QString("blockSuffix");
 const QString ImageOptions::FieldBlockDelimiter = QString("blockDelimiter");
+const QString ImageOptions::FieldNumeralSystem = QString("numeralSystem");
 const QString ImageOptions::FieldPreviewPrefix = QString("previewPrefix");
 const QString ImageOptions::FieldPreviewSuffix = QString("previewSuffix");
 const QString ImageOptions::FieldPreviewDelimiter = QString("previewDelimiter");
@@ -56,6 +57,7 @@ ImageOptions::ImageOptions(QObject *parent) :
   this->mBlockPrefix = "0x";
   this->mBlockSuffix = "";
   this->mBlockDelimiter = ", ";
+  this->mNumeralSystem = Parsing::Conversion::Options::DataNumeralSystem::Hexadecimal;
   this->mPreviewPrefix = "// ";
   this->mPreviewSuffix = "";
   this->mPreviewDelimiter = "";
@@ -109,6 +111,11 @@ QString ImageOptions::blockSuffix() const
 QString ImageOptions::blockDelimiter() const
 {
   return this->mBlockDelimiter;
+}
+
+Parsing::Conversion::Options::DataNumeralSystem ImageOptions::numeralSystem() const
+{
+  return this->mNumeralSystem;
 }
 
 QString ImageOptions::previewPrefix() const
@@ -211,6 +218,14 @@ void ImageOptions::setBlockDelimiter(const QString &value)
   }
 }
 
+void ImageOptions::setNumeralSystem(Parsing::Conversion::Options::DataNumeralSystem value)
+{
+  if (this->mNumeralSystem != value) {
+    this->mNumeralSystem = value;
+    emit this->changed();
+  }
+}
+
 void ImageOptions::setPreviewPrefix(const QString &value)
 {
   if (this->mPreviewPrefix != value) {
@@ -249,7 +264,7 @@ bool ImageOptions::load(QSettings *settings)
 
   settings->beginGroup(ImageOptions::GroupName);
 
-  quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0;
+  quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0, uNumeralSystem = 16;
   quint32 uCompressionRle = 0, uCompressionRleMinLength = 2;
   QString sBlockPrefix, sBlockSuffix, sBlockDelimiter;
   QString sPreviewPrefix, sPreviewSuffix, sPreviewDelimiter, sPreviewLevels;
@@ -284,6 +299,10 @@ bool ImageOptions::load(QSettings *settings)
   sBlockSuffix = this->unescapeEmpty(sBlockSuffix);
   sBlockDelimiter = this->unescapeEmpty(sBlockDelimiter);
 
+  if (result) {
+    uNumeralSystem = settings->value(ImageOptions::FieldNumeralSystem, int(16)).toUInt(&result);
+  }
+
   sPreviewPrefix = settings->value(ImageOptions::FieldPreviewPrefix, "// ").toString();
   sPreviewSuffix = settings->value(ImageOptions::FieldPreviewSuffix, "").toString();
   sPreviewDelimiter = settings->value(ImageOptions::FieldPreviewDelimiter, "").toString();
@@ -304,6 +323,7 @@ bool ImageOptions::load(QSettings *settings)
     this->setBlockPrefix(sBlockPrefix);
     this->setBlockSuffix(sBlockSuffix);
     this->setBlockDelimiter(sBlockDelimiter);
+    this->setNumeralSystem(static_cast<Parsing::Conversion::Options::DataNumeralSystem>(uNumeralSystem));
     this->setPreviewPrefix(sPreviewPrefix);
     this->setPreviewSuffix(sPreviewSuffix);
     this->setPreviewDelimiter(sPreviewDelimiter);
@@ -351,7 +371,7 @@ bool ImageOptions::loadXmlElement(QDomElement element)
     return result;
   }
 
-  quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0;
+  quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0, uNumeralSystem = 16;
   quint32 uCompressionRle = 0, uCompressionRleMinLength = 2;
   QString sBlockPrefix = "0x", sBlockSuffix, sBlockDelimiter = ", ";
   QString sPreviewPrefix, sPreviewSuffix, sPreviewDelimiter, sPreviewLevels;
@@ -392,6 +412,11 @@ bool ImageOptions::loadXmlElement(QDomElement element)
         uBlockDefaultOnes = str.toUInt(&result);
       }
 
+      if (e.tagName() == ImageOptions::FieldNumeralSystem) {
+        QString str = e.text();
+        uNumeralSystem = str.toUInt(&result);
+      }
+
       readStringFromNode(e, ImageOptions::FieldBlockPrefix, &sBlockPrefix);
       readStringFromNode(e, ImageOptions::FieldBlockSuffix, &sBlockSuffix);
       readStringFromNode(e, ImageOptions::FieldBlockDelimiter, &sBlockDelimiter);
@@ -418,6 +443,7 @@ bool ImageOptions::loadXmlElement(QDomElement element)
     this->setBlockPrefix(sBlockPrefix);
     this->setBlockSuffix(sBlockSuffix);
     this->setBlockDelimiter(sBlockDelimiter);
+    this->setNumeralSystem(static_cast<Parsing::Conversion::Options::DataNumeralSystem>(uNumeralSystem));
     this->setPreviewPrefix(sPreviewPrefix);
     this->setPreviewSuffix(sPreviewSuffix);
     this->setPreviewDelimiter(sPreviewDelimiter);
@@ -440,6 +466,7 @@ void ImageOptions::save(QSettings *settings)
   settings->setValue(ImageOptions::FieldBlockPrefix,      this->escapeEmpty(this->blockPrefix()));
   settings->setValue(ImageOptions::FieldBlockSuffix,      this->escapeEmpty(this->blockSuffix()));
   settings->setValue(ImageOptions::FieldBlockDelimiter,   this->escapeEmpty(this->blockDelimiter()));
+  settings->setValue(ImageOptions::FieldNumeralSystem,    QString("%1").arg((int)this->numeralSystem()));
   settings->setValue(ImageOptions::FieldPreviewPrefix,    this->escapeEmpty(this->previewPrefix()));
   settings->setValue(ImageOptions::FieldPreviewSuffix,    this->escapeEmpty(this->previewSuffix()));
   settings->setValue(ImageOptions::FieldPreviewDelimiter, this->escapeEmpty(this->previewDelimiter()));
@@ -488,6 +515,10 @@ void ImageOptions::saveXmlElement(QDomElement element)
   QDomElement nodeBlockDelimiter = element.ownerDocument().createElement(ImageOptions::FieldBlockDelimiter);
   nodeImage.appendChild(nodeBlockDelimiter);
   nodeBlockDelimiter.appendChild(element.ownerDocument().createCDATASection(this->escapeEmpty(this->blockDelimiter())));
+
+  QDomElement nodeNumeralSystem = element.ownerDocument().createElement(ImageOptions::FieldNumeralSystem);
+  nodeImage.appendChild(nodeNumeralSystem);
+  nodeNumeralSystem.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->numeralSystem())));
 
   QDomElement nodePreviewPrefix = element.ownerDocument().createElement(ImageOptions::FieldPreviewPrefix);
   nodeImage.appendChild(nodePreviewPrefix);
