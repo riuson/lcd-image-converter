@@ -46,6 +46,11 @@ SetupTabImage::SetupTabImage(Settings::Presets::Preset *preset, QWidget *parent)
   this->ui->comboBoxBlockSize->addItem(tr("24 bit"), static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data24));
   this->ui->comboBoxBlockSize->addItem(tr("32 bit"), static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data32));
 
+  this->ui->comboBoxNumeralSystem->addItem(tr("Binary"),      static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Binary));
+  this->ui->comboBoxNumeralSystem->addItem(tr("Octal"),       static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Octal));
+  this->ui->comboBoxNumeralSystem->addItem(tr("Decimal"),     static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Decimal));
+  this->ui->comboBoxNumeralSystem->addItem(tr("Hecadecimal"), static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Hexadecimal));
+
   this->matrixChanged();
 }
 
@@ -84,6 +89,12 @@ void SetupTabImage::matrixChanged()
   this->ui->lineEditBlockPrefix->setText(this->mPreset->image()->blockPrefix());
   this->ui->lineEditBlockSuffix->setText(this->mPreset->image()->blockSuffix());
   this->ui->lineEditBlockDelimiter->setText(this->mPreset->image()->blockDelimiter());
+
+  index = this->ui->comboBoxNumeralSystem->findData(static_cast<int>(this->mPreset->image()->numeralSystem()));
+
+  if (index >= 0) {
+    this->ui->comboBoxNumeralSystem->setCurrentIndex(index);
+  }
 
   this->ui->lineEditPreviewPrefix->setText(this->mPreset->image()->previewPrefix());
   this->ui->lineEditPreviewSuffix->setText(this->mPreset->image()->previewSuffix());
@@ -144,6 +155,17 @@ void SetupTabImage::on_lineEditBlockSuffix_textEdited(const QString &value)
 void SetupTabImage::on_lineEditBlockDelimiter_textEdited(const QString &value)
 {
   this->mPreset->image()->setBlockDelimiter(value);
+}
+
+void SetupTabImage::on_comboBoxNumeralSystem_currentIndexChanged(int index)
+{
+  QVariant data = this->ui->comboBoxNumeralSystem->itemData(index);
+  bool ok;
+  int a = data.toInt(&ok);
+
+  if (ok) {
+    this->mPreset->image()->setNumeralSystem(static_cast<Settings::Presets::DataNumeralSystem>(a));
+  }
 }
 
 void SetupTabImage::on_lineEditPreviewPrefix_textEdited(const QString &value)

@@ -523,9 +523,38 @@ void ConverterHelper::createImagePreview(Settings::Presets::Preset *preset, QIma
   }
 }
 
-static inline QString uint2hex(Settings::Presets::DataBlockSize blockSize, quint32 value)
+QString ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem numeralSystem, Settings::Presets::DataBlockSize blockSize, quint32 value)
 {
-  QChar temp[10];
+  int num;
+
+  switch (numeralSystem) {
+    case Settings::Presets::DataNumeralSystem::Decimal: {
+      QString result;
+      result.setNum(value);
+      return result;
+    }
+
+    case Settings::Presets::DataNumeralSystem::Binary: {
+      num = 0;
+      break;
+    }
+
+    case Settings::Presets::DataNumeralSystem::Octal: {
+      num = 1;
+      break;
+    }
+
+    case Settings::Presets::DataNumeralSystem::Hexadecimal: {
+      num = 2;
+      break;
+    }
+
+    default: {
+      return QString();
+    }
+  }
+
+  QChar temp[40];
   static const QChar table[] = {
     QChar('0'), QChar('1'), QChar('2'), QChar('3'),
     QChar('4'), QChar('5'), QChar('6'), QChar('7'),
@@ -534,47 +563,44 @@ static inline QString uint2hex(Settings::Presets::DataBlockSize blockSize, quint
   };
   static const QChar end = QChar('\0');
 
-  switch (blockSize) {
-    case Parsing::Conversion::Options::DataBlockSize::Data8:
-      temp[0] = table[(value >> 4) & 0x0000000f];
-      temp[1] = table[(value >> 0) & 0x0000000f];
-      temp[2] = end;
-      break;
+  static const int lengths[3][4] = {
+    { 8, 16, 24, 32 },
+    { 3, 6, 8, 11 },
+    { 2, 4, 6, 8 }
+  };
 
-    case Parsing::Conversion::Options::DataBlockSize::Data16:
-      temp[0] = table[(value >> 12) & 0x0000000f];
-      temp[1] = table[(value >> 8) & 0x0000000f];
-      temp[2] = table[(value >> 4) & 0x0000000f];
-      temp[3] = table[(value >> 0) & 0x0000000f];
-      temp[4] = end;
-      break;
+  static const quint32 masks[3] = {
+    0x1ul,
+    0x7ul,
+    0xful
+  };
 
-    case Parsing::Conversion::Options::DataBlockSize::Data24:
-      temp[0] = table[(value >> 20) & 0x0000000f];
-      temp[1] = table[(value >> 16) & 0x0000000f];
-      temp[2] = table[(value >> 12) & 0x0000000f];
-      temp[3] = table[(value >> 8) & 0x0000000f];
-      temp[4] = table[(value >> 4) & 0x0000000f];
-      temp[5] = table[(value >> 0) & 0x0000000f];
-      temp[6] = end;
-      break;
+  static const int shifts[3] = {
+    1,
+    3,
+    4
+  };
 
-    case Parsing::Conversion::Options::DataBlockSize::Data32:
-      temp[0] = table[(value >> 28) & 0x0000000f];
-      temp[1] = table[(value >> 24) & 0x0000000f];
-      temp[2] = table[(value >> 20) & 0x0000000f];
-      temp[3] = table[(value >> 16) & 0x0000000f];
-      temp[4] = table[(value >> 12) & 0x0000000f];
-      temp[5] = table[(value >> 8) & 0x0000000f];
-      temp[6] = table[(value >> 4) & 0x0000000f];
-      temp[7] = table[(value >> 0) & 0x0000000f];
-      temp[8] = end;
-      break;
+  static const quint32 limits[4] = {
+    0xfful,
+    0xfffful,
+    0xfffffful,
+    0xfffffffful
+  };
 
-    default:
-      temp[0] = end;
-      break;
+  value &= limits[static_cast<int>(blockSize)];
+
+  int length = lengths[num][static_cast<int>(blockSize)];
+  quint32 mask = masks[num];
+  int shift = shifts[num];
+  int i;
+
+  for (i = 0; i < length; i++) {
+    temp[length - i - 1] = table[value & mask];
+    value = value >> shift;
   }
+
+  temp[i] = end;
 
   return QString(temp);
 }
@@ -589,6 +615,7 @@ QString ConverterHelper::dataToString(
   QString prefix = preset->image()->blockPrefix();
   QString suffix = preset->image()->blockSuffix();
   QString delimiter = preset->image()->blockDelimiter();
+  Settings::Presets::DataNumeralSystem numeralSystem = preset->image()->numeralSystem();
 
   if (preset->image()->splitToRows()) {
     bool completed = false;
@@ -608,7 +635,7 @@ QString ConverterHelper::dataToString(
         }
 
         quint32 value = data->at(index);
-        converted = uint2hex(blockSize, value);
+        converted = uint2string(numeralSystem, blockSize, value);
         result += prefix + converted + suffix + delimiter;
       }
     }
@@ -625,7 +652,7 @@ QString ConverterHelper::dataToString(
       }
 
       quint32 value = data->at(i);
-      converted = uint2hex(blockSize, value);
+      converted = uint2string(numeralSystem, blockSize, value);
       result += prefix + converted + suffix + delimiter;
     }
 

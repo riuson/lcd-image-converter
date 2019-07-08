@@ -47,6 +47,7 @@ public:
   QString blockPrefix() const;
   QString blockSuffix() const;
   QString blockDelimiter() const;
+  Parsing::Conversion::Options::DataNumeralSystem numeralSystem() const;
   QString previewPrefix() const;
   QString previewSuffix() const;
   QString previewDelimiter() const;
@@ -61,6 +62,7 @@ public:
   void setBlockPrefix(const QString &value);
   void setBlockSuffix(const QString &value);
   void setBlockDelimiter(const QString &value);
+  void setNumeralSystem(Parsing::Conversion::Options::DataNumeralSystem value);
   void setPreviewPrefix(const QString &value);
   void setPreviewSuffix(const QString &value);
   void setPreviewDelimiter(const QString &value);
@@ -85,6 +87,7 @@ private:
   static const QString FieldBlockPrefix;
   static const QString FieldBlockSuffix;
   static const QString FieldBlockDelimiter;
+  static const QString FieldNumeralSystem;
   static const QString FieldPreviewPrefix;
   static const QString FieldPreviewSuffix;
   static const QString FieldPreviewDelimiter;
@@ -99,6 +102,7 @@ private:
   QString mBlockPrefix;
   QString mBlockSuffix;
   QString mBlockDelimiter;
+  Parsing::Conversion::Options::DataNumeralSystem mNumeralSystem;
   QString mPreviewPrefix;
   QString mPreviewSuffix;
   QString mPreviewDelimiter;

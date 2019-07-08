@@ -268,6 +268,78 @@ void TestConverterHelper::dataToString()
   }
 }
 
+void TestConverterHelper::uint2hex()
+{
+  quint32 value = 0x12345678;
+
+  QBENCHMARK {
+    Parsing::Conversion::ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem::Hexadecimal, Settings::Presets::DataBlockSize::Data32, value);
+  }
+}
+
+void TestConverterHelper::uint2octal()
+{
+  quint32 value = 0x12345678;
+
+  QBENCHMARK {
+    Parsing::Conversion::ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem::Octal, Settings::Presets::DataBlockSize::Data32, value);
+  }
+}
+
+void TestConverterHelper::uint2binary()
+{
+  quint32 value = 0x12345678;
+
+  QBENCHMARK {
+    Parsing::Conversion::ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem::Binary, Settings::Presets::DataBlockSize::Data32, value);
+  }
+}
+
+void TestConverterHelper::uint2string()
+{
+  quint32 values[50];
+
+  for (quint32 v = 0; v < sizeof(values) / sizeof(quint32); v++) {
+    values[v] = static_cast<quint32>(qrand());
+  }
+
+  Settings::Presets::DataNumeralSystem nums[] = {
+    Settings::Presets::DataNumeralSystem::Binary,
+    Settings::Presets::DataNumeralSystem::Octal,
+    Settings::Presets::DataNumeralSystem::Hexadecimal
+  };
+
+  Settings::Presets::DataBlockSize sizes[] = {
+    Settings::Presets::DataBlockSize::Data8,
+    Settings::Presets::DataBlockSize::Data16,
+    Settings::Presets::DataBlockSize::Data24,
+    Settings::Presets::DataBlockSize::Data32
+  };
+
+  int widths[3][4] = {
+    { 8, 16, 24, 32 },
+    { 3, 6, 8, 11 },
+    { 2, 4, 6, 8 }
+  };
+
+  static const quint32 limits[4] = {
+    0xfful,
+    0xfffful,
+    0xfffffful,
+    0xfffffffful
+  };
+
+  for (quint32 v = 0; v < sizeof(values) / sizeof(quint32); v++) {
+    for (quint32 n = 0; n < sizeof(nums) / sizeof(Settings::Presets::DataNumeralSystem); n++) {
+      for (quint32 s = 0; s < sizeof(sizes) / sizeof(Settings::Presets::DataBlockSize); s++) {
+        QString stringResult = Parsing::Conversion::ConverterHelper::uint2string(nums[n], sizes[s], values[v]);
+        QString stringExpected = QString("%1").arg(values[v] & limits[static_cast<int>(sizes[s])], widths[n][s], static_cast<int>(nums[n]), QChar('0'));
+        QCOMPARE(stringResult, stringExpected);
+      }
+    }
+  }
+}
+
 void TestConverterHelper::jsengineSetProperty()
 {
   int argc = 0;

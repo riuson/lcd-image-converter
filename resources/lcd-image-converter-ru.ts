@@ -311,6 +311,26 @@
         <source>32 bit</source>
         <translation>32 бита</translation>
     </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.cpp" line="49"/>
+        <source>Binary</source>
+        <translation>Двоичная</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.cpp" line="50"/>
+        <source>Octal</source>
+        <translation>Восьмеричная</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.cpp" line="51"/>
+        <source>Decimal</source>
+        <translation>Десятичная</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.cpp" line="52"/>
+        <source>Hecadecimal</source>
+        <translation>16-ричная</translation>
+    </message>
 </context>
 <context>
     <name>AppUI::Setup::Parts::Matrix::MatrixPreviewModel</name>
@@ -1866,29 +1886,34 @@ Only minimal amount (%3) will be imported.</source>
     </message>
     <message>
         <location filename="../controls/setup/parts/image/setuptabimage.ui" line="184"/>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="264"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="282"/>
         <source>Prefix:</source>
         <translation>Префикс:</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/image/setuptabimage.ui" line="200"/>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="280"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="298"/>
         <source>Suffix:</source>
         <translation>Суффикс:</translation>
     </message>
     <message>
         <location filename="../controls/setup/parts/image/setuptabimage.ui" line="216"/>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="296"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="314"/>
         <source>Delimiter:</source>
         <translation>Разделитель:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="252"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="232"/>
+        <source>Numeral system:</source>
+        <translation>Система счисления:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="270"/>
         <source>Preview</source>
         <translation>Предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="312"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="330"/>
         <source>Level&apos;s replacement:</source>
         <translation>Замена уровней:</translation>
     </message>
