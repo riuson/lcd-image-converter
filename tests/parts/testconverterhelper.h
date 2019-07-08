@@ -36,6 +36,15 @@ private slots:
   void processPixels();
   void packData();
   void dataToString();
+  void uint2hex();
+  void uint2hex_2();
+  void uint2hex_3();
+  void uint2hex_4();
+  void uint2octal();
+  void uint2octal_2();
+  void uint2binary_2();
+  void uint2binary_3();
+  void uint2binary_4();
   void jsengineSetProperty();
   void breakInfiniteScript();
   void cleanupTestCase();

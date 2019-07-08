@@ -14,41 +14,41 @@
 
 int main(void)
 {
-  TestBitmapHelper tbh;
-  QTest::qExec(&tbh);
+  //  TestBitmapHelper tbh;
+  //  QTest::qExec(&tbh);
 
   TestConverterHelper tch;
   QTest::qExec(&tch);
 
-  TestBitStream tbs;
-  QTest::qExec(&tbs);
+  //  TestBitStream tbs;
+  //  QTest::qExec(&tbs);
 
-  TestPrepareOptions tpo;
-  QTest::qExec(&tpo);
+  //  TestPrepareOptions tpo;
+  //  QTest::qExec(&tpo);
 
-  TestMatrixOptions tmo;
-  QTest::qExec(&tmo);
+  //  TestMatrixOptions tmo;
+  //  QTest::qExec(&tmo);
 
-  TestReorderingOptions tro;
-  QTest::qExec(&tro);
+  //  TestReorderingOptions tro;
+  //  QTest::qExec(&tro);
 
-  TestImageOptions tio;
-  QTest::qExec(&tio);
+  //  TestImageOptions tio;
+  //  QTest::qExec(&tio);
 
-  TestFontOptions tfo;
-  QTest::qExec(&tfo);
+  //  TestFontOptions tfo;
+  //  QTest::qExec(&tfo);
 
-  TestTemplateOptions tto;
-  QTest::qExec(&tto);
+  //  TestTemplateOptions tto;
+  //  QTest::qExec(&tto);
 
-  TestPresets tp;
-  QTest::qExec(&tp);
+  //  TestPresets tp;
+  //  QTest::qExec(&tp);
 
-  TestRle tr;
-  QTest::qExec(&tr);
+  //  TestRle tr;
+  //  QTest::qExec(&tr);
 
-  TestSettings ts;
-  QTest::qExec(&ts);
+  //  TestSettings ts;
+  //  QTest::qExec(&ts);
 
   return 0;
 }
