@@ -39,6 +39,7 @@ private slots:
   void uint2hex();
   void uint2octal();
   void uint2binary();
+  void uint2string();
   void jsengineSetProperty();
   void breakInfiniteScript();
   void cleanupTestCase();

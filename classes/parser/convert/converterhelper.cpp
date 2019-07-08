@@ -581,6 +581,15 @@ QString ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem numera
     4
   };
 
+  static const quint32 limits[4] = {
+    0xfful,
+    0xfffful,
+    0xfffffful,
+    0xfffffffful
+  };
+
+  value &= limits[static_cast<int>(blockSize)];
+
   int length = lengths[num][static_cast<int>(blockSize)];
   quint32 mask = masks[num];
   int shift = shifts[num];
