@@ -277,33 +277,6 @@ void TestConverterHelper::uint2hex()
   }
 }
 
-void TestConverterHelper::uint2hex_2()
-{
-  quint32 value = 0x12345678;
-
-  QBENCHMARK {
-    QString stringResult = Parsing::Conversion::ConverterHelper::uint2hex_2(Settings::Presets::DataBlockSize::Data32, value);
-  }
-}
-
-void TestConverterHelper::uint2hex_3()
-{
-  quint32 value = 0x12345678;
-
-  QBENCHMARK {
-    QString stringResult = Parsing::Conversion::ConverterHelper::uint2hex_3(Settings::Presets::DataBlockSize::Data32, value);
-  }
-}
-
-void TestConverterHelper::uint2hex_4()
-{
-  quint32 value = 0x12345678;
-
-  QBENCHMARK {
-    QString stringResult = Parsing::Conversion::ConverterHelper::uint2hex_4(Settings::Presets::DataBlockSize::Data32, value);
-  }
-}
-
 void TestConverterHelper::uint2octal()
 {
   quint32 value = 0x12345678;
@@ -313,39 +286,12 @@ void TestConverterHelper::uint2octal()
   }
 }
 
-void TestConverterHelper::uint2octal_2()
+void TestConverterHelper::uint2binary()
 {
   quint32 value = 0x12345678;
 
   QBENCHMARK {
-    QString stringResult = Parsing::Conversion::ConverterHelper::uint2octal_2(Settings::Presets::DataBlockSize::Data32, value);
-  }
-}
-
-void TestConverterHelper::uint2binary_2()
-{
-  quint32 value = 0x12345678;
-
-  QBENCHMARK {
-    QString stringResult = Parsing::Conversion::ConverterHelper::uint2binary_2(Settings::Presets::DataBlockSize::Data32, value);
-  }
-}
-
-void TestConverterHelper::uint2binary_3()
-{
-  quint32 value = 0x12345678;
-
-  QBENCHMARK {
-    QString stringResult = Parsing::Conversion::ConverterHelper::uint2binary_3(Settings::Presets::DataBlockSize::Data32, value);
-  }
-}
-
-void TestConverterHelper::uint2binary_4()
-{
-  quint32 value = 0x12345678;
-
-  QBENCHMARK {
-    QString stringResult = Parsing::Conversion::ConverterHelper::uint2binary_4(Settings::Presets::DataBlockSize::Data32, value);
+    QString stringResult = Parsing::Conversion::ConverterHelper::uint2binary(Settings::Presets::DataBlockSize::Data32, value);
   }
 }
 

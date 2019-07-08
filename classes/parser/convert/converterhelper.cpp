@@ -533,93 +533,12 @@ QString ConverterHelper::uint2hex(Settings::Presets::DataBlockSize blockSize, qu
     QChar('c'), QChar('d'), QChar('e'), QChar('f')
   };
   static const QChar end = QChar('\0');
-
-  switch (blockSize) {
-    case Parsing::Conversion::Options::DataBlockSize::Data8:
-      temp[0] = table[(value >> 4) & 0x0000000f];
-      temp[1] = table[(value >> 0) & 0x0000000f];
-      temp[2] = end;
-      break;
-
-    case Parsing::Conversion::Options::DataBlockSize::Data16:
-      temp[0] = table[(value >> 12) & 0x0000000f];
-      temp[1] = table[(value >> 8) & 0x0000000f];
-      temp[2] = table[(value >> 4) & 0x0000000f];
-      temp[3] = table[(value >> 0) & 0x0000000f];
-      temp[4] = end;
-      break;
-
-    case Parsing::Conversion::Options::DataBlockSize::Data24:
-      temp[0] = table[(value >> 20) & 0x0000000f];
-      temp[1] = table[(value >> 16) & 0x0000000f];
-      temp[2] = table[(value >> 12) & 0x0000000f];
-      temp[3] = table[(value >> 8) & 0x0000000f];
-      temp[4] = table[(value >> 4) & 0x0000000f];
-      temp[5] = table[(value >> 0) & 0x0000000f];
-      temp[6] = end;
-      break;
-
-    case Parsing::Conversion::Options::DataBlockSize::Data32:
-      temp[0] = table[(value >> 28) & 0x0000000f];
-      temp[1] = table[(value >> 24) & 0x0000000f];
-      temp[2] = table[(value >> 20) & 0x0000000f];
-      temp[3] = table[(value >> 16) & 0x0000000f];
-      temp[4] = table[(value >> 12) & 0x0000000f];
-      temp[5] = table[(value >> 8) & 0x0000000f];
-      temp[6] = table[(value >> 4) & 0x0000000f];
-      temp[7] = table[(value >> 0) & 0x0000000f];
-      temp[8] = end;
-      break;
-
-    default:
-      temp[0] = end;
-      break;
-  }
-
-  return QString(temp);
-}
-
-QString ConverterHelper::uint2hex_2(Settings::Presets::DataBlockSize blockSize, quint32 value)
-{
-  char temp[10] = { 0 };
-  static const char table[] = "0123456789abcdef";
-  static const char end = '\0';
   static const int lengths[] = { 2, 4, 6, 8 };
   int length = lengths[static_cast<int>(blockSize)];
   int i;
 
   for (i = 0; i < length; i++) {
-    temp[i] = table[value & 0x0000000f];
-    value = value >> 4;
-  }
-
-  temp[i] = end;
-
-  return QString(temp);
-}
-
-QString ConverterHelper::uint2hex_3(Settings::Presets::DataBlockSize blockSize, quint32 value)
-{
-  QString result = QString("%1").arg(value, 8, 16, QChar('0'));
-  return result;
-}
-
-QString ConverterHelper::uint2hex_4(Settings::Presets::DataBlockSize blockSize, quint32 value)
-{
-  QChar temp[10];
-  static const QChar table[] = {
-    QChar('0'), QChar('1'), QChar('2'), QChar('3'),
-    QChar('4'), QChar('5'), QChar('6'), QChar('7'),
-    QChar('8'), QChar('9'), QChar('a'), QChar('b'),
-    QChar('c'), QChar('d'), QChar('e'), QChar('f')
-  };
-  static const QChar end = QChar('\0');
-  static const int lengths[] = { 2, 4, 6, 8 };
-  int length = lengths[static_cast<int>(blockSize)];
-  int i;
-
-  for (i = 0; i < length; i++) {
-    temp[i] = table[value & 0x0000000f];
+    temp[length - i - 1] = table[value & 0x0000000f];
     value = value >> 4;
   }
 
@@ -630,78 +549,18 @@ QString ConverterHelper::uint2hex_4(Settings::Presets::DataBlockSize blockSize, 
 
 QString ConverterHelper::uint2octal(Settings::Presets::DataBlockSize blockSize, quint32 value)
 {
-  char temp[12] = { 0 };
-
-  static_assert (sizeof(QLatin1Char) == 1, "Size of QLaticChar not equals to 1 byte");
-
-  static const char table[] = "0123456789";
-
-  static const char end = '\0';
-
-  switch (blockSize) {
-    case Parsing::Conversion::Options::DataBlockSize::Data8:
-      temp[0] = table[(value >> 6) & 0x00000003];
-      temp[1] = table[(value >> 3) & 0x00000007];
-      temp[2] = table[(value >> 0) & 0x00000007];
-      temp[3] = end;
-      break;
-
-    case Parsing::Conversion::Options::DataBlockSize::Data16:
-      temp[0] = table[(value >> 15) & 0x00000007];
-      temp[1] = table[(value >> 12) & 0x00000007];
-      temp[2] = table[(value >> 9) & 0x00000007];
-      temp[3] = table[(value >> 6) & 0x00000007];
-      temp[4] = table[(value >> 3) & 0x00000007];
-      temp[5] = table[(value >> 0) & 0x00000007];
-      temp[6] = end;
-      break;
-
-    case Parsing::Conversion::Options::DataBlockSize::Data24:
-      temp[0] = table[(value >> 21) & 0x00000007];
-      temp[1] = table[(value >> 18) & 0x00000007];
-      temp[2] = table[(value >> 15) & 0x00000007];
-      temp[3] = table[(value >> 12) & 0x00000007];
-      temp[4] = table[(value >> 9) & 0x00000007];
-      temp[5] = table[(value >> 6) & 0x00000007];
-      temp[6] = table[(value >> 3) & 0x00000007];
-      temp[7] = table[(value >> 0) & 0x00000007];
-      temp[8] = end;
-      break;
-
-    case Parsing::Conversion::Options::DataBlockSize::Data32:
-      temp[0] = table[(value >> 30) & 0x00000007];
-      temp[1] = table[(value >> 27) & 0x00000007];
-      temp[2] = table[(value >> 24) & 0x00000007];
-      temp[3] = table[(value >> 21) & 0x00000007];
-      temp[4] = table[(value >> 18) & 0x00000007];
-      temp[5] = table[(value >> 15) & 0x00000007];
-      temp[6] = table[(value >> 12) & 0x00000007];
-      temp[7] = table[(value >> 9) & 0x00000007];
-      temp[8] = table[(value >> 6) & 0x00000007];
-      temp[9] = table[(value >> 3) & 0x00000007];
-      temp[10] = table[(value >> 0) & 0x00000007];
-      temp[11] = end;
-      break;
-
-    default:
-      temp[0] = end;
-      break;
-  }
-
-  return QString(temp);
-}
-
-QString ConverterHelper::uint2octal_2(Settings::Presets::DataBlockSize blockSize, quint32 value)
-{
-  char temp[12] = { 0 };
-  static const char table[] = "01234567";
-  static const char end = '\0';
+  QChar temp[12];
+  static const QChar table[] = {
+    QChar('0'), QChar('1'), QChar('2'), QChar('3'),
+    QChar('4'), QChar('5'), QChar('6'), QChar('7')
+  };
+  static const QChar end = QChar('\0');
   static const int lengths[] = { 3, 6, 8, 11 };
   int length = lengths[static_cast<int>(blockSize)];
   int i;
 
   for (i = 0; i < length; i++) {
-    temp[i] = table[value & 0x00000003];
+    temp[length - i - 1] = table[value & 0x00000003];
     value = value >> 3;
   }
 
@@ -710,33 +569,7 @@ QString ConverterHelper::uint2octal_2(Settings::Presets::DataBlockSize blockSize
   return QString(temp);
 }
 
-QString ConverterHelper::uint2binary_2(Options::DataBlockSize blockSize, quint32 value)
-{
-  char temp[33] = { 0 };
-  static const char table[] = "01";
-  static const char end = '\0';
-  static const int lengths[] = { 8, 16, 24, 32 };
-  int length = lengths[static_cast<int>(blockSize)];
-  int i;
-
-  for (i = 0; i < length; i++) {
-    temp[i] = table[value & 0x00000001];
-    value = value >> 1;
-  }
-
-  temp[i] = end;
-
-  return QString(temp);
-}
-
-QString ConverterHelper::uint2binary_3(Options::DataBlockSize blockSize, quint32 value)
-{
-  QString result;
-  result.setNum(value, 2);
-  return result;
-}
-
-QString ConverterHelper::uint2binary_4(Options::DataBlockSize blockSize, quint32 value)
+QString ConverterHelper::uint2binary(Options::DataBlockSize blockSize, quint32 value)
 {
   QChar temp[33];
   static const QChar table[] = {
@@ -748,7 +581,7 @@ QString ConverterHelper::uint2binary_4(Options::DataBlockSize blockSize, quint32
   int i;
 
   for (i = 0; i < length; i++) {
-    temp[i] = table[value & 0x00000001];
+    temp[length - i - 1] = table[value & 0x00000001];
     value = value >> 1;
   }
 
