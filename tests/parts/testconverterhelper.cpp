@@ -273,7 +273,7 @@ void TestConverterHelper::uint2hex()
   quint32 value = 0x12345678;
 
   QBENCHMARK {
-    QString stringResult = Parsing::Conversion::ConverterHelper::uint2hex(Settings::Presets::DataBlockSize::Data32, value);
+    QString stringResult = Parsing::Conversion::ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem::Hexadecimal, Settings::Presets::DataBlockSize::Data32, value);
   }
 }
 
@@ -282,7 +282,7 @@ void TestConverterHelper::uint2octal()
   quint32 value = 0x12345678;
 
   QBENCHMARK {
-    QString stringResult = Parsing::Conversion::ConverterHelper::uint2octal(Settings::Presets::DataBlockSize::Data32, value);
+    QString stringResult = Parsing::Conversion::ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem::Octal, Settings::Presets::DataBlockSize::Data32, value);
   }
 }
 
@@ -291,7 +291,7 @@ void TestConverterHelper::uint2binary()
   quint32 value = 0x12345678;
 
   QBENCHMARK {
-    QString stringResult = Parsing::Conversion::ConverterHelper::uint2binary(Settings::Presets::DataBlockSize::Data32, value);
+    QString stringResult = Parsing::Conversion::ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem::Binary, Settings::Presets::DataBlockSize::Data32, value);
   }
 }
 

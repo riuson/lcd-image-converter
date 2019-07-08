@@ -79,9 +79,7 @@ public:
   static void prepareImage(Settings::Presets::Preset *preset, const QImage *source, QImage *result);
   static void createImagePreview(Settings::Presets::Preset *preset, QImage *source, QImage *result);
 
-  static QString uint2hex(Settings::Presets::DataBlockSize blockSize, quint32 value);
-  static QString uint2octal(Settings::Presets::DataBlockSize blockSize, quint32 value);
-  static QString uint2binary(Settings::Presets::DataBlockSize blockSize, quint32 value);
+  static QString uint2string(Settings::Presets::DataNumeralSystem numeralSystem, Settings::Presets::DataBlockSize blockSize, quint32 value);
   static QString dataToString(Settings::Presets::Preset *preset,
                               QVector<quint32> *data, int width, int height);
   static QString previewDataToString(Settings::Presets::Preset *preset,
