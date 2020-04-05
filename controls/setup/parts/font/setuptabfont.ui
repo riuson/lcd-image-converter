@@ -106,7 +106,7 @@
    <item row="3" column="0" colspan="2">
     <widget class="QCheckBox" name="checkBoxSkipMissingCharacters">
      <property name="text">
-      <string>Skip characters that can't be represented by the specified encoding.</string>
+      <string>Skip characters that can't be represented by the specified encoding</string>
      </property>
     </widget>
    </item>
