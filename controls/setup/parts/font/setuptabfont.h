@@ -70,6 +70,7 @@ private slots:
   void on_checkBoxBom_toggled(bool value);
   void on_comboBoxEncoding_currentIndexChanged(const QString &value);
   void on_comboBoxSorting_currentIndexChanged(int index);
+  void on_checkBoxSkipMissingCharacters_toggled(bool value);
   void on_lineEditEscapedCharacters_textEdited(const QString &value);
   void on_lineEditEscapePrefix_textEdited(const QString &value);
   void on_lineEditEscapeSuffix_textEdited(const QString &value);

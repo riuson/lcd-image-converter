@@ -274,17 +274,17 @@
 <context>
     <name>AppUI::Setup::Parts::Font::SetupTabFont</name>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="115"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="116"/>
         <source>None</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="119"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="120"/>
         <source>Ascending</source>
         <translation>По возрастанию</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="123"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.cpp" line="124"/>
         <source>Descending</source>
         <translation>По убыванию</translation>
     </message>
@@ -1798,34 +1798,39 @@ Only minimal amount (%3) will be imported.</source>
         <translation>Использовать BOM (метку порядка байтов) для Юникода</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="27"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="102"/>
         <source>Encoding:</source>
         <translation>Кодировка:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="34"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="82"/>
         <source>Sort characters:</source>
         <translation>Сортировать символы:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="57"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="30"/>
         <source>Escaping</source>
         <translation>Экранирование</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="63"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="36"/>
         <source>Characters:</source>
         <translation>Символы:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="73"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="46"/>
         <source>Preifx:</source>
         <translation>Префикс:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="83"/>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="56"/>
         <source>Suffix:</source>
         <translation>Суффикс:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/font/setuptabfont.ui" line="109"/>
+        <source>Skip characters that can&apos;t be represented by the specified encoding</source>
+        <translation>Пропускать символы, которые не могут быть представлены указанной кодировкой</translation>
     </message>
 </context>
 <context>

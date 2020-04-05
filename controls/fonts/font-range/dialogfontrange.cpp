@@ -105,7 +105,12 @@ void DialogFontRange::updatePreview(const QString &encoding, int from, int to, b
       }
 
       QString str = codec->toUnicode(array);
-      result += str;
+
+      if (codec->canEncode(str)) {
+        result += str;
+      } else {
+        result += QString("\\x%1").arg(i, 4, 16, QChar('0'));
+      }
     } else {
       result += QChar(QChar::Null);
     }
