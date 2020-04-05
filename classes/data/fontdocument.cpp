@@ -865,10 +865,10 @@ bool FontDocument::hexCode(const QString &key, const QString &encoding, bool bom
   QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
   QChar ch = key.at(0);
 
-  if (!codec->canEncode(ch)) {
-    resultCode = QString();
-    return false;
-  }
+  //if (!codec->canEncode(ch)) {
+  //  resultCode = QString();
+  //  return false;
+  //}
 
   QByteArray codeArray = codec->fromUnicode(&ch, 1);
 
