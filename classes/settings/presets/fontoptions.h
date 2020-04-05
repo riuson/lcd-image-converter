@@ -43,6 +43,7 @@ public:
   bool bom() const;
   const QString &encoding() const;
   Parsing::Conversion::Options::CharactersSortOrder sortOrder() const;
+  bool skipMissingCharacters() const;
   const QString &escapedCharacters() const;
   const QString &escapePrefix() const;
   const QString &escapeSuffix() const;
@@ -50,6 +51,7 @@ public:
   void setBom(bool value);
   void setEncoding(const QString &value);
   void setSortOrder(Parsing::Conversion::Options::CharactersSortOrder value);
+  void setSkipMissingCharacters(bool value);
   void setEscapedCharacters(const QString &value);
   void setEscapePrefix(const QString &value);
   void setEscapeSuffix(const QString &value);
@@ -68,6 +70,7 @@ private:
   static const QString FieldBom;
   static const QString FieldSortOrder;
   static const QString FieldCodec;
+  static const QString FieldSkipMissingCharacters;
   static const QString FieldEscapedCharacters;
   static const QString FieldEscapePrefix;
   static const QString FieldEscapeSuffix;
@@ -75,6 +78,7 @@ private:
   bool mBom;
   QString mEncoding;
   Parsing::Conversion::Options::CharactersSortOrder mSortOrder;
+  bool mSkipMissingCharacters;
   QString mEscapedCharacters;
   QString mEscapePrefix;
   QString mEscapeSuffix;

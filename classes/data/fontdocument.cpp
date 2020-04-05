@@ -820,7 +820,7 @@ void FontDocument::prepareImages(Settings::Presets::Preset *preset, const QStrin
       if (imageData != nullptr) {
         QString charCode;
 
-        if (this->hexCode(key, encoding, useBom, charCode)) {
+        if (this->hexCode(key, encoding, useBom, charCode) || !preset->font()->skipMissingCharacters()) {
           imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterCode, charCode);
           imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterText, this->escapeUserCharacters(preset, key));
         }
@@ -864,11 +864,6 @@ bool FontDocument::hexCode(const QString &key, const QString &encoding, bool bom
 {
   QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
   QChar ch = key.at(0);
-
-  //if (!codec->canEncode(ch)) {
-  //  resultCode = QString();
-  //  return false;
-  //}
 
   QByteArray codeArray = codec->fromUnicode(&ch, 1);
 
@@ -917,7 +912,7 @@ bool FontDocument::hexCode(const QString &key, const QString &encoding, bool bom
     resultCode = QString("%1").arg(code, codeArray.count() * 2, 16, QChar('0'));
   }
 
-  return true;
+  return codec->canEncode(ch);
 }
 
 bool caseInsensitiveLessThan(const QString &s1, const QString &s2)
@@ -949,7 +944,7 @@ const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Se
     const QString key = it.next();
     QString hex;
 
-    if (this->hexCode(key, encoding, useBom, hex)) {
+    if (this->hexCode(key, encoding, useBom, hex) || !preset->font()->skipMissingCharacters()) {
       map.insert(hex, key);
     }
   }

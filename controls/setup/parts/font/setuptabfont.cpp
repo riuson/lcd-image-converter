@@ -100,6 +100,7 @@ void SetupTabFont::matrixChanged()
   }
 
   this->ui->checkBoxBom->setChecked(this->mPreset->font()->bom());
+  this->ui->checkBoxSkipMissingCharacters->setChecked(this->mPreset->font()->skipMissingCharacters());
 
   this->ui->lineEditEscapedCharacters->setText(this->mPreset->font()->escapedCharacters());
   this->ui->lineEditEscapePrefix->setText(this->mPreset->font()->escapePrefix());
@@ -149,6 +150,11 @@ void SetupTabFont::on_comboBoxSorting_currentIndexChanged(int index)
   if (ok) {
     this->mPreset->font()->setSortOrder(order);
   }
+}
+
+void SetupTabFont::on_checkBoxSkipMissingCharacters_toggled(bool value)
+{
+  this->mPreset->font()->setSkipMissingCharacters(value);
 }
 
 void SetupTabFont::on_lineEditEscapedCharacters_textEdited(const QString &value)
