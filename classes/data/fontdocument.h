@@ -117,7 +117,7 @@ private:
   void setMultiplicityHeight(const int value);
 
   void prepareImages(Settings::Presets::Preset *preset, const QStringList &orderedKeys, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const;
-  QString hexCode(const QString &key, const QString &encoding, bool bom) const;
+  bool hexCode(const QString &key, const QString &encoding, bool bom, QString &resultCode) const;
   const QStringList sortKeysWithEncoding(const QStringList &keys, Settings::Presets::Preset *preset) const;
 
   const QString escapeUserCharacters(Settings::Presets::Preset *preset, const QString &value) const;

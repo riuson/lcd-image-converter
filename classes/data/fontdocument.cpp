@@ -818,9 +818,12 @@ void FontDocument::prepareImages(Settings::Presets::Preset *preset, const QStrin
       Parsing::ParsedImageData *imageData = images->value(key);
 
       if (imageData != nullptr) {
-        QString charCode = this->hexCode(key, encoding, useBom);
-        imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterCode, charCode);
-        imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterText, this->escapeUserCharacters(preset, key));
+        QString charCode;
+
+        if (this->hexCode(key, encoding, useBom, charCode)) {
+          imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterCode, charCode);
+          imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterText, this->escapeUserCharacters(preset, key));
+        }
       }
     }
   }
@@ -857,12 +860,16 @@ void FontDocument::prepareImages(Settings::Presets::Preset *preset, const QStrin
   }
 }
 
-QString FontDocument::hexCode(const QString &key, const QString &encoding, bool bom) const
+bool FontDocument::hexCode(const QString &key, const QString &encoding, bool bom, QString &resultCode) const
 {
-  QString result;
   QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
-
   QChar ch = key.at(0);
+
+  if (!codec->canEncode(ch)) {
+    resultCode = QString();
+    return false;
+  }
+
   QByteArray codeArray = codec->fromUnicode(&ch, 1);
 
   quint64 code = 0;
@@ -882,11 +889,11 @@ QString FontDocument::hexCode(const QString &key, const QString &encoding, bool 
 
     if (bom) {
       // 0xfeff00c1
-      result = QString("%1").arg(code, 8, 16, QChar('0'));
+      resultCode = QString("%1").arg(code, 8, 16, QChar('0'));
     } else {
       // 0x00c1
       code &= 0x000000000000ffffULL;
-      result = QString("%1").arg(code, 4, 16, QChar('0'));
+      resultCode = QString("%1").arg(code, 4, 16, QChar('0'));
     }
   } else if (encoding.contains("UTF-32")) {
     // reorder bytes
@@ -900,17 +907,17 @@ QString FontDocument::hexCode(const QString &key, const QString &encoding, bool 
 
     if (bom) {
       // 0x0000feff000000c1
-      result = QString("%1").arg(code, 16, 16, QChar('0'));
+      resultCode = QString("%1").arg(code, 16, 16, QChar('0'));
     } else {
       // 0x000000c1
       code &= 0x00000000ffffffffULL;
-      result = QString("%1").arg(code, 8, 16, QChar('0'));
+      resultCode = QString("%1").arg(code, 8, 16, QChar('0'));
     }
   } else {
-    result = QString("%1").arg(code, codeArray.count() * 2, 16, QChar('0'));
+    resultCode = QString("%1").arg(code, codeArray.count() * 2, 16, QChar('0'));
   }
 
-  return result;
+  return true;
 }
 
 bool caseInsensitiveLessThan(const QString &s1, const QString &s2)
@@ -925,7 +932,6 @@ bool caseInsensitiveMoreThan(const QString &s1, const QString &s2)
 
 const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Settings::Presets::Preset *preset) const
 {
-
   bool useBom = preset->font()->bom();
   QString encoding = preset->font()->encoding();
   Settings::Presets::CharactersSortOrder order = preset->font()->sortOrder();
@@ -941,8 +947,11 @@ const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Se
 
   while (it.hasNext()) {
     const QString key = it.next();
-    const QString hex = this->hexCode(key, encoding, useBom);
-    map.insert(hex, key);
+    QString hex;
+
+    if (this->hexCode(key, encoding, useBom, hex)) {
+      map.insert(hex, key);
+    }
   }
 
   QStringList hexCodes = map.keys();
