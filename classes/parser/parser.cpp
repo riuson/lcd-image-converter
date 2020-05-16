@@ -219,6 +219,8 @@ QString Parser::parseImagesTable(const QString &templateString,
   QListIterator<QString> it(orderedKeys);
   it.toFront();
 
+  int characterIndex = 0;
+
   while (it.hasNext()) {
     QString key = it.next();
 
@@ -233,8 +235,12 @@ QString Parser::parseImagesTable(const QString &templateString,
         tags.setTagValue(TagsList::Tag::OutputComma, "");
       }
 
+      tags.setTagValue(TagsList::Tag::OutputCharacterIndex, QString::number(characterIndex));
+
       QString imageString = this->parse(templateString, tags, doc, orderedKeys, images);
       result.append(imageString);
+
+      characterIndex++;
     }
   }
 
