@@ -9,6 +9,7 @@
             <item category="added">Escaping for font's selected characters.</item>
             <item category="added">2, 8, 10 and 16 numeral systems for pixel's data.</item>
             <item category="added">Optional skipping for characters, non-representable with selected encoding.</item>
+            <item category="added">Added tag out_char_index for for index of character in font table.</item>
         </changes>
     </record>
     <record>

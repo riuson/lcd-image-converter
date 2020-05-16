@@ -188,6 +188,7 @@ void TagsList::initTagsMap()
   this->mTagNameMap->insert("out_char_text",         Tag::OutputCharacterText);
   this->mTagNameMap->insert("charText",              Tag::OutputCharacterText);
   this->mTagNameMap->insert("out_char_text_sim",     Tag::OutputCharacterTextSimilar);
+  this->mTagNameMap->insert("out_char_index",        Tag::OutputCharacterIndex);
   this->mTagNameMap->insert("out_image_data",        Tag::OutputImageData);
   this->mTagNameMap->insert("imageData",             Tag::OutputImageData);
   this->mTagNameMap->insert("out_image_preview",     Tag::OutputImagePreview);
