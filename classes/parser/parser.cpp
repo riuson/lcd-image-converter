@@ -220,6 +220,7 @@ QString Parser::parseImagesTable(const QString &templateString,
   it.toFront();
 
   int characterIndex = 0;
+  int characterOffset = 0;
 
   while (it.hasNext()) {
     QString key = it.next();
@@ -236,9 +237,17 @@ QString Parser::parseImagesTable(const QString &templateString,
       }
 
       tags.setTagValue(TagsList::Tag::OutputCharacterIndex, QString::number(characterIndex));
+      tags.setTagValue(TagsList::Tag::OutputCharacterOffset, QString::number(characterOffset));
 
       QString imageString = this->parse(templateString, tags, doc, orderedKeys, images);
       result.append(imageString);
+
+      bool ok;
+      int blocksCount = data->tags()->tagValue(TagsList::Tag::OutputBlocksCount).toInt(&ok);
+
+      if (ok) {
+        characterOffset += blocksCount;
+      }
 
       characterIndex++;
     }

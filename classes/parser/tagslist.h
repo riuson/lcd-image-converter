@@ -78,6 +78,7 @@ public:
     OutputCharacterCodeSimilar,
     OutputCharacterTextSimilar,
     OutputCharacterIndex,
+    OutputCharacterOffset,
     OutputImageData,
     OutputImagePreview,
     OutputImagesCount,
