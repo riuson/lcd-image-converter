@@ -11,6 +11,7 @@
             <item category="added">Optional skipping for characters, non-representable with selected encoding.</item>
             <item category="added">Added tag out_char_index for index of character in font table.</item>
             <item category="added">Added tag out_char_offset for offset of character's data in font table.</item>
+            <item category="fixed">Fix including QPainterPath header.</item>
         </changes>
     </record>
     <record>
