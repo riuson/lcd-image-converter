@@ -28,6 +28,7 @@
 #include <QToolButton>
 #include <QColorDialog>
 #include <QVector>
+#include <QPainterPath>
 #include <appsettings.h>
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
