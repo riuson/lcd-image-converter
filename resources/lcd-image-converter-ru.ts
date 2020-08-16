@@ -1229,30 +1229,30 @@ Qt: %4</translation>
 <context>
     <name>ImageEditor::Tools::ToolColor</name>
     <message>
-        <location filename="../classes/imageeditor/toolcolor.cpp" line="63"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="64"/>
         <source>Color</source>
         <translation>Цвет</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolcolor.cpp" line="68"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="69"/>
         <source>Select color</source>
         <translation>Выбор цвета</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolcolor.cpp" line="144"/>
         <location filename="../classes/imageeditor/toolcolor.cpp" line="145"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="146"/>
         <source>Swap Colors</source>
         <translation>Обменять цвета</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolcolor.cpp" line="207"/>
         <location filename="../classes/imageeditor/toolcolor.cpp" line="208"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="209"/>
         <source>Fore Color: %1</source>
         <translation>Цвет переднего плана: %1</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolcolor.cpp" line="213"/>
         <location filename="../classes/imageeditor/toolcolor.cpp" line="214"/>
+        <location filename="../classes/imageeditor/toolcolor.cpp" line="215"/>
         <source>Back Color: %1</source>
         <translation>Цвет заднего плана: %1</translation>
     </message>
@@ -1260,17 +1260,17 @@ Qt: %4</translation>
 <context>
     <name>ImageEditor::Tools::ToolLine</name>
     <message>
-        <location filename="../classes/imageeditor/toolline.cpp" line="65"/>
+        <location filename="../classes/imageeditor/toolline.cpp" line="66"/>
         <source>Line</source>
         <translation>Линия</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolline.cpp" line="70"/>
+        <location filename="../classes/imageeditor/toolline.cpp" line="71"/>
         <source>&lt;b&gt;Draw line&lt;/b&gt;&lt;br/&gt;Use left mouse button to draw forecolor.&lt;br/&gt;Use right mouse button to draw backcolor.</source>
         <translation>&lt;b&gt;Рисование линии&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши для рисования цветом переднего плана.&lt;br/&gt;Правая кнопка мыши для рисования цветом заднего плана.</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolline.cpp" line="147"/>
+        <location filename="../classes/imageeditor/toolline.cpp" line="148"/>
         <source>Line Width</source>
         <translation>Толщина линии</translation>
     </message>
@@ -1278,30 +1278,30 @@ Qt: %4</translation>
 <context>
     <name>ImageEditor::Tools::ToolMove</name>
     <message>
-        <location filename="../classes/imageeditor/toolmove.cpp" line="59"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="60"/>
         <source>Move</source>
         <translation>Перемещение</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolmove.cpp" line="64"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="65"/>
         <source>Move entire image or selection</source>
         <translation>Перемещение всего изображения или выделенной части</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolmove.cpp" line="128"/>
         <location filename="../classes/imageeditor/toolmove.cpp" line="129"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="130"/>
         <source>Cut &amp; Move</source>
         <translation>Вырезать и переместить</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolmove.cpp" line="137"/>
         <location filename="../classes/imageeditor/toolmove.cpp" line="138"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="139"/>
         <source>Copy &amp; Move</source>
         <translation>Скопировать и переместить</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolmove.cpp" line="146"/>
         <location filename="../classes/imageeditor/toolmove.cpp" line="147"/>
+        <location filename="../classes/imageeditor/toolmove.cpp" line="148"/>
         <source>Move circular (rectancular area only)</source>
         <translation>Циклический сдвиг (только для прямоугольных областей)</translation>
     </message>
@@ -1309,17 +1309,17 @@ Qt: %4</translation>
 <context>
     <name>ImageEditor::Tools::ToolPen</name>
     <message>
-        <location filename="../classes/imageeditor/toolpen.cpp" line="65"/>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="66"/>
         <source>Pen</source>
         <translation>Карандаш</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolpen.cpp" line="70"/>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="71"/>
         <source>&lt;b&gt;Draw pixels&lt;/b&gt;&lt;br/&gt;Use left mouse button to draw forecolor.&lt;br/&gt;Use right mouse button to draw backcolor.</source>
         <translation>&lt;b&gt;Рисование точек&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши ждя рисования цветом переднего плана.&lt;br/&gt;Правая кнопка мыши для рисования цветом заднего плана.</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolpen.cpp" line="141"/>
+        <location filename="../classes/imageeditor/toolpen.cpp" line="142"/>
         <source>Size</source>
         <translation>Размер точки</translation>
     </message>
@@ -1327,43 +1327,43 @@ Qt: %4</translation>
 <context>
     <name>ImageEditor::Tools::ToolRect</name>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="65"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="66"/>
         <source>Rectangle</source>
         <translation>Прямоугольник</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="70"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="71"/>
         <source>&lt;b&gt;Draw rectangle&lt;/b&gt;&lt;br/&gt;Left mouse button: outline - forecolor, filling - backcolor.&lt;br/&gt;Right mouse button: outline - backcolor, filling - forecolor.</source>
         <translation>&lt;b&gt;Рисование прямоугольника&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши: границы цвета переднего плана, заливка - заднего.&lt;br/&gt;Правая кнопка мыши: границы цвета заднего плана, заливка - переднего.</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="147"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="148"/>
         <source>Outline Width</source>
         <translation>Ширина границ</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="154"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="155"/>
         <source>Outline</source>
         <translation>Границы</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="155"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="156"/>
         <source>Outline only</source>
         <translation>Только границы</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="164"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="165"/>
         <source>Filled Outline</source>
         <translation>Заливка и границы</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="165"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="166"/>
         <source>Filled with Outline</source>
         <translation>Заливка с границами</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="174"/>
         <location filename="../classes/imageeditor/toolrect.cpp" line="175"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="176"/>
         <source>Filled</source>
         <translation>Заливка</translation>
     </message>
@@ -1371,32 +1371,32 @@ Qt: %4</translation>
 <context>
     <name>ImageEditor::Tools::ToolSelect</name>
     <message>
-        <location filename="../classes/imageeditor/toolselect.cpp" line="59"/>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="60"/>
         <source>Select</source>
         <translation>Выбор</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolselect.cpp" line="64"/>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="65"/>
         <source>Select area</source>
         <translation>Выбор участка</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolselect.cpp" line="130"/>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="131"/>
         <source>Modify selection</source>
         <translation>Изменение выбора</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolselect.cpp" line="131"/>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="132"/>
         <source>&lt;b&gt;Modify selection&lt;/b&gt;&lt;br/&gt;Left mouse button to add selection.&lt;br/&gt;Right mouse button to subtract selection.&lt;br/&gt;Middle mouse button to reset selection.</source>
         <translation>&lt;b&gt;Изменение выбора&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши для добавления участка.&lt;br/&gt;Правая кнопка мыши для исключения участка.&lt;br/&gt;Средняя кнопка мыши для сброса.</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolselect.cpp" line="140"/>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="141"/>
         <source>&lt;b&gt;Move selection&lt;/b&gt;&lt;br/&gt;Use left mouse button to move selection.</source>
         <translation>&lt;b&gt;Перемещение выбора&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши для перемещения.</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolselect.cpp" line="139"/>
+        <location filename="../classes/imageeditor/toolselect.cpp" line="140"/>
         <source>Move selection</source>
         <translation>Перемещение выбора</translation>
     </message>
@@ -2135,12 +2135,12 @@ Only minimal amount (%3) will be imported.</source>
 <context>
     <name>ToolFill</name>
     <message>
-        <location filename="../classes/imageeditor/toolfill.cpp" line="67"/>
+        <location filename="../classes/imageeditor/toolfill.cpp" line="68"/>
         <source>Fill</source>
         <translation>Заполнение</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolfill.cpp" line="72"/>
+        <location filename="../classes/imageeditor/toolfill.cpp" line="73"/>
         <source>&lt;b&gt;Fill area&lt;/b&gt;&lt;br/&gt;Use left mouse button to fill with forecolor.&lt;br/&gt;Use right mouse button to fill with backcolor.</source>
         <translation>&lt;b&gt;Заливка площади&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши для заливки цветом переднего плана.&lt;br/&gt;Правая кнопка мыши для заливки цветом заднего плана.</translation>
     </message>
