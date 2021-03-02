@@ -38,6 +38,7 @@ const QString FontOptions::FieldSkipMissingCharacters = QString("skipMissingChar
 const QString FontOptions::FieldEscapedCharacters = QString("escapeChars");
 const QString FontOptions::FieldEscapePrefix = QString("escapePrefix");
 const QString FontOptions::FieldEscapeSuffix = QString("escapeSuffix");
+const QString FontOptions::FieldCompactGlyphs = QString("compactGlyphs");
 
 FontOptions::FontOptions(QObject *parent) :
   QObject(parent)
@@ -56,6 +57,7 @@ FontOptions::FontOptions(QObject *parent) :
   this->mEscapedCharacters = "@\"'";
   this->mEscapePrefix = "\\";
   this->mEscapeSuffix = QString();
+  this->mCompactGlyphs = false;
 }
 
 bool FontOptions::bom() const
@@ -91,6 +93,11 @@ const QString &FontOptions::escapePrefix() const
 const QString &FontOptions::escapeSuffix() const
 {
   return this->mEscapeSuffix;
+}
+
+bool FontOptions::compactGlyphs() const
+{
+  return this->mCompactGlyphs;
 }
 
 void FontOptions::setBom(bool value)
@@ -151,6 +158,14 @@ void FontOptions::setEscapeSuffix(const QString &value)
   }
 }
 
+void FontOptions::setCompactGlyphs(bool value)
+{
+  if (this->mCompactGlyphs != value) {
+    this->mCompactGlyphs = value;
+    emit this->changed();
+  }
+}
+
 bool FontOptions::load(QSettings *settings)
 {
   bool result = false;
@@ -164,6 +179,7 @@ bool FontOptions::load(QSettings *settings)
   QString sEscapedCharacters;
   QString sEscapePrefix;
   QString sEscapeSuffix;
+  quint32 uCompactGlyphs;
 
   uBom = settings->value(FontOptions::FieldBom, int(0)).toInt(&result);
 
@@ -192,6 +208,10 @@ bool FontOptions::load(QSettings *settings)
   }
 
   if (result) {
+    uCompactGlyphs = settings->value(FontOptions::FieldCompactGlyphs, int(0)).toInt(&result);
+  }
+
+  if (result) {
     this->setBom((bool)uBom);
     this->setEncoding(sEncoding);
     this->setSortOrder((Parsing::Conversion::Options::CharactersSortOrder)uSortOrder);
@@ -199,6 +219,7 @@ bool FontOptions::load(QSettings *settings)
     this->setEscapedCharacters(sEscapedCharacters);
     this->setEscapePrefix(sEscapePrefix);
     this->setEscapeSuffix(sEscapeSuffix);
+    this->setCompactGlyphs((bool)uCompactGlyphs);
   }
 
   settings->endGroup();
@@ -233,6 +254,7 @@ bool FontOptions::loadXmlElement(QDomElement element)
   QString sEscapedCharacters = "@\"'";
   QString sEscapePrefix = "\\";
   QString sEscapeSuffix = QString();
+  quint32 uCompactGlyphs = 0;
 
   QDomNode nodeValue = nodeSett.firstChild();
 
@@ -271,6 +293,11 @@ bool FontOptions::loadXmlElement(QDomElement element)
         sEscapeSuffix = e.text();
       }
 
+      if (e.tagName() == FontOptions::FieldCompactGlyphs) {
+        QString str = e.text();
+        uCompactGlyphs = str.toUInt(&result);
+      }
+
       if (!result) {
         break;
       }
@@ -287,6 +314,7 @@ bool FontOptions::loadXmlElement(QDomElement element)
     this->setEscapedCharacters(sEscapedCharacters);
     this->setEscapePrefix(sEscapePrefix);
     this->setEscapeSuffix(sEscapeSuffix);
+    this->setCompactGlyphs((bool)uCompactGlyphs);
   }
 
   return result;
@@ -303,6 +331,7 @@ void FontOptions::save(QSettings *settings)
   settings->setValue(FontOptions::FieldEscapedCharacters,  this->escapedCharacters());
   settings->setValue(FontOptions::FieldEscapePrefix,  this->escapePrefix());
   settings->setValue(FontOptions::FieldEscapeSuffix,  this->escapeSuffix());
+  settings->setValue(FontOptions::FieldCompactGlyphs, QString("%1").arg((int)this->compactGlyphs()));
 
   settings->endGroup();
 }
@@ -339,6 +368,10 @@ void FontOptions::saveXmlElement(QDomElement element)
   QDomElement nodeEscapeSuffix = element.ownerDocument().createElement(FontOptions::FieldEscapeSuffix);
   nodeFont.appendChild(nodeEscapeSuffix);
   nodeEscapeSuffix.appendChild(element.ownerDocument().createTextNode(this->escapeSuffix()));
+
+  QDomElement nodeCompactGlyphs = element.ownerDocument().createElement(FontOptions::FieldCompactGlyphs);
+  nodeFont.appendChild(nodeCompactGlyphs);
+  nodeCompactGlyphs.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->compactGlyphs())));
 }
 
 QString FontOptions::groupName() const
