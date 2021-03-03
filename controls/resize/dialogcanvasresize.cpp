@@ -106,13 +106,13 @@ const QMap<QString, Data::CanvasModInfo *> *DialogCanvasResize::resizeInfo() con
 void DialogCanvasResize::wheelEvent(QWheelEvent *event)
 {
   if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
-    QPoint point = event->globalPos();
+    QPoint point = event->globalPosition().toPoint();
     point = this->mapFromGlobal(point);
 
-    if (event->orientation() == Qt::Vertical) {
+    if (qAbs(event->angleDelta().x()) < qAbs(event->angleDelta().y())) {
       int scale = this->mScaledProxy->scale();
 
-      if (event->delta() > 0) {
+      if (event->angleDelta().y() > 0) {
         scale++;
       } else {
         scale--;

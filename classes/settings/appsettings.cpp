@@ -92,14 +92,11 @@ QSettings &AppSettings::get()
 
 bool AppSettings::readXmlFile(QIODevice &device, QSettings::SettingsMap &map)
 {
-  QXmlInputSource source(&device);
-  QXmlSimpleReader reader;
-
   QDomDocument doc;
   QString errorMsg;
   int errorColumn, errorLine;
 
-  if (doc.setContent(&source, &reader, &errorMsg, &errorLine, &errorColumn)) {
+  if (doc.setContent(&device, false, &errorMsg, &errorLine, &errorColumn)) {
     QDomElement root = doc.documentElement();
 
     if (root.tagName() == "configuration") {

@@ -116,7 +116,7 @@ QString FontHelper::unescapeControlChars(const QString &value)
 
 QSize FontHelper::getCharacterSize(const QFontMetrics &metrics, QChar value)
 {
-  int charWidth = metrics.width(value);
+  int charWidth = metrics.horizontalAdvance(value);
   int charHeight = metrics.height();
 
   // fix width of italic style

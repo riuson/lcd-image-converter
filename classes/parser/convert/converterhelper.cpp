@@ -669,7 +669,7 @@ QString ConverterHelper::previewDataToString(Settings::Presets::Preset *preset, 
   QString prefix = preset->image()->previewPrefix();
   QString suffix = preset->image()->previewSuffix();
   QString delimiter = preset->image()->previewDelimiter();
-  QStringList levels = preset->image()->previewLevels().split(QRegExp("[\r\n]"), QString::SkipEmptyParts);
+  QStringList levels = preset->image()->previewLevels().split(QRegExp("[\r\n]"), Qt::SplitBehaviorFlags::SkipEmptyParts);
 
   int levelsCount = levels.length();
 

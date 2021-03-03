@@ -283,7 +283,7 @@ void DialogFontSelectData::resort()
     list.append(chars.at(i));
   }
 
-  qSort(list);
+  std::sort(list.begin(), list.end());
   chars = QString();
 
   if (!this->mSortOrderUp) {

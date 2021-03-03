@@ -118,7 +118,7 @@ QStringList Preset::presetsList()
 
   sett.endGroup();
 
-  qSort(names);
+  std::sort(names.begin(), names.end());
 
   return names;
 }

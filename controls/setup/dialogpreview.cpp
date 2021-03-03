@@ -119,7 +119,7 @@ void DialogPreview::updatePreview()
 void DialogPreview::wheelEvent(QWheelEvent *event)
 {
   if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
-    QPoint point = event->globalPos();
+    QPoint point = event->globalPosition().toPoint();
     point = this->mapFromGlobal(point);
 
     QRect labelRectPreview = this->ui->labelPreview->rect();
@@ -127,10 +127,10 @@ void DialogPreview::wheelEvent(QWheelEvent *event)
     labelRectPreview.moveTo(labelPoint);
 
     if (labelRectPreview.contains(point.x(), point.y())) {
-      if (event->orientation() == Qt::Vertical) {
+      if (qAbs(event->angleDelta().x()) < qAbs(event->angleDelta().y())) {
         int scale = this->mScale;
 
-        if (event->delta() > 0) {
+        if (event->angleDelta().y() > 0) {
           scale++;
         } else {
           scale--;
