@@ -46,6 +46,8 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
   this->mTags->setTagValue(TagsList::Tag::OutputDataEOL, tags.tagValue(TagsList::Tag::OutputDataEOL));
   this->mTags->setTagValue(TagsList::Tag::OutputDataIndent, tags.tagValue(TagsList::Tag::OutputDataIndent));
 
+  QImage imageCompacted = QImage(*image);
+
   if (preset->font()->compactGlyphs()) {
     int left, top, right, bottom;
     bool hEmpty, vEmpty;
@@ -56,12 +58,17 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
       this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphY, QString("%1").arg(top));
       this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphWidth, QString("%1").arg(image->width() - right - left));
       this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphHeight, QString("%1").arg(image->height() - bottom - top));
+      QRgb background = Parsing::Conversion::BitmapHelper::detectBackgroundColor(image).rgba();
+      imageCompacted = Parsing::Conversion::BitmapHelper::crop(image, -left, -top, -right, -bottom, background);
+    } else {
+      imageCompacted = QImage();
     }
   }
 
+
   QImage imagePrepared;
 
-  Parsing::Conversion::ConverterHelper::prepareImage(preset, image, &imagePrepared);
+  Parsing::Conversion::ConverterHelper::prepareImage(preset, &imageCompacted, &imagePrepared);
 
   // conversion from image to strings
   QVector<quint32> sourceData;
