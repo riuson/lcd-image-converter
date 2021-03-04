@@ -54,8 +54,8 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
     if (!hEmpty & !vEmpty) {
       this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphX, QString("%1").arg(left));
       this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphY, QString("%1").arg(top));
-      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphWidth, QString("%1").arg(right + 1 - left));
-      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphHeight, QString("%1").arg(bottom + 1 - top));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphWidth, QString("%1").arg(image->width() - right - left));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphHeight, QString("%1").arg(image->height() - bottom - top));
     }
   }
 

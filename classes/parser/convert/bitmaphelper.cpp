@@ -168,8 +168,8 @@ void BitmapHelper::findEmptyArea(const QImage *source, int &left, int &top, int 
   right = source->width() - 1 - r;
   bottom = source->height() - 1 - b;
 
-  hEmpty = l >= r;
-  vEmpty = t >= b;
+  hEmpty = l > r || source->width() == 0;
+  vEmpty = t > b || source->height() == 0;
 }
 
 QImage BitmapHelper::scale(const QImage *source, int scale)
