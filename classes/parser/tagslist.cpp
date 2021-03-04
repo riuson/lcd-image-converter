@@ -190,6 +190,10 @@ void TagsList::initTagsMap()
   this->mTagNameMap->insert("out_char_text_sim",     Tag::OutputCharacterTextSimilar);
   this->mTagNameMap->insert("out_char_index",        Tag::OutputCharacterIndex);
   this->mTagNameMap->insert("out_char_offset",       Tag::OutputCharacterOffset);
+  this->mTagNameMap->insert("out_char_glyph_x",      Tag::OutputCharacterGlyphX);
+  this->mTagNameMap->insert("out_char_glyph_y",      Tag::OutputCharacterGlyphY);
+  this->mTagNameMap->insert("out_char_glyph_width",  Tag::OutputCharacterGlyphWidth);
+  this->mTagNameMap->insert("out_char_glyph_height", Tag::OutputCharacterGlyphHeight);
   this->mTagNameMap->insert("out_image_data",        Tag::OutputImageData);
   this->mTagNameMap->insert("imageData",             Tag::OutputImageData);
   this->mTagNameMap->insert("out_image_preview",     Tag::OutputImagePreview);

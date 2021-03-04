@@ -28,6 +28,8 @@
 #include "converterhelper.h"
 #include "preset.h"
 #include "imageoptions.h"
+#include "bitmaphelper.h"
+#include "fontoptions.h"
 
 namespace Parsing
 {
@@ -44,7 +46,21 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
   this->mTags->setTagValue(TagsList::Tag::OutputDataEOL, tags.tagValue(TagsList::Tag::OutputDataEOL));
   this->mTags->setTagValue(TagsList::Tag::OutputDataIndent, tags.tagValue(TagsList::Tag::OutputDataIndent));
 
+  if (preset->font()->compactGlyphs()) {
+    int left, top, right, bottom;
+    bool hEmpty, vEmpty;
+    Parsing::Conversion::BitmapHelper::findEmptyArea(image, left, top, right, bottom, hEmpty, vEmpty);
+
+    if (!hEmpty & !vEmpty) {
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphX, QString("%1").arg(left));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphY, QString("%1").arg(top));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphWidth, QString("%1").arg(right + 1 - left));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphHeight, QString("%1").arg(bottom + 1 - top));
+    }
+  }
+
   QImage imagePrepared;
+
   Parsing::Conversion::ConverterHelper::prepareImage(preset, image, &imagePrepared);
 
   // conversion from image to strings
