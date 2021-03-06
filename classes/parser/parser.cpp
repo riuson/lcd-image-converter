@@ -378,6 +378,13 @@ void Parser::addMatrixInfo(TagsList &tags) const
   // encoding
   tags.setTagValue(TagsList::Tag::FontEncoding, this->mPreset->font()->encoding());
 
+  // compact
+  if (this->mPreset->font()->compactGlyphs()) {
+    tags.setTagValue(TagsList::Tag::FontCompacted, "yes");
+  } else {
+    tags.setTagValue(TagsList::Tag::FontCompacted, "no");
+  }
+
   // split to rows
   if (this->mPreset->image()->splitToRows()) {
     tags.setTagValue(TagsList::Tag::ImageSplitToRows, "yes");

@@ -172,6 +172,7 @@ void TagsList::initTagsMap()
   this->mTagNameMap->insert("fontAntialiasing", Tag::FontAntiAliasing);
   this->mTagNameMap->insert("fnt_ascent",       Tag::FontAscent);
   this->mTagNameMap->insert("fnt_descent",      Tag::FontDescent);
+  this->mTagNameMap->insert("fnt_compacted",    Tag::FontCompacted);
 
   this->mTagNameMap->insert("tmpl_filename", Tag::TemplateFilename);
   this->mTagNameMap->insert("templateFile",  Tag::TemplateFilename);

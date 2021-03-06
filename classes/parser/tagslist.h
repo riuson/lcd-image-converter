@@ -67,6 +67,7 @@ public:
     FontAntiAliasing,
     FontAscent,
     FontDescent,
+    FontCompacted,
 
     TemplateFilename,
 
