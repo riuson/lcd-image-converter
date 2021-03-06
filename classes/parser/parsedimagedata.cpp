@@ -61,6 +61,10 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
       QRgb background = Parsing::Conversion::BitmapHelper::detectBackgroundColor(image).rgba();
       imageCompacted = Parsing::Conversion::BitmapHelper::crop(image, -left, -top, -right, -bottom, background);
     } else {
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphX, "0");
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphY, "0");
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphWidth, "0");
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphHeight, "0");
       imageCompacted = QImage();
     }
   }
@@ -150,8 +154,8 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
                                           preset,
                                           &previewData, previewWidth, previewHeight);
   } else {
-    this->mTags->setTagValue(TagsList::Tag::OutputImageWidth, QString("0"));
-    this->mTags->setTagValue(TagsList::Tag::OutputImageHeight, QString("0"));
+    this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphWidth, QString("0"));
+    this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphHeight, QString("0"));
 
     this->mTags->setTagValue(TagsList::Tag::OutputBlocksCount, QString("0"));
     this->mPreparedOutputImageData = QString();
