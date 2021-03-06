@@ -54,17 +54,17 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
     Parsing::Conversion::BitmapHelper::findEmptyArea(image, left, top, right, bottom, hEmpty, vEmpty);
 
     if (!hEmpty & !vEmpty) {
-      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphX, QString("%1").arg(left));
-      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphY, QString("%1").arg(top));
-      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphWidth, QString("%1").arg(image->width() - right - left));
-      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphHeight, QString("%1").arg(image->height() - bottom - top));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageLeft, QString("%1").arg(left));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageTop, QString("%1").arg(top));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageWidth, QString("%1").arg(image->width() - right - left));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageHeight, QString("%1").arg(image->height() - bottom - top));
       QRgb background = Parsing::Conversion::BitmapHelper::detectBackgroundColor(image).rgba();
       imageCompacted = Parsing::Conversion::BitmapHelper::crop(image, -left, -top, -right, -bottom, background);
     } else {
-      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphX, "0");
-      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphY, "0");
-      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphWidth, "0");
-      this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphHeight, "0");
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageLeft, "0");
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageTop, "0");
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageWidth, "0");
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageHeight, "0");
       imageCompacted = QImage();
     }
   }
@@ -154,8 +154,8 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
                                           preset,
                                           &previewData, previewWidth, previewHeight);
   } else {
-    this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphWidth, QString("0"));
-    this->mTags->setTagValue(TagsList::Tag::OutputCharacterGlyphHeight, QString("0"));
+    this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageWidth, QString("0"));
+    this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageHeight, QString("0"));
 
     this->mTags->setTagValue(TagsList::Tag::OutputBlocksCount, QString("0"));
     this->mPreparedOutputImageData = QString();
