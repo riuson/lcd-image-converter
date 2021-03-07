@@ -28,16 +28,20 @@ QMAKE_CXXFLAGS += -std=c++11
 DESTDIR             = $$OUTDIR/output
 QMAKE_LIBDIR       += $$DESTDIR
 
-# Qt version required >= 5.5, since 2017-10-05.
+# Qt version required >= 5.15, since 2021-03-07.
 # Qt < 5.0
 lessThan(QT_MAJOR_VERSION, 5) {
-  error(Qt version required >= 5.5)
+  error(Qt version required 5.15 <= ... < 6)
 }
-#Qt < 5.5
-greaterThan(QT_MAJOR_VERSION, 4) {
-  lessThan(QT_MINOR_VERSION, 5) {
-    error(Qt version required >= 5.5)
+#Qt < 5.15
+equals(QT_MAJOR_VERSION, 5) {
+  lessThan(QT_MINOR_VERSION, 15) {
+    error(Qt version required 5.15 <= ... < 6)
   }
+}
+# Qt >= 6.x
+greaterThan(QT_MAJOR_VERSION, 5) {
+  error(Qt version required 5.15 <= ... < 6)
 }
 
 DEFINES += QT_MAJOR_VERSION="$$QT_MAJOR_VERSION"
