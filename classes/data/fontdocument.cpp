@@ -617,7 +617,7 @@ void FontDocument::setFontCharacters(const QString &chars,
 
   if (parameters.monospaced) {
     for (int i = 0; i < chars.count(); i++) {
-      width = qMax(width, metrics.width(chars.at(i)));
+      width = qMax(width, metrics.horizontalAdvance(chars.at(i)));
     }
 
     height = metrics.height();
@@ -953,11 +953,11 @@ const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Se
 
   switch (order) {
     case Parsing::Conversion::Options::CharactersSortOrder::Ascending:
-      qSort(hexCodes.begin(), hexCodes.end(), caseInsensitiveLessThan);
+      std::sort(hexCodes.begin(), hexCodes.end(), caseInsensitiveLessThan);
       break;
 
     case Parsing::Conversion::Options::CharactersSortOrder::Descending:
-      qSort(hexCodes.begin(), hexCodes.end(), caseInsensitiveMoreThan);
+      std::sort(hexCodes.begin(), hexCodes.end(), caseInsensitiveMoreThan);
       break;
 
     default:

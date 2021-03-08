@@ -28,6 +28,8 @@
 #include "converterhelper.h"
 #include "preset.h"
 #include "imageoptions.h"
+#include "bitmaphelper.h"
+#include "fontoptions.h"
 
 namespace Parsing
 {
@@ -44,8 +46,33 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
   this->mTags->setTagValue(TagsList::Tag::OutputDataEOL, tags.tagValue(TagsList::Tag::OutputDataEOL));
   this->mTags->setTagValue(TagsList::Tag::OutputDataIndent, tags.tagValue(TagsList::Tag::OutputDataIndent));
 
+  QImage imageCompacted = QImage(*image);
+
+  if (preset->font()->compactGlyphs()) {
+    int left, top, right, bottom;
+    bool hEmpty, vEmpty;
+    Parsing::Conversion::BitmapHelper::findEmptyArea(image, left, top, right, bottom, hEmpty, vEmpty);
+
+    if (!hEmpty & !vEmpty) {
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageLeft, QString("%1").arg(left));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageTop, QString("%1").arg(top));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageWidth, QString("%1").arg(image->width() - right - left));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageHeight, QString("%1").arg(image->height() - bottom - top));
+      QRgb background = Parsing::Conversion::BitmapHelper::detectBackgroundColor(image).rgba();
+      imageCompacted = Parsing::Conversion::BitmapHelper::crop(image, -left, -top, -right, -bottom, background);
+    } else {
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageLeft, "0");
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageTop, "0");
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageWidth, "0");
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageHeight, "0");
+      imageCompacted = QImage();
+    }
+  }
+
+
   QImage imagePrepared;
-  Parsing::Conversion::ConverterHelper::prepareImage(preset, image, &imagePrepared);
+
+  Parsing::Conversion::ConverterHelper::prepareImage(preset, &imageCompacted, &imagePrepared);
 
   // conversion from image to strings
   QVector<quint32> sourceData;
@@ -127,8 +154,8 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
                                           preset,
                                           &previewData, previewWidth, previewHeight);
   } else {
-    this->mTags->setTagValue(TagsList::Tag::OutputImageWidth, QString("0"));
-    this->mTags->setTagValue(TagsList::Tag::OutputImageHeight, QString("0"));
+    this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageWidth, QString("0"));
+    this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageHeight, QString("0"));
 
     this->mTags->setTagValue(TagsList::Tag::OutputBlocksCount, QString("0"));
     this->mPreparedOutputImageData = QString();

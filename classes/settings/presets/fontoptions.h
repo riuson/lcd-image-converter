@@ -47,6 +47,7 @@ public:
   const QString &escapedCharacters() const;
   const QString &escapePrefix() const;
   const QString &escapeSuffix() const;
+  bool compactGlyphs() const;
 
   void setBom(bool value);
   void setEncoding(const QString &value);
@@ -55,6 +56,7 @@ public:
   void setEscapedCharacters(const QString &value);
   void setEscapePrefix(const QString &value);
   void setEscapeSuffix(const QString &value);
+  void setCompactGlyphs(bool value);
 
   bool load(QSettings *settings) Q_DECL_OVERRIDE;
   bool loadXmlElement(QDomElement element) Q_DECL_OVERRIDE;
@@ -74,6 +76,7 @@ private:
   static const QString FieldEscapedCharacters;
   static const QString FieldEscapePrefix;
   static const QString FieldEscapeSuffix;
+  static const QString FieldCompactGlyphs;
 
   bool mBom;
   QString mEncoding;
@@ -82,6 +85,7 @@ private:
   QString mEscapedCharacters;
   QString mEscapePrefix;
   QString mEscapeSuffix;
+  bool mCompactGlyphs;
 
 signals:
   void changed();

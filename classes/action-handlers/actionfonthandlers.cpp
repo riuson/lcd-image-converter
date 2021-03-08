@@ -104,7 +104,7 @@ void ActionFontHandlers::fontToImage_triggered()
 
   if (editor != nullptr) {
     QStringList keys = editor->selectedKeys();
-    qSort(keys);
+    std::sort(keys.begin(), keys.end());
     QString characters = keys.join("");
     QImage image = Parsing::Conversion::FontHelper::drawString(editor->document()->dataContainer(), characters);
 

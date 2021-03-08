@@ -105,6 +105,8 @@ void SetupTabFont::matrixChanged()
   this->ui->lineEditEscapedCharacters->setText(this->mPreset->font()->escapedCharacters());
   this->ui->lineEditEscapePrefix->setText(this->mPreset->font()->escapePrefix());
   this->ui->lineEditEscapeSuffix->setText(this->mPreset->font()->escapeSuffix());
+
+  this->ui->checkBoxCompactGlyphs->setChecked(this->mPreset->font()->compactGlyphs());
 }
 
 const QString SetupTabFont::sortingName(Parsing::Conversion::Options::CharactersSortOrder value) const
@@ -170,6 +172,11 @@ void SetupTabFont::on_lineEditEscapePrefix_textEdited(const QString &value)
 void SetupTabFont::on_lineEditEscapeSuffix_textEdited(const QString &value)
 {
   this->mPreset->font()->setEscapeSuffix(value);
+}
+
+void SetupTabFont::on_checkBoxCompactGlyphs_toggled(bool value)
+{
+  this->mPreset->font()->setCompactGlyphs(value);
 }
 
 } // namespace Font

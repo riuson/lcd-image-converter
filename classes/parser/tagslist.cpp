@@ -172,6 +172,7 @@ void TagsList::initTagsMap()
   this->mTagNameMap->insert("fontAntialiasing", Tag::FontAntiAliasing);
   this->mTagNameMap->insert("fnt_ascent",       Tag::FontAscent);
   this->mTagNameMap->insert("fnt_descent",      Tag::FontDescent);
+  this->mTagNameMap->insert("fnt_compacted",    Tag::FontCompacted);
 
   this->mTagNameMap->insert("tmpl_filename", Tag::TemplateFilename);
   this->mTagNameMap->insert("templateFile",  Tag::TemplateFilename);
@@ -190,6 +191,10 @@ void TagsList::initTagsMap()
   this->mTagNameMap->insert("out_char_text_sim",     Tag::OutputCharacterTextSimilar);
   this->mTagNameMap->insert("out_char_index",        Tag::OutputCharacterIndex);
   this->mTagNameMap->insert("out_char_offset",       Tag::OutputCharacterOffset);
+  this->mTagNameMap->insert("out_char_image_left",   Tag::OutputCharacterImageLeft);
+  this->mTagNameMap->insert("out_char_image_top",    Tag::OutputCharacterImageTop);
+  this->mTagNameMap->insert("out_char_image_width",  Tag::OutputCharacterImageWidth);
+  this->mTagNameMap->insert("out_char_image_height", Tag::OutputCharacterImageHeight);
   this->mTagNameMap->insert("out_image_data",        Tag::OutputImageData);
   this->mTagNameMap->insert("imageData",             Tag::OutputImageData);
   this->mTagNameMap->insert("out_image_preview",     Tag::OutputImagePreview);

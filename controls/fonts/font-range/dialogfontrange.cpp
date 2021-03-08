@@ -45,7 +45,7 @@ DialogFontRange::DialogFontRange(QWidget *parent) :
   this->mResultString = QString();
 
   QStringList encodings = Settings::Presets::FontOptions::encodings();
-  qSort(encodings);
+  std::sort(encodings.begin(), encodings.end());
   this->ui->comboBoxEncoding->addItems(encodings);
   int index = this->ui->comboBoxEncoding->findText("UTF-8", Qt::MatchFixedString);
 

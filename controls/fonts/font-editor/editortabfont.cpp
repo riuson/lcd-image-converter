@@ -180,7 +180,7 @@ void EditorTabFont::changeEvent(QEvent *e)
 void EditorTabFont::wheelEvent(QWheelEvent *event)
 {
   if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
-    QPoint point = event->globalPos();
+    QPoint point = event->globalPosition().toPoint();
     point = this->mapFromGlobal(point);
 
     QRect tableRect = this->ui->tableViewCharacters->rect();
@@ -188,10 +188,10 @@ void EditorTabFont::wheelEvent(QWheelEvent *event)
     tableRect.moveTo(tablePoint);
 
     if (tableRect.contains(point.x(), point.y())) {
-      if (event->orientation() == Qt::Vertical) {
-        if (event->delta() > 0) {
+      if (qAbs(event->angleDelta().x()) < qAbs(event->angleDelta().y())) {
+        if (event->angleDelta().y() > 0) {
           this->mScaledProxy->setScale(this->mScaledProxy->scale() + 1);
-        } else if (event->delta() < 0) {
+        } else if (event->angleDelta().y() < 0) {
           this->mScaledProxy->setScale(this->mScaledProxy->scale() - 1);
         }
 

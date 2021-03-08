@@ -74,6 +74,7 @@ private slots:
   void on_lineEditEscapedCharacters_textEdited(const QString &value);
   void on_lineEditEscapePrefix_textEdited(const QString &value);
   void on_lineEditEscapeSuffix_textEdited(const QString &value);
+  void on_checkBoxCompactGlyphs_toggled(bool value);
 };
 
 } // namespace Font

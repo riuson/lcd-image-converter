@@ -28,16 +28,20 @@ QMAKE_CXXFLAGS += -std=c++11
 DESTDIR             = $$OUTDIR/output
 QMAKE_LIBDIR       += $$DESTDIR
 
-# Qt version required >= 5.5, since 2017-10-05.
+# Qt version required >= 5.15, since 2021-03-07.
 # Qt < 5.0
 lessThan(QT_MAJOR_VERSION, 5) {
-  error(Qt version required >= 5.5)
+  error(Qt version required 5.15 <= ... < 6)
 }
-#Qt < 5.5
-greaterThan(QT_MAJOR_VERSION, 4) {
-  lessThan(QT_MINOR_VERSION, 5) {
-    error(Qt version required >= 5.5)
+#Qt < 5.15
+equals(QT_MAJOR_VERSION, 5) {
+  lessThan(QT_MINOR_VERSION, 15) {
+    error(Qt version required 5.15 <= ... < 6)
   }
+}
+# Qt >= 6.x
+greaterThan(QT_MAJOR_VERSION, 5) {
+  error(Qt version required 5.15 <= ... < 6)
 }
 
 DEFINES += QT_MAJOR_VERSION="$$QT_MAJOR_VERSION"
@@ -402,15 +406,13 @@ OTHER_FILES += \
 # sh script ($1 - path to project's directory):
 # git --git-dir $1/.git log --pretty=format:"#define GIT_REVISION \"%H\\0\" %n#define GIT_REVISION_ABBR \"%h\\0\" %n#define GIT_COMMIT_ADATE \"%ai\\0\" %n#define GIT_COMMIT_AT %at" -1 > $1/resources/revision.h
 win32 {
-  PERCENT = %%
+GIT_REV_CMD = $$PWD/update-revision-info.bat \"$$PWD\"
 }
 unix {
-  PERCENT = %
+GIT_REV_CMD = $$PWD/update-revision-info.sh \"$$PWD\"
 }
-NEWLINE = $${PERCENT}n
-VERSION_LOG_FORMAT = $${LITERAL_HASH}define GIT_REVISION \\\"$${PERCENT}H\\\"$${NEWLINE}$${LITERAL_HASH}define GIT_REVISION_ABBR \\\"$${PERCENT}h\\\"$${NEWLINE}$${LITERAL_HASH}define GIT_COMMIT_ADATE \\\"$${PERCENT}ai\\\"$${NEWLINE}$${LITERAL_HASH}define GIT_COMMIT_AT $${PERCENT}at$${NEWLINE}
 version.target = git_revision
-version.commands = git --git-dir $${PWD}/.git log --pretty=format:\"$${VERSION_LOG_FORMAT}\" -1 > $${PWD}/resources/revision.h
+version.commands = $$GIT_REV_CMD
 
 QMAKE_EXTRA_TARGETS += version
 PRE_TARGETDEPS += git_revision

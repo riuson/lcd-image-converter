@@ -12,6 +12,7 @@ $(start_block_header)
 * type: $(fnt_width_type)
 * encoding: $(fnt_encoding)
 * unicode bom: $(fnt_use_bom)
+* compacted: $(fnt_compacted)
 *
 * preset name: $(out_preset_name)
 * data block size: $(img_data_block_size) bit(s), uint$(img_data_block_size)_t
@@ -25,6 +26,7 @@ $(start_block_header)
 *  line scan direction: $(pre_scan_sub)
 *  inverse: $(pre_inverse)
 *******************************************************************************/
+#include <stdint.h>
 
 /*
  typedef struct {
@@ -36,6 +38,10 @@ $(start_block_header)
  typedef struct {
      long int code;
      const tImage *image;
+     const int image_left;
+     const int image_top;
+     const int char_width;
+     const int char_height;
      } tChar;
  typedef struct {
      int length;
@@ -43,17 +49,20 @@ $(start_block_header)
      } tFont;
 */
 
-#include <stdint.h>
+#define FIX_ZERO_LENGTH(length) (length==0?1:length)
 $(end_block_header)
 
 $(start_block_images_table)
 #if (0x0$(out_char_code_sim) == 0x0)
-static const uint$(img_data_block_size)_t image_data_$(doc_name_ws)_0x$(out_char_code)[$(out_blocks_count)] = {
+static const uint$(img_data_block_size)_t image_data_$(doc_name_ws)_0x$(out_char_code)[FIX_ZERO_LENGTH($(out_blocks_count))] = {
     $(out_image_preview)
     $(out_image_data)
+#if 0 == $(out_blocks_count)
+    0xff
+#endif
 };
 static const tImage $(doc_name_ws)_0x$(out_char_code) = { image_data_$(doc_name_ws)_0x$(out_char_code),
-    $(out_image_width), $(out_image_height), $(img_data_block_size)};
+    $(out_char_image_width), $(out_char_image_height), $(img_data_block_size)};
 #endif
 $(end_block_images_table)
 
@@ -61,10 +70,10 @@ static const tChar $(doc_name_ws)_array[] = {
 $(start_block_images_table)
 #if (0x0$(out_char_code_sim) == 0x0)
   // character: '$(out_char_text)'
-  {0x$(out_char_code), &$(doc_name_ws)_0x$(out_char_code)}$(out_comma)
+  {0x$(out_char_code), &$(doc_name_ws)_0x$(out_char_code), $(out_char_image_left), $(out_char_image_top), $(out_image_width), $(out_image_height) }$(out_comma)
 #else
   // character: '$(out_char_text)' == '$(out_char_text_sim)'
-  {0x$(out_char_code), &$(doc_name_ws)_0x$(out_char_code_sim)}$(out_comma)
+  {0x$(out_char_code), &$(doc_name_ws)_0x$(out_char_code_sim), $(out_char_image_left), $(out_char_image_top), $(out_image_width), $(out_image_height) }$(out_comma)
 #endif
 $(end_block_images_table)
 };
@@ -72,3 +81,5 @@ $(end_block_images_table)
 $(start_block_font_def)
 const tFont $(doc_name_ws) = { $(out_images_count), $(doc_name_ws)_array };
 $(end_block_font_def)
+
+#undef FIX_ZERO_LENGTH

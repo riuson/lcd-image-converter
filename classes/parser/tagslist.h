@@ -67,6 +67,7 @@ public:
     FontAntiAliasing,
     FontAscent,
     FontDescent,
+    FontCompacted,
 
     TemplateFilename,
 
@@ -79,6 +80,10 @@ public:
     OutputCharacterTextSimilar,
     OutputCharacterIndex,
     OutputCharacterOffset,
+    OutputCharacterImageLeft,
+    OutputCharacterImageTop,
+    OutputCharacterImageWidth,
+    OutputCharacterImageHeight,
     OutputImageData,
     OutputImagePreview,
     OutputImagesCount,

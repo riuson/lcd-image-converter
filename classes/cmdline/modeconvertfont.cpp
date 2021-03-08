@@ -356,7 +356,7 @@ QString ModeConvertFont::createCharsList(const QString &rangeStr,
 {
   QString result;
 
-  QStringList rangeListStr = rangeStr.split(QRegExp("[\\.\\-\\ ]"), QString::SkipEmptyParts);
+  QStringList rangeListStr = rangeStr.split(QRegExp("[\\.\\-\\ ]"), Qt::SplitBehaviorFlags::SkipEmptyParts);
 
   if (rangeListStr.size() == 2) {
     bool ok;

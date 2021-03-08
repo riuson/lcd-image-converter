@@ -137,7 +137,7 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
 void WidgetBitmapEditor::wheelEvent(QWheelEvent *event)
 {
   if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
-    QPoint point = event->globalPos();
+    QPoint point = event->globalPosition().toPoint();
     point = this->mapFromGlobal(point);
 
     QRect labelRect = this->ui->label->rect();
@@ -145,10 +145,10 @@ void WidgetBitmapEditor::wheelEvent(QWheelEvent *event)
     labelRect.moveTo(labelPoint);
 
     if (labelRect.contains(point.x(), point.y())) {
-      if (event->orientation() == Qt::Vertical) {
+      if (qAbs(event->angleDelta().x()) < qAbs(event->angleDelta().y())) {
         int scale = this->mScale;
 
-        if (event->delta() > 0) {
+        if (event->angleDelta().y() > 0) {
           scale++;
         } else {
           scale--;
