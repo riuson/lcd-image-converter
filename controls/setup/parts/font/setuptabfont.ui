@@ -110,7 +110,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="5" column="0" colspan="2">
     <widget class="QCheckBox" name="checkBoxCompactGlyphs">
      <property name="text">
       <string>Compact glyphs (encode rectangle of active pixels only)</string>
