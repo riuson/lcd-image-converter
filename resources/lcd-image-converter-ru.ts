@@ -188,41 +188,6 @@
 <context>
     <name>AppUI::Setup::DialogOptions</name>
     <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="186"/>
-        <source>Monochrome</source>
-        <translation>Монохромное</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="189"/>
-        <source>Grayscale 4</source>
-        <translation>Градации серого 4</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="192"/>
-        <source>Grayscale 8</source>
-        <translation>Градации серого 8</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="195"/>
-        <source>Color R4G5B4</source>
-        <translation>Цветное R4G5B4</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="198"/>
-        <source>Color R5G6B5</source>
-        <translation>Цветное R5G6B5</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="201"/>
-        <source>Color R8G8B8</source>
-        <translation>Цветное R8G8B8</translation>
-    </message>
-    <message>
-        <location filename="../controls/setup/dialogoptions.cpp" line="204"/>
-        <source>Color A8R8G8B8</source>
-        <translation>Цветное A8R8G8B8</translation>
-    </message>
-    <message>
         <location filename="../controls/setup/dialogoptions.cpp" line="218"/>
         <source>Import - Attention</source>
         <translation>Импорт - Внимание</translation>
