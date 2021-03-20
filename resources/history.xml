@@ -14,6 +14,7 @@
             <item category="added">Crop character's image to used pixels only.</item>
             <item category="fixed">Fix including QPainterPath header.</item>
             <item category="fixed">Don't translate default preset names.</item>
+            <item category="fixed">Using character code direct, when character cannot be presented with selected encoding.</item>
             <item category="changed">Minimal required Qt version 5.15.</item>
         </changes>
     </record>
