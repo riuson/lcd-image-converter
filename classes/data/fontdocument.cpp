@@ -874,6 +874,10 @@ bool FontDocument::hexCode(const QString &key, const QString &encoding, bool bom
     code |= (quint8)codeArray.at(i);
   }
 
+  if (!codec->canEncode(ch)) {
+    code = ch.unicode();
+  }
+
   if (encoding.contains("UTF-16")) {
     // reorder bytes
     quint64 a =
