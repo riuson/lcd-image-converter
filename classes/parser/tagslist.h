@@ -76,6 +76,8 @@ public:
     OutputBitsPerPixel,
     OutputCharacterCode,
     OutputCharacterText,
+    OutputCharacterCodeMin,
+    OutputCharacterCodeMax,
     OutputCharacterCodeSimilar,
     OutputCharacterTextSimilar,
     OutputCharacterIndex,
