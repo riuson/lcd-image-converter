@@ -441,34 +441,40 @@ void Parser::addImagesInfo(TagsList &tags, QMap<QString, ParsedImageData *> *ima
     ParsedImageData *data = images->value(key);
 
     if (data != nullptr) {
-      bool ok;
-      int width = data->tags()->tagValue(TagsList::Tag::OutputImageWidth).toInt(&ok);
-
-      if (ok) {
-        int height = data->tags()->tagValue(TagsList::Tag::OutputImageHeight).toInt(&ok);
-
-        if (ok) {
-          int blocksCount = data->tags()->tagValue(TagsList::Tag::OutputBlocksCount).toInt(&ok);
-
-          if (ok) {
-            if (width > maxWidth) {
-              maxWidth = width;
-            }
-
-            if (height > maxHeight) {
-              maxHeight = height;
-            }
-
-            if (blocksCount > maxBlocksCount) {
-              maxBlocksCount = blocksCount;
-            }
-          }
-        }
-      }
-
       // apply imageParticles to outputImageData
       data->tags()->setTagValue(TagsList::Tag::OutputImageData, data->outputImageDataWithEOL(tags));
       data->tags()->setTagValue(TagsList::Tag::OutputImagePreview, data->outputImagePreviewWithEOL(tags));
+
+      bool ok;
+      int width = data->tags()->tagValue(TagsList::Tag::OutputImageWidth).toInt(&ok);
+
+      if (!ok) {
+        continue;
+      }
+
+      int height = data->tags()->tagValue(TagsList::Tag::OutputImageHeight).toInt(&ok);
+
+      if (!ok) {
+        continue;
+      }
+
+      int blocksCount = data->tags()->tagValue(TagsList::Tag::OutputBlocksCount).toInt(&ok);
+
+      if (!ok) {
+        continue;
+      }
+
+      if (width > maxWidth) {
+        maxWidth = width;
+      }
+
+      if (height > maxHeight) {
+        maxHeight = height;
+      }
+
+      if (blocksCount > maxBlocksCount) {
+        maxBlocksCount = blocksCount;
+      }
     }
   }
 
