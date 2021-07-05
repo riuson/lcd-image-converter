@@ -786,7 +786,10 @@ void FontDocument::setMultiplicityHeight(const int value)
   }
 }
 
-void FontDocument::prepareImages(Settings::Presets::Preset *preset, const QStringList &orderedKeys, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const
+void FontDocument::prepareImages(Settings::Presets::Preset *preset,
+                                 const QStringList &orderedKeys,
+                                 QMap<QString, Parsing::ParsedImageData *> *images,
+                                 Parsing::TagsList &tags) const
 {
   DataContainer *data = this->dataContainer();
 
@@ -818,10 +821,11 @@ void FontDocument::prepareImages(Settings::Presets::Preset *preset, const QStrin
       Parsing::ParsedImageData *imageData = images->value(key);
 
       if (imageData != nullptr) {
-        QString charCode;
+        quint64 charCode;
+        QString charCodeStr;
 
-        if (this->hexCode(key, encoding, useBom, charCode) || !preset->font()->skipMissingCharacters()) {
-          imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterCode, charCode);
+        if (this->getCharCode(key, encoding, useBom, charCode, charCodeStr) || !preset->font()->skipMissingCharacters()) {
+          imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterCode, charCodeStr);
           imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterText, this->escapeUserCharacters(preset, key));
         }
       }
@@ -858,9 +862,52 @@ void FontDocument::prepareImages(Settings::Presets::Preset *preset, const QStrin
       }
     }
   }
+
+  // find min/max codes
+  {
+    quint64 charCodeMin = std::numeric_limits<quint64>::max();
+    quint64 charCodeMax = std::numeric_limits<quint64>::min();
+    QString charCodeMinStr = QString();
+    QString charCodeMaxStr = QString();
+    bool useBom = preset->font()->bom();
+    QString encoding = preset->font()->encoding();
+
+    QListIterator<QString> it(orderedKeys);
+    it.toFront();
+
+    while (it.hasNext()) {
+      QString key = it.next();
+
+      Parsing::ParsedImageData *imageData = images->value(key);
+
+      if (imageData != nullptr) {
+        quint64 charCode;
+        QString charCodeStr;
+
+        if (this->getCharCode(key, encoding, useBom, charCode, charCodeStr) || !preset->font()->skipMissingCharacters()) {
+          if (charCode < charCodeMin) {
+            charCodeMin = charCode;
+            charCodeMinStr = charCodeStr;
+          }
+
+          if (charCode > charCodeMax) {
+            charCodeMax = charCode;
+            charCodeMaxStr = charCodeStr;
+          }
+        }
+      }
+    }
+
+    tags.setTagValue(Parsing::TagsList::Tag::OutputCharacterCodeMin, QString("%1").arg(charCodeMinStr));
+    tags.setTagValue(Parsing::TagsList::Tag::OutputCharacterCodeMax, QString("%1").arg(charCodeMaxStr));
+  }
 }
 
-bool FontDocument::hexCode(const QString &key, const QString &encoding, bool bom, QString &resultCode) const
+bool FontDocument::getCharCode(const QString &key,
+                               const QString &encoding,
+                               bool bom,
+                               quint64 &resultCode,
+                               QString &resultCodeStr) const
 {
   QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
   QChar ch = key.at(0);
@@ -888,11 +935,11 @@ bool FontDocument::hexCode(const QString &key, const QString &encoding, bool bom
 
     if (bom) {
       // 0xfeff00c1
-      resultCode = QString("%1").arg(code, 8, 16, QChar('0'));
+      resultCodeStr = QString("%1").arg(code, 8, 16, QChar('0'));
     } else {
       // 0x00c1
       code &= 0x000000000000ffffULL;
-      resultCode = QString("%1").arg(code, 4, 16, QChar('0'));
+      resultCodeStr = QString("%1").arg(code, 4, 16, QChar('0'));
     }
   } else if (encoding.contains("UTF-32")) {
     // reorder bytes
@@ -906,15 +953,17 @@ bool FontDocument::hexCode(const QString &key, const QString &encoding, bool bom
 
     if (bom) {
       // 0x0000feff000000c1
-      resultCode = QString("%1").arg(code, 16, 16, QChar('0'));
+      resultCodeStr = QString("%1").arg(code, 16, 16, QChar('0'));
     } else {
       // 0x000000c1
       code &= 0x00000000ffffffffULL;
-      resultCode = QString("%1").arg(code, 8, 16, QChar('0'));
+      resultCodeStr = QString("%1").arg(code, 8, 16, QChar('0'));
     }
   } else {
-    resultCode = QString("%1").arg(code, codeArray.count() * 2, 16, QChar('0'));
+    resultCodeStr = QString("%1").arg(code, codeArray.count() * 2, 16, QChar('0'));
   }
+
+  resultCode = code;
 
   return codec->canEncode(ch);
 }
@@ -946,10 +995,11 @@ const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Se
 
   while (it.hasNext()) {
     const QString key = it.next();
-    QString hex;
+    quint64 charCode;
+    QString charCodeStr;
 
-    if (this->hexCode(key, encoding, useBom, hex) || !preset->font()->skipMissingCharacters()) {
-      map.insert(hex, key);
+    if (this->getCharCode(key, encoding, useBom, charCode, charCodeStr) || !preset->font()->skipMissingCharacters()) {
+      map.insert(charCodeStr, key);
     }
   }
 

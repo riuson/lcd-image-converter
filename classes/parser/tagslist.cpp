@@ -185,6 +185,8 @@ void TagsList::initTagsMap()
   this->mTagNameMap->insert("bpp",                   Tag::OutputBitsPerPixel);
   this->mTagNameMap->insert("out_char_code",         Tag::OutputCharacterCode);
   this->mTagNameMap->insert("charCode",              Tag::OutputCharacterCode);
+  this->mTagNameMap->insert("out_char_code_min",     Tag::OutputCharacterCodeMin);
+  this->mTagNameMap->insert("out_char_code_max",     Tag::OutputCharacterCodeMax);
   this->mTagNameMap->insert("out_char_code_sim",     Tag::OutputCharacterCodeSimilar);
   this->mTagNameMap->insert("out_char_text",         Tag::OutputCharacterText);
   this->mTagNameMap->insert("charText",              Tag::OutputCharacterText);
