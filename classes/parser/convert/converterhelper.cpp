@@ -510,11 +510,13 @@ void ConverterHelper::createImagePreview(Settings::Presets::Preset *preset, QIma
       }
 
       // apply mask
-      for (int x = 0; x < im.width(); x++) {
-        for (int y = 0; y < im.height(); y++) {
-          QRgb value = im.pixel(x, y);
-          value &= mask;
-          im.setPixel(x, y, value);
+      if (mask != 0xffffffff) {
+        for (int x = 0; x < im.width(); x++) {
+          for (int y = 0; y < im.height(); y++) {
+            QRgb value = im.pixel(x, y);
+            value &= mask;
+            im.setPixel(x, y, value);
+          }
         }
       }
     }
