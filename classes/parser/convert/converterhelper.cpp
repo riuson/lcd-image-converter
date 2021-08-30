@@ -79,14 +79,17 @@ void ConverterHelper::pixelsData(
 
         case Parsing::Conversion::Options::MonochromeType::DiffuseDither:
           im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::DiffuseDither);
+          im = im.convertToFormat(QImage::Format_ARGB32);
           break;
 
         case Parsing::Conversion::Options::MonochromeType::OrderedDither:
           im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::OrderedDither);
+          im = im.convertToFormat(QImage::Format_ARGB32);
           break;
 
         case Parsing::Conversion::Options::MonochromeType::ThresholdDither:
           im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::ThresholdDither);
+          im = im.convertToFormat(QImage::Format_ARGB32);
           break;
       }
     } else if (type == Parsing::Conversion::Options::ConversionType::Grayscale) {
@@ -419,14 +422,17 @@ void ConverterHelper::createImagePreview(Settings::Presets::Preset *preset, QIma
 
         case Parsing::Conversion::Options::MonochromeType::DiffuseDither:
           im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::DiffuseDither);
+          im = im.convertToFormat(QImage::Format_ARGB32);
           break;
 
         case Parsing::Conversion::Options::MonochromeType::OrderedDither:
           im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::OrderedDither);
+          im = im.convertToFormat(QImage::Format_ARGB32);
           break;
 
         case Parsing::Conversion::Options::MonochromeType::ThresholdDither:
           im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::ThresholdDither);
+          im = im.convertToFormat(QImage::Format_ARGB32);
           break;
       }
     } else if (preset->prepare()->convType() == Parsing::Conversion::Options::ConversionType::Grayscale) {
