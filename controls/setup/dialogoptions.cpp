@@ -331,7 +331,7 @@ void DialogOptions::on_comboBoxPresets_currentIndexChanged(int index)
 void DialogOptions::previewClosed()
 {
   if (this->mPreview != nullptr) {
-    delete this->mPreview;
+    this->mPreview->deleteLater();
     this->mPreview = nullptr;
   }
 }
