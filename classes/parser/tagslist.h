@@ -40,6 +40,7 @@ public:
     DocumentDataType,
     DocumentName,
     DocumentNameWithoutSpaces,
+    DocumentNameWithoutSpacesCaps,
     DocumentFilename,
 
     PrepareConversionType,

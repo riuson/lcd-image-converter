@@ -227,6 +227,7 @@ QString ImageDocument::convert(Settings::Presets::Preset *preset)
 
   tags.setTagValue(Parsing::TagsList::Tag::DocumentName, this->documentName());
   tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpacesCaps, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)).toUpper());
 
   tags.setTagValue(Parsing::TagsList::Tag::DocumentDataType, "image");
 
