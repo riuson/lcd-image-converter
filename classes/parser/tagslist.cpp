@@ -118,14 +118,15 @@ void TagsList::initTagsMap()
 {
   this->mTagNameMap = new QHash<QString, Tag>();
 
-  this->mTagNameMap->insert("doc_data_type",   Tag::DocumentDataType);
-  this->mTagNameMap->insert("dataType",        Tag::DocumentDataType);
-  this->mTagNameMap->insert("doc_name",        Tag::DocumentName);
-  this->mTagNameMap->insert("documentName",    Tag::DocumentName);
-  this->mTagNameMap->insert("doc_name_ws",     Tag::DocumentNameWithoutSpaces);
-  this->mTagNameMap->insert("documentName_ws", Tag::DocumentNameWithoutSpaces);
-  this->mTagNameMap->insert("doc_filename",    Tag::DocumentFilename);
-  this->mTagNameMap->insert("fileName",        Tag::DocumentFilename);
+  this->mTagNameMap->insert("doc_data_type",    Tag::DocumentDataType);
+  this->mTagNameMap->insert("dataType",         Tag::DocumentDataType);
+  this->mTagNameMap->insert("doc_name",         Tag::DocumentName);
+  this->mTagNameMap->insert("documentName",     Tag::DocumentName);
+  this->mTagNameMap->insert("doc_name_ws",      Tag::DocumentNameWithoutSpaces);
+  this->mTagNameMap->insert("documentName_ws",  Tag::DocumentNameWithoutSpaces);
+  this->mTagNameMap->insert("doc_name_ws_caps", Tag::DocumentNameWithoutSpacesCaps);
+  this->mTagNameMap->insert("doc_filename",     Tag::DocumentFilename);
+  this->mTagNameMap->insert("fileName",         Tag::DocumentFilename);
 
   this->mTagNameMap->insert("pre_conv_type",  Tag::PrepareConversionType);
   this->mTagNameMap->insert("convType",       Tag::PrepareConversionType);

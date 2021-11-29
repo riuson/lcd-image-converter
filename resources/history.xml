@@ -19,6 +19,7 @@
             <item category="fixed">Access to pixels of monochrome QImage.</item>
             <item category="fixed">Crash on preview dialog close.</item>
             <item category="changed">Minimal required Qt version 5.15.</item>
+            <item category="added">Added tag doc_name_ws_caps, with doc_name_ws converted to uppercase.</item>
         </changes>
     </record>
     <record>
