@@ -44,6 +44,7 @@ public:
   bool blockDefaultOnes() const;
   bool compressionRle() const;
   quint32 compressionRleMinLength() const;
+  quint32 blocksPerLine() const;
   QString blockPrefix() const;
   QString blockSuffix() const;
   QString blockDelimiter() const;
@@ -59,6 +60,7 @@ public:
   void setBlockDefaultOnes(bool value);
   void setCompressionRle(bool value);
   void setCompressionRleMinLength(quint32 value);
+  void setBlocksPerLine(quint32 value);
   void setBlockPrefix(const QString &value);
   void setBlockSuffix(const QString &value);
   void setBlockDelimiter(const QString &value);
@@ -83,6 +85,7 @@ private:
   static const QString FieldSplitToRows;
   static const QString FieldCompressionRle;
   static const QString FieldCompressionRleMinLength;
+  static const QString FieldBlocksPerLine;
   static const QString FieldBandWidth;
   static const QString FieldBlockPrefix;
   static const QString FieldBlockSuffix;
@@ -99,6 +102,7 @@ private:
   bool mBlockDefaultOnes;
   bool mCompressionRle;
   quint32 mCompressionRleMinLength;
+  quint32 mBlocksPerLine;
   QString mBlockPrefix;
   QString mBlockSuffix;
   QString mBlockDelimiter;

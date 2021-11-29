@@ -1851,44 +1851,49 @@ Only minimal amount (%3) will be imported.</source>
     </message>
     <message>
         <location filename="../controls/setup/parts/image/setuptabimage.ui" line="107"/>
+        <source>Blocks/code line:</source>
+        <translation>Блоков в строке:</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="123"/>
         <source>Byte order:</source>
         <translation>Порядок байт:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="172"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="188"/>
         <source>Data</source>
         <translation>Данные</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="184"/>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="282"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="200"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="298"/>
         <source>Prefix:</source>
         <translation>Префикс:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="200"/>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="298"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="216"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="314"/>
         <source>Suffix:</source>
         <translation>Суффикс:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="216"/>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="314"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="232"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="330"/>
         <source>Delimiter:</source>
         <translation>Разделитель:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="232"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="248"/>
         <source>Numeral system:</source>
         <translation>Система счисления:</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="270"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="286"/>
         <source>Preview</source>
         <translation>Предпросмотр</translation>
     </message>
     <message>
-        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="330"/>
+        <location filename="../controls/setup/parts/image/setuptabimage.ui" line="346"/>
         <source>Level&apos;s replacement:</source>
         <translation>Замена уровней:</translation>
     </message>

@@ -84,6 +84,8 @@ void SetupTabImage::matrixChanged()
   this->ui->checkBoxCompressionRle->setChecked(this->mPreset->image()->compressionRle());
   this->ui->spinBoxRleMinLength->setValue(this->mPreset->image()->compressionRleMinLength());
 
+  this->ui->spinBoxBlocksPerLine->setValue(this->mPreset->image()->blocksPerLine());
+
   this->ui->checkBoxBlockDefaultOnes->setChecked(this->mPreset->image()->blockDefaultOnes());
 
   this->ui->lineEditBlockPrefix->setText(this->mPreset->image()->blockPrefix());
@@ -135,6 +137,11 @@ void SetupTabImage::on_checkBoxCompressionRle_toggled(bool value)
 void SetupTabImage::on_spinBoxRleMinLength_valueChanged(int value)
 {
   this->mPreset->image()->setCompressionRleMinLength((quint32)value);
+}
+
+void SetupTabImage::on_spinBoxBlocksPerLine_valueChanged(int value)
+{
+  this->mPreset->image()->setBlocksPerLine((quint32)value);
 }
 
 void SetupTabImage::on_checkBoxBlockDefaultOnes_toggled(bool value)
