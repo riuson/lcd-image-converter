@@ -616,7 +616,12 @@ QString ConverterHelper::dataToString(
   QVector<quint32> *data, int width, int height)
 {
   QString result, converted;
-  const int blockPerLine = 8;
+
+  int blockPerLine = width;
+
+  if (preset->image()->blocksPerLine() > 0) {
+    blockPerLine = preset->image()->blocksPerLine();
+  }
 
   Settings::Presets::DataBlockSize blockSize = preset->image()->blockSize();
   QString prefix = preset->image()->blockPrefix();
