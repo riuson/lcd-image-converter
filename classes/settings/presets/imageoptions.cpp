@@ -35,6 +35,7 @@ const QString ImageOptions::FieldBlockDefaultOnes = QString("blockDefaultOnes");
 const QString ImageOptions::FieldSplitToRows = QString("splitToRows");
 const QString ImageOptions::FieldCompressionRle = QString("compressionRle");
 const QString ImageOptions::FieldCompressionRleMinLength = QString("compressionRleMinLength");
+const QString ImageOptions::FieldBlocksPerLine = QString("blocksPerLine");
 const QString ImageOptions::FieldBandWidth = QString("bandWidth");
 const QString ImageOptions::FieldBlockPrefix = QString("blockPrefix");
 const QString ImageOptions::FieldBlockSuffix = QString("blockSuffix");
@@ -54,6 +55,7 @@ ImageOptions::ImageOptions(QObject *parent) :
   this->mBlockDefaultOnes = false;
   this->mCompressionRle = false;
   this->mCompressionRleMinLength = 2;
+  this->mBlocksPerLine = 8;
   this->mBlockPrefix = "0x";
   this->mBlockSuffix = "";
   this->mBlockDelimiter = ", ";
@@ -96,6 +98,11 @@ bool ImageOptions::compressionRle() const
 quint32 ImageOptions::compressionRleMinLength() const
 {
   return this->mCompressionRleMinLength;
+}
+
+quint32 ImageOptions::blocksPerLine() const
+{
+  return this->mBlocksPerLine;
 }
 
 QString ImageOptions::blockPrefix() const
@@ -194,6 +201,14 @@ void ImageOptions::setCompressionRleMinLength(quint32 value)
   }
 }
 
+void ImageOptions::setBlocksPerLine(quint32 value)
+{
+  if (this->mBlocksPerLine != value) {
+    this->mBlocksPerLine = value;
+    emit this->changed();
+  }
+}
+
 void ImageOptions::setBlockPrefix(const QString &value)
 {
   if (this->mBlockPrefix != value) {
@@ -265,7 +280,7 @@ bool ImageOptions::load(QSettings *settings)
   settings->beginGroup(ImageOptions::GroupName);
 
   quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0, uNumeralSystem = 16;
-  quint32 uCompressionRle = 0, uCompressionRleMinLength = 2;
+  quint32 uCompressionRle = 0, uCompressionRleMinLength = 2, uBlocksPerLine = 8;
   QString sBlockPrefix, sBlockSuffix, sBlockDelimiter;
   QString sPreviewPrefix, sPreviewSuffix, sPreviewDelimiter, sPreviewLevels;
 
@@ -285,6 +300,10 @@ bool ImageOptions::load(QSettings *settings)
 
   if (result) {
     uCompressionRleMinLength = settings->value(ImageOptions::FieldCompressionRleMinLength, int(2)).toUInt(&result);
+  }
+
+  if (result) {
+    uBlocksPerLine = settings->value(ImageOptions::FieldBlocksPerLine, int(8)).toUInt(&result);
   }
 
   if (result) {
@@ -320,6 +339,7 @@ bool ImageOptions::load(QSettings *settings)
     this->setSplitToRows((bool)uSplitToRows);
     this->setCompressionRle((bool)uCompressionRle);
     this->setCompressionRleMinLength(uCompressionRleMinLength);
+    this->setBlocksPerLine(uBlocksPerLine);
     this->setBlockPrefix(sBlockPrefix);
     this->setBlockSuffix(sBlockSuffix);
     this->setBlockDelimiter(sBlockDelimiter);
@@ -372,7 +392,7 @@ bool ImageOptions::loadXmlElement(QDomElement element)
   }
 
   quint32 uBytesOrder = 0, uBlockSize = 0, uBlockDefaultOnes = 0, uSplitToRows = 0, uNumeralSystem = 16;
-  quint32 uCompressionRle = 0, uCompressionRleMinLength = 2;
+  quint32 uCompressionRle = 0, uCompressionRleMinLength = 2, uBlocksPerLine = 8;
   QString sBlockPrefix = "0x", sBlockSuffix, sBlockDelimiter = ", ";
   QString sPreviewPrefix, sPreviewSuffix, sPreviewDelimiter, sPreviewLevels;
 
@@ -405,6 +425,11 @@ bool ImageOptions::loadXmlElement(QDomElement element)
       if (e.tagName() == ImageOptions::FieldCompressionRleMinLength) {
         QString str = e.text();
         uCompressionRleMinLength = str.toUInt(&result);
+      }
+
+      if (e.tagName() == ImageOptions::FieldBlocksPerLine) {
+        QString str = e.text();
+        uBlocksPerLine = str.toUInt(&result);
       }
 
       if (e.tagName() == ImageOptions::FieldBlockDefaultOnes) {
@@ -440,6 +465,7 @@ bool ImageOptions::loadXmlElement(QDomElement element)
     this->setSplitToRows((bool)uSplitToRows);
     this->setCompressionRle((bool)uCompressionRle);
     this->setCompressionRleMinLength(uCompressionRleMinLength);
+    this->setBlocksPerLine(uBlocksPerLine);
     this->setBlockPrefix(sBlockPrefix);
     this->setBlockSuffix(sBlockSuffix);
     this->setBlockDelimiter(sBlockDelimiter);
@@ -463,6 +489,7 @@ void ImageOptions::save(QSettings *settings)
   settings->setValue(ImageOptions::FieldSplitToRows,      QString("%1").arg((int)this->splitToRows()));
   settings->setValue(ImageOptions::FieldCompressionRle,   QString("%1").arg((int)this->compressionRle()));
   settings->setValue(ImageOptions::FieldCompressionRleMinLength,   QString("%1").arg((int)this->compressionRleMinLength()));
+  settings->setValue(ImageOptions::FieldBlocksPerLine,    QString("%1").arg((int)this->blocksPerLine()));
   settings->setValue(ImageOptions::FieldBlockPrefix,      this->escapeEmpty(this->blockPrefix()));
   settings->setValue(ImageOptions::FieldBlockSuffix,      this->escapeEmpty(this->blockSuffix()));
   settings->setValue(ImageOptions::FieldBlockDelimiter,   this->escapeEmpty(this->blockDelimiter()));
@@ -503,6 +530,10 @@ void ImageOptions::saveXmlElement(QDomElement element)
   QDomElement nodeCompressionRleMinLength = element.ownerDocument().createElement(ImageOptions::FieldCompressionRleMinLength);
   nodeImage.appendChild(nodeCompressionRleMinLength);
   nodeCompressionRleMinLength.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->compressionRleMinLength())));
+
+  QDomElement nodeBlocksPerLine = element.ownerDocument().createElement(ImageOptions::FieldBlocksPerLine);
+  nodeImage.appendChild(nodeBlocksPerLine);
+  nodeBlocksPerLine.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->blocksPerLine())));
 
   QDomElement nodeBlockPrefix = element.ownerDocument().createElement(ImageOptions::FieldBlockPrefix);
   nodeImage.appendChild(nodeBlockPrefix);

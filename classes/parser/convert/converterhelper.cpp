@@ -617,53 +617,29 @@ QString ConverterHelper::dataToString(
 {
   QString result, converted;
 
+  int blockPerLine = width;
+
+  if (preset->image()->blocksPerLine() > 0) {
+    blockPerLine = preset->image()->blocksPerLine();
+  }
+
   Settings::Presets::DataBlockSize blockSize = preset->image()->blockSize();
   QString prefix = preset->image()->blockPrefix();
   QString suffix = preset->image()->blockSuffix();
   QString delimiter = preset->image()->blockDelimiter();
   Settings::Presets::DataNumeralSystem numeralSystem = preset->image()->numeralSystem();
 
-  if (preset->image()->splitToRows()) {
-    bool completed = false;
-
-    for (int y = 0; y < height && !completed; y++) {
-      if (y > 0) {
-        result.append("\n");
-      }
-
-      for (int x = 0; x < width && !completed; x++) {
-        // control index limits for compressed data
-        int index = y * width + x;
-
-        if (index >= data->size()) {
-          completed = true;
-          break;
-        }
-
-        quint32 value = data->at(index);
-        converted = uint2string(numeralSystem, blockSize, value);
-        result += prefix + converted + suffix + delimiter;
-      }
+  for (auto i = 0; i < data->size(); i++) {
+    if ((i > 0) && ((i % blockPerLine) == 0)) {
+      result.append("\n");
     }
 
-    result.truncate(result.length() - delimiter.length());
-  } else {
-    bool completed = false;
-
-    for (int i = 0; i < width && !completed; i++) {
-      // control index limits for compressed data
-      if (i >= data->size()) {
-        completed = true;
-        break;
-      }
-
-      quint32 value = data->at(i);
-      converted = uint2string(numeralSystem, blockSize, value);
-      result += prefix + converted + suffix + delimiter;
-    }
-
-    result.truncate(result.length() - delimiter.length());
+    quint32 value = data->at(i);
+    converted = uint2string(numeralSystem, blockSize, value);
+    result += prefix + converted + suffix + delimiter;
   }
+
+  result.truncate(result.length() - delimiter.length());
 
   return result;
 }
