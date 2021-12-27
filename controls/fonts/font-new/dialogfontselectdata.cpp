@@ -142,21 +142,27 @@ void DialogFontSelectData::notifyFontChanged()
   emit this->fontChanged(font);
 
   // find max size
-  QFontMetrics metrics(font);
-  int width = 0, height = 0;
   QString chars = this->characters();
+  QFontMetrics metrics(font);
+  int maxCharWidth = 0, maxCharHeight = 0;
+  int maxGlyphWidth = 0, maxGlyphHeight = 0;
 
   for (int i = 0; i < chars.count(); i++) {
-    QSize sz = Parsing::Conversion::FontHelper::getCharacterSize(metrics, chars.at(i));
-    width = qMax(width, sz.width());
-    height = qMax(height, sz.height());
+    QSize charSize = Parsing::Conversion::FontHelper::getCharacterSize(metrics, chars.at(i));
+    QSize glyphSize = Parsing::Conversion::FontHelper::getGlyphSize(metrics, chars.at(i));
+    maxCharWidth = qMax(maxCharWidth, charSize.width());
+    maxCharHeight = qMax(maxCharHeight, charSize.height());
+    maxGlyphWidth = qMax(maxGlyphWidth, glyphSize.width());
+    maxGlyphHeight = qMax(maxGlyphHeight, glyphSize.height());
   }
 
   // Round size to multiplicity
-  width = Parsing::Conversion::FontHelper::roundUp(width, this->mMultiplicityWidth);
-  height = Parsing::Conversion::FontHelper::roundUp(height, this->mMultiplicityHeight);
+  maxCharWidth = Parsing::Conversion::FontHelper::roundUp(maxCharWidth, this->mMultiplicityWidth);
+  maxCharHeight = Parsing::Conversion::FontHelper::roundUp(maxCharHeight, this->mMultiplicityHeight);
+  auto maxCharSize = QSize(maxCharWidth, maxCharHeight);
+  auto maxGlyphSize = QSize(maxGlyphWidth, maxGlyphHeight);
 
-  emit this->fontMeasured(chars.count(), width, height);
+  emit this->fontMeasured(chars.count(), maxCharSize, maxGlyphSize);
 }
 
 void DialogFontSelectData::setFont(const QFont &font)

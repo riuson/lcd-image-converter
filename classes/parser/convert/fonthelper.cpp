@@ -133,6 +133,26 @@ QSize FontHelper::getCharacterSize(const QFontMetrics &metrics, QChar value)
   return QSize(charWidth, charHeight);
 }
 
+QSize FontHelper::getGlyphSize(const QFontMetrics &metrics, QChar value)
+{
+  int charWidth = metrics.horizontalAdvance(value);
+
+  // fix width of italic style
+  QRect r = metrics.boundingRect(value);
+  charWidth = qMax(qMax(r.left(), r.right()) + 1, charWidth);
+
+  int charHeight = r.height();
+
+  // check for abnormal size
+  if ((charWidth > charHeight * 100) || (charWidth == 0)) {
+    if (value.isNull() || !value.isPrint()) {
+      charWidth = 1;
+    }
+  }
+
+  return QSize(charWidth, charHeight);
+}
+
 QImage FontHelper::drawCharacter(
   const QChar value,
   const QFont &font,
