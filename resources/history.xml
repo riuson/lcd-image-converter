@@ -13,7 +13,8 @@
             <item category="added">Added tag out_char_offset for offset of character's data in font table.</item>
             <item category="added">Crop character's image to used pixels only.</item>
             <item category="added">Added tags out_char_code_min and out_char_code_max.</item>
-            <item category="added">Added tag doc_name_ws_caps, with doc_name_ws converted to uppercase.</item>
+            <item category="added">Added tag doc_name_ws_uc, with doc_name_ws converted to uppercase.</item>
+            <item category="added">Added tag doc_name_ws_lc, with doc_name_ws converted to uppercase.</item>
             <item category="added">Added glyph's size calculation for new font.</item>
             <item category="changed">Minimal required Qt version 5.15.</item>
             <item category="changed">Number of blocks per code line is configured by user.</item>

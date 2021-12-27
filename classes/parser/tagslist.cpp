@@ -124,7 +124,8 @@ void TagsList::initTagsMap()
   this->mTagNameMap->insert("documentName",     Tag::DocumentName);
   this->mTagNameMap->insert("doc_name_ws",      Tag::DocumentNameWithoutSpaces);
   this->mTagNameMap->insert("documentName_ws",  Tag::DocumentNameWithoutSpaces);
-  this->mTagNameMap->insert("doc_name_ws_caps", Tag::DocumentNameWithoutSpacesCaps);
+  this->mTagNameMap->insert("doc_name_ws_uc",   Tag::DocumentNameWithoutSpacesUpperCase);
+  this->mTagNameMap->insert("doc_name_ws_lc",   Tag::DocumentNameWithoutSpacesLowerCase);
   this->mTagNameMap->insert("doc_filename",     Tag::DocumentFilename);
   this->mTagNameMap->insert("fileName",         Tag::DocumentFilename);
 
