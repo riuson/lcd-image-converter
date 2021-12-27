@@ -22,22 +22,23 @@
 <context>
     <name>AppUI::Fonts::DialogFontSelect</name>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="397"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="398"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="399"/>
         <source>Max size (w × h): %1 × %2</source>
         <translation>Макс размер (w × h): %1 × %2</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="398"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="397"/>
         <source>Count: %1</source>
         <translation>Количество: %1</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="406"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="407"/>
         <source>Fore Color: %1</source>
         <translation>Цвет переднего плана: %1</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="411"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="412"/>
         <source>Back Color: %1</source>
         <translation>Цвет заднего плана: %1</translation>
     </message>
@@ -1058,6 +1059,16 @@ Qt: %4</translation>
         <translation>Цвет переднего плана</translation>
     </message>
     <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="401"/>
+        <source>Max char size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="408"/>
+        <source>Max glyph size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="298"/>
         <source>Back Color</source>
         <translation>Цвет заднего плана</translation>
@@ -1104,9 +1115,8 @@ Qt: %4</translation>
         <translation>Количество</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="401"/>
         <source>Max size</source>
-        <translation>Макс. размер</translation>
+        <translation type="vanished">Макс. размер</translation>
     </message>
 </context>
 <context>

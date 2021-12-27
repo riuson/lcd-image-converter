@@ -79,7 +79,7 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
 
   // Apply changed font to character's table
   this->connect(this->mData, SIGNAL(fontChanged(QFont)), SLOT(on_fontChanged(QFont)));
-  this->connect(this->mData, SIGNAL(fontMeasured(int, int, int)), SLOT(on_fontMeasured(int, int, int)));
+  this->connect(this->mData, SIGNAL(fontMeasured(int, QSize, QSize)), SLOT(on_fontMeasured(int, QSize, QSize)));
 
   // Checkbox/RadioButton
   this->connect(this->ui->radioButtonMonospaced, SIGNAL(toggled(bool)), this->mData, SLOT(setMonospaced(bool)));
@@ -392,10 +392,11 @@ void DialogFontSelect::on_monospacedChanged(bool value)
   this->ui->radioButtonProportional->setChecked(!value);
 }
 
-void DialogFontSelect::on_fontMeasured(int count, int maxWidth, int maxHeight)
+void DialogFontSelect::on_fontMeasured(int count, const QSize &maxCharSize, const QSize &maxGlyphSize)
 {
-  this->ui->labelCharactersMaxSize->setText(tr("Max size (w × h): %1 × %2").arg(maxWidth).arg(maxHeight));
   this->ui->labelCharactersCount->setText(tr("Count: %1").arg(count));
+  this->ui->labelCharactersMaxCharSize->setText(tr("Max size (w × h): %1 × %2").arg(maxCharSize.width()).arg(maxCharSize.height()));
+  this->ui->labelCharactersMaxGlyphSize->setText(tr("Max size (w × h): %1 × %2").arg(maxGlyphSize.width()).arg(maxGlyphSize.height()));
 }
 
 void DialogFontSelect::updateColorIcons(const QColor &foreground, const QColor &background)

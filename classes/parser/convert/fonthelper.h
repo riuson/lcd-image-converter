@@ -44,6 +44,7 @@ public:
   static QString escapeControlChars(const QString &value);
   static QString unescapeControlChars(const QString &value);
   static QSize getCharacterSize(const QFontMetrics &metrics, QChar value);
+  static QSize getGlyphSize(const QFontMetrics &metrics, QChar value);
   static QImage drawCharacter(
     const QChar value,
     const QFont &font,

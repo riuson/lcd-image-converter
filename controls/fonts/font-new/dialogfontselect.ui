@@ -30,15 +30,15 @@
      </property>
      <widget class="QToolBox" name="toolBox">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="pageSourceFont">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>289</width>
-         <height>239</height>
+         <width>308</width>
+         <height>229</height>
         </rect>
        </property>
        <attribute name="label">
@@ -103,8 +103,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>289</width>
-         <height>239</height>
+         <width>308</width>
+         <height>229</height>
         </rect>
        </property>
        <attribute name="label">
@@ -175,8 +175,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>289</width>
-         <height>239</height>
+         <width>308</width>
+         <height>229</height>
         </rect>
        </property>
        <attribute name="label">
@@ -396,9 +396,16 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="labelCharactersMaxSize">
+      <widget class="QLabel" name="labelCharactersMaxCharSize">
        <property name="text">
-        <string>Max size</string>
+        <string>Max char size</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelCharactersMaxGlyphSize">
+       <property name="text">
+        <string>Max glyph size</string>
        </property>
       </widget>
      </item>

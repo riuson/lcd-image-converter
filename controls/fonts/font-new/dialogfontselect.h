@@ -86,7 +86,7 @@ private slots:
   void on_charactersListChanged(const QString &value);
   void on_fontChanged(const QFont &value);
   void on_monospacedChanged(bool value);
-  void on_fontMeasured(int count, int maxWidth, int maxHeight);
+  void on_fontMeasured(int count, const QSize &maxCharSize, const QSize &maxGlyphSize);
   void updateColorIcons(const QColor &foreground, const QColor &background);
   void on_multiplicityChanged(int height, int width);
 };
