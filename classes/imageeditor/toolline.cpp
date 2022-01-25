@@ -19,6 +19,7 @@
 
 #include "toolline.h"
 #include <QPainter>
+#include <QPainterPath>
 #include <QList>
 #include <QAction>
 #include <QWidget>
