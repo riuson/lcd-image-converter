@@ -217,7 +217,7 @@ bool FontDocument::load(const QString &fileName)
 
         QFontDatabase fonts;
         QFont font = fonts.font(fontFamily, style, size);
-        font.setPixelSize(size);
+        font.setPointSize(size);
         this->setUsedFont(font);
 
         this->setUsedStyle(style);
@@ -575,7 +575,7 @@ void FontDocument::setFontCharacters(const QString &chars,
 
   // create font with specified parameters
   QFont fontNew = fonts.font(parameters.family, parameters.style, parameters.size);
-  fontNew.setPixelSize(parameters.size);
+  fontNew.setPointSize(parameters.size);
 
   if (parameters.antiAliasing) {
     fontNew.setStyleStrategy(QFont::PreferAntialias);
