@@ -228,7 +228,21 @@ bool FontDocument::load(const QString &fileName)
 
         QFontDatabase fonts;
         QFont font = fonts.font(fontFamily, style, size);
-        font.setPointSize(size);
+
+        switch (sizeUnits) {
+          default:
+          case Data::FontSizeUnits::Pixels: {
+            font.setPixelSize(size);
+            break;
+          }
+
+          case Data::FontSizeUnits::Points: {
+            font.setPointSize(size);
+            break;
+          }
+        }
+
+        this->setSizeUnits(sizeUnits);
         this->setUsedFont(font);
 
         this->setUsedStyle(style);
