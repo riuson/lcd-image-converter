@@ -29,6 +29,8 @@ class QFont;
 
 namespace Data
 {
+enum class FontSizeUnits;
+
 namespace Containers
 {
 struct FontParameters;
@@ -64,6 +66,8 @@ public:
   void setForeground(const QColor &value);
   const QColor &background() const;
   void setBackground(const QColor &value);
+
+  Data::FontSizeUnits sizeUnits() const;
 private:
   CharactersModel *mModel;
   UnicodeBlocksModel *mBlocksModel;
@@ -73,6 +77,7 @@ private:
   QString mFontFamily;
   QString mFontStyle;
   int mSize;
+  Data::FontSizeUnits mSizeUnits;
   bool mMonospaced;
   bool mAntialiasing;
   QColor mForeground;
@@ -88,6 +93,7 @@ signals:
   void sizesListChanged(const QList<int> &list, int selected);
   void charactersListChanged(const QString &value);
   void fontChanged(const QFont &value);
+  void sizeUnitsChanged(Data::FontSizeUnits sizeUnits);
   void fontMeasured(int count, const QSize &maxCharSize, const QSize &maxGlyphSize);
   void monospacedChanged(bool value);
   void antialiasingChanged(bool value);
@@ -98,6 +104,7 @@ public slots:
   void setFont(const QFont &font);
   void setStyle(const QString &style);
   void setSize(const QString &text);
+  void setSizeUnits(const Data::FontSizeUnits sizeUnits);
   void setUnicodeBlocksFilter(const QString &text);
   void setUnicodeRange(const QItemSelection &selected, const QItemSelection &deselected);
   void setMonospaced(bool value);

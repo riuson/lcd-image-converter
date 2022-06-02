@@ -30,6 +30,7 @@
 #include "fonteditoroptions.h"
 #include "fontparameters.h"
 #include "bitmaphelper.h"
+#include "fontsizeunits.h"
 
 namespace AppUI
 {
@@ -79,6 +80,7 @@ void DialogFontSelectData::getFontParameters(Data::Containers::FontParameters *p
   parameters->family = this->mFontFamily;
   parameters->style = this->mFontStyle;
   parameters->size = this->mSize;
+  parameters->sizeUnits = this->mSizeUnits;
   parameters->monospaced = this->mMonospaced;
   parameters->antiAliasing = this->mAntialiasing;
   parameters->foreground = this->mForeground;
@@ -108,6 +110,7 @@ void DialogFontSelectData::setFontParameters(const Data::Containers::FontParamet
   this->mFontFamily = parameters.family;
   this->mFontStyle = parameters.style;
   this->mSize = parameters.size;
+  this->mSizeUnits = parameters.sizeUnits;
 
   this->mAntialiasing = parameters.antiAliasing;
   this->mForeground = parameters.foreground;
@@ -122,6 +125,7 @@ void DialogFontSelectData::setFontParameters(const Data::Containers::FontParamet
   emit this->monospacedChanged(this->mMonospaced);
   emit this->colorsChanged(this->mForeground, this->mBackground);
   emit this->multiplicityChanged(this->mMultiplicityHeight, this->mMultiplicityWidth);
+  emit this->sizeUnitsChanged(this->mSizeUnits);
 }
 
 CharactersModel *DialogFontSelectData::charactersModel()
@@ -138,7 +142,19 @@ void DialogFontSelectData::notifyFontChanged()
 {
   QFontDatabase fonts;
   QFont font = fonts.font(this->mFontFamily, this->mFontStyle, this->mSize);
-  font.setPointSize(this->mSize);
+
+  switch (this->mSizeUnits) {
+    case Data::FontSizeUnits::Pixels: {
+      font.setPixelSize(this->mSize);
+      break;
+    }
+
+    case Data::FontSizeUnits::Points: {
+      font.setPointSize(this->mSize);
+      break;
+    }
+  }
+
   emit this->fontChanged(font);
 
   // find max size
@@ -209,7 +225,17 @@ void DialogFontSelectData::setSize(const QString &text)
   }
 
   this->notifyFontChanged();
-  this->notifyFontChanged();
+}
+
+void DialogFontSelectData::setSizeUnits(const Data::FontSizeUnits sizeUnits)
+{
+  bool changed = this->mSizeUnits != sizeUnits;
+  this->mSizeUnits = sizeUnits;
+
+  if (changed) {
+    this->notifyFontChanged();
+    emit this->sizeUnitsChanged(sizeUnits);
+  }
 }
 
 void DialogFontSelectData::setUnicodeBlocksFilter(const QString &text)
@@ -268,6 +294,11 @@ void DialogFontSelectData::setBackground(const QColor &value)
 {
   this->mBackground = value;
   emit this->colorsChanged(this->mForeground, this->mBackground);
+}
+
+Data::FontSizeUnits DialogFontSelectData::sizeUnits() const
+{
+  return this->mSizeUnits;
 }
 
 void DialogFontSelectData::setMonospaced(bool value)

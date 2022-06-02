@@ -31,6 +31,8 @@ class QItemSelection;
 
 namespace Data
 {
+enum class FontSizeUnits;
+
 namespace Containers
 {
 struct FontParameters;
@@ -83,6 +85,8 @@ private slots:
 
   void on_stylesListChanged(const QStringList &list, const QString &selected);
   void on_sizesListChanged(const QList<int> &list, int selected);
+  void comboBoxSizeUnits_currentIndexChanged(int index);
+  void on_sizeUnitsChanged(Data::FontSizeUnits sizeUnits);
   void on_charactersListChanged(const QString &value);
   void on_fontChanged(const QFont &value);
   void on_monospacedChanged(bool value);
