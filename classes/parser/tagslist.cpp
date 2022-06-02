@@ -164,6 +164,7 @@ void TagsList::initTagsMap()
   this->mTagNameMap->insert("fontFamily",       Tag::FontFamily);
   this->mTagNameMap->insert("fnt_size",         Tag::FontSize);
   this->mTagNameMap->insert("fontSize",         Tag::FontSize);
+  this->mTagNameMap->insert("fnt_size_units",   Tag::FontSizeUnits);
   this->mTagNameMap->insert("fnt_style",        Tag::FontStyle);
   this->mTagNameMap->insert("fontStyle",        Tag::FontStyle);
   this->mTagNameMap->insert("fnt_string",       Tag::FontString);

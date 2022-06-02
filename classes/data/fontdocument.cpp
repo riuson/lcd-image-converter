@@ -479,6 +479,7 @@ QString FontDocument::convert(Settings::Presets::Preset *preset)
   tags.setTagValue(Parsing::TagsList::Tag::DocumentDataType, "font");
   tags.setTagValue(Parsing::TagsList::Tag::FontFamily, parameters.family);
   tags.setTagValue(Parsing::TagsList::Tag::FontSize, QString("%1").arg(parameters.size));
+  tags.setTagValue(Parsing::TagsList::Tag::FontSizeUnits, parameters.sizeUnits == Data::FontSizeUnits::Points ? "pt" : "px");
   tags.setTagValue(Parsing::TagsList::Tag::FontStyle, parameters.style);
   tags.setTagValue(Parsing::TagsList::Tag::FontString, Parsing::Conversion::FontHelper::escapeControlChars(chars));
   tags.setTagValue(Parsing::TagsList::Tag::FontAntiAliasing, parameters.antiAliasing ? "yes" : "no");
