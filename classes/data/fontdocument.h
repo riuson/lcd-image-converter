@@ -43,6 +43,8 @@ class TagsList;
 
 namespace Data
 {
+enum class FontSizeUnits;
+
 namespace Containers
 {
 
@@ -115,6 +117,9 @@ private:
 
   int multiplicityHeight() const;
   void setMultiplicityHeight(const int value);
+
+  FontSizeUnits sizeUnits() const;
+  void setSizeUnits(const FontSizeUnits sizeUnits);
 
   void prepareImages(Settings::Presets::Preset *preset,
                      const QStringList &orderedKeys,

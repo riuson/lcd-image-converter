@@ -42,6 +42,7 @@
 #include "parsedimagedata.h"
 #include "fontoptions.h"
 #include "bitmaphelper.h"
+#include "fontsizeunits.h"
 
 namespace Data
 {
@@ -102,6 +103,7 @@ bool FontDocument::load(const QString &fileName)
         QColor foreground = Settings::FontEditorOptions::foreColor();
         QColor background = Settings::FontEditorOptions::backColor();
         int multiplicityWidth = 1, multiplicityHeight = 1;
+        FontSizeUnits sizeUnits = FontSizeUnits::Pixels;
 
         QDomNode n = root.firstChild();
 
@@ -179,6 +181,15 @@ bool FontDocument::load(const QString &fileName)
 
               if (ok) {
                 multiplicityHeight = a;
+              } else {
+                result = false;
+              }
+            } else if (e.tagName() == "sizeUnits") {
+              bool ok;
+              int a = e.text().toInt(&ok);
+
+              if (ok && ((a == (int)FontSizeUnits::Pixels) || (a == (int)FontSizeUnits::Points))) {
+                sizeUnits = (FontSizeUnits)a;
               } else {
                 result = false;
               }
@@ -274,6 +285,11 @@ bool FontDocument::save(const QString &fileName)
   QDomElement nodeSize = doc.createElement("size");
   nodeRoot.appendChild(nodeSize);
   nodeSize.appendChild(doc.createTextNode(QString("%1").arg(parameters.size)));
+
+  // sizeUnits
+  QDomElement nodeSizeUnits = doc.createElement("sizeUnits");
+  nodeRoot.appendChild(nodeSizeUnits);
+  nodeSizeUnits.appendChild(doc.createTextNode(QString("%1").arg((int)parameters.sizeUnits)));
 
   // ascent
   QDomElement nodeAscent = doc.createElement("ascent");
@@ -525,7 +541,21 @@ void FontDocument::fontCharacters(QString *chars,
   QStringList charList(this->mContainer->keys());
   *chars = charList.join("");
   parameters->family = this->usedFont().family();
-  parameters->size = this->usedFont().pixelSize();
+  parameters->sizeUnits = this->sizeUnits();
+
+  switch (this->sizeUnits()) {
+    default:
+    case FontSizeUnits::Pixels: {
+      parameters->size = this->usedFont().pixelSize();
+      break;
+    }
+
+    case FontSizeUnits::Points: {
+      parameters->size = this->usedFont().pointSize();
+      break;
+    }
+  }
+
   parameters->style = this->usedStyle();
   parameters->monospaced = this->monospaced();
   parameters->antiAliasing = this->antialiasing();
@@ -549,7 +579,9 @@ void FontDocument::setFontCharacters(const QString &chars,
   if (this->mContainer->count() > 1) {
     if (this->usedFont().family() != parameters.family ||
         this->usedStyle() != parameters.style ||
-        this->usedFont().pixelSize() != parameters.size ||
+        this->sizeUnits() != parameters.sizeUnits ||
+        ((parameters.sizeUnits == FontSizeUnits::Pixels) && (this->usedFont().pixelSize() != parameters.size)) ||
+        ((parameters.sizeUnits == FontSizeUnits::Points) && (this->usedFont().pointSize() != parameters.size)) ||
         this->monospaced() != parameters.monospaced ||
         this->antialiasing() != parameters.antiAliasing ||
         this->foreground() != parameters.foreground ||
@@ -575,7 +607,19 @@ void FontDocument::setFontCharacters(const QString &chars,
 
   // create font with specified parameters
   QFont fontNew = fonts.font(parameters.family, parameters.style, parameters.size);
-  fontNew.setPointSize(parameters.size);
+
+  switch (parameters.sizeUnits) {
+    case FontSizeUnits::Points: {
+      fontNew.setPointSize(parameters.size);
+      break;
+    }
+
+    default:
+    case FontSizeUnits::Pixels: {
+      fontNew.setPixelSize(parameters.size);
+      break;
+    }
+  }
 
   if (parameters.antiAliasing) {
     fontNew.setStyleStrategy(QFont::PreferAntialias);
@@ -598,6 +642,7 @@ void FontDocument::setFontCharacters(const QString &chars,
     this->setBackground(parameters.background);
     this->setMultiplicityHeight(parameters.multiplicityHeight);
     this->setMultiplicityWidth(parameters.multiplicityWidth);
+    this->setSizeUnits(parameters.sizeUnits);
   } else {
     // remove characters, which not present in new characters list
     QStringList keys = this->mContainer->keys();
@@ -786,6 +831,16 @@ void FontDocument::setMultiplicityHeight(const int value)
   if (value > 0) {
     this->mContainer->setCommonInfo("multiplicityHeight", value);
   }
+}
+
+FontSizeUnits FontDocument::sizeUnits() const
+{
+  return (FontSizeUnits)this->mContainer->commonInfo("sizeUnits").toInt();
+}
+
+void FontDocument::setSizeUnits(const FontSizeUnits sizeUnits)
+{
+  this->mContainer->setCommonInfo("sizeUnits", (int)sizeUnits);
 }
 
 void FontDocument::prepareImages(Settings::Presets::Preset *preset,

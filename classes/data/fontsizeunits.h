@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2015 riuson
+ * Copyright (C) 2022 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,34 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef TFONTPARAMETERS
-#define TFONTPARAMETERS
-
-#include <QColor>
-#include "fontsizeunits.h"
+#ifndef FONTSIZEUNITS_H
+#define FONTSIZEUNITS_H
 
 namespace Data
 {
-namespace Containers
-{
 
-struct FontParameters {
-  QString family;
-  QString style;
-  int size;
-  FontSizeUnits sizeUnits;
-  bool monospaced;
-  bool antiAliasing;
-  int ascent;
-  int descent;
-  QColor foreground;
-  QColor background;
-  int multiplicityWidth;
-  int multiplicityHeight;
+enum class FontSizeUnits {
+  Pixels = 0,
+  Points = 1,
 };
 
-} // namespace Containers
 } // namespace Data
 
-#endif // TFONTPARAMETERS
-
+#endif // FONTSIZEUNITS_H
