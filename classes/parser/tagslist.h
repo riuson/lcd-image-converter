@@ -63,6 +63,7 @@ public:
 
     FontFamily,
     FontSize,
+    FontSizeUnits,
     FontStyle,
     FontString,
     FontWidthType,

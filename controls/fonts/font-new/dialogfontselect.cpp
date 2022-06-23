@@ -73,6 +73,13 @@ DialogFontSelect::DialogFontSelect(QWidget *parent) :
   // Set unicode blocks filter
   this->connect(this->ui->lineEditUnicodeBlocksFilter, SIGNAL(textChanged(QString)), this->mData, SLOT(setUnicodeBlocksFilter(QString)));
 
+  // Set sizeUnits
+  this->ui->comboBoxSizeUnits->clear();
+  this->ui->comboBoxSizeUnits->addItem("px", QVariant((int)Data::FontSizeUnits::Pixels));
+  this->ui->comboBoxSizeUnits->addItem("pt", QVariant((int)Data::FontSizeUnits::Points));
+  this->connect(this->mData, SIGNAL(sizeUnitsChanged(Data::FontSizeUnits)), SLOT(on_sizeUnitsChanged(Data::FontSizeUnits)));
+  this->connect(this->ui->comboBoxSizeUnits, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBoxSizeUnits_currentIndexChanged(int)));
+
   // Character's line edit
   this->connect(this->ui->lineEdit, SIGNAL(textChanged(QString)), SLOT(on_lineEdit_textChanged(QString)));
   this->connect(this->mData, SIGNAL(charactersListChanged(QString)), SLOT(on_charactersListChanged(QString)));
@@ -351,6 +358,29 @@ void DialogFontSelect::on_sizesListChanged(const QList<int> &list, int selected)
   }
 
   this->connectFontSizeList(true);
+}
+
+void DialogFontSelect::comboBoxSizeUnits_currentIndexChanged(int index)
+{
+  QVariant data = this->ui->comboBoxSizeUnits->itemData(index);
+  bool ok;
+  int value = data.toInt(&ok);
+
+  if (ok) {
+    this->mData->setSizeUnits((Data::FontSizeUnits)value);
+  }
+}
+
+void DialogFontSelect::on_sizeUnitsChanged(Data::FontSizeUnits sizeUnits)
+{
+  for (int i = 0; i < this->ui->comboBoxSizeUnits->count(); i++) {
+    int itemData = this->ui->comboBoxSizeUnits->itemData(i).toInt();
+
+    if ((int)sizeUnits == itemData) {
+      this->ui->comboBoxSizeUnits->setCurrentIndex(i);
+      break;
+    }
+  }
 }
 
 void DialogFontSelect::on_charactersListChanged(const QString &value)

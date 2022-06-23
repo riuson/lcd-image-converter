@@ -187,6 +187,7 @@ HEADERS += \
     classes/data/datacontainer.h \
     classes/data/fontdocument.h \
     classes/data/fontparameters.h \
+    classes/data/fontsizeunits.h \
     classes/data/historykeeper.h \
     classes/data/historyrecord.h \
     classes/data/imagedocument.h \
