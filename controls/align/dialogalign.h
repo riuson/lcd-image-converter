@@ -85,7 +85,7 @@ private:
   Data::AlignModInfo *mAlignModInfo;
 
 private slots:
-  void spinBox_valueChanged(int value);
+  void operationValuesChanged(int value);
   void resizeToContents();
   void on_scaleChanged(int value);
 };

@@ -75,8 +75,22 @@ DialogAlign::DialogAlign(Data::Containers::DataContainer *container,
 
   this->ui->tableView->setModel(this->mTranspose);
 
-  this->connect(this->ui->spinBoxHorizontalOffset, SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
-  this->connect(this->ui->spinBoxVerticalOffset,   SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
+  this->ui->comboBoxHorizontalMode->addItem(tr("None"),         QVariant((int)Data::HorizontalAlignMode::None));
+  this->ui->comboBoxHorizontalMode->addItem(tr("Left"),         QVariant((int)Data::HorizontalAlignMode::Left));
+  this->ui->comboBoxHorizontalMode->addItem(tr("Center Left"),  QVariant((int)Data::HorizontalAlignMode::CenterLeft));
+  this->ui->comboBoxHorizontalMode->addItem(tr("Center Right"), QVariant((int)Data::HorizontalAlignMode::CenterRight));
+  this->ui->comboBoxHorizontalMode->addItem(tr("Right"),        QVariant((int)Data::HorizontalAlignMode::Right));
+
+  this->ui->comboBoxVerticalMode->addItem(tr("None"),          QVariant((int)Data::VerticalAlignMode::None));
+  this->ui->comboBoxVerticalMode->addItem(tr("Top"),           QVariant((int)Data::VerticalAlignMode::Top));
+  this->ui->comboBoxVerticalMode->addItem(tr("Center Top"),    QVariant((int)Data::VerticalAlignMode::CenterTop));
+  this->ui->comboBoxVerticalMode->addItem(tr("Center Bottom"), QVariant((int)Data::VerticalAlignMode::CenterBottom));
+  this->ui->comboBoxVerticalMode->addItem(tr("Bottom"),        QVariant((int)Data::VerticalAlignMode::Bottom));
+
+  this->connect(this->ui->comboBoxHorizontalMode,  SIGNAL(currentIndexChanged(int)), SLOT(operationValuesChanged(int)));
+  this->connect(this->ui->comboBoxVerticalMode,    SIGNAL(currentIndexChanged(int)), SLOT(operationValuesChanged(int)));
+  this->connect(this->ui->spinBoxHorizontalOffset, SIGNAL(valueChanged(int)), SLOT(operationValuesChanged(int)));
+  this->connect(this->ui->spinBoxVerticalOffset,   SIGNAL(valueChanged(int)), SLOT(operationValuesChanged(int)));
   this->connect(this->ui->spinBoxScale,  SIGNAL(valueChanged(int)), this->mScaledProxy, SLOT(setScale(int)));
   this->connect(this->mScaledProxy, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
 
@@ -119,19 +133,29 @@ void DialogAlign::wheelEvent(QWheelEvent *event)
   }
 }
 
-void DialogAlign::spinBox_valueChanged(int value)
+void DialogAlign::operationValuesChanged(int value)
 {
   Q_UNUSED(value);
 
-  qint16 horizontalOffset = static_cast<qint16>(this->ui->spinBoxHorizontalOffset->value());
-  qint16 verticalOffset = static_cast<qint16>(this->ui->spinBoxVerticalOffset->value());
-  this->mAlignModInfo->modify(
-    Data::HorizontalAlignMode::None,
-    horizontalOffset,
-    Data::VerticalAlignMode::None,
-    verticalOffset);
+  QVariant data = this->ui->comboBoxHorizontalMode->itemData(this->ui->comboBoxHorizontalMode->currentIndex());
+  bool isHorizontalOffsetOk;
+  int horizontalMode = data.toInt(&isHorizontalOffsetOk);
 
-  // this->resizeToContents();
+  data = this->ui->comboBoxVerticalMode->itemData(this->ui->comboBoxVerticalMode->currentIndex());
+  bool isVerticalOffsetOk;
+  int verticalMode = data.toInt(&isVerticalOffsetOk);
+
+  if (isHorizontalOffsetOk && isVerticalOffsetOk) {
+    int horizontalOffset = this->ui->spinBoxHorizontalOffset->value();
+    int verticalOffset = this->ui->spinBoxVerticalOffset->value();
+    this->mAlignModInfo->modify(
+      (Data::HorizontalAlignMode)horizontalMode,
+      horizontalOffset,
+      (Data::VerticalAlignMode)verticalMode,
+      verticalOffset);
+
+    // this->resizeToContents();
+  }
 }
 
 void DialogAlign::resizeToContents()
