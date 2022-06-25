@@ -18,7 +18,7 @@
  */
 
 #include "imagealign.h"
-#include "dialogcanvasalign.h"
+#include "dialogalign.h"
 #include "idocument.h"
 #include "datacontainer.h"
 #include "bitmaphelper.h"
@@ -36,7 +36,7 @@ ImageAlign::ImageAlign(QWidget *parentWidget, QObject *parent)
 
 bool ImageAlign::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
 {
-  AppUI::CommonDialogs::DialogCanvasAlign dialog(
+  AppUI::CommonDialogs::DialogAlign dialog(
     doc->dataContainer(),
     keys,
     this->mParentWidget);

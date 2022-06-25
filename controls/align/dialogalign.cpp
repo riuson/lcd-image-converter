@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#include "dialogcanvasalign.h"
-#include "ui_dialogcanvasalign.h"
+#include "dialogalign.h"
+#include "ui_dialogalign.h"
 
 #include <QItemSelectionModel>
 #include <QMap>
@@ -41,11 +41,11 @@ namespace AppUI
 namespace CommonDialogs
 {
 
-DialogCanvasAlign::DialogCanvasAlign(Data::Containers::DataContainer *container,
-                                     const QStringList &keys,
-                                     QWidget *parent) :
+DialogAlign::DialogAlign(Data::Containers::DataContainer *container,
+                         const QStringList &keys,
+                         QWidget *parent) :
   QDialog(parent),
-  ui(new Ui::DialogCanvasAlign),
+  ui(new Ui::DialogAlign),
   mKeys(keys)
 {
   ui->setupUi(this);
@@ -85,19 +85,19 @@ DialogCanvasAlign::DialogCanvasAlign(Data::Containers::DataContainer *container,
   this->on_scaleChanged(scale);
 }
 
-DialogCanvasAlign::~DialogCanvasAlign()
+DialogAlign::~DialogAlign()
 {
   Settings::AlignSettings::setScale(this->ui->spinBoxScale->value());
   delete this->mAlignModInfo;
   delete ui;
 }
 
-const Data::AlignModInfo *DialogCanvasAlign::alignInfo() const
+const Data::AlignModInfo *DialogAlign::alignInfo() const
 {
   return this->mAlignModInfo;
 }
 
-void DialogCanvasAlign::wheelEvent(QWheelEvent *event)
+void DialogAlign::wheelEvent(QWheelEvent *event)
 {
   if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
     QPoint point = event->globalPosition().toPoint();
@@ -119,7 +119,7 @@ void DialogCanvasAlign::wheelEvent(QWheelEvent *event)
   }
 }
 
-void DialogCanvasAlign::spinBox_valueChanged(int value)
+void DialogAlign::spinBox_valueChanged(int value)
 {
   Q_UNUSED(value);
 
@@ -134,13 +134,13 @@ void DialogCanvasAlign::spinBox_valueChanged(int value)
   // this->resizeToContents();
 }
 
-void DialogCanvasAlign::resizeToContents()
+void DialogAlign::resizeToContents()
 {
   this->ui->tableView->resizeRowsToContents();
   this->ui->tableView->resizeColumnsToContents();
 }
 
-void DialogCanvasAlign::on_scaleChanged(int value)
+void DialogAlign::on_scaleChanged(int value)
 {
   if (this->ui->spinBoxScale->value() != value) {
     this->ui->spinBoxScale->setValue(value);

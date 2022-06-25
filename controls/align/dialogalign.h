@@ -26,7 +26,7 @@ template <class Key, class Value> class QMap;
 
 namespace Ui
 {
-class DialogCanvasAlign;
+class DialogAlign;
 }
 
 class QItemSelection;
@@ -54,16 +54,16 @@ namespace AppUI
 namespace CommonDialogs
 {
 
-class DialogCanvasAlign : public QDialog
+class DialogAlign : public QDialog
 {
   Q_OBJECT
 
 public:
-  explicit DialogCanvasAlign(
+  explicit DialogAlign(
     Data::Containers::DataContainer *container,
     const QStringList &keys,
     QWidget *parent = nullptr);
-  virtual ~DialogCanvasAlign() Q_DECL_OVERRIDE;
+  virtual ~DialogAlign() Q_DECL_OVERRIDE;
 
   const Data::AlignModInfo *alignInfo() const;
 
@@ -71,7 +71,7 @@ protected:
   void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 private:
-  Ui::DialogCanvasAlign *ui;
+  Ui::DialogAlign *ui;
 
   Data::Containers::DataContainer *mContainer;
   Data::Models::ImagesModel *mModel;

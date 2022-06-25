@@ -133,7 +133,7 @@ SOURCES += main.cpp \
     classes/status/statusdata.cpp \
     classes/status/statusmanager.cpp \
     controls/about/dialogabout.cpp \
-    controls/align/dialogcanvasalign.cpp \
+    controls/align/dialogalign.cpp \
     controls/align/imagesalignedproxy.cpp \
     controls/fonts/font-changed/dialogfontchanged.cpp \
     controls/fonts/font-editor/editortabfont.cpp \
@@ -263,7 +263,7 @@ HEADERS += \
     classes/status/statusdata.h \
     classes/status/statusmanager.h \
     controls/about/dialogabout.h \
-    controls/align/dialogcanvasalign.h \
+    controls/align/dialogalign.h \
     controls/align/imagesalignedproxy.h \
     controls/fonts/font-changed/dialogfontchanged.h \
     controls/fonts/font-editor/editortabfont.h \
@@ -309,7 +309,7 @@ HEADERS += \
 
 FORMS += \
     controls/about/dialogabout.ui \
-    controls/align/dialogcanvasalign.ui \
+    controls/align/dialogalign.ui \
     controls/fonts/font-changed/dialogfontchanged.ui \
     controls/fonts/font-editor/editortabfont.ui \
     controls/fonts/font-new/dialogfontselect.ui \
