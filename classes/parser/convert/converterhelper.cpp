@@ -615,6 +615,7 @@ QString ConverterHelper::dataToString(
   Settings::Presets::Preset *preset,
   QVector<quint32> *data, int width, int height)
 {
+  Q_UNUSED(height)
   QString result, converted;
 
   int blockPerLine = width;

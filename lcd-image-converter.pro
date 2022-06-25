@@ -93,6 +93,7 @@ SOURCES += main.cpp \
     classes/imageeditor/toolzoom.cpp \
     classes/operations/documentoperator.cpp \
     classes/operations/fontresize.cpp \
+    classes/operations/imagealign.cpp \
     classes/operations/imageeditinexternaltool.cpp \
     classes/operations/imageexport.cpp \
     classes/operations/imageflip.cpp \
@@ -219,6 +220,7 @@ HEADERS += \
     classes/imageeditor/toolzoom.h \
     classes/operations/documentoperator.h \
     classes/operations/fontresize.h \
+    classes/operations/imagealign.h \
     classes/operations/imageeditinexternaltool.h \
     classes/operations/imageexport.h \
     classes/operations/imageflip.h \
