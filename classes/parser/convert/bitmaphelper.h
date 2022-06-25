@@ -27,17 +27,16 @@
 class QFontMetrics;
 class QPainterPath;
 
+namespace Data
+{
+enum class HorizontalAlignMode;
+enum class VerticalAlignMode;
+}
+
 namespace Parsing
 {
 namespace Conversion
 {
-typedef struct {
-  int width;
-  int height;
-  int offsetX;
-  int offsetY;
-  bool center;
-} tResizeInfo;
 
 class BitmapHelper
 {
@@ -60,6 +59,13 @@ public:
   static QColor detectBackgroundColor(const QImage *image);
   static QImage fromSvg(const QString &path, int size);
   static QColor fromRgba(QRgb value);
+  static QImage align(
+    const QImage *source,
+    Data::HorizontalAlignMode horizontalMode,
+    int horizontalOffset,
+    Data::VerticalAlignMode verticalMode,
+    int verticalOffset,
+    const QColor &backColor);
 };
 
 } // namespace Conversion

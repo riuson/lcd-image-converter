@@ -68,6 +68,8 @@ SOURCES += main.cpp \
     classes/cmdline/modeparserbase.cpp \
     classes/compression/rlecompressor.cpp \
     classes/compression/rlesequence.cpp \
+    classes/data/alignmodinfo.cpp \
+    classes/data/alignmodproxy.cpp \
     classes/data/canvasmodinfo.cpp \
     classes/data/canvasmodproxy.cpp \
     classes/data/datacontainer.cpp \
@@ -109,6 +111,7 @@ SOURCES += main.cpp \
     classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
     classes/parser/tagslist.cpp \
+    classes/settings/alignsettings.cpp \
     classes/settings/appsettings.cpp \
     classes/settings/conversionpreviewoptions.cpp \
     classes/settings/externaltooloptions.cpp \
@@ -129,6 +132,8 @@ SOURCES += main.cpp \
     classes/status/statusdata.cpp \
     classes/status/statusmanager.cpp \
     controls/about/dialogabout.cpp \
+    controls/align/dialogcanvasalign.cpp \
+    controls/align/imagesalignedproxy.cpp \
     controls/fonts/font-changed/dialogfontchanged.cpp \
     controls/fonts/font-editor/editortabfont.cpp \
     controls/fonts/font-new/charactersmodel.cpp \
@@ -182,6 +187,9 @@ HEADERS += \
     classes/cmdline/modeparserbase.h \
     classes/compression/rlecompressor.h \
     classes/compression/rlesequence.h \
+    classes/data/alignmodes.h \
+    classes/data/alignmodinfo.h \
+    classes/data/alignmodproxy.h \
     classes/data/canvasmodinfo.h \
     classes/data/canvasmodproxy.h \
     classes/data/datacontainer.h \
@@ -231,6 +239,7 @@ HEADERS += \
     classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
     classes/parser/tagslist.h \
+    classes/settings/alignsettings.h \
     classes/settings/appsettings.h \
     classes/settings/conversionpreviewoptions.h \
     classes/settings/externaltooloptions.h \
@@ -252,6 +261,8 @@ HEADERS += \
     classes/status/statusdata.h \
     classes/status/statusmanager.h \
     controls/about/dialogabout.h \
+    controls/align/dialogcanvasalign.h \
+    controls/align/imagesalignedproxy.h \
     controls/fonts/font-changed/dialogfontchanged.h \
     controls/fonts/font-editor/editortabfont.h \
     controls/fonts/font-new/charactersmodel.h \
@@ -296,6 +307,7 @@ HEADERS += \
 
 FORMS += \
     controls/about/dialogabout.ui \
+    controls/align/dialogcanvasalign.ui \
     controls/fonts/font-changed/dialogfontchanged.ui \
     controls/fonts/font-editor/editortabfont.ui \
     controls/fonts/font-new/dialogfontselect.ui \
@@ -336,6 +348,7 @@ INCLUDEPATH += $$PWD \
     $$PWD/classes/settings/presets \
     $$PWD/controls \
     $$PWD/controls/about \
+    $$PWD/controls/align \
     $$PWD/controls/fonts/font-changed \
     $$PWD/controls/fonts/font-editor \
     $$PWD/controls/fonts/font-new \

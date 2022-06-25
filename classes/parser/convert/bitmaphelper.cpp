@@ -18,6 +18,7 @@
  */
 
 #include "bitmaphelper.h"
+#include "alignmodes.h"
 #include "limits"
 
 #include <QPainter>
@@ -313,6 +314,22 @@ QImage BitmapHelper::fromSvg(const QString &path, int size)
 QColor BitmapHelper::fromRgba(QRgb value)
 {
   return QColor(qRed(value), qGreen(value), qBlue(value), qAlpha(value));
+}
+
+QImage BitmapHelper::align(
+  const QImage *source,
+  Data::HorizontalAlignMode horizontalMode,
+  int horizontalOffset,
+  Data::VerticalAlignMode verticalMode,
+  int verticalOffset,
+  const QColor &backColor)
+{
+  Q_UNUSED(horizontalMode)
+  Q_UNUSED(horizontalOffset)
+  Q_UNUSED(verticalMode)
+  Q_UNUSED(verticalOffset)
+  Q_UNUSED(backColor)
+  return *source;
 }
 
 } // namespace Conversion

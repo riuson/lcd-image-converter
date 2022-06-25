@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2019 riuson
+ * Copyright (C) 2022 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,43 +17,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef CANVASMODINFO_H
-#define CANVASMODINFO_H
+#include "alignsettings.h"
 
-class QString;
+#include <QVariant>
+#include <appsettings.h>
 
-#include <QString>
-
-namespace Data
+namespace Settings
 {
 
-class CanvasModInfo
+int AlignSettings::scale()
 {
-public:
-  struct Mods {
-    int left;
-    int top;
-    int right;
-    int bottom;
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
+  sett.beginGroup("align-preview");
+  bool ok;
+  int result = sett.value("scale", QVariant(1)).toInt(&ok);
+  sett.endGroup();
 
-    void reset();
-  };
+  if (ok) {
+    return result;
+  }
 
-  CanvasModInfo();
+  return 1;
+}
 
-  const Mods summary() const;
+void AlignSettings::setScale(int value)
+{
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
+  sett.beginGroup("align-preview");
+  sett.setValue("scale", QVariant(value));
+  sett.endGroup();
+}
 
-  void modify(int left, int top, int right, int bottom);
-  void commit();
-  void reset();
-
-  const QString toString() const;
-
-private:
-  Mods mCommited;
-  Mods mModified;
-};
-
-} // namespace Data
-
-#endif // CANVASMODINFO_H
+} // namespace Settings

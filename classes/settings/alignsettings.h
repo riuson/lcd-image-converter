@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2019 riuson
+ * Copyright (C) 2022 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,43 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef CANVASMODINFO_H
-#define CANVASMODINFO_H
+#ifndef ALIGNSETTINGS_H
+#define ALIGNSETTINGS_H
 
-class QString;
-
-#include <QString>
-
-namespace Data
+namespace Settings
 {
 
-class CanvasModInfo
-{
+class AlignSettings{
 public:
-  struct Mods {
-    int left;
-    int top;
-    int right;
-    int bottom;
-
-    void reset();
-  };
-
-  CanvasModInfo();
-
-  const Mods summary() const;
-
-  void modify(int left, int top, int right, int bottom);
-  void commit();
-  void reset();
-
-  const QString toString() const;
-
-private:
-  Mods mCommited;
-  Mods mModified;
+  static int scale();
+  static void setScale(int value);
 };
 
-} // namespace Data
+} // namespace Settings
 
-#endif // CANVASMODINFO_H
+#endif // ALIGNSETTINGS_H
