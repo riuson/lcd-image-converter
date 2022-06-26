@@ -43,9 +43,7 @@ QVariant AlignModProxy::headerData(int section, Qt::Orientation orientation, int
 
     if (orientation == Qt::Horizontal) {
       if (section == sourceColumns + 0) {
-        result = tr("Original size");
-      } else if (section == sourceColumns + 1) {
-        result = tr("New size");
+        result = tr("Size");
       }
     }
   }
@@ -60,7 +58,7 @@ int AlignModProxy::columnCount(const QModelIndex &parent) const
   }
 
   int sourceColumns = this->sourceModel()->columnCount(parent);
-  return sourceColumns + 2;
+  return sourceColumns + 1;
 }
 
 QVariant AlignModProxy::data(const QModelIndex &index, int role) const
@@ -106,14 +104,6 @@ QVariant AlignModProxy::data(const QModelIndex &index, int role) const
       if (columnIndex == sourceColumns + 0) {
         QVariant varSize = this->sourceModel()->data(index, Data::Models::ImagesModel::ImageSizeRole);
         QSize size = varSize.toSize();
-        result = QString("%1x%2").arg(size.width()).arg(size.height());
-      } else if (columnIndex == sourceColumns + 1) {
-        QVariant varKey = this->sourceModel()->data(index, Data::Models::ImagesModel::KeyRole);
-        QString key = varKey.toString();
-
-        QVariant varSize = this->sourceModel()->data(index, Data::Models::ImagesModel::ImageSizeRole);
-        QSize size = varSize.toSize();
-
         result = QString("%1x%2").arg(size.width()).arg(size.height());
       }
 

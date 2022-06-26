@@ -68,7 +68,7 @@ DialogAlign::DialogAlign(Data::Containers::DataContainer *container,
 
   this->mReorderProxy = new Data::Models::ColumnsReorderProxy();
   this->mReorderProxy->setSourceModel(this->mFilter);
-  this->mReorderProxy->setReorder(1, 3);
+  this->mReorderProxy->setReorder(1, 2);
 
   this->mTranspose = new Data::Models::TransposeProxy(this);
   this->mTranspose->setSourceModel(this->mReorderProxy);
