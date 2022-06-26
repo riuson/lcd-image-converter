@@ -83,6 +83,7 @@ HEADERS += \
     parts/testtemplateoptions.h \
     ../classes/compression/rlecompressor.h \
     ../classes/compression/rlesequence.h \
+    ../classes/data/alignmodes.h \
     ../classes/parser/convert/bitstream.h \
     ../classes/parser/convert/bitmaphelper.h \
     ../classes/parser/convert/conversion_options.h \
@@ -104,6 +105,7 @@ INCLUDEPATH += . \
     ../ \
     ./parts \
     ../classes \
+    ../classes/data \
     ../classes/compression \
     ../classes/parser/convert \
     ../classes/settings \
