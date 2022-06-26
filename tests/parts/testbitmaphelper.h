@@ -24,6 +24,11 @@ private slots:
   void shiftRight();
   void shiftDown();
   void shiftLeft();
+  void shiftLeftDown();
+  void shiftLeftUp();
+  void shiftRightDown();
+  void shiftRightUp();
+  void shiftMore();
   void flipHorizontal();
   void flipVertical();
   void cleanupTestCase();

@@ -72,6 +72,51 @@ void TestBitmapHelper::shiftLeft()
   this->compareSizeAndPixels(&expected, &test);
 }
 
+void TestBitmapHelper::shiftLeftDown()
+{
+  QImage original = QImage(":/shift/original");
+  QImage expected = QImage(":/shift/-1_1");
+  QImage test = Parsing::Conversion::BitmapHelper::shift(&original, -1, 1);
+
+  this->compareSizeAndPixels(&expected, &test);
+}
+
+void TestBitmapHelper::shiftLeftUp()
+{
+  QImage original = QImage(":/shift/original");
+  QImage expected = QImage(":/shift/-1_-1");
+  QImage test = Parsing::Conversion::BitmapHelper::shift(&original, -1, -1);
+
+  this->compareSizeAndPixels(&expected, &test);
+}
+
+void TestBitmapHelper::shiftRightDown()
+{
+  QImage original = QImage(":/shift/original");
+  QImage expected = QImage(":/shift/1_1");
+  QImage test = Parsing::Conversion::BitmapHelper::shift(&original, 1, 1);
+
+  this->compareSizeAndPixels(&expected, &test);
+}
+
+void TestBitmapHelper::shiftRightUp()
+{
+  QImage original = QImage(":/shift/original");
+  QImage expected = QImage(":/shift/1_-1");
+  QImage test = Parsing::Conversion::BitmapHelper::shift(&original, 1, -1);
+
+  this->compareSizeAndPixels(&expected, &test);
+}
+
+void TestBitmapHelper::shiftMore()
+{
+  QImage original = QImage(":/shift/original");
+  QImage expected = QImage(":/shift/2_4");
+  QImage test = Parsing::Conversion::BitmapHelper::shift(&original, 2, 4);
+
+  this->compareSizeAndPixels(&expected, &test);
+}
+
 void TestBitmapHelper::flipHorizontal()
 {
   QImage original = QImage(":/flip/0");
