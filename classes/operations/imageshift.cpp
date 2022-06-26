@@ -50,19 +50,19 @@ void ImageShift::applyItem(Data::Containers::IDocument *doc, const QString &item
 
   switch (this->mDirection) {
     case Direction::Left:
-      result = Parsing::Conversion::BitmapHelper::shiftLeft(original);
+      result = Parsing::Conversion::BitmapHelper::shift(original, -1, 0);
       break;
 
     case Direction::Right:
-      result = Parsing::Conversion::BitmapHelper::shiftRight(original);
+      result = Parsing::Conversion::BitmapHelper::shift(original, 1, 0);
       break;
 
     case Direction::Up:
-      result = Parsing::Conversion::BitmapHelper::shiftUp(original);
+      result = Parsing::Conversion::BitmapHelper::shift(original, 0, -1);
       break;
 
     case Direction::Down:
-      result = Parsing::Conversion::BitmapHelper::shiftDown(original);
+      result = Parsing::Conversion::BitmapHelper::shift(original, 0, 1);
       break;
 
     case Direction::None:

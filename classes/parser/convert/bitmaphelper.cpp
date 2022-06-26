@@ -104,6 +104,52 @@ QImage BitmapHelper::shiftLeft(const QImage *source)
   return result;
 }
 
+template <typename T> int sgn(T val)
+{
+  return (T(0) < val) - (val < T(0));
+}
+
+QImage BitmapHelper::shift(const QImage *source, int horizontalDirection, int verticalDirection)
+{
+  QImage result = QImage(source->width(), source->height(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
+
+  // up:
+  // painter.drawImage(0, -1, *source);
+  // painter.drawImage(0, source->height() - 1, *source);
+  // y: -1
+  // y: (-source->height() + abs(-1)) * sign(-1)
+
+  // down:
+  // painter.drawImage(0, 1, *source);
+  // painter.drawImage(0, -source->height() + 1, *source);
+  // y: 1
+  // y: (-source->height() + abs(1)) * sign(1)
+
+  // left:
+  // painter.drawImage(-1, 0, *source);
+  // painter.drawImage(source->width() - 1, 0, *source);
+  // x: -1
+  // x: (-source->width() + abs(-1)) * sign(-1)
+
+  // right:
+  // painter.drawImage(1, 0, *source);
+  // painter.drawImage(-source->width() + 1, 0, *source);
+  // x: 1
+  // x: (-source->width() + abs(1)) * sign(1)
+
+  QPainter painter(&result);
+  painter.drawImage(
+    horizontalDirection,
+    verticalDirection,
+    *source);
+  painter.drawImage(
+    (-source->width() + qAbs(horizontalDirection)) * sgn(horizontalDirection),
+    (-source->height() + qAbs(verticalDirection)) * sgn(verticalDirection),
+    *source);
+  return result;
+}
+
 QImage BitmapHelper::flipHorizontal(const QImage *source)
 {
   QImage result = source->mirrored(true, false);

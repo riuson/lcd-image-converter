@@ -44,10 +44,11 @@ public:
   static QImage rotate90(const QImage *source);
   static QImage rotate180(const QImage *source);
   static QImage rotate270(const QImage *source);
-  static QImage shiftUp(const QImage *source);
-  static QImage shiftRight(const QImage *source);
-  static QImage shiftDown(const QImage *source);
-  static QImage shiftLeft(const QImage *source);
+  Q_DECL_DEPRECATED static QImage shiftUp(const QImage *source);
+  Q_DECL_DEPRECATED static QImage shiftRight(const QImage *source);
+  Q_DECL_DEPRECATED static QImage shiftDown(const QImage *source);
+  Q_DECL_DEPRECATED static QImage shiftLeft(const QImage *source);
+  static QImage shift(const QImage *source, int horizontalDirection, int verticalDirection);
   static QImage flipHorizontal(const QImage *source);
   static QImage flipVertical(const QImage *source);
   static QImage crop(const QImage *source, int left, int top, int right, int bottom, const QColor &backColor);
