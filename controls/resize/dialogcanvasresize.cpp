@@ -27,7 +27,6 @@
 #include "canvasmodproxy.h"
 #include "imagesmodel.h"
 #include "imagesscaledproxy.h"
-#include "imagesresizedproxy.h"
 #include "imagesfilterproxy.h"
 #include "transposeproxy.h"
 #include "columnsreorderproxy.h"

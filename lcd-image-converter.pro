@@ -134,7 +134,6 @@ SOURCES += main.cpp \
     classes/status/statusmanager.cpp \
     controls/about/dialogabout.cpp \
     controls/align/dialogalign.cpp \
-    controls/align/imagesalignedproxy.cpp \
     controls/fonts/font-changed/dialogfontchanged.cpp \
     controls/fonts/font-editor/editortabfont.cpp \
     controls/fonts/font-new/charactersmodel.cpp \
@@ -152,7 +151,6 @@ SOURCES += main.cpp \
     controls/resize/columnsreorderproxy.cpp \
     controls/resize/dialogcanvasresize.cpp \
     controls/resize/imagesfilterproxy.cpp \
-    controls/resize/imagesresizedproxy.cpp \
     controls/save-changes/dialogsavechanges.cpp \
     controls/setup/dialogexternaleditor.cpp \
     controls/setup/dialogoptions.cpp \
@@ -264,7 +262,6 @@ HEADERS += \
     classes/status/statusmanager.h \
     controls/about/dialogabout.h \
     controls/align/dialogalign.h \
-    controls/align/imagesalignedproxy.h \
     controls/fonts/font-changed/dialogfontchanged.h \
     controls/fonts/font-editor/editortabfont.h \
     controls/fonts/font-new/charactersmodel.h \
@@ -282,7 +279,6 @@ HEADERS += \
     controls/resize/columnsreorderproxy.h \
     controls/resize/dialogcanvasresize.h \
     controls/resize/imagesfilterproxy.h \
-    controls/resize/imagesresizedproxy.h \
     controls/save-changes/dialogsavechanges.h \
     controls/setup/dialogexternaleditor.h \
     controls/setup/dialogoptions.h \

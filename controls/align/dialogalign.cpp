@@ -27,7 +27,6 @@
 #include "alignmodinfo.h"
 #include "alignmodproxy.h"
 #include "imagesmodel.h"
-#include "imagesalignedproxy.h"
 #include "imagesscaledproxy.h"
 #include "imagesfilterproxy.h"
 #include "transposeproxy.h"
