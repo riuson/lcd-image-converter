@@ -370,13 +370,7 @@ QImage BitmapHelper::align(
 
     case Data::HorizontalAlignMode::CenterLeft: {
       int space = l + r;
-
-      if ((space & 1) == 0) {
-        moveX = (space / 2) - l;
-      } else {
-        moveX = (int)(space / 2) - l;
-      }
-
+      moveX = (space / 2) - l;
       break;
     }
 
@@ -386,7 +380,7 @@ QImage BitmapHelper::align(
       if ((space & 1) == 0) {
         moveX = (space / 2) - l;
       } else {
-        moveX = (int)(space / 2) + 1 - l;
+        moveX = (space / 2) + 1 - l;
       }
 
       break;
@@ -408,13 +402,7 @@ QImage BitmapHelper::align(
 
     case Data::VerticalAlignMode::CenterTop: {
       int space = t + b;
-
-      if ((space & 1) == 0) {
-        moveY = (space / 2) - t;
-      } else {
-        moveY = (int)(space / 2) - t;
-      }
-
+      moveY = (space / 2) - t;
       break;
     }
 
@@ -424,7 +412,7 @@ QImage BitmapHelper::align(
       if ((space & 1) == 0) {
         moveY = (space / 2) - t;
       } else {
-        moveY = (int)(space / 2) + 1 - t;
+        moveY = (space / 2) + 1 - t;
       }
 
       break;
