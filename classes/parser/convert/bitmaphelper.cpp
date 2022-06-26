@@ -370,12 +370,92 @@ QImage BitmapHelper::align(
   int verticalOffset,
   const QColor &backColor)
 {
-  Q_UNUSED(horizontalMode)
-  Q_UNUSED(horizontalOffset)
-  Q_UNUSED(verticalMode)
-  Q_UNUSED(verticalOffset)
-  Q_UNUSED(backColor)
-  return *source;
+  int l, t, r, b;
+  bool hEmpty, vEmpty;
+  Parsing::Conversion::BitmapHelper::findEmptyArea(source, l, t, r, b, hEmpty, vEmpty);
+
+  int moveX = 0;
+  int moveY = 0;
+
+  switch (horizontalMode) {
+    case Data::HorizontalAlignMode::Left:
+      moveX = -l;
+      break;
+
+    case Data::HorizontalAlignMode::CenterLeft: {
+      int space = l + r;
+
+      if ((space & 1) == 0) {
+        moveX = (space / 2) - l;
+      } else {
+        moveX = (int)(space / 2) - l;
+      }
+
+      break;
+    }
+
+    case Data::HorizontalAlignMode::CenterRight: {
+      int space = l + r;
+
+      if ((space & 1) == 0) {
+        moveX = (space / 2) - l;
+      } else {
+        moveX = (int)(space / 2) + 1 - l;
+      }
+
+      break;
+    }
+
+    case Data::HorizontalAlignMode::Right:
+      moveX = r;
+      break;
+
+    case Data::HorizontalAlignMode::None:
+    default:
+      break;
+  }
+
+  switch (verticalMode) {
+    case Data::VerticalAlignMode::Top:
+      moveY = -t;
+      break;
+
+    case Data::VerticalAlignMode::CenterTop: {
+      int space = t + b;
+
+      if ((space & 1) == 0) {
+        moveY = (space / 2) - t;
+      } else {
+        moveY = (int)(space / 2) - t;
+      }
+
+      break;
+    }
+
+    case Data::VerticalAlignMode::CenterBottom: {
+      int space = t + b;
+
+      if ((space & 1) == 0) {
+        moveY = (space / 2) - t;
+      } else {
+        moveY = (int)(space / 2) + 1 - t;
+      }
+
+      break;
+    }
+
+    case Data::VerticalAlignMode::Bottom:
+      moveY = b;
+      break;
+
+    case Data::VerticalAlignMode::None:
+    default:
+      break;
+  }
+
+  QImage result = shift(source, moveX, moveY);
+
+  return result;
 }
 
 } // namespace Conversion
