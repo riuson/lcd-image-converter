@@ -114,39 +114,25 @@ QImage BitmapHelper::shift(const QImage *source, int horizontalDirection, int ve
   QImage result = QImage(source->width(), source->height(), source->format());
   result.fill(QColor(0, 0, 0, 0));
 
-  // up:
-  // painter.drawImage(0, -1, *source);
-  // painter.drawImage(0, source->height() - 1, *source);
-  // y: -1
-  // y: (-source->height() + abs(-1)) * sign(-1)
-
-  // down:
-  // painter.drawImage(0, 1, *source);
-  // painter.drawImage(0, -source->height() + 1, *source);
-  // y: 1
-  // y: (-source->height() + abs(1)) * sign(1)
-
-  // left:
-  // painter.drawImage(-1, 0, *source);
-  // painter.drawImage(source->width() - 1, 0, *source);
-  // x: -1
-  // x: (-source->width() + abs(-1)) * sign(-1)
-
-  // right:
-  // painter.drawImage(1, 0, *source);
-  // painter.drawImage(-source->width() + 1, 0, *source);
-  // x: 1
-  // x: (-source->width() + abs(1)) * sign(1)
+  int width = source->width();
+  int height = source->height();
+  horizontalDirection %= width;
+  verticalDirection %= height;
 
   QPainter painter(&result);
-  painter.drawImage(
-    horizontalDirection,
-    verticalDirection,
-    *source);
-  painter.drawImage(
-    (-source->width() + qAbs(horizontalDirection)) * sgn(horizontalDirection),
-    (-source->height() + qAbs(verticalDirection)) * sgn(verticalDirection),
-    *source);
+
+  for (int i = 0; i < 3; i++) {
+    int x = -width + (width * i) + horizontalDirection;
+
+    for (int j = 0; j < 3; j++) {
+      int y = -height + (height * j) + verticalDirection;
+      painter.drawImage(
+        x,
+        y,
+        *source);
+    }
+  }
+
   return result;
 }
 
