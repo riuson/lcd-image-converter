@@ -154,6 +154,12 @@ void DialogAlign::operationValuesChanged(int value)
       (Data::VerticalAlignMode)verticalMode,
       verticalOffset);
 
+    // TODO: Workaround for TableView update.
+    auto focused = this->focusWidget();
+    this->ui->spinBoxHorizontalOffset->setFocus();
+    this->ui->tableView->setFocus();
+    focused->setFocus();
+
     // this->resizeToContents();
   }
 }
