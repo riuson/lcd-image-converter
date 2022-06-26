@@ -365,12 +365,12 @@ QImage BitmapHelper::align(
 
   switch (horizontalMode) {
     case Data::HorizontalAlignMode::Left:
-      moveX = -l;
+      moveX = -l + horizontalOffset;
       break;
 
     case Data::HorizontalAlignMode::CenterLeft: {
       int space = l + r;
-      moveX = (space / 2) - l;
+      moveX = (space / 2) - horizontalOffset - l;
       break;
     }
 
@@ -378,16 +378,16 @@ QImage BitmapHelper::align(
       int space = l + r;
 
       if ((space & 1) == 0) {
-        moveX = (space / 2) - l;
+        moveX = (space / 2) + horizontalOffset - l;
       } else {
-        moveX = (space / 2) + 1 - l;
+        moveX = (space / 2) + 1 + horizontalOffset - l;
       }
 
       break;
     }
 
     case Data::HorizontalAlignMode::Right:
-      moveX = r;
+      moveX = r - horizontalOffset;
       break;
 
     case Data::HorizontalAlignMode::None:
@@ -397,12 +397,12 @@ QImage BitmapHelper::align(
 
   switch (verticalMode) {
     case Data::VerticalAlignMode::Top:
-      moveY = -t;
+      moveY = -t + verticalOffset;
       break;
 
     case Data::VerticalAlignMode::CenterTop: {
       int space = t + b;
-      moveY = (space / 2) - t;
+      moveY = (space / 2) - verticalOffset - t;
       break;
     }
 
@@ -410,16 +410,16 @@ QImage BitmapHelper::align(
       int space = t + b;
 
       if ((space & 1) == 0) {
-        moveY = (space / 2) - t;
+        moveY = (space / 2) + verticalOffset - t;
       } else {
-        moveY = (space / 2) + 1 - t;
+        moveY = (space / 2) + 1 + verticalOffset - t;
       }
 
       break;
     }
 
     case Data::VerticalAlignMode::Bottom:
-      moveY = b;
+      moveY = b - verticalOffset;
       break;
 
     case Data::VerticalAlignMode::None:
