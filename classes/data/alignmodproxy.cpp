@@ -143,5 +143,12 @@ QModelIndex AlignModProxy::mapToSource(const QModelIndex &proxyIndex) const
   }
 }
 
+// void AlignModProxy::notifyPreviewChanged()
+// {
+//   emit this->dataChanged(
+//     index(0, 1),
+//     index(this->rowCount() - 1, 1));
+// }
+
 } // namespace Models
 } // namespace Data

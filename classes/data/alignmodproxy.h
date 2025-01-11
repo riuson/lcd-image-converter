@@ -50,6 +50,8 @@ public:
   QModelIndex mapFromSource(const QModelIndex &sourceIndex) const Q_DECL_OVERRIDE;
   QModelIndex mapToSource(const QModelIndex &proxyIndex) const Q_DECL_OVERRIDE;
 
+  // void notifyPreviewChanged();
+
 private:
   Data::AlignModInfo *mAlignModInfo;
 };
