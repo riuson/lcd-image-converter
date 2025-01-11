@@ -1482,7 +1482,7 @@ Qt: %4</translation>
     <message>
         <location filename="../classes/imageeditor/toolzoom.cpp" line="67"/>
         <source>Zoom image</source>
-        <translation>Измение масштаба изображения</translation>
+        <translation>Изменение масштаба изображения</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolzoom.cpp" line="115"/>
