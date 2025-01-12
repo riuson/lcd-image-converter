@@ -618,11 +618,7 @@ QString ConverterHelper::dataToString(
   Q_UNUSED(height)
   QString result, converted;
 
-  int blockPerLine = width;
-
-  if (preset->image()->blocksPerLine() > 0) {
-    blockPerLine = preset->image()->blocksPerLine();
-  }
+  int blockPerLine = preset->image()->blocksPerLine();
 
   Settings::Presets::DataBlockSize blockSize = preset->image()->blockSize();
   QString prefix = preset->image()->blockPrefix();
@@ -631,8 +627,10 @@ QString ConverterHelper::dataToString(
   Settings::Presets::DataNumeralSystem numeralSystem = preset->image()->numeralSystem();
 
   for (auto i = 0; i < data->size(); i++) {
-    if ((i > 0) && ((i % blockPerLine) == 0)) {
-      result.append("\n");
+    if (blockPerLine > 0) {
+      if ((i > 0) && ((i % blockPerLine) == 0)) {
+        result.append("\n");
+      }
     }
 
     quint32 value = data->at(i);

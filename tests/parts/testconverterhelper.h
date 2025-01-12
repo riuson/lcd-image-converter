@@ -29,7 +29,9 @@ private:
     bool splitToRows, QVector<quint32> *packed, int *widthOut, int *heightOut);
   void prepareStringData(
     QVector<quint32> *source, int width, int height,
-    bool splitToRows, Parsing::Conversion::Options::DataBlockSize size, QString *string);
+    int blockPerLine,
+    Parsing::Conversion::Options::DataBlockSize size, QString *string);
+  void compareStrings(const QString &actual, const QString& expected);
 
 private slots:
   void initTestCase();

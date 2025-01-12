@@ -55,7 +55,7 @@ ImageOptions::ImageOptions(QObject *parent) :
   this->mBlockDefaultOnes = false;
   this->mCompressionRle = false;
   this->mCompressionRleMinLength = 2;
-  this->mBlocksPerLine = 8;
+  this->mBlocksPerLine = 0;
   this->mBlockPrefix = "0x";
   this->mBlockSuffix = "";
   this->mBlockDelimiter = ", ";
