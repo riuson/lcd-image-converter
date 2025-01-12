@@ -19,7 +19,7 @@
 
 #include "conversionpreviewoptions.h"
 
-#include <appsettings.h>
+#include "appsettings.h"
 
 namespace Settings
 {

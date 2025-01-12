@@ -25,8 +25,7 @@
 #include <QUuid>
 #include <QtXml>
 
-#include <appsettings.h>
-
+#include "appsettings.h"
 #include "fontoptions.h"
 #include "imageoptions.h"
 #include "matrixoptions.h"

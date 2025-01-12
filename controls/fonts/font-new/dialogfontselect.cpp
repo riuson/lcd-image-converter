@@ -24,8 +24,7 @@
 #include <QColorDialog>
 #include <QTableWidgetSelectionRange>
 
-#include <appsettings.h>
-
+#include "appsettings.h"
 #include "charactersmodel.h"
 #include "dialogfontrange.h"
 #include "dialogfontselectdata.h"

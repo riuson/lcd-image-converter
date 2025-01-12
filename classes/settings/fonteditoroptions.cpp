@@ -22,8 +22,7 @@
 #include <QRgb>
 #include <QVariant>
 
-#include <appsettings.h>
-
+#include "appsettings.h"
 #include "bitmaphelper.h"
 
 namespace Settings

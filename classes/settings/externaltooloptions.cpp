@@ -19,7 +19,7 @@
 
 #include "externaltooloptions.h"
 
-#include <appsettings.h>
+#include "appsettings.h"
 
 namespace Settings
 {

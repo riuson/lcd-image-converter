@@ -23,7 +23,7 @@
 #include <QStringList>
 #include <QStringListIterator>
 
-#include <appsettings.h>
+#include "appsettings.h"
 
 namespace Settings
 {

@@ -23,7 +23,7 @@
 #include <QFile>
 #include <QMap>
 
-#include <appsettings.h>
+#include "appsettings.h"
 
 namespace Settings
 {

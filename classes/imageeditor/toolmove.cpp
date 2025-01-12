@@ -28,8 +28,7 @@
 #include <QToolButton>
 #include <QWidget>
 
-#include <appsettings.h>
-
+#include "appsettings.h"
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
 

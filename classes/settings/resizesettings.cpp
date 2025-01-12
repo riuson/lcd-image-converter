@@ -21,7 +21,7 @@
 
 #include <QVariant>
 
-#include <appsettings.h>
+#include "appsettings.h"
 
 namespace Settings
 {
