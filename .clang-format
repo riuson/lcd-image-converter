@@ -1,0 +1,25 @@
+# clang-format version 19.1.6
+---
+BasedOnStyle: LLVM
+IndentWidth: 2
+---
+Language: Cpp
+InsertBraces: true
+IndentCaseLabels: true
+BreakBeforeBraces: Linux
+PointerAlignment: Left
+ColumnLimit: 120
+IncludeBlocks: Regroup
+# lowest priority first
+IncludeCategories:
+  - Regex:           '^<Q[[:alnum:].]+'
+    Priority:        10
+    CaseSensitive:   true
+  - Regex:           '<[[:alnum:].]+>'
+    Priority:        20
+  - Regex:           '"[[:alnum:].]+"'
+    Priority:        30
+  - Regex:           '.*'
+    Priority:        1
+    SortPriority:    0
+...
