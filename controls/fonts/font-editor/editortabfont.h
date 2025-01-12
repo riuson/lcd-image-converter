@@ -29,9 +29,9 @@ namespace Ui
 class EditorTabFont;
 }
 
-class QSplitter;
-class QItemSelection;
-class QModelIndex;
+#include <QSplitter>
+#include <QItemSelection>
+#include <QModelIndex>
 
 namespace Data
 {

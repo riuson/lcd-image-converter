@@ -22,7 +22,7 @@
 
 #include <QDialog>
 
-class QCompleter;
+#include <QCompleter>
 
 namespace Ui
 {

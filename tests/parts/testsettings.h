@@ -5,7 +5,7 @@
 #include <QtTest/QtTest>
 #include "appsettings.h"
 
-class QFile;
+#include <QFile>
 template <class T> class QVector;
 
 class AppSettingsExt : public Settings::AppSettings

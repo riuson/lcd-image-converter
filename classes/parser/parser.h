@@ -43,7 +43,7 @@ class Preset;
 }
 }
 
-class QImage;
+#include <QImage>
 
 namespace Parsing
 {

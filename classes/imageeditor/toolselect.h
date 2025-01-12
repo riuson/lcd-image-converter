@@ -28,8 +28,8 @@
 #include "iimageeditortool.h"
 #include "iimageselection.h"
 
-class QIcon;
-class QAction;
+#include <QIcon>
+#include <QAction>
 
 namespace ImageEditor
 {

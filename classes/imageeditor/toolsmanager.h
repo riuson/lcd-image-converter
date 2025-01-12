@@ -24,7 +24,7 @@
 #include "iimageeditorparams.h"
 #include "iimageselection.h"
 
-class QAction;
+#include <QAction>
 template <class T1> class QList;
 
 namespace ImageEditor

@@ -22,7 +22,7 @@
 
 #include <QSortFilterProxyModel>
 
-class QStringList;
+#include <QStringList>
 
 namespace Data
 {

@@ -29,7 +29,7 @@ namespace Ui
 class DialogCanvasResize;
 }
 
-class QItemSelection;
+#include <QItemSelection>
 
 namespace Data
 {

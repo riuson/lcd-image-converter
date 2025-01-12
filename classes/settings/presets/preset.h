@@ -24,8 +24,8 @@
 
 #include "conversion_options.h"
 
-class QString;
-class QStringList;
+#include <QString>
+#include <QStringList>
 
 namespace Settings
 {

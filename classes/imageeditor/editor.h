@@ -23,7 +23,7 @@
 #include <QObject>
 #include "iimageeditor.h"
 
-class QColor;
+#include <QColor>
 
 namespace AppUI
 {

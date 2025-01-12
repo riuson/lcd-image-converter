@@ -26,7 +26,7 @@
 #include <QStringList>
 #include <QVariant>
 
-class QImage;
+#include <QImage>
 
 namespace Data
 {

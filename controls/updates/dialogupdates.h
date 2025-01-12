@@ -27,7 +27,7 @@ namespace Ui
 class DialogUpdates;
 }
 
-class QNetworkReply;
+#include <QNetworkReply>
 
 namespace AppUI
 {

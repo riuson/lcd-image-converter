@@ -29,7 +29,7 @@ namespace Ui
 class DialogAlign;
 }
 
-class QItemSelection;
+#include <QItemSelection>
 
 namespace Data
 {

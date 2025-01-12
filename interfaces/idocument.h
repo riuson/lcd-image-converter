@@ -22,8 +22,8 @@
 
 #include <QObject>
 
-class QImage;
-class QString;
+#include <QImage>
+#include <QString>
 class StatusData;
 
 namespace Settings

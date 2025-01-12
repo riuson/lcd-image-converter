@@ -35,7 +35,7 @@ class Preset;
 }
 }
 
-class QMenu;
+#include <QMenu>
 
 namespace AppUI
 {

@@ -20,12 +20,12 @@
 #ifndef IIMAGEEDITORTOOL_H
 #define IIMAGEEDITORTOOL_H
 
-class QString;
-class QIcon;
-class QAction;
-class QWidget;
-class QMouseEvent;
-class QImage;
+#include <QString>
+#include <QIcon>
+#include <QAction>
+#include <QWidget>
+#include <QMouseEvent>
+#include <QImage>
 template <class T1> class QList;
 
 namespace ImageEditor

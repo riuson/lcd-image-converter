@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-class QImage;
+#include <QImage>
 
 namespace Settings
 {

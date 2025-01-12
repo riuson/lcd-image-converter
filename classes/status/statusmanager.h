@@ -24,8 +24,8 @@
 #include <QMap>
 #include "statusdata.h"
 
-class QStatusBar;
-class QLabel;
+#include <QStatusBar>
+#include <QLabel>
 
 namespace AppUI
 {

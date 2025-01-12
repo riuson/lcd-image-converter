@@ -29,7 +29,7 @@ namespace Ui
 class EditorTabImage;
 }
 
-class QImage;
+#include <QImage>
 
 namespace Data
 {

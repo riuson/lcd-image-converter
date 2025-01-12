@@ -24,8 +24,8 @@
 
 #include <conversion_options.h>
 
-class QFontMetrics;
-class QPainterPath;
+#include <QFontMetrics>
+#include <QPainterPath>
 
 namespace Data
 {

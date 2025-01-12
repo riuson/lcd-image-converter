@@ -24,7 +24,7 @@
 #include "conversion_options.h"
 #include "ipresetsoptionspart.h"
 
-class QStringList;
+#include <QStringList>
 
 namespace Settings
 {

@@ -24,7 +24,7 @@
 #include <QStringList>
 #include <QCommandLineParser>
 
-class QString;
+#include <QString>
 
 namespace CommandLine
 {

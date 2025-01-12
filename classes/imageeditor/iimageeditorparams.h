@@ -20,9 +20,9 @@
 #ifndef IIMAGEEDITORPARAMS_H
 #define IIMAGEEDITORPARAMS_H
 
-class QColor;
-class QWidget;
-class QPainterPath;
+#include <QColor>
+#include <QWidget>
+#include <QPainterPath>
 
 namespace ImageEditor
 {

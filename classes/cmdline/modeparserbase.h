@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-class QCommandLineParser;
+#include <QCommandLineParser>
 
 namespace CommandLine
 {

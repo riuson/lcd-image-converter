@@ -26,8 +26,8 @@
 #include <QTime>
 #include <QPixmap>
 
-class QTimer;
-class QImage;
+#include <QTimer>
+#include <QImage>
 
 namespace Settings
 {

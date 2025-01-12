@@ -25,8 +25,8 @@
 #include <QColor>
 #include "iimageeditortool.h"
 
-class QIcon;
-class QAction;
+#include <QIcon>
+#include <QAction>
 template <class T1> class QVector;
 
 namespace ImageEditor

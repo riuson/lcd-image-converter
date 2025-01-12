@@ -20,7 +20,7 @@
 #ifndef ALIGNMODINFO_H
 #define ALIGNMODINFO_H
 
-class QString;
+#include <QString>
 
 #include <QString>
 

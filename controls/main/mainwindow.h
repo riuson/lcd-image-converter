@@ -28,7 +28,7 @@ namespace Ui
 class MainWindow;
 }
 
-class QTranslator;
+#include <QTranslator>
 class WidgetBitmapEditor;
 
 namespace Settings

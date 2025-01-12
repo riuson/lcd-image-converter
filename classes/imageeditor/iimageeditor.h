@@ -20,9 +20,9 @@
 #ifndef IIMAGEEDITOR_H
 #define IIMAGEEDITOR_H
 
-class QImage;
-class QPoint;
-class QWidget;
+#include <QImage>
+#include <QPoint>
+#include <QWidget>
 
 namespace ImageEditor
 {

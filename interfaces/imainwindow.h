@@ -22,8 +22,8 @@
 
 #include <QObject>
 
-class QString;
-class QWidget;
+#include <QString>
+#include <QWidget>
 
 template <class T> class QList;
 

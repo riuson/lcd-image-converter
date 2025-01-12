@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-class QMessageBox;
+#include <QMessageBox>
 
 namespace AppUI
 {

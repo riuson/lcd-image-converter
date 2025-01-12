@@ -22,7 +22,7 @@
 
 #include "preset.h"
 
-class QImage;
+#include <QImage>
 
 namespace Settings
 {

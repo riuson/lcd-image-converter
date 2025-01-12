@@ -26,8 +26,8 @@
 #include <QPoint>
 #include "iimageeditortool.h"
 
-class QIcon;
-class QAction;
+#include <QIcon>
+#include <QAction>
 
 namespace ImageEditor
 {

@@ -24,7 +24,7 @@
 
 #include "conversion_options.h"
 
-class QCompleter;
+#include <QCompleter>
 
 namespace Ui
 {

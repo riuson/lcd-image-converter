@@ -22,8 +22,8 @@
 
 #include <QObject>
 
-class QSettings;
-class QDomElement;
+#include <QSettings>
+#include <QDomElement>
 
 namespace Settings
 {

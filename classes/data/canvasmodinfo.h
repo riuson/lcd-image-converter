@@ -20,7 +20,7 @@
 #ifndef CANVASMODINFO_H
 #define CANVASMODINFO_H
 
-class QString;
+#include <QString>
 
 #include <QString>
 

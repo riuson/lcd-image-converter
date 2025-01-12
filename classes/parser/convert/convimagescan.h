@@ -24,7 +24,7 @@
 #include <QVector>
 #include <QPoint>
 
-class QImage;
+#include <QImage>
 
 namespace Parsing
 {

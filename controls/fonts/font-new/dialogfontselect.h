@@ -26,8 +26,8 @@ namespace Ui
 {
 class DialogFontSelect;
 }
-class QModelIndex;
-class QItemSelection;
+#include <QModelIndex>
+#include <QItemSelection>
 
 namespace Data
 {

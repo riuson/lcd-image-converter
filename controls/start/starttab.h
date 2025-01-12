@@ -27,7 +27,7 @@ namespace Ui
 class StartTab;
 }
 
-class QStringList;
+#include <QStringList>
 
 namespace AppUI
 {

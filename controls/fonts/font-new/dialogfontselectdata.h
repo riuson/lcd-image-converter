@@ -23,9 +23,9 @@
 #include <QObject>
 #include <QColor>
 
-class QModelIndex;
-class QItemSelection;
-class QFont;
+#include <QModelIndex>
+#include <QItemSelection>
+#include <QFont>
 
 namespace Data
 {

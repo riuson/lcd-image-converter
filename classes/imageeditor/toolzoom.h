@@ -23,8 +23,8 @@
 #include <QObject>
 #include "iimageeditortool.h"
 
-class QIcon;
-class QSpinBox;
+#include <QIcon>
+#include <QSpinBox>
 
 namespace ImageEditor
 {
