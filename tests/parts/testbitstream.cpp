@@ -1,5 +1,6 @@
 #include "testbitstream.h"
 
+#include <QRandomGenerator>
 #include "preset.h"
 #include "prepareoptions.h"
 #include "matrixoptions.h"
@@ -58,11 +59,11 @@ void TestBitStream::preparePackData(
   QVector<quint32> *source, QVector<quint32> *packed)
 {
   const int count = 1000;
-  qsrand(QTime::currentTime().msec());
+  QRandomGenerator prng(QTime::currentTime().msec());
 
   // fill source data
   for (int i = 0; i < count; i++) {
-    quint32 value = qrand();
+    quint32 value = prng.generate();
     value = 0x00ffff11;
     source->append(value);
   }

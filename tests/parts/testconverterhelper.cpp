@@ -2,6 +2,7 @@
 
 #include <QVector>
 #include <QCoreApplication>
+#include <QRandomGenerator>
 #include "qt-version-check.h"
 #include "converterhelper.h"
 #include "preset.h"
@@ -32,10 +33,10 @@ void TestConverterHelper::processPixels()
 
   // equals by default
   QVector<quint32> source, sample;
-  qsrand(QTime::currentTime().msec());
+  QRandomGenerator prng(QTime::currentTime().msec());
 
   for (int i = 0; i < count; i++) {
-    quint32 value = qrand();
+    quint32 value = prng.generate();
     source << value;
     sample << value;
   }
@@ -54,7 +55,7 @@ void TestConverterHelper::processPixels()
   sample.clear();
 
   for (int i = 0; i < count; i++) {
-    quint32 value = qrand();
+    quint32 value = prng.generate();
     quint32 a = 0;
     a |= (value & 0x12345678) << 3;
     a |= (value & 0x87654321) >> 1;
@@ -76,7 +77,7 @@ void TestConverterHelper::processPixels()
   sample.clear();
 
   for (int i = 0; i < count; i++) {
-    quint32 value = qrand();
+    quint32 value = prng.generate();
     quint32 a = value & 0xabcdef01;
     source << a;
     sample << value;
@@ -96,7 +97,7 @@ void TestConverterHelper::processPixels()
   sample.clear();
 
   for (int i = 0; i < count; i++) {
-    quint32 value = qrand();
+    quint32 value = prng.generate();
     quint32 a = value | 0x1a5b5e4d;
     source << a;
     sample << value;
@@ -180,11 +181,11 @@ void TestConverterHelper::dataToString()
   const int count = 10;
   // fill source data
   QVector<quint32> source;
-  qsrand(QTime::currentTime().msec());
+  QRandomGenerator prng(QTime::currentTime().msec());
 
   for (int y = 0; y < count; y++) {
     for (int x = 0; x < count; x++) {
-      quint32 value = qrand();
+      quint32 value = prng.generate();
       source << value;
     }
   }
@@ -385,10 +386,11 @@ void TestConverterHelper::uint2binary()
 
 void TestConverterHelper::uint2string()
 {
+  QRandomGenerator prng(QTime::currentTime().msec());
   quint32 values[50];
 
   for (quint32 v = 0; v < sizeof(values) / sizeof(quint32); v++) {
-    values[v] = static_cast<quint32>(qrand());
+    values[v] = prng.generate();
   }
 
   Settings::Presets::DataNumeralSystem nums[] = {
@@ -482,12 +484,12 @@ void TestConverterHelper::preparePackData(
 {
   int packedRowWidth = 0;
 
-  qsrand(QTime::currentTime().msec());
+  QRandomGenerator prng(QTime::currentTime().msec());
 
   // fill source data
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
-      quint32 value = qrand();
+      quint32 value = prng.generate();
       value = 0x00ffff11;
       source->append(value);
     }
