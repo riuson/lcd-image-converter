@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2022 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,38 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef ACTIONFONTHANDLERS_H
-#define ACTIONFONTHANDLERS_H
+#ifndef ALIGNSETTINGS_H
+#define ALIGNSETTINGS_H
 
-#include <QObject>
-
-#include "actionhandlersbase.h"
-
-namespace AppUI
-{
-namespace MenuHandlers
+namespace Settings
 {
 
-class ActionFontHandlers : public ActionHandlersBase
-{
-  Q_OBJECT
+class AlignSettings{
 public:
-  explicit ActionFontHandlers(QObject *parent = 0);
-  virtual ~ActionFontHandlers() {}
-
-signals:
-  void imageCreated(QImage *image, const QString &documentName);
-
-public slots:
-  void fontChange_triggered();
-  void fontInverse_triggered();
-  void fontResize_triggered();
-  void fontAlign_triggered();
-  void fontPreview_triggered();
-  void fontToImage_triggered();
+  static int scale();
+  static void setScale(int value);
 };
 
-} // namespace MenuHandlers
-} // namespace AppUI
+} // namespace Settings
 
-#endif // ACTIONFONTHANDLERS_H
+#endif // ALIGNSETTINGS_H

@@ -31,6 +31,7 @@
 #include "imageimport.h"
 #include "imageexport.h"
 #include "imageeditinexternaltool.h"
+#include "imagealign.h"
 
 namespace AppUI
 {
@@ -181,6 +182,18 @@ void ActionImageHandlers::resize_triggered()
     docOp.setKeys(keys);
     Operations::ImageResize imageResize(this->mMainWindow->parentWidget(), this);
     docOp.apply(this->editor()->document(), imageResize);
+  }
+}
+
+void ActionImageHandlers::align_triggered()
+{
+  if (this->editor() != nullptr) {
+    QStringList keys = this->editor()->selectedKeys();
+
+    Operations::DocumentOperator docOp(this);
+    docOp.setKeys(keys);
+    Operations::ImageAlign imageAlign(this->mMainWindow->parentWidget(), this);
+    docOp.apply(this->editor()->document(), imageAlign);
   }
 }
 

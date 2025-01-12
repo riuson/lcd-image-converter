@@ -1,11 +1,11 @@
 #include "testsettings.h"
+#include <QBuffer>
 #include <QDir>
 #include <QDomDocument>
 #include <QDomNodeList>
 #include <QFile>
 #include <QTemporaryDir>
 #include <QXmlInputSource>
-#include <QXmlSimpleReader>
 
 TestSettings::TestSettings(QObject *parent) :
   QObject(parent)
@@ -162,14 +162,11 @@ void TestSettings::save_load()
       QCOMPARE(file.exists(), true);
       QCOMPARE(file.open(QFile::ReadOnly), true);
 
-      QXmlInputSource source(&file);
-      QXmlSimpleReader reader;
-
       QDomDocument doc;
       QString errorMsg;
       int errorColumn, errorLine;
 
-      if (doc.setContent(&source, &reader, &errorMsg, &errorLine, &errorColumn)) {
+      if (doc.setContent(&file, false, &errorMsg, &errorLine, &errorColumn)) {
         QDomElement root = doc.documentElement();
         QCOMPARE(root.tagName(), QString("configuration"));
       } else {

@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2022 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,38 +17,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef ACTIONFONTHANDLERS_H
-#define ACTIONFONTHANDLERS_H
+#ifndef ALIGNMODES_H
+#define ALIGNMODES_H
 
-#include <QObject>
-
-#include "actionhandlersbase.h"
-
-namespace AppUI
-{
-namespace MenuHandlers
+namespace Data
 {
 
-class ActionFontHandlers : public ActionHandlersBase
-{
-  Q_OBJECT
-public:
-  explicit ActionFontHandlers(QObject *parent = 0);
-  virtual ~ActionFontHandlers() {}
-
-signals:
-  void imageCreated(QImage *image, const QString &documentName);
-
-public slots:
-  void fontChange_triggered();
-  void fontInverse_triggered();
-  void fontResize_triggered();
-  void fontAlign_triggered();
-  void fontPreview_triggered();
-  void fontToImage_triggered();
+enum class HorizontalAlignMode {
+  // None.
+  None = 0,
+  // To left border.
+  Left,
+  // To center (- 0.5px for odd).
+  CenterLeft,
+  // To center (+ 0.5px for odd).
+  CenterRight,
+  // To right border.
+  Right,
 };
 
-} // namespace MenuHandlers
-} // namespace AppUI
+enum class VerticalAlignMode {
+  // None.
+  None = 0,
+  // To top border.
+  Top,
+  // To center (- 0.5px for odd).
+  CenterTop,
+  // To center (+ 0.5px for odd).
+  CenterBottom,
+  // To bottom border.
+  Bottom,
+};
 
-#endif // ACTIONFONTHANDLERS_H
+} // namespace Data
+
+#endif // ALIGNMODES_H

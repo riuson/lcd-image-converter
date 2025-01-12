@@ -90,35 +90,28 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
     Parsing::Conversion::ConverterHelper::processPixels(preset, &sourceData);
 
     QVector<quint32> packedData;
-    int packedWidth, packedHeight;
     Parsing::Conversion::ConverterHelper::packData(
       preset,
       &sourceData, sourceWidth, sourceHeight,
-      &packedData, &packedWidth, &packedHeight);
+      &packedData);
 
     QVector<quint32> reorderedData;
-    int reorderedWidth, reorderedHeight;
     Parsing::Conversion::ConverterHelper::reorder(
       preset,
-      &packedData, packedWidth, packedHeight,
-      &reorderedData, &reorderedWidth, &reorderedHeight);
+      &packedData,
+      &reorderedData);
 
     QVector<quint32> compressedData;
-    int compressedWidth, compressedHeight;
     Parsing::Conversion::ConverterHelper::compressData(
       preset,
       &reorderedData,
-      reorderedWidth,
-      reorderedHeight,
-      &compressedData,
-      &compressedWidth,
-      &compressedHeight);
+      &compressedData);
 
     this->mTags->setTagValue(TagsList::Tag::OutputBlocksCount, QString("%1").arg(compressedData.size()));
 
     this->mPreparedOutputImageData = Parsing::Conversion::ConverterHelper::dataToString(
                                        preset,
-                                       &compressedData, compressedWidth, compressedHeight);
+                                       &compressedData);
 
     // get hash
     QString hashStr = QString("data: %1, width: %2, height: %3").arg(this->mPreparedOutputImageData).arg(image->width()).arg(image->height());

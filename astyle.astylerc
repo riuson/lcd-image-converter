@@ -7,5 +7,5 @@ break-blocks
 pad-oper
 pad-header
 align-pointer=name
-add-brackets
+add-braces
 convert-tabs

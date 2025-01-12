@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2022 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,38 +17,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef ACTIONFONTHANDLERS_H
-#define ACTIONFONTHANDLERS_H
+#ifndef ALIGNMODINFO_H
+#define ALIGNMODINFO_H
 
-#include <QObject>
+class QString;
 
-#include "actionhandlersbase.h"
+#include <QString>
 
-namespace AppUI
+namespace Data
 {
-namespace MenuHandlers
+enum class HorizontalAlignMode;
+enum class VerticalAlignMode;
+}
+
+namespace Data
 {
 
-class ActionFontHandlers : public ActionHandlersBase
+class AlignModInfo
 {
-  Q_OBJECT
 public:
-  explicit ActionFontHandlers(QObject *parent = 0);
-  virtual ~ActionFontHandlers() {}
+  struct Mods {
+    Data::HorizontalAlignMode horizontalMode;
+    Data::VerticalAlignMode verticalMode;
+    int horizontalOffset;
+    int verticalOffset;
 
-signals:
-  void imageCreated(QImage *image, const QString &documentName);
+    void reset();
+  };
 
-public slots:
-  void fontChange_triggered();
-  void fontInverse_triggered();
-  void fontResize_triggered();
-  void fontAlign_triggered();
-  void fontPreview_triggered();
-  void fontToImage_triggered();
+  AlignModInfo();
+
+  const Mods &summary() const;
+
+  void modify(HorizontalAlignMode horizontalMode,
+    int horizontalOffset,
+    VerticalAlignMode verticalMode,
+    int verticalOffset);
+  void reset();
+
+  const QString toString() const;
+
+private:
+  Mods mState;
 };
 
-} // namespace MenuHandlers
-} // namespace AppUI
+} // namespace Data
 
-#endif // ACTIONFONTHANDLERS_H
+#endif // ALIGNMODINFO_H

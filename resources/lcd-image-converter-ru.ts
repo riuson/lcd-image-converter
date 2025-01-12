@@ -2,6 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
+    <name>AlignModProxy</name>
+    <message>
+        <location filename="../classes/data/alignmodproxy.cpp" line="46"/>
+        <source>Size</source>
+        <translation>Размер</translation>
+    </message>
+</context>
+<context>
     <name>AppUI::CommonDialogs::DialogSaveChanges</name>
     <message>
         <location filename="../controls/save-changes/dialogsavechanges.cpp" line="34"/>
@@ -22,23 +30,23 @@
 <context>
     <name>AppUI::Fonts::DialogFontSelect</name>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="398"/>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="399"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="428"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="429"/>
         <source>Max size (w × h): %1 × %2</source>
         <translation>Макс размер (w × h): %1 × %2</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="397"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="427"/>
         <source>Count: %1</source>
         <translation>Количество: %1</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="407"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="437"/>
         <source>Fore Color: %1</source>
         <translation>Цвет переднего плана: %1</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="412"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.cpp" line="442"/>
         <source>Back Color: %1</source>
         <translation>Цвет заднего плана: %1</translation>
     </message>
@@ -54,12 +62,12 @@
 <context>
     <name>AppUI::MainWindow</name>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="317"/>
+        <location filename="../controls/main/mainwindow.cpp" line="319"/>
         <source>XML Files (*.xml)</source>
         <translation>Файлы XML (*.xml)</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.cpp" line="319"/>
+        <location filename="../controls/main/mainwindow.cpp" line="321"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -296,6 +304,16 @@
         <location filename="../controls/setup/parts/image/setuptabimage.cpp" line="52"/>
         <source>Hecadecimal</source>
         <translation>16-ричная</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.cpp" line="54"/>
+        <source>Check to split data by rows/bands on packing.</source>
+        <translation>Выбрать для разбиения данных по строкам или полосам при упаковке.</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.cpp" line="55"/>
+        <source>Number of blocks per line code. 0 to single line.</source>
+        <translation>Количество блоков данных на строку кода. Установите 0 для получения единственной строки.</translation>
     </message>
 </context>
 <context>
@@ -799,6 +817,17 @@
     </message>
 </context>
 <context>
+    <name>Data::Models::ImagesAlignedProxy</name>
+    <message>
+        <source>Original size</source>
+        <translation type="obsolete">Исходный размер</translation>
+    </message>
+    <message>
+        <source>New size</source>
+        <translation type="obsolete">Новый размер</translation>
+    </message>
+</context>
+<context>
     <name>Data::Models::ImagesModel</name>
     <message>
         <location filename="../classes/data/imagesmodel.cpp" line="63"/>
@@ -815,14 +844,12 @@
 <context>
     <name>Data::Models::ImagesResizedProxy</name>
     <message>
-        <location filename="../controls/resize/imagesresizedproxy.cpp" line="48"/>
         <source>Original size</source>
-        <translation>Исходный размер</translation>
+        <translation type="vanished">Исходный размер</translation>
     </message>
     <message>
-        <location filename="../controls/resize/imagesresizedproxy.cpp" line="50"/>
         <source>New size</source>
-        <translation>Новый размер</translation>
+        <translation type="vanished">Новый размер</translation>
     </message>
 </context>
 <context>
@@ -853,6 +880,85 @@ Qt %4</source>
 &lt;hr/&gt;
 Ревизия &lt;a href=&quot;https://github.com/riuson/lcd-image-converter/commit/%1&quot;&gt;%2&lt;/a&gt; от &lt;i&gt;%3&lt;/i&gt;&lt;br/&gt;
 Qt: %4</translation>
+    </message>
+</context>
+<context>
+    <name>DialogAlign</name>
+    <message>
+        <location filename="../controls/align/dialogalign.ui" line="14"/>
+        <source>Align</source>
+        <translation>Выравнивание</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.ui" line="27"/>
+        <source>Mode:</source>
+        <translation>Режим:</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.ui" line="39"/>
+        <source>Offset:</source>
+        <translation>Смещение:</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.ui" line="57"/>
+        <source>Scale:</source>
+        <translation>Масштаб:</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.ui" line="95"/>
+        <source>Horizontal:</source>
+        <translation>По горизонтали:</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.ui" line="126"/>
+        <source>Vertical:</source>
+        <translation>По вертикали:</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.cpp" line="77"/>
+        <location filename="../controls/align/dialogalign.cpp" line="83"/>
+        <source>None</source>
+        <translation>Нет</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.cpp" line="78"/>
+        <source>Left</source>
+        <translation>Влево</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.cpp" line="79"/>
+        <source>Center Left</source>
+        <translation>По центру лвее</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.cpp" line="80"/>
+        <source>Center Right</source>
+        <translation>По центру правее</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.cpp" line="81"/>
+        <source>Right</source>
+        <translation>Вправо</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.cpp" line="84"/>
+        <source>Top</source>
+        <translation>Вверх</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.cpp" line="85"/>
+        <source>Center Top</source>
+        <translation>По центру выше</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.cpp" line="86"/>
+        <source>Center Bottom</source>
+        <translation>По центру ниже</translation>
+    </message>
+    <message>
+        <location filename="../controls/align/dialogalign.cpp" line="87"/>
+        <source>Bottom</source>
+        <translation>Вниз</translation>
     </message>
 </context>
 <context>
@@ -1014,103 +1120,103 @@ Qt: %4</translation>
         <translation>Размер:</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="183"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="190"/>
         <source>Parameters</source>
         <translation>Параметры</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="193"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="200"/>
         <source>Proportional</source>
         <translation>Пропорциональный</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="203"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="210"/>
         <source>Monospaced</source>
         <translation>Моноширинный</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="236"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="243"/>
         <source>Multiplicity of width</source>
         <translation>Кратность ширины</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="239"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="246"/>
         <source>W /</source>
         <translation>Ш /</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="252"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="259"/>
         <source>Multiplicity of height</source>
         <translation>Кратность высоты</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="255"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="262"/>
         <source>H /</source>
         <translation>В /</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="283"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="290"/>
         <source>Antialiasing</source>
         <translation>Сглаживание</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="311"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="318"/>
         <source>Fore Color</source>
         <translation>Цвет переднего плана</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="401"/>
-        <source>Max char size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="408"/>
-        <source>Max glyph size</source>
-        <translation type="unfinished"></translation>
+        <source>Max char size</source>
+        <translation>Макс. разм. символа</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="298"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="415"/>
+        <source>Max glyph size</source>
+        <translation>Макс. разм. изображения</translation>
+    </message>
+    <message>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="305"/>
         <source>Back Color</source>
         <translation>Цвет заднего плана</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="138"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="145"/>
         <source>Enter filter...</source>
         <translation>Введите фильтр...</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="111"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="118"/>
         <source>Characters</source>
         <translation>Символы</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="125"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="132"/>
         <source>Filter:</source>
         <translation>Фильтр:</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="158"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="165"/>
         <source>Append Selected</source>
         <translation>Добавить выбранные</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="165"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="172"/>
         <source>Append Range...</source>
         <translation>Добавить диапазон...</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="339"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="346"/>
         <source>Sort</source>
         <translation>Отсортировать</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="368"/>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="371"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="375"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="378"/>
         <source>Selected characters</source>
         <translation>Выбранные символы</translation>
     </message>
     <message>
-        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="394"/>
+        <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="401"/>
         <source>Count</source>
         <translation>Количество</translation>
     </message>
@@ -1235,17 +1341,17 @@ Qt: %4</translation>
 <context>
     <name>ImageEditor::Tools::ToolLine</name>
     <message>
-        <location filename="../classes/imageeditor/toolline.cpp" line="66"/>
+        <location filename="../classes/imageeditor/toolline.cpp" line="67"/>
         <source>Line</source>
         <translation>Линия</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolline.cpp" line="71"/>
+        <location filename="../classes/imageeditor/toolline.cpp" line="72"/>
         <source>&lt;b&gt;Draw line&lt;/b&gt;&lt;br/&gt;Use left mouse button to draw forecolor.&lt;br/&gt;Use right mouse button to draw backcolor.</source>
         <translation>&lt;b&gt;Рисование линии&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши для рисования цветом переднего плана.&lt;br/&gt;Правая кнопка мыши для рисования цветом заднего плана.</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolline.cpp" line="148"/>
+        <location filename="../classes/imageeditor/toolline.cpp" line="149"/>
         <source>Line Width</source>
         <translation>Толщина линии</translation>
     </message>
@@ -1302,43 +1408,43 @@ Qt: %4</translation>
 <context>
     <name>ImageEditor::Tools::ToolRect</name>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="66"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="67"/>
         <source>Rectangle</source>
         <translation>Прямоугольник</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="71"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="72"/>
         <source>&lt;b&gt;Draw rectangle&lt;/b&gt;&lt;br/&gt;Left mouse button: outline - forecolor, filling - backcolor.&lt;br/&gt;Right mouse button: outline - backcolor, filling - forecolor.</source>
         <translation>&lt;b&gt;Рисование прямоугольника&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши: границы цвета переднего плана, заливка - заднего.&lt;br/&gt;Правая кнопка мыши: границы цвета заднего плана, заливка - переднего.</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="148"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="149"/>
         <source>Outline Width</source>
         <translation>Ширина границ</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="155"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="156"/>
         <source>Outline</source>
         <translation>Границы</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="156"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="157"/>
         <source>Outline only</source>
         <translation>Только границы</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="165"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="166"/>
         <source>Filled Outline</source>
         <translation>Заливка и границы</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="166"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="167"/>
         <source>Filled with Outline</source>
         <translation>Заливка с границами</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolrect.cpp" line="175"/>
         <location filename="../classes/imageeditor/toolrect.cpp" line="176"/>
+        <location filename="../classes/imageeditor/toolrect.cpp" line="177"/>
         <source>Filled</source>
         <translation>Заливка</translation>
     </message>
@@ -1386,7 +1492,7 @@ Qt: %4</translation>
     <message>
         <location filename="../classes/imageeditor/toolzoom.cpp" line="67"/>
         <source>Zoom image</source>
-        <translation>Измение масштаба изображения</translation>
+        <translation>Изменение масштаба изображения</translation>
     </message>
     <message>
         <location filename="../classes/imageeditor/toolzoom.cpp" line="115"/>
@@ -1428,231 +1534,237 @@ Qt: %4</translation>
         <translation>Сдвиг</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="102"/>
+        <location filename="../controls/main/mainwindow.ui" line="103"/>
         <source>Font</source>
         <translation>Шрифт</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="113"/>
+        <location filename="../controls/main/mainwindow.ui" line="115"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="122"/>
+        <location filename="../controls/main/mainwindow.ui" line="124"/>
         <source>Options</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="126"/>
+        <location filename="../controls/main/mainwindow.ui" line="128"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="136"/>
+        <location filename="../controls/main/mainwindow.ui" line="138"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="154"/>
+        <location filename="../controls/main/mainwindow.ui" line="156"/>
         <source>New Image...</source>
         <translation>Новое изображение...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="159"/>
+        <location filename="../controls/main/mainwindow.ui" line="161"/>
         <source>New Font...</source>
         <translation>Новый шрифт...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="164"/>
+        <location filename="../controls/main/mainwindow.ui" line="166"/>
         <source>Open...</source>
         <translation>Открыть...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="172"/>
+        <location filename="../controls/main/mainwindow.ui" line="174"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="180"/>
+        <location filename="../controls/main/mainwindow.ui" line="182"/>
         <source>Save As...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="188"/>
+        <location filename="../controls/main/mainwindow.ui" line="190"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="196"/>
+        <location filename="../controls/main/mainwindow.ui" line="198"/>
         <source>Quit</source>
         <translation>Выйти</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="204"/>
+        <location filename="../controls/main/mainwindow.ui" line="206"/>
         <source>Flip Horizontal</source>
         <translation>Отразить по горизонтали</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="209"/>
+        <location filename="../controls/main/mainwindow.ui" line="211"/>
         <source>Flip Vertical</source>
         <translation>Отразить по вертикали</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="214"/>
+        <location filename="../controls/main/mainwindow.ui" line="216"/>
         <source>90 Clockwise</source>
         <translation>90 по часовой</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="222"/>
+        <location filename="../controls/main/mainwindow.ui" line="224"/>
         <source>180</source>
         <translation>180</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="227"/>
+        <location filename="../controls/main/mainwindow.ui" line="229"/>
         <source>90 Counter-Clockwise</source>
         <translation>90 против часовой</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="235"/>
-        <location filename="../controls/main/mainwindow.ui" line="281"/>
+        <location filename="../controls/main/mainwindow.ui" line="237"/>
+        <location filename="../controls/main/mainwindow.ui" line="283"/>
         <source>Inverse</source>
         <translation>Инвертировать</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="243"/>
+        <location filename="../controls/main/mainwindow.ui" line="245"/>
         <source>Convert...</source>
         <translation>Преобразовать...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="251"/>
-        <location filename="../controls/main/mainwindow.ui" line="294"/>
+        <location filename="../controls/main/mainwindow.ui" line="253"/>
+        <location filename="../controls/main/mainwindow.ui" line="296"/>
         <source>Conversion...</source>
         <translation>Преобразование...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="256"/>
+        <location filename="../controls/main/mainwindow.ui" line="258"/>
         <source>Import...</source>
         <translation>Импортировать...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="261"/>
+        <location filename="../controls/main/mainwindow.ui" line="263"/>
         <source>Export...</source>
         <translation>Экспортировать...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="266"/>
-        <location filename="../controls/main/mainwindow.ui" line="276"/>
+        <location filename="../controls/main/mainwindow.ui" line="268"/>
+        <location filename="../controls/main/mainwindow.ui" line="278"/>
         <source>Resize...</source>
         <translation>Изменение размеров...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="286"/>
+        <location filename="../controls/main/mainwindow.ui" line="288"/>
         <source>About...</source>
         <translation>О программе...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="317"/>
+        <location filename="../controls/main/mainwindow.ui" line="319"/>
         <source>Home Page...</source>
         <translation>Домашняя страница...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="322"/>
+        <location filename="../controls/main/mainwindow.ui" line="324"/>
         <source>To Image</source>
         <translation>В изображение</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="327"/>
+        <location filename="../controls/main/mainwindow.ui" line="329"/>
         <source>Convert All</source>
         <translation>Преобразовать все</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="332"/>
+        <location filename="../controls/main/mainwindow.ui" line="334"/>
         <source>Edit in external tool...</source>
         <translation>Открыть во внешнем редакторе...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="343"/>
+        <location filename="../controls/main/mainwindow.ui" line="345"/>
         <source>External editor...</source>
         <translation>Внешний редактор...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="348"/>
+        <location filename="../controls/main/mainwindow.ui" line="350"/>
         <source>Left</source>
         <translation>Влево</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="356"/>
+        <location filename="../controls/main/mainwindow.ui" line="358"/>
         <source>Right</source>
         <translation>Вправо</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="364"/>
+        <location filename="../controls/main/mainwindow.ui" line="366"/>
         <source>Up</source>
         <translation>Вверх</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="372"/>
+        <location filename="../controls/main/mainwindow.ui" line="374"/>
         <source>Down</source>
         <translation>Вниз</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="380"/>
+        <location filename="../controls/main/mainwindow.ui" line="382"/>
         <source>Undo</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="388"/>
+        <location filename="../controls/main/mainwindow.ui" line="390"/>
         <source>Redo</source>
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="396"/>
+        <location filename="../controls/main/mainwindow.ui" line="398"/>
         <source>Updates...</source>
         <translation>Обновления...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="401"/>
+        <location filename="../controls/main/mainwindow.ui" line="403"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="409"/>
+        <location filename="../controls/main/mainwindow.ui" line="411"/>
         <source>Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="417"/>
+        <location filename="../controls/main/mainwindow.ui" line="419"/>
         <source>About Qt...</source>
         <translation>О Qt...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="422"/>
+        <location filename="../controls/main/mainwindow.ui" line="424"/>
         <source>To Grayscale</source>
         <translatorcomment>Преобразовать изображение из цветного в градации серого</translatorcomment>
         <translation>В градации серого</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="427"/>
+        <location filename="../controls/main/mainwindow.ui" line="429"/>
         <source>Close All</source>
         <translation>Закрыть все</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="307"/>
+        <location filename="../controls/main/mainwindow.ui" line="434"/>
+        <location filename="../controls/main/mainwindow.ui" line="439"/>
+        <source>Align...</source>
+        <translation>Выравнивание...</translation>
+    </message>
+    <message>
+        <location filename="../controls/main/mainwindow.ui" line="309"/>
         <source>Rename...</source>
         <translation>Переименовать...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="312"/>
+        <location filename="../controls/main/mainwindow.ui" line="314"/>
         <source>Preview...</source>
         <translation>Предпросмотр...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="271"/>
+        <location filename="../controls/main/mainwindow.ui" line="273"/>
         <source>Change...</source>
         <translation>Изменить...</translation>
     </message>
     <message>
-        <location filename="../controls/main/mainwindow.ui" line="302"/>
+        <location filename="../controls/main/mainwindow.ui" line="304"/>
         <source>English</source>
         <translatorcomment>не переводить</translatorcomment>
         <translation>English</translation>
@@ -2120,12 +2232,12 @@ Only minimal amount (%3) will be imported.</source>
 <context>
     <name>ToolFill</name>
     <message>
-        <location filename="../classes/imageeditor/toolfill.cpp" line="68"/>
+        <location filename="../classes/imageeditor/toolfill.cpp" line="69"/>
         <source>Fill</source>
         <translation>Заполнение</translation>
     </message>
     <message>
-        <location filename="../classes/imageeditor/toolfill.cpp" line="73"/>
+        <location filename="../classes/imageeditor/toolfill.cpp" line="74"/>
         <source>&lt;b&gt;Fill area&lt;/b&gt;&lt;br/&gt;Use left mouse button to fill with forecolor.&lt;br/&gt;Use right mouse button to fill with backcolor.</source>
         <translation>&lt;b&gt;Заливка площади&lt;/b&gt;&lt;br/&gt;Левая кнопка мыши для заливки цветом переднего плана.&lt;br/&gt;Правая кнопка мыши для заливки цветом заднего плана.</translation>
     </message>

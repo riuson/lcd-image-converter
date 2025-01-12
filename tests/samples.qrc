@@ -11,11 +11,16 @@
         <file alias="vertical">resources/samples/flip/flip-vertical.png</file>
     </qresource>
     <qresource prefix="/shift">
-        <file alias="down">resources/samples/shift/down.png</file>
-        <file alias="left">resources/samples/shift/left.png</file>
         <file alias="original">resources/samples/shift/original.png</file>
-        <file alias="right">resources/samples/shift/right.png</file>
-        <file alias="up">resources/samples/shift/up.png</file>
+        <file alias="0_1">resources/samples/shift/0_1.png</file>
+        <file alias="0_-1">resources/samples/shift/0_-1.png</file>
+        <file alias="1_0">resources/samples/shift/1_0.png</file>
+        <file alias="-1_0">resources/samples/shift/-1_0.png</file>
+        <file alias="1_1">resources/samples/shift/1_1.png</file>
+        <file alias="1_-1">resources/samples/shift/1_-1.png</file>
+        <file alias="-1_1">resources/samples/shift/-1_1.png</file>
+        <file alias="-1_-1">resources/samples/shift/-1_-1.png</file>
+        <file alias="2_4">resources/samples/shift/2_4.png</file>
     </qresource>
     <qresource prefix="/scan_scripts">
         <file alias="scan_template">../resources/scan_scripts/scan_template.js</file>

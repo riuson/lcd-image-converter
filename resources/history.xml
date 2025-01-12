@@ -18,8 +18,10 @@
             <item category="added">Added glyph's size calculation for new font.</item>
             <item category="added">Added selection of size units for font - pixels or points.</item>
             <item category="added">Added tag fnt_size_units - px or pt.</item>
+            <item category="added">Added align operation.</item>
             <item category="changed">Minimal required Qt version 5.15.</item>
             <item category="changed">Number of blocks per code line is configured by user.</item>
+            <item category="changed">SplitToRows is only used to pack pixel data into blocks. Splitting blocks into lines of code uses BlocksPerCodeLine.</item>
             <item category="fixed">Fix including QPainterPath header.</item>
             <item category="fixed">Don't translate default preset names.</item>
             <item category="fixed">Using character code direct, when character cannot be presented with selected encoding.</item>

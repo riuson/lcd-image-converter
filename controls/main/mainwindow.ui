@@ -90,6 +90,7 @@
     <addaction name="menuShift"/>
     <addaction name="menuRotate"/>
     <addaction name="actionImageResize"/>
+    <addaction name="actionImageAlign"/>
     <addaction name="actionImageInverse"/>
     <addaction name="actionImageTo_Grayscale"/>
     <addaction name="separator"/>
@@ -104,6 +105,7 @@
     <addaction name="actionFontChange"/>
     <addaction name="separator"/>
     <addaction name="actionFontResize"/>
+    <addaction name="actionFontAlign"/>
     <addaction name="actionFontInverse"/>
     <addaction name="actionFontPreview"/>
     <addaction name="actionFontToImage"/>
@@ -425,6 +427,16 @@
   <action name="actionClose_All">
    <property name="text">
     <string>Close All</string>
+   </property>
+  </action>
+  <action name="actionImageAlign">
+   <property name="text">
+    <string>Align...</string>
+   </property>
+  </action>
+  <action name="actionFontAlign">
+   <property name="text">
+    <string>Align...</string>
    </property>
   </action>
  </widget>

@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2012 riuson
+ * Copyright (C) 2022 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,38 +17,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef ACTIONFONTHANDLERS_H
-#define ACTIONFONTHANDLERS_H
+#include "alignsettings.h"
 
-#include <QObject>
+#include <QVariant>
+#include <appsettings.h>
 
-#include "actionhandlersbase.h"
-
-namespace AppUI
-{
-namespace MenuHandlers
+namespace Settings
 {
 
-class ActionFontHandlers : public ActionHandlersBase
+int AlignSettings::scale()
 {
-  Q_OBJECT
-public:
-  explicit ActionFontHandlers(QObject *parent = 0);
-  virtual ~ActionFontHandlers() {}
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
+  sett.beginGroup("align-preview");
+  bool ok;
+  int result = sett.value("scale", QVariant(1)).toInt(&ok);
+  sett.endGroup();
 
-signals:
-  void imageCreated(QImage *image, const QString &documentName);
+  if (ok) {
+    return result;
+  }
 
-public slots:
-  void fontChange_triggered();
-  void fontInverse_triggered();
-  void fontResize_triggered();
-  void fontAlign_triggered();
-  void fontPreview_triggered();
-  void fontToImage_triggered();
-};
+  return 1;
+}
 
-} // namespace MenuHandlers
-} // namespace AppUI
+void AlignSettings::setScale(int value)
+{
+  AppSettings appsett;
+  QSettings &sett = appsett.get();
+  sett.beginGroup("align-preview");
+  sett.setValue("scale", QVariant(value));
+  sett.endGroup();
+}
 
-#endif // ACTIONFONTHANDLERS_H
+} // namespace Settings

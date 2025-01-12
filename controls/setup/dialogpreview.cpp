@@ -96,20 +96,17 @@ void DialogPreview::updatePreview()
       Parsing::Conversion::ConverterHelper::processPixels(this->mPreset, &sourceData);
 
       QVector<quint32> packedData;
-      int packedWidth, packedHeight;
-      Parsing::Conversion::ConverterHelper::packData(this->mPreset, &sourceData, sourceWidth, sourceHeight, &packedData, &packedWidth, &packedHeight);
+      Parsing::Conversion::ConverterHelper::packData(this->mPreset, &sourceData, sourceWidth, sourceHeight, &packedData);
 
       QVector<quint32> reorderedData;
-      int reorderedWidth, reorderedHeight;
-      Parsing::Conversion::ConverterHelper::reorder(this->mPreset, &packedData, packedWidth, packedHeight, &reorderedData, &reorderedWidth, &reorderedHeight);
+      Parsing::Conversion::ConverterHelper::reorder(this->mPreset, &packedData, &reorderedData);
 
       QVector<quint32> compressedData;
-      int compressedWidth, compressedHeight;
-      Parsing::Conversion::ConverterHelper::compressData(this->mPreset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
+      Parsing::Conversion::ConverterHelper::compressData(this->mPreset, &reorderedData, &compressedData);
 
       QString dataString = Parsing::Conversion::ConverterHelper::dataToString(
                              this->mPreset,
-                             &compressedData, compressedWidth, compressedHeight);
+                             &compressedData);
 
       this->ui->plainTextEdit->setPlainText(dataString);
     }

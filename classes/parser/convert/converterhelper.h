@@ -58,30 +58,28 @@ public:
   static void processPixels(Settings::Presets:: Preset *preset, QVector<quint32> *data);
   // pack data
   static void packData(
-    Settings::Presets::Preset *preset,
-    QVector<quint32> *inputData,
-    int inputWidth,
-    int inputHeight,
-    QVector<quint32> *outputData,
-    int *outputWidth,
-    int *outputHeight);
+          Settings::Presets::Preset *preset,
+          QVector<quint32> *inputData,
+          int inputWidth,
+          int inputHeight,
+          QVector<quint32> *outputData);
   // bits reordering
   static void reorder(
-    Settings::Presets::Preset *preset,
-    QVector<quint32> *inputData, int inputWidth, int inputHeight,
-    QVector<quint32> *outputData, int *outputWidth, int *outputHeight);
+          Settings::Presets::Preset *preset,
+          QVector<quint32> *inputData,
+          QVector<quint32> *outputData);
 
   static void compressData(
-    Settings::Presets::Preset *preset,
-    QVector<quint32> *inputData, int inputWidth, int inputHeight,
-    QVector<quint32> *outputData, int *outputWidth, int *outputHeight);
+          Settings::Presets::Preset *preset,
+          QVector<quint32> *inputData,
+          QVector<quint32> *outputData);
 
   static void prepareImage(Settings::Presets::Preset *preset, const QImage *source, QImage *result);
   static void createImagePreview(Settings::Presets::Preset *preset, QImage *source, QImage *result);
 
   static QString uint2string(Settings::Presets::DataNumeralSystem numeralSystem, Settings::Presets::DataBlockSize blockSize, quint32 value);
   static QString dataToString(Settings::Presets::Preset *preset,
-                              QVector<quint32> *data, int width, int height);
+                              QVector<quint32> *data);
   static QString previewDataToString(Settings::Presets::Preset *preset,
                                      const QVector<quint32> *data, int width, int height);
 

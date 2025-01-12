@@ -18,6 +18,7 @@
  */
 
 #include "bitmaphelper.h"
+#include "alignmodes.h"
 #include "limits"
 
 #include <QPainter>
@@ -100,6 +101,38 @@ QImage BitmapHelper::shiftLeft(const QImage *source)
   QPainter painter(&result);
   painter.drawImage(-1, 0, *source);
   painter.drawImage(source->width() - 1, 0, *source);
+  return result;
+}
+
+template <typename T> int sgn(T val)
+{
+  return (T(0) < val) - (val < T(0));
+}
+
+QImage BitmapHelper::shift(const QImage *source, int horizontalDirection, int verticalDirection)
+{
+  QImage result = QImage(source->width(), source->height(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
+
+  int width = source->width();
+  int height = source->height();
+  horizontalDirection %= width;
+  verticalDirection %= height;
+
+  QPainter painter(&result);
+
+  for (int i = 0; i < 3; i++) {
+    int x = -width + (width * i) + horizontalDirection;
+
+    for (int j = 0; j < 3; j++) {
+      int y = -height + (height * j) + verticalDirection;
+      painter.drawImage(
+        x,
+        y,
+        *source);
+    }
+  }
+
   return result;
 }
 
@@ -313,6 +346,89 @@ QImage BitmapHelper::fromSvg(const QString &path, int size)
 QColor BitmapHelper::fromRgba(QRgb value)
 {
   return QColor(qRed(value), qGreen(value), qBlue(value), qAlpha(value));
+}
+
+QImage BitmapHelper::align(
+  const QImage *source,
+  Data::HorizontalAlignMode horizontalMode,
+  int horizontalOffset,
+  Data::VerticalAlignMode verticalMode,
+  int verticalOffset)
+{
+  int l, t, r, b;
+  bool hEmpty, vEmpty;
+  Parsing::Conversion::BitmapHelper::findEmptyArea(source, l, t, r, b, hEmpty, vEmpty);
+
+  int moveX = 0;
+  int moveY = 0;
+
+  switch (horizontalMode) {
+    case Data::HorizontalAlignMode::Left:
+      moveX = -l + horizontalOffset;
+      break;
+
+    case Data::HorizontalAlignMode::CenterLeft: {
+      int space = l + r;
+      moveX = (space / 2) - horizontalOffset - l;
+      break;
+    }
+
+    case Data::HorizontalAlignMode::CenterRight: {
+      int space = l + r;
+
+      if ((space & 1) == 0) {
+        moveX = (space / 2) + horizontalOffset - l;
+      } else {
+        moveX = (space / 2) + 1 + horizontalOffset - l;
+      }
+
+      break;
+    }
+
+    case Data::HorizontalAlignMode::Right:
+      moveX = r - horizontalOffset;
+      break;
+
+    case Data::HorizontalAlignMode::None:
+    default:
+      break;
+  }
+
+  switch (verticalMode) {
+    case Data::VerticalAlignMode::Top:
+      moveY = -t + verticalOffset;
+      break;
+
+    case Data::VerticalAlignMode::CenterTop: {
+      int space = t + b;
+      moveY = (space / 2) - verticalOffset - t;
+      break;
+    }
+
+    case Data::VerticalAlignMode::CenterBottom: {
+      int space = t + b;
+
+      if ((space & 1) == 0) {
+        moveY = (space / 2) + verticalOffset - t;
+      } else {
+        moveY = (space / 2) + 1 + verticalOffset - t;
+      }
+
+      break;
+    }
+
+    case Data::VerticalAlignMode::Bottom:
+      moveY = b - verticalOffset;
+      break;
+
+    case Data::VerticalAlignMode::None:
+    default:
+      break;
+  }
+
+  QImage result = shift(source, moveX, moveY);
+
+  return result;
 }
 
 } // namespace Conversion

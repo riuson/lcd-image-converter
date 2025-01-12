@@ -34,6 +34,7 @@
 #include "documentoperator.h"
 #include "imageinverse.h"
 #include "fontresize.h"
+#include "imagealign.h"
 
 namespace AppUI
 {
@@ -81,6 +82,15 @@ void ActionFontHandlers::fontResize_triggered()
     Operations::DocumentOperator docOp(this);
     Operations::FontResize fontResize(this->mMainWindow->parentWidget(), this);
     docOp.apply(this->editor()->document(), fontResize);
+  }
+}
+
+void ActionFontHandlers::fontAlign_triggered()
+{
+  if (this->editor() != nullptr) {
+    Operations::DocumentOperator docOp(this);
+    Operations::ImageAlign imageAlign(this->mMainWindow->parentWidget(), this);
+    docOp.apply(this->editor()->document(), imageAlign);
   }
 }
 
