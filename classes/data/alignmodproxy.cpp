@@ -76,15 +76,12 @@ QVariant AlignModProxy::data(const QModelIndex &index, int role) const
     case Qt::DecorationRole: {
       if (columnIndex == 1) {
         QImage imageSource = result.value<QImage>();
-        QColor backgroundColor = Parsing::Conversion::BitmapHelper::detectBackgroundColor(&imageSource);
-
         QImage imageAligned = Parsing::Conversion::BitmapHelper::align(
                                 &imageSource,
                                 this->mAlignModInfo->summary().horizontalMode,
                                 this->mAlignModInfo->summary().horizontalOffset,
                                 this->mAlignModInfo->summary().verticalMode,
-                                this->mAlignModInfo->summary().verticalOffset,
-                                backgroundColor);
+                                this->mAlignModInfo->summary().verticalOffset);
         result = imageAligned;
       }
 

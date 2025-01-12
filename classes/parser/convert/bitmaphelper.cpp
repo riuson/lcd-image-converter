@@ -353,8 +353,7 @@ QImage BitmapHelper::align(
   Data::HorizontalAlignMode horizontalMode,
   int horizontalOffset,
   Data::VerticalAlignMode verticalMode,
-  int verticalOffset,
-  const QColor &backColor)
+  int verticalOffset)
 {
   int l, t, r, b;
   bool hEmpty, vEmpty;

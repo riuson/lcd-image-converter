@@ -61,12 +61,11 @@ public:
   static QImage fromSvg(const QString &path, int size);
   static QColor fromRgba(QRgb value);
   static QImage align(
-    const QImage *source,
-    Data::HorizontalAlignMode horizontalMode,
-    int horizontalOffset,
-    Data::VerticalAlignMode verticalMode,
-    int verticalOffset,
-    const QColor &backColor);
+          const QImage *source,
+          Data::HorizontalAlignMode horizontalMode,
+          int horizontalOffset,
+          Data::VerticalAlignMode verticalMode,
+          int verticalOffset);
 };
 
 } // namespace Conversion

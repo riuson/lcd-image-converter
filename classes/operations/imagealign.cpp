@@ -67,8 +67,7 @@ void ImageAlign::applyItem(Data::Containers::IDocument *doc, const QString &item
                       mods.horizontalMode,
                       mods.horizontalOffset,
                       mods.verticalMode,
-                      mods.verticalOffset,
-                      Parsing::Conversion::BitmapHelper::detectBackgroundColor(original));
+                      mods.verticalOffset);
     doc->dataContainer()->setImage(itemKey, &result);
   }
 }
