@@ -104,12 +104,11 @@ void DialogPreview::updatePreview()
       Parsing::Conversion::ConverterHelper::reorder(this->mPreset, &packedData, packedWidth, packedHeight, &reorderedData, &reorderedWidth, &reorderedHeight);
 
       QVector<quint32> compressedData;
-      int compressedWidth, compressedHeight;
-      Parsing::Conversion::ConverterHelper::compressData(this->mPreset, &reorderedData, reorderedWidth, reorderedHeight, &compressedData, &compressedWidth, &compressedHeight);
+      Parsing::Conversion::ConverterHelper::compressData(this->mPreset, &reorderedData, &compressedData);
 
       QString dataString = Parsing::Conversion::ConverterHelper::dataToString(
                              this->mPreset,
-                             &compressedData, compressedWidth, compressedHeight);
+                             &compressedData);
 
       this->ui->plainTextEdit->setPlainText(dataString);
     }

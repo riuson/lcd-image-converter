@@ -220,16 +220,16 @@ void TestConverterHelper::dataToString()
     QString test8, test16, test24, test32;
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data8);
-    test8 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test8 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data16);
-    test16 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test16 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data24);
-    test24 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test24 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data32);
-    test32 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test32 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     // compare
     // this->compareStrings(test8, expected8);
@@ -264,16 +264,16 @@ void TestConverterHelper::dataToString()
     QString test8, test16, test24, test32;
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data8);
-    test8 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test8 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data16);
-    test16 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test16 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data24);
-    test24 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test24 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data32);
-    test32 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test32 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     // compare
     QCOMPARE(test8, expected8);
@@ -301,16 +301,16 @@ void TestConverterHelper::dataToString()
     QString test8, test16, test24, test32;
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data8);
-    test8 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test8 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data16);
-    test16 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test16 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data24);
-    test24 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test24 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data32);
-    test32 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test32 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     // compare
     QCOMPARE(test8, expected8);
@@ -338,16 +338,16 @@ void TestConverterHelper::dataToString()
     QString test8, test16, test24, test32;
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data8);
-    test8 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test8 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data16);
-    test16 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test16 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data24);
-    test24 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test24 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     this->mPreset->image()->setBlockSize(Settings::Presets::DataBlockSize::Data32);
-    test32 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source, count, count);
+    test32 = Parsing::Conversion::ConverterHelper::dataToString(this->mPreset, &source);
 
     // compare
     QCOMPARE(test8, expected8);

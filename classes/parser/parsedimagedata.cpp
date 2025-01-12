@@ -104,21 +104,16 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
       &reorderedData, &reorderedWidth, &reorderedHeight);
 
     QVector<quint32> compressedData;
-    int compressedWidth, compressedHeight;
     Parsing::Conversion::ConverterHelper::compressData(
       preset,
       &reorderedData,
-      reorderedWidth,
-      reorderedHeight,
-      &compressedData,
-      &compressedWidth,
-      &compressedHeight);
+      &compressedData);
 
     this->mTags->setTagValue(TagsList::Tag::OutputBlocksCount, QString("%1").arg(compressedData.size()));
 
     this->mPreparedOutputImageData = Parsing::Conversion::ConverterHelper::dataToString(
                                        preset,
-                                       &compressedData, compressedWidth, compressedHeight);
+                                       &compressedData);
 
     // get hash
     QString hashStr = QString("data: %1, width: %2, height: %3").arg(this->mPreparedOutputImageData).arg(image->width()).arg(image->height());

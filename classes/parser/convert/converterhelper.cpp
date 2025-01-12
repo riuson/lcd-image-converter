@@ -372,22 +372,15 @@ void ConverterHelper::reorder(
 
 void ConverterHelper::compressData(Settings::Presets::Preset *preset,
                                    QVector<quint32> *inputData,
-                                   int inputWidth, int inputHeight,
-                                   QVector<quint32> *outputData,
-                                   int *outputWidth, int *outputHeight)
+                                   QVector<quint32> *outputData)
 {
   if (preset->image()->compressionRle()) {
     Utils::Compression::RleCompressor compressor;
     compressor.compress(inputData, preset->image()->blockSize(), outputData, preset->image()->compressionRleMinLength());
-    *outputWidth = outputData->size();
-    *outputHeight = 1;
   } else {
     for (int i = 0; i < inputData->size(); i++) {
       outputData->append(inputData->at(i));
     }
-
-    *outputWidth = inputWidth;
-    *outputHeight = inputHeight;
   }
 }
 
@@ -613,9 +606,8 @@ QString ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem numera
 
 QString ConverterHelper::dataToString(
   Settings::Presets::Preset *preset,
-  QVector<quint32> *data, int width, int height)
+  QVector<quint32> *data)
 {
-  Q_UNUSED(height)
   QString result, converted;
 
   int blockPerLine = preset->image()->blocksPerLine();
