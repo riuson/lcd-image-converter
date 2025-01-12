@@ -51,6 +51,9 @@ SetupTabImage::SetupTabImage(Settings::Presets::Preset *preset, QWidget *parent)
   this->ui->comboBoxNumeralSystem->addItem(tr("Decimal"),     static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Decimal));
   this->ui->comboBoxNumeralSystem->addItem(tr("Hecadecimal"), static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Hexadecimal));
 
+  this->ui->checkBoxSplitToRows->setToolTip(tr("Check to split data by rows/bands on packing."));
+  this->ui->spinBoxBlocksPerLine->setToolTip(tr("Number of blocks per line code. 0 to single line."));
+
   this->matrixChanged();
 }
 

@@ -305,6 +305,16 @@
         <source>Hecadecimal</source>
         <translation>16-ричная</translation>
     </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.cpp" line="54"/>
+        <source>Check to split data by rows/bands on packing.</source>
+        <translation>Выбрать для разбиения данных по строкам или полосам при упаковке.</translation>
+    </message>
+    <message>
+        <location filename="../controls/setup/parts/image/setuptabimage.cpp" line="55"/>
+        <source>Number of blocks per line code. 0 to single line.</source>
+        <translation>Количество блоков данных на строку кода. Установите 0 для получения единственной строки.</translation>
+    </message>
 </context>
 <context>
     <name>AppUI::Setup::Parts::Matrix::MatrixPreviewModel</name>
@@ -905,48 +915,48 @@ Qt: %4</translation>
         <translation>По вертикали:</translation>
     </message>
     <message>
-        <location filename="../controls/align/dialogalign.cpp" line="78"/>
-        <location filename="../controls/align/dialogalign.cpp" line="84"/>
+        <location filename="../controls/align/dialogalign.cpp" line="77"/>
+        <location filename="../controls/align/dialogalign.cpp" line="83"/>
         <source>None</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../controls/align/dialogalign.cpp" line="79"/>
+        <location filename="../controls/align/dialogalign.cpp" line="78"/>
         <source>Left</source>
         <translation>Влево</translation>
     </message>
     <message>
-        <location filename="../controls/align/dialogalign.cpp" line="80"/>
+        <location filename="../controls/align/dialogalign.cpp" line="79"/>
         <source>Center Left</source>
         <translation>По центру лвее</translation>
     </message>
     <message>
-        <location filename="../controls/align/dialogalign.cpp" line="81"/>
+        <location filename="../controls/align/dialogalign.cpp" line="80"/>
         <source>Center Right</source>
         <translation>По центру правее</translation>
     </message>
     <message>
-        <location filename="../controls/align/dialogalign.cpp" line="82"/>
+        <location filename="../controls/align/dialogalign.cpp" line="81"/>
         <source>Right</source>
         <translation>Вправо</translation>
     </message>
     <message>
-        <location filename="../controls/align/dialogalign.cpp" line="85"/>
+        <location filename="../controls/align/dialogalign.cpp" line="84"/>
         <source>Top</source>
         <translation>Вверх</translation>
     </message>
     <message>
-        <location filename="../controls/align/dialogalign.cpp" line="86"/>
+        <location filename="../controls/align/dialogalign.cpp" line="85"/>
         <source>Center Top</source>
         <translation>По центру выше</translation>
     </message>
     <message>
-        <location filename="../controls/align/dialogalign.cpp" line="87"/>
+        <location filename="../controls/align/dialogalign.cpp" line="86"/>
         <source>Center Bottom</source>
         <translation>По центру ниже</translation>
     </message>
     <message>
-        <location filename="../controls/align/dialogalign.cpp" line="88"/>
+        <location filename="../controls/align/dialogalign.cpp" line="87"/>
         <source>Bottom</source>
         <translation>Вниз</translation>
     </message>
