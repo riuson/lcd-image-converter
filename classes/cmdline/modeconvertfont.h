@@ -20,8 +20,9 @@
 #ifndef CONVERTFONTARGUMENTS_H
 #define CONVERTFONTARGUMENTS_H
 
-#include "modeparserbase.h"
 #include <QObject>
+
+#include "modeparserbase.h"
 
 namespace CommandLine
 {
@@ -30,7 +31,7 @@ class ModeConvertFont : public ModeParserBase
 {
   Q_OBJECT
 public:
-  explicit ModeConvertFont(QCommandLineParser &parser, QObject *parent = 0);
+  explicit ModeConvertFont(QCommandLineParser& parser, QObject* parent = 0);
   virtual ~ModeConvertFont() {}
 
   static QString modeName();
@@ -40,12 +41,7 @@ public:
   int process() Q_DECL_OVERRIDE;
 
 private:
-  enum class SubMode {
-    None,
-    FromXmlDocument,
-    FromCharactersList,
-    FromCharactersRange
-  };
+  enum class SubMode { None, FromXmlDocument, FromCharactersList, FromCharactersRange };
 
   QString mFontFamily;
   int mFontSize;
@@ -72,9 +68,7 @@ private:
 
   SubMode mSubMode;
 
-  QString createCharsList(const QString &rangeStr,
-                          const QString &encoding,
-                          bool bigEndian) const;
+  QString createCharsList(const QString& rangeStr, const QString& encoding, bool bigEndian) const;
 };
 
 } // namespace CommandLine

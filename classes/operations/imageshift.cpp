@@ -18,34 +18,32 @@
  */
 
 #include "imageshift.h"
-#include "idocument.h"
-#include "datacontainer.h"
+
 #include "bitmaphelper.h"
+#include "datacontainer.h"
+#include "idocument.h"
 
 namespace Operations
 {
 
-ImageShift::ImageShift(QObject *parent) : QObject(parent)
-{
-  this->mDirection = Direction::None;
-}
+ImageShift::ImageShift(QObject* parent) : QObject(parent) { this->mDirection = Direction::None; }
 
-bool ImageShift::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
+bool ImageShift::prepare(const Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
   return true;
 }
 
-void ImageShift::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
+void ImageShift::applyDocument(Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageShift::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
+void ImageShift::applyItem(Data::Containers::IDocument* doc, const QString& itemKey)
 {
-  const QImage *original = doc->dataContainer()->image(itemKey);
+  const QImage* original = doc->dataContainer()->image(itemKey);
   QImage result;
 
   switch (this->mDirection) {
@@ -74,9 +72,6 @@ void ImageShift::applyItem(Data::Containers::IDocument *doc, const QString &item
   doc->dataContainer()->setImage(itemKey, &result);
 }
 
-void ImageShift::setDirection(ImageShift::Direction direction)
-{
-  this->mDirection = direction;
-}
+void ImageShift::setDirection(ImageShift::Direction direction) { this->mDirection = direction; }
 
 } // namespace Operations

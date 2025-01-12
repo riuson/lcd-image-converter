@@ -20,6 +20,7 @@
 #include "resizesettings.h"
 
 #include <QVariant>
+
 #include <appsettings.h>
 
 namespace Settings
@@ -28,7 +29,7 @@ namespace Settings
 int ResizeSettings::scale()
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("crop-preview");
   bool ok;
   int result = sett.value("scale", QVariant(1)).toInt(&ok);
@@ -44,7 +45,7 @@ int ResizeSettings::scale()
 void ResizeSettings::setScale(int value)
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("crop-preview");
   sett.setValue("scale", QVariant(value));
   sett.endGroup();

@@ -33,7 +33,7 @@ namespace Presets
 {
 class Preset;
 }
-}
+} // namespace Settings
 #include <QMenu>
 
 namespace AppUI
@@ -52,23 +52,23 @@ class SetupTabReordering : public QWidget
   Q_OBJECT
 
 public:
-  explicit SetupTabReordering(Settings::Presets::Preset *preset, QWidget *parent = 0);
+  explicit SetupTabReordering(Settings::Presets::Preset* preset, QWidget* parent = 0);
   virtual ~SetupTabReordering();
 
 public slots:
   void matrixChanged();
 
 private:
-  Ui::SetupTabReordering *ui;
-  Settings::Presets::Preset *mPreset;
-  ReorderingPreviewModel *mReorderingModel;
-  ReorderingItemDelegate *mReorderingItemDelegate;
-  QMenu *mMenu;
+  Ui::SetupTabReordering* ui;
+  Settings::Presets::Preset* mPreset;
+  ReorderingPreviewModel* mReorderingModel;
+  ReorderingItemDelegate* mReorderingItemDelegate;
+  QMenu* mMenu;
 
   int maxBitIndex() const;
 
 private slots:
-  void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
+  void on_tableViewOperations_customContextMenuRequested(const QPoint& point);
   void operationAdd();
   void operationShift();
   void operationRemove();

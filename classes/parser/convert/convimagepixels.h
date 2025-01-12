@@ -32,7 +32,7 @@ class ConvImagePixels : public QObject
 {
   Q_OBJECT
 public:
-  explicit ConvImagePixels(const QVector<quint32> *data, QObject *parent = 0);
+  explicit ConvImagePixels(const QVector<quint32>* data, QObject* parent = 0);
   virtual ~ConvImagePixels();
 
   Q_PROPERTY(int count READ count)
@@ -44,7 +44,7 @@ public:
   bool processTerminated() const;
   void setProcessTerminated(bool value);
 
-  void getResults(QVector<quint32> *result) const;
+  void getResults(QVector<quint32>* result) const;
 
 private:
   QVector<quint32> mPixels;

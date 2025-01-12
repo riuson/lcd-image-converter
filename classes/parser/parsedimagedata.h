@@ -20,9 +20,8 @@
 #ifndef PARSEDIMAGEDATA_H
 #define PARSEDIMAGEDATA_H
 
-#include <QObject>
-
 #include <QImage>
+#include <QObject>
 
 namespace Settings
 {
@@ -30,7 +29,7 @@ namespace Presets
 {
 class Preset;
 }
-}
+} // namespace Settings
 
 namespace Parsing
 {
@@ -40,17 +39,18 @@ class ParsedImageData : public QObject
 {
   Q_OBJECT
 public:
-  explicit ParsedImageData(Settings::Presets::Preset *preset, const QImage *image, const TagsList &tags, QObject *parent = 0);
+  explicit ParsedImageData(Settings::Presets::Preset* preset, const QImage* image, const TagsList& tags,
+                           QObject* parent = 0);
   virtual ~ParsedImageData();
 
-  TagsList *tags() const;
+  TagsList* tags() const;
   uint hash() const;
 
-  const QString outputImageDataWithEOL(const TagsList &tags) const;
-  const QString outputImagePreviewWithEOL(const TagsList &tags) const;
+  const QString outputImageDataWithEOL(const TagsList& tags) const;
+  const QString outputImagePreviewWithEOL(const TagsList& tags) const;
 
 private:
-  TagsList *mTags;
+  TagsList* mTags;
   uint mHash;
   QString mPreparedOutputImageData;
   QString mPreparedOutputImagePreview;

@@ -20,14 +20,14 @@
 #ifndef TOOLRECT_H
 #define TOOLRECT_H
 
-#include <QObject>
-#include <QImage>
-#include <QColor>
-#include <QPoint>
-#include "iimageeditortool.h"
-
-#include <QIcon>
 #include <QAction>
+#include <QColor>
+#include <QIcon>
+#include <QImage>
+#include <QObject>
+#include <QPoint>
+
+#include "iimageeditortool.h"
 
 namespace ImageEditor
 {
@@ -42,50 +42,44 @@ class ToolRect : public QObject, public IImageEditorTool
   Q_INTERFACES(ImageEditor::Tools::IImageEditorTool)
 
 public:
-  explicit ToolRect(IImageEditorParams *parameters, QObject *parent = 0);
+  explicit ToolRect(IImageEditorParams* parameters, QObject* parent = 0);
   virtual ~ToolRect();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;
-  const QIcon *icon() const Q_DECL_OVERRIDE;
-  const QList<QAction *> *actions() const Q_DECL_OVERRIDE;
-  const QList<QWidget *> *widgets() const Q_DECL_OVERRIDE;
+  const QIcon* icon() const Q_DECL_OVERRIDE;
+  const QList<QAction*>* actions() const Q_DECL_OVERRIDE;
+  const QList<QWidget*>* widgets() const Q_DECL_OVERRIDE;
 
 public slots:
-  bool processMouse(QMouseEvent *event,
-                    const QImage *imageOriginal,
-                    bool inRect) Q_DECL_OVERRIDE;
+  bool processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect) Q_DECL_OVERRIDE;
 
 signals:
-  void started(const QImage *value) Q_DECL_OVERRIDE;
-  void processing(const QImage *value) Q_DECL_OVERRIDE;
-  void completed(const QImage *value, bool changed) Q_DECL_OVERRIDE;
+  void started(const QImage* value) Q_DECL_OVERRIDE;
+  void processing(const QImage* value) Q_DECL_OVERRIDE;
+  void completed(const QImage* value, bool changed) Q_DECL_OVERRIDE;
 
 private:
-  enum OutlineMode {
-    Outline = 1,
-    Filled = 2,
-    FilledOutline = 4
-  };
+  enum OutlineMode { Outline = 1, Filled = 2, FilledOutline = 4 };
 
-  IImageEditorParams *mParameters;
-  QIcon *mIcon;
-  QList<QAction *> *mActions;
-  QList<QWidget *> *mWidgets;
+  IImageEditorParams* mParameters;
+  QIcon* mIcon;
+  QList<QAction*>* mActions;
+  QList<QWidget*>* mWidgets;
   int mSize;
   bool mFlagChanged;
   QImage mOriginalImage;
   QImage mInternalImage;
-  QAction *mActionRectOutline;
-  QAction *mActionRectFilledOutline;
-  QAction *mActionRectFilled;
+  QAction* mActionRectOutline;
+  QAction* mActionRectFilledOutline;
+  QAction* mActionRectFilled;
   QPoint mStartPoint;
   OutlineMode mOutlineMode;
 
   void initializeWidgets();
   void loadSettings();
   void saveSettings() const;
-  void drawRect(const QRect &rect, OutlineMode mode, int borderWidth, bool inverted);
+  void drawRect(const QRect& rect, OutlineMode mode, int borderWidth, bool inverted);
 
 private slots:
   void on_spinBoxSize_valueChanged(int value);

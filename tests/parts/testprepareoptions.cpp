@@ -2,15 +2,9 @@
 
 #include "prepareoptions.h"
 
-TestPrepareOptions::TestPrepareOptions(QObject *parent) :
-  QObject(parent)
-{
-}
+TestPrepareOptions::TestPrepareOptions(QObject* parent) : QObject(parent) {}
 
-void TestPrepareOptions::initTestCase()
-{
-  this->mOptions = new Settings::Presets::PrepareOptions(this);
-}
+void TestPrepareOptions::initTestCase() { this->mOptions = new Settings::Presets::PrepareOptions(this); }
 
 void TestPrepareOptions::convType()
 {
@@ -125,8 +119,4 @@ void TestPrepareOptions::bandWidth()
   }
 }
 
-void TestPrepareOptions::cleanupTestCase()
-{
-  delete this->mOptions;
-}
-
+void TestPrepareOptions::cleanupTestCase() { delete this->mOptions; }

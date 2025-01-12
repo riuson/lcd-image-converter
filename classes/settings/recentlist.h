@@ -22,8 +22,8 @@
 
 #include <QObject>
 
-//class QStringList;
-//class QStringListIterator;
+// class QStringList;
+// class QStringListIterator;
 
 namespace Settings
 {
@@ -32,19 +32,18 @@ class RecentList : public QObject
 {
   Q_OBJECT
 public:
-  explicit RecentList(QObject *parent = 0);
+  explicit RecentList(QObject* parent = 0);
   virtual ~RecentList();
 
-  void add(const QString &filename);
+  void add(const QString& filename);
   enum { MaxRecentFiles = 10 };
-  const QStringList *files() const;
+  const QStringList* files() const;
 
 private:
-  QStringList *mFiles;
+  QStringList* mFiles;
 signals:
   void listChanged();
 public slots:
-
 };
 
 } // namespace Settings

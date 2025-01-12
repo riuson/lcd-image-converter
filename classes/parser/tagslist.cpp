@@ -19,8 +19,8 @@
 
 #include "tagslist.h"
 
-#include <QMap>
 #include <QHash>
+#include <QMap>
 #include <QRegExp>
 
 namespace Parsing
@@ -41,29 +41,22 @@ TagsList::~TagsList()
   delete this->mTagValues;
 }
 
-TagsList::Tag TagsList::parseTag(const QString &key) const
-{
-  return this->mTagNameMap->value(key, Tag::Unknown);
-}
+TagsList::Tag TagsList::parseTag(const QString& key) const { return this->mTagNameMap->value(key, Tag::Unknown); }
 
 const QString TagsList::tagValue(TagsList::Tag key) const
 {
-  //return this->mTagValues->value(key, QString("<value not defined>"));
+  // return this->mTagValues->value(key, QString("<value not defined>"));
   QString res = this->mTagValues->value(key, QString("<value not defined>"));
 
   if (res.contains("defined")) {
-
   }
 
   return res;
 }
 
-void TagsList::setTagValue(TagsList::Tag key, const QString &value)
-{
-  this->mTagValues->insert(key, value);
-}
+void TagsList::setTagValue(TagsList::Tag key, const QString& value) { this->mTagValues->insert(key, value); }
 
-void TagsList::importValues(const TagsList *other)
+void TagsList::importValues(const TagsList* other)
 {
   QListIterator<Tag> it(other->mTagValues->keys());
   it.toFront();
@@ -74,7 +67,7 @@ void TagsList::importValues(const TagsList *other)
   }
 }
 
-bool TagsList::find(const QString &text, int startIndex, int *resultIndex, int *nextIndex, Tag *key, QString *content)
+bool TagsList::find(const QString& text, int startIndex, int* resultIndex, int* nextIndex, Tag* key, QString* content)
 {
   *resultIndex = -1;
   *nextIndex = -1;
@@ -91,16 +84,16 @@ bool TagsList::find(const QString &text, int startIndex, int *resultIndex, int *
     *key = this->parseTag(tagText);
     *resultIndex = pos;
 
-    if (*key == Tag::BlocksHeaderStart ||
-        *key == Tag::BlocksImagesTableStart ||
+    if (*key == Tag::BlocksHeaderStart || *key == Tag::BlocksImagesTableStart ||
         *key == Tag::BlocksFontDefinitionStart) {
       QString blockName = tagText.remove(0, 12);
-      QRegExp regContent = QRegExp("(\\@|\\$\\()start_block_" + blockName + "(\\@|\\))(.+)(\\@|\\$\\()end_block_" + blockName + "(\\@|\\))");
+      QRegExp regContent = QRegExp("(\\@|\\$\\()start_block_" + blockName + "(\\@|\\))(.+)(\\@|\\$\\()end_block_" +
+                                   blockName + "(\\@|\\))");
       regContent.setMinimal(true);
 
       if (regContent.indexIn(text, pos) >= 0) {
         QString contentText = regContent.cap(3);
-        *content = contentText;//.trimmed();
+        *content = contentText; //.trimmed();
         *nextIndex = pos + regContent.cap().length();
       }
     } else {
@@ -118,16 +111,18 @@ void TagsList::initTagsMap()
 {
   this->mTagNameMap = new QHash<QString, Tag>();
 
-  this->mTagNameMap->insert("doc_data_type",    Tag::DocumentDataType);
-  this->mTagNameMap->insert("dataType",         Tag::DocumentDataType);
-  this->mTagNameMap->insert("doc_name",         Tag::DocumentName);
-  this->mTagNameMap->insert("documentName",     Tag::DocumentName);
-  this->mTagNameMap->insert("doc_name_ws",      Tag::DocumentNameWithoutSpaces);
-  this->mTagNameMap->insert("documentName_ws",  Tag::DocumentNameWithoutSpaces);
-  this->mTagNameMap->insert("doc_name_ws_uc",   Tag::DocumentNameWithoutSpacesUpperCase);
-  this->mTagNameMap->insert("doc_name_ws_lc",   Tag::DocumentNameWithoutSpacesLowerCase);
-  this->mTagNameMap->insert("doc_filename",     Tag::DocumentFilename);
-  this->mTagNameMap->insert("fileName",         Tag::DocumentFilename);
+  // clang-format off
+
+  this->mTagNameMap->insert("doc_data_type",   Tag::DocumentDataType);
+  this->mTagNameMap->insert("dataType",        Tag::DocumentDataType);
+  this->mTagNameMap->insert("doc_name",        Tag::DocumentName);
+  this->mTagNameMap->insert("documentName",    Tag::DocumentName);
+  this->mTagNameMap->insert("doc_name_ws",     Tag::DocumentNameWithoutSpaces);
+  this->mTagNameMap->insert("documentName_ws", Tag::DocumentNameWithoutSpaces);
+  this->mTagNameMap->insert("doc_name_ws_uc",  Tag::DocumentNameWithoutSpacesUpperCase);
+  this->mTagNameMap->insert("doc_name_ws_lc",  Tag::DocumentNameWithoutSpacesLowerCase);
+  this->mTagNameMap->insert("doc_filename",    Tag::DocumentFilename);
+  this->mTagNameMap->insert("fileName",        Tag::DocumentFilename);
 
   this->mTagNameMap->insert("pre_conv_type",  Tag::PrepareConversionType);
   this->mTagNameMap->insert("convType",       Tag::PrepareConversionType);
@@ -155,10 +150,10 @@ void TagsList::initTagsMap()
   this->mTagNameMap->insert("img_byte_order",      Tag::ImageByteOrder);
   this->mTagNameMap->insert("bytesOrder",          Tag::ImageByteOrder);
 
-  this->mTagNameMap->insert("fnt_use_bom",    Tag::FontUseBom);
-  this->mTagNameMap->insert("bom",            Tag::FontUseBom);
-  this->mTagNameMap->insert("fnt_encoding",   Tag::FontEncoding);
-  this->mTagNameMap->insert("encoding",       Tag::FontEncoding);
+  this->mTagNameMap->insert("fnt_use_bom",  Tag::FontUseBom);
+  this->mTagNameMap->insert("bom",          Tag::FontUseBom);
+  this->mTagNameMap->insert("fnt_encoding", Tag::FontEncoding);
+  this->mTagNameMap->insert("encoding",     Tag::FontEncoding);
 
   this->mTagNameMap->insert("fnt_family",       Tag::FontFamily);
   this->mTagNameMap->insert("fontFamily",       Tag::FontFamily);
@@ -226,6 +221,8 @@ void TagsList::initTagsMap()
   this->mTagNameMap->insert("end_block_images_table",   Tag::BlocksImagesTableEnd);
   this->mTagNameMap->insert("start_block_font_def",     Tag::BlocksFontDefinitionStart);
   this->mTagNameMap->insert("end_block_font_def",       Tag::BlocksFontDefinitionEnd);
+
+  // clang-format on
 }
 
 } // namespace Parsing

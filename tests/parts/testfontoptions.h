@@ -10,17 +10,17 @@ namespace Presets
 {
 class FontOptions;
 }
-}
+} // namespace Settings
 
 class TestFontOptions : public QObject
 {
   Q_OBJECT
 public:
-  explicit TestFontOptions(QObject *parent = 0);
+  explicit TestFontOptions(QObject* parent = 0);
   virtual ~TestFontOptions() {}
 
 private:
-  Settings::Presets::FontOptions *mOptions;
+  Settings::Presets::FontOptions* mOptions;
 
 private slots:
   void initTestCase();

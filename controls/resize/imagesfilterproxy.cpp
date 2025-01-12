@@ -26,18 +26,14 @@ namespace Data
 namespace Models
 {
 
-ImagesFilterProxy::ImagesFilterProxy(QObject *parent) :
-  QSortFilterProxyModel(parent)
+ImagesFilterProxy::ImagesFilterProxy(QObject* parent) : QSortFilterProxyModel(parent)
 {
   this->mKeys = new QStringList();
 }
 
-ImagesFilterProxy::~ImagesFilterProxy()
-{
-  delete this->mKeys;
-}
+ImagesFilterProxy::~ImagesFilterProxy() { delete this->mKeys; }
 
-bool ImagesFilterProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+bool ImagesFilterProxy::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
 {
   QModelIndex index = this->sourceModel()->index(source_row, 0, source_parent);
   QString name = this->sourceModel()->data(index).toString();
@@ -45,7 +41,7 @@ bool ImagesFilterProxy::filterAcceptsRow(int source_row, const QModelIndex &sour
   return (this->mKeys->contains(name, Qt::CaseSensitive));
 }
 
-void ImagesFilterProxy::setFilter(const QStringList &keys)
+void ImagesFilterProxy::setFilter(const QStringList& keys)
 {
   emit this->beginResetModel();
 

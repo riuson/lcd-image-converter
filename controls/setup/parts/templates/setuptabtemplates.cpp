@@ -18,12 +18,14 @@
  */
 
 #include "setuptabtemplates.h"
+
 #include "ui_setuptabtemplates.h"
 
 #include <QFileDialog>
+
+#include "filedialogoptions.h"
 #include "preset.h"
 #include "templateoptions.h"
-#include "filedialogoptions.h"
 
 namespace AppUI
 {
@@ -34,9 +36,8 @@ namespace Parts
 namespace Templates
 {
 
-SetupTabTemplates::SetupTabTemplates(Settings::Presets::Preset *preset, QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::SetupTabTemplates)
+SetupTabTemplates::SetupTabTemplates(Settings::Presets::Preset* preset, QWidget* parent)
+    : QWidget(parent), ui(new Ui::SetupTabTemplates)
 {
   ui->setupUi(this);
   this->mPreset = preset;
@@ -44,10 +45,7 @@ SetupTabTemplates::SetupTabTemplates(Settings::Presets::Preset *preset, QWidget 
   this->matrixChanged();
 }
 
-SetupTabTemplates::~SetupTabTemplates()
-{
-  delete ui;
-}
+SetupTabTemplates::~SetupTabTemplates() { delete ui; }
 
 void SetupTabTemplates::matrixChanged()
 {
@@ -65,7 +63,8 @@ void SetupTabTemplates::on_pushButtonBrowseImage_clicked()
   dialog.setWindowTitle(tr("Open image template file"));
 
   if (dialog.exec() == QDialog::Accepted) {
-    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::TemplateImage, dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::TemplateImage,
+                                              dialog.directory().absolutePath());
     this->ui->lineEditImage->setText(dialog.selectedFiles().at(0));
     this->mPreset->templates()->setImage(dialog.selectedFiles().at(0));
   }
@@ -81,7 +80,8 @@ void SetupTabTemplates::on_pushButtonBrowseFont_clicked()
   dialog.setWindowTitle(tr("Open font template file"));
 
   if (dialog.exec() == QDialog::Accepted) {
-    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::TemplateFont, dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::TemplateFont,
+                                              dialog.directory().absolutePath());
     this->ui->lineEditFont->setText(dialog.selectedFiles().at(0));
     this->mPreset->templates()->setFont(dialog.selectedFiles().at(0));
   }

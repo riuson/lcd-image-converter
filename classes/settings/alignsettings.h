@@ -23,7 +23,8 @@
 namespace Settings
 {
 
-class AlignSettings{
+class AlignSettings
+{
 public:
   static int scale();
   static void setScale(int value);

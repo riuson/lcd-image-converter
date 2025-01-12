@@ -37,11 +37,11 @@ class DialogExternalEditor : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogExternalEditor(QWidget *parent = 0);
+  explicit DialogExternalEditor(QWidget* parent = 0);
   virtual ~DialogExternalEditor();
 
 private:
-  Ui::DialogExternalEditor *ui;
+  Ui::DialogExternalEditor* ui;
 
 private slots:
   void on_pushButtonBrowse_clicked();

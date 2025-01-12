@@ -35,14 +35,15 @@ namespace Matrix
 class MatrixItemDelegate : public QItemDelegate
 {
 public:
-  MatrixItemDelegate(QObject *pobj = 0);
+  MatrixItemDelegate(QObject* pobj = 0);
   virtual ~MatrixItemDelegate() {}
 
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
+  void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const Q_DECL_OVERRIDE;
 
 public:
   QColor color() const;
-  void setColor(const QColor &value);
+  void setColor(const QColor& value);
+
 private:
   QColor mColor;
 };

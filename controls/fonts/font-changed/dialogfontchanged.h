@@ -37,17 +37,17 @@ class DialogFontChanged : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogFontChanged(QWidget *parent = 0);
+  explicit DialogFontChanged(QWidget* parent = 0);
   virtual ~DialogFontChanged();
 
   bool regenerateAll() const;
 
 private:
-  Ui::DialogFontChanged *ui;
+  Ui::DialogFontChanged* ui;
 
   bool mRegenerateAll;
 
-private  slots:
+private slots:
   void on_buttonRegenerateAll_clicked();
   void on_buttonGenerateNewOnly_clicked();
   void on_buttonCancel_clicked();

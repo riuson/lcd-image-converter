@@ -20,11 +20,10 @@
 #ifndef CONVIMAGESCAN_H
 #define CONVIMAGESCAN_H
 
-#include <QObject>
-#include <QVector>
-#include <QPoint>
-
 #include <QImage>
+#include <QObject>
+#include <QPoint>
+#include <QVector>
 
 namespace Parsing
 {
@@ -35,7 +34,7 @@ class ConvImageScan : public QObject
 {
   Q_OBJECT
 public:
-  explicit ConvImageScan(const QImage *image, QObject *parent = 0);
+  explicit ConvImageScan(const QImage* image, QObject* parent = 0);
   virtual ~ConvImageScan();
 
   Q_PROPERTY(int height READ height)
@@ -60,7 +59,7 @@ public:
   void setScanTerminated(bool value);
 
 private:
-  const QImage *mImage;
+  const QImage* mImage;
   int mBandSize;
   bool mUseBands;
   QVector<QPoint> mPoints;

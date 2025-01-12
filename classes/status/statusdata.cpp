@@ -24,22 +24,13 @@ namespace AppUI
 namespace Status
 {
 
-StatusData::StatusData(QObject *parent) :
-  QObject(parent)
-{
-}
+StatusData::StatusData(QObject* parent) : QObject(parent) {}
 
-const QList<StatusData::StatusType> StatusData::keys() const
-{
-  return this->mData.keys();
-}
+const QList<StatusData::StatusType> StatusData::keys() const { return this->mData.keys(); }
 
-const QVariant StatusData::data(const StatusType key) const
-{
-  return this->mData.value(key, QString());
-}
+const QVariant StatusData::data(const StatusType key) const { return this->mData.value(key, QString()); }
 
-void StatusData::setData(const StatusType key, const QVariant &value)
+void StatusData::setData(const StatusType key, const QVariant& value)
 {
   this->mData.insert(key, value);
   emit this->changed();

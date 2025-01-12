@@ -26,8 +26,7 @@ namespace Parsing
 namespace Conversion
 {
 
-ConvImagePixels::ConvImagePixels(const QVector<quint32> *data, QObject *parent) :
-  QObject(parent)
+ConvImagePixels::ConvImagePixels(const QVector<quint32>* data, QObject* parent) : QObject(parent)
 {
   // void QVector::append(const QVector<T> &value) implemented in Qt >= 5.5
   int dataCount = data->size();
@@ -39,31 +38,17 @@ ConvImagePixels::ConvImagePixels(const QVector<quint32> *data, QObject *parent) 
   this->mProcessTerminated = false;
 }
 
-ConvImagePixels::~ConvImagePixels()
-{
-}
+ConvImagePixels::~ConvImagePixels() {}
 
-quint32 ConvImagePixels::pixel(int index)
-{
-  return this->mPixels.at(index);
-}
+quint32 ConvImagePixels::pixel(int index) { return this->mPixels.at(index); }
 
-void ConvImagePixels::setPixel(int index, quint32 value)
-{
-  this->mPixels.replace(index, value);
-}
+void ConvImagePixels::setPixel(int index, quint32 value) { this->mPixels.replace(index, value); }
 
-bool ConvImagePixels::processTerminated() const
-{
-  return this->mProcessTerminated;
-}
+bool ConvImagePixels::processTerminated() const { return this->mProcessTerminated; }
 
-void ConvImagePixels::setProcessTerminated(bool value)
-{
-  this->mProcessTerminated = value;
-}
+void ConvImagePixels::setProcessTerminated(bool value) { this->mProcessTerminated = value; }
 
-void ConvImagePixels::getResults(QVector<quint32> *result) const
+void ConvImagePixels::getResults(QVector<quint32>* result) const
 {
   result->clear();
   // void QVector::append(const QVector<T> &value) implemented in Qt >= 5.5
@@ -74,10 +59,7 @@ void ConvImagePixels::getResults(QVector<quint32> *result) const
   }
 }
 
-int ConvImagePixels::count() const
-{
-  return this->mPixels.size();
-}
+int ConvImagePixels::count() const { return this->mPixels.size(); }
 
 } // namespace Conversion
 } // namespace Parsing

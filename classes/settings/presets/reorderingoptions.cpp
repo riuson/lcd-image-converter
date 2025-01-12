@@ -19,10 +19,10 @@
 
 #include "reorderingoptions.h"
 
-#include <QVector>
-#include <QSettings>
-#include <QtXml>
 #include <QDomDocument>
+#include <QSettings>
+#include <QVector>
+#include <QtXml>
 
 namespace Settings
 {
@@ -36,23 +36,13 @@ const QString ReorderingOptions::FieldMask = QString("mask");
 const QString ReorderingOptions::FieldShift = QString("shift");
 const QString ReorderingOptions::FieldLeft = QString("left");
 
-ReorderingOptions::ReorderingOptions(QObject *parent) :
-  QObject(parent)
-{
-  this->mOperations = new QVector<quint32>();
-}
+ReorderingOptions::ReorderingOptions(QObject* parent) : QObject(parent) { this->mOperations = new QVector<quint32>(); }
 
-ReorderingOptions::~ReorderingOptions()
-{
-  delete this->mOperations;
-}
+ReorderingOptions::~ReorderingOptions() { delete this->mOperations; }
 
-int ReorderingOptions::operationsCount() const
-{
-  return (this->mOperations->size()) / 2;
-}
+int ReorderingOptions::operationsCount() const { return (this->mOperations->size()) / 2; }
 
-void ReorderingOptions::operation(int index, quint32 *mask, int *shift, bool *left) const
+void ReorderingOptions::operation(int index, quint32* mask, int* shift, bool* left) const
 {
   *mask = 0;
   *shift = 0;
@@ -119,9 +109,9 @@ void ReorderingOptions::operationReplace(int index, quint32 mask, int shift, boo
   emit this->changed();
 }
 
-bool ReorderingOptions::load(QSettings *settings)
+bool ReorderingOptions::load(QSettings* settings)
 {
-  bool result = true;// this option not implemented in versions < 2013-01-04
+  bool result = true; // this option not implemented in versions < 2013-01-04
 
   settings->beginGroup(ReorderingOptions::GroupName);
 
@@ -234,7 +224,7 @@ bool ReorderingOptions::loadXmlElement(QDomElement element)
   return result;
 }
 
-void ReorderingOptions::save(QSettings *settings)
+void ReorderingOptions::save(QSettings* settings)
 {
   settings->beginGroup(ReorderingOptions::GroupName);
 
@@ -247,9 +237,9 @@ void ReorderingOptions::save(QSettings *settings)
     this->operation(i, &uMask, &iShift, &bLeft);
 
     settings->setArrayIndex(i);
-    settings->setValue(ReorderingOptions::FieldMask,  QString("%1").arg(uMask, 8, 16, QChar('0')));
+    settings->setValue(ReorderingOptions::FieldMask, QString("%1").arg(uMask, 8, 16, QChar('0')));
     settings->setValue(ReorderingOptions::FieldShift, QString("%1").arg(iShift));
-    settings->setValue(ReorderingOptions::FieldLeft,  QString("%1").arg((int)bLeft));
+    settings->setValue(ReorderingOptions::FieldLeft, QString("%1").arg((int)bLeft));
   }
 
   settings->endArray();
@@ -290,10 +280,7 @@ void ReorderingOptions::saveXmlElement(QDomElement element)
   }
 }
 
-QString ReorderingOptions::groupName() const
-{
-  return ReorderingOptions::GroupName;
-}
+QString ReorderingOptions::groupName() const { return ReorderingOptions::GroupName; }
 
 } // namespace Presets
 } // namespace Settings

@@ -39,21 +39,21 @@ class DialogUpdates : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogUpdates(QWidget *parent = 0);
+  explicit DialogUpdates(QWidget* parent = 0);
   virtual ~DialogUpdates();
 
 private:
-  Ui::DialogUpdates *ui;
+  Ui::DialogUpdates* ui;
 
   void showHistory();
   void showUpdates();
-  void showUpdates(const QString &xml);
-  void showError(const QString &message);
-  bool transformHistory(const QString &xml, const QString &xsl, QString *html);
-  bool isLocalVersionOutdated(const QString &xml);
+  void showUpdates(const QString& xml);
+  void showError(const QString& message);
+  bool transformHistory(const QString& xml, const QString& xsl, QString* html);
+  bool isLocalVersionOutdated(const QString& xml);
 
 private slots:
-  void networkReply(QNetworkReply *reply);
+  void networkReply(QNetworkReply* reply);
 };
 
 } // namespace Updates

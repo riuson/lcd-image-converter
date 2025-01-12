@@ -2,15 +2,9 @@
 
 #include "templateoptions.h"
 
-TestTemplateOptions::TestTemplateOptions(QObject *parent) :
-  QObject(parent)
-{
-}
+TestTemplateOptions::TestTemplateOptions(QObject* parent) : QObject(parent) {}
 
-void TestTemplateOptions::initTestCase()
-{
-  this->mOptions = new Settings::Presets::TemplateOptions(this);
-}
+void TestTemplateOptions::initTestCase() { this->mOptions = new Settings::Presets::TemplateOptions(this); }
 
 void TestTemplateOptions::image()
 {
@@ -34,8 +28,4 @@ void TestTemplateOptions::font()
   QCOMPARE(this->mOptions->font(), QString("test4"));
 }
 
-void TestTemplateOptions::cleanupTestCase()
-{
-  delete this->mOptions;
-}
-
+void TestTemplateOptions::cleanupTestCase() { delete this->mOptions; }

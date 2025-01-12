@@ -18,32 +18,31 @@
  */
 
 #include "dialogupdates.h"
+
 #include "ui_dialogupdates.h"
 
-#include <QTextStream>
+#include <QBuffer>
+#include <QDateTime>
+#include <QDomDocument>
 #include <QFile>
 #include <QIcon>
-#include <QXmlQuery>
-#include <QBuffer>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QTextStream>
 #include <QUrl>
-#include <QDateTime>
 #include <QUrlQuery>
+#include <QXmlQuery>
 
-#include <QDomDocument>
-#include "revisioninfo.h"
 #include "bitmaphelper.h"
+#include "revisioninfo.h"
 
 namespace AppUI
 {
 namespace Updates
 {
 
-DialogUpdates::DialogUpdates(QWidget *parent) :
-  QDialog(parent),
-  ui(new Ui::DialogUpdates)
+DialogUpdates::DialogUpdates(QWidget* parent) : QDialog(parent), ui(new Ui::DialogUpdates)
 {
   ui->setupUi(this);
   this->ui->labelStatus->setVisible(false);
@@ -72,10 +71,7 @@ DialogUpdates::DialogUpdates(QWidget *parent) :
   this->showUpdates();
 }
 
-DialogUpdates::~DialogUpdates()
-{
-  delete ui;
-}
+DialogUpdates::~DialogUpdates() { delete ui; }
 
 void DialogUpdates::showHistory()
 {
@@ -126,8 +122,8 @@ void DialogUpdates::showHistory()
 
 void DialogUpdates::showUpdates()
 {
-  QNetworkAccessManager *mNetworkManager = new QNetworkAccessManager(this);
-  this->connect(mNetworkManager, SIGNAL(finished(QNetworkReply *)), SLOT(networkReply(QNetworkReply *)));
+  QNetworkAccessManager* mNetworkManager = new QNetworkAccessManager(this);
+  this->connect(mNetworkManager, SIGNAL(finished(QNetworkReply*)), SLOT(networkReply(QNetworkReply*)));
 
   QUrl url("http://lcd-image-converter.riuson.com/history/history.xml");
 
@@ -136,11 +132,11 @@ void DialogUpdates::showUpdates()
   url.setQuery(query.query());
 
   QNetworkRequest request = QNetworkRequest(url);
-  QNetworkReply *reply = mNetworkManager->get(request);
+  QNetworkReply* reply = mNetworkManager->get(request);
   Q_UNUSED(reply);
 }
 
-void DialogUpdates::showUpdates(const QString &xml)
+void DialogUpdates::showUpdates(const QString& xml)
 {
   // XSL file
   QString xsl;
@@ -175,13 +171,13 @@ void DialogUpdates::showUpdates(const QString &xml)
   }
 }
 
-void DialogUpdates::showError(const QString &message)
+void DialogUpdates::showError(const QString& message)
 {
   this->ui->labelStatus->setText(message);
   this->ui->labelStatus->setVisible(true);
 }
 
-bool DialogUpdates::transformHistory(const QString &xml, const QString &xsl, QString *html)
+bool DialogUpdates::transformHistory(const QString& xml, const QString& xsl, QString* html)
 {
   bool isSuccessfully = false;
 
@@ -234,7 +230,7 @@ bool DialogUpdates::transformHistory(const QString &xml, const QString &xsl, QSt
   return isSuccessfully;
 }
 
-bool DialogUpdates::isLocalVersionOutdated(const QString &xml)
+bool DialogUpdates::isLocalVersionOutdated(const QString& xml)
 {
   QDomDocument doc;
 
@@ -250,7 +246,7 @@ bool DialogUpdates::isLocalVersionOutdated(const QString &xml)
       QString revisionDateString = VersionControl::RevisionInfo::date();
       QDateTime revisionDate = QDateTime::fromString(revisionDateString, Qt::ISODate);
 
-      foreach (const QString &dateString, dates) {
+      foreach (const QString& dateString, dates) {
         QDateTime date = QDateTime::fromString(dateString, Qt::ISODate);
 
         if (date > revisionDate) {
@@ -265,7 +261,7 @@ bool DialogUpdates::isLocalVersionOutdated(const QString &xml)
   return true;
 }
 
-void DialogUpdates::networkReply(QNetworkReply *reply)
+void DialogUpdates::networkReply(QNetworkReply* reply)
 {
   const int RESPONSE_OK = 200;
 
@@ -277,7 +273,7 @@ void DialogUpdates::networkReply(QNetworkReply *reply)
     switch (httpStatusCode) {
       case RESPONSE_OK: {
         if (reply->isReadable()) {
-          //Assuming this is a human readable file replyString now contains the file
+          // Assuming this is a human readable file replyString now contains the file
           replyString = QString::fromUtf8(reply->readAll().data());
 
           if (this->isLocalVersionOutdated(replyString)) {

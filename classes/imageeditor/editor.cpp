@@ -18,19 +18,20 @@
  */
 
 #include "editor.h"
-#include "windoweditor.h"
 
 #include <QColor>
+
 #include "toolsmanager.h"
+#include "windoweditor.h"
 
 namespace ImageEditor
 {
 
-Editor::Editor(QObject *parent) : QObject(parent)
+Editor::Editor(QObject* parent) : QObject(parent)
 {
   this->mWidget = new AppUI::Images::WindowEditor();
   this->connect(this->mWidget, SIGNAL(imageChanged()), SLOT(on_imageChanged()));
-  this->connect(this->mWidget, SIGNAL(mouseMove(const QPoint *)), SLOT(on_mouseMove(const QPoint *)));
+  this->connect(this->mWidget, SIGNAL(mouseMove(const QPoint*)), SLOT(on_mouseMove(const QPoint*)));
   this->connect(this->mWidget, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
 
   this->connect(this->mWidget, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
@@ -42,35 +43,17 @@ Editor::~Editor()
   delete this->mWidget;
 }
 
-QWidget *Editor::widget() const
-{
-  return this->mWidget;
-}
+QWidget* Editor::widget() const { return this->mWidget; }
 
-const QImage *Editor::image() const
-{
-  return this->mWidget->image();
-}
+const QImage* Editor::image() const { return this->mWidget->image(); }
 
-void Editor::setImage(const QImage *value)
-{
-  this->mWidget->setImage(value);
-}
+void Editor::setImage(const QImage* value) { this->mWidget->setImage(value); }
 
-int Editor::scale() const
-{
-  return this->mWidget->scale();
-}
+int Editor::scale() const { return this->mWidget->scale(); }
 
-void Editor::on_imageChanged()
-{
-  emit this->imageChanged(this->image());
-}
+void Editor::on_imageChanged() { emit this->imageChanged(this->image()); }
 
-void Editor::on_mouseMove(const QPoint *point)
-{
-  emit this->mouseMoved(point);
-}
+void Editor::on_mouseMove(const QPoint* point) { emit this->mouseMoved(point); }
 
 void Editor::on_scaleChanged(int value)
 {
@@ -80,4 +63,3 @@ void Editor::on_scaleChanged(int value)
 }
 
 } // namespace ImageEditor
-

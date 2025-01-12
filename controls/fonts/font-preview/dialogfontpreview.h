@@ -21,10 +21,10 @@
 #define DIALOGFONTPREVIEW_H
 
 #include <QDialog>
-
-#include "idocument.h"
 #include <QImage>
 #include <QPixmap>
+
+#include "idocument.h"
 
 namespace Ui
 {
@@ -41,19 +41,19 @@ class DialogFontPreview : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogFontPreview(QWidget *parent = 0);
+  explicit DialogFontPreview(QWidget* parent = 0);
   virtual ~DialogFontPreview();
 
-  void setDocument(Data::Containers::IDocument *document);
+  void setDocument(Data::Containers::IDocument* document);
 
 private:
-  Ui::DialogFontPreview *ui;
-  Data::Containers::IDocument *mDocument;
+  Ui::DialogFontPreview* ui;
+  Data::Containers::IDocument* mDocument;
   QImage mOriginalImage;
   QImage mScaledImage;
 
 private slots:
-  void on_lineEditText_textChanged(const QString &text);
+  void on_lineEditText_textChanged(const QString& text);
   void on_spinBoxScale_valueChanged(int i);
 };
 

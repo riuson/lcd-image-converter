@@ -18,33 +18,30 @@
  */
 
 #include "imageresize.h"
-#include "dialogcanvasresize.h"
-#include "idocument.h"
-#include "datacontainer.h"
+
 #include "bitmaphelper.h"
 #include "canvasmodinfo.h"
+#include "datacontainer.h"
+#include "dialogcanvasresize.h"
+#include "idocument.h"
 
 namespace Operations
 {
 
-ImageResize::ImageResize(QWidget *parentWidget, QObject *parent)
-  : QObject(parent)
+ImageResize::ImageResize(QWidget* parentWidget, QObject* parent) : QObject(parent)
 {
   this->mParentWidget = parentWidget;
 }
 
-bool ImageResize::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
+bool ImageResize::prepare(const Data::Containers::IDocument* doc, const QStringList& keys)
 {
-  AppUI::CommonDialogs::DialogCanvasResize dialog(
-    doc->dataContainer(),
-    keys,
-    this->mParentWidget);
+  AppUI::CommonDialogs::DialogCanvasResize dialog(doc->dataContainer(), keys, this->mParentWidget);
 
   if (dialog.exec() == QDialog::Accepted) {
-    const QMap<QString, Data::CanvasModInfo *> *map = dialog.resizeInfo();
+    const QMap<QString, Data::CanvasModInfo*>* map = dialog.resizeInfo();
 
     for (auto key : keys) {
-      Data::CanvasModInfo *info = map->value(key);
+      Data::CanvasModInfo* info = map->value(key);
 
       if (info != nullptr) {
         Data::CanvasModInfo::Mods mods = info->summary();
@@ -58,24 +55,20 @@ bool ImageResize::prepare(const Data::Containers::IDocument *doc, const QStringL
   return false;
 }
 
-void ImageResize::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
+void ImageResize::applyDocument(Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageResize::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
+void ImageResize::applyItem(Data::Containers::IDocument* doc, const QString& itemKey)
 {
   if (this->mMap.contains(itemKey)) {
     Data::CanvasModInfo::Mods mods = this->mMap.value(itemKey);
-    const QImage *original = doc->dataContainer()->image(itemKey);
-    QImage result = Parsing::Conversion::BitmapHelper::crop(
-                      original,
-                      mods.left,
-                      mods.top,
-                      mods.right,
-                      mods.bottom,
-                      Parsing::Conversion::BitmapHelper::detectBackgroundColor(original));
+    const QImage* original = doc->dataContainer()->image(itemKey);
+    QImage result =
+        Parsing::Conversion::BitmapHelper::crop(original, mods.left, mods.top, mods.right, mods.bottom,
+                                                Parsing::Conversion::BitmapHelper::detectBackgroundColor(original));
     doc->dataContainer()->setImage(itemKey, &result);
   }
 }

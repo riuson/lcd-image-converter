@@ -20,11 +20,10 @@
 #ifndef CMDLINE_H
 #define CMDLINE_H
 
-#include <QObject>
-#include <QStringList>
 #include <QCommandLineParser>
-
+#include <QObject>
 #include <QString>
+#include <QStringList>
 
 namespace CommandLine
 {
@@ -35,13 +34,9 @@ class CmdLine : public QObject
 {
   Q_OBJECT
 public:
-  enum class ProcessResult {
-    None,
-    Success,
-    Failed
-  };
+  enum class ProcessResult { None, Success, Failed };
 
-  explicit CmdLine(const QStringList &arguments, QObject *parent = 0);
+  explicit CmdLine(const QStringList& arguments, QObject* parent = 0);
   virtual ~CmdLine() {}
 
   bool needProcess() const;
@@ -51,7 +46,7 @@ private:
   QCommandLineParser mParser;
   const QStringList mArguments;
 
-  CommandLine::ModeParserBase *createMode(const QString &name, QCommandLineParser &parser);
+  CommandLine::ModeParserBase* createMode(const QString& name, QCommandLineParser& parser);
   void addApplicationOptions();
   void processApplicationOptions();
 };

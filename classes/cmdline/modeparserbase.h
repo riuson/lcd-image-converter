@@ -20,9 +20,8 @@
 #ifndef MODEPARSERBASE_H
 #define MODEPARSERBASE_H
 
-#include <QObject>
-
 #include <QCommandLineParser>
+#include <QObject>
 
 namespace CommandLine
 {
@@ -31,7 +30,7 @@ class ModeParserBase : public QObject
 {
   Q_OBJECT
 public:
-  explicit ModeParserBase(QCommandLineParser &parser, QObject *parent = 0);
+  explicit ModeParserBase(QCommandLineParser& parser, QObject* parent = 0);
   virtual ~ModeParserBase() {}
 
   virtual void fillParser() const = 0;
@@ -39,7 +38,7 @@ public:
   virtual int process() = 0;
 
 protected:
-  QCommandLineParser &mParser;
+  QCommandLineParser& mParser;
 };
 
 } // namespace CommandLine

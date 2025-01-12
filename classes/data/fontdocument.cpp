@@ -18,39 +18,39 @@
  */
 
 #include "fontdocument.h"
-#include <QFile>
-#include <QDomDocument>
+
 #include <QBuffer>
-#include <QImage>
-#include <QFontDatabase>
-#include <QModelIndexList>
-#include <QModelIndex>
+#include <QDomDocument>
+#include <QFile>
 #include <QFileDialog>
-#include <QTextStream>
+#include <QFontDatabase>
+#include <QImage>
+#include <QModelIndex>
+#include <QModelIndexList>
 #include <QPainter>
-#include <QWidget>
 #include <QTextCodec>
+#include <QTextStream>
+#include <QWidget>
+
+#include "bitmaphelper.h"
 #include "datacontainer.h"
-#include "tagslist.h"
-#include "parser.h"
 #include "dialogfontchanged.h"
 #include "fonteditoroptions.h"
 #include "fonthelper.h"
-#include "preset.h"
-#include "fontparameters.h"
-#include "fonthelper.h"
-#include "parsedimagedata.h"
 #include "fontoptions.h"
-#include "bitmaphelper.h"
+#include "fontparameters.h"
 #include "fontsizeunits.h"
+#include "parsedimagedata.h"
+#include "parser.h"
+#include "preset.h"
+#include "tagslist.h"
 
 namespace Data
 {
 namespace Containers
 {
 
-FontDocument::FontDocument(QObject *parent) :
-  QObject(parent)
+FontDocument::FontDocument(QObject* parent) : QObject(parent)
 {
   this->mContainer = new DataContainer(this);
   this->connect(this->mContainer, SIGNAL(dataChanged(bool)), SLOT(mon_container_dataChanged(bool)));
@@ -69,11 +69,9 @@ FontDocument::FontDocument(QObject *parent) :
   this->mContainer->historyInit();
 }
 
-FontDocument::~FontDocument()
-{
-}
+FontDocument::~FontDocument() {}
 
-bool FontDocument::load(const QString &fileName)
+bool FontDocument::load(const QString& fileName)
 {
   bool result = false;
 
@@ -272,12 +270,13 @@ bool FontDocument::load(const QString &fileName)
   return result;
 }
 
-bool FontDocument::save(const QString &fileName)
+bool FontDocument::save(const QString& fileName)
 {
   bool result = false;
 
   QDomDocument doc;
-  QDomProcessingInstruction procInstruction = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\"");
+  QDomProcessingInstruction procInstruction =
+      doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\"");
   doc.appendChild(procInstruction);
 
   QDomElement nodeRoot = doc.createElement("data");
@@ -290,7 +289,7 @@ bool FontDocument::save(const QString &fileName)
   nodeRoot.setAttribute("type", "font");
   nodeRoot.setAttribute("name", this->documentName());
 
-  //font family
+  // font family
   QDomElement nodeFamily = doc.createElement("family");
   nodeRoot.appendChild(nodeFamily);
   nodeFamily.appendChild(doc.createTextNode(parameters.family));
@@ -343,12 +342,14 @@ bool FontDocument::save(const QString &fileName)
   // foreground
   QDomElement nodeForeground = doc.createElement("foreground");
   nodeRoot.appendChild(nodeForeground);
-  nodeForeground.appendChild(doc.createTextNode(QString("%1").arg((quint32)parameters.foreground.rgba(), 8, 16, QChar('0'))));
+  nodeForeground.appendChild(
+      doc.createTextNode(QString("%1").arg((quint32)parameters.foreground.rgba(), 8, 16, QChar('0'))));
 
   // background
   QDomElement nodeBackground = doc.createElement("background");
   nodeRoot.appendChild(nodeBackground);
-  nodeBackground.appendChild(doc.createTextNode(QString("%1").arg((quint32)parameters.background.rgba(), 8, 16, QChar('0'))));
+  nodeBackground.appendChild(
+      doc.createTextNode(QString("%1").arg((quint32)parameters.background.rgba(), 8, 16, QChar('0'))));
 
   // multiplicity width
   QDomElement nodeMultiplicityWidth = doc.createElement("multiplicityWidth");
@@ -436,10 +437,7 @@ QString FontDocument::documentName() const
   return result.toString();
 }
 
-void FontDocument::setDocumentName(const QString &value)
-{
-  this->mContainer->setCommonInfo("document name", value);
-}
+void FontDocument::setDocumentName(const QString& value) { this->mContainer->setCommonInfo("document name", value); }
 
 QString FontDocument::outputFilename() const
 {
@@ -447,17 +445,14 @@ QString FontDocument::outputFilename() const
   return result.toString();
 }
 
-void FontDocument::setOutputFilename(const QString &value)
+void FontDocument::setOutputFilename(const QString& value)
 {
   this->mContainer->setCommonInfo("converted filename", QVariant(value));
 }
 
-DataContainer *FontDocument::dataContainer() const
-{
-  return this->mContainer;
-}
+DataContainer* FontDocument::dataContainer() const { return this->mContainer; }
 
-QString FontDocument::convert(Settings::Presets::Preset *preset)
+QString FontDocument::convert(Settings::Presets::Preset* preset)
 {
   Parsing::TagsList tags;
 
@@ -468,9 +463,12 @@ QString FontDocument::convert(Settings::Presets::Preset *preset)
   }
 
   tags.setTagValue(Parsing::TagsList::Tag::DocumentName, this->documentName());
-  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
-  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpacesUpperCase, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)).toUpper());
-  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpacesLowerCase, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)).toLower());
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpaces,
+                   this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpacesUpperCase,
+                   this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)).toUpper());
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpacesLowerCase,
+                   this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)).toLower());
 
   QString chars;
   FontParameters parameters;
@@ -479,7 +477,8 @@ QString FontDocument::convert(Settings::Presets::Preset *preset)
   tags.setTagValue(Parsing::TagsList::Tag::DocumentDataType, "font");
   tags.setTagValue(Parsing::TagsList::Tag::FontFamily, parameters.family);
   tags.setTagValue(Parsing::TagsList::Tag::FontSize, QString("%1").arg(parameters.size));
-  tags.setTagValue(Parsing::TagsList::Tag::FontSizeUnits, parameters.sizeUnits == Data::FontSizeUnits::Points ? "pt" : "px");
+  tags.setTagValue(Parsing::TagsList::Tag::FontSizeUnits,
+                   parameters.sizeUnits == Data::FontSizeUnits::Points ? "pt" : "px");
   tags.setTagValue(Parsing::TagsList::Tag::FontStyle, parameters.style);
   tags.setTagValue(Parsing::TagsList::Tag::FontString, Parsing::Conversion::FontHelper::escapeControlChars(chars));
   tags.setTagValue(Parsing::TagsList::Tag::FontAntiAliasing, parameters.antiAliasing ? "yes" : "no");
@@ -489,7 +488,7 @@ QString FontDocument::convert(Settings::Presets::Preset *preset)
 
   const QStringList orderedKeys = this->sortKeysWithEncoding(this->dataContainer()->keys(), preset);
 
-  QMap<QString, Parsing::ParsedImageData *> images;
+  QMap<QString, Parsing::ParsedImageData*> images;
   this->prepareImages(preset, orderedKeys, &images, tags);
   Parsing::Parser parser(Parsing::Parser::TypeFont, preset, this);
   QString result = parser.convert(this, orderedKeys, &images, tags);
@@ -526,15 +525,9 @@ void FontDocument::endChanges(bool suppress)
   }
 }
 
-bool FontDocument::canUndo()
-{
-  return this->mContainer->canUndo();
-}
+bool FontDocument::canUndo() { return this->mContainer->canUndo(); }
 
-bool FontDocument::canRedo()
-{
-  return this->mContainer->canRedo();
-}
+bool FontDocument::canRedo() { return this->mContainer->canRedo(); }
 
 void FontDocument::undo()
 {
@@ -550,8 +543,7 @@ void FontDocument::redo()
   emit this->documentChanged();
 }
 
-void FontDocument::fontCharacters(QString *chars,
-                                  Data::Containers::FontParameters *parameters)
+void FontDocument::fontCharacters(QString* chars, Data::Containers::FontParameters* parameters)
 {
   QStringList charList(this->mContainer->keys());
   *chars = charList.join("");
@@ -582,8 +574,7 @@ void FontDocument::fontCharacters(QString *chars,
   parameters->multiplicityWidth = this->multiplicityWidth();
 }
 
-void FontDocument::setFontCharacters(const QString &chars,
-                                     const Data::Containers::FontParameters &parameters)
+void FontDocument::setFontCharacters(const QString& chars, const Data::Containers::FontParameters& parameters)
 {
   QFontDatabase fonts;
 
@@ -592,21 +583,16 @@ void FontDocument::setFontCharacters(const QString &chars,
   this->mContainer->blockSignals(true);
 
   if (this->mContainer->count() > 1) {
-    if (this->usedFont().family() != parameters.family ||
-        this->usedStyle() != parameters.style ||
+    if (this->usedFont().family() != parameters.family || this->usedStyle() != parameters.style ||
         this->sizeUnits() != parameters.sizeUnits ||
         ((parameters.sizeUnits == FontSizeUnits::Pixels) && (this->usedFont().pixelSize() != parameters.size)) ||
         ((parameters.sizeUnits == FontSizeUnits::Points) && (this->usedFont().pointSize() != parameters.size)) ||
-        this->monospaced() != parameters.monospaced ||
-        this->antialiasing() != parameters.antiAliasing ||
-        this->foreground() != parameters.foreground ||
-        this->background() != parameters.background ||
-        this->ascent() != parameters.ascent ||
-        this->descent() != parameters.descent ||
+        this->monospaced() != parameters.monospaced || this->antialiasing() != parameters.antiAliasing ||
+        this->foreground() != parameters.foreground || this->background() != parameters.background ||
+        this->ascent() != parameters.ascent || this->descent() != parameters.descent ||
         this->multiplicityHeight() != parameters.multiplicityHeight ||
-        this->multiplicityWidth() != parameters.multiplicityWidth
-       ) {
-      AppUI::Fonts::DialogFontChanged dialog(qobject_cast<QWidget *>(this->parent()));
+        this->multiplicityWidth() != parameters.multiplicityWidth) {
+      AppUI::Fonts::DialogFontChanged dialog(qobject_cast<QWidget*>(this->parent()));
 
       if (dialog.exec() == QDialog::Accepted) {
         regenerateAll = dialog.regenerateAll();
@@ -696,15 +682,9 @@ void FontDocument::setFontCharacters(const QString &chars,
     // if character not exists, create it
     if (!keys.contains(key)) {
       keys.append(key);
-      QImage image = Parsing::Conversion::FontHelper::drawCharacter(chars.at(i),
-                     fontNew,
-                     parameters.foreground,
-                     parameters.background,
-                     width,
-                     height,
-                     parameters.antiAliasing,
-                     parameters.multiplicityHeight,
-                     parameters.multiplicityWidth);
+      QImage image = Parsing::Conversion::FontHelper::drawCharacter(
+          chars.at(i), fontNew, parameters.foreground, parameters.background, width, height, parameters.antiAliasing,
+          parameters.multiplicityHeight, parameters.multiplicityWidth);
       this->mContainer->setImage(key, new QImage(image));
     }
   }
@@ -716,7 +696,7 @@ void FontDocument::setFontCharacters(const QString &chars,
   this->endChanges(false);
 }
 
-void FontDocument::setDocumentFilename(const QString &value)
+void FontDocument::setDocumentFilename(const QString& value)
 {
   if (this->documentFilename() != value) {
     this->mContainer->setCommonInfo("filename", QVariant(value));
@@ -735,40 +715,19 @@ QFont FontDocument::usedFont() const
   return QFont();
 }
 
-void FontDocument::setUsedFont(const QFont &value)
-{
-  this->mContainer->setCommonInfo("used font", value);
-}
+void FontDocument::setUsedFont(const QFont& value) { this->mContainer->setCommonInfo("used font", value); }
 
-QString FontDocument::usedStyle() const
-{
-  return this->mContainer->commonInfo("style").toString();
-}
+QString FontDocument::usedStyle() const { return this->mContainer->commonInfo("style").toString(); }
 
-void FontDocument::setUsedStyle(const QString &value)
-{
-  this->mContainer->setCommonInfo("style", value);
-}
+void FontDocument::setUsedStyle(const QString& value) { this->mContainer->setCommonInfo("style", value); }
 
-bool FontDocument::monospaced() const
-{
-  return this->mContainer->commonInfo("monospaced").toBool();
-}
+bool FontDocument::monospaced() const { return this->mContainer->commonInfo("monospaced").toBool(); }
 
-void FontDocument::setMonospaced(const bool value)
-{
-  this->mContainer->setCommonInfo("monospaced", value);
-}
+void FontDocument::setMonospaced(const bool value) { this->mContainer->setCommonInfo("monospaced", value); }
 
-bool FontDocument::antialiasing() const
-{
-  return this->mContainer->commonInfo("antialiasing").toBool();
-}
+bool FontDocument::antialiasing() const { return this->mContainer->commonInfo("antialiasing").toBool(); }
 
-void FontDocument::setAntialiasing(const bool value)
-{
-  this->mContainer->setCommonInfo("antialiasing", value);
-}
+void FontDocument::setAntialiasing(const bool value) { this->mContainer->setCommonInfo("antialiasing", value); }
 
 QColor FontDocument::foreground() const
 {
@@ -804,30 +763,15 @@ void FontDocument::setBackground(const QColor value)
   this->mContainer->setCommonInfo("background", (quint32)value.rgba());
 }
 
-int FontDocument::ascent() const
-{
-  return this->mContainer->commonInfo("ascent").toInt();
-}
+int FontDocument::ascent() const { return this->mContainer->commonInfo("ascent").toInt(); }
 
-void FontDocument::setAscent(int value)
-{
-  this->mContainer->setCommonInfo("ascent", value);
-}
+void FontDocument::setAscent(int value) { this->mContainer->setCommonInfo("ascent", value); }
 
-int FontDocument::descent() const
-{
-  return this->mContainer->commonInfo("descent").toInt();
-}
+int FontDocument::descent() const { return this->mContainer->commonInfo("descent").toInt(); }
 
-void FontDocument::setDescent(int value)
-{
-  this->mContainer->setCommonInfo("descent", value);
-}
+void FontDocument::setDescent(int value) { this->mContainer->setCommonInfo("descent", value); }
 
-int FontDocument::multiplicityWidth() const
-{
-  return this->mContainer->commonInfo("multiplicityWidth").toInt();
-}
+int FontDocument::multiplicityWidth() const { return this->mContainer->commonInfo("multiplicityWidth").toInt(); }
 
 void FontDocument::setMultiplicityWidth(const int value)
 {
@@ -836,10 +780,7 @@ void FontDocument::setMultiplicityWidth(const int value)
   }
 }
 
-int FontDocument::multiplicityHeight() const
-{
-  return this->mContainer->commonInfo("multiplicityHeight").toInt();
-}
+int FontDocument::multiplicityHeight() const { return this->mContainer->commonInfo("multiplicityHeight").toInt(); }
 
 void FontDocument::setMultiplicityHeight(const int value)
 {
@@ -858,12 +799,10 @@ void FontDocument::setSizeUnits(const FontSizeUnits sizeUnits)
   this->mContainer->setCommonInfo("sizeUnits", (int)sizeUnits);
 }
 
-void FontDocument::prepareImages(Settings::Presets::Preset *preset,
-                                 const QStringList &orderedKeys,
-                                 QMap<QString, Parsing::ParsedImageData *> *images,
-                                 Parsing::TagsList &tags) const
+void FontDocument::prepareImages(Settings::Presets::Preset* preset, const QStringList& orderedKeys,
+                                 QMap<QString, Parsing::ParsedImageData*>* images, Parsing::TagsList& tags) const
 {
-  DataContainer *data = this->dataContainer();
+  DataContainer* data = this->dataContainer();
 
   // collect ParsedImageData
   {
@@ -874,7 +813,7 @@ void FontDocument::prepareImages(Settings::Presets::Preset *preset,
       const QString key = it.next();
       QImage image = QImage(*data->image(key));
 
-      Parsing::ParsedImageData *data = new Parsing::ParsedImageData(preset, &image, tags);
+      Parsing::ParsedImageData* data = new Parsing::ParsedImageData(preset, &image, tags);
       images->insert(key, data);
     }
   }
@@ -890,15 +829,17 @@ void FontDocument::prepareImages(Settings::Presets::Preset *preset,
     while (it.hasNext()) {
       QString key = it.next();
 
-      Parsing::ParsedImageData *imageData = images->value(key);
+      Parsing::ParsedImageData* imageData = images->value(key);
 
       if (imageData != nullptr) {
         quint64 charCode;
         QString charCodeStr;
 
-        if (this->getCharCode(key, encoding, useBom, charCode, charCodeStr) || !preset->font()->skipMissingCharacters()) {
+        if (this->getCharCode(key, encoding, useBom, charCode, charCodeStr) ||
+            !preset->font()->skipMissingCharacters()) {
           imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterCode, charCodeStr);
-          imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterText, this->escapeUserCharacters(preset, key));
+          imageData->tags()->setTagValue(Parsing::TagsList::Tag::OutputCharacterText,
+                                         this->escapeUserCharacters(preset, key));
         }
       }
     }
@@ -907,7 +848,7 @@ void FontDocument::prepareImages(Settings::Presets::Preset *preset,
   // find duplicates
   {
     // map of same character keys by hash
-    QMap<uint, Parsing::ParsedImageData *> similarMap;
+    QMap<uint, Parsing::ParsedImageData*> similarMap;
 
     QListIterator<QString> it(orderedKeys);
     it.toFront();
@@ -915,11 +856,11 @@ void FontDocument::prepareImages(Settings::Presets::Preset *preset,
     while (it.hasNext()) {
       QString key = it.next();
 
-      Parsing::ParsedImageData *imageData = images->value(key);
+      Parsing::ParsedImageData* imageData = images->value(key);
 
       if (imageData != nullptr) {
         // detect same characters
-        Parsing::ParsedImageData *similarImageData = similarMap.value(imageData->hash(), nullptr);
+        Parsing::ParsedImageData* similarImageData = similarMap.value(imageData->hash(), nullptr);
 
         if (similarImageData != nullptr) {
           QString similarCode = similarImageData->tags()->tagValue(Parsing::TagsList::Tag::OutputCharacterCode);
@@ -950,13 +891,14 @@ void FontDocument::prepareImages(Settings::Presets::Preset *preset,
     while (it.hasNext()) {
       QString key = it.next();
 
-      Parsing::ParsedImageData *imageData = images->value(key);
+      Parsing::ParsedImageData* imageData = images->value(key);
 
       if (imageData != nullptr) {
         quint64 charCode;
         QString charCodeStr;
 
-        if (this->getCharCode(key, encoding, useBom, charCode, charCodeStr) || !preset->font()->skipMissingCharacters()) {
+        if (this->getCharCode(key, encoding, useBom, charCode, charCodeStr) ||
+            !preset->font()->skipMissingCharacters()) {
           if (charCode < charCodeMin) {
             charCodeMin = charCode;
             charCodeMinStr = charCodeStr;
@@ -975,13 +917,10 @@ void FontDocument::prepareImages(Settings::Presets::Preset *preset,
   }
 }
 
-bool FontDocument::getCharCode(const QString &key,
-                               const QString &encoding,
-                               bool bom,
-                               quint64 &resultCode,
-                               QString &resultCodeStr) const
+bool FontDocument::getCharCode(const QString& key, const QString& encoding, bool bom, quint64& resultCode,
+                               QString& resultCodeStr) const
 {
-  QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
+  QTextCodec* codec = QTextCodec::codecForName(encoding.toLatin1());
   QChar ch = key.at(0);
 
   QByteArray codeArray = codec->fromUnicode(&ch, 1);
@@ -999,9 +938,7 @@ bool FontDocument::getCharCode(const QString &key,
 
   if (encoding.contains("UTF-16")) {
     // reorder bytes
-    quint64 a =
-      ((code & 0x000000000000ff00ULL) >> 8) |
-      ((code & 0x00000000000000ffULL) << 8);
+    quint64 a = ((code & 0x000000000000ff00ULL) >> 8) | ((code & 0x00000000000000ffULL) << 8);
     code &= 0xffffffffffff0000ULL;
     code |= a;
 
@@ -1015,11 +952,8 @@ bool FontDocument::getCharCode(const QString &key,
     }
   } else if (encoding.contains("UTF-32")) {
     // reorder bytes
-    quint64 a =
-      ((code & 0x00000000ff000000ULL) >> 24) |
-      ((code & 0x0000000000ff0000ULL) >> 8) |
-      ((code & 0x000000000000ff00ULL) << 8) |
-      ((code & 0x00000000000000ffULL) << 24);
+    quint64 a = ((code & 0x00000000ff000000ULL) >> 24) | ((code & 0x0000000000ff0000ULL) >> 8) |
+                ((code & 0x000000000000ff00ULL) << 8) | ((code & 0x00000000000000ffULL) << 24);
     code &= 0xffffffff00000000ULL;
     code |= a;
 
@@ -1040,17 +974,11 @@ bool FontDocument::getCharCode(const QString &key,
   return codec->canEncode(ch);
 }
 
-bool caseInsensitiveLessThan(const QString &s1, const QString &s2)
-{
-  return s1.toLower() < s2.toLower();
-}
+bool caseInsensitiveLessThan(const QString& s1, const QString& s2) { return s1.toLower() < s2.toLower(); }
 
-bool caseInsensitiveMoreThan(const QString &s1, const QString &s2)
-{
-  return s1.toLower() > s2.toLower();
-}
+bool caseInsensitiveMoreThan(const QString& s1, const QString& s2) { return s1.toLower() > s2.toLower(); }
 
-const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Settings::Presets::Preset *preset) const
+const QStringList FontDocument::sortKeysWithEncoding(const QStringList& keys, Settings::Presets::Preset* preset) const
 {
   bool useBom = preset->font()->bom();
   QString encoding = preset->font()->encoding();
@@ -1060,7 +988,7 @@ const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Se
     return keys;
   }
 
-  QMap <QString, QString> map;
+  QMap<QString, QString> map;
 
   QListIterator<QString> it(keys);
   it.toFront();
@@ -1102,16 +1030,16 @@ const QStringList FontDocument::sortKeysWithEncoding(const QStringList &keys, Se
   return result;
 }
 
-const QString FontDocument::escapeUserCharacters(Settings::Presets::Preset *preset, const QString &value) const
+const QString FontDocument::escapeUserCharacters(Settings::Presets::Preset* preset, const QString& value) const
 {
-  const QString &chars = preset->font()->escapedCharacters();
+  const QString& chars = preset->font()->escapedCharacters();
 
   if (chars.isEmpty()) {
     return value;
   }
 
-  const QString &prefix = preset->font()->escapePrefix();
-  const QString &suffix = preset->font()->escapeSuffix();
+  const QString& prefix = preset->font()->escapePrefix();
+  const QString& suffix = preset->font()->escapeSuffix();
 
   if (prefix.isEmpty() && suffix.isEmpty()) {
     return value;

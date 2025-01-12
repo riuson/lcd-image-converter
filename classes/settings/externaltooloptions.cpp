@@ -27,7 +27,7 @@ namespace Settings
 const QString ExternalToolOptions::imageEditor()
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("external-tools");
   QString result = sett.value("imageEditor", QVariant("gimp")).toString();
   sett.endGroup();
@@ -35,10 +35,10 @@ const QString ExternalToolOptions::imageEditor()
   return result;
 }
 
-void ExternalToolOptions::setImageEditor(const QString &value)
+void ExternalToolOptions::setImageEditor(const QString& value)
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("external-tools");
   sett.setValue("imageEditor", QVariant(value));
   sett.endGroup();

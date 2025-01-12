@@ -29,24 +29,22 @@ namespace ImageEditor
 class IImageEditor
 {
 public:
-  virtual ~IImageEditor() { }
+  virtual ~IImageEditor() {}
 
-  virtual QWidget *widget() const = 0;
+  virtual QWidget* widget() const = 0;
 
-  virtual const QImage *image() const = 0;
-  virtual void setImage(const QImage *_value) = 0;
+  virtual const QImage* image() const = 0;
+  virtual void setImage(const QImage* _value) = 0;
 
   virtual int scale() const = 0;
 
 signals:
-  virtual void imageChanged(const QImage *_image) = 0;
+  virtual void imageChanged(const QImage* _image) = 0;
   virtual void scaleChanged(int _scale) = 0;
-  virtual void mouseMoved(const QPoint *_point) = 0;
+  virtual void mouseMoved(const QPoint* _point) = 0;
 };
 } // namespace ImageEditor
 
-Q_DECLARE_INTERFACE (ImageEditor::IImageEditor,
-                     "riuson.lcd-image-converter/1.0"
-                    )
+Q_DECLARE_INTERFACE(ImageEditor::IImageEditor, "riuson.lcd-image-converter/1.0")
 
 #endif // IIMAGEEDITOR_H

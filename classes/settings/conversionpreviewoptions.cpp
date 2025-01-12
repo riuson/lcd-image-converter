@@ -18,6 +18,7 @@
  */
 
 #include "conversionpreviewoptions.h"
+
 #include <appsettings.h>
 
 namespace Settings
@@ -28,7 +29,7 @@ const QString ConversionPreviewOptions::GroupName = QString("conversion-preview"
 int ConversionPreviewOptions::scale()
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup(ConversionPreviewOptions::GroupName);
   bool ok;
   int result = sett.value("scale", QVariant(1)).toInt(&ok);
@@ -44,7 +45,7 @@ int ConversionPreviewOptions::scale()
 void ConversionPreviewOptions::setScale(int value)
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup(ConversionPreviewOptions::GroupName);
   sett.setValue("scale", QVariant(value));
   sett.endGroup();

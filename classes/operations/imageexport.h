@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QStringList>
+
 #include "ioperation.h"
 
 namespace Operations
@@ -33,19 +34,19 @@ class ImageExport : public QObject, public IOperation
   Q_INTERFACES(Operations::IOperation)
 
 public:
-  explicit ImageExport(QWidget *parentWidget = 0, QObject *parent = 0);
+  explicit ImageExport(QWidget* parentWidget = 0, QObject* parent = 0);
   virtual ~ImageExport() {}
 
-  bool prepare(const Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyDocument(Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyItem(Data::Containers::IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
+  bool prepare(const Data::Containers::IDocument* doc, const QStringList& keys) Q_DECL_OVERRIDE;
+  void applyDocument(Data::Containers::IDocument* doc, const QStringList& keys) Q_DECL_OVERRIDE;
+  void applyItem(Data::Containers::IDocument* doc, const QString& itemKey) Q_DECL_OVERRIDE;
 
 private:
-  QWidget *mParentWidget;
+  QWidget* mParentWidget;
   QStringList mExportFilenames;
   int mExportIndex;
 
-  void prepareFilenames(const QStringList &keys, const QString &filename, const QString &ext);
+  void prepareFilenames(const QStringList& keys, const QString& filename, const QString& ext);
 };
 
 } // namespace Operations

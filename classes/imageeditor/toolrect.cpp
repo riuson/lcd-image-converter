@@ -18,18 +18,20 @@
  */
 
 #include "toolrect.h"
+
+#include <QAction>
+#include <QColor>
+#include <QColorDialog>
+#include <QList>
+#include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
-#include <QList>
-#include <QAction>
-#include <QWidget>
-#include <QColor>
 #include <QSpinBox>
-#include <QMouseEvent>
 #include <QToolButton>
-#include <QColorDialog>
-#include <QPainterPath>
+#include <QWidget>
+
 #include <appsettings.h>
+
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
 
@@ -38,13 +40,14 @@ namespace ImageEditor
 namespace Tools
 {
 
-ToolRect::ToolRect(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
+ToolRect::ToolRect(IImageEditorParams* parameters, QObject* parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect"), 24)));
+  this->mIcon = new QIcon(
+      QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect"), 24)));
 
-  this->mActions = new QList<QAction *>();
-  this->mWidgets = new QList<QWidget *>();
+  this->mActions = new QList<QAction*>();
+  this->mWidgets = new QList<QWidget*>();
 
   this->mSize = 1;
 
@@ -62,34 +65,21 @@ ToolRect::~ToolRect()
   delete this->mWidgets;
 }
 
-const QString ToolRect::title() const
-{
-  return tr("Rectangle");
-}
+const QString ToolRect::title() const { return tr("Rectangle"); }
 
 const QString ToolRect::tooltip() const
 {
-  return tr("<b>Draw rectangle</b><br/>Left mouse button: outline - forecolor, filling - backcolor.<br/>Right mouse button: outline - backcolor, filling - forecolor.");
+  return tr("<b>Draw rectangle</b><br/>Left mouse button: outline - forecolor, filling - backcolor.<br/>Right mouse "
+            "button: outline - backcolor, filling - forecolor.");
 }
 
-const QIcon *ToolRect::icon() const
-{
-  return this->mIcon;
-}
+const QIcon* ToolRect::icon() const { return this->mIcon; }
 
-const QList<QAction *> *ToolRect::actions() const
-{
-  return this->mActions;
-}
+const QList<QAction*>* ToolRect::actions() const { return this->mActions; }
 
-const QList<QWidget *> *ToolRect::widgets() const
-{
-  return this->mWidgets;
-}
+const QList<QWidget*>* ToolRect::widgets() const { return this->mWidgets; }
 
-bool ToolRect::processMouse(QMouseEvent *event,
-                            const QImage *imageOriginal,
-                            bool inRect)
+bool ToolRect::processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect)
 {
   Q_UNUSED(inRect)
 
@@ -142,7 +132,7 @@ bool ToolRect::processMouse(QMouseEvent *event,
 
 void ToolRect::initializeWidgets()
 {
-  QSpinBox *spinBoxSize = new QSpinBox();
+  QSpinBox* spinBoxSize = new QSpinBox();
   spinBoxSize->setMinimum(1);
   spinBoxSize->setSuffix(QString("px"));
   spinBoxSize->setValue(this->mSize);
@@ -157,7 +147,8 @@ void ToolRect::initializeWidgets()
   this->mActionRectOutline->setToolTip(tr("Outline only"));
   this->mActionRectOutline->setData(QVariant((int)Outline));
   this->connect(this->mActionRectOutline, SIGNAL(triggered()), SLOT(on_buttonRertFilledOutline_triggered()));
-  this->mActionRectOutline->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_outline"), 24))));
+  this->mActionRectOutline->setIcon(QIcon(QPixmap::fromImage(
+      Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_outline"), 24))));
   this->mActions->append(this->mActionRectOutline);
 
   this->mActionRectFilledOutline = new QAction(this);
@@ -167,7 +158,8 @@ void ToolRect::initializeWidgets()
   this->mActionRectFilledOutline->setToolTip(tr("Filled with Outline"));
   this->mActionRectFilledOutline->setData(QVariant((int)FilledOutline));
   this->connect(this->mActionRectFilledOutline, SIGNAL(triggered()), SLOT(on_buttonRertFilledOutline_triggered()));
-  this->mActionRectFilledOutline->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_filled_outline"), 24))));
+  this->mActionRectFilledOutline->setIcon(QIcon(QPixmap::fromImage(
+      Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_filled_outline"), 24))));
   this->mActions->append(this->mActionRectFilledOutline);
 
   this->mActionRectFilled = new QAction(this);
@@ -177,14 +169,15 @@ void ToolRect::initializeWidgets()
   this->mActionRectFilled->setToolTip(tr("Filled"));
   this->mActionRectFilled->setData(QVariant((int)Filled));
   this->connect(this->mActionRectFilled, SIGNAL(triggered()), SLOT(on_buttonRertFilledOutline_triggered()));
-  this->mActionRectFilled->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_filled"), 24))));
+  this->mActionRectFilled->setIcon(QIcon(QPixmap::fromImage(
+      Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_rect_filled"), 24))));
   this->mActions->append(this->mActionRectFilled);
 }
 
 void ToolRect::loadSettings()
 {
   Settings::AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("rect");
@@ -210,7 +203,7 @@ void ToolRect::loadSettings()
 void ToolRect::saveSettings() const
 {
   Settings::AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("rect");
@@ -223,7 +216,7 @@ void ToolRect::saveSettings() const
   sett.endGroup();
 }
 
-void ToolRect::drawRect(const QRect &rect, OutlineMode mode, int borderWidth, bool inverted)
+void ToolRect::drawRect(const QRect& rect, OutlineMode mode, int borderWidth, bool inverted)
 {
   QImage image = this->mOriginalImage;
   QPixmap pixmap = QPixmap::fromImage(image);
@@ -243,7 +236,7 @@ void ToolRect::drawRect(const QRect &rect, OutlineMode mode, int borderWidth, bo
 
   if (mode == Filled || mode == FilledOutline) {
     painter.setRenderHint(QPainter::Antialiasing, false);
-    //painter.setRenderHint(QPainter::Antialiasing);
+    // painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::HighQualityAntialiasing, false);
     painter.fillRect(rect, bc);
   }
@@ -251,7 +244,7 @@ void ToolRect::drawRect(const QRect &rect, OutlineMode mode, int borderWidth, bo
   if (mode == Outline || mode == FilledOutline) {
     QPen pen(fc, borderWidth);
     painter.setRenderHint(QPainter::Antialiasing, false);
-    //painter.setRenderHint(QPainter::Antialiasing);
+    // painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::HighQualityAntialiasing, false);
     painter.setPen(pen);
     painter.drawRect(rect);
@@ -260,14 +253,11 @@ void ToolRect::drawRect(const QRect &rect, OutlineMode mode, int borderWidth, bo
   this->mInternalImage = pixmap.toImage();
 }
 
-void ToolRect::on_spinBoxSize_valueChanged(int value)
-{
-  this->mSize = value;
-}
+void ToolRect::on_spinBoxSize_valueChanged(int value) { this->mSize = value; }
 
 void ToolRect::on_buttonRertFilledOutline_triggered()
 {
-  QAction *action = qobject_cast<QAction *>(sender());
+  QAction* action = qobject_cast<QAction*>(sender());
 
   if (action != nullptr) {
     bool ok;

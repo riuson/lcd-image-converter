@@ -26,8 +26,7 @@ namespace Parsing
 namespace Conversion
 {
 
-ConvImageScan::ConvImageScan(const QImage *image, QObject *parent) :
-  QObject(parent)
+ConvImageScan::ConvImageScan(const QImage* image, QObject* parent) : QObject(parent)
 {
   this->mImage = image;
   this->mBandSize = 1;
@@ -35,39 +34,19 @@ ConvImageScan::ConvImageScan(const QImage *image, QObject *parent) :
   this->mScanTerminated = false;
 }
 
-ConvImageScan::~ConvImageScan()
-{
-}
+ConvImageScan::~ConvImageScan() {}
 
-int ConvImageScan::bandSize() const
-{
-  return this->mBandSize;
-}
+int ConvImageScan::bandSize() const { return this->mBandSize; }
 
-void ConvImageScan::setBandSize(int value)
-{
-  this->mBandSize = value;
-}
+void ConvImageScan::setBandSize(int value) { this->mBandSize = value; }
 
-bool ConvImageScan::useBands() const
-{
-  return this->mUseBands;
-}
+bool ConvImageScan::useBands() const { return this->mUseBands; }
 
-void ConvImageScan::setUseBands(bool value)
-{
-  this->mUseBands = value;
-}
+void ConvImageScan::setUseBands(bool value) { this->mUseBands = value; }
 
-void ConvImageScan::addPoint(int x, int y)
-{
-  this->mPoints.append(QPoint(x, y));
-}
+void ConvImageScan::addPoint(int x, int y) { this->mPoints.append(QPoint(x, y)); }
 
-void ConvImageScan::clearPoints()
-{
-  this->mPoints.clear();
-}
+void ConvImageScan::clearPoints() { this->mPoints.clear(); }
 
 QPoint ConvImageScan::pointAt(int index) const
 {
@@ -78,30 +57,15 @@ QPoint ConvImageScan::pointAt(int index) const
   return QPoint();
 }
 
-int ConvImageScan::pointsCount() const
-{
-  return this->mPoints.size();
-}
+int ConvImageScan::pointsCount() const { return this->mPoints.size(); }
 
-bool ConvImageScan::scanTerminated() const
-{
-  return this->mScanTerminated;
-}
+bool ConvImageScan::scanTerminated() const { return this->mScanTerminated; }
 
-void ConvImageScan::setScanTerminated(bool value)
-{
-  this->mScanTerminated = value;
-}
+void ConvImageScan::setScanTerminated(bool value) { this->mScanTerminated = value; }
 
-int ConvImageScan::height() const
-{
-  return this->mImage->height();
-}
+int ConvImageScan::height() const { return this->mImage->height(); }
 
-int ConvImageScan::width() const
-{
-  return this->mImage->width();
-}
+int ConvImageScan::width() const { return this->mImage->width(); }
 
 } // namespace Conversion
 } // namespace Parsing

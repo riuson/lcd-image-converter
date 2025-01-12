@@ -19,17 +19,19 @@
 
 #include "preset.h"
 
-#include <QStringList>
-#include <QtXml>
 #include <QFile>
 #include <QRegExp>
+#include <QStringList>
 #include <QUuid>
+#include <QtXml>
+
 #include <appsettings.h>
-#include "prepareoptions.h"
-#include "matrixoptions.h"
-#include "reorderingoptions.h"
-#include "imageoptions.h"
+
 #include "fontoptions.h"
+#include "imageoptions.h"
+#include "matrixoptions.h"
+#include "prepareoptions.h"
+#include "reorderingoptions.h"
 #include "templateoptions.h"
 
 namespace Settings
@@ -37,24 +39,23 @@ namespace Settings
 namespace Presets
 {
 
-Preset::Preset(QObject *parent) :
-  QObject(parent)
+Preset::Preset(QObject* parent) : QObject(parent)
 {
   this->mBlockChangesSignal = false;
 
-  this->mPrepare    = new PrepareOptions(this);
-  this->mMatrix     = new MatrixOptions(this);
+  this->mPrepare = new PrepareOptions(this);
+  this->mMatrix = new MatrixOptions(this);
   this->mReordering = new ReorderingOptions(this);
-  this->mImage      = new ImageOptions(this);
-  this->mFont       = new FontOptions(this);
-  this->mTemplates  = new TemplateOptions(this);
+  this->mImage = new ImageOptions(this);
+  this->mFont = new FontOptions(this);
+  this->mTemplates = new TemplateOptions(this);
 
-  this->connect(this->mPrepare,    SIGNAL(changed()), SLOT(partsChanged()));
-  this->connect(this->mMatrix,     SIGNAL(changed()), SLOT(partsChanged()));
+  this->connect(this->mPrepare, SIGNAL(changed()), SLOT(partsChanged()));
+  this->connect(this->mMatrix, SIGNAL(changed()), SLOT(partsChanged()));
   this->connect(this->mReordering, SIGNAL(changed()), SLOT(partsChanged()));
-  this->connect(this->mImage,      SIGNAL(changed()), SLOT(partsChanged()));
-  this->connect(this->mFont,       SIGNAL(changed()), SLOT(partsChanged()));
-  this->connect(this->mTemplates,  SIGNAL(changed()), SLOT(partsChanged()));
+  this->connect(this->mImage, SIGNAL(changed()), SLOT(partsChanged()));
+  this->connect(this->mFont, SIGNAL(changed()), SLOT(partsChanged()));
+  this->connect(this->mTemplates, SIGNAL(changed()), SLOT(partsChanged()));
 }
 
 Preset::~Preset()
@@ -67,45 +68,27 @@ Preset::~Preset()
   delete this->mPrepare;
 }
 
-PrepareOptions *Preset::prepare()
-{
-  return this->mPrepare;
-}
+PrepareOptions* Preset::prepare() { return this->mPrepare; }
 
-MatrixOptions *Preset::matrix()
-{
-  return this->mMatrix;
-}
+MatrixOptions* Preset::matrix() { return this->mMatrix; }
 
-ReorderingOptions *Preset::reordering()
-{
-  return this->mReordering;
-}
+ReorderingOptions* Preset::reordering() { return this->mReordering; }
 
-ImageOptions *Preset::image()
-{
-  return this->mImage;
-}
+ImageOptions* Preset::image() { return this->mImage; }
 
-FontOptions *Preset::font()
-{
-  return this->mFont;
-}
+FontOptions* Preset::font() { return this->mFont; }
 
-TemplateOptions *Preset::templates()
-{
-  return this->mTemplates;
-}
+TemplateOptions* Preset::templates() { return this->mTemplates; }
 
 QStringList Preset::presetsList()
 {
   AppSettings appsett(AppSettings::Section::Presets);
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("presetsList");
   QStringList groups = sett.childGroups();
   QStringList names;
 
-  foreach (const QString &group, groups) {
+  foreach (const QString& group, groups) {
     sett.beginGroup(group);
     QString name = sett.value("name").toString();
 
@@ -126,7 +109,7 @@ QStringList Preset::presetsList()
 QString Preset::selectedName()
 {
   AppSettings appsett(AppSettings::Section::Application);
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("presets");
   QString result = sett.value("selected", QVariant("")).toString();
   sett.endGroup();
@@ -134,19 +117,19 @@ QString Preset::selectedName()
   return result;
 }
 
-void Preset::setSelectedName(const QString &value)
+void Preset::setSelectedName(const QString& value)
 {
   AppSettings appsett(AppSettings::Section::Application);
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("presets");
   sett.setValue("selected", QVariant(value));
   sett.endGroup();
 }
 
-void Preset::remove(const QString &value)
+void Preset::remove(const QString& value)
 {
   AppSettings appsett(AppSettings::Section::Presets);
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("presetsList");
 
   QString group = Preset::groupByName(value);
@@ -156,15 +139,15 @@ void Preset::remove(const QString &value)
   sett.endGroup();
 }
 
-QString Preset::groupByName(const QString &value)
+QString Preset::groupByName(const QString& value)
 {
   AppSettings appsett(AppSettings::Section::Presets);
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("presetsList");
   QStringList groups = sett.childGroups();
   QString result;
 
-  foreach (const QString &group, groups) {
+  foreach (const QString& group, groups) {
     sett.beginGroup(group);
     QString name = sett.value("name").toString();
     sett.endGroup();
@@ -180,12 +163,9 @@ QString Preset::groupByName(const QString &value)
   return result;
 }
 
-QString Preset::name() const
-{
-  return this->mName;
-}
+QString Preset::name() const { return this->mName; }
 
-bool Preset::load(const QString &presetName)
+bool Preset::load(const QString& presetName)
 {
   bool result = false;
 
@@ -193,7 +173,7 @@ bool Preset::load(const QString &presetName)
     this->mBlockChangesSignal = true;
 
     AppSettings appsett(AppSettings::Section::Presets);
-    QSettings &sett = appsett.get();
+    QSettings& sett = appsett.get();
     sett.beginGroup("presetsList");
 
     QString groupName = Preset::groupByName(presetName);
@@ -223,7 +203,7 @@ bool Preset::load(const QString &presetName)
   return result;
 }
 
-bool Preset::loadXML(const QString &filename)
+bool Preset::loadXML(const QString& filename)
 {
   QDomDocument doc;
   QFile file(filename);
@@ -263,10 +243,10 @@ bool Preset::loadXML(const QString &filename)
   return false;
 }
 
-void Preset::save(const QString &name) const
+void Preset::save(const QString& name) const
 {
   AppSettings appsett(AppSettings::Section::Presets);
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("presetsList");
 
   QString group = Preset::groupByName(name);
@@ -293,7 +273,7 @@ void Preset::save(const QString &name) const
   sett.endGroup();
 }
 
-void Preset::saveXML(const QString &filename) const
+void Preset::saveXML(const QString& filename) const
 {
   QDomDocument doc;
   doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\""));
@@ -314,7 +294,7 @@ void Preset::saveXML(const QString &filename) const
   QFile outFile(filename);
 
   if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-    qDebug( "Failed to open file for writing." );
+    qDebug("Failed to open file for writing.");
     return;
   }
 
@@ -508,7 +488,7 @@ void Preset::initColor(int alphaBits, int redBits, int greenBits, int blueBits)
 
 void Preset::partsChanged()
 {
-  IPresetOptionsPart *part = qobject_cast<IPresetOptionsPart *>(sender());
+  IPresetOptionsPart* part = qobject_cast<IPresetOptionsPart*>(sender());
 
   if (!this->mBlockChangesSignal) {
     emit this->changed(part->groupName());

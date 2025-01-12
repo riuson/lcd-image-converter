@@ -18,17 +18,20 @@
  */
 
 #include "toolpen.h"
-#include <QPainter>
-#include <QList>
+
 #include <QAction>
-#include <QWidget>
 #include <QColor>
-#include <QSpinBox>
-#include <QMouseEvent>
-#include <QToolButton>
 #include <QColorDialog>
+#include <QList>
+#include <QMouseEvent>
+#include <QPainter>
 #include <QPainterPath>
+#include <QSpinBox>
+#include <QToolButton>
+#include <QWidget>
+
 #include <appsettings.h>
+
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
 
@@ -37,13 +40,14 @@ namespace ImageEditor
 namespace Tools
 {
 
-ToolPen::ToolPen(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
+ToolPen::ToolPen(IImageEditorParams* parameters, QObject* parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_pen"), 24)));
+  this->mIcon = new QIcon(
+      QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_pen"), 24)));
 
-  this->mActions = new QList<QAction *>();
-  this->mWidgets = new QList<QWidget *>();
+  this->mActions = new QList<QAction*>();
+  this->mWidgets = new QList<QWidget*>();
 
   this->mSize = 1;
 
@@ -61,34 +65,21 @@ ToolPen::~ToolPen()
   delete this->mWidgets;
 }
 
-const QString ToolPen::title() const
-{
-  return tr("Pen");
-}
+const QString ToolPen::title() const { return tr("Pen"); }
 
 const QString ToolPen::tooltip() const
 {
-  return tr("<b>Draw pixels</b><br/>Use left mouse button to draw forecolor.<br/>Use right mouse button to draw backcolor.");
+  return tr(
+      "<b>Draw pixels</b><br/>Use left mouse button to draw forecolor.<br/>Use right mouse button to draw backcolor.");
 }
 
-const QIcon *ToolPen::icon() const
-{
-  return this->mIcon;
-}
+const QIcon* ToolPen::icon() const { return this->mIcon; }
 
-const QList<QAction *> *ToolPen::actions() const
-{
-  return this->mActions;
-}
+const QList<QAction*>* ToolPen::actions() const { return this->mActions; }
 
-const QList<QWidget *> *ToolPen::widgets() const
-{
-  return this->mWidgets;
-}
+const QList<QWidget*>* ToolPen::widgets() const { return this->mWidgets; }
 
-bool ToolPen::processMouse(QMouseEvent *event,
-                           const QImage *imageOriginal,
-                           bool inRect)
+bool ToolPen::processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect)
 {
   if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress) {
     if (event->type() == QEvent::MouseButtonPress) {
@@ -135,7 +126,7 @@ bool ToolPen::processMouse(QMouseEvent *event,
 
 void ToolPen::initializeWidgets()
 {
-  QSpinBox *spinBoxSize = new QSpinBox();
+  QSpinBox* spinBoxSize = new QSpinBox();
   spinBoxSize->setMinimum(1);
   spinBoxSize->setSuffix(QString("px"));
   spinBoxSize->setValue(this->mSize);
@@ -147,7 +138,7 @@ void ToolPen::initializeWidgets()
 void ToolPen::loadSettings()
 {
   Settings::AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("pen");
@@ -167,7 +158,7 @@ void ToolPen::loadSettings()
 void ToolPen::saveSettings() const
 {
   Settings::AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("pen");
@@ -179,7 +170,7 @@ void ToolPen::saveSettings() const
   sett.endGroup();
 }
 
-void ToolPen::drawPixel(int x, int y, const QColor &color)
+void ToolPen::drawPixel(int x, int y, const QColor& color)
 {
   QImage image = this->mInternalImage;
   QPixmap pixmap = QPixmap::fromImage(image);
@@ -200,10 +191,7 @@ void ToolPen::drawPixel(int x, int y, const QColor &color)
   this->mInternalImage = pixmap.toImage();
 }
 
-void ToolPen::on_spinBoxSize_valueChanged(int value)
-{
-  this->mSize = value;
-}
+void ToolPen::on_spinBoxSize_valueChanged(int value) { this->mSize = value; }
 
 } // namespace Tools
 } // namespace ImageEditor

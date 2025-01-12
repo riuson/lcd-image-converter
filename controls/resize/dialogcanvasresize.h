@@ -45,9 +45,9 @@ class ImagesFilterProxy;
 class ColumnsReorderProxy;
 class TransposeProxy;
 class CanvasModProxy;
-}
+} // namespace Models
 class CanvasModInfo;
-}
+} // namespace Data
 
 namespace AppUI
 {
@@ -59,30 +59,28 @@ class DialogCanvasResize : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogCanvasResize(
-    Data::Containers::DataContainer *container,
-    const QStringList &keys,
-    QWidget *parent = nullptr);
+  explicit DialogCanvasResize(Data::Containers::DataContainer* container, const QStringList& keys,
+                              QWidget* parent = nullptr);
   virtual ~DialogCanvasResize() Q_DECL_OVERRIDE;
 
-  const QMap<QString, Data::CanvasModInfo *> *resizeInfo() const;
+  const QMap<QString, Data::CanvasModInfo*>* resizeInfo() const;
 
 protected:
-  void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+  void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
 
 private:
-  Ui::DialogCanvasResize *ui;
+  Ui::DialogCanvasResize* ui;
 
-  Data::Containers::DataContainer *mContainer;
-  Data::Models::ImagesModel *mModel;
-  Data::Models::ImagesScaledProxy *mScaledProxy;
-  Data::Models::ImagesFilterProxy *mFilter;
-  Data::Models::ColumnsReorderProxy *mReorderProxy;
-  Data::Models::TransposeProxy *mTranspose;
-  Data::Models::CanvasModProxy *mCanvasMod;
+  Data::Containers::DataContainer* mContainer;
+  Data::Models::ImagesModel* mModel;
+  Data::Models::ImagesScaledProxy* mScaledProxy;
+  Data::Models::ImagesFilterProxy* mFilter;
+  Data::Models::ColumnsReorderProxy* mReorderProxy;
+  Data::Models::TransposeProxy* mTranspose;
+  Data::Models::CanvasModProxy* mCanvasMod;
 
-  const QStringList &mKeys;
-  QMap<QString, Data::CanvasModInfo *> *mCanvasMods;
+  const QStringList& mKeys;
+  QMap<QString, Data::CanvasModInfo*>* mCanvasMods;
 
   void optimizeHeight();
   void optimizeWidth();

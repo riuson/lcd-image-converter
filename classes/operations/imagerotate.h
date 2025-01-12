@@ -21,6 +21,7 @@
 #define IMAGEROTATE_H
 
 #include <QObject>
+
 #include "ioperation.h"
 
 namespace Operations
@@ -32,19 +33,14 @@ class ImageRotate : public QObject, public IOperation
   Q_INTERFACES(Operations::IOperation)
 
 public:
-  enum class Angle {
-    None,
-    A90,
-    A180,
-    A270
-  };
+  enum class Angle { None, A90, A180, A270 };
 
-  explicit ImageRotate(QObject *parent = 0);
+  explicit ImageRotate(QObject* parent = 0);
   virtual ~ImageRotate() {}
 
-  bool prepare(const Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyDocument(Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyItem(Data::Containers::IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
+  bool prepare(const Data::Containers::IDocument* doc, const QStringList& keys) Q_DECL_OVERRIDE;
+  void applyDocument(Data::Containers::IDocument* doc, const QStringList& keys) Q_DECL_OVERRIDE;
+  void applyItem(Data::Containers::IDocument* doc, const QString& itemKey) Q_DECL_OVERRIDE;
 
   void setAngle(Angle angle);
 

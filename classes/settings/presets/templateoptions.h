@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QString>
+
 #include "ipresetsoptionspart.h"
 
 namespace Settings
@@ -35,18 +36,18 @@ class TemplateOptions : public QObject, public IPresetOptionsPart
   Q_INTERFACES(Settings::Presets::IPresetOptionsPart)
 
 public:
-  explicit TemplateOptions(QObject *parent = 0);
+  explicit TemplateOptions(QObject* parent = 0);
   virtual ~TemplateOptions() {}
 
-  const QString &image() const;
-  const QString &font() const;
+  const QString& image() const;
+  const QString& font() const;
 
-  void setImage(const QString &filename);
-  void setFont(const QString &filename);
+  void setImage(const QString& filename);
+  void setFont(const QString& filename);
 
-  bool load(QSettings *settings) Q_DECL_OVERRIDE;
+  bool load(QSettings* settings) Q_DECL_OVERRIDE;
   bool loadXmlElement(QDomElement element) Q_DECL_OVERRIDE;
-  void save(QSettings *settings) Q_DECL_OVERRIDE;
+  void save(QSettings* settings) Q_DECL_OVERRIDE;
   void saveXmlElement(QDomElement element) Q_DECL_OVERRIDE;
 
   QString groupName() const Q_DECL_OVERRIDE;
@@ -63,7 +64,6 @@ signals:
   void changed();
 
 public slots:
-
 };
 
 } // namespace Presets

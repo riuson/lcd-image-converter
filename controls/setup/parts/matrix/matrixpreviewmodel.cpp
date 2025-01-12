@@ -20,10 +20,11 @@
 #include "matrixpreviewmodel.h"
 
 #include <QColor>
-#include "preset.h"
-#include "prepareoptions.h"
-#include "matrixoptions.h"
+
 #include "imageoptions.h"
+#include "matrixoptions.h"
+#include "prepareoptions.h"
+#include "preset.h"
 
 namespace AppUI
 {
@@ -34,15 +35,14 @@ namespace Parts
 namespace Matrix
 {
 
-MatrixPreviewModel::MatrixPreviewModel(Settings::Presets::Preset *preset, QObject *parent) :
-  QAbstractItemModel(parent)
+MatrixPreviewModel::MatrixPreviewModel(Settings::Presets::Preset* preset, QObject* parent) : QAbstractItemModel(parent)
 {
   this->mPreset = preset;
 
   this->connect(this->mPreset, SIGNAL(changed(QString)), SLOT(callReset()));
 }
 
-int MatrixPreviewModel::rowCount(const QModelIndex &parent) const
+int MatrixPreviewModel::rowCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
 
@@ -51,7 +51,7 @@ int MatrixPreviewModel::rowCount(const QModelIndex &parent) const
   return result;
 }
 
-int MatrixPreviewModel::columnCount(const QModelIndex &parent) const
+int MatrixPreviewModel::columnCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
   return 32;
@@ -109,7 +109,7 @@ QVariant MatrixPreviewModel::headerData(int section, Qt::Orientation orientation
   return result;
 }
 
-QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
+QVariant MatrixPreviewModel::data(const QModelIndex& index, int role) const
 {
   QVariant result;
 
@@ -266,14 +266,13 @@ QVariant MatrixPreviewModel::data(const QModelIndex &index, int role) const
   return result;
 }
 
-bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool MatrixPreviewModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
   if (index.isValid()) {
     int bitIndex = 31 - index.column();
     RowType type = this->rowType(index.row());
 
-    if (role == Qt::EditRole &&
-        (type == MaskUsed || type == MaskAnd || type == MaskOr || type == MaskFill)) {
+    if (role == Qt::EditRole && (type == MaskUsed || type == MaskAnd || type == MaskOr || type == MaskFill)) {
       bool ok;
       bool bit = value.toInt(&ok);
 
@@ -342,19 +341,19 @@ bool MatrixPreviewModel::setData(const QModelIndex &index, const QVariant &value
   return false;
 }
 
-QModelIndex MatrixPreviewModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex MatrixPreviewModel::index(int row, int column, const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
   return this->createIndex(row, column);
 }
 
-QModelIndex MatrixPreviewModel::parent(const QModelIndex &index) const
+QModelIndex MatrixPreviewModel::parent(const QModelIndex& index) const
 {
   Q_UNUSED(index)
   return QModelIndex();
 }
 
-Qt::ItemFlags MatrixPreviewModel::flags(const QModelIndex &index) const
+Qt::ItemFlags MatrixPreviewModel::flags(const QModelIndex& index) const
 {
   Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
@@ -399,7 +398,8 @@ MatrixPreviewModel::RowType MatrixPreviewModel::rowType(int row) const
   return result;
 }
 
-void MatrixPreviewModel::getBitType(int bitIndex, Parsing::Conversion::Options::ConversionType *convType, ColorType *colorType, int *partIndex) const
+void MatrixPreviewModel::getBitType(int bitIndex, Parsing::Conversion::Options::ConversionType* convType,
+                                    ColorType* colorType, int* partIndex) const
 {
   *convType = this->mPreset->prepare()->convType();
   *colorType = Empty;
@@ -455,7 +455,7 @@ void MatrixPreviewModel::getBitType(int bitIndex, Parsing::Conversion::Options::
   }
 }
 
-void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const
+void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant* name, QVariant* color) const
 {
   *name = QVariant();
   *color = QVariant();
@@ -515,7 +515,7 @@ void MatrixPreviewModel::resultToSourceBit(int bitIndex, QVariant *name, QVarian
   }
 }
 
-void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, QVariant *color) const
+void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant* name, QVariant* color) const
 {
   *name = QVariant();
   *color = QVariant();
@@ -532,7 +532,7 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, Q
 
     while (mask != 0) {
       if ((mask & 0x00000001) != 0) {
-        usedBitsCount ++;
+        usedBitsCount++;
       }
 
       mask = mask >> 1;
@@ -566,7 +566,7 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant *name, Q
   }
 }
 
-void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const
+void MatrixPreviewModel::sourceBitProperties(int bitIndex, QVariant* name, QVariant* color) const
 {
   *name = QVariant();
   *color = QVariant();

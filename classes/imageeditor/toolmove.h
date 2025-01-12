@@ -20,15 +20,15 @@
 #ifndef TOOLMOVE_H
 #define TOOLMOVE_H
 
-#include <QObject>
-#include <QImage>
-#include <QColor>
-#include <QPoint>
-#include <QPainterPath>
-#include "iimageeditortool.h"
-
-#include <QIcon>
 #include <QAction>
+#include <QColor>
+#include <QIcon>
+#include <QImage>
+#include <QObject>
+#include <QPainterPath>
+#include <QPoint>
+
+#include "iimageeditortool.h"
 
 namespace ImageEditor
 {
@@ -43,40 +43,33 @@ class ToolMove : public QObject, public IImageEditorTool
   Q_INTERFACES(ImageEditor::Tools::IImageEditorTool)
 
 public:
-  explicit ToolMove(IImageEditorParams *parameters, QObject *parent = 0);
+  explicit ToolMove(IImageEditorParams* parameters, QObject* parent = 0);
   virtual ~ToolMove();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;
-  const QIcon *icon() const Q_DECL_OVERRIDE;
-  const QList<QAction *> *actions() const Q_DECL_OVERRIDE;
-  const QList<QWidget *> *widgets() const Q_DECL_OVERRIDE;
+  const QIcon* icon() const Q_DECL_OVERRIDE;
+  const QList<QAction*>* actions() const Q_DECL_OVERRIDE;
+  const QList<QWidget*>* widgets() const Q_DECL_OVERRIDE;
 
 public slots:
-  bool processMouse(QMouseEvent *event,
-                    const QImage *imageOriginal,
-                    bool inRect) Q_DECL_OVERRIDE;
+  bool processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect) Q_DECL_OVERRIDE;
 
 signals:
-  void started(const QImage *value) Q_DECL_OVERRIDE;
-  void processing(const QImage *value) Q_DECL_OVERRIDE;
-  void completed(const QImage *value, bool changed) Q_DECL_OVERRIDE;
+  void started(const QImage* value) Q_DECL_OVERRIDE;
+  void processing(const QImage* value) Q_DECL_OVERRIDE;
+  void completed(const QImage* value, bool changed) Q_DECL_OVERRIDE;
 
 private:
+  enum Mode { MoveCut, MoveCopy, MoveCircular };
 
-  enum Mode {
-    MoveCut,
-    MoveCopy,
-    MoveCircular
-  };
-
-  IImageEditorParams *mParameters;
-  QIcon *mIcon;
-  QList<QAction *> *mActions;
-  QList<QWidget *> *mWidgets;
-  QAction *mActionMoveCut;
-  QAction *mActionMoveCopy;
-  QAction *mActionMoveCircular;
+  IImageEditorParams* mParameters;
+  QIcon* mIcon;
+  QList<QAction*>* mActions;
+  QList<QWidget*>* mWidgets;
+  QAction* mActionMoveCut;
+  QAction* mActionMoveCopy;
+  QAction* mActionMoveCircular;
 
   bool mFlagChanged;
   QPoint mStartPoint;
@@ -85,8 +78,8 @@ private:
   QImage mImageInternal;
 
   void initializeWidgets();
-  void processMoveCutOrCopy(Qt::MouseButtons buttons, const QImage *imageOriginal, int x, int y, bool cut);
-  void processMoveCircular(Qt::MouseButtons buttons, const QImage *imageOriginal, int x, int y);
+  void processMoveCutOrCopy(Qt::MouseButtons buttons, const QImage* imageOriginal, int x, int y, bool cut);
+  void processMoveCircular(Qt::MouseButtons buttons, const QImage* imageOriginal, int x, int y);
 
 private slots:
   void on_switchToMoveCut();

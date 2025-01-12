@@ -19,26 +19,26 @@
 
 #include "dialogfontselectdata.h"
 
-#include <QTableWidgetSelectionRange>
 #include <QColorDialog>
 #include <QFontDatabase>
-#include "charactersmodel.h"
-#include "unicodeblocksmodel.h"
-#include "unicodeblocksfiltermodel.h"
-#include "dialogfontrange.h"
-#include "fonthelper.h"
-#include "fonteditoroptions.h"
-#include "fontparameters.h"
+#include <QTableWidgetSelectionRange>
+
 #include "bitmaphelper.h"
+#include "charactersmodel.h"
+#include "dialogfontrange.h"
+#include "fonteditoroptions.h"
+#include "fonthelper.h"
+#include "fontparameters.h"
 #include "fontsizeunits.h"
+#include "unicodeblocksfiltermodel.h"
+#include "unicodeblocksmodel.h"
 
 namespace AppUI
 {
 namespace Fonts
 {
 
-DialogFontSelectData::DialogFontSelectData(QObject *parent) :
-  QObject(parent)
+DialogFontSelectData::DialogFontSelectData(QObject* parent) : QObject(parent)
 {
   this->mModel = new CharactersModel(this);
   this->mModel->setCodesRange(0x0000, 0x00ff);
@@ -66,16 +66,11 @@ DialogFontSelectData::DialogFontSelectData(QObject *parent) :
   this->mSortOrderUp = false;
 }
 
-DialogFontSelectData::~DialogFontSelectData()
-{
-}
+DialogFontSelectData::~DialogFontSelectData() {}
 
-QString DialogFontSelectData::characters()
-{
-  return this->mCharacters;
-}
+QString DialogFontSelectData::characters() { return this->mCharacters; }
 
-void DialogFontSelectData::getFontParameters(Data::Containers::FontParameters *parameters)
+void DialogFontSelectData::getFontParameters(Data::Containers::FontParameters* parameters)
 {
   parameters->family = this->mFontFamily;
   parameters->style = this->mFontStyle;
@@ -98,14 +93,14 @@ void DialogFontSelectData::getFontParameters(Data::Containers::FontParameters *p
   }
 }
 
-void DialogFontSelectData::setCharacters(const QString &value)
+void DialogFontSelectData::setCharacters(const QString& value)
 {
   this->mCharacters = value;
   emit this->charactersListChanged(this->mCharacters);
   this->notifyFontChanged();
 }
 
-void DialogFontSelectData::setFontParameters(const Data::Containers::FontParameters &parameters)
+void DialogFontSelectData::setFontParameters(const Data::Containers::FontParameters& parameters)
 {
   this->mFontFamily = parameters.family;
   this->mFontStyle = parameters.style;
@@ -128,15 +123,9 @@ void DialogFontSelectData::setFontParameters(const Data::Containers::FontParamet
   emit this->sizeUnitsChanged(this->mSizeUnits);
 }
 
-CharactersModel *DialogFontSelectData::charactersModel()
-{
-  return this->mModel;
-}
+CharactersModel* DialogFontSelectData::charactersModel() { return this->mModel; }
 
-UnicodeBlocksFilterModel *DialogFontSelectData::unicodeBlocksModel()
-{
-  return this->mBlocksFilterModel;
-}
+UnicodeBlocksFilterModel* DialogFontSelectData::unicodeBlocksModel() { return this->mBlocksFilterModel; }
 
 void DialogFontSelectData::notifyFontChanged()
 {
@@ -181,7 +170,7 @@ void DialogFontSelectData::notifyFontChanged()
   emit this->fontMeasured(chars.count(), maxCharSize, maxGlyphSize);
 }
 
-void DialogFontSelectData::setFont(const QFont &font)
+void DialogFontSelectData::setFont(const QFont& font)
 {
   this->mFontFamily = font.family();
 
@@ -193,7 +182,7 @@ void DialogFontSelectData::setFont(const QFont &font)
   this->notifyFontChanged();
 }
 
-void DialogFontSelectData::setStyle(const QString &style)
+void DialogFontSelectData::setStyle(const QString& style)
 {
   this->mFontStyle = style;
 
@@ -213,7 +202,7 @@ void DialogFontSelectData::setStyle(const QString &style)
   this->notifyFontChanged();
 }
 
-void DialogFontSelectData::setSize(const QString &text)
+void DialogFontSelectData::setSize(const QString& text)
 {
   bool ok;
   int a = text.toInt(&ok);
@@ -238,19 +227,19 @@ void DialogFontSelectData::setSizeUnits(const Data::FontSizeUnits sizeUnits)
   }
 }
 
-void DialogFontSelectData::setUnicodeBlocksFilter(const QString &text)
+void DialogFontSelectData::setUnicodeBlocksFilter(const QString& text)
 {
   this->mBlocksFilterModel->setNameFilter(text);
 }
 
-void DialogFontSelectData::setUnicodeRange(const QItemSelection &selected, const QItemSelection &deselected)
+void DialogFontSelectData::setUnicodeRange(const QItemSelection& selected, const QItemSelection& deselected)
 {
   Q_UNUSED(deselected);
 
   QModelIndexList indexes = selected.indexes();
 
   if (indexes.length() > 0) {
-    QAbstractItemModel *model = this->unicodeBlocksModel();
+    QAbstractItemModel* model = this->unicodeBlocksModel();
     bool ok;
     quint32 first = model->data(indexes.at(0), UnicodeBlocksModel::FirstCodeRole).toUInt(&ok);
     quint32 last = model->data(indexes.at(0), UnicodeBlocksModel::LastCodeRole).toUInt(&ok);
@@ -259,7 +248,7 @@ void DialogFontSelectData::setUnicodeRange(const QItemSelection &selected, const
   }
 }
 
-void DialogFontSelectData::appendCharacters(const QString &value)
+void DialogFontSelectData::appendCharacters(const QString& value)
 {
   QString result = this->characters();
 
@@ -274,42 +263,27 @@ void DialogFontSelectData::appendCharacters(const QString &value)
   this->setCharacters(result);
 }
 
-const QColor &DialogFontSelectData::foreground() const
-{
-  return this->mForeground;
-}
+const QColor& DialogFontSelectData::foreground() const { return this->mForeground; }
 
-void DialogFontSelectData::setForeground(const QColor &value)
+void DialogFontSelectData::setForeground(const QColor& value)
 {
   this->mForeground = value;
   emit this->colorsChanged(this->mForeground, this->mBackground);
 }
 
-const QColor &DialogFontSelectData::background() const
-{
-  return this->mBackground;
-}
+const QColor& DialogFontSelectData::background() const { return this->mBackground; }
 
-void DialogFontSelectData::setBackground(const QColor &value)
+void DialogFontSelectData::setBackground(const QColor& value)
 {
   this->mBackground = value;
   emit this->colorsChanged(this->mForeground, this->mBackground);
 }
 
-Data::FontSizeUnits DialogFontSelectData::sizeUnits() const
-{
-  return this->mSizeUnits;
-}
+Data::FontSizeUnits DialogFontSelectData::sizeUnits() const { return this->mSizeUnits; }
 
-void DialogFontSelectData::setMonospaced(bool value)
-{
-  this->mMonospaced = value;
-}
+void DialogFontSelectData::setMonospaced(bool value) { this->mMonospaced = value; }
 
-void DialogFontSelectData::setAntialiasing(bool value)
-{
-  this->mAntialiasing = value;
-}
+void DialogFontSelectData::setAntialiasing(bool value) { this->mAntialiasing = value; }
 
 void DialogFontSelectData::resort()
 {

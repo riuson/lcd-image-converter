@@ -19,11 +19,11 @@
 
 #include "fontoptions.h"
 
-#include <QStringList>
+#include <QDomDocument>
 #include <QSettings>
+#include <QStringList>
 #include <QTextCodec>
 #include <QtXml>
-#include <QDomDocument>
 
 namespace Settings
 {
@@ -40,8 +40,7 @@ const QString FontOptions::FieldEscapePrefix = QString("escapePrefix");
 const QString FontOptions::FieldEscapeSuffix = QString("escapeSuffix");
 const QString FontOptions::FieldCompactGlyphs = QString("compactGlyphs");
 
-FontOptions::FontOptions(QObject *parent) :
-  QObject(parent)
+FontOptions::FontOptions(QObject* parent) : QObject(parent)
 {
   this->mBom = false;
   this->mSortOrder = Parsing::Conversion::Options::CharactersSortOrder::Ascending;
@@ -60,45 +59,21 @@ FontOptions::FontOptions(QObject *parent) :
   this->mCompactGlyphs = false;
 }
 
-bool FontOptions::bom() const
-{
-  return this->mBom;
-}
+bool FontOptions::bom() const { return this->mBom; }
 
-const QString &FontOptions::encoding() const
-{
-  return this->mEncoding;
-}
+const QString& FontOptions::encoding() const { return this->mEncoding; }
 
-Parsing::Conversion::Options::CharactersSortOrder FontOptions::sortOrder() const
-{
-  return this->mSortOrder;
-}
+Parsing::Conversion::Options::CharactersSortOrder FontOptions::sortOrder() const { return this->mSortOrder; }
 
-bool FontOptions::skipMissingCharacters() const
-{
-  return this->mSkipMissingCharacters;
-}
+bool FontOptions::skipMissingCharacters() const { return this->mSkipMissingCharacters; }
 
-const QString &FontOptions::escapedCharacters() const
-{
-  return this->mEscapedCharacters;
-}
+const QString& FontOptions::escapedCharacters() const { return this->mEscapedCharacters; }
 
-const QString &FontOptions::escapePrefix() const
-{
-  return this->mEscapePrefix;
-}
+const QString& FontOptions::escapePrefix() const { return this->mEscapePrefix; }
 
-const QString &FontOptions::escapeSuffix() const
-{
-  return this->mEscapeSuffix;
-}
+const QString& FontOptions::escapeSuffix() const { return this->mEscapeSuffix; }
 
-bool FontOptions::compactGlyphs() const
-{
-  return this->mCompactGlyphs;
-}
+bool FontOptions::compactGlyphs() const { return this->mCompactGlyphs; }
 
 void FontOptions::setBom(bool value)
 {
@@ -108,7 +83,7 @@ void FontOptions::setBom(bool value)
   }
 }
 
-void FontOptions::setEncoding(const QString &value)
+void FontOptions::setEncoding(const QString& value)
 {
   if (FontOptions::encodings().contains(value)) {
     if (this->mEncoding != value) {
@@ -134,7 +109,7 @@ void FontOptions::setSkipMissingCharacters(bool value)
   }
 }
 
-void FontOptions::setEscapedCharacters(const QString &value)
+void FontOptions::setEscapedCharacters(const QString& value)
 {
   if (this->mEscapedCharacters != value) {
     this->mEscapedCharacters = value;
@@ -142,7 +117,7 @@ void FontOptions::setEscapedCharacters(const QString &value)
   }
 }
 
-void FontOptions::setEscapePrefix(const QString &value)
+void FontOptions::setEscapePrefix(const QString& value)
 {
   if (this->mEscapePrefix != value) {
     this->mEscapePrefix = value;
@@ -150,7 +125,7 @@ void FontOptions::setEscapePrefix(const QString &value)
   }
 }
 
-void FontOptions::setEscapeSuffix(const QString &value)
+void FontOptions::setEscapeSuffix(const QString& value)
 {
   if (this->mEscapeSuffix != value) {
     this->mEscapeSuffix = value;
@@ -166,7 +141,7 @@ void FontOptions::setCompactGlyphs(bool value)
   }
 }
 
-bool FontOptions::load(QSettings *settings)
+bool FontOptions::load(QSettings* settings)
 {
   bool result = false;
 
@@ -184,7 +159,9 @@ bool FontOptions::load(QSettings *settings)
   uBom = settings->value(FontOptions::FieldBom, int(0)).toInt(&result);
 
   if (result) {
-    uSortOrder = settings->value(FontOptions::FieldSortOrder, int(Parsing::Conversion::Options::CharactersSortOrder::None)).toInt(&result);
+    uSortOrder =
+        settings->value(FontOptions::FieldSortOrder, int(Parsing::Conversion::Options::CharactersSortOrder::None))
+            .toInt(&result);
   }
 
   if (result) {
@@ -320,17 +297,17 @@ bool FontOptions::loadXmlElement(QDomElement element)
   return result;
 }
 
-void FontOptions::save(QSettings *settings)
+void FontOptions::save(QSettings* settings)
 {
   settings->beginGroup(FontOptions::GroupName);
 
   settings->setValue(FontOptions::FieldBom, QString("%1").arg((int)this->bom()));
   settings->setValue(FontOptions::FieldSortOrder, QString("%1").arg((int)this->sortOrder()));
-  settings->setValue(FontOptions::FieldCodec,  this->encoding());
+  settings->setValue(FontOptions::FieldCodec, this->encoding());
   settings->setValue(FontOptions::FieldSkipMissingCharacters, QString("%1").arg((int)this->skipMissingCharacters()));
-  settings->setValue(FontOptions::FieldEscapedCharacters,  this->escapedCharacters());
-  settings->setValue(FontOptions::FieldEscapePrefix,  this->escapePrefix());
-  settings->setValue(FontOptions::FieldEscapeSuffix,  this->escapeSuffix());
+  settings->setValue(FontOptions::FieldEscapedCharacters, this->escapedCharacters());
+  settings->setValue(FontOptions::FieldEscapePrefix, this->escapePrefix());
+  settings->setValue(FontOptions::FieldEscapeSuffix, this->escapeSuffix());
   settings->setValue(FontOptions::FieldCompactGlyphs, QString("%1").arg((int)this->compactGlyphs()));
 
   settings->endGroup();
@@ -353,9 +330,11 @@ void FontOptions::saveXmlElement(QDomElement element)
   nodeFont.appendChild(nodeCodec);
   nodeCodec.appendChild(element.ownerDocument().createTextNode(this->encoding()));
 
-  QDomElement nodeSkipMissingCharacters = element.ownerDocument().createElement(FontOptions::FieldSkipMissingCharacters);
+  QDomElement nodeSkipMissingCharacters =
+      element.ownerDocument().createElement(FontOptions::FieldSkipMissingCharacters);
   nodeFont.appendChild(nodeSkipMissingCharacters);
-  nodeSkipMissingCharacters.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->skipMissingCharacters())));
+  nodeSkipMissingCharacters.appendChild(
+      element.ownerDocument().createTextNode(QString("%1").arg((int)this->skipMissingCharacters())));
 
   QDomElement nodeEscapedCharacters = element.ownerDocument().createElement(FontOptions::FieldEscapedCharacters);
   nodeFont.appendChild(nodeEscapedCharacters);
@@ -374,12 +353,9 @@ void FontOptions::saveXmlElement(QDomElement element)
   nodeCompactGlyphs.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->compactGlyphs())));
 }
 
-QString FontOptions::groupName() const
-{
-  return FontOptions::GroupName;
-}
+QString FontOptions::groupName() const { return FontOptions::GroupName; }
 
-const QStringList &FontOptions::encodings()
+const QStringList& FontOptions::encodings()
 {
   static QStringList result;
 

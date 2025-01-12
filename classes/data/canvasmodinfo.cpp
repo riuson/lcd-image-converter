@@ -22,10 +22,7 @@
 namespace Data
 {
 
-void CanvasModInfo::Mods::reset()
-{
-  this->left = this->top = this->right = this->bottom = 0;
-}
+void CanvasModInfo::Mods::reset() { this->left = this->top = this->right = this->bottom = 0; }
 
 CanvasModInfo::CanvasModInfo()
 {
@@ -69,10 +66,10 @@ void CanvasModInfo::reset()
 const QString CanvasModInfo::toString() const
 {
   return QString("L:%1,T:%2,R:%3,B:%4")
-         .arg(this->mCommited.left + this->mModified.left)
-         .arg(this->mCommited.top + this->mModified.top)
-         .arg(this->mCommited.right + this->mModified.right)
-         .arg(this->mCommited.bottom + this->mModified.bottom);
+      .arg(this->mCommited.left + this->mModified.left)
+      .arg(this->mCommited.top + this->mModified.top)
+      .arg(this->mCommited.right + this->mModified.right)
+      .arg(this->mCommited.bottom + this->mModified.bottom);
 }
 
 } // namespace Data

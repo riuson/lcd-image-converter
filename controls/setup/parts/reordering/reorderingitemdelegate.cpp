@@ -28,15 +28,13 @@ namespace Parts
 namespace Reordering
 {
 
-ReorderingItemDelegate::ReorderingItemDelegate(QObject *parent) :
-  QItemDelegate(parent)
+ReorderingItemDelegate::ReorderingItemDelegate(QObject* parent) : QItemDelegate(parent)
 {
   this->mColor = QColor("gold");
 }
 
-void ReorderingItemDelegate::paint(QPainter *painter,
-                                   const QStyleOptionViewItem &option,
-                                   const QModelIndex &index) const
+void ReorderingItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
+                                   const QModelIndex& index) const
 {
   if (index.isValid()) {
     int rows = index.model()->rowCount();
@@ -44,7 +42,7 @@ void ReorderingItemDelegate::paint(QPainter *painter,
     int row = index.row();
 
     if (row == 0) {
-      //painter->setPen(this->mColorOdd);
+      // painter->setPen(this->mColorOdd);
       QPen pen(QBrush(this->mColor), 3);
       painter->setPen(pen);
       painter->drawLine(rect.left(), rect.bottom() - 1, rect.right(), rect.bottom() - 1);
@@ -60,15 +58,9 @@ void ReorderingItemDelegate::paint(QPainter *painter,
   QItemDelegate::paint(painter, option, index);
 }
 
-QColor ReorderingItemDelegate::color() const
-{
-  return this->mColor;
-}
+QColor ReorderingItemDelegate::color() const { return this->mColor; }
 
-void ReorderingItemDelegate::setColor(const QColor &value)
-{
-  this->mColor = value;
-}
+void ReorderingItemDelegate::setColor(const QColor& value) { this->mColor = value; }
 
 } // namespace Reordering
 } // namespace Parts

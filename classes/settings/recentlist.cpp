@@ -19,22 +19,22 @@
 
 #include "recentlist.h"
 
+#include <QFileInfo>
 #include <QStringList>
 #include <QStringListIterator>
-#include <QFileInfo>
+
 #include <appsettings.h>
 
 namespace Settings
 {
 
-RecentList::RecentList(QObject *parent) :
-  QObject(parent)
+RecentList::RecentList(QObject* parent) : QObject(parent)
 {
   this->mFiles = new QStringList();
 
   // load from settings
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   int size = sett.beginReadArray("recent");
 
   for (int i = 0; i < size; i++) {
@@ -54,7 +54,7 @@ RecentList::~RecentList()
 {
   // save to settings
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginWriteArray("recent");
   QStringListIterator recentFilesIterator(*this->mFiles);
   int i = 0;
@@ -69,7 +69,7 @@ RecentList::~RecentList()
   delete this->mFiles;
 }
 
-void RecentList::add(const QString &filename)
+void RecentList::add(const QString& filename)
 {
   if (this->mFiles->contains(filename)) {
     this->mFiles->removeOne(filename);
@@ -86,9 +86,6 @@ void RecentList::add(const QString &filename)
   emit this->listChanged();
 }
 
-const QStringList *RecentList::files() const
-{
-  return this->mFiles;
-}
+const QStringList* RecentList::files() const { return this->mFiles; }
 
 } // namespace Settings

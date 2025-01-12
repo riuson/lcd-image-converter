@@ -24,10 +24,7 @@ namespace Data
 namespace Models
 {
 
-TransposeProxy::TransposeProxy(QObject *parent)
-  : QSortFilterProxyModel(parent)
-{
-}
+TransposeProxy::TransposeProxy(QObject* parent) : QSortFilterProxyModel(parent) {}
 
 QVariant TransposeProxy::headerData(int section, Qt::Orientation orientation, int role) const
 {
@@ -38,19 +35,19 @@ QVariant TransposeProxy::headerData(int section, Qt::Orientation orientation, in
   return this->sourceModel()->headerData(section, orientation == Qt::Vertical ? Qt::Horizontal : Qt::Vertical, role);
 }
 
-QModelIndex TransposeProxy::index(int row, int column, const QModelIndex &parent) const
+QModelIndex TransposeProxy::index(int row, int column, const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
   return this->createIndex(row, column);
 }
 
-QModelIndex TransposeProxy::parent(const QModelIndex &index) const
+QModelIndex TransposeProxy::parent(const QModelIndex& index) const
 {
   Q_UNUSED(index)
   return QModelIndex();
 }
 
-int TransposeProxy::rowCount(const QModelIndex &parent) const
+int TransposeProxy::rowCount(const QModelIndex& parent) const
 {
   if (this->sourceModel() == nullptr) {
     return 0;
@@ -59,7 +56,7 @@ int TransposeProxy::rowCount(const QModelIndex &parent) const
   return this->sourceModel()->columnCount(parent);
 }
 
-int TransposeProxy::columnCount(const QModelIndex &parent) const
+int TransposeProxy::columnCount(const QModelIndex& parent) const
 {
   if (this->sourceModel() == nullptr) {
     return 0;
@@ -68,12 +65,12 @@ int TransposeProxy::columnCount(const QModelIndex &parent) const
   return this->sourceModel()->rowCount(parent);
 }
 
-QModelIndex TransposeProxy::mapFromSource(const QModelIndex &sourceIndex) const
+QModelIndex TransposeProxy::mapFromSource(const QModelIndex& sourceIndex) const
 {
   return this->index(sourceIndex.column(), sourceIndex.row(), sourceIndex.parent());
 }
 
-QModelIndex TransposeProxy::mapToSource(const QModelIndex &proxyIndex) const
+QModelIndex TransposeProxy::mapToSource(const QModelIndex& proxyIndex) const
 {
   if (sourceModel() != nullptr && proxyIndex.isValid()) {
     return sourceModel()->index(proxyIndex.column(), proxyIndex.row(), proxyIndex.parent());

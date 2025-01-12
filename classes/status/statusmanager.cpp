@@ -20,6 +20,7 @@
 #include "statusmanager.h"
 
 #include <QStatusBar>
+
 #include "revisionlabel.h"
 
 namespace AppUI
@@ -27,8 +28,7 @@ namespace AppUI
 namespace Status
 {
 
-StatusManager::StatusManager(QStatusBar *statusBar, QObject *parent) :
-  QObject(parent)
+StatusManager::StatusManager(QStatusBar* statusBar, QObject* parent) : QObject(parent)
 {
   this->mBar = statusBar;
 
@@ -40,11 +40,9 @@ StatusManager::StatusManager(QStatusBar *statusBar, QObject *parent) :
   this->mBar->addWidget(new AppUI::Revision::RevisionLabel(this->mBar));
 }
 
-StatusManager::~StatusManager()
-{
-}
+StatusManager::~StatusManager() {}
 
-void StatusManager::updateData(const StatusData *statuses)
+void StatusManager::updateData(const StatusData* statuses)
 {
   // update
   QList<StatusData::StatusType> keys = statuses->keys();
@@ -80,11 +78,9 @@ void StatusManager::hideAll()
   }
 }
 
-void StatusManager::updateItem(
-  StatusData::StatusType key,
-  const StatusData *statuses)
+void StatusManager::updateItem(StatusData::StatusType key, const StatusData* statuses)
 {
-  QLabel *label = this->mList.value(key);
+  QLabel* label = this->mList.value(key);
 
   if (label == nullptr) {
     return;
@@ -131,7 +127,7 @@ void StatusManager::updateItem(
 
 void StatusManager::addItem(StatusData::StatusType key)
 {
-  QLabel *label = new QLabel(this->mBar);
+  QLabel* label = new QLabel(this->mBar);
   this->mList.insert(key, label);
   this->mBar->addPermanentWidget(label);
   label->setVisible(false);
@@ -141,7 +137,7 @@ void StatusManager::addItem(StatusData::StatusType key)
 void StatusManager::hideItem(StatusData::StatusType key)
 {
   if (this->mList.contains(key)) {
-    QLabel *label = this->mList.value(key);
+    QLabel* label = this->mList.value(key);
 
     if (label != nullptr) {
       label->setVisible(false);

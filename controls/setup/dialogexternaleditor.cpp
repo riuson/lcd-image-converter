@@ -18,9 +18,11 @@
  */
 
 #include "dialogexternaleditor.h"
+
 #include "ui_dialogexternaleditor.h"
 
 #include <QFileDialog>
+
 #include "externaltooloptions.h"
 
 namespace AppUI
@@ -28,19 +30,14 @@ namespace AppUI
 namespace Setup
 {
 
-DialogExternalEditor::DialogExternalEditor(QWidget *parent) :
-  QDialog(parent),
-  ui(new Ui::DialogExternalEditor)
+DialogExternalEditor::DialogExternalEditor(QWidget* parent) : QDialog(parent), ui(new Ui::DialogExternalEditor)
 {
   ui->setupUi(this);
 
   this->ui->lineEdit->setText(Settings::ExternalToolOptions::imageEditor());
 }
 
-DialogExternalEditor::~DialogExternalEditor()
-{
-  delete ui;
-}
+DialogExternalEditor::~DialogExternalEditor() { delete ui; }
 
 void DialogExternalEditor::done(int result)
 {

@@ -31,12 +31,12 @@ class UnicodeBlocksFilterModel : public QSortFilterProxyModel
 {
   Q_OBJECT
 public:
-  explicit UnicodeBlocksFilterModel(QObject *parent = 0);
+  explicit UnicodeBlocksFilterModel(QObject* parent = 0);
   virtual ~UnicodeBlocksFilterModel() {}
 
-  bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const Q_DECL_OVERRIDE;
+  bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const Q_DECL_OVERRIDE;
 
-  void setNameFilter(const QString &name);
+  void setNameFilter(const QString& name);
 
 private:
   QString mName;
@@ -44,7 +44,6 @@ private:
 signals:
 
 public slots:
-
 };
 
 } // namespace Fonts

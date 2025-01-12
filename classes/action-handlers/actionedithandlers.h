@@ -33,7 +33,7 @@ class ActionEditHandlers : public ActionHandlersBase
 {
   Q_OBJECT
 public:
-  explicit ActionEditHandlers(QObject *parent = 0);
+  explicit ActionEditHandlers(QObject* parent = 0);
   virtual ~ActionEditHandlers() {}
 
 public slots:

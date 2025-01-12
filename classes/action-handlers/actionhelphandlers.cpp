@@ -20,8 +20,8 @@
 #include "actionhelphandlers.h"
 
 #include <QDesktopServices>
-#include <QUrl>
 #include <QMessageBox>
+#include <QUrl>
 
 #include "dialogabout.h"
 #include "dialogupdates.h"
@@ -32,10 +32,7 @@ namespace AppUI
 namespace MenuHandlers
 {
 
-ActionHelpHandlers::ActionHelpHandlers(QObject *parent) :
-  ActionHandlersBase(parent)
-{
-}
+ActionHelpHandlers::ActionHelpHandlers(QObject* parent) : ActionHandlersBase(parent) {}
 
 void ActionHelpHandlers::about_application_triggered()
 {
@@ -43,10 +40,7 @@ void ActionHelpHandlers::about_application_triggered()
   dialog.exec();
 }
 
-void ActionHelpHandlers::about_qt_triggered()
-{
-  QMessageBox::aboutQt(this->mMainWindow->parentWidget());
-}
+void ActionHelpHandlers::about_qt_triggered() { QMessageBox::aboutQt(this->mMainWindow->parentWidget()); }
 
 void ActionHelpHandlers::updates_triggered()
 {

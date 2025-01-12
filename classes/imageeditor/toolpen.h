@@ -20,13 +20,13 @@
 #ifndef TOOLPEN_H
 #define TOOLPEN_H
 
-#include <QObject>
-#include <QImage>
-#include <QColor>
-#include "iimageeditortool.h"
-
-#include <QIcon>
 #include <QAction>
+#include <QColor>
+#include <QIcon>
+#include <QImage>
+#include <QObject>
+
+#include "iimageeditortool.h"
 
 namespace ImageEditor
 {
@@ -41,30 +41,28 @@ class ToolPen : public QObject, public IImageEditorTool
   Q_INTERFACES(ImageEditor::Tools::IImageEditorTool)
 
 public:
-  explicit ToolPen(IImageEditorParams *parameters, QObject *parent = 0);
+  explicit ToolPen(IImageEditorParams* parameters, QObject* parent = 0);
   virtual ~ToolPen();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;
-  const QIcon *icon() const Q_DECL_OVERRIDE;
-  const QList<QAction *> *actions() const Q_DECL_OVERRIDE;
-  const QList<QWidget *> *widgets() const Q_DECL_OVERRIDE;
+  const QIcon* icon() const Q_DECL_OVERRIDE;
+  const QList<QAction*>* actions() const Q_DECL_OVERRIDE;
+  const QList<QWidget*>* widgets() const Q_DECL_OVERRIDE;
 
 public slots:
-  bool processMouse(QMouseEvent *event,
-                    const QImage *imageOriginal,
-                    bool inRect) Q_DECL_OVERRIDE;
+  bool processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect) Q_DECL_OVERRIDE;
 
 signals:
-  void started(const QImage *value) Q_DECL_OVERRIDE;
-  void processing(const QImage *value) Q_DECL_OVERRIDE;
-  void completed(const QImage *value, bool changed) Q_DECL_OVERRIDE;
+  void started(const QImage* value) Q_DECL_OVERRIDE;
+  void processing(const QImage* value) Q_DECL_OVERRIDE;
+  void completed(const QImage* value, bool changed) Q_DECL_OVERRIDE;
 
 private:
-  IImageEditorParams *mParameters;
-  QIcon *mIcon;
-  QList<QAction *> *mActions;
-  QList<QWidget *> *mWidgets;
+  IImageEditorParams* mParameters;
+  QIcon* mIcon;
+  QList<QAction*>* mActions;
+  QList<QWidget*>* mWidgets;
   int mSize;
   bool mFlagChanged;
   QImage mInternalImage;
@@ -72,7 +70,7 @@ private:
   void initializeWidgets();
   void loadSettings();
   void saveSettings() const;
-  void drawPixel(int x, int y, const QColor &color);
+  void drawPixel(int x, int y, const QColor& color);
 
 private slots:
   void on_spinBoxSize_valueChanged(int value);

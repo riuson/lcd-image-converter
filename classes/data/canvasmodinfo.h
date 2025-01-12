@@ -22,8 +22,6 @@
 
 #include <QString>
 
-#include <QString>
-
 namespace Data
 {
 

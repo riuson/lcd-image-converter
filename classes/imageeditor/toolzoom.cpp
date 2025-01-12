@@ -18,14 +18,17 @@
  */
 
 #include "toolzoom.h"
-#include <QPainter>
-#include <QList>
+
 #include <QAction>
-#include <QWidget>
 #include <QColor>
-#include <QSpinBox>
+#include <QList>
 #include <QMouseEvent>
+#include <QPainter>
+#include <QSpinBox>
+#include <QWidget>
+
 #include <appsettings.h>
+
 #include "bitmaphelper.h"
 
 namespace ImageEditor
@@ -33,13 +36,14 @@ namespace ImageEditor
 namespace Tools
 {
 
-ToolZoom::ToolZoom(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
+ToolZoom::ToolZoom(IImageEditorParams* parameters, QObject* parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_zoom"), 24)));
+  this->mIcon = new QIcon(
+      QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_zoom"), 24)));
 
-  this->mActions = new QList<QAction *>();
-  this->mWidgets = new QList<QWidget *>();
+  this->mActions = new QList<QAction*>();
+  this->mWidgets = new QList<QWidget*>();
 
   this->mScale = 1;
 
@@ -57,39 +61,19 @@ ToolZoom::~ToolZoom()
   delete this->mWidgets;
 }
 
-const QString ToolZoom::title() const
-{
-  return tr("Zoom");
-}
+const QString ToolZoom::title() const { return tr("Zoom"); }
 
-const QString ToolZoom::tooltip() const
-{
-  return tr("Zoom image");
-}
+const QString ToolZoom::tooltip() const { return tr("Zoom image"); }
 
-const QIcon *ToolZoom::icon() const
-{
-  return this->mIcon;
-}
+const QIcon* ToolZoom::icon() const { return this->mIcon; }
 
-const QList<QAction *> *ToolZoom::actions() const
-{
-  return this->mActions;
-}
+const QList<QAction*>* ToolZoom::actions() const { return this->mActions; }
 
-const QList<QWidget *> *ToolZoom::widgets() const
-{
-  return this->mWidgets;
-}
+const QList<QWidget*>* ToolZoom::widgets() const { return this->mWidgets; }
 
-int ToolZoom::scale() const
-{
-  return this->mScale;
-}
+int ToolZoom::scale() const { return this->mScale; }
 
-bool ToolZoom::processMouse(QMouseEvent *event,
-                            const QImage *imageOriginal,
-                            bool inRect)
+bool ToolZoom::processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect)
 {
   Q_UNUSED(event)
   Q_UNUSED(imageOriginal)
@@ -122,7 +106,7 @@ void ToolZoom::initializeWidgets()
 void ToolZoom::loadSettings()
 {
   Settings::AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("zoom");
@@ -142,7 +126,7 @@ void ToolZoom::loadSettings()
 void ToolZoom::saveSettings() const
 {
   Settings::AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("zoom");

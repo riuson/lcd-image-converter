@@ -20,10 +20,9 @@
 #ifndef PRESET_H
 #define PRESET_H
 
-#include <QObject>
-
 #include "conversion_options.h"
 
+#include <QObject>
 #include <QString>
 #include <QStringList>
 
@@ -45,51 +44,50 @@ class Preset : public QObject
 {
   Q_OBJECT
 public:
-  explicit Preset(QObject *parent = 0);
+  explicit Preset(QObject* parent = 0);
   virtual ~Preset();
 
-  PrepareOptions *prepare();
-  MatrixOptions *matrix();
-  ReorderingOptions *reordering();
-  ImageOptions *image();
-  FontOptions *font();
-  TemplateOptions *templates();
+  PrepareOptions* prepare();
+  MatrixOptions* matrix();
+  ReorderingOptions* reordering();
+  ImageOptions* image();
+  FontOptions* font();
+  TemplateOptions* templates();
 
   static QStringList presetsList();
   static QString selectedName();
-  static void setSelectedName(const QString &value);
-  static void remove(const QString &value);
-  static QString groupByName(const QString &value);
+  static void setSelectedName(const QString& value);
+  static void remove(const QString& value);
+  static QString groupByName(const QString& value);
 
   QString name() const;
 
-  bool load(const QString &presetName);
-  bool loadXML(const QString &filename);
-  void save(const QString &presetName) const;
-  void saveXML(const QString &filename) const;
+  bool load(const QString& presetName);
+  bool loadXML(const QString& filename);
+  void save(const QString& presetName) const;
+  void saveXML(const QString& filename) const;
 
   void initMono(MonochromeType type, int edge = 0x80);
   void initGrayscale(int bits);
   void initColor(int alphaBits, int redBits, int greenBits, int blueBits);
 
 private:
-  PrepareOptions *mPrepare;
-  MatrixOptions *mMatrix;
-  ReorderingOptions *mReordering;
-  ImageOptions *mImage;
-  FontOptions *mFont;
-  TemplateOptions *mTemplates;
+  PrepareOptions* mPrepare;
+  MatrixOptions* mMatrix;
+  ReorderingOptions* mReordering;
+  ImageOptions* mImage;
+  FontOptions* mFont;
+  TemplateOptions* mTemplates;
   bool mBlockChangesSignal;
   QString mName;
 
 signals:
-  void changed(const QString &groupName);
+  void changed(const QString& groupName);
 
 public slots:
 
 private slots:
   void partsChanged();
-
 };
 
 } // namespace Presets

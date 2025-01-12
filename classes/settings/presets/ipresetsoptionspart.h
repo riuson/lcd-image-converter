@@ -20,10 +20,9 @@
 #ifndef IPRESETSOPTIONSPART_H
 #define IPRESETSOPTIONSPART_H
 
-#include <QObject>
-
-#include <QSettings>
 #include <QDomElement>
+#include <QObject>
+#include <QSettings>
 
 namespace Settings
 {
@@ -33,11 +32,11 @@ namespace Presets
 class IPresetOptionsPart
 {
 public:
-  virtual ~IPresetOptionsPart() { }
+  virtual ~IPresetOptionsPart() {}
 
-  virtual bool load(QSettings *settings) = 0;
+  virtual bool load(QSettings* settings) = 0;
   virtual bool loadXmlElement(QDomElement element) = 0;
-  virtual void save(QSettings *settings) = 0;
+  virtual void save(QSettings* settings) = 0;
   virtual void saveXmlElement(QDomElement element) = 0;
 
   virtual QString groupName() const = 0;
@@ -46,9 +45,6 @@ public:
 } // namespace Presets
 } // namespace Settings
 
-Q_DECLARE_INTERFACE (Settings::Presets::IPresetOptionsPart,
-                     "riuson.lcd-image-converter/1.0"
-                    )
-
+Q_DECLARE_INTERFACE(Settings::Presets::IPresetOptionsPart, "riuson.lcd-image-converter/1.0")
 
 #endif // IPRESETSOPTIONSPART_H

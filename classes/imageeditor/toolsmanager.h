@@ -20,11 +20,11 @@
 #ifndef TOOLSMANAGER_H
 #define TOOLSMANAGER_H
 
+#include <QAction>
 #include <QObject>
+
 #include "iimageeditorparams.h"
 #include "iimageselection.h"
-
-#include <QAction>
 template <class T1> class QList;
 
 namespace ImageEditor
@@ -44,18 +44,18 @@ class ToolsManager : public QObject, public IImageEditorParams, public IImageSel
   Q_INTERFACES(ImageEditor::IImageSelection)
 
 public:
-  explicit ToolsManager(QObject *parent = 0);
+  explicit ToolsManager(QObject* parent = 0);
   virtual ~ToolsManager();
 
-  const QList <IImageEditorTool *> *tools() const;
-  const QList<QAction *> *toolsActions() const;
+  const QList<IImageEditorTool*>* tools() const;
+  const QList<QAction*>* toolsActions() const;
 
   int scale() const Q_DECL_OVERRIDE;
   const QColor foreColor() const Q_DECL_OVERRIDE;
   const QColor backColor() const Q_DECL_OVERRIDE;
-  QWidget *parentWidget() const Q_DECL_OVERRIDE;
+  QWidget* parentWidget() const Q_DECL_OVERRIDE;
 
-  const QPainterPath &selectedPath() const Q_DECL_OVERRIDE;
+  const QPainterPath& selectedPath() const Q_DECL_OVERRIDE;
 
 public slots:
   void setScale(int value);
@@ -63,20 +63,20 @@ public slots:
 signals:
   void toolChanged(int toolIndex);
   void scaleChanged(int value);
-  void selectionChanged(const QPainterPath &value) Q_DECL_OVERRIDE;
+  void selectionChanged(const QPainterPath& value) Q_DECL_OVERRIDE;
 
 private:
-  QList <IImageEditorTool *> *mTools;
-  QList <QAction *> *mToolsActions;
-  IImageEditorTool *mSelectedTool;
-  ToolZoom *mZoomer;
-  ToolColor *mColors;
-  ToolSelect *mSelectionTool;
-  QWidget *mParentWidget;
+  QList<IImageEditorTool*>* mTools;
+  QList<QAction*>* mToolsActions;
+  IImageEditorTool* mSelectedTool;
+  ToolZoom* mZoomer;
+  ToolColor* mColors;
+  ToolSelect* mSelectionTool;
+  QWidget* mParentWidget;
 
   void initializeTools();
   void initializeActions();
-  void selectTool(IImageEditorTool *tool);
+  void selectTool(IImageEditorTool* tool);
 
 private slots:
   void on_toolAction_triggered();

@@ -19,9 +19,10 @@
 
 #include "fonthelper.h"
 
-#include <QPixmap>
 #include <QPainter>
+#include <QPixmap>
 #include <QRegExp>
+
 #include "datacontainer.h"
 
 namespace Parsing
@@ -29,7 +30,7 @@ namespace Parsing
 namespace Conversion
 {
 
-QImage FontHelper::drawString(const Data::Containers::DataContainer *data, const QString &value)
+QImage FontHelper::drawString(const Data::Containers::DataContainer* data, const QString& value)
 {
   int width = 0, height = 0;
   QImage::Format format = QImage::Format_ARGB32;
@@ -39,7 +40,7 @@ QImage FontHelper::drawString(const Data::Containers::DataContainer *data, const
     QChar ch = value.at(i);
 
     if (data->keys().contains(ch)) {
-      const QImage *image = data->image(ch);
+      const QImage* image = data->image(ch);
 
       format = image->format();
       width += image->width();
@@ -59,7 +60,7 @@ QImage FontHelper::drawString(const Data::Containers::DataContainer *data, const
     QChar ch = value.at(i);
 
     if (data->keys().contains(ch)) {
-      const QImage *image = data->image(ch);
+      const QImage* image = data->image(ch);
       painter.drawImage(x, 0, *image);
 
       x += image->width();
@@ -69,7 +70,7 @@ QImage FontHelper::drawString(const Data::Containers::DataContainer *data, const
   return previewPixmap.toImage();
 }
 
-QString FontHelper::escapeControlChars(const QString &value)
+QString FontHelper::escapeControlChars(const QString& value)
 {
   QString result;
 
@@ -91,7 +92,7 @@ QString FontHelper::escapeControlChars(const QString &value)
   return result;
 }
 
-QString FontHelper::unescapeControlChars(const QString &value)
+QString FontHelper::unescapeControlChars(const QString& value)
 {
   QRegExp reg("\\\\x([abcdef\\d]{4})", Qt::CaseInsensitive);
   QString result = value;
@@ -114,7 +115,7 @@ QString FontHelper::unescapeControlChars(const QString &value)
   return result;
 }
 
-QSize FontHelper::getCharacterSize(const QFontMetrics &metrics, QChar value)
+QSize FontHelper::getCharacterSize(const QFontMetrics& metrics, QChar value)
 {
   int charWidth = metrics.horizontalAdvance(value);
   int charHeight = metrics.height();
@@ -133,7 +134,7 @@ QSize FontHelper::getCharacterSize(const QFontMetrics &metrics, QChar value)
   return QSize(charWidth, charHeight);
 }
 
-QSize FontHelper::getGlyphSize(const QFontMetrics &metrics, QChar value)
+QSize FontHelper::getGlyphSize(const QFontMetrics& metrics, QChar value)
 {
   int charWidth = metrics.horizontalAdvance(value);
 
@@ -153,16 +154,9 @@ QSize FontHelper::getGlyphSize(const QFontMetrics &metrics, QChar value)
   return QSize(charWidth, charHeight);
 }
 
-QImage FontHelper::drawCharacter(
-  const QChar value,
-  const QFont &font,
-  const QColor &foreground,
-  const QColor &background,
-  const int width,
-  const int height,
-  const bool antialiasing,
-  const int multiplicityHeight,
-  const int multiplicityWidth)
+QImage FontHelper::drawCharacter(const QChar value, const QFont& font, const QColor& foreground,
+                                 const QColor& background, const int width, const int height, const bool antialiasing,
+                                 const int multiplicityHeight, const int multiplicityWidth)
 {
   QFontMetrics fontMetrics(font);
 
@@ -200,7 +194,7 @@ QImage FontHelper::drawCharacter(
   painter.setPen(foreground);
 
   painter.drawText((imageWidth / 2) - (characterSize.width() / 2),
-                   fontMetrics.ascent(),//+4
+                   fontMetrics.ascent(), //+4
                    QString(value));
 
   return result;

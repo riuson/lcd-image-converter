@@ -19,10 +19,10 @@
 
 #include "matrixoptions.h"
 
-#include <QVector>
-#include <QSettings>
-#include <QtXml>
 #include <QDomDocument>
+#include <QSettings>
+#include <QVector>
+#include <QtXml>
 
 namespace Settings
 {
@@ -40,8 +40,7 @@ const QString MatrixOptions::FieldMask = QString("mask");
 const QString MatrixOptions::FieldShift = QString("shift");
 const QString MatrixOptions::FieldLeft = QString("left");
 
-MatrixOptions::MatrixOptions(QObject *parent) :
-  QObject(parent)
+MatrixOptions::MatrixOptions(QObject* parent) : QObject(parent)
 {
   this->mOperations = new QVector<quint32>();
   this->mMaskUsed = 0x00ffffff;
@@ -50,30 +49,15 @@ MatrixOptions::MatrixOptions(QObject *parent) :
   this->mMaskFill = 0xffffffff;
 }
 
-MatrixOptions::~MatrixOptions()
-{
-  delete this->mOperations;
-}
+MatrixOptions::~MatrixOptions() { delete this->mOperations; }
 
-quint32 MatrixOptions::maskUsed() const
-{
-  return (this->mMaskUsed != 0) ? this->mMaskUsed : 1;
-}
+quint32 MatrixOptions::maskUsed() const { return (this->mMaskUsed != 0) ? this->mMaskUsed : 1; }
 
-quint32 MatrixOptions::maskAnd() const
-{
-  return (this->mMaskAnd != 0) ? this->mMaskAnd : 1;
-}
+quint32 MatrixOptions::maskAnd() const { return (this->mMaskAnd != 0) ? this->mMaskAnd : 1; }
 
-quint32 MatrixOptions::maskOr() const
-{
-  return this->mMaskOr;
-}
+quint32 MatrixOptions::maskOr() const { return this->mMaskOr; }
 
-quint32 MatrixOptions::maskFill() const
-{
-  return (this->mMaskFill != 0) ? this->mMaskFill : 1;
-}
+quint32 MatrixOptions::maskFill() const { return (this->mMaskFill != 0) ? this->mMaskFill : 1; }
 
 void MatrixOptions::setMaskUsed(quint32 value)
 {
@@ -119,12 +103,9 @@ void MatrixOptions::setMaskFill(quint32 value)
   }
 }
 
-int MatrixOptions::operationsCount() const
-{
-  return (this->mOperations->size()) / 2;
-}
+int MatrixOptions::operationsCount() const { return (this->mOperations->size()) / 2; }
 
-void MatrixOptions::operation(int index, quint32 *mask, int *shift, bool *left) const
+void MatrixOptions::operation(int index, quint32* mask, int* shift, bool* left) const
 {
   *mask = 0;
   *shift = 0;
@@ -191,7 +172,7 @@ void MatrixOptions::operationReplace(int index, quint32 mask, int shift, bool le
   emit this->changed();
 }
 
-bool MatrixOptions::load(QSettings *settings)
+bool MatrixOptions::load(QSettings* settings)
 {
   bool result = false;
 
@@ -200,8 +181,8 @@ bool MatrixOptions::load(QSettings *settings)
   quint32 uMaskUsed = 0, uMaskAnd = 0, uMaskOr = 0, uMaskFill = 0;
 
   QString sMaskUsed = settings->value(MatrixOptions::FieldMaskUsed, QString("ffffffff")).toString();
-  QString sMaskAnd  = settings->value(MatrixOptions::FieldMaskAnd,  QString("ffffffff")).toString();
-  QString sMaskOr   = settings->value(MatrixOptions::FieldMaskOr,   QString("00000000")).toString();
+  QString sMaskAnd = settings->value(MatrixOptions::FieldMaskAnd, QString("ffffffff")).toString();
+  QString sMaskOr = settings->value(MatrixOptions::FieldMaskOr, QString("00000000")).toString();
   QString sMaskFill = settings->value(MatrixOptions::FieldMaskFill, QString("ffffffff")).toString();
 
   uMaskUsed = sMaskUsed.toUInt(&result, 16);
@@ -363,13 +344,13 @@ bool MatrixOptions::loadXmlElement(QDomElement element)
   return result;
 }
 
-void MatrixOptions::save(QSettings *settings)
+void MatrixOptions::save(QSettings* settings)
 {
   settings->beginGroup(MatrixOptions::GroupName);
 
   settings->setValue(MatrixOptions::FieldMaskUsed, QString("%1").arg(this->maskUsed(), 8, 16, QChar('0')));
-  settings->setValue(MatrixOptions::FieldMaskAnd,  QString("%1").arg(this->maskAnd(),  8, 16, QChar('0')));
-  settings->setValue(MatrixOptions::FieldMaskOr,   QString("%1").arg(this->maskOr(),   8, 16, QChar('0')));
+  settings->setValue(MatrixOptions::FieldMaskAnd, QString("%1").arg(this->maskAnd(), 8, 16, QChar('0')));
+  settings->setValue(MatrixOptions::FieldMaskOr, QString("%1").arg(this->maskOr(), 8, 16, QChar('0')));
   settings->setValue(MatrixOptions::FieldMaskFill, QString("%1").arg(this->maskFill(), 8, 16, QChar('0')));
 
   settings->beginWriteArray(MatrixOptions::FieldOperations);
@@ -381,9 +362,9 @@ void MatrixOptions::save(QSettings *settings)
     this->operation(i, &uMask, &iShift, &bLeft);
 
     settings->setArrayIndex(i);
-    settings->setValue(MatrixOptions::FieldMask,  QString("%1").arg(uMask, 8, 16, QChar('0')));
+    settings->setValue(MatrixOptions::FieldMask, QString("%1").arg(uMask, 8, 16, QChar('0')));
     settings->setValue(MatrixOptions::FieldShift, QString("%1").arg(iShift));
-    settings->setValue(MatrixOptions::FieldLeft,  QString("%1").arg((int)bLeft));
+    settings->setValue(MatrixOptions::FieldLeft, QString("%1").arg((int)bLeft));
   }
 
   settings->endArray();
@@ -398,11 +379,13 @@ void MatrixOptions::saveXmlElement(QDomElement element)
 
   QDomElement nodeMaskUsed = element.ownerDocument().createElement(MatrixOptions::FieldMaskUsed);
   nodeMatrix.appendChild(nodeMaskUsed);
-  nodeMaskUsed.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(this->maskUsed(), 8, 16, QChar('0'))));
+  nodeMaskUsed.appendChild(
+      element.ownerDocument().createTextNode(QString("%1").arg(this->maskUsed(), 8, 16, QChar('0'))));
 
   QDomElement nodeMaskAnd = element.ownerDocument().createElement(MatrixOptions::FieldMaskAnd);
   nodeMatrix.appendChild(nodeMaskAnd);
-  nodeMaskAnd.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(this->maskAnd(), 8, 16, QChar('0'))));
+  nodeMaskAnd.appendChild(
+      element.ownerDocument().createTextNode(QString("%1").arg(this->maskAnd(), 8, 16, QChar('0'))));
 
   QDomElement nodeMaskOr = element.ownerDocument().createElement(MatrixOptions::FieldMaskOr);
   nodeMatrix.appendChild(nodeMaskOr);
@@ -410,7 +393,8 @@ void MatrixOptions::saveXmlElement(QDomElement element)
 
   QDomElement nodeMaskFill = element.ownerDocument().createElement(MatrixOptions::FieldMaskFill);
   nodeMatrix.appendChild(nodeMaskFill);
-  nodeMaskFill.appendChild(element.ownerDocument().createTextNode(QString("%1").arg(this->maskFill(), 8, 16, QChar('0'))));
+  nodeMaskFill.appendChild(
+      element.ownerDocument().createTextNode(QString("%1").arg(this->maskFill(), 8, 16, QChar('0'))));
 
   QDomElement nodeOperations = element.ownerDocument().createElement(MatrixOptions::FieldOperations);
   nodeMatrix.appendChild(nodeOperations);
@@ -440,10 +424,7 @@ void MatrixOptions::saveXmlElement(QDomElement element)
   }
 }
 
-QString MatrixOptions::groupName() const
-{
-  return MatrixOptions::GroupName;
-}
+QString MatrixOptions::groupName() const { return MatrixOptions::GroupName; }
 
 } // namespace Presets
 } // namespace Settings

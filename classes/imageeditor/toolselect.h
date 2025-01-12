@@ -20,16 +20,16 @@
 #ifndef TOOLSELECT_H
 #define TOOLSELECT_H
 
-#include <QObject>
-#include <QImage>
+#include <QAction>
 #include <QColor>
-#include <QPoint>
+#include <QIcon>
+#include <QImage>
+#include <QObject>
 #include <QPainterPath>
+#include <QPoint>
+
 #include "iimageeditortool.h"
 #include "iimageselection.h"
-
-#include <QIcon>
-#include <QAction>
 
 namespace ImageEditor
 {
@@ -45,47 +45,37 @@ class ToolSelect : public QObject, public IImageEditorTool, public IImageSelecti
   Q_INTERFACES(ImageEditor::IImageSelection)
 
 public:
-  explicit ToolSelect(IImageEditorParams *parameters, QObject *parent = 0);
+  explicit ToolSelect(IImageEditorParams* parameters, QObject* parent = 0);
   virtual ~ToolSelect();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;
-  const QIcon *icon() const Q_DECL_OVERRIDE;
-  const QList<QAction *> *actions() const Q_DECL_OVERRIDE;
-  const QList<QWidget *> *widgets() const Q_DECL_OVERRIDE;
+  const QIcon* icon() const Q_DECL_OVERRIDE;
+  const QList<QAction*>* actions() const Q_DECL_OVERRIDE;
+  const QList<QWidget*>* widgets() const Q_DECL_OVERRIDE;
 
-  const QPainterPath &selectedPath() const Q_DECL_OVERRIDE;
+  const QPainterPath& selectedPath() const Q_DECL_OVERRIDE;
 
 public slots:
-  bool processMouse(QMouseEvent *event,
-                    const QImage *imageOriginal,
-                    bool inRect) Q_DECL_OVERRIDE;
+  bool processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect) Q_DECL_OVERRIDE;
 
 signals:
-  void started(const QImage *value) Q_DECL_OVERRIDE;
-  void processing(const QImage *value) Q_DECL_OVERRIDE;
-  void completed(const QImage *value, bool changed) Q_DECL_OVERRIDE;
-  void selectionChanged(const QPainterPath &value) Q_DECL_OVERRIDE;
+  void started(const QImage* value) Q_DECL_OVERRIDE;
+  void processing(const QImage* value) Q_DECL_OVERRIDE;
+  void completed(const QImage* value, bool changed) Q_DECL_OVERRIDE;
+  void selectionChanged(const QPainterPath& value) Q_DECL_OVERRIDE;
 
 private:
-  enum Operation {
-    None,
-    Append,
-    Subtract,
-    Reset
-  };
+  enum Operation { None, Append, Subtract, Reset };
 
-  enum Mode {
-    SelectionEdit,
-    SelectionMove
-  };
+  enum Mode { SelectionEdit, SelectionMove };
 
-  IImageEditorParams *mParameters;
-  QIcon *mIcon;
-  QList<QAction *> *mActions;
-  QList<QWidget *> *mWidgets;
-  QAction *mActionEditSelection;
-  QAction *mActionMoveSelection;
+  IImageEditorParams* mParameters;
+  QIcon* mIcon;
+  QList<QAction*>* mActions;
+  QList<QWidget*>* mWidgets;
+  QAction* mActionEditSelection;
+  QAction* mActionMoveSelection;
 
   bool mFlagChanged;
   QPoint mStartPoint;
@@ -94,7 +84,7 @@ private:
   QPainterPath mSelectedPathInternal;
 
   void initializeWidgets();
-  void modifySelection(const QRect &rect, Operation op);
+  void modifySelection(const QRect& rect, Operation op);
   void processModeEdit(Qt::MouseButtons buttons, int x, int y);
   void processModeMove(Qt::MouseButtons buttons, int x, int y);
 

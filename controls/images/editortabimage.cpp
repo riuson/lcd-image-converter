@@ -18,35 +18,34 @@
  */
 
 #include "editortabimage.h"
+
 #include "ui_editortabimage.h"
 
-#include <QHBoxLayout>
+#include <QBuffer>
 #include <QDomDocument>
 #include <QDomProcessingInstruction>
-#include <QBuffer>
 #include <QFile>
-#include <QTextStream>
 #include <QFileDialog>
+#include <QHBoxLayout>
+#include <QTextStream>
 
 #include "datacontainer.h"
-#include "parser.h"
-#include "tagslist.h"
-#include "statusdata.h"
-#include "imagedocument.h"
 #include "editor.h"
+#include "imagedocument.h"
+#include "parser.h"
+#include "statusdata.h"
+#include "tagslist.h"
 
 namespace AppUI
 {
 namespace Images
 {
 
-EditorTabImage::EditorTabImage(QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::EditorTabImage)
+EditorTabImage::EditorTabImage(QWidget* parent) : QWidget(parent), ui(new Ui::EditorTabImage)
 {
   ui->setupUi(this);
 
-  QHBoxLayout *layout = new QHBoxLayout(this);
+  QHBoxLayout* layout = new QHBoxLayout(this);
   this->setLayout(layout);
 
   this->mDocument = new Data::Containers::ImageDocument(this);
@@ -56,8 +55,8 @@ EditorTabImage::EditorTabImage(QWidget *parent) :
   layout->addWidget(this->mEditorWidget);
 
   this->connect(this->mDocument, SIGNAL(documentChanged()), SLOT(mon_documentChanged()));
-  this->connect(this->mEditorObject, SIGNAL(imageChanged(const QImage *)), SLOT(mon_editor_imageChanged(const QImage *)));
-  this->connect(this->mEditorObject, SIGNAL(mouseMoved(const QPoint *)), SLOT(mon_editor_mouseMove(const QPoint *)));
+  this->connect(this->mEditorObject, SIGNAL(imageChanged(const QImage*)), SLOT(mon_editor_imageChanged(const QImage*)));
+  this->connect(this->mEditorObject, SIGNAL(mouseMoved(const QPoint*)), SLOT(mon_editor_mouseMove(const QPoint*)));
   this->connect(this->mEditorObject, SIGNAL(scaleChanged(int)), SLOT(mon_editor_scaleChanged(int)));
 
   this->initStatusData();
@@ -72,27 +71,18 @@ EditorTabImage::~EditorTabImage()
   delete this->mEditorObject;
 }
 
-Data::Containers::IDocument *EditorTabImage::document() const
+Data::Containers::IDocument* EditorTabImage::document() const
 {
-  return qobject_cast<Data::Containers::IDocument *>(this->mDocument);
+  return qobject_cast<Data::Containers::IDocument*>(this->mDocument);
 }
 
-QStringList EditorTabImage::selectedKeys() const
-{
-  return this->mDocument->dataContainer()->keys();
-}
+QStringList EditorTabImage::selectedKeys() const { return this->mDocument->dataContainer()->keys(); }
 
-AppUI::Status::StatusData *EditorTabImage::statusData() const
-{
-  return this->mStatusData;
-}
+AppUI::Status::StatusData* EditorTabImage::statusData() const { return this->mStatusData; }
 
-IEditor::EditorType EditorTabImage::type() const
-{
-  return EditorImage;
-}
+IEditor::EditorType EditorTabImage::type() const { return EditorImage; }
 
-void EditorTabImage::changeEvent(QEvent *e)
+void EditorTabImage::changeEvent(QEvent* e)
 {
   QWidget::changeEvent(e);
 
@@ -118,7 +108,7 @@ void EditorTabImage::updateStatus()
   QStringList keys = this->mDocument->dataContainer()->keys();
 
   if (keys.length() > 0) {
-    const QImage *currentImage = this->mDocument->dataContainer()->image(keys.at(0));
+    const QImage* currentImage = this->mDocument->dataContainer()->image(keys.at(0));
     this->mStatusData->setData(AppUI::Status::StatusData::ImageSize, QVariant(currentImage->size()));
   }
 
@@ -130,7 +120,7 @@ void EditorTabImage::updateSelectedImage()
   QStringList keys = this->mDocument->dataContainer()->keys();
 
   if (keys.length() > 0) {
-    const QImage *image = this->mDocument->dataContainer()->image(keys.at(0));
+    const QImage* image = this->mDocument->dataContainer()->image(keys.at(0));
     this->mEditorObject->setImage(image);
   }
 
@@ -143,13 +133,13 @@ void EditorTabImage::mon_documentChanged()
   emit this->documentChanged();
 }
 
-void EditorTabImage::mon_editor_imageChanged(const QImage *value)
+void EditorTabImage::mon_editor_imageChanged(const QImage* value)
 {
   QStringList keys = this->mDocument->dataContainer()->keys();
   this->mDocument->dataContainer()->setImage(keys.at(0), value);
 }
 
-void EditorTabImage::mon_editor_mouseMove(const QPoint *point)
+void EditorTabImage::mon_editor_mouseMove(const QPoint* point)
 {
   if (point->x() >= 0 && point->y() >= 0) {
     this->mStatusData->setData(AppUI::Status::StatusData::MouseCoordinates, QVariant(*point));
@@ -178,7 +168,8 @@ void EditorTabImage::mon_editor_scaleChanged(int scale)
 <?xml version="1.0" encoding="utf-8"?>
 <data type="image" name="Image">
     <converted>/tmp/font.c</converted>
-    <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAsTAAALEwEAmpwYAAAARklEQVQYlYWPSQrAMAwDpZAX5x/Nl6eHgLMQt8IniRGWAeWqkux+zaD5my5B2z0uzHq0XegjW1+ZdLhbB4mkB0iHjY6fYS/sJjZR2Wu+lAAAAABJRU5ErkJggg==</picture>
+    <picture
+format="png">iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAsTAAALEwEAmpwYAAAARklEQVQYlYWPSQrAMAwDpZAX5x/Nl6eHgLMQt8IniRGWAeWqkux+zaD5my5B2z0uzHq0XegjW1+ZdLhbB4mkB0iHjY6fYS/sJjZR2Wu+lAAAAABJRU5ErkJggg==</picture>
 </data>
 
  */

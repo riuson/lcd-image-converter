@@ -39,21 +39,21 @@ class StartTab : public QWidget
   Q_OBJECT
 
 public:
-  explicit StartTab(QWidget *parent = 0);
+  explicit StartTab(QWidget* parent = 0);
   virtual ~StartTab();
 
-  void setRecentFiles(const QStringList *list);
+  void setRecentFiles(const QStringList* list);
   const QString tabName() const;
 
 protected:
-  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
+  void changeEvent(QEvent* e) Q_DECL_OVERRIDE;
 
 private:
-  Ui::StartTab *ui;
-  const QStringList *mRecentFilesList;
+  Ui::StartTab* ui;
+  const QStringList* mRecentFilesList;
 
 signals:
-  void openRecent(const QString &filename);
+  void openRecent(const QString& filename);
   void createNewImage();
   void createNewFont();
 };

@@ -21,6 +21,7 @@
 
 #include <QImage>
 #include <QtCore/QStringBuilder>
+
 #include "historykeeper.h"
 
 namespace Data
@@ -32,8 +33,7 @@ const QString DataContainer::DataChangedKey = QString("data changed");
 const QString DataContainer::CommonInfoKeyPrefix = QString("common:");
 const QString DataContainer::ImageInfoKeyPrefix = QString("image:");
 
-DataContainer::DataContainer(QObject *parent) :
-  QObject(parent)
+DataContainer::DataContainer(QObject* parent) : QObject(parent)
 {
   this->mDefaultImage = new QImage(":/images/template");
   this->mHistory = new Data::History::HistoryKeeper(this);
@@ -48,7 +48,7 @@ DataContainer::~DataContainer()
   delete this->mHistory;
 }
 
-const QImage *DataContainer::image(const QString &imageKey) const
+const QImage* DataContainer::image(const QString& imageKey) const
 {
   if (this->mKeys.contains(imageKey)) {
     return this->mImageMap.value(imageKey, this->mDefaultImage);
@@ -57,7 +57,7 @@ const QImage *DataContainer::image(const QString &imageKey) const
   }
 }
 
-void DataContainer::setImage(const QString &imageKey, const QImage *image)
+void DataContainer::setImage(const QString& imageKey, const QImage* image)
 {
   if (this->mKeys.contains(imageKey)) {
     this->mImageMap.remove(imageKey);
@@ -65,14 +65,14 @@ void DataContainer::setImage(const QString &imageKey, const QImage *image)
     this->mKeys.append(imageKey);
   }
 
-  QImage *imageNew = new QImage(*image);
+  QImage* imageNew = new QImage(*image);
   this->mImageMap.insert(imageKey, imageNew);
 
   this->setChanged(true);
   emit this->dataChanged(false);
 }
 
-QVariant DataContainer::commonInfo(const QString &infoKey) const
+QVariant DataContainer::commonInfo(const QString& infoKey) const
 {
   if (this->mInfoMap.contains(DataContainer::CommonInfoKeyPrefix % infoKey)) {
     return this->mInfoMap.value(DataContainer::CommonInfoKeyPrefix % infoKey);
@@ -81,11 +81,11 @@ QVariant DataContainer::commonInfo(const QString &infoKey) const
   return QVariant();
 }
 
-void DataContainer::setCommonInfo(const QString &infoKey, const QVariant &value)
+void DataContainer::setCommonInfo(const QString& infoKey, const QVariant& value)
 {
   bool changed = false;
 
-  //TODO: may be need to compare old and new values?
+  // TODO: may be need to compare old and new values?
   if (this->mInfoMap.contains(DataContainer::CommonInfoKeyPrefix % infoKey)) {
     if (this->mInfoMap.value(DataContainer::CommonInfoKeyPrefix % infoKey) != value) {
       changed = true;
@@ -101,7 +101,7 @@ void DataContainer::setCommonInfo(const QString &infoKey, const QVariant &value)
   }
 }
 
-QVariant DataContainer::imageInfo(const QString &imageKey, const QString &infoKey) const
+QVariant DataContainer::imageInfo(const QString& imageKey, const QString& infoKey) const
 {
   if (this->mInfoMap.contains(DataContainer::ImageInfoKeyPrefix % imageKey % ":" % infoKey)) {
     return this->mInfoMap.value(DataContainer::ImageInfoKeyPrefix % imageKey % ":" % infoKey);
@@ -110,7 +110,7 @@ QVariant DataContainer::imageInfo(const QString &imageKey, const QString &infoKe
   return QVariant();
 }
 
-void DataContainer::setImageInfo(const QString &imageKey, const QString &infoKey, const QVariant &value)
+void DataContainer::setImageInfo(const QString& imageKey, const QString& infoKey, const QVariant& value)
 {
   bool changed = false;
 
@@ -136,10 +136,7 @@ void DataContainer::clear()
   this->mImageMap.clear();
 }
 
-int DataContainer::count() const
-{
-  return this->mKeys.count();
-}
+int DataContainer::count() const { return this->mKeys.count(); }
 
 QStringList DataContainer::keys() const
 {
@@ -147,10 +144,10 @@ QStringList DataContainer::keys() const
   return result;
 }
 
-void DataContainer::removeImage(const QString &key)
+void DataContainer::removeImage(const QString& key)
 {
   if (this->mKeys.contains(key)) {
-    QImage *imageOld = this->mImageMap.value(key);
+    QImage* imageOld = this->mImageMap.value(key);
     this->mImageMap.remove(key);
     this->mKeys.removeOne(key);
     delete imageOld;
@@ -160,7 +157,7 @@ void DataContainer::removeImage(const QString &key)
   }
 }
 
-void DataContainer::reorderTo(const QStringList *keys)
+void DataContainer::reorderTo(const QStringList* keys)
 {
   if (this->mKeys.length() == keys->length()) {
     // all 'keys' contains in 'mKeys'
@@ -182,20 +179,11 @@ void DataContainer::reorderTo(const QStringList *keys)
   }
 }
 
-bool DataContainer::historyInitialized() const
-{
-  return this->mHistory->initialized();
-}
+bool DataContainer::historyInitialized() const { return this->mHistory->initialized(); }
 
-void DataContainer::historyInit()
-{
-  this->mHistory->init(&this->mKeys, &this->mImageMap, &this->mInfoMap);
-}
+void DataContainer::historyInit() { this->mHistory->init(&this->mKeys, &this->mImageMap, &this->mInfoMap); }
 
-void DataContainer::stateSave()
-{
-  this->mHistory->store(&this->mKeys, &this->mImageMap, &this->mInfoMap);
-}
+void DataContainer::stateSave() { this->mHistory->store(&this->mKeys, &this->mImageMap, &this->mInfoMap); }
 
 void DataContainer::stateUndo()
 {
@@ -213,15 +201,9 @@ void DataContainer::stateRedo()
   emit this->dataChanged(true);
 }
 
-bool DataContainer::canUndo() const
-{
-  return this->mHistory->canRestorePrevious();
-}
+bool DataContainer::canUndo() const { return this->mHistory->canRestorePrevious(); }
 
-bool DataContainer::canRedo() const
-{
-  return this->mHistory->canRestoreNext();
-}
+bool DataContainer::canRedo() const { return this->mHistory->canRestoreNext(); }
 
 bool DataContainer::changed() const
 {
@@ -236,10 +218,7 @@ bool DataContainer::changed() const
   return false;
 }
 
-void DataContainer::setChanged(bool value)
-{
-  this->mInfoMap.insert(DataContainer::DataChangedKey, value);
-}
+void DataContainer::setChanged(bool value) { this->mInfoMap.insert(DataContainer::DataChangedKey, value); }
 
 } // namespace Containers
-} //namespace Data
+} // namespace Data

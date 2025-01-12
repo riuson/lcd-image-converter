@@ -18,41 +18,40 @@
  */
 
 #include "editortabfont.h"
+
 #include "ui_editortabfont.h"
 
-#include <QSplitter>
+#include <QBuffer>
 #include <QDomDocument>
 #include <QDomProcessingInstruction>
-#include <QBuffer>
 #include <QFile>
-#include <QTextStream>
+#include <QFileDialog>
 #include <QFontDatabase>
-#include <QPainter>
 #include <QImage>
 #include <QMessageBox>
-#include <QFileDialog>
+#include <QPainter>
+#include <QSplitter>
+#include <QTextStream>
 #include <QWheelEvent>
 
 #include "datacontainer.h"
+#include "dialogfontchanged.h"
+#include "editor.h"
+#include "fontdocument.h"
+#include "fonteditoroptions.h"
+#include "fontparameters.h"
 #include "imagesmodel.h"
 #include "imagesscaledproxy.h"
 #include "parser.h"
-#include "dialogfontchanged.h"
-#include "tagslist.h"
 #include "statusdata.h"
-#include "fonteditoroptions.h"
-#include "fontdocument.h"
-#include "editor.h"
-#include "fontparameters.h"
+#include "tagslist.h"
 
 namespace AppUI
 {
 namespace Fonts
 {
 
-EditorTabFont::EditorTabFont(QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::EditorTabFont)
+EditorTabFont::EditorTabFont(QWidget* parent) : QWidget(parent), ui(new Ui::EditorTabFont)
 {
   ui->setupUi(this);
 
@@ -73,8 +72,9 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
 
   this->ui->tableViewCharacters->setModel(this->mScaledProxy);
 
-  QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
-  this->connect(selectionModel, SIGNAL(currentChanged(QModelIndex, QModelIndex)), SLOT(currentChanged(QModelIndex, QModelIndex)));
+  QItemSelectionModel* selectionModel = this->ui->tableViewCharacters->selectionModel();
+  this->connect(selectionModel, SIGNAL(currentChanged(QModelIndex, QModelIndex)),
+                SLOT(currentChanged(QModelIndex, QModelIndex)));
 
   this->mEditorObject = new ImageEditor::Editor(this);
   this->mEditorWidget = this->mEditorObject->widget();
@@ -83,8 +83,8 @@ EditorTabFont::EditorTabFont(QWidget *parent) :
   this->mSplitter->setChildrenCollapsible(false);
 
   this->connect(this->mDocument, SIGNAL(documentChanged()), SLOT(mon_documentChanged()));
-  this->connect(this->mEditorObject, SIGNAL(imageChanged(const QImage *)), SLOT(mon_editor_imageChanged(const QImage *)));
-  this->connect(this->mEditorObject, SIGNAL(mouseMoved(const QPoint *)), SLOT(mon_editor_mouseMove(const QPoint *)));
+  this->connect(this->mEditorObject, SIGNAL(imageChanged(const QImage*)), SLOT(mon_editor_imageChanged(const QImage*)));
+  this->connect(this->mEditorObject, SIGNAL(mouseMoved(const QPoint*)), SLOT(mon_editor_mouseMove(const QPoint*)));
   this->connect(this->mEditorObject, SIGNAL(scaleChanged(int)), SLOT(mon_editor_scaleChanged(int)));
 
   this->ui->tableViewCharacters->resizeColumnsToContents();
@@ -101,16 +101,16 @@ EditorTabFont::~EditorTabFont()
   delete this->mEditorObject;
 }
 
-Data::Containers::IDocument *EditorTabFont::document() const
+Data::Containers::IDocument* EditorTabFont::document() const
 {
-  return qobject_cast<Data::Containers::IDocument *>(this->mDocument);
+  return qobject_cast<Data::Containers::IDocument*>(this->mDocument);
 }
 
 QStringList EditorTabFont::selectedKeys() const
 {
   QStringList result;
 
-  QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+  QItemSelectionModel* selectionModel = this->ui->tableViewCharacters->selectionModel();
 
   if (selectionModel->hasSelection()) {
     QModelIndexList indexes = selectionModel->selectedIndexes();
@@ -128,22 +128,13 @@ QStringList EditorTabFont::selectedKeys() const
   return result;
 }
 
-AppUI::Status::StatusData *EditorTabFont::statusData() const
-{
-  return this->mStatusData;
-}
+AppUI::Status::StatusData* EditorTabFont::statusData() const { return this->mStatusData; }
 
-IEditor::EditorType EditorTabFont::type() const
-{
-  return EditorFont;
-}
+IEditor::EditorType EditorTabFont::type() const { return EditorFont; }
 
-void EditorTabFont::setFontCharacters(const QString &chars,
-                                      const Data::Containers::FontParameters &parameters)
+void EditorTabFont::setFontCharacters(const QString& chars, const Data::Containers::FontParameters& parameters)
 {
-  this->mDocument->setFontCharacters(
-    chars,
-    parameters);
+  this->mDocument->setFontCharacters(chars, parameters);
 
   this->updateTableFont();
   this->mModel->callReset();
@@ -155,15 +146,12 @@ void EditorTabFont::setFontCharacters(const QString &chars,
   this->updateStatus();
 }
 
-void EditorTabFont::fontCharacters(QString *chars,
-                                   Data::Containers::FontParameters *parameters)
+void EditorTabFont::fontCharacters(QString* chars, Data::Containers::FontParameters* parameters)
 {
-  this->mDocument->fontCharacters(
-    chars,
-    parameters);
+  this->mDocument->fontCharacters(chars, parameters);
 }
 
-void EditorTabFont::changeEvent(QEvent *e)
+void EditorTabFont::changeEvent(QEvent* e)
 {
   QWidget::changeEvent(e);
 
@@ -177,7 +165,7 @@ void EditorTabFont::changeEvent(QEvent *e)
   }
 }
 
-void EditorTabFont::wheelEvent(QWheelEvent *event)
+void EditorTabFont::wheelEvent(QWheelEvent* event)
 {
   if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
     QPoint point = event->globalPosition().toPoint();
@@ -213,7 +201,7 @@ void EditorTabFont::initStatusData()
 
 void EditorTabFont::updateStatus()
 {
-  const QImage *currentImage = this->mDocument->dataContainer()->image(this->currentKey());
+  const QImage* currentImage = this->mDocument->dataContainer()->image(this->currentKey());
   this->mStatusData->setData(AppUI::Status::StatusData::ImageSize, QVariant(currentImage->size()));
 
   this->mStatusData->setData(AppUI::Status::StatusData::Scale, QVariant(this->mEditorObject->scale()));
@@ -232,7 +220,7 @@ QString EditorTabFont::currentKey() const
 {
   QString result;
 
-  QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+  QItemSelectionModel* selectionModel = this->ui->tableViewCharacters->selectionModel();
 
   if (selectionModel->hasSelection()) {
     QModelIndex currentIndex = selectionModel->currentIndex();
@@ -257,7 +245,7 @@ QString EditorTabFont::currentKey() const
 
 void EditorTabFont::updateSelectedImage()
 {
-  QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+  QItemSelectionModel* selectionModel = this->ui->tableViewCharacters->selectionModel();
 
   if (selectionModel->hasSelection()) {
     QModelIndex index = selectionModel->currentIndex();
@@ -295,7 +283,7 @@ void EditorTabFont::mon_documentChangedSignificantly()
 
   if (this->mDocument->dataContainer()->count() > 0) {
     QString key = this->currentKey();
-    const QImage *image = this->mDocument->dataContainer()->image(key);
+    const QImage* image = this->mDocument->dataContainer()->image(key);
     this->mEditorObject->setImage(image);
   } else {
     QImage empty = QImage();
@@ -303,12 +291,12 @@ void EditorTabFont::mon_documentChangedSignificantly()
   }
 }
 
-void EditorTabFont::mon_editor_imageChanged(const QImage *value)
+void EditorTabFont::mon_editor_imageChanged(const QImage* value)
 {
   this->mDocument->dataContainer()->setImage(this->currentKey(), value);
 }
 
-void EditorTabFont::mon_editor_mouseMove(const QPoint *point)
+void EditorTabFont::mon_editor_mouseMove(const QPoint* point)
 {
   if (point->x() >= 0 && point->y() >= 0) {
     this->mStatusData->setData(AppUI::Status::StatusData::MouseCoordinates, QVariant(*point));
@@ -322,7 +310,7 @@ void EditorTabFont::mon_editor_scaleChanged(int scale)
   this->mStatusData->setData(AppUI::Status::StatusData::Scale, QVariant(scale));
 }
 
-void EditorTabFont::currentChanged(const QModelIndex &current, const QModelIndex &previous)
+void EditorTabFont::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
   Q_UNUSED(previous);
 
@@ -330,21 +318,18 @@ void EditorTabFont::currentChanged(const QModelIndex &current, const QModelIndex
     QVariant var = this->mModel->data(current, Data::Models::ImagesModel::KeyRole);
     QString key = var.toString();
 
-    const QImage *image = this->mDocument->dataContainer()->image(key);
+    const QImage* image = this->mDocument->dataContainer()->image(key);
     this->mEditorObject->setImage(image);
 
     // update selection for currentKey() method, called by updateStatus()
-    QItemSelectionModel *selectionModel = this->ui->tableViewCharacters->selectionModel();
+    QItemSelectionModel* selectionModel = this->ui->tableViewCharacters->selectionModel();
     selectionModel->setCurrentIndex(current, QItemSelectionModel::SelectCurrent);
 
     this->updateStatus();
   }
 }
 
-void EditorTabFont::updateTableFont()
-{
-  this->resizeToContents();
-}
+void EditorTabFont::updateTableFont() { this->resizeToContents(); }
 
 void EditorTabFont::resizeToContents()
 {
@@ -364,11 +349,13 @@ void EditorTabFont::resizeToContents()
     <style>Normal</style>
     <widthType>proportional</widthType>
     <antialiasing>false</antialiasing>
-    <string> !"#$%&amp;'()*+,-./0123456789:;&lt;=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~АБВ</string>
+    <string>
+!"#$%&amp;'()*+,-./0123456789:;&lt;=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~АБВ</string>
     <converted>/tmp/font.c</converted>
     <chars>
         <char character=" " code="0020">
-            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAQAAAATCAIAAAA4QDsKAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAFUlEQVQImWP8//8/AwwwMSCBYc0BAO+LAyPoIK0eAAAAAElFTkSuQmCC</picture>
+            <picture
+format="png">iVBORw0KGgoAAAANSUhEUgAAAAQAAAATCAIAAAA4QDsKAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAFUlEQVQImWP8//8/AwwwMSCBYc0BAO+LAyPoIK0eAAAAAElFTkSuQmCC</picture>
         </char>
     </chars>
 </data>

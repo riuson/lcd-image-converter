@@ -21,6 +21,7 @@
 #define TFONTPARAMETERS
 
 #include <QColor>
+
 #include "fontsizeunits.h"
 
 namespace Data
@@ -47,4 +48,3 @@ struct FontParameters {
 } // namespace Data
 
 #endif // TFONTPARAMETERS
-

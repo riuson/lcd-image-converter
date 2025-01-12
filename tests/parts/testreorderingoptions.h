@@ -10,17 +10,17 @@ namespace Presets
 {
 class ReorderingOptions;
 }
-}
+} // namespace Settings
 
 class TestReorderingOptions : public QObject
 {
   Q_OBJECT
 public:
-  explicit TestReorderingOptions(QObject *parent = 0);
+  explicit TestReorderingOptions(QObject* parent = 0);
   virtual ~TestReorderingOptions() {}
 
 private:
-  Settings::Presets::ReorderingOptions *mOptions;
+  Settings::Presets::ReorderingOptions* mOptions;
 
 private slots:
   void initTestCase();

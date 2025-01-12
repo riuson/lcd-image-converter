@@ -19,9 +19,9 @@
 
 #include "templateoptions.h"
 
+#include <QDomDocument>
 #include <QSettings>
 #include <QtXml>
-#include <QDomDocument>
 
 namespace Settings
 {
@@ -32,24 +32,17 @@ const QString TemplateOptions::GroupName = QString("templates");
 const QString TemplateOptions::FieldImages = QString("images");
 const QString TemplateOptions::FieldFonts = QString("fonts");
 
-TemplateOptions::TemplateOptions(QObject *parent) :
-  QObject(parent)
+TemplateOptions::TemplateOptions(QObject* parent) : QObject(parent)
 {
   this->mImageTemplate = ":/templates/image_convert";
   this->mFontTemplate = ":/templates/font_convert";
 }
 
-const QString &TemplateOptions::image() const
-{
-  return this->mImageTemplate;
-}
+const QString& TemplateOptions::image() const { return this->mImageTemplate; }
 
-const QString &TemplateOptions::font() const
-{
-  return this->mFontTemplate;
-}
+const QString& TemplateOptions::font() const { return this->mFontTemplate; }
 
-void TemplateOptions::setImage(const QString &filename)
+void TemplateOptions::setImage(const QString& filename)
 {
   if (this->mImageTemplate != filename) {
     this->mImageTemplate = filename;
@@ -57,7 +50,7 @@ void TemplateOptions::setImage(const QString &filename)
   }
 }
 
-void TemplateOptions::setFont(const QString &filename)
+void TemplateOptions::setFont(const QString& filename)
 {
   if (this->mFontTemplate != filename) {
     this->mFontTemplate = filename;
@@ -65,13 +58,14 @@ void TemplateOptions::setFont(const QString &filename)
   }
 }
 
-bool TemplateOptions::load(QSettings *settings)
+bool TemplateOptions::load(QSettings* settings)
 {
   bool result = false;
 
   settings->beginGroup(TemplateOptions::GroupName);
 
-  QString sTemplateImage = settings->value(TemplateOptions::FieldImages, QString(":/templates/image_convert")).toString();
+  QString sTemplateImage =
+      settings->value(TemplateOptions::FieldImages, QString(":/templates/image_convert")).toString();
   QString sTemplateFont = settings->value(TemplateOptions::FieldFonts, QString(":/templates/font_convert")).toString();
 
   this->setImage(sTemplateImage);
@@ -129,7 +123,7 @@ bool TemplateOptions::loadXmlElement(QDomElement element)
   return true;
 }
 
-void TemplateOptions::save(QSettings *settings)
+void TemplateOptions::save(QSettings* settings)
 {
   settings->beginGroup(TemplateOptions::GroupName);
 
@@ -153,10 +147,7 @@ void TemplateOptions::saveXmlElement(QDomElement element)
   nodeFonts.appendChild(element.ownerDocument().createTextNode(this->font()));
 }
 
-QString TemplateOptions::groupName() const
-{
-  return TemplateOptions::GroupName;
-}
+QString TemplateOptions::groupName() const { return TemplateOptions::GroupName; }
 
 } // namespace Presets
 } // namespace Settings

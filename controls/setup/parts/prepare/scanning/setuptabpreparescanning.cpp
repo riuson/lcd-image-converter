@@ -1,13 +1,14 @@
 #include "setuptabpreparescanning.h"
+
 #include "ui_setuptabpreparescanning.h"
 
-#include "preset.h"
-#include "prepareoptions.h"
-#include "matrixoptions.h"
-#include "imageoptions.h"
 #include "bitmaphelper.h"
 #include "converterhelper.h"
 #include "demogenerator.h"
+#include "imageoptions.h"
+#include "matrixoptions.h"
+#include "prepareoptions.h"
+#include "preset.h"
 #include "setupdialogoptions.h"
 
 namespace AppUI
@@ -19,25 +20,30 @@ namespace Parts
 namespace Prepare
 {
 
-SetupTabPrepareScanning::SetupTabPrepareScanning(Settings::Presets::Preset *preset, QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::SetupTabPrepareScanning)
+SetupTabPrepareScanning::SetupTabPrepareScanning(Settings::Presets::Preset* preset, QWidget* parent)
+    : QWidget(parent), ui(new Ui::SetupTabPrepareScanning)
 {
   ui->setupUi(this);
   this->mPreset = preset;
   this->mPixmapScanning = QPixmap();
   this->mPixmapScanPreview = QPixmap();
   this->mDemoGen = new DemoGenerator(this->mPreset, this);
-  this->connect(this->mDemoGen, SIGNAL(pixmapChanged(const QPixmap &)), SLOT(demoPixmapChanged(const QPixmap &)));
+  this->connect(this->mDemoGen, SIGNAL(pixmapChanged(const QPixmap&)), SLOT(demoPixmapChanged(const QPixmap&)));
   this->connect(this->mDemoGen, SIGNAL(errorHandled(QString)), SLOT(demoScriptError(QString)));
 
-  this->ui->comboBoxScanMain->addItem(tr("Top to Bottom"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::TopToBottom)));
-  this->ui->comboBoxScanMain->addItem(tr("Bottom to Top"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::BottomToTop)));
-  this->ui->comboBoxScanMain->addItem(tr("Left to Right"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::LeftToRight)));
-  this->ui->comboBoxScanMain->addItem(tr("Right to Left"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::RightToLeft)));
+  this->ui->comboBoxScanMain->addItem(
+      tr("Top to Bottom"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::TopToBottom)));
+  this->ui->comboBoxScanMain->addItem(
+      tr("Bottom to Top"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::BottomToTop)));
+  this->ui->comboBoxScanMain->addItem(
+      tr("Left to Right"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::LeftToRight)));
+  this->ui->comboBoxScanMain->addItem(
+      tr("Right to Left"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanMainDirection::RightToLeft)));
 
-  this->ui->comboBoxScanSub->addItem(tr("Forward"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanSubDirection::Forward)));
-  this->ui->comboBoxScanSub->addItem(tr("Backward"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanSubDirection::Backward)));
+  this->ui->comboBoxScanSub->addItem(
+      tr("Forward"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanSubDirection::Forward)));
+  this->ui->comboBoxScanSub->addItem(
+      tr("Backward"), QVariant(static_cast<int>(Parsing::Conversion::Options::ScanSubDirection::Backward)));
 
   this->ui->spinBoxAnimationTime->setValue(Settings::SetupDialogOptions::animationTotalTime());
   this->ui->spinBoxAnimationInterval->setValue(Settings::SetupDialogOptions::animationInterval());
@@ -45,10 +51,7 @@ SetupTabPrepareScanning::SetupTabPrepareScanning(Settings::Presets::Preset *pres
   this->matrixChanged();
 }
 
-SetupTabPrepareScanning::~SetupTabPrepareScanning()
-{
-  delete ui;
-}
+SetupTabPrepareScanning::~SetupTabPrepareScanning() { delete ui; }
 
 void SetupTabPrepareScanning::matrixChanged()
 {
@@ -149,7 +152,7 @@ void SetupTabPrepareScanning::updateScript()
   this->mDemoGen->setScript(script);
 }
 
-void SetupTabPrepareScanning::demoPixmapChanged(const QPixmap &pixmap)
+void SetupTabPrepareScanning::demoPixmapChanged(const QPixmap& pixmap)
 {
   this->mPixmapScanPreview = pixmap;
 
@@ -160,7 +163,7 @@ void SetupTabPrepareScanning::demoPixmapChanged(const QPixmap &pixmap)
   this->ui->labelErrorMessage->hide();
 }
 
-void SetupTabPrepareScanning::demoScriptError(const QString &value)
+void SetupTabPrepareScanning::demoScriptError(const QString& value)
 {
   this->ui->spinBoxAnimationTime->setEnabled(false);
   this->ui->spinBoxAnimationInterval->setEnabled(false);

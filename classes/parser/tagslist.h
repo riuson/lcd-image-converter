@@ -114,17 +114,17 @@ public:
     BlocksFontDefinitionEnd
   };
 
-  Tag parseTag(const QString &key) const;
+  Tag parseTag(const QString& key) const;
 
   const QString tagValue(Tag key) const;
-  void setTagValue(Tag key, const QString &value);
-  void importValues(const TagsList *other);
+  void setTagValue(Tag key, const QString& value);
+  void importValues(const TagsList* other);
 
-  bool find(const QString &text, int startIndex, int *resultIndex, int *nextIndex, Tag *key, QString *content);
+  bool find(const QString& text, int startIndex, int* resultIndex, int* nextIndex, Tag* key, QString* content);
 
 private:
-  QHash <QString, Tag> *mTagNameMap;
-  QMap <Tag, QString> *mTagValues;
+  QHash<QString, Tag>* mTagNameMap;
+  QMap<Tag, QString>* mTagValues;
 
   void initTagsMap();
 };

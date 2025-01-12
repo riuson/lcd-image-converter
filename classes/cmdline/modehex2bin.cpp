@@ -18,25 +18,21 @@
  */
 
 #include "modehex2bin.h"
-#include "datacontainer.h"
+
 #include <QCommandLineParser>
 #include <QFile>
 #include <QString>
 #include <QStringList>
 #include <QTextStream>
 
+#include "datacontainer.h"
+
 namespace CommandLine
 {
 
-ModeHex2Bin::ModeHex2Bin(QCommandLineParser &parser, QObject *parent) :
-  ModeParserBase(parser, parent)
-{
-}
+ModeHex2Bin::ModeHex2Bin(QCommandLineParser& parser, QObject* parent) : ModeParserBase(parser, parent) {}
 
-QString ModeHex2Bin::modeName()
-{
-  return "hex2bin";
-}
+QString ModeHex2Bin::modeName() { return "hex2bin"; }
 
 void ModeHex2Bin::fillParser() const
 {
@@ -58,8 +54,7 @@ bool ModeHex2Bin::collectArguments()
   this->mInputFilename = this->mParser.value("input");
   this->mOuputFilename = this->mParser.value("output");
 
-  return (!this->mInputFilename.isEmpty() &&
-          !this->mOuputFilename.isEmpty());
+  return (!this->mInputFilename.isEmpty() && !this->mOuputFilename.isEmpty());
 }
 
 int ModeHex2Bin::process()
@@ -67,7 +62,7 @@ int ModeHex2Bin::process()
   // check input file exists
   if (QFile::exists(this->mInputFilename)) {
     // check output file exists
-    //if (QFile::exists(this->mOuputFilename))
+    // if (QFile::exists(this->mOuputFilename))
     {
       QFile inputFile(this->mInputFilename);
 
@@ -95,7 +90,7 @@ int ModeHex2Bin::process()
   return 1;
 }
 
-QByteArray ModeHex2Bin::hex2bin(QString &hexString)
+QByteArray ModeHex2Bin::hex2bin(QString& hexString)
 {
   QByteArray result;
 
@@ -155,20 +150,20 @@ QByteArray ModeHex2Bin::hex2bin(QString &hexString)
   return result;
 }
 
-void ModeHex2Bin::appendDataLE(QByteArray &array, int size, quint32 value)
+void ModeHex2Bin::appendDataLE(QByteArray& array, int size, quint32 value)
 {
-  while (size -- > 0) {
+  while (size-- > 0) {
     quint8 a = value & 0xff;
     array.append(a);
     value = value >> 8;
   }
 }
 
-void ModeHex2Bin::appendDataBE(QByteArray &array, int size, quint32 value)
+void ModeHex2Bin::appendDataBE(QByteArray& array, int size, quint32 value)
 {
   int index = array.length();
 
-  while (size -- > 0) {
+  while (size-- > 0) {
     quint8 a = value & 0xff;
     array.insert(index, a);
     value = value >> 8;

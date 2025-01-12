@@ -32,14 +32,14 @@ namespace Presets
 {
 class Preset;
 }
-}
+} // namespace Settings
 namespace Data
 {
 namespace Containers
 {
 class DataContainer;
 }
-}
+} // namespace Data
 
 namespace AppUI
 {
@@ -50,23 +50,24 @@ class DialogPreview : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogPreview(Data::Containers::DataContainer *dataContainer, Settings::Presets::Preset *matrix, QWidget *parent = 0);
+  explicit DialogPreview(Data::Containers::DataContainer* dataContainer, Settings::Presets::Preset* matrix,
+                         QWidget* parent = 0);
   virtual ~DialogPreview();
   void updatePreview();
 
 private:
-  Ui::DialogPreview *ui;
+  Ui::DialogPreview* ui;
 
-  Data::Containers::DataContainer *mData;
+  Data::Containers::DataContainer* mData;
   QImage mImageOriginal;
   QImage mImageProcessed;
-  Settings::Presets::Preset *mPreset;
+  Settings::Presets::Preset* mPreset;
   int mScale;
 
 protected:
-  void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+  void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
   void setScale(int value);
-  void updatePreviewScaled(const QImage *image, int scale);
+  void updatePreviewScaled(const QImage* image, int scale);
 
 private slots:
   void on_comboBoxSampleKey_currentIndexChanged();

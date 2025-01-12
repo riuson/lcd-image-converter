@@ -19,14 +19,15 @@
 
 #include "demogenerator.h"
 
-#include <QTimer>
 #include <QImage>
-#include <QPixmap>
 #include <QPainter>
-#include "preset.h"
+#include <QPixmap>
+#include <QTimer>
+
 #include "converterhelper.h"
 #include "convimagescan.h"
 #include "prepareoptions.h"
+#include "preset.h"
 
 namespace AppUI
 {
@@ -37,8 +38,7 @@ namespace Parts
 namespace Prepare
 {
 
-DemoGenerator::DemoGenerator(Settings::Presets::Preset *preset, QObject *parent) :
-  QObject(parent)
+DemoGenerator::DemoGenerator(Settings::Presets::Preset* preset, QObject* parent) : QObject(parent)
 {
   this->mPreset = preset;
   this->mTimer = new QTimer(this);
@@ -59,7 +59,7 @@ DemoGenerator::~DemoGenerator()
   delete this->mSourceImage;
 }
 
-void DemoGenerator::setScript(const QString &value)
+void DemoGenerator::setScript(const QString& value)
 {
   // stop
   this->stopAnimation();
@@ -68,7 +68,7 @@ void DemoGenerator::setScript(const QString &value)
   this->mScript = value;
 
   // generate points
-  Parsing::Conversion::ConvImageScan *convImage = new Parsing::Conversion::ConvImageScan(this->mSourceImage, this);
+  Parsing::Conversion::ConvImageScan* convImage = new Parsing::Conversion::ConvImageScan(this->mSourceImage, this);
   convImage->setBandSize(this->mPreset->prepare()->bandWidth());
   convImage->setUseBands(this->mPreset->prepare()->bandScanning());
 
@@ -96,20 +96,11 @@ void DemoGenerator::setScript(const QString &value)
   delete convImage;
 }
 
-void DemoGenerator::startAnimation()
-{
-  this->mTimer->start();
-}
+void DemoGenerator::startAnimation() { this->mTimer->start(); }
 
-void DemoGenerator::stopAnimation()
-{
-  this->mTimer->stop();
-}
+void DemoGenerator::stopAnimation() { this->mTimer->stop(); }
 
-int DemoGenerator::animationTime() const
-{
-  return this->mAnimationTimeSeconds;
-}
+int DemoGenerator::animationTime() const { return this->mAnimationTimeSeconds; }
 
 void DemoGenerator::setAnimationTime(int value)
 {
@@ -118,20 +109,14 @@ void DemoGenerator::setAnimationTime(int value)
   }
 }
 
-int DemoGenerator::animationInterval() const
-{
-  return this->mTimer->interval();
-}
+int DemoGenerator::animationInterval() const { return this->mTimer->interval(); }
 
-void DemoGenerator::setAnimationInterval(int value)
-{
-  this->mTimer->setInterval(value);
-}
+void DemoGenerator::setAnimationInterval(int value) { this->mTimer->setInterval(value); }
 
 void DemoGenerator::timeout()
 {
   QTime current = QTime::currentTime();
-  int msecs = this->mLastTick.msecsTo(current); // milliseconds from last frame
+  int msecs = this->mLastTick.msecsTo(current);       // milliseconds from last frame
   int fps = this->mMax / this->mAnimationTimeSeconds; // frames per second
   int increment = msecs * fps / 1000;
 

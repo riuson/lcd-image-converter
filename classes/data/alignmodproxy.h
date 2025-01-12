@@ -36,24 +36,21 @@ class AlignModProxy : public QSortFilterProxyModel
   Q_OBJECT
 
 public:
-  explicit AlignModProxy(
-    Data::AlignModInfo *alignModInfo,
-    QObject *parent = nullptr);
+  explicit AlignModProxy(Data::AlignModInfo* alignModInfo, QObject* parent = nullptr);
   virtual ~AlignModProxy() Q_DECL_OVERRIDE {}
 
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-  int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-  QModelIndex index(int row, int column,
-                    const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-  QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
-  QModelIndex mapFromSource(const QModelIndex &sourceIndex) const Q_DECL_OVERRIDE;
-  QModelIndex mapToSource(const QModelIndex &proxyIndex) const Q_DECL_OVERRIDE;
+  int columnCount(const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
+  QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+  QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
+  QModelIndex parent(const QModelIndex& index) const Q_DECL_OVERRIDE;
+  QModelIndex mapFromSource(const QModelIndex& sourceIndex) const Q_DECL_OVERRIDE;
+  QModelIndex mapToSource(const QModelIndex& proxyIndex) const Q_DECL_OVERRIDE;
 
   // void notifyPreviewChanged();
 
 private:
-  Data::AlignModInfo *mAlignModInfo;
+  Data::AlignModInfo* mAlignModInfo;
 };
 
 } // namespace Models

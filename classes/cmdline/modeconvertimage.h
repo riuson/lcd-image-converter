@@ -20,8 +20,9 @@
 #ifndef CONVERTIMAGEARGUMENTS_H
 #define CONVERTIMAGEARGUMENTS_H
 
-#include "modeparserbase.h"
 #include <QObject>
+
+#include "modeparserbase.h"
 
 namespace CommandLine
 {
@@ -30,7 +31,7 @@ class ModeConvertImage : public ModeParserBase
 {
   Q_OBJECT
 public:
-  explicit ModeConvertImage(QCommandLineParser &parser, QObject *parent = 0);
+  explicit ModeConvertImage(QCommandLineParser& parser, QObject* parent = 0);
   virtual ~ModeConvertImage() {}
 
   static QString modeName();

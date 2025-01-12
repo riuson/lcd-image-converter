@@ -20,11 +20,12 @@
 #ifndef FONTOPTIONS_H
 #define FONTOPTIONS_H
 
-#include <QObject>
 #include "conversion_options.h"
-#include "ipresetsoptionspart.h"
 
+#include <QObject>
 #include <QStringList>
+
+#include "ipresetsoptionspart.h"
 
 namespace Settings
 {
@@ -37,35 +38,35 @@ class FontOptions : public QObject, public IPresetOptionsPart
   Q_INTERFACES(Settings::Presets::IPresetOptionsPart)
 
 public:
-  explicit FontOptions(QObject *parent = 0);
+  explicit FontOptions(QObject* parent = 0);
   virtual ~FontOptions() {}
 
   bool bom() const;
-  const QString &encoding() const;
+  const QString& encoding() const;
   Parsing::Conversion::Options::CharactersSortOrder sortOrder() const;
   bool skipMissingCharacters() const;
-  const QString &escapedCharacters() const;
-  const QString &escapePrefix() const;
-  const QString &escapeSuffix() const;
+  const QString& escapedCharacters() const;
+  const QString& escapePrefix() const;
+  const QString& escapeSuffix() const;
   bool compactGlyphs() const;
 
   void setBom(bool value);
-  void setEncoding(const QString &value);
+  void setEncoding(const QString& value);
   void setSortOrder(Parsing::Conversion::Options::CharactersSortOrder value);
   void setSkipMissingCharacters(bool value);
-  void setEscapedCharacters(const QString &value);
-  void setEscapePrefix(const QString &value);
-  void setEscapeSuffix(const QString &value);
+  void setEscapedCharacters(const QString& value);
+  void setEscapePrefix(const QString& value);
+  void setEscapeSuffix(const QString& value);
   void setCompactGlyphs(bool value);
 
-  bool load(QSettings *settings) Q_DECL_OVERRIDE;
+  bool load(QSettings* settings) Q_DECL_OVERRIDE;
   bool loadXmlElement(QDomElement element) Q_DECL_OVERRIDE;
-  void save(QSettings *settings) Q_DECL_OVERRIDE;
+  void save(QSettings* settings) Q_DECL_OVERRIDE;
   void saveXmlElement(QDomElement element) Q_DECL_OVERRIDE;
 
   QString groupName() const Q_DECL_OVERRIDE;
 
-  static const QStringList &encodings();
+  static const QStringList& encodings();
 
 private:
   static const QString GroupName;
@@ -91,7 +92,6 @@ signals:
   void changed();
 
 public slots:
-
 };
 
 } // namespace Presets
