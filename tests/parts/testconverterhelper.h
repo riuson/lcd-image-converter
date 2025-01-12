@@ -24,9 +24,9 @@ public:
 private:
   Settings::Presets::Preset *mPreset;
   void preparePackData(
-    quint32 maskUsed, quint32 maskFill,
-    QVector<quint32> *source, int width, int height,
-    bool splitToRows, QVector<quint32> *packed, int *widthOut, int *heightOut);
+          quint32 maskUsed, quint32 maskFill,
+          QVector<quint32> *source, int width, int height,
+          bool splitToRows, QVector<quint32> *packed);
   void prepareStringData(
     QVector<quint32> *source, int width, int height,
     int blockPerLine,

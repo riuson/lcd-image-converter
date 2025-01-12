@@ -267,10 +267,8 @@ void ConverterHelper::processPixels(Settings::Presets::Preset *preset, QVector<q
 void ConverterHelper::packData(
   Settings::Presets::Preset *preset,
   QVector<quint32> *inputData, int inputWidth, int inputHeight,
-  QVector<quint32> *outputData,
-  int *outputWidth, int *outputHeight)
+  QVector<quint32> *outputData)
 {
-  *outputHeight = inputHeight;
   outputData->clear();
 
   int resultWidth = 0;
@@ -298,8 +296,6 @@ void ConverterHelper::packData(
         // get row blocks count
         resultWidth = qMax(resultWidth, rowLength);
       }
-
-      *outputWidth = resultWidth;
     } else {
       /* Number_Of_Rows equals to Height
        *
@@ -319,28 +315,19 @@ void ConverterHelper::packData(
         // get row blocks count
         resultWidth = qMax(resultWidth, rowLength);
       }
-
-      *outputWidth = resultWidth;
     }
   } else {
     // All data in one row
 
     // process entire data
     ConverterHelper::packDataRow(preset, inputData, 0, inputData->size(), outputData, &rowLength);
-    // get blocks count
-    *outputWidth = rowLength;
-    *outputHeight = 1;
   }
 }
 
 void ConverterHelper::reorder(
   Settings::Presets::Preset *preset,
   QVector<quint32> *inputData,
-  int inputWidth,
-  int inputHeight,
-  QVector<quint32> *outputData,
-  int *outputWidth,
-  int *outputHeight)
+  QVector<quint32> *outputData)
 {
   for (int i = 0; i < inputData->size(); i++) {
     quint32 value = inputData->at(i);
@@ -365,9 +352,6 @@ void ConverterHelper::reorder(
 
     outputData->append(valueNew);
   }
-
-  *outputWidth = inputWidth;
-  *outputHeight = inputHeight;
 }
 
 void ConverterHelper::compressData(Settings::Presets::Preset *preset,

@@ -96,12 +96,10 @@ void DialogPreview::updatePreview()
       Parsing::Conversion::ConverterHelper::processPixels(this->mPreset, &sourceData);
 
       QVector<quint32> packedData;
-      int packedWidth, packedHeight;
-      Parsing::Conversion::ConverterHelper::packData(this->mPreset, &sourceData, sourceWidth, sourceHeight, &packedData, &packedWidth, &packedHeight);
+      Parsing::Conversion::ConverterHelper::packData(this->mPreset, &sourceData, sourceWidth, sourceHeight, &packedData);
 
       QVector<quint32> reorderedData;
-      int reorderedWidth, reorderedHeight;
-      Parsing::Conversion::ConverterHelper::reorder(this->mPreset, &packedData, packedWidth, packedHeight, &reorderedData, &reorderedWidth, &reorderedHeight);
+      Parsing::Conversion::ConverterHelper::reorder(this->mPreset, &packedData, &reorderedData);
 
       QVector<quint32> compressedData;
       Parsing::Conversion::ConverterHelper::compressData(this->mPreset, &reorderedData, &compressedData);

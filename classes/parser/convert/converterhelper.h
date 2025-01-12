@@ -58,18 +58,16 @@ public:
   static void processPixels(Settings::Presets:: Preset *preset, QVector<quint32> *data);
   // pack data
   static void packData(
-    Settings::Presets::Preset *preset,
-    QVector<quint32> *inputData,
-    int inputWidth,
-    int inputHeight,
-    QVector<quint32> *outputData,
-    int *outputWidth,
-    int *outputHeight);
+          Settings::Presets::Preset *preset,
+          QVector<quint32> *inputData,
+          int inputWidth,
+          int inputHeight,
+          QVector<quint32> *outputData);
   // bits reordering
   static void reorder(
-    Settings::Presets::Preset *preset,
-    QVector<quint32> *inputData, int inputWidth, int inputHeight,
-    QVector<quint32> *outputData, int *outputWidth, int *outputHeight);
+          Settings::Presets::Preset *preset,
+          QVector<quint32> *inputData,
+          QVector<quint32> *outputData);
 
   static void compressData(
           Settings::Presets::Preset *preset,

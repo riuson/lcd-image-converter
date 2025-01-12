@@ -126,21 +126,17 @@ void TestConverterHelper::packData()
     this->mPreset->image()->setSplitToRows(true);
 
     QVector<quint32> source, expected;
-    int widthExpected, heightExpected;
     this->preparePackData(
       0x00ffffff, 0xffffffff,
       &source, 1000, 1000,
       true,
-      &expected, &widthExpected, &heightExpected);
+      &expected);
 
     QVector<quint32> sample;
-    int widthSample, heightSample;
     Parsing::Conversion::ConverterHelper::packData(this->mPreset,
         &source, 1000, 1000,
-        &sample, &widthSample, &heightSample);
+        &sample);
 
-    QCOMPARE(widthSample, widthExpected);
-    QCOMPARE(heightSample, heightExpected);
     QCOMPARE(sample.count(), expected.count());
 
     for (int i = 0; i < sample.count(); i++) {
@@ -153,21 +149,17 @@ void TestConverterHelper::packData()
     this->mPreset->image()->setSplitToRows(false);
 
     QVector<quint32> source, expected;
-    int widthExpected, heightExpected;
     this->preparePackData(
       0x00ffffff, 0xffffffff,
       &source, 1000, 1000,
       false,
-      &expected, &widthExpected, &heightExpected);
+      &expected);
 
     QVector<quint32> sample;
-    int widthSample, heightSample;
     Parsing::Conversion::ConverterHelper::packData(this->mPreset,
         &source, 1000, 1000,
-        &sample, &widthSample, &heightSample);
+        &sample);
 
-    QCOMPARE(widthSample, widthExpected);
-    QCOMPARE(heightSample, heightExpected);
     QCOMPARE(sample.count(), expected.count());
 
     for (int i = 0; i < sample.count(); i++) {
@@ -480,7 +472,7 @@ void TestConverterHelper::preparePackData(
   quint32 maskUsed, quint32 maskFill,
   QVector<quint32> *source, int width, int height,
   bool splitToRows,
-  QVector<quint32> *packed, int *widthOut, int *heightOut)
+  QVector<quint32> *packed)
 {
   int packedRowWidth = 0;
 
@@ -571,9 +563,6 @@ void TestConverterHelper::preparePackData(
     packedRowWidth = counter;
     height = 1;
   }
-
-  *widthOut = packedRowWidth;
-  *heightOut = height;
 }
 
 void TestConverterHelper::prepareStringData(

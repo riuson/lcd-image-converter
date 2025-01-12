@@ -90,18 +90,16 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
     Parsing::Conversion::ConverterHelper::processPixels(preset, &sourceData);
 
     QVector<quint32> packedData;
-    int packedWidth, packedHeight;
     Parsing::Conversion::ConverterHelper::packData(
       preset,
       &sourceData, sourceWidth, sourceHeight,
-      &packedData, &packedWidth, &packedHeight);
+      &packedData);
 
     QVector<quint32> reorderedData;
-    int reorderedWidth, reorderedHeight;
     Parsing::Conversion::ConverterHelper::reorder(
       preset,
-      &packedData, packedWidth, packedHeight,
-      &reorderedData, &reorderedWidth, &reorderedHeight);
+      &packedData,
+      &reorderedData);
 
     QVector<quint32> compressedData;
     Parsing::Conversion::ConverterHelper::compressData(
