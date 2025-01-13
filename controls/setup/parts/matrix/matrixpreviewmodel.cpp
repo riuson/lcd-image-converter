@@ -549,20 +549,22 @@ void MatrixPreviewModel::resultPackedToSourceBit(int bitIndex, QVariant* name, Q
       }
     }
 
-    fillBitIndex = fillBitIndex % usedBitsCount;
+    if (usedBitsCount > 0) {
+      fillBitIndex = fillBitIndex % usedBitsCount;
 
-    // find index of bit in "Used" mask
-    int usedBitIndex = 31;
-    mask = this->mPreset->matrix()->maskUsed();
+      // find index of bit in "Used" mask
+      int usedBitIndex = 31;
+      mask = this->mPreset->matrix()->maskUsed();
 
-    for (int i = 31; (i >= 0) && (fillBitIndex >= 0); i--) {
-      if ((mask & (0x00000001 << i)) != 0) {
-        usedBitIndex = i;
-        fillBitIndex--;
+      for (int i = 31; (i >= 0) && (fillBitIndex >= 0); i--) {
+        if ((mask & (0x00000001 << i)) != 0) {
+          usedBitIndex = i;
+          fillBitIndex--;
+        }
       }
-    }
 
-    this->resultToSourceBit(usedBitIndex, name, color);
+      this->resultToSourceBit(usedBitIndex, name, color);
+    }
   }
 }
 
