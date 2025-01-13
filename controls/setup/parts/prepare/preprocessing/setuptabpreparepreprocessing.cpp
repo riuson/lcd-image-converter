@@ -1,13 +1,14 @@
 #include "setuptabpreparepreprocessing.h"
+
 #include "ui_setuptabpreparepreprocessing.h"
 
-#include "preset.h"
-#include "prepareoptions.h"
-#include "matrixoptions.h"
-#include "imageoptions.h"
 #include "bitmaphelper.h"
 #include "converterhelper.h"
 #include "demogenerator.h"
+#include "imageoptions.h"
+#include "matrixoptions.h"
+#include "prepareoptions.h"
+#include "preset.h"
 #include "setupdialogoptions.h"
 
 namespace AppUI
@@ -19,32 +20,36 @@ namespace Parts
 namespace Prepare
 {
 
-SetupTabPreparePreprocessing::SetupTabPreparePreprocessing(Settings::Presets::Preset *preset, QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::SetupTabPreparePreprocessing)
+SetupTabPreparePreprocessing::SetupTabPreparePreprocessing(Settings::Presets::Preset* preset, QWidget* parent)
+    : QWidget(parent), ui(new Ui::SetupTabPreparePreprocessing)
 {
   ui->setupUi(this);
   this->mPreset = preset;
   this->mPixmapScanning = QPixmap();
   this->mPixmapScanPreview = QPixmap();
 
-  this->ui->comboBoxConversionType->addItem(tr("Monochrome"), static_cast<int>(Parsing::Conversion::Options::ConversionType::Monochrome));
-  this->ui->comboBoxConversionType->addItem(tr("Grayscale"), static_cast<int>(Parsing::Conversion::Options::ConversionType::Grayscale));
-  this->ui->comboBoxConversionType->addItem(tr("Color"), static_cast<int>(Parsing::Conversion::Options::ConversionType::Color));
-  this->ui->comboBoxConversionType->addItem(tr("Custom"), static_cast<int>(Parsing::Conversion::Options::ConversionType::Custom));
+  this->ui->comboBoxConversionType->addItem(tr("Monochrome"),
+                                            static_cast<int>(Parsing::Conversion::Options::ConversionType::Monochrome));
+  this->ui->comboBoxConversionType->addItem(tr("Grayscale"),
+                                            static_cast<int>(Parsing::Conversion::Options::ConversionType::Grayscale));
+  this->ui->comboBoxConversionType->addItem(tr("Color"),
+                                            static_cast<int>(Parsing::Conversion::Options::ConversionType::Color));
+  this->ui->comboBoxConversionType->addItem(tr("Custom"),
+                                            static_cast<int>(Parsing::Conversion::Options::ConversionType::Custom));
 
-  this->ui->comboBoxMonochromeType->addItem(tr("Edge"), static_cast<int>(Parsing::Conversion::Options::MonochromeType::Edge));
-  this->ui->comboBoxMonochromeType->addItem(QString("Diffuse Dither"), static_cast<int>(Parsing::Conversion::Options::MonochromeType::DiffuseDither));
-  this->ui->comboBoxMonochromeType->addItem(QString("Ordered Dither"), static_cast<int>(Parsing::Conversion::Options::MonochromeType::OrderedDither));
-  this->ui->comboBoxMonochromeType->addItem(QString("Threshold Dither"), static_cast<int>(Parsing::Conversion::Options::MonochromeType::ThresholdDither));
+  this->ui->comboBoxMonochromeType->addItem(tr("Edge"),
+                                            static_cast<int>(Parsing::Conversion::Options::MonochromeType::Edge));
+  this->ui->comboBoxMonochromeType->addItem(
+      QString("Diffuse Dither"), static_cast<int>(Parsing::Conversion::Options::MonochromeType::DiffuseDither));
+  this->ui->comboBoxMonochromeType->addItem(
+      QString("Ordered Dither"), static_cast<int>(Parsing::Conversion::Options::MonochromeType::OrderedDither));
+  this->ui->comboBoxMonochromeType->addItem(
+      QString("Threshold Dither"), static_cast<int>(Parsing::Conversion::Options::MonochromeType::ThresholdDither));
 
   this->matrixChanged();
 }
 
-SetupTabPreparePreprocessing::~SetupTabPreparePreprocessing()
-{
-  delete ui;
-}
+SetupTabPreparePreprocessing::~SetupTabPreparePreprocessing() { delete ui; }
 
 void SetupTabPreparePreprocessing::matrixChanged()
 {
@@ -151,7 +156,6 @@ void SetupTabPreparePreprocessing::on_lineEditDemoInput_textChanged()
         this->ui->labelErrorMessage->setText(scriptError);
       }
 
-
       quint32 demoOutputValue = demoData.at(0);
       this->ui->lineEditDemoOutput->setText(QString("0x%1").arg(demoOutputValue, 8, 16, QChar('0')));
     }
@@ -188,7 +192,8 @@ void SetupTabPreparePreprocessing::updateState()
     this->ui->horizontalScrollBarEdge->setEnabled(false);
   }
 
-  this->ui->plainTextEditCustomScript->setReadOnly(this->mPreset->prepare()->convType() != Parsing::Conversion::Options::ConversionType::Custom);
+  this->ui->plainTextEditCustomScript->setReadOnly(this->mPreset->prepare()->convType() !=
+                                                   Parsing::Conversion::Options::ConversionType::Custom);
 }
 
 void SetupTabPreparePreprocessing::updateScript()

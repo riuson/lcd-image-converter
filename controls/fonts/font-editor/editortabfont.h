@@ -29,9 +29,9 @@ namespace Ui
 class EditorTabFont;
 }
 
-class QSplitter;
-class QItemSelection;
-class QModelIndex;
+#include <QItemSelection>
+#include <QModelIndex>
+#include <QSplitter>
 
 namespace Data
 {
@@ -41,13 +41,13 @@ class DataContainer;
 class FontDocument;
 class IDocument;
 struct FontParameters;
-}
+} // namespace Containers
 namespace Models
 {
 class ImagesModel;
 class ImagesScaledProxy;
-}
-}
+} // namespace Models
+} // namespace Data
 
 namespace ImageEditor
 {
@@ -70,32 +70,30 @@ class EditorTabFont : public QWidget, public IEditor
   Q_INTERFACES(AppUI::IEditor)
 
 public:
-  explicit EditorTabFont(QWidget *parent = 0);
+  explicit EditorTabFont(QWidget* parent = 0);
   virtual ~EditorTabFont();
 
-  Data::Containers::IDocument *document() const Q_DECL_OVERRIDE;
+  Data::Containers::IDocument* document() const Q_DECL_OVERRIDE;
   QStringList selectedKeys() const Q_DECL_OVERRIDE;
-  AppUI::Status::StatusData *statusData() const Q_DECL_OVERRIDE;
+  AppUI::Status::StatusData* statusData() const Q_DECL_OVERRIDE;
   EditorType type() const Q_DECL_OVERRIDE;
 
-  void setFontCharacters(const QString &chars,
-                         const Data::Containers::FontParameters &parameters);
-  void fontCharacters(QString *chars,
-                      Data::Containers::FontParameters *parameters);
+  void setFontCharacters(const QString& chars, const Data::Containers::FontParameters& parameters);
+  void fontCharacters(QString* chars, Data::Containers::FontParameters* parameters);
 
 protected:
-  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
-  void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+  void changeEvent(QEvent* e) Q_DECL_OVERRIDE;
+  void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
 
 private:
-  Ui::EditorTabFont *ui;
-  QWidget *mEditorWidget;
-  ImageEditor::Editor *mEditorObject;
-  Data::Containers::FontDocument *mDocument;
-  QSplitter *mSplitter;
-  Data::Models::ImagesModel *mModel;
-  Data::Models::ImagesScaledProxy *mScaledProxy;
-  AppUI::Status::StatusData *mStatusData;
+  Ui::EditorTabFont* ui;
+  QWidget* mEditorWidget;
+  ImageEditor::Editor* mEditorObject;
+  Data::Containers::FontDocument* mDocument;
+  QSplitter* mSplitter;
+  Data::Models::ImagesModel* mModel;
+  Data::Models::ImagesScaledProxy* mScaledProxy;
+  AppUI::Status::StatusData* mStatusData;
   int mLastImagesCount;
 
   QFont mTableFont;
@@ -109,10 +107,10 @@ private:
 private slots:
   void mon_documentChanged();
   void mon_documentChangedSignificantly();
-  void mon_editor_imageChanged(const QImage *value);
-  void mon_editor_mouseMove(const QPoint *point);
+  void mon_editor_imageChanged(const QImage* value);
+  void mon_editor_mouseMove(const QPoint* point);
   void mon_editor_scaleChanged(int scale);
-  void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+  void currentChanged(const QModelIndex& current, const QModelIndex& previous);
   void updateTableFont();
   void resizeToContents();
 signals:

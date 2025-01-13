@@ -1,13 +1,8 @@
 #include "testbitmaphelper.h"
 
-TestBitmapHelper::TestBitmapHelper(QObject *parent) :
-  QObject(parent)
-{
-}
+TestBitmapHelper::TestBitmapHelper(QObject* parent) : QObject(parent) {}
 
-void TestBitmapHelper::initTestCase()
-{
-}
+void TestBitmapHelper::initTestCase() {}
 
 void TestBitmapHelper::rotate90()
 {
@@ -135,20 +130,17 @@ void TestBitmapHelper::flipVertical()
   this->compareSizeAndPixels(&expected, &test);
 }
 
-void TestBitmapHelper::cleanupTestCase()
-{
-}
+void TestBitmapHelper::cleanupTestCase() {}
 
-void TestBitmapHelper::compareSizeAndPixels(const QImage *actual, const QImage *expected) const
+void TestBitmapHelper::compareSizeAndPixels(const QImage* actual, const QImage* expected) const
 {
-  QCOMPARE (actual->size(), expected->size());
+  QCOMPARE(actual->size(), expected->size());
 
   for (int x = 0; x < actual->width(); x++) {
     for (int y = 0; y < actual->height(); y++) {
       QRgb valueActual = actual->pixel(x, y);
       QRgb valueExpected = expected->pixel(x, y);
-      QCOMPARE (valueActual, valueExpected);
+      QCOMPARE(valueActual, valueExpected);
     }
   }
 }
-

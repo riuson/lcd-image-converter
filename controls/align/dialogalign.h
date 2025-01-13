@@ -29,7 +29,7 @@ namespace Ui
 class DialogAlign;
 }
 
-class QItemSelection;
+#include <QItemSelection>
 
 namespace Data
 {
@@ -45,9 +45,9 @@ class ImagesFilterProxy;
 class ColumnsReorderProxy;
 class TransposeProxy;
 class AlignModProxy;
-}
+} // namespace Models
 class AlignModInfo;
-}
+} // namespace Data
 
 namespace AppUI
 {
@@ -59,30 +59,27 @@ class DialogAlign : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogAlign(
-    Data::Containers::DataContainer *container,
-    const QStringList &keys,
-    QWidget *parent = nullptr);
+  explicit DialogAlign(Data::Containers::DataContainer* container, const QStringList& keys, QWidget* parent = nullptr);
   virtual ~DialogAlign() Q_DECL_OVERRIDE;
 
-  const Data::AlignModInfo *alignInfo() const;
+  const Data::AlignModInfo* alignInfo() const;
 
 protected:
-  void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+  void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
 
 private:
-  Ui::DialogAlign *ui;
+  Ui::DialogAlign* ui;
 
-  Data::Containers::DataContainer *mContainer;
-  Data::Models::ImagesModel *mModel;
-  Data::Models::ImagesScaledProxy *mScaledProxy;
-  Data::Models::ImagesFilterProxy *mFilter;
-  Data::Models::ColumnsReorderProxy *mReorderProxy;
-  Data::Models::TransposeProxy *mTranspose;
-  Data::Models::AlignModProxy *mAlignMod;
+  Data::Containers::DataContainer* mContainer;
+  Data::Models::ImagesModel* mModel;
+  Data::Models::ImagesScaledProxy* mScaledProxy;
+  Data::Models::ImagesFilterProxy* mFilter;
+  Data::Models::ColumnsReorderProxy* mReorderProxy;
+  Data::Models::TransposeProxy* mTranspose;
+  Data::Models::AlignModProxy* mAlignMod;
 
-  const QStringList &mKeys;
-  Data::AlignModInfo *mAlignModInfo;
+  const QStringList& mKeys;
+  Data::AlignModInfo* mAlignModInfo;
 
 private slots:
   void operationValuesChanged(int value);

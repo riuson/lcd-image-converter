@@ -18,6 +18,7 @@
  */
 
 #include "alignmodinfo.h"
+
 #include "alignmodes.h"
 
 namespace Data
@@ -31,21 +32,12 @@ void AlignModInfo::Mods::reset()
   this->verticalOffset = 0;
 }
 
-AlignModInfo::AlignModInfo()
-{
-  this->mState.reset();
-}
+AlignModInfo::AlignModInfo() { this->mState.reset(); }
 
-const AlignModInfo::Mods &AlignModInfo::summary() const
-{
-  return this->mState;
-}
+const AlignModInfo::Mods& AlignModInfo::summary() const { return this->mState; }
 
-void AlignModInfo::modify(
-  Data::HorizontalAlignMode horizontalMode,
-  int horizontalOffset,
-  Data::VerticalAlignMode verticalMode,
-  int verticalOffset)
+void AlignModInfo::modify(Data::HorizontalAlignMode horizontalMode, int horizontalOffset,
+                          Data::VerticalAlignMode verticalMode, int verticalOffset)
 {
   this->mState.horizontalMode = horizontalMode;
   this->mState.verticalMode = verticalMode;
@@ -53,18 +45,15 @@ void AlignModInfo::modify(
   this->mState.verticalOffset = verticalOffset;
 }
 
-void AlignModInfo::reset()
-{
-  this->mState.reset();
-}
+void AlignModInfo::reset() { this->mState.reset(); }
 
 const QString AlignModInfo::toString() const
 {
   return QString("H:%1(%2),V:%3(%4)")
-         .arg((int)this->mState.horizontalMode)
-         .arg(this->mState.horizontalOffset)
-         .arg((int)this->mState.verticalMode)
-         .arg(this->mState.verticalOffset);
+      .arg((int)this->mState.horizontalMode)
+      .arg(this->mState.horizontalOffset)
+      .arg((int)this->mState.verticalMode)
+      .arg(this->mState.verticalOffset);
 }
 
 } // namespace Data

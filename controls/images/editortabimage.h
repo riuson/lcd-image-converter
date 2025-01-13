@@ -29,7 +29,7 @@ namespace Ui
 class EditorTabImage;
 }
 
-class QImage;
+#include <QImage>
 
 namespace Data
 {
@@ -38,8 +38,8 @@ namespace Containers
 class DataContainer;
 class ImageDocument;
 class IDocument;
-}
-}
+} // namespace Containers
+} // namespace Data
 
 namespace ImageEditor
 {
@@ -62,23 +62,23 @@ class EditorTabImage : public QWidget, public IEditor
   Q_INTERFACES(AppUI::IEditor)
 
 public:
-  explicit EditorTabImage(QWidget *parent = 0);
+  explicit EditorTabImage(QWidget* parent = 0);
   virtual ~EditorTabImage();
 
-  Data::Containers::IDocument *document() const Q_DECL_OVERRIDE;
+  Data::Containers::IDocument* document() const Q_DECL_OVERRIDE;
   QStringList selectedKeys() const Q_DECL_OVERRIDE;
-  AppUI::Status::StatusData *statusData() const Q_DECL_OVERRIDE;
+  AppUI::Status::StatusData* statusData() const Q_DECL_OVERRIDE;
   EditorType type() const Q_DECL_OVERRIDE;
 
 protected:
-  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
+  void changeEvent(QEvent* e) Q_DECL_OVERRIDE;
 
 private:
-  Ui::EditorTabImage *ui;
-  QWidget *mEditorWidget;
-  ImageEditor::Editor *mEditorObject;
-  Data::Containers::ImageDocument *mDocument;
-  AppUI::Status::StatusData *mStatusData;
+  Ui::EditorTabImage* ui;
+  QWidget* mEditorWidget;
+  ImageEditor::Editor* mEditorObject;
+  Data::Containers::ImageDocument* mDocument;
+  AppUI::Status::StatusData* mStatusData;
 
   void initStatusData();
   void updateStatus();
@@ -86,8 +86,8 @@ private:
 
 private slots:
   void mon_documentChanged();
-  void mon_editor_imageChanged(const QImage *value);
-  void mon_editor_mouseMove(const QPoint *point);
+  void mon_editor_imageChanged(const QImage* value);
+  void mon_editor_mouseMove(const QPoint* point);
   void mon_editor_scaleChanged(int scale);
 signals:
   void documentChanged();

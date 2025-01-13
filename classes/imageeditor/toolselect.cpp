@@ -18,15 +18,17 @@
  */
 
 #include "toolselect.h"
-#include <QPainter>
-#include <QList>
+
 #include <QAction>
-#include <QWidget>
 #include <QColor>
+#include <QList>
 #include <QMouseEvent>
-#include <QToolButton>
+#include <QPainter>
 #include <QPainterPath>
-#include <appsettings.h>
+#include <QToolButton>
+#include <QWidget>
+
+#include "appsettings.h"
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
 
@@ -35,13 +37,14 @@ namespace ImageEditor
 namespace Tools
 {
 
-ToolSelect::ToolSelect(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
+ToolSelect::ToolSelect(IImageEditorParams* parameters, QObject* parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select"), 24)));
+  this->mIcon = new QIcon(
+      QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select"), 24)));
 
-  this->mActions = new QList<QAction *>();
-  this->mWidgets = new QList<QWidget *>();
+  this->mActions = new QList<QAction*>();
+  this->mWidgets = new QList<QWidget*>();
 
   this->initializeWidgets();
 }
@@ -55,39 +58,19 @@ ToolSelect::~ToolSelect()
   delete this->mWidgets;
 }
 
-const QString ToolSelect::title() const
-{
-  return tr("Select");
-}
+const QString ToolSelect::title() const { return tr("Select"); }
 
-const QString ToolSelect::tooltip() const
-{
-  return tr("Select area");
-}
+const QString ToolSelect::tooltip() const { return tr("Select area"); }
 
-const QIcon *ToolSelect::icon() const
-{
-  return this->mIcon;
-}
+const QIcon* ToolSelect::icon() const { return this->mIcon; }
 
-const QList<QAction *> *ToolSelect::actions() const
-{
-  return this->mActions;
-}
+const QList<QAction*>* ToolSelect::actions() const { return this->mActions; }
 
-const QList<QWidget *> *ToolSelect::widgets() const
-{
-  return this->mWidgets;
-}
+const QList<QWidget*>* ToolSelect::widgets() const { return this->mWidgets; }
 
-const QPainterPath &ToolSelect::selectedPath() const
-{
-  return this->mSelectedPath;
-}
+const QPainterPath& ToolSelect::selectedPath() const { return this->mSelectedPath; }
 
-bool ToolSelect::processMouse(QMouseEvent *event,
-                              const QImage *imageOriginal,
-                              bool inRect)
+bool ToolSelect::processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect)
 {
   Q_UNUSED(inRect)
 
@@ -115,7 +98,7 @@ bool ToolSelect::processMouse(QMouseEvent *event,
 
     event->accept();
   } else if (event->type() == QEvent::MouseButtonRelease) {
-    //emit this->completed(&this->mOriginalImage, false);
+    // emit this->completed(&this->mOriginalImage, false);
     emit this->selectionChanged(this->mSelectedPath);
   }
 
@@ -124,13 +107,16 @@ bool ToolSelect::processMouse(QMouseEvent *event,
 
 void ToolSelect::initializeWidgets()
 {
-  QActionGroup *group = new QActionGroup(this);
+  QActionGroup* group = new QActionGroup(this);
 
   this->mActionEditSelection = new QAction(this);
   this->mActionEditSelection->setCheckable(true);
   this->mActionEditSelection->setText(tr("Modify selection"));
-  this->mActionEditSelection->setToolTip(tr("<b>Modify selection</b><br/>Left mouse button to add selection.<br/>Right mouse button to subtract selection.<br/>Middle mouse button to reset selection."));
-  this->mActionEditSelection->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_edit"), 24))));
+  this->mActionEditSelection->setToolTip(
+      tr("<b>Modify selection</b><br/>Left mouse button to add selection.<br/>Right mouse button to subtract "
+         "selection.<br/>Middle mouse button to reset selection."));
+  this->mActionEditSelection->setIcon(QIcon(QPixmap::fromImage(
+      Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_edit"), 24))));
   this->connect(this->mActionEditSelection, SIGNAL(triggered()), SLOT(on_switchToSelectionEdit()));
   this->mActions->append(this->mActionEditSelection);
   group->addAction(this->mActionEditSelection);
@@ -139,7 +125,8 @@ void ToolSelect::initializeWidgets()
   this->mActionMoveSelection->setCheckable(true);
   this->mActionMoveSelection->setText(tr("Move selection"));
   this->mActionMoveSelection->setToolTip(tr("<b>Move selection</b><br/>Use left mouse button to move selection."));
-  this->mActionMoveSelection->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_move"), 24))));
+  this->mActionMoveSelection->setIcon(QIcon(QPixmap::fromImage(
+      Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_move"), 24))));
   this->connect(this->mActionMoveSelection, SIGNAL(triggered()), SLOT(on_switchToSelectionMove()));
   this->mActions->append(this->mActionMoveSelection);
   group->addAction(this->mActionMoveSelection);
@@ -148,11 +135,11 @@ void ToolSelect::initializeWidgets()
   this->mToolMode = SelectionEdit;
 }
 
-void ToolSelect::modifySelection(const QRect &rect, Operation op)
+void ToolSelect::modifySelection(const QRect& rect, Operation op)
 {
   switch (op) {
     case ToolSelect::Append: {
-      QPainterPath newPath;// = this->mSelectedPath;
+      QPainterPath newPath; // = this->mSelectedPath;
       newPath.addRect(rect);
       newPath += this->mSelectedPathInternal;
       this->mSelectedPath = newPath.simplified();
@@ -190,9 +177,7 @@ void ToolSelect::processModeEdit(Qt::MouseButtons buttons, int x, int y)
     op = ToolSelect::Subtract;
   }
 
-  if (
-    ((buttons & Qt::RightButton) == Qt::RightButton) &&
-    ((buttons & Qt::LeftButton) == Qt::LeftButton)) {
+  if (((buttons & Qt::RightButton) == Qt::RightButton) && ((buttons & Qt::LeftButton) == Qt::LeftButton)) {
     op = ToolSelect::Reset;
   }
 
@@ -254,15 +239,9 @@ void ToolSelect::processModeMove(Qt::MouseButtons buttons, int x, int y)
   }
 }
 
-void ToolSelect::on_switchToSelectionEdit()
-{
-  this->mToolMode = SelectionEdit;
-}
+void ToolSelect::on_switchToSelectionEdit() { this->mToolMode = SelectionEdit; }
 
-void ToolSelect::on_switchToSelectionMove()
-{
-  this->mToolMode = SelectionMove;
-}
+void ToolSelect::on_switchToSelectionMove() { this->mToolMode = SelectionMove; }
 
 } // namespace Tools
 } // namespace ImageEditor

@@ -18,39 +18,38 @@
  */
 
 #include "dialogcanvasresize.h"
+
 #include "ui_dialogcanvasresize.h"
 
 #include <QItemSelectionModel>
 #include <QMap>
 #include <QWheelEvent>
+
+#include "bitmaphelper.h"
 #include "canvasmodinfo.h"
 #include "canvasmodproxy.h"
+#include "columnsreorderproxy.h"
+#include "datacontainer.h"
+#include "imagesfilterproxy.h"
 #include "imagesmodel.h"
 #include "imagesscaledproxy.h"
-#include "imagesfilterproxy.h"
-#include "transposeproxy.h"
-#include "columnsreorderproxy.h"
 #include "resizesettings.h"
-#include "datacontainer.h"
-#include "bitmaphelper.h"
+#include "transposeproxy.h"
 
 namespace AppUI
 {
 namespace CommonDialogs
 {
 
-DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *container,
-                                       const QStringList &keys,
-                                       QWidget *parent) :
-  QDialog(parent),
-  ui(new Ui::DialogCanvasResize),
-  mKeys(keys)
+DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer* container, const QStringList& keys,
+                                       QWidget* parent)
+    : QDialog(parent), ui(new Ui::DialogCanvasResize), mKeys(keys)
 {
   ui->setupUi(this);
 
   this->mContainer = container;
 
-  this->mCanvasMods = new QMap<QString, Data::CanvasModInfo *>();
+  this->mCanvasMods = new QMap<QString, Data::CanvasModInfo*>();
 
   for (auto key : container->keys()) {
     this->mCanvasMods->insert(key, new Data::CanvasModInfo());
@@ -77,11 +76,11 @@ DialogCanvasResize::DialogCanvasResize(Data::Containers::DataContainer *containe
 
   this->ui->tableView->setModel(this->mTranspose);
 
-  this->connect(this->ui->spinBoxLeft,   SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
-  this->connect(this->ui->spinBoxTop,    SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
-  this->connect(this->ui->spinBoxRight,  SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
+  this->connect(this->ui->spinBoxLeft, SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
+  this->connect(this->ui->spinBoxTop, SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
+  this->connect(this->ui->spinBoxRight, SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
   this->connect(this->ui->spinBoxBottom, SIGNAL(valueChanged(int)), SLOT(spinBox_valueChanged(int)));
-  this->connect(this->ui->spinBoxScale,  SIGNAL(valueChanged(int)), this->mScaledProxy, SLOT(setScale(int)));
+  this->connect(this->ui->spinBoxScale, SIGNAL(valueChanged(int)), this->mScaledProxy, SLOT(setScale(int)));
   this->connect(this->mScaledProxy, SIGNAL(scaleChanged(int)), SLOT(on_scaleChanged(int)));
 
   int scale = Settings::ResizeSettings::scale();
@@ -97,12 +96,9 @@ DialogCanvasResize::~DialogCanvasResize()
   delete ui;
 }
 
-const QMap<QString, Data::CanvasModInfo *> *DialogCanvasResize::resizeInfo() const
-{
-  return this->mCanvasMods;
-}
+const QMap<QString, Data::CanvasModInfo*>* DialogCanvasResize::resizeInfo() const { return this->mCanvasMods; }
 
-void DialogCanvasResize::wheelEvent(QWheelEvent *event)
+void DialogCanvasResize::wheelEvent(QWheelEvent* event)
 {
   if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
     QPoint point = event->globalPosition().toPoint();
@@ -130,7 +126,7 @@ void DialogCanvasResize::optimizeHeight()
   int bottom = std::numeric_limits<int>::max();
 
   for (auto key : this->mKeys) {
-    const QImage *original = this->mContainer->image(key);
+    const QImage* original = this->mContainer->image(key);
 
     int l, t, r, b;
     bool hEmpty, vEmpty;
@@ -145,7 +141,7 @@ void DialogCanvasResize::optimizeHeight()
   }
 
   for (auto key : this->mKeys) {
-    Data::CanvasModInfo *info = this->mCanvasMods->value(key);
+    Data::CanvasModInfo* info = this->mCanvasMods->value(key);
     info->modify(0, -top, 0, -bottom);
     info->commit();
   }
@@ -157,7 +153,7 @@ void DialogCanvasResize::optimizeWidth()
   int right = std::numeric_limits<int>::max();
 
   for (auto key : this->mKeys) {
-    const QImage *original = this->mContainer->image(key);
+    const QImage* original = this->mContainer->image(key);
 
     int l, t, r, b;
     bool hEmpty, vEmpty;
@@ -170,7 +166,7 @@ void DialogCanvasResize::optimizeWidth()
     left = l;
     right = r;
 
-    Data::CanvasModInfo *info = this->mCanvasMods->value(key);
+    Data::CanvasModInfo* info = this->mCanvasMods->value(key);
     info->modify(-left, 0, -right, 0);
     info->commit();
   }
@@ -186,7 +182,7 @@ void DialogCanvasResize::spinBox_valueChanged(int value)
   qint16 bottom = static_cast<qint16>(this->ui->spinBoxBottom->value());
 
   for (auto key : this->mKeys) {
-    Data::CanvasModInfo *info = this->mCanvasMods->value(key);
+    Data::CanvasModInfo* info = this->mCanvasMods->value(key);
     info->modify(left, top, right, bottom);
   }
 
@@ -201,7 +197,7 @@ void DialogCanvasResize::on_pushButtonReset_clicked()
   this->ui->spinBoxBottom->setValue(0);
 
   for (auto key : this->mKeys) {
-    Data::CanvasModInfo *info = this->mCanvasMods->value(key);
+    Data::CanvasModInfo* info = this->mCanvasMods->value(key);
     info->reset();
   }
 

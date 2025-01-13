@@ -19,48 +19,42 @@
 
 #include "actionfilehandlers.h"
 
-#include "editortabimage.h"
-#include "editortabfont.h"
-#include "dialogfontselect.h"
-#include <QFileDialog>
 #include <QDir>
+#include <QFileDialog>
 #include <QFileInfo>
-#include <QTextStream>
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QMap>
 #include <QStringList>
-#include "parser.h"
-#include "widgetbitmapeditor.h"
-#include "imainwindow.h"
+#include <QTextStream>
+
 #include "datacontainer.h"
-#include "idocument.h"
-#include "preset.h"
-#include "fontparameters.h"
+#include "dialogfontselect.h"
+#include "editortabfont.h"
+#include "editortabimage.h"
 #include "filedialogoptions.h"
+#include "fontparameters.h"
+#include "idocument.h"
+#include "imainwindow.h"
+#include "parser.h"
+#include "preset.h"
+#include "widgetbitmapeditor.h"
 
 namespace AppUI
 {
 namespace MenuHandlers
 {
 
-ActionFileHandlers::ActionFileHandlers(QObject *parent) :
-  ActionHandlersBase(parent)
-{
-}
+ActionFileHandlers::ActionFileHandlers(QObject* parent) : ActionHandlersBase(parent) {}
 
 void ActionFileHandlers::newImage_triggered()
 {
   bool ok;
-  QString name = QInputDialog::getText(this->mMainWindow->parentWidget(),
-                                       tr("Enter image name"),
-                                       tr("Image name:"),
-                                       QLineEdit::Normal,
-                                       QString("Image"),
-                                       &ok);
+  QString name = QInputDialog::getText(this->mMainWindow->parentWidget(), tr("Enter image name"), tr("Image name:"),
+                                       QLineEdit::Normal, QString("Image"), &ok);
 
   if (ok) {
-    AppUI::Images::EditorTabImage *ed = new AppUI::Images::EditorTabImage(this->mMainWindow->parentWidget());
+    AppUI::Images::EditorTabImage* ed = new AppUI::Images::EditorTabImage(this->mMainWindow->parentWidget());
     this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
     emit this->tabCreated(ed);
@@ -73,18 +67,14 @@ void ActionFileHandlers::newImage_triggered()
 void ActionFileHandlers::newFont_triggered()
 {
   bool ok;
-  QString name = QInputDialog::getText(this->mMainWindow->parentWidget(),
-                                       tr("Enter font name"),
-                                       tr("Font name:"),
-                                       QLineEdit::Normal,
-                                       QString("Font"),
-                                       &ok);
+  QString name = QInputDialog::getText(this->mMainWindow->parentWidget(), tr("Enter font name"), tr("Font name:"),
+                                       QLineEdit::Normal, QString("Font"), &ok);
 
   if (ok) {
     AppUI::Fonts::DialogFontSelect dialog(this->mMainWindow->parentWidget());
 
     if (dialog.exec() == QDialog::Accepted) {
-      AppUI::Fonts::EditorTabFont *ed = new AppUI::Fonts::EditorTabFont(this->mMainWindow->parentWidget());
+      AppUI::Fonts::EditorTabFont* ed = new AppUI::Fonts::EditorTabFont(this->mMainWindow->parentWidget());
       this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
       ed->document()->beginChanges();
@@ -93,8 +83,7 @@ void ActionFileHandlers::newFont_triggered()
       Data::Containers::FontParameters parameters;
       dialog.getFontParameters(&parameters);
 
-      ed->setFontCharacters(chars,
-                            parameters);
+      ed->setFontCharacters(chars, parameters);
 
       emit this->tabCreated(ed);
 
@@ -119,18 +108,17 @@ void ActionFileHandlers::open_triggered()
   filters << tr("XML Files (*.xml)")
           << tr("Images (*.bmp *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)");
   dialog.setNameFilters(filters);
-  dialog.selectNameFilter(
-    filters.at(
+  dialog.selectNameFilter(filters.at(
       Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::OpenDocument) < filters.count()
-      ?
-      Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::OpenDocument)
-      :
-      0));
+          ? Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::OpenDocument)
+          : 0));
 
   if (dialog.exec() == QDialog::Accepted) {
     QStringList filenames = dialog.selectedFiles();
-    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::OpenDocument, dialog.directory().absolutePath());
-    Settings::FileDialogOptions::setFilterIndex(Settings::FileDialogOptions::Dialogs::OpenDocument, filters.indexOf(dialog.selectedNameFilter()));
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::OpenDocument,
+                                              dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setFilterIndex(Settings::FileDialogOptions::Dialogs::OpenDocument,
+                                                filters.indexOf(dialog.selectedNameFilter()));
 
     this->openFiles(filenames);
   }
@@ -139,15 +127,11 @@ void ActionFileHandlers::open_triggered()
 void ActionFileHandlers::rename_triggered()
 {
   bool ok;
-  IEditor *editor = this->editor();
+  IEditor* editor = this->editor();
 
   if (editor != nullptr) {
-    QString name = QInputDialog::getText(this->mMainWindow->parentWidget(),
-                                         tr("Rename"),
-                                         tr("New name:"),
-                                         QLineEdit::Normal,
-                                         editor->document()->documentName(),
-                                         &ok);
+    QString name = QInputDialog::getText(this->mMainWindow->parentWidget(), tr("Rename"), tr("New name:"),
+                                         QLineEdit::Normal, editor->document()->documentName(), &ok);
 
     if (ok) {
       editor->document()->setDocumentName(name);
@@ -157,7 +141,7 @@ void ActionFileHandlers::rename_triggered()
 
 void ActionFileHandlers::save_triggered()
 {
-  IEditor *editor = this->editor();
+  IEditor* editor = this->editor();
 
   if (editor != nullptr) {
     if (QFile::exists(editor->document()->documentFilename())) {
@@ -170,7 +154,7 @@ void ActionFileHandlers::save_triggered()
 
 void ActionFileHandlers::saveAs_triggered()
 {
-  IEditor *editor = this->editor();
+  IEditor* editor = this->editor();
 
   if (editor != nullptr) {
     QFileDialog dialog(this->mMainWindow->parentWidget());
@@ -195,7 +179,8 @@ void ActionFileHandlers::saveAs_triggered()
     }
 
     if (dialog.exec() == QDialog::Accepted) {
-      Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
+      Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::SaveDocument,
+                                                dialog.directory().absolutePath());
       QString filename = dialog.selectedFiles().at(0);
       editor->document()->save(filename);
 
@@ -204,14 +189,11 @@ void ActionFileHandlers::saveAs_triggered()
   }
 }
 
-void ActionFileHandlers::close_triggered()
-{
-  emit closeRequest(this->mMainWindow->currentTab());
-}
+void ActionFileHandlers::close_triggered() { emit closeRequest(this->mMainWindow->currentTab()); }
 
 void ActionFileHandlers::closeAll_triggered()
 {
-  QList<QWidget *> list;
+  QList<QWidget*> list;
 
   this->mMainWindow->tabsList(&list);
 
@@ -222,7 +204,7 @@ void ActionFileHandlers::closeAll_triggered()
 
 void ActionFileHandlers::convert_triggered()
 {
-  IEditor *editor = this->mMainWindow->currentEditor();
+  IEditor* editor = this->mMainWindow->currentEditor();
 
   if (editor != nullptr) {
     this->convertDocument(editor->document(), true);
@@ -231,12 +213,12 @@ void ActionFileHandlers::convert_triggered()
 
 void ActionFileHandlers::convertAll_triggered()
 {
-  QList<QWidget *> list;
+  QList<QWidget*> list;
 
   this->mMainWindow->tabsList(&list);
 
   for (int i = 0; i < list.count(); i++) {
-    IEditor *editor = dynamic_cast<IEditor *> (list.at(i));
+    IEditor* editor = dynamic_cast<IEditor*>(list.at(i));
 
     if (editor != nullptr) {
       this->convertDocument(editor->document(), false);
@@ -244,15 +226,15 @@ void ActionFileHandlers::convertAll_triggered()
   }
 }
 
-void ActionFileHandlers::openFiles(const QStringList &filenames)
+void ActionFileHandlers::openFiles(const QStringList& filenames)
 {
-  QList<QWidget *> existingTabs;
+  QList<QWidget*> existingTabs;
   this->mMainWindow->tabsList(&existingTabs);
-  QMap<QString, QWidget *> existingFilesInEditors;
+  QMap<QString, QWidget*> existingFilesInEditors;
   QString lastExistingFile;
 
   for (int i = 0; i < existingTabs.count(); i++) {
-    IEditor *editor = dynamic_cast<IEditor *> (existingTabs.at(i));
+    IEditor* editor = dynamic_cast<IEditor*>(existingTabs.at(i));
 
     if (editor != nullptr) {
       existingFilesInEditors.insert(editor->document()->documentFilename(), existingTabs.at(i));
@@ -263,9 +245,10 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
   QStringList filesBinaryImage;
   {
     QStringList imageExtensions;
-    imageExtensions << "bmp" << "gif" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "ppm" << "tiff" << "xbm" << "xpm";
+    imageExtensions << "bmp" << "gif" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "ppm" << "tiff" << "xbm"
+                    << "xpm";
 
-    foreach (const QString &filename, filenames) {
+    foreach (const QString& filename, filenames) {
       QFileInfo info(filename);
 
       if (info.exists() && imageExtensions.contains(info.suffix().toLower())) {
@@ -277,7 +260,7 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
   // document image
   QStringList filesDocumentImage;
   {
-    foreach (const QString &filename, filenames) {
+    foreach (const QString& filename, filenames) {
       QFileInfo info(filename);
 
       if (info.exists() && info.suffix().toLower() == "xml" && !existingFilesInEditors.contains(filename)) {
@@ -307,7 +290,7 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
   // document font
   QStringList filesDocumentFont;
   {
-    foreach (const QString &filename, filenames) {
+    foreach (const QString& filename, filenames) {
       QFileInfo info(filename);
 
       if (info.exists() && info.suffix().toLower() == "xml" && !existingFilesInEditors.contains(filename)) {
@@ -343,15 +326,15 @@ void ActionFileHandlers::openFiles(const QStringList &filenames)
   }
 }
 
-void ActionFileHandlers::openFile(const QString &filename)
+void ActionFileHandlers::openFile(const QString& filename)
 {
   QStringList files = QStringList() << filename;
   this->openFiles(files);
 }
 
-void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
+void ActionFileHandlers::openImage(QImage* image, const QString& documentName)
 {
-  AppUI::Images::EditorTabImage *ed = new AppUI::Images::EditorTabImage(this->mMainWindow->parentWidget());
+  AppUI::Images::EditorTabImage* ed = new AppUI::Images::EditorTabImage(this->mMainWindow->parentWidget());
   this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
   QString name = this->mMainWindow->findAvailableName(documentName);
@@ -373,9 +356,9 @@ void ActionFileHandlers::openImage(QImage *image, const QString &documentName)
   emit this->tabCreated(ed);
 }
 
-void ActionFileHandlers::openBinaryImage(const QStringList &filenames)
+void ActionFileHandlers::openBinaryImage(const QStringList& filenames)
 {
-  foreach (const QString &filename, filenames) {
+  foreach (const QString& filename, filenames) {
     QFileInfo info(filename);
 
     QImage imageLoaded;
@@ -383,7 +366,7 @@ void ActionFileHandlers::openBinaryImage(const QStringList &filenames)
     if (info.exists() && imageLoaded.load(filename)) {
       QImage imageConverted = imageLoaded.convertToFormat(QImage::Format_ARGB32);
 
-      AppUI::Images::EditorTabImage *ed = new AppUI::Images::EditorTabImage(this->mMainWindow->parentWidget());
+      AppUI::Images::EditorTabImage* ed = new AppUI::Images::EditorTabImage(this->mMainWindow->parentWidget());
       this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
       QString name = this->mMainWindow->findAvailableName(info.baseName());
@@ -406,10 +389,10 @@ void ActionFileHandlers::openBinaryImage(const QStringList &filenames)
   }
 }
 
-void ActionFileHandlers::openImage(const QStringList &filenames)
+void ActionFileHandlers::openImage(const QStringList& filenames)
 {
-  foreach (const QString &filename, filenames) {
-    AppUI::Images::EditorTabImage *ed = new AppUI::Images::EditorTabImage(this->mMainWindow->parentWidget());
+  foreach (const QString& filename, filenames) {
+    AppUI::Images::EditorTabImage* ed = new AppUI::Images::EditorTabImage(this->mMainWindow->parentWidget());
     this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
     emit this->tabCreated(ed);
@@ -418,10 +401,10 @@ void ActionFileHandlers::openImage(const QStringList &filenames)
   }
 }
 
-void ActionFileHandlers::openFont(const QStringList &filenames)
+void ActionFileHandlers::openFont(const QStringList& filenames)
 {
-  foreach (const QString &filename, filenames) {
-    AppUI::Fonts::EditorTabFont *ed = new AppUI::Fonts::EditorTabFont(this->mMainWindow->parentWidget());
+  foreach (const QString& filename, filenames) {
+    AppUI::Fonts::EditorTabFont* ed = new AppUI::Fonts::EditorTabFont(this->mMainWindow->parentWidget());
     this->connect(ed, SIGNAL(documentChanged()), SLOT(documentChanged()));
 
     emit this->tabCreated(ed);
@@ -430,7 +413,7 @@ void ActionFileHandlers::openFont(const QStringList &filenames)
   }
 }
 
-void ActionFileHandlers::convertDocument(Data::Containers::IDocument *document, bool request)
+void ActionFileHandlers::convertDocument(Data::Containers::IDocument* document, bool request)
 {
   // converter output file name
   QString outputFileName = document->outputFilename();
@@ -446,7 +429,7 @@ void ActionFileHandlers::convertDocument(Data::Containers::IDocument *document, 
 
   // show dialog
   if (request || outputFilenameNotSpecified) {
-    QFileDialog dialog(qobject_cast<QWidget *>(this->parent()));
+    QFileDialog dialog(qobject_cast<QWidget*>(this->parent()));
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.selectFile(outputFileName);
     dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::ConvertDocument));
@@ -455,19 +438,14 @@ void ActionFileHandlers::convertDocument(Data::Containers::IDocument *document, 
     dialog.setWindowTitle(tr("Save result file as"));
 
     QStringList filters;
-    filters << tr("C source code (*.c)")
-            << tr("C++ source code (*.cpp)")
-            << tr("C/C++ headers (*.h)")
-            << tr("C/C++ files (*.c *.cpp *.h)")
-            << tr("All Files (*.*)");
+    filters << tr("C source code (*.c)") << tr("C++ source code (*.cpp)") << tr("C/C++ headers (*.h)")
+            << tr("C/C++ files (*.c *.cpp *.h)") << tr("All Files (*.*)");
     dialog.setNameFilters(filters);
     dialog.selectNameFilter(
-      filters.at(
-        Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::ConvertDocument) < filters.count()
-        ?
-        Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::ConvertDocument)
-        :
-        0));
+        filters.at(Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::ConvertDocument) <
+                           filters.count()
+                       ? Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::ConvertDocument)
+                       : 0));
 
     if (outputFilenameNotSpecified) {
       dialog.selectFile(document->documentName());
@@ -477,8 +455,10 @@ void ActionFileHandlers::convertDocument(Data::Containers::IDocument *document, 
 
     if (dialog.exec() == QDialog::Accepted) {
       outputFileName = dialog.selectedFiles().at(0);
-      Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ConvertDocument, dialog.directory().absolutePath());
-      Settings::FileDialogOptions::setFilterIndex(Settings::FileDialogOptions::Dialogs::ConvertDocument, filters.indexOf(dialog.selectedNameFilter()));
+      Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ConvertDocument,
+                                                dialog.directory().absolutePath());
+      Settings::FileDialogOptions::setFilterIndex(Settings::FileDialogOptions::Dialogs::ConvertDocument,
+                                                  filters.indexOf(dialog.selectedNameFilter()));
     } else {
       outputFileName = "";
     }
@@ -506,7 +486,7 @@ void ActionFileHandlers::convertDocument(Data::Containers::IDocument *document, 
 
 void ActionFileHandlers::documentChanged()
 {
-  QWidget *w = qobject_cast<QWidget *>(sender());
+  QWidget* w = qobject_cast<QWidget*>(sender());
   emit this->tabChanged(w);
 }
 

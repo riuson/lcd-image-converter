@@ -24,18 +24,19 @@
 #include <QSet>
 #include <QTextStream>
 
-#include "tagslist.h"
-#include "converterhelper.h"
-#include "preset.h"
-#include "imageoptions.h"
 #include "bitmaphelper.h"
+#include "converterhelper.h"
 #include "fontoptions.h"
+#include "imageoptions.h"
+#include "preset.h"
+#include "tagslist.h"
 
 namespace Parsing
 {
 
-ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage *image, const TagsList &tags, QObject *parent) :
-  QObject(parent)
+ParsedImageData::ParsedImageData(Settings::Presets::Preset* preset, const QImage* image, const TagsList& tags,
+                                 QObject* parent)
+    : QObject(parent)
 {
   this->mTags = new TagsList();
 
@@ -56,8 +57,10 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
     if (!hEmpty & !vEmpty) {
       this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageLeft, QString("%1").arg(left));
       this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageTop, QString("%1").arg(top));
-      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageWidth, QString("%1").arg(image->width() - right - left));
-      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageHeight, QString("%1").arg(image->height() - bottom - top));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageWidth,
+                               QString("%1").arg(image->width() - right - left));
+      this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageHeight,
+                               QString("%1").arg(image->height() - bottom - top));
       QRgb background = Parsing::Conversion::BitmapHelper::detectBackgroundColor(image).rgba();
       imageCompacted = Parsing::Conversion::BitmapHelper::crop(image, -left, -top, -right, -bottom, background);
     } else {
@@ -69,7 +72,6 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
     }
   }
 
-
   QImage imagePrepared;
 
   Parsing::Conversion::ConverterHelper::prepareImage(preset, &imageCompacted, &imagePrepared);
@@ -77,44 +79,32 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
   // conversion from image to strings
   QVector<quint32> sourceData;
   int sourceWidth, sourceHeight;
-  Parsing::Conversion::ConverterHelper::pixelsData(
-    preset->prepare(),
-    Parsing::Conversion::ConverterHelper::scanScript(preset),
-    Parsing::Conversion::ConverterHelper::pixelsScript(preset),
-    &imagePrepared,
-    &sourceData,
-    &sourceWidth,
-    &sourceHeight);
+  Parsing::Conversion::ConverterHelper::pixelsData(preset->prepare(),
+                                                   Parsing::Conversion::ConverterHelper::scanScript(preset),
+                                                   Parsing::Conversion::ConverterHelper::pixelsScript(preset),
+                                                   &imagePrepared, &sourceData, &sourceWidth, &sourceHeight);
 
   if (sourceData.size() > 0) {
     Parsing::Conversion::ConverterHelper::processPixels(preset, &sourceData);
 
     QVector<quint32> packedData;
-    Parsing::Conversion::ConverterHelper::packData(
-      preset,
-      &sourceData, sourceWidth, sourceHeight,
-      &packedData);
+    Parsing::Conversion::ConverterHelper::packData(preset, &sourceData, sourceWidth, sourceHeight, &packedData);
 
     QVector<quint32> reorderedData;
-    Parsing::Conversion::ConverterHelper::reorder(
-      preset,
-      &packedData,
-      &reorderedData);
+    Parsing::Conversion::ConverterHelper::reorder(preset, &packedData, &reorderedData);
 
     QVector<quint32> compressedData;
-    Parsing::Conversion::ConverterHelper::compressData(
-      preset,
-      &reorderedData,
-      &compressedData);
+    Parsing::Conversion::ConverterHelper::compressData(preset, &reorderedData, &compressedData);
 
     this->mTags->setTagValue(TagsList::Tag::OutputBlocksCount, QString("%1").arg(compressedData.size()));
 
-    this->mPreparedOutputImageData = Parsing::Conversion::ConverterHelper::dataToString(
-                                       preset,
-                                       &compressedData);
+    this->mPreparedOutputImageData = Parsing::Conversion::ConverterHelper::dataToString(preset, &compressedData);
 
     // get hash
-    QString hashStr = QString("data: %1, width: %2, height: %3").arg(this->mPreparedOutputImageData).arg(image->width()).arg(image->height());
+    QString hashStr = QString("data: %1, width: %2, height: %3")
+                          .arg(this->mPreparedOutputImageData)
+                          .arg(image->width())
+                          .arg(image->height());
     this->mHash = qHash(hashStr);
 
     // Preview
@@ -141,11 +131,11 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
     // Collect pixels to make simple preview
     QVector<quint32> previewData;
     int previewWidth, previewHeight;
-    Parsing::Conversion::ConverterHelper::pixelsData(preset->prepare(), previewScanScript, previewPixelsScript, &imagePrepared, &previewData, &previewWidth, &previewHeight);
+    Parsing::Conversion::ConverterHelper::pixelsData(preset->prepare(), previewScanScript, previewPixelsScript,
+                                                     &imagePrepared, &previewData, &previewWidth, &previewHeight);
 
-    this->mPreparedOutputImagePreview = Parsing::Conversion::ConverterHelper::previewDataToString(
-                                          preset,
-                                          &previewData, previewWidth, previewHeight);
+    this->mPreparedOutputImagePreview =
+        Parsing::Conversion::ConverterHelper::previewDataToString(preset, &previewData, previewWidth, previewHeight);
   } else {
     this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageWidth, QString("0"));
     this->mTags->setTagValue(TagsList::Tag::OutputCharacterImageHeight, QString("0"));
@@ -159,32 +149,24 @@ ParsedImageData::ParsedImageData(Settings::Presets::Preset *preset, const QImage
   }
 }
 
-ParsedImageData::~ParsedImageData()
-{
-  delete this->mTags;
-}
+ParsedImageData::~ParsedImageData() { delete this->mTags; }
 
-TagsList *ParsedImageData::tags() const
-{
-  return this->mTags;
-}
+TagsList* ParsedImageData::tags() const { return this->mTags; }
 
-uint ParsedImageData::hash() const
-{
-  return this->mHash;
-}
+uint ParsedImageData::hash() const { return this->mHash; }
 
-const QString ParsedImageData::outputImageDataWithEOL(const TagsList &tags) const
+const QString ParsedImageData::outputImageDataWithEOL(const TagsList& tags) const
 {
   QString result = this->mPreparedOutputImageData;
   result.replace("\n", tags.tagValue(TagsList::Tag::OutputDataEOL) + tags.tagValue(TagsList::Tag::OutputDataIndent));
   return result;
 }
 
-const QString ParsedImageData::outputImagePreviewWithEOL(const TagsList &tags) const
+const QString ParsedImageData::outputImagePreviewWithEOL(const TagsList& tags) const
 {
   QString result = this->mPreparedOutputImagePreview;
-  result.replace("\n", tags.tagValue(TagsList::Tag::OutputPreviewEOL) + tags.tagValue(TagsList::Tag::OutputPreviewIndent));
+  result.replace("\n",
+                 tags.tagValue(TagsList::Tag::OutputPreviewEOL) + tags.tagValue(TagsList::Tag::OutputPreviewIndent));
   return result;
 }
 

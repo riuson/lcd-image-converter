@@ -18,22 +18,22 @@
  */
 
 #include "dialogabout.h"
+
 #include "ui_dialogabout.h"
 
+#include <QFile>
 #include <QIcon>
 #include <QTextStream>
-#include <QFile>
-#include "revisioninfo.h"
+
 #include "bitmaphelper.h"
+#include "revisioninfo.h"
 
 namespace AppUI
 {
 namespace About
 {
 
-DialogAbout::DialogAbout(QWidget *parent) :
-  QDialog(parent),
-  ui(new Ui::DialogAbout)
+DialogAbout::DialogAbout(QWidget* parent) : QDialog(parent), ui(new Ui::DialogAbout)
 {
   ui->setupUi(this);
 
@@ -56,10 +56,9 @@ DialogAbout::DialogAbout(QWidget *parent) :
   // show revision info
   {
     QString about = this->ui->labelInfo->text();
-    QString formattedAbout = QString(about).arg(
-                               VersionControl::RevisionInfo::hash(),
-                               VersionControl::RevisionInfo::hash_abbr(),
-                               VersionControl::RevisionInfo::date());
+    QString formattedAbout =
+        QString(about).arg(VersionControl::RevisionInfo::hash(), VersionControl::RevisionInfo::hash_abbr(),
+                           VersionControl::RevisionInfo::date());
     this->ui->labelInfo->setText(formattedAbout);
   }
 
@@ -74,10 +73,7 @@ DialogAbout::DialogAbout(QWidget *parent) :
   this->ui->buttonBox->setFocus();
 }
 
-DialogAbout::~DialogAbout()
-{
-  delete ui;
-}
+DialogAbout::~DialogAbout() { delete ui; }
 
 void DialogAbout::showLicense()
 {

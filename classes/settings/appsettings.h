@@ -20,10 +20,10 @@
 #ifndef APPSETTINGS_H
 #define APPSETTINGS_H
 
-#include <QSettings>
-#include <QIODevice>
 #include <QDomDocument>
+#include <QIODevice>
 #include <QMap>
+#include <QSettings>
 
 namespace Settings
 {
@@ -31,18 +31,15 @@ namespace Settings
 class AppSettings
 {
 public:
-  enum class Section {
-    Application,
-    Presets
-  };
+  enum class Section { Application, Presets };
 
   AppSettings();
   AppSettings(Section section);
   virtual ~AppSettings();
 
-  static void configure(Section section, const QString &filename);
+  static void configure(Section section, const QString& filename);
   static void reset();
-  QSettings &get();
+  QSettings& get();
 
 private:
   static QMap<Section, QString> ConfigFiles;
@@ -50,19 +47,19 @@ private:
   static QString NameStartChar;
   static QString NameChar;
   static QString NameStartPrefix;
-  QSettings *mSettings;
+  QSettings* mSettings;
 
-  static bool readXmlFile(QIODevice &device, QSettings::SettingsMap &map);
-  static bool writeXmlFile(QIODevice &device, const QSettings::SettingsMap &map);
-  static QDomElement getNodeByPath(QDomDocument &doc, const QString &path);
-  static void readChilds(QSettings::SettingsMap &map, QStringList &parts, const QDomNodeList &childs);
-  static bool readTextNode(QDomNode &node, QString &value);
+  static bool readXmlFile(QIODevice& device, QSettings::SettingsMap& map);
+  static bool writeXmlFile(QIODevice& device, const QSettings::SettingsMap& map);
+  static QDomElement getNodeByPath(QDomDocument& doc, const QString& path);
+  static void readChilds(QSettings::SettingsMap& map, QStringList& parts, const QDomNodeList& childs);
+  static bool readTextNode(QDomNode& node, QString& value);
 
 protected:
-  static bool isNameStartCharValid(const QString &value);
-  static bool isNameCharValid(const QString &value);
-  static bool escape(const QString &source, QString &result);
-  static const QString unescape(const QString &value);
+  static bool isNameStartCharValid(const QString& value);
+  static bool isNameCharValid(const QString& value);
+  static bool escape(const QString& source, QString& result);
+  static const QString unescape(const QString& value);
 };
 
 } // namespace Settings

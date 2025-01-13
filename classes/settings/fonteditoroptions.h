@@ -33,8 +33,8 @@ public:
 
   static QColor foreColor();
   static QColor backColor();
-  static void setForeColor(const QColor &value);
-  static void setBackColor(const QColor &value);
+  static void setForeColor(const QColor& value);
+  static void setBackColor(const QColor& value);
 };
 
 } // namespace Settings

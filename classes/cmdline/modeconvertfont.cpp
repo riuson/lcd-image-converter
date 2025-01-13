@@ -17,28 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
+#include "modeconvertfont.h"
+
+#include <QByteArray>
 #include <QCommandLineParser>
 #include <QDebug>
 #include <QFile>
-#include <QString>
-#include <QStringList>
-#include <QByteArray>
-#include <QTextCodec>
 #include <QFontDatabase>
 #include <QFontMetrics>
-#include "modeconvertfont.h"
-#include "fontdocument.h"
+#include <QString>
+#include <QStringList>
+#include <QTextCodec>
+
+#include "bitmaphelper.h"
 #include "datacontainer.h"
+#include "fontdocument.h"
+#include "fontparameters.h"
 #include "preset.h"
 #include "templateoptions.h"
-#include "fontparameters.h"
-#include "bitmaphelper.h"
 
 namespace CommandLine
 {
 
-ModeConvertFont::ModeConvertFont(QCommandLineParser &parser, QObject *parent) :
-  ModeParserBase(parser, parent)
+ModeConvertFont::ModeConvertFont(QCommandLineParser& parser, QObject* parent) : ModeParserBase(parser, parent)
 {
   this->mFontFamily = "Times";
   this->mFontSize = 14;
@@ -63,10 +64,7 @@ ModeConvertFont::ModeConvertFont(QCommandLineParser &parser, QObject *parent) :
   this->mSubMode = SubMode::None;
 }
 
-QString ModeConvertFont::modeName()
-{
-  return "convert-font";
-}
+QString ModeConvertFont::modeName() { return "convert-font"; }
 
 void ModeConvertFont::fillParser() const
 {
@@ -77,8 +75,7 @@ void ModeConvertFont::fillParser() const
   this->mParser.addOption(familyOption);
 
   // --size=14
-  QCommandLineOption sizeOption(QStringList() << "size",
-                                QCoreApplication::translate("CmdLineParser", "Font <size>."),
+  QCommandLineOption sizeOption(QStringList() << "size", QCoreApplication::translate("CmdLineParser", "Font <size>."),
                                 QCoreApplication::translate("CmdLineParser", "size"));
   this->mParser.addOption(sizeOption);
 
@@ -88,8 +85,9 @@ void ModeConvertFont::fillParser() const
   this->mParser.addOption(monoOption);
 
   // --style
-  QCommandLineOption styleOption(QStringList() << "style",
-                                 QCoreApplication::translate("CmdLineParser", "Font <style>, Regular, Bold, Italic or Bold Italic."));
+  QCommandLineOption styleOption(
+      QStringList() << "style",
+      QCoreApplication::translate("CmdLineParser", "Font <style>, Regular, Bold, Italic or Bold Italic."));
   this->mParser.addOption(styleOption);
 
   // --antialiasing
@@ -110,46 +108,51 @@ void ModeConvertFont::fillParser() const
   this->mParser.addOption(backgroundOption);
 
   // --chars-list
-  QCommandLineOption charsListOption(QStringList() << "chars-list",
-                                     QCoreApplication::translate("CmdLineParser", "Characters, what included to the font."),
-                                     QCoreApplication::translate("CmdLineParser", "characters"));
+  QCommandLineOption charsListOption(
+      QStringList() << "chars-list",
+      QCoreApplication::translate("CmdLineParser", "Characters, what included to the font."),
+      QCoreApplication::translate("CmdLineParser", "characters"));
   this->mParser.addOption(charsListOption);
 
   // --chars-range
-  QCommandLineOption charsRangeOption(QStringList() << "chars-range",
-                                      QCoreApplication::translate("CmdLineParser", "Characters range, for example \"32-255\"."),
-                                      QCoreApplication::translate("CmdLineParser", "range"));
+  QCommandLineOption charsRangeOption(
+      QStringList() << "chars-range",
+      QCoreApplication::translate("CmdLineParser", "Characters range, for example \"32-255\"."),
+      QCoreApplication::translate("CmdLineParser", "range"));
   this->mParser.addOption(charsRangeOption);
 
   // --chars-encoding
-  QCommandLineOption charsEncodingOption(QStringList() << "chars-encoding",
-                                         QCoreApplication::translate("CmdLineParser", "Characters encoding, for example \"UTF-8\"."),
-                                         QCoreApplication::translate("CmdLineParser", "encoding"));
+  QCommandLineOption charsEncodingOption(
+      QStringList() << "chars-encoding",
+      QCoreApplication::translate("CmdLineParser", "Characters encoding, for example \"UTF-8\"."),
+      QCoreApplication::translate("CmdLineParser", "encoding"));
   this->mParser.addOption(charsEncodingOption);
 
   // --big-endian
-  QCommandLineOption endianessOption(QStringList() << "big-endian",
-                                     QCoreApplication::translate("CmdLineParser", "Use big-endian instead of little-endian."));
+  QCommandLineOption endianessOption(
+      QStringList() << "big-endian",
+      QCoreApplication::translate("CmdLineParser", "Use big-endian instead of little-endian."));
   this->mParser.addOption(endianessOption);
 
   // --multiplicity-width=1
-  QCommandLineOption multiplicityWidthOption(QStringList() << "multiplicity-width",
+  QCommandLineOption multiplicityWidthOption(
+      QStringList() << "multiplicity-width",
       QCoreApplication::translate("CmdLineParser", "Multiplicity of character's width."),
-      QCoreApplication::translate("CmdLineParser", "multiplicity-width"),
-      QString("1"));
+      QCoreApplication::translate("CmdLineParser", "multiplicity-width"), QString("1"));
   this->mParser.addOption(multiplicityWidthOption);
 
   // --multiplicity-height=1
-  QCommandLineOption multiplicityHeightOption(QStringList() << "multiplicity-height",
+  QCommandLineOption multiplicityHeightOption(
+      QStringList() << "multiplicity-height",
       QCoreApplication::translate("CmdLineParser", "Multiplicity of character's height."),
-      QCoreApplication::translate("CmdLineParser", "multiplicity-height"),
-      QString("1"));
+      QCoreApplication::translate("CmdLineParser", "multiplicity-height"), QString("1"));
   this->mParser.addOption(multiplicityHeightOption);
 
   // --input=/temp/1.xml
-  QCommandLineOption inputOption(QStringList() << "i" << "input",
-                                 QCoreApplication::translate("CmdLineParser", "Full <path> to font document in xml format."),
-                                 QCoreApplication::translate("CmdLineParser", "path"));
+  QCommandLineOption inputOption(
+      QStringList() << "i" << "input",
+      QCoreApplication::translate("CmdLineParser", "Full <path> to font document in xml format."),
+      QCoreApplication::translate("CmdLineParser", "path"));
   this->mParser.addOption(inputOption);
 
   // --output=/temp/1.c
@@ -159,9 +162,10 @@ void ModeConvertFont::fillParser() const
   this->mParser.addOption(outputOption);
 
   // --template=/temp/image.tmpl
-  QCommandLineOption templateOption(QStringList() << "template",
-                                    QCoreApplication::translate("CmdLineParser", "Full <path> to template file, used in conversion. [Optional]"),
-                                    QCoreApplication::translate("CmdLineParser", "path"));
+  QCommandLineOption templateOption(
+      QStringList() << "template",
+      QCoreApplication::translate("CmdLineParser", "Full <path> to template file, used in conversion. [Optional]"),
+      QCoreApplication::translate("CmdLineParser", "path"));
   this->mParser.addOption(templateOption);
 
   // --doc-name=testImage
@@ -171,9 +175,11 @@ void ModeConvertFont::fillParser() const
   this->mParser.addOption(documentNameOption);
 
   // --preset-name=lcdR4G5B4
-  QCommandLineOption presetOption(QStringList() << "preset-name",
-                                  QCoreApplication::translate("CmdLineParser", "Output preset <name> from predefined presets in application settings."),
-                                  QCoreApplication::translate("CmdLineParser", "name"));
+  QCommandLineOption presetOption(
+      QStringList() << "preset-name",
+      QCoreApplication::translate("CmdLineParser",
+                                  "Output preset <name> from predefined presets in application settings."),
+      QCoreApplication::translate("CmdLineParser", "name"));
   this->mParser.addOption(presetOption);
 }
 
@@ -192,14 +198,14 @@ bool ModeConvertFont::collectArguments()
   int mw = this->mParser.value("multiplicity-width").toInt(&multiplicityWidthOk);
 
   if (multiplicityWidthOk) {
-    this->mMultiplicityWidth  = mw;
+    this->mMultiplicityWidth = mw;
   }
 
   bool multiplicityHeightOk;
   int mh = this->mParser.value("multiplicity-height").toInt(&multiplicityHeightOk);
 
   if (multiplicityHeightOk) {
-    this->mMultiplicityHeight  = mh;
+    this->mMultiplicityHeight = mh;
   }
 
   this->mFontCharactersList = this->mParser.value("chars-list");
@@ -220,8 +226,7 @@ bool ModeConvertFont::collectArguments()
     return false;
   }
 
-  if (!this->mInputFilename.isEmpty() &&
-      QFile::exists(this->mInputFilename)) {
+  if (!this->mInputFilename.isEmpty() && QFile::exists(this->mInputFilename)) {
     this->mSubMode = SubMode::FromXmlDocument;
     return true;
   }
@@ -233,15 +238,12 @@ bool ModeConvertFont::collectArguments()
     return false;
   }
 
-  if (!this->mFontFamily.isEmpty() &&
-      sizeOk &&
-      !this->mFontCharactersList.isEmpty()) {
+  if (!this->mFontFamily.isEmpty() && sizeOk && !this->mFontCharactersList.isEmpty()) {
     this->mSubMode = SubMode::FromCharactersList;
     return true;
   }
 
-  if (!this->mFontFamily.isEmpty() &&
-      sizeOk &&
+  if (!this->mFontFamily.isEmpty() && sizeOk &&
       (!this->mFontCharactersRange.isEmpty() && !this->mFontCharactersEncoding.isEmpty())) {
     this->mSubMode = SubMode::FromCharactersRange;
     return true;
@@ -264,10 +266,8 @@ int ModeConvertFont::process()
 
     if ((this->mSubMode == SubMode::FromCharactersList) || (this->mSubMode == SubMode::FromCharactersRange)) {
       if (this->mSubMode == SubMode::FromCharactersRange) {
-        this->mFontCharactersList = this->createCharsList(
-                                      this->mFontCharactersRange,
-                                      this->mFontCharactersEncoding,
-                                      this->mFontCharactersBigEndian);
+        this->mFontCharactersList = this->createCharsList(this->mFontCharactersRange, this->mFontCharactersEncoding,
+                                                          this->mFontCharactersBigEndian);
       }
 
       Data::Containers::FontParameters parameters;
@@ -312,9 +312,7 @@ int ModeConvertFont::process()
         }
       }
 
-      fontDocument.setFontCharacters(
-        this->mFontCharactersList,
-        parameters);
+      fontDocument.setFontCharacters(this->mFontCharactersList, parameters);
 
       fontDocument.setDocumentName(this->mDocumentName);
     }
@@ -350,9 +348,7 @@ int ModeConvertFont::process()
   return 1;
 }
 
-QString ModeConvertFont::createCharsList(const QString &rangeStr,
-    const QString &encoding,
-    bool bigEndian) const
+QString ModeConvertFont::createCharsList(const QString& rangeStr, const QString& encoding, bool bigEndian) const
 {
   QString result;
 
@@ -388,7 +384,7 @@ QString ModeConvertFont::createCharsList(const QString &rangeStr,
               code = code >> 8;
             }
 
-            QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
+            QTextCodec* codec = QTextCodec::codecForName(encoding.toLatin1());
             QString str = codec->toUnicode(array);
             result += str;
           } else {
@@ -397,7 +393,6 @@ QString ModeConvertFont::createCharsList(const QString &rangeStr,
         }
 
         // end from
-
       }
     }
   }
@@ -405,4 +400,4 @@ QString ModeConvertFont::createCharsList(const QString &rangeStr,
   return result;
 }
 
-}  // namespace CommandLine
+} // namespace CommandLine

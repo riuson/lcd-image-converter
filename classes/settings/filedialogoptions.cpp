@@ -19,10 +19,11 @@
 
 #include "filedialogoptions.h"
 
-#include <QFile>
 #include <QDir>
+#include <QFile>
 #include <QMap>
-#include <appsettings.h>
+
+#include "appsettings.h"
 
 namespace Settings
 {
@@ -66,7 +67,7 @@ const QString FileDialogOptions::directory(FileDialogOptions::Dialogs dialog)
   return QDir::homePath();
 }
 
-void FileDialogOptions::setDirectory(FileDialogOptions::Dialogs dialog, const QString &value)
+void FileDialogOptions::setDirectory(FileDialogOptions::Dialogs dialog, const QString& value)
 {
   QString dialogName;
 
@@ -75,18 +76,18 @@ void FileDialogOptions::setDirectory(FileDialogOptions::Dialogs dialog, const QS
   }
 }
 
-bool FileDialogOptions::itemName(FileDialogOptions::Dialogs item, QString *name)
+bool FileDialogOptions::itemName(FileDialogOptions::Dialogs item, QString* name)
 {
   QMap<Dialogs, QString> names;
   names[Dialogs::OpenDocument] = "openDocument";
-  names[Dialogs::SaveDocument] =  "saveDocument";
+  names[Dialogs::SaveDocument] = "saveDocument";
   names[Dialogs::ConvertDocument] = "convertDocument";
-  names[Dialogs::ImportImage] =  "importImage";
-  names[Dialogs::ExportImage] =  "exportImage";
-  names[Dialogs::ImportPreset] =  "importPreset";
-  names[Dialogs::ExportPreset] =  "exportPreset";
-  names[Dialogs::TemplateImage] =  "templateImage";
-  names[Dialogs::TemplateFont] =  "templateFont";
+  names[Dialogs::ImportImage] = "importImage";
+  names[Dialogs::ExportImage] = "exportImage";
+  names[Dialogs::ImportPreset] = "importPreset";
+  names[Dialogs::ExportPreset] = "exportPreset";
+  names[Dialogs::TemplateImage] = "templateImage";
+  names[Dialogs::TemplateFont] = "templateFont";
 
   if (!names.contains(item)) {
     *name = QString();
@@ -97,12 +98,12 @@ bool FileDialogOptions::itemName(FileDialogOptions::Dialogs item, QString *name)
   return true;
 }
 
-int FileDialogOptions::getInteger(const QString &name)
+int FileDialogOptions::getInteger(const QString& name)
 {
   bool ok;
 
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("filedialogs");
   int result = sett.value(name, QVariant(0)).toInt(&ok);
   sett.endGroup();
@@ -114,19 +115,19 @@ int FileDialogOptions::getInteger(const QString &name)
   return result;
 }
 
-void FileDialogOptions::setInteger(const QString &name, int value)
+void FileDialogOptions::setInteger(const QString& name, int value)
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("filedialogs");
   sett.setValue(name, QVariant(value));
   sett.endGroup();
 }
 
-const QString FileDialogOptions::getString(const QString &name)
+const QString FileDialogOptions::getString(const QString& name)
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("filedialogs");
   QString result = sett.value(name, QVariant(0)).toString();
   sett.endGroup();
@@ -134,10 +135,10 @@ const QString FileDialogOptions::getString(const QString &name)
   return result;
 }
 
-void FileDialogOptions::setString(const QString &name, const QString &value)
+void FileDialogOptions::setString(const QString& name, const QString& value)
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("filedialogs");
   sett.setValue(name, QVariant(value));
   sett.endGroup();

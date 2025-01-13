@@ -18,12 +18,13 @@
  */
 
 #include "setuptabimage.h"
+
 #include "ui_setuptabimage.h"
 
-#include "preset.h"
-#include "prepareoptions.h"
-#include "matrixoptions.h"
 #include "imageoptions.h"
+#include "matrixoptions.h"
+#include "prepareoptions.h"
+#include "preset.h"
 
 namespace AppUI
 {
@@ -34,22 +35,29 @@ namespace Parts
 namespace Image
 {
 
-SetupTabImage::SetupTabImage(Settings::Presets::Preset *preset, QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::SetupTabImage)
+SetupTabImage::SetupTabImage(Settings::Presets::Preset* preset, QWidget* parent)
+    : QWidget(parent), ui(new Ui::SetupTabImage)
 {
   ui->setupUi(this);
   this->mPreset = preset;
 
-  this->ui->comboBoxBlockSize->addItem(tr("8 bit"),  static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data8));
-  this->ui->comboBoxBlockSize->addItem(tr("16 bit"), static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data16));
-  this->ui->comboBoxBlockSize->addItem(tr("24 bit"), static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data24));
-  this->ui->comboBoxBlockSize->addItem(tr("32 bit"), static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data32));
+  this->ui->comboBoxBlockSize->addItem(tr("8 bit"),
+                                       static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data8));
+  this->ui->comboBoxBlockSize->addItem(tr("16 bit"),
+                                       static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data16));
+  this->ui->comboBoxBlockSize->addItem(tr("24 bit"),
+                                       static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data24));
+  this->ui->comboBoxBlockSize->addItem(tr("32 bit"),
+                                       static_cast<int>(Parsing::Conversion::Options::DataBlockSize::Data32));
 
-  this->ui->comboBoxNumeralSystem->addItem(tr("Binary"),      static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Binary));
-  this->ui->comboBoxNumeralSystem->addItem(tr("Octal"),       static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Octal));
-  this->ui->comboBoxNumeralSystem->addItem(tr("Decimal"),     static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Decimal));
-  this->ui->comboBoxNumeralSystem->addItem(tr("Hecadecimal"), static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Hexadecimal));
+  this->ui->comboBoxNumeralSystem->addItem(tr("Binary"),
+                                           static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Binary));
+  this->ui->comboBoxNumeralSystem->addItem(tr("Octal"),
+                                           static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Octal));
+  this->ui->comboBoxNumeralSystem->addItem(tr("Decimal"),
+                                           static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Decimal));
+  this->ui->comboBoxNumeralSystem->addItem(
+      tr("Hecadecimal"), static_cast<int>(Parsing::Conversion::Options::DataNumeralSystem::Hexadecimal));
 
   this->ui->checkBoxSplitToRows->setToolTip(tr("Check to split data by rows/bands on packing."));
   this->ui->spinBoxBlocksPerLine->setToolTip(tr("Number of blocks per line code. 0 to single line."));
@@ -57,10 +65,7 @@ SetupTabImage::SetupTabImage(Settings::Presets::Preset *preset, QWidget *parent)
   this->matrixChanged();
 }
 
-SetupTabImage::~SetupTabImage()
-{
-  delete ui;
-}
+SetupTabImage::~SetupTabImage() { delete ui; }
 
 void SetupTabImage::matrixChanged()
 {
@@ -107,10 +112,7 @@ void SetupTabImage::matrixChanged()
   this->ui->textEditPreviewLevels->setPlainText(this->mPreset->image()->previewLevels());
 }
 
-void SetupTabImage::on_checkBoxSplitToRows_toggled(bool value)
-{
-  this->mPreset->image()->setSplitToRows(value);
-}
+void SetupTabImage::on_checkBoxSplitToRows_toggled(bool value) { this->mPreset->image()->setSplitToRows(value); }
 
 void SetupTabImage::on_radioButtonLittleEndian_toggled(bool value)
 {
@@ -132,10 +134,7 @@ void SetupTabImage::on_comboBoxBlockSize_currentIndexChanged(int index)
   }
 }
 
-void SetupTabImage::on_checkBoxCompressionRle_toggled(bool value)
-{
-  this->mPreset->image()->setCompressionRle(value);
-}
+void SetupTabImage::on_checkBoxCompressionRle_toggled(bool value) { this->mPreset->image()->setCompressionRle(value); }
 
 void SetupTabImage::on_spinBoxRleMinLength_valueChanged(int value)
 {
@@ -152,17 +151,17 @@ void SetupTabImage::on_checkBoxBlockDefaultOnes_toggled(bool value)
   this->mPreset->image()->setBlockDefaultOnes(value);
 }
 
-void SetupTabImage::on_lineEditBlockPrefix_textEdited(const QString &value)
+void SetupTabImage::on_lineEditBlockPrefix_textEdited(const QString& value)
 {
   this->mPreset->image()->setBlockPrefix(value);
 }
 
-void SetupTabImage::on_lineEditBlockSuffix_textEdited(const QString &value)
+void SetupTabImage::on_lineEditBlockSuffix_textEdited(const QString& value)
 {
   this->mPreset->image()->setBlockSuffix(value);
 }
 
-void SetupTabImage::on_lineEditBlockDelimiter_textEdited(const QString &value)
+void SetupTabImage::on_lineEditBlockDelimiter_textEdited(const QString& value)
 {
   this->mPreset->image()->setBlockDelimiter(value);
 }
@@ -178,17 +177,17 @@ void SetupTabImage::on_comboBoxNumeralSystem_currentIndexChanged(int index)
   }
 }
 
-void SetupTabImage::on_lineEditPreviewPrefix_textEdited(const QString &value)
+void SetupTabImage::on_lineEditPreviewPrefix_textEdited(const QString& value)
 {
   this->mPreset->image()->setPreviewPrefix(value);
 }
 
-void SetupTabImage::on_lineEditPreviewSuffix_textEdited(const QString &value)
+void SetupTabImage::on_lineEditPreviewSuffix_textEdited(const QString& value)
 {
   this->mPreset->image()->setPreviewSuffix(value);
 }
 
-void SetupTabImage::on_lineEditPreviewDelimiter_textEdited(const QString &value)
+void SetupTabImage::on_lineEditPreviewDelimiter_textEdited(const QString& value)
 {
   this->mPreset->image()->setPreviewDelimiter(value);
 }

@@ -19,10 +19,10 @@
 
 #include "prepareoptions.h"
 
-#include <QSettings>
 #include <QBuffer>
-#include <QtXml>
 #include <QDomDocument>
+#include <QSettings>
+#include <QtXml>
 
 namespace Settings
 {
@@ -42,8 +42,7 @@ const QString PrepareOptions::FieldUseCustomScanScript = QString("useCustomScrip
 const QString PrepareOptions::FieldCustomScanScript = QString("customScript");
 const QString PrepareOptions::FieldCustomPreprocessScript = QString("customPreprocessScript");
 
-PrepareOptions::PrepareOptions(QObject *parent) :
-  QObject(parent)
+PrepareOptions::PrepareOptions(QObject* parent) : QObject(parent)
 {
   this->mConvType = Parsing::Conversion::Options::ConversionType::Monochrome;
   this->mMonoType = Parsing::Conversion::Options::MonochromeType::DiffuseDither;
@@ -103,15 +102,9 @@ Parsing::Conversion::Options::ScanSubDirection PrepareOptions::scanSub() const
   return Parsing::Conversion::Options::ScanSubDirection::Forward;
 }
 
-bool PrepareOptions::inverse() const
-{
-  return this->mInverse;
-}
+bool PrepareOptions::inverse() const { return this->mInverse; }
 
-bool PrepareOptions::bandScanning() const
-{
-  return this->mBandScanning;
-}
+bool PrepareOptions::bandScanning() const { return this->mBandScanning; }
 
 int PrepareOptions::bandWidth() const
 {
@@ -122,25 +115,17 @@ int PrepareOptions::bandWidth() const
   return this->mBandWidth;
 }
 
-bool PrepareOptions::useCustomScanScript() const
-{
-  return this->mUseCustomScanScript;
-}
+bool PrepareOptions::useCustomScanScript() const { return this->mUseCustomScanScript; }
 
-QString PrepareOptions::customScanScript() const
-{
-  return this->mCustomScanScript;
-}
+QString PrepareOptions::customScanScript() const { return this->mCustomScanScript; }
 
-QString PrepareOptions::customPreprocessScript() const
-{
-  return this->mCustomPreprocessScript;
-}
+QString PrepareOptions::customPreprocessScript() const { return this->mCustomPreprocessScript; }
 
 void PrepareOptions::setConvType(Parsing::Conversion::Options::ConversionType value)
 {
   if (this->mConvType != value) {
-    if (value < Parsing::Conversion::Options::ConversionType::Monochrome || value > Parsing::Conversion::Options::ConversionType::Custom) {
+    if (value < Parsing::Conversion::Options::ConversionType::Monochrome ||
+        value > Parsing::Conversion::Options::ConversionType::Custom) {
       value = Parsing::Conversion::Options::ConversionType::Color;
     }
 
@@ -153,7 +138,8 @@ void PrepareOptions::setConvType(Parsing::Conversion::Options::ConversionType va
 void PrepareOptions::setMonoType(Parsing::Conversion::Options::MonochromeType value)
 {
   if (this->mMonoType != value) {
-    if (value < Parsing::Conversion::Options::MonochromeType::Edge || value > Parsing::Conversion::Options::MonochromeType::ThresholdDither) {
+    if (value < Parsing::Conversion::Options::MonochromeType::Edge ||
+        value > Parsing::Conversion::Options::MonochromeType::ThresholdDither) {
       value = Parsing::Conversion::Options::MonochromeType::DiffuseDither;
     }
 
@@ -179,7 +165,8 @@ void PrepareOptions::setEdge(int value)
 void PrepareOptions::setScanMain(Parsing::Conversion::Options::ScanMainDirection value)
 {
   if (this->mScanMain != value) {
-    if (value < Parsing::Conversion::Options::ScanMainDirection::TopToBottom || value > Parsing::Conversion::Options::ScanMainDirection::RightToLeft) {
+    if (value < Parsing::Conversion::Options::ScanMainDirection::TopToBottom ||
+        value > Parsing::Conversion::Options::ScanMainDirection::RightToLeft) {
       value = Parsing::Conversion::Options::ScanMainDirection::TopToBottom;
     }
 
@@ -232,7 +219,7 @@ void PrepareOptions::setUseCustomScanScript(bool value)
   }
 }
 
-void PrepareOptions::setCustomScanScript(const QString &value)
+void PrepareOptions::setCustomScanScript(const QString& value)
 {
   if (this->mCustomScanScript != value) {
     this->mCustomScanScript = value;
@@ -240,7 +227,7 @@ void PrepareOptions::setCustomScanScript(const QString &value)
   }
 }
 
-void PrepareOptions::setCustomPreprocessScript(const QString &value)
+void PrepareOptions::setCustomPreprocessScript(const QString& value)
 {
   if (this->mCustomPreprocessScript != value) {
     this->mCustomPreprocessScript = value;
@@ -248,15 +235,9 @@ void PrepareOptions::setCustomPreprocessScript(const QString &value)
   }
 }
 
-const QString &PrepareOptions::convTypeName() const
+const QString& PrepareOptions::convTypeName() const
 {
-  static const QString names[] = {
-    "Monochrome",
-    "Grayscale",
-    "Color",
-    "Custom",
-    "???"
-  };
+  static const QString names[] = {"Monochrome", "Grayscale", "Color", "Custom", "???"};
 
   switch (this->convType()) {
     case Parsing::Conversion::Options::ConversionType::Monochrome:
@@ -276,15 +257,9 @@ const QString &PrepareOptions::convTypeName() const
   }
 }
 
-const QString &PrepareOptions::monoTypeName() const
+const QString& PrepareOptions::monoTypeName() const
 {
-  static const QString names[] = {
-    "Edge",
-    "Diffuse Dither",
-    "Ordered Dither",
-    "Threshold Dither",
-    "???"
-  };
+  static const QString names[] = {"Edge", "Diffuse Dither", "Ordered Dither", "Threshold Dither", "???"};
 
   switch (this->monoType()) {
     case Parsing::Conversion::Options::MonochromeType::Edge:
@@ -304,7 +279,7 @@ const QString &PrepareOptions::monoTypeName() const
   }
 }
 
-bool PrepareOptions::load(QSettings *settings)
+bool PrepareOptions::load(QSettings* settings)
 {
   bool result = false;
 
@@ -508,18 +483,18 @@ bool PrepareOptions::loadXmlElement(QDomElement element)
   return result;
 }
 
-void PrepareOptions::save(QSettings *settings)
+void PrepareOptions::save(QSettings* settings)
 {
   settings->beginGroup(PrepareOptions::GroupName);
 
   settings->setValue(PrepareOptions::FieldConvType, QString("%1").arg((int)this->convType()));
   settings->setValue(PrepareOptions::FieldMonoType, QString("%1").arg((int)this->monoType()));
-  settings->setValue(PrepareOptions::FieldEdge,     QString("%1").arg((int)this->edge()));
+  settings->setValue(PrepareOptions::FieldEdge, QString("%1").arg((int)this->edge()));
   settings->setValue(PrepareOptions::FieldScanMain, QString("%1").arg((int)this->scanMain()));
-  settings->setValue(PrepareOptions::FieldScanSub,  QString("%1").arg((int)this->scanSub()));
-  settings->setValue(PrepareOptions::FieldInverse,  QString("%1").arg((int)this->inverse()));
-  settings->setValue(PrepareOptions::FieldBandScanning,    QString("%1").arg((int)this->bandScanning()));
-  settings->setValue(PrepareOptions::FieldBandWidth,       QString("%1").arg((int)this->bandWidth()));
+  settings->setValue(PrepareOptions::FieldScanSub, QString("%1").arg((int)this->scanSub()));
+  settings->setValue(PrepareOptions::FieldInverse, QString("%1").arg((int)this->inverse()));
+  settings->setValue(PrepareOptions::FieldBandScanning, QString("%1").arg((int)this->bandScanning()));
+  settings->setValue(PrepareOptions::FieldBandWidth, QString("%1").arg((int)this->bandWidth()));
   settings->setValue(PrepareOptions::FieldUseCustomScanScript, QString("%1").arg((int)this->useCustomScanScript()));
 
   {
@@ -578,21 +553,20 @@ void PrepareOptions::saveXmlElement(QDomElement element)
 
   QDomElement nodeUseCustomScanScript = element.ownerDocument().createElement(PrepareOptions::FieldUseCustomScanScript);
   nodePrepare.appendChild(nodeUseCustomScanScript);
-  nodeUseCustomScanScript.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->useCustomScanScript())));
+  nodeUseCustomScanScript.appendChild(
+      element.ownerDocument().createTextNode(QString("%1").arg((int)this->useCustomScanScript())));
 
   QDomElement nodeCustomScanScript = element.ownerDocument().createElement(PrepareOptions::FieldCustomScanScript);
   nodePrepare.appendChild(nodeCustomScanScript);
   nodeCustomScanScript.appendChild(element.ownerDocument().createCDATASection(this->mCustomScanScript));
 
-  QDomElement nodeCustomPreprocessScript = element.ownerDocument().createElement(PrepareOptions::FieldCustomPreprocessScript);
+  QDomElement nodeCustomPreprocessScript =
+      element.ownerDocument().createElement(PrepareOptions::FieldCustomPreprocessScript);
   nodePrepare.appendChild(nodeCustomPreprocessScript);
   nodeCustomPreprocessScript.appendChild(element.ownerDocument().createCDATASection(this->mCustomPreprocessScript));
 }
 
-QString PrepareOptions::groupName() const
-{
-  return PrepareOptions::GroupName;
-}
+QString PrepareOptions::groupName() const { return PrepareOptions::GroupName; }
 
 } // namespace Presets
 } // namespace Settings

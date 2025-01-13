@@ -20,7 +20,8 @@
 #include "alignsettings.h"
 
 #include <QVariant>
-#include <appsettings.h>
+
+#include "appsettings.h"
 
 namespace Settings
 {
@@ -28,7 +29,7 @@ namespace Settings
 int AlignSettings::scale()
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("align-preview");
   bool ok;
   int result = sett.value("scale", QVariant(1)).toInt(&ok);
@@ -44,7 +45,7 @@ int AlignSettings::scale()
 void AlignSettings::setScale(int value)
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("align-preview");
   sett.setValue("scale", QVariant(value));
   sett.endGroup();

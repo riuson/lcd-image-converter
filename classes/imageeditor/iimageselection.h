@@ -28,18 +28,16 @@ namespace ImageEditor
 class IImageSelection
 {
 public:
-  virtual ~IImageSelection() { }
+  virtual ~IImageSelection() {}
 
-  virtual const QPainterPath &selectedPath() const = 0;
+  virtual const QPainterPath& selectedPath() const = 0;
 
 signals:
-  virtual void selectionChanged(const QPainterPath &value) = 0;
+  virtual void selectionChanged(const QPainterPath& value) = 0;
 };
 
 } // namespace ImageEditor
 
-Q_DECLARE_INTERFACE (ImageEditor::IImageSelection,
-                     "riuson.lcd-image-converter/1.0"
-                    )
+Q_DECLARE_INTERFACE(ImageEditor::IImageSelection, "riuson.lcd-image-converter/1.0")
 
 #endif // IIMAGESELECTION_H

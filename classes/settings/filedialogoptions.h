@@ -48,14 +48,14 @@ public:
   static int filterIndex(Dialogs dialog);
   static void setFilterIndex(Dialogs dialog, int value);
   static const QString directory(Dialogs dialog);
-  static void setDirectory(Dialogs dialog, const QString &value);
+  static void setDirectory(Dialogs dialog, const QString& value);
 
 private:
-  static bool itemName(Dialogs item, QString *name);
-  static int getInteger(const QString &name);
-  static void setInteger(const QString &name, int value);
-  static const QString getString(const QString &name);
-  static void setString(const QString &name, const QString &value);
+  static bool itemName(Dialogs item, QString* name);
+  static int getInteger(const QString& name);
+  static void setInteger(const QString& name, int value);
+  static const QString getString(const QString& name);
+  static void setString(const QString& name, const QString& value);
 };
 
 } // namespace Settings

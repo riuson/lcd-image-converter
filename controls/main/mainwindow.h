@@ -21,6 +21,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+
 #include "imainwindow.h"
 
 namespace Ui
@@ -28,7 +29,7 @@ namespace Ui
 class MainWindow;
 }
 
-class QTranslator;
+#include <QTranslator>
 class WidgetBitmapEditor;
 
 namespace Settings
@@ -51,7 +52,7 @@ class ActionImageHandlers;
 class ActionFontHandlers;
 class ActionSetupHandlers;
 class ActionHelpHandlers;
-}
+} // namespace MenuHandlers
 
 class MainWindow : public QMainWindow, public IMainWindow
 {
@@ -59,52 +60,53 @@ class MainWindow : public QMainWindow, public IMainWindow
   Q_INTERFACES(AppUI::IMainWindow)
 
 public:
-  MainWindow(QWidget *parent = 0);
+  MainWindow(QWidget* parent = 0);
   virtual ~MainWindow();
 
 protected:
-  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
+  void changeEvent(QEvent* e) Q_DECL_OVERRIDE;
 
 private:
-  Ui::MainWindow *ui;
-  QTranslator *mTrans;
-  Settings::RecentList *mRecentList;
-  Status::StatusManager *mStatusManager;
+  Ui::MainWindow* ui;
+  QTranslator* mTrans;
+  Settings::RecentList* mRecentList;
+  Status::StatusManager* mStatusManager;
 
-  void selectLocale(const QString &localeName);
+  void selectLocale(const QString& localeName);
   void checkStartPageVisible();
   void createHandlers();
-  void tabTextUpdate(QWidget *widget);
+  void tabTextUpdate(QWidget* widget);
   int editorsCount() const;
 
-  MenuHandlers::ActionFileHandlers *mFileHandlers;
-  MenuHandlers::ActionEditHandlers *mEditHandlers;
-  MenuHandlers::ActionImageHandlers *mImageHandlers;
-  MenuHandlers::ActionFontHandlers *mFontHandlers;
-  MenuHandlers::ActionSetupHandlers *mSetupHandlers;
-  MenuHandlers::ActionHelpHandlers *mHelpHandlers;
+  MenuHandlers::ActionFileHandlers* mFileHandlers;
+  MenuHandlers::ActionEditHandlers* mEditHandlers;
+  MenuHandlers::ActionImageHandlers* mImageHandlers;
+  MenuHandlers::ActionFontHandlers* mFontHandlers;
+  MenuHandlers::ActionSetupHandlers* mSetupHandlers;
+  MenuHandlers::ActionHelpHandlers* mHelpHandlers;
 
 private slots:
   void on_tabWidget_tabCloseRequested(int index);
   void on_tabWidget_currentChanged(int index);
-  void setCurrentTab(QWidget *widget);
+  void setCurrentTab(QWidget* widget);
   void actionLanguage_triggered();
 
   void updateMenuState();
   void updateRecentList();
   void openRecentFile();
 
-  void rememberFilename(const QString &filename);
-  void closeRequest(QWidget *tab);
-  void tabChanged(QWidget *tab);
-  int tabCreated(QWidget *newTab);
+  void rememberFilename(const QString& filename);
+  void closeRequest(QWidget* tab);
+  void tabChanged(QWidget* tab);
+  int tabCreated(QWidget* newTab);
   void statusChanged();
+
 public:
-  IEditor *currentEditor() Q_DECL_OVERRIDE;
-  QWidget *currentTab() Q_DECL_OVERRIDE;
-  void tabsList(QList<QWidget *> *list) Q_DECL_OVERRIDE;
-  QWidget *parentWidget() Q_DECL_OVERRIDE;
-  QString findAvailableName(const QString &prefix) Q_DECL_OVERRIDE;
+  IEditor* currentEditor() Q_DECL_OVERRIDE;
+  QWidget* currentTab() Q_DECL_OVERRIDE;
+  void tabsList(QList<QWidget*>* list) Q_DECL_OVERRIDE;
+  QWidget* parentWidget() Q_DECL_OVERRIDE;
+  QString findAvailableName(const QString& prefix) Q_DECL_OVERRIDE;
 };
 
 } // namespace AppUI

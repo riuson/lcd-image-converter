@@ -20,12 +20,11 @@
 #ifndef DIALOGFONTSELECTDATA_H
 #define DIALOGFONTSELECTDATA_H
 
-#include <QObject>
 #include <QColor>
-
-class QModelIndex;
-class QItemSelection;
-class QFont;
+#include <QFont>
+#include <QItemSelection>
+#include <QModelIndex>
+#include <QObject>
 
 namespace Data
 {
@@ -35,7 +34,7 @@ namespace Containers
 {
 struct FontParameters;
 }
-}
+} // namespace Data
 
 namespace AppUI
 {
@@ -49,29 +48,30 @@ class DialogFontSelectData : public QObject
 {
   Q_OBJECT
 public:
-  explicit DialogFontSelectData(QObject *parent = 0);
+  explicit DialogFontSelectData(QObject* parent = 0);
   virtual ~DialogFontSelectData();
 
   QString characters();
-  void getFontParameters(Data::Containers::FontParameters *parameters);
+  void getFontParameters(Data::Containers::FontParameters* parameters);
 
-  void setCharacters(const QString &value);
-  void setFontParameters(const Data::Containers::FontParameters &parameters);
+  void setCharacters(const QString& value);
+  void setFontParameters(const Data::Containers::FontParameters& parameters);
 
-  CharactersModel *charactersModel();
-  UnicodeBlocksFilterModel *unicodeBlocksModel();
+  CharactersModel* charactersModel();
+  UnicodeBlocksFilterModel* unicodeBlocksModel();
 
-  void appendCharacters(const QString &value);
-  const QColor &foreground() const;
-  void setForeground(const QColor &value);
-  const QColor &background() const;
-  void setBackground(const QColor &value);
+  void appendCharacters(const QString& value);
+  const QColor& foreground() const;
+  void setForeground(const QColor& value);
+  const QColor& background() const;
+  void setBackground(const QColor& value);
 
   Data::FontSizeUnits sizeUnits() const;
+
 private:
-  CharactersModel *mModel;
-  UnicodeBlocksModel *mBlocksModel;
-  UnicodeBlocksFilterModel *mBlocksFilterModel;
+  CharactersModel* mModel;
+  UnicodeBlocksModel* mBlocksModel;
+  UnicodeBlocksFilterModel* mBlocksFilterModel;
   bool mSortOrderUp;
 
   QString mFontFamily;
@@ -89,24 +89,24 @@ private:
   void notifyFontChanged();
 
 signals:
-  void stylesListChanged(const QStringList &list, const QString &selected);
-  void sizesListChanged(const QList<int> &list, int selected);
-  void charactersListChanged(const QString &value);
-  void fontChanged(const QFont &value);
+  void stylesListChanged(const QStringList& list, const QString& selected);
+  void sizesListChanged(const QList<int>& list, int selected);
+  void charactersListChanged(const QString& value);
+  void fontChanged(const QFont& value);
   void sizeUnitsChanged(Data::FontSizeUnits sizeUnits);
-  void fontMeasured(int count, const QSize &maxCharSize, const QSize &maxGlyphSize);
+  void fontMeasured(int count, const QSize& maxCharSize, const QSize& maxGlyphSize);
   void monospacedChanged(bool value);
   void antialiasingChanged(bool value);
-  void colorsChanged(const QColor &forecolor, const QColor &background);
+  void colorsChanged(const QColor& forecolor, const QColor& background);
   void multiplicityChanged(int height, int width);
 
 public slots:
-  void setFont(const QFont &font);
-  void setStyle(const QString &style);
-  void setSize(const QString &text);
+  void setFont(const QFont& font);
+  void setStyle(const QString& style);
+  void setSize(const QString& text);
   void setSizeUnits(const Data::FontSizeUnits sizeUnits);
-  void setUnicodeBlocksFilter(const QString &text);
-  void setUnicodeRange(const QItemSelection &selected, const QItemSelection &deselected);
+  void setUnicodeBlocksFilter(const QString& text);
+  void setUnicodeRange(const QItemSelection& selected, const QItemSelection& deselected);
   void setMonospaced(bool value);
   void setAntialiasing(bool value);
   void resort();

@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QStringList>
+
 #include "ioperation.h"
 
 namespace Operations
@@ -33,15 +34,15 @@ class ImageImport : public QObject, public IOperation
   Q_INTERFACES(Operations::IOperation)
 
 public:
-  explicit ImageImport(QWidget *parentWidget = 0, QObject *parent = 0);
+  explicit ImageImport(QWidget* parentWidget = 0, QObject* parent = 0);
   virtual ~ImageImport() {}
 
-  bool prepare(const Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyDocument(Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyItem(Data::Containers::IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
+  bool prepare(const Data::Containers::IDocument* doc, const QStringList& keys) Q_DECL_OVERRIDE;
+  void applyDocument(Data::Containers::IDocument* doc, const QStringList& keys) Q_DECL_OVERRIDE;
+  void applyItem(Data::Containers::IDocument* doc, const QString& itemKey) Q_DECL_OVERRIDE;
 
 private:
-  QWidget *mParentWidget;
+  QWidget* mParentWidget;
   QStringList mSelectedFiles;
   int mImportIndex;
 };

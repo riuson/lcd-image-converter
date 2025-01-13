@@ -2,15 +2,9 @@
 
 #include "matrixoptions.h"
 
-TestMatrixOptions::TestMatrixOptions(QObject *parent) :
-  QObject(parent)
-{
-}
+TestMatrixOptions::TestMatrixOptions(QObject* parent) : QObject(parent) {}
 
-void TestMatrixOptions::initTestCase()
-{
-  this->mOptions = new Settings::Presets::MatrixOptions(this);
-}
+void TestMatrixOptions::initTestCase() { this->mOptions = new Settings::Presets::MatrixOptions(this); }
 
 void TestMatrixOptions::mask()
 {
@@ -194,8 +188,4 @@ void TestMatrixOptions::operationReplace()
   QCOMPARE(left, false);
 }
 
-void TestMatrixOptions::cleanupTestCase()
-{
-  delete this->mOptions;
-}
-
+void TestMatrixOptions::cleanupTestCase() { delete this->mOptions; }

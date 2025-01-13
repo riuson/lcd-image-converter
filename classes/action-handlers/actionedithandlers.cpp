@@ -18,35 +18,33 @@
  */
 
 #include "actionedithandlers.h"
+
 #include "qt-version-check.h"
 
-#include <QtWidgets/QApplication>
-
+#include <QClipboard>
 #include <QFileDialog>
-#include <QTextStream>
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QMessageBox>
-#include <QClipboard>
 #include <QMimeData>
-#include "editortabimage.h"
-#include "editortabfont.h"
+#include <QTextStream>
+#include <QtWidgets/QApplication>
+
+#include "datacontainer.h"
 #include "dialogfontselect.h"
+#include "editortabfont.h"
+#include "editortabimage.h"
+#include "idocument.h"
+#include "imainwindow.h"
 #include "parser.h"
 #include "widgetbitmapeditor.h"
-#include "imainwindow.h"
-#include "datacontainer.h"
-#include "idocument.h"
 
 namespace AppUI
 {
 namespace MenuHandlers
 {
 
-ActionEditHandlers::ActionEditHandlers(QObject *parent) :
-  ActionHandlersBase(parent)
-{
-}
+ActionEditHandlers::ActionEditHandlers(QObject* parent) : ActionHandlersBase(parent) {}
 
 void ActionEditHandlers::undo_triggered()
 {
@@ -71,7 +69,9 @@ void ActionEditHandlers::copy_triggered()
       QString key = keys.at(0);
 
       if (keys.length() > 1) {
-        QString message = tr("More than 1 image(s) selected. But only one will be copied - \"%1\".", "Warning about image copy").arg(key);
+        QString message =
+            tr("More than 1 image(s) selected. But only one will be copied - \"%1\".", "Warning about image copy")
+                .arg(key);
 
         QMessageBox msgBox(this->mMainWindow->parentWidget());
         msgBox.setTextFormat(Qt::PlainText);
@@ -85,9 +85,9 @@ void ActionEditHandlers::copy_triggered()
         }
       }
 
-      const QImage *image = this->editor()->document()->dataContainer()->image(key);
+      const QImage* image = this->editor()->document()->dataContainer()->image(key);
 
-      QClipboard *clipboard = QApplication::clipboard();
+      QClipboard* clipboard = QApplication::clipboard();
       clipboard->setImage(*image);
     }
   }
@@ -96,7 +96,7 @@ void ActionEditHandlers::copy_triggered()
 void ActionEditHandlers::paste_triggered()
 {
   if (this->editor() != nullptr) {
-    QClipboard *clipboard = QApplication::clipboard();
+    QClipboard* clipboard = QApplication::clipboard();
 
     if (clipboard->mimeData()->hasImage()) {
       QImage image = clipboard->image();
@@ -105,7 +105,8 @@ void ActionEditHandlers::paste_triggered()
 
       if (keys.length() > 0) {
         if (keys.length() > 1) {
-          QString message = tr("More than 1 image(s) selected. All of them will be overwritten.", "Warning about image paste");
+          QString message =
+              tr("More than 1 image(s) selected. All of them will be overwritten.", "Warning about image paste");
 
           QMessageBox msgBox(this->mMainWindow->parentWidget());
           msgBox.setTextFormat(Qt::PlainText);

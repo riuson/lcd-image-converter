@@ -21,6 +21,7 @@
 #define MATRIXOPTIONS_H
 
 #include <QObject>
+
 #include "ipresetsoptionspart.h"
 
 template <class T> class QVector;
@@ -36,7 +37,7 @@ class MatrixOptions : public QObject, public IPresetOptionsPart
   Q_INTERFACES(Settings::Presets::IPresetOptionsPart)
 
 public:
-  explicit MatrixOptions(QObject *parent = 0);
+  explicit MatrixOptions(QObject* parent = 0);
   virtual ~MatrixOptions();
 
   quint32 maskUsed() const;
@@ -50,15 +51,15 @@ public:
   void setMaskFill(quint32 value);
 
   int operationsCount() const;
-  void operation(int index, quint32 *mask, int *shift, bool *left) const;
+  void operation(int index, quint32* mask, int* shift, bool* left) const;
   void operationAdd(quint32 mask, int shift, bool left);
   void operationRemove(int index);
   void operationsRemoveAll();
   void operationReplace(int index, quint32 mask, int shift, bool left);
 
-  bool load(QSettings *settings) Q_DECL_OVERRIDE;
+  bool load(QSettings* settings) Q_DECL_OVERRIDE;
   bool loadXmlElement(QDomElement element) Q_DECL_OVERRIDE;
-  void save(QSettings *settings) Q_DECL_OVERRIDE;
+  void save(QSettings* settings) Q_DECL_OVERRIDE;
   void saveXmlElement(QDomElement element) Q_DECL_OVERRIDE;
 
   QString groupName() const Q_DECL_OVERRIDE;
@@ -79,13 +80,12 @@ private:
   quint32 mMaskAnd;
   quint32 mMaskOr;
   quint32 mMaskFill;
-  QVector<quint32> *mOperations;
+  QVector<quint32>* mOperations;
 
 signals:
   void changed();
 
 public slots:
-
 };
 
 } // namespace Presets

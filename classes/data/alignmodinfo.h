@@ -20,15 +20,13 @@
 #ifndef ALIGNMODINFO_H
 #define ALIGNMODINFO_H
 
-class QString;
-
 #include <QString>
 
 namespace Data
 {
 enum class HorizontalAlignMode;
 enum class VerticalAlignMode;
-}
+} // namespace Data
 
 namespace Data
 {
@@ -47,12 +45,10 @@ public:
 
   AlignModInfo();
 
-  const Mods &summary() const;
+  const Mods& summary() const;
 
-  void modify(HorizontalAlignMode horizontalMode,
-    int horizontalOffset,
-    VerticalAlignMode verticalMode,
-    int verticalOffset);
+  void modify(HorizontalAlignMode horizontalMode, int horizontalOffset, VerticalAlignMode verticalMode,
+              int verticalOffset);
   void reset();
 
   const QString toString() const;

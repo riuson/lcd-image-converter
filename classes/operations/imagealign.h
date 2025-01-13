@@ -20,10 +20,11 @@
 #ifndef IMAGEALIGN_H
 #define IMAGEALIGN_H
 
-#include <QWidget>
 #include <QMap>
-#include "ioperation.h"
+#include <QWidget>
+
 #include "alignmodinfo.h"
+#include "ioperation.h"
 
 namespace Operations
 {
@@ -34,15 +35,15 @@ class ImageAlign : public QObject, public IOperation
   Q_INTERFACES(Operations::IOperation)
 
 public:
-  explicit ImageAlign(QWidget *parentWidget = 0, QObject *parent = 0);
+  explicit ImageAlign(QWidget* parentWidget = 0, QObject* parent = 0);
   virtual ~ImageAlign() {}
 
-  bool prepare(const Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyDocument(Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyItem(Data::Containers::IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
+  bool prepare(const Data::Containers::IDocument* doc, const QStringList& keys) Q_DECL_OVERRIDE;
+  void applyDocument(Data::Containers::IDocument* doc, const QStringList& keys) Q_DECL_OVERRIDE;
+  void applyItem(Data::Containers::IDocument* doc, const QString& itemKey) Q_DECL_OVERRIDE;
 
 protected:
-  QWidget *mParentWidget;
+  QWidget* mParentWidget;
   Data::AlignModInfo::Mods mMods;
 };
 

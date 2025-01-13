@@ -18,21 +18,21 @@
  */
 
 #include "dialogfontpreview.h"
+
 #include "ui_dialogfontpreview.h"
 
 #include <QPainter>
+
 #include "bitmaphelper.h"
-#include "fonthelper.h"
 #include "datacontainer.h"
+#include "fonthelper.h"
 
 namespace AppUI
 {
 namespace Fonts
 {
 
-DialogFontPreview::DialogFontPreview(QWidget *parent) :
-  QDialog(parent),
-  ui(new Ui::DialogFontPreview)
+DialogFontPreview::DialogFontPreview(QWidget* parent) : QDialog(parent), ui(new Ui::DialogFontPreview)
 {
   ui->setupUi(this);
   this->mOriginalImage = QImage(":/images/template").scaled(20, 10);
@@ -41,17 +41,11 @@ DialogFontPreview::DialogFontPreview(QWidget *parent) :
   this->on_spinBoxScale_valueChanged(this->ui->spinBoxScale->value());
 }
 
-DialogFontPreview::~DialogFontPreview()
-{
-  delete ui;
-}
+DialogFontPreview::~DialogFontPreview() { delete ui; }
 
-void DialogFontPreview::setDocument(Data::Containers::IDocument *document)
-{
-  this->mDocument = document;
-}
+void DialogFontPreview::setDocument(Data::Containers::IDocument* document) { this->mDocument = document; }
 
-void DialogFontPreview::on_lineEditText_textChanged(const QString &text)
+void DialogFontPreview::on_lineEditText_textChanged(const QString& text)
 {
   if (this->mDocument != nullptr) {
     this->mOriginalImage = Parsing::Conversion::FontHelper::drawString(this->mDocument->dataContainer(), text);

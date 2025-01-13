@@ -29,64 +29,23 @@ namespace Conversion
 namespace Options
 {
 
-enum class ConversionType {
-  Monochrome = 0,
-  Grayscale  = 1,
-  Color      = 2,
-  Custom     = 3
-};
+enum class ConversionType { Monochrome = 0, Grayscale = 1, Color = 2, Custom = 3 };
 
-enum class MonochromeType {
-  Edge = 0,
-  DiffuseDither = 1,
-  OrderedDither = 2,
-  ThresholdDither = 3
-};
+enum class MonochromeType { Edge = 0, DiffuseDither = 1, OrderedDither = 2, ThresholdDither = 3 };
 
-enum class BytesOrder {
-  LittleEndian = 0,
-  BigEndian = 1
-};
+enum class BytesOrder { LittleEndian = 0, BigEndian = 1 };
 
-enum class DataBlockSize {
-  Data8  = 0,
-  Data16 = 1,
-  Data24 = 2,
-  Data32 = 3
-};
+enum class DataBlockSize { Data8 = 0, Data16 = 1, Data24 = 2, Data32 = 3 };
 
-enum class DataNumeralSystem {
-  Binary = 2,
-  Octal = 8,
-  Decimal = 10,
-  Hexadecimal = 16
-};
+enum class DataNumeralSystem { Binary = 2, Octal = 8, Decimal = 10, Hexadecimal = 16 };
 
-enum class Rotate {
-  None = 0,
-  Rotate90  =  1,
-  Rotate180 =  2,
-  Rotate270 =  3
-};
+enum class Rotate { None = 0, Rotate90 = 1, Rotate180 = 2, Rotate270 = 3 };
 
-enum class ScanMainDirection {
-  TopToBottom = 0,
-  BottomToTop = 1,
-  LeftToRight = 2,
-  RightToLeft = 3
-};
+enum class ScanMainDirection { TopToBottom = 0, BottomToTop = 1, LeftToRight = 2, RightToLeft = 3 };
 
-enum class ScanSubDirection {
-  Forward = 0,
-  Backward = 1
-};
+enum class ScanSubDirection { Forward = 0, Backward = 1 };
 
-enum class CharactersSortOrder {
-  None = 0,
-  Ascending = 1,
-  Descending = 2
-};
-
+enum class CharactersSortOrder { None = 0, Ascending = 1, Descending = 2 };
 
 } // namespace Options
 } // namespace Conversion

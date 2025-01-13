@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QProcess>
+
 #include "ioperation.h"
 
 namespace Operations
@@ -33,15 +34,15 @@ class ImageEditInExternalTool : public QObject, public IOperation
   Q_INTERFACES(Operations::IOperation)
 
 public:
-  explicit ImageEditInExternalTool(QWidget *parentWidget = 0, QObject *parent = 0);
+  explicit ImageEditInExternalTool(QWidget* parentWidget = 0, QObject* parent = 0);
   virtual ~ImageEditInExternalTool() {}
 
-  bool prepare(const Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyDocument(Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyItem(Data::Containers::IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
+  bool prepare(const Data::Containers::IDocument* doc, const QStringList& keys) Q_DECL_OVERRIDE;
+  void applyDocument(Data::Containers::IDocument* doc, const QStringList& keys) Q_DECL_OVERRIDE;
+  void applyItem(Data::Containers::IDocument* doc, const QString& itemKey) Q_DECL_OVERRIDE;
 
 private:
-  QWidget *mParentWidget;
+  QWidget* mParentWidget;
   bool mRunningError;
 
 private slots:

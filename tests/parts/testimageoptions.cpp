@@ -1,17 +1,12 @@
 #include "testimageoptions.h"
 
-#include "imageoptions.h"
 #include "conversion_options.h"
 
-TestImageOptions::TestImageOptions(QObject *parent) :
-  QObject(parent)
-{
-}
+#include "imageoptions.h"
 
-void TestImageOptions::initTestCase()
-{
-  this->mOptions = new Settings::Presets::ImageOptions(this);
-}
+TestImageOptions::TestImageOptions(QObject* parent) : QObject(parent) {}
+
+void TestImageOptions::initTestCase() { this->mOptions = new Settings::Presets::ImageOptions(this); }
 
 void TestImageOptions::bytesOrder()
 {
@@ -125,8 +120,4 @@ void TestImageOptions::blockDelimiter()
   QCOMPARE(this->mOptions->blockDelimiter(), QString("delimiter3"));
 }
 
-void TestImageOptions::cleanupTestCase()
-{
-  delete this->mOptions;
-}
-
+void TestImageOptions::cleanupTestCase() { delete this->mOptions; }

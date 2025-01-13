@@ -33,7 +33,7 @@ namespace Containers
 {
 class DataContainer;
 }
-}
+} // namespace Data
 
 namespace Settings
 {
@@ -41,7 +41,7 @@ namespace Presets
 {
 class Preset;
 }
-}
+} // namespace Settings
 
 namespace AppUI
 {
@@ -75,39 +75,39 @@ namespace Templates
 {
 class SetupTabTemplates;
 }
-}
+} // namespace Parts
 
 class DialogOptions : public QDialog
 {
   Q_OBJECT
 
 public:
-  explicit DialogOptions(Data::Containers::DataContainer *dataContainer, QWidget *parent = 0);
+  explicit DialogOptions(Data::Containers::DataContainer* dataContainer, QWidget* parent = 0);
   virtual ~DialogOptions();
 
 private:
-  Ui::DialogOptions *ui;
+  Ui::DialogOptions* ui;
 
-  Data::Containers::DataContainer *mData;
+  Data::Containers::DataContainer* mData;
 
-  Settings::Presets::Preset *mPreset;
+  Settings::Presets::Preset* mPreset;
   bool mPresetChanged;
 
-  DialogPreview *mPreview;
+  DialogPreview* mPreview;
 
-  Parts::Prepare::SetupTabPrepare *mSetupPrepare;
-  Parts::Matrix::SetupTabMatrix *mSetupMatrix;
-  Parts::Reordering::SetupTabReordering *mSetupReordering;
-  Parts::Image::SetupTabImage *mSetupImage;
-  Parts::Font::SetupTabFont *mSetupFont;
-  Parts::Templates::SetupTabTemplates *mSetupTemplates;
+  Parts::Prepare::SetupTabPrepare* mSetupPrepare;
+  Parts::Matrix::SetupTabMatrix* mSetupMatrix;
+  Parts::Reordering::SetupTabReordering* mSetupReordering;
+  Parts::Image::SetupTabImage* mSetupImage;
+  Parts::Font::SetupTabFont* mSetupFont;
+  Parts::Templates::SetupTabTemplates* mSetupTemplates;
 
-  void fillPresetsList(const QString &defaultName = QString());
-  void presetLoad(const QString &name);
-  void presetSaveAs(const QString &name);
-  void presetRemove(const QString &name);
+  void fillPresetsList(const QString& defaultName = QString());
+  void presetLoad(const QString& name);
+  void presetSaveAs(const QString& name);
+  void presetRemove(const QString& name);
   void createPresetsDefault();
-  bool checkOverwrite(const QString &originalName, QString *resultName) const;
+  bool checkOverwrite(const QString& originalName, QString* resultName) const;
 private slots:
   void previewUpdate();
   void on_pushButtonPreview_clicked();
@@ -117,7 +117,7 @@ private slots:
   void on_pushButtonPresetExport_clicked();
   void on_comboBoxPresets_currentIndexChanged(int index);
   void previewClosed();
-  void presetOverwiteNameChanged(const QString &value);
+  void presetOverwiteNameChanged(const QString& value);
 
 protected:
   void done(int result) Q_DECL_OVERRIDE;

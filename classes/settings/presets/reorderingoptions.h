@@ -21,6 +21,7 @@
 #define REORDERINGOPTIONS_H
 
 #include <QObject>
+
 #include "ipresetsoptionspart.h"
 
 template <class T> class QVector;
@@ -36,19 +37,19 @@ class ReorderingOptions : public QObject, public IPresetOptionsPart
   Q_INTERFACES(Settings::Presets::IPresetOptionsPart)
 
 public:
-  explicit ReorderingOptions(QObject *parent = 0);
+  explicit ReorderingOptions(QObject* parent = 0);
   virtual ~ReorderingOptions();
 
   int operationsCount() const;
-  void operation(int index, quint32 *mask, int *shift, bool *left) const;
+  void operation(int index, quint32* mask, int* shift, bool* left) const;
   void operationAdd(quint32 mask, int shift, bool left);
   void operationRemove(int index);
   void operationsRemoveAll();
   void operationReplace(int index, quint32 mask, int shift, bool left);
 
-  bool load(QSettings *settings) Q_DECL_OVERRIDE;
+  bool load(QSettings* settings) Q_DECL_OVERRIDE;
   bool loadXmlElement(QDomElement element) Q_DECL_OVERRIDE;
-  void save(QSettings *settings) Q_DECL_OVERRIDE;
+  void save(QSettings* settings) Q_DECL_OVERRIDE;
   void saveXmlElement(QDomElement element) Q_DECL_OVERRIDE;
 
   QString groupName() const Q_DECL_OVERRIDE;
@@ -61,13 +62,12 @@ private:
   static const QString FieldShift;
   static const QString FieldLeft;
 
-  QVector<quint32> *mOperations;
+  QVector<quint32>* mOperations;
 
 signals:
   void changed();
 
 public slots:
-
 };
 
 } // namespace Presets

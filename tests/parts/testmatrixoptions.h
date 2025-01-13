@@ -10,17 +10,17 @@ namespace Presets
 {
 class MatrixOptions;
 }
-}
+} // namespace Settings
 
 class TestMatrixOptions : public QObject
 {
   Q_OBJECT
 public:
-  explicit TestMatrixOptions(QObject *parent = 0);
+  explicit TestMatrixOptions(QObject* parent = 0);
   virtual ~TestMatrixOptions() {}
 
 private:
-  Settings::Presets::MatrixOptions *mOptions;
+  Settings::Presets::MatrixOptions* mOptions;
 
 private slots:
   void initTestCase();

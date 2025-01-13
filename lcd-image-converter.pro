@@ -437,4 +437,4 @@ QMAKE_EXTRA_TARGETS += translation_ru
 PRE_TARGETDEPS += $$PWD/resources/lcd-image-converter-ru.qm $$PWD/resources/lcd-image-converter-ru.ts
 
 DISTFILES += \
-    astyle.astylerc
+    .clang-format

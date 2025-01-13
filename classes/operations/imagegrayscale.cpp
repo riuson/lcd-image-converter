@@ -18,19 +18,19 @@
  */
 
 #include "imagegrayscale.h"
+
 #include <QImage>
-#include "idocument.h"
-#include "datacontainer.h"
+
 #include "converterhelper.h"
+#include "datacontainer.h"
+#include "idocument.h"
 
 namespace Operations
 {
 
-ImageGrayscale::ImageGrayscale(QObject *parent) : QObject(parent)
-{
-}
+ImageGrayscale::ImageGrayscale(QObject* parent) : QObject(parent) {}
 
-bool ImageGrayscale::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
+bool ImageGrayscale::prepare(const Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
@@ -38,15 +38,15 @@ bool ImageGrayscale::prepare(const Data::Containers::IDocument *doc, const QStri
   return true;
 }
 
-void ImageGrayscale::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
+void ImageGrayscale::applyDocument(Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageGrayscale::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
+void ImageGrayscale::applyItem(Data::Containers::IDocument* doc, const QString& itemKey)
 {
-  const QImage *original = doc->dataContainer()->image(itemKey);
+  const QImage* original = doc->dataContainer()->image(itemKey);
   QImage result(*original);
   Parsing::Conversion::ConverterHelper::makeGrayscale(result);
   doc->dataContainer()->setImage(itemKey, &result);

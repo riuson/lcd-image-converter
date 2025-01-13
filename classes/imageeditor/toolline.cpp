@@ -18,18 +18,19 @@
  */
 
 #include "toolline.h"
+
+#include <QAction>
+#include <QColor>
+#include <QColorDialog>
+#include <QList>
+#include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
-#include <QList>
-#include <QAction>
-#include <QWidget>
-#include <QColor>
 #include <QSpinBox>
-#include <QMouseEvent>
 #include <QToolButton>
-#include <QColorDialog>
-#include <QPainterPath>
-#include <appsettings.h>
+#include <QWidget>
+
+#include "appsettings.h"
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
 
@@ -38,13 +39,14 @@ namespace ImageEditor
 namespace Tools
 {
 
-ToolLine::ToolLine(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
+ToolLine::ToolLine(IImageEditorParams* parameters, QObject* parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_line"), 24)));
+  this->mIcon = new QIcon(
+      QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_line"), 24)));
 
-  this->mActions = new QList<QAction *>();
-  this->mWidgets = new QList<QWidget *>();
+  this->mActions = new QList<QAction*>();
+  this->mWidgets = new QList<QWidget*>();
 
   this->mSize = 1;
 
@@ -62,34 +64,21 @@ ToolLine::~ToolLine()
   delete this->mWidgets;
 }
 
-const QString ToolLine::title() const
-{
-  return tr("Line");
-}
+const QString ToolLine::title() const { return tr("Line"); }
 
 const QString ToolLine::tooltip() const
 {
-  return tr("<b>Draw line</b><br/>Use left mouse button to draw forecolor.<br/>Use right mouse button to draw backcolor.");
+  return tr(
+      "<b>Draw line</b><br/>Use left mouse button to draw forecolor.<br/>Use right mouse button to draw backcolor.");
 }
 
-const QIcon *ToolLine::icon() const
-{
-  return this->mIcon;
-}
+const QIcon* ToolLine::icon() const { return this->mIcon; }
 
-const QList<QAction *> *ToolLine::actions() const
-{
-  return this->mActions;
-}
+const QList<QAction*>* ToolLine::actions() const { return this->mActions; }
 
-const QList<QWidget *> *ToolLine::widgets() const
-{
-  return this->mWidgets;
-}
+const QList<QWidget*>* ToolLine::widgets() const { return this->mWidgets; }
 
-bool ToolLine::processMouse(QMouseEvent *event,
-                            const QImage *imageOriginal,
-                            bool inRect)
+bool ToolLine::processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect)
 {
   Q_UNUSED(inRect)
 
@@ -142,7 +131,7 @@ bool ToolLine::processMouse(QMouseEvent *event,
 
 void ToolLine::initializeWidgets()
 {
-  QSpinBox *spinBoxSize = new QSpinBox();
+  QSpinBox* spinBoxSize = new QSpinBox();
   spinBoxSize->setMinimum(1);
   spinBoxSize->setSuffix(QString("px"));
   spinBoxSize->setValue(this->mSize);
@@ -154,7 +143,7 @@ void ToolLine::initializeWidgets()
 void ToolLine::loadSettings()
 {
   Settings::AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("line");
@@ -174,7 +163,7 @@ void ToolLine::loadSettings()
 void ToolLine::saveSettings() const
 {
   Settings::AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("line");
@@ -186,7 +175,7 @@ void ToolLine::saveSettings() const
   sett.endGroup();
 }
 
-void ToolLine::drawLine(const QRect &rect, int borderWidth, bool inverted)
+void ToolLine::drawLine(const QRect& rect, int borderWidth, bool inverted)
 {
   QImage image = this->mOriginalImage;
   QPixmap pixmap = QPixmap::fromImage(image);
@@ -206,7 +195,7 @@ void ToolLine::drawLine(const QRect &rect, int borderWidth, bool inverted)
 
   QPen pen(fc, borderWidth);
   painter.setRenderHint(QPainter::Antialiasing, false);
-  //painter.setRenderHint(QPainter::Antialiasing);
+  // painter.setRenderHint(QPainter::Antialiasing);
   painter.setRenderHint(QPainter::HighQualityAntialiasing, false);
   painter.setPen(pen);
   painter.drawLine(rect.left(), rect.top(), rect.right(), rect.bottom());
@@ -214,10 +203,7 @@ void ToolLine::drawLine(const QRect &rect, int borderWidth, bool inverted)
   this->mInternalImage = pixmap.toImage();
 }
 
-void ToolLine::on_spinBoxSize_valueChanged(int value)
-{
-  this->mSize = value;
-}
+void ToolLine::on_spinBoxSize_valueChanged(int value) { this->mSize = value; }
 
 } // namespace Tools
 } // namespace ImageEditor

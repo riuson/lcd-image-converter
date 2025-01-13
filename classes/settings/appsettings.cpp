@@ -18,6 +18,7 @@
  */
 
 #include "appsettings.h"
+
 #include <QXmlInputSource>
 
 namespace Settings
@@ -27,9 +28,15 @@ QMap<AppSettings::Section, QString> AppSettings::ConfigFiles;
 QSettings::Format AppSettings::CustomFormat = QSettings::InvalidFormat;
 
 // https://www.w3.org/TR/REC-xml/#NT-NameChar
-QString AppSettings::NameStartChar = "^(\\:|[A-Z]|_|[a-z]|[\\xC0-\\xD6]|[\\xD8-\\xF6]|[\\xF8-\\x2FF]|[\\x370-\\x37D]|[\\x37F-\\x1FFF]|[\\x200C-\\x200D]|[\\x2070-\\x218F]|[\\x2C00-\\x2FEF]|[\\x3001-\\xD7FF]|[\\xF900-\\xFDCF]|[\\xFDF0-\\xFFFD])";
-QString AppSettings::NameChar      = "^(\\:|[A-Z]|_|[a-z]|[\\xC0-\\xD6]|[\\xD8-\\xF6]|[\\xF8-\\x2FF]|[\\x370-\\x37D]|[\\x37F-\\x1FFF]|[\\x200C-\\x200D]|[\\x2070-\\x218F]|[\\x2C00-\\x2FEF]|[\\x3001-\\xD7FF]|[\\xF900-\\xFDCF]|[\\xFDF0-\\xFFFD])"\
-                                     "(\\:|[A-Z]|_|[a-z]|[\\xC0-\\xD6]|[\\xD8-\\xF6]|[\\xF8-\\x2FF]|[\\x370-\\x37D]|[\\x37F-\\x1FFF]|[\\x200C-\\x200D]|[\\x2070-\\x218F]|[\\x2C00-\\x2FEF]|[\\x3001-\\xD7FF]|[\\xF900-\\xFDCF]|[\\xFDF0-\\xFFFD]|\\-|\\.|[0-9]|\\xB7|[\\x0300-\\x036F]|[\\x203F-\\x2040])*$";
+QString AppSettings::NameStartChar =
+    "^(\\:|[A-Z]|_|[a-z]|[\\xC0-\\xD6]|[\\xD8-\\xF6]|[\\xF8-\\x2FF]|[\\x370-\\x37D]|[\\x37F-\\x1FFF]|[\\x200C-\\x200D]|"
+    "[\\x2070-\\x218F]|[\\x2C00-\\x2FEF]|[\\x3001-\\xD7FF]|[\\xF900-\\xFDCF]|[\\xFDF0-\\xFFFD])";
+QString AppSettings::NameChar =
+    "^(\\:|[A-Z]|_|[a-z]|[\\xC0-\\xD6]|[\\xD8-\\xF6]|[\\xF8-\\x2FF]|[\\x370-\\x37D]|[\\x37F-\\x1FFF]|[\\x200C-\\x200D]|"
+    "[\\x2070-\\x218F]|[\\x2C00-\\x2FEF]|[\\x3001-\\xD7FF]|[\\xF900-\\xFDCF]|[\\xFDF0-\\xFFFD])"
+    "(\\:|[A-Z]|_|[a-z]|[\\xC0-\\xD6]|[\\xD8-\\xF6]|[\\xF8-\\x2FF]|[\\x370-\\x37D]|[\\x37F-\\x1FFF]|[\\x200C-\\x200D]|["
+    "\\x2070-\\x218F]|[\\x2C00-\\x2FEF]|[\\x3001-\\xD7FF]|[\\xF900-\\xFDCF]|[\\xFDF0-\\xFFFD]|\\-|\\.|[0-9]|\\xB7|["
+    "\\x0300-\\x036F]|[\\x203F-\\x2040])*$";
 QString AppSettings::NameStartPrefix = "_escaped_name_start_";
 
 AppSettings::AppSettings()
@@ -54,12 +61,9 @@ AppSettings::AppSettings(Section section)
   }
 }
 
-AppSettings::~AppSettings()
-{
-  delete this->mSettings;
-}
+AppSettings::~AppSettings() { delete this->mSettings; }
 
-void AppSettings::configure(Section section, const QString &filename)
+void AppSettings::configure(Section section, const QString& filename)
 {
   AppSettings::ConfigFiles.insert(section, filename);
 
@@ -74,23 +78,20 @@ void AppSettings::reset()
 {
   {
     AppSettings appsett(Section::Application);
-    QSettings &sett = appsett.get();
+    QSettings& sett = appsett.get();
     sett.remove("");
   }
 
   {
     AppSettings appsett(Section::Presets);
-    QSettings &sett = appsett.get();
+    QSettings& sett = appsett.get();
     sett.remove("");
   }
 }
 
-QSettings &AppSettings::get()
-{
-  return *this->mSettings;
-}
+QSettings& AppSettings::get() { return *this->mSettings; }
 
-bool AppSettings::readXmlFile(QIODevice &device, QSettings::SettingsMap &map)
+bool AppSettings::readXmlFile(QIODevice& device, QSettings::SettingsMap& map)
 {
   QDomDocument doc;
   QString errorMsg;
@@ -111,11 +112,12 @@ bool AppSettings::readXmlFile(QIODevice &device, QSettings::SettingsMap &map)
   return false;
 }
 
-bool AppSettings::writeXmlFile(QIODevice &device, const QSettings::SettingsMap &map)
+bool AppSettings::writeXmlFile(QIODevice& device, const QSettings::SettingsMap& map)
 {
   QDomDocument doc;
 
-  QDomProcessingInstruction procInstruction = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\"");
+  QDomProcessingInstruction procInstruction =
+      doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\"");
   doc.appendChild(procInstruction);
 
   QDomComment nodeComment = doc.createComment("lcd-image-converter configuration data");
@@ -142,7 +144,7 @@ bool AppSettings::writeXmlFile(QIODevice &device, const QSettings::SettingsMap &
   return true;
 }
 
-QDomElement AppSettings::getNodeByPath(QDomDocument &doc, const QString &path)
+QDomElement AppSettings::getNodeByPath(QDomDocument& doc, const QString& path)
 {
   QStringList pathParts = path.split(QChar('/'));
 
@@ -177,7 +179,7 @@ QDomElement AppSettings::getNodeByPath(QDomDocument &doc, const QString &path)
   return element;
 }
 
-void AppSettings::readChilds(QSettings::SettingsMap &map, QStringList &parts, const QDomNodeList &childs)
+void AppSettings::readChilds(QSettings::SettingsMap& map, QStringList& parts, const QDomNodeList& childs)
 {
   int length = childs.length();
 
@@ -204,7 +206,7 @@ void AppSettings::readChilds(QSettings::SettingsMap &map, QStringList &parts, co
   }
 }
 
-bool AppSettings::readTextNode(QDomNode &node, QString &value)
+bool AppSettings::readTextNode(QDomNode& node, QString& value)
 {
   if (node.childNodes().length() == 1) {
     if (node.firstChild().isText()) {
@@ -216,19 +218,19 @@ bool AppSettings::readTextNode(QDomNode &node, QString &value)
   return false;
 }
 
-bool AppSettings::isNameStartCharValid(const QString &value)
+bool AppSettings::isNameStartCharValid(const QString& value)
 {
   QRegExp regNameStartChar(AppSettings::NameStartChar);
   return (regNameStartChar.indexIn(value) == 0);
 }
 
-bool AppSettings::isNameCharValid(const QString &value)
+bool AppSettings::isNameCharValid(const QString& value)
 {
   QRegExp regNameChar(AppSettings::NameChar);
   return (regNameChar.indexIn(value) == 0);
 }
 
-bool AppSettings::escape(const QString &source, QString &result)
+bool AppSettings::escape(const QString& source, QString& result)
 {
   if (AppSettings::isNameCharValid(source)) {
     result = source;
@@ -249,7 +251,7 @@ bool AppSettings::escape(const QString &source, QString &result)
   return false;
 }
 
-const QString AppSettings::unescape(const QString &value)
+const QString AppSettings::unescape(const QString& value)
 {
   if (value.startsWith(AppSettings::NameStartPrefix)) {
     return value.mid(AppSettings::NameStartPrefix.length());

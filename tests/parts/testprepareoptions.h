@@ -10,17 +10,17 @@ namespace Presets
 {
 class PrepareOptions;
 }
-}
+} // namespace Settings
 
 class TestPrepareOptions : public QObject
 {
   Q_OBJECT
 public:
-  explicit TestPrepareOptions(QObject *parent = 0);
+  explicit TestPrepareOptions(QObject* parent = 0);
   virtual ~TestPrepareOptions() {}
 
 private:
-  Settings::Presets::PrepareOptions *mOptions;
+  Settings::Presets::PrepareOptions* mOptions;
 
 private slots:
   void initTestCase();

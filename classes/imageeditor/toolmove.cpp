@@ -18,15 +18,17 @@
  */
 
 #include "toolmove.h"
-#include <QPainter>
-#include <QList>
+
 #include <QAction>
-#include <QWidget>
 #include <QColor>
+#include <QList>
 #include <QMouseEvent>
-#include <QToolButton>
+#include <QPainter>
 #include <QPainterPath>
-#include <appsettings.h>
+#include <QToolButton>
+#include <QWidget>
+
+#include "appsettings.h"
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
 
@@ -35,13 +37,14 @@ namespace ImageEditor
 namespace Tools
 {
 
-ToolMove::ToolMove(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
+ToolMove::ToolMove(IImageEditorParams* parameters, QObject* parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_move"), 24)));
+  this->mIcon = new QIcon(QPixmap::fromImage(
+      Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_select_move"), 24)));
 
-  this->mActions = new QList<QAction *>();
-  this->mWidgets = new QList<QWidget *>();
+  this->mActions = new QList<QAction*>();
+  this->mWidgets = new QList<QWidget*>();
 
   this->initializeWidgets();
 }
@@ -55,34 +58,17 @@ ToolMove::~ToolMove()
   delete this->mWidgets;
 }
 
-const QString ToolMove::title() const
-{
-  return tr("Move");
-}
+const QString ToolMove::title() const { return tr("Move"); }
 
-const QString ToolMove::tooltip() const
-{
-  return tr("Move entire image or selection");
-}
+const QString ToolMove::tooltip() const { return tr("Move entire image or selection"); }
 
-const QIcon *ToolMove::icon() const
-{
-  return this->mIcon;
-}
+const QIcon* ToolMove::icon() const { return this->mIcon; }
 
-const QList<QAction *> *ToolMove::actions() const
-{
-  return this->mActions;
-}
+const QList<QAction*>* ToolMove::actions() const { return this->mActions; }
 
-const QList<QWidget *> *ToolMove::widgets() const
-{
-  return this->mWidgets;
-}
+const QList<QWidget*>* ToolMove::widgets() const { return this->mWidgets; }
 
-bool ToolMove::processMouse(QMouseEvent *event,
-                            const QImage *imageOriginal,
-                            bool inRect)
+bool ToolMove::processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect)
 {
   Q_UNUSED(inRect)
 
@@ -122,13 +108,14 @@ bool ToolMove::processMouse(QMouseEvent *event,
 
 void ToolMove::initializeWidgets()
 {
-  QActionGroup *group = new QActionGroup(this);
+  QActionGroup* group = new QActionGroup(this);
 
   this->mActionMoveCut = new QAction(this);
   this->mActionMoveCut->setCheckable(true);
   this->mActionMoveCut->setText(tr("Cut & Move"));
   this->mActionMoveCut->setToolTip(tr("Cut & Move"));
-  this->mActionMoveCut->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_cut"), 24))));
+  this->mActionMoveCut->setIcon(QIcon(QPixmap::fromImage(
+      Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_cut"), 24))));
   this->connect(this->mActionMoveCut, SIGNAL(triggered()), SLOT(on_switchToMoveCut()));
   this->mActions->append(this->mActionMoveCut);
   group->addAction(this->mActionMoveCut);
@@ -137,7 +124,8 @@ void ToolMove::initializeWidgets()
   this->mActionMoveCopy->setCheckable(true);
   this->mActionMoveCopy->setText(tr("Copy & Move"));
   this->mActionMoveCopy->setToolTip(tr("Copy & Move"));
-  this->mActionMoveCopy->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_copy"), 24))));
+  this->mActionMoveCopy->setIcon(QIcon(QPixmap::fromImage(
+      Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_copy"), 24))));
   this->connect(this->mActionMoveCopy, SIGNAL(triggered()), SLOT(on_switchToMoveCopy()));
   this->mActions->append(this->mActionMoveCopy);
   group->addAction(this->mActionMoveCopy);
@@ -146,7 +134,8 @@ void ToolMove::initializeWidgets()
   this->mActionMoveCircular->setCheckable(true);
   this->mActionMoveCircular->setText(tr("Move circular (rectancular area only)"));
   this->mActionMoveCircular->setToolTip(tr("Move circular (rectancular area only)"));
-  this->mActionMoveCircular->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_circular"), 24))));
+  this->mActionMoveCircular->setIcon(QIcon(QPixmap::fromImage(
+      Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_move_circular"), 24))));
   this->connect(this->mActionMoveCircular, SIGNAL(triggered()), SLOT(on_switchToMoveCircular()));
   this->mActions->append(this->mActionMoveCircular);
   group->addAction(this->mActionMoveCircular);
@@ -155,7 +144,7 @@ void ToolMove::initializeWidgets()
   this->mToolMode = MoveCut;
 }
 
-void ToolMove::processMoveCutOrCopy(Qt::MouseButtons buttons, const QImage *imageOriginal, int x, int y, bool cut)
+void ToolMove::processMoveCutOrCopy(Qt::MouseButtons buttons, const QImage* imageOriginal, int x, int y, bool cut)
 {
   QPainterPath selectedPath = this->mParameters->selectedPath();
 
@@ -206,7 +195,7 @@ void ToolMove::processMoveCutOrCopy(Qt::MouseButtons buttons, const QImage *imag
   }
 }
 
-void ToolMove::processMoveCircular(Qt::MouseButtons buttons, const QImage *imageOriginal, int x, int y)
+void ToolMove::processMoveCircular(Qt::MouseButtons buttons, const QImage* imageOriginal, int x, int y)
 {
   QPainterPath selectedPath = this->mParameters->selectedPath();
   QRectF r;
@@ -302,20 +291,11 @@ void ToolMove::processMoveCircular(Qt::MouseButtons buttons, const QImage *image
   }
 }
 
-void ToolMove::on_switchToMoveCut()
-{
-  this->mToolMode = MoveCut;
-}
+void ToolMove::on_switchToMoveCut() { this->mToolMode = MoveCut; }
 
-void ToolMove::on_switchToMoveCopy()
-{
-  this->mToolMode = MoveCopy;
-}
+void ToolMove::on_switchToMoveCopy() { this->mToolMode = MoveCopy; }
 
-void ToolMove::on_switchToMoveCircular()
-{
-  this->mToolMode = MoveCircular;
-}
+void ToolMove::on_switchToMoveCircular() { this->mToolMode = MoveCircular; }
 
 } // namespace Tools
 } // namespace ImageEditor

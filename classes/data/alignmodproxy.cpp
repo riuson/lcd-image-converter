@@ -18,19 +18,20 @@
  */
 
 #include "alignmodproxy.h"
+
+#include <QColor>
+
 #include "alignmodinfo.h"
 #include "bitmaphelper.h"
 #include "imagesmodel.h"
-#include <QColor>
 
 namespace Data
 {
 namespace Models
 {
 
-AlignModProxy::AlignModProxy(AlignModInfo *alignModInfo, QObject *parent)
-  : QSortFilterProxyModel(parent),
-    mAlignModInfo(alignModInfo)
+AlignModProxy::AlignModProxy(AlignModInfo* alignModInfo, QObject* parent)
+    : QSortFilterProxyModel(parent), mAlignModInfo(alignModInfo)
 {
 }
 
@@ -51,7 +52,7 @@ QVariant AlignModProxy::headerData(int section, Qt::Orientation orientation, int
   return result;
 }
 
-int AlignModProxy::columnCount(const QModelIndex &parent) const
+int AlignModProxy::columnCount(const QModelIndex& parent) const
 {
   if (this->sourceModel() == nullptr) {
     return 0;
@@ -61,7 +62,7 @@ int AlignModProxy::columnCount(const QModelIndex &parent) const
   return sourceColumns + 1;
 }
 
-QVariant AlignModProxy::data(const QModelIndex &index, int role) const
+QVariant AlignModProxy::data(const QModelIndex& index, int role) const
 {
   QVariant result = this->sourceModel()->data(index, role);
 
@@ -77,11 +78,9 @@ QVariant AlignModProxy::data(const QModelIndex &index, int role) const
       if (columnIndex == 1) {
         QImage imageSource = result.value<QImage>();
         QImage imageAligned = Parsing::Conversion::BitmapHelper::align(
-                                &imageSource,
-                                this->mAlignModInfo->summary().horizontalMode,
-                                this->mAlignModInfo->summary().horizontalOffset,
-                                this->mAlignModInfo->summary().verticalMode,
-                                this->mAlignModInfo->summary().verticalOffset);
+            &imageSource, this->mAlignModInfo->summary().horizontalMode,
+            this->mAlignModInfo->summary().horizontalOffset, this->mAlignModInfo->summary().verticalMode,
+            this->mAlignModInfo->summary().verticalOffset);
         result = imageAligned;
       }
 
@@ -114,24 +113,24 @@ QVariant AlignModProxy::data(const QModelIndex &index, int role) const
   return result;
 }
 
-QModelIndex AlignModProxy::index(int row, int column, const QModelIndex &parent) const
+QModelIndex AlignModProxy::index(int row, int column, const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
   return this->createIndex(row, column);
 }
 
-QModelIndex AlignModProxy::parent(const QModelIndex &index) const
+QModelIndex AlignModProxy::parent(const QModelIndex& index) const
 {
   Q_UNUSED(index)
   return QModelIndex();
 }
 
-QModelIndex AlignModProxy::mapFromSource(const QModelIndex &sourceIndex) const
+QModelIndex AlignModProxy::mapFromSource(const QModelIndex& sourceIndex) const
 {
   return this->index(sourceIndex.row(), sourceIndex.column(), sourceIndex.parent());
 }
 
-QModelIndex AlignModProxy::mapToSource(const QModelIndex &proxyIndex) const
+QModelIndex AlignModProxy::mapToSource(const QModelIndex& proxyIndex) const
 {
   if (sourceModel() && proxyIndex.isValid()) {
     return sourceModel()->index(proxyIndex.row(), proxyIndex.column(), proxyIndex.parent());

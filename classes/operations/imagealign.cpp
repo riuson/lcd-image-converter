@@ -18,31 +18,25 @@
  */
 
 #include "imagealign.h"
-#include "dialogalign.h"
-#include "idocument.h"
-#include "datacontainer.h"
-#include "bitmaphelper.h"
+
 #include "alignmodes.h"
 #include "alignmodinfo.h"
+#include "bitmaphelper.h"
+#include "datacontainer.h"
+#include "dialogalign.h"
+#include "idocument.h"
 
 namespace Operations
 {
 
-ImageAlign::ImageAlign(QWidget *parentWidget, QObject *parent)
-  : QObject(parent)
-{
-  this->mParentWidget = parentWidget;
-}
+ImageAlign::ImageAlign(QWidget* parentWidget, QObject* parent) : QObject(parent) { this->mParentWidget = parentWidget; }
 
-bool ImageAlign::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
+bool ImageAlign::prepare(const Data::Containers::IDocument* doc, const QStringList& keys)
 {
-  AppUI::CommonDialogs::DialogAlign dialog(
-    doc->dataContainer(),
-    keys,
-    this->mParentWidget);
+  AppUI::CommonDialogs::DialogAlign dialog(doc->dataContainer(), keys, this->mParentWidget);
 
   if (dialog.exec() == QDialog::Accepted) {
-    const Data::AlignModInfo *modInfo = dialog.alignInfo();
+    const Data::AlignModInfo* modInfo = dialog.alignInfo();
     this->mMods = modInfo->summary();
     return true;
   }
@@ -50,24 +44,20 @@ bool ImageAlign::prepare(const Data::Containers::IDocument *doc, const QStringLi
   return false;
 }
 
-void ImageAlign::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
+void ImageAlign::applyDocument(Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageAlign::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
+void ImageAlign::applyItem(Data::Containers::IDocument* doc, const QString& itemKey)
 {
   if (this->mMods.horizontalMode != Data::HorizontalAlignMode::None ||
       this->mMods.verticalMode != Data::VerticalAlignMode::None) {
     Data::AlignModInfo::Mods mods = this->mMods;
-    const QImage *original = doc->dataContainer()->image(itemKey);
-    QImage result = Parsing::Conversion::BitmapHelper::align(
-                      original,
-                      mods.horizontalMode,
-                      mods.horizontalOffset,
-                      mods.verticalMode,
-                      mods.verticalOffset);
+    const QImage* original = doc->dataContainer()->image(itemKey);
+    QImage result = Parsing::Conversion::BitmapHelper::align(original, mods.horizontalMode, mods.horizontalOffset,
+                                                             mods.verticalMode, mods.verticalOffset);
     doc->dataContainer()->setImage(itemKey, &result);
   }
 }

@@ -36,22 +36,19 @@ class CanvasModProxy : public QSortFilterProxyModel
   Q_OBJECT
 
 public:
-  explicit CanvasModProxy(
-    QMap<QString, Data::CanvasModInfo *> *canvasMods,
-    QObject *parent = nullptr);
+  explicit CanvasModProxy(QMap<QString, Data::CanvasModInfo*>* canvasMods, QObject* parent = nullptr);
   virtual ~CanvasModProxy() Q_DECL_OVERRIDE {}
 
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-  int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-  QModelIndex index(int row, int column,
-                    const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-  QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
-  QModelIndex mapFromSource(const QModelIndex &sourceIndex) const Q_DECL_OVERRIDE;
-  QModelIndex mapToSource(const QModelIndex &proxyIndex) const Q_DECL_OVERRIDE;
+  int columnCount(const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
+  QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+  QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
+  QModelIndex parent(const QModelIndex& index) const Q_DECL_OVERRIDE;
+  QModelIndex mapFromSource(const QModelIndex& sourceIndex) const Q_DECL_OVERRIDE;
+  QModelIndex mapToSource(const QModelIndex& proxyIndex) const Q_DECL_OVERRIDE;
 
 private:
-  QMap<QString, Data::CanvasModInfo *> *mCanvasMods;
+  QMap<QString, Data::CanvasModInfo*>* mCanvasMods;
 };
 
 } // namespace Models

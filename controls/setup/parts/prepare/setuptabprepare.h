@@ -20,9 +20,9 @@
 #ifndef SETUPTABPREPARE_H
 #define SETUPTABPREPARE_H
 
-#include <QWidget>
-
 #include "conversion_options.h"
+
+#include <QWidget>
 
 namespace Ui
 {
@@ -35,7 +35,7 @@ namespace Presets
 {
 class Preset;
 }
-}
+} // namespace Settings
 
 namespace AppUI
 {
@@ -53,17 +53,17 @@ class SetupTabPrepare : public QWidget
   Q_OBJECT
 
 public:
-  explicit SetupTabPrepare(Settings::Presets::Preset *preset, QWidget *parent = 0);
+  explicit SetupTabPrepare(Settings::Presets::Preset* preset, QWidget* parent = 0);
   virtual ~SetupTabPrepare();
 
 public slots:
   void matrixChanged();
 
 private:
-  Ui::SetupTabPrepare *ui;
-  Settings::Presets::Preset *mPreset;
-  SetupTabPreparePreprocessing *mTabPreprocessing;
-  SetupTabPrepareScanning *mTabScanning;
+  Ui::SetupTabPrepare* ui;
+  Settings::Presets::Preset* mPreset;
+  SetupTabPreparePreprocessing* mTabPreprocessing;
+  SetupTabPrepareScanning* mTabScanning;
 
 private slots:
 };

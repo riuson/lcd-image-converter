@@ -33,11 +33,11 @@ class ActionFontHandlers : public ActionHandlersBase
 {
   Q_OBJECT
 public:
-  explicit ActionFontHandlers(QObject *parent = 0);
+  explicit ActionFontHandlers(QObject* parent = 0);
   virtual ~ActionFontHandlers() {}
 
 signals:
-  void imageCreated(QImage *image, const QString &documentName);
+  void imageCreated(QImage* image, const QString& documentName);
 
 public slots:
   void fontChange_triggered();

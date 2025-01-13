@@ -20,8 +20,10 @@
 #ifndef PREPAREOPTIONS_H
 #define PREPAREOPTIONS_H
 
-#include <QObject>
 #include "conversion_options.h"
+
+#include <QObject>
+
 #include "ipresetsoptionspart.h"
 
 namespace Settings
@@ -35,7 +37,7 @@ class PrepareOptions : public QObject, public IPresetOptionsPart
   Q_INTERFACES(Settings::Presets::IPresetOptionsPart)
 
 public:
-  explicit PrepareOptions(QObject *parent = 0);
+  explicit PrepareOptions(QObject* parent = 0);
   virtual ~PrepareOptions() {}
 
   Parsing::Conversion::Options::ConversionType convType() const;
@@ -59,15 +61,15 @@ public:
   void setBandScanning(bool value);
   void setBandWidth(int value);
   void setUseCustomScanScript(bool value);
-  void setCustomScanScript(const QString &value);
-  void setCustomPreprocessScript(const QString &value);
+  void setCustomScanScript(const QString& value);
+  void setCustomPreprocessScript(const QString& value);
 
-  const QString &convTypeName() const;
-  const QString &monoTypeName() const;
+  const QString& convTypeName() const;
+  const QString& monoTypeName() const;
 
-  bool load(QSettings *settings) Q_DECL_OVERRIDE;
+  bool load(QSettings* settings) Q_DECL_OVERRIDE;
   bool loadXmlElement(QDomElement element) Q_DECL_OVERRIDE;
-  void save(QSettings *settings) Q_DECL_OVERRIDE;
+  void save(QSettings* settings) Q_DECL_OVERRIDE;
   void saveXmlElement(QDomElement element) Q_DECL_OVERRIDE;
 
   QString groupName() const Q_DECL_OVERRIDE;
@@ -102,7 +104,6 @@ signals:
   void changed();
 
 public slots:
-
 };
 
 } // namespace Presets

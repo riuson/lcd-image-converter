@@ -30,7 +30,7 @@ namespace Containers
 {
 class IDocument;
 }
-}
+} // namespace Data
 
 namespace AppUI
 {
@@ -41,15 +41,15 @@ class ActionFileHandlers : public ActionHandlersBase
 {
   Q_OBJECT
 public:
-  explicit ActionFileHandlers(QObject *parent = 0);
+  explicit ActionFileHandlers(QObject* parent = 0);
   virtual ~ActionFileHandlers() {}
 
 signals:
-  void rememberFilename(const QString &filename);
-  void closeRequest(QWidget *tab);
-  void tabChanged(QWidget *w);
-  void tabCreated(QWidget *w);
-  void tabSelect(QWidget *w);
+  void rememberFilename(const QString& filename);
+  void closeRequest(QWidget* tab);
+  void tabChanged(QWidget* w);
+  void tabCreated(QWidget* w);
+  void tabSelect(QWidget* w);
 
 public slots:
   void newImage_triggered();
@@ -62,15 +62,15 @@ public slots:
   void closeAll_triggered();
   void convert_triggered();
   void convertAll_triggered();
-  void openFiles(const QStringList &filenames);
-  void openFile(const QString &filename);
-  void openImage(QImage *image, const QString &documentName);
+  void openFiles(const QStringList& filenames);
+  void openFile(const QString& filename);
+  void openImage(QImage* image, const QString& documentName);
 
 private:
-  void openBinaryImage(const QStringList &filenames);
-  void openImage(const QStringList &filenames);
-  void openFont(const QStringList &filenames);
-  void convertDocument(Data::Containers::IDocument *document, bool request);
+  void openBinaryImage(const QStringList& filenames);
+  void openImage(const QStringList& filenames);
+  void openFont(const QStringList& filenames);
+  void convertDocument(Data::Containers::IDocument* document, bool request);
 
 private slots:
   void documentChanged();

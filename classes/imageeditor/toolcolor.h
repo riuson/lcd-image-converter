@@ -20,13 +20,13 @@
 #ifndef TOOLCOLOR_H
 #define TOOLCOLOR_H
 
-#include <QObject>
-#include <QImage>
+#include <QAction>
 #include <QColor>
-#include "iimageeditortool.h"
+#include <QIcon>
+#include <QImage>
+#include <QObject>
 
-class QIcon;
-class QAction;
+#include "iimageeditortool.h"
 
 namespace ImageEditor
 {
@@ -41,38 +41,36 @@ class ToolColor : public QObject, public IImageEditorTool
   Q_INTERFACES(ImageEditor::Tools::IImageEditorTool)
 
 public:
-  explicit ToolColor(IImageEditorParams *parameters, QObject *parent = 0);
+  explicit ToolColor(IImageEditorParams* parameters, QObject* parent = 0);
   virtual ~ToolColor();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;
-  const QIcon *icon() const Q_DECL_OVERRIDE;
-  const QList<QAction *> *actions() const Q_DECL_OVERRIDE;
-  const QList<QWidget *> *widgets() const Q_DECL_OVERRIDE;
+  const QIcon* icon() const Q_DECL_OVERRIDE;
+  const QList<QAction*>* actions() const Q_DECL_OVERRIDE;
+  const QList<QWidget*>* widgets() const Q_DECL_OVERRIDE;
 
   const QColor foreColor() const;
   const QColor backColor() const;
 
 public slots:
-  bool processMouse(QMouseEvent *event,
-                    const QImage *imageOriginal,
-                    bool inRect) Q_DECL_OVERRIDE;
+  bool processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect) Q_DECL_OVERRIDE;
 
 signals:
-  void started(const QImage *value) Q_DECL_OVERRIDE;
-  void processing(const QImage *value) Q_DECL_OVERRIDE;
-  void completed(const QImage *value, bool changed) Q_DECL_OVERRIDE;
+  void started(const QImage* value) Q_DECL_OVERRIDE;
+  void processing(const QImage* value) Q_DECL_OVERRIDE;
+  void completed(const QImage* value, bool changed) Q_DECL_OVERRIDE;
 
 private:
-  IImageEditorParams *mParameters;
-  QIcon *mIcon;
-  QList<QAction *> *mActions;
-  QList<QWidget *> *mWidgets;
+  IImageEditorParams* mParameters;
+  QIcon* mIcon;
+  QList<QAction*>* mActions;
+  QList<QWidget*>* mWidgets;
   QColor mForeColor;
   QColor mBackColor;
-  QAction *mActionForeColor;
-  QAction *mActionBackColor;
-  QAction *mActionSwapColors;
+  QAction* mActionForeColor;
+  QAction* mActionBackColor;
+  QAction* mActionSwapColors;
 
   void initializeWidgets();
   void loadSettings();

@@ -1,24 +1,20 @@
 #include "testconverterhelper.h"
 
-#include <QVector>
+#include "qt-version-check.h"
+
 #include <QCoreApplication>
 #include <QRandomGenerator>
-#include "qt-version-check.h"
+#include <QVector>
+
 #include "converterhelper.h"
-#include "preset.h"
-#include "prepareoptions.h"
-#include "matrixoptions.h"
 #include "imageoptions.h"
+#include "matrixoptions.h"
+#include "prepareoptions.h"
+#include "preset.h"
 
-TestConverterHelper::TestConverterHelper(QObject *parent) :
-  QObject(parent)
-{
-}
+TestConverterHelper::TestConverterHelper(QObject* parent) : QObject(parent) {}
 
-void TestConverterHelper::initTestCase()
-{
-  this->mPreset = new Settings::Presets::Preset(this);
-}
+void TestConverterHelper::initTestCase() { this->mPreset = new Settings::Presets::Preset(this); }
 
 void TestConverterHelper::processPixels()
 {
@@ -126,16 +122,10 @@ void TestConverterHelper::packData()
     this->mPreset->image()->setSplitToRows(true);
 
     QVector<quint32> source, expected;
-    this->preparePackData(
-      0x00ffffff, 0xffffffff,
-      &source, 1000, 1000,
-      true,
-      &expected);
+    this->preparePackData(0x00ffffff, 0xffffffff, &source, 1000, 1000, true, &expected);
 
     QVector<quint32> sample;
-    Parsing::Conversion::ConverterHelper::packData(this->mPreset,
-        &source, 1000, 1000,
-        &sample);
+    Parsing::Conversion::ConverterHelper::packData(this->mPreset, &source, 1000, 1000, &sample);
 
     QCOMPARE(sample.count(), expected.count());
 
@@ -149,16 +139,10 @@ void TestConverterHelper::packData()
     this->mPreset->image()->setSplitToRows(false);
 
     QVector<quint32> source, expected;
-    this->preparePackData(
-      0x00ffffff, 0xffffffff,
-      &source, 1000, 1000,
-      false,
-      &expected);
+    this->preparePackData(0x00ffffff, 0xffffffff, &source, 1000, 1000, false, &expected);
 
     QVector<quint32> sample;
-    Parsing::Conversion::ConverterHelper::packData(this->mPreset,
-        &source, 1000, 1000,
-        &sample);
+    Parsing::Conversion::ConverterHelper::packData(this->mPreset, &source, 1000, 1000, &sample);
 
     QCOMPARE(sample.count(), expected.count());
 
@@ -204,9 +188,12 @@ void TestConverterHelper::dataToString()
     QString expected8, expected16, expected24, expected32;
 
     this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data8, &expected8);
-    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data16, &expected16);
-    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data24, &expected24);
-    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data32, &expected32);
+    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data16,
+                            &expected16);
+    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data24,
+                            &expected24);
+    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data32,
+                            &expected32);
 
     // create test strings
     QString test8, test16, test24, test32;
@@ -248,9 +235,12 @@ void TestConverterHelper::dataToString()
     QString expected8, expected16, expected24, expected32;
 
     this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data8, &expected8);
-    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data16, &expected16);
-    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data24, &expected24);
-    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data32, &expected32);
+    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data16,
+                            &expected16);
+    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data24,
+                            &expected24);
+    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data32,
+                            &expected32);
 
     // create test strings
     QString test8, test16, test24, test32;
@@ -285,9 +275,12 @@ void TestConverterHelper::dataToString()
     QString expected8, expected16, expected24, expected32;
 
     this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data8, &expected8);
-    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data16, &expected16);
-    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data24, &expected24);
-    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data32, &expected32);
+    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data16,
+                            &expected16);
+    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data24,
+                            &expected24);
+    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data32,
+                            &expected32);
 
     // create test strings
     QString test8, test16, test24, test32;
@@ -322,9 +315,12 @@ void TestConverterHelper::dataToString()
     QString expected8, expected16, expected24, expected32;
 
     this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data8, &expected8);
-    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data16, &expected16);
-    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data24, &expected24);
-    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data32, &expected32);
+    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data16,
+                            &expected16);
+    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data24,
+                            &expected24);
+    this->prepareStringData(&source, count, count, blocksPerLine, Settings::Presets::DataBlockSize::Data32,
+                            &expected32);
 
     // create test strings
     QString test8, test16, test24, test32;
@@ -353,8 +349,10 @@ void TestConverterHelper::uint2hex()
 {
   quint32 value = 0x12345678;
 
-  QBENCHMARK {
-    Parsing::Conversion::ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem::Hexadecimal, Settings::Presets::DataBlockSize::Data32, value);
+  QBENCHMARK
+  {
+    Parsing::Conversion::ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem::Hexadecimal,
+                                                      Settings::Presets::DataBlockSize::Data32, value);
   }
 }
 
@@ -362,8 +360,10 @@ void TestConverterHelper::uint2octal()
 {
   quint32 value = 0x12345678;
 
-  QBENCHMARK {
-    Parsing::Conversion::ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem::Octal, Settings::Presets::DataBlockSize::Data32, value);
+  QBENCHMARK
+  {
+    Parsing::Conversion::ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem::Octal,
+                                                      Settings::Presets::DataBlockSize::Data32, value);
   }
 }
 
@@ -371,8 +371,10 @@ void TestConverterHelper::uint2binary()
 {
   quint32 value = 0x12345678;
 
-  QBENCHMARK {
-    Parsing::Conversion::ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem::Binary, Settings::Presets::DataBlockSize::Data32, value);
+  QBENCHMARK
+  {
+    Parsing::Conversion::ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem::Binary,
+                                                      Settings::Presets::DataBlockSize::Data32, value);
   }
 }
 
@@ -385,37 +387,24 @@ void TestConverterHelper::uint2string()
     values[v] = prng.generate();
   }
 
-  Settings::Presets::DataNumeralSystem nums[] = {
-    Settings::Presets::DataNumeralSystem::Binary,
-    Settings::Presets::DataNumeralSystem::Octal,
-    Settings::Presets::DataNumeralSystem::Hexadecimal
-  };
+  Settings::Presets::DataNumeralSystem nums[] = {Settings::Presets::DataNumeralSystem::Binary,
+                                                 Settings::Presets::DataNumeralSystem::Octal,
+                                                 Settings::Presets::DataNumeralSystem::Hexadecimal};
 
   Settings::Presets::DataBlockSize sizes[] = {
-    Settings::Presets::DataBlockSize::Data8,
-    Settings::Presets::DataBlockSize::Data16,
-    Settings::Presets::DataBlockSize::Data24,
-    Settings::Presets::DataBlockSize::Data32
-  };
+      Settings::Presets::DataBlockSize::Data8, Settings::Presets::DataBlockSize::Data16,
+      Settings::Presets::DataBlockSize::Data24, Settings::Presets::DataBlockSize::Data32};
 
-  int widths[3][4] = {
-    { 8, 16, 24, 32 },
-    { 3, 6, 8, 11 },
-    { 2, 4, 6, 8 }
-  };
+  int widths[3][4] = {{8, 16, 24, 32}, {3, 6, 8, 11}, {2, 4, 6, 8}};
 
-  static const quint32 limits[4] = {
-    0xfful,
-    0xfffful,
-    0xfffffful,
-    0xfffffffful
-  };
+  static const quint32 limits[4] = {0xfful, 0xfffful, 0xfffffful, 0xfffffffful};
 
   for (quint32 v = 0; v < sizeof(values) / sizeof(quint32); v++) {
     for (quint32 n = 0; n < sizeof(nums) / sizeof(Settings::Presets::DataNumeralSystem); n++) {
       for (quint32 s = 0; s < sizeof(sizes) / sizeof(Settings::Presets::DataBlockSize); s++) {
         QString stringResult = Parsing::Conversion::ConverterHelper::uint2string(nums[n], sizes[s], values[v]);
-        QString stringExpected = QString("%1").arg(values[v] & limits[static_cast<int>(sizes[s])], widths[n][s], static_cast<int>(nums[n]), QChar('0'));
+        QString stringExpected = QString("%1").arg(values[v] & limits[static_cast<int>(sizes[s])], widths[n][s],
+                                                   static_cast<int>(nums[n]), QChar('0'));
         QCOMPARE(stringResult, stringExpected);
       }
     }
@@ -460,19 +449,14 @@ void TestConverterHelper::breakInfiniteScript()
   Parsing::Conversion::ConverterHelper::collectPoints(&cimage, script, &err);
   cimage.setCondition(TestConvImage::CanBeDeleted);
 
-  QVERIFY2(cimage.pointsCount() >= 100000, "Points count limit not reached. Value must be equals to 100k or 120% of width * height.");
+  QVERIFY2(cimage.pointsCount() >= 100000,
+           "Points count limit not reached. Value must be equals to 100k or 120% of width * height.");
 }
 
-void TestConverterHelper::cleanupTestCase()
-{
-  delete this->mPreset;
-}
+void TestConverterHelper::cleanupTestCase() { delete this->mPreset; }
 
-void TestConverterHelper::preparePackData(
-  quint32 maskUsed, quint32 maskFill,
-  QVector<quint32> *source, int width, int height,
-  bool splitToRows,
-  QVector<quint32> *packed)
+void TestConverterHelper::preparePackData(quint32 maskUsed, quint32 maskFill, QVector<quint32>* source, int width,
+                                          int height, bool splitToRows, QVector<quint32>* packed)
 {
   int packedRowWidth = 0;
 
@@ -565,10 +549,8 @@ void TestConverterHelper::preparePackData(
   }
 }
 
-void TestConverterHelper::prepareStringData(
-  QVector<quint32> *source, int width, int height,
-  int blocksPerLine,
-  Parsing::Conversion::Options::DataBlockSize size, QString *string)
+void TestConverterHelper::prepareStringData(QVector<quint32>* source, int width, int height, int blocksPerLine,
+                                            Parsing::Conversion::Options::DataBlockSize size, QString* string)
 {
   QString result;
   quint32 mask = 0;
@@ -640,7 +622,7 @@ void TestConverterHelper::prepareStringData(
   *string = result;
 }
 
-void TestConverterHelper::compareStrings(const QString &actual, const QString &expected)
+void TestConverterHelper::compareStrings(const QString& actual, const QString& expected)
 {
   if (actual != expected) {
     qDebug() << "Strings do not match:";
@@ -663,8 +645,7 @@ void TestConverterHelper::compareStrings(const QString &actual, const QString &e
   }
 }
 
-TestConvImage::TestConvImage(const QImage *image, QObject *parent) :
-  Parsing::Conversion::ConvImageScan(image, parent)
+TestConvImage::TestConvImage(const QImage* image, QObject* parent) : Parsing::Conversion::ConvImageScan(image, parent)
 {
   this->mCondition = CanBeDeleted;
 }
@@ -676,8 +657,4 @@ TestConvImage::~TestConvImage()
   }
 }
 
-void TestConvImage::setCondition(TestConvImage::Condition value)
-{
-  this->mCondition = value;
-}
-
+void TestConvImage::setCondition(TestConvImage::Condition value) { this->mCondition = value; }

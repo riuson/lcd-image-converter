@@ -26,8 +26,7 @@ namespace AppUI
 namespace Revision
 {
 
-RevisionLabel::RevisionLabel(QWidget *parent) :
-  QLabel(parent)
+RevisionLabel::RevisionLabel(QWidget* parent) : QLabel(parent)
 {
   this->setText(VersionControl::RevisionInfo::hash_abbr());
 

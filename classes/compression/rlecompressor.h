@@ -20,9 +20,9 @@
 #ifndef RLE_H
 #define RLE_H
 
-#include <QObject>
-
 #include "conversion_options.h"
+
+#include <QObject>
 
 // Run-length encoding algorithm
 // http://en.wikipedia.org/wiki/Run-length_encoding
@@ -41,33 +41,20 @@ class RleCompressor : public QObject
 {
   Q_OBJECT
 public:
-  explicit RleCompressor(QObject *parent = 0);
+  explicit RleCompressor(QObject* parent = 0);
   virtual ~RleCompressor() {}
 
-  void compress(
-    QVector<quint32> *input,
-    Parsing::Conversion::Options::DataBlockSize dataSize,
-    QVector<quint32> *output,
-    quint32 minimumOfEquals = 2);
+  void compress(QVector<quint32>* input, Parsing::Conversion::Options::DataBlockSize dataSize, QVector<quint32>* output,
+                quint32 minimumOfEquals = 2);
 
 private:
-  void collectSequences(
-    const QVector<quint32> *input,
-    QVector<RleSequence *> *sequences);
-  void combineSequences(
-    const QVector<RleSequence *> *inputSequences,
-    quint32 minimumOfEquals,
-    QVector<RleSequence *> *outputSequences);
+  void collectSequences(const QVector<quint32>* input, QVector<RleSequence*>* sequences);
+  void combineSequences(const QVector<RleSequence*>* inputSequences, quint32 minimumOfEquals,
+                        QVector<RleSequence*>* outputSequences);
   quint32 getMaxSize(Parsing::Conversion::Options::DataBlockSize dataSize);
-  void flushSequence(
-    const RleSequence *sequence,
-    Parsing::Conversion::Options::DataBlockSize dataSize,
-    QVector<quint32> *output);
-  void flushSequencePart(
-    const RleSequence *sequence,
-    quint32 start,
-    quint32 length,
-    QVector<quint32> *output);
+  void flushSequence(const RleSequence* sequence, Parsing::Conversion::Options::DataBlockSize dataSize,
+                     QVector<quint32>* output);
+  void flushSequencePart(const RleSequence* sequence, quint32 start, quint32 length, QVector<quint32>* output);
 };
 
 } // namespace Compression

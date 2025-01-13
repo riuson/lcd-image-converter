@@ -20,8 +20,6 @@
 #ifndef CANVASMODINFO_H
 #define CANVASMODINFO_H
 
-class QString;
-
 #include <QString>
 
 namespace Data

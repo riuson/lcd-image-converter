@@ -3,17 +3,18 @@
 
 #include <QObject>
 #include <QtTest/QtTest>
+
 #include "bitmaphelper.h"
 
 class TestBitmapHelper : public QObject
 {
   Q_OBJECT
 public:
-  explicit TestBitmapHelper(QObject *parent = 0);
+  explicit TestBitmapHelper(QObject* parent = 0);
   virtual ~TestBitmapHelper() {}
 
 private:
-  void compareSizeAndPixels(const QImage *actual, const QImage *expected) const;
+  void compareSizeAndPixels(const QImage* actual, const QImage* expected) const;
 
 private slots:
   void initTestCase();

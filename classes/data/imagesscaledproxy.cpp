@@ -18,6 +18,7 @@
  */
 
 #include "imagesscaledproxy.h"
+
 #include "bitmaphelper.h"
 
 namespace Data
@@ -25,17 +26,11 @@ namespace Data
 namespace Models
 {
 
-ImagesScaledProxy::ImagesScaledProxy(QObject *parent)
-  : QSortFilterProxyModel(parent)
-{
-  this->mScale = 2;
-}
+ImagesScaledProxy::ImagesScaledProxy(QObject* parent) : QSortFilterProxyModel(parent) { this->mScale = 2; }
 
-ImagesScaledProxy::~ImagesScaledProxy()
-{
-}
+ImagesScaledProxy::~ImagesScaledProxy() {}
 
-QVariant ImagesScaledProxy::data(const QModelIndex &index, int role) const
+QVariant ImagesScaledProxy::data(const QModelIndex& index, int role) const
 {
   QVariant result = this->sourceModel()->data(index, role);
 
@@ -74,10 +69,7 @@ QVariant ImagesScaledProxy::data(const QModelIndex &index, int role) const
   return result;
 }
 
-int ImagesScaledProxy::scale() const
-{
-  return this->mScale;
-}
+int ImagesScaledProxy::scale() const { return this->mScale; }
 
 void ImagesScaledProxy::setScale(int value)
 {

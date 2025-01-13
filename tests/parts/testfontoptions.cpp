@@ -1,17 +1,12 @@
 #include "testfontoptions.h"
 
 #include <QStringList>
+
 #include "fontoptions.h"
 
-TestFontOptions::TestFontOptions(QObject *parent) :
-  QObject(parent)
-{
-}
+TestFontOptions::TestFontOptions(QObject* parent) : QObject(parent) {}
 
-void TestFontOptions::initTestCase()
-{
-  this->mOptions = new Settings::Presets::FontOptions(this);
-}
+void TestFontOptions::initTestCase() { this->mOptions = new Settings::Presets::FontOptions(this); }
 
 void TestFontOptions::bom()
 {
@@ -37,8 +32,4 @@ void TestFontOptions::encoding()
   QVERIFY(this->mOptions->encoding() != "other");
 }
 
-void TestFontOptions::cleanupTestCase()
-{
-  delete this->mOptions;
-}
-
+void TestFontOptions::cleanupTestCase() { delete this->mOptions; }

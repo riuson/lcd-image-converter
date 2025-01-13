@@ -20,10 +20,10 @@
 #ifndef STATUSDATA_H
 #define STATUSDATA_H
 
+#include <QList>
+#include <QMap>
 #include <QObject>
 #include <QVariant>
-#include <QMap>
-#include <QList>
 
 namespace AppUI
 {
@@ -34,21 +34,14 @@ class StatusData : public QObject
 {
   Q_OBJECT
 public:
+  enum StatusType { ImageIndex, ImagesCount, ImageSize, MouseCoordinates, Scale };
 
-  enum StatusType {
-    ImageIndex,
-    ImagesCount,
-    ImageSize,
-    MouseCoordinates,
-    Scale
-  };
-
-  explicit StatusData(QObject *parent = 0);
+  explicit StatusData(QObject* parent = 0);
   virtual ~StatusData() {}
 
   const QList<StatusType> keys() const;
   const QVariant data(const StatusType key) const;
-  void setData(const StatusType key, const QVariant &value);
+  void setData(const StatusType key, const QVariant& value);
   void removeData(const StatusType key);
 
 private:

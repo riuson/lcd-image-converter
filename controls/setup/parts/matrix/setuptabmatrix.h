@@ -33,9 +33,9 @@ namespace Presets
 {
 class Preset;
 }
-}
+} // namespace Settings
 
-class QMenu;
+#include <QMenu>
 
 namespace AppUI
 {
@@ -53,24 +53,24 @@ class SetupTabMatrix : public QWidget
   Q_OBJECT
 
 public:
-  explicit SetupTabMatrix(Settings::Presets::Preset *preset, QWidget *parent = 0);
+  explicit SetupTabMatrix(Settings::Presets::Preset* preset, QWidget* parent = 0);
   virtual ~SetupTabMatrix();
 
 public slots:
   void matrixChanged();
 
 private:
-  Ui::SetupTabMatrix *ui;
-  Settings::Presets::Preset *mPreset;
-  MatrixPreviewModel *mMatrixModel;
-  MatrixItemDelegate *mMatrixItemDelegate;
-  QMenu *mMenu;
+  Ui::SetupTabMatrix* ui;
+  Settings::Presets::Preset* mPreset;
+  MatrixPreviewModel* mMatrixModel;
+  MatrixItemDelegate* mMatrixItemDelegate;
+  QMenu* mMenu;
 
   void updateMaskByBlockSize();
 
 private slots:
-  void on_tableViewOperations_customContextMenuRequested(const QPoint &point);
-  void on_presetChanged(const QString &groupName);
+  void on_tableViewOperations_customContextMenuRequested(const QPoint& point);
+  void on_presetChanged(const QString& groupName);
   void operationAdd();
   void operationShift();
   void operationRemove();

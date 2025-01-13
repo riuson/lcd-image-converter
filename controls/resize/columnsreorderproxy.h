@@ -20,8 +20,8 @@
 #ifndef COLUMNSREORDERPROXY_H
 #define COLUMNSREORDERPROXY_H
 
-#include <QSortFilterProxyModel>
 #include <QList>
+#include <QSortFilterProxyModel>
 
 namespace Data
 {
@@ -33,20 +33,20 @@ class ColumnsReorderProxy : public QSortFilterProxyModel
   Q_OBJECT
 
 public:
-  explicit ColumnsReorderProxy(QObject *parent = 0);
+  explicit ColumnsReorderProxy(QObject* parent = 0);
   virtual ~ColumnsReorderProxy() {}
 
   /*
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
   QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
   */
-  QModelIndex index(int row, int column,
-                    const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-  QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
-  QModelIndex mapFromSource(const QModelIndex &sourceIndex) const Q_DECL_OVERRIDE;
-  QModelIndex mapToSource(const QModelIndex &proxyIndex) const Q_DECL_OVERRIDE;
+  QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
+  QModelIndex parent(const QModelIndex& index) const Q_DECL_OVERRIDE;
+  QModelIndex mapFromSource(const QModelIndex& sourceIndex) const Q_DECL_OVERRIDE;
+  QModelIndex mapToSource(const QModelIndex& proxyIndex) const Q_DECL_OVERRIDE;
 
   void setReorder(int oldPosition, int newPosition);
+
 private:
   int mFromColumn;
   int mToColumn;

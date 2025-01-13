@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QProcess>
+
 #include "actionhandlersbase.h"
 
 namespace AppUI
@@ -33,7 +34,7 @@ class ActionImageHandlers : public ActionHandlersBase
 {
   Q_OBJECT
 public:
-  explicit ActionImageHandlers(QObject *parent = 0);
+  explicit ActionImageHandlers(QObject* parent = 0);
   virtual ~ActionImageHandlers() {}
 
 private:

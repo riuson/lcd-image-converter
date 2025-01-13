@@ -30,7 +30,7 @@ namespace Presets
 {
 class Preset;
 }
-}
+} // namespace Settings
 
 namespace Parsing
 {
@@ -40,7 +40,7 @@ namespace Conversion
 class BitStream
 {
 public:
-  BitStream(Settings::Presets::Preset *preset, QVector<quint32> *data, int start, int count);
+  BitStream(Settings::Presets::Preset* preset, QVector<quint32>* data, int start, int count);
   virtual ~BitStream() {}
 
   void init();
@@ -48,8 +48,8 @@ public:
   quint32 next();
 
 private:
-  Settings::Presets::Preset *mPreset;
-  QVector<quint32> *mData;
+  Settings::Presets::Preset* mPreset;
+  QVector<quint32>* mData;
   int mStart;
   int mCount;
   int mBlockSize;
