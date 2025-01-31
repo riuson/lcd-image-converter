@@ -29,7 +29,7 @@ namespace Containers
 {
 class IDocument;
 }
-}
+} // namespace Data
 
 namespace Operations
 {
@@ -39,11 +39,11 @@ class DocumentOperator : public QObject
 {
   Q_OBJECT
 public:
-  explicit DocumentOperator(QObject *parent = 0);
+  explicit DocumentOperator(QObject* parent = 0);
   virtual ~DocumentOperator() {}
 
   void setKeys(const QStringList keys);
-  void apply(Data::Containers::IDocument *doc, IOperation &operation);
+  void apply(Data::Containers::IDocument* doc, IOperation& operation);
 
 private:
   QStringList mSelectedKeys;

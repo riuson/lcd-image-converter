@@ -1,9 +1,9 @@
 #ifndef SETUPTABPREPAREPREPROCESSING_H
 #define SETUPTABPREPAREPREPROCESSING_H
 
-#include <QWidget>
-
 #include "conversion_options.h"
+
+#include <QWidget>
 
 namespace Ui
 {
@@ -16,7 +16,7 @@ namespace Presets
 {
 class Preset;
 }
-}
+} // namespace Settings
 
 namespace AppUI
 {
@@ -32,15 +32,15 @@ class SetupTabPreparePreprocessing : public QWidget
   Q_OBJECT
 
 public:
-  explicit SetupTabPreparePreprocessing(Settings::Presets::Preset *preset, QWidget *parent = 0);
+  explicit SetupTabPreparePreprocessing(Settings::Presets::Preset* preset, QWidget* parent = 0);
   virtual ~SetupTabPreparePreprocessing();
 
 public slots:
   void matrixChanged();
 
 private:
-  Ui::SetupTabPreparePreprocessing *ui;
-  Settings::Presets::Preset *mPreset;
+  Ui::SetupTabPreparePreprocessing* ui;
+  Settings::Presets::Preset* mPreset;
   QPixmap mPixmapScanning;
   QPixmap mPixmapScanPreview;
 

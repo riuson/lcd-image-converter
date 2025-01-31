@@ -18,21 +18,21 @@
  */
 
 #include "dialogfontrange.h"
+
 #include "ui_dialogfontrange.h"
 
-#include "fontoptions.h"
-#include "fonthelper.h"
-#include <QTextCodec>
 #include <QCompleter>
+#include <QTextCodec>
+
+#include "fonthelper.h"
+#include "fontoptions.h"
 
 namespace AppUI
 {
 namespace Fonts
 {
 
-DialogFontRange::DialogFontRange(QWidget *parent) :
-  QDialog(parent),
-  ui(new Ui::DialogFontRange)
+DialogFontRange::DialogFontRange(QWidget* parent) : QDialog(parent), ui(new Ui::DialogFontRange)
 {
   ui->setupUi(this);
 
@@ -45,7 +45,7 @@ DialogFontRange::DialogFontRange(QWidget *parent) :
   this->mResultString = QString();
 
   QStringList encodings = Settings::Presets::FontOptions::encodings();
-  qSort(encodings);
+  std::sort(encodings.begin(), encodings.end());
   this->ui->comboBoxEncoding->addItems(encodings);
   int index = this->ui->comboBoxEncoding->findText("UTF-8", Qt::MatchFixedString);
 
@@ -60,15 +60,9 @@ DialogFontRange::DialogFontRange(QWidget *parent) :
   this->ui->comboBoxEncoding->setCompleter(this->mEncodingCompleter);
 }
 
-DialogFontRange::~DialogFontRange()
-{
-  delete ui;
-}
+DialogFontRange::~DialogFontRange() { delete ui; }
 
-const QString &DialogFontRange::resultString() const
-{
-  return this->mResultString;
-}
+const QString& DialogFontRange::resultString() const { return this->mResultString; }
 
 void DialogFontRange::updatePreview()
 {
@@ -79,9 +73,9 @@ void DialogFontRange::updatePreview()
   this->updatePreview(encoding, from, to, bigEndian);
 }
 
-void DialogFontRange::updatePreview(const QString &encoding, int from, int to, bool bigEndian)
+void DialogFontRange::updatePreview(const QString& encoding, int from, int to, bool bigEndian)
 {
-  QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
+  QTextCodec* codec = QTextCodec::codecForName(encoding.toLatin1());
   QString result;
 
   if (from > to) {
@@ -105,7 +99,12 @@ void DialogFontRange::updatePreview(const QString &encoding, int from, int to, b
       }
 
       QString str = codec->toUnicode(array);
-      result += str;
+
+      if (codec->canEncode(str)) {
+        result += str;
+      } else {
+        result += QString("\\x%1").arg(i, 4, 16, QChar('0'));
+      }
     } else {
       result += QChar(QChar::Null);
     }
@@ -116,7 +115,8 @@ void DialogFontRange::updatePreview(const QString &encoding, int from, int to, b
 
 void DialogFontRange::on_plainTextEditPreview_textChanged()
 {
-  this->mResultString = Parsing::Conversion::FontHelper::unescapeControlChars(this->ui->plainTextEditPreview->toPlainText());
+  this->mResultString =
+      Parsing::Conversion::FontHelper::unescapeControlChars(this->ui->plainTextEditPreview->toPlainText());
 }
 
 } // namespace Fonts

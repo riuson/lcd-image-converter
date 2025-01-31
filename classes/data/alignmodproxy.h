@@ -1,6 +1,6 @@
 /*
  * LCD Image Converter. Converts images and fonts for embedded applications.
- * Copyright (C) 2016 riuson
+ * Copyright (C) 2022 riuson
  * mailto: riuson@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,45 +17,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef IMAGESRESIZEDPROXY_H
-#define IMAGESRESIZEDPROXY_H
+#ifndef ALIGNMODPROXY_H
+#define ALIGNMODPROXY_H
 
 #include <QSortFilterProxyModel>
 
+template <class Key, class Value> class QMap;
+
 namespace Data
 {
+class AlignModInfo;
+
 namespace Models
 {
 
-class ImagesResizedProxy : public QSortFilterProxyModel
+class AlignModProxy : public QSortFilterProxyModel
 {
   Q_OBJECT
 
 public:
-  explicit ImagesResizedProxy(QObject *parent = 0);
-  virtual ~ImagesResizedProxy() {}
+  explicit AlignModProxy(Data::AlignModInfo* alignModInfo, QObject* parent = nullptr);
+  virtual ~AlignModProxy() Q_DECL_OVERRIDE {}
 
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-  int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-  QModelIndex index(int row, int column,
-                    const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-  QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
-  QModelIndex mapFromSource(const QModelIndex &sourceIndex) const Q_DECL_OVERRIDE;
-  QModelIndex mapToSource(const QModelIndex &proxyIndex) const Q_DECL_OVERRIDE;
+  int columnCount(const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
+  QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+  QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
+  QModelIndex parent(const QModelIndex& index) const Q_DECL_OVERRIDE;
+  QModelIndex mapFromSource(const QModelIndex& sourceIndex) const Q_DECL_OVERRIDE;
+  QModelIndex mapToSource(const QModelIndex& proxyIndex) const Q_DECL_OVERRIDE;
 
-  void setCrop(int left, int top, int right, int bottom);
+  // void notifyPreviewChanged();
 
 private:
-  int mLeft;
-  int mRight;
-  int mTop;
-  int mBottom;
-
-  const QSize resized(const QSize &value) const;
+  Data::AlignModInfo* mAlignModInfo;
 };
 
 } // namespace Models
 } // namespace Data
 
-#endif // IMAGESRESIZEDPROXY_H
+#endif // ALIGNMODPROXY_H

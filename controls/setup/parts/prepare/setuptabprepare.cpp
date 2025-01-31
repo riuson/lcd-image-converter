@@ -18,15 +18,16 @@
  */
 
 #include "setuptabprepare.h"
+
 #include "ui_setuptabprepare.h"
 
-#include "preset.h"
-#include "prepareoptions.h"
-#include "matrixoptions.h"
-#include "imageoptions.h"
 #include "bitmaphelper.h"
 #include "converterhelper.h"
 #include "demogenerator.h"
+#include "imageoptions.h"
+#include "matrixoptions.h"
+#include "prepareoptions.h"
+#include "preset.h"
 #include "setupdialogoptions.h"
 #include "setuptabpreparepreprocessing.h"
 #include "setuptabpreparescanning.h"
@@ -40,9 +41,8 @@ namespace Parts
 namespace Prepare
 {
 
-SetupTabPrepare::SetupTabPrepare(Settings::Presets::Preset *preset, QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::SetupTabPrepare)
+SetupTabPrepare::SetupTabPrepare(Settings::Presets::Preset* preset, QWidget* parent)
+    : QWidget(parent), ui(new Ui::SetupTabPrepare)
 {
   ui->setupUi(this);
   this->mPreset = preset;
@@ -56,10 +56,7 @@ SetupTabPrepare::SetupTabPrepare(Settings::Presets::Preset *preset, QWidget *par
   this->matrixChanged();
 }
 
-SetupTabPrepare::~SetupTabPrepare()
-{
-  delete ui;
-}
+SetupTabPrepare::~SetupTabPrepare() { delete ui; }
 
 void SetupTabPrepare::matrixChanged()
 {

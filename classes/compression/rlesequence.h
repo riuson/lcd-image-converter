@@ -33,11 +33,11 @@ class RleSequence
 {
 public:
   RleSequence();
-  RleSequence(const RleSequence *other);
+  RleSequence(const RleSequence* other);
   virtual ~RleSequence();
 
   void append(quint32 value);
-  void append(const RleSequence *sequence);
+  void append(const RleSequence* sequence);
   quint32 at(quint32 index) const;
   quint32 last() const;
   quint32 size() const;
@@ -45,8 +45,7 @@ public:
   bool allEquals() const;
 
 private:
-  QVector <quint32> *mData;
-
+  QVector<quint32>* mData;
 };
 
 } // namespace Compression

@@ -28,14 +28,9 @@ namespace Parts
 namespace Matrix
 {
 
-MatrixItemDelegate::MatrixItemDelegate(QObject *pobj) : QItemDelegate(pobj)
-{
-  this->mColor = QColor("gold");
-}
+MatrixItemDelegate::MatrixItemDelegate(QObject* pobj) : QItemDelegate(pobj) { this->mColor = QColor("gold"); }
 
-void MatrixItemDelegate::paint(QPainter *painter,
-                               const QStyleOptionViewItem &option,
-                               const QModelIndex &index) const
+void MatrixItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
   if (index.isValid()) {
     int rows = index.model()->rowCount();
@@ -43,7 +38,7 @@ void MatrixItemDelegate::paint(QPainter *painter,
     int row = index.row();
 
     if (row == 0) {
-      //painter->setPen(this->mColorOdd);
+      // painter->setPen(this->mColorOdd);
       QPen pen(QBrush(this->mColor), 3);
       painter->setPen(pen);
       painter->drawLine(rect.left(), rect.bottom() - 1, rect.right(), rect.bottom() - 1);
@@ -59,15 +54,9 @@ void MatrixItemDelegate::paint(QPainter *painter,
   QItemDelegate::paint(painter, option, index);
 }
 
-QColor MatrixItemDelegate::color() const
-{
-  return this->mColor;
-}
+QColor MatrixItemDelegate::color() const { return this->mColor; }
 
-void MatrixItemDelegate::setColor(const QColor &value)
-{
-  this->mColor = value;
-}
+void MatrixItemDelegate::setColor(const QColor& value) { this->mColor = value; }
 
 } // namespace Matrix
 } // namespace Parts

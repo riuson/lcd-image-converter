@@ -1,12 +1,28 @@
+/*
+ * LCD Image Converter. Converts images and fonts for embedded applications.
+ * Copyright (C) 2019 riuson
+ * mailto: riuson@gmail.com
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/
+ */
+
 #include "canvasmodinfo.h"
 
 namespace Data
 {
 
-void CanvasModInfo::Mods::reset()
-{
-  this->left = this->top = this->right = this->bottom = 0;
-}
+void CanvasModInfo::Mods::reset() { this->left = this->top = this->right = this->bottom = 0; }
 
 CanvasModInfo::CanvasModInfo()
 {
@@ -50,10 +66,10 @@ void CanvasModInfo::reset()
 const QString CanvasModInfo::toString() const
 {
   return QString("L:%1,T:%2,R:%3,B:%4")
-         .arg(this->mCommited.left + this->mModified.left)
-         .arg(this->mCommited.top + this->mModified.top)
-         .arg(this->mCommited.right + this->mModified.right)
-         .arg(this->mCommited.bottom + this->mModified.bottom);
+      .arg(this->mCommited.left + this->mModified.left)
+      .arg(this->mCommited.top + this->mModified.top)
+      .arg(this->mCommited.right + this->mModified.right)
+      .arg(this->mCommited.bottom + this->mModified.bottom);
 }
 
 } // namespace Data

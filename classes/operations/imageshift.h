@@ -21,6 +21,7 @@
 #define IMAGESHIFT_H
 
 #include <QObject>
+
 #include "ioperation.h"
 
 namespace Operations
@@ -32,20 +33,14 @@ class ImageShift : public QObject, public IOperation
   Q_INTERFACES(Operations::IOperation)
 
 public:
-  enum class Direction {
-    None,
-    Left,
-    Right,
-    Up,
-    Down
-  };
+  enum class Direction { None, Left, Right, Up, Down };
 
-  explicit ImageShift(QObject *parent = 0);
+  explicit ImageShift(QObject* parent = 0);
   virtual ~ImageShift() {}
 
-  bool prepare(const Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyDocument(Data::Containers::IDocument *doc, const QStringList &keys) Q_DECL_OVERRIDE;
-  void applyItem(Data::Containers::IDocument *doc, const QString &itemKey) Q_DECL_OVERRIDE;
+  bool prepare(const Data::Containers::IDocument* doc, const QStringList& keys) Q_DECL_OVERRIDE;
+  void applyDocument(Data::Containers::IDocument* doc, const QStringList& keys) Q_DECL_OVERRIDE;
+  void applyItem(Data::Containers::IDocument* doc, const QString& itemKey) Q_DECL_OVERRIDE;
 
   void setDirection(Direction direction);
 

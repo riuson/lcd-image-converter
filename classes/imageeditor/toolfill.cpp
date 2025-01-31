@@ -18,17 +18,20 @@
  */
 
 #include "toolfill.h"
-#include <QPainter>
-#include <QList>
+
 #include <QAction>
-#include <QWidget>
 #include <QColor>
-#include <QSpinBox>
-#include <QMouseEvent>
-#include <QToolButton>
 #include <QColorDialog>
+#include <QList>
+#include <QMouseEvent>
+#include <QPainter>
+#include <QPainterPath>
+#include <QSpinBox>
+#include <QToolButton>
 #include <QVector>
-#include <appsettings.h>
+#include <QWidget>
+
+#include "appsettings.h"
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
 
@@ -37,13 +40,14 @@ namespace ImageEditor
 namespace Tools
 {
 
-ToolFill::ToolFill(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
+ToolFill::ToolFill(IImageEditorParams* parameters, QObject* parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_fill"), 24)));
+  this->mIcon = new QIcon(
+      QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_fill"), 24)));
 
-  this->mActions = new QList<QAction *>();
-  this->mWidgets = new QList<QWidget *>();
+  this->mActions = new QList<QAction*>();
+  this->mWidgets = new QList<QWidget*>();
 
   this->mSize = 1;
   this->mFlagChanged = false;
@@ -62,34 +66,21 @@ ToolFill::~ToolFill()
   delete this->mWidgets;
 }
 
-const QString ToolFill::title() const
-{
-  return tr("Fill");
-}
+const QString ToolFill::title() const { return tr("Fill"); }
 
 const QString ToolFill::tooltip() const
 {
-  return tr("<b>Fill area</b><br/>Use left mouse button to fill with forecolor.<br/>Use right mouse button to fill with backcolor.");
+  return tr("<b>Fill area</b><br/>Use left mouse button to fill with forecolor.<br/>Use right mouse button to fill "
+            "with backcolor.");
 }
 
-const QIcon *ToolFill::icon() const
-{
-  return this->mIcon;
-}
+const QIcon* ToolFill::icon() const { return this->mIcon; }
 
-const QList<QAction *> *ToolFill::actions() const
-{
-  return this->mActions;
-}
+const QList<QAction*>* ToolFill::actions() const { return this->mActions; }
 
-const QList<QWidget *> *ToolFill::widgets() const
-{
-  return this->mWidgets;
-}
+const QList<QWidget*>* ToolFill::widgets() const { return this->mWidgets; }
 
-bool ToolFill::processMouse(QMouseEvent *event,
-                            const QImage *imageOriginal,
-                            bool inRect)
+bool ToolFill::processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect)
 {
   if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress) {
     if (event->type() == QEvent::MouseButtonPress) {
@@ -137,14 +128,12 @@ bool ToolFill::processMouse(QMouseEvent *event,
   return true;
 }
 
-void ToolFill::initializeWidgets()
-{
-}
+void ToolFill::initializeWidgets() {}
 
 void ToolFill::loadSettings()
 {
   Settings::AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("fill");
@@ -157,7 +146,7 @@ void ToolFill::loadSettings()
 void ToolFill::saveSettings() const
 {
   Settings::AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("fill");
@@ -167,11 +156,11 @@ void ToolFill::saveSettings() const
   sett.endGroup();
 }
 
-bool ToolFill::fillArea(int x, int y, const QColor &color)
+bool ToolFill::fillArea(int x, int y, const QColor& color)
 {
   QImage image = this->mInternalImage;
   QRgb keyColor = image.pixel(x, y);
-  QVector <QPoint> vector1;
+  QVector<QPoint> vector1;
 
   this->collectPointsAround(image, QPoint(x, y), keyColor, &vector1);
 
@@ -180,8 +169,8 @@ bool ToolFill::fillArea(int x, int y, const QColor &color)
   while (vector1.size() > lastLength) {
     lastLength = vector1.size();
 
-    for (int i = 0 ; i < lastLength; i++) {
-      //painter.drawPoint(vector1.at(i));
+    for (int i = 0; i < lastLength; i++) {
+      // painter.drawPoint(vector1.at(i));
       this->collectPointsAround(image, vector1.at(i), keyColor, &vector1);
     }
   }
@@ -195,7 +184,7 @@ bool ToolFill::fillArea(int x, int y, const QColor &color)
       painter.setClipPath(this->mParameters->selectedPath());
     }
 
-    for (int i = 0 ; i < vector1.size(); i++) {
+    for (int i = 0; i < vector1.size(); i++) {
       painter.drawPoint(vector1.at(i));
     }
 
@@ -207,23 +196,23 @@ bool ToolFill::fillArea(int x, int y, const QColor &color)
   return false;
 }
 
-void ToolFill::collectPointsAround(const QImage &image, const QPoint &point, const QRgb &color, QVector<QPoint> *vector)
+void ToolFill::collectPointsAround(const QImage& image, const QPoint& point, const QRgb& color, QVector<QPoint>* vector)
 {
   int x = point.x();
   int y = point.y();
 
-  //this->collectPoint(image, QPoint(x - 1, y - 1), color, vector);
+  // this->collectPoint(image, QPoint(x - 1, y - 1), color, vector);
   this->collectPoint(image, QPoint(x - 0, y - 1), color, vector);
-  //this->collectPoint(image, QPoint(x + 1, y - 1), color, vector);
+  // this->collectPoint(image, QPoint(x + 1, y - 1), color, vector);
   this->collectPoint(image, QPoint(x - 1, y - 0), color, vector);
   this->collectPoint(image, QPoint(x - 0, y - 0), color, vector);
   this->collectPoint(image, QPoint(x + 1, y - 0), color, vector);
-  //this->collectPoint(image, QPoint(x - 1, y + 1), color, vector);
+  // this->collectPoint(image, QPoint(x - 1, y + 1), color, vector);
   this->collectPoint(image, QPoint(x - 0, y + 1), color, vector);
-  //this->collectPoint(image, QPoint(x + 1, y + 1), color, vector);
+  // this->collectPoint(image, QPoint(x + 1, y + 1), color, vector);
 }
 
-void ToolFill::collectPoint(const QImage &image, const QPoint &point, const QRgb &color, QVector<QPoint> *vector)
+void ToolFill::collectPoint(const QImage& image, const QPoint& point, const QRgb& color, QVector<QPoint>* vector)
 {
   if (point.x() >= 0 && point.y() >= 0 && point.x() < image.width() && point.y() < image.height()) {
     if (!vector->contains(point)) {
@@ -234,10 +223,7 @@ void ToolFill::collectPoint(const QImage &image, const QPoint &point, const QRgb
   }
 }
 
-void ToolFill::on_spinBoxSize_valueChanged(int value)
-{
-  this->mSize = value;
-}
+void ToolFill::on_spinBoxSize_valueChanged(int value) { this->mSize = value; }
 
 } // namespace Tools
 } // namespace ImageEditor

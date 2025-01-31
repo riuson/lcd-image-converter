@@ -28,16 +28,20 @@ QMAKE_CXXFLAGS += -std=c++11
 DESTDIR             = $$OUTDIR/output
 QMAKE_LIBDIR       += $$DESTDIR
 
-# Qt version required >= 5.5, since 2017-10-05.
+# Qt version required >= 5.15, since 2021-03-07.
 # Qt < 5.0
 lessThan(QT_MAJOR_VERSION, 5) {
-  error(Qt version required >= 5.5)
+  error(Qt version required 5.15 <= ... < 6)
 }
-#Qt < 5.5
-greaterThan(QT_MAJOR_VERSION, 4) {
-  lessThan(QT_MINOR_VERSION, 5) {
-    error(Qt version required >= 5.5)
+#Qt < 5.15
+equals(QT_MAJOR_VERSION, 5) {
+  lessThan(QT_MINOR_VERSION, 15) {
+    error(Qt version required 5.15 <= ... < 6)
   }
+}
+# Qt >= 6.x
+greaterThan(QT_MAJOR_VERSION, 5) {
+  error(Qt version required 5.15 <= ... < 6)
 }
 
 DEFINES += QT_MAJOR_VERSION="$$QT_MAJOR_VERSION"
@@ -64,6 +68,8 @@ SOURCES += main.cpp \
     classes/cmdline/modeparserbase.cpp \
     classes/compression/rlecompressor.cpp \
     classes/compression/rlesequence.cpp \
+    classes/data/alignmodinfo.cpp \
+    classes/data/alignmodproxy.cpp \
     classes/data/canvasmodinfo.cpp \
     classes/data/canvasmodproxy.cpp \
     classes/data/datacontainer.cpp \
@@ -87,6 +93,7 @@ SOURCES += main.cpp \
     classes/imageeditor/toolzoom.cpp \
     classes/operations/documentoperator.cpp \
     classes/operations/fontresize.cpp \
+    classes/operations/imagealign.cpp \
     classes/operations/imageeditinexternaltool.cpp \
     classes/operations/imageexport.cpp \
     classes/operations/imageflip.cpp \
@@ -105,6 +112,7 @@ SOURCES += main.cpp \
     classes/parser/parsedimagedata.cpp \
     classes/parser/parser.cpp \
     classes/parser/tagslist.cpp \
+    classes/settings/alignsettings.cpp \
     classes/settings/appsettings.cpp \
     classes/settings/conversionpreviewoptions.cpp \
     classes/settings/externaltooloptions.cpp \
@@ -125,6 +133,7 @@ SOURCES += main.cpp \
     classes/status/statusdata.cpp \
     classes/status/statusmanager.cpp \
     controls/about/dialogabout.cpp \
+    controls/align/dialogalign.cpp \
     controls/fonts/font-changed/dialogfontchanged.cpp \
     controls/fonts/font-editor/editortabfont.cpp \
     controls/fonts/font-new/charactersmodel.cpp \
@@ -142,7 +151,6 @@ SOURCES += main.cpp \
     controls/resize/columnsreorderproxy.cpp \
     controls/resize/dialogcanvasresize.cpp \
     controls/resize/imagesfilterproxy.cpp \
-    controls/resize/imagesresizedproxy.cpp \
     controls/save-changes/dialogsavechanges.cpp \
     controls/setup/dialogexternaleditor.cpp \
     controls/setup/dialogoptions.cpp \
@@ -178,11 +186,15 @@ HEADERS += \
     classes/cmdline/modeparserbase.h \
     classes/compression/rlecompressor.h \
     classes/compression/rlesequence.h \
+    classes/data/alignmodes.h \
+    classes/data/alignmodinfo.h \
+    classes/data/alignmodproxy.h \
     classes/data/canvasmodinfo.h \
     classes/data/canvasmodproxy.h \
     classes/data/datacontainer.h \
     classes/data/fontdocument.h \
     classes/data/fontparameters.h \
+    classes/data/fontsizeunits.h \
     classes/data/historykeeper.h \
     classes/data/historyrecord.h \
     classes/data/imagedocument.h \
@@ -206,6 +218,7 @@ HEADERS += \
     classes/imageeditor/toolzoom.h \
     classes/operations/documentoperator.h \
     classes/operations/fontresize.h \
+    classes/operations/imagealign.h \
     classes/operations/imageeditinexternaltool.h \
     classes/operations/imageexport.h \
     classes/operations/imageflip.h \
@@ -226,6 +239,7 @@ HEADERS += \
     classes/parser/parsedimagedata.h \
     classes/parser/parser.h \
     classes/parser/tagslist.h \
+    classes/settings/alignsettings.h \
     classes/settings/appsettings.h \
     classes/settings/conversionpreviewoptions.h \
     classes/settings/externaltooloptions.h \
@@ -247,6 +261,7 @@ HEADERS += \
     classes/status/statusdata.h \
     classes/status/statusmanager.h \
     controls/about/dialogabout.h \
+    controls/align/dialogalign.h \
     controls/fonts/font-changed/dialogfontchanged.h \
     controls/fonts/font-editor/editortabfont.h \
     controls/fonts/font-new/charactersmodel.h \
@@ -264,7 +279,6 @@ HEADERS += \
     controls/resize/columnsreorderproxy.h \
     controls/resize/dialogcanvasresize.h \
     controls/resize/imagesfilterproxy.h \
-    controls/resize/imagesresizedproxy.h \
     controls/save-changes/dialogsavechanges.h \
     controls/setup/dialogexternaleditor.h \
     controls/setup/dialogoptions.h \
@@ -291,6 +305,7 @@ HEADERS += \
 
 FORMS += \
     controls/about/dialogabout.ui \
+    controls/align/dialogalign.ui \
     controls/fonts/font-changed/dialogfontchanged.ui \
     controls/fonts/font-editor/editortabfont.ui \
     controls/fonts/font-new/dialogfontselect.ui \
@@ -331,6 +346,7 @@ INCLUDEPATH += $$PWD \
     $$PWD/classes/settings/presets \
     $$PWD/controls \
     $$PWD/controls/about \
+    $$PWD/controls/align \
     $$PWD/controls/fonts/font-changed \
     $$PWD/controls/fonts/font-editor \
     $$PWD/controls/fonts/font-new \
@@ -402,15 +418,13 @@ OTHER_FILES += \
 # sh script ($1 - path to project's directory):
 # git --git-dir $1/.git log --pretty=format:"#define GIT_REVISION \"%H\\0\" %n#define GIT_REVISION_ABBR \"%h\\0\" %n#define GIT_COMMIT_ADATE \"%ai\\0\" %n#define GIT_COMMIT_AT %at" -1 > $1/resources/revision.h
 win32 {
-  PERCENT = %%
+GIT_REV_CMD = $$PWD/update-revision-info.bat \"$$PWD\"
 }
 unix {
-  PERCENT = %
+GIT_REV_CMD = $$PWD/update-revision-info.sh \"$$PWD\"
 }
-NEWLINE = $${PERCENT}n
-VERSION_LOG_FORMAT = $${LITERAL_HASH}define GIT_REVISION \\\"$${PERCENT}H\\\"$${NEWLINE}$${LITERAL_HASH}define GIT_REVISION_ABBR \\\"$${PERCENT}h\\\"$${NEWLINE}$${LITERAL_HASH}define GIT_COMMIT_ADATE \\\"$${PERCENT}ai\\\"$${NEWLINE}$${LITERAL_HASH}define GIT_COMMIT_AT $${PERCENT}at$${NEWLINE}
 version.target = git_revision
-version.commands = git --git-dir $${PWD}/.git log --pretty=format:\"$${VERSION_LOG_FORMAT}\" -1 > $${PWD}/resources/revision.h
+version.commands = $$GIT_REV_CMD
 
 QMAKE_EXTRA_TARGETS += version
 PRE_TARGETDEPS += git_revision
@@ -423,4 +437,4 @@ QMAKE_EXTRA_TARGETS += translation_ru
 PRE_TARGETDEPS += $$PWD/resources/lcd-image-converter-ru.qm $$PWD/resources/lcd-image-converter-ru.ts
 
 DISTFILES += \
-    astyle.astylerc
+    .clang-format

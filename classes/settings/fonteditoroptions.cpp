@@ -18,10 +18,12 @@
  */
 
 #include "fonteditoroptions.h"
-#include "bitmaphelper.h"
-#include <QVariant>
+
 #include <QRgb>
-#include <appsettings.h>
+#include <QVariant>
+
+#include "appsettings.h"
+#include "bitmaphelper.h"
 
 namespace Settings
 {
@@ -29,7 +31,7 @@ namespace Settings
 int FontEditorOptions::scale()
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("font-editor");
   bool ok;
   int result = sett.value("scale", QVariant(1)).toInt(&ok);
@@ -45,7 +47,7 @@ int FontEditorOptions::scale()
 void FontEditorOptions::setScale(int value)
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("font-editor");
   sett.setValue("scale", QVariant(value));
   sett.endGroup();
@@ -54,7 +56,7 @@ void FontEditorOptions::setScale(int value)
 QColor FontEditorOptions::foreColor()
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("font-editor");
   bool ok;
   unsigned int a = sett.value("foreColor", QVariant("none")).toUInt(&ok);
@@ -72,7 +74,7 @@ QColor FontEditorOptions::foreColor()
 QColor FontEditorOptions::backColor()
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("font-editor");
   bool ok;
   unsigned int a = sett.value("backColor", QVariant("none")).toUInt(&ok);
@@ -87,23 +89,23 @@ QColor FontEditorOptions::backColor()
   return result;
 }
 
-void FontEditorOptions::setForeColor(const QColor &value)
+void FontEditorOptions::setForeColor(const QColor& value)
 {
   unsigned int a = value.rgba();
 
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("font-editor");
   sett.setValue("foreColor", QVariant(a));
   sett.endGroup();
 }
 
-void FontEditorOptions::setBackColor(const QColor &value)
+void FontEditorOptions::setBackColor(const QColor& value)
 {
   unsigned int a = value.rgba();
 
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("font-editor");
   sett.setValue("backColor", QVariant(a));
   sett.endGroup();

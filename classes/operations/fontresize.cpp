@@ -18,18 +18,16 @@
  */
 
 #include "fontresize.h"
-#include "idocument.h"
+
 #include "datacontainer.h"
+#include "idocument.h"
 
 namespace Operations
 {
 
-FontResize::FontResize(QWidget *parentWidget, QObject *parent)
-  : ImageResize(parentWidget, parent)
-{
-}
+FontResize::FontResize(QWidget* parentWidget, QObject* parent) : ImageResize(parentWidget, parent) {}
 
-void FontResize::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
+void FontResize::applyDocument(Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(keys)
 

@@ -30,7 +30,7 @@ namespace Containers
 {
 class DataContainer;
 }
-}
+} // namespace Data
 
 namespace Parsing
 {
@@ -40,25 +40,18 @@ namespace Conversion
 class FontHelper
 {
 public:
-  static QImage drawString(const Data::Containers::DataContainer *data, const QString &value);
-  static QString escapeControlChars(const QString &value);
-  static QString unescapeControlChars(const QString &value);
-  static QSize getCharacterSize(const QFontMetrics &metrics, QChar value);
-  static QImage drawCharacter(
-    const QChar value,
-    const QFont &font,
-    const QColor &foreground,
-    const QColor &background,
-    const int width,
-    const int height,
-    const bool antialiasing,
-    const int multiplicityHeight,
-    const int multiplicityWidth);
+  static QImage drawString(const Data::Containers::DataContainer* data, const QString& value);
+  static QString escapeControlChars(const QString& value);
+  static QString unescapeControlChars(const QString& value);
+  static QSize getCharacterSize(const QFontMetrics& metrics, QChar value);
+  static QSize getGlyphSize(const QFontMetrics& metrics, QChar value);
+  static QImage drawCharacter(const QChar value, const QFont& font, const QColor& foreground, const QColor& background,
+                              const int width, const int height, const bool antialiasing, const int multiplicityHeight,
+                              const int multiplicityWidth);
   static int roundUp(int original, int multiplicity);
 signals:
 
 public slots:
-
 };
 
 } // namespace Conversion

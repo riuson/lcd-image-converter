@@ -20,13 +20,11 @@
 #ifndef DATACONTAINER_H
 #define DATACONTAINER_H
 
+#include <QImage>
 #include <QMap>
-#include <QStringList>
 #include <QString>
 #include <QStringList>
 #include <QVariant>
-
-class QImage;
 
 namespace Data
 {
@@ -41,24 +39,24 @@ class DataContainer : public QObject
 {
   Q_OBJECT
 public:
-  explicit DataContainer(QObject *parent = 0);
+  explicit DataContainer(QObject* parent = 0);
   virtual ~DataContainer();
 
-  const QImage *image(const QString &imageKey) const;
-  void setImage(const QString &imageKey, const QImage *image);
+  const QImage* image(const QString& imageKey) const;
+  void setImage(const QString& imageKey, const QImage* image);
 
-  QVariant commonInfo(const QString &infoKey) const;
-  void setCommonInfo(const QString &infoKey, const QVariant &value);
+  QVariant commonInfo(const QString& infoKey) const;
+  void setCommonInfo(const QString& infoKey, const QVariant& value);
 
-  QVariant imageInfo(const QString &imageKey, const QString &infoKey) const;
-  void setImageInfo(const QString &imageKey, const QString &infoKey, const QVariant &value);
+  QVariant imageInfo(const QString& imageKey, const QString& infoKey) const;
+  void setImageInfo(const QString& imageKey, const QString& infoKey, const QVariant& value);
 
   void clear();
   int count() const;
   QStringList keys() const;
-  void removeImage(const QString &key);
+  void removeImage(const QString& key);
 
-  void reorderTo(const QStringList *keys);
+  void reorderTo(const QStringList* keys);
 
   bool historyInitialized() const;
   void historyInit();
@@ -76,11 +74,11 @@ private:
   static const QString CommonInfoKeyPrefix;
   static const QString ImageInfoKeyPrefix;
 
-  QMap<QString, QImage *> mImageMap;
+  QMap<QString, QImage*> mImageMap;
   QMap<QString, QVariant> mInfoMap;
   QStringList mKeys;
-  QImage *mDefaultImage;
-  Data::History::HistoryKeeper *mHistory;
+  QImage* mDefaultImage;
+  Data::History::HistoryKeeper* mHistory;
 
 signals:
   void dataChanged(bool historyStateMoved);

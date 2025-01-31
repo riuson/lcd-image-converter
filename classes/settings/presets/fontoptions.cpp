@@ -19,11 +19,11 @@
 
 #include "fontoptions.h"
 
-#include <QStringList>
+#include <QDomDocument>
 #include <QSettings>
+#include <QStringList>
 #include <QTextCodec>
 #include <QtXml>
-#include <QDomDocument>
 
 namespace Settings
 {
@@ -34,9 +34,13 @@ const QString FontOptions::GroupName = QString("font");
 const QString FontOptions::FieldBom = QString("bom");
 const QString FontOptions::FieldSortOrder = QString("sortOrder");
 const QString FontOptions::FieldCodec = QString("codec");
+const QString FontOptions::FieldSkipMissingCharacters = QString("skipMissingCharacters");
+const QString FontOptions::FieldEscapedCharacters = QString("escapeChars");
+const QString FontOptions::FieldEscapePrefix = QString("escapePrefix");
+const QString FontOptions::FieldEscapeSuffix = QString("escapeSuffix");
+const QString FontOptions::FieldCompactGlyphs = QString("compactGlyphs");
 
-FontOptions::FontOptions(QObject *parent) :
-  QObject(parent)
+FontOptions::FontOptions(QObject* parent) : QObject(parent)
 {
   this->mBom = false;
   this->mSortOrder = Parsing::Conversion::Options::CharactersSortOrder::Ascending;
@@ -46,22 +50,30 @@ FontOptions::FontOptions(QObject *parent) :
   } else {
     this->mEncoding = FontOptions::encodings().at(0);
   }
+
+  this->mSkipMissingCharacters = false;
+
+  this->mEscapedCharacters = "@\"'";
+  this->mEscapePrefix = "\\";
+  this->mEscapeSuffix = QString();
+  this->mCompactGlyphs = false;
 }
 
-bool FontOptions::bom() const
-{
-  return this->mBom;
-}
+bool FontOptions::bom() const { return this->mBom; }
 
-const QString &FontOptions::encoding() const
-{
-  return this->mEncoding;
-}
+const QString& FontOptions::encoding() const { return this->mEncoding; }
 
-Parsing::Conversion::Options::CharactersSortOrder FontOptions::sortOrder() const
-{
-  return this->mSortOrder;
-}
+Parsing::Conversion::Options::CharactersSortOrder FontOptions::sortOrder() const { return this->mSortOrder; }
+
+bool FontOptions::skipMissingCharacters() const { return this->mSkipMissingCharacters; }
+
+const QString& FontOptions::escapedCharacters() const { return this->mEscapedCharacters; }
+
+const QString& FontOptions::escapePrefix() const { return this->mEscapePrefix; }
+
+const QString& FontOptions::escapeSuffix() const { return this->mEscapeSuffix; }
+
+bool FontOptions::compactGlyphs() const { return this->mCompactGlyphs; }
 
 void FontOptions::setBom(bool value)
 {
@@ -71,7 +83,7 @@ void FontOptions::setBom(bool value)
   }
 }
 
-void FontOptions::setEncoding(const QString &value)
+void FontOptions::setEncoding(const QString& value)
 {
   if (FontOptions::encodings().contains(value)) {
     if (this->mEncoding != value) {
@@ -89,7 +101,47 @@ void FontOptions::setSortOrder(Parsing::Conversion::Options::CharactersSortOrder
   }
 }
 
-bool FontOptions::load(QSettings *settings)
+void FontOptions::setSkipMissingCharacters(bool value)
+{
+  if (this->mSkipMissingCharacters != value) {
+    this->mSkipMissingCharacters = value;
+    emit this->changed();
+  }
+}
+
+void FontOptions::setEscapedCharacters(const QString& value)
+{
+  if (this->mEscapedCharacters != value) {
+    this->mEscapedCharacters = value;
+    emit this->changed();
+  }
+}
+
+void FontOptions::setEscapePrefix(const QString& value)
+{
+  if (this->mEscapePrefix != value) {
+    this->mEscapePrefix = value;
+    emit this->changed();
+  }
+}
+
+void FontOptions::setEscapeSuffix(const QString& value)
+{
+  if (this->mEscapeSuffix != value) {
+    this->mEscapeSuffix = value;
+    emit this->changed();
+  }
+}
+
+void FontOptions::setCompactGlyphs(bool value)
+{
+  if (this->mCompactGlyphs != value) {
+    this->mCompactGlyphs = value;
+    emit this->changed();
+  }
+}
+
+bool FontOptions::load(QSettings* settings)
 {
   bool result = false;
 
@@ -98,11 +150,18 @@ bool FontOptions::load(QSettings *settings)
   quint32 uBom;
   quint32 uSortOrder;
   QString sEncoding;
+  quint32 uSkipMissingCharacters;
+  QString sEscapedCharacters;
+  QString sEscapePrefix;
+  QString sEscapeSuffix;
+  quint32 uCompactGlyphs;
 
   uBom = settings->value(FontOptions::FieldBom, int(0)).toInt(&result);
 
   if (result) {
-    uSortOrder = settings->value(FontOptions::FieldSortOrder, int(Parsing::Conversion::Options::CharactersSortOrder::None)).toInt(&result);
+    uSortOrder =
+        settings->value(FontOptions::FieldSortOrder, int(Parsing::Conversion::Options::CharactersSortOrder::None))
+            .toInt(&result);
   }
 
   if (result) {
@@ -110,9 +169,34 @@ bool FontOptions::load(QSettings *settings)
   }
 
   if (result) {
+    sEscapedCharacters = settings->value(FontOptions::FieldEscapedCharacters, QString("@\"'")).toString();
+  }
+
+  if (result) {
+    uSkipMissingCharacters = settings->value(FontOptions::FieldSkipMissingCharacters, int(0)).toInt(&result);
+  }
+
+  if (result) {
+    sEscapePrefix = settings->value(FontOptions::FieldEscapePrefix, QString("\\")).toString();
+  }
+
+  if (result) {
+    sEscapeSuffix = settings->value(FontOptions::FieldEscapeSuffix, QString()).toString();
+  }
+
+  if (result) {
+    uCompactGlyphs = settings->value(FontOptions::FieldCompactGlyphs, int(0)).toInt(&result);
+  }
+
+  if (result) {
     this->setBom((bool)uBom);
     this->setEncoding(sEncoding);
     this->setSortOrder((Parsing::Conversion::Options::CharactersSortOrder)uSortOrder);
+    this->setSkipMissingCharacters((bool)uSkipMissingCharacters);
+    this->setEscapedCharacters(sEscapedCharacters);
+    this->setEscapePrefix(sEscapePrefix);
+    this->setEscapeSuffix(sEscapeSuffix);
+    this->setCompactGlyphs((bool)uCompactGlyphs);
   }
 
   settings->endGroup();
@@ -143,6 +227,11 @@ bool FontOptions::loadXmlElement(QDomElement element)
   quint32 uBom = 0;
   quint32 uSortOrder = int(Parsing::Conversion::Options::CharactersSortOrder::None);
   QString sEncoding = "UTF-8";
+  quint32 uSkipMissingCharacters = 0;
+  QString sEscapedCharacters = "@\"'";
+  QString sEscapePrefix = "\\";
+  QString sEscapeSuffix = QString();
+  quint32 uCompactGlyphs = 0;
 
   QDomNode nodeValue = nodeSett.firstChild();
 
@@ -164,6 +253,28 @@ bool FontOptions::loadXmlElement(QDomElement element)
         sEncoding = e.text();
       }
 
+      if (e.tagName() == FontOptions::FieldSkipMissingCharacters) {
+        QString str = e.text();
+        uSkipMissingCharacters = str.toUInt(&result);
+      }
+
+      if (e.tagName() == FontOptions::FieldEscapedCharacters) {
+        sEscapedCharacters = e.text();
+      }
+
+      if (e.tagName() == FontOptions::FieldEscapePrefix) {
+        sEscapePrefix = e.text();
+      }
+
+      if (e.tagName() == FontOptions::FieldEscapeSuffix) {
+        sEscapeSuffix = e.text();
+      }
+
+      if (e.tagName() == FontOptions::FieldCompactGlyphs) {
+        QString str = e.text();
+        uCompactGlyphs = str.toUInt(&result);
+      }
+
       if (!result) {
         break;
       }
@@ -176,18 +287,28 @@ bool FontOptions::loadXmlElement(QDomElement element)
     this->setBom((bool)uBom);
     this->setEncoding(sEncoding);
     this->setSortOrder((Parsing::Conversion::Options::CharactersSortOrder)uSortOrder);
+    this->setSkipMissingCharacters((bool)uSkipMissingCharacters);
+    this->setEscapedCharacters(sEscapedCharacters);
+    this->setEscapePrefix(sEscapePrefix);
+    this->setEscapeSuffix(sEscapeSuffix);
+    this->setCompactGlyphs((bool)uCompactGlyphs);
   }
 
   return result;
 }
 
-void FontOptions::save(QSettings *settings)
+void FontOptions::save(QSettings* settings)
 {
   settings->beginGroup(FontOptions::GroupName);
 
   settings->setValue(FontOptions::FieldBom, QString("%1").arg((int)this->bom()));
   settings->setValue(FontOptions::FieldSortOrder, QString("%1").arg((int)this->sortOrder()));
-  settings->setValue(FontOptions::FieldCodec,  this->encoding());
+  settings->setValue(FontOptions::FieldCodec, this->encoding());
+  settings->setValue(FontOptions::FieldSkipMissingCharacters, QString("%1").arg((int)this->skipMissingCharacters()));
+  settings->setValue(FontOptions::FieldEscapedCharacters, this->escapedCharacters());
+  settings->setValue(FontOptions::FieldEscapePrefix, this->escapePrefix());
+  settings->setValue(FontOptions::FieldEscapeSuffix, this->escapeSuffix());
+  settings->setValue(FontOptions::FieldCompactGlyphs, QString("%1").arg((int)this->compactGlyphs()));
 
   settings->endGroup();
 }
@@ -208,14 +329,33 @@ void FontOptions::saveXmlElement(QDomElement element)
   QDomElement nodeCodec = element.ownerDocument().createElement(FontOptions::FieldCodec);
   nodeFont.appendChild(nodeCodec);
   nodeCodec.appendChild(element.ownerDocument().createTextNode(this->encoding()));
+
+  QDomElement nodeSkipMissingCharacters =
+      element.ownerDocument().createElement(FontOptions::FieldSkipMissingCharacters);
+  nodeFont.appendChild(nodeSkipMissingCharacters);
+  nodeSkipMissingCharacters.appendChild(
+      element.ownerDocument().createTextNode(QString("%1").arg((int)this->skipMissingCharacters())));
+
+  QDomElement nodeEscapedCharacters = element.ownerDocument().createElement(FontOptions::FieldEscapedCharacters);
+  nodeFont.appendChild(nodeEscapedCharacters);
+  nodeEscapedCharacters.appendChild(element.ownerDocument().createTextNode(this->escapedCharacters()));
+
+  QDomElement nodeEscapePrefix = element.ownerDocument().createElement(FontOptions::FieldEscapePrefix);
+  nodeFont.appendChild(nodeEscapePrefix);
+  nodeEscapePrefix.appendChild(element.ownerDocument().createTextNode(this->escapePrefix()));
+
+  QDomElement nodeEscapeSuffix = element.ownerDocument().createElement(FontOptions::FieldEscapeSuffix);
+  nodeFont.appendChild(nodeEscapeSuffix);
+  nodeEscapeSuffix.appendChild(element.ownerDocument().createTextNode(this->escapeSuffix()));
+
+  QDomElement nodeCompactGlyphs = element.ownerDocument().createElement(FontOptions::FieldCompactGlyphs);
+  nodeFont.appendChild(nodeCompactGlyphs);
+  nodeCompactGlyphs.appendChild(element.ownerDocument().createTextNode(QString("%1").arg((int)this->compactGlyphs())));
 }
 
-QString FontOptions::groupName() const
-{
-  return FontOptions::GroupName;
-}
+QString FontOptions::groupName() const { return FontOptions::GroupName; }
 
-const QStringList &FontOptions::encodings()
+const QStringList& FontOptions::encodings()
 {
   static QStringList result;
 

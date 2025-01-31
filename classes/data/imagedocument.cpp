@@ -19,19 +19,20 @@
 
 #include "imagedocument.h"
 
+#include <QBuffer>
 #include <QDomDocument>
 #include <QDomProcessingInstruction>
-#include <QBuffer>
 #include <QFile>
-#include <QTextStream>
 #include <QFileDialog>
+#include <QTextStream>
 #include <QWidget>
+
 #include "datacontainer.h"
-#include "parser.h"
-#include "tagslist.h"
-#include "statusdata.h"
-#include "preset.h"
 #include "parsedimagedata.h"
+#include "parser.h"
+#include "preset.h"
+#include "statusdata.h"
+#include "tagslist.h"
 
 namespace Data
 {
@@ -40,8 +41,7 @@ namespace Containers
 
 const QString ImageDocument::DefaultKey = QString("default");
 
-ImageDocument::ImageDocument(QObject *parent) :
-  QObject(parent)
+ImageDocument::ImageDocument(QObject* parent) : QObject(parent)
 {
   this->mContainer = new DataContainer(this);
   this->connect(this->mContainer, SIGNAL(dataChanged(bool)), SLOT(mon_container_dataChanged(bool)));
@@ -50,7 +50,7 @@ ImageDocument::ImageDocument(QObject *parent) :
 
   this->beginChanges();
 
-  QImage *image = new QImage(":/images/template");
+  QImage* image = new QImage(":/images/template");
   this->mContainer->setImage(ImageDocument::DefaultKey, image);
   delete image;
 
@@ -62,11 +62,9 @@ ImageDocument::ImageDocument(QObject *parent) :
   this->mContainer->historyInit();
 }
 
-ImageDocument::~ImageDocument()
-{
-}
+ImageDocument::~ImageDocument() {}
 
-bool ImageDocument::load(const QString &fileName)
+bool ImageDocument::load(const QString& fileName)
 {
   bool result = false;
   QFile file(fileName);
@@ -125,11 +123,12 @@ bool ImageDocument::load(const QString &fileName)
   return result;
 }
 
-bool ImageDocument::save(const QString &fileName)
+bool ImageDocument::save(const QString& fileName)
 {
   bool result = false;
   QDomDocument doc;
-  QDomProcessingInstruction procInstruction = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\"");
+  QDomProcessingInstruction procInstruction =
+      doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\"");
   doc.appendChild(procInstruction);
 
   QDomElement nodeRoot = doc.createElement("data");
@@ -194,10 +193,7 @@ QString ImageDocument::documentName() const
   return result.toString();
 }
 
-void ImageDocument::setDocumentName(const QString &value)
-{
-  this->mContainer->setCommonInfo("document name", value);
-}
+void ImageDocument::setDocumentName(const QString& value) { this->mContainer->setCommonInfo("document name", value); }
 
 QString ImageDocument::outputFilename() const
 {
@@ -205,17 +201,14 @@ QString ImageDocument::outputFilename() const
   return result.toString();
 }
 
-void ImageDocument::setOutputFilename(const QString &value)
+void ImageDocument::setOutputFilename(const QString& value)
 {
   this->mContainer->setCommonInfo("converted filename", QVariant(value));
 }
 
-DataContainer *ImageDocument::dataContainer() const
-{
-  return this->mContainer;
-}
+DataContainer* ImageDocument::dataContainer() const { return this->mContainer; }
 
-QString ImageDocument::convert(Settings::Presets::Preset *preset)
+QString ImageDocument::convert(Settings::Presets::Preset* preset)
 {
   Parsing::TagsList tags;
 
@@ -226,11 +219,16 @@ QString ImageDocument::convert(Settings::Presets::Preset *preset)
   }
 
   tags.setTagValue(Parsing::TagsList::Tag::DocumentName, this->documentName());
-  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpaces, this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpaces,
+                   this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)));
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpacesUpperCase,
+                   this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)).toUpper());
+  tags.setTagValue(Parsing::TagsList::Tag::DocumentNameWithoutSpacesLowerCase,
+                   this->documentName().remove(QRegExp("\\W", Qt::CaseInsensitive)).toLower());
 
   tags.setTagValue(Parsing::TagsList::Tag::DocumentDataType, "image");
 
-  QMap<QString, Parsing::ParsedImageData *> images;
+  QMap<QString, Parsing::ParsedImageData*> images;
   this->prepareImages(preset, &images, tags);
   Parsing::Parser parser(Parsing::Parser::TypeImage, preset, this);
   QString result = parser.convert(this, this->dataContainer()->keys(), &images, tags);
@@ -267,15 +265,9 @@ void ImageDocument::endChanges(bool suppress)
   }
 }
 
-bool ImageDocument::canUndo()
-{
-  return this->mContainer->canUndo();
-}
+bool ImageDocument::canUndo() { return this->mContainer->canUndo(); }
 
-bool ImageDocument::canRedo()
-{
-  return this->mContainer->canRedo();
-}
+bool ImageDocument::canRedo() { return this->mContainer->canRedo(); }
 
 void ImageDocument::undo()
 {
@@ -291,16 +283,17 @@ void ImageDocument::redo()
   emit this->documentChanged();
 }
 
-void ImageDocument::setDocumentFilename(const QString &value)
+void ImageDocument::setDocumentFilename(const QString& value)
 {
   if (this->documentFilename() != value) {
     this->mContainer->setCommonInfo("filename", QVariant(value));
   }
 }
 
-void ImageDocument::prepareImages(Settings::Presets::Preset *preset, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const
+void ImageDocument::prepareImages(Settings::Presets::Preset* preset, QMap<QString, Parsing::ParsedImageData*>* images,
+                                  const Parsing::TagsList& tags) const
 {
-  DataContainer *data = this->dataContainer();
+  DataContainer* data = this->dataContainer();
 
   // collect ParsedImageData
   {
@@ -311,7 +304,7 @@ void ImageDocument::prepareImages(Settings::Presets::Preset *preset, QMap<QStrin
       const QString key = it.next();
       QImage image = QImage(*data->image(key));
 
-      Parsing::ParsedImageData *data = new Parsing::ParsedImageData(preset, &image, tags);
+      Parsing::ParsedImageData* data = new Parsing::ParsedImageData(preset, &image, tags);
       images->insert(key, data);
     }
   }

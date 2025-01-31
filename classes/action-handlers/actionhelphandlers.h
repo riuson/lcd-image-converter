@@ -33,7 +33,7 @@ class ActionHelpHandlers : public ActionHandlersBase
 {
   Q_OBJECT
 public:
-  explicit ActionHelpHandlers(QObject *parent = 0);
+  explicit ActionHelpHandlers(QObject* parent = 0);
   virtual ~ActionHelpHandlers() {}
 
 signals:

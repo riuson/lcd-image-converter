@@ -20,9 +20,9 @@
 #ifndef IMAGEEDITOROPTIONS_H
 #define IMAGEEDITOROPTIONS_H
 
+#include <QPoint>
 #include <QSize>
 #include <QString>
-#include <QPoint>
 
 namespace Settings
 {
@@ -31,7 +31,7 @@ class ImageEditorOptions
 {
 public:
   static QByteArray toolbarsState(void);
-  static void setToolbarsState(const QByteArray &value);
+  static void setToolbarsState(const QByteArray& value);
 };
 
 } // namespace Settings

@@ -28,8 +28,8 @@ namespace Containers
 {
 class DataContainer;
 class IDocument;
-}
-}
+} // namespace Containers
+} // namespace Data
 
 namespace AppUI
 {
@@ -41,20 +41,15 @@ class StatusData;
 class IEditor
 {
 public:
-  enum EditorType {
-    EditorImage,
-    EditorFont
-  };
+  enum EditorType { EditorImage, EditorFont };
 
-  virtual Data::Containers::IDocument *document() const = 0;
+  virtual Data::Containers::IDocument* document() const = 0;
   virtual QStringList selectedKeys() const = 0;
-  virtual AppUI::Status::StatusData *statusData() const = 0;
+  virtual AppUI::Status::StatusData* statusData() const = 0;
   virtual EditorType type() const = 0;
 };
 } // namespace AppUI
 
-Q_DECLARE_INTERFACE (AppUI::IEditor,
-                     "riuson.lcd-image-converter/1.0"
-                    )
+Q_DECLARE_INTERFACE(AppUI::IEditor, "riuson.lcd-image-converter/1.0")
 
 #endif // IEDITOR_H

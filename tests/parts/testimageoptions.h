@@ -10,17 +10,17 @@ namespace Presets
 {
 class ImageOptions;
 }
-}
+} // namespace Settings
 
 class TestImageOptions : public QObject
 {
   Q_OBJECT
 public:
-  explicit TestImageOptions(QObject *parent = 0);
+  explicit TestImageOptions(QObject* parent = 0);
   virtual ~TestImageOptions() {}
 
 private:
-  Settings::Presets::ImageOptions *mOptions;
+  Settings::Presets::ImageOptions* mOptions;
 
 private slots:
   void initTestCase();

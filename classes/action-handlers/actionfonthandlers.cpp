@@ -21,33 +21,32 @@
 
 #include <QFileDialog>
 #include <QFileInfo>
-#include "widgetbitmapeditor.h"
+
 #include "bitmaphelper.h"
-#include "fonthelper.h"
-#include "editortabfont.h"
-#include "dialogfontselect.h"
-#include "dialogfontpreview.h"
-#include "imainwindow.h"
-#include "idocument.h"
 #include "datacontainer.h"
-#include "fontparameters.h"
+#include "dialogfontpreview.h"
+#include "dialogfontselect.h"
 #include "documentoperator.h"
-#include "imageinverse.h"
+#include "editortabfont.h"
+#include "fonthelper.h"
+#include "fontparameters.h"
 #include "fontresize.h"
+#include "idocument.h"
+#include "imagealign.h"
+#include "imageinverse.h"
+#include "imainwindow.h"
+#include "widgetbitmapeditor.h"
 
 namespace AppUI
 {
 namespace MenuHandlers
 {
 
-ActionFontHandlers::ActionFontHandlers(QObject *parent) :
-  ActionHandlersBase(parent)
-{
-}
+ActionFontHandlers::ActionFontHandlers(QObject* parent) : ActionHandlersBase(parent) {}
 
 void ActionFontHandlers::fontChange_triggered()
 {
-  if (AppUI::Fonts::EditorTabFont *etf = qobject_cast<AppUI::Fonts::EditorTabFont *>(this->mMainWindow->currentTab())) {
+  if (AppUI::Fonts::EditorTabFont* etf = qobject_cast<AppUI::Fonts::EditorTabFont*>(this->mMainWindow->currentTab())) {
     QString chars;
     Data::Containers::FontParameters parameters;
     etf->fontCharacters(&chars, &parameters);
@@ -84,12 +83,21 @@ void ActionFontHandlers::fontResize_triggered()
   }
 }
 
+void ActionFontHandlers::fontAlign_triggered()
+{
+  if (this->editor() != nullptr) {
+    Operations::DocumentOperator docOp(this);
+    Operations::ImageAlign imageAlign(this->mMainWindow->parentWidget(), this);
+    docOp.apply(this->editor()->document(), imageAlign);
+  }
+}
+
 void ActionFontHandlers::fontPreview_triggered()
 {
-  IEditor *editor = this->editor();
+  IEditor* editor = this->editor();
 
   if (editor != nullptr) {
-    Data::Containers::IDocument *doc = editor->document();
+    Data::Containers::IDocument* doc = editor->document();
 
     AppUI::Fonts::DialogFontPreview dialog(this->mMainWindow->parentWidget());
     dialog.setDocument(doc);
@@ -100,11 +108,11 @@ void ActionFontHandlers::fontPreview_triggered()
 
 void ActionFontHandlers::fontToImage_triggered()
 {
-  IEditor *editor = this->editor();
+  IEditor* editor = this->editor();
 
   if (editor != nullptr) {
     QStringList keys = editor->selectedKeys();
-    qSort(keys);
+    std::sort(keys.begin(), keys.end());
     QString characters = keys.join("");
     QImage image = Parsing::Conversion::FontHelper::drawString(editor->document()->dataContainer(), characters);
 

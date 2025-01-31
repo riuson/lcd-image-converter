@@ -37,11 +37,11 @@ class DialogAbout : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogAbout(QWidget *parent = 0);
+  explicit DialogAbout(QWidget* parent = 0);
   virtual ~DialogAbout();
 
 private:
-  Ui::DialogAbout *ui;
+  Ui::DialogAbout* ui;
 
   void showLicense();
 };

@@ -33,7 +33,7 @@ namespace Presets
 {
 class Preset;
 }
-}
+} // namespace Settings
 
 namespace AppUI
 {
@@ -49,12 +49,12 @@ class SetupTabTemplates : public QWidget
   Q_OBJECT
 
 public:
-  explicit SetupTabTemplates(Settings::Presets::Preset *preset, QWidget *parent = 0);
+  explicit SetupTabTemplates(Settings::Presets::Preset* preset, QWidget* parent = 0);
   virtual ~SetupTabTemplates();
 
 private:
-  Ui::SetupTabTemplates *ui;
-  Settings::Presets::Preset *mPreset;
+  Ui::SetupTabTemplates* ui;
+  Settings::Presets::Preset* mPreset;
 
 private slots:
   void matrixChanged();

@@ -1,16 +1,17 @@
 #include <QtTest/QtTest>
+
 #include "testbitmaphelper.h"
-#include "testconverterhelper.h"
 #include "testbitstream.h"
-#include "testprepareoptions.h"
-#include "testmatrixoptions.h"
-#include "testimageoptions.h"
-#include "testreorderingoptions.h"
+#include "testconverterhelper.h"
 #include "testfontoptions.h"
-#include "testtemplateoptions.h"
+#include "testimageoptions.h"
+#include "testmatrixoptions.h"
+#include "testprepareoptions.h"
 #include "testpresets.h"
+#include "testreorderingoptions.h"
 #include "testrle.h"
 #include "testsettings.h"
+#include "testtemplateoptions.h"
 
 int main(void)
 {
@@ -52,4 +53,3 @@ int main(void)
 
   return 0;
 }
-

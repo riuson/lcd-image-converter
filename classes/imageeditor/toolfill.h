@@ -20,13 +20,13 @@
 #ifndef TOOLFILL_H
 #define TOOLFILL_H
 
-#include <QObject>
-#include <QImage>
+#include <QAction>
 #include <QColor>
-#include "iimageeditortool.h"
+#include <QIcon>
+#include <QImage>
+#include <QObject>
 
-class QIcon;
-class QAction;
+#include "iimageeditortool.h"
 template <class T1> class QVector;
 
 namespace ImageEditor
@@ -42,30 +42,28 @@ class ToolFill : public QObject, public IImageEditorTool
   Q_INTERFACES(ImageEditor::Tools::IImageEditorTool)
 
 public:
-  explicit ToolFill(IImageEditorParams *parameters, QObject *parent = 0);
+  explicit ToolFill(IImageEditorParams* parameters, QObject* parent = 0);
   virtual ~ToolFill();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;
-  const QIcon *icon() const Q_DECL_OVERRIDE;
-  const QList<QAction *> *actions() const Q_DECL_OVERRIDE;
-  const QList<QWidget *> *widgets() const Q_DECL_OVERRIDE;
+  const QIcon* icon() const Q_DECL_OVERRIDE;
+  const QList<QAction*>* actions() const Q_DECL_OVERRIDE;
+  const QList<QWidget*>* widgets() const Q_DECL_OVERRIDE;
 
 public slots:
-  bool processMouse(QMouseEvent *event,
-                    const QImage *imageOriginal,
-                    bool inRect) Q_DECL_OVERRIDE;
+  bool processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect) Q_DECL_OVERRIDE;
 
 signals:
-  void started(const QImage *value) Q_DECL_OVERRIDE;
-  void processing(const QImage *value) Q_DECL_OVERRIDE;
-  void completed(const QImage *value, bool changed) Q_DECL_OVERRIDE;
+  void started(const QImage* value) Q_DECL_OVERRIDE;
+  void processing(const QImage* value) Q_DECL_OVERRIDE;
+  void completed(const QImage* value, bool changed) Q_DECL_OVERRIDE;
 
 private:
-  IImageEditorParams *mParameters;
-  QIcon *mIcon;
-  QList<QAction *> *mActions;
-  QList<QWidget *> *mWidgets;
+  IImageEditorParams* mParameters;
+  QIcon* mIcon;
+  QList<QAction*>* mActions;
+  QList<QWidget*>* mWidgets;
   int mSize;
   bool mFlagChanged;
   QImage mInternalImage;
@@ -73,9 +71,9 @@ private:
   void initializeWidgets();
   void loadSettings();
   void saveSettings() const;
-  bool fillArea(int x, int y, const QColor &color);
-  void collectPointsAround(const QImage &image, const QPoint &point, const QRgb &color, QVector<QPoint> *vector);
-  void collectPoint(const QImage &image, const QPoint &point, const QRgb &color, QVector<QPoint> *vector);
+  bool fillArea(int x, int y, const QColor& color);
+  void collectPointsAround(const QImage& image, const QPoint& point, const QRgb& color, QVector<QPoint>* vector);
+  void collectPoint(const QImage& image, const QPoint& point, const QRgb& color, QVector<QPoint>* vector);
 
 private slots:
   void on_spinBoxSize_valueChanged(int value);

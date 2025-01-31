@@ -18,24 +18,19 @@
  */
 
 #include "documentoperator.h"
+
+#include "datacontainer.h"
 #include "idocument.h"
 #include "ioperation.h"
-#include "datacontainer.h"
 
 namespace Operations
 {
 
-DocumentOperator::DocumentOperator(QObject *parent)
-  : QObject(parent)
-{
-}
+DocumentOperator::DocumentOperator(QObject* parent) : QObject(parent) {}
 
-void DocumentOperator::setKeys(const QStringList keys)
-{
-  this->mSelectedKeys = keys;
-}
+void DocumentOperator::setKeys(const QStringList keys) { this->mSelectedKeys = keys; }
 
-void DocumentOperator::apply(Data::Containers::IDocument *doc, IOperation &operation)
+void DocumentOperator::apply(Data::Containers::IDocument* doc, IOperation& operation)
 {
   QStringList keys = this->mSelectedKeys.length() == 0 ? doc->dataContainer()->keys() : this->mSelectedKeys;
 

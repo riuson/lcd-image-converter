@@ -26,12 +26,9 @@ namespace Data
 namespace History
 {
 
-HistoryRecord::HistoryRecord(
-  const QStringList *_keys,
-  const QMap<QString, QImage *> *_images,
-  const QMap<QString, QVariant> *_info,
-  QObject *parent) :
-  QObject(parent)
+HistoryRecord::HistoryRecord(const QStringList* _keys, const QMap<QString, QImage*>* _images,
+                             const QMap<QString, QVariant>* _info, QObject* parent)
+    : QObject(parent)
 {
   QStringList keys = QStringList(*_keys);
   QStringListIterator iterator(keys);
@@ -39,8 +36,8 @@ HistoryRecord::HistoryRecord(
   while (iterator.hasNext()) {
     QString key = iterator.next();
 
-    QImage *oldImage = _images->value(key);
-    QImage *newImage = new QImage(*oldImage);
+    QImage* oldImage = _images->value(key);
+    QImage* newImage = new QImage(*oldImage);
 
     this->mKeys.append(key);
     this->mImageMap.insert(key, newImage);
@@ -66,20 +63,11 @@ HistoryRecord::~HistoryRecord()
   this->mInfoMap.clear();
 }
 
-const QStringList *HistoryRecord::keys() const
-{
-  return &this->mKeys;
-}
+const QStringList* HistoryRecord::keys() const { return &this->mKeys; }
 
-const QMap<QString, QImage *> *HistoryRecord::images() const
-{
-  return &this->mImageMap;
-}
+const QMap<QString, QImage*>* HistoryRecord::images() const { return &this->mImageMap; }
 
-const QMap<QString, QVariant> *HistoryRecord::info() const
-{
-  return &this->mInfoMap;
-}
+const QMap<QString, QVariant>* HistoryRecord::info() const { return &this->mInfoMap; }
 
 } // namespace History
 } // namespace Data

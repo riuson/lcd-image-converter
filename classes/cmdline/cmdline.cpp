@@ -18,27 +18,27 @@
  */
 
 #include "cmdline.h"
-#include "preset.h"
-#include "parser.h"
-#include "imagedocument.h"
-#include "datacontainer.h"
-#include "modeconvertimage.h"
-#include "modeconvertfont.h"
-#include "modehex2bin.h"
-#include "appsettings.h"
+
+#include <QCommandLineParser>
 #include <QDebug>
 #include <QFile>
+#include <QImage>
 #include <QString>
 #include <QStringList>
-#include <QImage>
-#include <QCommandLineParser>
+
+#include "appsettings.h"
+#include "datacontainer.h"
+#include "imagedocument.h"
+#include "modeconvertfont.h"
+#include "modeconvertimage.h"
+#include "modehex2bin.h"
+#include "parser.h"
+#include "preset.h"
 
 namespace CommandLine
 {
 
-CmdLine::CmdLine(const QStringList &arguments, QObject *parent) :
-  QObject(parent),
-  mArguments(arguments)
+CmdLine::CmdLine(const QStringList& arguments, QObject* parent) : QObject(parent), mArguments(arguments)
 {
   // information block
   this->mParser.setApplicationDescription("Tool to create image and font source files for embedded applications.");
@@ -47,18 +47,17 @@ CmdLine::CmdLine(const QStringList &arguments, QObject *parent) :
 
   // required option:
   // --mode=convert-image
-  QCommandLineOption optionMode(QStringList() << "m" << "mode",
-                                QCoreApplication::translate("CmdLineParser", "Conversion mode for application, \"convert-image\", \"convert-font\" or \"hex2bin\"."),
-                                QCoreApplication::translate("CmdLineParser", "mode"));
+  QCommandLineOption optionMode(
+      QStringList() << "m" << "mode",
+      QCoreApplication::translate(
+          "CmdLineParser", "Conversion mode for application, \"convert-image\", \"convert-font\" or \"hex2bin\"."),
+      QCoreApplication::translate("CmdLineParser", "mode"));
   this->mParser.addOption(optionMode);
 
   this->addApplicationOptions();
 }
 
-bool CmdLine::needProcess() const
-{
-  return (this->mArguments.length() > 1);
-}
+bool CmdLine::needProcess() const { return (this->mArguments.length() > 1); }
 
 CmdLine::ProcessResult CmdLine::process()
 {
@@ -67,7 +66,7 @@ CmdLine::ProcessResult CmdLine::process()
   this->mParser.parse(this->mArguments);
 
   QString modeName = this->mParser.value("mode");
-  ModeParserBase *mode = this->createMode(modeName, this->mParser);
+  ModeParserBase* mode = this->createMode(modeName, this->mParser);
 
   if (mode != nullptr) {
     mode->fillParser();
@@ -99,7 +98,7 @@ CmdLine::ProcessResult CmdLine::process()
   return result;
 }
 
-ModeParserBase *CmdLine::createMode(const QString &name, QCommandLineParser &parser)
+ModeParserBase* CmdLine::createMode(const QString& name, QCommandLineParser& parser)
 {
   if (name == ModeConvertImage::modeName()) {
     return new ModeConvertImage(parser, this);
@@ -119,15 +118,19 @@ ModeParserBase *CmdLine::createMode(const QString &name, QCommandLineParser &par
 void CmdLine::addApplicationOptions()
 {
   // optional option
-  QCommandLineOption optionConfigApp(QStringList() << "config-application",
-                                     QCoreApplication::translate("CmdLineParser", "Path to main configuration file. If not specified, default is used."),
-                                     QCoreApplication::translate("CmdLineParser", "file"));
+  QCommandLineOption optionConfigApp(
+      QStringList() << "config-application",
+      QCoreApplication::translate("CmdLineParser",
+                                  "Path to main configuration file. If not specified, default is used."),
+      QCoreApplication::translate("CmdLineParser", "file"));
   this->mParser.addOption(optionConfigApp);
 
   // optional option
-  QCommandLineOption optionConfigPresets(QStringList() << "config-presets",
-                                         QCoreApplication::translate("CmdLineParser", "Path to presets configuration file. If not specified, default is used."),
-                                         QCoreApplication::translate("CmdLineParser", "file"));
+  QCommandLineOption optionConfigPresets(
+      QStringList() << "config-presets",
+      QCoreApplication::translate("CmdLineParser",
+                                  "Path to presets configuration file. If not specified, default is used."),
+      QCoreApplication::translate("CmdLineParser", "file"));
   this->mParser.addOption(optionConfigPresets);
 
   // reset all settings

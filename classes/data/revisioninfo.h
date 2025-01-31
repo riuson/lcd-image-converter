@@ -20,7 +20,7 @@
 #ifndef REVISIONINFO_H
 #define REVISIONINFO_H
 
-class QString;
+#include <QString>
 
 namespace VersionControl
 {
@@ -28,10 +28,10 @@ namespace VersionControl
 class RevisionInfo
 {
 public:
-  static const QString &hash();
-  static const QString &hash_abbr();
-  static const QString &date();
-  static const QString &version();
+  static const QString& hash();
+  static const QString& hash_abbr();
+  static const QString& date();
+  static const QString& version();
 };
 
 } // namespace VersionControl

@@ -20,17 +20,18 @@
 #include "bitstream.h"
 
 #include <QVector>
-#include "preset.h"
-#include "prepareoptions.h"
-#include "matrixoptions.h"
+
 #include "imageoptions.h"
+#include "matrixoptions.h"
+#include "prepareoptions.h"
+#include "preset.h"
 
 namespace Parsing
 {
 namespace Conversion
 {
 
-BitStream::BitStream(Settings::Presets::Preset *preset, QVector<quint32> *data, int start, int count)
+BitStream::BitStream(Settings::Presets::Preset* preset, QVector<quint32>* data, int start, int count)
 {
   this->mPreset = preset;
   this->mData = data;

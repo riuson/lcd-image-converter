@@ -27,15 +27,14 @@ namespace AppUI
 namespace MenuHandlers
 {
 
-ActionHandlersBase::ActionHandlersBase(QObject *parent) :
-  QObject(parent)
+ActionHandlersBase::ActionHandlersBase(QObject* parent) : QObject(parent)
 {
-  this->mMainWindow = qobject_cast<IMainWindow *>(parent);
+  this->mMainWindow = qobject_cast<IMainWindow*>(parent);
 }
 
-IEditor *ActionHandlersBase::editor()
+IEditor* ActionHandlersBase::editor()
 {
-  IEditor *editor = this->mMainWindow->currentEditor();
+  IEditor* editor = this->mMainWindow->currentEditor();
   return editor;
 }
 

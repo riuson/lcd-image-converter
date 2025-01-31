@@ -18,11 +18,13 @@
  */
 
 #include "setuptabfont.h"
+
 #include "ui_setuptabfont.h"
 
 #include <QCompleter>
-#include "preset.h"
+
 #include "fontoptions.h"
+#include "preset.h"
 
 namespace AppUI
 {
@@ -33,9 +35,8 @@ namespace Parts
 namespace Font
 {
 
-SetupTabFont::SetupTabFont(Settings::Presets::Preset *preset, QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::SetupTabFont)
+SetupTabFont::SetupTabFont(Settings::Presets::Preset* preset, QWidget* parent)
+    : QWidget(parent), ui(new Ui::SetupTabFont)
 {
   ui->setupUi(this);
   this->mPreset = preset;
@@ -52,15 +53,12 @@ SetupTabFont::SetupTabFont(Settings::Presets::Preset *preset, QWidget *parent) :
 
   Settings::Presets::CharactersSortOrder order = this->mPreset->font()->sortOrder();
 
-  this->ui->comboBoxSorting->addItem(
-    this->sortingName(Parsing::Conversion::Options::CharactersSortOrder::None),
-    static_cast<int>(Parsing::Conversion::Options::CharactersSortOrder::None));
-  this->ui->comboBoxSorting->addItem(
-    this->sortingName(Parsing::Conversion::Options::CharactersSortOrder::Ascending),
-    static_cast<int>(Parsing::Conversion::Options::CharactersSortOrder::Ascending));
-  this->ui->comboBoxSorting->addItem(
-    this->sortingName(Parsing::Conversion::Options::CharactersSortOrder::Descending),
-    static_cast<int>(Parsing::Conversion::Options::CharactersSortOrder::Descending));
+  this->ui->comboBoxSorting->addItem(this->sortingName(Parsing::Conversion::Options::CharactersSortOrder::None),
+                                     static_cast<int>(Parsing::Conversion::Options::CharactersSortOrder::None));
+  this->ui->comboBoxSorting->addItem(this->sortingName(Parsing::Conversion::Options::CharactersSortOrder::Ascending),
+                                     static_cast<int>(Parsing::Conversion::Options::CharactersSortOrder::Ascending));
+  this->ui->comboBoxSorting->addItem(this->sortingName(Parsing::Conversion::Options::CharactersSortOrder::Descending),
+                                     static_cast<int>(Parsing::Conversion::Options::CharactersSortOrder::Descending));
   index = this->ui->comboBoxSorting->findData(static_cast<int>(order));
 
   if (index >= 0) {
@@ -74,12 +72,13 @@ SetupTabFont::SetupTabFont(Settings::Presets::Preset *preset, QWidget *parent) :
   this->mEncodingCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
   this->mEncodingCompleter->setFilterMode(Qt::MatchContains);
   this->ui->comboBoxEncoding->setCompleter(this->mEncodingCompleter);
+
+  this->ui->lineEditEscapedCharacters->setText(this->mPreset->font()->escapedCharacters());
+  this->ui->lineEditEscapePrefix->setText(this->mPreset->font()->escapePrefix());
+  this->ui->lineEditEscapeSuffix->setText(this->mPreset->font()->escapeSuffix());
 }
 
-SetupTabFont::~SetupTabFont()
-{
-  delete ui;
-}
+SetupTabFont::~SetupTabFont() { delete ui; }
 
 void SetupTabFont::matrixChanged()
 {
@@ -96,6 +95,13 @@ void SetupTabFont::matrixChanged()
   }
 
   this->ui->checkBoxBom->setChecked(this->mPreset->font()->bom());
+  this->ui->checkBoxSkipMissingCharacters->setChecked(this->mPreset->font()->skipMissingCharacters());
+
+  this->ui->lineEditEscapedCharacters->setText(this->mPreset->font()->escapedCharacters());
+  this->ui->lineEditEscapePrefix->setText(this->mPreset->font()->escapePrefix());
+  this->ui->lineEditEscapeSuffix->setText(this->mPreset->font()->escapeSuffix());
+
+  this->ui->checkBoxCompactGlyphs->setChecked(this->mPreset->font()->compactGlyphs());
 }
 
 const QString SetupTabFont::sortingName(Parsing::Conversion::Options::CharactersSortOrder value) const
@@ -123,12 +129,9 @@ const QString SetupTabFont::sortingName(Parsing::Conversion::Options::Characters
   return result;
 }
 
-void SetupTabFont::on_checkBoxBom_toggled(bool value)
-{
-  this->mPreset->font()->setBom(value);
-}
+void SetupTabFont::on_checkBoxBom_toggled(bool value) { this->mPreset->font()->setBom(value); }
 
-void SetupTabFont::on_comboBoxEncoding_currentIndexChanged(const QString &value)
+void SetupTabFont::on_comboBoxEncoding_currentIndexChanged(const QString& value)
 {
   this->mPreset->font()->setEncoding(value);
 }
@@ -136,14 +139,37 @@ void SetupTabFont::on_comboBoxEncoding_currentIndexChanged(const QString &value)
 void SetupTabFont::on_comboBoxSorting_currentIndexChanged(int index)
 {
   bool ok = false;
-  Settings::Presets::CharactersSortOrder order = (Settings::Presets::CharactersSortOrder)this->ui->comboBoxSorting->itemData(index).toInt(&ok);
+  Settings::Presets::CharactersSortOrder order =
+      (Settings::Presets::CharactersSortOrder)this->ui->comboBoxSorting->itemData(index).toInt(&ok);
 
   if (ok) {
     this->mPreset->font()->setSortOrder(order);
   }
 }
 
+void SetupTabFont::on_checkBoxSkipMissingCharacters_toggled(bool value)
+{
+  this->mPreset->font()->setSkipMissingCharacters(value);
+}
+
+void SetupTabFont::on_lineEditEscapedCharacters_textEdited(const QString& value)
+{
+  this->mPreset->font()->setEscapedCharacters(value);
+}
+
+void SetupTabFont::on_lineEditEscapePrefix_textEdited(const QString& value)
+{
+  this->mPreset->font()->setEscapePrefix(value);
+}
+
+void SetupTabFont::on_lineEditEscapeSuffix_textEdited(const QString& value)
+{
+  this->mPreset->font()->setEscapeSuffix(value);
+}
+
+void SetupTabFont::on_checkBoxCompactGlyphs_toggled(bool value) { this->mPreset->font()->setCompactGlyphs(value); }
+
 } // namespace Font
-} // namespace Font
+} // namespace Parts
 } // namespace Setup
 } // namespace AppUI

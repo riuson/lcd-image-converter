@@ -18,24 +18,25 @@
  */
 
 #include "imageimport.h"
-#include <QImage>
+
 #include <QFileDialog>
+#include <QImage>
 #include <QMessageBox>
-#include "idocument.h"
+
 #include "datacontainer.h"
 #include "filedialogoptions.h"
+#include "idocument.h"
 
 namespace Operations
 {
 
-ImageImport::ImageImport(QWidget *parentWidget, QObject *parent) :
-  QObject(parent)
+ImageImport::ImageImport(QWidget* parentWidget, QObject* parent) : QObject(parent)
 {
   this->mParentWidget = parentWidget;
   this->mImportIndex = 0;
 }
 
-bool ImageImport::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
+bool ImageImport::prepare(const Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
 
@@ -47,7 +48,8 @@ bool ImageImport::prepare(const Data::Containers::IDocument *doc, const QStringL
   dialog.setWindowTitle(tr("Open image file"));
 
   if (dialog.exec() == QDialog::Accepted) {
-    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ImportImage, dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ImportImage,
+                                              dialog.directory().absolutePath());
     this->mSelectedFiles = dialog.selectedFiles();
 
     if (this->mSelectedFiles.length() > 0) {
@@ -55,10 +57,10 @@ bool ImageImport::prepare(const Data::Containers::IDocument *doc, const QStringL
 
       // check for items-files count equals
       if (this->mSelectedFiles.length() != keys.length()) {
-        QString msg = tr("Selected %1 file(s) and %2 character(s).\nOnly minimal amount (%3) will be imported.").\
-                      arg(this->mSelectedFiles.length()).\
-                      arg(keys.length()).\
-                      arg(qMin(this->mSelectedFiles.length(), keys.length()));
+        QString msg = tr("Selected %1 file(s) and %2 character(s).\nOnly minimal amount (%3) will be imported.")
+                          .arg(this->mSelectedFiles.length())
+                          .arg(keys.length())
+                          .arg(qMin(this->mSelectedFiles.length(), keys.length()));
 
         QMessageBox box(this->mParentWidget);
         box.setIcon(QMessageBox::Warning);
@@ -79,13 +81,13 @@ bool ImageImport::prepare(const Data::Containers::IDocument *doc, const QStringL
   return false;
 }
 
-void ImageImport::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
+void ImageImport::applyDocument(Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageImport::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
+void ImageImport::applyItem(Data::Containers::IDocument* doc, const QString& itemKey)
 {
   if (this->mSelectedFiles.length() == 1) {
     QImage imageLoaded;

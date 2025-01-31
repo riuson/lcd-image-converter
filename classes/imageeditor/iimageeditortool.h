@@ -20,12 +20,12 @@
 #ifndef IIMAGEEDITORTOOL_H
 #define IIMAGEEDITORTOOL_H
 
-class QString;
-class QIcon;
-class QAction;
-class QWidget;
-class QMouseEvent;
-class QImage;
+#include <QAction>
+#include <QIcon>
+#include <QImage>
+#include <QMouseEvent>
+#include <QString>
+#include <QWidget>
 template <class T1> class QList;
 
 namespace ImageEditor
@@ -36,31 +36,26 @@ namespace Tools
 class IImageEditorTool
 {
 public:
-  virtual ~IImageEditorTool() { }
+  virtual ~IImageEditorTool() {}
 
   virtual const QString title() const = 0;
   virtual const QString tooltip() const = 0;
-  virtual const QIcon *icon() const = 0;
-  virtual const QList<QAction *> *actions() const = 0;
-  virtual const QList<QWidget *> *widgets() const = 0;
+  virtual const QIcon* icon() const = 0;
+  virtual const QList<QAction*>* actions() const = 0;
+  virtual const QList<QWidget*>* widgets() const = 0;
 
 public slots:
-  virtual bool processMouse(QMouseEvent *event,
-                            const QImage *imageOriginal,
-                            bool inRect) = 0;
+  virtual bool processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect) = 0;
 
 signals:
-  virtual void started(const QImage *value) = 0;
-  virtual void processing(const QImage *value) = 0;
-  virtual void completed(const QImage *value, bool changed) = 0;
+  virtual void started(const QImage* value) = 0;
+  virtual void processing(const QImage* value) = 0;
+  virtual void completed(const QImage* value, bool changed) = 0;
 };
 
 } // namespace Tools
 } // namespace ImageEditor
 
-Q_DECLARE_INTERFACE (ImageEditor::Tools::IImageEditorTool,
-                     "riuson.lcd-image-converter/1.0"
-                    )
+Q_DECLARE_INTERFACE(ImageEditor::Tools::IImageEditorTool, "riuson.lcd-image-converter/1.0")
 
 #endif // IIMAGEEDITORTOOL_H
-

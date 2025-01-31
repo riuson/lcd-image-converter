@@ -18,31 +18,32 @@
  */
 
 #include "imagesmodel.h"
+
 #include <QPixmap>
-#include "datacontainer.h"
+
 #include "bitmaphelper.h"
+#include "datacontainer.h"
 
 namespace Data
 {
 namespace Models
 {
 
-ImagesModel::ImagesModel(Containers::DataContainer *container, QObject *parent) :
-  QAbstractItemModel(parent)
+ImagesModel::ImagesModel(Containers::DataContainer* container, QObject* parent) : QAbstractItemModel(parent)
 {
   this->mContainer = container;
 
   this->connect(this->mContainer, SIGNAL(dataChanged(bool)), SLOT(imagesChanged()));
 }
 
-int ImagesModel::rowCount(const QModelIndex &parent) const
+int ImagesModel::rowCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
 
   return this->mContainer->count();
 }
 
-int ImagesModel::columnCount(const QModelIndex &parent) const
+int ImagesModel::columnCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
 
@@ -77,7 +78,7 @@ QVariant ImagesModel::headerData(int section, Qt::Orientation orientation, int r
   return result;
 }
 
-QVariant ImagesModel::data(const QModelIndex &index, int role) const
+QVariant ImagesModel::data(const QModelIndex& index, int role) const
 {
   QVariant result = QVariant();
 
@@ -136,13 +137,13 @@ QVariant ImagesModel::data(const QModelIndex &index, int role) const
   return result;
 }
 
-QModelIndex ImagesModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex ImagesModel::index(int row, int column, const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
   return this->createIndex(row, column);
 }
 
-QModelIndex ImagesModel::parent(const QModelIndex &index) const
+QModelIndex ImagesModel::parent(const QModelIndex& index) const
 {
   Q_UNUSED(index)
   return QModelIndex();
@@ -174,13 +175,13 @@ QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) cons
       }
 
       case ImageRole: {
-        const QImage *source = this->mContainer->image(key);
+        const QImage* source = this->mContainer->image(key);
         result = QImage(*source);
         break;
       }
 
       case ImageSizeRole: {
-        const QImage *source = this->mContainer->image(key);
+        const QImage* source = this->mContainer->image(key);
         result = source->size();
         break;
       }
@@ -192,9 +193,8 @@ QVariant ImagesModel::containerValue(int imageIndex, ImagesModelRoles role) cons
 
 void ImagesModel::imagesChanged()
 {
-  emit this->dataChanged(
-    this->index(0, 0),
-    this->index(this->rowCount(QModelIndex()) - 1, this->columnCount(QModelIndex()) - 1));
+  emit this->dataChanged(this->index(0, 0),
+                         this->index(this->rowCount(QModelIndex()) - 1, this->columnCount(QModelIndex()) - 1));
 }
 
 } // namespace Models

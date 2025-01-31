@@ -18,20 +18,22 @@
  */
 
 #include <QtWidgets/QApplication>
+
+#include "cmdline.h"
 #include "mainwindow.h"
 #include "revisioninfo.h"
-#include "cmdline.h"
 
-void setupApplication(QApplication *app)
+void setupApplication(QApplication* app)
 {
-  QString version = QString("rev.%1 from %2").arg(VersionControl::RevisionInfo::hash(), VersionControl::RevisionInfo::date());
+  QString version =
+      QString("rev.%1 from %2").arg(VersionControl::RevisionInfo::hash(), VersionControl::RevisionInfo::date());
   QCoreApplication::setApplicationVersion(version);
 
   app->addLibraryPath(QApplication::applicationDirPath());
   app->addLibraryPath(QApplication::applicationDirPath() + "/plugins");
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
   QApplication a(argc, argv);
   setupApplication(&a);
@@ -61,4 +63,3 @@ int main(int argc, char *argv[])
   w.show();
   return a.exec();
 }
-

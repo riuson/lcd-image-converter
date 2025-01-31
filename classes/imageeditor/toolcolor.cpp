@@ -18,16 +18,19 @@
  */
 
 #include "toolcolor.h"
-#include <QPainter>
-#include <QList>
+
 #include <QAction>
-#include <QWidget>
 #include <QColor>
-#include <QSpinBox>
-#include <QMouseEvent>
-#include <QToolButton>
 #include <QColorDialog>
-#include <appsettings.h>
+#include <QList>
+#include <QMouseEvent>
+#include <QPainter>
+#include <QPainterPath>
+#include <QSpinBox>
+#include <QToolButton>
+#include <QWidget>
+
+#include "appsettings.h"
 #include "bitmaphelper.h"
 #include "iimageeditorparams.h"
 
@@ -36,13 +39,14 @@ namespace ImageEditor
 namespace Tools
 {
 
-ToolColor::ToolColor(IImageEditorParams *parameters, QObject *parent) : QObject(parent)
+ToolColor::ToolColor(IImageEditorParams* parameters, QObject* parent) : QObject(parent)
 {
   this->mParameters = parameters;
-  this->mIcon = new QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_color"), 24)));
+  this->mIcon = new QIcon(
+      QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_color"), 24)));
 
-  this->mActions = new QList<QAction *>();
-  this->mWidgets = new QList<QWidget *>();
+  this->mActions = new QList<QAction*>();
+  this->mWidgets = new QList<QWidget*>();
 
   this->loadSettings();
   this->initializeWidgets();
@@ -58,44 +62,21 @@ ToolColor::~ToolColor()
   delete this->mWidgets;
 }
 
-const QString ToolColor::title() const
-{
-  return tr("Color");
-}
+const QString ToolColor::title() const { return tr("Color"); }
 
-const QString ToolColor::tooltip() const
-{
-  return tr("Select color");
-}
+const QString ToolColor::tooltip() const { return tr("Select color"); }
 
-const QIcon *ToolColor::icon() const
-{
-  return this->mIcon;
-}
+const QIcon* ToolColor::icon() const { return this->mIcon; }
 
-const QList<QAction *> *ToolColor::actions() const
-{
-  return this->mActions;
-}
+const QList<QAction*>* ToolColor::actions() const { return this->mActions; }
 
-const QList<QWidget *> *ToolColor::widgets() const
-{
-  return this->mWidgets;
-}
+const QList<QWidget*>* ToolColor::widgets() const { return this->mWidgets; }
 
-const QColor ToolColor::foreColor() const
-{
-  return this->mForeColor;
-}
+const QColor ToolColor::foreColor() const { return this->mForeColor; }
 
-const QColor ToolColor::backColor() const
-{
-  return this->mBackColor;
-}
+const QColor ToolColor::backColor() const { return this->mBackColor; }
 
-bool ToolColor::processMouse(QMouseEvent *event,
-                             const QImage *imageOriginal,
-                             bool inRect)
+bool ToolColor::processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect)
 {
   if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress) {
     if (event->type() == QEvent::MouseButtonPress) {
@@ -144,7 +125,8 @@ void ToolColor::initializeWidgets()
   this->mActionSwapColors->setText(tr("Swap Colors"));
   this->mActionSwapColors->setToolTip(tr("Swap Colors"));
   this->connect(this->mActionSwapColors, SIGNAL(triggered()), SLOT(on_buttonSwapColors_triggered()));
-  this->mActionSwapColors->setIcon(QIcon(QPixmap::fromImage(Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_color_swap"), 24))));
+  this->mActionSwapColors->setIcon(QIcon(QPixmap::fromImage(
+      Parsing::Conversion::BitmapHelper::fromSvg(QString(":/images/icons/tools/tool_color_swap"), 24))));
   this->mActions->append(this->mActionSwapColors);
 
   this->updateColorIcons();
@@ -153,7 +135,7 @@ void ToolColor::initializeWidgets()
 void ToolColor::loadSettings()
 {
   Settings::AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("color");
@@ -183,7 +165,7 @@ void ToolColor::loadSettings()
 void ToolColor::saveSettings() const
 {
   Settings::AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("tools");
   sett.beginGroup("color");
@@ -246,4 +228,3 @@ void ToolColor::on_buttonSwapColors_triggered()
 
 } // namespace Tools
 } // namespace ImageEditor
-

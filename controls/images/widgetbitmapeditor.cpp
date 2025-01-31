@@ -18,10 +18,11 @@
  */
 
 #include "widgetbitmapeditor.h"
+
 #include "ui_widgetbitmapeditor.h"
 
-#include <QMouseEvent>
 #include <QColorDialog>
+#include <QMouseEvent>
 #include <QPainter>
 
 #include "bitmaphelper.h"
@@ -31,9 +32,7 @@ namespace AppUI
 namespace Images
 {
 
-WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::WidgetBitmapEditor)
+WidgetBitmapEditor::WidgetBitmapEditor(QWidget* parent) : QWidget(parent), ui(new Ui::WidgetBitmapEditor)
 {
   ui->setupUi(this);
 
@@ -57,12 +56,9 @@ WidgetBitmapEditor::WidgetBitmapEditor(QWidget *parent) :
   this->ui->spinBoxScale->setValue(this->mScale);
 }
 
-WidgetBitmapEditor::~WidgetBitmapEditor()
-{
-  delete ui;
-}
+WidgetBitmapEditor::~WidgetBitmapEditor() { delete ui; }
 
-void WidgetBitmapEditor::changeEvent(QEvent *e)
+void WidgetBitmapEditor::changeEvent(QEvent* e)
 {
   QWidget::changeEvent(e);
 
@@ -77,7 +73,7 @@ void WidgetBitmapEditor::changeEvent(QEvent *e)
   }
 }
 
-bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
+bool WidgetBitmapEditor::eventFilter(QObject* obj, QEvent* event)
 {
   bool result = false;
 
@@ -86,7 +82,7 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
       this->mFlagChanged = false;
     }
 
-    QMouseEvent *me = static_cast<QMouseEvent *>(event);
+    QMouseEvent* me = static_cast<QMouseEvent*>(event);
 
     // get coordinates
     int xscaled = me->pos().x();
@@ -134,10 +130,10 @@ bool WidgetBitmapEditor::eventFilter(QObject *obj, QEvent *event)
   return result;
 }
 
-void WidgetBitmapEditor::wheelEvent(QWheelEvent *event)
+void WidgetBitmapEditor::wheelEvent(QWheelEvent* event)
 {
   if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
-    QPoint point = event->globalPos();
+    QPoint point = event->globalPosition().toPoint();
     point = this->mapFromGlobal(point);
 
     QRect labelRect = this->ui->label->rect();
@@ -145,10 +141,10 @@ void WidgetBitmapEditor::wheelEvent(QWheelEvent *event)
     labelRect.moveTo(labelPoint);
 
     if (labelRect.contains(point.x(), point.y())) {
-      if (event->orientation() == Qt::Vertical) {
+      if (qAbs(event->angleDelta().x()) < qAbs(event->angleDelta().y())) {
         int scale = this->mScale;
 
-        if (event->delta() > 0) {
+        if (event->angleDelta().y() > 0) {
           scale++;
         } else {
           scale--;
@@ -163,32 +159,23 @@ void WidgetBitmapEditor::wheelEvent(QWheelEvent *event)
   }
 }
 
-const QImage *WidgetBitmapEditor::image() const
+const QImage* WidgetBitmapEditor::image() const
 {
-  const QImage *result = &this->mImageOriginal;
+  const QImage* result = &this->mImageOriginal;
   return result;
 }
 
-void WidgetBitmapEditor::setImage(const QImage *value)
+void WidgetBitmapEditor::setImage(const QImage* value)
 {
   this->mImageOriginal = QImage(*value);
   this->updateImageScaled(this->mScale);
 }
 
-QColor WidgetBitmapEditor::color1() const
-{
-  return this->mColor1;
-}
+QColor WidgetBitmapEditor::color1() const { return this->mColor1; }
 
-QColor WidgetBitmapEditor::color2() const
-{
-  return this->mColor2;
-}
+QColor WidgetBitmapEditor::color2() const { return this->mColor2; }
 
-int WidgetBitmapEditor::scale() const
-{
-  return this->mScale;
-}
+int WidgetBitmapEditor::scale() const { return this->mScale; }
 
 void WidgetBitmapEditor::updateImageScaled(int scale)
 {
@@ -201,17 +188,14 @@ void WidgetBitmapEditor::updateImageScaled(int scale)
   }
 }
 
-void WidgetBitmapEditor::drawPixel(int x, int y, const QColor &color)
+void WidgetBitmapEditor::drawPixel(int x, int y, const QColor& color)
 {
   QImage image = this->mImageOriginal;
   this->mImageOriginal = Parsing::Conversion::BitmapHelper::drawPixel(&image, x, y, color);
   this->updateImageScaled(this->mScale);
 }
 
-void WidgetBitmapEditor::on_spinBoxScale_valueChanged(int value)
-{
-  this->setScale(value);
-}
+void WidgetBitmapEditor::on_spinBoxScale_valueChanged(int value) { this->setScale(value); }
 
 void WidgetBitmapEditor::on_pushButtonColor1_clicked()
 {
@@ -220,7 +204,7 @@ void WidgetBitmapEditor::on_pushButtonColor1_clicked()
 
   if (dialog.exec() == QDialog::Accepted) {
     this->mColor1 = dialog.selectedColor();
-    //BitmapEditorOptions::setColor1(this->mColor1);
+    // BitmapEditorOptions::setColor1(this->mColor1);
     this->mPixmapColor1.fill(this->mColor1);
     this->ui->pushButtonColor1->setIcon(QIcon(this->mPixmapColor1));
   }
@@ -233,7 +217,7 @@ void WidgetBitmapEditor::on_pushButtonColor2_clicked()
 
   if (dialog.exec() == QDialog::Accepted) {
     this->mColor2 = dialog.selectedColor();
-    //BitmapEditorOptions::setColor2(this->mColor2);
+    // BitmapEditorOptions::setColor2(this->mColor2);
     this->mPixmapColor2.fill(this->mColor2);
     this->ui->pushButtonColor2->setIcon(QIcon(this->mPixmapColor2));
   }
@@ -245,21 +229,15 @@ void WidgetBitmapEditor::setScale(int value)
     this->mScale = value;
     this->updateImageScaled(this->mScale);
 
-    //BitmapEditorOptions::setScale(value);
+    // BitmapEditorOptions::setScale(value);
 
     emit this->scaleSchanged(this->mScale);
   }
 }
 
-void WidgetBitmapEditor::setColor1(const QColor value)
-{
-  this->mColor1 = value;
-}
+void WidgetBitmapEditor::setColor1(const QColor value) { this->mColor1 = value; }
 
-void WidgetBitmapEditor::setColor2(const QColor value)
-{
-  this->mColor2 = value;
-}
+void WidgetBitmapEditor::setColor2(const QColor value) { this->mColor2 = value; }
 
 } // namespace Images
 } // namespace AppUI

@@ -20,8 +20,8 @@
 #ifndef FONTDOCUMENT_H
 #define FONTDOCUMENT_H
 
-#include <QObject>
 #include <QFont>
+#include <QObject>
 
 #include "idocument.h"
 
@@ -33,16 +33,18 @@ namespace Presets
 {
 class Preset;
 }
-}
+} // namespace Settings
 
 namespace Parsing
 {
 class ParsedImageData;
 class TagsList;
-}
+} // namespace Parsing
 
 namespace Data
 {
+enum class FontSizeUnits;
+
 namespace Containers
 {
 
@@ -54,19 +56,19 @@ class FontDocument : public QObject, public IDocument
   Q_INTERFACES(Data::Containers::IDocument)
 
 public:
-  explicit FontDocument(QObject *parent = 0);
+  explicit FontDocument(QObject* parent = 0);
   virtual ~FontDocument();
 
-  bool load(const QString &fileName) Q_DECL_OVERRIDE;
-  bool save(const QString &fileName) Q_DECL_OVERRIDE;
+  bool load(const QString& fileName) Q_DECL_OVERRIDE;
+  bool save(const QString& fileName) Q_DECL_OVERRIDE;
   bool changed() const Q_DECL_OVERRIDE;
   QString documentFilename() const Q_DECL_OVERRIDE;
   QString documentName() const Q_DECL_OVERRIDE;
-  void setDocumentName(const QString &value) Q_DECL_OVERRIDE;
+  void setDocumentName(const QString& value) Q_DECL_OVERRIDE;
   QString outputFilename() const Q_DECL_OVERRIDE;
-  void setOutputFilename(const QString &value) Q_DECL_OVERRIDE;
-  DataContainer *dataContainer() const Q_DECL_OVERRIDE;
-  QString convert(Settings::Presets::Preset *preset) Q_DECL_OVERRIDE;
+  void setOutputFilename(const QString& value) Q_DECL_OVERRIDE;
+  DataContainer* dataContainer() const Q_DECL_OVERRIDE;
+  QString convert(Settings::Presets::Preset* preset) Q_DECL_OVERRIDE;
 
   void beginChanges() Q_DECL_OVERRIDE;
   void endChanges(bool suppress) Q_DECL_OVERRIDE;
@@ -75,22 +77,20 @@ public:
   void undo() Q_DECL_OVERRIDE;
   void redo() Q_DECL_OVERRIDE;
 
-  void fontCharacters(QString *chars,
-                      Data::Containers::FontParameters *parameters);
-  void setFontCharacters(const QString &chars,
-                         const Data::Containers::FontParameters &parameters);
+  void fontCharacters(QString* chars, Data::Containers::FontParameters* parameters);
+  void setFontCharacters(const QString& chars, const Data::Containers::FontParameters& parameters);
 
 private:
-  DataContainer *mContainer;
+  DataContainer* mContainer;
   int mNestedChangesCounter;
 
-  void setDocumentFilename(const QString &value);
+  void setDocumentFilename(const QString& value);
 
   QFont usedFont() const;
-  void setUsedFont(const QFont &value);
+  void setUsedFont(const QFont& value);
 
   QString usedStyle() const;
-  void setUsedStyle(const QString &value);
+  void setUsedStyle(const QString& value);
 
   bool monospaced() const;
   void setMonospaced(const bool value);
@@ -116,9 +116,16 @@ private:
   int multiplicityHeight() const;
   void setMultiplicityHeight(const int value);
 
-  void prepareImages(Settings::Presets::Preset *preset, const QStringList &orderedKeys, QMap<QString, Parsing::ParsedImageData *> *images, const Parsing::TagsList &tags) const;
-  QString hexCode(const QString &key, const QString &encoding, bool bom) const;
-  const QStringList sortKeysWithEncoding(const QStringList &keys, Settings::Presets::Preset *preset) const;
+  FontSizeUnits sizeUnits() const;
+  void setSizeUnits(const FontSizeUnits sizeUnits);
+
+  void prepareImages(Settings::Presets::Preset* preset, const QStringList& orderedKeys,
+                     QMap<QString, Parsing::ParsedImageData*>* images, Parsing::TagsList& tags) const;
+  bool getCharCode(const QString& key, const QString& encoding, bool bom, quint64& resultCode,
+                   QString& resultCodeStr) const;
+  const QStringList sortKeysWithEncoding(const QStringList& keys, Settings::Presets::Preset* preset) const;
+
+  const QString escapeUserCharacters(Settings::Presets::Preset* preset, const QString& value) const;
 
 private slots:
   void mon_container_dataChanged(bool historyStateMoved);

@@ -20,7 +20,8 @@
 #include "imageeditoroptions.h"
 
 #include <QFile>
-#include <appsettings.h>
+
+#include "appsettings.h"
 
 namespace Settings
 {
@@ -28,7 +29,7 @@ namespace Settings
 QByteArray ImageEditorOptions::toolbarsState()
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("toolbar-options");
 
@@ -40,10 +41,10 @@ QByteArray ImageEditorOptions::toolbarsState()
   return result;
 }
 
-void ImageEditorOptions::setToolbarsState(const QByteArray &value)
+void ImageEditorOptions::setToolbarsState(const QByteArray& value)
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("window-image-editor");
   sett.beginGroup("toolbar-options");
 

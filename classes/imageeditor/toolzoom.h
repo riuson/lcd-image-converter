@@ -20,11 +20,11 @@
 #ifndef TOOLZOOM_H
 #define TOOLZOOM_H
 
+#include <QIcon>
 #include <QObject>
-#include "iimageeditortool.h"
+#include <QSpinBox>
 
-class QIcon;
-class QSpinBox;
+#include "iimageeditortool.h"
 
 namespace ImageEditor
 {
@@ -39,35 +39,33 @@ class ToolZoom : public QObject, public IImageEditorTool
   Q_INTERFACES(ImageEditor::Tools::IImageEditorTool)
 
 public:
-  explicit ToolZoom(IImageEditorParams *parameters, QObject *parent = 0);
+  explicit ToolZoom(IImageEditorParams* parameters, QObject* parent = 0);
   virtual ~ToolZoom();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;
-  const QIcon *icon() const Q_DECL_OVERRIDE;
-  const QList<QAction *> *actions() const Q_DECL_OVERRIDE;
-  const QList<QWidget *> *widgets() const Q_DECL_OVERRIDE;
+  const QIcon* icon() const Q_DECL_OVERRIDE;
+  const QList<QAction*>* actions() const Q_DECL_OVERRIDE;
+  const QList<QWidget*>* widgets() const Q_DECL_OVERRIDE;
 
   int scale() const;
 
 public slots:
-  bool processMouse(QMouseEvent *event,
-                    const QImage *imageOriginal,
-                    bool inRect) Q_DECL_OVERRIDE;
+  bool processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect) Q_DECL_OVERRIDE;
   void setScale(int value);
 
 signals:
-  void started(const QImage *value) Q_DECL_OVERRIDE;
-  void processing(const QImage *value) Q_DECL_OVERRIDE;
-  void completed(const QImage *value, bool changed) Q_DECL_OVERRIDE;
+  void started(const QImage* value) Q_DECL_OVERRIDE;
+  void processing(const QImage* value) Q_DECL_OVERRIDE;
+  void completed(const QImage* value, bool changed) Q_DECL_OVERRIDE;
   void scaleChanged(int value);
 
 private:
-  IImageEditorParams *mParameters;
-  QIcon *mIcon;
-  QSpinBox *mSpinBoxScale;
-  QList<QAction *> *mActions;
-  QList<QWidget *> *mWidgets;
+  IImageEditorParams* mParameters;
+  QIcon* mIcon;
+  QSpinBox* mSpinBoxScale;
+  QList<QAction*>* mActions;
+  QList<QWidget*>* mWidgets;
   int mScale;
 
   void initializeWidgets();

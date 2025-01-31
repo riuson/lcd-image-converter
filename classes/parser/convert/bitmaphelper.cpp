@@ -18,19 +18,21 @@
  */
 
 #include "bitmaphelper.h"
-#include "limits"
 
 #include <QPainter>
 #include <QPainterPath>
 #include <QPainterPathStroker>
 #include <QtSvg/QSvgRenderer>
 
+#include "alignmodes.h"
+#include "limits"
+
 namespace Parsing
 {
 namespace Conversion
 {
 
-QImage BitmapHelper::rotate90(const QImage *source)
+QImage BitmapHelper::rotate90(const QImage* source)
 {
   QImage result = QImage(source->height(), source->width(), source->format());
   result.fill(QColor(0, 0, 0, 0));
@@ -41,7 +43,7 @@ QImage BitmapHelper::rotate90(const QImage *source)
   return result;
 }
 
-QImage BitmapHelper::rotate180(const QImage *source)
+QImage BitmapHelper::rotate180(const QImage* source)
 {
   QImage result = QImage(source->width(), source->height(), source->format());
   result.fill(QColor(0, 0, 0, 0));
@@ -52,7 +54,7 @@ QImage BitmapHelper::rotate180(const QImage *source)
   return result;
 }
 
-QImage BitmapHelper::rotate270(const QImage *source)
+QImage BitmapHelper::rotate270(const QImage* source)
 {
   QImage result = QImage(source->height(), source->width(), source->format());
   result.fill(QColor(0, 0, 0, 0));
@@ -63,7 +65,7 @@ QImage BitmapHelper::rotate270(const QImage *source)
   return result;
 }
 
-QImage BitmapHelper::shiftUp(const QImage *source)
+QImage BitmapHelper::shiftUp(const QImage* source)
 {
   QImage result = QImage(source->width(), source->height(), source->format());
   result.fill(QColor(0, 0, 0, 0));
@@ -73,7 +75,7 @@ QImage BitmapHelper::shiftUp(const QImage *source)
   return result;
 }
 
-QImage BitmapHelper::shiftRight(const QImage *source)
+QImage BitmapHelper::shiftRight(const QImage* source)
 {
   QImage result = QImage(source->width(), source->height(), source->format());
   result.fill(QColor(0, 0, 0, 0));
@@ -83,7 +85,7 @@ QImage BitmapHelper::shiftRight(const QImage *source)
   return result;
 }
 
-QImage BitmapHelper::shiftDown(const QImage *source)
+QImage BitmapHelper::shiftDown(const QImage* source)
 {
   QImage result = QImage(source->width(), source->height(), source->format());
   result.fill(QColor(0, 0, 0, 0));
@@ -93,7 +95,7 @@ QImage BitmapHelper::shiftDown(const QImage *source)
   return result;
 }
 
-QImage BitmapHelper::shiftLeft(const QImage *source)
+QImage BitmapHelper::shiftLeft(const QImage* source)
 {
   QImage result = QImage(source->width(), source->height(), source->format());
   result.fill(QColor(0, 0, 0, 0));
@@ -103,19 +105,45 @@ QImage BitmapHelper::shiftLeft(const QImage *source)
   return result;
 }
 
-QImage BitmapHelper::flipHorizontal(const QImage *source)
+template <typename T> int sgn(T val) { return (T(0) < val) - (val < T(0)); }
+
+QImage BitmapHelper::shift(const QImage* source, int horizontalDirection, int verticalDirection)
+{
+  QImage result = QImage(source->width(), source->height(), source->format());
+  result.fill(QColor(0, 0, 0, 0));
+
+  int width = source->width();
+  int height = source->height();
+  horizontalDirection %= width;
+  verticalDirection %= height;
+
+  QPainter painter(&result);
+
+  for (int i = 0; i < 3; i++) {
+    int x = -width + (width * i) + horizontalDirection;
+
+    for (int j = 0; j < 3; j++) {
+      int y = -height + (height * j) + verticalDirection;
+      painter.drawImage(x, y, *source);
+    }
+  }
+
+  return result;
+}
+
+QImage BitmapHelper::flipHorizontal(const QImage* source)
 {
   QImage result = source->mirrored(true, false);
   return result;
 }
 
-QImage BitmapHelper::flipVertical(const QImage *source)
+QImage BitmapHelper::flipVertical(const QImage* source)
 {
   QImage result = source->mirrored(false, true);
   return result;
 }
 
-QImage BitmapHelper::crop(const QImage *source, int left, int top, int right, int bottom, const QColor &backColor)
+QImage BitmapHelper::crop(const QImage* source, int left, int top, int right, int bottom, const QColor& backColor)
 {
   int sourceWidth = source->width();
   int sourceHeight = source->height();
@@ -142,7 +170,8 @@ QImage BitmapHelper::crop(const QImage *source, int left, int top, int right, in
   return result;
 }
 
-void BitmapHelper::findEmptyArea(const QImage *source, int &left, int &top, int &right, int &bottom, bool &hEmpty, bool &vEmpty)
+void BitmapHelper::findEmptyArea(const QImage* source, int& left, int& top, int& right, int& bottom, bool& hEmpty,
+                                 bool& vEmpty)
 {
   QRgb background = BitmapHelper::detectBackgroundColor(source).rgba();
   // max possible values by default
@@ -168,11 +197,11 @@ void BitmapHelper::findEmptyArea(const QImage *source, int &left, int &top, int 
   right = source->width() - 1 - r;
   bottom = source->height() - 1 - b;
 
-  hEmpty = l >= r;
-  vEmpty = t >= b;
+  hEmpty = l > r || source->width() == 0;
+  vEmpty = t > b || source->height() == 0;
 }
 
-QImage BitmapHelper::scale(const QImage *source, int scale)
+QImage BitmapHelper::scale(const QImage* source, int scale)
 {
   int width = source->width();
   int height = source->height();
@@ -182,7 +211,7 @@ QImage BitmapHelper::scale(const QImage *source, int scale)
   return result;
 }
 
-QImage BitmapHelper::drawGrid(const QImage *source, int scale)
+QImage BitmapHelper::drawGrid(const QImage* source, int scale)
 {
   QImage result = QImage(*source);
 
@@ -211,7 +240,7 @@ QImage BitmapHelper::drawGrid(const QImage *source, int scale)
   return result;
 }
 
-QImage BitmapHelper::drawSelection(const QImage *source, const QPainterPath &selectedPath, int scale)
+QImage BitmapHelper::drawSelection(const QImage* source, const QPainterPath& selectedPath, int scale)
 {
   QImage image = *source;
   QPixmap pixmap = QPixmap::fromImage(image);
@@ -249,7 +278,7 @@ QImage BitmapHelper::drawSelection(const QImage *source, const QPainterPath &sel
   return pixmap.toImage();
 }
 
-QImage BitmapHelper::drawPixel(const QImage *source, int x, int y, const QColor &color)
+QImage BitmapHelper::drawPixel(const QImage* source, int x, int y, const QColor& color)
 {
   QPixmap pixmap = QPixmap::fromImage(*source);
 
@@ -260,7 +289,7 @@ QImage BitmapHelper::drawPixel(const QImage *source, int x, int y, const QColor 
   return pixmap.toImage();
 }
 
-QColor BitmapHelper::detectBackgroundColor(const QImage *image)
+QColor BitmapHelper::detectBackgroundColor(const QImage* image)
 {
   QColor color1 = BitmapHelper::fromRgba(image->pixel(0, 0));
   QColor color2 = BitmapHelper::fromRgba(image->pixel(image->width() - 1, 0));
@@ -298,7 +327,7 @@ QColor BitmapHelper::detectBackgroundColor(const QImage *image)
   }
 }
 
-QImage BitmapHelper::fromSvg(const QString &path, int size)
+QImage BitmapHelper::fromSvg(const QString& path, int size)
 {
   QSvgRenderer renderer(path);
 
@@ -310,9 +339,85 @@ QImage BitmapHelper::fromSvg(const QString &path, int size)
   return image;
 }
 
-QColor BitmapHelper::fromRgba(QRgb value)
+QColor BitmapHelper::fromRgba(QRgb value) { return QColor(qRed(value), qGreen(value), qBlue(value), qAlpha(value)); }
+
+QImage BitmapHelper::align(const QImage* source, Data::HorizontalAlignMode horizontalMode, int horizontalOffset,
+                           Data::VerticalAlignMode verticalMode, int verticalOffset)
 {
-  return QColor(qRed(value), qGreen(value), qBlue(value), qAlpha(value));
+  int l, t, r, b;
+  bool hEmpty, vEmpty;
+  Parsing::Conversion::BitmapHelper::findEmptyArea(source, l, t, r, b, hEmpty, vEmpty);
+
+  int moveX = 0;
+  int moveY = 0;
+
+  switch (horizontalMode) {
+    case Data::HorizontalAlignMode::Left:
+      moveX = -l + horizontalOffset;
+      break;
+
+    case Data::HorizontalAlignMode::CenterLeft: {
+      int space = l + r;
+      moveX = (space / 2) - horizontalOffset - l;
+      break;
+    }
+
+    case Data::HorizontalAlignMode::CenterRight: {
+      int space = l + r;
+
+      if ((space & 1) == 0) {
+        moveX = (space / 2) + horizontalOffset - l;
+      } else {
+        moveX = (space / 2) + 1 + horizontalOffset - l;
+      }
+
+      break;
+    }
+
+    case Data::HorizontalAlignMode::Right:
+      moveX = r - horizontalOffset;
+      break;
+
+    case Data::HorizontalAlignMode::None:
+    default:
+      break;
+  }
+
+  switch (verticalMode) {
+    case Data::VerticalAlignMode::Top:
+      moveY = -t + verticalOffset;
+      break;
+
+    case Data::VerticalAlignMode::CenterTop: {
+      int space = t + b;
+      moveY = (space / 2) - verticalOffset - t;
+      break;
+    }
+
+    case Data::VerticalAlignMode::CenterBottom: {
+      int space = t + b;
+
+      if ((space & 1) == 0) {
+        moveY = (space / 2) + verticalOffset - t;
+      } else {
+        moveY = (space / 2) + 1 + verticalOffset - t;
+      }
+
+      break;
+    }
+
+    case Data::VerticalAlignMode::Bottom:
+      moveY = b - verticalOffset;
+      break;
+
+    case Data::VerticalAlignMode::None:
+    default:
+      break;
+  }
+
+  QImage result = shift(source, moveX, moveY);
+
+  return result;
 }
 
 } // namespace Conversion

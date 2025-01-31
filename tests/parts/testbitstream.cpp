@@ -1,14 +1,13 @@
 #include "testbitstream.h"
 
-#include "preset.h"
-#include "prepareoptions.h"
-#include "matrixoptions.h"
-#include "imageoptions.h"
+#include <QRandomGenerator>
 
-TestBitStream::TestBitStream(QObject *parent) :
-  QObject(parent)
-{
-}
+#include "imageoptions.h"
+#include "matrixoptions.h"
+#include "prepareoptions.h"
+#include "preset.h"
+
+TestBitStream::TestBitStream(QObject* parent) : QObject(parent) {}
 
 void TestBitStream::initTestCase()
 {
@@ -28,9 +27,7 @@ void TestBitStream::streaming()
 
   // fill source data
   QVector<quint32> source, expected;
-  this->preparePackData(
-    0x00ffffff, 0xffffffff,
-    &source, &expected);
+  this->preparePackData(0x00ffffff, 0xffffffff, &source, &expected);
 
   // create test data
   QVector<quint32> sample;
@@ -48,21 +45,17 @@ void TestBitStream::streaming()
   }
 }
 
-void TestBitStream::cleanupTestCase()
-{
-  delete this->mPreset;
-}
+void TestBitStream::cleanupTestCase() { delete this->mPreset; }
 
-void TestBitStream::preparePackData(
-  quint32 maskUsed, quint32 maskFill,
-  QVector<quint32> *source, QVector<quint32> *packed)
+void TestBitStream::preparePackData(quint32 maskUsed, quint32 maskFill, QVector<quint32>* source,
+                                    QVector<quint32>* packed)
 {
   const int count = 1000;
-  qsrand(QTime::currentTime().msec());
+  QRandomGenerator prng(QTime::currentTime().msec());
 
   // fill source data
   for (int i = 0; i < count; i++) {
-    quint32 value = qrand();
+    quint32 value = prng.generate();
     value = 0x00ffff11;
     source->append(value);
   }
@@ -97,4 +90,3 @@ void TestBitStream::preparePackData(
     packed->append(value);
   }
 }
-

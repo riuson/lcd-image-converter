@@ -18,44 +18,40 @@
  */
 
 #include "converterhelper.h"
+
 #include "qt-version-check.h"
 
-#include <QStringList>
-#include <QImage>
 #include <QColor>
-#include <QPainter>
-#include <QRegExp>
-#include <QVector>
 #include <QFile>
-#include <QTextStream>
-#include <QTextStream>
-#include <QStringBuilder>
+#include <QImage>
 #include <QJSEngine>
+#include <QPainter>
 #include <QQmlEngine>
+#include <QRegExp>
+#include <QStringBuilder>
+#include <QStringList>
+#include <QTextStream>
+#include <QVector>
 
-#include "bitstream.h"
 #include "bitmaphelper.h"
-#include "preset.h"
-#include "prepareoptions.h"
-#include "matrixoptions.h"
-#include "reorderingoptions.h"
-#include "imageoptions.h"
-#include "rlecompressor.h"
+#include "bitstream.h"
 #include "convimagepixels.h"
 #include "convimagescan.h"
+#include "imageoptions.h"
+#include "matrixoptions.h"
+#include "prepareoptions.h"
+#include "preset.h"
+#include "reorderingoptions.h"
+#include "rlecompressor.h"
 
 namespace Parsing
 {
 namespace Conversion
 {
 
-void ConverterHelper::pixelsData(
-  Settings::Presets::PrepareOptions *prepare,
-  const QString &scanScript,
-  const QString &pixelScript,
-  const QImage *image,
-  QVector<quint32> *data,
-  int *width, int *height)
+void ConverterHelper::pixelsData(Settings::Presets::PrepareOptions* prepare, const QString& scanScript,
+                                 const QString& pixelScript, const QImage* image, QVector<quint32>* data, int* width,
+                                 int* height)
 {
   if (image != nullptr && data != nullptr && width != nullptr && height != nullptr) {
     data->clear();
@@ -79,14 +75,17 @@ void ConverterHelper::pixelsData(
 
         case Parsing::Conversion::Options::MonochromeType::DiffuseDither:
           im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::DiffuseDither);
+          im = im.convertToFormat(QImage::Format_ARGB32);
           break;
 
         case Parsing::Conversion::Options::MonochromeType::OrderedDither:
           im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::OrderedDither);
+          im = im.convertToFormat(QImage::Format_ARGB32);
           break;
 
         case Parsing::Conversion::Options::MonochromeType::ThresholdDither:
           im = image->convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::ThresholdDither);
+          im = im.convertToFormat(QImage::Format_ARGB32);
           break;
       }
     } else if (type == Parsing::Conversion::Options::ConversionType::Grayscale) {
@@ -94,7 +93,7 @@ void ConverterHelper::pixelsData(
     }
 
     {
-      ConvImageScan *convImage = new ConvImageScan(&im);
+      ConvImageScan* convImage = new ConvImageScan(&im);
       convImage->setBandSize(prepare->bandWidth());
       convImage->setUseBands(prepare->bandScanning());
 
@@ -129,7 +128,7 @@ void ConverterHelper::pixelsData(
   }
 }
 
-void ConverterHelper::collectPoints(ConvImageScan *convImage, const QString &script, QString *resultError)
+void ConverterHelper::collectPoints(ConvImageScan* convImage, const QString& script, QString* resultError)
 {
   // scanning with qt script
   QJSEngine engine;
@@ -139,10 +138,9 @@ void ConverterHelper::collectPoints(ConvImageScan *convImage, const QString &scr
   engine.globalObject().setProperty("image", imageValue);
   QString scriptModified = script;
 
-  scriptModified = scriptModified
-                   .replace("image.addPoint", "addImagePoint")
-                   .replace("image.width", "__internal_image_width")
-                   .replace("image.height", "__internal_image_height");
+  scriptModified = scriptModified.replace("image.addPoint", "addImagePoint")
+                       .replace("image.width", "__internal_image_width")
+                       .replace("image.height", "__internal_image_height");
   QString scriptTemplate = ConverterHelper::scanScriptTemplate();
   scriptModified = scriptTemplate.arg(scriptModified);
 
@@ -179,7 +177,7 @@ void ConverterHelper::collectPoints(ConvImageScan *convImage, const QString &scr
   }
 }
 
-void ConverterHelper::convertPixelsByScript(const QString &script, QVector<quint32> *data, QString *resultError)
+void ConverterHelper::convertPixelsByScript(const QString& script, QVector<quint32>* data, QString* resultError)
 {
   QString scriptTemplate = ConverterHelper::pixelsScriptTemplate();
   int startPosition = 0;
@@ -230,7 +228,7 @@ void ConverterHelper::convertPixelsByScript(const QString &script, QVector<quint
   }
 }
 
-void ConverterHelper::processPixels(Settings::Presets::Preset *preset, QVector<quint32> *data)
+void ConverterHelper::processPixels(Settings::Presets::Preset* preset, QVector<quint32>* data)
 {
   if (preset != nullptr && data != nullptr) {
     for (int i = 0; i < data->size(); i++) {
@@ -261,13 +259,9 @@ void ConverterHelper::processPixels(Settings::Presets::Preset *preset, QVector<q
   }
 }
 
-void ConverterHelper::packData(
-  Settings::Presets::Preset *preset,
-  QVector<quint32> *inputData, int inputWidth, int inputHeight,
-  QVector<quint32> *outputData,
-  int *outputWidth, int *outputHeight)
+void ConverterHelper::packData(Settings::Presets::Preset* preset, QVector<quint32>* inputData, int inputWidth,
+                               int inputHeight, QVector<quint32>* outputData)
 {
-  *outputHeight = inputHeight;
   outputData->clear();
 
   int resultWidth = 0;
@@ -295,8 +289,6 @@ void ConverterHelper::packData(
         // get row blocks count
         resultWidth = qMax(resultWidth, rowLength);
       }
-
-      *outputWidth = resultWidth;
     } else {
       /* Number_Of_Rows equals to Height
        *
@@ -316,28 +308,17 @@ void ConverterHelper::packData(
         // get row blocks count
         resultWidth = qMax(resultWidth, rowLength);
       }
-
-      *outputWidth = resultWidth;
     }
   } else {
     // All data in one row
 
     // process entire data
     ConverterHelper::packDataRow(preset, inputData, 0, inputData->size(), outputData, &rowLength);
-    // get blocks count
-    *outputWidth = rowLength;
-    *outputHeight = 1;
   }
 }
 
-void ConverterHelper::reorder(
-  Settings::Presets::Preset *preset,
-  QVector<quint32> *inputData,
-  int inputWidth,
-  int inputHeight,
-  QVector<quint32> *outputData,
-  int *outputWidth,
-  int *outputHeight)
+void ConverterHelper::reorder(Settings::Presets::Preset* preset, QVector<quint32>* inputData,
+                              QVector<quint32>* outputData)
 {
   for (int i = 0; i < inputData->size(); i++) {
     quint32 value = inputData->at(i);
@@ -362,33 +343,23 @@ void ConverterHelper::reorder(
 
     outputData->append(valueNew);
   }
-
-  *outputWidth = inputWidth;
-  *outputHeight = inputHeight;
 }
 
-void ConverterHelper::compressData(Settings::Presets::Preset *preset,
-                                   QVector<quint32> *inputData,
-                                   int inputWidth, int inputHeight,
-                                   QVector<quint32> *outputData,
-                                   int *outputWidth, int *outputHeight)
+void ConverterHelper::compressData(Settings::Presets::Preset* preset, QVector<quint32>* inputData,
+                                   QVector<quint32>* outputData)
 {
   if (preset->image()->compressionRle()) {
     Utils::Compression::RleCompressor compressor;
-    compressor.compress(inputData, preset->image()->blockSize(), outputData, preset->image()->compressionRleMinLength());
-    *outputWidth = outputData->size();
-    *outputHeight = 1;
+    compressor.compress(inputData, preset->image()->blockSize(), outputData,
+                        preset->image()->compressionRleMinLength());
   } else {
     for (int i = 0; i < inputData->size(); i++) {
       outputData->append(inputData->at(i));
     }
-
-    *outputWidth = inputWidth;
-    *outputHeight = inputHeight;
   }
 }
 
-void ConverterHelper::prepareImage(Settings::Presets::Preset *preset, const QImage *source, QImage *result)
+void ConverterHelper::prepareImage(Settings::Presets::Preset* preset, const QImage* source, QImage* result)
 {
   if (source != nullptr) {
     QImage im = *source;
@@ -401,7 +372,7 @@ void ConverterHelper::prepareImage(Settings::Presets::Preset *preset, const QIma
   }
 }
 
-void ConverterHelper::createImagePreview(Settings::Presets::Preset *preset, QImage *source, QImage *result)
+void ConverterHelper::createImagePreview(Settings::Presets::Preset* preset, QImage* source, QImage* result)
 {
   if (source != nullptr) {
     QImage im = *source;
@@ -419,14 +390,17 @@ void ConverterHelper::createImagePreview(Settings::Presets::Preset *preset, QIma
 
         case Parsing::Conversion::Options::MonochromeType::DiffuseDither:
           im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::DiffuseDither);
+          im = im.convertToFormat(QImage::Format_ARGB32);
           break;
 
         case Parsing::Conversion::Options::MonochromeType::OrderedDither:
           im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::OrderedDither);
+          im = im.convertToFormat(QImage::Format_ARGB32);
           break;
 
         case Parsing::Conversion::Options::MonochromeType::ThresholdDither:
           im = im.convertToFormat(QImage::Format_Mono, Qt::MonoOnly | Qt::ThresholdDither);
+          im = im.convertToFormat(QImage::Format_ARGB32);
           break;
       }
     } else if (preset->prepare()->convType() == Parsing::Conversion::Options::ConversionType::Grayscale) {
@@ -523,126 +497,108 @@ void ConverterHelper::createImagePreview(Settings::Presets::Preset *preset, QIma
   }
 }
 
-static inline QString uint2hex(Settings::Presets::DataBlockSize blockSize, quint32 value)
+QString ConverterHelper::uint2string(Settings::Presets::DataNumeralSystem numeralSystem,
+                                     Settings::Presets::DataBlockSize blockSize, quint32 value)
 {
-  QChar temp[10];
-  static const QChar table[] = {
-    QChar('0'), QChar('1'), QChar('2'), QChar('3'),
-    QChar('4'), QChar('5'), QChar('6'), QChar('7'),
-    QChar('8'), QChar('9'), QChar('a'), QChar('b'),
-    QChar('c'), QChar('d'), QChar('e'), QChar('f')
-  };
+  int num;
+
+  switch (numeralSystem) {
+    case Settings::Presets::DataNumeralSystem::Decimal: {
+      QString result;
+      result.setNum(value);
+      return result;
+    }
+
+    case Settings::Presets::DataNumeralSystem::Binary: {
+      num = 0;
+      break;
+    }
+
+    case Settings::Presets::DataNumeralSystem::Octal: {
+      num = 1;
+      break;
+    }
+
+    case Settings::Presets::DataNumeralSystem::Hexadecimal: {
+      num = 2;
+      break;
+    }
+
+    default: {
+      return QString();
+    }
+  }
+
+  QChar temp[40];
+  static const QChar table[] = {QChar('0'), QChar('1'), QChar('2'), QChar('3'), QChar('4'), QChar('5'),
+                                QChar('6'), QChar('7'), QChar('8'), QChar('9'), QChar('a'), QChar('b'),
+                                QChar('c'), QChar('d'), QChar('e'), QChar('f')};
   static const QChar end = QChar('\0');
 
-  switch (blockSize) {
-    case Parsing::Conversion::Options::DataBlockSize::Data8:
-      temp[0] = table[(value >> 4) & 0x0000000f];
-      temp[1] = table[(value >> 0) & 0x0000000f];
-      temp[2] = end;
-      break;
+  static const int lengths[3][4] = {{8, 16, 24, 32}, {3, 6, 8, 11}, {2, 4, 6, 8}};
 
-    case Parsing::Conversion::Options::DataBlockSize::Data16:
-      temp[0] = table[(value >> 12) & 0x0000000f];
-      temp[1] = table[(value >> 8) & 0x0000000f];
-      temp[2] = table[(value >> 4) & 0x0000000f];
-      temp[3] = table[(value >> 0) & 0x0000000f];
-      temp[4] = end;
-      break;
+  static const quint32 masks[3] = {0x1ul, 0x7ul, 0xful};
 
-    case Parsing::Conversion::Options::DataBlockSize::Data24:
-      temp[0] = table[(value >> 20) & 0x0000000f];
-      temp[1] = table[(value >> 16) & 0x0000000f];
-      temp[2] = table[(value >> 12) & 0x0000000f];
-      temp[3] = table[(value >> 8) & 0x0000000f];
-      temp[4] = table[(value >> 4) & 0x0000000f];
-      temp[5] = table[(value >> 0) & 0x0000000f];
-      temp[6] = end;
-      break;
+  static const int shifts[3] = {1, 3, 4};
 
-    case Parsing::Conversion::Options::DataBlockSize::Data32:
-      temp[0] = table[(value >> 28) & 0x0000000f];
-      temp[1] = table[(value >> 24) & 0x0000000f];
-      temp[2] = table[(value >> 20) & 0x0000000f];
-      temp[3] = table[(value >> 16) & 0x0000000f];
-      temp[4] = table[(value >> 12) & 0x0000000f];
-      temp[5] = table[(value >> 8) & 0x0000000f];
-      temp[6] = table[(value >> 4) & 0x0000000f];
-      temp[7] = table[(value >> 0) & 0x0000000f];
-      temp[8] = end;
-      break;
+  static const quint32 limits[4] = {0xfful, 0xfffful, 0xfffffful, 0xfffffffful};
 
-    default:
-      temp[0] = end;
-      break;
+  value &= limits[static_cast<int>(blockSize)];
+
+  int length = lengths[num][static_cast<int>(blockSize)];
+  quint32 mask = masks[num];
+  int shift = shifts[num];
+  int i;
+
+  for (i = 0; i < length; i++) {
+    temp[length - i - 1] = table[value & mask];
+    value = value >> shift;
   }
+
+  temp[i] = end;
 
   return QString(temp);
 }
 
-QString ConverterHelper::dataToString(
-  Settings::Presets::Preset *preset,
-  QVector<quint32> *data, int width, int height)
+QString ConverterHelper::dataToString(Settings::Presets::Preset* preset, QVector<quint32>* data)
 {
   QString result, converted;
+
+  int blockPerLine = preset->image()->blocksPerLine();
 
   Settings::Presets::DataBlockSize blockSize = preset->image()->blockSize();
   QString prefix = preset->image()->blockPrefix();
   QString suffix = preset->image()->blockSuffix();
   QString delimiter = preset->image()->blockDelimiter();
+  Settings::Presets::DataNumeralSystem numeralSystem = preset->image()->numeralSystem();
 
-  if (preset->image()->splitToRows()) {
-    bool completed = false;
-
-    for (int y = 0; y < height && !completed; y++) {
-      if (y > 0) {
+  for (auto i = 0; i < data->size(); i++) {
+    if (blockPerLine > 0) {
+      if ((i > 0) && ((i % blockPerLine) == 0)) {
         result.append("\n");
       }
-
-      for (int x = 0; x < width && !completed; x++) {
-        // control index limits for compressed data
-        int index = y * width + x;
-
-        if (index >= data->size()) {
-          completed = true;
-          break;
-        }
-
-        quint32 value = data->at(index);
-        converted = uint2hex(blockSize, value);
-        result += prefix + converted + suffix + delimiter;
-      }
     }
 
-    result.truncate(result.length() - delimiter.length());
-  } else {
-    bool completed = false;
-
-    for (int i = 0; i < width && !completed; i++) {
-      // control index limits for compressed data
-      if (i >= data->size()) {
-        completed = true;
-        break;
-      }
-
-      quint32 value = data->at(i);
-      converted = uint2hex(blockSize, value);
-      result += prefix + converted + suffix + delimiter;
-    }
-
-    result.truncate(result.length() - delimiter.length());
+    quint32 value = data->at(i);
+    converted = uint2string(numeralSystem, blockSize, value);
+    result += prefix + converted + suffix + delimiter;
   }
+
+  result.truncate(result.length() - delimiter.length());
 
   return result;
 }
 
-QString ConverterHelper::previewDataToString(Settings::Presets::Preset *preset, const QVector<quint32> *data, int width, int height)
+QString ConverterHelper::previewDataToString(Settings::Presets::Preset* preset, const QVector<quint32>* data, int width,
+                                             int height)
 {
   QString result;
 
   QString prefix = preset->image()->previewPrefix();
   QString suffix = preset->image()->previewSuffix();
   QString delimiter = preset->image()->previewDelimiter();
-  QStringList levels = preset->image()->previewLevels().split(QRegExp("[\r\n]"), QString::SkipEmptyParts);
+  QStringList levels =
+      preset->image()->previewLevels().split(QRegExp("[\r\n]"), Qt::SplitBehaviorFlags::SkipEmptyParts);
 
   int levelsCount = levels.length();
 
@@ -694,35 +650,25 @@ QString ConverterHelper::previewDataToString(Settings::Presets::Preset *preset, 
   return result;
 }
 
-QString ConverterHelper::scanScript(Settings::Presets::Preset *preset)
+QString ConverterHelper::scanScript(Settings::Presets::Preset* preset)
 {
   QString result;
-  const Settings::Presets::PrepareOptions *prepare = preset->prepare();
+  const Settings::Presets::PrepareOptions* prepare = preset->prepare();
 
   if (prepare->useCustomScanScript()) {
     result = prepare->customScanScript();
   } else {
-    static const QString scripts[] = {
-      ":/scan_scripts/t2b_b", // 0
-      ":/scan_scripts/t2b_b_b",
-      ":/scan_scripts/t2b_f",
-      ":/scan_scripts/t2b_f_b",
+    static const QString scripts[] = {":/scan_scripts/t2b_b", // 0
+                                      ":/scan_scripts/t2b_b_b", ":/scan_scripts/t2b_f", ":/scan_scripts/t2b_f_b",
 
-      ":/scan_scripts/b2t_b", // 4
-      ":/scan_scripts/b2t_b_b",
-      ":/scan_scripts/b2t_f",
-      ":/scan_scripts/b2t_f_b",
+                                      ":/scan_scripts/b2t_b", // 4
+                                      ":/scan_scripts/b2t_b_b", ":/scan_scripts/b2t_f", ":/scan_scripts/b2t_f_b",
 
-      ":/scan_scripts/l2r_b", // 8
-      ":/scan_scripts/l2r_b_b",
-      ":/scan_scripts/l2r_f",
-      ":/scan_scripts/l2r_f_b",
+                                      ":/scan_scripts/l2r_b", // 8
+                                      ":/scan_scripts/l2r_b_b", ":/scan_scripts/l2r_f", ":/scan_scripts/l2r_f_b",
 
-      ":/scan_scripts/r2l_b", // 12
-      ":/scan_scripts/r2l_b_b",
-      ":/scan_scripts/r2l_f",
-      ":/scan_scripts/r2l_f_b"
-    };
+                                      ":/scan_scripts/r2l_b", // 12
+                                      ":/scan_scripts/r2l_b_b", ":/scan_scripts/r2l_f", ":/scan_scripts/r2l_f_b"};
 
     int index = 0;
 
@@ -784,7 +730,7 @@ QString ConverterHelper::scanScriptTemplate()
   return result;
 }
 
-QString ConverterHelper::pixelsScript(Settings::Presets::Preset *preset)
+QString ConverterHelper::pixelsScript(Settings::Presets::Preset* preset)
 {
   QString result = preset->prepare()->customPreprocessScript();
 
@@ -816,7 +762,7 @@ QString ConverterHelper::pixelsScriptTemplate()
   return result;
 }
 
-void ConverterHelper::makeMonochrome(QImage &image, int edge)
+void ConverterHelper::makeMonochrome(QImage& image, int edge)
 {
   QPainter painter(&image);
   painter.setRenderHint(QPainter::Antialiasing, false);
@@ -838,7 +784,7 @@ void ConverterHelper::makeMonochrome(QImage &image, int edge)
   }
 }
 
-void ConverterHelper::makeGrayscale(QImage &image)
+void ConverterHelper::makeGrayscale(QImage& image)
 {
   for (int x = 0; x < image.width(); x++) {
     for (int y = 0; y < image.height(); y++) {
@@ -852,7 +798,8 @@ void ConverterHelper::makeGrayscale(QImage &image)
   }
 }
 
-void ConverterHelper::packDataRow(Settings::Presets::Preset *preset, QVector<quint32> *inputData, int start, int count, QVector<quint32> *outputData, int *rowLength)
+void ConverterHelper::packDataRow(Settings::Presets::Preset* preset, QVector<quint32>* inputData, int start, int count,
+                                  QVector<quint32>* outputData, int* rowLength)
 {
   *rowLength = 0;
 
@@ -872,7 +819,7 @@ void ConverterHelper::packDataRow(Settings::Presets::Preset *preset, QVector<qui
   }
 }
 
-quint32 ConverterHelper::toBigEndian(Settings::Presets::Preset *preset, quint32 value)
+quint32 ConverterHelper::toBigEndian(Settings::Presets::Preset* preset, quint32 value)
 {
   quint8 src1, src2, src3, src4;
   src1 = value & 0xff;
@@ -909,13 +856,10 @@ quint32 ConverterHelper::toBigEndian(Settings::Presets::Preset *preset, quint32 
   return result;
 }
 
-void ConverterHelper::getImageDataSize(Settings::Presets::PrepareOptions *prepare, ConvImageScan *convImage, int *width, int *height)
+void ConverterHelper::getImageDataSize(Settings::Presets::PrepareOptions* prepare, ConvImageScan* convImage, int* width,
+                                       int* height)
 {
-  enum class LineOrientation {
-    Unknown,
-    Horizontal,
-    Vertical
-  };
+  enum class LineOrientation { Unknown, Horizontal, Vertical };
 
   LineOrientation orientation = LineOrientation::Unknown;
   QPoint point1 = convImage->pointAt(0);

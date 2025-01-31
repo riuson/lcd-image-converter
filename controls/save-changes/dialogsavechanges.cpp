@@ -26,7 +26,7 @@ namespace AppUI
 namespace CommonDialogs
 {
 
-DialogSaveChanges::DialogSaveChanges(const QString &documentName, QWidget *parent)
+DialogSaveChanges::DialogSaveChanges(const QString& documentName, QWidget* parent)
 {
   this->mBox = new QMessageBox(parent);
   this->connect(this->mBox, SIGNAL(finished(int)), SLOT(on_messageBox_finished(int)));
@@ -43,20 +43,11 @@ DialogSaveChanges::DialogSaveChanges(const QString &documentName, QWidget *paren
   this->mAnswer = Cancel;
 }
 
-DialogSaveChanges::~DialogSaveChanges()
-{
-  delete this->mBox;
-}
+DialogSaveChanges::~DialogSaveChanges() { delete this->mBox; }
 
-int DialogSaveChanges::answer()
-{
-  return this->mAnswer;
-}
+int DialogSaveChanges::answer() { return this->mAnswer; }
 
-int DialogSaveChanges::exec()
-{
-  return this->mBox->exec();
-}
+int DialogSaveChanges::exec() { return this->mBox->exec(); }
 
 void DialogSaveChanges::on_messageBox_finished(int result)
 {

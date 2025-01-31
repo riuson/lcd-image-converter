@@ -20,7 +20,8 @@
 #include "setupdialogoptions.h"
 
 #include <QVariant>
-#include <appsettings.h>
+
+#include "appsettings.h"
 
 namespace Settings
 {
@@ -28,7 +29,7 @@ namespace Settings
 int SetupDialogOptions::animationTotalTime()
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("setup-dialog");
   bool ok;
   int result = sett.value("animationTotalTime", QVariant(60)).toInt(&ok);
@@ -44,7 +45,7 @@ int SetupDialogOptions::animationTotalTime()
 void SetupDialogOptions::setAnimationTime(int value)
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("setup-dialog");
   sett.setValue("animationTotalTime", QVariant(value));
   sett.endGroup();
@@ -53,7 +54,7 @@ void SetupDialogOptions::setAnimationTime(int value)
 int SetupDialogOptions::animationInterval()
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("setup-dialog");
   bool ok;
   int result = sett.value("animationInterval", QVariant(100)).toInt(&ok);
@@ -69,7 +70,7 @@ int SetupDialogOptions::animationInterval()
 void SetupDialogOptions::setAnimationInterval(int value)
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("setup-dialog");
   sett.setValue("animationInterval", QVariant(value));
   sett.endGroup();

@@ -18,44 +18,43 @@
  */
 
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
-
-#include <QList>
-#include <QFileDialog>
-#include <QInputDialog>
-#include <QTextStream>
-#include <QTextCodec>
-#include <QTranslator>
-#include <QLocale>
-#include <QIcon>
 
 #include "qt-version-check.h"
-#include "editortabimage.h"
-#include "editortabfont.h"
-#include "starttab.h"
+#include "ui_mainwindow.h"
+
+#include <QFileDialog>
+#include <QIcon>
+#include <QInputDialog>
+#include <QList>
+#include <QLocale>
+#include <QTextCodec>
+#include <QTextStream>
+#include <QTranslator>
+
+#include "actionedithandlers.h"
+#include "actionfilehandlers.h"
+#include "actionfonthandlers.h"
+#include "actionhelphandlers.h"
+#include "actionimagehandlers.h"
+#include "actionsetuphandlers.h"
+#include "bitmaphelper.h"
 #include "datacontainer.h"
 #include "dialogsavechanges.h"
-#include "widgetbitmapeditor.h"
-#include "recentlist.h"
-#include "statusmanager.h"
-#include "languageoptions.h"
-#include "actionfilehandlers.h"
-#include "actionedithandlers.h"
-#include "actionimagehandlers.h"
-#include "actionfonthandlers.h"
-#include "actionsetuphandlers.h"
-#include "actionhelphandlers.h"
-#include "ieditor.h"
-#include "idocument.h"
-#include "bitmaphelper.h"
+#include "editortabfont.h"
+#include "editortabimage.h"
 #include "filedialogoptions.h"
+#include "idocument.h"
+#include "ieditor.h"
+#include "languageoptions.h"
+#include "recentlist.h"
+#include "starttab.h"
+#include "statusmanager.h"
+#include "widgetbitmapeditor.h"
 
 namespace AppUI
 {
 
-MainWindow::MainWindow(QWidget *parent) :
-  QMainWindow(parent),
-  ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
 
@@ -83,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
   while (it.hasNext()) {
     QString name = it.next();
-    QAction *action = this->ui->menuLanguage->addAction(name, this, SLOT(actionLanguage_triggered()));
+    QAction* action = this->ui->menuLanguage->addAction(name, this, SLOT(actionLanguage_triggered()));
     action->setCheckable(true);
     action->setData(QVariant(name));
     QTranslator trans;
@@ -121,7 +120,7 @@ MainWindow::~MainWindow()
   delete ui;
 }
 
-void MainWindow::changeEvent(QEvent *e)
+void MainWindow::changeEvent(QEvent* e)
 {
   QMainWindow::changeEvent(e);
 
@@ -135,7 +134,7 @@ void MainWindow::changeEvent(QEvent *e)
   }
 }
 
-void MainWindow::selectLocale(const QString &localeName)
+void MainWindow::selectLocale(const QString& localeName)
 {
   if (Settings::LanguageOptions::setLocale(localeName)) {
     this->mTrans->load(":/translations/" + localeName);
@@ -144,12 +143,12 @@ void MainWindow::selectLocale(const QString &localeName)
     qApp->removeTranslator(this->mTrans);
   }
 
-  QList<QAction *> actions = this->ui->menuLanguage->actions();
-  QMutableListIterator<QAction *> it(actions);
+  QList<QAction*> actions = this->ui->menuLanguage->actions();
+  QMutableListIterator<QAction*> it(actions);
   it.toFront();
 
   while (it.hasNext()) {
-    QAction *a = it.next();
+    QAction* a = it.next();
     QString b = a->data().toString();
     a->setChecked(b == localeName);
   }
@@ -162,8 +161,8 @@ void MainWindow::checkStartPageVisible()
   int startPageIndex = -1;
 
   for (int i = 0; i < this->ui->tabWidget->count(); i++) {
-    QWidget *w = this->ui->tabWidget->widget(i);
-    AppUI::Start::StartTab *tab = dynamic_cast<AppUI::Start::StartTab *> (w);
+    QWidget* w = this->ui->tabWidget->widget(i);
+    AppUI::Start::StartTab* tab = dynamic_cast<AppUI::Start::StartTab*>(w);
 
     if (tab == nullptr) {
       othersTabs++;
@@ -174,7 +173,7 @@ void MainWindow::checkStartPageVisible()
 
   if (othersTabs == 0) {
     if (startPageIndex < 0) {
-      AppUI::Start::StartTab *tab = new AppUI::Start::StartTab(this->ui->tabWidget);
+      AppUI::Start::StartTab* tab = new AppUI::Start::StartTab(this->ui->tabWidget);
       tab->setParent(this->ui->tabWidget);
       tab->setRecentFiles(this->mRecentList->files());
       this->mFileHandlers->connect(tab, SIGNAL(openRecent(QString)), SLOT(openFile(QString)));
@@ -186,7 +185,7 @@ void MainWindow::checkStartPageVisible()
     }
   } else {
     if (startPageIndex >= 0) {
-      AppUI::Start::StartTab *tab = dynamic_cast<AppUI::Start::StartTab *> (this->ui->tabWidget->widget(startPageIndex));
+      AppUI::Start::StartTab* tab = dynamic_cast<AppUI::Start::StartTab*>(this->ui->tabWidget->widget(startPageIndex));
       this->ui->tabWidget->removeTab(startPageIndex);
       this->ui->tabWidget->setTabsClosable(true);
       delete tab;
@@ -209,10 +208,10 @@ void MainWindow::createHandlers()
   this->mFileHandlers->connect(this->ui->actionConvert_All, SIGNAL(triggered()), SLOT(convertAll_triggered()));
   this->connect(this->ui->actionQuit, SIGNAL(triggered()), SLOT(close()));
   this->connect(this->mFileHandlers, SIGNAL(rememberFilename(QString)), SLOT(rememberFilename(QString)));
-  this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget *)), SLOT(closeRequest(QWidget *)));
-  this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget *)), SLOT(tabChanged(QWidget *)));
-  this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget *)), SLOT(tabCreated(QWidget *)));
-  this->connect(this->mFileHandlers, SIGNAL(tabSelect(QWidget *)), SLOT(setCurrentTab(QWidget *)));
+  this->connect(this->mFileHandlers, SIGNAL(closeRequest(QWidget*)), SLOT(closeRequest(QWidget*)));
+  this->connect(this->mFileHandlers, SIGNAL(tabChanged(QWidget*)), SLOT(tabChanged(QWidget*)));
+  this->connect(this->mFileHandlers, SIGNAL(tabCreated(QWidget*)), SLOT(tabCreated(QWidget*)));
+  this->connect(this->mFileHandlers, SIGNAL(tabSelect(QWidget*)), SLOT(setCurrentTab(QWidget*)));
 
   this->mEditHandlers = new MenuHandlers::ActionEditHandlers(this);
   this->mEditHandlers->connect(this->ui->actionEditUndo, SIGNAL(triggered()), SLOT(undo_triggered()));
@@ -221,32 +220,40 @@ void MainWindow::createHandlers()
   this->mEditHandlers->connect(this->ui->actionEditPaste, SIGNAL(triggered()), SLOT(paste_triggered()));
 
   this->mImageHandlers = new MenuHandlers::ActionImageHandlers(this);
-  this->mImageHandlers->connect(this->ui->actionImageFlip_Horizontal, SIGNAL(triggered()), SLOT(flipHorizontal_triggered()));
-  this->mImageHandlers->connect(this->ui->actionImageFlip_Vertical, SIGNAL(triggered()), SLOT(flipVertical_triggered()));
-  this->mImageHandlers->connect(this->ui->actionImageRotate_90_Clockwise, SIGNAL(triggered()), SLOT(rotate_90_Clockwise_triggered()));
+  this->mImageHandlers->connect(this->ui->actionImageFlip_Horizontal, SIGNAL(triggered()),
+                                SLOT(flipHorizontal_triggered()));
+  this->mImageHandlers->connect(this->ui->actionImageFlip_Vertical, SIGNAL(triggered()),
+                                SLOT(flipVertical_triggered()));
+  this->mImageHandlers->connect(this->ui->actionImageRotate_90_Clockwise, SIGNAL(triggered()),
+                                SLOT(rotate_90_Clockwise_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageRotate_180, SIGNAL(triggered()), SLOT(rotate_180_triggered()));
-  this->mImageHandlers->connect(this->ui->actionImageRotate_90_Counter_Clockwise, SIGNAL(triggered()), SLOT(rotate_90_Counter_Clockwise_triggered()));
+  this->mImageHandlers->connect(this->ui->actionImageRotate_90_Counter_Clockwise, SIGNAL(triggered()),
+                                SLOT(rotate_90_Counter_Clockwise_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageShiftLeft, SIGNAL(triggered()), SLOT(shift_left_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageShiftRight, SIGNAL(triggered()), SLOT(shift_right_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageShiftUp, SIGNAL(triggered()), SLOT(shift_up_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageShiftDown, SIGNAL(triggered()), SLOT(shift_down_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageInverse, SIGNAL(triggered()), SLOT(inverse_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageResize, SIGNAL(triggered()), SLOT(resize_triggered()));
+  this->mImageHandlers->connect(this->ui->actionImageAlign, SIGNAL(triggered()), SLOT(align_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageTo_Grayscale, SIGNAL(triggered()), SLOT(grayscale_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageImport, SIGNAL(triggered()), SLOT(import_triggered()));
   this->mImageHandlers->connect(this->ui->actionImageExport, SIGNAL(triggered()), SLOT(export_triggered()));
-  this->mImageHandlers->connect(this->ui->actionEdit_in_external_tool, SIGNAL(triggered()), SLOT(edit_in_external_tool_triggered()));
+  this->mImageHandlers->connect(this->ui->actionEdit_in_external_tool, SIGNAL(triggered()),
+                                SLOT(edit_in_external_tool_triggered()));
 
   this->mFontHandlers = new MenuHandlers::ActionFontHandlers(this);
   this->mFontHandlers->connect(this->ui->actionFontChange, SIGNAL(triggered()), SLOT(fontChange_triggered()));
   this->mFontHandlers->connect(this->ui->actionFontInverse, SIGNAL(triggered()), SLOT(fontInverse_triggered()));
   this->mFontHandlers->connect(this->ui->actionFontResize, SIGNAL(triggered()), SLOT(fontResize_triggered()));
+  this->mFontHandlers->connect(this->ui->actionFontAlign, SIGNAL(triggered()), SLOT(fontAlign_triggered()));
   this->mFontHandlers->connect(this->ui->actionFontPreview, SIGNAL(triggered()), SLOT(fontPreview_triggered()));
   this->mFontHandlers->connect(this->ui->actionFontToImage, SIGNAL(triggered()), SLOT(fontToImage_triggered()));
 
   this->mSetupHandlers = new MenuHandlers::ActionSetupHandlers(this);
   this->mSetupHandlers->connect(this->ui->actionConversionOptions, SIGNAL(triggered()), SLOT(conversion_triggered()));
-  this->mSetupHandlers->connect(this->ui->actionExternal_editor, SIGNAL(triggered()), SLOT(external_editor_triggered()));
+  this->mSetupHandlers->connect(this->ui->actionExternal_editor, SIGNAL(triggered()),
+                                SLOT(external_editor_triggered()));
 
   this->mHelpHandlers = new MenuHandlers::ActionHelpHandlers(this);
   this->mHelpHandlers->connect(this->ui->actionAboutApp, SIGNAL(triggered()), SLOT(about_application_triggered()));
@@ -254,15 +261,16 @@ void MainWindow::createHandlers()
   this->mHelpHandlers->connect(this->ui->actionUpdates, SIGNAL(triggered()), SLOT(updates_triggered()));
   this->mHelpHandlers->connect(this->ui->actionHomePage, SIGNAL(triggered()), SLOT(homepage_triggered()));
 
-  this->mFileHandlers->connect(this->mFontHandlers, SIGNAL(imageCreated(QImage *, QString)), SLOT(openImage(QImage *, QString)));
+  this->mFileHandlers->connect(this->mFontHandlers, SIGNAL(imageCreated(QImage*, QString)),
+                               SLOT(openImage(QImage*, QString)));
 }
 
-void MainWindow::tabTextUpdate(QWidget *widget)
+void MainWindow::tabTextUpdate(QWidget* widget)
 {
   int index = this->ui->tabWidget->indexOf(widget);
 
   if (index >= 0) {
-    IEditor *editor = qobject_cast<IEditor *>(widget);
+    IEditor* editor = qobject_cast<IEditor*>(widget);
 
     if (editor != nullptr) {
       QString name;
@@ -284,7 +292,7 @@ int MainWindow::editorsCount() const
   int result = 0;
 
   for (int i = 0; i < this->ui->tabWidget->count(); i++) {
-    IEditor *editor = qobject_cast<IEditor *>(this->ui->tabWidget->widget(i));
+    IEditor* editor = qobject_cast<IEditor*>(this->ui->tabWidget->widget(i));
 
     if (editor != nullptr) {
       result++;
@@ -296,8 +304,8 @@ int MainWindow::editorsCount() const
 
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
-  QWidget *w = this->ui->tabWidget->widget(index);
-  IEditor *editor = dynamic_cast<IEditor *> (w);
+  QWidget* w = this->ui->tabWidget->widget(index);
+  IEditor* editor = dynamic_cast<IEditor*>(w);
   bool cancel = false;
 
   if (editor != nullptr && editor->document()->changed()) {
@@ -319,14 +327,16 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
           dialog.setWindowTitle(tr("Save file as"));
 
           if (editor->document()->documentFilename().isEmpty()) {
-            dialog.setDirectory(Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::SaveDocument));
+            dialog.setDirectory(
+                Settings::FileDialogOptions::directory(Settings::FileDialogOptions::Dialogs::SaveDocument));
             dialog.selectFile(editor->document()->documentName());
           } else {
             dialog.selectFile(editor->document()->documentFilename());
           }
 
           if (dialog.exec() == QDialog::Accepted) {
-            Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::SaveDocument, dialog.directory().absolutePath());
+            Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::SaveDocument,
+                                                      dialog.directory().absolutePath());
             QString filename = dialog.selectedFiles().at(0);
 
             if (editor->document()->save(filename)) {
@@ -364,29 +374,26 @@ void MainWindow::on_tabWidget_currentChanged(int index)
   this->updateMenuState();
 
   this->mStatusManager->hideAll();
-  IEditor *editor = this->currentEditor();
+  IEditor* editor = this->currentEditor();
 
   if (editor != nullptr) {
-    IEditor *editor = this->currentEditor();
+    IEditor* editor = this->currentEditor();
     this->mStatusManager->updateData(editor->statusData());
   }
 }
 
-void MainWindow::setCurrentTab(QWidget *widget)
-{
-  this->ui->tabWidget->setCurrentWidget(widget);
-}
+void MainWindow::setCurrentTab(QWidget* widget) { this->ui->tabWidget->setCurrentWidget(widget); }
 
 void MainWindow::actionLanguage_triggered()
 {
-  QAction *action = qobject_cast<QAction *>(sender());
+  QAction* action = qobject_cast<QAction*>(sender());
   QString name = action->data().toString();
   this->selectLocale(name);
 }
 
 void MainWindow::updateMenuState()
 {
-  IEditor *editor = this->currentEditor();
+  IEditor* editor = this->currentEditor();
   bool editorSelected = (editor != nullptr);
 
   if (editor != nullptr) {
@@ -415,8 +422,8 @@ void MainWindow::updateMenuState()
 
 void MainWindow::updateRecentList()
 {
-  QList<QAction *> actions = this->ui->menuRecent->actions();
-  QAction *action;
+  QList<QAction*> actions = this->ui->menuRecent->actions();
+  QAction* action;
 
   foreach (action, actions) {
     this->ui->menuRecent->removeAction(action);
@@ -438,7 +445,7 @@ void MainWindow::updateRecentList()
       action = new QAction(text, this);
       action->setData(filename);
       this->connect(action, SIGNAL(triggered()), SLOT(openRecentFile()));
-      //action->setVisible(true);
+      // action->setVisible(true);
       this->ui->menuRecent->addAction(action);
     }
   } else {
@@ -448,7 +455,7 @@ void MainWindow::updateRecentList()
 
 void MainWindow::openRecentFile()
 {
-  QAction *action = qobject_cast<QAction *>(sender());
+  QAction* action = qobject_cast<QAction*>(sender());
 
   if (action) {
     QStringList files = QStringList() << action->data().toString();
@@ -456,12 +463,9 @@ void MainWindow::openRecentFile()
   }
 }
 
-void MainWindow::rememberFilename(const QString &filename)
-{
-  this->mRecentList->add(filename);
-}
+void MainWindow::rememberFilename(const QString& filename) { this->mRecentList->add(filename); }
 
-void MainWindow::closeRequest(QWidget *tab)
+void MainWindow::closeRequest(QWidget* tab)
 {
   int index = this->ui->tabWidget->indexOf(tab);
 
@@ -470,25 +474,25 @@ void MainWindow::closeRequest(QWidget *tab)
   }
 }
 
-IEditor *MainWindow::currentEditor()
+IEditor* MainWindow::currentEditor()
 {
-  IEditor *result = qobject_cast<IEditor *>(this->currentTab());
+  IEditor* result = qobject_cast<IEditor*>(this->currentTab());
   return result;
 }
 
-QWidget *MainWindow::currentTab()
+QWidget* MainWindow::currentTab()
 {
   int index = this->ui->tabWidget->currentIndex();
 
   if (index >= 0) {
-    QWidget *w = this->ui->tabWidget->widget(index);
+    QWidget* w = this->ui->tabWidget->widget(index);
     return w;
   }
 
   return nullptr;
 }
 
-void MainWindow::tabsList(QList<QWidget *> *list)
+void MainWindow::tabsList(QList<QWidget*>* list)
 {
   if (list != nullptr) {
     list->clear();
@@ -499,19 +503,16 @@ void MainWindow::tabsList(QList<QWidget *> *list)
   }
 }
 
-QWidget *MainWindow::parentWidget()
-{
-  return this;
-}
+QWidget* MainWindow::parentWidget() { return this; }
 
-QString MainWindow::findAvailableName(const QString &prefix)
+QString MainWindow::findAvailableName(const QString& prefix)
 {
   QString result = prefix;
   QList<QString> names;
 
   for (int i = 0; i < this->ui->tabWidget->count(); i++) {
-    QWidget *w = this->ui->tabWidget->widget(i);
-    Data::Containers::IDocument *doc = dynamic_cast<Data::Containers::IDocument *> (w);
+    QWidget* w = this->ui->tabWidget->widget(i);
+    Data::Containers::IDocument* doc = dynamic_cast<Data::Containers::IDocument*>(w);
 
     if (doc != nullptr) {
       names.append(doc->documentName());
@@ -534,7 +535,7 @@ QString MainWindow::findAvailableName(const QString &prefix)
   return result;
 }
 
-void MainWindow::tabChanged(QWidget *tab)
+void MainWindow::tabChanged(QWidget* tab)
 {
   int index = this->ui->tabWidget->indexOf(tab);
 
@@ -543,7 +544,7 @@ void MainWindow::tabChanged(QWidget *tab)
   }
 }
 
-int MainWindow::tabCreated(QWidget *newTab)
+int MainWindow::tabCreated(QWidget* newTab)
 {
   int index = this->ui->tabWidget->addTab(newTab, "");
   this->ui->tabWidget->setCurrentIndex(index);
@@ -553,7 +554,7 @@ int MainWindow::tabCreated(QWidget *newTab)
 
   this->checkStartPageVisible();
 
-  IEditor *editor = this->currentEditor();
+  IEditor* editor = this->currentEditor();
   this->mStatusManager->updateData(editor->statusData());
 
   return index;
@@ -561,11 +562,11 @@ int MainWindow::tabCreated(QWidget *newTab)
 
 void MainWindow::statusChanged()
 {
-  QWidget *widget = qobject_cast<QWidget *>(sender());
+  QWidget* widget = qobject_cast<QWidget*>(sender());
 
   if (widget != nullptr) {
     if (this->ui->tabWidget->currentWidget() == widget) {
-      IEditor *editor = this->currentEditor();
+      IEditor* editor = this->currentEditor();
       this->mStatusManager->updateData(editor->statusData());
     }
   }

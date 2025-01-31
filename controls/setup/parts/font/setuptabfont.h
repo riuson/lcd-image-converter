@@ -20,11 +20,10 @@
 #ifndef SETUPTABFONT_H
 #define SETUPTABFONT_H
 
-#include <QWidget>
-
 #include "conversion_options.h"
 
-class QCompleter;
+#include <QCompleter>
+#include <QWidget>
 
 namespace Ui
 {
@@ -37,7 +36,7 @@ namespace Presets
 {
 class Preset;
 }
-}
+} // namespace Settings
 
 namespace AppUI
 {
@@ -53,27 +52,32 @@ class SetupTabFont : public QWidget
   Q_OBJECT
 
 public:
-  explicit SetupTabFont(Settings::Presets::Preset *preset, QWidget *parent = 0);
+  explicit SetupTabFont(Settings::Presets::Preset* preset, QWidget* parent = 0);
   virtual ~SetupTabFont();
 
 public slots:
   void matrixChanged();
 
 private:
-  Ui::SetupTabFont *ui;
-  Settings::Presets::Preset *mPreset;
-  QCompleter *mEncodingCompleter;
+  Ui::SetupTabFont* ui;
+  Settings::Presets::Preset* mPreset;
+  QCompleter* mEncodingCompleter;
 
   const QString sortingName(Parsing::Conversion::Options::CharactersSortOrder value) const;
 
 private slots:
   void on_checkBoxBom_toggled(bool value);
-  void on_comboBoxEncoding_currentIndexChanged(const QString &value);
+  void on_comboBoxEncoding_currentIndexChanged(const QString& value);
   void on_comboBoxSorting_currentIndexChanged(int index);
+  void on_checkBoxSkipMissingCharacters_toggled(bool value);
+  void on_lineEditEscapedCharacters_textEdited(const QString& value);
+  void on_lineEditEscapePrefix_textEdited(const QString& value);
+  void on_lineEditEscapeSuffix_textEdited(const QString& value);
+  void on_checkBoxCompactGlyphs_toggled(bool value);
 };
 
 } // namespace Font
-} // namespace Font
+} // namespace Parts
 } // namespace Setup
 } // namespace AppUI
 

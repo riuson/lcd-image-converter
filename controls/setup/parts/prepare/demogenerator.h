@@ -20,14 +20,13 @@
 #ifndef DEMOGENERATOR_H
 #define DEMOGENERATOR_H
 
+#include <QImage>
 #include <QObject>
-#include <QVector>
+#include <QPixmap>
 #include <QPoint>
 #include <QTime>
-#include <QPixmap>
-
-class QTimer;
-class QImage;
+#include <QTimer>
+#include <QVector>
 
 namespace Settings
 {
@@ -35,7 +34,7 @@ namespace Presets
 {
 class Preset;
 }
-}
+} // namespace Settings
 
 namespace AppUI
 {
@@ -50,10 +49,10 @@ class DemoGenerator : public QObject
 {
   Q_OBJECT
 public:
-  explicit DemoGenerator(Settings::Presets::Preset *preset, QObject *parent = 0);
+  explicit DemoGenerator(Settings::Presets::Preset* preset, QObject* parent = 0);
   virtual ~DemoGenerator();
 
-  void setScript(const QString &value);
+  void setScript(const QString& value);
 
   void startAnimation();
   void stopAnimation();
@@ -65,21 +64,21 @@ public:
   void setAnimationInterval(int value);
 
 private:
-  Settings::Presets::Preset *mPreset;
+  Settings::Presets::Preset* mPreset;
   QString mScript;
-  QTimer *mTimer;
+  QTimer* mTimer;
   QVector<QPoint> mPoints;
   int mMax;
   int mIndex;
-  QImage *mSourceImage;
+  QImage* mSourceImage;
   QPixmap mSourcePixmap;
   QPixmap mProcessedPixmap;
   QTime mLastTick;
   int mAnimationTimeSeconds;
 
 signals:
-  void pixmapChanged(const QPixmap &pixmap);
-  void errorHandled(const QString &message);
+  void pixmapChanged(const QPixmap& pixmap);
+  void errorHandled(const QString& message);
 
 private slots:
   void timeout();

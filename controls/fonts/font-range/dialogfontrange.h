@@ -20,9 +20,8 @@
 #ifndef DIALOGFONTRANGE_H
 #define DIALOGFONTRANGE_H
 
+#include <QCompleter>
 #include <QDialog>
-
-class QCompleter;
 
 namespace Ui
 {
@@ -39,19 +38,19 @@ class DialogFontRange : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogFontRange(QWidget *parent = 0);
+  explicit DialogFontRange(QWidget* parent = 0);
   virtual ~DialogFontRange();
 
-  const QString &resultString() const;
+  const QString& resultString() const;
 
 private:
-  Ui::DialogFontRange *ui;
+  Ui::DialogFontRange* ui;
   QString mResultString;
-  QCompleter *mEncodingCompleter;
+  QCompleter* mEncodingCompleter;
 
 private slots:
   void updatePreview();
-  void updatePreview(const QString &encoding, int from, int to, bool bigEndian);
+  void updatePreview(const QString& encoding, int from, int to, bool bigEndian);
   void on_plainTextEditPreview_textChanged();
 };
 

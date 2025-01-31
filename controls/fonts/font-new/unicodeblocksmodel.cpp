@@ -19,39 +19,29 @@
 
 #include "unicodeblocksmodel.h"
 
-#include <QTextStream>
 #include <QFile>
 #include <QRegExp>
+#include <QTextStream>
 
 namespace AppUI
 {
 namespace Fonts
 {
 
-UnicodeBlock::UnicodeBlock(const QString &name, quint32 firstCode, quint32 lastCode)
+UnicodeBlock::UnicodeBlock(const QString& name, quint32 firstCode, quint32 lastCode)
 {
   this->mName = name;
   this->mFirstCode = firstCode;
   this->mLastCode = lastCode;
 }
 
-const QString &UnicodeBlock::name() const
-{
-  return this->mName;
-}
+const QString& UnicodeBlock::name() const { return this->mName; }
 
-quint32 UnicodeBlock::firstCode() const
-{
-  return this->mFirstCode;
-}
+quint32 UnicodeBlock::firstCode() const { return this->mFirstCode; }
 
-quint32 UnicodeBlock::lastCode() const
-{
-  return this->mLastCode;
-}
+quint32 UnicodeBlock::lastCode() const { return this->mLastCode; }
 
-UnicodeBlocksModel::UnicodeBlocksModel(QObject *parent) :
-  QAbstractListModel(parent)
+UnicodeBlocksModel::UnicodeBlocksModel(QObject* parent) : QAbstractListModel(parent)
 {
   quint32 min = 0, max = 0;
 
@@ -85,7 +75,7 @@ UnicodeBlocksModel::UnicodeBlocksModel(QObject *parent) :
       QString name = line.mid(index1 + 1, index2 - index1 - 1);
       name = name.simplified();
 
-      UnicodeBlock *block = new UnicodeBlock(name, code1, code2);
+      UnicodeBlock* block = new UnicodeBlock(name, code1, code2);
       this->mList.append(block);
 
       if (min > code1) {
@@ -99,11 +89,11 @@ UnicodeBlocksModel::UnicodeBlocksModel(QObject *parent) :
     } while (!line.isNull());
   }
 
-  UnicodeBlock *firstBlock = new UnicodeBlock(tr("All"), min, max);
+  UnicodeBlock* firstBlock = new UnicodeBlock(tr("All"), min, max);
   this->mList.insert(0, firstBlock);
 }
 
-QVariant UnicodeBlocksModel::data(const QModelIndex &index, int role) const
+QVariant UnicodeBlocksModel::data(const QModelIndex& index, int role) const
 {
   QVariant result = QVariant();
 
@@ -111,7 +101,7 @@ QVariant UnicodeBlocksModel::data(const QModelIndex &index, int role) const
     return QVariant();
   }
 
-  const UnicodeBlock *block = this->mList.at(index.row());
+  const UnicodeBlock* block = this->mList.at(index.row());
 
   if (role == Qt::DisplayRole) {
     result = block->name();
@@ -124,7 +114,7 @@ QVariant UnicodeBlocksModel::data(const QModelIndex &index, int role) const
   return result;
 }
 
-int UnicodeBlocksModel::rowCount(const QModelIndex &parent) const
+int UnicodeBlocksModel::rowCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
 

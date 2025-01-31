@@ -33,8 +33,8 @@ namespace Tools
 {
 class ToolsManager;
 class IImageEditorTool;
-}
-}
+} // namespace Tools
+} // namespace ImageEditor
 
 namespace AppUI
 {
@@ -46,45 +46,45 @@ class WindowEditor : public QMainWindow
   Q_OBJECT
 
 public:
-  explicit WindowEditor(QWidget *parent = 0);
+  explicit WindowEditor(QWidget* parent = 0);
   virtual ~WindowEditor();
 
-  const QImage *image() const;
-  void setImage(const QImage *value);
+  const QImage* image() const;
+  void setImage(const QImage* value);
 
   int scale() const;
 
 protected:
-  void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
-  bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
-  void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+  void changeEvent(QEvent* e) Q_DECL_OVERRIDE;
+  bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
+  void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
 
 private:
-  Ui::WindowEditor *ui;
+  Ui::WindowEditor* ui;
   QImage mImageOriginal;
   QImage mImageScaled;
   QPixmap mPixmapScaled;
-  ImageEditor::Tools::ToolsManager *mTools;
-  ImageEditor::Tools::IImageEditorTool *mSelectedTool;
+  ImageEditor::Tools::ToolsManager* mTools;
+  ImageEditor::Tools::IImageEditorTool* mSelectedTool;
 
   void updateImageScaled(int value);
-  void updateImageScaled(const QImage &image, int scale);
-  void drawPixel(int x, int y, const QColor &color);
+  void updateImageScaled(const QImage& image, int scale);
+  void drawPixel(int x, int y, const QColor& color);
   void createTools();
 
 private slots:
-  void tool_started(const QImage *value);
-  void tool_processing(const QImage *value);
-  void tool_completed(const QImage *value, bool changed);
+  void tool_started(const QImage* value);
+  void tool_processing(const QImage* value);
+  void tool_completed(const QImage* value, bool changed);
   void tool_scaleChanged(int value);
-  void tool_selectionChanged(const QPainterPath &value);
+  void tool_selectionChanged(const QPainterPath& value);
 
 public slots:
   void toolChanged(int toolIndex);
 
 signals:
   void imageChanged();
-  void mouseMove(const QPoint *point);
+  void mouseMove(const QPoint* point);
   void scaleChanged(int scale);
 };
 

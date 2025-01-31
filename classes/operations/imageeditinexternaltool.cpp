@@ -18,26 +18,27 @@
  */
 
 #include "imageeditinexternaltool.h"
-#include <QImage>
-#include <QMessageBox>
-#include <QMap>
+
 #include <QDateTime>
 #include <QDir>
-#include "idocument.h"
+#include <QImage>
+#include <QMap>
+#include <QMessageBox>
+
 #include "datacontainer.h"
 #include "externaltooloptions.h"
+#include "idocument.h"
 
 namespace Operations
 {
 
-ImageEditInExternalTool::ImageEditInExternalTool(QWidget *parentWidget, QObject *parent) :
-  QObject(parent)
+ImageEditInExternalTool::ImageEditInExternalTool(QWidget* parentWidget, QObject* parent) : QObject(parent)
 {
   this->mParentWidget = parentWidget;
   this->mRunningError = false;
 }
 
-bool ImageEditInExternalTool::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
+bool ImageEditInExternalTool::prepare(const Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
@@ -45,7 +46,7 @@ bool ImageEditInExternalTool::prepare(const Data::Containers::IDocument *doc, co
   return true;
 }
 
-void ImageEditInExternalTool::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
+void ImageEditInExternalTool::applyDocument(Data::Containers::IDocument* doc, const QStringList& keys)
 {
   QMap<QString, QString> files;
 
@@ -77,7 +78,7 @@ void ImageEditInExternalTool::applyDocument(Data::Containers::IDocument *doc, co
     QString key = iterator.next();
 
     // get image
-    const QImage *image = doc->dataContainer()->image(key);
+    const QImage* image = doc->dataContainer()->image(key);
 
     // save image to file
     QString filename = files.value(key);
@@ -148,7 +149,7 @@ void ImageEditInExternalTool::applyDocument(Data::Containers::IDocument *doc, co
   }
 }
 
-void ImageEditInExternalTool::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
+void ImageEditInExternalTool::applyItem(Data::Containers::IDocument* doc, const QString& itemKey)
 {
   Q_UNUSED(doc)
   Q_UNUSED(itemKey)
@@ -163,7 +164,8 @@ void ImageEditInExternalTool::processError(QProcess::ProcessError error)
   switch (error) {
     case QProcess::FailedToStart:
       message = tr("Failed to Start");
-      description = tr("The process failed to start. Either the invoked program is missing, or you may have insufficient permissions to invoke the program.");
+      description = tr("The process failed to start. Either the invoked program is missing, or you may have "
+                       "insufficient permissions to invoke the program.");
       break;
 
     case QProcess::Crashed:
@@ -171,18 +173,20 @@ void ImageEditInExternalTool::processError(QProcess::ProcessError error)
       description = tr("The process crashed some time after starting successfully.");
       break;
 
-    //case QProcess::Timedout:
-    //    message = tr("Timedout");
-    //    description = tr("The last waitFor...() function timed out. The state of QProcess is unchanged, and you can try calling waitFor...() again.");
-    //    break;
+    // case QProcess::Timedout:
+    //     message = tr("Timedout");
+    //     description = tr("The last waitFor...() function timed out. The state of QProcess is unchanged, and you can
+    //     try calling waitFor...() again."); break;
     case QProcess::ReadError:
       message = tr("Read Error");
-      description = tr("An error occurred when attempting to read from the process. For example, the process may not be running.");
+      description = tr(
+          "An error occurred when attempting to read from the process. For example, the process may not be running.");
       break;
 
     case QProcess::WriteError:
       message = tr("Write Error");
-      description = tr("An error occurred when attempting to write to the process. For example, the process may not be running, or it may have closed its input channel.");
+      description = tr("An error occurred when attempting to write to the process. For example, the process may not be "
+                       "running, or it may have closed its input channel.");
       break;
 
     case QProcess::UnknownError:
@@ -194,7 +198,8 @@ void ImageEditInExternalTool::processError(QProcess::ProcessError error)
 
   QMessageBox box(this->mParentWidget);
   box.setTextFormat(Qt::RichText);
-  box.setText(QString("<b>%1</b>: \"%2\"<br/>%3").arg(message, Settings::ExternalToolOptions::imageEditor(), description));
+  box.setText(
+      QString("<b>%1</b>: \"%2\"<br/>%3").arg(message, Settings::ExternalToolOptions::imageEditor(), description));
   box.setWindowTitle(tr("Error running external tool"));
   box.exec();
 }

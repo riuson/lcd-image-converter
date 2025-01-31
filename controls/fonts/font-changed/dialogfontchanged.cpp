@@ -18,6 +18,7 @@
  */
 
 #include "dialogfontchanged.h"
+
 #include "ui_dialogfontchanged.h"
 
 namespace AppUI
@@ -25,45 +26,37 @@ namespace AppUI
 namespace Fonts
 {
 
-DialogFontChanged::DialogFontChanged(QWidget *parent) :
-  QDialog(parent),
-  ui(new Ui::DialogFontChanged)
+DialogFontChanged::DialogFontChanged(QWidget* parent) : QDialog(parent), ui(new Ui::DialogFontChanged)
 {
   ui->setupUi(this);
 
   this->mRegenerateAll = false;
 }
 
-DialogFontChanged::~DialogFontChanged()
-{
-  delete ui;
-}
+DialogFontChanged::~DialogFontChanged() { delete ui; }
 
-bool DialogFontChanged::regenerateAll() const
-{
-  return this->mRegenerateAll;
-}
+bool DialogFontChanged::regenerateAll() const { return this->mRegenerateAll; }
 
 void DialogFontChanged::on_buttonRegenerateAll_clicked()
 {
   this->mRegenerateAll = true;
-  //this->setResult(QDialog::Accepted);
-  //this->close();
+  // this->setResult(QDialog::Accepted);
+  // this->close();
   this->accept();
 }
 
 void DialogFontChanged::on_buttonGenerateNewOnly_clicked()
 {
   this->mRegenerateAll = false;
-  //this->setResult(QDialog::Accepted);
-  //this->close();
+  // this->setResult(QDialog::Accepted);
+  // this->close();
   this->accept();
 }
 
 void DialogFontChanged::on_buttonCancel_clicked()
 {
-  //this->setResult(QDialog::Rejected);
-  //this->close();
+  // this->setResult(QDialog::Rejected);
+  // this->close();
   this->reject();
 }
 

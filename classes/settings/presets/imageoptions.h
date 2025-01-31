@@ -20,8 +20,10 @@
 #ifndef IMAGEOPTIONS_H
 #define IMAGEOPTIONS_H
 
-#include <QObject>
 #include "conversion_options.h"
+
+#include <QObject>
+
 #include "ipresetsoptionspart.h"
 
 namespace Settings
@@ -35,7 +37,7 @@ class ImageOptions : public QObject, public IPresetOptionsPart
   Q_INTERFACES(Settings::Presets::IPresetOptionsPart)
 
 public:
-  explicit ImageOptions(QObject *parent = 0);
+  explicit ImageOptions(QObject* parent = 0);
   virtual ~ImageOptions() {}
 
   bool splitToRows() const;
@@ -44,9 +46,11 @@ public:
   bool blockDefaultOnes() const;
   bool compressionRle() const;
   quint32 compressionRleMinLength() const;
+  quint32 blocksPerLine() const;
   QString blockPrefix() const;
   QString blockSuffix() const;
   QString blockDelimiter() const;
+  Parsing::Conversion::Options::DataNumeralSystem numeralSystem() const;
   QString previewPrefix() const;
   QString previewSuffix() const;
   QString previewDelimiter() const;
@@ -58,17 +62,19 @@ public:
   void setBlockDefaultOnes(bool value);
   void setCompressionRle(bool value);
   void setCompressionRleMinLength(quint32 value);
-  void setBlockPrefix(const QString &value);
-  void setBlockSuffix(const QString &value);
-  void setBlockDelimiter(const QString &value);
-  void setPreviewPrefix(const QString &value);
-  void setPreviewSuffix(const QString &value);
-  void setPreviewDelimiter(const QString &value);
-  void setPreviewLevels(const QString &value);
+  void setBlocksPerLine(quint32 value);
+  void setBlockPrefix(const QString& value);
+  void setBlockSuffix(const QString& value);
+  void setBlockDelimiter(const QString& value);
+  void setNumeralSystem(Parsing::Conversion::Options::DataNumeralSystem value);
+  void setPreviewPrefix(const QString& value);
+  void setPreviewSuffix(const QString& value);
+  void setPreviewDelimiter(const QString& value);
+  void setPreviewLevels(const QString& value);
 
-  bool load(QSettings *settings) Q_DECL_OVERRIDE;
+  bool load(QSettings* settings) Q_DECL_OVERRIDE;
   bool loadXmlElement(QDomElement element) Q_DECL_OVERRIDE;
-  void save(QSettings *settings) Q_DECL_OVERRIDE;
+  void save(QSettings* settings) Q_DECL_OVERRIDE;
   void saveXmlElement(QDomElement element) Q_DECL_OVERRIDE;
 
   QString groupName() const Q_DECL_OVERRIDE;
@@ -81,10 +87,12 @@ private:
   static const QString FieldSplitToRows;
   static const QString FieldCompressionRle;
   static const QString FieldCompressionRleMinLength;
+  static const QString FieldBlocksPerLine;
   static const QString FieldBandWidth;
   static const QString FieldBlockPrefix;
   static const QString FieldBlockSuffix;
   static const QString FieldBlockDelimiter;
+  static const QString FieldNumeralSystem;
   static const QString FieldPreviewPrefix;
   static const QString FieldPreviewSuffix;
   static const QString FieldPreviewDelimiter;
@@ -96,22 +104,23 @@ private:
   bool mBlockDefaultOnes;
   bool mCompressionRle;
   quint32 mCompressionRleMinLength;
+  quint32 mBlocksPerLine;
   QString mBlockPrefix;
   QString mBlockSuffix;
   QString mBlockDelimiter;
+  Parsing::Conversion::Options::DataNumeralSystem mNumeralSystem;
   QString mPreviewPrefix;
   QString mPreviewSuffix;
   QString mPreviewDelimiter;
   QString mPreviewLevels;
 
-  QString escapeEmpty(const QString &value) const;
-  QString unescapeEmpty(const QString &value) const;
+  QString escapeEmpty(const QString& value) const;
+  QString unescapeEmpty(const QString& value) const;
 
 signals:
   void changed();
 
 public slots:
-
 };
 
 } // namespace Presets

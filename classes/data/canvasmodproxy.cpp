@@ -18,19 +18,20 @@
  */
 
 #include "canvasmodproxy.h"
+
+#include <QColor>
+
 #include "bitmaphelper.h"
 #include "canvasmodinfo.h"
 #include "imagesmodel.h"
-#include <QColor>
 
 namespace Data
 {
 namespace Models
 {
 
-CanvasModProxy::CanvasModProxy(QMap<QString, CanvasModInfo *> *canvasMods, QObject *parent)
-  : QSortFilterProxyModel(parent),
-    mCanvasMods(canvasMods)
+CanvasModProxy::CanvasModProxy(QMap<QString, CanvasModInfo*>* canvasMods, QObject* parent)
+    : QSortFilterProxyModel(parent), mCanvasMods(canvasMods)
 {
 }
 
@@ -53,7 +54,7 @@ QVariant CanvasModProxy::headerData(int section, Qt::Orientation orientation, in
   return result;
 }
 
-int CanvasModProxy::columnCount(const QModelIndex &parent) const
+int CanvasModProxy::columnCount(const QModelIndex& parent) const
 {
   if (this->sourceModel() == nullptr) {
     return 0;
@@ -63,7 +64,7 @@ int CanvasModProxy::columnCount(const QModelIndex &parent) const
   return sourceColumns + 2;
 }
 
-QVariant CanvasModProxy::data(const QModelIndex &index, int role) const
+QVariant CanvasModProxy::data(const QModelIndex& index, int role) const
 {
   QVariant result = this->sourceModel()->data(index, role);
 
@@ -83,7 +84,7 @@ QVariant CanvasModProxy::data(const QModelIndex &index, int role) const
         QVariant varKey = this->sourceModel()->data(index, Data::Models::ImagesModel::KeyRole);
         QString key = varKey.toString();
 
-        const Data::CanvasModInfo *modInfo = this->mCanvasMods->value(key);
+        const Data::CanvasModInfo* modInfo = this->mCanvasMods->value(key);
         Data::CanvasModInfo::Mods mods;
 
         if (modInfo != nullptr) {
@@ -92,7 +93,8 @@ QVariant CanvasModProxy::data(const QModelIndex &index, int role) const
           mods.reset();
         }
 
-        QImage imageScaled = Parsing::Conversion::BitmapHelper::crop(&imageSource, mods.left, mods.top, mods.right, mods.bottom, backgroundColor);
+        QImage imageScaled = Parsing::Conversion::BitmapHelper::crop(&imageSource, mods.left, mods.top, mods.right,
+                                                                     mods.bottom, backgroundColor);
         result = imageScaled;
       }
 
@@ -106,7 +108,7 @@ QVariant CanvasModProxy::data(const QModelIndex &index, int role) const
         QVariant varKey = this->sourceModel()->data(index, Data::Models::ImagesModel::KeyRole);
         QString key = varKey.toString();
 
-        const Data::CanvasModInfo *modInfo = this->mCanvasMods->value(key);
+        const Data::CanvasModInfo* modInfo = this->mCanvasMods->value(key);
         Data::CanvasModInfo::Mods mods;
 
         if (modInfo != nullptr) {
@@ -133,7 +135,7 @@ QVariant CanvasModProxy::data(const QModelIndex &index, int role) const
         QVariant varKey = this->sourceModel()->data(index, Data::Models::ImagesModel::KeyRole);
         QString key = varKey.toString();
 
-        const Data::CanvasModInfo *modInfo = this->mCanvasMods->value(key);
+        const Data::CanvasModInfo* modInfo = this->mCanvasMods->value(key);
         Data::CanvasModInfo::Mods mods;
 
         if (modInfo != nullptr) {
@@ -160,24 +162,24 @@ QVariant CanvasModProxy::data(const QModelIndex &index, int role) const
   return result;
 }
 
-QModelIndex CanvasModProxy::index(int row, int column, const QModelIndex &parent) const
+QModelIndex CanvasModProxy::index(int row, int column, const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
   return this->createIndex(row, column);
 }
 
-QModelIndex CanvasModProxy::parent(const QModelIndex &index) const
+QModelIndex CanvasModProxy::parent(const QModelIndex& index) const
 {
   Q_UNUSED(index)
   return QModelIndex();
 }
 
-QModelIndex CanvasModProxy::mapFromSource(const QModelIndex &sourceIndex) const
+QModelIndex CanvasModProxy::mapFromSource(const QModelIndex& sourceIndex) const
 {
   return this->index(sourceIndex.row(), sourceIndex.column(), sourceIndex.parent());
 }
 
-QModelIndex CanvasModProxy::mapToSource(const QModelIndex &proxyIndex) const
+QModelIndex CanvasModProxy::mapToSource(const QModelIndex& proxyIndex) const
 {
   if (sourceModel() && proxyIndex.isValid()) {
     return sourceModel()->index(proxyIndex.row(), proxyIndex.column(), proxyIndex.parent());

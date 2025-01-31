@@ -2,15 +2,9 @@
 
 #include "reorderingoptions.h"
 
-TestReorderingOptions::TestReorderingOptions(QObject *parent) :
-  QObject(parent)
-{
-}
+TestReorderingOptions::TestReorderingOptions(QObject* parent) : QObject(parent) {}
 
-void TestReorderingOptions::initTestCase()
-{
-  this->mOptions = new Settings::Presets::ReorderingOptions(this);
-}
+void TestReorderingOptions::initTestCase() { this->mOptions = new Settings::Presets::ReorderingOptions(this); }
 
 void TestReorderingOptions::operationsCount()
 {
@@ -167,8 +161,4 @@ void TestReorderingOptions::operationReplace()
   QCOMPARE(left, false);
 }
 
-void TestReorderingOptions::cleanupTestCase()
-{
-  delete this->mOptions;
-}
-
+void TestReorderingOptions::cleanupTestCase() { delete this->mOptions; }

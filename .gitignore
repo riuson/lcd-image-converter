@@ -15,3 +15,4 @@ moc_*
 *.qm
 version-included.txt
 revision.h
+**/build

@@ -18,19 +18,18 @@
  */
 
 #include "imageinverse.h"
+
 #include <QImage>
-#include "idocument.h"
+
 #include "datacontainer.h"
+#include "idocument.h"
 
 namespace Operations
 {
 
-ImageInverse::ImageInverse(QObject *parent)
-  : QObject(parent)
-{
-}
+ImageInverse::ImageInverse(QObject* parent) : QObject(parent) {}
 
-bool ImageInverse::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
+bool ImageInverse::prepare(const Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
@@ -38,15 +37,15 @@ bool ImageInverse::prepare(const Data::Containers::IDocument *doc, const QString
   return true;
 }
 
-void ImageInverse::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
+void ImageInverse::applyDocument(Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageInverse::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
+void ImageInverse::applyItem(Data::Containers::IDocument* doc, const QString& itemKey)
 {
-  const QImage *original = doc->dataContainer()->image(itemKey);
+  const QImage* original = doc->dataContainer()->image(itemKey);
   QImage result(*original);
   result.invertPixels();
   doc->dataContainer()->setImage(itemKey, &result);

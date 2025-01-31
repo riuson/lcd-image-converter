@@ -20,10 +20,10 @@
 #ifndef EDITOR_H
 #define EDITOR_H
 
+#include <QColor>
 #include <QObject>
-#include "iimageeditor.h"
 
-class QColor;
+#include "iimageeditor.h"
 
 namespace AppUI
 {
@@ -31,7 +31,7 @@ namespace Images
 {
 class WindowEditor;
 }
-}
+} // namespace AppUI
 
 namespace ImageEditor
 {
@@ -42,31 +42,31 @@ class Editor : public QObject, public IImageEditor
   Q_INTERFACES(ImageEditor::IImageEditor)
 
 public:
-  explicit Editor(QObject *parent = 0);
+  explicit Editor(QObject* parent = 0);
   virtual ~Editor();
 
-  QWidget *widget() const Q_DECL_OVERRIDE;
+  QWidget* widget() const Q_DECL_OVERRIDE;
 
-  const QImage *image() const Q_DECL_OVERRIDE;
-  void setImage(const QImage *value) Q_DECL_OVERRIDE;
+  const QImage* image() const Q_DECL_OVERRIDE;
+  void setImage(const QImage* value) Q_DECL_OVERRIDE;
 
   int scale() const Q_DECL_OVERRIDE;
 
 signals:
-  void imageChanged(const QImage *value) Q_DECL_OVERRIDE;
+  void imageChanged(const QImage* value) Q_DECL_OVERRIDE;
   void scaleChanged(int value) Q_DECL_OVERRIDE;
-  void mouseMoved(const QPoint *value) Q_DECL_OVERRIDE;
+  void mouseMoved(const QPoint* value) Q_DECL_OVERRIDE;
 
 signals:
 
 public slots:
 
 private:
-  AppUI::Images::WindowEditor *mWidget;
+  AppUI::Images::WindowEditor* mWidget;
 
 private slots:
   void on_imageChanged();
-  void on_mouseMove(const QPoint *point);
+  void on_mouseMove(const QPoint* point);
   void on_scaleChanged(int value);
 };
 } // namespace ImageEditor

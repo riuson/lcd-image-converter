@@ -19,29 +19,26 @@
 
 #include "actionimagehandlers.h"
 
-#include "imainwindow.h"
-#include "ieditor.h"
 #include "documentoperator.h"
+#include "ieditor.h"
+#include "imagealign.h"
+#include "imageeditinexternaltool.h"
+#include "imageexport.h"
 #include "imageflip.h"
-#include "imagerotate.h"
-#include "imageshift.h"
-#include "imageinverse.h"
-#include "imageresize.h"
 #include "imagegrayscale.h"
 #include "imageimport.h"
-#include "imageexport.h"
-#include "imageeditinexternaltool.h"
+#include "imageinverse.h"
+#include "imageresize.h"
+#include "imagerotate.h"
+#include "imageshift.h"
+#include "imainwindow.h"
 
 namespace AppUI
 {
 namespace MenuHandlers
 {
 
-ActionImageHandlers::ActionImageHandlers(QObject *parent) :
-  ActionHandlersBase(parent)
-{
-  this->mRunningError = false;
-}
+ActionImageHandlers::ActionImageHandlers(QObject* parent) : ActionHandlersBase(parent) { this->mRunningError = false; }
 
 void ActionImageHandlers::flipHorizontal_triggered()
 {
@@ -181,6 +178,18 @@ void ActionImageHandlers::resize_triggered()
     docOp.setKeys(keys);
     Operations::ImageResize imageResize(this->mMainWindow->parentWidget(), this);
     docOp.apply(this->editor()->document(), imageResize);
+  }
+}
+
+void ActionImageHandlers::align_triggered()
+{
+  if (this->editor() != nullptr) {
+    QStringList keys = this->editor()->selectedKeys();
+
+    Operations::DocumentOperator docOp(this);
+    docOp.setKeys(keys);
+    Operations::ImageAlign imageAlign(this->mMainWindow->parentWidget(), this);
+    docOp.apply(this->editor()->document(), imageAlign);
   }
 }
 

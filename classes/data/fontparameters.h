@@ -22,6 +22,8 @@
 
 #include <QColor>
 
+#include "fontsizeunits.h"
+
 namespace Data
 {
 namespace Containers
@@ -31,6 +33,7 @@ struct FontParameters {
   QString family;
   QString style;
   int size;
+  FontSizeUnits sizeUnits;
   bool monospaced;
   bool antiAliasing;
   int ascent;
@@ -45,4 +48,3 @@ struct FontParameters {
 } // namespace Data
 
 #endif // TFONTPARAMETERS
-

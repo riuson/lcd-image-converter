@@ -18,26 +18,25 @@
  */
 
 #include "windoweditor.h"
+
 #include "ui_windoweditor.h"
 
-#include <QMouseEvent>
 #include <QColorDialog>
-#include <QPainter>
 #include <QIcon>
+#include <QMouseEvent>
+#include <QPainter>
 
 #include "bitmaphelper.h"
-#include "toolsmanager.h"
 #include "iimageeditortool.h"
 #include "imageeditoroptions.h"
+#include "toolsmanager.h"
 
 namespace AppUI
 {
 namespace Images
 {
 
-WindowEditor::WindowEditor(QWidget *parent) :
-  QMainWindow(parent),
-  ui(new Ui::WindowEditor)
+WindowEditor::WindowEditor(QWidget* parent) : QMainWindow(parent), ui(new Ui::WindowEditor)
 {
   ui->setupUi(this);
 
@@ -70,7 +69,7 @@ WindowEditor::~WindowEditor()
   delete ui;
 }
 
-void WindowEditor::changeEvent(QEvent *e)
+void WindowEditor::changeEvent(QEvent* e)
 {
   QWidget::changeEvent(e);
 
@@ -85,16 +84,14 @@ void WindowEditor::changeEvent(QEvent *e)
   }
 }
 
-bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
+bool WindowEditor::eventFilter(QObject* obj, QEvent* event)
 {
   bool result = false;
 
   if (this->mSelectedTool != nullptr) {
-    if (event->type() == QEvent::MouseButtonDblClick ||
-        event->type() == QEvent::MouseButtonPress ||
-        event->type() == QEvent::MouseButtonRelease ||
-        event->type() == QEvent::MouseMove) {
-      QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+    if (event->type() == QEvent::MouseButtonDblClick || event->type() == QEvent::MouseButtonPress ||
+        event->type() == QEvent::MouseButtonRelease || event->type() == QEvent::MouseMove) {
+      QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
 
       int xscaled = mouseEvent->pos().x();
       int yscaled = mouseEvent->pos().y();
@@ -104,12 +101,8 @@ bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
 
       bool inRect = this->mImageOriginal.rect().contains(mousePosition, false);
 
-      QMouseEvent mouseEventScaled = QMouseEvent(
-                                       mouseEvent->type(),
-                                       mousePosition,
-                                       mouseEvent->button(),
-                                       mouseEvent->buttons(),
-                                       mouseEvent->modifiers());
+      QMouseEvent mouseEventScaled = QMouseEvent(mouseEvent->type(), mousePosition, mouseEvent->button(),
+                                                 mouseEvent->buttons(), mouseEvent->modifiers());
 
       result = this->mSelectedTool->processMouse(&mouseEventScaled, &this->mImageOriginal, inRect);
 
@@ -135,10 +128,10 @@ bool WindowEditor::eventFilter(QObject *obj, QEvent *event)
   return result;
 }
 
-void WindowEditor::wheelEvent(QWheelEvent *event)
+void WindowEditor::wheelEvent(QWheelEvent* event)
 {
   if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
-    QPoint point = event->globalPos();
+    QPoint point = event->globalPosition().toPoint();
     point = this->mapFromGlobal(point);
 
     QRect labelRect = this->ui->label->rect();
@@ -146,10 +139,10 @@ void WindowEditor::wheelEvent(QWheelEvent *event)
     labelRect.moveTo(labelPoint);
 
     if (labelRect.contains(point.x(), point.y())) {
-      if (event->orientation() == Qt::Vertical) {
+      if (qAbs(event->angleDelta().x()) < qAbs(event->angleDelta().y())) {
         int scale = this->mTools->scale();
 
-        if (event->delta() > 0) {
+        if (event->angleDelta().y() > 0) {
           scale++;
         } else {
           scale--;
@@ -163,22 +156,19 @@ void WindowEditor::wheelEvent(QWheelEvent *event)
   }
 }
 
-const QImage *WindowEditor::image() const
+const QImage* WindowEditor::image() const
 {
-  const QImage *result = &this->mImageOriginal;
+  const QImage* result = &this->mImageOriginal;
   return result;
 }
 
-void WindowEditor::setImage(const QImage *value)
+void WindowEditor::setImage(const QImage* value)
 {
   this->mImageOriginal = QImage(*value);
   this->updateImageScaled(this->mTools->scale());
 }
 
-int WindowEditor::scale() const
-{
-  return this->mTools->scale();
-}
+int WindowEditor::scale() const { return this->mTools->scale(); }
 
 void WindowEditor::updateImageScaled(int value)
 {
@@ -195,7 +185,7 @@ void WindowEditor::updateImageScaled(int value)
   }
 }
 
-void WindowEditor::updateImageScaled(const QImage &image, int scale)
+void WindowEditor::updateImageScaled(const QImage& image, int scale)
 {
   this->mImageScaled = Parsing::Conversion::BitmapHelper::scale(&image, scale);
   this->mImageScaled = Parsing::Conversion::BitmapHelper::drawGrid(&this->mImageScaled, scale);
@@ -204,7 +194,7 @@ void WindowEditor::updateImageScaled(const QImage &image, int scale)
   this->ui->label->setPixmap(this->mPixmapScaled);
 }
 
-void WindowEditor::drawPixel(int x, int y, const QColor &color)
+void WindowEditor::drawPixel(int x, int y, const QColor& color)
 {
   QImage image = this->mImageOriginal;
   this->mImageOriginal = Parsing::Conversion::BitmapHelper::drawPixel(&image, x, y, color);
@@ -214,7 +204,7 @@ void WindowEditor::drawPixel(int x, int y, const QColor &color)
 void WindowEditor::createTools()
 {
   this->mTools = new ImageEditor::Tools::ToolsManager(this);
-  QList<QAction *> actions = QList<QAction *> (*this->mTools->toolsActions());
+  QList<QAction*> actions = QList<QAction*>(*this->mTools->toolsActions());
   this->ui->toolBarTools->addActions(actions);
   this->connect(this->mTools, SIGNAL(toolChanged(int)), SLOT(toolChanged(int)));
   this->connect(this->mTools, SIGNAL(scaleChanged(int)), SLOT(tool_scaleChanged(int)));
@@ -226,19 +216,19 @@ void WindowEditor::createTools()
   }
 }
 
-void WindowEditor::tool_started(const QImage *value)
+void WindowEditor::tool_started(const QImage* value)
 {
   QImage image = *value;
   this->updateImageScaled(image, this->mTools->scale());
 }
 
-void WindowEditor::tool_processing(const QImage *value)
+void WindowEditor::tool_processing(const QImage* value)
 {
   QImage image = *value;
   this->updateImageScaled(image, this->mTools->scale());
 }
 
-void WindowEditor::tool_completed(const QImage *value, bool changed)
+void WindowEditor::tool_completed(const QImage* value, bool changed)
 {
   if (changed) {
     this->mImageOriginal = *value;
@@ -255,7 +245,7 @@ void WindowEditor::tool_scaleChanged(int value)
   emit this->scaleChanged(value);
 }
 
-void WindowEditor::tool_selectionChanged(const QPainterPath &value)
+void WindowEditor::tool_selectionChanged(const QPainterPath& value)
 {
   Q_UNUSED(value);
   this->updateImageScaled(this->mTools->scale());
@@ -265,15 +255,15 @@ void WindowEditor::toolChanged(int toolIndex)
 {
   this->ui->toolBarOptions->clear();
 
-  ImageEditor::Tools::IImageEditorTool *tool = this->mSelectedTool;
+  ImageEditor::Tools::IImageEditorTool* tool = this->mSelectedTool;
 
   if (this->mSelectedTool != nullptr) {
-    QObject *obj = dynamic_cast<QObject *>(tool);
+    QObject* obj = dynamic_cast<QObject*>(tool);
 
     if (tool != nullptr) {
-      obj->disconnect(SIGNAL(started(const QImage *)), this, SLOT(tool_started(const QImage *)));
-      obj->disconnect(SIGNAL(processing(const QImage *)), this, SLOT(tool_processing(const QImage *)));
-      obj->disconnect(SIGNAL(completed(const QImage *, bool)), this, SLOT(tool_completed(const QImage *, bool)));
+      obj->disconnect(SIGNAL(started(const QImage*)), this, SLOT(tool_started(const QImage*)));
+      obj->disconnect(SIGNAL(processing(const QImage*)), this, SLOT(tool_processing(const QImage*)));
+      obj->disconnect(SIGNAL(completed(const QImage*, bool)), this, SLOT(tool_completed(const QImage*, bool)));
     }
   }
 
@@ -281,16 +271,17 @@ void WindowEditor::toolChanged(int toolIndex)
   this->ui->toolBarOptions->addActions(*tool->actions());
   this->mSelectedTool = tool;
 
-  this->connect(dynamic_cast<QObject *>(tool), SIGNAL(started(const QImage *)), SLOT(tool_started(const QImage *)));
-  this->connect(dynamic_cast<QObject *>(tool), SIGNAL(processing(const QImage *)), SLOT(tool_processing(const QImage *)));
-  this->connect(dynamic_cast<QObject *>(tool), SIGNAL(completed(const QImage *, bool)), SLOT(tool_completed(const QImage *, bool)));
+  this->connect(dynamic_cast<QObject*>(tool), SIGNAL(started(const QImage*)), SLOT(tool_started(const QImage*)));
+  this->connect(dynamic_cast<QObject*>(tool), SIGNAL(processing(const QImage*)), SLOT(tool_processing(const QImage*)));
+  this->connect(dynamic_cast<QObject*>(tool), SIGNAL(completed(const QImage*, bool)),
+                SLOT(tool_completed(const QImage*, bool)));
 
   for (int i = 0; i < tool->widgets()->length(); i++) {
-    QWidget *widget = tool->widgets()->at(i);
+    QWidget* widget = tool->widgets()->at(i);
 
     // toolbar takes ownership on widget
     // so widget will be deleted on toolbar deleting
-    QAction *widgetAction = this->ui->toolBarOptions->addWidget(widget);
+    QAction* widgetAction = this->ui->toolBarOptions->addWidget(widget);
     widgetAction->setToolTip(widget->toolTip());
     widgetAction->setVisible(true);
   }

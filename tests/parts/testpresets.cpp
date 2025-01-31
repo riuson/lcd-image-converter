@@ -1,19 +1,13 @@
 #include "testpresets.h"
 
-#include "preset.h"
-#include "prepareoptions.h"
-#include "matrixoptions.h"
 #include "imageoptions.h"
+#include "matrixoptions.h"
+#include "prepareoptions.h"
+#include "preset.h"
 
-TestPresets::TestPresets(QObject *parent) :
-  QObject(parent)
-{
-}
+TestPresets::TestPresets(QObject* parent) : QObject(parent) {}
 
-void TestPresets::initTestCase()
-{
-  this->mOptions = new Settings::Presets::Preset(this);
-}
+void TestPresets::initTestCase() { this->mOptions = new Settings::Presets::Preset(this); }
 
 void TestPresets::loadSave()
 {
@@ -67,30 +61,26 @@ void TestPresets::loadSave()
 
   QCOMPARE(this->mOptions->prepare()->convType(), source.prepare()->convType());
   QCOMPARE(this->mOptions->prepare()->monoType(), source.prepare()->monoType());
-  QCOMPARE(this->mOptions->prepare()->edge(),     source.prepare()->edge());
+  QCOMPARE(this->mOptions->prepare()->edge(), source.prepare()->edge());
   QCOMPARE(this->mOptions->prepare()->scanMain(), source.prepare()->scanMain());
-  QCOMPARE(this->mOptions->prepare()->scanSub(),  source.prepare()->scanSub());
-  QCOMPARE(this->mOptions->prepare()->inverse(),  source.prepare()->inverse());
-  QCOMPARE(this->mOptions->prepare()->bandScanning(),  source.prepare()->bandScanning());
-  QCOMPARE(this->mOptions->prepare()->bandWidth(),     source.prepare()->bandWidth());
+  QCOMPARE(this->mOptions->prepare()->scanSub(), source.prepare()->scanSub());
+  QCOMPARE(this->mOptions->prepare()->inverse(), source.prepare()->inverse());
+  QCOMPARE(this->mOptions->prepare()->bandScanning(), source.prepare()->bandScanning());
+  QCOMPARE(this->mOptions->prepare()->bandWidth(), source.prepare()->bandWidth());
 
-  QCOMPARE(this->mOptions->matrix()->maskUsed(),  source.matrix()->maskUsed());
-  QCOMPARE(this->mOptions->matrix()->maskAnd(),   source.matrix()->maskAnd());
-  QCOMPARE(this->mOptions->matrix()->maskOr(),    source.matrix()->maskOr());
-  QCOMPARE(this->mOptions->matrix()->maskFill(),  source.matrix()->maskFill());
+  QCOMPARE(this->mOptions->matrix()->maskUsed(), source.matrix()->maskUsed());
+  QCOMPARE(this->mOptions->matrix()->maskAnd(), source.matrix()->maskAnd());
+  QCOMPARE(this->mOptions->matrix()->maskOr(), source.matrix()->maskOr());
+  QCOMPARE(this->mOptions->matrix()->maskFill(), source.matrix()->maskFill());
 
-  QCOMPARE(this->mOptions->image()->bytesOrder(),        source.image()->bytesOrder());
-  QCOMPARE(this->mOptions->image()->blockSize(),         source.image()->blockSize());
-  QCOMPARE(this->mOptions->image()->blockDefaultOnes(),  source.image()->blockDefaultOnes());
-  QCOMPARE(this->mOptions->image()->splitToRows(),       source.image()->splitToRows());
-  QCOMPARE(this->mOptions->image()->compressionRle(),    source.image()->compressionRle());
-  QCOMPARE(this->mOptions->image()->blockPrefix(),       source.image()->blockPrefix());
-  QCOMPARE(this->mOptions->image()->blockSuffix(),       source.image()->blockSuffix());
-  QCOMPARE(this->mOptions->image()->blockDelimiter(),    source.image()->blockDelimiter());
+  QCOMPARE(this->mOptions->image()->bytesOrder(), source.image()->bytesOrder());
+  QCOMPARE(this->mOptions->image()->blockSize(), source.image()->blockSize());
+  QCOMPARE(this->mOptions->image()->blockDefaultOnes(), source.image()->blockDefaultOnes());
+  QCOMPARE(this->mOptions->image()->splitToRows(), source.image()->splitToRows());
+  QCOMPARE(this->mOptions->image()->compressionRle(), source.image()->compressionRle());
+  QCOMPARE(this->mOptions->image()->blockPrefix(), source.image()->blockPrefix());
+  QCOMPARE(this->mOptions->image()->blockSuffix(), source.image()->blockSuffix());
+  QCOMPARE(this->mOptions->image()->blockDelimiter(), source.image()->blockDelimiter());
 }
 
-void TestPresets::cleanupTestCase()
-{
-  delete this->mOptions;
-}
-
+void TestPresets::cleanupTestCase() { delete this->mOptions; }

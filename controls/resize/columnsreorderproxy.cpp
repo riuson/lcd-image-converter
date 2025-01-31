@@ -18,6 +18,7 @@
  */
 
 #include "columnsreorderproxy.h"
+
 #include <QDebug>
 
 namespace Data
@@ -25,8 +26,7 @@ namespace Data
 namespace Models
 {
 
-ColumnsReorderProxy::ColumnsReorderProxy(QObject *parent)
-  : QSortFilterProxyModel(parent)
+ColumnsReorderProxy::ColumnsReorderProxy(QObject* parent) : QSortFilterProxyModel(parent)
 {
   this->mFromColumn = 0;
   this->mToColumn = 0;
@@ -42,24 +42,24 @@ QVariant ColumnsReorderProxy::data(const QModelIndex &index, int role) const
 
 }
 */
-QModelIndex ColumnsReorderProxy::index(int row, int column, const QModelIndex &parent) const
+QModelIndex ColumnsReorderProxy::index(int row, int column, const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
   return this->createIndex(row, column);
 }
 
-QModelIndex ColumnsReorderProxy::parent(const QModelIndex &index) const
+QModelIndex ColumnsReorderProxy::parent(const QModelIndex& index) const
 {
   Q_UNUSED(index)
   return QModelIndex();
 }
 
-QModelIndex ColumnsReorderProxy::mapFromSource(const QModelIndex &sourceIndex) const
+QModelIndex ColumnsReorderProxy::mapFromSource(const QModelIndex& sourceIndex) const
 {
   return this->index(sourceIndex.row(), this->columnFromSource(sourceIndex.column()), sourceIndex.parent());
 }
 
-QModelIndex ColumnsReorderProxy::mapToSource(const QModelIndex &proxyIndex) const
+QModelIndex ColumnsReorderProxy::mapToSource(const QModelIndex& proxyIndex) const
 {
   if ((this->sourceModel() != nullptr) && proxyIndex.isValid()) {
     return this->sourceModel()->index(proxyIndex.row(), this->columnToSource(proxyIndex.column()), proxyIndex.parent());

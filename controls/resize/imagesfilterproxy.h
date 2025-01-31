@@ -21,8 +21,7 @@
 #define IMAGESFILTERPROXY_H
 
 #include <QSortFilterProxyModel>
-
-class QStringList;
+#include <QStringList>
 
 namespace Data
 {
@@ -33,16 +32,15 @@ class ImagesFilterProxy : public QSortFilterProxyModel
 {
   Q_OBJECT
 public:
-  explicit ImagesFilterProxy(QObject *parent = 0);
+  explicit ImagesFilterProxy(QObject* parent = 0);
   virtual ~ImagesFilterProxy();
 
-  bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const Q_DECL_OVERRIDE;
+  bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const Q_DECL_OVERRIDE;
 
-  void setFilter(const QStringList &keys);
+  void setFilter(const QStringList& keys);
 
 private:
-  QStringList *mKeys;
-
+  QStringList* mKeys;
 };
 
 } // namespace Models

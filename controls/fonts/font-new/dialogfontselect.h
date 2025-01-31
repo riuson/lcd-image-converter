@@ -26,16 +26,18 @@ namespace Ui
 {
 class DialogFontSelect;
 }
-class QModelIndex;
-class QItemSelection;
+#include <QItemSelection>
+#include <QModelIndex>
 
 namespace Data
 {
+enum class FontSizeUnits;
+
 namespace Containers
 {
 struct FontParameters;
 }
-}
+} // namespace Data
 
 namespace AppUI
 {
@@ -51,17 +53,18 @@ class DialogFontSelect : public QDialog
   Q_OBJECT
 
 public:
-  explicit DialogFontSelect(QWidget *parent = 0);
+  explicit DialogFontSelect(QWidget* parent = 0);
   virtual ~DialogFontSelect();
 
   QString characters();
-  void setCharacters(const QString &value);
+  void setCharacters(const QString& value);
 
-  void getFontParameters(Data::Containers::FontParameters *parameters);
-  void setFontParameters(const Data::Containers::FontParameters &parameters);
+  void getFontParameters(Data::Containers::FontParameters* parameters);
+  void setFontParameters(const Data::Containers::FontParameters& parameters);
+
 private:
-  Ui::DialogFontSelect *ui;
-  DialogFontSelectData *mData;
+  Ui::DialogFontSelect* ui;
+  DialogFontSelectData* mData;
 
   void loadSettings();
   void saveSettings() const;
@@ -71,23 +74,25 @@ private:
   void connectFontSizeList(bool value);
 
 private slots:
-  void on_lineEdit_textChanged(const QString &value);
-  void on_tableView_doubleClicked(const QModelIndex &index);
+  void on_lineEdit_textChanged(const QString& value);
+  void on_tableView_doubleClicked(const QModelIndex& index);
   void on_pushButtonAppendSelected_clicked();
   void on_pushButtonAppendRange_clicked();
-  void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+  void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
   void on_pushButtonForeColor_clicked();
   void on_pushButtonBackColor_clicked();
   void on_spinBoxMultiplicityHeight_valueChanged(int value);
   void on_spinBoxMultiplicityWidth_valueChanged(int value);
 
-  void on_stylesListChanged(const QStringList &list, const QString &selected);
-  void on_sizesListChanged(const QList<int> &list, int selected);
-  void on_charactersListChanged(const QString &value);
-  void on_fontChanged(const QFont &value);
+  void on_stylesListChanged(const QStringList& list, const QString& selected);
+  void on_sizesListChanged(const QList<int>& list, int selected);
+  void comboBoxSizeUnits_currentIndexChanged(int index);
+  void on_sizeUnitsChanged(Data::FontSizeUnits sizeUnits);
+  void on_charactersListChanged(const QString& value);
+  void on_fontChanged(const QFont& value);
   void on_monospacedChanged(bool value);
-  void on_fontMeasured(int count, int maxWidth, int maxHeight);
-  void updateColorIcons(const QColor &foreground, const QColor &background);
+  void on_fontMeasured(int count, const QSize& maxCharSize, const QSize& maxGlyphSize);
+  void updateColorIcons(const QColor& foreground, const QColor& background);
   void on_multiplicityChanged(int height, int width);
 };
 
@@ -95,4 +100,3 @@ private slots:
 } // namespace AppUI
 
 #endif // DIALOGFONTSELECT_H
-

@@ -20,14 +20,14 @@
 #ifndef TOOLLINE_H
 #define TOOLLINE_H
 
-#include <QObject>
-#include <QImage>
+#include <QAction>
 #include <QColor>
+#include <QIcon>
+#include <QImage>
+#include <QObject>
 #include <QPoint>
-#include "iimageeditortool.h"
 
-class QIcon;
-class QAction;
+#include "iimageeditortool.h"
 
 namespace ImageEditor
 {
@@ -42,30 +42,28 @@ class ToolLine : public QObject, public IImageEditorTool
   Q_INTERFACES(ImageEditor::Tools::IImageEditorTool)
 
 public:
-  explicit ToolLine(IImageEditorParams *parameters, QObject *parent = 0);
+  explicit ToolLine(IImageEditorParams* parameters, QObject* parent = 0);
   virtual ~ToolLine();
 
   const QString title() const Q_DECL_OVERRIDE;
   const QString tooltip() const Q_DECL_OVERRIDE;
-  const QIcon *icon() const Q_DECL_OVERRIDE;
-  const QList<QAction *> *actions() const Q_DECL_OVERRIDE;
-  const QList<QWidget *> *widgets() const Q_DECL_OVERRIDE;
+  const QIcon* icon() const Q_DECL_OVERRIDE;
+  const QList<QAction*>* actions() const Q_DECL_OVERRIDE;
+  const QList<QWidget*>* widgets() const Q_DECL_OVERRIDE;
 
 public slots:
-  bool processMouse(QMouseEvent *event,
-                    const QImage *imageOriginal,
-                    bool inRect) Q_DECL_OVERRIDE;
+  bool processMouse(QMouseEvent* event, const QImage* imageOriginal, bool inRect) Q_DECL_OVERRIDE;
 
 signals:
-  void started(const QImage *value) Q_DECL_OVERRIDE;
-  void processing(const QImage *value) Q_DECL_OVERRIDE;
-  void completed(const QImage *value, bool changed) Q_DECL_OVERRIDE;
+  void started(const QImage* value) Q_DECL_OVERRIDE;
+  void processing(const QImage* value) Q_DECL_OVERRIDE;
+  void completed(const QImage* value, bool changed) Q_DECL_OVERRIDE;
 
 private:
-  IImageEditorParams *mParameters;
-  QIcon *mIcon;
-  QList<QAction *> *mActions;
-  QList<QWidget *> *mWidgets;
+  IImageEditorParams* mParameters;
+  QIcon* mIcon;
+  QList<QAction*>* mActions;
+  QList<QWidget*>* mWidgets;
   int mSize;
   bool mFlagChanged;
   QImage mOriginalImage;
@@ -75,7 +73,7 @@ private:
   void initializeWidgets();
   void loadSettings();
   void saveSettings() const;
-  void drawLine(const QRect &rect, int borderWidth, bool inverted);
+  void drawLine(const QRect& rect, int borderWidth, bool inverted);
 
 private slots:
   void on_spinBoxSize_valueChanged(int value);

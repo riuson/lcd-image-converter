@@ -18,36 +18,36 @@
  */
 
 #include "imageflip.h"
-#include "idocument.h"
-#include "datacontainer.h"
+
 #include "bitmaphelper.h"
+#include "datacontainer.h"
+#include "idocument.h"
 
 namespace Operations
 {
 
-ImageFlip::ImageFlip(QObject *parent)
-  : QObject(parent)
+ImageFlip::ImageFlip(QObject* parent) : QObject(parent)
 {
   this->mFlipHorizontal = false;
   this->mFlipVertical = false;
 }
 
-bool ImageFlip::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
+bool ImageFlip::prepare(const Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
   return true;
 }
 
-void ImageFlip::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
+void ImageFlip::applyDocument(Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageFlip::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
+void ImageFlip::applyItem(Data::Containers::IDocument* doc, const QString& itemKey)
 {
-  const QImage *original = doc->dataContainer()->image(itemKey);
+  const QImage* original = doc->dataContainer()->image(itemKey);
   QImage result = *original;
 
   if (this->mFlipHorizontal) {

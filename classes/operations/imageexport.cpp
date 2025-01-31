@@ -18,24 +18,25 @@
  */
 
 #include "imageexport.h"
-#include <QImage>
+
 #include <QFileDialog>
+#include <QImage>
 #include <QStringList>
-#include "idocument.h"
+
 #include "datacontainer.h"
 #include "filedialogoptions.h"
+#include "idocument.h"
 
 namespace Operations
 {
 
-ImageExport::ImageExport(QWidget *parentWidget, QObject *parent) :
-  QObject(parent)
+ImageExport::ImageExport(QWidget* parentWidget, QObject* parent) : QObject(parent)
 {
   this->mParentWidget = parentWidget;
   this->mExportIndex = 0;
 }
 
-bool ImageExport::prepare(const Data::Containers::IDocument *doc, const QStringList &keys)
+bool ImageExport::prepare(const Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
@@ -55,18 +56,17 @@ bool ImageExport::prepare(const Data::Containers::IDocument *doc, const QStringL
           << "X11 Bitmap (*.xbm)"
           << "X11 Bitmap (*.xpm)";
   dialog.setNameFilters(filters);
-  dialog.selectNameFilter(
-    filters.at(
+  dialog.selectNameFilter(filters.at(
       Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::ExportImage) < filters.count()
-      ?
-      Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::ExportImage)
-      :
-      0));
+          ? Settings::FileDialogOptions::filterIndex(Settings::FileDialogOptions::Dialogs::ExportImage)
+          : 0));
 
   if (dialog.exec() == QDialog::Accepted) {
     QString filter = dialog.selectedNameFilter();
-    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ExportImage, dialog.directory().absolutePath());
-    Settings::FileDialogOptions::setFilterIndex(Settings::FileDialogOptions::Dialogs::ExportImage, filters.indexOf(filter));
+    Settings::FileDialogOptions::setDirectory(Settings::FileDialogOptions::Dialogs::ExportImage,
+                                              dialog.directory().absolutePath());
+    Settings::FileDialogOptions::setFilterIndex(Settings::FileDialogOptions::Dialogs::ExportImage,
+                                                filters.indexOf(filter));
     QString ext = "png";
 
     if (filter.contains("bmp")) {
@@ -96,13 +96,13 @@ bool ImageExport::prepare(const Data::Containers::IDocument *doc, const QStringL
   return false;
 }
 
-void ImageExport::applyDocument(Data::Containers::IDocument *doc, const QStringList &keys)
+void ImageExport::applyDocument(Data::Containers::IDocument* doc, const QStringList& keys)
 {
   Q_UNUSED(doc)
   Q_UNUSED(keys)
 }
 
-void ImageExport::applyItem(Data::Containers::IDocument *doc, const QString &itemKey)
+void ImageExport::applyItem(Data::Containers::IDocument* doc, const QString& itemKey)
 {
   if (this->mExportFilenames.length() == 1) {
     doc->dataContainer()->image(itemKey)->save(this->mExportFilenames.at(0));
@@ -113,7 +113,7 @@ void ImageExport::applyItem(Data::Containers::IDocument *doc, const QString &ite
   }
 }
 
-void ImageExport::prepareFilenames(const QStringList &keys, const QString &filename, const QString &ext)
+void ImageExport::prepareFilenames(const QStringList& keys, const QString& filename, const QString& ext)
 {
   this->mExportFilenames.clear();
 

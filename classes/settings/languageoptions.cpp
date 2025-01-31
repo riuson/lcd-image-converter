@@ -20,7 +20,8 @@
 #include "languageoptions.h"
 
 #include <QFile>
-#include <appsettings.h>
+
+#include "appsettings.h"
 
 namespace Settings
 {
@@ -28,7 +29,7 @@ namespace Settings
 const QString LanguageOptions::locale()
 {
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("language");
   QString result = sett.value("selected", QVariant("")).toString();
   sett.endGroup();
@@ -36,12 +37,12 @@ const QString LanguageOptions::locale()
   return result;
 }
 
-bool LanguageOptions::setLocale(const QString &value)
+bool LanguageOptions::setLocale(const QString& value)
 {
   bool isSuccessfully = false;
 
   AppSettings appsett;
-  QSettings &sett = appsett.get();
+  QSettings& sett = appsett.get();
   sett.beginGroup("language");
   QFile file(":/translations/" + value);
 

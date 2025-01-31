@@ -18,14 +18,15 @@
  */
 
 #include "setuptabreordering.h"
+
 #include "ui_setuptabreordering.h"
 
-#include "reorderingpreviewmodel.h"
-#include "reorderingitemdelegate.h"
-#include "preset.h"
-#include "prepareoptions.h"
-#include "reorderingoptions.h"
 #include "imageoptions.h"
+#include "prepareoptions.h"
+#include "preset.h"
+#include "reorderingitemdelegate.h"
+#include "reorderingoptions.h"
+#include "reorderingpreviewmodel.h"
 
 namespace AppUI
 {
@@ -36,9 +37,8 @@ namespace Parts
 namespace Reordering
 {
 
-SetupTabReordering::SetupTabReordering(Settings::Presets::Preset *preset, QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::SetupTabReordering)
+SetupTabReordering::SetupTabReordering(Settings::Presets::Preset* preset, QWidget* parent)
+    : QWidget(parent), ui(new Ui::SetupTabReordering)
 {
   ui->setupUi(this);
   this->mPreset = preset;
@@ -50,7 +50,8 @@ SetupTabReordering::SetupTabReordering(Settings::Presets::Preset *preset, QWidge
   this->ui->tableViewOperations->resizeRowsToContents();
 
   this->ui->tableViewOperations->verticalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
-  this->connect(this->ui->tableViewOperations->verticalHeader(), SIGNAL(customContextMenuRequested(QPoint)), SLOT(on_tableViewOperations_customContextMenuRequested(QPoint)));
+  this->connect(this->ui->tableViewOperations->verticalHeader(), SIGNAL(customContextMenuRequested(QPoint)),
+                SLOT(on_tableViewOperations_customContextMenuRequested(QPoint)));
 
   this->mReorderingItemDelegate = new ReorderingItemDelegate(this);
   this->ui->tableViewOperations->setItemDelegate(this->mReorderingItemDelegate);
@@ -84,10 +85,10 @@ int SetupTabReordering::maxBitIndex() const
   return result;
 }
 
-void SetupTabReordering::on_tableViewOperations_customContextMenuRequested(const QPoint &point)
+void SetupTabReordering::on_tableViewOperations_customContextMenuRequested(const QPoint& point)
 {
   QModelIndex index = this->ui->tableViewOperations->indexAt(point);
-  QItemSelectionModel *selection = this->ui->tableViewOperations->selectionModel();
+  QItemSelectionModel* selection = this->ui->tableViewOperations->selectionModel();
 
   if (this->mMenu != nullptr) {
     delete this->mMenu;
@@ -111,14 +112,14 @@ void SetupTabReordering::on_tableViewOperations_customContextMenuRequested(const
         if (found) {
           this->mMenu = new QMenu(tr("Source"), this);
 
-          QMenu *left = new QMenu(tr("Add \"Left Shift\""), this->mMenu);
-          QMenu *right = new QMenu(tr("Add \"Right Shift\""), this->mMenu);
+          QMenu* left = new QMenu(tr("Add \"Left Shift\""), this->mMenu);
+          QMenu* right = new QMenu(tr("Add \"Right Shift\""), this->mMenu);
 
           this->mMenu->addMenu(left);
           this->mMenu->addMenu(right);
 
           for (int i = 0; i < 32; i++) {
-            QAction *action = left->addAction(QString("<< %1").arg(i), this, SLOT(operationAdd()));
+            QAction* action = left->addAction(QString("<< %1").arg(i), this, SLOT(operationAdd()));
             action->setData(QVariant(-i));
 
             action = right->addAction(QString(">> %1").arg(i), this, SLOT(operationAdd()));
@@ -142,9 +143,9 @@ void SetupTabReordering::on_tableViewOperations_customContextMenuRequested(const
 
         this->mPreset->reordering()->operation(operationIndex, &mask, &shift, &left);
 
-        QAction *actionLeft = this->mMenu->addAction(tr("Shift left"), this, SLOT(operationShift()));
-        QAction *actionRight = this->mMenu->addAction(tr("Shift right"), this, SLOT(operationShift()));
-        QAction *actionRemove = this->mMenu->addAction(tr("Remove"), this, SLOT(operationRemove()));
+        QAction* actionLeft = this->mMenu->addAction(tr("Shift left"), this, SLOT(operationShift()));
+        QAction* actionRight = this->mMenu->addAction(tr("Shift right"), this, SLOT(operationShift()));
+        QAction* actionRemove = this->mMenu->addAction(tr("Remove"), this, SLOT(operationRemove()));
         Q_UNUSED(actionRemove)
 
         quint32 data = operationIndex;
@@ -173,13 +174,13 @@ void SetupTabReordering::on_tableViewOperations_customContextMenuRequested(const
 
 void SetupTabReordering::operationAdd()
 {
-  QAction *a = qobject_cast<QAction *>(sender());
+  QAction* a = qobject_cast<QAction*>(sender());
   QVariant var = a->data();
   bool ok;
   int shift = var.toInt(&ok);
 
   if (ok) {
-    QItemSelectionModel *selection = this->ui->tableViewOperations->selectionModel();
+    QItemSelectionModel* selection = this->ui->tableViewOperations->selectionModel();
     QModelIndexList list = selection->selectedIndexes();
 
     bool left = shift < 0;
@@ -199,7 +200,7 @@ void SetupTabReordering::operationAdd()
 
 void SetupTabReordering::operationShift()
 {
-  QAction *a = qobject_cast<QAction *>(sender());
+  QAction* a = qobject_cast<QAction*>(sender());
   QVariant var = a->data();
   bool ok;
   quint32 index = var.toUInt(&ok);
@@ -243,7 +244,7 @@ void SetupTabReordering::operationShift()
 
 void SetupTabReordering::operationRemove()
 {
-  QAction *a = qobject_cast<QAction *>(sender());
+  QAction* a = qobject_cast<QAction*>(sender());
   QVariant var = a->data();
   bool ok;
   quint32 index = var.toUInt(&ok);

@@ -1,25 +1,21 @@
 #include "testsettings.h"
+
+#include <QBuffer>
 #include <QDir>
 #include <QDomDocument>
 #include <QDomNodeList>
 #include <QFile>
 #include <QTemporaryDir>
 #include <QXmlInputSource>
-#include <QXmlSimpleReader>
 
-TestSettings::TestSettings(QObject *parent) :
-  QObject(parent)
-{
-}
+TestSettings::TestSettings(QObject* parent) : QObject(parent) {}
 
-const QString TestSettings::getFilename(const QTemporaryDir &dir) const
+const QString TestSettings::getFilename(const QTemporaryDir& dir) const
 {
   return QDir::cleanPath(dir.path() + QDir::separator() + "config.xml");
 }
 
-void TestSettings::initTestCase()
-{
-}
+void TestSettings::initTestCase() {}
 
 void TestSettings::save()
 {
@@ -32,7 +28,7 @@ void TestSettings::save()
     {
       Settings::AppSettings::configure(Settings::AppSettings::Section::Application, filename);
       Settings::AppSettings appsett(Settings::AppSettings::Section::Application);
-      QSettings &sett = appsett.get();
+      QSettings& sett = appsett.get();
 
       sett.setValue("section1/key1", "value1");
       sett.setValue("section1/key2", "value2");
@@ -103,7 +99,7 @@ void TestSettings::load()
     {
       Settings::AppSettings::configure(Settings::AppSettings::Section::Application, filename);
       Settings::AppSettings appsett(Settings::AppSettings::Section::Application);
-      QSettings &sett = appsett.get();
+      QSettings& sett = appsett.get();
 
       QCOMPARE(sett.value("section1/key1").toString(), QString("value1"));
       QCOMPARE(sett.value("section1/key2").toString(), QString("value2"));
@@ -142,7 +138,7 @@ void TestSettings::save_load()
     // Save settings
     {
       Settings::AppSettings appsett(Settings::AppSettings::Section::Application);
-      QSettings &sett = appsett.get();
+      QSettings& sett = appsett.get();
       QMapIterator<QString, QVariant> it(map);
 
       while (it.hasNext()) {
@@ -162,18 +158,16 @@ void TestSettings::save_load()
       QCOMPARE(file.exists(), true);
       QCOMPARE(file.open(QFile::ReadOnly), true);
 
-      QXmlInputSource source(&file);
-      QXmlSimpleReader reader;
-
       QDomDocument doc;
       QString errorMsg;
       int errorColumn, errorLine;
 
-      if (doc.setContent(&source, &reader, &errorMsg, &errorLine, &errorColumn)) {
+      if (doc.setContent(&file, false, &errorMsg, &errorLine, &errorColumn)) {
         QDomElement root = doc.documentElement();
         QCOMPARE(root.tagName(), QString("configuration"));
       } else {
-        QString msg = QString("Can't load xml file at line %1, column %2: %3").arg(errorLine).arg(errorColumn).arg(errorMsg);
+        QString msg =
+            QString("Can't load xml file at line %1, column %2: %3").arg(errorLine).arg(errorColumn).arg(errorMsg);
         QFAIL(qPrintable(msg));
       }
 
@@ -183,7 +177,7 @@ void TestSettings::save_load()
     // Load settings
     {
       Settings::AppSettings appsett(Settings::AppSettings::Section::Application);
-      QSettings &sett = appsett.get();
+      QSettings& sett = appsett.get();
       QMapIterator<QString, QVariant> it(map);
 
       while (it.hasNext()) {
@@ -203,12 +197,12 @@ void TestSettings::isNameStartCharValid()
   valid << "tag" << "_tag" << "tag1";
   invalid << " " << "-tag" << "1tag" << "1" << "&";
 
-  foreach (const QString &value, valid) {
+  foreach (const QString& value, valid) {
     QCOMPARE(AppSettingsExt::isNameStartCharValid(value), true);
     QCOMPARE(AppSettingsExt::isNameCharValid(value), true);
   }
 
-  foreach (const QString &value, invalid) {
+  foreach (const QString& value, invalid) {
     QCOMPARE(AppSettingsExt::isNameStartCharValid(value), false);
     QCOMPARE(AppSettingsExt::isNameCharValid(value), false);
   }
@@ -220,7 +214,7 @@ void TestSettings::escape()
   valid << "tag" << "_tag" << "tag1" << "1tag" << "1" << "-tag";
   invalid << " " << "&" << "tag tag";
 
-  foreach (const QString &value, valid) {
+  foreach (const QString& value, valid) {
     QString escaped;
     bool success = AppSettingsExt::escape(value, escaped);
     QCOMPARE(success, true);
@@ -230,13 +224,11 @@ void TestSettings::escape()
     QCOMPARE(unescaped, value);
   }
 
-  foreach (const QString &value, invalid) {
+  foreach (const QString& value, invalid) {
     QString escaped;
     bool success = AppSettingsExt::escape(value, escaped);
     QCOMPARE(success, false);
   }
 }
 
-void TestSettings::cleanupTestCase()
-{
-}
+void TestSettings::cleanupTestCase() {}

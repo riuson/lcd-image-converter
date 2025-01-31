@@ -18,6 +18,7 @@
  */
 
 #include "starttab.h"
+
 #include "ui_starttab.h"
 
 #include <QFileInfo>
@@ -28,9 +29,7 @@ namespace AppUI
 namespace Start
 {
 
-StartTab::StartTab(QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::StartTab)
+StartTab::StartTab(QWidget* parent) : QWidget(parent), ui(new Ui::StartTab)
 {
   ui->setupUi(this);
 
@@ -41,12 +40,9 @@ StartTab::StartTab(QWidget *parent) :
   this->mRecentFilesList = nullptr;
 }
 
-StartTab::~StartTab()
-{
-  delete ui;
-}
+StartTab::~StartTab() { delete ui; }
 
-void StartTab::setRecentFiles(const QStringList *list)
+void StartTab::setRecentFiles(const QStringList* list)
 {
   this->mRecentFilesList = list;
 
@@ -74,7 +70,7 @@ const QString StartTab::tabName() const
   return result;
 }
 
-void StartTab::changeEvent(QEvent *e)
+void StartTab::changeEvent(QEvent* e)
 {
   QWidget::changeEvent(e);
 
@@ -84,10 +80,10 @@ void StartTab::changeEvent(QEvent *e)
       this->setRecentFiles(this->mRecentFilesList);
 
       // find parent QTabWidget
-      QObject *w = this;
+      QObject* w = this;
 
       while (w != nullptr) {
-        QTabWidget *tab = dynamic_cast<QTabWidget *> (w);
+        QTabWidget* tab = dynamic_cast<QTabWidget*>(w);
 
         if (tab != nullptr) {
           int index = tab->indexOf(this);

@@ -20,23 +20,23 @@
 #include "parser.h"
 
 #include <QFile>
-#include <QTextStream>
 #include <QTextCodec>
+#include <QTextStream>
 
-#include "idocument.h"
-#include "datacontainer.h"
 #include "bitmaphelper.h"
-#include "fonthelper.h"
 #include "converterhelper.h"
-#include "preset.h"
-#include "prepareoptions.h"
-#include "matrixoptions.h"
-#include "imageoptions.h"
+#include "datacontainer.h"
+#include "fonthelper.h"
 #include "fontoptions.h"
-#include "templateoptions.h"
-#include "tagslist.h"
+#include "idocument.h"
+#include "imageoptions.h"
+#include "matrixoptions.h"
 #include "parsedimagedata.h"
+#include "prepareoptions.h"
+#include "preset.h"
 #include "revisioninfo.h"
+#include "tagslist.h"
+#include "templateoptions.h"
 
 /*
  -- Algorithm --
@@ -103,14 +103,13 @@
 namespace Parsing
 {
 
-Parser::Parser(TemplateType templateType, Settings::Presets::Preset *preset, QObject *parent) :
-  QObject(parent)
+Parser::Parser(TemplateType templateType, Settings::Presets::Preset* preset, QObject* parent) : QObject(parent)
 {
   this->mPreset = preset;
 
-  //this->mSelectedPresetName = Preset::currentName();
+  // this->mSelectedPresetName = Preset::currentName();
 
-  //this->mPreset->load(this->mSelectedPresetName);
+  // this->mPreset->load(this->mSelectedPresetName);
 
   if (templateType == TypeImage) {
     this->mTemplateFileName = this->mPreset->templates()->image();
@@ -119,11 +118,10 @@ Parser::Parser(TemplateType templateType, Settings::Presets::Preset *preset, QOb
   }
 }
 
-Parser::~Parser()
-{
-}
+Parser::~Parser() {}
 
-QString Parser::convert(Data::Containers::IDocument *document, const QStringList &orderedKeys, QMap<QString, ParsedImageData *> *images, TagsList &tags) const
+QString Parser::convert(Data::Containers::IDocument* document, const QStringList& orderedKeys,
+                        QMap<QString, ParsedImageData*>* images, TagsList& tags) const
 {
   QString result;
 
@@ -161,11 +159,8 @@ QString Parser::convert(Data::Containers::IDocument *document, const QStringList
   return result;
 }
 
-QString Parser::parse(const QString &templateString,
-                      TagsList &tags,
-                      Data::Containers::IDocument *doc,
-                      const QStringList &orderedKeys,
-                      QMap<QString, ParsedImageData *> *images) const
+QString Parser::parse(const QString& templateString, TagsList& tags, Data::Containers::IDocument* doc,
+                      const QStringList& orderedKeys, QMap<QString, ParsedImageData*>* images) const
 {
   QString result;
 
@@ -208,21 +203,21 @@ QString Parser::parse(const QString &templateString,
   return result;
 }
 
-QString Parser::parseImagesTable(const QString &templateString,
-                                 TagsList &tags,
-                                 Data::Containers::IDocument *doc,
-                                 const QStringList &orderedKeys,
-                                 QMap<QString, ParsedImageData *> *images) const
+QString Parser::parseImagesTable(const QString& templateString, TagsList& tags, Data::Containers::IDocument* doc,
+                                 const QStringList& orderedKeys, QMap<QString, ParsedImageData*>* images) const
 {
   QString result;
 
   QListIterator<QString> it(orderedKeys);
   it.toFront();
 
+  int characterIndex = 0;
+  int characterOffset = 0;
+
   while (it.hasNext()) {
     QString key = it.next();
 
-    ParsedImageData *data = images->value(key);
+    ParsedImageData* data = images->value(key);
 
     if (data != nullptr) {
       tags.importValues(data->tags());
@@ -233,18 +228,30 @@ QString Parser::parseImagesTable(const QString &templateString,
         tags.setTagValue(TagsList::Tag::OutputComma, "");
       }
 
+      tags.setTagValue(TagsList::Tag::OutputCharacterIndex, QString::number(characterIndex));
+      tags.setTagValue(TagsList::Tag::OutputCharacterOffset, QString::number(characterOffset));
+
       QString imageString = this->parse(templateString, tags, doc, orderedKeys, images);
       result.append(imageString);
+
+      bool ok;
+      int blocksCount = data->tags()->tagValue(TagsList::Tag::OutputBlocksCount).toInt(&ok);
+
+      if (ok) {
+        characterOffset += blocksCount;
+      }
+
+      characterIndex++;
     }
   }
 
   return result;
 }
 
-QString Parser::hexCode(const QString &key, const QString &encoding, bool bom) const
+QString Parser::hexCode(const QString& key, const QString& encoding, bool bom) const
 {
   QString result;
-  QTextCodec *codec = QTextCodec::codecForName(encoding.toLatin1());
+  QTextCodec* codec = QTextCodec::codecForName(encoding.toLatin1());
 
   QChar ch = key.at(0);
   QByteArray codeArray = codec->fromUnicode(&ch, 1);
@@ -258,9 +265,7 @@ QString Parser::hexCode(const QString &key, const QString &encoding, bool bom) c
 
   if (encoding.contains("UTF-16")) {
     // reorder bytes
-    quint64 a =
-      ((code & 0x000000000000ff00ULL) >> 8) |
-      ((code & 0x00000000000000ffULL) << 8);
+    quint64 a = ((code & 0x000000000000ff00ULL) >> 8) | ((code & 0x00000000000000ffULL) << 8);
     code &= 0xffffffffffff0000ULL;
     code |= a;
 
@@ -274,11 +279,8 @@ QString Parser::hexCode(const QString &key, const QString &encoding, bool bom) c
     }
   } else if (encoding.contains("UTF-32")) {
     // reorder bytes
-    quint64 a =
-      ((code & 0x00000000ff000000ULL) >> 24) |
-      ((code & 0x0000000000ff0000ULL) >> 8) |
-      ((code & 0x000000000000ff00ULL) << 8) |
-      ((code & 0x00000000000000ffULL) << 24);
+    quint64 a = ((code & 0x00000000ff000000ULL) >> 24) | ((code & 0x0000000000ff0000ULL) >> 8) |
+                ((code & 0x000000000000ff00ULL) << 8) | ((code & 0x00000000000000ffULL) << 24);
     code &= 0xffffffff00000000ULL;
     code |= a;
 
@@ -297,7 +299,7 @@ QString Parser::hexCode(const QString &key, const QString &encoding, bool bom) c
   return result;
 }
 
-void Parser::addMatrixInfo(TagsList &tags) const
+void Parser::addMatrixInfo(TagsList& tags) const
 {
   // byte order
   if (this->mPreset->image()->bytesOrder() == Parsing::Conversion::Options::BytesOrder::LittleEndian) {
@@ -363,6 +365,13 @@ void Parser::addMatrixInfo(TagsList &tags) const
   // encoding
   tags.setTagValue(TagsList::Tag::FontEncoding, this->mPreset->font()->encoding());
 
+  // compact
+  if (this->mPreset->font()->compactGlyphs()) {
+    tags.setTagValue(TagsList::Tag::FontCompacted, "yes");
+  } else {
+    tags.setTagValue(TagsList::Tag::FontCompacted, "no");
+  }
+
   // split to rows
   if (this->mPreset->image()->splitToRows()) {
     tags.setTagValue(TagsList::Tag::ImageSplitToRows, "yes");
@@ -407,7 +416,7 @@ void Parser::addMatrixInfo(TagsList &tags) const
   tags.setTagValue(TagsList::Tag::OutputBitsPerPixel, QString("%1").arg(bitsPerPixel));
 }
 
-void Parser::addImagesInfo(TagsList &tags, QMap<QString, ParsedImageData *> *images) const
+void Parser::addImagesInfo(TagsList& tags, QMap<QString, ParsedImageData*>* images) const
 {
   QListIterator<QString> it(images->keys());
   it.toFront();
@@ -416,37 +425,43 @@ void Parser::addImagesInfo(TagsList &tags, QMap<QString, ParsedImageData *> *ima
 
   while (it.hasNext()) {
     const QString key = it.next();
-    ParsedImageData *data = images->value(key);
+    ParsedImageData* data = images->value(key);
 
     if (data != nullptr) {
-      bool ok;
-      int width = data->tags()->tagValue(TagsList::Tag::OutputImageWidth).toInt(&ok);
-
-      if (ok) {
-        int height = data->tags()->tagValue(TagsList::Tag::OutputImageHeight).toInt(&ok);
-
-        if (ok) {
-          int blocksCount = data->tags()->tagValue(TagsList::Tag::OutputBlocksCount).toInt(&ok);
-
-          if (ok) {
-            if (width > maxWidth) {
-              maxWidth = width;
-            }
-
-            if (height > maxHeight) {
-              maxHeight = height;
-            }
-
-            if (blocksCount > maxBlocksCount) {
-              maxBlocksCount = blocksCount;
-            }
-          }
-        }
-      }
-
       // apply imageParticles to outputImageData
       data->tags()->setTagValue(TagsList::Tag::OutputImageData, data->outputImageDataWithEOL(tags));
       data->tags()->setTagValue(TagsList::Tag::OutputImagePreview, data->outputImagePreviewWithEOL(tags));
+
+      bool ok;
+      int width = data->tags()->tagValue(TagsList::Tag::OutputImageWidth).toInt(&ok);
+
+      if (!ok) {
+        continue;
+      }
+
+      int height = data->tags()->tagValue(TagsList::Tag::OutputImageHeight).toInt(&ok);
+
+      if (!ok) {
+        continue;
+      }
+
+      int blocksCount = data->tags()->tagValue(TagsList::Tag::OutputBlocksCount).toInt(&ok);
+
+      if (!ok) {
+        continue;
+      }
+
+      if (width > maxWidth) {
+        maxWidth = width;
+      }
+
+      if (height > maxHeight) {
+        maxHeight = height;
+      }
+
+      if (blocksCount > maxBlocksCount) {
+        maxBlocksCount = blocksCount;
+      }
     }
   }
 
@@ -456,13 +471,13 @@ void Parser::addImagesInfo(TagsList &tags, QMap<QString, ParsedImageData *> *ima
   tags.setTagValue(TagsList::Tag::OutputImagesMaxBlocksCount, QString("%1").arg(maxBlocksCount));
 }
 
-void Parser::addCommonInfo(TagsList &tags) const
+void Parser::addCommonInfo(TagsList& tags) const
 {
   tags.setTagValue(TagsList::Tag::ApplicationDate, QString("%1").arg(VersionControl::RevisionInfo::date()));
   tags.setTagValue(TagsList::Tag::ApplicationRevision, QString("%1").arg(VersionControl::RevisionInfo::hash_abbr()));
 }
 
-void Parser::imageDataParticles(const QString &templateString, QString *prefix, QString *suffix) const
+void Parser::imageDataParticles(const QString& templateString, QString* prefix, QString* suffix) const
 {
   QString templateOutImageData;
 
@@ -505,7 +520,7 @@ void Parser::imageDataParticles(const QString &templateString, QString *prefix, 
   }
 }
 
-void Parser::imagePreviewParticles(const QString &templateString, QString *prefix, QString *suffix) const
+void Parser::imagePreviewParticles(const QString& templateString, QString* prefix, QString* suffix) const
 {
   QString templateOutImagePreview;
 

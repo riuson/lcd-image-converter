@@ -24,13 +24,12 @@ namespace AppUI
 namespace Fonts
 {
 
-UnicodeBlocksFilterModel::UnicodeBlocksFilterModel(QObject *parent) :
-  QSortFilterProxyModel(parent)
+UnicodeBlocksFilterModel::UnicodeBlocksFilterModel(QObject* parent) : QSortFilterProxyModel(parent)
 {
   this->mName = QString();
 }
 
-bool UnicodeBlocksFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+bool UnicodeBlocksFilterModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
 {
   if (this->mName.isEmpty()) {
     return true;
@@ -42,7 +41,7 @@ bool UnicodeBlocksFilterModel::filterAcceptsRow(int source_row, const QModelInde
   return (name.contains(this->mName, Qt::CaseInsensitive));
 }
 
-void UnicodeBlocksFilterModel::setNameFilter(const QString &name)
+void UnicodeBlocksFilterModel::setNameFilter(const QString& name)
 {
   this->beginResetModel();
 

@@ -19,26 +19,23 @@
 
 #include "actionsetuphandlers.h"
 
+#include "datacontainer.h"
+#include "dialogexternaleditor.h"
 #include "dialogoptions.h"
 #include "idocument.h"
 #include "ieditor.h"
 #include "imainwindow.h"
-#include "datacontainer.h"
-#include "dialogexternaleditor.h"
 
 namespace AppUI
 {
 namespace MenuHandlers
 {
 
-ActionSetupHandlers::ActionSetupHandlers(QObject *parent) :
-  ActionHandlersBase(parent)
-{
-}
+ActionSetupHandlers::ActionSetupHandlers(QObject* parent) : ActionHandlersBase(parent) {}
 
 void ActionSetupHandlers::conversion_triggered()
 {
-  Data::Containers::DataContainer *data = nullptr;
+  Data::Containers::DataContainer* data = nullptr;
 
   if (this->editor() != nullptr) {
     data = this->editor()->document()->dataContainer();

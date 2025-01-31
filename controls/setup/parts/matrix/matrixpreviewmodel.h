@@ -20,10 +20,10 @@
 #ifndef MATRIXPREVIEWMODEL_H
 #define MATRIXPREVIEWMODEL_H
 
-#include <QAbstractItemModel>
-
-#include <QVariant>
 #include "conversion_options.h"
+
+#include <QAbstractItemModel>
+#include <QVariant>
 
 namespace Settings
 {
@@ -31,7 +31,7 @@ namespace Presets
 {
 class Preset;
 }
-}
+} // namespace Settings
 
 namespace AppUI
 {
@@ -46,32 +46,23 @@ class MatrixPreviewModel : public QAbstractItemModel
 {
   Q_OBJECT
 public:
-  enum RowType {
-    Source,
-    Operation,
-    MaskUsed,
-    MaskAnd,
-    MaskOr,
-    MaskFill,
-    Result,
-    ResultPacked
-  };
+  enum RowType { Source, Operation, MaskUsed, MaskAnd, MaskOr, MaskFill, Result, ResultPacked };
 
-  explicit MatrixPreviewModel(Settings::Presets::Preset *preset, QObject *parent = 0);
+  explicit MatrixPreviewModel(Settings::Presets::Preset* preset, QObject* parent = 0);
   virtual ~MatrixPreviewModel() {}
 
-  int rowCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
-  int columnCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
+  int rowCount(const QModelIndex& parent) const Q_DECL_OVERRIDE;
+  int columnCount(const QModelIndex& parent) const Q_DECL_OVERRIDE;
   QVariant headerData(int section, Qt::Orientation orientation, int role) const Q_DECL_OVERRIDE;
-  QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
-  bool setData(const QModelIndex &index, const QVariant &value, int role) Q_DECL_OVERRIDE;
-  QModelIndex index(int row, int column, const QModelIndex &parent) const Q_DECL_OVERRIDE;
-  QModelIndex parent(const QModelIndex &child) const Q_DECL_OVERRIDE;
-  Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
+  QVariant data(const QModelIndex& index, int role) const Q_DECL_OVERRIDE;
+  bool setData(const QModelIndex& index, const QVariant& value, int role) Q_DECL_OVERRIDE;
+  QModelIndex index(int row, int column, const QModelIndex& parent) const Q_DECL_OVERRIDE;
+  QModelIndex parent(const QModelIndex& child) const Q_DECL_OVERRIDE;
+  Qt::ItemFlags flags(const QModelIndex& index) const Q_DECL_OVERRIDE;
   RowType rowType(int row) const;
 
 private:
-  Settings::Presets::Preset *mPreset;
+  Settings::Presets::Preset* mPreset;
 
   enum ColorType {
     Empty,
@@ -82,14 +73,15 @@ private:
     Blue,
     // for monochrome
     BlackOrWhite,
-    //for grayscale
+    // for grayscale
     Gray
   };
 
-  void getBitType(int bitIndex, Parsing::Conversion::Options::ConversionType *convType, ColorType *colorType, int *partIndex) const;
-  void resultToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
-  void resultPackedToSourceBit(int bitIndex, QVariant *name, QVariant *color) const;
-  void sourceBitProperties(int bitIndex, QVariant *name, QVariant *color) const;
+  void getBitType(int bitIndex, Parsing::Conversion::Options::ConversionType* convType, ColorType* colorType,
+                  int* partIndex) const;
+  void resultToSourceBit(int bitIndex, QVariant* name, QVariant* color) const;
+  void resultPackedToSourceBit(int bitIndex, QVariant* name, QVariant* color) const;
+  void sourceBitProperties(int bitIndex, QVariant* name, QVariant* color) const;
 
 signals:
 
