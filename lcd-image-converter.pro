@@ -436,8 +436,6 @@ defineReplace(prependAll) {
     return($$result)
 }
 
-
-
 TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/resources/lcd-image-converter-, .ts)
 
 TRANSLATIONS_FILES =
