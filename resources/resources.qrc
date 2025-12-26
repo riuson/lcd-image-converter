@@ -12,6 +12,7 @@
     </qresource>
     <qresource prefix="/translations">
         <file alias="ru">lcd-image-converter-ru.qm</file>
+		<file alias="zh_CN">lcd-image-converter-zh_CN.qm</file>
     </qresource>
     <qresource prefix="/demos">
         <file alias="scanning_background">demos/scanning_background.png</file>

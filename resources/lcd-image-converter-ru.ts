@@ -2230,7 +2230,7 @@ Only minimal amount (%3) will be imported.</source>
     </message>
 </context>
 <context>
-    <name>ToolFill</name>
+    <name>ImageEditor::Tools::ToolFill</name>
     <message>
         <location filename="../classes/imageeditor/toolfill.cpp" line="69"/>
         <source>Fill</source>

@@ -379,12 +379,11 @@ win32 {
     OTHER_FILES += win-res.rc
 }
 
-TRANSLATIONS = resources/lcd-image-converter-ru.ts
-
 OTHER_FILES += \
     resources/image.tmpl \
     resources/font.tmpl \
     resources/lcd-image-converter-ru.ts \
+    resources/lcd-image-converter-zh_CN.ts \
     win-res.rc \
     README \
     readme.md \
@@ -430,11 +429,43 @@ QMAKE_EXTRA_TARGETS += version
 PRE_TARGETDEPS += git_revision
 
 # compile translation
-translation_ru.target = $$PWD/resources/lcd-image-converter-ru.qm
-translation_ru.commands = lrelease $$PWD/resources/lcd-image-converter-ru.ts $$PWD/resources/lcd-image-converter-ru.qm
+LANGUAGES = ru zh_CN
+# parameters: var, prepend, append
+defineReplace(prependAll) {
+    for(a,$$1):result += $$2$${a}$$3
+    return($$result)
+}
 
-QMAKE_EXTRA_TARGETS += translation_ru
-PRE_TARGETDEPS += $$PWD/resources/lcd-image-converter-ru.qm $$PWD/resources/lcd-image-converter-ru.ts
+
+
+TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/resources/lcd-image-converter-, .ts)
+
+TRANSLATIONS_FILES =
+
+qtPrepareTool(LRELEASE, lrelease)
+
+win32 {
+    LRELEASE ~= s,^/([a-zA-Z])/,\\1:/,
+}
+
+for(tsfile, TRANSLATIONS) {
+    # qmfile = $$shadowed($$tsfile)
+    qmfile = $$tsfile
+    qmfile ~= s,.ts$,.qm,
+    qmdir = $$dirname(qmfile)
+    !exists($$qmdir) {
+        mkpath($$qmdir)|error("Aborting.")
+    }
+    tsfile_fixed = $$tsfile
+    qmfile_fixed = $$qmfile
+    win32 {
+        tsfile_fixed ~= s,^/([a-zA-Z])/,\\1:/,
+        qmfile_fixed ~= s,^/([a-zA-Z])/,\\1:/,
+    }
+    command = $$LRELEASE -removeidentical $$tsfile_fixed -qm $$qmfile_fixed
+    system($$command)|error("Failed to run: $$command")
+    TRANSLATIONS_FILES += $$qmfile
+}
 
 DISTFILES += \
     .clang-format
