@@ -382,7 +382,7 @@ win32 {
 OTHER_FILES += \
     resources/image.tmpl \
     resources/font.tmpl \
-    resources/lcd-image-converter-ru.ts \
+    resources/lcd-image-converter-ru_RU.ts \
     resources/lcd-image-converter-zh_CN.ts \
     win-res.rc \
     README \
@@ -429,7 +429,7 @@ QMAKE_EXTRA_TARGETS += version
 PRE_TARGETDEPS += git_revision
 
 # compile translation
-LANGUAGES = ru zh_CN
+LANGUAGES = ru_RU zh_CN
 # parameters: var, prepend, append
 defineReplace(prependAll) {
     for(a,$$1):result += $$2$${a}$$3
