@@ -6,6 +6,17 @@
             <date>current</date>
         </commit>
         <changes>
+            <item category="added">Chinese translation.</item>
+            <item category="changed">Generation of translations at build time.</item>
+            <item category="changed">Russian transation name.</item>
+        </changes>
+    </record>
+    <record>
+        <commit>
+            <sha1>e3ba1ed9e922bc37f78ff7615c6f7b203755740a</sha1>
+            <date>2025-01-31 18:27:03 +0500</date>
+        </commit>
+        <changes>
             <item category="added">Escaping for font's selected characters.</item>
             <item category="added">2, 8, 10 and 16 numeral systems for pixel's data.</item>
             <item category="added">Optional skipping for characters, non-representable with selected encoding.</item>
