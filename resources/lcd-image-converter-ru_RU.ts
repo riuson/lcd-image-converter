@@ -1111,7 +1111,7 @@ Qt: %4</translation>
     <message>
         <location filename="../controls/fonts/font-new/dialogfontselect.ui" line="63"/>
         <source>Style:</source>
-        <translatorcomment>Стиль шрифта</translatorcomment>
+        <extracomment>Style of font</extracomment>
         <translation>Стиль:</translation>
     </message>
     <message>
@@ -1294,7 +1294,7 @@ Qt: %4</translation>
     <message>
         <location filename="../controls/fonts/font-editor/editortabfont.ui" line="14"/>
         <source>Form</source>
-        <translatorcomment>не используется</translatorcomment>
+        <extracomment>Not used</extracomment>
         <translation></translation>
     </message>
 </context>
@@ -1303,7 +1303,7 @@ Qt: %4</translation>
     <message>
         <location filename="../controls/images/editortabimage.ui" line="16"/>
         <source>Form</source>
-        <translatorcomment>не ипользуется</translatorcomment>
+        <extracomment>Not used</extracomment>
         <translation></translation>
     </message>
 </context>
@@ -1515,7 +1515,7 @@ Qt: %4</translation>
     <message>
         <location filename="../controls/main/mainwindow.ui" line="48"/>
         <source>Recent</source>
-        <translatorcomment>Список последних открытых файлов</translatorcomment>
+        <extracomment>List of lastly opened files</extracomment>
         <translation>Последнее</translation>
     </message>
     <message>
@@ -1734,7 +1734,7 @@ Qt: %4</translation>
     <message>
         <location filename="../controls/main/mainwindow.ui" line="424"/>
         <source>To Grayscale</source>
-        <translatorcomment>Преобразовать изображение из цветного в градации серого</translatorcomment>
+        <extracomment>Convert image from color to grayscale</extracomment>
         <translation>В градации серого</translation>
     </message>
     <message>
@@ -1766,13 +1766,13 @@ Qt: %4</translation>
     <message>
         <location filename="../controls/main/mainwindow.ui" line="304"/>
         <source>English</source>
-        <translatorcomment>не переводить</translatorcomment>
+        <extracomment>Do not translate this string</extracomment>
         <translation>English</translation>
     </message>
     <message>
         <location filename="../controls/main/mainwindow.cpp" line="91"/>
         <source>langName</source>
-        <translatorcomment>название языка в который переводим</translatorcomment>
+        <extracomment>Translated (to original) name of current language</extracomment>
         <translation>Русский</translation>
     </message>
 </context>
@@ -1906,7 +1906,7 @@ Only minimal amount (%3) will be imported.</source>
     </message>
     <message>
         <location filename="../controls/setup/parts/font/setuptabfont.ui" line="79"/>
-        <source>Preifx:</source>
+        <source>Prefix:</source>
         <translation>Префикс:</translation>
     </message>
     <message>
@@ -2124,6 +2124,7 @@ Only minimal amount (%3) will be imported.</source>
     <message>
         <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="168"/>
         <source> s</source>
+        <extracomment>seconds (time)</extracomment>
         <translation> с</translation>
     </message>
     <message>
@@ -2134,6 +2135,7 @@ Only minimal amount (%3) will be imported.</source>
     <message>
         <location filename="../controls/setup/parts/prepare/scanning/setuptabpreparescanning.ui" line="187"/>
         <source> ms</source>
+        <extracomment>milliseconds (time)</extracomment>
         <translation> мс</translation>
     </message>
     <message>
@@ -2247,13 +2249,13 @@ Only minimal amount (%3) will be imported.</source>
     <message>
         <location filename="../controls/images/widgetbitmapeditor.ui" line="14"/>
         <source>Form</source>
-        <translatorcomment>не используется</translatorcomment>
+        <extracomment>Not used</extracomment>
         <translation></translation>
     </message>
     <message>
         <location filename="../controls/images/widgetbitmapeditor.ui" line="44"/>
         <source>TextLabel</source>
-        <translatorcomment>не используется</translatorcomment>
+        <extracomment>Not used</extracomment>
         <translation></translation>
     </message>
     <message>
